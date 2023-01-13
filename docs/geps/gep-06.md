@@ -62,7 +62,30 @@ The proposed changes will affect all areas of GETTSIM
 ```{note}
 Not sure whether it will belong here, but it just occurred to me while browsing issues
 that adding an interface to handle interactions between programmes might be a good idea.
-Currently we have some mix of `vorrangprüfungen` and `günstigerprüfungen` (probably done ad hoc in different modules), but ideally we'll want to have this in a more structured way.
+There are (at least) three cases to distinguish:
+
+1. **Vorrangprüfungen**: Legal ineligibility for one programme if eligible for another.
+
+   *Example:* Receipt of `bürgergeld` if household also qualifies `wohngeld` and the
+   latter pays at least as much (exception are transition periods like first half of
+   2023).
+
+1. **Günstigerprüfungen**: Automatic checks run by authorities whether one programme is
+   more beneficial than another.
+
+   *Example:* Tax authorities automatically check whether `kinderfreibetrag` or
+   `kindergeld` is more beneficial for tax unit if tax declaration is handed in.
+
+1. **Behavioral assumptions**: If individuals qualify for two mutual exclusive programmes
+   but need to apply for either.
+
+   *Example:* Receipt of `wohngeld` if person also qualifies for `bürgergeld`. There is
+   no legal obligation to apply for `bürgergeld` in this case.
+
+Currently, these three things seem to be mixed in a fairly ad-hoc way. E.g., "Vorrang"
+of `wohngeld` over `bürgergeld` (example 1.) is correctly encoded in
+`wohngeld_vorrang_hh` but the converse case (example 3.) is silently assumed in
+`wohngeld_m_hh`.
 ```
 
 ## Usage and Impact
@@ -151,14 +174,24 @@ Currently we have some mix of `vorrangprüfungen` and `günstigerprüfungen` (pr
    columns and outputs of policy functions) and arguments that do not vary with the data
    (e.g., parameters taken directly from the `yaml`-files or values derived from them,
    including structured short vectors like inputs for `piecewise_polynomial`), there
-   will be a decorator `vectorize_over`.
+   will be a decorator `data_inputs`.
 
    ```{todo}
-   TBD: Allow only one decorator `vectorize_over` or `do_not_vectorize_over` in addition?
-   (names can be better, of course)
+   TBD:
+   - Name of decorator: `data_inputs` or something else? Might lead to confusion with
+     actual data provided by the user.
 
-   Trade-off between having only one way to achieve things and keeping things concise
-   (some functions have lots of "data" inputs, others have a lot of "parameter" inputs).
+     In any case, should be user-oriented rather than functionality-oriented like
+     `vectorize_over`.
+
+   - Just offer that one option or have something like `params_inputs` in addition?
+
+     Trade-off between having only one way to achieve things and keeping things concise
+     (some functions have lots of "data" inputs, others have a lot of "parameter"
+     inputs).
+
+   - Inputs assumed to be parameters by default? There will be quite a few functions
+     with only parameters as inputs, but hardly any functions with only "data" inputs.
    ```
 
    The namespace makes clear we are talking about, say, the function `beitrag` in the
@@ -167,14 +200,15 @@ Currently we have some mix of `vorrangprüfungen` and `günstigerprüfungen` (pr
    (`ges_rentenv__beitragsbemessungsgrenze`).
 
    This approach will make the part of the DAG dealing with parameters of the taxes and
-   transfers system more natural. E.g., we could have a special function:
+   transfers system more natural. E.g., we may have a function:
 
    ```py
    def parse_params_dict(params):
        pass
    ```
 
-   which returns each of its top-level keys, e.g. in case of `soli_st`, this might be
+   which injects each of the top-level keys of its input (i.e., a `params` dictionary)
+   into the DAG is passed in. E.g., in case of `soli_st`, this might be
 
    - `rate`
    - `freigrenze`
