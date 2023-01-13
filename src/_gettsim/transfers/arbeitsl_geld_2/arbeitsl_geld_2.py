@@ -278,7 +278,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     float with the minimum needs of an household in Euro.
 
     """
-    if "kindersofortzuschlag_alg" in arbeitsl_geld_2_params:
+    if "kindersofortzuschl" in arbeitsl_geld_2_params:
         zuschlag = arbeitsl_geld_2_params["kindersofortzuschlag_alg"]
     else:
         zuschlag = 0
