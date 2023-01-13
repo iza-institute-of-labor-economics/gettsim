@@ -279,7 +279,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 
     """
     if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        zuschlag = arbeitsl_geld_2_params["kindersofortzuschlag_alg"]
+        zuschlag = arbeitsl_geld_2_params["kindersofortzuschl"]
     else:
         zuschlag = 0
 
