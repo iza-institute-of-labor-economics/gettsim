@@ -33,11 +33,11 @@ def set_array_backend(backend: str):
     global USE_JAX
     USE_JAX = backend == "jax"
 
-    if IS_JAX_INSTALLED:
+    if USE_JAX and not IS_JAX_INSTALLED:
+        raise ValueError("To use the 'jax' backend jax needs to be installed.")
+    elif USE_JAX:
         global numpy_or_jax
         numpy_or_jax = jax.numpy
-    else:
-        raise ValueError("To use the 'jax' backend jax needs to be installed.")
 
 
 # Obtain the root directory of the package. Do not import gettsim which creates a
