@@ -379,16 +379,18 @@ not_convertible_yet = {
     "func",
     [v for v in gettsim_functions.values() if v.__name__ not in not_convertible_yet],
 )
-def test_convertible(func):
-    make_vectorizable(func, backend="numpy")
+@pytest.mark.parametrize("backend", backends)
+def test_convertible(func, backend):
+    make_vectorizable(func, backend=backend)
 
 
 @pytest.mark.skip
 @pytest.mark.parametrize(
     "func", [v for v in gettsim_functions.values() if v.__name__ in not_convertible_yet]
 )
-def test_not_yet_convertible(func):
-    make_vectorizable(func, backend="numpy")
+@pytest.mark.parametrize("backend", backends)
+def test_not_yet_convertible(func, backend):
+    make_vectorizable(func, backend=backend)
 
 
 # ======================================================================================
