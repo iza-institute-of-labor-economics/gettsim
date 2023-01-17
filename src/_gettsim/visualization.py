@@ -259,7 +259,7 @@ def plot_dag(
     else:
         raise ValueError(
             "hover_source_code must be either True"
-            f" or False, but got '{hover_source_code}'"
+            f" or False, but got {hover_source_code!r}"
         )
 
     return fig
@@ -423,7 +423,7 @@ def _create_pygraphviz_layout(dag, orientation):
 
     else:
         raise ValueError(
-            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+            f"orientation must be one of 'v', 'h', but got {orientation!r}"
         )
 
     return layout_df
@@ -527,7 +527,7 @@ def _get_selected_nodes(dag, selector):
         )
     else:
         raise NotImplementedError(
-            f"Selector type '{selector['type']}' is not defined. "
+            f"Selector type {selector['type']!r} is not defined. "
             "Allowed are only 'nodes', 'ancestors', 'descendants', or 'neighbors'."
         )
 
