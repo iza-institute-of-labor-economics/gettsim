@@ -28,7 +28,8 @@ rules:
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: false
   new-line-at-end-of-file: enable
-  new-lines: enable
+  new-lines:
+    type: unix
   octal-values: disable
   quoted-strings: disable
   trailing-spaces: enable
