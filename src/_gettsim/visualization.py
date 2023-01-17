@@ -108,7 +108,7 @@ def plot_dag(
     dag = _add_url_to_dag(dag)
     # Even if we do not show the source codes , we need to remove the functions.
     dag = _replace_functions_with_source_code(dag)
-    layout_df = _create_pydot_layout(dag, orientation)
+    layout_df = _create_pygraphviz_layout(dag, orientation)
     # prepare for the nodes dataframe including their url
     names = layout_df.index
     node_x_coord = layout_df[0].values
@@ -380,7 +380,7 @@ def _highlight_source_code(source):
     return highlight(source, lex, formatter)
 
 
-def _create_pydot_layout(dag, orientation):
+def _create_pygraphviz_layout(dag, orientation):
     # Convert node labels to integers because some names cannot be handled by pydot.
     dag_w_integer_nodes = nx.relabel.convert_node_labels_to_integers(dag)
 
