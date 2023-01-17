@@ -391,7 +391,7 @@ def _create_pydot_layout(dag, orientation):
             dag_w_integer_nodes.nodes[node].pop(attr)
 
     # Create the integer layout.
-    integer_layout = nx.drawing.nx_pydot.pydot_layout(dag_w_integer_nodes, prog="dot")
+    integer_layout = nx.nx_agraph.pygraphviz_layout(dag_w_integer_nodes, prog="dot")
 
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
