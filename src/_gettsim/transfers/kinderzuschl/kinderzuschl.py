@@ -59,19 +59,26 @@ def kinderzuschl_m_hh(
 
 
 def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
-    kinderzuschl_eink_elternteil_tu: float,
+    kinderzuschl_bruttoeink_eltern_m_tu: float,
+    kinderzuschl_eink_eltern_m_tu: float,
     kinderzuschl_eink_min_m_tu: float,
     kinderzuschl_eink_max_m_tu: float,
     kinderzuschl_kindereink_abzug_m_tu: float,
     kinderzuschl_eink_anrechn_m_tu: float,
 ) -> float:
-    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
+    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
+
+    To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
+    minimum income threshold and net income needs to be below the maximum income
+    threshold.
 
     Parameters
     ----------
-    kinderzuschl_eink_elternteil_tu
-        See :func:`kinderzuschl_eink_elternteil_tu`.
+    kinderzuschl_bruttoeink_eltern_m_tu
+        See :func:`kinderzuschl_bruttoeink_eltern_m_tu`.
+    kinderzuschl_eink_eltern_m_tu
+        See :func:`kinderzuschl_eink_eltern_m_tu`.
     kinderzuschl_eink_min_m_tu
         See :func:`kinderzuschl_eink_min_m_tu`.
     kinderzuschl_eink_max_m_tu
@@ -87,8 +94,8 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
     """
 
     # Check if parental income is in income range for child benefit.
-    if (kinderzuschl_eink_elternteil_tu >= kinderzuschl_eink_min_m_tu) and (
-        kinderzuschl_eink_elternteil_tu <= kinderzuschl_eink_max_m_tu
+    if (kinderzuschl_bruttoeink_eltern_m_tu >= kinderzuschl_eink_min_m_tu) and (
+        kinderzuschl_eink_eltern_m_tu <= kinderzuschl_eink_max_m_tu
     ):
         out = max(
             kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
@@ -100,20 +107,23 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
 
 
 def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
-    kinderzuschl_eink_elternteil_tu: float,
+    kinderzuschl_bruttoeink_eltern_m_tu: float,
     kinderzuschl_eink_min_m_tu: float,
     kinderzuschl_kindereink_abzug_m_tu: float,
     kinderzuschl_eink_anrechn_m_tu: float,
 ) -> float:
-    """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
+    """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
+
+    To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
+    minimum income threshold.
 
     Parameters
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_eink_elternteil_tu
-        See :func:`kinderzuschl_eink_elternteil_tu`.
+    kinderzuschl_bruttoeink_eltern_m_tu
+        See :func:`kinderzuschl_bruttoeink_eltern_m_tu`.
     kinderzuschl_eink_min_m_tu
         See :func:`kinderzuschl_eink_min_m_tu`.
     kinderzuschl_kindereink_abzug_m_tu
@@ -125,7 +135,7 @@ def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
     -------
 
     """
-    if kinderzuschl_eink_elternteil_tu >= kinderzuschl_eink_min_m_tu:
+    if kinderzuschl_bruttoeink_eltern_m_tu >= kinderzuschl_eink_min_m_tu:
         out = max(
             kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
         )

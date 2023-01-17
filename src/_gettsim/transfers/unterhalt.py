@@ -38,14 +38,6 @@ def unterhaltsvors_m(
 
     """
 
-    if "mindestunterhalt" not in unterhalt_params:
-        raise NotImplementedError(
-            """
-        Unterhaltsvorschuss is not implemented yet prior to 2016, see
-        https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
-
-        """
-        )
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
     if (alter < altersgrenzen[0]) and alleinerz_tu:
         out = (
