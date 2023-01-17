@@ -54,7 +54,7 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`440` Implemented Bürgergeld, which reforms <span
   class="title-ref">arbeitsl_geld_2</span> from 01/01/2023
   ({ghuser}`LauraGergeleit`).
-  
+
 - {gh}`450` Update CI, use modern package structure ({ghuser}`hmgaudecker`)
 
 - {gh}`428` Added a new test for retirement ages for (very) long term insured and women.
