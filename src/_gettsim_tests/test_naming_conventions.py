@@ -8,7 +8,6 @@ from _gettsim.config import GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS
 from _gettsim.config import GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.config import USE_JAX
 from _gettsim.functions_loader import _load_functions
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
@@ -60,7 +59,6 @@ def check_length(column_names, limit):
     )
 
 
-@pytest.mark.skipif(USE_JAX, reason="Need workaround for numpy.datetime64")
 def test_all_default_targets_among_function_names(time_indep_function_names):
     check = [
         c
@@ -71,7 +69,6 @@ def test_all_default_targets_among_function_names(time_indep_function_names):
     assert not check, _nice_output_list_of_strings(check)
 
 
-@pytest.mark.skipif(USE_JAX, reason="Need workaround for numpy.datetime64")
 def test_length_column_names_default_targets():
     check_length(
         column_names=DEFAULT_TARGETS, limit=GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
@@ -85,7 +82,6 @@ def test_length_column_names_input_variables(default_input_variables):
     )
 
 
-@pytest.mark.skipif(USE_JAX, reason="Need workaround for numpy.datetime64")
 def test_length_column_names_other_functions(time_indep_function_names):
     # Consider all functions that are not purely internal (starting with an underscore)
     # and not part of default targets
