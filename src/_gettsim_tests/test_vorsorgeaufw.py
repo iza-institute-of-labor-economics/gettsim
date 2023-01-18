@@ -1,5 +1,4 @@
-import itertools
-
+# import itertools
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
@@ -25,8 +24,6 @@ OUT_COLS = ["vorsorgeaufw_tu"]
 
 YEARS = [2004, 2005, 2010, 2018, 2020, 2021, 2022, 2024, 2025]
 
-YEARS_2 = [2022]
-
 OVERRIDE_COLS = [
     "ges_krankenv_beitr_m",
     "arbeitsl_v_beitr_m",
@@ -42,9 +39,24 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize("year, target", itertools.product(YEARS, OUT_COLS))
-# testcase 19 for 2022 still fails due to missing inputs
-@pytest.mark.xfail
+@pytest.mark.parametrize(
+    ("year", "target"),
+    [
+        (2004, "vorsorgeaufw_tu"),
+        (2005, "vorsorgeaufw_tu"),
+        (2010, "vorsorgeaufw_tu"),
+        (2018, "vorsorgeaufw_tu"),
+        (2020, "vorsorgeaufw_tu"),
+        (2021, "vorsorgeaufw_tu"),
+        pytest.param(
+            2022,
+            "vorsorgeaufw_tu",
+            marks=pytest.mark.xfail(reason="missing input variables"),
+        ),
+        (2024, "vorsorgeaufw_tu"),
+        (2025, "vorsorgeaufw_tu"),
+    ],
+)
 def test_vorsorgeaufw(
     input_data,
     year,
