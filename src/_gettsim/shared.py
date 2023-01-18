@@ -60,7 +60,7 @@ def parse_to_list_of_strings(user_input, name):
         pass
     else:
         NotImplementedError(
-            f"'{name}' needs to be None, a string or a list of strings."
+            f"{name!r} needs to be None, a string or a list of strings."
         )
 
     return sorted(set(user_input))
