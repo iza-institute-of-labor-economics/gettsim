@@ -20,8 +20,8 @@ dependencies:
   - numpy_groupies
   - numpydoc
   - pandas
-  - pydot
   - pygments
+  - pygraphviz
   - pytest
   - pyyaml
   # Documentation

@@ -108,7 +108,7 @@ def plot_dag(
     dag = _add_url_to_dag(dag)
     # Even if we do not show the source codes , we need to remove the functions.
     dag = _replace_functions_with_source_code(dag)
-    layout_df = _create_pydot_layout(dag, orientation)
+    layout_df = _create_pygraphviz_layout(dag, orientation)
     # prepare for the nodes dataframe including their url
     names = layout_df.index
     node_x_coord = layout_df[0].values
@@ -259,7 +259,7 @@ def plot_dag(
     else:
         raise ValueError(
             "hover_source_code must be either True"
-            f" or False, but got '{hover_source_code}'"
+            f" or False, but got {hover_source_code!r}"
         )
 
     return fig
@@ -380,7 +380,7 @@ def _highlight_source_code(source):
     return highlight(source, lex, formatter)
 
 
-def _create_pydot_layout(dag, orientation):
+def _create_pygraphviz_layout(dag, orientation):
     # Convert node labels to integers because some names cannot be handled by pydot.
     dag_w_integer_nodes = nx.relabel.convert_node_labels_to_integers(dag)
 
@@ -391,7 +391,7 @@ def _create_pydot_layout(dag, orientation):
             dag_w_integer_nodes.nodes[node].pop(attr)
 
     # Create the integer layout.
-    integer_layout = nx.drawing.nx_pydot.pydot_layout(dag_w_integer_nodes, prog="dot")
+    integer_layout = nx.nx_agraph.pygraphviz_layout(dag_w_integer_nodes, prog="dot")
 
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
@@ -423,7 +423,7 @@ def _create_pydot_layout(dag, orientation):
 
     else:
         raise ValueError(
-            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+            f"orientation must be one of 'v', 'h', but got {orientation!r}"
         )
 
     return layout_df
@@ -527,7 +527,7 @@ def _get_selected_nodes(dag, selector):
         )
     else:
         raise NotImplementedError(
-            f"Selector type '{selector['type']}' is not defined. "
+            f"Selector type {selector['type']!r} is not defined. "
             "Allowed are only 'nodes', 'ancestors', 'descendants', or 'neighbors'."
         )
 
