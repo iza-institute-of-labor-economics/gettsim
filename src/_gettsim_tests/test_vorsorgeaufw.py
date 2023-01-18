@@ -51,7 +51,7 @@ def input_data():
         pytest.param(
             2022,
             "vorsorgeaufw_tu",
-            marks=pytest.mark.xfail(reason="missing input variables"),
+            marks=pytest.mark.xfail(reason="missing input variables, see #488"),
         ),
         (2024, "vorsorgeaufw_tu"),
         (2025, "vorsorgeaufw_tu"),
