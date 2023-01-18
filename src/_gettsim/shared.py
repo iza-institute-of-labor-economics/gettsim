@@ -1,5 +1,7 @@
 import inspect
 import textwrap
+from datetime import datetime
+from typing import Optional, Callable, TypeVar, ParamSpec
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -17,7 +19,7 @@ def add_rounding_spec(params_key):
     Parameters
     ----------
     params_key : str
-        Key of the parameters dictionary where rouding specifications are found. For
+        Key of the parameters dictionary where rounding specifications are found. For
         functions that are not user-written this is just the name of the respective
         .yaml file.
 
@@ -30,6 +32,40 @@ def add_rounding_spec(params_key):
 
     def inner(func):
         func.__rounding_params_key__ = params_key
+        return func
+
+    return inner
+
+
+DA_P = ParamSpec('DA_P')
+DA_R = TypeVar('DA_R')
+
+
+def dates_active(
+        start: str = "0001-01-01",
+        end: str = "9999-12-31",
+        change_name: Optional[str] = None
+) -> Callable[[Callable[DA_P, DA_R]], Callable[DA_P, DA_R]]:
+    """
+    Parameters
+    ----------
+    start
+        The start date in the format YYYY-MM-DD (ISO 8601).
+    end
+        The end date in the format YYYY-MM-DD (ISO 8601).
+    change_name
+        The name that should be used as the key for the function in the DAG. If omitted, we use the name of the function
+        as defined.
+
+    Returns
+    -------
+        The function with attributes __dates_active_start__, __dates_active_end__, and __dates_active_dag_key__.
+    """
+
+    def inner(func: Callable[DA_P, DA_R]) -> Callable[DA_P, DA_R]:
+        func.__dates_active_start__ = datetime.fromisoformat(start)
+        func.__dates_active_end__ = datetime.fromisoformat(end)
+        func.__dates_active_dag_key__ = change_name if change_name else func.__name__
         return func
 
     return inner
