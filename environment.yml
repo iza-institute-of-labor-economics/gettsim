@@ -24,8 +24,8 @@ dependencies:
   - pandas
   - pdbpp
   - pre-commit
-  - pydot
   - pygments
+  - pygraphviz
   - pytest
   - pytest-cov
   - pytest-xdist
