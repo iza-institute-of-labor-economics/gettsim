@@ -1,16 +1,10 @@
 from __future__ import annotations
 
+import importlib
 from pathlib import Path
 
 import numpy
 
-try:
-    import jax
-except ImportError:
-    IS_JAX_INSTALLED = False
-else:
-    IS_JAX_INSTALLED = True
-    jax.config.update("jax_platform_name", "cpu")
 
 # =====================================================================================
 # Decide whether to use JAX as backend
@@ -27,17 +21,19 @@ def set_array_backend(backend: str):
     backend (str): Must be in {'jax', 'numpy'}.
 
     """
+
     if backend not in {"jax", "numpy"}:
         raise ValueError(f"Backend must be in {'jax', 'numpy'} but is {backend}.")
 
-    global USE_JAX
-    USE_JAX = backend == "jax"
-
-    if USE_JAX and not IS_JAX_INSTALLED:
-        raise ValueError("To use the 'jax' backend jax needs to be installed.")
-    elif USE_JAX:
+    if backend == "jax":
+        assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
+        global USE_JAX
         global numpy_or_jax
+        import jax
+
+        USE_JAX = True
         numpy_or_jax = jax.numpy
+        jax.config.update("jax_platform_name", "cpu")
 
 
 # Obtain the root directory of the package. Do not import gettsim which creates a

@@ -1,3 +1,5 @@
+import importlib
+
 import _gettsim
 import pytest
 
@@ -9,14 +11,14 @@ def test_default_backend():
 
 
 def test_set_backend():
-    jax_is_truly_installed = _gettsim.config.IS_JAX_INSTALLED
+    is_jax_installed = importlib.util.find_spec("jax") is not None
 
     # expect default backend
     from _gettsim.config import numpy_or_jax
 
     assert numpy_or_jax.__name__ == "numpy"
 
-    if jax_is_truly_installed:
+    if is_jax_installed:
         # set jax backend
         _gettsim.config.set_array_backend("jax")
         from _gettsim.config import numpy_or_jax
@@ -27,7 +29,7 @@ def test_set_backend():
 
         assert USE_JAX
     else:
-        with pytest.raises(ValueError):
+        with pytest.raises(AssertionError):
             _gettsim.config.set_array_backend("jax")
 
 

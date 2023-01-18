@@ -4,10 +4,10 @@ import pandas as pd
 import pytest
 import yaml
 from _gettsim.config import INTERNAL_PARAMS_GROUPS
-from _gettsim.config import IS_JAX_INSTALLED
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
 from _gettsim.config import RESOURCE_DIR
+from _gettsim.config import USE_JAX
 from _gettsim.functions_loader import _load_functions
 from _gettsim.interface import _add_rounding_to_functions
 from _gettsim.interface import compute_taxes_and_transfers
@@ -138,7 +138,7 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
 
 
-@pytest.mark.skipif(IS_JAX_INSTALLED, reason="Need workaround for numpy.datetime64")
+@pytest.mark.skipif(USE_JAX, reason="Need workaround for numpy.datetime64")
 def test_decorator_for_all_functions_with_rounding_spec():
     """Check if all functions for which rounding parameters are specified have an
     attribute which indicates rounding."""
