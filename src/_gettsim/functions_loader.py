@@ -260,7 +260,7 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     """Format an error message showing duplicated functions and their sources."""
     lines = []
     for name in duplicated_functions:
-        lines.append(f"'{name}' is defined in")
+        lines.append(f"{name!r} is defined in")
         lines.append("    " + inspect.getfile(functions[name]))
         lines.append("    " + inspect.getfile(source[name]))
 

@@ -393,7 +393,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
                 if not (max_value == col).all():
                     message = format_errors_and_warnings(
                         f"""
-                        Column '{name}' has not one unique value per group defined by
+                        Column {name!r} has not one unique value per group defined by
                         `{level}_id`.
 
                         This is expected if the variable name ends with '_{level}'.
@@ -588,7 +588,7 @@ def _add_rounding_to_functions(functions, params):
                     KeyErrorMessage(
                         f"Rounding specifications for function {func_name} are expected"
                         " in the parameter dictionary \n"
-                        f" at ['{params_key}']['rounding']['{func_name}']. These nested"
+                        f" at [{params_key!r}]['rounding'][{func_name!r}]. These nested"
                         " keys do not exist. \n"
                         " If this function should not be rounded,"
                         " remove the respective decorator."
@@ -604,7 +604,7 @@ def _add_rounding_to_functions(functions, params):
                         "Both 'base' and 'direction' are expected as rounding "
                         "parameters in the parameter dictionary. \n "
                         "At least one of them "
-                        f"is missing at ['{params_key}']['rounding']['{func_name}']."
+                        f"is missing at [{params_key!r}]['rounding'][{func_name!r}]."
                     )
                 )
 
@@ -645,7 +645,7 @@ def _add_rounding_to_one_function(base, direction):
             # Check inputs.
             if not (type(base) in [int, float]):
                 raise ValueError(
-                    f"base needs to be a number, got '{base}' for '{func.__name__}'"
+                    f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )
 
             if direction == "up":
@@ -657,7 +657,7 @@ def _add_rounding_to_one_function(base, direction):
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got '{direction}' for '{func.__name__}'"
+                    f", got {direction!r} for {func.__name__!r}"
                 )
             return rounded_out
 
