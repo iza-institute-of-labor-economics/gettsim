@@ -116,8 +116,8 @@ def arbeitsl_geld_restliche_anspruchsdauer(
 def arbeitsl_geld_berechtigt(
     alter: int,
     arbeitssuchend: bool,
-    restliche_anspruchsdauer: int,
-    arbeitsstunden_w: float,
+    arbeitsl_geld_restliche_anspruchsdauer: int,
+    arbeitsstunden_w: int,
     arbeitsl_geld_params: dict,
     geburtsjahr: int,
     ges_rente_params: dict,
@@ -130,8 +130,8 @@ def arbeitsl_geld_berechtigt(
         See basic input variable :ref:`alter <alter>`.
     arbeitssuchend
         See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
-    restliche_anspruchsdauer
-        See :func:`restliche_anspruchsdauer`.
+    arbeitsl_geld_restliche_anspruchsdauer
+        See :func:`arbeitsl_geld_restliche_anspruchsdauer`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -149,7 +149,7 @@ def arbeitsl_geld_berechtigt(
 
     out = (
         arbeitssuchend
-        and (restliche_anspruchsdauer > 0)
+        and (arbeitsl_geld_restliche_anspruchsdauer > 0)
         and (alter < regelaltersgrenze)
         and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
