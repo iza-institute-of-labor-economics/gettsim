@@ -71,6 +71,8 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`484` Implement Kindersofortzuschlag. ({ghuser}`LauraGergeleit`).
 
+- {gh}`457` Corrected implementation of Arbeitslosengeld 1 ({ghuser}`paulinaschroeder`)
+
 ## 0.5.1 — 2022-04-21
 
 - {gh}`377` Fix wrong parameter value for <span
