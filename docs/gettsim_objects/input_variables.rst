@@ -59,7 +59,7 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 | _`bewohnt_eigentum_hh`    | Dummy: Owner-occupied housing               | bool         |
 +---------------------------+---------------------------------------------+--------------+
-| _`arbeitsstunden_w`       | Weekly working hours of individual          | int          |
+| _`arbeitsstunden_w`       | Weekly working hours of individual          | float        |
 +---------------------------+---------------------------------------------+--------------+
 | _`bruttolohn_vorj_m`      | Monthly wage, previous year                 | float        |
 +---------------------------+---------------------------------------------+--------------+
@@ -145,14 +145,14 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 |_`bürgerg_bezug_vorj`      | Received Bürgergeld in previous year        | bool         |
 +---------------------------+---------------------------------------------+--------------+
-|| _`m_anwartschaftszeit`     || Dummy: at least 12 months of unemployment  || bool        |
+|| _`m_anwartschaftszeit`   || Dummy: at least 12 months of unemployment  || bool        |
 ||                          || contributions in the 30 months before      ||             |
 ||                          || claiming unemployment insurance            ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`arbeitssuchend`        || Dummy: looking for employment              || bool        |
 ||                          ||                                            ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`m_durchg_alg1_bezug` || Amount of months the individual already    || int         |
+|| _`m_durchg_alg1_bezug`   || Amount of months the individual already    || int         |
 ||                          || uninterruptedly receives Arbeitslosengeld  ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`soz_vers_pflicht_5j`   || Months of subjection to compulsory         || int         |

@@ -117,7 +117,7 @@ def arbeitsl_geld_berechtigt(
     alter: int,
     arbeitssuchend: bool,
     arbeitsl_geld_restl_anspruchsd: int,
-    arbeitsstunden_w: int,
+    arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
     geburtsjahr: int,
     ges_rente_params: dict,
