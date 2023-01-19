@@ -45,7 +45,7 @@ def arbeitsl_geld_m(
 def arbeitsl_geld_restl_anspruchsd(
     alter: int,
     soz_vers_pflicht_5j: int,
-    m_anwartschaftszeit: int,
+    m_anwartschaftszeit: bool,
     m_durchg_alg1_bezug: int,
     arbeitsl_geld_params: dict,
 ) -> int:
