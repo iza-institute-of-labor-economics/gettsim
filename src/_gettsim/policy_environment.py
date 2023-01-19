@@ -100,8 +100,8 @@ from _gettsim.social_insurance_contributions.ges_rentenv import (
 )
 from _gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from _gettsim.taxes.eink_st import eink_st_tu_bis_1996
-from _gettsim.taxes.lohn_st import vorsorgepauschale_2005_2010
-from _gettsim.taxes.lohn_st import vorsorgepauschale_ab_2010
+from _gettsim.taxes.lohnst import vorsorgepauschale_2005_2010
+from _gettsim.taxes.lohnst import vorsorgepauschale_ab_2010
 from _gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
 from _gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
 from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015

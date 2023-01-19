@@ -1,5 +1,5 @@
 ---
-lohn_st_einkommensgrenzen:
+lohnst_einkommensgrenzen:
   name:
     de: Einkommensgrenzen für Steuerklasse 5 und 6
     en: Thresholds for Steuerklasse 5 and 6
@@ -24,7 +24,7 @@ lohn_st_einkommensgrenzen:
 
 
 rounding:
-  lohn_st_eink:
+  lohnst_eink:
     1990-01-01:
       base: 1
       direction: down
