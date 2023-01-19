@@ -122,7 +122,7 @@ Type: bool
 
 ## `betreuungskost_m`
 
-Monthly childcare expenses
+Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 

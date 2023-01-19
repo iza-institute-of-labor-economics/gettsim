@@ -1,3 +1,4 @@
+---
 name: gettsim-docs
 
 channels:
@@ -19,8 +20,8 @@ dependencies:
   - numpy_groupies
   - numpydoc
   - pandas
-  - pydot
   - pygments
+  - pygraphviz
   - pytest
   - pyyaml
   # Documentation
@@ -34,6 +35,6 @@ dependencies:
   - sphinx-copybutton
   - nbsphinx
   - pip:
-    - plotly
-    - kaleido
-    - -e ..
+      - plotly
+      - kaleido
+      - -e ..

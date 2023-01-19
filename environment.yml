@@ -1,3 +1,4 @@
+---
 name: gettsim
 
 channels:
@@ -23,8 +24,8 @@ dependencies:
   - pandas
   - pdbpp
   - pre-commit
-  - pydot
   - pygments
+  - pygraphviz
   - pytest
   - pytest-cov
   - pytest-xdist
@@ -44,6 +45,6 @@ dependencies:
   - sphinx-copybutton
   - nbsphinx
   - pip:
-    - plotly
-    - kaleido
-    - -e .
+      - plotly
+      - kaleido
+      - -e .

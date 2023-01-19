@@ -49,7 +49,7 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
     This includes cost of dwelling.
 
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.:
 
     Parameters
     ----------
@@ -192,12 +192,19 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     float with the support of children since year 2011
 
     """
+
     # Sum payments for each age group
     out = (
         arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
         + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
+
+    if "kindersofortzuschl" in arbeitsl_geld_2_params:
+        kindersofortzuschl = arbeitsl_geld_2_params["kindersofortzuschl"]
+        out += kindersofortzuschl * (
+            anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
+        )
 
     return float(out)
 
@@ -271,6 +278,10 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     float with the minimum needs of an household in Euro.
 
     """
+    if "kindersofortzuschl" in arbeitsl_geld_2_params:
+        zuschlag = arbeitsl_geld_2_params["kindersofortzuschl"]
+    else:
+        zuschlag = 0
 
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
@@ -280,7 +291,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        ) + (arbeitsl_geld_2_params["regelsatz"][3] * weitere_erwachsene)
+        ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
 
     return out + arbeitsl_geld_2_kindersatz_m_hh
 

@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.6.0 —
 
+- {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
+
 - {gh}`323` Health care contribution parameters are better aligned with
   law. Restructure calculation of ges_krankenv, minor changes to
   ges_pflegev. ({ghuser}`Eric-Sommer`, {ghuser}`ChristianZimpelmann`).
@@ -19,7 +21,7 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`385` Make altersentlastungsbetrag dependent on age not on current
   date ({ghuser}`m-pannier`, {ghuser}`lillyfischer`).
 
-- {gh}`393` normal retirement age adjustment aligned with the rules.
+- {gh}`393` normal retirement age adjustment aligned with the rules
   ({ghuser}`TeBackh`).
 
 - {gh}`396` Implement pension for (very) long term insured, including eligibility criteria,
@@ -31,8 +33,8 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`380` Implement an automatic type conversion of imported variables.
   Adding test cases in <span
-  class="title-ref">test_interface.py</span>. ({ghuser}`LauraGergeleit`,
-  {ghuser}`ChristianZimpelmann`)
+  class="title-ref">test_interface.py</span> ({ghuser}`LauraGergeleit`,
+  {ghuser}`ChristianZimpelmann`).
 
 - {gh}`406` Changed variable name from <span
   class="title-ref">vermögen_hh</span> to <span
@@ -40,25 +42,34 @@ versioning](https://semver.org/) and all releases are available on
   several transfers ({ghuser}`LauraGergeleit`).
 
 - {gh}`415` Define supported groupings in <span
-  class="title-ref">config.py</span>. ({ghuser}`LauraGergeleit`,
-  {ghuser}`ChristianZimpelmann`)
+  class="title-ref">config.py</span> ({ghuser}`LauraGergeleit`,
+  {ghuser}`ChristianZimpelmann`).
 
-- {gh}`416` Added documentation page for Vermögensbegriff for transfers.
-  ({ghuser}`LauraGergeleit`)
+- {gh}`416` Added documentation page for Vermögensbegriff for transfers
+  ({ghuser}`LauraGergeleit`).
 
-- {gh}`423` Modeled marginal employment rules reform from 10/2022.
-  ({ghuser}`Eric-Sommer`, {ghuser}`LauraGergeleit`)
+- {gh}`423` Modeled marginal employment rules reform from 10/2022
+  ({ghuser}`Eric-Sommer`, {ghuser}`LauraGergeleit`).
 
-- {gh}`399` Use dags package to create the DAG. ({ghuser}`ChristianZimpelmann`)
+- {gh}`399` Use dags package to create the DAG ({ghuser}`ChristianZimpelmann`).
 
 - {gh}`440` Implemented Bürgergeld, which reforms <span
-  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023.
-  ({ghuser}`LauraGergeleit`)
+  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023
+  ({ghuser}`LauraGergeleit`).
 
-- {gh}`450` Update CI, use modern package structure ({ghuser}`hmgaudecker`)
+- {gh}`450` Update CI, use modern package structure ({ghuser}`hmgaudecker`).
 
 - {gh}`470` Execute notebooks as part of the documentation build on readthedocs
-  ({ghuser}`hmgaudecker`)
+  ({ghuser}`hmgaudecker`).
+
+- {gh}`463` Adjust Günstigerprüfung between Kindergeld and Kinderfreibetrag such that
+  Kindergeld is not set to 0 if Kinderfreibetrag is beneficial
+  ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
+
+- {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
+  ({ghuser}`ChristianZimpelmann`).
+
+- {gh}`484` Implement Kindersofortzuschlag. ({ghuser}`LauraGergeleit`).
 
 ## 0.5.1 — 2022-04-21
 

@@ -113,3 +113,32 @@ def zu_verst_eink_mit_kinderfreib_tu(
 
     out = _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_tu
     return max(out, 0.0)
+
+
+def zu_verst_eink_tu(
+    zu_verst_eink_mit_kinderfreib_tu: float,
+    _zu_verst_eink_ohne_kinderfreib_tu: float,
+    kinderfreib_günstiger_tu: bool,
+) -> float:
+
+    """Calculate taxable income on tax unit level.
+
+    Parameters
+    ----------
+    zu_verst_eink_mit_kinderfreib_tu
+        See :func:`zu_verst_eink_mit_kinderfreib_tu`.
+    _zu_verst_eink_ohne_kinderfreib_tu
+        See :func:`_zu_verst_eink_ohne_kinderfreib_tu`.
+    kinderfreib_günstiger_tu
+        See :func:`kinderfreib_günstiger_tu`.
+
+    Returns
+    -------
+
+    """
+    if kinderfreib_günstiger_tu:
+        out = zu_verst_eink_mit_kinderfreib_tu
+    else:
+        out = _zu_verst_eink_ohne_kinderfreib_tu
+
+    return out

@@ -51,7 +51,7 @@ INPUT_COLS = [
 ]
 
 OUT_COLS = [
-    # "arbeitsl_geld_2_brutto_eink_m",
+    # "arbeitsl_geld_2_bruttoeink_m",
     # "arbeitsl_geld_2_eink_anr_frei_m",
     "arbeitsl_geld_2_eink_m",
     # "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
