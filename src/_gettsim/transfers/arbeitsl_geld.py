@@ -46,7 +46,7 @@ def arbeitsl_geld_restliche_anspruchsdauer(
     alter: int,
     soz_vers_pflicht_5j: int,
     anwartschaftszeit: int,
-    arbeitsl_geld_bezug_m: int,
+    m_durchg_alg1_bezug: int,
     arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the remaining amount of months a person can receive unemployment
@@ -60,8 +60,8 @@ def arbeitsl_geld_restliche_anspruchsdauer(
         See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
     anwartschaftszeit
         See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
-    arbeitsl_geld_bezug_m
-        See basic input variable :ref:`arbeitsl_geld_bezug_m <arbeitsl_geld_bezug_m>`.
+    m_durchg_alg1_bezug
+        See basic input variable :ref:`m_durchg_alg1_bezug <m_durchg_alg1_bezug>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -106,7 +106,7 @@ def arbeitsl_geld_restliche_anspruchsdauer(
     )
     if anwartschaftszeit:
         anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
-        out = max(anspruchsdauer_gesamt - arbeitsl_geld_bezug_m, 0)
+        out = max(anspruchsdauer_gesamt - m_durchg_alg1_bezug, 0)
     else:
         out = 0
 

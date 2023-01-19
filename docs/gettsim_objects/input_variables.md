@@ -480,9 +480,9 @@ Dummy: looking for employment
 
 Type: bool
 
-(arbeitsl_geld_bezug_m)=
+(m_durchg_alg1_bezug)=
 
-## `arbeitsl_geld_bezug_m`
+## `m_durchg_alg1_bezug`
 
 Amount of months the individual already uninterruptedly receives Arbeitslosengeld
 
