@@ -151,7 +151,9 @@ def ges_krankenv_beitr_satz_bis_2018(
     return allgemeiner_beitrag / 2 + ges_krankenv_zusatzbeitrag
 
 
-def ges_krankenv_beitr_satz_ab_2019(soz_vers_beitr_params: dict) -> float:
+def ges_krankenv_beitr_satz_ab_2019(
+    ges_krankenv_zusatzbeitrag: float, soz_vers_beitr_params: dict
+) -> float:
     """Select contribution rates of employees for health insurance since 2019.
 
     Zusatzbeitrag is now split equally between employers and employees.
