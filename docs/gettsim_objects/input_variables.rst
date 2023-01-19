@@ -145,7 +145,7 @@ household.
 +---------------------------+---------------------------------------------+--------------+
 |_`bürgerg_bezug_vorj`      | Received Bürgergeld in previous year        | bool         |
 +---------------------------+---------------------------------------------+--------------+
-|| _`anwartschaftszeit`     || Dummy: at least 12 months of unemployment  || bool        |
+|| _`m_anwartschaftszeit`     || Dummy: at least 12 months of unemployment  || bool        |
 ||                          || contributions in the 30 months before      ||             |
 ||                          || claiming unemployment insurance            ||             |
 +---------------------------+---------------------------------------------+--------------+

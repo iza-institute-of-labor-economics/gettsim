@@ -45,7 +45,7 @@ def arbeitsl_geld_m(
 def arbeitsl_geld_restliche_anspruchsdauer(
     alter: int,
     soz_vers_pflicht_5j: int,
-    anwartschaftszeit: int,
+    m_anwartschaftszeit: int,
     m_durchg_alg1_bezug: int,
     arbeitsl_geld_params: dict,
 ) -> int:
@@ -58,8 +58,8 @@ def arbeitsl_geld_restliche_anspruchsdauer(
         See basic input variable :ref:`alter <alter>`.
     soz_vers_pflicht_5j
         See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
-    anwartschaftszeit
-        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
+    m_anwartschaftszeit
+        See basic input variable :ref:`m_anwartschaftszeit <m_anwartschaftszeit>`.
     m_durchg_alg1_bezug
         See basic input variable :ref:`m_durchg_alg1_bezug <m_durchg_alg1_bezug>`.
     arbeitsl_geld_params
@@ -104,7 +104,7 @@ def arbeitsl_geld_restliche_anspruchsdauer(
             ].values()
         ),
     )
-    if anwartschaftszeit:
+    if m_anwartschaftszeit:
         anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
         out = max(anspruchsdauer_gesamt - m_durchg_alg1_bezug, 0)
     else:

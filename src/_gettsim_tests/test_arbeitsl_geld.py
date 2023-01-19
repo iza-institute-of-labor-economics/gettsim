@@ -12,7 +12,7 @@ INPUT_COLS = [
     "bruttolohn_vorj_m",
     "wohnort_ost",
     "kind",
-    "anwartschaftszeit",
+    "m_anwartschaftszeit",
     "arbeitssuchend",
     "soz_vers_pflicht_5j",
     "m_durchg_alg1_bezug",
