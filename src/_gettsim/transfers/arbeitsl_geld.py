@@ -193,6 +193,10 @@ def arbeitsl_geld_eink_vorj_proxy(
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
+    # Caution: currently wrong calculation due to
+    # 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"] not being
+    # the same as zu versteuerndes einkommen
+    # waiting for PR Lohnsteuer #150 to be merged to correct this problem
     prox_tax = _eink_st_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
