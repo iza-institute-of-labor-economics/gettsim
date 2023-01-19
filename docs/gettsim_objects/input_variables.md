@@ -194,7 +194,7 @@ Type: bool
 
 Weekly working hours of individual
 
-Type: int
+Type: float
 
 (bruttolohn_vorj_m)=
 
