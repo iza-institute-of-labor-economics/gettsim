@@ -3,8 +3,10 @@ import textwrap
 from datetime import date
 from typing import Callable
 from typing import Optional
-from typing import ParamSpec
+from typing import TYPE_CHECKING
 from typing import TypeVar
+if TYPE_CHECKING:
+    from typing import ParamSpec
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -47,9 +49,9 @@ TIME_DEPENDENT_FUNCTIONS = []
 
 
 def dates_active(
-    start: str = "0001-01-01",
-    end: str = "9999-12-31",
-    change_name: Optional[str] = None,
+        start: str = "0001-01-01",
+        end: str = "9999-12-31",
+        change_name: Optional[str] = None,
 ) -> Callable[[Callable[DA_P, DA_R]], Callable[DA_P, DA_R]]:
     """
     Parameters
@@ -59,12 +61,13 @@ def dates_active(
     end
         The end date (inclusive) in the format YYYY-MM-DD (ISO 8601).
     change_name
-        The name that should be used as the key for the function in the DAG. If omitted, we use the name of the function
-        as defined.
+        The name that should be used as the key for the function in the DAG.
+        If omitted, we use the name of the function as defined.
 
     Returns
     -------
-        The function with attributes __dates_active_start__, __dates_active_end__, and __dates_active_dag_key__.
+        The function with attributes __dates_active_start__, __dates_active_end__,
+        and __dates_active_dag_key__.
     """
 
     def inner(func: Callable[DA_P, DA_R]) -> Callable[DA_P, DA_R]:
