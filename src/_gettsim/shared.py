@@ -40,6 +40,7 @@ def add_rounding_spec(params_key):
 DA_P = ParamSpec('DA_P')
 DA_R = TypeVar('DA_R')
 
+DATE_SENSITIVE_FUNCTIONS = []
 
 def dates_active(
         start: str = "0001-01-01",
@@ -50,9 +51,9 @@ def dates_active(
     Parameters
     ----------
     start
-        The start date in the format YYYY-MM-DD (ISO 8601).
+        The start date (inclusive) in the format YYYY-MM-DD (ISO 8601).
     end
-        The end date in the format YYYY-MM-DD (ISO 8601).
+        The end date (inclusive) in the format YYYY-MM-DD (ISO 8601).
     change_name
         The name that should be used as the key for the function in the DAG. If omitted, we use the name of the function
         as defined.
@@ -66,6 +67,9 @@ def dates_active(
         func.__dates_active_start__ = date.fromisoformat(start)
         func.__dates_active_end__ = date.fromisoformat(end)
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
+
+        DATE_SENSITIVE_FUNCTIONS.append(func)
+
         return func
 
     return inner
