@@ -5,6 +5,7 @@ from typing import Callable
 from typing import Optional
 from typing import TYPE_CHECKING
 from typing import TypeVar
+
 if TYPE_CHECKING:
     from typing import ParamSpec
 
@@ -49,9 +50,9 @@ TIME_DEPENDENT_FUNCTIONS = []
 
 
 def dates_active(
-        start: str = "0001-01-01",
-        end: str = "9999-12-31",
-        change_name: Optional[str] = None,
+    start: str = "0001-01-01",
+    end: str = "9999-12-31",
+    change_name: Optional[str] = None,
 ) -> Callable[[Callable[DA_P, DA_R]], Callable[DA_P, DA_R]]:
     """
     Parameters
