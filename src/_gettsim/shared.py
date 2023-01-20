@@ -1,6 +1,6 @@
 import inspect
 import textwrap
-from datetime import datetime
+from datetime import date
 from typing import Optional, Callable, TypeVar, ParamSpec
 
 from _gettsim.config import SUPPORTED_GROUPINGS
@@ -63,8 +63,8 @@ def dates_active(
     """
 
     def inner(func: Callable[DA_P, DA_R]) -> Callable[DA_P, DA_R]:
-        func.__dates_active_start__ = datetime.fromisoformat(start)
-        func.__dates_active_end__ = datetime.fromisoformat(end)
+        func.__dates_active_start__ = date.fromisoformat(start)
+        func.__dates_active_end__ = date.fromisoformat(end)
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
         return func
 

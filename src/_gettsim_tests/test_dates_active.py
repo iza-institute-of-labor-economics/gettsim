@@ -10,8 +10,8 @@ from _gettsim.shared import dates_active
 @pytest.mark.parametrize(
     "date_string, expected",
     [
-        ("2023-01-20", datetime.datetime(2023, 1, 20)),
-        ("20230120", datetime.datetime(2023, 1, 20)),
+        ("2023-01-20", datetime.date(2023, 1, 20)),
+        ("20230120", datetime.date(2023, 1, 20)),
     ]
 )
 def test_dates_active_start_date_valid(date_string: str, expected: datetime.date):
@@ -43,14 +43,14 @@ def test_dates_active_start_date_missing():
     def test_func():
         pass
 
-    assert test_func.__dates_active_start__ == datetime.datetime(1, 1, 1)
+    assert test_func.__dates_active_start__ == datetime.date(1, 1, 1)
 
 
 @pytest.mark.parametrize(
     "date_string, expected",
     [
-        ("2023-01-20", datetime.datetime(2023, 1, 20)),
-        ("20230120", datetime.datetime(2023, 1, 20)),
+        ("2023-01-20", datetime.date(2023, 1, 20)),
+        ("20230120", datetime.date(2023, 1, 20)),
     ]
 )
 def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
@@ -80,7 +80,7 @@ def test_dates_active_end_date_missing():
     def test_func():
         pass
 
-    assert test_func.__dates_active_end__ == datetime.datetime(9999, 12, 31)
+    assert test_func.__dates_active_end__ == datetime.date(9999, 12, 31)
 
 
 # Change name ----------------------------------------------
