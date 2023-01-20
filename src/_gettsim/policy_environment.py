@@ -3,7 +3,7 @@ import datetime
 import operator
 from functools import reduce
 
-import _gettsim.functions  # Execute decorators. noqa: F401, F403
+import _gettsim.functions  # Execute all decorators # noqa: F401, F403
 import numpy as np
 import pandas as pd
 import yaml
