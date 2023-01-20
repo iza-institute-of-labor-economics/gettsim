@@ -1,15 +1,11 @@
 """Some tests for the policy_environment module."""
 from datetime import date, timedelta
-from typing import Callable
 
 import pandas as pd
 import pytest
 
 from _gettsim.policy_environment import _load_parameter_group_from_yaml, load_functions_for_date
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital, sum_eink_ohne_kapital
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005, eink_st_altersfreib_bis_2004, \
-    eink_st_alleinerz_freib_tu_bis_2014, eink_st_alleinerz_freib_tu_ab_2015
 from _gettsim_tests import TEST_DIR
 
 
@@ -43,40 +39,23 @@ def test_access_different_date_vorjahr():
     assert params["foo_vorjahr"] == 2019
 
 
-# Passing callables as arguments to pytest.mark.parametrize fails with ValueError
-# "parametrize() call in test_load_functions_for_date got an unexpected scope value",
-# so I created individual test functions for each test case.
-
-def test_load_functions_for_date_sum_eink():
-    _helper_load_functions_for_date("sum_eink", date(2008, 12, 31), sum_eink_mit_kapital, sum_eink_ohne_kapital)
-
-
-def test_load_functions_for_date_alleinerz_freib_tu():
-    _helper_load_functions_for_date(
-        "alleinerz_freib_tu",
-        date(2014, 12, 31),
-        eink_st_alleinerz_freib_tu_bis_2014,
-        eink_st_alleinerz_freib_tu_ab_2015
-    )
-
-
-def test_load_functions_for_date_altersfreib():
-    _helper_load_functions_for_date(
-        "eink_st_altersfreib",
-        date(2004, 12, 31),
-        eink_st_altersfreib_bis_2004,
-        eink_st_altersfreib_ab_2005
-    )
-
-
-def _helper_load_functions_for_date(
-        function_name: str,
+@pytest.mark.parametrize(
+    "dag_key, last_day, function_name_last_day, function_name_next_day",
+    [
+        ("eink_st_altersfreib", date(2004, 12, 31), "eink_st_altersfreib_bis_2004", "eink_st_altersfreib_ab_2005"),
+        ("alleinerz_freib_tu", date(2014, 12, 31), "eink_st_alleinerz_freib_tu_bis_2014",
+         "eink_st_alleinerz_freib_tu_ab_2015"),
+        ("sum_eink", date(2008, 12, 31), "sum_eink_mit_kapital", "sum_eink_ohne_kapital"),
+    ]
+)
+def test_load_functions_for_date(
+        dag_key: str,
         last_day: date,
-        function_last_day: Callable,
-        function_next_day: Callable
+        function_name_last_day: str,
+        function_name_next_day: str
 ):
     functions_last_day = load_functions_for_date(date=last_day)
     functions_next_day = load_functions_for_date(date=last_day + timedelta(days=1))
 
-    assert functions_last_day[function_name] == function_last_day
-    assert functions_next_day[function_name] == function_next_day
+    assert functions_last_day[dag_key].__name__ == function_name_last_day
+    assert functions_next_day[dag_key].__name__ == function_name_next_day
