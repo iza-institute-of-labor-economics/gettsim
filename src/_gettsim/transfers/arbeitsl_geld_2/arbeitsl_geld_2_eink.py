@@ -60,7 +60,6 @@ def arbeitsl_geld_2_eink_m(
     return max(out, 0.0)
 
 
-
 def arbeitsl_geld_2_bruttoeink_m(
     bruttolohn_m: float,
     sonstig_eink_m: float,
