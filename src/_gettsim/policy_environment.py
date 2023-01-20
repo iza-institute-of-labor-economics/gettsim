@@ -15,7 +15,7 @@ from _gettsim.config import RESOURCE_DIR
 from _gettsim.piecewise_functions import check_thresholds
 from _gettsim.piecewise_functions import get_piecewise_parameters
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import DATE_SENSITIVE_FUNCTIONS
+from _gettsim.shared import TIME_DEPENDENT_FUNCTIONS
 from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
 )
@@ -354,7 +354,7 @@ def load_functions_for_date(date):
 
     functions = {
         f.__dates_active_dag_key__: f
-        for f in DATE_SENSITIVE_FUNCTIONS
+        for f in TIME_DEPENDENT_FUNCTIONS
         if f.__dates_active_start__ <= date <= f.__dates_active_end__
     }
 

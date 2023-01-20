@@ -40,7 +40,7 @@ def add_rounding_spec(params_key):
 DA_P = ParamSpec('DA_P')
 DA_R = TypeVar('DA_R')
 
-DATE_SENSITIVE_FUNCTIONS = []
+TIME_DEPENDENT_FUNCTIONS = []
 
 def dates_active(
         start: str = "0001-01-01",
@@ -68,7 +68,7 @@ def dates_active(
         func.__dates_active_end__ = date.fromisoformat(end)
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
 
-        DATE_SENSITIVE_FUNCTIONS.append(func)
+        TIME_DEPENDENT_FUNCTIONS.append(func)
 
         return func
 
