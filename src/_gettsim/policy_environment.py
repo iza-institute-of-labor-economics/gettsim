@@ -6,11 +6,13 @@ from functools import reduce
 import numpy as np
 import pandas as pd
 import yaml
+
 from _gettsim.config import INTERNAL_PARAMS_GROUPS
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.piecewise_functions import check_thresholds
 from _gettsim.piecewise_functions import get_piecewise_parameters
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import DATE_SENSITIVE_FUNCTIONS
 from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
 )
@@ -354,7 +356,13 @@ def load_functions_for_date(date):
 
     """
     year = date.year
-    functions = {}
+
+    functions = {
+        f.__dates_active_dag_key__: f
+        for f in DATE_SENSITIVE_FUNCTIONS
+        if f.__dates_active_start__ <= date <= f.__dates_active_end__
+    }
+
     if year < 2009:
         functions["sum_eink"] = sum_eink_mit_kapital
     else:
