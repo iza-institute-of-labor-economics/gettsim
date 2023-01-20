@@ -1,5 +1,6 @@
 import numpy as np
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import dates_active
 
 
 def _eink_st_behinderungsgrad_pauschbetrag(
