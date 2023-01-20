@@ -36,8 +36,6 @@ def test_dates_active_start_date_invalid(date_string: str):
             pass
 
 
-# End date -------------------------------------------------
-
 def test_dates_active_start_date_missing():
     @dates_active()
     def test_func():
@@ -45,6 +43,8 @@ def test_dates_active_start_date_missing():
 
     assert test_func.__dates_active_start__ == datetime.date(1, 1, 1)
 
+
+# End date -------------------------------------------------
 
 @pytest.mark.parametrize(
     "date_string, expected",
