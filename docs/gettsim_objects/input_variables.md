@@ -484,7 +484,7 @@ Type: bool
 
 ## `m_durchg_alg1_bezug`
 
-Amount of months the individual already uninterruptedly receives Arbeitslosengeld
+Months the individual already uninterruptedly receives Arbeitslosengeld
 
 Type: int
 

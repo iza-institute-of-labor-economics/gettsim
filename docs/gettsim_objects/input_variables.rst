@@ -152,7 +152,7 @@ household.
 || _`arbeitssuchend`        || Dummy: looking for employment              || bool        |
 ||                          ||                                            ||             |
 +---------------------------+---------------------------------------------+--------------+
-|| _`m_durchg_alg1_bezug`   || Amount of months the individual already    || int         |
+|| _`m_durchg_alg1_bezug`   || Months the individual already              || int         |
 ||                          || uninterruptedly receives Arbeitslosengeld  ||             |
 +---------------------------+---------------------------------------------+--------------+
 || _`soz_vers_pflicht_5j`   || Months of subjection to compulsory         || int         |
