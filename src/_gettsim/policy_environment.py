@@ -102,14 +102,6 @@ from _gettsim.social_insurance_contributions.ges_rentenv import (
 )
 from _gettsim.taxes.eink_st import eink_st_tu_ab_1997
 from _gettsim.taxes.eink_st import eink_st_tu_bis_1996
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
-from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_alleinerz_freib_tu_bis_2014,
-)
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
 from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_ab_2012
 from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_bis_2011
 from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
