@@ -3,7 +3,7 @@ import datetime
 import operator
 from functools import reduce
 
-import _gettsim.functions  # noqa: F401, F403
+import _gettsim.functions  # Execute decorators. noqa: F401, F403
 import numpy as np
 import pandas as pd
 import yaml
@@ -160,8 +160,6 @@ from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
 from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
 from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
 from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
-
-# This ensures that all functions are loaded and their decorators are executed
 
 
 def set_up_policy_environment(date):
