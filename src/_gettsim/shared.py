@@ -1,7 +1,10 @@
 import inspect
 import textwrap
 from datetime import date
-from typing import Optional, Callable, TypeVar, ParamSpec
+from typing import Callable
+from typing import Optional
+from typing import ParamSpec
+from typing import TypeVar
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -37,15 +40,16 @@ def add_rounding_spec(params_key):
     return inner
 
 
-DA_P = ParamSpec('DA_P')
-DA_R = TypeVar('DA_R')
+DA_P = ParamSpec("DA_P")
+DA_R = TypeVar("DA_R")
 
 TIME_DEPENDENT_FUNCTIONS = []
 
+
 def dates_active(
-        start: str = "0001-01-01",
-        end: str = "9999-12-31",
-        change_name: Optional[str] = None
+    start: str = "0001-01-01",
+    end: str = "9999-12-31",
+    change_name: Optional[str] = None,
 ) -> Callable[[Callable[DA_P, DA_R]], Callable[DA_P, DA_R]]:
     """
     Parameters

@@ -3,13 +3,10 @@ import datetime
 import operator
 from functools import reduce
 
+import _gettsim.functions  # noqa: F401, F403
 import numpy as np
 import pandas as pd
 import yaml
-
-# This ensures that all functions are loaded and their decorators are executed
-import _gettsim.functions  # noqa: F401, F403
-
 from _gettsim.config import INTERNAL_PARAMS_GROUPS
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.piecewise_functions import check_thresholds
@@ -163,6 +160,8 @@ from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
 from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
 from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
 from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
+
+# This ensures that all functions are loaded and their decorators are executed
 
 
 def set_up_policy_environment(date):
