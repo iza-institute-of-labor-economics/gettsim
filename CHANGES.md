@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.6.0 —
 
+- {gh}`495` Add @dates_active decorator to easily specify when a function is active. ({ghuser}`lars-reimann`).
+
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
 
 - {gh}`323` Health care contribution parameters are better aligned with
