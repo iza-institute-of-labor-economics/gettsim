@@ -521,8 +521,8 @@ rentenwert:
     en: Pension value old and new federal states
   description:
     de: >-
-      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
-      Entgeltpunkt entspricht.
+      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für
+      einen Entgeltpunkt entspricht.
     en: >-
       The current pension value expresses the amount of monthly pension paid for one
       Entgeltpunkt.
@@ -798,7 +798,7 @@ altersgrenze_für_frauen_abschlagsfrei:
     en: Entry age for receiving Altersrente für Frauen
   description:
     de: >-
-      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren
+      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geb.
       vor 1952 in Rente gehen konnten.
     en: >-
       Piecewise linear function returning the age thresholds for retirement of women
@@ -853,8 +853,8 @@ altersgrenze_für_frauen_vorzeitig:
     en: Early retirement age for women.
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann (mit
-      Abschlägen).
+      Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann (
+      mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for women (with deductions).
   reference: § 237a SGB VI
@@ -875,12 +875,12 @@ altersgrenze_für_frauen_vorzeitig:
 
 altersgrenze_langj_versicherte_vorzeitig:
   name:
-    de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte.
+    de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
     en: Early retirement age for long term insured
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte bezogen
-      werden kann (mit Abschlägen).
+      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte be-
+      zogen werden kann (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for long term insured (with deductions).
   reference: § 236 SGB VI
@@ -946,7 +946,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
 altersgrenze_besonders_langj_versicherte:
   name:
     de: >-
-      Eintrittsalter für besond. langjährig versicherte - abschlagsfrei ("Rente mit 63")
+      Eintrittsalter für besond. langjährig versicherte - abschlagsfrei (Rente mit 63)
     en: Entry age for very long term insured (45 insurance years) without deductions
   description:
     de: >-
@@ -959,6 +959,9 @@ altersgrenze_besonders_langj_versicherte:
       allowed to get pensions with his full claim. If the agent retires earlier or
       later, the Zugangsfaktor and therefore the pension claim is higher or lower,
       unless special conditions apply.
+      *From 1.7.2014 all cohorts could claim the pension for very long term insured
+      but people born before 1.7.1951 were already older than 63 at that date. Only
+      cohorts born after 1.7.1949 could benefit since the others were above 65 already.
   reference: § 38 SGB VI
   note:
     de: >-
@@ -973,23 +976,16 @@ altersgrenze_besonders_langj_versicherte:
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 65
-  2014-07-01:
+  2014-07-01:  # See comment above *
     0:
       lower_threshold: -inf
-      upper_threshold: 1950
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
-    1:
-      lower_threshold: 1950
-      upper_threshold: 1951
-      rate_linear: -2
-    2:
       upper_threshold: 1952
       rate_linear: 0
-    3:
+      intercept_at_lower_threshold: 63
+    1:
       upper_threshold: 1964
       rate_linear: 0.16666666
-    4:
+    2:
       upper_threshold: inf
       rate_linear: 0
 
