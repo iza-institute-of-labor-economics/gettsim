@@ -44,9 +44,9 @@ def arbeitsl_geld_m(
 
 def arbeitsl_geld_restl_anspruchsd(
     alter: int,
-    soz_vers_pflicht_5j: int,
+    soz_vers_pflicht_5j: float,
     m_anwartschaftszeit: bool,
-    m_durchg_alg1_bezug: int,
+    m_durchg_alg1_bezug: float,
     arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the remaining amount of months a person can receive unemployment

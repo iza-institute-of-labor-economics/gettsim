@@ -486,7 +486,7 @@ Type: bool
 
 Months the individual already uninterruptedly receives Arbeitslosengeld
 
-Type: int
+Type: float
 
 (soz_vers_pflicht_5j)=
 
@@ -495,4 +495,4 @@ Type: int
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance
 
-Type: int
+Type: float

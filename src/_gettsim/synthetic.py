@@ -319,8 +319,6 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut_hh",
         "m_elterngeld_vat_hh",
-        "m_durchg_alg1_bezug",
-        "soz_vers_pflicht_5j",
     ]:
         df[int_col] = df[int_col].astype(int)
 

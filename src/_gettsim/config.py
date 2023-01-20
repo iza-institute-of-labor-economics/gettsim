@@ -128,8 +128,8 @@ TYPES_INPUT_VARIABLES = {
     "y_pflichtbeitr_ab_40": float,
     "m_anwartschaftszeit": bool,
     "arbeitssuchend": bool,
-    "m_durchg_alg1_bezug": int,
-    "soz_vers_pflicht_5j": int,
+    "m_durchg_alg1_bezug": float,
+    "soz_vers_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
 }
 
