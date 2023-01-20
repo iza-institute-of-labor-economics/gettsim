@@ -280,7 +280,7 @@ def create_one_set_of_households(
         "m_kind_berücks_zeit",
         "m_pfleg_berücks_zeit",
         "y_pflichtbeitr_ab_40",
-        "m_anwartschaftszeit",
+        "anwartschaftszeit",
         "arbeitssuchend",
         "m_durchg_alg1_bezug",
         "soz_vers_pflicht_5j",
@@ -308,7 +308,7 @@ def create_one_set_of_households(
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
         "schwerbeh_g",
-        "m_anwartschaftszeit",
+        "anwartschaftszeit",
         "arbeitssuchend",
     ]:
         df[bool_col] = False

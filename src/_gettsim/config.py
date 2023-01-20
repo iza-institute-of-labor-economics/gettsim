@@ -126,7 +126,7 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
-    "m_anwartschaftszeit": bool,
+    "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
     "soz_vers_pflicht_5j": float,

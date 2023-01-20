@@ -463,9 +463,9 @@ Received Bürgergeld in previous year
 
 Type: bool
 
-(m_anwartschaftszeit)=
+(anwartschaftszeit)=
 
-## `m_anwartschaftszeit`
+## `anwartschaftszeit`
 
 Dummy: at least 12 months of unemployment contributions in the 30 months before claiming
 unemployment insurance
