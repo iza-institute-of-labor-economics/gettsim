@@ -66,6 +66,9 @@ versioning](https://semver.org/) and all releases are available on
   Kindergeld is not set to 0 if Kinderfreibetrag is beneficial
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
+- {gh}`458` Calculate Vorsorgeaufwendungen on tax unit level and fix bug
+  ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
 
