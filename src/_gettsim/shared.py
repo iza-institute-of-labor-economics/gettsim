@@ -3,11 +3,6 @@ import textwrap
 from datetime import date
 from typing import Callable
 from typing import Optional
-from typing import TYPE_CHECKING
-from typing import TypeVar
-
-if TYPE_CHECKING:
-    from typing import ParamSpec
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -43,9 +38,6 @@ def add_rounding_spec(params_key):
     return inner
 
 
-DA_P = ParamSpec("DA_P")
-DA_R = TypeVar("DA_R")
-
 TIME_DEPENDENT_FUNCTIONS = []
 
 
@@ -53,7 +45,7 @@ def dates_active(
     start: str = "0001-01-01",
     end: str = "9999-12-31",
     change_name: Optional[str] = None,
-) -> Callable[[Callable[DA_P, DA_R]], Callable[DA_P, DA_R]]:
+) -> Callable:
     """
     Parameters
     ----------
@@ -71,7 +63,7 @@ def dates_active(
         and __dates_active_dag_key__.
     """
 
-    def inner(func: Callable[DA_P, DA_R]) -> Callable[DA_P, DA_R]:
+    def inner(func: Callable) -> Callable:
         func.__dates_active_start__ = date.fromisoformat(start)
         func.__dates_active_end__ = date.fromisoformat(end)
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
