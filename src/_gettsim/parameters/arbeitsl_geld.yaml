@@ -34,8 +34,8 @@ dauer_auszahlung:
     en: Requirements for ALG 1
   description:
     de: >-
-      ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65
-      ausgezahlt.
+      ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit
+      und für Personen unter 65 ausgezahlt.
     en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
   unit: Month
   reference: § 161 Abs.1 SGB III
