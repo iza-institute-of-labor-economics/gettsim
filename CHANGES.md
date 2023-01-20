@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## 0.6.0 —
 
+- {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
+
 - {gh}`323` Health care contribution parameters are better aligned with
   law. Restructure calculation of ges_krankenv, minor changes to
   ges_pflegev. ({ghuser}`Eric-Sommer`, {ghuser}`ChristianZimpelmann`).
@@ -64,11 +66,16 @@ versioning](https://semver.org/) and all releases are available on
   Kindergeld is not set to 0 if Kinderfreibetrag is beneficial
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
+- {gh}`458` Calculate Vorsorgeaufwendungen on tax unit level and fix bug
+  ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
 
-- {gh}`458` Calculate Vorsorgeaufwendungen on tax unit level and fix bug
-  ({ghuser}`ChristianZimpelmann`).
+- {gh}`484` Implement Kindersofortzuschlag. ({ghuser}`LauraGergeleit`).
+
+- {gh}`457` Corrected implementation of Arbeitslosengeld 1 ({ghuser}`paulinaschroeder`)
+
 
 ## 0.5.1 — 2022-04-21
 
