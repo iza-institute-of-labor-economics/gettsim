@@ -363,21 +363,6 @@ def load_functions_for_date(date):
         if f.__dates_active_start__ <= date <= f.__dates_active_end__
     }
 
-    if year < 2009:
-        functions["sum_eink"] = sum_eink_mit_kapital
-    else:
-        functions["sum_eink"] = sum_eink_ohne_kapital
-
-    if year <= 2014:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_bis_2014
-    else:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_ab_2015
-
-    if year <= 2004:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_bis_2004
-    else:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_ab_2005
-
     if year <= 1996:
         functions["eink_st_tu"] = eink_st_tu_bis_1996
     else:

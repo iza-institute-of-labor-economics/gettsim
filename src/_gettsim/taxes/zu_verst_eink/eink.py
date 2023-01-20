@@ -1,4 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import dates_active
 
 
 def eink_selbst(eink_selbst_m: float) -> float:
@@ -99,6 +100,7 @@ def eink_rente_zu_verst(
     return rente_ertragsanteil * 12 * sum_ges_rente_priv_rente_m
 
 
+@dates_active(start="2009-01-01", change_name="sum_eink")
 def sum_eink_ohne_kapital(
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
@@ -155,6 +157,7 @@ def kapitaleink(
     return max(out, 0.0)
 
 
+@dates_active(end="2008-12-31", change_name="sum_eink")
 def sum_eink_mit_kapital(
     sum_eink_ohne_kapital: float,
     kapitaleink: float,
