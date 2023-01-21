@@ -16,32 +16,6 @@ freibetrag:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
 
-altersgrenze:
-  name:
-    de: Altersgrenze  ALG 1
-    en: Age limit for ALG 1
-  description:
-    de: Nur Personen unter 65 Jahren haben einen Anspruch auf ALG1.
-    en: Only individuals under the age of 65 are eligible for ALG1.
-  unit: Year
-  reference: § 161 Abs.1 SGB III
-  1984-01-01:
-    alter: 65
-
-dauer_auszahlung:
-  name:
-    de: Voraussetzungen für ALG 1
-    en: Requirements for ALG 1
-  description:
-    de: >-
-      ALG 1 wird für die ersten 12 Monate der Arbeitslosigkeit und für Personen unter 65
-      ausgezahlt.
-    en: ALG 1 is paid for the first 12 months of unemployment and for people under 65.
-  unit: Month
-  reference: § 161 Abs.1 SGB III
-  1984-01-01:
-    max_dauer: 12
-
 soz_vers_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
@@ -191,3 +165,30 @@ stundengrenze:
   2012-04-01:
     scalar: 15
     reference: Art. 2 G. v. 20.12.2011 BGBl I S. 2854
+
+anspruchsdauer:
+  name:
+    de: Anspruchsdauer für ALG 1
+    en: lenght of ALG 1 eligibility
+  description:
+    de: >-
+      Dauer des Anspruchs auf ALG 1 richtet sich nach Alter und wie viele Monate
+      eine Person versicherungsplichtig in den letzten 5 Jahren war.
+    en: >-
+      The lenght of ALG 1 eligibility depends on age and on how many months a
+      person was subject to compulsory insurance
+  reference: § 147 Abs. 2 SGB III
+  1997-03-24:
+    nach_alter:
+      0: 12
+      50: 15
+      55: 18
+      58: 24
+    nach_versicherungspflichtige_monate:
+      12: 6
+      18: 8
+      20: 10
+      24: 12
+      30: 15
+      36: 18
+      48: 24

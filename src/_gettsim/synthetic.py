@@ -247,9 +247,6 @@ def create_one_set_of_households(
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
-        "arbeitsl_monate_lfdj",
-        "arbeitsl_monate_vorj",
-        "arbeitsl_monate_v2j",
         "arbeitsstunden_w",
         "bruttolohn_vorj_m",
         "geburtstag",
@@ -283,6 +280,11 @@ def create_one_set_of_households(
         "m_kind_berücks_zeit",
         "m_pfleg_berücks_zeit",
         "y_pflichtbeitr_ab_40",
+        "anwartschaftszeit",
+        "arbeitssuchend",
+        "m_durchg_alg1_bezug",
+        "soz_vers_pflicht_5j",
+        "bürgerg_bezug_vorj",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
@@ -306,6 +308,8 @@ def create_one_set_of_households(
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
         "schwerbeh_g",
+        "anwartschaftszeit",
+        "arbeitssuchend",
     ]:
         df[bool_col] = False
 
@@ -315,9 +319,6 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut_hh",
         "m_elterngeld_vat_hh",
-        "arbeitsl_monate_lfdj",
-        "arbeitsl_monate_vorj",
-        "arbeitsl_monate_v2j",
     ]:
         df[int_col] = df[int_col].astype(int)
 

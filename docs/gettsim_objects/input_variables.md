@@ -188,37 +188,13 @@ Dummy: Owner-occupied housing
 
 Type: bool
 
-(arbeitsl_monate_lfdj)=
-
-## `arbeitsl_monate_lfdj`
-
-Months in unemployment, current year
-
-Type: int
-
-(arbeitsl_monate_vorj)=
-
-## `arbeitsl_monate_vorj`
-
-Months in unemployment, previous year
-
-Type: int
-
-(arbeitsl_monate_v2j)=
-
-## `arbeitsl_monate_v2j`
-
-Months in unemployment, two years before
-
-Type: int
-
 (arbeitsstunden_w)=
 
 ## `arbeitsstunden_w`
 
 Weekly working hours of individual
 
-Type: int
+Type: float
 
 (bruttolohn_vorj_m)=
 
@@ -486,3 +462,37 @@ Type: float
 Received Bürgergeld in previous year
 
 Type: bool
+
+(anwartschaftszeit)=
+
+## `anwartschaftszeit`
+
+Dummy: at least 12 months of unemployment contributions in the 30 months before claiming
+unemployment insurance
+
+Type: bool
+
+(arbeitssuchend)=
+
+## `arbeitssuchend`
+
+Dummy: looking for employment
+
+Type: bool
+
+(m_durchg_alg1_bezug)=
+
+## `m_durchg_alg1_bezug`
+
+Months the individual already uninterruptedly receives Arbeitslosengeld
+
+Type: float
+
+(soz_vers_pflicht_5j)=
+
+## `soz_vers_pflicht_5j`
+
+Months of subjection to compulsory insurance in the 5 years before claiming unemployment
+insurance
+
+Type: float
