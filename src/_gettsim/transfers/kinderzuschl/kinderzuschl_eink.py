@@ -172,6 +172,10 @@ def kinderzuschl_eink_max_m_tu(
         + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_tu
     )
 
+    if "kindersofortzuschl" in kinderzuschl_params:
+        kindersofortzuschl = kinderzuschl_params["kindersofortzuschl"]
+        out += kindersofortzuschl * _kinderzuschl_anz_kinder_anspruch_tu
+
     return out
 
 
