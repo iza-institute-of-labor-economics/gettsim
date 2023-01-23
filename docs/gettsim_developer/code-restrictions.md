@@ -6,8 +6,8 @@ error if violated.
 
 ## If-Else Conditions
 
-1. The code inside an if, elif or else block can only perform one operation. For
-   example, the following is allowed:
+1. Code inside an if / elif / else block can only perform one operation. For example,
+   the following is allowed:
 
    ```python
    if x > 1:
@@ -59,8 +59,8 @@ error if violated.
 
    is not allowed.
 
-1. Only certain operations can be performed in the body of an if-elif-else condition.
-   For example, the following operations are allowed:
+1. Only certain operations can be performed in the body of an if / elif / else
+   condition. For example, the following operations are allowed:
 
    - Assigning a variable (e.g. `out = 1`)
    - Returning a value (e.g. `return 1`)
@@ -69,7 +69,7 @@ error if violated.
 
 ## Function Calls
 
-Certain restrictions apply to some functions from the base and math module.
+This is a list of restrictions applying to functions from the base and math modules.
 
 1. The following functions can only be called with iterable arguments:
 

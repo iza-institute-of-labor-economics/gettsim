@@ -10,5 +10,6 @@ maxdepth: 1
 ---
 code-of-conduct
 how-to-contribute
+code-restrictions
 how-to-maintain
 ```
