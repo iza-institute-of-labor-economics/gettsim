@@ -351,10 +351,8 @@ def load_functions_for_date(date):
 
     functions = {
         dag_key: f
-
         for dag_key, candidates in TIME_DEPENDENT_FUNCTIONS.items()
         for f in candidates
-
         if f.__dates_active_start__ <= date <= f.__dates_active_end__
     }
 

@@ -43,9 +43,9 @@ TIME_DEPENDENT_FUNCTIONS = {}
 
 
 def dates_active(
-        start: str = "0001-01-01",
-        end: str = "9999-12-31",
-        change_name: Optional[str] = None,
+    start: str = "0001-01-01",
+    end: str = "9999-12-31",
+    change_name: Optional[str] = None,
 ) -> Callable:
     """
     Parameters
@@ -102,9 +102,7 @@ def _validate_dashed_iso_date(date_str: str):
 
 def _validate_date_range(start: date, end: date):
     if start > end:
-        raise ValueError(
-            f"The start date {start} must be before the end date {end}."
-        )
+        raise ValueError(f"The start date {start} must be before the end date {end}.")
 
 
 def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: date):
@@ -116,11 +114,10 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
         # While testing the same function might be added to the registry again,
         # leading to wrong conflict errors. We prevent this by only reporting
         # conflicts if the functions have different names.
-        if (f.__name__ != function_name
-                and (
-                        start <= f.__dates_active_start__ <= end
-                        or f.__dates_active_start__ <= start <= f.__dates_active_end__
-                )):
+        if f.__name__ != function_name and (
+            start <= f.__dates_active_start__ <= end
+            or f.__dates_active_start__ <= start <= f.__dates_active_end__
+        ):
             raise ConflictingTimeDependentFunctionsError(
                 f"Conflicting functions for key {dag_key!r}: {f.__name__!r} "
                 f"({f.__dates_active_start__} to {f.__dates_active_end__}) "
