@@ -1,7 +1,16 @@
 import datetime
 
 import pytest
-from _gettsim.shared import dates_active
+from _gettsim.shared import dates_active, TIME_DEPENDENT_FUNCTIONS
+
+
+@pytest.fixture(autouse=True)
+def setup_and_teardown():
+    # Invoke test
+    yield
+
+    # Tear down
+    TIME_DEPENDENT_FUNCTIONS.clear()
 
 
 # Start date -----------------------------------------------
@@ -31,7 +40,6 @@ def test_dates_active_start_date_valid(date_string: str, expected: datetime.date
 )
 def test_dates_active_start_date_invalid(date_string: str):
     with pytest.raises(ValueError):
-
         @dates_active(start=date_string)
         def test_func():
             pass
@@ -72,7 +80,6 @@ def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
 )
 def test_dates_active_end_date_invalid(date_string: str):
     with pytest.raises(ValueError):
-
         @dates_active(end=date_string)
         def test_func():
             pass
