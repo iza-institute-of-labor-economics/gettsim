@@ -831,7 +831,7 @@ altersgrenze_für_frauen_abschlagsfrei:
       upper_threshold: 1944.916666666
       rate_linear: 1
     2:
-      upper_threshold: 1951.916666666 # constant 65
+      upper_threshold: 1951.916666666  # constant 65
       rate_linear: 0
     3:
       upper_threshold: 1952
@@ -870,7 +870,7 @@ altersgrenze_für_frauen_vorzeitig:
       upper_threshold: 1953
       rate_linear: 7
     2:
-      upper_threshold: inf # constant 67
+      upper_threshold: inf  # constant 67
       rate_linear: 0
 
 altersgrenze_langj_versicherte_vorzeitig:
@@ -931,32 +931,32 @@ altersgrenze_langj_versicherte_abschlagsfrei:
       upper_threshold: 1949.25
       rate_linear: 1
     4:
-      upper_threshold: 1950 # 1950.91667
-nuar 1937 wurde für jeden Monat, den die Person später geboren wurde das
-      Eintrittsalter um 1 Monat erhöht bis Geburtsdatum Dezember 1938: Eintrittsalter
-      65. Dieses Eintrittsalter galt bis einschließlich Jahrgang 1948. Ab Geburtsdatum
-      März 1949 entspricht die Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3
-      Monate. Für Geburtsdatum 1/1949 ist sie 65, 1 Monat. Für 2/1949 65, 2 Monate.
-    en: null
-  type: piecewise_linear
-  1984-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1936.916667
-      rate_linear: 0
-      intercept_at_lower_threshold: 63
-    1:
-      upper_threshold: 1938.916666666
-      rate_linear: 1
-    2:
-      upper_threshold: 1948.916666666
-      rate_linear: 0
-    3:
-      upper_threshold: 1949.25
-      rate_linear: 1
-    4:
       upper_threshold: 1950  # 1950.91667
-laim. If the agent retires earlier or
+      rate_linear: 0
+    5:
+      upper_threshold: 1958
+      rate_linear: 0.08333333
+    6:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    7:
+      upper_threshold: inf
+      rate_linear: 0
+
+altersgrenze_besonders_langj_versicherte:
+  name:
+    de: >-
+      Eintrittsalter für besond. langjährig versicherte - abschlagsfrei (Rente mit 63)
+    en: Entry age for very long term insured (45 insurance years) without deductions
+  description:
+    de: >-
+      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das
+      Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
+      früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
+      höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
+    en: >-
+      Piecewise linear function returning the regelaltersgrenze at which the agent is
+      allowed to get pensions with his full claim. If the agent retires earlier or
       later, the Zugangsfaktor and therefore the pension claim is higher or lower,
       unless special conditions apply.
       *From 1.7.2014 all cohorts could claim the pension for very long term insured
