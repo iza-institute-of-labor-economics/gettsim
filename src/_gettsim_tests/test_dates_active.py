@@ -24,6 +24,7 @@ def test_dates_active_start_date_valid(date_string: str, expected: datetime.date
 @pytest.mark.parametrize(
     "date_string",
     [
+        "20230120",
         "20.1.2023",
         "20th January 2023",
     ],
@@ -64,6 +65,7 @@ def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
 @pytest.mark.parametrize(
     "date_string",
     [
+        "20230120",
         "20.1.2023",
         "20th January 2023",
     ],

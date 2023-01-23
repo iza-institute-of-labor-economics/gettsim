@@ -1,4 +1,5 @@
 import inspect
+import re
 import textwrap
 from datetime import date
 from typing import Callable
@@ -39,6 +40,7 @@ def add_rounding_spec(params_key):
 
 
 TIME_DEPENDENT_FUNCTIONS = []
+_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
 def dates_active(
@@ -50,9 +52,9 @@ def dates_active(
     Parameters
     ----------
     start
-        The start date (inclusive) in the format YYYY-MM-DD (ISO 8601).
+        The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     end
-        The end date (inclusive) in the format YYYY-MM-DD (ISO 8601).
+        The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     change_name
         The name that should be used as the key for the function in the DAG.
         If omitted, we use the name of the function as defined.
@@ -62,6 +64,11 @@ def dates_active(
         The function with attributes __dates_active_start__, __dates_active_end__,
         and __dates_active_dag_key__.
     """
+
+    if not _dashed_iso_date.match(start):
+        raise ValueError("Start date must be in the format YYYY-MM-DD.")
+    if not _dashed_iso_date.match(end):
+        raise ValueError("End date must be in the format YYYY-MM-DD.")
 
     def inner(func: Callable) -> Callable:
         func.__dates_active_start__ = date.fromisoformat(start)
