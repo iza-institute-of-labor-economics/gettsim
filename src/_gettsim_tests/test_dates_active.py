@@ -157,30 +157,28 @@ def test_dates_active_no_conflict(
 
 
 @pytest.mark.parametrize(
-    "dag_key_1, start_1, end_1, dag_key_2, start_2, end_2",
+    "start_1, end_1, start_2, end_2",
     [
-        ("func_1", "2023-01-01", "2023-01-31", "func_1", "2023-01-01", "2023-01-31"),
-        ("func_1", "2023-01-01", "2023-01-31", "func_1", "2022-01-02", "2023-01-30"),
-        ("func_1", "2023-01-02", "2023-01-30", "func_1", "2022-01-01", "2023-01-31"),
-        ("func_1", "2023-01-01", "2023-01-31", "func_1", "2022-01-02", "2023-02-01"),
-        ("func_1", "2023-01-02", "2023-02-01", "func_1", "2022-01-01", "2023-01-31"),
+        ("2023-01-01", "2023-01-31", "2023-01-01", "2023-01-31"),
+        ("2023-01-01", "2023-01-31", "2022-01-02", "2023-01-30"),
+        ("2023-01-02", "2023-01-30", "2022-01-01", "2023-01-31"),
+        ("2023-01-01", "2023-01-31", "2022-01-02", "2023-02-01"),
+        ("2023-01-02", "2023-02-01", "2022-01-01", "2023-01-31"),
     ],
 )
 def test_dates_active_conflict(
-    dag_key_1: str,
     start_1: str,
     end_1: str,
-    dag_key_2: str,
     start_2: str,
     end_2: str,
 ):
-    @dates_active(change_name=dag_key_1, start=start_1, end=end_1)
+    @dates_active(change_name="func_1", start=start_1, end=end_1)
     def func_1():
         pass
 
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
 
-        @dates_active(change_name=dag_key_2, start=start_2, end=end_2)
+        @dates_active(change_name="func_1", start=start_2, end=end_2)
         def func_2():
             pass
