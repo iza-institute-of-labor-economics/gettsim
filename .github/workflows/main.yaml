@@ -51,7 +51,7 @@ jobs:
           cache-downloads: true
 
       - name: Run tests with numpy backend on Linux and Windows
-        if: runner.os != "macOS"
+        if: runner.os != 'macOS'
         run: >-
           micromamba run -n gettsim pytest src \
           --ignore=dashboard/ \
@@ -59,7 +59,7 @@ jobs:
           --cov-report=xml
 
       - name: Run tests with jax backend on Linux and MacOS
-        if: runner.os != "Windows"
+        if: runner.os != 'Windows'
         run: >-
           micromamba run -n gettsim pytest src --use-jax --ignore=dashboard/
 
