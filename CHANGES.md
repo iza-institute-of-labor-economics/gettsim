@@ -71,10 +71,15 @@ versioning](https://semver.org/) and all releases are available on
   Kindergeld is not set to 0 if Kinderfreibetrag is beneficial
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
+- {gh}`458` Calculate Vorsorgeaufwendungen on tax unit level and fix bug
+  ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`461` Fix bug in calculation of income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
 
 - {gh}`484` Implement Kindersofortzuschlag. ({ghuser}`LauraGergeleit`).
+
+- {gh}`457` Corrected implementation of Arbeitslosengeld 1 ({ghuser}`paulinaschroeder`)
 
 ## 0.5.1 — 2022-04-21
 
