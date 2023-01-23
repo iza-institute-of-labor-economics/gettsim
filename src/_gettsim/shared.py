@@ -43,9 +43,9 @@ TIME_DEPENDENT_FUNCTIONS = []
 
 
 def dates_active(
-    start: str = "0001-01-01",
-    end: str = "9999-12-31",
-    change_name: Optional[str] = None,
+        start: str = "0001-01-01",
+        end: str = "9999-12-31",
+        change_name: Optional[str] = None,
 ) -> Callable:
     """
     Parameters
@@ -77,7 +77,7 @@ def dates_active(
         func.__dates_active_end__ = end_date
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
 
-        _check_for_conflicts(func.__dates_active_dag_key__, start_date, end_date)
+        _check_for_conflicts(func.__name__, func.__dates_active_dag_key__, start_date, end_date)
         TIME_DEPENDENT_FUNCTIONS.append(func)
 
         return func
@@ -96,24 +96,28 @@ def _validate_dashed_iso_date(date_str: str):
 def _validate_date_range(start: date, end: date):
     if start > end:
         raise ValueError(
-            f"The start date {start.isoformat()} must be before the end date "
-            f"{end.isoformat()}."
+            f"The start date {start} must be before the end date {end}."
         )
 
 
-def _check_for_conflicts(dag_key: str, start: date, end: date):
-    if any(
-        f.__dates_active_dag_key__ == dag_key
-        and (
-            start <= f.__dates_active_start__ <= end
-            or f.__dates_active_start__ <= start <= f.__dates_active_end__
-        )
-        for f in TIME_DEPENDENT_FUNCTIONS
-    ):
-        raise ConflictingTimeDependentFunctionsError(
-            f"The time period of {dag_key} ({start} to {end}) overlaps with another "
-            f"function's time period."
-        )
+def _check_for_conflicts(function_name: str, dag_key: str, start: date, end: date):
+    for f in TIME_DEPENDENT_FUNCTIONS:
+
+        # While testing the same function might be added to the registry again,
+        # leading to wrong conflict errors. We prevent this by only reporting
+        # conflicts if the functions have different names.
+        if (f.__name__ != function_name
+                and f.__dates_active_dag_key__ == dag_key
+                and (
+                        start <= f.__dates_active_start__ <= end
+                        or f.__dates_active_start__ <= start <= f.__dates_active_end__
+                )):
+            raise ConflictingTimeDependentFunctionsError(
+                f"Conflicting functions for key {dag_key!r}: {f.__name__!r} "
+                f"({f.__dates_active_start__} to {f.__dates_active_end__}) "
+                f"vs. {function_name!r} ({f.__dates_active_start__} to "
+                f"{f.__dates_active_end__})."
+            )
 
 
 class ConflictingTimeDependentFunctionsError(Exception):
@@ -126,7 +130,7 @@ class ConflictingTimeDependentFunctionsError(Exception):
 
     """
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
 
     def __str__(self):
