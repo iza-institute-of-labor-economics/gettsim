@@ -39,7 +39,7 @@ def add_rounding_spec(params_key):
     return inner
 
 
-TIME_DEPENDENT_FUNCTIONS = {}
+TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
 def dates_active(
@@ -111,7 +111,7 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
 
     for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
 
-        # While testing the same function might be added to the registry again,
+        # While testing, the same function might be added to the registry again,
         # leading to wrong conflict errors. We prevent this by only reporting
         # conflicts if the functions have different names.
         if f.__name__ != function_name and (
