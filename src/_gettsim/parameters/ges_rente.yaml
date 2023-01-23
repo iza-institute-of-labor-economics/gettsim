@@ -976,7 +976,7 @@ altersgrenze_besonders_langj_versicherte:
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 65
-  2014-07-01:  # See comment above *
+  2014-07-01:
     0:
       lower_threshold: -inf
       upper_threshold: 1952
