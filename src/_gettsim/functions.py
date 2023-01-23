@@ -29,5 +29,5 @@ from _gettsim.transfers.kinderzuschl.kinderzuschl import *  # noqa: F401, F403
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import *  # noqa: F401, F403
 from _gettsim.transfers.kinderzuschl.kost_unterk import *  # noqa: F401, F403
 from _gettsim.transfers.rente import *  # noqa: F401, F403
-from _gettsim.transfers.unterhalt import *  # noqa: F401, F403
+from _gettsim.transfers.unterhaltsv import *  # noqa: F401, F403
 from _gettsim.transfers.wohngeld import *  # noqa: F401, F403
