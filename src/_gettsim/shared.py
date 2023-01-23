@@ -39,7 +39,7 @@ def add_rounding_spec(params_key):
     return inner
 
 
-TIME_DEPENDENT_FUNCTIONS = []
+TIME_DEPENDENT_FUNCTIONS = {}
 
 
 def dates_active(
@@ -73,12 +73,19 @@ def dates_active(
     _validate_date_range(start_date, end_date)
 
     def inner(func: Callable) -> Callable:
+        dag_key = change_name if change_name else func.__name__
+
+        _check_for_conflicts(dag_key, func.__name__, start_date, end_date)
+
+        # Remember data from decorator
         func.__dates_active_start__ = start_date
         func.__dates_active_end__ = end_date
-        func.__dates_active_dag_key__ = change_name if change_name else func.__name__
+        func.__dates_active_dag_key__ = dag_key
 
-        _check_for_conflicts(func.__name__, func.__dates_active_dag_key__, start_date, end_date)
-        TIME_DEPENDENT_FUNCTIONS.append(func)
+        # Register time-dependent function
+        if dag_key not in TIME_DEPENDENT_FUNCTIONS:
+            TIME_DEPENDENT_FUNCTIONS[dag_key] = []
+        TIME_DEPENDENT_FUNCTIONS[dag_key].append(func)
 
         return func
 
@@ -100,14 +107,16 @@ def _validate_date_range(start: date, end: date):
         )
 
 
-def _check_for_conflicts(function_name: str, dag_key: str, start: date, end: date):
-    for f in TIME_DEPENDENT_FUNCTIONS:
+def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: date):
+    if dag_key not in TIME_DEPENDENT_FUNCTIONS:
+        return
+
+    for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
 
         # While testing the same function might be added to the registry again,
         # leading to wrong conflict errors. We prevent this by only reporting
         # conflicts if the functions have different names.
         if (f.__name__ != function_name
-                and f.__dates_active_dag_key__ == dag_key
                 and (
                         start <= f.__dates_active_start__ <= end
                         or f.__dates_active_start__ <= start <= f.__dates_active_end__
