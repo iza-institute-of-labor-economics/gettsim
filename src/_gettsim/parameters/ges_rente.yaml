@@ -521,8 +521,8 @@ rentenwert:
     en: Pension value old and new federal states
   description:
     de: >-
-      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für
-      einen Entgeltpunkt entspricht.
+      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen 
+      Entgeltpunkt entspricht.
     en: >-
       The current pension value expresses the amount of monthly pension paid for one
       Entgeltpunkt.
@@ -831,7 +831,7 @@ altersgrenze_für_frauen_abschlagsfrei:
       upper_threshold: 1944.916666666
       rate_linear: 1
     2:
-      upper_threshold: 1951.916666666  # constant 65
+      upper_threshold: 1951.916666666 # constant 65
       rate_linear: 0
     3:
       upper_threshold: 1952
@@ -870,7 +870,7 @@ altersgrenze_für_frauen_vorzeitig:
       upper_threshold: 1953
       rate_linear: 7
     2:
-      upper_threshold: inf  # constant 67
+      upper_threshold: inf # constant 67
       rate_linear: 0
 
 altersgrenze_langj_versicherte_vorzeitig:
@@ -931,7 +931,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
       upper_threshold: 1949.25
       rate_linear: 1
     4:
-      upper_threshold: 1950  # 1950.91667
+      upper_threshold: 1950 # 1950.91667
       rate_linear: 0
     5:
       upper_threshold: 1958
