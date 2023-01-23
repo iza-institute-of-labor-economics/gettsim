@@ -40,13 +40,12 @@ def add_rounding_spec(params_key):
 
 
 TIME_DEPENDENT_FUNCTIONS = []
-_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
 def dates_active(
-    start: str = "0001-01-01",
-    end: str = "9999-12-31",
-    change_name: Optional[str] = None,
+        start: str = "0001-01-01",
+        end: str = "9999-12-31",
+        change_name: Optional[str] = None,
 ) -> Callable:
     """
     Parameters
@@ -65,14 +64,17 @@ def dates_active(
         and __dates_active_dag_key__.
     """
 
-    if not _dashed_iso_date.match(start):
-        raise ValueError("Start date must be in the format YYYY-MM-DD.")
-    if not _dashed_iso_date.match(end):
-        raise ValueError("End date must be in the format YYYY-MM-DD.")
+    _validate_dashed_iso_date(start)
+    _validate_dashed_iso_date(end)
+
+    start_date = date.fromisoformat(start)
+    end_date = date.fromisoformat(end)
+
+    _validate_dashed_iso_date_range(start_date, end_date)
 
     def inner(func: Callable) -> Callable:
-        func.__dates_active_start__ = date.fromisoformat(start)
-        func.__dates_active_end__ = date.fromisoformat(end)
+        func.__dates_active_start__ = start_date
+        func.__dates_active_end__ = end_date
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
 
         TIME_DEPENDENT_FUNCTIONS.append(func)
@@ -80,6 +82,37 @@ def dates_active(
         return func
 
     return inner
+
+
+_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def _validate_dashed_iso_date(date_str: str):
+    if not _dashed_iso_date.match(date_str):
+        raise ValueError(fr"Date {date_str} does not match the format YYYY-MM-DD.")
+
+
+def _validate_dashed_iso_date_range(start: date, end: date):
+    if start > end:
+        raise ValueError(
+            f"The start date {start.isoformat()} must be before the end date {end.isoformat()}."
+        )
+
+
+class ConflictingTimeDependentFunctionsError(Exception):
+    """Exception raised when two time dependent functions are active at the same time.
+
+    Attributes
+    ----------
+    message : str
+        The error message.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return self.message
 
 
 def format_list_linewise(list_):
