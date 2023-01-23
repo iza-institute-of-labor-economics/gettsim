@@ -7,14 +7,14 @@ beitr_satz:
     de:
       ges_krankenv: >-
         Beitragssätze für gesetzliche Krankenversicherung. mean_allgemein -
-        durchschnittlicher Beitragssatz, bis 2008 allgemein - allgemeiner Satz (§241
-        SGB V), ab 2009 sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
+        durchschnittlicher Beitragssatz, bis 2008 allgemein - allgemeiner Satz (§241 SGB
+        V), ab 2009 sonderbeitrag - bezahlt von Arbeitnehmern, ab Jul 2005 bis 2014
         ermäßigt - ermäßigter Satz (§243 SGB V) zusatz - durchschnittlicher
         Zusatzbeitragssatz.
       ges_pflegev: >-
         Beitragssätze für gesetzliche Pflegeversicherung. standard - Beitragssatz für
-        Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte,
-        die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer alleine getragen.
+        Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte, die
+        das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer alleine getragen.
         Eingeführt 2005.
       arbeitsl_v: Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
       ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
