@@ -7,6 +7,7 @@ write_to = "src/_gettsim/_version.py"
 
 [tool.mypy]
 files = ["src"]
+exclude = "conftest.py"
 check_untyped_defs = true
 disallow_any_generics = false
 disallow_incomplete_defs = true

@@ -50,9 +50,18 @@ jobs:
             jax
           cache-downloads: true
 
-      - name: Run tests
+      - name: Run tests with numpy backend on Linux and Windows
+        if: runner.os != "macOS"
         run: >-
-          micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
+          micromamba run -n gettsim pytest src \
+          --ignore=dashboard/ \
+          --cov=./ \
+          --cov-report=xml
+
+      - name: Run tests with jax backend on Linux and MacOS
+        if: runner.os != "Windows"
+        run: >-
+          micromamba run -n gettsim pytest src --use-jax --ignore=dashboard/
 
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
