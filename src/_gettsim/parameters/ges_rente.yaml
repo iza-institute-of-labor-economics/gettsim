@@ -521,8 +521,8 @@ rentenwert:
     en: Pension value old and new federal states
   description:
     de: >-
-      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
-      Entgeltpunkt entspricht.
+      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für
+      einen Entgeltpunkt entspricht.
     en: >-
       The current pension value expresses the amount of monthly pension paid for one
       Entgeltpunkt.
@@ -799,6 +799,7 @@ altersgrenze_für_frauen_abschlagsfrei:
   description:
     de: >-
       Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren
+      vor 1952 in Rente gehen konnten.
     en: >-
       Piecewise linear function returning the age thresholds for retirement of women
       born before 1952.
@@ -878,8 +879,8 @@ altersgrenze_langj_versicherte_vorzeitig:
     en: Early retirement age for long term insured
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte be-
-      zogen werden kann (mit Abschlägen).
+      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte bezogen
+      werden kann (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for long term insured (with deductions).
   reference: § 236 SGB VI
