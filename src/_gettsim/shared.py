@@ -70,7 +70,7 @@ def dates_active(
     start_date = date.fromisoformat(start)
     end_date = date.fromisoformat(end)
 
-    _validate_dashed_iso_date_range(start_date, end_date)
+    _validate_date_range(start_date, end_date)
 
     def inner(func: Callable) -> Callable:
         func.__dates_active_start__ = start_date
@@ -93,7 +93,7 @@ def _validate_dashed_iso_date(date_str: str):
         raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
 
 
-def _validate_dashed_iso_date_range(start: date, end: date):
+def _validate_date_range(start: date, end: date):
     if start > end:
         raise ValueError(
             f"The start date {start.isoformat()} must be before the end date "
