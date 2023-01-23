@@ -118,7 +118,9 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
         # conflicts if the functions have different names.
         if f.__name__ != function_name and (
             start <= f.__gettsim__["dates_active_start"] <= end
-            or f.__gettsim__["dates_active_start"] <= start <= f.__gettsim__["dates_active_end"]
+            or f.__gettsim__["dates_active_start"]
+            <= start
+            <= f.__gettsim__["dates_active_end"]
         ):
             raise ConflictingTimeDependentFunctionsError(
                 f"Conflicting functions for key {dag_key!r}: {f.__name__!r} "
