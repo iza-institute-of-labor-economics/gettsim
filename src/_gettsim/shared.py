@@ -43,9 +43,9 @@ TIME_DEPENDENT_FUNCTIONS = []
 
 
 def dates_active(
-        start: str = "0001-01-01",
-        end: str = "9999-12-31",
-        change_name: Optional[str] = None,
+    start: str = "0001-01-01",
+    end: str = "9999-12-31",
+    change_name: Optional[str] = None,
 ) -> Callable:
     """
     Parameters
@@ -90,7 +90,7 @@ _dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def _validate_dashed_iso_date(date_str: str):
     if not _dashed_iso_date.match(date_str):
-        raise ValueError(fr"Date {date_str} does not match the format YYYY-MM-DD.")
+        raise ValueError(rf"Date {date_str} does not match the format YYYY-MM-DD.")
 
 
 def _validate_dashed_iso_date_range(start: date, end: date):
@@ -102,12 +102,12 @@ def _validate_dashed_iso_date_range(start: date, end: date):
 
 def _check_for_conflicts(dag_key: str, start: date, end: date):
     if any(
-            f.__dates_active_dag_key__ == dag_key
-            and (
-                    start <= f.__dates_active_start__ <= end
-                    or f.__dates_active_start__ <= start <= f.__dates_active_end__
-            )
-            for f in TIME_DEPENDENT_FUNCTIONS
+        f.__dates_active_dag_key__ == dag_key
+        and (
+            start <= f.__dates_active_start__ <= end
+            or f.__dates_active_start__ <= start <= f.__dates_active_end__
+        )
+        for f in TIME_DEPENDENT_FUNCTIONS
     ):
         raise ConflictingTimeDependentFunctionsError(
             f"The time period of {dag_key} ({start} to {end}) overlaps with another "
@@ -122,6 +122,7 @@ class ConflictingTimeDependentFunctionsError(Exception):
     ----------
     message : str
         The error message.
+
     """
 
     def __init__(self, message):
