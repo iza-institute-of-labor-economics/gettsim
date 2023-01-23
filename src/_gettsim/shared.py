@@ -77,6 +77,7 @@ def dates_active(
         func.__dates_active_end__ = end_date
         func.__dates_active_dag_key__ = change_name if change_name else func.__name__
 
+        _check_for_conflicts(func.__dates_active_dag_key__, start_date, end_date)
         TIME_DEPENDENT_FUNCTIONS.append(func)
 
         return func
@@ -96,6 +97,21 @@ def _validate_dashed_iso_date_range(start: date, end: date):
     if start > end:
         raise ValueError(
             f"The start date {start.isoformat()} must be before the end date {end.isoformat()}."
+        )
+
+
+def _check_for_conflicts(dag_key: str, start: date, end: date):
+    if any(
+            f.__dates_active_dag_key__ == dag_key
+            and (
+                    start <= f.__dates_active_start__ <= end
+                    or f.__dates_active_start__ <= start <= f.__dates_active_end__
+            )
+            for f in TIME_DEPENDENT_FUNCTIONS
+    ):
+        raise ConflictingTimeDependentFunctionsError(
+            f"The time period of {dag_key} ({start} to {end}) overlaps with another "
+            f"function's time period."
         )
 
 
