@@ -29,7 +29,7 @@ def test_dates_active_start_date_valid(date_string: str, expected: datetime.date
     def test_func():
         pass
 
-    assert test_func.__dates_active_start__ == expected
+    assert test_func.__gettsim__["dates_active_start"] == expected
 
 
 @pytest.mark.parametrize(
@@ -53,7 +53,7 @@ def test_dates_active_start_date_missing():
     def test_func():
         pass
 
-    assert test_func.__dates_active_start__ == datetime.date(1, 1, 1)
+    assert test_func.__gettsim__["dates_active_start"] == datetime.date(1, 1, 1)
 
 
 # End date -------------------------------------------------
@@ -70,7 +70,7 @@ def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
     def test_func():
         pass
 
-    assert test_func.__dates_active_end__ == expected
+    assert test_func.__gettsim__["dates_active_end"] == expected
 
 
 @pytest.mark.parametrize(
@@ -94,7 +94,7 @@ def test_dates_active_end_date_missing():
     def test_func():
         pass
 
-    assert test_func.__dates_active_end__ == datetime.date(9999, 12, 31)
+    assert test_func.__gettsim__["dates_active_end"] == datetime.date(9999, 12, 31)
 
 
 # Change name ----------------------------------------------
@@ -105,7 +105,7 @@ def test_dates_active_change_name_given():
     def test_func():
         pass
 
-    assert test_func.__dates_active_dag_key__ == "renamed_func"
+    assert test_func.__gettsim__["dates_active_dag_key"] == "renamed_func"
 
 
 def test_dates_active_change_name_missing():
@@ -113,7 +113,7 @@ def test_dates_active_change_name_missing():
     def test_func():
         pass
 
-    assert test_func.__dates_active_dag_key__ == "test_func"
+    assert test_func.__gettsim__["dates_active_dag_key"] == "test_func"
 
 
 # Empty interval -------------------------------------------

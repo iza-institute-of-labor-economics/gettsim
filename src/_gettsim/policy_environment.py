@@ -353,7 +353,7 @@ def load_functions_for_date(date):
         dag_key: f
         for dag_key, candidates in TIME_DEPENDENT_FUNCTIONS.items()
         for f in candidates
-        if f.__dates_active_start__ <= date <= f.__dates_active_end__
+        if f.__gettsim__["dates_active_start"] <= date <= f.__gettsim__["dates_active_end"]
     }
 
     if year <= 1996:
