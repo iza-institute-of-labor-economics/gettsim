@@ -526,6 +526,9 @@ def _ges_rente_besond_langj_altersgrenze(
     """Calculates the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
+    # ToDo: This function should only exist from 2014-07-01 onwards. Add decorator once
+    # ToDo: this functionality is available.
+
     Parameters
     ----------
     geburtsjahr
