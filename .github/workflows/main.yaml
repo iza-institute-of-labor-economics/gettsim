@@ -53,10 +53,7 @@ jobs:
       - name: Run tests with numpy backend on Linux and Windows
         if: runner.os != 'macOS'
         run: >-
-          micromamba run -n gettsim pytest src \
-          --ignore=dashboard/ \
-          --cov=./ \
-          --cov-report=xml
+          micromamba run -n gettsim pytest src --cov=./ --cov-report=xml
 
       - name: Run tests with jax backend on Linux and MacOS
         if: runner.os != 'Windows'
