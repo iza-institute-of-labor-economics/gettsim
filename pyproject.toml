@@ -128,7 +128,7 @@ pyupgrade = 1
 
 [tool.nbqa.addopts]
 isort = ["--treat-comment-as-code", "# %%", "--profile=black"]
-pyupgrade = ["--py36-plus"]
+pyupgrade = ["--py37-plus"]
 
 
 [tool.pytest.ini_options]
