@@ -15,13 +15,18 @@ import warnings
 
 import pytest
 from _gettsim_tests import TEST_DIR
-from _gettsim.config import RESOURCE_DIR
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.visualization import plot_dag
-
 from _gettsim.synthetic import create_synthetic_data
-
+from _gettsim import config
+from _gettsim import aggregation
+from _gettsim import piecewise_functions
+from _gettsim import shared
+from _gettsim import taxes
+from _gettsim import transfers
+from _gettsim import gettsim_typing
+from _gettsim import visualization
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
 
@@ -44,10 +49,16 @@ __all__ = [
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
-    "RESOURCE_DIR",
-    # ToDo: Remove remainder.
+    # ToDo: See what can be changed/removed from remainder.
+    "aggregation",
+    "config",
+    "piecewise_functions",
+    "policy_environment",
+    "shared",
     "social_insurance_contributions",
     "create_synthetic_data",
     "taxes",
     "transfers",
+    "gettsim_typing",
+    "visualization",
 ]
