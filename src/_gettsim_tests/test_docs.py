@@ -131,10 +131,7 @@ def test_type_hints():
     for name, func in functions.items():
         for var, internal_type in func.__annotations__.items():
             if var == "return":
-                if name in time_dependent_functions:
-                    output_name = time_dependent_functions[name]
-                else:
-                    output_name = name
+                output_name = time_dependent_functions.get(name, name)
 
                 if output_name in return_types:
                     if return_types[output_name] != internal_type:

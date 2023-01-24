@@ -13,7 +13,7 @@ from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim_tests import TEST_DATA_DIR
 
 YEARS = [2019]
-INPUT_COLS = list(TYPES_INPUT_VARIABLES.keys()) + ["sum_ges_rente_priv_rente_m"]
+INPUT_COLS = [*list(TYPES_INPUT_VARIABLES.keys()), "sum_ges_rente_priv_rente_m"]
 OUT_COLS = [
     "eink_st_tu",
     "soli_st_tu",
@@ -72,7 +72,6 @@ def test_data_types(
     year_data = input_data[input_data["jahr"] == year].copy()
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=year)
-    # params["renten_daten"] = renten_daten
 
     data = compute_taxes_and_transfers(
         data=df,

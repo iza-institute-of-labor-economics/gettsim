@@ -165,7 +165,7 @@ def create_synthetic_data(
         dim_counter = 0
         # find out how many dimensions there are in order to set household id.
         # loop over variables to vary
-        for hetvar in heterogeneous_vars.keys():
+        for hetvar in heterogeneous_vars:
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
@@ -421,10 +421,10 @@ def create_one_set_of_households(
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df = df.reset_index()
-    df = df.sort_values(by=group_ids + ["index"])
+    df = df.sort_values(by=[*group_ids, "index"])
     df = df.drop(columns=["index"]).reset_index(drop=True)
     df["p_id"] = df.index + p_id_min
 
-    df = df.sort_values(by=group_ids + ["p_id"])
+    df = df.sort_values(by=[*group_ids, "p_id"])
 
-    return df[["p_id"] + group_ids + ["hh_typ"] + output_columns]
+    return df[["p_id", *group_ids] + ["hh_typ"] + output_columns]

@@ -643,7 +643,7 @@ def _add_rounding_to_one_function(base, direction):
             out = func(*args, **kwargs)
 
             # Check inputs.
-            if not (type(base) in [int, float]):
+            if type(base) not in [int, float]:
                 raise ValueError(
                     f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )

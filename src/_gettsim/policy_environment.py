@@ -636,9 +636,7 @@ def _load_parameter_group_from_yaml(
     # Load values of all parameters at the specified date
     for param in parameters:
         policy_dates = sorted(
-            key
-            for key in raw_group_data[param].keys()
-            if isinstance(key, datetime.date)
+            key for key in raw_group_data[param] if isinstance(key, datetime.date)
         )
 
         past_policies = [d for d in policy_dates if d <= date]
@@ -647,7 +645,7 @@ def _load_parameter_group_from_yaml(
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
             # Otherwise, do not create an entry for this parameter.
-            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
+            if "deviation_from" in raw_group_data[param][np.min(policy_dates)]:
                 future_policy = raw_group_data[param][np.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
@@ -662,7 +660,7 @@ def _load_parameter_group_from_yaml(
 
         else:
             policy_in_place = raw_group_data[param][np.max(past_policies)]
-            if "scalar" in policy_in_place.keys():
+            if "scalar" in policy_in_place:
                 if policy_in_place["scalar"] == "inf":
                     out_params[param] = np.inf
                 else:
@@ -675,9 +673,9 @@ def _load_parameter_group_from_yaml(
                     if key in raw_group_data[param]:
                         out_params[param][key] = raw_group_data[param][key]
                 value_keys = (
-                    key for key in policy_in_place.keys() if key not in not_trans_keys
+                    key for key in policy_in_place if key not in not_trans_keys
                 )
-                if "deviation_from" in policy_in_place.keys():
+                if "deviation_from" in policy_in_place:
                     if policy_in_place["deviation_from"] == "previous":
                         new_date = np.max(past_policies) - datetime.timedelta(days=1)
                         out_params[param] = _load_parameter_group_from_yaml(
@@ -754,7 +752,7 @@ def _load_rounding_parameters(date, rounding_spec):
         # Find all specified policy dates before date.
         policy_dates_before_date = sorted(
             key
-            for key in rounding_spec_func.keys()
+            for key in rounding_spec_func
             if isinstance(key, datetime.date) and key <= date
         )
 
@@ -776,8 +774,8 @@ def _load_rounding_parameters(date, rounding_spec):
 def transfer_dictionary(remaining_dict, new_dict, key_list):
     # To call recursive, always check if object is a dict
     if isinstance(remaining_dict, dict):
-        for key in remaining_dict.keys():
-            key_list_updated = key_list + [key]
+        for key in remaining_dict:
+            key_list_updated = [*key_list, key]
             new_dict = transfer_dictionary(
                 remaining_dict[key], new_dict, key_list_updated
             )

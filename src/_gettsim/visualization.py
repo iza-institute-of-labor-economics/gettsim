@@ -450,7 +450,7 @@ def _to_list(scalar_or_iter):
     """
     return (
         [scalar_or_iter]
-        if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
+        if isinstance(scalar_or_iter, (str, dict))
         else list(scalar_or_iter)
     )
 
@@ -538,20 +538,20 @@ def _node_and_ancestors(dag, node, order):
     ancestors = list(nx.ancestors(dag, node))
     if order:
         ancestors = list(_kth_order_predecessors(dag, node, order=order))
-    return [node] + ancestors
+    return [node, *ancestors]
 
 
 def _node_and_descendants(dag, node, order):
     descendants = list(nx.descendants(dag, node))
     if order:
         descendants = list(_kth_order_successors(dag, node, order=order))
-    return [node] + descendants
+    return [node, *descendants]
 
 
 def _kth_order_neighbors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -562,7 +562,7 @@ def _kth_order_neighbors(dag, node, order):
 def _kth_order_predecessors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -570,6 +570,6 @@ def _kth_order_predecessors(dag, node, order):
 def _kth_order_successors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for successor in dag.successors(node):
             yield from _kth_order_successors(dag, successor, order=order - 1)

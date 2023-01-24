@@ -155,7 +155,6 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
         params=policy_params,
         functions=[policy_functions],
         targets=["ges_rente_vor_grundr_m"],
-        # rounding=False,
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],

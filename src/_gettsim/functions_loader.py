@@ -565,7 +565,6 @@ def _vectorize_func(func):
     if USE_JAX:
 
         # ToDo: user jnp.vectorize once all functions are compatible with jax
-        # func_vec = jnp.vectorize(func)
         func_vec = np.vectorize(func)
 
     else:

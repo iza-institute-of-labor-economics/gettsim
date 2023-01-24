@@ -114,7 +114,7 @@ def test_rounding(base, direction, input_values, exp_output):
     "base, direction, input_values_exp_output, _ignore",
     rounding_specs_and_exp_results,
 )
-def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa: U101
+def test_no_rounding(base, direction, input_values_exp_output, _ignore):
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
     def test_func(income):

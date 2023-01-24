@@ -42,7 +42,6 @@ extensions = [
 master_doc = "index"
 
 # Add any paths that contain templates here, relative to this directory.
-# templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
