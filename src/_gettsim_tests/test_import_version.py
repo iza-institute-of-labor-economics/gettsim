@@ -10,4 +10,4 @@ def test_import():
 
 
 def test_python_version():
-    assert sys.version_info.major == 3 and sys.version_info.minor >= 9
+    assert sys.version_info >= (3, 9)

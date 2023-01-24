@@ -24,7 +24,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
 
     # Select corresponding bin.
     selected_bin_index = (
-        np.searchsorted(bins + [np.inf], behinderungsgrad, side="right") - 1
+        np.searchsorted([*bins, np.inf], behinderungsgrad, side="right") - 1
     )
     selected_bin = bins[selected_bin_index]
 
@@ -187,7 +187,7 @@ def eink_st_altersfreib_ab_2005(
 
             # Select corresponding bin.
             selected_bin_index = (
-                np.searchsorted(bins + [np.inf], geburtsjahr, side="right") - 1
+                np.searchsorted([*bins, np.inf], geburtsjahr, side="right") - 1
             )
 
             selected_bin = bins[selected_bin_index]

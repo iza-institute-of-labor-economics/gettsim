@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../src"))
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = f"2019-{dt.datetime.now().year}, GETTSIM team"  # noqa: A001
+copyright = f"2019-{dt.datetime.today().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
 release = "0.5.1"
 version = ".".join(release.split(".")[:2])

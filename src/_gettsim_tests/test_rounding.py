@@ -143,9 +143,8 @@ def test_decorator_for_all_functions_with_rounding_spec():
 
     # Find all functions for which rounding parameters are specified
     params_dict = {
-        group: yaml.load(
-            (RESOURCE_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
-            Loader=yaml.CLoader,
+        group: yaml.safe_load(
+            (RESOURCE_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8")
         )
         for group in INTERNAL_PARAMS_GROUPS
     }

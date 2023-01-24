@@ -59,7 +59,7 @@ def convert_series_to_internal_type(
     out = series.copy()
 
     basic_error_msg = (
-        "Conversion from input type " f"{out.dtype} to {internal_type.__name__} failed."
+        f"Conversion from input type {out.dtype} to {internal_type.__name__} failed."
     )
     if is_object_dtype(out):
         raise ValueError(basic_error_msg + " Object type is not supported as input.")

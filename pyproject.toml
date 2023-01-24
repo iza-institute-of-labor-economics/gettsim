@@ -41,6 +41,9 @@ extend-ignore = [
     "S324", # Probable use of insecure hash function.
     "COM812", # trailing comma missing, but black takes care of that
     "PT007", # wrong type in parametrize, gave false positives
+    "DTZ001", # use of `datetime.datetime()` without `tzinfo` argument is not allowed
+    "DTZ002", # use of `datetime.datetime.today()` is not allowed
+    "PT012", # `pytest.raises()` block should contain a single simple statement
 
 
     # Things we are not sure we want
@@ -70,12 +73,13 @@ exclude = [
 "src/_gettsim/benefits/unterhalt.py" = ["E501"]
 "src/_gettsim/benefits/wohngeld.py" = ["ARG001"]
 "src/_gettsim/functions.py" = ["F401"]
+"src/_gettsim/policy_environment.py" = ["S506"]
 "src/_gettsim/rente.py" = ["N806", "ARG001"]
 "src/_gettsim/tax_transfer.py" = ["ARG001"]
 "src/_gettsim/social_insurance_contributions/ges_krankenv.py" = ["SIM401"]
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
+"src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
-
 
 [tool.ruff.pydocstyle]
 convention = "numpy"

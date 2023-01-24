@@ -371,9 +371,9 @@ def _create_input_data(
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
     if any(data.columns.duplicated()):
-        duplicated = list(data.columns[data.columns.duplicated()])
+        list(data.columns[data.columns.duplicated()])
         raise ValueError(
-            "The following columns are non-unique in the input data:" f"{duplicated}"
+            "The following columns are non-unique in the input data: {duplicated}"
         )
 
 

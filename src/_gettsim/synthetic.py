@@ -9,7 +9,7 @@ from _gettsim.config import RESOURCE_DIR
 from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
 
-current_year = datetime.datetime.now().year
+current_year = datetime.datetime.today().year
 
 
 def append_other_hh_members(
