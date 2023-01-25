@@ -77,7 +77,7 @@ repos:
       - id: nbstripout
         args:
           - --extra-keys
-          - metadata.kernelspec metadata.language_info.version
+          - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 1.6.1
     hooks:
