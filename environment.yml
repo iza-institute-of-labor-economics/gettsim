@@ -3,40 +3,34 @@ name: gettsim
 
 channels:
   - conda-forge
-  - plotly
   - nodefaults
 
 dependencies:
-  - conda-lock
   - dags
   - ipywidgets
-  # Jinja2 3.1 does not work with nbconvert
-  # E.g., https://github.com/jupyter/nbconvert/issues/1740
-  - jinja2<3.1
   - jupyterlab
-  - myst-parser
+  - myst-parser>=0.18.0
   - nbsphinx
   - networkx
   - numpy_groupies
   - numpydoc
   - pandas
   - pdbpp
-  - pip >=21.1
+  - pip
   - plotly>=5.13.0
   - pre-commit
   - pydata-sphinx-theme>=0.3.0
   - pygments
   - pygraphviz
+  - pytest
   - pytest-cov
   - pytest-xdist
   - python
   - pyyaml
   - setuptools_scm
+  - sphinx
   - sphinx-automodapi
   - sphinx-copybutton
-  # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
-  # See: https://github.com/astropy/sphinx-automodapi/issues/148
-  - sphinx=5.1.0
   - toml
   - pip:
       - kaleido
