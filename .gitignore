@@ -1,5 +1,3 @@
-.DS_Store
-.ipynb_checkpoints/
 *-blx.bib
 *.asv
 *.aux
@@ -39,9 +37,8 @@ waf-*
 waf3-*
 *latexmk
 *synctex.gz
-!.environment.osx.yml
-!.environment.windows.yml
-!.environment.linux.yml
+.*
+!.github/**
 !.pre-commit-config.yaml
 !.envrc
 .*pdfsvn
