@@ -6,166 +6,112 @@ from functools import reduce
 import numpy as np
 import pandas as pd
 import yaml
-from _gettsim.config import INTERNAL_PARAMS_GROUPS
-from _gettsim.config import RESOURCE_DIR
-from _gettsim.piecewise_functions import check_thresholds
-from _gettsim.piecewise_functions import get_piecewise_parameters
-from _gettsim.piecewise_functions import piecewise_polynomial
+
+from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.piecewise_functions import (
+    check_thresholds,
+    get_piecewise_parameters,
+    piecewise_polynomial,
+)
 from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_bemessungsentgelt_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_bemessungsentgelt_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     minijob_grenze_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     minijob_grenze_ost_vor_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     minijob_grenze_west_vor_10_2022,
 )
 from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_bis_2018,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_ab_2019,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_bis_2018,
 )
 from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
-from _gettsim.taxes.eink_st import eink_st_tu_ab_1997
-from _gettsim.taxes.eink_st import eink_st_tu_bis_1996
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
-from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_alleinerz_freib_tu_bis_2014,
+from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
+from _gettsim.taxes.zu_verst_eink.eink import (
+    sum_eink_mit_kapital,
+    sum_eink_ohne_kapital,
 )
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_ab_2012
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_bis_2011
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_tu_ab_2005_bis_2009
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_tu_ab_2010_bis_2019
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_tu_ab_2020
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_tu_bis_2004
+from _gettsim.taxes.zu_verst_eink.freibetraege import (
+    eink_st_alleinerz_freib_tu_ab_2015,
+    eink_st_alleinerz_freib_tu_bis_2014,
+    eink_st_altersfreib_ab_2005,
+    eink_st_altersfreib_bis_2004,
+    eink_st_sonderausgaben_tu_ab_2012,
+    eink_st_sonderausgaben_tu_bis_2011,
+)
+from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import (
+    vorsorgeaufw_tu_ab_2005_bis_2009,
+    vorsorgeaufw_tu_ab_2010_bis_2019,
+    vorsorgeaufw_tu_ab_2020,
+    vorsorgeaufw_tu_bis_2004,
+)
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_ab_2011,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
 )
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
 )
 from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
     arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
-)
-from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
     arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
 )
 from _gettsim.transfers.benefit_checks.vermoegens_checks import (
     arbeitsl_geld_2_vermög_freib_hh_ab_2023,
-)
-from _gettsim.transfers.benefit_checks.vermoegens_checks import (
     arbeitsl_geld_2_vermög_freib_hh_bis_2022,
 )
-from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
-from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
-from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_lohn
-from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
-from _gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
+from _gettsim.transfers.grunds_im_alter import (
+    grunds_im_alter_ges_rente_m_ab_2021,
+    grunds_im_alter_ges_rente_m_bis_2020,
+)
+from _gettsim.transfers.kindergeld import (
+    kindergeld_anspruch_nach_lohn,
+    kindergeld_anspruch_nach_stunden,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl import (
+    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
     _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_ab_2011,
-)
-from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_bis_2010,
 )
-from _gettsim.transfers.rente import ges_rente_nach_grundr_m
-from _gettsim.transfers.rente import ges_rente_vor_grundr_m
-from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
-from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
+from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
+from _gettsim.transfers.wohngeld import (
+    wohngeld_eink_freib_m_ab_2016,
+    wohngeld_eink_freib_m_bis_2015,
+    wohngeld_miete_m_hh_ab_2009,
+    wohngeld_miete_m_hh_bis_2008,
+)
 
 
 def set_up_policy_environment(date):

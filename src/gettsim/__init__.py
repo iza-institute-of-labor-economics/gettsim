@@ -14,19 +14,21 @@ import itertools
 import warnings
 
 import pytest
-from _gettsim_tests import TEST_DIR
+from _gettsim import (
+    aggregation,
+    config,
+    gettsim_typing,
+    piecewise_functions,
+    shared,
+    taxes,
+    transfers,
+    visualization,
+)
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim.visualization import plot_dag
 from _gettsim.synthetic import create_synthetic_data
-from _gettsim import config
-from _gettsim import aggregation
-from _gettsim import piecewise_functions
-from _gettsim import shared
-from _gettsim import taxes
-from _gettsim import transfers
-from _gettsim import gettsim_typing
-from _gettsim import visualization
+from _gettsim.visualization import plot_dag
+from _gettsim_tests import TEST_DIR
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
 

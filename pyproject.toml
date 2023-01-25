@@ -28,7 +28,6 @@ extend-ignore = [
     "RET504",  # unnecessary variable assignment before return.
     "S101",  # raise errors for asserts.
     "B905",  # strict parameter for zip that was implemented in py310.
-    "I",  # ignore isort
 
     "ANN101",  # type annotating self
     "ANN102",  # type annotating cls
@@ -118,18 +117,10 @@ ignore_errors = true
 
 
 [tool.nbqa.config]
-isort = "setup.cfg"
 black = "pyproject.toml"
 
 [tool.nbqa.mutate]
-isort = 1
 black = 1
-pyupgrade = 1
-
-[tool.nbqa.addopts]
-isort = ["--treat-comment-as-code", "# %%", "--profile=black"]
-pyupgrade = ["--py37-plus"]
-
 
 [tool.pytest.ini_options]
 filterwarnings = [
