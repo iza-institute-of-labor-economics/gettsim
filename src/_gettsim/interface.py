@@ -6,17 +6,20 @@ import warnings
 import dags
 import numpy as np
 import pandas as pd
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.config import TYPES_INPUT_VARIABLES
+
+from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import load_and_check_functions
-from _gettsim.gettsim_typing import check_series_has_expected_type
-from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.shared import format_errors_and_warnings
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import KeyErrorMessage
-from _gettsim.shared import parse_to_list_of_strings
+from _gettsim.gettsim_typing import (
+    check_series_has_expected_type,
+    convert_series_to_internal_type,
+)
+from _gettsim.shared import (
+    KeyErrorMessage,
+    format_errors_and_warnings,
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def compute_taxes_and_transfers(
