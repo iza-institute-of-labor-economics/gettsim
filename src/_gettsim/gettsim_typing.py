@@ -1,10 +1,12 @@
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_bool_dtype
-from pandas.api.types import is_datetime64_any_dtype
-from pandas.api.types import is_float_dtype
-from pandas.api.types import is_integer_dtype
-from pandas.api.types import is_object_dtype
+from pandas.api.types import (
+    is_bool_dtype,
+    is_datetime64_any_dtype,
+    is_float_dtype,
+    is_integer_dtype,
+    is_object_dtype,
+)
 
 
 def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -> bool:

@@ -5,15 +5,17 @@ import pandas as pd
 import pytest
 from _gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
+    _fail_if_functions_and_columns_overlap,
 )
-from _gettsim.functions_loader import _fail_if_functions_and_columns_overlap
 from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.interface import _convert_data_to_correct_types
-from _gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
-from _gettsim.interface import _fail_if_group_variables_not_constant_within_groups
-from _gettsim.interface import _fail_if_pid_is_non_unique
-from _gettsim.interface import _round_and_partial_parameters_to_functions
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import (
+    _convert_data_to_correct_types,
+    _fail_if_columns_overriding_functions_are_not_in_data,
+    _fail_if_group_variables_not_constant_within_groups,
+    _fail_if_pid_is_non_unique,
+    _round_and_partial_parameters_to_functions,
+    compute_taxes_and_transfers,
+)
 from _gettsim.shared import add_rounding_spec
 
 

@@ -4,15 +4,15 @@ import numpy as np
 import pandas as pd
 import pytest
 import yaml
-from _gettsim.config import INTERNAL_PARAMS_GROUPS
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import RESOURCE_DIR
+from _gettsim.config import (
+    INTERNAL_PARAMS_GROUPS,
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    RESOURCE_DIR,
+)
 from _gettsim.functions_loader import _load_functions
-from _gettsim.interface import _add_rounding_to_functions
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import _add_rounding_to_functions, compute_taxes_and_transfers
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import add_rounding_spec
-
 
 rounding_specs_and_exp_results = [
     (1, "up", [100.24, 100.78], [101.0, 101.0]),

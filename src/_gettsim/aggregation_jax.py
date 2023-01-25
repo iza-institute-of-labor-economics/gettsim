@@ -1,14 +1,14 @@
-from _gettsim.aggregation_numpy import fail_if_dtype_not_boolean_or_int
-from _gettsim.aggregation_numpy import fail_if_dtype_not_float
-from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_boolean
-from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_datetime
-from _gettsim.aggregation_numpy import fail_if_dtype_of_group_id_not_int
+from _gettsim.aggregation_numpy import (
+    fail_if_dtype_not_boolean_or_int,
+    fail_if_dtype_not_float,
+    fail_if_dtype_not_numeric_or_boolean,
+    fail_if_dtype_not_numeric_or_datetime,
+    fail_if_dtype_of_group_id_not_int,
+)
 
 try:
     import jax.numpy as jnp
-    from jax.ops import segment_max
-    from jax.ops import segment_min
-    from jax.ops import segment_sum
+    from jax.ops import segment_max, segment_min, segment_sum
 except ImportError:
     pass
 

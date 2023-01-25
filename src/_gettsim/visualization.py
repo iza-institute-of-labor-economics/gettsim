@@ -7,16 +7,16 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions
-from _gettsim.interface import set_up_dag
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import parse_to_list_of_strings
-from pygments import highlight
-from pygments import lexers
+from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
+
+from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
+from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.shared import (
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def plot_dag(
