@@ -100,7 +100,7 @@ repos:
       - id: nbstripout
         args:
           - --extra-keys
-          - metadata.kernelspec
+          - metadata.kernelspec metadata.language_info.version
   - repo: https://github.com/nbQA-dev/nbQA
     rev: 1.6.1
     hooks:
