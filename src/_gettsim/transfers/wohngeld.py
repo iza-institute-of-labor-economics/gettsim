@@ -1,5 +1,6 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 import numpy as np
+
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
@@ -158,7 +159,7 @@ def wohngeld_eink_freib_m_bis_2015(
     """
     freib_behinderung_m = piecewise_polynomial(
         behinderungsgrad,
-        thresholds=list(wohngeld_params["freib_behinderung"]) + [np.inf],
+        thresholds=[*list(wohngeld_params["freib_behinderung"]), np.inf],
         rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
         intercepts_at_lower_thresholds=[
             yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()

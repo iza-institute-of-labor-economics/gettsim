@@ -14,14 +14,12 @@ import itertools
 import warnings
 
 import pytest
-from _gettsim_tests import TEST_DIR
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim.visualization import plot_dag
-
 from _gettsim.synthetic import create_synthetic_data
-
+from _gettsim.visualization import plot_dag
+from _gettsim_tests import TEST_DIR
 
 COUNTER_TEST_EXECUTIONS = itertools.count()
 

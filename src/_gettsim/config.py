@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 # Obtain the root directory of the package. Do not import gettsim which creates a
 # circular import.
 RESOURCE_DIR = Path(__file__).parent.resolve()

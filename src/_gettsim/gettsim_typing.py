@@ -1,10 +1,12 @@
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_bool_dtype
-from pandas.api.types import is_datetime64_any_dtype
-from pandas.api.types import is_float_dtype
-from pandas.api.types import is_integer_dtype
-from pandas.api.types import is_object_dtype
+from pandas.api.types import (
+    is_bool_dtype,
+    is_datetime64_any_dtype,
+    is_float_dtype,
+    is_integer_dtype,
+    is_object_dtype,
+)
 
 
 def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -> bool:
@@ -59,7 +61,7 @@ def convert_series_to_internal_type(
     out = series.copy()
 
     basic_error_msg = (
-        "Conversion from input type " f"{out.dtype} to {internal_type.__name__} failed."
+        f"Conversion from input type {out.dtype} to {internal_type.__name__} failed."
     )
     if is_object_dtype(out):
         raise ValueError(basic_error_msg + " Object type is not supported as input.")
