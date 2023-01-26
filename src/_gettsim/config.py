@@ -105,7 +105,6 @@ TYPES_INPUT_VARIABLES = {
     "bewohnt_eigentum_hh": bool,
     "immobilie_baujahr_hh": int,
     "sonstig_eink_m": float,
-    "jahr": int,
     "grundr_entgeltp": float,
     "grundr_zeiten": int,
     "grundr_bew_zeiten": int,
