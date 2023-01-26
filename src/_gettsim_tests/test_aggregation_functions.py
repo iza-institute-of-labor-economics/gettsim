@@ -34,14 +34,12 @@ def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
                 if k_inner in keys_of_test_cases
             }
             for k, v in test_cases.items()
-            if all(e in v.keys() for e in keys_of_test_cases)
+            if all(e in v for e in keys_of_test_cases)
         }
 
     # Return parametrization
     return pytest.mark.parametrize(
-        argnames=(
-            argnames := sorted({k for v in test_cases.values() for k in v.keys()})
-        ),
+        argnames=(argnames := sorted({k for v in test_cases.values() for k in v})),
         argvalues=[[v.get(k) for k in argnames] for v in test_cases.values()],
         ids=test_cases.keys(),
     )

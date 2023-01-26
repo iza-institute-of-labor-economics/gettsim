@@ -1,12 +1,14 @@
 import networkx as nx
 import pytest
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim.visualization import _get_selected_nodes
-from _gettsim.visualization import _kth_order_neighbors
-from _gettsim.visualization import _node_and_ancestors
-from _gettsim.visualization import _node_and_descendants
-from _gettsim.visualization import _select_nodes_in_dag
-from _gettsim.visualization import plot_dag
+from _gettsim.visualization import (
+    _get_selected_nodes,
+    _kth_order_neighbors,
+    _node_and_ancestors,
+    _node_and_descendants,
+    _select_nodes_in_dag,
+    plot_dag,
+)
 
 policy_params, policy_functions = set_up_policy_environment(date=2020)
 

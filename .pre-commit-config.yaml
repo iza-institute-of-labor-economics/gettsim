@@ -1,5 +1,10 @@
 ---
 repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+        # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
     rev: 1.2.0
     hooks:
@@ -14,15 +19,20 @@ repos:
       - id: check-merge-conflict
       - id: check-vcs-permalinks
       - id: check-yaml
+      - id: check-toml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
         types:
           - text
+      - id: forbid-submodules
       - id: mixed-line-ending
         args:
           - --fix=lf
         description: Forces to replace line ending by the UNIX 'lf' character.
+      # - id: name-tests-test
+      #   args:
+      #     - --pytest-test-first
       - id: no-commit-to-branch
         args:
           - --branch
@@ -34,35 +44,16 @@ repos:
     rev: v1.28.0
     hooks:
       - id: yamllint
-  - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.9.0
-    hooks:
-      - id: python-check-blanket-noqa
-      - id: python-check-mock-methods
-      - id: python-no-eval
-      - id: python-no-log-warn
-      - id: python-use-type-annotations
-      - id: text-unicode-replacement-char
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args:
-          - --py39-plus
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.9.0
-    hooks:
-      - id: reorder-python-imports
-        args:
-          - --py39-plus
-  - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.2.0
-    hooks:
-      - id: setup-cfg-fmt
   - repo: https://github.com/psf/black
     rev: 22.12.0
     hooks:
       - id: black
+        language_version: python3.10
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.13.0
+    hooks:
+      - id: blacken-docs
+        # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/PyCQA/docformatter
     rev: v1.5.1
     hooks:
@@ -70,48 +61,34 @@ repos:
         args:
           - --in-place
           - --wrap-summaries
-          - '88'
+          - "88"
           - --wrap-descriptions
-          - '88'
+          - "88"
           - --blank
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.230
     hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-alfred
-          - flake8-bugbear
-          - flake8-builtins
-          - flake8-comprehensions
-          - flake8-docstrings
-          - flake8-eradicate
-          - flake8-print
-          # flake8-pytest-style,  # produces SyntaxError with umlauts.
-          - flake8-todo
-          - flake8-typing-imports
-          - flake8-unused-arguments
-          - pep8-naming
-          - pydocstyle
-          - Pygments
-
-  # ToDo: comment in if only python 3.10 and above is supported
-  # - repo: https://github.com/dosisod/refurb
-  #   rev: v1.7.0
-  #   hooks:
-  #     - id: refurb
-
-  - repo: https://github.com/guilatrova/tryceratops
-    rev: v1.1.0
+      - id: ruff
+      #   args:
+      #     - --verbose
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
     hooks:
-      - id: tryceratops
-
+      - id: nbstripout
+        args:
+          - --extra-keys
+          - metadata.kernelspec metadata.language_info.version metadata.vscode
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.6.1
+    hooks:
+      - id: nbqa-black
+      - id: nbqa-ruff
   # - repo: https://github.com/econchick/interrogate
   #   rev: 1.5.0
   #   hooks:
   #     - id: interrogate
   #       args: [-v, --fail-under=50]
   #       exclude: ^(dashboard/|gettsim/docs/)
-
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
@@ -121,7 +98,7 @@ repos:
           - mdformat-black
         args:
           - --wrap
-          - '88'
+          - "88"
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
@@ -132,7 +109,7 @@ repos:
           - mdformat-black
         args:
           - --wrap
-          - '88'
+          - "88"
         files: (docs/.)
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v0.991
@@ -143,8 +120,12 @@ repos:
         additional_dependencies:
           - types-PyYAML
           - types-pytz
+  - repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v2.2.0
+    hooks:
+      - id: setup-cfg-fmt
   - repo: https://github.com/mgedmin/check-manifest
-    rev: '0.49'
+    rev: "0.49"
     hooks:
       - id: check-manifest
         args:
@@ -152,19 +133,6 @@ repos:
         additional_dependencies:
           - setuptools-scm
           - toml
-  - repo: meta
-    hooks:
-      - id: check-hooks-apply
-      - id: check-useless-excludes
-      # - id: identity  # Prints all files passed to pre-commits. Debugging.
-
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
-    hooks:
-      - id: nbstripout
-        args:
-          - --extra-keys
-          - metadata.kernelspec
 
 ci:
   autoupdate_schedule: monthly
