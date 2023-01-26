@@ -278,10 +278,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     float with the minimum needs of an household in Euro.
 
     """
-    if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        zuschlag = arbeitsl_geld_2_params["kindersofortzuschl"]
-    else:
-        zuschlag = 0
+    zuschlag = arbeitsl_geld_2_params.get("kindersofortzuschl", 0)
 
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:

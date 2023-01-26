@@ -185,7 +185,7 @@ def check_thresholds(parameter_dict, parameter, keys):
 
     if not np.allclose(lower_thresholds[1:], upper_thresholds[:-1]):
         raise ValueError(
-            f"The lower and upper thresholds of {parameter} have to " f"coincide"
+            f"The lower and upper thresholds of {parameter} have to coincide"
         )
     thresholds = sorted([lower_thresholds[0], *upper_thresholds])
     return lower_thresholds, upper_thresholds, thresholds
@@ -311,7 +311,7 @@ def create_intercepts(
            *upper_thresholds*.
 
     intercept_at_lowest_threshold : np.array
-                                    Intecept at the lowest threshold
+                                    Intercept at the lowest threshold
 
     fun: function handle (currently only piecewise_linear, will need to think about
     whether we can have a generic function with a different interface or make
@@ -319,8 +319,6 @@ def create_intercepts(
 
     Returns
     -------
-
-    """ """
 
     """
     intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)

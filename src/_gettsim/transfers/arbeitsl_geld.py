@@ -1,5 +1,6 @@
 """Functions to compute unemployment benefits (Arbeitslosengeld)."""
 import numpy as np
+
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 from _gettsim.transfers.rente import ges_rente_regelaltersgrenze
@@ -71,8 +72,10 @@ def arbeitsl_geld_restl_anspruchsd(
     """
     nach_alter = piecewise_polynomial(
         alter,
-        thresholds=list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])
-        + [np.inf],
+        thresholds=[
+            *list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"]),
+            np.inf,
+        ],
         rates=np.array(
             [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])]
         ),
@@ -82,12 +85,14 @@ def arbeitsl_geld_restl_anspruchsd(
     )
     nach_versich_pfl = piecewise_polynomial(
         soz_vers_pflicht_5j,
-        thresholds=list(
-            arbeitsl_geld_params["anspruchsdauer"][
-                "nach_versicherungspflichtige_monate"
-            ]
-        )
-        + [np.inf],
+        thresholds=[
+            *list(
+                arbeitsl_geld_params["anspruchsdauer"][
+                    "nach_versicherungspflichtige_monate"
+                ]
+            ),
+            np.inf,
+        ],
         rates=np.array(
             [
                 [0]
