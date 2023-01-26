@@ -58,6 +58,12 @@ To contribute to the project, adhere to the following process.
   $ pre-commit install
   ```
 
+- Under Windows, yaml-files are by default not loaded with the correct encoding (UTF-8).
+  This leads the pre-commit hook `yamllint` to erroneously detect too long lines. To fix
+  the problem, set the Windows environment variable `PYTHONUTF8` to 1. See
+  [here](https://dev.to/methane/python-use-utf-8-mode-on-windows-212i) for more
+  information.
+
 ## Development workflow
 
 - We always develop new features in new branches. Thus, create a new branch by picking
