@@ -38,7 +38,7 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
-!.github/**
+!.github
 !.pre-commit-config.yaml
 !.envrc
 .*pdfsvn
