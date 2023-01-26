@@ -313,6 +313,10 @@ def create_one_set_of_households(
     ]:
         df[bool_col] = False
 
+    # Take care of bürgerg_bezug_vorj
+    if policy_year >= 2023:
+        df["bürgerg_bezug_vorj"] = True
+
     # Other columns require int type
     for int_col in [
         "behinderungsgrad",

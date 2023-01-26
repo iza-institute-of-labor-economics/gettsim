@@ -71,6 +71,7 @@ versioning](https://semver.org/) and all releases are available on
   Restructure calculation of `ges_krankenv`, minor changes to `ges_pflegev`.
   ({ghuser}`Eric-Sommer`, {ghuser}`ChristianZimpelmann`).
 
+
 ## 0.5.1 — 2022-04-21
 
 - {gh}`377` Fix wrong parameter value for <span class="title-ref">ges_pflegev</span>
