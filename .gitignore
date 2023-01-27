@@ -38,9 +38,7 @@ waf3-*
 *latexmk
 *synctex.gz
 .*
-!.environment.osx.yml
-!.environment.windows.yml
-!.environment.linux.yml
+!.github
 !.pre-commit-config.yaml
 !.envrc
 .*pdfsvn
