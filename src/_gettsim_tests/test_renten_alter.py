@@ -82,18 +82,18 @@ def input_data():
     out["jahr"] = 2010
     out["weiblich"] = True
     out["alter"] = 60
-    out["m_arbeitsunfähig"] = 0
-    out["m_krank_ab_16_bis_24"] = 0
-    out["m_mutterschutz"] = 0
-    out["m_arbeitslos"] = 0
-    out["m_ausbild_suche"] = 0
-    out["m_schul_ausbild"] = 0
-    out["m_alg1_übergang"] = 0
-    out["m_geringf_beschäft"] = 0
-    out["m_freiw_beitrag"] = 0
-    out["m_ersatzzeit"] = 0
-    out["m_kind_berücks_zeit"] = 0
-    out["m_pfleg_berücks_zeit"] = 0
+    out["m_arbeitsunfähig"] = 0.0
+    out["m_krank_ab_16_bis_24"] = 0.0
+    out["m_mutterschutz"] = 0.0
+    out["m_arbeitslos"] = 0.0
+    out["m_ausbild_suche"] = 0.0
+    out["m_schul_ausbild"] = 0.0
+    out["m_alg1_übergang"] = 0.0
+    out["m_geringf_beschäft"] = 0.0
+    out["m_freiw_beitrag"] = 0.0
+    out["m_ersatzzeit"] = 0.0
+    out["m_kind_berücks_zeit"] = 0.0
+    out["m_pfleg_berücks_zeit"] = 0.0
     out["ges_rente_anrechnungszeit_45"] = 0
     out["ges_rente_regelaltersgrenze"] = out["Regelaltersgrenze_Jahr"] + out[
         "Regelaltersgrenze_Monat"
@@ -111,11 +111,11 @@ def input_data():
     # assuming the months of compulsory contributions required for
     # "Besonders langjährig Versicherte"
     # since this type of pension requires the longest duration of contributions
-    out["m_pflichtbeitrag"] = 540
+    out["m_pflichtbeitrag"] = 540.0
 
     # assuming the months of compulsory contributions since the years of 40 required
     # for the pension for women
-    out["y_pflichtbeitr_ab_40"] = 10
+    out["y_pflichtbeitr_ab_40"] = 10.0
 
     # after the pension for women was abolished
     out.loc[
