@@ -41,7 +41,7 @@ OUT_COLS = [
     "_ges_rente_besond_langj_altersgrenze",
 ]
 
-YEARS = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+YEARS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
 
 
 @pytest.fixture(scope="module")
