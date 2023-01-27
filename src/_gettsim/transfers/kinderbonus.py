@@ -1,5 +1,5 @@
 def kinderbonus_m(kindergeld_m: float, kindergeld_params: dict) -> float:
-    """Calculate potential Kinderbonus for an individual child.
+    """Calculate Kinderbonus for an individual child.
 
     (one-time payment, non-allowable against transfer payments)
 
