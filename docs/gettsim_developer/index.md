@@ -11,4 +11,5 @@ maxdepth: 1
 code-of-conduct
 how-to-contribute
 how-to-maintain
+hh_concepts
 ```
