@@ -5,7 +5,10 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## 0.6.0 —
+## v0.6.0 —
+
+- {gh}`503`, {gh}`XXX`, Move packaging to PyPI/conda-forge, update documentation
+  ({ghuser}`timmens`, {ghuser}`hmgaudecker`).
 
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
 
@@ -55,8 +58,8 @@ versioning](https://semver.org/) and all releases are available on
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
-- {gh}`396` Implement pension for (very) long term insured, including eligibility criteria,
-  i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
+- {gh}`396` Implement pension for (very) long term insured, including eligibility
+  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
 
 - {gh}`393` Normal retirement age adjustment aligned with the rules ({ghuser}`TeBackh`).
 
@@ -72,13 +75,13 @@ versioning](https://semver.org/) and all releases are available on
   ({ghuser}`Eric-Sommer`, {ghuser}`ChristianZimpelmann`).
 
 
-## 0.5.1 — 2022-04-21
+## v0.5.1 — 2022-04-21
 
 - {gh}`377` Fix wrong parameter value for <span class="title-ref">ges_pflegev</span>
   contribution ({ghuser}`JuergenWiemers`).
 - {gh}`383` Remove ä, ö, ü from file names ({ghuser}`ChristianZimpelmann`).
 
-## 0.5.0 — 2022-04-01
+## v0.5.0 — 2022-04-01
 
 - {gh}`327` Add `behinderten_pauschbetrag` for 1975-1986 ({ghuser}`lillyfischer`).
 
@@ -141,11 +144,11 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`356` Define functions on scalars and have them vectorised. Implement aggregation
   functions on group levels. ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`)
 
-## 0.4.2 — 2022-01-25
+## v0.4.2 — 2022-01-25
 
 - Ensure GETTSIM works with Pandas 1.4 ({gh}`337`)
 
-## 0.4.1 — 2021-04-11
+## v0.4.1 — 2021-04-11
 
 - {gh}`248` Implement 2021 increase in lump sum tax deductions for disabled.
   ({ghuser}`Eric-Sommer`).
@@ -171,7 +174,7 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`283` Implement Kinderbonus in 2020 and 2021 ({ghuser}`ChristianZimpelmann`).
 
-## 0.4.0 — 2020-11-11
+## v0.4.0 — 2020-11-11
 
 - {gh}`241` Renaming of directories: <span class="title-ref">gettsim.benefits</span> to
   <span class="title-ref">gettsim.transfers</span>; <span
@@ -209,12 +212,12 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`225` Make gettsim ready for Python 3.8 ({ghuser}`tobiasraabe`).
 
-## 0.3.4 — 2020-07-30
+## v0.3.4 — 2020-07-30
 
 - {gh}`222` Fix wohngeld coefficent. Add test for increasing wohngeld.
   ({ghuser}`hmgaudecker`, {ghuser}`MaxBlesch`)
 
-## 0.3.3 — 2020-06-27
+## v0.3.3 — 2020-06-27
 
 - {gh}`212` Improve the error message when reduced series could not be
   expanded with an id variable and fixes a related error in the
@@ -224,7 +227,7 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`216` Fix calculation of kinderzuschlag and wohngeld. Changed check against
   arbeitsl_geld_2 ({ghuser}`tobiasraabe`).
 
-## 0.3.2 — 2020-06-19
+## v0.3.2 — 2020-06-19
 
 - {gh}`196` Add docstring to <span class="title-ref">policy_for_date.py</span> and
   improves its interface ({ghuser}`MaxBlesch`).
@@ -241,14 +244,14 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`206` Fix several bugs in <span class="title-ref">arbeitsl_geld_2</span> and
   ({ghuser}`MaxBlesch`).
 
-## 0.3.1 — 2020-06-05
+## v0.3.1 — 2020-06-05
 
 - {gh}`188` Removes misleading code bits from the documentation and adds a copy-button
   ({ghuser}`tobiasraabe`).
 - {gh}`191` Adds a skip and a warning if <span class="title-ref">gettsim.test()</span>
   is repeatedly called ({ghuser}`tobiasraabe`).
 
-## 0.3.0 — 2020-06-04
+## v0.3.0 — 2020-06-04
 
 - Cleanup of ALG II parameters and documentation ({ghuser}`mjbloemer`)
 - Break up params.yaml into group-level files ({ghuser}`MaxBlesch`)
@@ -283,7 +286,7 @@ versioning](https://semver.org/) and all releases are available on
   {ghuser}`tobiasraabe`)
 - Error messages for the new interface ({ghuser}`hmgaudecker`, {ghuser}`tobiasraabe`).
 
-## 0.2.1 — 2019-11-20
+## v0.2.1 — 2019-11-20
 
 - Fix error with real SOEP data and "Wohngeld" for households with more than 12
   household members ({ghuser}`Eric-Sommer`, {ghuser}`MaxBlesch`)
@@ -293,7 +296,7 @@ versioning](https://semver.org/) and all releases are available on
 - Fill changelog and include in docs ({ghuser}`tobiasraabe`, {ghuser}`hmgaudecker`)
 - Add maintenance section to website ({ghuser}`tobiasraabe`)
 
-## 0.2.0 — 2019-11-06
+## v0.2.0 — 2019-11-06
 
 Initial release of `gettsim`.
 
@@ -309,7 +312,7 @@ Initial release of `gettsim`.
 - Correct tax treatment of child care costs ({ghuser}`Eric-Sommer`)
 - Improve calculation of housing allowance ({ghuser}`Eric-Sommer`)
 
-## 0.1 and prior work — 2019-09-30
+## v0.1 and prior work — 2019-09-30
 
 Most code written by {ghuser}`Eric-Sommer` based on
 [IZAΨMOD](https://www.iza.org/publications/dp/8553/documentation-izapsmod-v30-the-iza-policy-simulation-model&gt),
