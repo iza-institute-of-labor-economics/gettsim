@@ -1,0 +1,55 @@
+---
+eltern_2_kinder:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 0
+eltern_nicht_einstandspflichtig_ein_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - error: Eltern im selben Haushalt, aber nicht füreinander einstandspflichtig
