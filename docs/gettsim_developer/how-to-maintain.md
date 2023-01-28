@@ -77,15 +77,12 @@ To release a new major or minor version of GETTSIM, do the following.
       documented under {ref}`changes`. Release the new version by clicking "Publish
       release".
 
-1. On your local machine, make sure you are on the same commit as the tag `vX.Y.Z` and
-   run:
-
-   ```bash
-   $ conda build . --user gettsim
-   ```
-
-   which uploads the new release to the
-   [repository on Anaconda.org](https://anaconda.org/gettsim/gettsim).
+1. You are done! The release is automatically published to
+   [PyPI](https://pypi.org/project/gettsim/) and scraped from there by conda-forge. A PR
+   will be created on the
+   [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
+   which needs to be merged by the [gettsim maintainer](https://github.com/hmgaudecker).
+   After the merge the new release will be available on conda-forge within a day.
 
 (backports_release_patched)=
 
