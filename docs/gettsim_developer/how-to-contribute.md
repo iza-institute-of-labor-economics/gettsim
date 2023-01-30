@@ -28,7 +28,7 @@ To contribute to the project, adhere to the following process.
   contributor you might have been granted privileges to push to the GETTSIM repository.
   Thus, you can clone the repository directly using
 
-  ```bash
+  ```shell-session
   $ git clone https://github.com/iza-institute-of-labor-economics/gettsim
   ```
 
@@ -39,13 +39,13 @@ To contribute to the project, adhere to the following process.
   and click on the fork button in the upper right corner. Then, clone your fork onto
   your disk with
 
-  ```bash
+  ```shell-session
   $ git clone https://github.com/<user>/gettsim
   ```
 
 - In the next step, go into the GETTSIM folder and set up the Python environment with
 
-  ```bash
+  ```shell-session
   $ conda env create
   ```
 
@@ -53,7 +53,7 @@ To contribute to the project, adhere to the following process.
   repository in development mode. Also, install pre-commits which are checks before a
   commit is accepted.
 
-  ```bash
+  ```shell-session
   $ conda activate gettsim
   $ pre-commit install
   ```
@@ -70,14 +70,14 @@ To contribute to the project, adhere to the following process.
   an appropriate name, e.g., `elterngeld` or `update_ges_rente_beitrag`. Make sure to
   branch off from main and not any other branch.
 
-  ```bash
+  ```shell-session
   $ git checkout -b <branch-name>
   ```
 
 - Now, develop the new feature on this branch. Before you commit the changes, make sure
   they pass our test suite which can be started with the following command.
 
-  ```bash
+  ```shell-session
   $ pytest
   ```
 
@@ -87,7 +87,7 @@ To contribute to the project, adhere to the following process.
 - In the next step, try to commit the changes to the branch with an appropriate commit
   message.
 
-  ```bash
+  ```shell-session
   $ git commit -am "Add new parameters for ges_rente_beitrag in 2024."
   ```
 
