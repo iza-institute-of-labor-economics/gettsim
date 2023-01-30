@@ -74,11 +74,11 @@ def create_synthetic_data(
 def create_basic_households(
     n_adults, n_children, specs_constant_over_households, specs_heterogeneous
 ):
-    """Create variables that vary over households and individuals.
+    """Create basic variables for all households.
 
     Basic variables are variables which:
-    - are important to build the individual household members
-    - or they vary across households (as specified in specs_heterogeneous)
+    - are important to differentiate the individual household members
+    - or vary across households (as specified in specs_heterogeneous)
 
     Parameters
     ----------
@@ -98,6 +98,7 @@ def create_basic_households(
 
     """
     hh_typ_string = f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
+
     # Identify number of households and individuals per household
     if len(specs_heterogeneous) > 0:
         n_households = len(specs_heterogeneous[list(specs_heterogeneous.keys())[0]])
@@ -115,6 +116,7 @@ def create_basic_households(
         hat_kinder = [True] * n_adults + [False] * n_children
     else:
         hat_kinder = [False] * (n_adults)
+
     # Add specifications and create DataFrame
     all_households = [
         {
@@ -154,7 +156,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     """
     df = df.copy()
 
-    # defaults for wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
+    # Defaults for Wohnfläche, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
         datetime.date(policy_year, 1, 1),
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
