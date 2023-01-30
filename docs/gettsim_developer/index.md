@@ -1,4 +1,4 @@
-# Join the team
+# GETTSIM Development
 
 This section provides guidelines for working on the GETTSIM codebase. We welcome any
 type of contribution and offer lots of help onboarding you! The first step is to reach
