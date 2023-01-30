@@ -44,44 +44,23 @@ To release a new major or minor version of GETTSIM, do the following.
 
    1. Update {ref}`changes` with all necessary information regarding the new release.
 
-   1. Use `bumpversion [major|minor]` to increment all version strings. For example, to
-      bump the version from `0.1.x` to `` `0.2.0 ``, type
-
-      ```bash
-      $ bumpversion minor
-      ```
-
-   1. Test whether the conda package can be built successfully. Go inside the root
-      folder of the repository and type
-
-      ```bash
-      conda build .
-      ```
-
-      Fix all issues that occur.
-
-   1. Merge the changes from a.-d. into the main branch.
+   1. Merge the changes from a.-b. into the main branch.
 
    1. Create a maintenance branch `[major].[minor]`, i.e., `0.2` in this example.
 
-1. The following step assigns a version and documents the release on Github.
+1. Go to the
+   [page for releases](https://github.com/iza-institute-of-labor-economics/gettsim/releases)
+   and draft a new release. Set both a new tag and the release title to `vX.Y.Z`.
 
-   1. Create a tag `vX.Y.Z` and push to Github using `git push --tags`.
-
-   1. Go to the
-      [page for releases](https://github.com/iza-institute-of-labor-economics/gettsim/releases)
-      and draft a new release. Target the tag you just created and set the release title
-      to `vX.Y.Z` as well.
-
-      A long description is not necessary as the most important information is
-      documented under {ref}`changes`. Release the new version by clicking "Publish
-      release".
+   A long description is usually not necessary as the most important information is
+   documented under {ref}`changes`. Release the new version by clicking "Publish
+   release".
 
 1. You are done! The release is automatically published to
    [PyPI](https://pypi.org/project/gettsim/) and scraped from there by conda-forge. A PR
    will be created on the
    [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
-   which needs to be merged by the [gettsim maintainer](https://github.com/hmgaudecker).
+   which needs to be merged by a [gettsim maintainer](https://github.com/hmgaudecker).
    After the merge the new release will be available on conda-forge within a day.
 
 (backports_release_patched)=
@@ -114,17 +93,8 @@ critical bug was found, which should be fixed in both `0.3.0` and in `0.2.1`.
    can be collected.
 
 1. The release process for a patch version works as above in {ref}`release_major_minor`,
-   steps 2.-4.. Notable differences:
-
-   - Replace `main` by `maintenance_branch` (e.g., 0.2) everywhere.
-
-   - 2.c becomes:
-
-     ```bash
-     $ bumpversion patch
-     ```
-
-   - 2.f does not apply
+   steps 2.-4.. Of course whenever the above mentions `main`, replace that by
+   `maintenance_branch`.
 
 ## FAQ
 
