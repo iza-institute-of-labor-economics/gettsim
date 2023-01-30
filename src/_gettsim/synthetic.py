@@ -53,13 +53,26 @@ def create_synthetic_data(
     if n_children not in [0, 1, 2]:
         raise ValueError("'n_children' must be 0, 1, or 2.")
 
+    default_constant_specs = {
+        "weiblich": [bool(i % 2 == 0) for i in range(n_children + n_adults)],
+        "alter": [35] * n_adults + [8, 3][:n_children],
+        "kind": [False] * n_adults + [True] * n_children,
+        "in_ausbildung": [False] * n_adults + [True] * n_children,
+    }
     if specs_constant_over_households is None:
-        specs_constant_over_households = {
-            "weiblich": [bool(i % 2 == 0) for i in range(n_children + n_adults)],
-            "alter": [35] * n_adults + [8, 3][:n_children],
-            "kind": [False] * n_adults + [True] * n_children,
-            "in_ausbildung": [False] * n_adults + [True] * n_children,
-        }
+        specs_constant_over_households = default_constant_specs
+    else:
+        for var in default_constant_specs:
+            if var not in specs_constant_over_households:
+                specs_constant_over_households[var] = default_constant_specs[var]
+
+    # Make sure length of lists in specs_constant_over_households is correct
+    for var in specs_constant_over_households:
+        if len(specs_constant_over_households[var]) != n_adults + n_children:
+            raise ValueError(
+                f"Length of {var} in specs_constant_over_households is not correct."
+            )
+
     if specs_heterogeneous is None:
         specs_heterogeneous = {}
     df = create_basic_households(
