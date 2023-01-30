@@ -134,7 +134,6 @@ filterwarnings = [
     "ignore:Using or importing the ABCs from 'collections'",
     "ignore:'grouped_cumsum' is deprecated.",
 ]
-addopts = ["--doctest-modules"]
 markers = [
     "wip: Tests that are work-in-progress.",
     "unit: Flag for unit tests which target mainly a single function.",
@@ -142,7 +141,9 @@ markers = [
     "end_to_end: Flag for tests that cover the whole program.",
 ]
 norecursedirs = ["docs", "dashboard"]
-
+testpaths = [
+    "src/_gettsim_tests",
+]
 
 [tool.coverage.report]
 omit = [
