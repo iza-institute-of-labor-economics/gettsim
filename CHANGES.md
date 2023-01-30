@@ -5,9 +5,9 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## v0.6.0 —
+## v0.6.0 — 2023-01-30
 
-- {gh}`503`, {gh}`XXX`, Move packaging to PyPI/conda-forge, update documentation
+- {gh}`503`, {gh}`511`, Move packaging to PyPI/conda-forge, update documentation
   ({ghuser}`timmens`, {ghuser}`hmgaudecker`).
 
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
