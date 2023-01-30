@@ -12,6 +12,7 @@ target-version = "py39"
 select = ["ALL"]
 fix = true
 extend-ignore = [
+    "ICN001", # numpy should be np, but different convention here.
     # Docstrings
     "D103", # missing docstring in public function
     "D107",
@@ -67,14 +68,11 @@ exclude = [
 ]
 
 [tool.ruff.per-file-ignores]
-"src/_gettsim_tests/test_aggregation_functions.py" = ["ICN001"]
 "src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/benefits/elterngeld.py" = ["E501"]
 "src/_gettsim/benefits/kinderzuschl.py" = ["ARG001"]
 "src/_gettsim/benefits/unterhalt.py" = ["E501"]
 "src/_gettsim/benefits/wohngeld.py" = ["ARG001"]
-"src/_gettsim/config.py" = ["ICN001"]
-"src/_gettsim/demographic_vars.py" = ["ICN001"]
 "src/_gettsim/functions.py" = ["F401"]
 "src/_gettsim/policy_environment.py" = ["S506"]
 "src/_gettsim/rente.py" = ["N806", "ARG001"]

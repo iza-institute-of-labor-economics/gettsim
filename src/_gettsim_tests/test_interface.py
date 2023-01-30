@@ -1,8 +1,8 @@
 from contextlib import ExitStack as does_not_raise  # noqa: N813
 
+import numpy
 import pandas as pd
 import pytest
-from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
     _fail_if_functions_and_columns_overlap,
@@ -24,11 +24,11 @@ def minimal_input_data():
     n_individuals = 5
     out = pd.DataFrame(
         {
-            "p_id": np.arange(n_individuals),
-            "tu_id": np.arange(n_individuals),
-            "hh_id": np.arange(n_individuals),
+            "p_id": numpy.arange(n_individuals),
+            "tu_id": numpy.arange(n_individuals),
+            "hh_id": numpy.arange(n_individuals),
         },
-        index=np.arange(n_individuals),
+        index=numpy.arange(n_individuals),
     )
     return out
 
@@ -92,14 +92,14 @@ def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expect
 
 
 def test_fail_if_pid_does_not_exist():
-    data = pd.Series(data=np.arange(8), name="hh_id").to_frame()
+    data = pd.Series(data=numpy.arange(8), name="hh_id").to_frame()
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = pd.Series(data=np.arange(4).repeat(2), name="p_id").to_frame()
+    data = pd.Series(data=numpy.arange(4).repeat(2), name="p_id").to_frame()
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -417,7 +417,7 @@ def test_user_provided_aggregation_specs():
         aggregation_specs=aggregation_specs,
     )
 
-    np.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
+    numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
 
 def test_user_provided_aggregation_specs_function():
@@ -447,7 +447,7 @@ def test_user_provided_aggregation_specs_function():
         aggregation_specs=aggregation_specs,
     )
 
-    np.testing.assert_array_almost_equal(
+    numpy.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
     )
 
@@ -589,12 +589,12 @@ def test_convert_series_to_internal_types(
         ),
         (
             pd.Series(["zweitausendzwanzig"]),
-            np.datetime64,
+            numpy.datetime64,
             "Conversion from input type object to datetime64 failed.",
         ),
         (
             pd.Series([True, True]),
-            np.datetime64,
+            numpy.datetime64,
             "Conversion from input type bool to datetime64 failed.",
         ),
         (
