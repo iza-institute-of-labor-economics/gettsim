@@ -7,8 +7,8 @@ please follow conda's
 
 With conda available on your path, installing GETTSIM is as simple as typing
 
-```bash
-conda install -c gettsim -c conda-forge gettsim
+```shell-session
+$ conda install -c conda-forge gettsim
 ```
 
 in a command shell.
