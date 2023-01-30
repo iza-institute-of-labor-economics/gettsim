@@ -15,7 +15,7 @@ def kindergeld_m(
     kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,
 ) -> float:
-    """Calculate the preliminary kindergeld for an individual child.
+    """Calculate kindergeld for an individual child.
 
     Parameters
     ----------

@@ -6,51 +6,33 @@ channels:
   - nodefaults
 
 dependencies:
-  - python
-  - pip >=21.1
-  - setuptools_scm
-  - toml
+  - astor
   - dags
-  # https://github.com/plotly/plotly.py/issues/3686
-  # https://github.com/plotly/plotly.py/pull/3930
-  - ipywidgets<8
-  # Jinja2 3.1 does not work with nbconvert
-  # E.g., https://github.com/jupyter/nbconvert/issues/1740
-  - jinja2<3.1
+  - ipywidgets
   - jupyterlab
+  - myst-parser>=0.18.0
+  - nbsphinx
   - networkx
   - numpy_groupies
   - numpydoc
   - pandas
   - pdbpp
+  - pip
+  - plotly>=5.13.0
   - pre-commit
+  - pydata-sphinx-theme>=0.3.0
   - pygments
   - pygraphviz
   - pytest
   - pytest-cov
   - pytest-xdist
+  - python
   - pyyaml
-
-  # Prequisite for jax, lightweight so avoid case distinction
-  - astor
-  # Speed, will be optional
-  # - jax
-
-
-  # Reproducibility
-  - conda-lock
-
-  # Documentation
-
-  # Automodapi leads to error within numpy_groupies/numba for sphinx 5.1.1
-  # See: https://github.com/astropy/sphinx-automodapi/issues/148
-  - sphinx=5.1.0
-  - myst-parser
-  - pydata-sphinx-theme>=0.3.0
+  - setuptools_scm
+  - sphinx
   - sphinx-automodapi
   - sphinx-copybutton
-  - nbsphinx
+  - toml
   - pip:
-      - plotly
       - kaleido
       - -e .

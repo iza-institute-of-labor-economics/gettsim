@@ -5,12 +5,7 @@ from pathlib import Path
 
 import numpy
 
-
-# =====================================================================================
-# Decide whether to use JAX as backend
-# =====================================================================================
-
-# defaults
+# Defaults
 USE_JAX = False
 numpy_or_jax = numpy
 
@@ -36,8 +31,7 @@ def set_array_backend(backend: str):
         jax.config.update("jax_platform_name", "cpu")
 
 
-# Obtain the root directory of the package. Do not import gettsim which creates a
-# circular import.
+# Obtain the root directory of the package.
 RESOURCE_DIR = Path(__file__).parent.resolve()
 
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
@@ -139,7 +133,6 @@ TYPES_INPUT_VARIABLES = {
     "bewohnt_eigentum_hh": bool,
     "immobilie_baujahr_hh": int,
     "sonstig_eink_m": float,
-    "jahr": int,
     "grundr_entgeltp": float,
     "grundr_zeiten": int,
     "grundr_bew_zeiten": int,

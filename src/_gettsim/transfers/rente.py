@@ -291,7 +291,6 @@ def ges_rente_zugangsfaktor(
             )
 
         # Retirement between full retirement age and normal retirement age:
-        # Zugangsfaktor = 1
         else:  # [FRA,NRA]
             out = 1.0
 

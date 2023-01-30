@@ -3,11 +3,13 @@ from __future__ import annotations
 import datetime
 
 import pytest
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS
-from _gettsim.config import GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import TYPES_INPUT_VARIABLES
+from _gettsim.config import (
+    DEFAULT_TARGETS,
+    GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS,
+    GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS,
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    TYPES_INPUT_VARIABLES,
+)
 from _gettsim.functions_loader import _load_functions
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix

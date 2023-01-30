@@ -7,16 +7,16 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions
-from _gettsim.interface import set_up_dag
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import parse_to_list_of_strings
-from pygments import highlight
-from pygments import lexers
+from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
+
+from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
+from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.shared import (
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def plot_dag(
@@ -450,7 +450,7 @@ def _to_list(scalar_or_iter):
     """
     return (
         [scalar_or_iter]
-        if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
+        if isinstance(scalar_or_iter, (str, dict))
         else list(scalar_or_iter)
     )
 
@@ -538,20 +538,20 @@ def _node_and_ancestors(dag, node, order):
     ancestors = list(nx.ancestors(dag, node))
     if order:
         ancestors = list(_kth_order_predecessors(dag, node, order=order))
-    return [node] + ancestors
+    return [node, *ancestors]
 
 
 def _node_and_descendants(dag, node, order):
     descendants = list(nx.descendants(dag, node))
     if order:
         descendants = list(_kth_order_successors(dag, node, order=order))
-    return [node] + descendants
+    return [node, *descendants]
 
 
 def _kth_order_neighbors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -562,7 +562,7 @@ def _kth_order_neighbors(dag, node, order):
 def _kth_order_predecessors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -570,6 +570,6 @@ def _kth_order_predecessors(dag, node, order):
 def _kth_order_successors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for successor in dag.successors(node):
             yield from _kth_order_successors(dag, successor, order=order - 1)

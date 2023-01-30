@@ -17,8 +17,8 @@ from _gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
 from _gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
 from _gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
 from _gettsim.aggregation_numpy import grouped_sum as grouped_sum_numpy
-from _gettsim.config import numpy_or_jax as np
 from _gettsim.config import USE_JAX
+from _gettsim.config import numpy_or_jax as np
 
 
 def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
@@ -34,14 +34,12 @@ def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
                 if k_inner in keys_of_test_cases
             }
             for k, v in test_cases.items()
-            if all(e in v.keys() for e in keys_of_test_cases)
+            if all(e in v for e in keys_of_test_cases)
         }
 
     # Return parametrization
     return pytest.mark.parametrize(
-        argnames=(
-            argnames := sorted({k for v in test_cases.values() for k in v.keys()})
-        ),
+        argnames=(argnames := sorted({k for v in test_cases.values() for k in v})),
         argvalues=[[v.get(k) for k in argnames] for v in test_cases.values()],
         ids=test_cases.keys(),
     )

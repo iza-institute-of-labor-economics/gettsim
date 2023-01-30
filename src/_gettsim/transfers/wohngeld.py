@@ -42,6 +42,7 @@ def wohngeld_abzüge_st_sozialv_m(
     eink_st_tu: float,
     ges_rentenv_beitr_m: float,
     ges_krankenv_beitr_m: float,
+    kind: bool,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
@@ -57,6 +58,8 @@ def wohngeld_abzüge_st_sozialv_m(
         See :func:`ges_rentenv_beitr_m`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -67,7 +70,10 @@ def wohngeld_abzüge_st_sozialv_m(
     abzug_stufen = (
         (eink_st_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
     )
-    out = wohngeld_params["abzug_stufen"][abzug_stufen]
+    if kind:
+        out = 0.0
+    else:
+        out = wohngeld_params["abzug_stufen"][abzug_stufen]
     return out
 
 
@@ -158,7 +164,7 @@ def wohngeld_eink_freib_m_bis_2015(
     """
     freib_behinderung_m = piecewise_polynomial(
         behinderungsgrad,
-        thresholds=list(wohngeld_params["freib_behinderung"]) + [np.inf],
+        thresholds=[*list(wohngeld_params["freib_behinderung"]), np.inf],
         rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
         intercepts_at_lower_thresholds=[
             yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
@@ -204,7 +210,6 @@ def wohngeld_eink_freib_m_ab_2016(
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
     alleinerz: bool,
-    kind: bool,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtracting for one individual since 2016.
@@ -232,11 +237,13 @@ def wohngeld_eink_freib_m_ab_2016(
     )
 
     # Subtraction for single parents and working children
+    # ToDo: Check how to handle subjects that are single parents and also still count
+    # ToDO: as arbeitendes kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
-    elif alleinerz and (not kind):
+    elif alleinerz:
         freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
     else:
         freib_kinder_m = 0.0
@@ -271,13 +278,12 @@ def wohngeld_eink_m_hh(
     wohngeld_eink_nach_abzug_m_hh = (
         wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
     )
-
     unteres_eink = wohngeld_params["min_eink"][
         min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
     ]
 
     out = max(wohngeld_eink_nach_abzug_m_hh, unteres_eink)
-    return out
+    return float(out)
 
 
 def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:

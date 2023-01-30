@@ -5,15 +5,17 @@ import pytest
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
+    _fail_if_functions_and_columns_overlap,
 )
-from _gettsim.functions_loader import _fail_if_functions_and_columns_overlap
 from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.interface import _convert_data_to_correct_types
-from _gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
-from _gettsim.interface import _fail_if_group_variables_not_constant_within_groups
-from _gettsim.interface import _fail_if_pid_is_non_unique
-from _gettsim.interface import _round_and_partial_parameters_to_functions
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import (
+    _convert_data_to_correct_types,
+    _fail_if_columns_overriding_functions_are_not_in_data,
+    _fail_if_group_variables_not_constant_within_groups,
+    _fail_if_pid_is_non_unique,
+    _round_and_partial_parameters_to_functions,
+    compute_taxes_and_transfers,
+)
 from _gettsim.shared import add_rounding_spec
 
 
@@ -616,7 +618,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"hh_id": [1, 1.1, 2]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - hh_id: Conversion from input type float64 to int failed."
+            "\n - hh_id: Conversion from input type float64 to int failed."
             " This conversion is only supported if all decimal places of input"
             " data are equal to 0.",
         ),
@@ -624,7 +626,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type float64 to bool failed."
+            "\n - wohnort_ost: Conversion from input type float64 to bool failed."
             " This conversion is only supported if input data exclusively contains"
             " the values 1.0 and 0.0.",
         ),
@@ -632,7 +634,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
+            "\n - wohnort_ost: Conversion from input type int64 to bool failed."
             " This conversion is only supported if input data exclusively contains"
             " the values 1 and 0.",
         ),
@@ -640,16 +642,16 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": ["True", "False"]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type object to bool failed."
+            "\n - wohnort_ost: Conversion from input type object to bool failed."
             " Object type is not supported as input.",
         ),
         (
             pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - hh_id: Conversion from input type object to int failed. "
+            "\n - hh_id: Conversion from input type object to int failed. "
             "Object type is not supported as input."
-            + "\n - bruttolohn_m: Conversion from input type object to float failed."
+            "\n - bruttolohn_m: Conversion from input type object to float failed."
             " Object type is not supported as input.",
         ),
     ],
