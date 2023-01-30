@@ -347,7 +347,6 @@ class TranslateToVectorizableError(ValueError):
     """Error when function cannot be translated into vectorizable compatible format."""
 
 
-
 def _too_many_arguments_call_error_message(node: ast.Call):
     source = _node_to_formatted_source(node)
     _func_name = node.func.id
