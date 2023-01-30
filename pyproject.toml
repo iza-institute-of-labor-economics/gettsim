@@ -67,6 +67,7 @@ exclude = [
 ]
 
 [tool.ruff.per-file-ignores]
+"src/_gettsim_tests/test_aggregation_functions.py" = ["ICN001"]
 "src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/benefits/elterngeld.py" = ["E501"]
 "src/_gettsim/benefits/kinderzuschl.py" = ["ARG001"]
