@@ -1,5 +1,5 @@
 ---
-eltern_2_kinder:
+eltern_verheiratet_2_kinder:
   input:
     - id: 0
       geburtstag: 1984-07-14
@@ -31,6 +31,247 @@ eltern_2_kinder:
         - 0
         - 0
         - 0
+    - kinderfreibeträge:
+        - 2
+        - 2
+        - 0
+        - 0
+
+eltern_unverheiratet_2_kinder:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 0
+    - kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+
+eltern_verheiratet_1_junges_1_erwachsenes_kind:
+  input:
+    - id: 0
+      geburtstag: 1974-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1971-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2000-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+        - 0
+    - kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+
+eltern_verheiratet_1_kind_großeltern:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+      id_eltern:
+        - 3
+        - 4
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 1954-02-13
+      id_einstandspartner: 4
+      id_ehepartner: 4
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 4
+      geburtstag: 1953-01-02
+      id_einstandspartner: 3
+      id_ehepartner: 3
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+        - 1
+    - kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+        - 0
+
+eltern_verheiratet_1_kind_anderer_verwandter:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 1984-05-12
+      id_haushalt: 0
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+
+alleinerziehend_anderer_elternteil_unbekannt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+    - kinderfreibeträge:
+        - 1
+        - 0
+
+alleinerziehend_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 2
+    - id: 2
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+    - kinderfreibeträge:
+        - 0.5
+        - 0
+        - 0.5
+
+neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 3
+    - id: 3
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - kinderfreibeträge:
+        - 0.5
+        - 0
+        - 0
+        - 0.5
+
 eltern_nicht_einstandspflichtig_ein_haushalt:
   input:
     - id: 0
@@ -53,3 +294,37 @@ eltern_nicht_einstandspflichtig_ein_haushalt:
         - 1
   output:
     - error: Eltern im selben Haushalt, aber nicht füreinander einstandspflichtig
+
+eltern_widerspruechliche_veranlagungs_info:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+
+  output:
+    - error: Informationen zur gemeinsamen Veranlagung widersprechen sich zwischen zwei Ehepartnern
+
+eltern_gemeinsam_veranlagt_unverheiratet:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+
+  output:
+    - error: Personen sind nicht verheiratet, aber gemeinsam veranlagt
