@@ -3,20 +3,19 @@ import string
 
 import numpy
 import pytest
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import USE_JAX
+from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, USE_JAX
 
 if USE_JAX:
     import jax.numpy
 from _gettsim.functions_loader import _load_functions
-from _gettsim.jax import make_vectorizable
-from _gettsim.jax import make_vectorizable_source
-from _gettsim.jax import TranslateToVectorizableError
-from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m
-from _gettsim.transfers.elterngeld import elternzeit_anspruch
+from _gettsim.jax import (
+    TranslateToVectorizableError,
+    make_vectorizable,
+    make_vectorizable_source,
+)
+from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m, elternzeit_anspruch
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from numpy.testing import assert_array_equal
-
 
 # ======================================================================================
 # Backend
@@ -264,7 +263,6 @@ another_flag = rng.binomial(1, 0.75, size=100)
 
 
 TEST_CASES = [
-    # (func, expected, args)
     (f1, f1_exp, (x,)),
     (f2, f2_exp, (x,)),
     (f3, f3_exp, (x,)),
@@ -292,7 +290,7 @@ TEST_CASES = [
 
 
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
-def test_change_if_to_where_source(func, expected, args):  # noqa: U100
+def test_change_if_to_where_source(func, expected, args):
     exp = inspect.getsource(expected)
     exp = exp.replace("_exp", "")
     got = make_vectorizable_source(func, backend="numpy")
@@ -384,7 +382,7 @@ def test_convertible(func, backend):
     make_vectorizable(func, backend=backend)
 
 
-@pytest.mark.skip
+@pytest.mark.skip()
 @pytest.mark.parametrize(
     "func", [v for v in gettsim_functions.values() if v.__name__ in not_convertible_yet]
 )

@@ -6,7 +6,6 @@ from importlib import import_module
 
 import astor
 
-
 BACKEND_TO_MODULE = {"jax": "jax.numpy", "numpy": "numpy"}
 
 
@@ -347,7 +346,6 @@ def _call_to_call_from_module(node: ast.Call, module: str):
 class TranslateToVectorizableError(ValueError):
     """Error when function cannot be translated into vectorizable compatible format."""
 
-    pass
 
 
 def _too_many_arguments_call_error_message(node: ast.Call):
