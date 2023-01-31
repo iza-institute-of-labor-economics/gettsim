@@ -290,7 +290,7 @@ TEST_CASES = [
 
 
 @pytest.mark.parametrize("func, expected, args", TEST_CASES)
-def test_change_if_to_where_source(func, expected, args):
+def test_change_if_to_where_source(func, expected, args):  # noqa: ARG001
     exp = inspect.getsource(expected)
     exp = exp.replace("_exp", "")
     got = make_vectorizable_source(func, backend="numpy")

@@ -35,7 +35,7 @@ def make_vectorizable(func: callable, backend: str):
 
     # execute new ast
     compiled = compile(tree, "<ast>", "exec")
-    exec(compiled, scope)
+    exec(compiled, scope)  # noqa: S102
 
     # assign created function
     new_func = scope[func.__name__]
