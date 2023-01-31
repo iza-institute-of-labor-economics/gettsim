@@ -283,6 +283,7 @@ def vorsorgepauschale_ab_2010(
     return out
 
 
+@add_rounding_spec(params_key="lohnst")
 def vorsorgepauschale_2005_2010() -> float:
     """vorsorg_rv and vorsorg_kv_option_a are identical to after 2010."""
 
