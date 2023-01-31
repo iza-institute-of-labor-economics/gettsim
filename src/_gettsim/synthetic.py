@@ -49,7 +49,6 @@ def create_synthetic_data(
     # Check inputs
     if n_adults not in [1, 2]:
         raise ValueError("household type must be either 1 or 2")
-
     if n_children not in [0, 1, 2]:
         raise ValueError("'n_children' must be 0, 1, or 2.")
 
@@ -89,9 +88,9 @@ def create_basic_households(
 ):
     """Create basic variables for all households.
 
-    Basic variables are variables which:
-    - are important to differentiate the individual household members
-    - or vary across households (as specified in specs_heterogeneous)
+    Basic variables are variables which: - are important to differentiate the
+    individual household members - or vary across households (as specified in
+    specs_heterogeneous)
 
     Parameters
     ----------
@@ -101,9 +100,12 @@ def create_basic_households(
         Number of children in the household.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
-        households.
+        households. The length of the lists must be equal to n_adults + n_children.
     specs_heterogeneous : dict of lists of lists
-        Values for variables that vary over households.
+        Values for variables that vary over households. The length of the outer lists
+        equal the number of generated households and must be the same over all entries
+        in specs_heterogeneous. The inner lists must be of length n_adults +
+        n_children.
 
     Returns
     -------
@@ -129,7 +131,6 @@ def create_basic_households(
         hat_kinder = [True] * n_adults + [False] * n_children
     else:
         hat_kinder = [False] * (n_adults)
-
     # Add specifications and create DataFrame
     all_households = [
         {
@@ -137,7 +138,7 @@ def create_basic_households(
                 "hh_id": [i] * (n_adults + n_children),
                 "tu_id": [i] * (n_adults + n_children),
                 "hh_typ": [hh_typ_string] * (n_adults + n_children),
-                "kind": hat_kinder,
+                "hat_kinder": hat_kinder,
                 "alleinerz": alleinerziehend,
             },
             **specs_constant_over_households,
