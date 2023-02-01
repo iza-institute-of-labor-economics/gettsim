@@ -1,9 +1,11 @@
 import datetime
 
 import pytest
-from _gettsim.shared import ConflictingTimeDependentFunctionsError
-from _gettsim.shared import dates_active
-from _gettsim.shared import TIME_DEPENDENT_FUNCTIONS
+from _gettsim.shared import (
+    TIME_DEPENDENT_FUNCTIONS,
+    ConflictingTimeDependentFunctionsError,
+    dates_active,
+)
 
 
 @pytest.fixture(autouse=True)

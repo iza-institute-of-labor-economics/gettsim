@@ -2,8 +2,7 @@ import inspect
 import re
 import textwrap
 from datetime import date
-from typing import Callable
-from typing import Optional
+from typing import Callable, Optional
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
