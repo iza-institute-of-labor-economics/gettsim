@@ -25,8 +25,8 @@ from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
     midijob_faktor_f_bis_09_2022,
     minijob_grenze_ab_10_2022,
-    minijob_grenze_ost_vor_10_2022,
-    minijob_grenze_west_vor_10_2022,
+    minijob_grenze_ost_bis_09_2022,
+    minijob_grenze_west_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
@@ -403,8 +403,8 @@ def load_functions_for_date(date):
         functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
         functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
     else:
-        functions["minijob_grenze_west"] = minijob_grenze_west_vor_10_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ost_vor_10_2022
+        functions["minijob_grenze_west"] = minijob_grenze_west_bis_09_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ost_bis_09_2022
 
     if date >= datetime.date(year=2022, month=10, day=1):
         functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
