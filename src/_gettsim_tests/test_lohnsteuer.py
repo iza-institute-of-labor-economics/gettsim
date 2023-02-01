@@ -277,10 +277,8 @@ def bmf_collect(inc, outvar, n_kinder, stkl, jahr, faktorverfahren=0, faktor="1,
 
     """
     url_base = f"http://www.bmf-steuerrechner.de/interface/{jahr}Version1.xhtml?"
-    if jahr == 2022:
-        url_base += "code=2022eP"
-    if jahr == 2023:
-        url_base += "code=ext2023"
+    # ATTENTION: This bit changes on a yearly basis
+    url_base += "code=ext2023"
 
     # Possible inputs:
     # https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=2
@@ -387,7 +385,7 @@ def gen_lohnsteuer_test(year: int):
     return hh
 
 
-@pytest.mark.parametrize("year, column", itertools.product([2023], OUT_COLS))
+@pytest.mark.parametrize("year, column", itertools.product([2022, 2023], OUT_COLS))
 def test_lohnsteuer_api(year, column):
     year_data = gen_lohnsteuer_test(year).reset_index(drop=True)
     df = year_data.copy()
