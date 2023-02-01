@@ -68,10 +68,16 @@ SUPPORTED_GROUPINGS = {
         "name": "household",
         "description": "all individuals living in the same household.",
     },
+    "bg": {
+        "name": "bedarfsgemeinschaft",
+        "description": "one adult or two adults in a partnership and their "
+        "dependent children.",
+        "nested_by": "hh",
+    },
     "tu": {
         "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
-        "nested_by": "hh",
+        "description": "one person or two persons fileing their taxes together.",
+        "nested_by": "bg",
     },
 }
 
