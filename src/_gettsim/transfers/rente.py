@@ -557,7 +557,7 @@ def _ges_rente_besond_langj_altersgrenze(
 def ges_rente_vorauss_vorzeitig(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-) -> float:
+) -> bool:
     """Function determining eligibility for early retirement. Can only be claimed if
     eligible for "Rente für langjährig Versicherte".
 
