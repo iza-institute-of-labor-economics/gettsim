@@ -420,6 +420,7 @@ def wohngeld_miete_m_hh_ab_2009(
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
         )
+    if "heizkostenentlastung_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
                 haushaltsgröße_hh
@@ -442,6 +443,7 @@ def wohngeld_miete_m_hh_ab_2009(
             for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
             if isinstance(i, int)
         )
+    if "heizkostenentlastung_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
                 haushaltsgröße_hh
@@ -464,6 +466,7 @@ def wohngeld_miete_m_hh_ab_2009(
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
         )
+    if "heizkostenentlastung_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             climate_component_m = wohngeld_params["klimakomponente_m"][
                 haushaltsgröße_hh
