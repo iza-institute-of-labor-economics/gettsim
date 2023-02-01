@@ -83,8 +83,11 @@ def _make_vectorizable_ast(func: callable, module: str):
     tree = _func_to_ast(func)
     tree = _add_parent_attr_to_ast(tree)
 
+    # get function location for error messages
+    func_loc = func.__module__ + "." + func.__name__
+
     # transform tree nodes
-    new_tree = Transformer(module).visit(tree)
+    new_tree = Transformer(module, func_loc).visit(tree)
     new_tree = ast.fix_missing_locations(new_tree)
     return new_tree
 
@@ -108,12 +111,15 @@ def _add_parent_attr_to_ast(tree: ast.AST):
 
 
 class Transformer(ast.NodeTransformer):
-    def __init__(self, module: str):
+    def __init__(self, module: str, func_loc: str):
         self.module = module
+        self.func_loc = func_loc
 
     def visit_Call(self, node: ast.Call):  # noqa: N802
         self.generic_visit(node)
-        call = _call_to_call_from_module(node, module=self.module)
+        call = _call_to_call_from_module(
+            node, module=self.module, func_loc=self.func_loc
+        )
         return call
 
     def visit_UnaryOp(self, node: ast.UnaryOp):  # noqa: N802
@@ -130,7 +136,7 @@ class Transformer(ast.NodeTransformer):
 
     def visit_If(self, node: ast.If):  # noqa: N802
         self.generic_visit(node)
-        call = _if_to_call(node, module=self.module)
+        call = _if_to_call(node, module=self.module, func_loc=self.func_loc)
         if isinstance(node.body[0], ast.Return):
             out = ast.Return(call)
         elif isinstance(node.body[0], (ast.Assign, ast.AugAssign)):
@@ -173,13 +179,14 @@ def _not_to_call(node: ast.UnaryOp, module: str):
     return call
 
 
-def _if_to_call(node: ast.If, module: str):
+def _if_to_call(node: ast.If, module: str, func_loc: str):
     """Transform If statement to Call.
 
     Args:
         node (ast.If): An If node in the ast.
         module (str): Module which exports the function `where` that behaves as
             `numpy.where`.
+        func_loc (str): Path to function.
 
     Returns:
         ast.Call: The If statement reformatted using a call to {module}.where().
@@ -188,11 +195,11 @@ def _if_to_call(node: ast.If, module: str):
     args = [node.test, node.body[0].value]
 
     if len(node.orelse) > 1 or len(node.body) > 1:
-        msg = _too_many_operations_error_message(node)
+        msg = _too_many_operations_error_message(node, func_loc=func_loc)
         raise TranslateToVectorizableError(msg)
     elif node.orelse == []:
         if isinstance(node.body[0], ast.Return):
-            msg = _return_and_no_else_error_message(node)
+            msg = _return_and_no_else_error_message(node, func_loc=func_loc)
             raise TranslateToVectorizableError(msg)
         elif hasattr(node.body[0], "targets"):
             name = ast.Name(id=node.body[0].targets[0].id, ctx=ast.Load())
@@ -211,7 +218,7 @@ def _if_to_call(node: ast.If, module: str):
         else:
             args.append(node.orelse[0].value)
     else:
-        msg = _unallowed_operation_error_message(node.orelse[0])
+        msg = _unallowed_operation_error_message(node.orelse[0], func_loc=func_loc)
         raise TranslateToVectorizableError(msg)
 
     call = ast.Call(
@@ -288,7 +295,7 @@ def _boolop_to_call(node: ast.BoolOp, module: str):
     return call
 
 
-def _call_to_call_from_module(node: ast.Call, module: str):
+def _call_to_call_from_module(node: ast.Call, module: str, func_loc: str):
     """Transform built-in Calls to Calls from module.
 
     Transforms built-in functions in ('sum', 'any', 'all', 'max', 'min') to their
@@ -330,7 +337,7 @@ def _call_to_call_from_module(node: ast.Call, module: str):
             ctx=ast.Load(),
         )
     else:
-        msg = _too_many_arguments_call_error_message(node)
+        msg = _too_many_arguments_call_error_message(node, func_loc=func_loc)
         raise TranslateToVectorizableError(msg)
 
     return call
@@ -345,38 +352,42 @@ class TranslateToVectorizableError(ValueError):
     """Error when function cannot be translated into vectorizable compatible format."""
 
 
-def _too_many_arguments_call_error_message(node: ast.Call):
+def _too_many_arguments_call_error_message(node: ast.Call, func_loc: str):
     source = _node_to_formatted_source(node)
     _func_name = node.func.id
     msg = (
         f"The function {_func_name} is called with too many arguments. Please only use "
         "one iterable argument for (`sum`, `any`, `all`, `max`, `min`) or two "
-        f"arguments for (`max`, `min`).\nThe source code in question is:\n\n{source}"
+        "arguments for (`max`, `min`)."
+        f"\n\nFunction: {func_loc}"
+        f"\n\nProblematic source code:\n\n{source}"
     )
     return msg
 
 
-def _return_and_no_else_error_message(node: ast.Return):
+def _return_and_no_else_error_message(node: ast.Return, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
         "The if-clause body is a return statement, while the else clause is missing.\n"
-        "Please swap the return statement for an assignment or add an else-clause.\n"
-        f"The source code in question is:\n\n{source}"
+        "Please swap the return statement for an assignment or add an else-clause."
+        f"\n\nFunction: {func_loc}"
+        f"\n\nProblematic source code:\n\n{source}"
     )
     return msg
 
 
-def _too_many_operations_error_message(node: ast.If):
+def _too_many_operations_error_message(node: ast.If, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
         "An if statement is performing multiple operations, which is forbidden.\n"
-        "Please only perform one operation in the body of an if-elif-else statement.\n"
-        f"The source code in question is:\n\n{source}"
+        "Please only perform one operation in the body of an if-elif-else statement."
+        f"\n\nFunction: {func_loc}"
+        f"\n\nProblematic source code:\n\n{source}"
     )
     return msg
 
 
-def _unallowed_operation_error_message(node: ast.If):
+def _unallowed_operation_error_message(node: ast.If, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
         "An if-elif-else clause body is of type {type(node)}, which is forbidden.\n"
@@ -384,8 +395,9 @@ def _unallowed_operation_error_message(node: ast.If):
         "ast.If : Another if-else-elif clause\n"
         "ast.IfExp : A one-line if-else statement. Example: 1 if flag else 0\n"
         "ast.Assign : An assignment. Example: x = 3\n"
-        "ast.Return : A return statement. Example: return out\n\n"
-        f"The source code in question is:\n\n{source}"
+        "ast.Return : A return statement. Example: return out"
+        f"\n\nFunction: {func_loc}"
+        f"\n\nProblematic source code:\n\n{source}"
     )
     return msg
 
