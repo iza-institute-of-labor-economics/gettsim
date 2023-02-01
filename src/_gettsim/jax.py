@@ -84,7 +84,7 @@ def _make_vectorizable_ast(func: callable, module: str):
     tree = _add_parent_attr_to_ast(tree)
 
     # get function location for error messages
-    func_loc = func.__module__ + "." + func.__name__
+    func_loc = func.__module__ + "/" + func.__name__
 
     # transform tree nodes
     new_tree = Transformer(module, func_loc).visit(tree)
@@ -356,11 +356,13 @@ def _too_many_arguments_call_error_message(node: ast.Call, func_loc: str):
     source = _node_to_formatted_source(node)
     _func_name = node.func.id
     msg = (
+        "\n\n"
         f"The function {_func_name} is called with too many arguments. Please only use "
         "one iterable argument for (`sum`, `any`, `all`, `max`, `min`) or two "
         "arguments for (`max`, `min`)."
-        f"\n\nFunction: {func_loc}"
-        f"\n\nProblematic source code:\n\n{source}"
+        f"\n\nFunction: {func_loc}\n\n"
+        "Problematic source code (after transformations that were possible, if any):"
+        f"\n\n{source}\n"
     )
     return msg
 
@@ -368,10 +370,12 @@ def _too_many_arguments_call_error_message(node: ast.Call, func_loc: str):
 def _return_and_no_else_error_message(node: ast.Return, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
+        "\n\n"
         "The if-clause body is a return statement, while the else clause is missing.\n"
         "Please swap the return statement for an assignment or add an else-clause."
-        f"\n\nFunction: {func_loc}"
-        f"\n\nProblematic source code:\n\n{source}"
+        f"\n\nFunction: {func_loc}\n\n"
+        "Problematic source code (after transformations that were possible, if any):"
+        f"\n\n{source}\n"
     )
     return msg
 
@@ -379,10 +383,12 @@ def _return_and_no_else_error_message(node: ast.Return, func_loc: str):
 def _too_many_operations_error_message(node: ast.If, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
+        "\n\n"
         "An if statement is performing multiple operations, which is forbidden.\n"
         "Please only perform one operation in the body of an if-elif-else statement."
-        f"\n\nFunction: {func_loc}"
-        f"\n\nProblematic source code:\n\n{source}"
+        f"\n\nFunction: {func_loc}\n\n"
+        "Problematic source code (after transformations that were possible, if any):"
+        f"\n\n{source}\n"
     )
     return msg
 
@@ -390,14 +396,16 @@ def _too_many_operations_error_message(node: ast.If, func_loc: str):
 def _unallowed_operation_error_message(node: ast.If, func_loc: str):
     source = _node_to_formatted_source(node)
     msg = (
+        "\n\n"
         "An if-elif-else clause body is of type {type(node)}, which is forbidden.\n"
         "Allowed types are the following:\n\n"
         "ast.If : Another if-else-elif clause\n"
         "ast.IfExp : A one-line if-else statement. Example: 1 if flag else 0\n"
         "ast.Assign : An assignment. Example: x = 3\n"
         "ast.Return : A return statement. Example: return out"
-        f"\n\nFunction: {func_loc}"
-        f"\n\nProblematic source code:\n\n{source}"
+        f"\n\nFunction: {func_loc}\n\n"
+        "Problematic source code (after transformations that were possible, if any):"
+        f"\n\n{source}\n"
     )
     return msg
 
