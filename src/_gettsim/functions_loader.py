@@ -5,7 +5,7 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
+import numpy
 
 from _gettsim.aggregation import (
     grouped_all,
@@ -22,7 +22,6 @@ from _gettsim.config import (
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
-    USE_JAX,
 )
 from _gettsim.shared import (
     format_errors_and_warnings,
@@ -566,16 +565,9 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
+    # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
+    func_vec = numpy.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):

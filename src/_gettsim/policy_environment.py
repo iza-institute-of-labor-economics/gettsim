@@ -3,7 +3,7 @@ import datetime
 import operator
 from functools import reduce
 
-import numpy as np
+import numpy
 import pandas as pd
 import yaml
 
@@ -591,8 +591,8 @@ def _load_parameter_group_from_yaml(
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
             # Otherwise, do not create an entry for this parameter.
-            if "deviation_from" in raw_group_data[param][np.min(policy_dates)]:
-                future_policy = raw_group_data[param][np.min(policy_dates)]
+            if "deviation_from" in raw_group_data[param][numpy.min(policy_dates)]:
+                future_policy = raw_group_data[param][numpy.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     params_temp = _load_parameter_group_from_yaml(
@@ -605,10 +605,10 @@ def _load_parameter_group_from_yaml(
                         out_params[param] = params_temp[path_list[1]]
 
         else:
-            policy_in_place = raw_group_data[param][np.max(past_policies)]
+            policy_in_place = raw_group_data[param][numpy.max(past_policies)]
             if "scalar" in policy_in_place:
                 if policy_in_place["scalar"] == "inf":
-                    out_params[param] = np.inf
+                    out_params[param] = numpy.inf
                 else:
                     out_params[param] = policy_in_place["scalar"]
             else:
@@ -623,7 +623,7 @@ def _load_parameter_group_from_yaml(
                 )
                 if "deviation_from" in policy_in_place:
                     if policy_in_place["deviation_from"] == "previous":
-                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        new_date = numpy.max(past_policies) - datetime.timedelta(days=1)
                         out_params[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
@@ -662,7 +662,7 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    out_params["datum"] = np.datetime64(date)
+    out_params["datum"] = numpy.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:
@@ -709,7 +709,7 @@ def _load_rounding_parameters(date, rounding_spec):
         # Note this will raise an error later unless the user adds an
         # appropriate rounding specification to the parameters dictionary.
         if policy_dates_before_date:
-            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_date_in_place = numpy.max(policy_dates_before_date)
             policy_in_place = rounding_spec_func[policy_date_in_place]
             out[function_name] = {}
             for key in [k for k in policy_in_place if k in rounding_parameters]:

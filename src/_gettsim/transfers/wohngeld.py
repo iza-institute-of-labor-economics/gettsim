@@ -1,6 +1,5 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
-import numpy as np
-
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
@@ -68,12 +67,12 @@ def wohngeld_abzüge_st_sozialv_m(
     -------
 
     """
+    abzug_stufen = (
+        (eink_st_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
+    )
     if kind:
         out = 0.0
     else:
-        abzug_stufen = (
-            (eink_st_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
-        )
         out = wohngeld_params["abzug_stufen"][abzug_stufen]
     return out
 
@@ -421,6 +420,7 @@ def wohngeld_miete_m_hh_ab_2009(
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
         )
+    if "heizkostenentlastung_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
                 haushaltsgröße_hh
@@ -443,6 +443,7 @@ def wohngeld_miete_m_hh_ab_2009(
             for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
             if isinstance(i, int)
         )
+    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
                 haushaltsgröße_hh
@@ -465,6 +466,7 @@ def wohngeld_miete_m_hh_ab_2009(
         max_def_hh_größe_heating = max(
             i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
         )
+    if "klimakomponente_m" in wohngeld_params:
         if haushaltsgröße_hh <= max_def_hh_größe_heating:
             climate_component_m = wohngeld_params["klimakomponente_m"][
                 haushaltsgröße_hh
@@ -530,10 +532,13 @@ def wohngeld_vor_vermög_check_m_hh(
     if haushaltsgröße_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m_hh`.
-        out += wohngeld_params["bonus_sehr_große_haushalte"][
-            "bonus_jede_weitere_person"
-        ] * (haushaltsgröße_hh - max_berücks_personen)
-        out = min(out, wohngeld_miete_m_hh)
+        out = min(
+            out
+            + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
+            * (haushaltsgröße_hh - max_berücks_personen),
+            wohngeld_miete_m_hh,
+        )
+
     return out
 
 

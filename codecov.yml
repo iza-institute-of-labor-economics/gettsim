@@ -10,6 +10,6 @@ coverage:
 
 ignore:
   - setup.py
-  - dashboard/**/*
-  - gettsim/parameters/_dynamic_pension_data
-  - gettsim/aggregation_jax.py
+  - dashboard/
+  - src/_gettsim/parameters/_dynamic_pension_data/
+  - src/_gettsim_tests/

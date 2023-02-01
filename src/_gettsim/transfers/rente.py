@@ -258,24 +258,22 @@ def ges_rente_zugangsfaktor(
     -------
 
     """
+
     if rentner and ges_rente_vorauss_regelrente:
-        # Calc age at retirement
-        alter_renteneintritt = jahr_renteneintr - geburtsjahr
-
-        faktor_pro_jahr_vorzeitig = ges_rente_params[
-            "zugangsfaktor_veränderung_pro_jahr"
-        ]["vorzeitiger_renteneintritt"]
-        faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
-            "späterer_renteneintritt"
-        ]
-
         # Early retirement (before full retirement age): Zugangsfaktor < 1
-        if alter_renteneintritt < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
+        if (
+            jahr_renteneintr - geburtsjahr
+        ) < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
             if ges_rente_vorauss_vorzeitig:
                 # Calc difference to FRA of pensions with early retirement options
                 # (Altersgrenze langjährig Versicherte, Altersrente für Frauen).
-                diff_referenz_alter = alter_renteneintritt - referenz_alter_abschlag
-                out = 1 + diff_referenz_alter * faktor_pro_jahr_vorzeitig
+                out = (
+                    1
+                    + ((jahr_renteneintr - geburtsjahr) - referenz_alter_abschlag)
+                    * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+                        "vorzeitiger_renteneintritt"
+                    ]
+                )
             else:
                 # Early retirement although not eligible to do so.
                 # ToDo: Implement early retirment for disabled or long-term unemployed
@@ -283,11 +281,13 @@ def ges_rente_zugangsfaktor(
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
         # Zugangsfaktor > 1
-        elif alter_renteneintritt > ges_rente_regelaltersgrenze:  # (NRA, inf]
+        elif (jahr_renteneintr - geburtsjahr) > ges_rente_regelaltersgrenze:
             out = (
                 1
-                + (alter_renteneintritt - ges_rente_regelaltersgrenze)
-                * faktor_pro_jahr_später
+                + ((jahr_renteneintr - geburtsjahr) - ges_rente_regelaltersgrenze)
+                * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+                    "späterer_renteneintritt"
+                ]
             )
 
         # Retirement between full retirement age and normal retirement age:
