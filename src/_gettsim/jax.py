@@ -1,7 +1,6 @@
 import ast
 import functools
 import inspect
-from copy import deepcopy
 from importlib import import_module
 
 import astor
@@ -97,7 +96,6 @@ def _func_to_ast(func: callable):
 
 
 def _add_parent_attr_to_ast(tree: ast.AST):
-    tree = deepcopy(tree)
     for node in ast.walk(tree):
         for child in ast.iter_child_nodes(node):
             child.parent = node
@@ -136,7 +134,7 @@ class Transformer(ast.NodeTransformer):
         if isinstance(node.body[0], ast.Return):
             out = ast.Return(call)
         elif isinstance(node.body[0], (ast.Assign, ast.AugAssign)):
-            out = deepcopy(node.body[0])
+            out = node.body[0]
             out.value = call
         return out
 
@@ -313,7 +311,7 @@ def _call_to_call_from_module(node: ast.Call, module: str):
         return node
 
     func_id = node.func.id
-    call = deepcopy(node)
+    call = node
     args = node.args
 
     if len(args) == 1:

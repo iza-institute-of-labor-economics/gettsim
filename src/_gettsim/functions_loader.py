@@ -20,8 +20,9 @@ from _gettsim.config import (
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
+    USE_JAX,
 )
-from _gettsim.config import numpy_or_jax as np
+from _gettsim.jax import make_vectorizable
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -564,16 +565,8 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
-    signature = inspect.signature(func)
-    func_vec = np.vectorize(func)
-
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
-
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func
+    backend = "jax" if USE_JAX else "numpy"
+    return make_vectorizable(func, backend)
 
 
 def _fail_if_functions_and_columns_overlap(columns, functions, type_):
