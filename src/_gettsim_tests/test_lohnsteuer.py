@@ -361,6 +361,20 @@ def gen_lohnsteuer_test(year: int):
             ],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2, 1],
             "year": [year] * 11,
+            "ges_krankenv_zusatzbeitrag": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            "ges_pflegev_zusatz_kinderlos": [
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+                True,
+            ],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
@@ -392,8 +406,8 @@ def test_lohnsteuer_api(year, column):
     df["alleinerz"] = df["steuerklasse"] == 2
     df["wohnort_ost"] = False
     df["jahr_renteneintr"] = 2060
-    df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
-    df["in_ausbildung"] = ~df["kind"]
+    # df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
+    # df["in_ausbildung"] = ~df["kind"]
     df["arbeitsstunden_w"] = 40.0 * ~df["kind"]
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
@@ -402,6 +416,10 @@ def test_lohnsteuer_api(year, column):
         params=policy_params,
         functions=policy_functions,
         targets=[column],
+        columns_overriding_functions=[
+            "ges_krankenv_zusatzbeitrag",
+            "ges_pflegev_zusatz_kinderlos",
+        ],
     )
 
     assert_series_equal(
