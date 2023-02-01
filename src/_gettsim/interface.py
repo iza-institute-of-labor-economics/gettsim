@@ -4,19 +4,22 @@ import inspect
 import warnings
 
 import dags
-import numpy as np
 import pandas as pd
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.config import TYPES_INPUT_VARIABLES
+
+from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
-from _gettsim.gettsim_typing import check_series_has_expected_type
-from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.shared import format_errors_and_warnings
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import KeyErrorMessage
-from _gettsim.shared import parse_to_list_of_strings
+from _gettsim.gettsim_typing import (
+    check_series_has_expected_type,
+    convert_series_to_internal_type,
+)
+from _gettsim.shared import (
+    KeyErrorMessage,
+    format_errors_and_warnings,
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def compute_taxes_and_transfers(
@@ -107,7 +110,6 @@ def compute_taxes_and_transfers(
         f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    # Round and partial all necessary functions.
     processed_functions = _round_and_partial_parameters_to_functions(
         necessary_functions, params, rounding
     )
@@ -371,9 +373,9 @@ def _create_input_data(
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
     if any(data.columns.duplicated()):
-        duplicated = list(data.columns[data.columns.duplicated()])
         raise ValueError(
-            "The following columns are non-unique in the input data:" f"{duplicated}"
+            "The following columns are non-unique in the input data:\n\n"
+            f"{data.columns[data.columns.duplicated()]}"
         )
 
 
@@ -643,7 +645,7 @@ def _add_rounding_to_one_function(base, direction):
             out = func(*args, **kwargs)
 
             # Check inputs.
-            if not (type(base) in [int, float]):
+            if type(base) not in [int, float]:
                 raise ValueError(
                     f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )

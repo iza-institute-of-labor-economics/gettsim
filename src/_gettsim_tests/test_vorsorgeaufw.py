@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "p_id",
@@ -23,7 +23,7 @@ INPUT_COLS = [
 ]
 OUT_COLS = ["vorsorgeaufw_tu"]
 
-YEARS = [2004, 2005, 2010, 2018, 2020, 2021, 2022, 2024, 2025]
+YEARS = [2004, 2005, 2010, 2018, 2020, 2021, 2022, 2023]
 
 OVERRIDE_COLS = [
     "ges_krankenv_beitr_m",

@@ -5,24 +5,30 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
-from _gettsim.aggregation import grouped_all
-from _gettsim.aggregation import grouped_any
-from _gettsim.aggregation import grouped_count
-from _gettsim.aggregation import grouped_cumsum
-from _gettsim.aggregation import grouped_max
-from _gettsim.aggregation import grouped_mean
-from _gettsim.aggregation import grouped_min
-from _gettsim.aggregation import grouped_sum
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import RESOURCE_DIR
-from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.config import USE_JAX
-from _gettsim.shared import format_errors_and_warnings
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import remove_group_suffix
+import numpy
+
+from _gettsim.aggregation import (
+    grouped_all,
+    grouped_any,
+    grouped_count,
+    grouped_cumsum,
+    grouped_max,
+    grouped_mean,
+    grouped_min,
+    grouped_sum,
+)
+from _gettsim.config import (
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    RESOURCE_DIR,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
+from _gettsim.shared import (
+    format_errors_and_warnings,
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    remove_group_suffix,
+)
 
 
 def load_and_check_functions(
@@ -559,17 +565,9 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
+    # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        # func_vec = jnp.vectorize(func)
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
+    func_vec = numpy.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):

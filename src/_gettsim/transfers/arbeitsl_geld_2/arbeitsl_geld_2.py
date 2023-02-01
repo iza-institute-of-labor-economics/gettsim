@@ -102,24 +102,21 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
     """
     if alleinerz_hh:
-
-        # Get minimal Mehrbedarf share. Minimal rate times number of children
-        lower = (
-            arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
-        )
-        upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
-
-        # Special case if 1 kid below 6 or 2,3 below 15.
-        mehrbedarf = (
-            arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
-            if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
-            else 0.0
-        )
-
         # Clip value at calculated minimal share and given upper share
         # Note that upper limit is applied last (for many children lower
         # could be greater than upper)
-        out = min(max(mehrbedarf, lower), upper)
+        out = min(
+            max(
+                # Minimal Mehrbedarf share. Minimal rate times number of children
+                arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
+                * anz_kinder_hh,
+                # Special case if 1 kid below 6 or 2,3 below 15.
+                arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+                if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
+                else 0.0,
+            ),
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"],
+        )
     else:
         out = 0.0
     return out
@@ -200,11 +197,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
     )
 
-    if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        kindersofortzuschl = arbeitsl_geld_2_params["kindersofortzuschl"]
-        out += kindersofortzuschl * (
-            anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
-        )
+    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
+    out += kindersofortzuschl * (
+        anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
+    )
 
     return float(out)
 
@@ -278,10 +274,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     float with the minimum needs of an household in Euro.
 
     """
-    if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        zuschlag = arbeitsl_geld_2_params["kindersofortzuschl"]
-    else:
-        zuschlag = 0
+    zuschlag = arbeitsl_geld_2_params.get("kindersofortzuschl", 0)
 
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
@@ -333,12 +326,12 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         out = 0.0
     else:
         # Deduct income from various sources
-        out = (
+        out = max(
+            0.0,
             arbeitsl_geld_2_regelbedarf_m_hh
             - arbeitsl_geld_2_eink_m_hh
             - unterhaltsvors_m_hh
-            - kindergeld_m_hh
+            - kindergeld_m_hh,
         )
-        out = max(out, 0.0)
 
     return out

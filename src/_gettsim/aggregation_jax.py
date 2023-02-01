@@ -1,14 +1,14 @@
-from _gettsim.aggregation_numpy import fail_if_dtype_not_boolean_or_int
-from _gettsim.aggregation_numpy import fail_if_dtype_not_float
-from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_boolean
-from _gettsim.aggregation_numpy import fail_if_dtype_not_numeric_or_datetime
-from _gettsim.aggregation_numpy import fail_if_dtype_of_group_id_not_int
+from _gettsim.aggregation_numpy import (
+    fail_if_dtype_not_boolean_or_int,
+    fail_if_dtype_not_float,
+    fail_if_dtype_not_numeric_or_boolean,
+    fail_if_dtype_not_numeric_or_datetime,
+    fail_if_dtype_of_group_id_not_int,
+)
 
 try:
     import jax.numpy as jnp
-    from jax.ops import segment_max
-    from jax.ops import segment_min
-    from jax.ops import segment_sum
+    from jax.ops import segment_max, segment_min, segment_sum
 except ImportError:
     pass
 
@@ -63,10 +63,12 @@ def grouped_any(column, group_id):
     fail_if_dtype_not_boolean_or_int(column, agg_func="any")
 
     # Convert to boolean if necessary
-    if column.dtype == "int":
-        column = column.astype("bool")
+    if jnp.issubdtype(column.dtype, jnp.integer):
+        my_col = column.astype("bool")
+    else:
+        my_col = column
 
-    out_on_hh = segment_max(column, group_id)
+    out_on_hh = segment_max(my_col, group_id)
     out = out_on_hh[group_id]
     return out
 
@@ -76,7 +78,7 @@ def grouped_all(column, group_id):
     fail_if_dtype_not_boolean_or_int(column, agg_func="all")
 
     # Convert to boolean if necessary
-    if column.dtype == "int":
+    if jnp.issubdtype(column.dtype, jnp.integer):
         column = column.astype("bool")
 
     out_on_hh = segment_min(column, group_id)

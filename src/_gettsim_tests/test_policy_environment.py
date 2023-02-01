@@ -1,12 +1,14 @@
 """Some tests for the policy_environment module."""
-from datetime import date
-from datetime import timedelta
+from datetime import date, timedelta
 
 import pandas as pd
 import pytest
-from _gettsim.policy_environment import _load_parameter_group_from_yaml
-from _gettsim.policy_environment import load_functions_for_date
-from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim.policy_environment import (
+    _load_parameter_group_from_yaml,
+    load_functions_for_date,
+    set_up_policy_environment,
+)
+
 from _gettsim_tests import TEST_DIR
 
 

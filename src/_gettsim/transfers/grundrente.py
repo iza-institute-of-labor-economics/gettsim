@@ -339,17 +339,17 @@ def rente_vorj_vor_grundr_proxy_m(
 
     """
 
+    # Assume priv_rente_m did not change
+    # ToDo: Use current_year as argument of this function once we addressed
+    # ToDo: issue #211
+    # Calculate if subect was retired last year
     if rentner:
-        # Assume priv_rente_m did not change
-        # ToDo: Use current_year as argument of this function once we addressed
-        # ToDo: issue #211
-        # Calculate if subect was retired last year
-        current_year = geburtsjahr + alter
-        rentner_vorjahr = jahr_renteneintr <= current_year - 1
-        if not rentner_vorjahr:
-            out = 0.0
-        else:
-            out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
+        rentner_vorjahr = jahr_renteneintr < geburtsjahr + alter
+    else:
+        rentner_vorjahr = False
+
+    if rentner_vorjahr:
+        out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
     else:
         out = 0.0
 
