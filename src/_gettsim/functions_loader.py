@@ -5,6 +5,8 @@ import importlib
 import inspect
 from pathlib import Path
 
+import numpy
+
 from _gettsim.aggregation import (
     grouped_all,
     grouped_any,
@@ -20,9 +22,7 @@ from _gettsim.config import (
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
-    USE_JAX,
 )
-from _gettsim.jax import make_vectorizable
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -565,8 +565,17 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
-    backend = "jax" if USE_JAX else "numpy"
-    return make_vectorizable(func, backend)
+    # What should work once that Jax backend is fully supported
+    signature = inspect.signature(func)
+    func_vec = numpy.vectorize(func)
+
+    @functools.wraps(func)
+    def wrapper_vectorize_func(*args, **kwargs):
+        return func_vec(*args, **kwargs)
+
+    wrapper_vectorize_func.__signature__ = signature
+
+    return wrapper_vectorize_func
 
 
 def _fail_if_functions_and_columns_overlap(columns, functions, type_):
