@@ -229,14 +229,13 @@ def _process_and_check_data(data, columns_overriding_functions):
     # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
 
-    # Check that tu_id and hh_id are matching. As long as we have not fixed the
-    # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
-    # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
-    # unit within a household.
-    # ToDo: Remove check once Günstigerprüfung ist taken care of.
-    if ("tu_id" in data) and ("hh_id" in data):
+    # Check that bg_id and hh_id are matching. As long as we have not fixed the
+    # Günstigerprüfung between Kinderzuschlag (calculated on bg level) and Wohngeld/ALG
+    # 2 (calculated on hh level), we do not allow for more than one bedarfsgemeinschaft
+    # within a household. ToDo: Remove check once Günstigerprüfung ist taken care of.
+    if ("bg_id" in data) and ("hh_id" in data):
         assert (
-            not data["tu_id"].groupby(data["hh_id"]).std().max() > 0
+            not data["bg_id"].groupby(data["hh_id"]).std().max() > 0
         ), "We currently allow for only one tax unit within each household"
 
     _fail_if_columns_overriding_functions_are_not_in_data(

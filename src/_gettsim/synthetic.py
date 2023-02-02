@@ -132,11 +132,15 @@ def create_basic_households(
     else:
         hat_kinder = [False] * (n_adults)
     # Add specifications and create DataFrame
+
     all_households = [
         {
             **{
                 "hh_id": [i] * (n_adults + n_children),
-                "tu_id": [i] * (n_adults + n_children),
+                # This currently implements married parents.
+                "tu_id": [i * (n_children + 1)] * n_adults
+                + list(range(i * (n_children + 1) + 1, (i + 1) * (n_children + 1))),
+                "bg_id": [i] * (n_adults + n_children),
                 "hh_typ": [hh_typ_string] * (n_adults + n_children),
                 "hat_kinder": hat_kinder,
                 "alleinerz": alleinerziehend,

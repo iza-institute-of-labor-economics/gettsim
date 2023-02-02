@@ -1,7 +1,7 @@
 ---
-kinderfreibetrag:
+kinderfreibetrag_pro_elternteil:
   name:
-    de: Kinderfreibetrag
+    de: Kinderfreibetrag pro Elternteil
     en: Basic Income Tax Allowance for children
   description:
     de: >-

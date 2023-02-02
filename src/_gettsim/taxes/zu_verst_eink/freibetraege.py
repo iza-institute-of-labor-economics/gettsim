@@ -343,9 +343,12 @@ def eink_st_kinderfreib_tu(
     -------
 
     """
-    kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
+    kifreib_total = sum(
+        eink_st_abzuege_params["kinderfreibetrag_pro_elternteil"].values()
+    )
 
     if anz_erwachsene_tu > 0:
         out = kifreib_total * anz_kinder_mit_kindergeld_bg * anz_erwachsene_tu
-
+    else:
+        out = 0.0
     return float(out)
