@@ -9,7 +9,7 @@ from _gettsim.transfers.rente import ges_rente_regelaltersgrenze
 def arbeitsl_geld_m(
     anz_kinder_tu: int,
     arbeitsl_geld_berechtigt: bool,
-    arbeitsl_geld_eink_vorj_proxy: float,
+    arbeitsl_geld_eink_vorj_proxy_m: float,
     arbeitsl_geld_params: dict,
 ) -> float:
     """Calculate individual unemployment benefit.
@@ -20,8 +20,8 @@ def arbeitsl_geld_m(
         See :func:`anz_kinder_tu`.
     arbeitsl_geld_berechtigt
         See :func:`arbeitsl_geld_berechtigt`.
-    arbeitsl_geld_eink_vorj_proxy
-        See :func:`arbeitsl_geld_eink_vorj_proxy`.
+    arbeitsl_geld_eink_vorj_proxy_m
+        See :func:`arbeitsl_geld_eink_vorj_proxy_m`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -36,7 +36,7 @@ def arbeitsl_geld_m(
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
     if arbeitsl_geld_berechtigt:
-        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
+        out = arbeitsl_geld_eink_vorj_proxy_m * arbeitsl_geld_satz
     else:
         out = 0.0
 
@@ -164,7 +164,7 @@ def arbeitsl_geld_berechtigt(
     return out
 
 
-def arbeitsl_geld_eink_vorj_proxy(
+def arbeitsl_geld_eink_vorj_proxy_m(
     _ges_rentenv_beitr_bemess_grenze_m: float,
     bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
