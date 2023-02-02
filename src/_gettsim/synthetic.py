@@ -13,6 +13,7 @@ current_year = datetime.datetime.today().year
 def create_synthetic_data(
     n_adults=None,
     n_children=None,
+    adults_married=True,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -74,8 +75,13 @@ def create_synthetic_data(
 
     if specs_heterogeneous is None:
         specs_heterogeneous = {}
+
     df = create_basic_households(
-        n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+        n_adults,
+        n_children,
+        adults_married,
+        specs_constant_over_households,
+        specs_heterogeneous,
     )
     df = create_constant_across_households_variables(
         df, n_adults, n_children, policy_year
@@ -84,7 +90,11 @@ def create_synthetic_data(
 
 
 def create_basic_households(
-    n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+    n_adults,
+    n_children,
+    adults_married,
+    specs_constant_over_households,
+    specs_heterogeneous,
 ):
     """Create basic variables for all households.
 
@@ -137,7 +147,8 @@ def create_basic_households(
         {
             **{
                 "hh_id": [i] * (n_adults + n_children),
-                # This currently implements married parents.
+                # Build tax unit for married parents. If not married, will be
+                # overwritten below.
                 "tu_id": [i * (n_children + 1)] * n_adults
                 + list(range(i * (n_children + 1) + 1, (i + 1) * (n_children + 1))),
                 "bg_id": [i] * (n_adults + n_children),
@@ -159,6 +170,10 @@ def create_basic_households(
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df["p_id"] = df.index
+
+    if not adults_married:
+        df["tu_id"] = df["p_id"]
+
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
 
