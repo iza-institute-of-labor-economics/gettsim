@@ -6,6 +6,7 @@ channels:
   - nodefaults
 
 dependencies:
+  - astor
   - dags
   - ipywidgets
   - jupyterlab

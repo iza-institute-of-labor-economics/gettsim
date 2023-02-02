@@ -58,9 +58,8 @@ def grunds_im_alter_m_hh(
             - unterhaltsvors_m_hh
             - kindergeld_m_hh
         )
-        out = max(out, 0.0)
 
-    return out
+    return max(out, 0.0)
 
 
 def grunds_im_alter_eink_m(

@@ -12,6 +12,7 @@ target-version = "py39"
 select = ["ALL"]
 fix = true
 extend-ignore = [
+    "ICN001", # numpy should be np, but different convention here.
     # Docstrings
     "D103", # missing docstring in public function
     "D107",
@@ -67,6 +68,7 @@ exclude = [
 ]
 
 [tool.ruff.per-file-ignores]
+"src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/benefits/elterngeld.py" = ["E501"]
 "src/_gettsim/benefits/kinderzuschl.py" = ["ARG001"]
 "src/_gettsim/benefits/unterhalt.py" = ["E501"]
@@ -74,10 +76,9 @@ exclude = [
 "src/_gettsim/functions.py" = ["F401"]
 "src/_gettsim/policy_environment.py" = ["S506"]
 "src/_gettsim/rente.py" = ["N806", "ARG001"]
-"src/_gettsim/tax_transfer.py" = ["ARG001"]
 "src/_gettsim/social_insurance_contributions/ges_krankenv.py" = ["SIM401"]
+"src/_gettsim/tax_transfer.py" = ["ARG001"]
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
-"src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 
 [tool.ruff.pydocstyle]
@@ -132,7 +133,6 @@ filterwarnings = [
     "ignore:Using or importing the ABCs from 'collections'",
     "ignore:'grouped_cumsum' is deprecated.",
 ]
-addopts = ["--doctest-modules"]
 markers = [
     "wip: Tests that are work-in-progress.",
     "unit: Flag for unit tests which target mainly a single function.",
@@ -140,7 +140,9 @@ markers = [
     "end_to_end: Flag for tests that cover the whole program.",
 ]
 norecursedirs = ["docs", "dashboard"]
-
+testpaths = [
+    "src/_gettsim_tests",
+]
 
 [tool.coverage.report]
 omit = [

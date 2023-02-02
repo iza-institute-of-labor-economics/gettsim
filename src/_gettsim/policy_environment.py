@@ -3,7 +3,7 @@ import datetime
 import operator
 from functools import reduce
 
-import numpy as np
+import numpy
 import pandas as pd
 import yaml
 
@@ -25,8 +25,8 @@ from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
     midijob_faktor_f_bis_09_2022,
     minijob_grenze_ab_10_2022,
-    minijob_grenze_ost_vor_10_2022,
-    minijob_grenze_west_vor_10_2022,
+    minijob_grenze_ost_bis_09_2022,
+    minijob_grenze_west_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
@@ -403,8 +403,8 @@ def load_functions_for_date(date):
         functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
         functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
     else:
-        functions["minijob_grenze_west"] = minijob_grenze_west_vor_10_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ost_vor_10_2022
+        functions["minijob_grenze_west"] = minijob_grenze_west_bis_09_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ost_bis_09_2022
 
     if date >= datetime.date(year=2022, month=10, day=1):
         functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
@@ -591,8 +591,8 @@ def _load_parameter_group_from_yaml(
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
             # Otherwise, do not create an entry for this parameter.
-            if "deviation_from" in raw_group_data[param][np.min(policy_dates)]:
-                future_policy = raw_group_data[param][np.min(policy_dates)]
+            if "deviation_from" in raw_group_data[param][numpy.min(policy_dates)]:
+                future_policy = raw_group_data[param][numpy.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     params_temp = _load_parameter_group_from_yaml(
@@ -605,10 +605,10 @@ def _load_parameter_group_from_yaml(
                         out_params[param] = params_temp[path_list[1]]
 
         else:
-            policy_in_place = raw_group_data[param][np.max(past_policies)]
+            policy_in_place = raw_group_data[param][numpy.max(past_policies)]
             if "scalar" in policy_in_place:
                 if policy_in_place["scalar"] == "inf":
-                    out_params[param] = np.inf
+                    out_params[param] = numpy.inf
                 else:
                     out_params[param] = policy_in_place["scalar"]
             else:
@@ -623,7 +623,7 @@ def _load_parameter_group_from_yaml(
                 )
                 if "deviation_from" in policy_in_place:
                     if policy_in_place["deviation_from"] == "previous":
-                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        new_date = numpy.max(past_policies) - datetime.timedelta(days=1)
                         out_params[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
@@ -662,7 +662,7 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    out_params["datum"] = np.datetime64(date)
+    out_params["datum"] = numpy.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:
@@ -709,7 +709,7 @@ def _load_rounding_parameters(date, rounding_spec):
         # Note this will raise an error later unless the user adds an
         # appropriate rounding specification to the parameters dictionary.
         if policy_dates_before_date:
-            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_date_in_place = numpy.max(policy_dates_before_date)
             policy_in_place = rounding_spec_func[policy_date_in_place]
             out[function_name] = {}
             for key in [k for k in policy_in_place if k in rounding_parameters]:
