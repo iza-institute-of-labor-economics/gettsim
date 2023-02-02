@@ -166,7 +166,7 @@ def kinderfreib_günstiger_tu(
 def eink_st_rel_kindergeld_tu(
     kindergeld_m_tu: float,
     kinderbonus_m_tu: float,
-    anz_personen_tu: int,
+    anz_erwachsene_tu: int,
 ) -> float:
     """Return Kindergeld relevant for income tax of the tax unit. For parents which do
     not file taxes together, only half of Kindergeld is considered.
@@ -174,8 +174,8 @@ def eink_st_rel_kindergeld_tu(
     Source: § 31 Satz 4 EStG: "Bei nicht zusammenveranlagten Eltern wird der
     Kindergeldanspruch im Umfang des Kinderfreibetrags angesetzt."
 
-    # ToDo: This factor need to be refactored once children are put in separate tax
-    # ToDo: units and are linked to their parents (one or two)
+    # ToDo: This functions needs to be refactored once children are linked to their
+    # ToDo: parents via id variables.
 
 
     Parameters
@@ -184,11 +184,14 @@ def eink_st_rel_kindergeld_tu(
         See :func:`kindergeld_m_tu`.
     kinderbonus_m_tu
         See :func:`kinderbonus_m_tu`.
-    anz_personen_tu
-        See :func:`anz_personen_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     Returns
     -------
 
     """
-    out = 12 * (kindergeld_m_tu + kinderbonus_m_tu) * (anz_personen_tu / 2)
+    if anz_erwachsene_tu > 1:
+        out = 12 * (kindergeld_m_tu + kinderbonus_m_tu) * (anz_erwachsene_tu / 2)
+    else:
+        out = 0
     return out

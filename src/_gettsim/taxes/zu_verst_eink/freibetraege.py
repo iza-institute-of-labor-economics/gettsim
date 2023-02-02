@@ -62,7 +62,7 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
 def eink_st_alleinerz_freib_tu_ab_2015(
     alleinerz: bool,
-    anz_kinder_tu: int,
+    anz_kinder_bg: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculates tax deduction allowance for single parents since 2015.
@@ -74,8 +74,8 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     ----------
     alleinerz_tu
         See :func:`alleinerz_tu`.
-    anz_kinder_tu
-        See :func:`anz_kinder_tu`.
+    anz_kinder_bg
+        See :func:`anz_kinder_bg`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -85,7 +85,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     """
     alleinerz_freib_tu = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
-        + (anz_kinder_tu - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
+        + (anz_kinder_bg - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz:
         out = alleinerz_freib_tu
@@ -325,7 +325,7 @@ def eink_st_sonderausgaben_tu_ab_2012(
 
 def eink_st_kinderfreib_tu(
     anz_kinder_mit_kindergeld_bg: float,
-    anz_personen_tu: int,
+    anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate child allowances on tax unit level.
@@ -334,8 +334,8 @@ def eink_st_kinderfreib_tu(
     ----------
     anz_kinder_mit_kindergeld_bg
         See :func:`anz_kinder_mit_kindergeld_bg`.
-    anz_personen_tu
-        See :func:`anz_personen_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -344,6 +344,8 @@ def eink_st_kinderfreib_tu(
 
     """
     kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    out = kifreib_total * anz_kinder_mit_kindergeld_bg * anz_personen_tu
+
+    if anz_erwachsene_tu > 0:
+        out = kifreib_total * anz_kinder_mit_kindergeld_bg * anz_erwachsene_tu
 
     return float(out)
