@@ -5,7 +5,7 @@ def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_tu: float,
     soli_st_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
     kind: bool,
@@ -26,8 +26,8 @@ def arbeitsl_geld_2_eink_m(
         See :func:`eink_st_tu`.
     soli_st_tu
         See :func:`soli_st_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
     kind
@@ -51,8 +51,8 @@ def arbeitsl_geld_2_eink_m(
     else:
         out = (
             arbeitsl_geld_2_bruttoeink_m
-            - (eink_st_tu / anz_erwachsene_tu / 12)
-            - (soli_st_tu / anz_erwachsene_tu / 12)
+            - (eink_st_tu / anz_personen_tu / 12)
+            - (soli_st_tu / anz_personen_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_eink_anr_frei_m
         )

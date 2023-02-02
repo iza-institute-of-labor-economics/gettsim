@@ -37,7 +37,7 @@ INPUT_COLS = [
     "jahr",
     "eink_st_tu",
     "vermögen_bedürft_hh",
-    "haushaltsgröße_hh",
+    "anz_personen_hh",
 ]
 YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021, 2023]
 
@@ -58,7 +58,7 @@ OVERRIDE_COLS = [
     "kindergeld_anspruch",
     "sum_ges_rente_priv_rente_m",
     "kapitaleink_brutto",
-    "haushaltsgröße_hh",
+    "anz_personen_hh",
 ]
 
 

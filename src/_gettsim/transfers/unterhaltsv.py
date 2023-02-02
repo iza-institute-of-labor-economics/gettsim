@@ -2,9 +2,9 @@
 
 
 def unterhaltsvors_m(
-    alleinerz_tu: bool,
+    alleinerz_bg: bool,
     alter: int,
-    unterhaltsvorschuss_eink_m_tu: float,
+    unterhaltsvorschuss_eink_m_bg: float,
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> float:
@@ -22,12 +22,12 @@ def unterhaltsvors_m(
 
     Parameters
     ----------
-    alleinerz_tu
-        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
+    alleinerz_bg
+        See basic input variable :ref:`alleinerz_bg <alleinerz_bg>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    unterhaltsvorschuss_eink_m_tu
-        See :func:`unterhaltsvorschuss_eink_m_tu`.
+    unterhaltsvorschuss_eink_m_bg
+        See :func:`unterhaltsvorschuss_eink_m_bg`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
@@ -39,11 +39,11 @@ def unterhaltsvors_m(
     """
 
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
-    if (alter < altersgrenzen[0]) and alleinerz_tu:
+    if (alter < altersgrenzen[0]) and alleinerz_bg:
         out = (
             unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
         )
-    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz_tu:
+    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz_bg:
         out = (
             unterhalt_params["mindestunterhalt"][12]
             - kindergeld_params["kindergeld"][1]
@@ -52,9 +52,9 @@ def unterhaltsvors_m(
     # Older kids get it only if the single parent has income > 600€.
     elif (
         (altersgrenzen[1] <= alter <= altersgrenzen[2])
-        and alleinerz_tu
+        and alleinerz_bg
         and (
-            unterhaltsvorschuss_eink_m_tu
+            unterhaltsvorschuss_eink_m_bg
             > unterhalt_params["unterhaltsvors_mindesteinkommen"]
         )
     ):
@@ -70,46 +70,46 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_m_tu(
-    bruttolohn_m_tu: float,
-    sonstig_eink_m_tu: float,
-    eink_selbst_m_tu: float,
-    eink_vermietung_m_tu: float,
-    kapitaleink_brutto_m_tu: float,
-    sum_ges_rente_priv_rente_m_tu: float,
-    arbeitsl_geld_m_tu: float,
+def unterhaltsvorschuss_eink_m_bg(
+    bruttolohn_m_bg: float,
+    sonstig_eink_m_bg: float,
+    eink_selbst_m_bg: float,
+    eink_vermietung_m_bg: float,
+    kapitaleink_brutto_m_bg: float,
+    sum_ges_rente_priv_rente_m_bg: float,
+    arbeitsl_geld_m_bg: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment on tax unit level.
 
     Parameters
     ----------
-    bruttolohn_m_tu
-        See :func:`bruttolohn_m_tu`.
-    sonstig_eink_m_tu
-        See :func:`sonstig_eink_m_tu`.
-    eink_selbst_m_tu
-        See :func:`eink_selbst_m_tu`.
-    eink_vermietung_m_tu
-        See :func:`eink_vermietung_m_tu`.
-    kapitaleink_brutto_m_tu
-        See :func:`kapitaleink_brutto_m_tu`.
-    sum_ges_rente_priv_rente_m_tu
-        See :func:`sum_ges_rente_priv_rente_m_tu`.
-    arbeitsl_geld_m_tu
-        See :func:`arbeitsl_geld_m_tu`.
+    bruttolohn_m_bg
+        See :func:`bruttolohn_m_bg`.
+    sonstig_eink_m_bg
+        See :func:`sonstig_eink_m_bg`.
+    eink_selbst_m_bg
+        See :func:`eink_selbst_m_bg`.
+    eink_vermietung_m_bg
+        See :func:`eink_vermietung_m_bg`.
+    kapitaleink_brutto_m_bg
+        See :func:`kapitaleink_brutto_m_bg`.
+    sum_ges_rente_priv_rente_m_bg
+        See :func:`sum_ges_rente_priv_rente_m_bg`.
+    arbeitsl_geld_m_bg
+        See :func:`arbeitsl_geld_m_bg`.
 
     Returns
     -------
 
     """
     out = (
-        bruttolohn_m_tu
-        + sonstig_eink_m_tu
-        + eink_selbst_m_tu
-        + eink_vermietung_m_tu
-        + kapitaleink_brutto_m_tu
-        + sum_ges_rente_priv_rente_m_tu
-        + arbeitsl_geld_m_tu
+        bruttolohn_m_bg
+        + sonstig_eink_m_bg
+        + eink_selbst_m_bg
+        + eink_vermietung_m_bg
+        + kapitaleink_brutto_m_bg
+        + sum_ges_rente_priv_rente_m_bg
+        + arbeitsl_geld_m_bg
     )
 
     return out

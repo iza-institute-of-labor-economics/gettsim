@@ -151,7 +151,7 @@ def prepare_wg_data(sel_year, hh_size):
         this_column = wohngeld_df.columns[i]
         e = pd.Series(data=[einkommen[i]] * len(einkommen))
         wohngeld_df[this_column] = wohngeld_vor_vermög_check_m_hh(
-            haushaltsgröße_hh=household_size,
+            anz_personen_hh=household_size,
             # Account for minimum income
             wohngeld_eink_m=np.maximum(e, params["min_eink"][hh_size]),
             wohngeld_miete_m_hh=wohngeld_miete_m_hh,

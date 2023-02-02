@@ -98,12 +98,12 @@ from _gettsim.transfers.kindergeld import (
     kindergeld_anspruch_nach_stunden,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
-    _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019,
+    _kinderzuschl_vor_vermög_check_m_bg_ab_07_2019,
+    _kinderzuschl_vor_vermög_check_m_bg_bis_06_2019,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_tu_ab_2011,
-    kinderzuschl_eink_regel_m_tu_bis_2010,
+    kinderzuschl_eink_regel_m_bg_ab_2011,
+    kinderzuschl_eink_regel_m_bg_bis_2010,
 )
 from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
 from _gettsim.transfers.wohngeld import (
@@ -352,10 +352,10 @@ def load_functions_for_date(date):
 
     if year <= 2010:
         functions[
-            "kinderzuschl_eink_regel_m_tu"
-        ] = kinderzuschl_eink_regel_m_tu_bis_2010
+            "kinderzuschl_eink_regel_m_bg"
+        ] = kinderzuschl_eink_regel_m_bg_bis_2010
     else:
-        functions["kinderzuschl_eink_regel_m_tu"] = kinderzuschl_eink_regel_m_tu_ab_2011
+        functions["kinderzuschl_eink_regel_m_bg"] = kinderzuschl_eink_regel_m_bg_ab_2011
 
     if year <= 2022:
         functions[
@@ -377,12 +377,12 @@ def load_functions_for_date(date):
 
     if date < datetime.date(year=2019, month=7, day=1):
         functions[
-            "_kinderzuschl_vor_vermög_check_m_tu"
-        ] = _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019
+            "_kinderzuschl_vor_vermög_check_m_bg"
+        ] = _kinderzuschl_vor_vermög_check_m_bg_bis_06_2019
     else:
         functions[
-            "_kinderzuschl_vor_vermög_check_m_tu"
-        ] = _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019
+            "_kinderzuschl_vor_vermög_check_m_bg"
+        ] = _kinderzuschl_vor_vermög_check_m_bg_ab_07_2019
 
     if year <= 2010:
         functions[

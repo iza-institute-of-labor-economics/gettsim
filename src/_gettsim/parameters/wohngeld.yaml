@@ -477,7 +477,7 @@ koeffizienten_berechnungsformel:
       b: 0.0001152
       c: 0.0000251
 
-haushaltsgröße_hhn:
+anz_personen_hhn:
   name:
     de: Haushaltsgrößen, die beim Wohngeld berücksichtigt werden
     en: Household sizes taken into account for housing benefit

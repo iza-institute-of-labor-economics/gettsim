@@ -8,21 +8,26 @@ import datetime
 import numpy
 
 aggregation_demographic_vars = {
+    "anz_personen_tu": {"aggr": "count"},
+    "anz_personen_bg": {"aggr": "count"},
+    "anz_personen_hh": {"aggr": "count"},
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_erwachsene_bg": {"source_col": "erwachsen", "aggr": "sum"},
     "anz_erwachsene_hh": {"source_col": "erwachsen", "aggr": "sum"},
     "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
-    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
     "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
+    "anz_kinder_bg": {"source_col": "kind", "aggr": "sum"},
+    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
     "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
     "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
     "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
     "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
-    "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
+    "anz_kinder_bis_10_bg": {"source_col": "kind_bis_10", "aggr": "sum"},
+    # ToDo: remove alleinerz_tu
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
+    "alleinerz_bg": {"source_col": "alleinerz", "aggr": "any"},
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
-    "haushaltsgröße_hh": {"aggr": "count"},
-    "tax_unit_größe_tu": {"aggr": "count"},
     "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min"},
     "anz_mehrlinge_jüngstes_kind_hh": {
         "source_col": "jüngstes_kind_oder_mehrling",
@@ -157,21 +162,21 @@ def erwachsen(kind: bool) -> bool:
     return out
 
 
-def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
+def gemeinsam_veranlagt_tu(anz_personen_tu: int) -> bool:
     """Check if the tax unit consists of two wage earners.
 
     Parameters
     ----------
     tu_id
         See basic input variable :ref:`tu_id <tu_id>`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     Returns
     -------
     Boolean indicating two wage earners in tax unit.
 
     """
-    return anz_erwachsene_tu == 2
+    return anz_personen_tu == 2
 
 
 def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:

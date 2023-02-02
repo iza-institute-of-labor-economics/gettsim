@@ -136,7 +136,7 @@ def wohngeld_eink_freib_m_bis_2015(
     behinderungsgrad: int,
     alleinerz: bool,
     kind: bool,
-    anz_kinder_bis_10_tu: int,
+    anz_kinder_bis_10_bg: int,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions for one individual until 2015.
@@ -153,8 +153,8 @@ def wohngeld_eink_freib_m_bis_2015(
         See basic input variable :ref:`alleinerz <alleinerz>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    anz_kinder_bis_10_tu
-        See :func:`anz_kinder_bis_10_tu`.
+    anz_kinder_bis_10_bg
+        See :func:`anz_kinder_bis_10_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -179,7 +179,7 @@ def wohngeld_eink_freib_m_bis_2015(
 
     elif alleinerz and (not kind):
         freib_kinder_m = (
-            anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
+            anz_kinder_bis_10_bg * wohngeld_params["freib_kinder_m"]["alleinerz"]
         )
     else:
         freib_kinder_m = 0.0
@@ -252,7 +252,7 @@ def wohngeld_eink_freib_m_ab_2016(
 
 
 def wohngeld_eink_m_hh(
-    haushaltsgröße_hh: int,
+    anz_personen_hh: int,
     wohngeld_eink_freib_m_hh: float,
     wohngeld_eink_vor_freib_m_hh: float,
     wohngeld_params: dict,
@@ -262,8 +262,8 @@ def wohngeld_eink_m_hh(
 
     Parameters
     ----------
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
     wohngeld_eink_freib_m_hh
         See :func:`wohngeld_eink_freib_m_hh`.
     wohngeld_eink_vor_freib_m_hh
@@ -279,21 +279,21 @@ def wohngeld_eink_m_hh(
         wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
     )
     unteres_eink = wohngeld_params["min_eink"][
-        min(haushaltsgröße_hh, max(wohngeld_params["min_eink"]))
+        min(anz_personen_hh, max(wohngeld_params["min_eink"]))
     ]
 
     out = max(wohngeld_eink_nach_abzug_m_hh, unteres_eink)
     return float(out)
 
 
-def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
+def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
     """Calculate minimal monthly rent subject housing benefit calculation on household
     level.
 
     Parameters
     ----------
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
@@ -301,7 +301,7 @@ def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
 
     """
     out = wohngeld_params["min_miete"][
-        min(haushaltsgröße_hh, max(wohngeld_params["min_miete"]))
+        min(anz_personen_hh, max(wohngeld_params["min_miete"]))
     ]
     return float(out)
 
@@ -309,7 +309,7 @@ def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
 def wohngeld_miete_m_hh_bis_2008(
     mietstufe: int,
     immobilie_baujahr_hh: int,
-    haushaltsgröße_hh: int,
+    anz_personen_hh: int,
     bruttokaltmiete_m_hh: float,
     wohngeld_min_miete_m_hh: float,
     wohngeld_params: dict,
@@ -322,8 +322,8 @@ def wohngeld_miete_m_hh_bis_2008(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     immobilie_baujahr_hh
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     wohngeld_min_miete_m_hh
@@ -338,7 +338,7 @@ def wohngeld_miete_m_hh_bis_2008(
     max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    berücks_personen = min(haushaltsgröße_hh, max_berücks_personen)
+    berücks_personen = min(anz_personen_hh, max_berücks_personen)
 
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
@@ -354,8 +354,8 @@ def wohngeld_miete_m_hh_bis_2008(
     # ToDo: Think about calculating max_definierte_hh_größe already in parameter
     # ToDo: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if haushaltsgröße_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]
+    if anz_personen_hh <= max_definierte_hh_größe:
+        max_miete_m_hh = params_max_miete[anz_personen_hh][constr_year][mietstufe]
     else:
         max_miete_m_hh = params_max_miete[max_definierte_hh_größe][constr_year][
             mietstufe
@@ -371,7 +371,7 @@ def wohngeld_miete_m_hh_bis_2008(
 
 def wohngeld_miete_m_hh_ab_2009(
     mietstufe: int,
-    haushaltsgröße_hh: int,
+    anz_personen_hh: int,
     bruttokaltmiete_m_hh: float,
     wohngeld_min_miete_m_hh: float,
     wohngeld_params: dict,
@@ -382,8 +382,8 @@ def wohngeld_miete_m_hh_ab_2009(
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
     wohngeld_min_miete_m_hh
@@ -400,12 +400,12 @@ def wohngeld_miete_m_hh_ab_2009(
     max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    berücks_personen = min(haushaltsgröße_hh, max_berücks_personen)
+    berücks_personen = min(anz_personen_hh, max_berücks_personen)
 
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if haushaltsgröße_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[haushaltsgröße_hh][mietstufe]
+    if anz_personen_hh <= max_definierte_hh_größe:
+        max_miete_m_hh = params_max_miete[anz_personen_hh][mietstufe]
     else:
         max_miete_m_hh = (
             params_max_miete[max_definierte_hh_größe][mietstufe]
@@ -421,9 +421,9 @@ def wohngeld_miete_m_hh_ab_2009(
             i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
         )
     if "heizkostenentlastung_m" in wohngeld_params:
-        if haushaltsgröße_hh <= max_def_hh_größe_heating:
+        if anz_personen_hh <= max_def_hh_größe_heating:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                haushaltsgröße_hh
+                anz_personen_hh
             ]
         else:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
@@ -444,9 +444,9 @@ def wohngeld_miete_m_hh_ab_2009(
             if isinstance(i, int)
         )
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
-        if haushaltsgröße_hh <= max_def_hh_größe_heating:
+        if anz_personen_hh <= max_def_hh_größe_heating:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                haushaltsgröße_hh
+                anz_personen_hh
             ]
         else:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
@@ -467,10 +467,8 @@ def wohngeld_miete_m_hh_ab_2009(
             i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
         )
     if "klimakomponente_m" in wohngeld_params:
-        if haushaltsgröße_hh <= max_def_hh_größe_heating:
-            climate_component_m = wohngeld_params["klimakomponente_m"][
-                haushaltsgröße_hh
-            ]
+        if anz_personen_hh <= max_def_hh_größe_heating:
+            climate_component_m = wohngeld_params["klimakomponente_m"][anz_personen_hh]
         else:
             climate_component_m = wohngeld_params["klimakomponente_m"][
                 max_def_hh_größe_heating
@@ -487,7 +485,7 @@ def wohngeld_miete_m_hh_ab_2009(
 
 
 def wohngeld_vor_vermög_check_m_hh(
-    haushaltsgröße_hh: int,
+    anz_personen_hh: int,
     wohngeld_eink_m_hh: float,
     wohngeld_miete_m_hh: float,
     wohngeld_params: dict,
@@ -496,8 +494,8 @@ def wohngeld_vor_vermög_check_m_hh(
 
     Parameters
     ----------
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
     wohngeld_eink_m_hh
         See :func:`wohngeld_eink_m_hh`.
     wohngeld_miete_m_hh
@@ -514,7 +512,7 @@ def wohngeld_vor_vermög_check_m_hh(
     ]
 
     koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
-        min(haushaltsgröße_hh, max_berücks_personen)
+        min(anz_personen_hh, max_berücks_personen)
     ]
     out = wohngeld_params["faktor_berechnungsformel"] * (
         wohngeld_miete_m_hh
@@ -529,35 +527,35 @@ def wohngeld_vor_vermög_check_m_hh(
     )
     out = max(out, 0.0)
 
-    if haushaltsgröße_hh > max_berücks_personen:
+    if anz_personen_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `wohngeld_miete_m_hh`.
         out = min(
             out
             + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
-            * (haushaltsgröße_hh - max_berücks_personen),
+            * (anz_personen_hh - max_berücks_personen),
             wohngeld_miete_m_hh,
         )
 
     return out
 
 
-def _anteil_personen_in_haushalt_tu(
-    tax_unit_größe_tu: int, haushaltsgröße_hh: int
+def _anteil_personen_in_haushalt_bg(
+    anz_personen_bg: int, anz_personen_hh: int
 ) -> float:
     """Calculate the share of tax units in household.
 
-    ToDo: Change to tax_unit_größe / haushaltsgröße_hh
+    ToDo: Change to tax_unit_größe / anz_personen_hh
 
     Parameters
     ----------
-    tax_unit_größe_tu
-        See :func:`tax_unit_größe_tu`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
 
     Returns
     -------
 
     """
-    return tax_unit_größe_tu / haushaltsgröße_hh
+    return anz_personen_bg / anz_personen_hh

@@ -31,8 +31,8 @@ INPUT_COLS = [
     "vermögen_bedürft_hh",
 ]
 OUT_COLS = [
-    "_kinderzuschl_vor_vermög_check_m_tu",
-    "_kinderzuschl_nach_vermög_check_m_tu",
+    "_kinderzuschl_vor_vermög_check_m_bg",
+    "_kinderzuschl_nach_vermög_check_m_bg",
 ]
 # 2006 and 2009 are missing -> are currently failing
 YEARS = [2013, 2016, 2017, 2019, 2020, 2021]

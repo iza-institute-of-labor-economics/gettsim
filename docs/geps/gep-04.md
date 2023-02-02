@@ -225,7 +225,7 @@ For example, in `demographic_vars.py`, we could have:
 ```
 aggregation_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
-    "haushaltsgröße_hh": {"aggr": "count"},
+    "anz_personen_hh": {"aggr": "count"},
 }
 ```
 

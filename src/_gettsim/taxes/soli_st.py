@@ -3,7 +3,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 def soli_st_tu(
     eink_st_mit_kinderfreib_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     abgelt_st_tu: float,
     soli_st_params: dict,
 ) -> float:
@@ -24,8 +24,8 @@ def soli_st_tu(
     ----------
     eink_st_mit_kinderfreib_tu
         See :func:`eink_st_mit_kinderfreib_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     abgelt_st_tu
         See :func:`abgelt_st_tu`.
     soli_st_params
@@ -35,9 +35,9 @@ def soli_st_tu(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_personen_tu
     out = (
-        anz_erwachsene_tu
+        anz_personen_tu
         * piecewise_polynomial(
             eink_st_per_individual,
             thresholds=soli_st_params["soli_st"]["thresholds"],
