@@ -2,21 +2,23 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 
 def arbeitsl_geld_2_eink_m(
-    arbeitsl_geld_2_brutto_eink_m: float,
+    arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_tu: float,
     soli_st_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
+    kind: bool,
 ) -> float:
 
-    """Sum up the income for calculation of basic subsistence.
+    """Income (after deduction of taxes, social insurance contributions, and other
+    deductions) for calculation of basic subsistence.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
-    arbeitsl_geld_2_brutto_eink_m
+    arbeitsl_geld_2_bruttoeink_m
         See :func:`arbeitsl_geld_2_eink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
@@ -28,25 +30,37 @@ def arbeitsl_geld_2_eink_m(
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
     Income of a person by unemployment insurance.
 
     """
+    # ToDo: Implement deduction of child income including allowance of 100 EUR.
+    if kind:
+        # Do not substract income tax as long as children are still part of the tax
+        # unit of their parents
+        # ToDo: Rewrite once children are in a separate tax unit
+        out = (
+            arbeitsl_geld_2_bruttoeink_m
+            - sozialv_beitr_m
+            - arbeitsl_geld_2_eink_anr_frei_m
+        )
+    else:
+        out = (
+            arbeitsl_geld_2_bruttoeink_m
+            - (eink_st_tu / anz_erwachsene_tu / 12)
+            - (soli_st_tu / anz_erwachsene_tu / 12)
+            - sozialv_beitr_m
+            - arbeitsl_geld_2_eink_anr_frei_m
+        )
 
-    out = (
-        arbeitsl_geld_2_brutto_eink_m
-        - (eink_st_tu / anz_erwachsene_tu / 12)
-        - (soli_st_tu / anz_erwachsene_tu / 12)
-        - sozialv_beitr_m
-        - arbeitsl_geld_2_eink_anr_frei_m
-    )
-
-    return max(out, 0.0)
+    return out
 
 
-def arbeitsl_geld_2_brutto_eink_m(
+def arbeitsl_geld_2_bruttoeink_m(
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
@@ -57,7 +71,7 @@ def arbeitsl_geld_2_brutto_eink_m(
     elterngeld_m: float,
 ) -> float:
 
-    """Sum up the income before tax for calculation of basic subsistence.
+    """Sum up the gross income for calculation of basic subsistence.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 

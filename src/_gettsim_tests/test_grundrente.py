@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "p_id",
@@ -155,7 +155,6 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
         params=policy_params,
         functions=[policy_functions],
         targets=["ges_rente_vor_grundr_m"],
-        # rounding=False,
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],

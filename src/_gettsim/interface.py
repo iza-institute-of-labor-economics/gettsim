@@ -4,19 +4,22 @@ import inspect
 import warnings
 
 import dags
-import numpy as np
 import pandas as pd
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.config import TYPES_INPUT_VARIABLES
+
+from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
-from _gettsim.gettsim_typing import check_series_has_expected_type
-from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.shared import format_errors_and_warnings
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import KeyErrorMessage
-from _gettsim.shared import parse_to_list_of_strings
+from _gettsim.gettsim_typing import (
+    check_series_has_expected_type,
+    convert_series_to_internal_type,
+)
+from _gettsim.shared import (
+    KeyErrorMessage,
+    format_errors_and_warnings,
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def compute_taxes_and_transfers(
@@ -107,7 +110,6 @@ def compute_taxes_and_transfers(
         f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    # Round and partial all necessary functions.
     processed_functions = _round_and_partial_parameters_to_functions(
         necessary_functions, params, rounding
     )
@@ -129,6 +131,20 @@ def compute_taxes_and_transfers(
         aggregator=None,
         enforce_signature=True,
     )
+
+    if "unterhalt" in params:
+        if (
+            "mindestunterhalt" not in params["unterhalt"]
+            and "unterhaltsvors_m" in processed_functions
+        ):
+            raise NotImplementedError(
+                """
+Unterhaltsvorschuss is not implemented yet prior to 2016, see
+https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
+
+        """
+            )
+
     results = tax_transfer_function(**input_data)
 
     # Prepare results.
@@ -357,9 +373,9 @@ def _create_input_data(
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
     if any(data.columns.duplicated()):
-        duplicated = list(data.columns[data.columns.duplicated()])
         raise ValueError(
-            "The following columns are non-unique in the input data:" f"{duplicated}"
+            "The following columns are non-unique in the input data:\n\n"
+            f"{data.columns[data.columns.duplicated()]}"
         )
 
 
@@ -379,7 +395,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
                 if not (max_value == col).all():
                     message = format_errors_and_warnings(
                         f"""
-                        Column '{name}' has not one unique value per group defined by
+                        Column {name!r} has not one unique value per group defined by
                         `{level}_id`.
 
                         This is expected if the variable name ends with '_{level}'.
@@ -574,7 +590,7 @@ def _add_rounding_to_functions(functions, params):
                     KeyErrorMessage(
                         f"Rounding specifications for function {func_name} are expected"
                         " in the parameter dictionary \n"
-                        f" at ['{params_key}']['rounding']['{func_name}']. These nested"
+                        f" at [{params_key!r}]['rounding'][{func_name!r}]. These nested"
                         " keys do not exist. \n"
                         " If this function should not be rounded,"
                         " remove the respective decorator."
@@ -590,7 +606,7 @@ def _add_rounding_to_functions(functions, params):
                         "Both 'base' and 'direction' are expected as rounding "
                         "parameters in the parameter dictionary. \n "
                         "At least one of them "
-                        f"is missing at ['{params_key}']['rounding']['{func_name}']."
+                        f"is missing at [{params_key!r}]['rounding'][{func_name!r}]."
                     )
                 )
 
@@ -629,9 +645,9 @@ def _add_rounding_to_one_function(base, direction):
             out = func(*args, **kwargs)
 
             # Check inputs.
-            if not (type(base) in [int, float]):
+            if type(base) not in [int, float]:
                 raise ValueError(
-                    f"base needs to be a number, got '{base}' for '{func.__name__}'"
+                    f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )
 
             if direction == "up":
@@ -643,7 +659,7 @@ def _add_rounding_to_one_function(base, direction):
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got '{direction}' for '{func.__name__}'"
+                    f", got {direction!r} for {func.__name__!r}"
                 )
             return rounded_out
 

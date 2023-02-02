@@ -3,13 +3,13 @@ from __future__ import annotations
 import datetime
 import itertools
 
-import numpy as np
 import pandas as pd
-from _gettsim.config import RESOURCE_DIR
-from _gettsim.config import SUPPORTED_GROUPINGS
+
+from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
 
-current_year = datetime.datetime.now().year
+current_year = datetime.datetime.today().year
 
 
 def append_other_hh_members(
@@ -165,7 +165,7 @@ def create_synthetic_data(
         dim_counter = 0
         # find out how many dimensions there are in order to set household id.
         # loop over variables to vary
-        for hetvar in heterogeneous_vars.keys():
+        for hetvar in heterogeneous_vars:
             # allow only certain variables to vary
             if hetvar not in [
                 "bruttolohn_m",
@@ -247,9 +247,6 @@ def create_one_set_of_households(
         "heizkosten_m_hh",
         "wohnfläche_hh",
         "bewohnt_eigentum_hh",
-        "arbeitsl_monate_lfdj",
-        "arbeitsl_monate_vorj",
-        "arbeitsl_monate_v2j",
         "arbeitsstunden_w",
         "bruttolohn_vorj_m",
         "geburtstag",
@@ -283,6 +280,11 @@ def create_one_set_of_households(
         "m_kind_berücks_zeit",
         "m_pfleg_berücks_zeit",
         "y_pflichtbeitr_ab_40",
+        "anwartschaftszeit",
+        "arbeitssuchend",
+        "m_durchg_alg1_bezug",
+        "soz_vers_pflicht_5j",
+        "bürgerg_bezug_vorj",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
@@ -306,8 +308,14 @@ def create_one_set_of_households(
         "bewohnt_eigentum_hh",
         "in_priv_krankenv",
         "schwerbeh_g",
+        "anwartschaftszeit",
+        "arbeitssuchend",
     ]:
         df[bool_col] = False
+
+    # Take care of bürgerg_bezug_vorj
+    if policy_year >= 2023:
+        df["bürgerg_bezug_vorj"] = True
 
     # Other columns require int type
     for int_col in [
@@ -315,9 +323,6 @@ def create_one_set_of_households(
         "m_elterngeld",
         "m_elterngeld_mut_hh",
         "m_elterngeld_vat_hh",
-        "arbeitsl_monate_lfdj",
-        "arbeitsl_monate_vorj",
-        "arbeitsl_monate_v2j",
     ]:
         df[int_col] = df[int_col].astype(int)
 
@@ -420,10 +425,10 @@ def create_one_set_of_households(
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df = df.reset_index()
-    df = df.sort_values(by=group_ids + ["index"])
+    df = df.sort_values(by=[*group_ids, "index"])
     df = df.drop(columns=["index"]).reset_index(drop=True)
     df["p_id"] = df.index + p_id_min
 
-    df = df.sort_values(by=group_ids + ["p_id"])
+    df = df.sort_values(by=[*group_ids, "p_id"])
 
-    return df[["p_id"] + group_ids + ["hh_typ"] + output_columns]
+    return df[["p_id", *group_ids] + ["hh_typ"] + output_columns]

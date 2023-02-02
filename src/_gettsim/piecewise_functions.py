@@ -1,4 +1,4 @@
-import numpy as np
+import numpy
 
 
 def piecewise_polynomial(
@@ -10,7 +10,7 @@ def piecewise_polynomial(
     ----------
     x : pd.Series
         Series with values which piecewise polynomial is applied to.
-    thresholds : np.array
+    thresholds : numpy.array
                 A one-dimensional array containing the thresholds for all intervals.
     rates : numpy.ndarray
             A two-dimensional array where columns are interval sections and rows
@@ -32,7 +32,7 @@ def piecewise_polynomial(
 
     # Check in which interval each individual is. The thresholds are not exclusive on
     # the right side.
-    selected_bin = np.searchsorted(thresholds, x, side="right") - 1
+    selected_bin = numpy.searchsorted(thresholds, x, side="right") - 1
 
     # Calc last threshold for each individual
     threshold = thresholds[selected_bin]
@@ -116,7 +116,7 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
         parameter_dict, parameter, lower_thresholds, upper_thresholds, rates, keys
     )
     piecewise_elements = {
-        "thresholds": np.array(thresholds),
+        "thresholds": numpy.array(thresholds),
         "rates": rates,
         "intercepts_at_lower_thresholds": intercepts,
     }
@@ -140,8 +140,8 @@ def check_thresholds(parameter_dict, parameter, keys):
     -------
 
     """
-    lower_thresholds = np.zeros(len(keys))
-    upper_thresholds = np.zeros(len(keys))
+    lower_thresholds = numpy.zeros(len(keys))
+    upper_thresholds = numpy.zeros(len(keys))
 
     # Check if lowest threshold exists.
     if "lower_threshold" not in parameter_dict[0]:
@@ -158,7 +158,7 @@ def check_thresholds(parameter_dict, parameter, keys):
     upper_thresholds[keys[-1]] = parameter_dict[keys[-1]]["upper_threshold"]
 
     # Check if the function is defined on the complete real line
-    if (upper_thresholds[keys[-1]] != np.inf) | (lower_thresholds[0] != -np.inf):
+    if (upper_thresholds[keys[-1]] != numpy.inf) | (lower_thresholds[0] != -numpy.inf):
         raise ValueError(f"{parameter} needs to be defined on the entire real line.")
 
     for interval in keys[1:]:
@@ -183,9 +183,9 @@ def check_thresholds(parameter_dict, parameter, keys):
                 f" threshold in the piece after."
             )
 
-    if not np.allclose(lower_thresholds[1:], upper_thresholds[:-1]):
+    if not numpy.allclose(lower_thresholds[1:], upper_thresholds[:-1]):
         raise ValueError(
-            f"The lower and upper thresholds of {parameter} have to " f"coincide"
+            f"The lower and upper thresholds of {parameter} have to coincide"
         )
     thresholds = sorted([lower_thresholds[0], *upper_thresholds])
     return lower_thresholds, upper_thresholds, thresholds
@@ -220,7 +220,7 @@ def check_rates(parameter_dict, parameter, keys, func_type):
     }
     # Allow for specification of rate with "rate" and "rate_linear"
     if func_type == "linear":
-        rates = np.zeros((1, len(keys)))
+        rates = numpy.zeros((1, len(keys)))
         for interval in keys:
             if "rate" in parameter_dict[interval]:
                 rates[0, interval] = parameter_dict[interval]["rate"]
@@ -231,7 +231,7 @@ def check_rates(parameter_dict, parameter, keys, func_type):
                     f"In {interval} of {parameter} there is no rate specified."
                 )
     elif func_type in options_dict:
-        rates = np.zeros((options_dict[func_type]["rates_size"], len(keys)))
+        rates = numpy.zeros((options_dict[func_type]["rates_size"], len(keys)))
         for i, rate_type in enumerate(options_dict[func_type]["necessary_keys"]):
             for interval in keys:
                 if rate_type in parameter_dict[interval]:
@@ -266,7 +266,7 @@ def check_intercepts(
     -------
 
     """
-    intercepts = np.zeros(len(keys))
+    intercepts = numpy.zeros(len(keys))
     count_intercepts_supplied = 1
 
     if "intercept_at_lower_threshold" not in parameter_dict[0]:
@@ -300,18 +300,18 @@ def create_intercepts(
 
     Parameters
     ----------
-    lower_thresholds : np.array
+    lower_thresholds : numpy.array
                        The lower thresholds defining the intervals
 
-    upper_thresholds : np.array
+    upper_thresholds : numpy.array
                        The upper thresholds defining the intervals
 
-    rates : np.array
+    rates : numpy.array
            The slope in the interval below the corresponding element of
            *upper_thresholds*.
 
-    intercept_at_lowest_threshold : np.array
-                                    Intecept at the lowest threshold
+    intercept_at_lowest_threshold : numpy.array
+                                    Intercept at the lowest threshold
 
     fun: function handle (currently only piecewise_linear, will need to think about
     whether we can have a generic function with a different interface or make
@@ -320,10 +320,8 @@ def create_intercepts(
     Returns
     -------
 
-    """ """
-
     """
-    intercepts_at_lower_thresholds = np.full_like(upper_thresholds, np.nan)
+    intercepts_at_lower_thresholds = numpy.full_like(upper_thresholds, numpy.nan)
     intercepts_at_lower_thresholds[0] = intercept_at_lowest_threshold
     for i, up_thr in enumerate(upper_thresholds[:-1]):
         intercepts_at_lower_thresholds[i + 1] = calculate_intercepts(
@@ -363,15 +361,15 @@ def calculate_intercepts(
     """
 
     # Check if value lies within the defined range.
-    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or np.isnan(x):
-        return np.nan
-    index_interval = np.searchsorted(upper_thresholds, x, side="left")
+    if (x < lower_thresholds[0]) or (x > upper_thresholds[-1]) or numpy.isnan(x):
+        return numpy.nan
+    index_interval = numpy.searchsorted(upper_thresholds, x, side="left")
     intercept_interval = intercepts_at_lower_thresholds[index_interval]
 
     # Select threshold and calculate corresponding increment into interval
     lower_threshold_interval = lower_thresholds[index_interval]
 
-    if lower_threshold_interval == -np.inf:
+    if lower_threshold_interval == -numpy.inf:
         return intercept_interval
 
     increment_to_calc = x - lower_threshold_interval

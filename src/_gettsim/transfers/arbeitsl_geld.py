@@ -1,12 +1,15 @@
 """Functions to compute unemployment benefits (Arbeitslosengeld)."""
+import numpy as np
+
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
+from _gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 
 def arbeitsl_geld_m(
     anz_kinder_tu: int,
     arbeitsl_geld_berechtigt: bool,
-    arbeitsl_geld_eink_vorj_proxy: float,
+    arbeitsl_geld_eink_vorj_proxy_m: float,
     arbeitsl_geld_params: dict,
 ) -> float:
     """Calculate individual unemployment benefit.
@@ -17,8 +20,8 @@ def arbeitsl_geld_m(
         See :func:`anz_kinder_tu`.
     arbeitsl_geld_berechtigt
         See :func:`arbeitsl_geld_berechtigt`.
-    arbeitsl_geld_eink_vorj_proxy
-        See :func:`arbeitsl_geld_eink_vorj_proxy`.
+    arbeitsl_geld_eink_vorj_proxy_m
+        See :func:`arbeitsl_geld_eink_vorj_proxy_m`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -27,65 +30,39 @@ def arbeitsl_geld_m(
 
     """
 
-    if arbeitsl_geld_berechtigt:
-        if anz_kinder_tu == 0:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-        else:
-            arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
+    if anz_kinder_tu == 0:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
+    elif anz_kinder_tu > 0:
+        arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-        out = arbeitsl_geld_eink_vorj_proxy * arbeitsl_geld_satz
+    if arbeitsl_geld_berechtigt:
+        out = arbeitsl_geld_eink_vorj_proxy_m * arbeitsl_geld_satz
     else:
         out = 0.0
 
     return out
 
 
-def arbeitsl_monate_gesamt(
-    arbeitsl_monate_lfdj: int,
-    arbeitsl_monate_vorj: int,
-    arbeitsl_monate_v2j: int,
-) -> int:
-    """Aggregate months of unemployment over the last two years.
-
-    Parameters
-    ----------
-    arbeitsl_monate_lfdj
-        See basic input variable :ref:`arbeitsl_monate_lfdj <arbeitsl_monate_lfdj>`.
-    arbeitsl_monate_vorj
-        See basic input variable :ref:`arbeitsl_monate_vorj <arbeitsl_monate_vorj>`.
-    arbeitsl_monate_v2j
-        See basic input variable :ref:`arbeitsl_monate_v2j <arbeitsl_monate_v2j>`.
-
-    Returns
-    -------
-
-    """
-    return arbeitsl_monate_lfdj + arbeitsl_monate_vorj + arbeitsl_monate_v2j
-
-
-def arbeitsl_geld_berechtigt(
-    arbeitsl_monate_gesamt: int,
+def arbeitsl_geld_restl_anspruchsd(
     alter: int,
-    sum_ges_rente_priv_rente_m: float,
-    arbeitsstunden_w: float,
+    soz_vers_pflicht_5j: float,
+    anwartschaftszeit: bool,
+    m_durchg_alg1_bezug: float,
     arbeitsl_geld_params: dict,
-) -> bool:
-    """Check eligibility for unemployment benefit.
-
-    Different rates for parent and non-parents. Take into account actual wages. There
-    are different replacement rates depending on presence of children
+) -> int:
+    """Calculate the remaining amount of months a person can receive unemployment
+    benefit this year.
 
     Parameters
     ----------
-    arbeitsl_monate_gesamt
-        See :func:`arbeitsl_monate_gesamt`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
-    arbeitsstunden_w
-        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
+    soz_vers_pflicht_5j
+        See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
+    anwartschaftszeit
+        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
+    m_durchg_alg1_bezug
+        See basic input variable :ref:`m_durchg_alg1_bezug <m_durchg_alg1_bezug>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -93,19 +70,101 @@ def arbeitsl_geld_berechtigt(
     -------
 
     """
-    out = (
-        (
-            arbeitsl_monate_gesamt
-            <= arbeitsl_geld_params["dauer_auszahlung"]["max_dauer"]
-        )
-        and (alter < arbeitsl_geld_params["altersgrenze"]["alter"])
-        and (sum_ges_rente_priv_rente_m == 0)
-        and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
+    nach_alter = piecewise_polynomial(
+        alter,
+        thresholds=[
+            *list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"]),
+            np.inf,
+        ],
+        rates=np.array(
+            [[0] * len(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"])]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"]["nach_alter"].values()
+        ),
     )
+    nach_versich_pfl = piecewise_polynomial(
+        soz_vers_pflicht_5j,
+        thresholds=[
+            *list(
+                arbeitsl_geld_params["anspruchsdauer"][
+                    "nach_versicherungspflichtige_monate"
+                ]
+            ),
+            np.inf,
+        ],
+        rates=np.array(
+            [
+                [0]
+                * len(
+                    arbeitsl_geld_params["anspruchsdauer"][
+                        "nach_versicherungspflichtige_monate"
+                    ]
+                )
+            ]
+        ),
+        intercepts_at_lower_thresholds=list(
+            arbeitsl_geld_params["anspruchsdauer"][
+                "nach_versicherungspflichtige_monate"
+            ].values()
+        ),
+    )
+    if anwartschaftszeit:
+        anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
+
+    if anwartschaftszeit:
+        out = max(anspruchsdauer_gesamt - m_durchg_alg1_bezug, 0)
+    else:
+        out = 0
+
     return out
 
 
-def arbeitsl_geld_eink_vorj_proxy(
+def arbeitsl_geld_berechtigt(
+    alter: int,
+    arbeitssuchend: bool,
+    arbeitsl_geld_restl_anspruchsd: int,
+    arbeitsstunden_w: float,
+    arbeitsl_geld_params: dict,
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> bool:
+    """Check eligibility for unemployment benefit.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    arbeitssuchend
+        See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
+    arbeitsl_geld_restl_anspruchsd
+        See :func:`arbeitsl_geld_restl_anspruchsd`.
+    arbeitsstunden_w
+        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
+    arbeitsl_geld_params
+        See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    regelaltersgrenze = ges_rente_regelaltersgrenze(geburtsjahr, ges_rente_params)
+
+    out = (
+        arbeitssuchend
+        and (arbeitsl_geld_restl_anspruchsd > 0)
+        and (alter < regelaltersgrenze)
+        and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
+    )
+
+    return out
+
+
+def arbeitsl_geld_eink_vorj_proxy_m(
     _ges_rentenv_beitr_bemess_grenze_m: float,
     bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
@@ -141,6 +200,10 @@ def arbeitsl_geld_eink_vorj_proxy(
     prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
+    # Caution: currently wrong calculation due to
+    # 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"] not being
+    # the same as zu versteuerndes einkommen
+    # waiting for PR Lohnsteuer #150 to be merged to correct this problem
     prox_tax = _eink_st_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
