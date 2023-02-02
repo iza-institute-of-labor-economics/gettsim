@@ -3,10 +3,10 @@ from __future__ import annotations
 import datetime
 import itertools
 
-import numpy as np
 import pandas as pd
 
 from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
 
 current_year = datetime.datetime.today().year

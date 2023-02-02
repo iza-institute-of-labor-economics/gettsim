@@ -74,7 +74,6 @@ def _vorsorge_alternative_tu_ab_2005_bis_2009(
     -------
 
     """
-
     sum_vorsorge = 12 * (
         ges_krankenv_beitr_m_tu + arbeitsl_v_beitr_m_tu + ges_pflegev_beitr_m_tu
     )

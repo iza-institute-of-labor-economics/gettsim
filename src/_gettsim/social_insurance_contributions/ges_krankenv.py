@@ -4,7 +4,7 @@ def ges_krankenv_beitr_m(
     ges_krankenv_beitr_selbst_m: float,
     in_gleitzone: bool,
     _ges_krankenv_midijob_arbeitn_m: float,
-    _ges_krankenv_beitr_reg_beschäftigt: float,
+    _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
     """Contribution for each individual to the public health insurance.
@@ -19,8 +19,8 @@ def ges_krankenv_beitr_m(
         See :func:`ges_krankenv_beitr_selbst_m`.
     _ges_krankenv_midijob_arbeitn_m
         See :func:`_ges_krankenv_midijob_arbeitn_m`.
-    _ges_krankenv_beitr_reg_beschäftigt
-        See :func:`_ges_krankenv_beitr_reg_beschäftigt`.
+    _ges_krankenv_beitr_reg_beschäftigt_m
+        See :func:`_ges_krankenv_beitr_reg_beschäftigt_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     selbstständig
@@ -39,7 +39,7 @@ def ges_krankenv_beitr_m(
     elif in_gleitzone:
         out = _ges_krankenv_midijob_arbeitn_m
     else:
-        out = _ges_krankenv_beitr_reg_beschäftigt
+        out = _ges_krankenv_beitr_reg_beschäftigt_m
 
     # Add the health insurance contribution for pensions
     return out + ges_krankenv_beitr_rente_m
@@ -218,7 +218,7 @@ def _ges_krankenv_bruttolohn_m(
     return out
 
 
-def _ges_krankenv_beitr_reg_beschäftigt(
+def _ges_krankenv_beitr_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float, ges_krankenv_beitr_satz: float
 ) -> float:
     """Calculates health insurance contributions for regular jobs.
@@ -270,15 +270,17 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbst(
     """
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
-        bezugsgröße_selbstv_m = _ges_krankenv_bezugsgröße_selbst_m
         eink_selbst_selbstv_m = eink_selbst_m
     else:
-        bezugsgröße_selbstv_m = 0.0
         eink_selbst_selbstv_m = 0.0
 
-    anteil_ges_krankenv_bezugsgröße_selbst_m = (
-        soz_vers_beitr_params["bezugsgröße_selbst_anteil"] * bezugsgröße_selbstv_m
-    )
+    if selbstständig and not in_priv_krankenv:
+        anteil_ges_krankenv_bezugsgröße_selbst_m = (
+            soz_vers_beitr_params["bezugsgröße_selbst_anteil"]
+            * _ges_krankenv_bezugsgröße_selbst_m
+        )
+    else:
+        anteil_ges_krankenv_bezugsgröße_selbst_m = 0.0
 
     if eink_selbst_selbstv_m > anteil_ges_krankenv_bezugsgröße_selbst_m:
         out = anteil_ges_krankenv_bezugsgröße_selbst_m

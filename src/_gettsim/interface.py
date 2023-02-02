@@ -4,10 +4,10 @@ import inspect
 import warnings
 
 import dags
-import numpy as np
 import pandas as pd
 
 from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
@@ -110,7 +110,6 @@ def compute_taxes_and_transfers(
         f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    # Round and partial all necessary functions.
     processed_functions = _round_and_partial_parameters_to_functions(
         necessary_functions, params, rounding
     )

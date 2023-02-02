@@ -19,8 +19,8 @@ To contribute to the project, adhere to the following process.
 - Make sure you have the following programs installed and that these can be found on
   your path:
 
-  - A Python distribution (we recommend using:
-    [Miniconda](https://docs.conda.io/en/latest/miniconda.html) or Anaconda)
+  - A [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or
+    [Anaconda](https://www.anaconda.com/products/distribution) Python distribution.
   - [Git](https://git-scm.com/downloads)
   - A modern text editor (e.g. [VS Code](https://code.visualstudio.com/))
 
@@ -28,7 +28,7 @@ To contribute to the project, adhere to the following process.
   contributor you might have been granted privileges to push to the GETTSIM repository.
   Thus, you can clone the repository directly using
 
-  ```bash
+  ```shell-session
   $ git clone https://github.com/iza-institute-of-labor-economics/gettsim
   ```
 
@@ -39,13 +39,13 @@ To contribute to the project, adhere to the following process.
   and click on the fork button in the upper right corner. Then, clone your fork onto
   your disk with
 
-  ```bash
+  ```shell-session
   $ git clone https://github.com/<user>/gettsim
   ```
 
 - In the next step, go into the GETTSIM folder and set up the Python environment with
 
-  ```bash
+  ```shell-session
   $ conda env create
   ```
 
@@ -53,7 +53,7 @@ To contribute to the project, adhere to the following process.
   repository in development mode. Also, install pre-commits which are checks before a
   commit is accepted.
 
-  ```bash
+  ```shell-session
   $ conda activate gettsim
   $ pre-commit install
   ```
@@ -67,17 +67,17 @@ To contribute to the project, adhere to the following process.
 ## Development workflow
 
 - We always develop new features in new branches. Thus, create a new branch by picking
-  an appropriate name, e.g., `kindergeld-freibetrag` or `ubi`. Make sure to branch off
-  from main and not any other branch.
+  an appropriate name, e.g., `elterngeld` or `update_ges_rente_beitrag`. Make sure to
+  branch off from main and not any other branch.
 
-  ```bash
+  ```shell-session
   $ git checkout -b <branch-name>
   ```
 
 - Now, develop the new feature on this branch. Before you commit the changes, make sure
   they pass our test suite which can be started with the following command.
 
-  ```bash
+  ```shell-session
   $ pytest
   ```
 
@@ -87,21 +87,26 @@ To contribute to the project, adhere to the following process.
 - In the next step, try to commit the changes to the branch with an appropriate commit
   message.
 
-  ```bash
-  $ git commit -am "Changed ... ."
+  ```shell-session
+  $ git commit -am "Add new parameters for ges_rente_beitrag in 2024."
   ```
 
   A commit starts the pre-commits which are additional checks, mostly formatting and
-  style checks. If an error occurs, the commit is rejected and you need to review the
-  log in your terminal to fix the issues. If an reported error is unclear to you, try to
-  use Google for more help. After fixing all issues, you need to commit the changes
-  again.
+  style checks. If an error occurs, the commit is rejected. Maybe all inconsistencies
+  could be changes could be fixed automatically, so just try the same commit once more.
+  If you still see failures, review the log in your terminal and fix the issues that are
+  reported. If an reported error is unclear to you, try to use Google for more help or
+  reach out on Zulip. After fixing all issues, you need to commit the changes again.
 
-- If your commit passes, push your changes to the repository. Then, go to either the
-  official GETTSIM or your fork's Github page. A banner will be displayed asking you
-  whether you would like to create a PR. Follow the link and the instructions of the PR
-  template. Fill out the PR form to inform everyone else on what you are trying to
-  accomplish and how you did it.
+  In case you don't even know where to start to fix the issue, append ` -n` to the above
+  line with the commit. This will bypass the checks. Ask for help in the PR, this sort
+  of thing is usually easily fixable in the beginning. But it can become a pain when it
+  grows large.
+
+- Push your changes to the repository. Then, go to either the official GETTSIM or your
+  fork's Github page. A banner will be displayed asking you whether you would like to
+  create a PR. Follow the link and the instructions of the PR template. Fill out the PR
+  form to inform everyone else on what you are trying to accomplish and how you did it.
 
   The PR also starts a complete run of the test suite on a continuous integration
   server. The status of the tests is shown in the PR. You can follow the links to Github

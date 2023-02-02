@@ -26,8 +26,8 @@ flexibility. All features are extensively tested.
 
 You can install GETTSIM via conda with
 
-```bash
-$ conda install -c gettsim -c conda-forge gettsim
+```shell-session
+$ conda install -c conda-forge gettsim
 ```
 
 The documentation is available at <https://gettsim.readthedocs.io>. If you want to use

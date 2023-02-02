@@ -1,4 +1,4 @@
-import numpy as np
+import numpy
 import pandas as pd
 from pandas.api.types import (
     is_bool_dtype,
@@ -7,6 +7,8 @@ from pandas.api.types import (
     is_integer_dtype,
     is_object_dtype,
 )
+
+from _gettsim.config import numpy_or_jax as np
 
 
 def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -> bool:
@@ -31,7 +33,7 @@ def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -
         out = True
     elif (internal_type == bool) & (is_bool_dtype(series)):
         out = True
-    elif (internal_type == np.datetime64) & (is_datetime64_any_dtype(series)):
+    elif (internal_type == numpy.datetime64) & (is_datetime64_any_dtype(series)):
         out = True
     else:
         out = False
