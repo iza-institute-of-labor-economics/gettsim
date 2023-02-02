@@ -164,8 +164,8 @@ def kinderfreib_günstiger_tu(
 
 
 def eink_st_rel_kindergeld_tu(
-    kindergeld_m_tu: float,
-    kinderbonus_m_tu: float,
+    kindergeld_m_bg: float,
+    kinderbonus_m_bg: float,
     anz_erwachsene_tu: int,
 ) -> float:
     """Return Kindergeld relevant for income tax of the tax unit. For parents which do
@@ -180,18 +180,18 @@ def eink_st_rel_kindergeld_tu(
 
     Parameters
     ----------
-    kindergeld_m_tu
-        See :func:`kindergeld_m_tu`.
-    kinderbonus_m_tu
-        See :func:`kinderbonus_m_tu`.
+    kindergeld_m_bg
+        See :func:`kindergeld_m_bg`.
+    kinderbonus_m_bg
+        See :func:`kinderbonus_m_bg`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     Returns
     -------
 
     """
-    if anz_erwachsene_tu > 1:
-        out = 12 * (kindergeld_m_tu + kinderbonus_m_tu) * (anz_erwachsene_tu / 2)
+    if anz_erwachsene_tu > 0:
+        out = 12 * (kindergeld_m_bg + kinderbonus_m_bg) * (anz_erwachsene_tu / 2)
     else:
         out = 0
     return out
