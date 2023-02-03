@@ -264,7 +264,9 @@ def get_bmf_data(url_base, specs, out_definitions):
     return df.set_index("name").join(out_df)
 
 
-def bmf_collect(inc, outvar, n_kinder, stkl, jahr, faktorverfahren=0, faktor="1,0000"):
+def bmf_collect(
+    inc, outvar, n_kinder, stkl, jahr, zusatzbeitrag, faktorverfahren=0, faktor="1,0000"
+):
     """Creates an URL for the API of the official calculator by the German Ministry of
     Finance (BMF), documented at: https://www.bmf-
     steuerrechner.de/interface/einganginterface.xhtml this url is called and the results
@@ -307,7 +309,7 @@ def bmf_collect(inc, outvar, n_kinder, stkl, jahr, faktorverfahren=0, faktor="1,
         "LZZ": 2,  # i.e. income is monthly
         "STKL": stkl,
         "ZKF": kinderfb,
-        "KVZ": "1,00",
+        "KVZ": f"{zusatzbeitrag*100:.2f}".replace(".", ","),
         "PVZ": kinderlos,
     }
     out_definitions = {
@@ -337,7 +339,7 @@ def bmf_collect(inc, outvar, n_kinder, stkl, jahr, faktorverfahren=0, faktor="1,
     return out[outvar] / 100
 
 
-def gen_lohnsteuer_test(year: int):
+def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
     """Calls the BMF API to generate correct lohnsteuer payments."""
 
     hh = pd.DataFrame(
@@ -372,6 +374,9 @@ def gen_lohnsteuer_test(year: int):
         n_kinder=hh["child_num_kg"],
         stkl=hh["steuerklasse"],
         jahr=hh["year"],
+        zusatzbeitrag=soz_vers_params["beitr_satz"]["ges_krankenv"][
+            "mean_zusatzbeitrag"
+        ],
     )
 
     hh["lohnst_soli_m"] = np.vectorize(bmf_collect)(
@@ -380,6 +385,9 @@ def gen_lohnsteuer_test(year: int):
         n_kinder=hh["child_num_kg"],
         stkl=hh["steuerklasse"],
         jahr=hh["year"],
+        zusatzbeitrag=soz_vers_params["beitr_satz"]["ges_krankenv"][
+            "mean_zusatzbeitrag"
+        ],
     )
 
     return hh
@@ -387,7 +395,11 @@ def gen_lohnsteuer_test(year: int):
 
 @pytest.mark.parametrize("year, column", itertools.product([2022, 2023], OUT_COLS))
 def test_lohnsteuer_api(year, column):
-    year_data = gen_lohnsteuer_test(year).reset_index(drop=True)
+    policy_params, policy_functions = set_up_policy_environment(date=year)
+
+    year_data = gen_lohnsteuer_test(
+        year, soz_vers_params=policy_params["soz_vers_beitr"]
+    ).reset_index(drop=True)
     df = year_data.copy()
     df["alleinerz"] = df["steuerklasse"] == 2
     df["wohnort_ost"] = False
@@ -395,7 +407,6 @@ def test_lohnsteuer_api(year, column):
     df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
     df["in_ausbildung"] = ~df["kind"]
     df["arbeitsstunden_w"] = 40.0 * ~df["kind"]
-    policy_params, policy_functions = set_up_policy_environment(date=year)
 
     result = compute_taxes_and_transfers(
         data=df.drop(columns=["lohnst_m", "lohnst_soli_m"]),
