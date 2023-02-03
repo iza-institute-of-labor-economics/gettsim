@@ -91,7 +91,7 @@ DEFAULT_TARGETS = [
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m_bg",
     "arbeitsl_geld_2_m_hh",
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",
@@ -102,6 +102,7 @@ DEFAULT_TARGETS = [
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
+    "bg_id": int,
     "tu_id": int,
     "p_id": int,
     "vermögen_bedürft_hh": float,
