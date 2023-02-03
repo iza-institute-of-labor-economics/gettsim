@@ -147,7 +147,7 @@ Type: float
 
 ## `eink_vermietung_m`
 
-Monthly rental income net of maintenance expenses
+Monthly rental income net of deductions
 
 Type: float
 
