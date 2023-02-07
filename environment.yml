@@ -1,6 +1,8 @@
 ---
 name: gettsim
-channels: [conda-forge, nodefaults]
+channels:
+  - conda-forge
+  - nodefaults
 dependencies:
   - astor
   - dags
@@ -29,4 +31,6 @@ dependencies:
   - sphinx-automodapi
   - sphinx-copybutton
   - toml
-  - pip: [kaleido, -e .]
+  - pip:
+      - kaleido
+      - -e .
