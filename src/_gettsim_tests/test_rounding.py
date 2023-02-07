@@ -87,7 +87,6 @@ def test_rounding_specs_wrong_format(base, direction):
 )
 def test_rounding(base, direction, input_values, exp_output):
     """Check if rounding is correct."""
-
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
     def test_func(income):

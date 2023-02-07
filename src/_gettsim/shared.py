@@ -27,7 +27,6 @@ def add_rounding_spec(params_key):
         Function with __rounding_params_key__ attribute
 
     """
-
     def inner(func):
         func.__rounding_params_key__ = params_key
         return func
