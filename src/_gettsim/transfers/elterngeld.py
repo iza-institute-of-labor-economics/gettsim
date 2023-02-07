@@ -232,7 +232,6 @@ def elterngeld_geschw_bonus_anspruch(
 
     """
     if elternzeit_anspruch:
-
         # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
         out = (
             elterngeld_kind_hh

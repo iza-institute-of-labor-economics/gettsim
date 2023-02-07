@@ -25,7 +25,6 @@ def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
     """Apply pytest.mark.parametrize based on a dictionary."""
     test_cases = copy.copy(test_cases)
     if keys_of_test_cases:
-
         # Only use requested keys
         test_cases = {
             k: {
@@ -448,7 +447,6 @@ def test_grouped_all(backend, column_to_aggregate, group_id, expected_res_all):
 def test_grouped_sum_raises(
     backend, column_to_aggregate, group_id, error_sum, exception_match
 ):
-
     with pytest.raises(
         error_sum,
         match=exception_match,
@@ -474,7 +472,6 @@ def test_grouped_sum_raises(
 def test_grouped_mean_raises(
     backend, column_to_aggregate, group_id, error_mean, exception_match
 ):
-
     with pytest.raises(
         error_mean,
         match=exception_match,
@@ -500,7 +497,6 @@ def test_grouped_mean_raises(
 def test_grouped_max_raises(
     backend, column_to_aggregate, group_id, error_max, exception_match
 ):
-
     with pytest.raises(
         error_max,
         match=exception_match,
@@ -526,7 +522,6 @@ def test_grouped_max_raises(
 def test_grouped_min_raises(
     backend, column_to_aggregate, group_id, error_min, exception_match
 ):
-
     with pytest.raises(
         error_min,
         match=exception_match,
@@ -552,7 +547,6 @@ def test_grouped_min_raises(
 def test_grouped_any_raises(
     backend, column_to_aggregate, group_id, error_any, exception_match
 ):
-
     with pytest.raises(
         error_any,
         match=exception_match,
@@ -578,7 +572,6 @@ def test_grouped_any_raises(
 def test_grouped_all_raises(
     backend, column_to_aggregate, group_id, error_all, exception_match
 ):
-
     with pytest.raises(
         error_all,
         match=exception_match,
@@ -604,7 +597,6 @@ def test_grouped_all_raises(
 def test_grouped_cumsum_raises(
     backend, column_to_aggregate, group_id, error_cumsum, exception_match
 ):
-
     if backend == "jax":
         pass
     elif backend == "numpy":

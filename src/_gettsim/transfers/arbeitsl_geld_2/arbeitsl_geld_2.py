@@ -5,7 +5,6 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_kinderzuschl_vorrang_hh: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
-
     """Calculate final monthly subsistence payment on household level.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -73,7 +72,6 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     anz_kinder_bis_15_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Compute additional need for single parents.
 
     Additional need for single parents. Maximum 60% of the standard amount on top if
@@ -102,7 +100,6 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
     """
     if alleinerz_hh:
-
         # Get minimal Mehrbedarf share. Minimal rate times number of children
         lower = (
             arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
@@ -215,7 +212,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Calculate basic monthly subsistence without dwelling until 2010.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -257,7 +253,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Calculate basic monthly subsistence without dwelling since 2011.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.

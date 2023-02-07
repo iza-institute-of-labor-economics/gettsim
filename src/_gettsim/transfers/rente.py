@@ -152,7 +152,6 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     -------
 
     """
-
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -413,7 +412,6 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     -------
 
     """
-
     out = piecewise_polynomial(
         x=geburtsjahr,
         thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
@@ -692,7 +690,6 @@ def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
     Eligibility as bool.
 
     """
-
     out = ges_rente_wartezeit_45 >= 45
 
     return out

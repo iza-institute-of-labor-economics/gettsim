@@ -43,7 +43,6 @@ def piecewise_polynomial(
     # If each individual has its own rates or the rates are scaled, we can't use the
     # intercept, which was generated in the parameter loading.
     if rates_multiplier is not None:
-
         # Initialize Series containing 0 for all individuals.
         out = intercepts_at_lower_thresholds[0]
 
@@ -51,7 +50,6 @@ def piecewise_polynomial(
         for i in range(2, num_intervals):
             threshold_incr = thresholds[i] - thresholds[i - 1]
             for pol in range(1, degree_polynomial + 1):
-
                 # We only calculate the intercepts for individuals who are in this or
                 # higher interval. Hence we have to use the individual rates.
                 if selected_bin >= i:
@@ -92,7 +90,6 @@ def get_piecewise_parameters(parameter_dict, parameter, func_type):
     -------
 
     """
-
     # Get all interval keys.
     keys = sorted(key for key in parameter_dict if isinstance(key, int))
 

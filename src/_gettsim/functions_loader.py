@@ -177,7 +177,6 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -422,7 +421,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     aggregation_func : The aggregation func with the expected signature
 
     """
-
     # Read individual specification parameters and make sure nothing is missing
     try:
         aggr = agg_specs["aggr"]
@@ -456,7 +454,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     if aggr == "count":
         annotations["return"] = int
     else:
-
         if (
             source_col in user_and_internal_functions
             and "return" in user_and_internal_functions[source_col].__annotations__
@@ -570,7 +567,6 @@ def _vectorize_func(func):
 
     # Vectorize
     if USE_JAX:
-
         # ToDo: user jnp.vectorize once all functions are compatible with jax
         func_vec = np.vectorize(func)
 
