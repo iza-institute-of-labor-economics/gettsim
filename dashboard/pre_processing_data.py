@@ -36,6 +36,7 @@ def deduction_data(start, end):
     end (Int):  Defines the end of the simulated period
 
     """
+
     # Period for simulation:
     years = range(start, end + 1)
     eink_ab_df = {}
@@ -176,7 +177,7 @@ def tax_rate_data(start, end):
     income.
 
     sel_year (Int): The year for which the data will be simulated. The range for
-    which parameters can be simulated is 2002-2020.
+                    which parameters can be simulated is 2002-2020.
 
     returns dict
 
@@ -226,6 +227,7 @@ def child_benefits_data(start, end):
     end (Int):  Defines the end of the simulated period
 
     """
+
     # Calculate simulation period
     years = range(start, end + 1)
 
@@ -303,6 +305,7 @@ def social_assistance_data(start, end):
         soz_ass_out: pd.DataFrame
 
     """
+
     years = range(start, end + 1)
 
     soz_ass_dict = {}

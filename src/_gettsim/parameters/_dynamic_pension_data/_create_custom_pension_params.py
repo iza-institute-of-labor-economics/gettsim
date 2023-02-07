@@ -11,8 +11,7 @@ def berechne_rentenwert_aus_daten(ges_rente_params, year):
     """From 2018 onwards we calculate the rentenwert with the formula given by law.
 
     The formula takes three factors, which will be calculated seperatly. For a detailed
-    explanation see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    explanation see https://de.wikipedia.org/wiki/Rentenanpassungsformel
 
     """
     # Rentenwert: The monetary value of one 'entgeltpunkt'.
@@ -78,8 +77,7 @@ def nachhaltigkeitsfaktor(ges_rente_params, year):
     receivers and contributes on the pensions.
 
     It depends on the rentnerquotienten and some correcting scalar alpha. For details
-    see
-    https://de.wikipedia.org/wiki/Rentenanpassungsformel
+    see https://de.wikipedia.org/wiki/Rentenanpassungsformel
 
     """
     rq_last_year = rentnerquotienten(ges_rente_params, year - 1)
