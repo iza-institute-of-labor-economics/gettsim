@@ -633,6 +633,7 @@ def _add_rounding_to_one_function(base, direction):
         Series with (potentially) rounded numbers
 
     """
+
     def inner(func):
         # Make sure that signature is preserved.
         @functools.wraps(func)
