@@ -88,7 +88,6 @@ eink_anr_frei:
     5:
       upper_threshold: inf
       rate: 0
-
 eink_anr_frei_kinder:
   name:
     de: Abweichende anrechnungsfreie Einkommensanteile falls Kinder im Haushalt
@@ -114,7 +113,6 @@ eink_anr_frei_kinder:
     deviation_from: arbeitsl_geld_2.eink_anr_frei
     4:
       upper_threshold: 1500
-
 regelsatz:
   name:
     de: Regelsatz, seit 2011 Beträge differenzieren sich nach Regelbedarfsstufen
@@ -274,7 +272,6 @@ regelsatz:
     6: 318
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Arbeitslosengeld II
@@ -292,7 +289,6 @@ kindersofortzuschl:
   reference: 72 SGB II
   2022-07-01:
     scalar: 20
-
 anteil_regelsatz:
   name:
     de: Anteil am Regelsatz für weitere Personen im Haushalt
@@ -319,7 +315,6 @@ anteil_regelsatz:
     deviation_from: previous
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
     kinder_7_13: 0.7
-
 mehrbedarf_anteil:
   name:
     de: >-
@@ -342,7 +337,6 @@ mehrbedarf_anteil:
     kind_unter_7_oder_mehr: 0.36
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
-
 vermögensgrundfreibetrag_obergrenze:
   name:
     de: Maximaler Vermögensgrundfreibetrag
@@ -380,7 +374,6 @@ vermögensgrundfreibetrag_obergrenze:
     1964: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 vermögensgrundfreibetrag:
   name:
     de: Vermögensgrundfreibetrag je Lebensjahr
@@ -402,7 +395,6 @@ vermögensgrundfreibetrag:
     1948: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 schonvermögen_bürgergeld:
   name:
     de: Schonvermögen beim Bürgergeld
@@ -425,7 +417,6 @@ schonvermögen_bürgergeld:
     normaler_satz: 15000
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 vermögensfreibetrag_austattung:
   name:
     de: Vermögensfreibetrag für Erstausstattung
@@ -441,7 +432,6 @@ vermögensfreibetrag_austattung:
     scalar: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 vermögensfreibetrag_kind:
   name:
     de: Vermögensgrundfreibetrag je Kind
@@ -460,7 +450,6 @@ vermögensfreibetrag_kind:
     scalar: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 vermög_freib_alter:
   name:
     de: Altersgrenzen für Vermögensfreibetrag
@@ -478,7 +467,6 @@ vermög_freib_alter:
     3: null
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
-
 abzugsfähige_pausch:
   name:
     de: Abzugsfähige Pauschalen für Werbungskosten und Versicherung
@@ -500,7 +488,6 @@ abzugsfähige_pausch:
     werbung: 15.33
     reference: V. v. 21.06.2011 BGBl. I S. 1175.
     note: Betrag unverändert. Warum haben wir das? Es ändert sich nichts
-
 max_miete_pro_qm:
   name:
     de: Obergenze Miete pro Quadratmeter
@@ -518,7 +505,6 @@ max_miete_pro_qm:
   reference: § 22 SGB II
   1984-01-01:
     max: 10
-
 berechtigte_wohnfläche_miete:
   name:
     de: Berechtigte Miet-Wohnfläche für ALG2-Empfänger*innen
@@ -533,7 +519,6 @@ berechtigte_wohnfläche_miete:
   1984-01-01:
     single: 45
     je_weitere_person: 15
-
 berechtigte_wohnfläche_eigentum:
   name:
     de: Berechtigte Eigentumsfläche für ALG2-Empfänger*innen

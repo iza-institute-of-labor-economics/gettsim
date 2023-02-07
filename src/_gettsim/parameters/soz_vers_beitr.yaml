@@ -30,7 +30,6 @@ beitr_satz:
         without children and at least 23 years old. paid by employees. est. 2005
       arbeitsl_v: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
-
   unit: Share
   1984-01-01:
     ges_krankenv:
@@ -275,7 +274,6 @@ beitr_satz:
     reference: >-
       (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
-
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
@@ -561,7 +559,6 @@ beitr_bemess_grenze_m:
       west: 7300
       ost: 7100
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-
 bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
@@ -693,7 +690,6 @@ bezugsgröße_selbst_m:
     west: 3395
     ost: 3290
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-
 bezugsgröße_selbst_anteil:
   name:
     de: Einkommensbezugsgröße für Selbständige
@@ -708,7 +704,6 @@ bezugsgröße_selbst_anteil:
   unit: Share
   1984-01-01:
     scalar: 0.75
-
 geringfügige_eink_grenzen_m:
   name:
     de: >-
@@ -826,7 +821,6 @@ geringfügige_eink_grenzen_m:
     deviation_from: previous
     midijob: 2000
     reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
-
 geringf_eink_faktor:
   name:
     de: >-
@@ -836,7 +830,6 @@ geringf_eink_faktor:
   2022-10-01:
     scalar: 130
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-
 geringf_eink_divisor:
   name:
     de: >-
@@ -846,7 +839,6 @@ geringf_eink_divisor:
   2022-10-01:
     scalar: 3
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-
 ag_abgaben_geringf:
   name:
     de: Pauschalabgaben bei geringf. Beschäftigung
@@ -874,7 +866,6 @@ ag_abgaben_geringf:
     ges_krankenv: 0.13
     ges_rentenv: 0.15
     st: 0.02
-
 ges_pflegev_zusatz_kinderlos_mindestalter:
   name:
     de: Mindestalter Beitragszuschlag für Kinderlose
@@ -891,7 +882,6 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
   reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
   2005-01-01:
     scalar: 23
-
 mindestlohn:
   name:
     de: Allgemeiner gesetzlicher Mindestlohn pro Stunde
@@ -916,7 +906,6 @@ mindestlohn:
     scalar: 10.45
   2022-10-01:
     scalar: 12
-
 rounding:
   midijob_faktor_f:
     1990-01-01:
