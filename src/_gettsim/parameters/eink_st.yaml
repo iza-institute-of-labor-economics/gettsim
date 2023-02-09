@@ -226,7 +226,6 @@ eink_st_tarif:
       upper_threshold: 66761
     3:
       upper_threshold: 277826
-
 rente_ertragsanteil:
   name:
     de: >-
@@ -265,7 +264,6 @@ rente_ertragsanteil:
       upper_threshold: inf
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
-
 rounding:
   eink_st_tu:
     note:

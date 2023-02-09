@@ -230,7 +230,6 @@ def _parse_kinderzuschl_max(date, params):
         updated dictionary
 
     """
-
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
@@ -268,7 +267,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-
         # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
@@ -694,7 +692,6 @@ def _load_rounding_parameters(date, rounding_spec):
 
     # Load values of all parameters at the specified date.
     for function_name, rounding_spec_func in rounding_spec.items():
-
         # Find all specified policy dates before date.
         policy_dates_before_date = sorted(
             key

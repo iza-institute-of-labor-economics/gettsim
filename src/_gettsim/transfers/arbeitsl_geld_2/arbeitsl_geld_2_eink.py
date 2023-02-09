@@ -10,7 +10,6 @@ def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_eink_anr_frei_m: float,
     kind: bool,
 ) -> float:
-
     """Income (after deduction of taxes, social insurance contributions, and other
     deductions) for calculation of basic subsistence.
 
@@ -70,7 +69,6 @@ def arbeitsl_geld_2_bruttoeink_m(
     arbeitsl_geld_m: float,
     elterngeld_m: float,
 ) -> float:
-
     """Sum up the gross income for calculation of basic subsistence.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.

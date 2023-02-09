@@ -285,7 +285,6 @@ def grundr_zuschlag_bonus_entgeltp(
     if grundr_zeiten < ges_rente_params["grundr_zeiten"]["min"]:
         out = 0.0
     else:
-
         # Case 1: Entgeltpunkte less than half of Höchstwert
         if grundr_bew_zeiten_avg_entgeltp <= (0.5 * grundr_zuschlag_höchstwert_m):
             out = grundr_bew_zeiten_avg_entgeltp

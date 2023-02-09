@@ -373,7 +373,6 @@ def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
     Marginal Job Threshold
 
     """
-
     return (
         soz_vers_beitr_params["mindestlohn"]
         * soz_vers_beitr_params["geringf_eink_faktor"]

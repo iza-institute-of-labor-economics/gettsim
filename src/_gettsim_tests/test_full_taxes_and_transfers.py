@@ -83,7 +83,6 @@ def test_data_types(
         columns_overriding_functions=OVERRIDE_COLS,
     )
     for column_name, series in data.items():
-
         if series.empty:
             pass
         else:
