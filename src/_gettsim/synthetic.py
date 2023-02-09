@@ -54,17 +54,14 @@ def create_synthetic_data(
         raise ValueError("'n_children' must be 0, 1, or 2.")
 
     default_constant_specs = {
-        "weiblich": [bool(i % 2 == 0) for i in range(n_children + n_adults)],
+        "weiblich": [bool(i % 2 == 1) for i in range(n_children + n_adults)],
         "alter": [35] * n_adults + [8, 3][:n_children],
         "kind": [False] * n_adults + [True] * n_children,
         "in_ausbildung": [False] * n_adults + [True] * n_children,
     }
-    if specs_constant_over_households is None:
-        specs_constant_over_households = default_constant_specs
-    else:
-        for var in default_constant_specs:
-            if var not in specs_constant_over_households:
-                specs_constant_over_households[var] = default_constant_specs[var]
+    if specs_constant_over_households:
+        default_constant_specs.update(specs_constant_over_households)
+    specs_constant_over_households = default_constant_specs
 
     # Make sure length of lists in specs_constant_over_households is correct
     for var in specs_constant_over_households:
