@@ -163,7 +163,8 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     anz_kinder_bis_6_hh: int,
     anz_kinder_ab_7_bis_13_hh: int,
-    anz_kinder_ab_14_bis_24_hh: int,
+    anz_kinder_ab_14_bis_17_hh: int,
+    anz_kinder_ab_18_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate basic monthly subsistence for children since 2011. Here the sum in euro
@@ -177,8 +178,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         See :func:`anz_kinder_bis_6_hh`.
     anz_kinder_ab_7_bis_13_hh
         See :func:`anz_kinder_ab_7_bis_13_hh`.
-    anz_kinder_ab_14_bis_24_hh
-        See :func:`anz_kinder_ab_14_bis_24_hh`.
+    anz_kinder_ab_14_bis_17_hh
+        See :func:`anz_kinder_ab_14_bis_17_hh`.
+    anz_kinder_ab_18_bis_24_hh
+        See :func:`anz_kinder_ab_18_bis_24_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -192,12 +195,16 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     out = (
         arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
         + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
-        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
+        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_17_hh
+        + arbeitsl_geld_2_params["regelsatz"][3] * anz_kinder_ab_18_bis_24_hh
     )
 
     kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
     out += kindersofortzuschl * (
-        anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
+        anz_kinder_bis_6_hh
+        + anz_kinder_ab_7_bis_13_hh
+        + anz_kinder_ab_14_bis_17_hh
+        + anz_kinder_ab_18_bis_24_hh
     )
 
     return float(out)
@@ -229,6 +236,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     float with the sum in Euro.
 
     """
+    # Note that we, currently, do not support households with more than 2 adults.
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
