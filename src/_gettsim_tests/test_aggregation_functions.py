@@ -20,7 +20,6 @@ def parameterize_based_on_dict(test_cases, keys_of_test_cases=None):
     """Apply pytest.mark.parametrize based on a dictionary."""
     test_cases = copy.copy(test_cases)
     if keys_of_test_cases:
-
         # Only use requested keys
         test_cases = {
             k: {
@@ -362,7 +361,6 @@ def test_grouped_sum_raises(column_to_aggregate, group_id, error_sum, exception_
 def test_grouped_mean_raises(
     column_to_aggregate, group_id, error_mean, exception_match
 ):
-
     with pytest.raises(
         error_mean,
         match=exception_match,

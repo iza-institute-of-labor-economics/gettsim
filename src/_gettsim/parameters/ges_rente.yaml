@@ -16,7 +16,6 @@ alpha:
     scalar: 0.0
   2002-01-01:
     scalar: 0.25
-
 altersvorsogeanteil:
   name:
     de: Altersvorsorgeanteil (AVA)
@@ -44,7 +43,6 @@ altersvorsogeanteil:
     scalar: 3.5
   2012-01-01:
     scalar: 4.0
-
 beitragsvolumen:
   name:
     de: Beitragsvolumen der gesetzlichen Rentenversicherung
@@ -116,7 +114,6 @@ beitragsvolumen:
     scalar: 236404000
   2019-01-01:
     scalar: 247949000
-
 eckrente:
   name:
     de: Regelaltersrente/ Standardrente
@@ -178,7 +175,6 @@ eckrente:
     scalar: 1242.58
   2018-01-01:
     scalar: 1284.06
-
 durchschnittslohn:
   name:
     de: Durchschnittslohn
@@ -212,7 +208,6 @@ durchschnittslohn:
     scalar: 33047.02
   2016-01-01:
     scalar: 33608.42
-
 beitragspflichtiges_durchschnittsentgelt:
   name:
     de: Beitragspflichtiges Durchschnittsentgelt aller Versicherten
@@ -270,7 +265,6 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 38901
     reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
     note: Das vorläufige Durchschnittsentgelt.
-
 umrechnung_entgeltp_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
@@ -446,7 +440,6 @@ umrechnung_entgeltp_beitrittsgebiet:
     scalar: 1.0280
   2024-01-01:
     scalar: 1.0140
-
 gesamtes_rentenvolumen:
   name:
     de: Rentenvolumen
@@ -514,7 +507,6 @@ gesamtes_rentenvolumen:
     scalar: 277102000
   2019-01-01:
     scalar: 291359000
-
 rentenwert:
   name:
     de: Rentenwerte alte und neue Bundesländer
@@ -622,7 +614,6 @@ rentenwert:
   2021-07-01:
     deviation_from: previous
     ost: 33.47
-
 grundr_höchstwert:
   name:
     de: Höchstwert der Entgeltpunkte für Grundrente
@@ -638,7 +629,6 @@ grundr_höchstwert:
     base: 0.0334
     increment: 0.001389
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
-
 grundr_zugangsfaktor_max:
   name:
     de: Zugangsfaktor bei Grundrente
@@ -649,7 +639,6 @@ grundr_zugangsfaktor_max:
   reference: § 77 Abs. 2 SGB VI
   2021-01-01:
     scalar: 1
-
 grundr_zeiten:
   name:
     de: Grundrentenzeiten
@@ -667,7 +656,6 @@ grundr_zeiten:
     min: 396
     max: 420
     reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
-
 grundr_einkommensanr_single:
   name:
     de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
@@ -693,7 +681,6 @@ grundr_einkommensanr_single:
     2:
       upper_threshold: inf
       rate_linear: 1
-
 grundr_einkommensanr_verheiratet:
   name:
     de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
@@ -719,7 +706,6 @@ grundr_einkommensanr_verheiratet:
     2:
       upper_threshold: inf
       rate_linear: 1
-
 grundr_faktor_bonus:
   name:
     de: Bonusfaktor aus Grundrente
@@ -735,7 +721,6 @@ grundr_faktor_bonus:
   2021-01-01:
     scalar: 0.875
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
-
 zugangsfaktor_veränderung_pro_jahr:
   name:
     de: Veränderung des Zugangsfaktors pro Jahr
@@ -753,7 +738,6 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
-
 regelaltersgrenze:
   name:
     de: Eintrittsalter für Regelaltersrente
@@ -791,7 +775,6 @@ regelaltersgrenze:
     3:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_für_frauen_abschlagsfrei:
   name:
     de: Eintrittsalter für Altersrente für Frauen
@@ -846,7 +829,6 @@ altersgrenze_für_frauen_abschlagsfrei:
     6:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_für_frauen_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für Frauen.
@@ -872,7 +854,6 @@ altersgrenze_für_frauen_vorzeitig:
     2:
       upper_threshold: inf  # constant 67
       rate_linear: 0
-
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
@@ -887,7 +868,6 @@ altersgrenze_langj_versicherte_vorzeitig:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
     scalar: 63
-
 altersgrenze_langj_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
@@ -942,7 +922,6 @@ altersgrenze_langj_versicherte_abschlagsfrei:
     7:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_besonders_langj_versicherte:
   name:
     de: >-
@@ -988,7 +967,6 @@ altersgrenze_besonders_langj_versicherte:
     2:
       upper_threshold: inf
       rate_linear: 0
-
 rounding:
   ges_rente_m:
     1980-01-01:
