@@ -5,6 +5,8 @@ def ges_pflegev_zusatz_kinderlos(
 ) -> bool:
     """Whether additional care insurance contribution for childless individuals applies.
 
+    ToDo: Make dependent on year. Current implementation is deliberately ugly.
+
     Parameters
     ----------
     hat_kinder
@@ -20,9 +22,9 @@ def ges_pflegev_zusatz_kinderlos(
         altersgrenze = soz_vers_beitr_params[
             "ges_pflegev_zusatz_kinderlos_mindestalter"
         ]
-        out = (not hat_kinder) and alter >= altersgrenze
     else:
-        out = False
+        altersgrenze = 9999
+    out = (not hat_kinder) and alter >= altersgrenze
     return out
 
 

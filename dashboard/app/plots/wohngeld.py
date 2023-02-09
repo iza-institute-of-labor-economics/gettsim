@@ -42,7 +42,6 @@ def wohngeld(plot_dict, data):
         src: ColumnDataSource
 
         """
-
         # Prepare a color pallete and color mapper
         mapper = LinearColorMapper(
             # force 0 to be mapped with white color

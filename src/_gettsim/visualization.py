@@ -412,11 +412,9 @@ def _create_pygraphviz_layout(dag, orientation):
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     if orientation == "v":
-
         layout_df = np.transpose(pd.DataFrame.from_dict(layout))
 
     elif orientation == "h":
-
         layout_df = np.transpose(pd.DataFrame.from_dict(layout))
         layout_df[[0, 1]] = layout_df[[1, 0]]
         layout_df[0] = layout_df[0] * (-1)

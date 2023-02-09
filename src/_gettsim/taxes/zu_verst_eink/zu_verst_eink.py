@@ -120,7 +120,6 @@ def zu_verst_eink_tu(
     _zu_verst_eink_ohne_kinderfreib_tu: float,
     kinderfreib_günstiger_tu: bool,
 ) -> float:
-
     """Calculate taxable income on tax unit level.
 
     Parameters

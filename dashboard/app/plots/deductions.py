@@ -17,7 +17,6 @@ def deductions(plot_dict, data):
         src: ColumnDataSource returned by the data preparation function
 
         """
-
         # Plot for the most important deductions
         p = figure(
             plot_height=400,

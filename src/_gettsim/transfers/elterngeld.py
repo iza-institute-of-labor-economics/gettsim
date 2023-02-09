@@ -39,17 +39,14 @@ def elterngeld_m(
         out = 0.0
     else:
         # Bound from above and below
-        elterngeld_eink_erlass_m = min(
-            max(elterngeld_eink_erlass_m, elterngeld_params["mindestbetrag"]),
-            elterngeld_params["höchstbetrag"],
-        )
-
         out = (
-            elterngeld_eink_erlass_m
+            min(
+                max(elterngeld_eink_erlass_m, elterngeld_params["mindestbetrag"]),
+                elterngeld_params["höchstbetrag"],
+            )
             + elterngeld_geschw_bonus_m
             + elterngeld_mehrlinge_bonus_m
         )
-
     return out
 
 
@@ -232,7 +229,6 @@ def elterngeld_geschw_bonus_anspruch(
 
     """
     if elternzeit_anspruch:
-
         # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
         out = (
             elterngeld_kind_hh
@@ -371,17 +367,16 @@ def elterngeld_anteil_eink_erlass(
         elterngeld_eink_relev_m
         > elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
     ):
-        out = (
+        # Replacement rate is only lowered up to a specific value
+        out = max(
             elterngeld_params["faktor"]
             - (
                 elterngeld_eink_relev_m
                 - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
             )
-            / elterngeld_params["eink_schritt_korrektur"]
+            / elterngeld_params["eink_schritt_korrektur"],
+            elterngeld_params["prozent_minimum"],
         )
-
-        # Replacement rate is only lowered up to a specific value
-        out = max(out, elterngeld_params["prozent_minimum"])
     else:
         out = elterngeld_params["faktor"]
 
