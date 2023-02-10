@@ -111,7 +111,6 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
         return
 
     for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
-
         # While testing, the same function might be added to the registry again,
         # leading to wrong conflict errors. We prevent this by only reporting
         # conflicts if the functions have different names.
