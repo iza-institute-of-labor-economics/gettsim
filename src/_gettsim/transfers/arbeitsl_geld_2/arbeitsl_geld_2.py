@@ -293,7 +293,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
-def arbeitsl_geld_2_vor_vorrang_m_hh(
+def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_hh: float,
     kindergeld_m_hh: float,
     unterhaltsvors_m_hh: float,
