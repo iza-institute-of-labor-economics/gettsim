@@ -139,7 +139,6 @@ def create_dashboard():
 
     # Start dashboard only if data was found
     if all_data:
-
         # Call tab functions)
         tab1 = tax_rate(plot_dict["tax_rate"], all_data["tax_rate"])
         tab2 = deductions(plot_dict["deductions"], all_data["deductions"])

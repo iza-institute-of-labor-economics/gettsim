@@ -27,8 +27,8 @@ from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
     midijob_faktor_f_bis_09_2022,
     minijob_grenze_ab_10_2022,
-    minijob_grenze_ost_vor_10_2022,
-    minijob_grenze_west_vor_10_2022,
+    minijob_grenze_ost_bis_09_2022,
+    minijob_grenze_west_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
@@ -224,7 +224,6 @@ def _parse_kinderzuschl_max(date, params):
         updated dictionary
 
     """
-
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
@@ -262,7 +261,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-
         # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
@@ -391,8 +389,8 @@ def load_functions_for_date(date):
         functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
         functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
     else:
-        functions["minijob_grenze_west"] = minijob_grenze_west_vor_10_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ost_vor_10_2022
+        functions["minijob_grenze_west"] = minijob_grenze_west_bis_09_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ost_bis_09_2022
 
     if date >= datetime.date(year=2022, month=10, day=1):
         functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
@@ -682,7 +680,6 @@ def _load_rounding_parameters(date, rounding_spec):
 
     # Load values of all parameters at the specified date.
     for function_name, rounding_spec_func in rounding_spec.items():
-
         # Find all specified policy dates before date.
         policy_dates_before_date = sorted(
             key

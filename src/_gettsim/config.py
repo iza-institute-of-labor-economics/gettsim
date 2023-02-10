@@ -16,7 +16,6 @@ def set_array_backend(backend: str):
     backend (str): Must be in {'jax', 'numpy'}.
 
     """
-
     if backend not in {"jax", "numpy"}:
         raise ValueError(f"Backend must be in {'jax', 'numpy'} but is {backend}.")
 

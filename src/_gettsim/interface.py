@@ -273,7 +273,6 @@ def _convert_data_to_correct_types(data, functions_overridden):
         " types yourself."
     )
     for column_name, series in data.items():
-
         # Find out if internal_type is defined
         internal_type = None
         if column_name in TYPES_INPUT_VARIABLES:
@@ -458,7 +457,6 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
 
 def _fail_if_pid_is_non_unique(data):
     """Check that pid is unique."""
-
     if "p_id" not in data:
         message = "The input data must contain the column p_id"
         raise ValueError(message)
@@ -533,7 +531,6 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
     # parameters.
     processed_functions = {}
     for name, function in functions.items():
-
         arguments = get_names_of_arguments_without_defaults(function)
         partial_params = {
             i: params[i[:-7]]
@@ -574,7 +571,6 @@ def _add_rounding_to_functions(functions, params):
     functions_new = copy.deepcopy(functions)
 
     for func_name, func in functions.items():
-
         # If function has rounding params attribute, look for rounding specs in
         # params dict.
         if hasattr(func, "__rounding_params_key__"):
