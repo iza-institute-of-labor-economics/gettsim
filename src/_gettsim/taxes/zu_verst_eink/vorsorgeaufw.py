@@ -41,7 +41,7 @@ def vorsorgeaufw_alter_tu(
     return out
 
 
-def _vorsorge_alternative_tu_ab_2005_bis_2009(
+def _vorsorge_alternative_tu_ab_2005_bis_2009(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_krankenv_beitr_m_tu: float,
     arbeitsl_v_beitr_m_tu: float,
@@ -74,7 +74,6 @@ def _vorsorge_alternative_tu_ab_2005_bis_2009(
     -------
 
     """
-
     sum_vorsorge = 12 * (
         ges_krankenv_beitr_m_tu + arbeitsl_v_beitr_m_tu + ges_pflegev_beitr_m_tu
     )
@@ -144,7 +143,7 @@ def vorsorgeaufw_tu_ab_2010_bis_2019(
 
 
 @add_rounding_spec(params_key="eink_st_abzuege")
-def vorsorgeaufw_tu_ab_2020(
+def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_pflegev_beitr_m_tu: float,
     ges_krankenv_beitr_m_tu: float,

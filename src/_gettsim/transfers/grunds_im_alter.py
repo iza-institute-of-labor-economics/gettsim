@@ -1,7 +1,7 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-def grunds_im_alter_m_hh(
+def grunds_im_alter_m_hh(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_hh: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
     kindergeld_m_hh: float,
@@ -58,12 +58,11 @@ def grunds_im_alter_m_hh(
             - unterhaltsvors_m_hh
             - kindergeld_m_hh
         )
-        out = max(out, 0.0)
 
-    return out
+    return max(out, 0.0)
 
 
-def grunds_im_alter_eink_m(
+def grunds_im_alter_eink_m(  # noqa: PLR0913
     grunds_im_alter_erwerbseink_m: float,
     grunds_im_alter_priv_rente_m: float,
     grunds_im_alter_ges_rente_m: float,

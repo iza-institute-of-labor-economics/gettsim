@@ -1,11 +1,10 @@
 ---
 name: gettsim
-
 channels:
   - conda-forge
   - nodefaults
-
 dependencies:
+  - astor
   - dags
   - ipywidgets
   - jupyterlab

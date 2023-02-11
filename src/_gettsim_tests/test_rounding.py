@@ -1,6 +1,5 @@
 import datetime
 
-import numpy as np
 import pandas as pd
 import pytest
 import yaml
@@ -9,6 +8,7 @@ from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import _load_functions
 from _gettsim.interface import _add_rounding_to_functions, compute_taxes_and_transfers
 from _gettsim.policy_environment import load_functions_for_date

@@ -1,5 +1,5 @@
-import numpy as np
-import pandas as pd
+import numpy
+import pandas as pd  # noqa
 from pandas.api.types import (
     is_bool_dtype,
     is_datetime64_any_dtype,
@@ -7,6 +7,8 @@ from pandas.api.types import (
     is_integer_dtype,
     is_object_dtype,
 )
+
+from _gettsim.config import numpy_or_jax as np
 
 
 def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -> bool:
@@ -24,14 +26,13 @@ def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -
     Bool
 
     """
-
     if (internal_type == float) & (is_float_dtype(series)):
         out = True
     elif (internal_type == int) & (is_integer_dtype(series)):
         out = True
     elif (internal_type == bool) & (is_bool_dtype(series)):
         out = True
-    elif (internal_type == np.datetime64) & (is_datetime64_any_dtype(series)):
+    elif (internal_type == numpy.datetime64) & (is_datetime64_any_dtype(series)):
         out = True
     else:
         out = False
@@ -66,7 +67,6 @@ def convert_series_to_internal_type(
     if is_object_dtype(out):
         raise ValueError(basic_error_msg + " Object type is not supported as input.")
     else:
-
         # Conversion to float
         if internal_type == float:
             # Conversion from boolean to float fails
@@ -81,7 +81,6 @@ def convert_series_to_internal_type(
         # Conversion to int
         elif internal_type == int:
             if is_float_dtype(out):
-
                 # checking if decimal places are equal to 0, if not return error
                 if np.array_equal(out, out.astype(np.int64)):
                     out = out.astype(np.int64)
@@ -98,10 +97,8 @@ def convert_series_to_internal_type(
 
         # Conversion to boolean
         elif internal_type == bool:
-
             # if input data type is integer
             if is_integer_dtype(out):
-
                 # check if series consists only of 1 or 0
                 if len([v for v in out.unique() if v not in [1, 0]]) == 0:
                     out = out.astype(bool)
@@ -112,7 +109,6 @@ def convert_series_to_internal_type(
                     )
             # if input data type is float
             elif is_float_dtype(out):
-
                 # check if series consists only of 1.0 or 0.0
                 if len([v for v in out.unique() if v not in [1, 0]]) == 0:
                     out = out.astype(bool)

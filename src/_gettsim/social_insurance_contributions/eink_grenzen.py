@@ -325,8 +325,8 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for West Germany before October 2022.
+def minijob_grenze_west_bis_09_2022(soz_vers_beitr_params: dict) -> float:
+    """Obtains marginal job thresholds for West Germany until September 2022.
 
     Parameters
     ----------
@@ -342,8 +342,8 @@ def minijob_grenze_west_vor_10_2022(soz_vers_beitr_params: dict) -> float:
 
 
 @add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_ost_vor_10_2022(soz_vers_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for East Germany before October 2022.
+def minijob_grenze_ost_bis_09_2022(soz_vers_beitr_params: dict) -> float:
+    """Obtains marginal job thresholds for East Germany until September 2022.
 
     Parameters
     ----------
@@ -373,7 +373,6 @@ def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
     Marginal Job Threshold
 
     """
-
     return (
         soz_vers_beitr_params["mindestlohn"]
         * soz_vers_beitr_params["geringf_eink_faktor"]

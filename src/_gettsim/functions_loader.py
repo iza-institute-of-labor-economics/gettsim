@@ -5,7 +5,7 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
+import numpy
 
 from _gettsim.aggregation import (
     grouped_all,
@@ -22,7 +22,6 @@ from _gettsim.config import (
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
-    USE_JAX,
 )
 from _gettsim.shared import (
     format_errors_and_warnings,
@@ -177,7 +176,6 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -403,7 +401,9 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
+def _create_one_aggregation_func(  # noqa: PLR0912
+    agg_col, agg_specs, user_and_internal_functions
+):
     """Create an aggregation function based on aggregation specification.
 
     Parameters
@@ -422,7 +422,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     aggregation_func : The aggregation func with the expected signature
 
     """
-
     # Read individual specification parameters and make sure nothing is missing
     try:
         aggr = agg_specs["aggr"]
@@ -456,7 +455,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     if aggr == "count":
         annotations["return"] = int
     else:
-
         if (
             source_col in user_and_internal_functions
             and "return" in user_and_internal_functions[source_col].__annotations__
@@ -566,16 +564,9 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
+    # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
+    func_vec = numpy.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):

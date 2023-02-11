@@ -5,7 +5,7 @@ These information are used throughout modules of gettsim.
 """
 import datetime
 
-import numpy as np
+import numpy
 
 aggregation_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
@@ -18,6 +18,8 @@ aggregation_demographic_vars = {
     "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
     "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
+    "anz_kinder_ab_14_bis_17_hh": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
+    "anz_kinder_ab_18_bis_24_hh": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
     "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
@@ -139,6 +141,36 @@ def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
     return out
 
 
+def kind_ab_14_bis_17(alter: int, kind: bool) -> bool:
+    """Calculate if child between 14 and 17 years old.
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    Returns
+    -------
+    """
+    out = kind and (14 <= alter <= 17)
+    return out
+
+
+def kind_ab_18_bis_24(alter: int, kind: bool) -> bool:
+    """Calculate if child between 18 and 24 years old.
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    Returns
+    -------
+    """
+    out = kind and (18 <= alter <= 24)
+    return out
+
+
 def erwachsen(kind: bool) -> bool:
     """Calculate if adult.
 
@@ -191,7 +223,9 @@ def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> b
     return anz_erwachsene_hh == anz_rentner_hh
 
 
-def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.datetime64:
+def geburtsdatum(
+    geburtsjahr: int, geburtsmonat: int, geburtstag: int
+) -> numpy.datetime64:
     """Create date of birth datetime variable.
 
     Parameters
@@ -207,13 +241,13 @@ def geburtsdatum(geburtsjahr: int, geburtsmonat: int, geburtstag: int) -> np.dat
     -------
 
     """
-    out = np.datetime64(
+    out = numpy.datetime64(
         datetime.datetime(geburtsjahr, geburtsmonat, geburtstag)
     ).astype("datetime64[D]")
     return out
 
 
-def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
+def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> float:
     """Calculate age of youngest child in months.
 
     Parameters
@@ -230,7 +264,7 @@ def alter_monate(geburtsdatum: np.datetime64, elterngeld_params: dict) -> float:
     """
     # ToDo: Find out why geburtsdatum need to be cast to datetime64 again. It
     # ToDo: should already have this type based on the function above
-    age_in_days = elterngeld_params["datum"] - np.datetime64(geburtsdatum)
+    age_in_days = elterngeld_params["datum"] - numpy.datetime64(geburtsdatum)
 
     out = age_in_days / 30.436875
     return out.astype(float)

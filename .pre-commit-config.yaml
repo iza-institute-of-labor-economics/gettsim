@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
         # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.2.0
+    rev: 1.8.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -41,11 +41,11 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.28.0
+    rev: v1.29.0
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.1.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
@@ -56,19 +56,8 @@ repos:
     hooks:
       - id: blacken-docs
         # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
-  - repo: https://github.com/PyCQA/docformatter
-    rev: v1.5.1
-    hooks:
-      - id: docformatter
-        args:
-          - --in-place
-          - --wrap-summaries
-          - '88'
-          - --wrap-descriptions
-          - '88'
-          - --blank
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.230
+    rev: v0.0.244
     hooks:
       - id: ruff
       #   args:
@@ -135,6 +124,5 @@ repos:
         additional_dependencies:
           - setuptools-scm
           - toml
-
 ci:
   autoupdate_schedule: monthly

@@ -5,7 +5,6 @@ def arbeitsl_geld_2_m_hh(
     wohngeld_kinderzuschl_vorrang_hh: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
-
     """Calculate final monthly subsistence payment on household level.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -73,7 +72,6 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     anz_kinder_bis_15_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Compute additional need for single parents.
 
     Additional need for single parents. Maximum 60% of the standard amount on top if
@@ -102,24 +100,21 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
     """
     if alleinerz_hh:
-
-        # Get minimal Mehrbedarf share. Minimal rate times number of children
-        lower = (
-            arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"] * anz_kinder_hh
-        )
-        upper = arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"]
-
-        # Special case if 1 kid below 6 or 2,3 below 15.
-        mehrbedarf = (
-            arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
-            if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
-            else 0.0
-        )
-
         # Clip value at calculated minimal share and given upper share
         # Note that upper limit is applied last (for many children lower
         # could be greater than upper)
-        out = min(max(mehrbedarf, lower), upper)
+        out = min(
+            max(
+                # Minimal Mehrbedarf share. Minimal rate times number of children
+                arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
+                * anz_kinder_hh,
+                # Special case if 1 kid below 6 or 2,3 below 15.
+                arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
+                if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
+                else 0.0,
+            ),
+            arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"],
+        )
     else:
         out = 0.0
     return out
@@ -168,7 +163,8 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     anz_kinder_bis_6_hh: int,
     anz_kinder_ab_7_bis_13_hh: int,
-    anz_kinder_ab_14_bis_24_hh: int,
+    anz_kinder_ab_14_bis_17_hh: int,
+    anz_kinder_ab_18_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate basic monthly subsistence for children since 2011. Here the sum in euro
@@ -182,8 +178,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
         See :func:`anz_kinder_bis_6_hh`.
     anz_kinder_ab_7_bis_13_hh
         See :func:`anz_kinder_ab_7_bis_13_hh`.
-    anz_kinder_ab_14_bis_24_hh
-        See :func:`anz_kinder_ab_14_bis_24_hh`.
+    anz_kinder_ab_14_bis_17_hh
+        See :func:`anz_kinder_ab_14_bis_17_hh`.
+    anz_kinder_ab_18_bis_24_hh
+        See :func:`anz_kinder_ab_18_bis_24_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -197,14 +195,17 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     out = (
         arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
         + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
-        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_24_hh
+        + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_17_hh
+        + arbeitsl_geld_2_params["regelsatz"][3] * anz_kinder_ab_18_bis_24_hh
     )
 
-    if "kindersofortzuschl" in arbeitsl_geld_2_params:
-        kindersofortzuschl = arbeitsl_geld_2_params["kindersofortzuschl"]
-        out += kindersofortzuschl * (
-            anz_kinder_bis_6_hh + anz_kinder_ab_7_bis_13_hh + anz_kinder_ab_14_bis_24_hh
-        )
+    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
+    out += kindersofortzuschl * (
+        anz_kinder_bis_6_hh
+        + anz_kinder_ab_7_bis_13_hh
+        + anz_kinder_ab_14_bis_17_hh
+        + anz_kinder_ab_18_bis_24_hh
+    )
 
     return float(out)
 
@@ -215,7 +216,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Calculate basic monthly subsistence without dwelling until 2010.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -236,6 +236,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     float with the sum in Euro.
 
     """
+    # Note that we, currently, do not support households with more than 2 adults.
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
@@ -257,7 +258,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-
     """Calculate basic monthly subsistence without dwelling since 2011.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -293,7 +293,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
-def arbeitsl_geld_2_vor_vorrang_m_hh(
+def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_hh: float,
     kindergeld_m_hh: float,
     unterhaltsvors_m_hh: float,
@@ -330,12 +330,12 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(
         out = 0.0
     else:
         # Deduct income from various sources
-        out = (
+        out = max(
+            0.0,
             arbeitsl_geld_2_regelbedarf_m_hh
             - arbeitsl_geld_2_eink_m_hh
             - unterhaltsvors_m_hh
-            - kindergeld_m_hh
+            - kindergeld_m_hh,
         )
-        out = max(out, 0.0)
 
     return out
