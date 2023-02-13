@@ -38,6 +38,9 @@ INPUT_COLS = [
     "eink_st_tu",
     "vermögen_bedürft_hh",
     "haushaltsgröße_hh",
+    "geburtstag",
+    "geburtsmonat",
+    "geburtsjahr",
 ]
 YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021, 2023]
 
