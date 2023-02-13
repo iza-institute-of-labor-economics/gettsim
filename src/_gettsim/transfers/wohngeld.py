@@ -89,7 +89,7 @@ def wohngeld_eink_vor_freib_m(
     elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
     elterngeld_params: dict,
-    anz_mehrlinge_jüngstes_kind_hh: bool,
+    anz_mehrlinge_jüngstes_kind_hh: int,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
