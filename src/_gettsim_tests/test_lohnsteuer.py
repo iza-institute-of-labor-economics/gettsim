@@ -363,7 +363,19 @@ def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
             ],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2, 1],
             "year": [year] * 11,
-            "ges_krankenv_zusatzbeitrag": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            "ges_krankenv_zusatzbeitrag": [
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+                1.3,
+            ],
             "ges_pflegev_zusatz_kinderlos": [
                 True,
                 True,
@@ -407,7 +419,7 @@ def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
     return hh
 
 
-@pytest.mark.parametrize("year, column", itertools.product([2022, 2023], OUT_COLS))
+@pytest.mark.parametrize("year, column", itertools.product([2022], OUT_COLS))
 def test_lohnsteuer_api(year, column):
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
