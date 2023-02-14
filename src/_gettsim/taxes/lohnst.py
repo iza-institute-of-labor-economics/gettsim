@@ -221,12 +221,12 @@ def vorsorgepauschale_ab_2010(
     if wohnort_ost:
         bruttolohn_rente = min(
             12 * bruttolohn_m,
-            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
+            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
         )
     else:
         bruttolohn_rente = min(
             12 * bruttolohn_m,
-            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
+            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 
     vorsorg_rv = (
