@@ -174,7 +174,7 @@ def lohnst_m(
     else:
         out = lohnsteuer_klasse5_6
 
-    out = trunc(out / 12)
+    out = out / 12
 
     return max(out, 0.0)
 
