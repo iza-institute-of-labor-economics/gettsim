@@ -43,6 +43,7 @@ def test_decorator():
 )
 def test_no_rounding_specs(rounding_specs):
     with pytest.raises(KeyError):
+
         @add_rounding_spec(params_key="params_key_test")
         def test_func():
             return 0
@@ -61,6 +62,7 @@ def test_no_rounding_specs(rounding_specs):
 )
 def test_rounding_specs_wrong_format(base, direction):
     with pytest.raises(ValueError):
+
         @add_rounding_spec(params_key="params_key_test")
         def test_func():
             return 0
@@ -199,8 +201,8 @@ def test_decorator_for_all_functions_with_rounding_spec():
         ({"eink_st": {}}, "Rounding specifications for function"),
         ({"eink_st": {"rounding": {}}}, "Rounding specifications for function"),
         (
-                {"eink_st": {"rounding": {"eink_st_func": {}}}},
-                "Both 'base' and 'direction' are expected",
+            {"eink_st": {"rounding": {"eink_st_func": {}}}},
+            "Both 'base' and 'direction' are expected",
         ),
     ],
 )
