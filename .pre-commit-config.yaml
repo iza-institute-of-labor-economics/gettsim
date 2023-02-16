@@ -57,7 +57,7 @@ repos:
       - id: blacken-docs
         # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.243
+    rev: v0.0.244
     hooks:
       - id: ruff
       #   args:

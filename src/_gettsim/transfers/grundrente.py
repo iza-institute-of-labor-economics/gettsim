@@ -302,7 +302,7 @@ def grundr_zuschlag_bonus_entgeltp(
 
 
 @add_rounding_spec(params_key="ges_rente")
-def rente_vorj_vor_grundr_proxy_m(
+def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentner: bool,
     rentenwert_vorjahr: float,
     priv_rente_m: float,

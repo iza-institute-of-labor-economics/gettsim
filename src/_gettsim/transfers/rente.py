@@ -208,7 +208,7 @@ def entgeltp_update_lohn(
     return out
 
 
-def ges_rente_zugangsfaktor(
+def ges_rente_zugangsfaktor(  # noqa: PLR0913
     geburtsjahr: int,
     rentner: bool,
     jahr_renteneintr: int,
@@ -302,7 +302,7 @@ def ges_rente_zugangsfaktor(
     return out
 
 
-def _ges_rente_altersgrenze_abschlagsfrei(
+def _ges_rente_altersgrenze_abschlagsfrei(  # noqa: PLR0913
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -597,7 +597,7 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
     return out
 
 
-def ges_rente_vorauss_frauen(
+def ges_rente_vorauss_frauen(  # noqa: PLR0913
     weiblich: bool,
     ges_rente_wartezeit_15: float,
     y_pflichtbeitr_ab_40: float,
@@ -745,7 +745,7 @@ def ges_rente_wartezeit_15(
     return out
 
 
-def ges_rente_wartezeit_35(
+def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit: float,
@@ -788,7 +788,7 @@ def ges_rente_wartezeit_35(
     return out
 
 
-def ges_rente_wartezeit_45(
+def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,
@@ -840,7 +840,7 @@ def ges_rente_wartezeit_45(
     return out
 
 
-def ges_rente_anrechnungszeit(
+def ges_rente_anrechnungszeit(  # noqa: PLR0913
     m_arbeitsunfähig: float,
     m_krank_ab_16_bis_24: float,
     m_mutterschutz: float,
