@@ -43,7 +43,6 @@ def test_decorator():
 )
 def test_no_rounding_specs(rounding_specs):
     with pytest.raises(KeyError):
-
         @add_rounding_spec(params_key="params_key_test")
         def test_func():
             return 0
@@ -62,7 +61,6 @@ def test_no_rounding_specs(rounding_specs):
 )
 def test_rounding_specs_wrong_format(base, direction):
     with pytest.raises(ValueError):
-
         @add_rounding_spec(params_key="params_key_test")
         def test_func():
             return 0
@@ -178,13 +176,19 @@ def test_decorator_for_all_functions_with_rounding_spec():
         if fn not in time_dependent_functions.values()
     ]
 
-    # Loop over these functions and check if attribute __gettsim__["rounding_params_key"] exists
+    # Loop over these functions and check if attribute
+    # __gettsim__["rounding_params_key"] exists
     all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     for fn in function_names_to_check:
-        assert hasattr(all_functions[fn], "__gettsim__") and "rounding_params_key" in all_functions[fn].__gettsim__, (
+        assert hasattr(all_functions[fn], "__gettsim__"), (
             f"For the function {fn}, rounding parameters are specified. But the "
             "function is missing the add_rounding_spec decorator. The attribute "
-            "__gettsim__['rounding_params_key'] is not found."
+            "__gettsim__ is not found."
+        )
+        assert "rounding_params_key" in all_functions[fn].__gettsim__, (
+            f"For the function {fn}, rounding parameters are specified. But the "
+            "function is missing the add_rounding_spec decorator. The key "
+            "'rounding_params_key' is not found in the __gettsim__ dict."
         )
 
 
@@ -195,8 +199,8 @@ def test_decorator_for_all_functions_with_rounding_spec():
         ({"eink_st": {}}, "Rounding specifications for function"),
         ({"eink_st": {"rounding": {}}}, "Rounding specifications for function"),
         (
-            {"eink_st": {"rounding": {"eink_st_func": {}}}},
-            "Both 'base' and 'direction' are expected",
+                {"eink_st": {"rounding": {"eink_st_func": {}}}},
+                "Both 'base' and 'direction' are expected",
         ),
     ],
 )
