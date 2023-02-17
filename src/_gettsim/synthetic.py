@@ -11,8 +11,8 @@ current_year = datetime.datetime.today().year
 
 
 def create_synthetic_data(
-    n_adults=None,
-    n_children=None,
+    n_adults=1,
+    n_children=0,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -40,11 +40,6 @@ def create_synthetic_data(
     data : pd.DataFrame containing all variables that are needed to run GETTSIM.
 
     """
-    # Set Defaults
-    if n_adults is None:
-        n_adults = 1
-    if n_children is None:
-        n_children = 0
 
     # Check inputs
     if n_adults not in [1, 2]:

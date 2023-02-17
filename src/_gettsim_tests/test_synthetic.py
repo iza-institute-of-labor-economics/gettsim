@@ -6,9 +6,7 @@ from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
 
 
-def test_synthetic():
-    """Test creation of synthetic data."""
-    # run with defaults
+def test_default():
     df = create_synthetic_data()
     # rent must be positive
     assert df["bruttokaltmiete_m_hh"].min() > 0
@@ -23,14 +21,17 @@ def test_synthetic():
     # unique personal id?
     assert df["p_id"].is_unique
 
-    doppelverdiener = create_synthetic_data(
+
+def test_double_earner():
+    df = create_synthetic_data(
         hh_typen=["couple"], n_children=[0], double_earner=True, bruttolohn_m=2000
     )
 
-    assert (doppelverdiener["bruttolohn_m"] > 0).all()
+    assert (df["bruttolohn_m"] > 0).all()
 
-    # test heterogeneity
-    incrange = create_synthetic_data(
+
+def test_income_range():
+    df = create_synthetic_data(
         hh_typen=["couple"],
         n_children=0,
         heterogeneous_vars={
@@ -39,9 +40,9 @@ def test_synthetic():
         },
     )
     # is household id unique?
-    assert (incrange.groupby("hh_id").size() == 2).all()
+    assert (df.groupby("hh_id").size() == 2).all()
 
-    assert incrange.notna().all().all()
+    assert df.notna().all().all()
 
     # finally, run through gettsim
     policy_params, policy_functions = set_up_policy_environment(2020)
