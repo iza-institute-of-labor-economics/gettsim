@@ -1,4 +1,4 @@
-def ges_krankenv_beitr_m(
+def ges_krankenv_beitr_m(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,
     ges_krankenv_beitr_selbst_m: float,
