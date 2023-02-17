@@ -1,4 +1,5 @@
 import itertools
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
@@ -123,15 +124,28 @@ def input_data():
     ] = out["ges_rente_regelaltersgrenze"]
 
     # before the pension for "Besonders langjährig Versicherte" was introduced
+    out["geburtsdatum"] = pd.to_datetime(
+        (out["geburtsjahr"] * 10000 + out["geburtsmonat"] * 100 + 1).apply(int),
+        format="%Y%m%d",
+    )
+    relevant_date = datetime(1951, 7, 1)
+    introduction_year = 2014
+    introduction_month = 7
+    out["year_diff"] = introduction_year - out["geburtsjahr"]
+    out["month_diff"] = introduction_month - out["geburtsmonat"]
+    out["total_diff"] = out["year_diff"] + out["month_diff"] * (1 / 12)
+    out.loc[out["total_diff"] > 65, "total_diff"] = 65
+    out.loc[out["total_diff"] <= 65, "total_diff"] = out["total_diff"]
+
     out.loc[
-        np.isnan(out["_ges_rente_besond_langj_altersgrenze"]),
-        "_ges_rente_besond_langj_altersgrenze",
-    ] = out["ges_rente_regelaltersgrenze"]
+        out["geburtsdatum"] < relevant_date, "_ges_rente_besond_langj_altersgrenze"
+    ] = out["total_diff"]
+
     return out
 
 
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_renten_anspr(input_data, year, column):
+def test_renten_alter(input_data, year, column):
     year_data = input_data.reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
     policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
