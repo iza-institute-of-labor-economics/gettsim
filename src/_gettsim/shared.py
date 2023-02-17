@@ -27,15 +27,15 @@ def add_rounding_spec(params_key):
     Returns
     -------
     func : function
-        Function with __gettsim__["rounding_params_key"] attribute
+        Function with __info__["rounding_params_key"] attribute
 
     """
 
     def inner(func):
         # Remember data from decorator
-        if not hasattr(func, "__gettsim__"):
-            func.__gettsim__ = {}
-        func.__gettsim__["rounding_params_key"] = params_key
+        if not hasattr(func, "__info__"):
+            func.__info__ = {}
+        func.__info__["rounding_params_key"] = params_key
 
         return func
 
@@ -63,8 +63,8 @@ def dates_active(
 
     Returns
     -------
-        The function with attributes __gettsim__["dates_active_start"],
-        __gettsim__["dates_active_end"], and __gettsim__["dates_active_dag_key"].
+        The function with attributes __info__["dates_active_start"],
+        __info__["dates_active_end"], and __info__["dates_active_dag_key"].
     """
 
     _validate_dashed_iso_date(start)
@@ -81,11 +81,11 @@ def dates_active(
         _check_for_conflicts(dag_key, func.__name__, start_date, end_date)
 
         # Remember data from decorator
-        if not hasattr(func, "__gettsim__"):
-            func.__gettsim__ = {}
-        func.__gettsim__["dates_active_start"] = start_date
-        func.__gettsim__["dates_active_end"] = end_date
-        func.__gettsim__["dates_active_dag_key"] = dag_key
+        if not hasattr(func, "__info__"):
+            func.__info__ = {}
+        func.__info__["dates_active_start"] = start_date
+        func.__info__["dates_active_end"] = end_date
+        func.__info__["dates_active_dag_key"] = dag_key
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:
@@ -119,17 +119,17 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
         # leading to wrong conflict errors. We prevent this by only reporting
         # conflicts if the functions have different names.
         if f.__name__ != function_name and (
-            start <= f.__gettsim__["dates_active_start"] <= end
-            or f.__gettsim__["dates_active_start"]
+            start <= f.__info__["dates_active_start"] <= end
+            or f.__info__["dates_active_start"]
             <= start
-            <= f.__gettsim__["dates_active_end"]
+            <= f.__info__["dates_active_end"]
         ):
             raise ConflictingTimeDependentFunctionsError(
                 f"Conflicting functions for key {dag_key!r}: {f.__name__!r} "
-                f"({f.__gettsim__['dates_active_start']} to "
-                f"{f.__gettsim__['dates_active_end']}) "
-                f"vs. {function_name!r} ({f.__gettsim__['dates_active_start']} to "
-                f"{f.__gettsim__['dates_active_end']})."
+                f"({f.__info__['dates_active_start']} to "
+                f"{f.__info__['dates_active_end']}) "
+                f"vs. {function_name!r} ({f.__info__['dates_active_start']} to "
+                f"{f.__info__['dates_active_end']})."
             )
 
 
