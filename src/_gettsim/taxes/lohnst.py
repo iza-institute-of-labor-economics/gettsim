@@ -104,7 +104,7 @@ def lohnst_m(
     exemptions, determined by the 'Steuerklasse'.
     Source: §39b EStG
 
-    Caluclation is differentiated by steuerklasse
+    Calculation is differentiated by steuerklasse
 
     1,2,4: Standard tariff (§32a (1) EStG)
     3: Splitting tariff (§32a (5) EStG)

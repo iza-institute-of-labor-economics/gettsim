@@ -486,3 +486,11 @@ Type: float
 Received Bürgergeld in previous year
 
 Type: bool
+
+(steuerklasse)=
+
+## `steuerklasse`
+
+Tax Bracket (1 to 5) for withholding tax
+
+Type: int
