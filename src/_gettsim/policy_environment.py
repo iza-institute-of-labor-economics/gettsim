@@ -147,7 +147,7 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-
+    params = _parse_vorsorg_rv_anteil(date, params)
     functions = load_functions_for_date(date)
 
     return params, functions

@@ -68,7 +68,7 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     Parameters
     ----------
 
-    x
+    taxable_inc:
         Taxable Income used in function (not necessarily the same as lohnst_eink)
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
@@ -139,33 +139,29 @@ def lohnst_m(
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
     elif grenze_1 <= lohnst_eink < grenze_2:
         lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
-        max_lohnsteuer = (
+        max_lohnsteuer = trunc(
             lohnsteuer_grenze_1
             + (lohnst_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
-        max_lohnsteuer = trunc(max_lohnsteuer)
         lohnsteuer_klasse5_6 = min(
             max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink, eink_st_params)
         )
     elif grenze_2 <= lohnst_eink < grenze_3:
         lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
-        lohnsteuer_klasse5_6 = (
+        lohnsteuer_klasse5_6 = trunc(
             lohnsteuer_grenze_2
             + (lohnst_eink - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
-        trunc(lohnsteuer_klasse5_6)
     else:
         lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
         lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params[
             "eink_st_tarif"
         ]["rates"][0][3]
-        lohnsteuer_klasse5_6 = lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3
-        lohnsteuer_klasse5_6 = trunc(lohnsteuer_klasse5_6)
-        lohnsteuer_klasse5_6 = (
-            lohnsteuer_klasse5_6
+        lohnsteuer_klasse5_6_tmp = trunc(lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3)
+        lohnsteuer_klasse5_6 = trunc(
+            lohnsteuer_klasse5_6_tmp
             + (lohnst_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
-        lohnsteuer_klasse5_6 = trunc(lohnsteuer_klasse5_6)
 
     if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
@@ -313,7 +309,6 @@ def vorsorgepauschale_2005_2010() -> float:
 #            income is assigned tax bracket 3, the other spouse tax bracket 5.
 #         - In all other cases, we assign tax bracket 4 to both spouses.
 
-#     1: Single
 #     2: Single Parent
 #     3: One spouse in married couple who receives allowance of both partners.
 #        Makes sense primarily for Single-Earner Households
@@ -325,11 +320,8 @@ def vorsorgepauschale_2005_2010() -> float:
 
 #     Parameters
 #     ----------
-#     gemeinsam_veranlagt_tu: bool
 #         Return of :func:`gemeinsam_veranlagt_tu`.
-#     alleinerz_tu: bool
 #         See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
-#     bruttolohn_m: float
 #         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 #     eink_st_params:
 #         See params documentation :ref:`eink_st_params <eink_st_params>`
@@ -338,37 +330,15 @@ def vorsorgepauschale_2005_2010() -> float:
 
 #     Returns
 #     ----------
-#     steuerklasse: int
 #         The steuerklasse for each person in the tax unit
 #     """
 
-#     bruttolohn_max = max(bruttolohn_m)
-#     bruttolohn_min = min(bruttolohn_m)
 
-#     einkommensgrenze_zweitverdiener = (
-#         eink_st_params["eink_st_tarif"]["thresholds"][1]
-#         + eink_st_abzuege_params["werbungskostenpauschale"]
-#     )
-#     alleinverdiener_paar = (
-#         (bruttolohn_min <= einkommensgrenze_zweitverdiener / 12)
 #         & (bruttolohn_max > 0)
 #         & (gemeinsam_veranlagt_tu)
-#     )
-#     cond_steuerklasse1 = (~gemeinsam_veranlagt_tu) & ~alleinerz_tu
-#     cond_steuerklasse2 = alleinerz_tu
-#     cond_steuerklasse3 = alleinverdiener_paar & (
 #         bruttolohn_m > einkommensgrenze_zweitverdiener / 12
-#     )
-#     cond_steuerklasse4 = (gemeinsam_veranlagt_tu) & (~alleinverdiener_paar)
-#     cond_steuerklasse5 = alleinverdiener_paar & (
-#         bruttolohn_m <= einkommensgrenze_zweitverdiener / 12
-#     )
-#     steuerklasse = (
 #         1 * cond_steuerklasse1
 #         + 2 * cond_steuerklasse2
 #         + 3 * cond_steuerklasse3
 #         + 4 * cond_steuerklasse4
 #         + 5 * cond_steuerklasse5
-#     )
-
-#     return steuerklasse
