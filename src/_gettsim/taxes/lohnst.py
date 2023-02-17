@@ -143,6 +143,7 @@ def lohnst_m(
             lohnsteuer_grenze_1
             + (lohnst_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
+        max_lohnsteuer = trunc(max_lohnsteuer)
         lohnsteuer_klasse5_6 = min(
             max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink, eink_st_params)
         )
@@ -162,6 +163,7 @@ def lohnst_m(
             lohnsteuer_klasse5_6_tmp
             + (lohnst_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
+        lohnsteuer_klasse5_6 = trunc(lohnsteuer_klasse5_6)
 
     if steuerklasse in (1, 2, 4):
         out = lohnsteuer_basistarif
@@ -308,7 +310,7 @@ def vorsorgepauschale_2005_2010() -> float:
 #            this is essentially a single-earner couple. The spouse with the higher
 #            income is assigned tax bracket 3, the other spouse tax bracket 5.
 #         - In all other cases, we assign tax bracket 4 to both spouses.
-
+#     1: Single
 #     2: Single Parent
 #     3: One spouse in married couple who receives allowance of both partners.
 #        Makes sense primarily for Single-Earner Households
@@ -342,3 +344,5 @@ def vorsorgepauschale_2005_2010() -> float:
 #         + 3 * cond_steuerklasse3
 #         + 4 * cond_steuerklasse4
 #         + 5 * cond_steuerklasse5
+
+#    return steuerklasse

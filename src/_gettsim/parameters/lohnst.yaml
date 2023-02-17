@@ -21,8 +21,6 @@ lohnst_einkommensgrenzen:
     0: 11793
     1: 29298
     2: 222260
-
-
 rounding:
   lohnst_eink:
     1990-01-01:
