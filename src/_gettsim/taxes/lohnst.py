@@ -120,7 +120,7 @@ def lohnst_m(
     lohnst_params
         See params documentation :ref:`lohnst_params <lohnst_params>`
     steuerklasse:
-        See :func:`steuerklasse`
+        See basic input variable :ref:`steuerklasse <steuerklasse>`.
 
     Returns
     -------
