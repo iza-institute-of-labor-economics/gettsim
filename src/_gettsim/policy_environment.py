@@ -2,6 +2,7 @@ import copy
 import datetime
 import operator
 from functools import reduce
+from typing import Callable
 
 import numpy
 import pandas as pd
@@ -9,12 +10,12 @@ import yaml
 
 import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.functions_loader import load_internal_functions
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.shared import TIME_DEPENDENT_FUNCTIONS
 from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
     _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022,
@@ -227,12 +228,13 @@ def _parse_kinderzuschl_max(date, params):
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
-            params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
-            + params["kinderzuschl"]["existenzminimum"]["kosten_der_unterkunft"][
-                "kinder"
-            ]
-            + params["kinderzuschl"]["existenzminimum"]["heizkosten"]["kinder"]
-        ) / 12 - params["kindergeld"]["kindergeld"][1]
+                                                    params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
+                                                    +
+                                                    params["kinderzuschl"]["existenzminimum"]["kosten_der_unterkunft"][
+                                                        "kinder"
+                                                    ]
+                                                    + params["kinderzuschl"]["existenzminimum"]["heizkosten"]["kinder"]
+                                            ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
 
@@ -293,13 +295,11 @@ def load_functions_for_date(date):
     """
     year = date.year
 
+    # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
     functions = {
-        dag_key: f
-        for dag_key, candidates in TIME_DEPENDENT_FUNCTIONS.items()
-        for f in candidates
-        if f.__info__["dates_active_start"]
-        <= date
-        <= f.__info__["dates_active_end"]
+        f.__info__["dates_active_dag_key"]: f
+        for f in load_internal_functions().values()
+        if is_time_dependent(f) and is_active_at_date(f, date)
     }
 
     if year <= 1996:
@@ -519,8 +519,16 @@ def load_functions_for_date(date):
     return functions
 
 
+def is_time_dependent(f: Callable) -> bool:
+    return hasattr(f, "__info__") and "dates_active_dag_key" in f.__info__
+
+
+def is_active_at_date(f: Callable, date: datetime.date) -> bool:
+    return f.__info__["dates_active_start"] <= date <= f.__info__["dates_active_end"]
+
+
 def _load_parameter_group_from_yaml(
-    date, group, parameters=None, yaml_path=RESOURCE_DIR / "parameters"
+        date, group, parameters=None, yaml_path=RESOURCE_DIR / "parameters"
 ):
     """Load data from raw yaml group file.
 
@@ -751,6 +759,6 @@ def add_progressionsfaktor(params_dict, parameter):
     for key in interval_keys:
         if "rate_quadratic" not in out_dict[key]:
             out_dict[key]["rate_quadratic"] = (
-                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
-            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+                                                      out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+                                              ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
     return out_dict

@@ -134,6 +134,12 @@ def load_user_and_internal_functions(user_functions_raw):
     return user_functions, internal_functions
 
 
+def load_internal_functions():
+    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    internal_functions = _load_functions(imports)
+
+    return internal_functions
+
 def load_aggregation_dict():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
