@@ -95,7 +95,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     return out
 
 
-def eink_st_altersfreib_bis_2004(
+def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -141,7 +141,7 @@ def eink_st_altersfreib_bis_2004(
     return out
 
 
-def eink_st_altersfreib_ab_2005(
+def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     geburtsjahr: int,

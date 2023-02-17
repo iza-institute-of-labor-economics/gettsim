@@ -1,5 +1,5 @@
 import numpy
-import pandas as pd
+import pandas as pd  # noqa
 from pandas.api.types import (
     is_bool_dtype,
     is_datetime64_any_dtype,

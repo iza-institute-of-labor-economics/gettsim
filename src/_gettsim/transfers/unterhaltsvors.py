@@ -70,7 +70,7 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_m_tu(
+def unterhaltsvorschuss_eink_m_tu(  # noqa: PLR0913
     bruttolohn_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_selbst_m_tu: float,
