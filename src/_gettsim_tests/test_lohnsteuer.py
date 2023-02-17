@@ -1,15 +1,15 @@
 import itertools
 import urllib.request as mybrowser
-import xml.etree.ElementTree as ElementTree
+from xml.etree import ElementTree
 
 import numpy as np
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "hh_id",
@@ -135,7 +135,6 @@ def input_data():
     test_data["lohnst_soli_m"] = test_data["lohnst_soli"]
 
     for outvar in ["lohnst_m", "lohnst_soli_m"]:
-
         test_data.loc[test_data["period_of_obtained_wage"] == 4, outvar] = (
             test_data[outvar] * 360 / 12
         )
@@ -154,8 +153,6 @@ def input_data():
     # Provisionally, calculate amount of claimed Kinderfreibeträge outside of Gettsim
     # (problem to solve when Soli is implemented)
     # test_data["eink_st_kinderfreib_tu"] = (
-    #     test_data["anz_kinder_mit_kindergeld_tu"] * (2730 + 1464) * 2
-    # )
 
     return test_data
 
@@ -282,13 +279,10 @@ def bmf_collect(
 
     # Possible inputs:
     # https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=https://www.bundesfinanzministerium.de/Content/DE/Downloads/Steuern/Steuerarten/Lohnsteuer/Programmablaufplan/2020-11-09-PAP-2021-anlage-1.pdf?__blob=publicationFile&v=2
-    # AF: Faktorverfahren (0/1)
     # Faktor: eingetragener Faktor
     # LZZ = 1: yearly income, 2: monthly
     # PVZ (1/0): PV-Zusatzbeitrag für Kinderlose
     # RE4: Steuerpflichtiger Arbeitslohn (in Cent!!!)
-    # STKL (1-6): Steuerklasse
-    # ZKF: Kinderfreibeträge
     # KVZ: GKV Zusatzbeitrag in %
     #
     # Speficy the call. everything that is not specified is treated as a zero value.
