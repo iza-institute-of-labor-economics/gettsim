@@ -176,9 +176,7 @@ def test_lohnsteuer(input_data, year, column):
             "ges_pflegev_zusatz_kinderlos",
         ],
     )
-    assert_series_equal(
-        result[column], input_data[column], check_dtype=False, atol=1e-1, rtol=1e-1
-    )
+    assert_series_equal(result[column], input_data[column], check_dtype=False, atol=2)
 
 
 def get_xml(url):
@@ -363,32 +361,6 @@ def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
             ],
             "steuerklasse": [1, 4, 4, 3, 5, 2, 1, 1, 2, 2, 1],
             "year": [year] * 11,
-            "ges_krankenv_zusatzbeitrag": [
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-                1.3,
-            ],
-            "ges_pflegev_zusatz_kinderlos": [
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-                True,
-            ],
         }
     )
     hh["child_num_kg"] = hh.groupby("tu_id")["kind"].transform("sum")
@@ -419,8 +391,16 @@ def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
     return hh
 
 
+@pytest.mark.skip()
 @pytest.mark.parametrize("year, column", itertools.product([2022], OUT_COLS))
 def test_lohnsteuer_api(year, column):
+    """This test compares gettsim values for lohnsteuer against the API by the German
+    Ministry of Finance.
+
+    The API address is not stable over time. For this reason, the test is skipped by
+    default
+
+    """
     policy_params, policy_functions = set_up_policy_environment(date=year)
 
     year_data = gen_lohnsteuer_test(
@@ -430,8 +410,8 @@ def test_lohnsteuer_api(year, column):
     df["alleinerz"] = df["steuerklasse"] == 2
     df["wohnort_ost"] = False
     df["jahr_renteneintr"] = 2060
-    # df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
-    # df["in_ausbildung"] = ~df["kind"]
+    df["hat_kinder"] = df.groupby("tu_id")["kind"].transform("sum") > 0
+    df["in_ausbildung"] = df["kind"]
     df["arbeitsstunden_w"] = 40.0 * ~df["kind"]
 
     result = compute_taxes_and_transfers(
@@ -439,10 +419,6 @@ def test_lohnsteuer_api(year, column):
         params=policy_params,
         functions=policy_functions,
         targets=[column],
-        columns_overriding_functions=[
-            "ges_krankenv_zusatzbeitrag",
-            "ges_pflegev_zusatz_kinderlos",
-        ],
     )
 
     assert_series_equal(
