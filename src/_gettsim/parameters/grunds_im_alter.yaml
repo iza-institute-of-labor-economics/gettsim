@@ -23,7 +23,6 @@ vermögensfreibetrag:
   2017-04-01:
     adult: 5000
     child: 500
-
 ges_rente_anr_frei:
   name:
     de: Anrechnungsfreier Anteil der staatlichen Rente (bei mind. 33 Grundrentenzeiten)
@@ -60,7 +59,6 @@ ges_rente_anr_frei:
     2:
       upper_threshold: inf
       rate: 0.3
-
 elterngeld_anr_frei:
   name:
     de: Freibetrag des Elterngeldes für Grundsicherung
@@ -79,7 +77,6 @@ elterngeld_anr_frei:
   2007-01-01:
     reference: § 10 BEEG
     scalar: 300
-
 kapitaleink_anr_frei:
   name:
     de: Freibetrag des Kapitaleinkommens für Grundsicherung
@@ -99,7 +96,6 @@ kapitaleink_anr_frei:
   2016-01-01:
     reference: § 43 SGB XII Abs. 2
     scalar: 26
-
 erwerbseink_anr_frei:
   name:
     de: Anrechnungsfreier Anteil des Erwerbseinkommens für Grundsicherung
@@ -118,7 +114,6 @@ erwerbseink_anr_frei:
     note: Unclear how it was handled before 2005
   2005-01-01:
     scalar: 0.3
-
 priv_rente_anr_frei:
   name:
     de: Anrechnungsfreie Anteile der privaten Rente für Grundsicherung
@@ -153,7 +148,6 @@ priv_rente_anr_frei:
     2:
       upper_threshold: inf
       rate: 0.3
-
 mehrbedarf_schwerbeh_g:
   name:
     de: Mehrbedarf bei Schwerbehinderung

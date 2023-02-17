@@ -5,24 +5,30 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
-from _gettsim.aggregation import grouped_all
-from _gettsim.aggregation import grouped_any
-from _gettsim.aggregation import grouped_count
-from _gettsim.aggregation import grouped_cumsum
-from _gettsim.aggregation import grouped_max
-from _gettsim.aggregation import grouped_mean
-from _gettsim.aggregation import grouped_min
-from _gettsim.aggregation import grouped_sum
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import RESOURCE_DIR
-from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.config import USE_JAX
-from _gettsim.shared import format_errors_and_warnings
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import remove_group_suffix
+import numpy
+
+from _gettsim.aggregation import (
+    grouped_all,
+    grouped_any,
+    grouped_count,
+    grouped_cumsum,
+    grouped_max,
+    grouped_mean,
+    grouped_min,
+    grouped_sum,
+)
+from _gettsim.config import (
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    RESOURCE_DIR,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
+from _gettsim.shared import (
+    format_errors_and_warnings,
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    remove_group_suffix,
+)
 
 
 def load_and_check_functions(
@@ -170,7 +176,6 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -260,7 +265,7 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     """Format an error message showing duplicated functions and their sources."""
     lines = []
     for name in duplicated_functions:
-        lines.append(f"'{name}' is defined in")
+        lines.append(f"{name!r} is defined in")
         lines.append("    " + inspect.getfile(functions[name]))
         lines.append("    " + inspect.getfile(source[name]))
 
@@ -396,7 +401,9 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
+def _create_one_aggregation_func(  # noqa: PLR0912
+    agg_col, agg_specs, user_and_internal_functions
+):
     """Create an aggregation function based on aggregation specification.
 
     Parameters
@@ -415,7 +422,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     aggregation_func : The aggregation func with the expected signature
 
     """
-
     # Read individual specification parameters and make sure nothing is missing
     try:
         aggr = agg_specs["aggr"]
@@ -449,7 +455,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     if aggr == "count":
         annotations["return"] = int
     else:
-
         if (
             source_col in user_and_internal_functions
             and "return" in user_and_internal_functions[source_col].__annotations__
@@ -559,17 +564,9 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
+    # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        # func_vec = jnp.vectorize(func)
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
+    func_vec = numpy.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):

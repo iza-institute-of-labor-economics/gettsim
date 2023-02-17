@@ -152,7 +152,6 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     -------
 
     """
-
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -209,14 +208,14 @@ def entgeltp_update_lohn(
     return out
 
 
-def ges_rente_zugangsfaktor(
+def ges_rente_zugangsfaktor(  # noqa: PLR0913
     geburtsjahr: int,
     rentner: bool,
     jahr_renteneintr: int,
     ges_rente_regelaltersgrenze: float,
     referenz_alter_abschlag: float,
     _ges_rente_altersgrenze_abschlagsfrei: float,
-    ges_rente_vorauss_vorzeitig: float,
+    ges_rente_vorauss_vorzeitig: bool,
     ges_rente_vorauss_regelrente: bool,
     ges_rente_params: dict,
 ) -> float:
@@ -258,24 +257,22 @@ def ges_rente_zugangsfaktor(
     -------
 
     """
+
     if rentner and ges_rente_vorauss_regelrente:
-        # Calc age at retirement
-        alter_renteneintritt = jahr_renteneintr - geburtsjahr
-
-        faktor_pro_jahr_vorzeitig = ges_rente_params[
-            "zugangsfaktor_veränderung_pro_jahr"
-        ]["vorzeitiger_renteneintritt"]
-        faktor_pro_jahr_später = ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
-            "späterer_renteneintritt"
-        ]
-
         # Early retirement (before full retirement age): Zugangsfaktor < 1
-        if alter_renteneintritt < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
+        if (
+            jahr_renteneintr - geburtsjahr
+        ) < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
             if ges_rente_vorauss_vorzeitig:
                 # Calc difference to FRA of pensions with early retirement options
                 # (Altersgrenze langjährig Versicherte, Altersrente für Frauen).
-                diff_referenz_alter = alter_renteneintritt - referenz_alter_abschlag
-                out = 1 + diff_referenz_alter * faktor_pro_jahr_vorzeitig
+                out = (
+                    1
+                    + ((jahr_renteneintr - geburtsjahr) - referenz_alter_abschlag)
+                    * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+                        "vorzeitiger_renteneintritt"
+                    ]
+                )
             else:
                 # Early retirement although not eligible to do so.
                 # ToDo: Implement early retirment for disabled or long-term unemployed
@@ -283,15 +280,16 @@ def ges_rente_zugangsfaktor(
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
         # Zugangsfaktor > 1
-        elif alter_renteneintritt > ges_rente_regelaltersgrenze:  # (NRA, inf]
+        elif (jahr_renteneintr - geburtsjahr) > ges_rente_regelaltersgrenze:
             out = (
                 1
-                + (alter_renteneintritt - ges_rente_regelaltersgrenze)
-                * faktor_pro_jahr_später
+                + ((jahr_renteneintr - geburtsjahr) - ges_rente_regelaltersgrenze)
+                * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+                    "späterer_renteneintritt"
+                ]
             )
 
         # Retirement between full retirement age and normal retirement age:
-        # Zugangsfaktor = 1
         else:  # [FRA,NRA]
             out = 1.0
 
@@ -304,7 +302,7 @@ def ges_rente_zugangsfaktor(
     return out
 
 
-def _ges_rente_altersgrenze_abschlagsfrei(
+def _ges_rente_altersgrenze_abschlagsfrei(  # noqa: PLR0913
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -414,7 +412,6 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     -------
 
     """
-
     out = piecewise_polynomial(
         x=geburtsjahr,
         thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
@@ -526,6 +523,9 @@ def _ges_rente_besond_langj_altersgrenze(
     """Calculates the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
+    # ToDo: This function should only exist from 2014-07-01 onwards. Add decorator once
+    # ToDo: this functionality is available.
+
     Parameters
     ----------
     geburtsjahr
@@ -555,7 +555,7 @@ def _ges_rente_besond_langj_altersgrenze(
 def ges_rente_vorauss_vorzeitig(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-) -> float:
+) -> bool:
     """Function determining eligibility for early retirement. Can only be claimed if
     eligible for "Rente für langjährig Versicherte".
 
@@ -597,7 +597,7 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
     return out
 
 
-def ges_rente_vorauss_frauen(
+def ges_rente_vorauss_frauen(  # noqa: PLR0913
     weiblich: bool,
     ges_rente_wartezeit_15: float,
     y_pflichtbeitr_ab_40: float,
@@ -690,7 +690,6 @@ def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
     Eligibility as bool.
 
     """
-
     out = ges_rente_wartezeit_45 >= 45
 
     return out
@@ -746,7 +745,7 @@ def ges_rente_wartezeit_15(
     return out
 
 
-def ges_rente_wartezeit_35(
+def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit: float,
@@ -789,7 +788,7 @@ def ges_rente_wartezeit_35(
     return out
 
 
-def ges_rente_wartezeit_45(
+def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,
@@ -841,7 +840,7 @@ def ges_rente_wartezeit_45(
     return out
 
 
-def ges_rente_anrechnungszeit(
+def ges_rente_anrechnungszeit(  # noqa: PLR0913
     m_arbeitsunfähig: float,
     m_krank_ab_16_bis_24: float,
     m_mutterschutz: float,

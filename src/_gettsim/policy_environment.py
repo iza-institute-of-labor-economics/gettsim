@@ -3,171 +3,116 @@ import datetime
 import operator
 from functools import reduce
 
-import numpy as np
+import numpy
 import pandas as pd
 import yaml
-from _gettsim.config import INTERNAL_PARAMS_GROUPS
-from _gettsim.config import RESOURCE_DIR
-from _gettsim.piecewise_functions import check_thresholds
-from _gettsim.piecewise_functions import get_piecewise_parameters
-from _gettsim.piecewise_functions import piecewise_polynomial
+
+from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.piecewise_functions import (
+    check_thresholds,
+    get_piecewise_parameters,
+    piecewise_polynomial,
+)
 from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
     _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_bemessungsentgelt_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_bemessungsentgelt_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     midijob_faktor_f_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
     minijob_grenze_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
-    minijob_grenze_ost_vor_10_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
-    minijob_grenze_west_vor_10_2022,
+    minijob_grenze_ost_bis_09_2022,
+    minijob_grenze_west_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_ab_2019,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_beitr_satz_arbeitg_bis_2018,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     _ges_krankenv_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_ab_2019,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
     ges_krankenv_beitr_satz_bis_2018,
 )
 from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022,
 )
 from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
-from _gettsim.taxes.eink_st import eink_st_tu_ab_1997
-from _gettsim.taxes.eink_st import eink_st_tu_bis_1996
-from _gettsim.taxes.lohnst import vorsorgepauschale_2005_2010
-from _gettsim.taxes.lohnst import vorsorgepauschale_ab_2010
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_mit_kapital
-from _gettsim.taxes.zu_verst_eink.eink import sum_eink_ohne_kapital
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_alleinerz_freib_tu_ab_2015
-from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_alleinerz_freib_tu_bis_2014,
+from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
+from _gettsim.taxes.lohnst import vorsorgepauschale_2005_2010, vorsorgepauschale_ab_2010
+from _gettsim.taxes.zu_verst_eink.eink import (
+    sum_eink_mit_kapital,
+    sum_eink_ohne_kapital,
 )
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_ab_2005
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_altersfreib_bis_2004
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_ab_2012
-from _gettsim.taxes.zu_verst_eink.freibetraege import eink_st_sonderausgaben_tu_bis_2011
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2005_bis_2009
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2010_bis_2019
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_ab_2020
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import vorsorgeaufw_bis_2004
+from _gettsim.taxes.zu_verst_eink.freibetraege import (
+    eink_st_alleinerz_freib_tu_ab_2015,
+    eink_st_alleinerz_freib_tu_bis_2014,
+    eink_st_altersfreib_ab_2005,
+    eink_st_altersfreib_bis_2004,
+    eink_st_sonderausgaben_tu_ab_2012,
+    eink_st_sonderausgaben_tu_bis_2011,
+)
+from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import (
+    vorsorgeaufw_tu_ab_2005_bis_2009,
+    vorsorgeaufw_tu_ab_2010_bis_2019,
+    vorsorgeaufw_tu_ab_2020,
+    vorsorgeaufw_tu_bis_2004,
+)
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_ab_2011,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
 )
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
     arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
 )
 from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
     arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
-)
-from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
     arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
 )
 from _gettsim.transfers.benefit_checks.vermoegens_checks import (
     arbeitsl_geld_2_vermög_freib_hh_ab_2023,
-)
-from _gettsim.transfers.benefit_checks.vermoegens_checks import (
     arbeitsl_geld_2_vermög_freib_hh_bis_2022,
 )
-from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_ab_2021
-from _gettsim.transfers.grunds_im_alter import grunds_im_alter_ges_rente_m_bis_2020
-from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_lohn
-from _gettsim.transfers.kindergeld import kindergeld_anspruch_nach_stunden
-from _gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
+from _gettsim.transfers.grunds_im_alter import (
+    grunds_im_alter_ges_rente_m_ab_2021,
+    grunds_im_alter_ges_rente_m_bis_2020,
+)
+from _gettsim.transfers.kindergeld import (
+    kindergeld_anspruch_nach_lohn,
+    kindergeld_anspruch_nach_stunden,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl import (
+    _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019,
     _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019,
 )
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_ab_2011,
-)
-from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
     kinderzuschl_eink_regel_m_tu_bis_2010,
 )
-from _gettsim.transfers.rente import ges_rente_nach_grundr_m
-from _gettsim.transfers.rente import ges_rente_vor_grundr_m
-from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_ab_2016
-from _gettsim.transfers.wohngeld import wohngeld_eink_freib_m_bis_2015
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_ab_2009
-from _gettsim.transfers.wohngeld import wohngeld_miete_m_hh_bis_2008
+from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
+from _gettsim.transfers.wohngeld import (
+    wohngeld_eink_freib_m_ab_2016,
+    wohngeld_eink_freib_m_bis_2015,
+    wohngeld_miete_m_hh_ab_2009,
+    wohngeld_miete_m_hh_bis_2008,
+)
 
 
 def set_up_policy_environment(date):
@@ -202,7 +147,6 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-    params = _parse_vorsorg_rv_anteil(date, params)
 
     functions = load_functions_for_date(date)
 
@@ -325,7 +269,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-
         # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
@@ -360,7 +303,6 @@ def _parse_vorsorg_rv_anteil(date, params):
 
     jahr = float(date.year)
     if jahr >= 2005:
-
         out = piecewise_polynomial(
             pd.Series(jahr),
             thresholds=params["eink_st_abzuege"]["vorsorge_pauschale_rv_anteil"][
@@ -424,13 +366,13 @@ def load_functions_for_date(date):
         functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_bis_2011
 
     if year >= 2020:
-        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2020
+        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2020
     elif 2020 > year >= 2010:
-        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2010_bis_2019
+        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2010_bis_2019
     elif 2010 > year >= 2005:
-        functions["vorsorgeaufw"] = vorsorgeaufw_ab_2005_bis_2009
+        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2005_bis_2009
     elif year <= 2004:
-        functions["vorsorgeaufw"] = vorsorgeaufw_bis_2004
+        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_bis_2004
 
     if year >= 2010:
         functions["vorsorgepauschale"] = vorsorgepauschale_ab_2010
@@ -500,8 +442,8 @@ def load_functions_for_date(date):
         functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
         functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
     else:
-        functions["minijob_grenze_west"] = minijob_grenze_west_vor_10_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ost_vor_10_2022
+        functions["minijob_grenze_west"] = minijob_grenze_west_bis_09_2022
+        functions["minijob_grenze_ost"] = minijob_grenze_ost_bis_09_2022
 
     if date >= datetime.date(year=2022, month=10, day=1):
         functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
@@ -679,9 +621,7 @@ def _load_parameter_group_from_yaml(
     # Load values of all parameters at the specified date
     for param in parameters:
         policy_dates = sorted(
-            key
-            for key in raw_group_data[param].keys()
-            if isinstance(key, datetime.date)
+            key for key in raw_group_data[param] if isinstance(key, datetime.date)
         )
 
         past_policies = [d for d in policy_dates if d <= date]
@@ -690,8 +630,8 @@ def _load_parameter_group_from_yaml(
             # If no policy exists, then we check if the policy maybe agrees right now
             # with another one.
             # Otherwise, do not create an entry for this parameter.
-            if "deviation_from" in raw_group_data[param][np.min(policy_dates)].keys():
-                future_policy = raw_group_data[param][np.min(policy_dates)]
+            if "deviation_from" in raw_group_data[param][numpy.min(policy_dates)]:
+                future_policy = raw_group_data[param][numpy.min(policy_dates)]
                 if "." in future_policy["deviation_from"]:
                     path_list = future_policy["deviation_from"].split(".")
                     params_temp = _load_parameter_group_from_yaml(
@@ -704,10 +644,10 @@ def _load_parameter_group_from_yaml(
                         out_params[param] = params_temp[path_list[1]]
 
         else:
-            policy_in_place = raw_group_data[param][np.max(past_policies)]
-            if "scalar" in policy_in_place.keys():
+            policy_in_place = raw_group_data[param][numpy.max(past_policies)]
+            if "scalar" in policy_in_place:
                 if policy_in_place["scalar"] == "inf":
-                    out_params[param] = np.inf
+                    out_params[param] = numpy.inf
                 else:
                     out_params[param] = policy_in_place["scalar"]
             else:
@@ -718,11 +658,11 @@ def _load_parameter_group_from_yaml(
                     if key in raw_group_data[param]:
                         out_params[param][key] = raw_group_data[param][key]
                 value_keys = (
-                    key for key in policy_in_place.keys() if key not in not_trans_keys
+                    key for key in policy_in_place if key not in not_trans_keys
                 )
-                if "deviation_from" in policy_in_place.keys():
+                if "deviation_from" in policy_in_place:
                     if policy_in_place["deviation_from"] == "previous":
-                        new_date = np.max(past_policies) - datetime.timedelta(days=1)
+                        new_date = numpy.max(past_policies) - datetime.timedelta(days=1)
                         out_params[param] = _load_parameter_group_from_yaml(
                             new_date, group, parameters=[param], yaml_path=yaml_path
                         )[param]
@@ -761,7 +701,7 @@ def _load_parameter_group_from_yaml(
                         f"For parameter {param} a different string is specified."
                     )
 
-    out_params["datum"] = np.datetime64(date)
+    out_params["datum"] = numpy.datetime64(date)
 
     # Load rounding parameters if they exist
     if "rounding" in raw_group_data:
@@ -793,11 +733,10 @@ def _load_rounding_parameters(date, rounding_spec):
 
     # Load values of all parameters at the specified date.
     for function_name, rounding_spec_func in rounding_spec.items():
-
         # Find all specified policy dates before date.
         policy_dates_before_date = sorted(
             key
-            for key in rounding_spec_func.keys()
+            for key in rounding_spec_func
             if isinstance(key, datetime.date) and key <= date
         )
 
@@ -808,7 +747,7 @@ def _load_rounding_parameters(date, rounding_spec):
         # Note this will raise an error later unless the user adds an
         # appropriate rounding specification to the parameters dictionary.
         if policy_dates_before_date:
-            policy_date_in_place = np.max(policy_dates_before_date)
+            policy_date_in_place = numpy.max(policy_dates_before_date)
             policy_in_place = rounding_spec_func[policy_date_in_place]
             out[function_name] = {}
             for key in [k for k in policy_in_place if k in rounding_parameters]:
@@ -819,8 +758,8 @@ def _load_rounding_parameters(date, rounding_spec):
 def transfer_dictionary(remaining_dict, new_dict, key_list):
     # To call recursive, always check if object is a dict
     if isinstance(remaining_dict, dict):
-        for key in remaining_dict.keys():
-            key_list_updated = key_list + [key]
+        for key in remaining_dict:
+            key_list_updated = [*key_list, key]
             new_dict = transfer_dictionary(
                 remaining_dict[key], new_dict, key_list_updated
             )

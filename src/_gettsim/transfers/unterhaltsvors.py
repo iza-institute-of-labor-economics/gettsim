@@ -8,14 +8,14 @@ def unterhaltsvors_m(
     unterhalt_params: dict,
     kindergeld_params: dict,
 ) -> float:
-    """Calculate advance on alimony payment(Unterhaltsvorschuss).
+    """Calculate advance on alimony payment (Unterhaltsvorschuss).
 
     Single Parents get alimony payments for themselves and for their child from the ex
     partner. If the ex partner is not able to pay the child alimony, the government pays
     the child alimony to the mother (or the father, if he has the kids)
 
     The amount is specified in §1612a BGB and, ultimately, in
-    Mindesunterhaltsverordnung.
+    Mindestunterhaltsverordnung.
 
     # ToDo: Result was rounded up in previous code. Check if this is correct and
     # ToDo: implement rounding spec accordingly
@@ -38,14 +38,6 @@ def unterhaltsvors_m(
 
     """
 
-    if "mindestunterhalt" not in unterhalt_params:
-        raise NotImplementedError(
-            """
-        Unterhaltsvorschuss is not implemented yet prior to 2016, see
-        https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
-
-        """
-        )
     altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
     if (alter < altersgrenzen[0]) and alleinerz_tu:
         out = (
@@ -78,7 +70,7 @@ def unterhaltsvors_m(
     return out
 
 
-def unterhaltsvorschuss_eink_m_tu(
+def unterhaltsvorschuss_eink_m_tu(  # noqa: PLR0913
     bruttolohn_m_tu: float,
     sonstig_eink_m_tu: float,
     eink_selbst_m_tu: float,

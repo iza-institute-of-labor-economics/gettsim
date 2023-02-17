@@ -1,4 +1,4 @@
-import numpy as np
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec
 
 
@@ -24,7 +24,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
 
     # Select corresponding bin.
     selected_bin_index = (
-        np.searchsorted(bins + [np.inf], behinderungsgrad, side="right") - 1
+        np.searchsorted([*bins, np.inf], behinderungsgrad, side="right") - 1
     )
     selected_bin = bins[selected_bin_index]
 
@@ -95,7 +95,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     return out
 
 
-def eink_st_altersfreib_bis_2004(
+def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -129,19 +129,19 @@ def eink_st_altersfreib_bis_2004(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )
     if alter > altersgrenze:
-        out = (
+        out = min(
             eink_st_abzuege_params["altersentlastung_quote"]
             * 12
-            * (bruttolohn_m + weiteres_einkommen)
+            * (bruttolohn_m + weiteres_einkommen),
+            eink_st_abzuege_params["altersentlastungsbetrag_max"],
         )
-        out = min(out, eink_st_abzuege_params["altersentlastungsbetrag_max"])
     else:
         out = 0.0
 
     return out
 
 
-def eink_st_altersfreib_ab_2005(
+def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     geburtsjahr: int,
@@ -173,31 +173,30 @@ def eink_st_altersfreib_ab_2005(
     -------
 
     """
-    altersgrenze = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
+    # Maximum tax credit by birth year.
+    bins = sorted(eink_st_abzuege_params["altersentlastungsbetrag_max"])
+    if geburtsjahr <= 1939:
+        selected_bin = 1940
+    else:
+        # Select corresponding bin.
+        selected_bin = bins[
+            np.searchsorted([*bins, np.inf], geburtsjahr, side="right") - 1
+        ]
+
+    # Select appropriate tax credit threshold and quota.
+    out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
+
     weiteres_einkommen = max(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )
-    if alter > altersgrenze:
-        if geburtsjahr <= 1939:
-            selected_bin = 1940
+    out_quote = (
+        eink_st_abzuege_params["altersentlastung_quote"][selected_bin]
+        * 12
+        * (bruttolohn_m + weiteres_einkommen)
+    )
 
-        else:
-            # Get maximum tax credit
-            bins = sorted(eink_st_abzuege_params["altersentlastungsbetrag_max"])
-
-            # Select corresponding bin.
-            selected_bin_index = (
-                np.searchsorted(bins + [np.inf], geburtsjahr, side="right") - 1
-            )
-
-            selected_bin = bins[selected_bin_index]
-
-        # Select appropriate tax credit threshold and quota.
-        out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
-        quo = eink_st_abzuege_params["altersentlastung_quote"][selected_bin]
-
-        out_quo = quo * 12 * (bruttolohn_m + weiteres_einkommen)
-        out = min(out_quo, out_max)
+    if alter > eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]:
+        out = min(out_quote, out_max)
     else:
         out = 0.0
 

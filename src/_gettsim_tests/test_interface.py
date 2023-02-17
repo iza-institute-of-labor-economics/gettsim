@@ -1,19 +1,21 @@
 from contextlib import ExitStack as does_not_raise  # noqa: N813
 
-import numpy as np
+import numpy
 import pandas as pd
 import pytest
 from _gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
+    _fail_if_functions_and_columns_overlap,
 )
-from _gettsim.functions_loader import _fail_if_functions_and_columns_overlap
 from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.interface import _convert_data_to_correct_types
-from _gettsim.interface import _fail_if_columns_overriding_functions_are_not_in_data
-from _gettsim.interface import _fail_if_group_variables_not_constant_within_groups
-from _gettsim.interface import _fail_if_pid_is_non_unique
-from _gettsim.interface import _round_and_partial_parameters_to_functions
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import (
+    _convert_data_to_correct_types,
+    _fail_if_columns_overriding_functions_are_not_in_data,
+    _fail_if_group_variables_not_constant_within_groups,
+    _fail_if_pid_is_non_unique,
+    _round_and_partial_parameters_to_functions,
+    compute_taxes_and_transfers,
+)
 from _gettsim.shared import add_rounding_spec
 
 
@@ -22,11 +24,11 @@ def minimal_input_data():
     n_individuals = 5
     out = pd.DataFrame(
         {
-            "p_id": np.arange(n_individuals),
-            "tu_id": np.arange(n_individuals),
-            "hh_id": np.arange(n_individuals),
+            "p_id": numpy.arange(n_individuals),
+            "tu_id": numpy.arange(n_individuals),
+            "hh_id": numpy.arange(n_individuals),
         },
-        index=np.arange(n_individuals),
+        index=numpy.arange(n_individuals),
     )
     return out
 
@@ -90,14 +92,14 @@ def test_fail_if_functions_and_columns_overlap(columns, functions, type_, expect
 
 
 def test_fail_if_pid_does_not_exist():
-    data = pd.Series(data=np.arange(8), name="hh_id").to_frame()
+    data = pd.Series(data=numpy.arange(8), name="hh_id").to_frame()
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = pd.Series(data=np.arange(4).repeat(2), name="p_id").to_frame()
+    data = pd.Series(data=numpy.arange(4).repeat(2), name="p_id").to_frame()
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -415,7 +417,7 @@ def test_user_provided_aggregation_specs():
         aggregation_specs=aggregation_specs,
     )
 
-    np.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
+    numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
 
 def test_user_provided_aggregation_specs_function():
@@ -445,7 +447,7 @@ def test_user_provided_aggregation_specs_function():
         aggregation_specs=aggregation_specs,
     )
 
-    np.testing.assert_array_almost_equal(
+    numpy.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
     )
 
@@ -587,12 +589,12 @@ def test_convert_series_to_internal_types(
         ),
         (
             pd.Series(["zweitausendzwanzig"]),
-            np.datetime64,
+            numpy.datetime64,
             "Conversion from input type object to datetime64 failed.",
         ),
         (
             pd.Series([True, True]),
-            np.datetime64,
+            numpy.datetime64,
             "Conversion from input type bool to datetime64 failed.",
         ),
         (
@@ -616,7 +618,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"hh_id": [1, 1.1, 2]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - hh_id: Conversion from input type float64 to int failed."
+            "\n - hh_id: Conversion from input type float64 to int failed."
             " This conversion is only supported if all decimal places of input"
             " data are equal to 0.",
         ),
@@ -624,7 +626,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type float64 to bool failed."
+            "\n - wohnort_ost: Conversion from input type float64 to bool failed."
             " This conversion is only supported if input data exclusively contains"
             " the values 1.0 and 0.0.",
         ),
@@ -632,7 +634,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type int64 to bool failed."
+            "\n - wohnort_ost: Conversion from input type int64 to bool failed."
             " This conversion is only supported if input data exclusively contains"
             " the values 1 and 0.",
         ),
@@ -640,16 +642,16 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             pd.DataFrame({"wohnort_ost": ["True", "False"]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - wohnort_ost: Conversion from input type object to bool failed."
+            "\n - wohnort_ost: Conversion from input type object to bool failed."
             " Object type is not supported as input.",
         ),
         (
             pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
             {},
             "The data types of the following columns are invalid: \n"
-            + "\n - hh_id: Conversion from input type object to int failed. "
+            "\n - hh_id: Conversion from input type object to int failed. "
             "Object type is not supported as input."
-            + "\n - bruttolohn_m: Conversion from input type object to float failed."
+            "\n - bruttolohn_m: Conversion from input type object to float failed."
             " Object type is not supported as input.",
         ),
     ],
