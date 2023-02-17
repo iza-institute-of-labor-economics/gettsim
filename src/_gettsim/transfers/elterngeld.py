@@ -3,7 +3,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-def elterngeld_m(
+def elterngeld_m(  # noqa: PLR0913
     elterngeld_eink_relev_m: float,
     elternzeit_anspruch: bool,
     elterngeld_eink_erlass_m: float,
@@ -108,7 +108,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     return max(out, 0.0)
 
 
-def elternzeit_anspruch(
+def elternzeit_anspruch(  # noqa: PLR0913
     alter_monate_jüngstes_mitglied_hh: float,
     m_elterngeld_mut_hh: int,
     m_elterngeld_vat_hh: int,
