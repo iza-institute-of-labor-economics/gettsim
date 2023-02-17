@@ -542,8 +542,8 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
 
             # Make sure any GETTSIM metadata is transferred to partial
             # function. Otherwise, this information would get lost.
-            if hasattr(function, "__gettsim__"):
-                partial_func.__gettsim__ = function.__gettsim__
+            if hasattr(function, "__info__"):
+                partial_func.__info__ = function.__info__
 
             processed_functions[name] = partial_func
         else:
@@ -573,8 +573,8 @@ def _add_rounding_to_functions(functions, params):
     for func_name, func in functions.items():
         # If function has rounding params attribute, look for rounding specs in
         # params dict.
-        if hasattr(func, "__gettsim__") and "rounding_params_key" in func.__gettsim__:
-            params_key = func.__gettsim__["rounding_params_key"]
+        if hasattr(func, "__info__") and "rounding_params_key" in func.__info__:
+            params_key = func.__info__["rounding_params_key"]
 
             # Check if there are any rounding specifications.
             if not (
