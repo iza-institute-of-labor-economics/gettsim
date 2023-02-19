@@ -925,7 +925,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
 altersgrenze_besonders_langj_versicherte:
   name:
     de: >-
-      Eintrittsalter für besond. langjährig versicherte - abschlagsfrei (Rente mit 63)
+      Eintrittsalter für besonders langjährig Versicherte - abschlagsfrei (Rente mit 63)
     en: Entry age for very long term insured (45 insurance years) without deductions
   description:
     de: >-
@@ -933,7 +933,7 @@ altersgrenze_besonders_langj_versicherte:
       Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
       früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
       höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
-      * Ab dem 1.7.2014 wurde die Altersgrenze für Kohorten bis 1952 auf 63 Jahre
+      Ab dem 1.7.2014 wurde die Altersgrenze für Kohorten bis 1952 auf 63 Jahre
       gesenkt (für nachfolgende Kohorten steigt sie um 2 Monate pro Kohorte bis
       65). Personen, die vor dem 1.7.1951 (codiert als 1951.5) geboren wurden,
       waren zu diesem Zeitpunkt aber schon älter als 63 und hatten ensprechend ein
@@ -947,7 +947,7 @@ altersgrenze_besonders_langj_versicherte:
       is allowed to get pensions with his full claim. If the agent retires earlier or
       later, the Zugangsfaktor and therefore the pension claim is higher or lower,
       unless special conditions apply.
-      *From 1.7.2014 the retirement thresholds for cohorts born before 1953 was
+      From 1.7.2014 the retirement thresholds for cohorts born before 1953 was
       lowered to 63 years (for subsequent cohort it raises by 2 months per cohort
       up to 65  again). But people born before 1.7.1951 were already older than
       63 at that date. Only cohorts born after 1.7.1949 could benefit since the
@@ -959,10 +959,9 @@ altersgrenze_besonders_langj_versicherte:
   note:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
-      Die Regelung existiert ab 2012.
     en: null
   type: piecewise_linear
-  2010-01-01:
+  2012-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: inf
