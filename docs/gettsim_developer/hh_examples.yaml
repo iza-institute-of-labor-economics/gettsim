@@ -34,11 +34,10 @@ eltern_verheiratet_2_kinder:
     - kinderfreibeträge:
       # Sind Kinderfreibeträge hier als halbe Kinderfreibeträge (je Elternteil) zu verstehen?
       # Warum dann bei den folgenden beiden Haushaltstypen jeweils nur ein halber Kinderfreibetrag trotz zwei Kindern?
-        - 2             
+        - 2
         - 2
         - 0
         - 0
-
 eltern_unverheiratet_2_kinder:
   input:
     - id: 0
@@ -74,7 +73,6 @@ eltern_unverheiratet_2_kinder:
         - 1
         - 0
         - 0
-
 eltern_verheiratet_1_junges_1_erwachsenes_kind:
   input:
     - id: 0
@@ -103,28 +101,27 @@ eltern_verheiratet_1_junges_1_erwachsenes_kind:
         - 1
   output:
     - id_bedarfsgemeinschaft:
-      # Das ältere Kind ist am aktuellen Rand (2023-02-19) in der Regel keine 
-      # eigene BG, da unter 25. Es wäre technisch eine eigene (nicht bedürfige) 
+      # Das ältere Kind ist am aktuellen Rand (2023-02-19) in der Regel keine
+      # eigene BG, da unter 25. Es wäre technisch eine eigene (nicht bedürfige)
       # BG, wenn sein Einkommen seinen Bedarf deckt. Das weiß man aber erst nach
       # der Anspruchsprüfung. Die Überlegung gilt grundsätzlich auch für minderjährige Kinder.
       # Verständnisfrage: Was soll die "id_bedarfsgemeinschaft" anzeigen? Soll sie anzeigen,
       # für welche Personen in einem Haushalt die Anspruchsprüfung gemeinsam durchgeführt
       # werden muss? Oder soll sie die Zuordnung der Personen zu (eventuell nicht bedürfigen)
-      # Bedarfsgemeinschaften _nach_ der Anspruchsprüfung anzeigen? Ich vermute, dass Ersteres zutrifft.  
+      # Bedarfsgemeinschaften _nach_ der Anspruchsprüfung anzeigen? Ich vermute, dass Ersteres zutrifft.
         - 0
         - 0
-        - 1 
+        - 1
         - 0
     - kinderfreibeträge:
       # Der Kinderfreibetrag für das erwachsene (aber unter 25jährige) Kind ist ebenfalls endogen.
       # Verständnisfrage: Ich bin mir nicht sicher, ob ich die Outputs richtig interpretiere.
       # Sind die Outputs hier grundsätzlich als beispielhafte oder als erwartete Ergebnisse (eindeutig auf
       # Grundlage der Inputs) zu verstehen? Ich vermute, dass Letzteres zutrifft.
-        - 1 
+        - 1
         - 1
         - 0
         - 0
-
 eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
   input:
     - id: 0
@@ -155,16 +152,15 @@ eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
     - id_bedarfsgemeinschaft:
         - 0
         - 0
-        - 1 
+        - 1
         - 0
     - kinderfreibeträge:
       # Für das ältere Kind gibt es 2023 keinen Kinderfreibetrag mehr
       # Für das jüngere Kind gibt es 2023 u.U. einen Kinderfreibetrag
-        - 0.5 
-        - 0.5 
+        - 0.5
+        - 0.5
         - 0
-        - 0        
-
+        - 0
 eltern_verheiratet_1_kind_großeltern:
   input:
     - id: 0
@@ -209,12 +205,11 @@ eltern_verheiratet_1_kind_großeltern:
         - 1
     - kinderfreibeträge:
       # Volle oder halbe Kinderfreibeträge?
-        - 1 
+        - 1
         - 1
         - 0
         - 0
         - 0
-
 eltern_verheiratet_1_kind_anderer_verwandter:
   input:
     - id: 0
@@ -246,11 +241,10 @@ eltern_verheiratet_1_kind_anderer_verwandter:
         - 1
     - kinderfreibeträge:
       # Volle oder halbe Kinderfreibeträge?
-        - 1 
+        - 1
         - 1
         - 0
         - 0
-
 alleinerziehend_anderer_elternteil_unbekannt:
   input:
     - id: 0
@@ -266,11 +260,10 @@ alleinerziehend_anderer_elternteil_unbekannt:
         - 0
         - 0
     - kinderfreibeträge:
-      # Die Gegenüberstellung von diesem und dem folgenden Haushalt legt nahe, 
+      # Die Gegenüberstellung von diesem und dem folgenden Haushalt legt nahe,
       # dass Kinderfreibeträge als volle Beträge gemessen werden sollen.
-        - 1 
+        - 1
         - 0
-
 alleinerziehend_anderer_elternteil_in_anderem_haushalt:
   input:
     - id: 0
@@ -294,7 +287,6 @@ alleinerziehend_anderer_elternteil_in_anderem_haushalt:
         - 0.5
         - 0
         - 0.5
-
 neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
   input:
     - id: 0
@@ -329,7 +321,6 @@ neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
         - 0
         - 0
         - 0.5
-
 enkelkind_und_sgb_ii_grossmutter:
   input:
     - id: 0
@@ -344,8 +335,7 @@ enkelkind_und_sgb_ii_grossmutter:
         - 1
     - kinderfreibeträge:
         - 0
-        - 0        
-
+        - 0
 enkelkind_und_sgb_xii_grossmutter:
   input:
     - id: 0
@@ -357,13 +347,12 @@ enkelkind_und_sgb_xii_grossmutter:
   output:
     - id_bedarfsgemeinschaft:
         - 0
-        - 1 # Die Großmutter hat die Altersgrenze gemäß § 7a SGB II überschritten
+        - 1  # Die Großmutter hat die Altersgrenze gemäß § 7a SGB II überschritten
             # und kann daher keine BG im Sinne des SGB II bilden. Vermutlich
             # ist es daher nicht sinnvoll, hier eine non-missing ID zu vergeben?
     - kinderfreibeträge:
         - 0
-        - 0        
-
+        - 0
 eltern_nicht_einstandspflichtig_ein_haushalt:
   input:
     - id: 0
@@ -386,7 +375,6 @@ eltern_nicht_einstandspflichtig_ein_haushalt:
         - 1
   output:
     - error: Eltern im selben Haushalt, aber nicht füreinander einstandspflichtig
-
 eltern_widerspruechliche_veranlagungs_info:
   input:
     - id: 0
@@ -401,10 +389,8 @@ eltern_widerspruechliche_veranlagungs_info:
       id_ehepartner: 0
       gemeinsam_veranlagt: false
       id_haushalt: 0
-
   output:
     - error: Informationen zur gemeinsamen Veranlagung widersprechen sich zwischen zwei Ehepartnern
-
 eltern_gemeinsam_veranlagt_unverheiratet:
   input:
     - id: 0
@@ -417,13 +403,10 @@ eltern_gemeinsam_veranlagt_unverheiratet:
       id_einstandspartner: 0
       gemeinsam_veranlagt: true
       id_haushalt: 0
-
   output:
     - error: Personen sind nicht verheiratet, aber gemeinsam veranlagt
-
 # Es gibt eine große Zahl von unerlaubten Konstellationen der Input-Variablen
 # Hier nur ein paar Beispiele. Wollen wir die tatsächlich alle testen?
-
 eltern_widerspruechliche_veranlagung:
   input:
     - id: 0
@@ -449,8 +432,7 @@ eltern_widerspruechliche_veranlagung:
         - 0
         - 1
   output:
-   - error: Eltern müssen konsistente Informationen in 'gemeinsam_veranlagt' aufweisen
-
+    - error: Eltern müssen konsistente Informationen in 'gemeinsam_veranlagt' aufweisen
 eltern_kinder_widerspruechliche_inputs_1:
   input:
     - id: 0
@@ -476,8 +458,7 @@ eltern_kinder_widerspruechliche_inputs_1:
         - 0
         - 1
   output:
-   - error: Kind kann nicht Einstandspartner eines Elternteils sein
-
+    - error: Kind kann nicht Einstandspartner eines Elternteils sein
 eltern_kinder_widerspruechliche_inputs_2:
   input:
     - id: 0
@@ -503,4 +484,4 @@ eltern_kinder_widerspruechliche_inputs_2:
         - 0
         - 1
   output:
-   - error: Kind kann nicht mit Elternteil gemeinsam veranlagt sein
+    - error: Kind kann nicht mit Elternteil gemeinsam veranlagt sein
