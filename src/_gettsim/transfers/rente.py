@@ -518,6 +518,7 @@ def _ges_rente_langj_altersgrenze(
 
 def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """Calculates the threshold from which very long term insured people (at least 45
@@ -538,8 +539,13 @@ def _ges_rente_besond_langj_altersgrenze(
     Full retirement age (without deductions) for very long term insured.
 
     """
+    if geburtsjahr < 1952:
+        x = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x = geburtsjahr
+
     out = piecewise_polynomial(
-        x=geburtsjahr,
+        x=x,
         thresholds=ges_rente_params["altersgrenze_besonders_langj_versicherte"][
             "thresholds"
         ],
