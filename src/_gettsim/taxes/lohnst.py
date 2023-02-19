@@ -343,4 +343,3 @@ def vorsorgepauschale_2005_2010() -> float:
 #         + 3 * cond_steuerklasse3
 #         + 4 * cond_steuerklasse4
 #         + 5 * cond_steuerklasse5
-
