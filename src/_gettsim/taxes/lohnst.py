@@ -176,14 +176,14 @@ def lohnst_m(
 
 
 @add_rounding_spec(params_key="lohnst")
-def vorsorgepauschale_ab_2010(
+def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
     steuerklasse: int,
-    eink_st_abzuege_params: dict,
-    soz_vers_beitr_params: dict,
     wohnort_ost: bool,
     ges_krankenv_zusatzbeitrag: float,
     ges_pflegev_zusatz_kinderlos: bool,
+    eink_st_abzuege_params: dict,
+    soz_vers_beitr_params: dict,
 ) -> float:
     """Calculates Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -197,14 +197,14 @@ def vorsorgepauschale_ab_2010(
       See :func:`steuerklasse`
     ges_pflegev_zusatz_kinderlos:
       See :func:`ges_pflegev_zusatz_kinderlos`
-    eink_st_abzuege_params:
-      See params documentation :ref:`eink_st_abzuege_params`
-    soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params`
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_krankenv_zusatzbeitrag
         See :func:ges_krankenv_zusatzbeitrag`.
+    eink_st_abzuege_params:
+      See params documentation :ref:`eink_st_abzuege_params`
+    soz_vers_beitr_params:
+        See params documentation :ref:`soz_vers_beitr_params`
 
 
     Returns
