@@ -407,7 +407,9 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
+def _create_one_aggregation_func(  # noqa: PLR0912
+    agg_col, agg_specs, user_and_internal_functions
+):
     """Create an aggregation function based on aggregation specification.
 
     Parameters

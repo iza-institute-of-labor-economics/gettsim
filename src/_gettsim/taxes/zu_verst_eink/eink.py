@@ -19,7 +19,6 @@ def eink_selbst(eink_selbst_m: float) -> float:
 
 def eink_abhängig_beschäftigt(
     bruttolohn_m: float,
-    geringfügig_beschäftigt: bool,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
@@ -31,8 +30,6 @@ def eink_abhängig_beschäftigt(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -42,10 +39,34 @@ def eink_abhängig_beschäftigt(
     """
     abzug = eink_st_abzuege_params["werbungskostenpauschale"]
 
+    out = 12 * bruttolohn_m - abzug
+
+    return out
+
+
+def _zu_verst_eink_abhängig_beschäftigt(
+    eink_abhängig_beschäftigt: float,
+    geringfügig_beschäftigt: bool,
+) -> float:
+    """Calculate taxable income from dependent employment. In particular, taxable
+    income is set to 0 for marginally employed persons.
+
+    Parameters
+    ----------
+    eink_abhängig_beschäftigt
+        See basic input variable :ref:`eink_abhängig_beschäftigt
+        <eink_abhängig_beschäftigt>`.
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+
+    Returns
+    -------
+
+    """
     if geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = 12 * bruttolohn_m - abzug
+        out = eink_abhängig_beschäftigt
 
     return out
 
@@ -80,10 +101,10 @@ def eink_vermietung(eink_vermietung_m: float) -> float:
     return 12 * eink_vermietung_m
 
 
-def eink_rente_zu_verst(
+def eink_rente_zu_verst_m(
     sum_ges_rente_priv_rente_m: float, rente_ertragsanteil: float
 ) -> float:
-    """Aggregate monthly gross pension income subject to taxation to yearly income.
+    """Calculate monthly pension payment subject to taxation.
 
     Parameters
     ----------
@@ -97,13 +118,30 @@ def eink_rente_zu_verst(
     -------
 
     """
-    return rente_ertragsanteil * 12 * sum_ges_rente_priv_rente_m
+    return rente_ertragsanteil * sum_ges_rente_priv_rente_m
+
+
+def eink_rente_zu_verst(
+    eink_rente_zu_verst_m: float,
+) -> float:
+    """Aggregate monthly gross pension income subject to taxation to yearly income.
+
+    Parameters
+    ----------
+    eink_rente_zu_verst_m
+        See :func:`eink_rente_zu_verst_m`.
+
+    Returns
+    -------
+
+    """
+    return eink_rente_zu_verst_m * 12
 
 
 @dates_active(start="2009-01-01", change_name="sum_eink")
 def sum_eink_ohne_kapital(
     eink_selbst: float,
-    eink_abhängig_beschäftigt: float,
+    _zu_verst_eink_abhängig_beschäftigt: float,
     eink_vermietung: float,
     eink_rente_zu_verst: float,
 ) -> float:
@@ -114,8 +152,8 @@ def sum_eink_ohne_kapital(
     ----------
     eink_selbst
         See :func:`eink_selbst`.
-    eink_abhängig_beschäftigt
-        See :func:`eink_abhängig_beschäftigt`.
+    _zu_verst_eink_abhängig_beschäftigt
+        See :func:`_zu_verst_eink_abhängig_beschäftigt`.
     eink_vermietung
         See :func:`eink_vermietung`.
     eink_rente_zu_verst
@@ -126,7 +164,10 @@ def sum_eink_ohne_kapital(
 
     """
     out = (
-        eink_selbst + eink_abhängig_beschäftigt + eink_vermietung + eink_rente_zu_verst
+        eink_selbst
+        + _zu_verst_eink_abhängig_beschäftigt
+        + eink_vermietung
+        + eink_rente_zu_verst
     )
     return out
 
@@ -200,23 +241,3 @@ def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
         ],
     )
     return out
-
-
-def eink_rente_zu_verst_m(
-    rente_ertragsanteil: float, sum_ges_rente_priv_rente_m: float
-) -> float:
-    """Calculate pension payment subject to taxation.
-
-    Parameters
-    ----------
-    rente_ertragsanteil
-        See :func:`rente_ertragsanteil`.
-    sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
-
-    Returns
-    -------
-
-    """
-    return rente_ertragsanteil * sum_ges_rente_priv_rente_m

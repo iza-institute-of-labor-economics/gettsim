@@ -58,7 +58,7 @@ def kinderzuschl_m_hh(
     return out
 
 
-def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(
+def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(  # noqa: PLR0913
     kinderzuschl_bruttoeink_eltern_m_tu: float,
     kinderzuschl_eink_eltern_m_tu: float,
     kinderzuschl_eink_min_m_tu: float,

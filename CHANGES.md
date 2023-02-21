@@ -64,8 +64,9 @@ versioning](https://semver.org/) and all releases are available on
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
-- {gh}`396` Implement pension for (very) long term insured, including eligibility
-  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
+- {gh}`396`, Implement pension for (very) long term insured, including eligibility
+  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`), add
+  more tests ({gh}`428`, {ghuser}`LauraGergeleit`).
 
 - {gh}`393` Normal retirement age adjustment aligned with the rules ({ghuser}`TeBackh`).
 

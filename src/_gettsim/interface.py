@@ -22,7 +22,7 @@ from _gettsim.shared import (
 )
 
 
-def compute_taxes_and_transfers(
+def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
     params,
     functions,
