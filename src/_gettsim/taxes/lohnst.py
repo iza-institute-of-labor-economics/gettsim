@@ -226,7 +226,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     vorsorg_rv = (
         bruttolohn_rente
         * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
-        * eink_st_abzuege_params["vorsorge_pauschale_rv_anteil"]
+        * eink_st_abzuege_params["vorsorgepauschale_rv_anteil"]
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
