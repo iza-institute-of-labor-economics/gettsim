@@ -140,6 +140,7 @@ def load_internal_functions():
 
     return internal_functions
 
+
 def load_aggregation_dict():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)

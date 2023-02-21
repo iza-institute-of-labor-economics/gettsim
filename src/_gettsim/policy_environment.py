@@ -228,13 +228,12 @@ def _parse_kinderzuschl_max(date, params):
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
-                                                    params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
-                                                    +
-                                                    params["kinderzuschl"]["existenzminimum"]["kosten_der_unterkunft"][
-                                                        "kinder"
-                                                    ]
-                                                    + params["kinderzuschl"]["existenzminimum"]["heizkosten"]["kinder"]
-                                            ) / 12 - params["kindergeld"]["kindergeld"][1]
+            params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
+            + params["kinderzuschl"]["existenzminimum"]["kosten_der_unterkunft"][
+                "kinder"
+            ]
+            + params["kinderzuschl"]["existenzminimum"]["heizkosten"]["kinder"]
+        ) / 12 - params["kindergeld"]["kindergeld"][1]
 
     return params
 
@@ -528,7 +527,7 @@ def is_active_at_date(f: Callable, date: datetime.date) -> bool:
 
 
 def _load_parameter_group_from_yaml(
-        date, group, parameters=None, yaml_path=RESOURCE_DIR / "parameters"
+    date, group, parameters=None, yaml_path=RESOURCE_DIR / "parameters"
 ):
     """Load data from raw yaml group file.
 
@@ -759,6 +758,6 @@ def add_progressionsfaktor(params_dict, parameter):
     for key in interval_keys:
         if "rate_quadratic" not in out_dict[key]:
             out_dict[key]["rate_quadratic"] = (
-                                                      out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
-                                              ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
+                out_dict[key + 1]["rate_linear"] - out_dict[key]["rate_linear"]
+            ) / (2 * (upper_thresholds[key] - lower_thresholds[key]))
     return out_dict
