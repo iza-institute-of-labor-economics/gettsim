@@ -29,7 +29,7 @@ def test_decorator():
     def test_func():
         return 0
 
-    assert test_func.__rounding_params_key__ == "params_key_test"
+    assert test_func.__info__["rounding_params_key"] == "params_key_test"
 
 
 @pytest.mark.parametrize(
@@ -178,13 +178,19 @@ def test_decorator_for_all_functions_with_rounding_spec():
         if fn not in time_dependent_functions.values()
     ]
 
-    # Loop over these functions and check if attribute __rounding_params_key__ exists
+    # Loop over these functions and check if attribute
+    # __info__["rounding_params_key"] exists
     all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     for fn in function_names_to_check:
-        assert hasattr(all_functions[fn], "__rounding_params_key__"), (
+        assert hasattr(all_functions[fn], "__info__"), (
             f"For the function {fn}, rounding parameters are specified. But the "
             "function is missing the add_rounding_spec decorator. The attribute "
-            "__rounding_params_key__ is not found."
+            "__info__ is not found."
+        )
+        assert "rounding_params_key" in all_functions[fn].__info__, (
+            f"For the function {fn}, rounding parameters are specified. But the "
+            "function is missing the add_rounding_spec decorator. The key "
+            "'rounding_params_key' is not found in the __info__ dict."
         )
 
 
