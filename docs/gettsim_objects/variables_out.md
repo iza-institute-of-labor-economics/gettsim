@@ -28,9 +28,9 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly child benefit
 * - {func}`eink_st_tu <_gettsim.functions.eink_st_tu>`
   - Income Tax on tax unit level
-* - {func}`lohn_st` <_gettsim.functions.lohn_st>`
+* - {func}`lohnst_m` <_gettsim.functions.lohnst_m>`
   - Withholding tax
-* - {func}`lohn_st_soli <_gettsim.functions.lohn_st_soli>`
+* - {func}`soli_st_lohnst <_gettsim.functions.soli_st_lohnst>`
   - Solidarity surcharge on withholding tax
 * - {func}`unterhaltsvors_m <_gettsim.functions.unterhaltsvors_m>`
   - Alimony advance payment
