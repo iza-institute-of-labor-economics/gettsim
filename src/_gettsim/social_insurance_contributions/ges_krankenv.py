@@ -95,7 +95,7 @@ def ges_krankenv_beitr_arbeitg_m(
 
 
 def ges_krankenv_zusatzbeitrag(soz_vers_beitr_params: dict) -> float:
-    """Calculates the top-up rate of the health care insurance.
+    """Calculate the top-up rate of the health care insurance.
 
     Parameters
     ----------
@@ -247,7 +247,7 @@ def _ges_krankenv_bruttolohn_m(
 def _ges_krankenv_beitr_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float, ges_krankenv_beitr_satz: float
 ) -> float:
-    """Calculates health insurance contributions for regular jobs.
+    """Calculate health insurance contributions for regular jobs.
 
     Parameters
     ----------
@@ -320,7 +320,7 @@ def ges_krankenv_beitr_selbst_m(
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Calculates health insurance contributions for self employed income. Self-employed
+    """Calculate health insurance contributions for self employed income. Self-employed
     pay the full contribution (employer + employee).
 
     Parameters
@@ -367,7 +367,7 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
 def ges_krankenv_beitr_rente_m(
     _ges_krankenv_bemessungsgrundlage_rente_m: float, ges_krankenv_beitr_satz: float
 ) -> float:
-    """Calculates health insurance contributions for pension incomes.
+    """Calculate health insurance contributions for pension incomes.
 
     Parameters
     ----------
