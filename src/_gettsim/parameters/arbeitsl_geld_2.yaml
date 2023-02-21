@@ -64,7 +64,7 @@ eink_anr_frei:
     deviation_from: previous
     2:
       upper_threshold: 1000
-  2023-01-01:
+  2023-07-01:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
     0:
@@ -107,7 +107,7 @@ eink_anr_frei_kinder:
     deviation_from: arbeitsl_geld_2.eink_anr_frei
     3:
       upper_threshold: 1500
-  2023-01-01:
+  2023-07-01:
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
     deviation_from: arbeitsl_geld_2.eink_anr_frei
@@ -547,4 +547,5 @@ berechtigte_wohnfläche_eigentum:
     3: 140
     4: 140
     je_weitere_person: 20
+    reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
     note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.
