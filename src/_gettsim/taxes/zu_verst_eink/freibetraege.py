@@ -345,7 +345,7 @@ def eink_st_kinderfreib_tu(
     -------
 
     """
-    kifreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
-    out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
+    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
     return float(out)
