@@ -9,7 +9,7 @@ from _gettsim.shared import (
 
 
 @pytest.fixture(autouse=True)
-def setup_and_teardown():
+def _setup_and_teardown():
     # Invoke test
     yield
 
@@ -140,7 +140,7 @@ def test_dates_active_empty_interval():
         ("func_1", "2023-02-01", "2023-02-28", "func_1", "2023-01-01", "2023-01-31"),
     ],
 )
-def test_dates_active_no_conflict(
+def test_dates_active_no_conflict( # noqa: PLR0913
     dag_key_1: str,
     start_1: str,
     end_1: str,

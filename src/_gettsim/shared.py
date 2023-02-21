@@ -102,12 +102,12 @@ _dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def _validate_dashed_iso_date(date_str: str):
     if not _dashed_iso_date.match(date_str):
-        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
+        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.") # noqa: TRY003
 
 
 def _validate_date_range(start: date, end: date):
     if start > end:
-        raise ValueError(f"The start date {start} must be before the end date {end}.")
+        raise ValueError(f"The start date {start} must be before the end date {end}.") # noqa: TRY003
 
 
 def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: date):
@@ -125,29 +125,34 @@ def _check_for_conflicts(dag_key: str, function_name: str, start: date, end: dat
             <= f.__info__["dates_active_end"]
         ):
             raise ConflictingTimeDependentFunctionsError(
-                f"Conflicting functions for key {dag_key!r}: {f.__name__!r} "
-                f"({f.__info__['dates_active_start']} to "
-                f"{f.__info__['dates_active_end']}) "
-                f"vs. {function_name!r} ({f.__info__['dates_active_start']} to "
-                f"{f.__info__['dates_active_end']})."
+                dag_key,
+                function_name,
+                start,
+                end,
+                f.__name__,
+                f.__info__["dates_active_start"],
+                f.__info__["dates_active_end"]
             )
 
 
 class ConflictingTimeDependentFunctionsError(Exception):
-    """Exception raised when two time dependent functions are active at the same time.
+    """Raised when two time-dependent functions have overlapping time ranges."""
 
-    Attributes
-    ----------
-    message : str
-        The error message.
-
-    """
-
-    def __init__(self, message: str):
-        self.message = message
-
-    def __str__(self):
-        return self.message
+    def __init__( # noqa: PLR0913
+            self,
+            dag_key: str,
+            function_name_1: str,
+            start_1: date,
+            end_1: date,
+            function_name_2: str,
+            start_2: date,
+            end_2: date
+    ):
+        super().__init__(
+            f"Conflicting functions for key {dag_key!r}: "
+            f"{function_name_1!r} ({start_1} to {end_1}) vs. "
+            f"{function_name_2!r} ({start_2} to {end_2})."
+        )
 
 
 def format_list_linewise(list_):
