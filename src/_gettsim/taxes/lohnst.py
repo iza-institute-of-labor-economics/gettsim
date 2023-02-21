@@ -11,7 +11,7 @@ def lohnst_eink(
     eink_st_abzuege_params: dict,
     vorsorgepauschale: float,
 ) -> float:
-    """Calculates taxable income for lohnsteuer.
+    """Calculate tax base for Lohnsteuer (withholding tax on earnings).
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def lohnst_eink(
     else:
         sonderausgaben = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
-    # zu versteuerndes Einkommen / tax base for Lohnsteuer
+    # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
     out = max(
         12 * bruttolohn_m
         - werbungskosten
@@ -56,14 +56,15 @@ def lohnst_eink(
 
 
 def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> float:
-    """Calculates base for Lst for Steuerklasse 5 and 6.
+    """Calculate base for Lst for Steuerklasse 5 and 6.
 
     §39 b Absatz 2 Satz 7 (part 1):
+
         Jahreslohnsteuer die sich aus dem Zweifachen des Unterschiedsbetrags zwischen
-    dem Steuerbetrag für das Eineinviertelfache und dem Steuerbetrag für das
-    Dreiviertelfache des zu versteuernden Jahresbetrags nach § 32a Absatz 1 ergibt;
-    die Jahreslohnsteuer beträgt jedoch mindestens 14 Prozent des zu versteuernden
-    Jahresbetrags.
+        dem Steuerbetrag für das Eineinviertelfache und dem Steuerbetrag für das
+        Dreiviertelfache des zu versteuernden Jahresbetrags nach § 32a Absatz 1 ergibt;
+        die Jahreslohnsteuer beträgt jedoch mindestens 14 Prozent des zu versteuernden
+        Jahresbetrags.
 
     Parameters
     ----------
@@ -98,19 +99,16 @@ def lohnst_m(
     steuerklasse: int,
 ) -> float:
     """
-    Calculates Lohnsteuer = withholding tax on earnings,
-    paid monthly by the employer on behalf of the employee.
-    Apply the income tax tariff, but individually and with different
-    exemptions, determined by the 'Steuerklasse'.
-    Source: §39b EStG
+    Calculates Lohnsteuer (withholding tax on earnings), paid monthly by the employer on
+    behalf of the employee. Apply the income tax tariff, but individually and with
+    different exemptions, determined by the 'Steuerklasse'. Source: §39b EStG
 
     Calculation is differentiated by steuerklasse
 
-    1,2,4: Standard tariff (§32a (1) EStG)
-    3: Splitting tariff (§32a (5) EStG)
-    5,6: Take twice the difference between applying the tariff on 5/4 and 3/4
-          of taxable income. Tax rate may not be lower than the
-          starting statutory one.
+    1,2,4: Standard tariff (§32a (1) EStG) 3: Splitting tariff (§32a (5) EStG) 5,6: Take
+    twice the difference between applying the tariff on 5/4 and 3/4 of taxable income.
+    Tax rate may not be lower than the starting statutory one.
+
     Parameters
     ----------
     lohnst_eink
@@ -185,7 +183,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     eink_st_abzuege_params: dict,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculates Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
+    """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
     used when calculating Einkommensteuer.
 
@@ -284,6 +282,66 @@ def vorsorgepauschale_2005_2010() -> float:
     """vorsorg_rv and vorsorg_kv_option_a are identical to after 2010."""
 
     out = 0
+    return out
+
+
+def kinderfreib_für_soli_st_lohnst(
+    steuerklasse: int,
+    anz_kinder_mit_kindergeld_tu: float,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Calculate Child Allowance for Lohnsteuer-Soli.
+
+    For the purpose of Soli on Lohnsteuer, the child allowance not only depends on the
+    number of children, but also on the steuerklasse
+
+    """
+
+    kinderfreib_basis = (
+        eink_st_abzuege_params["kinderfreib"]["sächl_existenzmin"]
+        + eink_st_abzuege_params["kinderfreib"]["beitr_erz_ausb"]
+    )
+
+    # For certain tax brackets, twice the child allowance can be deducted
+    if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
+        out = kinderfreib_basis * 2 * anz_kinder_mit_kindergeld_tu
+    elif steuerklasse == 4:
+        out = kinderfreib_basis * anz_kinder_mit_kindergeld_tu
+    else:
+        out = 0
+    return out
+
+
+def lohnst_mit_kinderfreib(
+    lohnst_eink: float,
+    kinderfreib_für_soli_st_lohnst: float,
+    steuerklasse: int,
+    eink_st_params: dict,
+) -> float:
+    """Calculate Lohnsteuer with the tax base taking child allowance into account,
+    otherwise identical to :func:`lohnst`.
+
+    """
+
+    eink = max(lohnst_eink - kinderfreib_für_soli_st_lohnst, 0)
+    lohnsteuer_basistarif = _eink_st_tarif(eink, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(eink / 2, eink_st_params)
+    lohnsteuer_klasse5_6 = max(
+        2
+        * (
+            _eink_st_tarif(eink * 1.25, eink_st_params)
+            - _eink_st_tarif(eink * 0.75, eink_st_params)
+        ),
+        eink * eink_st_params["eink_st_tarif"]["rates"][0][1],
+    )
+
+    if steuerklasse in (1, 2, 4):
+        out = lohnsteuer_basistarif
+    elif steuerklasse == 3:
+        out = lohnsteuer_splittingtarif
+    else:
+        out = lohnsteuer_klasse5_6
+
     return out
 
 

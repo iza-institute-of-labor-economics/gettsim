@@ -28,7 +28,7 @@ INPUT_COLS = [
 
 OUT_COLS = [
     "lohnst_m",
-    # "lohnst_soli_m"
+    # "soli_st_lohnst_m"
 ]
 
 
@@ -132,9 +132,9 @@ def input_data():
     )
 
     test_data["lohnst_m"] = test_data["lohnst"]
-    test_data["lohnst_soli_m"] = test_data["lohnst_soli"]
+    test_data["soli_st_lohnst_m"] = test_data["lohnst_soli"]
 
-    for outvar in ["lohnst_m", "lohnst_soli_m"]:
+    for outvar in ["lohnst_m", "soli_st_lohnst_m"]:
         test_data.loc[test_data["period_of_obtained_wage"] == 4, outvar] = (
             test_data[outvar] * 360 / 12
         )
@@ -259,7 +259,7 @@ def get_bmf_data(url_base, specs, out_definitions):
     return df.set_index("name").join(out_df)
 
 
-def bmf_collect(
+def bmf_collect(  # noqa: PLR0913
     inc, outvar, n_kinder, stkl, jahr, zusatzbeitrag, faktorverfahren=0, faktor="1,0000"
 ):
     """Creates an URL for the API of the official calculator by the German Ministry of
@@ -371,7 +371,7 @@ def gen_lohnsteuer_test(year: int, soz_vers_params: dict):
         ],
     )
 
-    hh["lohnst_soli_m"] = np.vectorize(bmf_collect)(
+    hh["soli_st_lohnst_m"] = np.vectorize(bmf_collect)(
         hh["bruttolohn_m"],
         outvar="SOLZLZZ",
         n_kinder=hh["child_num_kg"],
@@ -409,7 +409,7 @@ def test_lohnsteuer_api(year, column):
     df["arbeitsstunden_w"] = 40.0 * ~df["kind"]
 
     result = compute_taxes_and_transfers(
-        data=df.drop(columns=["lohnst_m", "lohnst_soli_m"]),
+        data=df.drop(columns=["lohnst_m", "soli_st_lohnst_m"]),
         params=policy_params,
         functions=policy_functions,
         targets=[column],

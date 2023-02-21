@@ -285,7 +285,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
 
 
 def _parse_vorsorg_rv_anteil(date, params):
-    """Calculates the share of pension contributions to be deducted for Lohnsteuer
+    """Calculate the share of pension contributions to be deducted for Lohnsteuer
     increases by year.
 
     Parameters

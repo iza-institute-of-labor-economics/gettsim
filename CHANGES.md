@@ -7,7 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
-- {gh}`150` Implement lohnsteuer / withholding tax.
+- {gh}`150` Implement Lohnsteuer / withholding tax.
   ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
 
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).

@@ -85,11 +85,11 @@ def deduction_data(start, end):
     eink_ab_df = pd.DataFrame(eink_ab_df)
 
     deduction_df = eink_ab_df.transpose()
-    # Adjust dictionary entries into columns for kinderfreibetrag
+    # Adjust dictionary entries into columns for kinderfreib
     deduction_df = pd.concat(
         [
-            deduction_df.drop(["kinderfreibetrag", "datum"], axis=1),
-            deduction_df["kinderfreibetrag"].apply(pd.Series),
+            deduction_df.drop(["kinderfreib", "datum"], axis=1),
+            deduction_df["kinderfreib"].apply(pd.Series),
         ],
         axis=1,
     )
