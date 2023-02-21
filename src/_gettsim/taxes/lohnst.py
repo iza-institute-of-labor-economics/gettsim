@@ -290,7 +290,7 @@ def vorsorgepauschale_2005_2010() -> float:
 # Possible ToDo: Determine Steuerklasse endogenously.
 # Right now, Steuerklasse is an input variable
 
-# def steuerklasse_tu(
+# def steuerklasse(
 #     gemeinsam_veranlagt_tu: bool,
 #     alleinerz_tu: bool,
 #     bruttolohn_m: float,
