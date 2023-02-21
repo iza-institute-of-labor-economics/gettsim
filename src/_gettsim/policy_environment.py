@@ -53,7 +53,10 @@ from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
-from _gettsim.taxes.lohnst import vorsorgepauschale_2005_2010, vorsorgepauschale_ab_2010
+from _gettsim.taxes.lohnst import (
+    vorsorgepauschale_ab_2005_bis_2009,
+    vorsorgepauschale_ab_2010,
+)
 from _gettsim.taxes.zu_verst_eink.eink import (
     sum_eink_mit_kapital,
     sum_eink_ohne_kapital,
@@ -377,7 +380,7 @@ def load_functions_for_date(date):
     if year >= 2010:
         functions["vorsorgepauschale"] = vorsorgepauschale_ab_2010
     else:
-        functions["vorsorgepauschale"] = vorsorgepauschale_2005_2010
+        functions["vorsorgepauschale"] = vorsorgepauschale_ab_2005_bis_2009
 
     if year <= 2015:
         functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_bis_2015

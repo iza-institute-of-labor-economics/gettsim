@@ -278,7 +278,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
 
 @add_rounding_spec(params_key="lohnst")
-def vorsorgepauschale_2005_2010() -> float:
+def vorsorgepauschale_ab_2005_bis_2009() -> float:
     """vorsorg_rv and vorsorg_kv_option_a are identical to after 2010."""
 
     out = 0
