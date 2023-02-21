@@ -319,7 +319,7 @@ def lohnst_mit_kinderfreib(
     eink_st_params: dict,
 ) -> float:
     """Calculate Lohnsteuer with the tax base taking child allowance into account,
-    otherwise identical to :func:`lohnst`.
+    otherwise identical to :func:`lohnst_m`.
 
     """
 
