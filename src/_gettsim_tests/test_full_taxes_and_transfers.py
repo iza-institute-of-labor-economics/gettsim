@@ -95,13 +95,9 @@ def test_data_types(
             else:
                 # ToDo: Implement easy way to find out expected type of
                 # ToDo: aggregated functions
-                if (
-                    column_name.endswith("_tu")
-                    or column_name.endswith("_bg")
-                    or column_name.endswith("_hh")
-                ):
+                if column_name.endswith(("_tu", "_bg", "_hh")):
                     internal_type = None
                 else:
-                    raise ValueError(f"Column name {column_name} unknown.")
+                    raise ValueError(f"Column name {column_name} unknown.")  # noqa: TRY
             if internal_type:
                 assert check_series_has_expected_type(series, internal_type)

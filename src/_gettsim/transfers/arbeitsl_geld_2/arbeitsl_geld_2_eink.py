@@ -1,7 +1,7 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-def arbeitsl_geld_2_eink_m(
+def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_tu: float,
     soli_st_tu: float,
@@ -59,7 +59,7 @@ def arbeitsl_geld_2_eink_m(
     return out
 
 
-def arbeitsl_geld_2_bruttoeink_m(
+def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,

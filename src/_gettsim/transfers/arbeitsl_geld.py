@@ -120,7 +120,7 @@ def arbeitsl_geld_restl_anspruchsd(
     return out
 
 
-def arbeitsl_geld_berechtigt(
+def arbeitsl_geld_berechtigt(  # noqa: PLR0913
     alter: int,
     arbeitssuchend: bool,
     arbeitsl_geld_restl_anspruchsd: int,

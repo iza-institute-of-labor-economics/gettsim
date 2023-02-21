@@ -24,12 +24,16 @@ def add_rounding_spec(params_key):
     Returns
     -------
     func : function
-        Function with __rounding_params_key__ attribute
+        Function with __info__["rounding_params_key"] attribute
 
     """
 
     def inner(func):
-        func.__rounding_params_key__ = params_key
+        # Remember data from decorator
+        if not hasattr(func, "__info__"):
+            func.__info__ = {}
+        func.__info__["rounding_params_key"] = params_key
+
         return func
 
     return inner
