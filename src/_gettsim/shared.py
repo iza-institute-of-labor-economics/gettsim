@@ -102,14 +102,14 @@ _dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def _validate_dashed_iso_date(date_str: str):
     if not _dashed_iso_date.match(date_str):
-        raise ValueError( # noqa: TRY003
+        raise ValueError(  # noqa: TRY003
             f"Date {date_str} does not match the format YYYY-MM-DD."
         )
 
 
 def _validate_date_range(start: date, end: date):
     if start > end:
-        raise ValueError( # noqa: TRY003
+        raise ValueError(  # noqa: TRY003
             f"The start date {start} must be before the end date {end}."
         )
 
