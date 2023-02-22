@@ -186,7 +186,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     eink_st_abzuege_params: dict,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
+    """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
     used when calculating Einkommensteuer.
 
@@ -247,11 +247,11 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
     if steuerklasse == 3:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_3"
+            "stkl3"
         ]
     else:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_nicht3"
+            "stkl_nicht3"
         ]
 
     vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
@@ -282,7 +282,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
 @add_rounding_spec(params_key="lohnst")
 def vorsorgepauschale_ab_2005_bis_2009() -> float:
-    out = 0
+    out = 0.0
     return out
 
 
