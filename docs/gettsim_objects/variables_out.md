@@ -30,7 +30,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Income Tax on tax unit level
 * - {func}`lohnst_m` <_gettsim.functions.lohnst_m>`
   - Withholding tax
-* - {func}`soli_st_lohnst <_gettsim.functions.soli_st_lohnst>`
+* - {func}`soli_st_lohnst_m <_gettsim.functions.soli_st_lohnst_m>`
   - Solidarity surcharge on withholding tax
 * - {func}`unterhaltsvors_m <_gettsim.functions.unterhaltsvors_m>`
   - Alimony advance payment

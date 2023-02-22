@@ -56,7 +56,10 @@ def lohnst_eink(
 
 
 def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> float:
-    """Calculate base for Lst for Steuerklasse 5 and 6.
+    """Calculate base for Lohnsteuer for Steuerklasse 5 and 6, by applying
+    obtaining twice the difference between applying the factors 1.25 and 0.75
+    to the lohnsteuer payment. There is a also a minimum amount, which is checked
+    afterwards.
 
     §39 b Absatz 2 Satz 7 (part 1):
 
@@ -244,11 +247,11 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
     if steuerklasse == 3:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "stkl3"
+            "steuerklasse_3"
         ]
     else:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "stkl_nicht3"
+            "steuerklasse_nicht3"
         ]
 
     vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
@@ -279,8 +282,6 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
 @add_rounding_spec(params_key="lohnst")
 def vorsorgepauschale_ab_2005_bis_2009() -> float:
-    """vorsorg_rv and vorsorg_kv_option_a are identical to after 2010."""
-
     out = 0
     return out
 
@@ -343,59 +344,3 @@ def lohnst_mit_kinderfreib(
         out = lohnsteuer_klasse5_6
 
     return out
-
-
-# Possible ToDo: Determine Steuerklasse endogenously.
-# Right now, Steuerklasse is an input variable
-
-# def steuerklasse(
-#     gemeinsam_veranlagt_tu: bool,
-#     alleinerz_tu: bool,
-#     bruttolohn_m: float,
-#     eink_st_params: dict,
-#     eink_st_abzuege_params: dict,
-# ) -> int:
-#     """Determine Lohnsteuerklassen (also called 'tax brackets')
-#     if not delivered by the user.
-#     They determine the basic allowance for the withholding tax.
-
-#     Tax brackets are predetermined for singles and single parents.
-#     Married couples can choose between the combinations 4/4, 3/5 and 5/3.
-#     We assume the following:
-#         -  If one of the spouses earns less than the income tax allowance,
-#            this is essentially a single-earner couple. The spouse with the higher
-#            income is assigned tax bracket 3, the other spouse tax bracket 5.
-#         - In all other cases, we assign tax bracket 4 to both spouses.
-#     2: Single Parent
-#     3: One spouse in married couple who receives allowance of both partners.
-#        Makes sense primarily for Single-Earner Households
-#     4: Both spouses receive their individual allowance
-#     5: If one spouse chooses 3, the other has to choose 5,
-#        which means no allowance.
-#     6: Additional Job...not modelled yet, as we do not
-#     distinguish between different jobs
-
-#     Parameters
-#     ----------
-#         Return of :func:`gemeinsam_veranlagt_tu`.
-#         See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
-#         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-#     eink_st_params:
-#         See params documentation :ref:`eink_st_params <eink_st_params>`
-#     eink_st_abzuege_params:
-#      See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`
-
-#     Returns
-#     ----------
-#         The steuerklasse for each person in the tax unit
-#     """
-
-
-#         & (bruttolohn_max > 0)
-#         & (gemeinsam_veranlagt_tu)
-#         bruttolohn_m > einkommensgrenze_zweitverdiener / 12
-#         1 * cond_steuerklasse1
-#         + 2 * cond_steuerklasse2
-#         + 3 * cond_steuerklasse3
-#         + 4 * cond_steuerklasse4
-#         + 5 * cond_steuerklasse5

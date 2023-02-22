@@ -44,8 +44,9 @@ def soli_st_tu(
     return out
 
 
-def soli_st_lohnst(lohnst_mit_kinderfreib: float, soli_st_params: dict) -> float:
-    """Calculate the Solidarity Surcharge on Lohnsteuer (withholding tax on earnings).
+def soli_st_lohnst_m(lohnst_mit_kinderfreib: float, soli_st_params: dict) -> float:
+    """Calculates the monthly Solidarity Surcharge on Lohnsteuer
+    (withholding tax on earnings).
 
     Parameters
     ----------
@@ -60,7 +61,7 @@ def soli_st_lohnst(lohnst_mit_kinderfreib: float, soli_st_params: dict) -> float
 
     """
 
-    return _soli_st_tarif(lohnst_mit_kinderfreib, soli_st_params)
+    return _soli_st_tarif(lohnst_mit_kinderfreib, soli_st_params) / 12
 
 
 def _soli_st_tarif(st_per_individual: float, soli_st_params: dict) -> float:
