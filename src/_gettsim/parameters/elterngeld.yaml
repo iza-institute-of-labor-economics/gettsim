@@ -172,3 +172,21 @@ max_monate_ind:
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+elterngeld_anr_frei:
+  name:
+    de: Freibetrag des Elterngeldes für Grundsicherung
+    en: Amount of parental allowance for not subject to transfer withdrawal
+  description:
+    de: >-
+      Nur der Betrag, der über dem Elterngeld-Mindestbetrag liegt, wird auf das
+      Einkommen bei der Berechnung der Grundsicherung angerechnet.
+    en: >-
+      Only the amount above the minimum amount of parental allowance is added to the
+      income when calculating the Grundsicherung.
+  unit: Euro
+  1984-01-01:
+    scalar: 0
+    note: Elterngeld didn't exist before 2007.
+  2007-01-01:
+    reference: § 10 BEEG
+    scalar: 300

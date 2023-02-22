@@ -453,3 +453,35 @@ def elterngeld_mehrlinge_bonus_m(
     return float(
         _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
     )
+
+
+def elterngeld_anr_m(
+    elterngeld_m: float,
+    elterngeld_params: dict,
+    anz_mehrlinge_jüngstes_kind_hh: int,
+) -> float:
+    """Calculate elterngeld above threshold which is considered as income for transfers
+    such as wohngeld and grunds_im_alter.
+
+    Parameters
+    ----------
+    elterngeld_m
+        See :func:`elterngeld_m`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    anz_mehrlinge_jüngstes_kind_hh
+        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
+
+    Returns
+    -------
+
+    """
+    out = max(
+        elterngeld_m
+        - (
+            1
+            + anz_mehrlinge_jüngstes_kind_hh * elterngeld_params["elterngeld_anr_frei"]
+        ),
+        0,
+    )
+    return out

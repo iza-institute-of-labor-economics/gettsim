@@ -86,10 +86,8 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
     unterhaltsvors_m: float,
-    elterngeld_m: float,
+    elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
-    elterngeld_params: dict,
-    anz_mehrlinge_jüngstes_kind_hh: int,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -112,12 +110,8 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See :func:`eink_rente_zu_verst_m`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    anz_mehrlinge_jüngstes_kind_hh
-        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
+    elterngeld_anr_m
+        See :func:`elterngeld_anr_m`.
 
     Returns
     -------
@@ -127,10 +121,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
-    mindestbetrag = elterngeld_params.get("mindestbetrag", 0.0)
-    elterngeld_anr_m = max(
-        elterngeld_m - (1 + anz_mehrlinge_jüngstes_kind_hh * mindestbetrag), 0
-    )
     transfers = (
         arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_anr_m
     )

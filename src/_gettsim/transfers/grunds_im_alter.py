@@ -69,12 +69,11 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
-    elterngeld_m: float,
     eink_st_tu: float,
     soli_st_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
-    grunds_im_alter_params: dict,
+    elterngeld_anr_m: float,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung im
     Alter.
@@ -93,8 +92,6 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
     eink_st_tu
         See :func:`eink_st_tu`.
     soli_st_tu
@@ -103,19 +100,13 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
-    grunds_im_alter_params
-        See params documentation
-        :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
+    elterngeld_anr_m
+        See :func:`elterngeld_anr_m`.
 
     Returns
     -------
 
     """
-
-    # Consider Elterngeld that is larger than 300
-    elterngeld_grunds_im_alter_m = max(
-        0.0, elterngeld_m - grunds_im_alter_params["elterngeld_anr_frei"]
-    )
 
     # Income
     total_income = (
@@ -125,7 +116,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         + sonstig_eink_m
         + eink_vermietung_m
         + _grunds_im_alter_kapitaleink_brutto_m
-        + elterngeld_grunds_im_alter_m
+        + elterngeld_anr_m
     )
 
     # subtract taxes and social insurance contributions
