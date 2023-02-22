@@ -293,7 +293,7 @@ def kinderfreib_für_soli_st_lohnst(
     """Calculate Child Allowance for Lohnsteuer-Soli.
 
     For the purpose of Soli on Lohnsteuer, the child allowance not only depends on the
-    number of children, but also on the steuerklasse
+    number of children, but also on the steuerklasse.
 
     """
 
