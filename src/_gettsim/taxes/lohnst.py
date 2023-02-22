@@ -103,7 +103,7 @@ def lohnst_m(
     behalf of the employee. Apply the income tax tariff, but individually and with
     different exemptions, determined by the 'Steuerklasse'. Source: §39b EStG
 
-    Calculation is differentiated by steuerklasse
+    Calculation is differentiated by steuerklasse:
 
     1,2,4: Standard tariff (§32a (1) EStG) 3: Splitting tariff (§32a (5) EStG) 5,6: Take
     twice the difference between applying the tariff on 5/4 and 3/4 of taxable income.
@@ -183,7 +183,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     eink_st_abzuege_params: dict,
     soz_vers_beitr_params: dict,
 ) -> float:
-    """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010 Those are deducted
+    """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
     used when calculating Einkommensteuer.
 
@@ -281,7 +281,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 def vorsorgepauschale_ab_2005_bis_2009() -> float:
     """vorsorg_rv and vorsorg_kv_option_a are identical to after 2010."""
 
-    out = 0
+    out = 0.0
     return out
 
 
