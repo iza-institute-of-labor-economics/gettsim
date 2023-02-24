@@ -35,6 +35,9 @@ def wohngeld_m_hh(
     else:
         out = wohngeld_nach_vermög_check_m_hh
 
+    # ToDo: Add as parameter. Implement as rounding?
+    if out < 10:
+        out = 0.0
     return out
 
 
@@ -85,7 +88,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
-    unterhaltsvors_m: float,
     elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
@@ -108,8 +110,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See :func:`sonstig_eink_m`.
     eink_rente_zu_verst_m
         See :func:`eink_rente_zu_verst_m`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
 
@@ -121,12 +121,11 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
-    transfers = (
-        arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_m
-    )
+    transfers = arbeitsl_geld_m + eink_rente_zu_verst_m + elterngeld_m
 
     eink_ind = einkommen + transfers + sonstig_eink_m
     out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+
     return out
 
 
@@ -255,6 +254,7 @@ def wohngeld_eink_m_hh(
     anz_personen_hh: int,
     wohngeld_eink_freib_m_hh: float,
     wohngeld_eink_vor_freib_m_hh: float,
+    unterhaltsvors_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
@@ -276,7 +276,7 @@ def wohngeld_eink_m_hh(
 
     """
     wohngeld_eink_nach_abzug_m_hh = (
-        wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
+        wohngeld_eink_vor_freib_m_hh + unterhaltsvors_m_hh - wohngeld_eink_freib_m_hh
     )
     unteres_eink = wohngeld_params["min_eink"][
         min(anz_personen_hh, max(wohngeld_params["min_eink"]))
