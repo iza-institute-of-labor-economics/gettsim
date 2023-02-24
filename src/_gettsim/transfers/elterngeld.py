@@ -476,12 +476,9 @@ def elterngeld_anr_m(
     -------
 
     """
+    mindestbetrag = elterngeld_params.get("mindestbetrag", 0.0)
     out = max(
-        elterngeld_m
-        - (
-            1
-            + anz_mehrlinge_jüngstes_kind_hh * elterngeld_params["elterngeld_anr_frei"]
-        ),
+        elterngeld_m - ((1 + anz_mehrlinge_jüngstes_kind_hh) * mindestbetrag),
         0,
     )
     return out
