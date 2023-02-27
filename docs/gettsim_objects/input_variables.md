@@ -499,18 +499,18 @@ Type: float
 
 ## `kind_unterh_brutto_m`
 
-Monthly gross child alimony payments
+Monthly gross child alimony payments to be received
 
 Type: float
 
 ## `kind_unterh_netto_m`
 
-Monthly actual child alimony payments
+Monthly actual child alimony payments received
 
 Type: float
 
 ## `partner_unterhalt_m`
 
-Monthly alimony payments to divorced spouse
+Monthly alimony payments from divorced spouse
 
 Type: float
