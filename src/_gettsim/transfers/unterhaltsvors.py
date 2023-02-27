@@ -13,10 +13,18 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     Single Parents get alimony payments for themselves and for their child from the ex
     partner. If the ex partner is not able to pay the child alimony, the government pays
-    the child alimony to the mother (or the father, if he has the kids)
+    the child alimony to the mother (or the father, if he has the kids).
+
+    According to §1 Abs.1 Nr.3 UhVorschG those single parents are entitled to
+    advance alimony payments, who do not or not regularly receive child alimony
+    payments or orphans' benefits (Waisenbezüge) in at least the amount specified in
+    §2 Abs.1 and 2 UhVorschG. The child alimonay payment paid by the other parent
+    is credited against the amount of the advance alimony payments
+    (§2 Abs.3 Nr.1 UhVorschG).
 
     The amount is specified in §1612a BGB and, ultimately, in
     Mindestunterhaltsverordnung.
+
 
     # ToDo: Result was rounded up in previous code. Check if this is correct and
     # ToDo: implement rounding spec accordingly
