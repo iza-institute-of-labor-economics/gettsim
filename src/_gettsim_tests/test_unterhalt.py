@@ -21,6 +21,7 @@ INPUT_COLS = [
     "sum_ges_rente_priv_rente_m",
     "jahr",
     "monat",
+    "kind_unterh_netto_m",
 ]
 OUT_COLS = ["unterhaltsvors_m"]
 YEAR_MONTHS = [[2018, 1], [2019, 1], [2019, 8]]

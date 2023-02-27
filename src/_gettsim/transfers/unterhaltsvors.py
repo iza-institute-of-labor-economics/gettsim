@@ -1,12 +1,13 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
 
 
-def unterhaltsvors_m(
+def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_tu: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_tu: float,
     unterhalt_params: dict,
     kindergeld_params: dict,
+    kind_unterh_netto_m: float,
 ) -> float:
     """Calculate advance on alimony payment (Unterhaltsvorschuss).
 
@@ -32,6 +33,8 @@ def unterhaltsvors_m(
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+    kind_unterh_netto_m
+        See basic input variable :ref:`kind_unterh_netto_m <kind_unterh_netto_m>`
 
     Returns
     -------
@@ -65,7 +68,8 @@ def unterhaltsvors_m(
     else:
         out = 0.0
 
-    # TODO: Check against actual transfers
+    # Check against the actual child alimony payments given by kindesunterhalt_m
+    out = max(out - kind_unterh_netto_m, 0.0)
 
     return out
 

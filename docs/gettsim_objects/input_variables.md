@@ -496,3 +496,21 @@ Months of subjection to compulsory insurance in the 5 years before claiming unem
 insurance
 
 Type: float
+
+## `kind_unterh_brutto_m`
+
+Monthly gross child alimony payments
+
+Type: float
+
+## `kind_unterh_netto_m`
+
+Monthly actual child alimony payments
+
+Type: float
+
+## `partner_unterhalt_m`
+
+Monthly alimony payments to divorced spouse
+
+Type: float

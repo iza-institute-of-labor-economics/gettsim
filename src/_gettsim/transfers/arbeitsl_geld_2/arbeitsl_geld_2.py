@@ -296,7 +296,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_hh: float,
     kindergeld_m_hh: float,
-    unterhaltsvors_m_hh: float,
+    kind_unterh_netto_m_hh: float,
     arbeitsl_geld_2_eink_m_hh: float,
     vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
@@ -311,8 +311,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
-    unterhaltsvors_m_hh
-        See :func:`unterhaltsvors_m_hh`.
+    kind_unterh_netto_m_hh
+        See basic input variable :ref:`kind_unterh_netto_m_hh <kind_unterh_netto_m_hh>`.
     arbeitsl_geld_2_eink_m_hh
         See :func:`arbeitsl_geld_2_eink_m_hh`.
     arbeitsl_geld_2_vermög_freib_hh
@@ -334,7 +334,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
             0.0,
             arbeitsl_geld_2_regelbedarf_m_hh
             - arbeitsl_geld_2_eink_m_hh
-            - unterhaltsvors_m_hh
+            - kind_unterh_netto_m_hh
             - kindergeld_m_hh,
         )
 
