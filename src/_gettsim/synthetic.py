@@ -287,6 +287,7 @@ def create_one_set_of_households(
         "bürgerg_bezug_vorj",
         "kind_unterh_brutto_m",
         "kind_unterh_netto_m",
+        "kind_unterh_tats_m",
         "partner_unterhalt_m",
     ]
     # Create one row per desired household

@@ -20,7 +20,9 @@ INPUT_COLS = [
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
-    "kind_unterh_netto_m_hh",
+    "kind_unterh_tats_m_hh",
+    "unterhaltsvors_m_hh",
+    "partner_unterhalt_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
     "geburtsjahr",
     "jahr",
@@ -45,6 +47,7 @@ def test_benefit_checks(input_data, year, target):
         "wohngeld_vor_vermög_check_m_hh",
         "arbeitsl_geld_2_regelbedarf_m_hh",
         "kindergeld_m_hh",
+        "unterhaltsvors_m_hh",
         "arbeitsl_geld_2_eink_m_hh",
     ]
 

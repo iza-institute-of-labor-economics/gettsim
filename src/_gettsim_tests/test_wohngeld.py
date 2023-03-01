@@ -26,7 +26,9 @@ INPUT_COLS = [
     "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
-    "kind_unterh_netto_m",
+    "kind_unterh_tats_m",
+    "partner_unterhalt_m",
+    "unterhaltsvors_m",
     "eink_selbst_m",
     "eink_abhängig_beschäftigt",
     "kapitaleink_brutto",
@@ -58,6 +60,7 @@ OVERRIDE_COLS = [
     "sum_ges_rente_priv_rente_m",
     "kapitaleink_brutto",
     "haushaltsgröße_hh",
+    "unterhaltsvors_m",
 ]
 
 

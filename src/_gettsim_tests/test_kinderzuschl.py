@@ -25,7 +25,8 @@ INPUT_COLS = [
     "kinderzuschl_bruttoeink_eltern_m",
     "kinderzuschl_eink_eltern_m",
     "kindergeld_m_hh",
-    "kind_unterh_netto_m",
+    "kind_unterh_tats_m",
+    "unterhaltsvors_m",
     "jahr",
     "geburtsjahr",
     "vermögen_bedürft_hh",
@@ -40,6 +41,7 @@ YEARS = [2013, 2016, 2017, 2019, 2020, 2021]
 OVERRIDE_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
     "kindergeld_m_hh",
+    "unterhaltsvors_m",
     "kinderzuschl_bruttoeink_eltern_m",
     "kinderzuschl_eink_eltern_m",
     "kindergeld_anspruch",

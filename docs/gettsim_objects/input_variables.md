@@ -499,11 +499,17 @@ Type: float
 
 ## `kind_unterh_brutto_m`
 
-Monthly gross child alimony payments to be received
+Monthly gross child alimony payments to be received as determined by the court
 
 Type: float
 
 ## `kind_unterh_netto_m`
+
+Monthly child alimony payments after deductions
+
+Type: float
+
+## `kind_unterh_tats_m`
 
 Monthly actual child alimony payments received
 
