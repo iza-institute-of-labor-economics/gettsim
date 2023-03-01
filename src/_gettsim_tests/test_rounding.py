@@ -1,18 +1,18 @@
 import datetime
 
-import numpy as np
 import pandas as pd
 import pytest
 import yaml
-from _gettsim.config import INTERNAL_PARAMS_GROUPS
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS
-from _gettsim.config import RESOURCE_DIR
+from _gettsim.config import (
+    INTERNAL_PARAMS_GROUPS,
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    RESOURCE_DIR,
+)
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import _load_functions
-from _gettsim.interface import _add_rounding_to_functions
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import _add_rounding_to_functions, compute_taxes_and_transfers
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import add_rounding_spec
-
 
 rounding_specs_and_exp_results = [
     (1, "up", [100.24, 100.78], [101.0, 101.0]),
@@ -29,7 +29,7 @@ def test_decorator():
     def test_func():
         return 0
 
-    assert test_func.__rounding_params_key__ == "params_key_test"
+    assert test_func.__info__["rounding_params_key"] == "params_key_test"
 
 
 @pytest.mark.parametrize(
@@ -114,7 +114,7 @@ def test_rounding(base, direction, input_values, exp_output):
     "base, direction, input_values_exp_output, _ignore",
     rounding_specs_and_exp_results,
 )
-def test_no_rounding(base, direction, input_values_exp_output, _ignore):  # noqa: U101
+def test_no_rounding(base, direction, input_values_exp_output, _ignore):
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
     def test_func(income):
@@ -143,9 +143,8 @@ def test_decorator_for_all_functions_with_rounding_spec():
 
     # Find all functions for which rounding parameters are specified
     params_dict = {
-        group: yaml.load(
-            (RESOURCE_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8"),
-            Loader=yaml.CLoader,
+        group: yaml.safe_load(
+            (RESOURCE_DIR / "parameters" / f"{group}.yaml").read_text(encoding="utf-8")
         )
         for group in INTERNAL_PARAMS_GROUPS
     }
@@ -179,13 +178,19 @@ def test_decorator_for_all_functions_with_rounding_spec():
         if fn not in time_dependent_functions.values()
     ]
 
-    # Loop over these functions and check if attribute __rounding_params_key__ exists
+    # Loop over these functions and check if attribute
+    # __info__["rounding_params_key"] exists
     all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     for fn in function_names_to_check:
-        assert hasattr(all_functions[fn], "__rounding_params_key__"), (
+        assert hasattr(all_functions[fn], "__info__"), (
             f"For the function {fn}, rounding parameters are specified. But the "
             "function is missing the add_rounding_spec decorator. The attribute "
-            "__rounding_params_key__ is not found."
+            "__info__ is not found."
+        )
+        assert "rounding_params_key" in all_functions[fn].__info__, (
+            f"For the function {fn}, rounding parameters are specified. But the "
+            "function is missing the add_rounding_spec decorator. The key "
+            "'rounding_params_key' is not found in the __info__ dict."
         )
 
 

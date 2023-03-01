@@ -1,11 +1,9 @@
 ---
 name: main
-
 # Automatically cancel a previous run.
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
-
 on:
   push:
     branches:
@@ -13,9 +11,9 @@ on:
   pull_request:
     branches:
       - '*'
-
 jobs:
   run-tests:
+    name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -26,53 +24,41 @@ jobs:
           - windows-latest
         python-version:
           - '3.11'
-        include:
-          - os: ubuntu-latest
-            python-version: '3.9'
-          - os: ubuntu-latest
-            python-version: '3.10'
     steps:
       - uses: actions/checkout@v3
-      - name: Install conda environment with micromamba
+      - name: Install conda environment on Windows
+        if: runner.os == 'Windows'
         uses: mamba-org/provision-with-micromamba@main
         with:
           environment-file: environment.yml
-          extra-specs: python=${{ matrix.python-version }}
-          cache-downloads: true
-
-      - name: Run tests
+          environment-name: gettsim
+          cache-env: true
+          extra-specs: |
+            python=${{ matrix.python-version }}
+      - name: Install conda environment on Unix
+        if: runner.os != 'Windows'
+        uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: environment.yml
+          environment-name: gettsim
+          cache-env: true
+          extra-specs: |
+            python=${{ matrix.python-version }}
+            jax
+      - name: Run tests with NumPy backend
+        # Ignore MacOS for being slow -- no reason that would break if Jax works.
+        if: runner.os != 'macOS'
         run: >-
-          micromamba run -n gettsim pytest --ignore=dashboard/ --cov=./ --cov-report=xml
-
+          micromamba run -n gettsim pytest --cov=./ --cov-report=xml
+      - name: Run tests with JAX backend
+        # No JAX on Windows. / remove exclusion of Linux once --use-jax is fixed.
+        if: runner.os != 'Windows' && runner.os != 'Linux'
+        run: >-
+          micromamba run -n gettsim pytest src/_gettsim_tests
+        # Add the option below to the end of previous line to run with Jax backend
+        # --use-jax
       - name: Upload coverage reports
         if: runner.os == 'Linux' && matrix.python-version == '3.11'
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
-  # run-jax-tests:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       python-version: ["3.9", "3.10", "3.11"]
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Install conda environment with micromamba
-  #       uses: mamba-org/provision-with-micromamba@main
-  #       with:
-  #         environment-file: environment.yml
-  #         extra-specs: python=${{ matrix.python-version }} jax
-  #         cache-downloads: true
-
-  #     - name: Run tests
-  #       run: >-
-  #         micromamba run -n gettsim pytest --ignore=dashboard/
-  #         --cov=./ --cov-report=xml
-
-  #     - name: Upload coverage reports
-  #       if: runner.os == 'Linux' && matrix.python-version == '3.11'
-  #       uses: codecov/codecov-action@v3
-  #       with:
-  #         token: ${{ secrets.CODECOV_TOKEN }}

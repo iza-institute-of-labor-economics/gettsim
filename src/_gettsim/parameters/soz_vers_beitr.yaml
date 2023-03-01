@@ -30,7 +30,6 @@ beitr_satz:
         without children and at least 23 years old. paid by employees. est. 2005
       arbeitsl_v: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
-
   unit: Share
   1984-01-01:
     ges_krankenv:
@@ -229,9 +228,6 @@ beitr_satz:
       mean_zusatzbeitrag: 0.01
     ges_rentenv: 0.093
   2019-01-01:
-    note: >-
-      Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387.
-      Durchschnittlicher zusatzbeitragssatz 0,9%
     ges_krankenv:
       allgemein: 0.146
       ermäßigt: 0.14
@@ -239,29 +235,45 @@ beitr_satz:
     ges_pflegev:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
-    arbeitsl_v: 0.013
+    arbeitsl_v: 0.0125
     ges_rentenv: 0.093
+    note: >-
+      Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
+      (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
+      Temporarily reduced to 0.025 in BeiSaV 2019.
+    reference: >-
+      (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
   2020-01-01:
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.011
     arbeitsl_v: 0.012
-    note: >-
-      Durchschnittlicher Zusatzbeitragssatz 1,1%,
-      https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2019/4-quartal/gkv-zusatzbeitragssatz.html
+    note: (arbeitsl_v:) Temporarily reduced to 0.024 in BeiSaV 2019.
+    reference: >-
+      (ges_krankenv mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
+      (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
   2021-01-01:
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.013
-    note: >-
-      Durchschnittlicher Zusatzbeitragssatz 1,3%,
-      https://www.bundesgesundheitsministerium.de/presse/pressemitteilungen/2020/4-quartal/neuregelungen-2021.html
+    reference: >-
+      (ges_krankenv mean_zusatzbeitrag:) BAnz AT 30.10.2020 B5
   2022-01-01:
     deviation_from: previous
     ges_pflegev:
       zusatz_kinderlos: 0.0035
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
-
+  2023-01-01:
+    deviation_from: previous
+    arbeitsl_v: 0.013
+    ges_krankenv:
+      mean_zusatzbeitrag: 0.016
+    note: >-
+      Contribution rate for arbeitsl_v was temporarily reduced from 2019 to 2022 in
+      BeiSaV 2019. Now back to level specified in § 341 Abs. 2 SGB III.
+    reference: >-
+      (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
+      (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
@@ -547,7 +559,6 @@ beitr_bemess_grenze_m:
       west: 7300
       ost: 7100
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-
 bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
@@ -810,7 +821,10 @@ geringfügige_eink_grenzen_m:
     midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
     note: minijob thresholds depend on the statutory minimum wage since 2022-10-01
-
+  2023-01-01:
+    deviation_from: previous
+    midijob: 2000
+    reference: Art. 3 G. v. 11.11.2022 BGBl. I S. 1985
 geringf_eink_faktor:
   name:
     de: >-
@@ -820,7 +834,6 @@ geringf_eink_faktor:
   2022-10-01:
     scalar: 130
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-
 geringf_eink_divisor:
   name:
     de: >-
@@ -830,7 +843,6 @@ geringf_eink_divisor:
   2022-10-01:
     scalar: 3
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-
 ag_abgaben_geringf:
   name:
     de: Pauschalabgaben bei geringf. Beschäftigung
@@ -858,7 +870,6 @@ ag_abgaben_geringf:
     ges_krankenv: 0.13
     ges_rentenv: 0.15
     st: 0.02
-
 ges_pflegev_zusatz_kinderlos_mindestalter:
   name:
     de: Mindestalter Beitragszuschlag für Kinderlose
@@ -875,7 +886,6 @@ ges_pflegev_zusatz_kinderlos_mindestalter:
   reference: § 55 Abs. 3 SGB XI, KiBG Art. 1
   2005-01-01:
     scalar: 23
-
 mindestlohn:
   name:
     de: Allgemeiner gesetzlicher Mindestlohn pro Stunde
@@ -900,7 +910,6 @@ mindestlohn:
     scalar: 10.45
   2022-10-01:
     scalar: 12
-
 rounding:
   midijob_faktor_f:
     1990-01-01:

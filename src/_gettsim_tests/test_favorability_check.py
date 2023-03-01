@@ -4,9 +4,9 @@ import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "hh_id",
@@ -15,13 +15,14 @@ INPUT_COLS = [
     "kind",
     "eink_st_ohne_kinderfreib_tu",
     "eink_st_mit_kinderfreib_tu",
+    "zu_verst_eink_mit_kinderfreib_tu",
+    "_zu_verst_eink_ohne_kinderfreib_tu",
     "abgelt_st_tu",
-    "kindergeld_basis_m",
-    "kindergeld_basis_m_tu",
+    "kindergeld_m",
     "jahr",
 ]
 YEARS = [2010, 2012, 2016]
-TEST_COLUMNS = ["eink_st_tu", "kindergeld_m", "kindergeld_m_hh", "kindergeld_m_tu"]
+TEST_COLUMNS = ["eink_st_tu", "zu_verst_eink_tu"]
 
 
 @pytest.fixture(scope="module")
@@ -38,8 +39,9 @@ def test_favorability_check(input_data, year, target):
         "eink_st_ohne_kinderfreib_tu",
         "eink_st_mit_kinderfreib_tu",
         "abgelt_st_tu",
-        "kindergeld_basis_m",
-        "kindergeld_basis_m_tu",
+        "kindergeld_m",
+        "zu_verst_eink_mit_kinderfreib_tu",
+        "_zu_verst_eink_ohne_kinderfreib_tu",
     ]
 
     result = compute_taxes_and_transfers(

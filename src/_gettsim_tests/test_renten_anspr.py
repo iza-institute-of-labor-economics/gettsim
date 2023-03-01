@@ -9,9 +9,9 @@ import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
 
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "p_id",
@@ -23,12 +23,28 @@ INPUT_COLS = [
     "jahr",
     "geburtsjahr",
     "entgeltp",
+    "geburtsmonat",
+    "m_arbeitsunfähig",
+    "m_krank_ab_16_bis_24",
+    "m_mutterschutz",
+    "m_arbeitslos",
+    "m_ausbild_suche",
+    "m_schul_ausbild",
+    "m_alg1_übergang",
+    "m_geringf_beschäft",
+    "weiblich",
+    "y_pflichtbeitr_ab_40",
+    "m_pflichtbeitrag",
+    "m_freiw_beitrag",
+    "m_ersatzzeit",
+    "m_kind_berücks_zeit",
+    "m_pfleg_berücks_zeit",
 ]
 
 OUT_COLS = [
     "entgeltp_update",
     "entgeltp_update_lohn",
-    "ges_rente_regelaltersgrenze",
+    "_ges_rente_altersgrenze_abschlagsfrei",
     # "_ges_rentenv_beitr_bemess_grenze_m",
 ]
 

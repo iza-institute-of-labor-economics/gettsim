@@ -78,6 +78,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_tu(
     subsistence level on housing, divided by sum of subsistence level from parents and
     children.
 
+    Reference: § 6a Abs. 5 S. 3 BKGG
+
     Parameters
     ----------
     anz_kinder_tu

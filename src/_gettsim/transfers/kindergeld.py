@@ -10,53 +10,12 @@ aggregation_kindergeld = {
 }
 
 
-def kindergeld_m_bis_1996(kindergeld_basis_m: float) -> float:
-    """Kindergeld for an individual child until 1996.
-
-    Until 1996 individuals could claim Kinderfreibetrag and receive Kindergeld at the
-    same time.
-
-    Parameters
-    ----------
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_basis_m
-
-
-def kindergeld_m_ab_1997(
-    kinderfreib_günstiger_tu: bool,
-    kindergeld_basis_m: float,
-) -> float:
-    """Kindergeld for an individual child since 1997 (after Günstigerprüfung).
-
-    Parameters
-    ----------
-    kinderfreib_günstiger_tu
-        See :func:`kinderfreib_günstiger_tu`.
-    kindergeld_basis_m
-        See :func:`kindergeld_basis_m`.
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-
-    Returns
-    -------
-
-    """
-    out = 0 if kinderfreib_günstiger_tu else kindergeld_basis_m
-    return out
-
-
-def kindergeld_basis_m(
+def kindergeld_m(
     kindergeld_anspruch: bool,
     kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,
 ) -> float:
-    """Calculate the preliminary kindergeld for an individual child.
+    """Calculate kindergeld for an individual child.
 
     Parameters
     ----------
@@ -77,10 +36,11 @@ def kindergeld_basis_m(
         out = 0.0
     else:
         # Kindergeld_Anspruch is the cumulative sum of eligible children.
-        kumulativer_anspruch_wins = min(
-            kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
-        )
-        out = kindergeld_params["kindergeld"][kumulativer_anspruch_wins]
+        out = kindergeld_params["kindergeld"][
+            min(
+                kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
+            )
+        ]
     return out
 
 

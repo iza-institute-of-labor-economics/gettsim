@@ -92,7 +92,6 @@ kinderfreibetrag:
     deviation_from: previous
     sächl_existenzmin: 3192
     reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
-
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
@@ -141,7 +140,6 @@ vorsorge2004_vorwegabzug:
   2019-01-01:
     scalar: 300
     reference: null
-
 werbungskostenpauschale:
   name:
     de: Werbungskostenpauschbetrag bei nichtselbstständiger Arbeit.
@@ -171,7 +169,6 @@ werbungskostenpauschale:
   2023-01-01:
     scalar: 1230
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
-
 sonderausgabenpauschbetrag:
   name:
     de: Sonderausgaben-Pauschbetrag
@@ -191,7 +188,6 @@ sonderausgabenpauschbetrag:
   2002-01-01:
     single: 36
     note: Art. 1 G. v. 19.12.2000, BGBl. I S. 1790
-
 sparerpauschbetrag:
   name:
     de: Sparerpauschbetrag
@@ -233,7 +229,6 @@ sparerpauschbetrag:
   2023-01-01:
     scalar: 1000
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
-
 sparer_werbungskosten_pauschbetrag:
   name:
     de: Werbungskostenpauschbetrag bei Zinseinkünften
@@ -249,7 +244,6 @@ sparer_werbungskosten_pauschbetrag:
   2009-01-01:
     scalar: 0
     note: null
-
 vorsorge_2004_grundhöchstbetrag:
   name:
     de: Allgemeine Vorsorgepauschale Grundhöchstbetrag, Grundtabelle
@@ -265,7 +259,6 @@ vorsorge_2004_grundhöchstbetrag:
   1992-01-01:
     scalar: 1334
     reference: .
-
 altersentlastungsbetrag_max:
   name:
     de: Höchstbetrag des Altersentlastungsbetrags
@@ -329,7 +322,6 @@ altersentlastungsbetrag_max:
     1973: 76
     1974: 38
     1975: 0
-
 altersentlastung_quote:
   name:
     de: Anteil des Altersentlastungsbetrags
@@ -385,7 +377,6 @@ altersentlastung_quote:
     1973: 0.016
     1974: 0.008
     1975: 0
-
 altersentlastungsbetrag_altersgrenze:
   name:
     de: Altersgrenze für Altersentlastungsbetrag
@@ -401,18 +392,22 @@ altersentlastungsbetrag_altersgrenze:
   reference: § 24a Art. 3 EStG
   1984-01-01:
     scalar: 64
-
 einführungsfaktor:
   name:
     de: Einführungsfaktor für Altersvorsorge Aufwendung
     en: Introductory factor for pension expense
   description:
     de: >-
-      In den Jahren 2005-2025 steigt der Anteil der abzugsfähigen Beiträge von 60% in
-      2005 jährlich um 2 Prozentpunkte an, bis 100% in 2025 erreicht werden.
+      In den Jahren 2005-2022 stieg der Anteil der abzugsfähigen Beiträge von 60% in
+      2005 jährlich um 2 Prozentpunkte an bis 94% in 2022 erreicht wurden. Eigentlich
+      war geplant, dass der Parameter weiter mit dieser Rate steigt, bis ab 2025 100%
+      erreicht sind. Abweichend von diesem Plan, wurden die abzugfähigen Beiträge schon
+      2023 auf 100% gesetzt.
     en: >-
-      In the years 2005-2025 the share of deductible contributions increases by 2
-      percentage points each year from 60% in 2005 to 100% in 2025.
+      In the years 2005-2022, the share of deductible contributions increased by 2
+      percentage points each year from 60% in 2005 to 94% in 2022. It was planned that
+      100% are reached in 2025. Deviating from this plan, the deductible contributions
+      were set to 100% already in 2023.
   reference: § 10 Abs. 1 Nr. 2 Buchst. a und b EStG
   type: piecewise_linear
   2005-01-01:
@@ -427,7 +422,22 @@ einführungsfaktor:
     2:
       upper_threshold: inf
       rate_linear: 0
-
+  2023-01-01:
+    0:
+      lower_threshold: -inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.6
+    1:
+      lower_threshold: 2005
+      rate_linear: 0.02
+    2:
+      lower_threshold: 2022
+      upper_threshold: 2023
+      rate_linear: 0.06
+    3:
+      upper_threshold: inf
+      rate_linear: 0
+    reference: G. v. 20.12.2022 BGBl. I S. 2294.
 alleinerz_freibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende
@@ -464,7 +474,6 @@ alleinerz_freibetrag:
   2023-01-01:
     scalar: 4260
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
-
 alleinerz_freibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
@@ -479,7 +488,6 @@ alleinerz_freibetrag_zusatz:
   2015-01-01:
     scalar: 240
     reference: Art. 1 G. vs. 16.07.2015 BGBl. I S.1202
-
 vorsorge2004_kürzung_vorwegabzug:
   name:
     de: Kürzung des Vorwegabzugs für Vorsorgeaufwendungen vor 2004.
@@ -506,7 +514,6 @@ vorsorge2004_kürzung_vorwegabzug:
   1994-01-01:
     scalar: 0.16
     reference: Art. 1 G. v. 21.12.1993 BGBl. I S. 2310.
-
 vorsorge_sonstige_aufw_max:
   name:
     de: >-
@@ -524,7 +531,6 @@ vorsorge_sonstige_aufw_max:
   2010-01-01:
     scalar: 1900
     reference: Art. 1 G. v. 23.07.2009 BGBl. I S.1959.
-
 vorsorge_altersaufw_max:
   name:
     de: Maximalbetrag der Altersvorsorgeaufwendungen, 2005er Rechtsstand
@@ -566,7 +572,6 @@ vorsorge_altersaufw_max:
     scalar: 25640
     reference: §3 V. v. 30.11.2021, BGBl. I S. 5044.
     note: .247 * 103800
-
 vorsorge_kranken_minderung:
   name:
     de: >-
@@ -580,7 +585,6 @@ vorsorge_kranken_minderung:
   2009-07-23:
     scalar: 0.04
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
-
 behinderten_pauschbetrag:
   name:
     de: Behinderten-Pauschbetrag, in Abhängigkeit des Behinderungsgrads.
@@ -627,7 +631,6 @@ behinderten_pauschbetrag:
     80: 2120
     90: 2460
     100: 2840
-
 kinderbetreuungskosten_abz_anteil:
   name:
     de: >-
@@ -641,7 +644,6 @@ kinderbetreuungskosten_abz_anteil:
   2012-01-01:
     scalar: 0.6666666
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-
 kinderbetreuungskosten_abz_maximum:
   name:
     de: Maximal abziehbare Betreuungsaufwendungen pro Kind
@@ -654,33 +656,32 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-
 rounding:
-  vorsorgeaufw:
+  vorsorgeaufw_tu:
     note:
       en: Starting date unclear
     1984-01-01:
       base: 0.01
       direction: nearest
-  vorsorgeaufw_ab_2010_bis_2019:
+  vorsorgeaufw_tu_ab_2010_bis_2019:
     note:
       en: Starting date unclear
     1984-01-01:
       base: 0.01
       direction: nearest
-  vorsorgeaufw_ab_2020:
+  vorsorgeaufw_tu_ab_2020:
     note:
       en: Starting date unclear
     1984-01-01:
       base: 0.01
       direction: nearest
-  vorsorgeaufw_bis_2004:
+  vorsorgeaufw_tu_bis_2004:
     note:
       en: Starting date unclear
     1984-01-01:
       base: 0.01
       direction: nearest
-  vorsorgeaufw_ab_2005_bis_2009:
+  vorsorgeaufw_tu_ab_2005_bis_2009:
     note:
       en: Starting date unclear
     1984-01-01:

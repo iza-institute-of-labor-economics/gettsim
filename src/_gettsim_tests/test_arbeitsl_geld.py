@@ -2,8 +2,9 @@ import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
-from _gettsim_tests import TEST_DATA_DIR
 from pandas.testing import assert_series_equal
+
+from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
     "p_id",
@@ -12,12 +13,13 @@ INPUT_COLS = [
     "bruttolohn_vorj_m",
     "wohnort_ost",
     "kind",
-    "arbeitsl_monate_lfdj",
-    "arbeitsl_monate_vorj",
-    "arbeitsl_monate_v2j",
-    "sum_ges_rente_priv_rente_m",
+    "anwartschaftszeit",
+    "arbeitssuchend",
+    "soz_vers_pflicht_5j",
+    "m_durchg_alg1_bezug",
     "arbeitsstunden_w",
     "alter",
+    "geburtsjahr",
     "jahr",
 ]
 YEARS = [2010, 2011, 2015, 2019]
@@ -44,7 +46,6 @@ def test_arbeitsl_geld(
         params=policy_params,
         functions=policy_functions,
         targets="arbeitsl_geld_m",
-        columns_overriding_functions=["sum_ges_rente_priv_rente_m"],
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.

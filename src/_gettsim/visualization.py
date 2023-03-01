@@ -7,16 +7,16 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
-from _gettsim.config import DEFAULT_TARGETS
-from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions
-from _gettsim.interface import set_up_dag
-from _gettsim.shared import format_list_linewise
-from _gettsim.shared import get_names_of_arguments_without_defaults
-from _gettsim.shared import parse_to_list_of_strings
-from pygments import highlight
-from pygments import lexers
+from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
+
+from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
+from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.shared import (
+    format_list_linewise,
+    get_names_of_arguments_without_defaults,
+    parse_to_list_of_strings,
+)
 
 
 def plot_dag(
@@ -108,7 +108,7 @@ def plot_dag(
     dag = _add_url_to_dag(dag)
     # Even if we do not show the source codes , we need to remove the functions.
     dag = _replace_functions_with_source_code(dag)
-    layout_df = _create_pydot_layout(dag, orientation)
+    layout_df = _create_pygraphviz_layout(dag, orientation)
     # prepare for the nodes dataframe including their url
     names = layout_df.index
     node_x_coord = layout_df[0].values
@@ -259,7 +259,7 @@ def plot_dag(
     else:
         raise ValueError(
             "hover_source_code must be either True"
-            f" or False, but got '{hover_source_code}'"
+            f" or False, but got {hover_source_code!r}"
         )
 
     return fig
@@ -380,7 +380,7 @@ def _highlight_source_code(source):
     return highlight(source, lex, formatter)
 
 
-def _create_pydot_layout(dag, orientation):
+def _create_pygraphviz_layout(dag, orientation):
     # Convert node labels to integers because some names cannot be handled by pydot.
     dag_w_integer_nodes = nx.relabel.convert_node_labels_to_integers(dag)
 
@@ -391,7 +391,7 @@ def _create_pydot_layout(dag, orientation):
             dag_w_integer_nodes.nodes[node].pop(attr)
 
     # Create the integer layout.
-    integer_layout = nx.drawing.nx_pydot.pydot_layout(dag_w_integer_nodes, prog="dot")
+    integer_layout = nx.nx_agraph.pygraphviz_layout(dag_w_integer_nodes, prog="dot")
 
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
@@ -412,18 +412,16 @@ def _create_pydot_layout(dag, orientation):
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     if orientation == "v":
-
         layout_df = np.transpose(pd.DataFrame.from_dict(layout))
 
     elif orientation == "h":
-
         layout_df = np.transpose(pd.DataFrame.from_dict(layout))
         layout_df[[0, 1]] = layout_df[[1, 0]]
         layout_df[0] = layout_df[0] * (-1)
 
     else:
         raise ValueError(
-            f"orientation must be one of 'v', 'h', but got '{orientation}'"
+            f"orientation must be one of 'v', 'h', but got {orientation!r}"
         )
 
     return layout_df
@@ -450,7 +448,7 @@ def _to_list(scalar_or_iter):
     """
     return (
         [scalar_or_iter]
-        if isinstance(scalar_or_iter, str) or isinstance(scalar_or_iter, dict)
+        if isinstance(scalar_or_iter, (str, dict))
         else list(scalar_or_iter)
     )
 
@@ -527,7 +525,7 @@ def _get_selected_nodes(dag, selector):
         )
     else:
         raise NotImplementedError(
-            f"Selector type '{selector['type']}' is not defined. "
+            f"Selector type {selector['type']!r} is not defined. "
             "Allowed are only 'nodes', 'ancestors', 'descendants', or 'neighbors'."
         )
 
@@ -538,20 +536,20 @@ def _node_and_ancestors(dag, node, order):
     ancestors = list(nx.ancestors(dag, node))
     if order:
         ancestors = list(_kth_order_predecessors(dag, node, order=order))
-    return [node] + ancestors
+    return [node, *ancestors]
 
 
 def _node_and_descendants(dag, node, order):
     descendants = list(nx.descendants(dag, node))
     if order:
         descendants = list(_kth_order_successors(dag, node, order=order))
-    return [node] + descendants
+    return [node, *descendants]
 
 
 def _kth_order_neighbors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -562,7 +560,7 @@ def _kth_order_neighbors(dag, node, order):
 def _kth_order_predecessors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for predecessor in dag.predecessors(node):
             yield from _kth_order_predecessors(dag, predecessor, order=order - 1)
 
@@ -570,6 +568,6 @@ def _kth_order_predecessors(dag, node, order):
 def _kth_order_successors(dag, node, order):
     yield node
 
-    if 1 <= order:
+    if order >= 1:
         for successor in dag.successors(node):
             yield from _kth_order_successors(dag, successor, order=order - 1)

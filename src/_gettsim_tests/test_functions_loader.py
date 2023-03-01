@@ -17,7 +17,8 @@ def test_load_function():
 def test_renaming_functions():
     out = _load_functions([func, {"func_": func}])
     assert len(out) == 2
-    assert "func" in out and "func_" in out
+    assert "func" in out
+    assert "func_" in out
 
 
 def test_load_modules():

@@ -24,12 +24,16 @@ def add_rounding_spec(params_key):
     Returns
     -------
     func : function
-        Function with __rounding_params_key__ attribute
+        Function with __info__["rounding_params_key"] attribute
 
     """
 
     def inner(func):
-        func.__rounding_params_key__ = params_key
+        # Remember data from decorator
+        if not hasattr(func, "__info__"):
+            func.__info__ = {}
+        func.__info__["rounding_params_key"] = params_key
+
         return func
 
     return inner
@@ -60,7 +64,7 @@ def parse_to_list_of_strings(user_input, name):
         pass
     else:
         NotImplementedError(
-            f"'{name}' needs to be None, a string or a list of strings."
+            f"{name!r} needs to be None, a string or a list of strings."
         )
 
     return sorted(set(user_input))
