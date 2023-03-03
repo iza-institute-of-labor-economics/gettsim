@@ -157,7 +157,5 @@ TYPES_INPUT_VARIABLES = {
     "soz_vers_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
     "kind_unterh_brutto_m": float,
-    "kind_unterh_netto_m": float,
     "kind_unterh_tats_m": float,
-    "partner_unterhalt_m": float,
 }

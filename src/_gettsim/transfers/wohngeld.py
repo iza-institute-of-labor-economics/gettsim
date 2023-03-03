@@ -87,7 +87,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_tats_m: float,
     unterhaltsvors_m: float,
-    partner_unterhalt_m: float,
     elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
@@ -114,8 +113,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_tats_m <kind_unterh_tats_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    partner_unterhalt_m
-        See basic input variable :ref:`partner_unterhalt_m <partner_unterhalt_m>`.
     elterngeld_m
         See :func:`elterngeld_m`.
 
@@ -132,7 +129,6 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         + eink_rente_zu_verst_m
         + kind_unterh_tats_m
         + unterhaltsvors_m
-        + partner_unterhalt_m
         + elterngeld_m
     )
 

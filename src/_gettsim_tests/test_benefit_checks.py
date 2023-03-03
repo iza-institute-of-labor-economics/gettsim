@@ -22,7 +22,6 @@ INPUT_COLS = [
     "kindergeld_m_hh",
     "kind_unterh_tats_m_hh",
     "unterhaltsvors_m_hh",
-    "partner_unterhalt_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
     "geburtsjahr",
     "jahr",

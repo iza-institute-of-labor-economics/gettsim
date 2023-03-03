@@ -35,7 +35,6 @@ INPUT_COLS = [
     "sozialv_beitr_m",
     "kindergeld_m_hh",
     "kind_unterh_tats_m",
-    "partner_unterhalt_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
     "priv_rente_m",
