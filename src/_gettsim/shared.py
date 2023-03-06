@@ -119,9 +119,9 @@ def _check_for_conflicts_in_time_dependent_functions(dag_key: str, function_name
         return
 
     for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
-        # While testing, the same function might be added to the registry again,
-        # leading to wrong conflict errors. We prevent this by only reporting
-        # conflicts if the functions have different names.
+        # A function is not conflicting with itself. We compare names instead of
+        # identities since functions might get wrapped, which would change their
+        # identity but not their name.
         if f.__name__ != function_name and (
             start <= f.__info__["dates_active_start"] <= end
             or f.__info__["dates_active_start"]
