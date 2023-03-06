@@ -139,7 +139,7 @@ def eink_rente_zu_verst(
 
 
 @dates_active(start="2009-01-01", change_name="sum_eink")
-def sum_eink_ohne_kapital(
+def sum_eink_ohne_kapital_eink(
     eink_selbst: float,
     _zu_verst_eink_abhängig_beschäftigt: float,
     eink_vermietung: float,
@@ -199,15 +199,15 @@ def kapitaleink(
 
 
 @dates_active(end="2008-12-31", change_name="sum_eink")
-def sum_eink_mit_kapital(
-    sum_eink_ohne_kapital: float,
+def sum_eink_mit_kapital_eink(
+    sum_eink_ohne_kapital_eink: float,
     kapitaleink: float,
 ) -> float:
     """Sum of gross incomes with capital income.
 
     Parameters
     ----------
-    sum_eink_ohne_kapital
+    sum_eink_ohne_kapital_eink
         See :func:`sum_eink_ohne_kapital`.
     kapitaleink
         See :func:`kapitaleink`.
@@ -216,7 +216,7 @@ def sum_eink_mit_kapital(
     -------
 
     """
-    return sum_eink_ohne_kapital + kapitaleink
+    return sum_eink_ohne_kapital_eink + kapitaleink
 
 
 def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:

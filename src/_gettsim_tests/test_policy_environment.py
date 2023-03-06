@@ -60,8 +60,8 @@ def test_access_different_date_vorjahr():
         (
             "sum_eink",
             date(2008, 12, 31),
-            "sum_eink_mit_kapital",
-            "sum_eink_ohne_kapital",
+            "sum_eink_mit_kapital_eink",
+            "sum_eink_ohne_kapital_eink",
         ),
     ],
 )
