@@ -115,6 +115,11 @@ def _validate_date_range(start: date, end: date):
 
 
 def _check_for_conflicts_in_time_dependent_functions(dag_key: str, function_name: str, start: date, end: date):
+    """
+    Raises an error if a different time-dependent function has already been registered for
+    the given dag_key and their date ranges overlap.
+    """
+
     if dag_key not in TIME_DEPENDENT_FUNCTIONS:
         return
 
