@@ -78,7 +78,9 @@ def dates_active(
     def inner(func: Callable) -> Callable:
         dag_key = change_name if change_name else func.__name__
 
-        _check_for_conflicts_in_time_dependent_functions(dag_key, func.__name__, start_date, end_date)
+        _check_for_conflicts_in_time_dependent_functions(
+            dag_key, func.__name__, start_date, end_date
+        )
 
         # Remember data from decorator
         if not hasattr(func, "__info__"):
@@ -114,7 +116,9 @@ def _validate_date_range(start: date, end: date):
         )
 
 
-def _check_for_conflicts_in_time_dependent_functions(dag_key: str, function_name: str, start: date, end: date):
+def _check_for_conflicts_in_time_dependent_functions(
+    dag_key: str, function_name: str, start: date, end: date
+):
     """
     Raises an error if a different time-dependent function has already been registered
     for the given dag_key and their date ranges overlap.
