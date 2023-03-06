@@ -8,6 +8,5 @@ coverage:
   range: 50...100
 ignore:
   - setup.py
-  - dashboard/
   - src/_gettsim/parameters/_dynamic_pension_data/
   - src/_gettsim_tests/

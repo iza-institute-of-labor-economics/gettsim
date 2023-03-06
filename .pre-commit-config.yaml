@@ -79,7 +79,6 @@ repos:
   #   hooks:
   #     - id: interrogate
   #       args: [-v, --fail-under=50]
-  #       exclude: ^(dashboard/|gettsim/docs/)
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:
