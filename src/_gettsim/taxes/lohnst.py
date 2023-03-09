@@ -247,11 +247,11 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
     if steuerklasse == 3:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "stkl3"
+            "steuerklasse_3"
         ]
     else:
         vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "stkl_nicht3"
+            "steuerklasse_nicht3"
         ]
 
     vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
