@@ -1,4 +1,5 @@
-"""This module provides functions to compute alimony payments (Unterhalt)."""
+"""This module provides functions to compute advance alimony payments
+(Unterhaltsvorschuss)."""
 
 
 def unterhaltsvors_m(  # noqa: PLR0913
@@ -125,28 +126,3 @@ def unterhaltsvorschuss_eink_m_tu(  # noqa: PLR0913
     )
 
     return out
-
-
-def kind_unterh_netto_m(
-    kind_unterh_brutto_m: float,
-    kindergeld_m: float,
-    unterhalt_params: dict,
-) -> float:
-    """Monthly actual child alimony payments to be received after deductions.
-
-    Parameters
-    ----------
-    kind_unterh_brutto_m
-        See basic input variable :ref:`kind_unterh_brutto_m <kind_unterh_brutto_m>`.
-    kindergeld_m
-        See :func:`kindergeld_m`.
-    unterhalt_params
-        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
-
-    Returns
-    -------
-    """
-
-    return (
-        kind_unterh_brutto_m - unterhalt_params["abzugsrate_kindergeld"] * kindergeld_m
-    )

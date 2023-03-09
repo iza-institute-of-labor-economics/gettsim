@@ -104,4 +104,5 @@ abzugsrate_kindergeld:
   reference: § 1612b BGB
   unit: perecent
   2008-01-01:
-    scalar: 0.5
+    kind: 0.5
+    erwachsener: 1
