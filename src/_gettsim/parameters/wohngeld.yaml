@@ -482,8 +482,8 @@ haushaltsgröße_hhn:
   description:
     de: >-
       Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für
-      Miete und Belastung. Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch
-      die Formel berechnet werden.
+      Miete und Belastung. Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die
+      Formel berechnet werden.
     en: >-
       Households with more than 5 members have a fixed maximum amount for rent and
       burden. The housing benefit for up to 12 household members can be calculated using
@@ -777,8 +777,8 @@ freib_behinderung:
     reference: 2 Art. 1 G. v. 08.10.2015 BGBl Nr.38 S.1612
     scalar: 1500
     note: >-
-      neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem.
-      §14 SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
+      neue Regelung - §17 1. WoGG a) GDB = 100 b) GDB < 100 & pflegebedürftig gem. §14
+      SGB XI. + gleichz. Häusliche/teilstationäre/Kurzzeit-Pflege
   2020-01-01:
     reference: Art. 1 G. v. 30.11.2019 BGBl. I S. 1877
     scalar: 1800
