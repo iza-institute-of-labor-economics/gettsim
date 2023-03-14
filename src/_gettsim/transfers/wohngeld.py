@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import add_rounding_spec
 
 
 def wohngeld_m_hh(
@@ -486,6 +487,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
+@add_rounding_spec(params_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_hh: float,

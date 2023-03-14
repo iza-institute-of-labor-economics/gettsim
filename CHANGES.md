@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
 
 ## v0.6.0 — 2023-01-30
