@@ -92,6 +92,7 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
 
     Parameters
     ----------
@@ -266,6 +267,7 @@ def wohngeld_eink_m_hh(
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
     level.
+    Reference: § 13 WoGG
 
     Parameters
     ----------
