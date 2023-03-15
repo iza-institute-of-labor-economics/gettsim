@@ -7,9 +7,9 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`544` Added Kindesunterhalt ({ghuser}`LauraGergeleit`).
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
 
-- {gh}`544` Added Kindesunterhalt ({ghuser}`LauraGergeleit`).
 
 ## v0.6.0 — 2023-01-30
 
