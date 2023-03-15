@@ -26,7 +26,7 @@ INPUT_COLS = [
     "elterngeld_m",
     "arbeitsl_geld_m",
     "sonstig_eink_m",
-    "kind_unterh_tats_m",
+    "kind_unterh_erhalt_m",
     "unterhaltsvors_m",
     "eink_selbst_m",
     "eink_abhängig_beschäftigt",

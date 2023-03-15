@@ -6,7 +6,7 @@ def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_tu: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_tu: float,
-    kind_unterh_tats_m: float,
+    kind_unterh_erhalt_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
     kindergeld_params: dict,
@@ -39,8 +39,8 @@ def unterhaltsvors_m(  # noqa: PLR0913
         See basic input variable :ref:`alter <alter>`.
     unterhaltsvorschuss_eink_m_tu
         See :func:`unterhaltsvorschuss_eink_m_tu`.
-    kind_unterh_tats_m
-        See basic input variable :ref:`kind_unterh_tats_m <kind_unterh_tats_m>`
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     unterhaltsvors_params
@@ -78,7 +78,7 @@ def unterhaltsvors_m(  # noqa: PLR0913
         out = 0.0
 
     # Check against the actual child alimony payments given by kindesunterhalt_m
-    out = max(out - kind_unterh_tats_m, 0.0)
+    out = max(out - kind_unterh_erhalt_m, 0.0)
 
     return out
 

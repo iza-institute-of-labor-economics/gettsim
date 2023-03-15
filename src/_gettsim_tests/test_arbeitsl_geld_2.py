@@ -38,7 +38,7 @@ INPUT_COLS = [
     "soli_st_tu",
     "sozialv_beitr_m",
     "kindergeld_m_hh",
-    "kind_unterh_tats_m",
+    "kind_unterh_erhalt_m",
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",

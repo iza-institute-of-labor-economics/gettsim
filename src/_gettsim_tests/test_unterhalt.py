@@ -12,12 +12,12 @@ INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "kind_unterh_brutto_m",
+    "kind_unterh_anspr_m",
     "kindergeld_m",
     "jahr",
     "kind",
 ]
-OUT_COLS = ["kind_unterh_netto_m"]
+OUT_COLS = ["kind_unterh_zahlbetr_m"]
 YEARS = [2023]
 
 

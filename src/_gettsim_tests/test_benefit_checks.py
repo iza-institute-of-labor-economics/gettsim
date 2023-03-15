@@ -20,7 +20,7 @@ INPUT_COLS = [
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
-    "kind_unterh_tats_m_hh",
+    "kind_unterh_erhalt_m_hh",
     "unterhaltsvors_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
     "geburtsjahr",

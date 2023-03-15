@@ -1,8 +1,8 @@
 """This module provides functions to compute alimony payments (Unterhalt)."""
 
 
-def kind_unterh_netto_m(
-    kind_unterh_brutto_m: float,
+def kind_unterh_zahlbetr_m(
+    kind_unterh_anspr_m: float,
     kindergeld_m: float,
     unterhalt_params: dict,
     kind: bool,
@@ -11,8 +11,8 @@ def kind_unterh_netto_m(
 
     Parameters
     ----------
-    kind_unterh_brutto_m
-        See basic input variable :ref:`kind_unterh_brutto_m <kind_unterh_brutto_m>`.
+    kind_unterh_anspr_m
+        See basic input variable :ref:`kind_unterh_anspr_m <kind_unterh_anspr_m>`.
     kindergeld_m
         See :func:`kindergeld_m`.
     unterhalt_params
@@ -28,4 +28,4 @@ def kind_unterh_netto_m(
     else:
         abzugsrate = unterhalt_params["abzugsrate_kindergeld"]["erwachsener"]
 
-    return kind_unterh_brutto_m - abzugsrate * kindergeld_m
+    return kind_unterh_anspr_m - abzugsrate * kindergeld_m

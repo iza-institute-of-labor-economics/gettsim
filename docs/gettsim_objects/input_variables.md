@@ -497,13 +497,13 @@ insurance
 
 Type: float
 
-## `kind_unterh_brutto_m`
+## `kind_unterh_anspr_m`
 
 Monthly gross child alimony payments to be received as determined by the court
 
 Type: float
 
-## `kind_unterh_tats_m`
+## `kind_unterh_erhalt_m`
 
 Monthly actual child alimony payments received
 
