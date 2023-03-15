@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import add_rounding_spec
 
 
 def wohngeld_m_hh(
@@ -87,7 +88,7 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    elterngeld_m: float,
+    elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -114,8 +115,8 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
+    elterngeld_anr_m
+        See :func:`elterngeld_anr_m`.
 
     Returns
     -------
@@ -495,6 +496,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
+@add_rounding_spec(params_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_hh: float,
