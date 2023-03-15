@@ -15,42 +15,42 @@ mindestunterhalt:
   2016-01-01:
     6: 335
     12: 384
-    17: 450
+    18: 450
     reference: V. v. 03.12.2015 BGBl. I S. 2188.
   2017-01-01:
     6: 342
     12: 393
-    17: 460
+    18: 460
     reference: V. v. 03.12.2015 BGBl. I S. 2188.
   2018-01-01:
     6: 348
     12: 399
-    17: 467
+    18: 467
     reference: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525.
   2019-01-01:
     6: 354
     12: 406
-    17: 476
+    18: 476
     reference: Artikel 1 V. v. 28.09.2017 BGBl. I S. 3525.
   2020-01-01:
     6: 369
     12: 424
-    17: 497
+    18: 497
     reference: Artikel 1 V. v. 12.09.2019 BGBl. I S. 1393.
   2021-01-01:
     6: 393
     12: 451
-    17: 528
+    18: 528
     reference: Artikel 1 V. v. 03.11.2020 BGBl. I S. 2344.
   2022-01-01:
     6: 396
     12: 455
-    17: 533
+    18: 533
     reference: Artikel 1 V. v. 30.11.2021 BGBl. I S. 5066.
   2023-01-01:
     6: 437
     12: 502
-    17: 588
+    18: 588
     reference: Artikel 1 V. v. 30.11.2022 BGBl. I S. 2130.
 abzugsrate_kindergeld:
   name:
