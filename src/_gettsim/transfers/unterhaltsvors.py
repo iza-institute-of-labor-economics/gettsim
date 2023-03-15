@@ -6,9 +6,10 @@ def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_tu: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_tu: float,
-    unterhalt_params: dict,
-    kindergeld_params: dict,
     kind_unterh_tats_m: float,
+    unterhalt_params: dict,
+    unterhaltsvors_params: dict,
+    kindergeld_params: dict,
 ) -> float:
     """Calculate advance on alimony payment (Unterhaltsvorschuss).
 
@@ -38,12 +39,14 @@ def unterhaltsvors_m(  # noqa: PLR0913
         See basic input variable :ref:`alter <alter>`.
     unterhaltsvorschuss_eink_m_tu
         See :func:`unterhaltsvorschuss_eink_m_tu`.
-    unterhalt_params
-        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
-    kindergeld_params
-        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     kind_unterh_tats_m
         See basic input variable :ref:`kind_unterh_tats_m <kind_unterh_tats_m>`
+    unterhalt_params
+        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------
@@ -61,14 +64,11 @@ def unterhaltsvors_m(  # noqa: PLR0913
             - kindergeld_params["kindergeld"][1]
         )
 
-    # Older kids get it only if the single parent has income > 600€.
+    # Older kids get it only if the single parent has income > mindesteinkommen.
     elif (
         (altersgrenzen[1] <= alter <= altersgrenzen[2])
         and alleinerz_tu
-        and (
-            unterhaltsvorschuss_eink_m_tu
-            > unterhalt_params["unterhaltsvors_mindesteinkommen"]
-        )
+        and (unterhaltsvorschuss_eink_m_tu > unterhaltsvors_params["mindesteinkommen"])
     ):
         out = (
             unterhalt_params["mindestunterhalt"][17]
