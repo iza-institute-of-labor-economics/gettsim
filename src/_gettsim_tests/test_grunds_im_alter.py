@@ -38,6 +38,9 @@ INPUT_COLS = [
     "elterngeld_m",
     "priv_rente_m",
     "ges_rente_m",
+    "geburtstag",
+    "geburtsmonat",
+    "geburtsjahr",
 ]
 
 OVERRIDE_COLS = [
