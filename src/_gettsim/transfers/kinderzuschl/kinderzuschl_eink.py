@@ -231,7 +231,7 @@ def kinderzuschl_kindereink_abzug_m(
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
-            See :func:`unterhaltsvors_m`.
+        See :func:`unterhaltsvors_m`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
