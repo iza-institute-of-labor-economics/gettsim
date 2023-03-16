@@ -7,10 +7,12 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`544` Added Kindesunterhalt ({ghuser}`LauraGergeleit`).
 - {gh}`529` Consider Elterngeld in other transfers only above a certain threshold.
   ({ghuser}`LauraGergeleit`).
 - {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
+
 
 ## v0.6.0 — 2023-01-30
 

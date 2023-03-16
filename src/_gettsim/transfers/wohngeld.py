@@ -86,12 +86,14 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
+    kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
 
     Parameters
     ----------
@@ -109,6 +111,8 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See :func:`sonstig_eink_m`.
     eink_rente_zu_verst_m
         See :func:`eink_rente_zu_verst_m`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     elterngeld_anr_m
@@ -123,7 +127,11 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     ) / 12
 
     transfers = (
-        arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_anr_m
+        arbeitsl_geld_m
+        + eink_rente_zu_verst_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + elterngeld_anr_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
@@ -260,6 +268,7 @@ def wohngeld_eink_m_hh(
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
     level.
+    Reference: § 13 WoGG
 
     Parameters
     ----------

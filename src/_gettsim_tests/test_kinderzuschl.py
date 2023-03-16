@@ -25,6 +25,7 @@ INPUT_COLS = [
     "kinderzuschl_bruttoeink_eltern_m",
     "kinderzuschl_eink_eltern_m",
     "kindergeld_m_hh",
+    "kind_unterh_erhalt_m",
     "unterhaltsvors_m",
     "jahr",
     "geburtsjahr",
