@@ -131,7 +131,7 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         + eink_rente_zu_verst_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
-        + elterngeld_m
+        + elterngeld_anr_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
