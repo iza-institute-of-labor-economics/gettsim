@@ -285,6 +285,8 @@ def create_one_set_of_households(
         "m_durchg_alg1_bezug",
         "soz_vers_pflicht_5j",
         "bürgerg_bezug_vorj",
+        "kind_unterh_anspr_m",
+        "kind_unterh_erhalt_m",
     ]
     # Create one row per desired household
     n_rows = len(hh_typen) * len(n_children)
