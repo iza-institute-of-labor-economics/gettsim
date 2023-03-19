@@ -1,5 +1,3 @@
-from math import trunc
-
 from _gettsim.shared import add_rounding_spec
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -86,10 +84,10 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     out = max(
         2
         * (
-            trunc(_eink_st_tarif(taxable_inc * 1.25, eink_st_params))
-            - trunc(_eink_st_tarif(taxable_inc * 0.75, eink_st_params))
+            _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
+            - _eink_st_tarif(taxable_inc * 0.75, eink_st_params)
         ),
-        trunc(taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1]),
+        taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
     return out
@@ -273,7 +271,7 @@ def _lohnst_m(
     grenze_3 = lohnst_params["lohnst_einkommensgrenzen"][2]
 
     lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
-    max_lohnsteuer = trunc(
+    max_lohnsteuer = (
         lohnsteuer_grenze_1
         + (lohnst_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
     )
@@ -281,7 +279,7 @@ def _lohnst_m(
     lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params["eink_st_tarif"][
         "rates"
     ][0][3]
-    lohnsteuer_klasse5_6_tmp = trunc(lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3)
+    lohnsteuer_klasse5_6_tmp = lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3
 
     if lohnst_eink < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
@@ -290,12 +288,12 @@ def _lohnst_m(
             max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink, eink_st_params)
         )
     elif grenze_2 <= lohnst_eink < grenze_3:
-        lohnsteuer_klasse5_6 = trunc(
+        lohnsteuer_klasse5_6 = (
             lohnsteuer_grenze_2
             + (lohnst_eink - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
     else:
-        lohnsteuer_klasse5_6 = trunc(
+        lohnsteuer_klasse5_6 = (
             lohnsteuer_klasse5_6_tmp
             + (lohnst_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
