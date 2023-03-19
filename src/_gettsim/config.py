@@ -158,4 +158,7 @@ TYPES_INPUT_VARIABLES = {
     "m_durchg_alg1_bezug": float,
     "soz_vers_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
+    "kind_unterh_anspr_m": float,
+    "kind_unterh_erhalt_m": float,
+    "steuerklasse": int,
 }
