@@ -53,7 +53,7 @@ from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
-from _gettsim.taxes.lohnst import (
+from _gettsim.taxes.lohn_st import (
     vorsorgepauschale_ab_2005_bis_2009,
     vorsorgepauschale_ab_2010,
 )

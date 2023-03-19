@@ -8,7 +8,6 @@ recursive-include src *.yaml
 recursive-include src *.csv
 recursive-include src *.py
 recursive-include src/_gettsim_tests/test_data/original_testfaelle *.xlsx
-include src/_gettsim_tests/lohnsteuer_bmf_api.ipynb
 
 global-exclude __pycache__/**/*
 global-exclude *.py[cod]
