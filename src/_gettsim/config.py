@@ -61,7 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
-    "lohnst",
+    "lohn_st",
 ]
 
 SUPPORTED_GROUPINGS = {

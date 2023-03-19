@@ -665,15 +665,17 @@ vorsorgepauschale_rv_anteil:
       Funktion für den Anteil der Rentenversicherungsbeiträge, die bei der
       Lohnsteuerberechnung abgezogen werden
     en: >-
-      Function for the share of pension insurance contributions deducted in the payroll
-      tax calculation
+      Function for the share of pension insurance contributions deducted in the
+      withholding tax calculation.
   unit: share
-  reference: § 39 (4) EStG
+  reference: § 39b (4) EStG
   note:
     de: >-
       Funktion erst ab 2005 vorhanden. Steigt zwischen 2005 und 2025 jährlich um 4
-      Prozentpunkte.
-    en: rises between 2005 and 2025 by 4 percentage points annually.
+      Prozentpunkte. 2023 wurde der Wert vorzeitig auf 100% gesetzt.
+    en: >-
+      rises between 2005 and 2025 by 4 percentage points annually. In 2023, it was
+      prematurely set to 100 percent.
   type: piecewise_linear
   2005-01-01:
     0:
@@ -691,6 +693,22 @@ vorsorgepauschale_rv_anteil:
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 1
+  2023-01-01:
+    0:
+      lower_threshold: -inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 0.2
+    1:
+      lower_threshold: 2005
+      rate_linear: 0.04
+    2:
+      lower_threshold: 2022
+      upper_threshold: 2023
+      rate_linear: 0.12
+    3:
+      lower_threshold: 2023
+      upper_threshold: inf
+      rate_linear: 0
 vorsorgepauschale_mindestanteil:
   name:
     de: Mindestanteil für Mindestvorsorgepauschale
