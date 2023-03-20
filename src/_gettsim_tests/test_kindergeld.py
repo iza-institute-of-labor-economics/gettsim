@@ -19,7 +19,7 @@ INPUT_COLS = [
     "bruttolohn_m",
     "_zu_verst_eink_ohne_kinderfreib_tu",
 ]
-YEARS = [2002, 2010, 2011, 2013, 2019, 2020, 2021]
+YEARS = [2002, 2010, 2011, 2013, 2019, 2020, 2021, 2023]
 TEST_COLS = [
     "kindergeld_m_tu",
     "kinderbonus_m_tu",
