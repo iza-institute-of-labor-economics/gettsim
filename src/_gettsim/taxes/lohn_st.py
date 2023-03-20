@@ -322,7 +322,7 @@ def lohnst_m(
     return _lohnst_m(lohnst_eink, eink_st_params, lohn_st_params, steuerklasse)
 
 
-def lohnst_mit_kinderfreib(
+def lohnst_mit_kinderfreib_m(
     lohnst_eink: float,
     kinderfreib_für_soli_st_lohnst: float,
     eink_st_params: dict,
