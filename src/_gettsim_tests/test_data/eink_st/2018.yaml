@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 1
@@ -50,10 +53,10 @@
     - 0.0
     soli_st_tu:
     - 0.0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 5
@@ -105,6 +108,3 @@
     - 0.0
     soli_st_tu:
     - 3683.79
-  info:
-    note: ''
-    source: ''

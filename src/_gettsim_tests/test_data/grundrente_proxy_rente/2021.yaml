@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: made up, regression test
+    source: ''
+  inputs:
     provided:
       p_id:
       - 1
@@ -60,10 +63,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 673.54
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 2
@@ -125,10 +128,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 1010.31
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 3
@@ -190,10 +193,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 654.63
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 4
@@ -255,10 +258,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 1673.54
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 5
@@ -320,10 +323,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 624.31
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 6
@@ -385,10 +388,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 830.82
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 7
@@ -450,10 +453,10 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 683.8
-  info:
+- info:
     note: made up, regression test
     source: ''
-- inputs:
+  inputs:
     provided:
       p_id:
       - 8
@@ -515,6 +518,3 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 0.0
-  info:
-    note: made up, regression test
-    source: ''

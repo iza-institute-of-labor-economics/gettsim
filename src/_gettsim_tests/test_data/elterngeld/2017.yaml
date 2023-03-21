@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 2
@@ -50,6 +53,3 @@
     - 0
     elternzeit_anspruch:
     - false
-  info:
-    note: ''
-    source: ''

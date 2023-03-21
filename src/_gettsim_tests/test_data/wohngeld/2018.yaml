@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 6
@@ -254,10 +257,10 @@
     - 42.0
     - 42.0
     - 42.0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 7
@@ -765,10 +768,10 @@
     - 1233.0
     - 1233.0
     - 1233.0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 8
@@ -1024,6 +1027,3 @@
     - 0.0
     - 0.0
     - 0.0
-  info:
-    note: ''
-    source: ''

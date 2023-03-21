@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 7
@@ -122,6 +125,3 @@
     - 0.0
     - 0.0
     - 0.0
-  info:
-    note: ''
-    source: ''

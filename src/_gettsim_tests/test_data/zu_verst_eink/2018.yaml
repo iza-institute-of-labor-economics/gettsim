@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 7
@@ -66,10 +69,10 @@
     - 0
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 8
@@ -137,10 +140,10 @@
     - 6200
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 9
@@ -208,10 +211,10 @@
     - 9800
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 10
@@ -279,10 +282,10 @@
     - 13400
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 11
@@ -350,10 +353,10 @@
     - 17000
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 12
@@ -421,6 +424,3 @@
     - 59000
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-  info:
-    note: ''
-    source: ''

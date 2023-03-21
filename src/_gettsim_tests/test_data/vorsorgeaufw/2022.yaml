@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: corrected tax-exempt employer contribution in testcase
+    source: https://www.haufe.de/finance/haufe-finance-office-premium/vorsorgeaufwendungen-225-behandlung-von-ehegattenlebenspartnern-im-falle-der-zusammenveranlagung_idesk_PI20354_HI2531457.html
+  inputs:
     provided:
       tu_id:
       - 17
@@ -41,10 +44,10 @@
     vorsorgeaufw_tu:
     - 11674
     - 11674
-  info:
-    note: corrected tax-exempt employer contribution in testcase
+- info:
+    note: ''
     source: https://www.haufe.de/finance/haufe-finance-office-premium/vorsorgeaufwendungen-225-behandlung-von-ehegattenlebenspartnern-im-falle-der-zusammenveranlagung_idesk_PI20354_HI2531457.html
-- inputs:
+  inputs:
     provided:
       tu_id:
       - 18
@@ -87,6 +90,3 @@
     vorsorgeaufw_tu:
     - 22560
     - 22560
-  info:
-    note: ''
-    source: https://www.haufe.de/finance/haufe-finance-office-premium/vorsorgeaufwendungen-225-behandlung-von-ehegattenlebenspartnern-im-falle-der-zusammenveranlagung_idesk_PI20354_HI2531457.html

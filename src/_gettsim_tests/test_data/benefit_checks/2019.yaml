@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 6
@@ -101,10 +104,10 @@
     arbeitsl_geld_2_m_hh:
     - 628.64
     - 628.64
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 8
@@ -174,6 +177,3 @@
     - 0
     arbeitsl_geld_2_m_hh:
     - 0.0
-  info:
-    note: ''
-    source: ''

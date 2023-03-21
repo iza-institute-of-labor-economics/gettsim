@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: https://www.smart-rechner.de/rentenbeginn/rechner.php
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 20
@@ -64,10 +67,14 @@
     - 0.0
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.16666667
-  info:
-    note: https://www.smart-rechner.de/rentenbeginn/rechner.php
+- info:
+    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
+      is lower
+
+
+      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 21
@@ -133,14 +140,14 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.5
-  info:
+- info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
 
-      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html'
+      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 22
@@ -206,14 +213,10 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.08333333
-  info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html'
+- info:
+    note: https://www.deutsche-rentenversicherung.de/SiteGlobals/Forms/RentenBeginnUndHoehenRechner/Rentenbeginn/rentenbeginnrechner_form.html?resourceId=fd80eb35-41ae-49ec-a76d-fae25f0fb182&input_=26d0ef0f-0f0e-4a04-b1db-4e7dbbba7228&pageLocale=de&emailText=&Geburtsdatum=01.01.1958&Schwerbehindert=Nein&Schwerbehindert.GROUP=1&Bergbau=Nein&Bergbau.GROUP=1&submit=Berechnen
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 23
@@ -279,6 +282,3 @@
     - 0.0
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.0
-  info:
-    note: https://www.deutsche-rentenversicherung.de/SiteGlobals/Forms/RentenBeginnUndHoehenRechner/Rentenbeginn/rentenbeginnrechner_form.html?resourceId=fd80eb35-41ae-49ec-a76d-fae25f0fb182&input_=26d0ef0f-0f0e-4a04-b1db-4e7dbbba7228&pageLocale=de&emailText=&Geburtsdatum=01.01.1958&Schwerbehindert=Nein&Schwerbehindert.GROUP=1&Bergbau=Nein&Bergbau.GROUP=1&submit=Berechnen
-    source: ''

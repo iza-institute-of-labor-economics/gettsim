@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=1&housingbenefitRecipients=1&income=735&rent=600&rentLevelZIPCode=53123&rentLevelTown.GROUP=1&rentLevel=5&rentLevel.GROUP=1&update=Berechnen&result=260%2C00
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 11
@@ -74,10 +77,10 @@
     - 425.0
     wohngeld_nach_vermög_check_m_hh:
     - 425.0
-  info:
+- info:
     note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=1&housingbenefitRecipients=1&income=735&rent=600&rentLevelZIPCode=53123&rentLevelTown.GROUP=1&rentLevel=5&rentLevel.GROUP=1&update=Berechnen&result=260%2C00
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 12
@@ -153,10 +156,10 @@
     - 425.0
     wohngeld_nach_vermög_check_m_hh:
     - 0.0
-  info:
-    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=1&housingbenefitRecipients=1&income=735&rent=600&rentLevelZIPCode=53123&rentLevelTown.GROUP=1&rentLevel=5&rentLevel.GROUP=1&update=Berechnen&result=260%2C00
+- info:
+    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 13
@@ -304,10 +307,11 @@
     - 469.0
     - 469.0
     - 469.0
-  info:
-    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
+- info:
+    note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
+      when you click on the question mark next to the housing allowance calculation)
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 14
@@ -563,11 +567,10 @@
     - 777.0
     - 777.0
     - 777.0
-  info:
-    note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
-      when you click on the question mark next to the housing allowance calculation)
+- info:
+    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=4&housingbenefitRecipients=4&income=1115%2C5&rent=730&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=746%2C00
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 16
@@ -751,10 +754,10 @@
     - 758.0
     - 758.0
     - 758.0
-  info:
-    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=4&housingbenefitRecipients=4&income=1115%2C5&rent=730&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=746%2C00
+- info:
+    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=5&housingbenefitRecipients=5&income=1750&rent=1300&rentLevelZIPCode=72393&rentLevelTown.GROUP=1&rentLevel=1&rentLevel.GROUP=1&update=Berechnen&result=746%2C00
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 17
@@ -974,6 +977,3 @@
     - 631.0
     - 631.0
     - 631.0
-  info:
-    note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=5&housingbenefitRecipients=5&income=1750&rent=1300&rentLevelZIPCode=72393&rentLevelTown.GROUP=1&rentLevel=1&rentLevel.GROUP=1&update=Berechnen&result=746%2C00
-    source: ''

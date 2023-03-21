@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 1
@@ -362,10 +365,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 2
@@ -729,10 +732,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 3
@@ -880,10 +883,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 4
@@ -1031,10 +1034,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 5
@@ -1182,10 +1185,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 6
@@ -1333,10 +1336,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 7
@@ -1484,10 +1487,10 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 8
@@ -1635,6 +1638,3 @@
       - 60.0
     assumed: {}
   outputs: {}
-  info:
-    note: ''
-    source: ''

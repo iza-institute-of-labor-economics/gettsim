@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 11
@@ -62,10 +65,10 @@
     - 12.5
     - 12.5
     - 12.5
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 12
@@ -99,6 +102,3 @@
     - 0
     kinderbonus_m_hh:
     - 0.0
-  info:
-    note: ''
-    source: ''

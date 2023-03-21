@@ -1,4 +1,8 @@
-- inputs:
+- info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none
+  inputs:
     provided:
       hh_id:
       - 1
@@ -46,11 +50,11 @@
   outputs:
     arbeitsl_geld_m:
     - 465.54
-  info:
+- info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
       were added manually
     source: none
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 2
@@ -98,11 +102,11 @@
   outputs:
     arbeitsl_geld_m:
     - 789.772
-  info:
+- info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
       were added manually
     source: none
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 3
@@ -172,11 +176,11 @@
     arbeitsl_geld_m:
     - 0.0
     - 0.0
-  info:
+- info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
       were added manually
     source: none
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 4
@@ -246,7 +250,3 @@
     arbeitsl_geld_m:
     - 0.0
     - 0.0
-  info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
-      were added manually
-    source: none

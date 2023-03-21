@@ -1,4 +1,8 @@
-- inputs:
+- info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none
+  inputs:
     provided:
       hh_id:
       - 6
@@ -68,7 +72,3 @@
     arbeitsl_geld_m:
     - 1021.87
     - 0.0
-  info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
-      were added manually
-    source: none

@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
+  inputs:
     provided:
       hh_id:
       - 14
@@ -42,6 +45,3 @@
     - 362.11875
     ges_pflegev_beitr_m:
     - 71.25563
-  info:
-    note: ''
-    source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/

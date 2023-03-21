@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
+  inputs:
     provided:
       p_id:
       - 8
@@ -104,10 +107,11 @@
     grunds_im_alter_m_hh:
     - 322.0
     - 322.0
-  info:
-    note: ''
-    source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
-- inputs:
+- info:
+    note: Added capital income of 10 euros for household (expected difference in grunds_im_alter_m_hh
+      ((10*12)-26)/12)=7.83333333)
+    source: Adjusted test case based on https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
+  inputs:
     provided:
       p_id:
       - 17
@@ -213,11 +217,10 @@
     grunds_im_alter_m_hh:
     - 314.1666667
     - 314.1666667
-  info:
-    note: Added capital income of 10 euros for household (expected difference in grunds_im_alter_m_hh
-      ((10*12)-26)/12)=7.83333333)
-    source: Adjusted test case based on https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
-- inputs:
+- info:
+    note: ''
+    source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
+  inputs:
     provided:
       p_id:
       - 21
@@ -289,10 +292,10 @@
   outputs:
     grunds_im_alter_m_hh:
     - 356.03
-  info:
+- info:
     note: ''
     source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
-- inputs:
+  inputs:
     provided:
       p_id:
       - 22
@@ -364,6 +367,3 @@
   outputs:
     grunds_im_alter_m_hh:
     - 236.03
-  info:
-    note: ''
-    source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele

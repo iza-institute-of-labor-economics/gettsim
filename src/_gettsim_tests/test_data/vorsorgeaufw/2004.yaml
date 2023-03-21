@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984
+  inputs:
     provided:
       tu_id:
       - 11
@@ -28,6 +31,3 @@
   outputs:
     vorsorgeaufw_tu:
     - 2001
-  info:
-    note: ''
-    source: https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984

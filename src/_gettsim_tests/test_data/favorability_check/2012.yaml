@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 2
@@ -42,6 +45,3 @@
     - 5000
     zu_verst_eink_tu:
     - 5000
-  info:
-    note: ''
-    source: ''

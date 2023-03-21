@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug
+  inputs:
     provided:
       tu_id:
       - 13
@@ -28,6 +31,3 @@
   outputs:
     vorsorgeaufw_tu:
     - 3852
-  info:
-    note: ''
-    source: https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug

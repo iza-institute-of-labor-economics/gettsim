@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 5
@@ -110,6 +113,3 @@
     unterhaltsvors_m:
     - 0
     - 205
-  info:
-    note: ''
-    source: ''

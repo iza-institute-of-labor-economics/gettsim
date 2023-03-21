@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: 'Sozialversicherungs-Rechner auf www.tk.de '
+    source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
+  inputs:
     provided:
       hh_id:
       - 16
@@ -42,10 +45,10 @@
     - 48.09
     ges_pflegev_beitr_m:
     - 11.59
-  info:
+- info:
     note: 'Sozialversicherungs-Rechner auf www.tk.de '
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 17
@@ -89,6 +92,3 @@
     - 78.22
     ges_pflegev_beitr_m:
     - 15.01
-  info:
-    note: 'Sozialversicherungs-Rechner auf www.tk.de '
-    source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php

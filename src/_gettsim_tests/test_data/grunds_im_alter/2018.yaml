@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
+  inputs:
     provided:
       p_id:
       - 4
@@ -70,10 +73,11 @@
   outputs:
     grunds_im_alter_m_hh:
     - 202.0
-  info:
-    note: ''
-    source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
-- inputs:
+- info:
+    note: Added minor capital income of 2 euros (no deduction from claim since below allowance
+      of 26 euros per year)
+    source: Adjusted test case based on https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
+  inputs:
     provided:
       p_id:
       - 16
@@ -145,11 +149,10 @@
   outputs:
     grunds_im_alter_m_hh:
     - 202.0
-  info:
-    note: Added minor capital income of 2 euros (no deduction from claim since below allowance
-      of 26 euros per year)
-    source: Adjusted test case based on https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
-- inputs:
+- info:
+    note: Test with positive wealth above wealth allowance
+    source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
+  inputs:
     provided:
       p_id:
       - 26
@@ -221,10 +224,10 @@
   outputs:
     grunds_im_alter_m_hh:
     - 0.0
-  info:
-    note: Test with positive wealth above wealth allowance
+- info:
+    note: Test with positive wealth below wealth allowance
     source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
-- inputs:
+  inputs:
     provided:
       p_id:
       - 29
@@ -296,6 +299,3 @@
   outputs:
     grunds_im_alter_m_hh:
     - 202.0
-  info:
-    note: Test with positive wealth below wealth allowance
-    source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1

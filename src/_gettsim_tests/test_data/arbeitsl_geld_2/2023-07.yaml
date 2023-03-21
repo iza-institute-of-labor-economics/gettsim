@@ -1,4 +1,8 @@
-- inputs:
+- info:
+    note: https://buergergeld-rechner.org/ (Test uses the wrong Regelbedarf for one adult
+      (520 instead of 502) thus result is adjusted by that difference)
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 20
@@ -96,11 +100,10 @@
     - 450.0
     arbeitsl_geld_2_m_hh:
     - 304.0
-  info:
-    note: https://buergergeld-rechner.org/ (Test uses the wrong Regelbedarf for one adult
-      (520 instead of 502) thus result is adjusted by that difference)
+- info:
+    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 21
@@ -292,10 +295,10 @@
     - 0.0
     - 0.0
     - 0.0
-  info:
+- info:
     note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 22
@@ -487,10 +490,11 @@
     - 1449.0
     - 1449.0
     - 1449.0
-  info:
-    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
+- info:
+    note: Constructed Test Case after Karenzzeit with cost for living from testcase in 2011(adjusted
+      for Kindersofortzuschlag)
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 23
@@ -682,7 +686,3 @@
     - 862.86
     - 862.86
     - 862.86
-  info:
-    note: Constructed Test Case after Karenzzeit with cost for living from testcase in 2011(adjusted
-      for Kindersofortzuschlag)
-    source: ''

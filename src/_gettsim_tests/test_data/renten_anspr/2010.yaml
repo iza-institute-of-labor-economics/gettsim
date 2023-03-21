@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 1
@@ -64,10 +67,10 @@
     - 0.231184177
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-  info:
+- info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 2
@@ -133,10 +136,13 @@
     - 0.346776265
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-  info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+- info:
+    note: 'from eastern Germany: earns more Entgeltpunkte for same wage
+
+
+      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 3
@@ -202,13 +208,10 @@
     - 0.406629848
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-  info:
-    note: 'from eastern Germany: earns more Entgeltpunkte for same wage
-
-
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+- info:
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 4
@@ -274,10 +277,10 @@
     - 0.462368353
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-  info:
+- info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 5
@@ -343,10 +346,10 @@
     - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-  info:
+- info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 6
@@ -412,10 +415,14 @@
     - 2.119188287
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.41666667
-  info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+- info:
+    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
+      is lower
+
+
+      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 7
@@ -481,14 +488,14 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.41666667
-  info:
+- info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
 
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 19
@@ -554,14 +561,13 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.83333333
-  info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
+- info:
+    note: 'Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)
 
 
-      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html'
+      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 24
@@ -627,13 +633,13 @@
     - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
     - 60.0
-  info:
-    note: 'Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)
+- info:
+    note: 'Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)
 
 
       https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 25
@@ -699,9 +705,3 @@
     - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.0
-  info:
-    note: 'Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)
-
-
-      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
-    source: ''

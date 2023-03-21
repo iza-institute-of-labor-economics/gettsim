@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 13
@@ -42,6 +45,3 @@
     - 49.0
     ges_pflegev_beitr_m:
     - 5.95
-  info:
-    note: ''
-    source: ''

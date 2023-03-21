@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: check age cut-offs at 18 and 25.
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 0
@@ -92,10 +95,10 @@
     - 0.0
     - 0.0
     - 0.0
-  info:
-    note: check age cut-offs at 18 and 25.
+- info:
+    note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 1
@@ -204,10 +207,10 @@
     - 0.0
     - 0.0
     - 0.0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 3
@@ -241,10 +244,10 @@
     - 194
     kinderbonus_m_hh:
     - 0.0
-  info:
+- info:
     note: ''
     source: ''
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 5
@@ -278,6 +281,3 @@
     - 0
     kinderbonus_m_hh:
     - 0.0
-  info:
-    note: ''
-    source: ''

@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: Cannot access original source. Result adjusted by 5 to fit calculated result
+    source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
+  inputs:
     provided:
       tu_id:
       - 2
@@ -41,10 +44,10 @@
     vorsorgeaufw_tu:
     - 3605
     - 3605
-  info:
-    note: Cannot access original source. Result adjusted by 5 to fit calculated result
+- info:
+    note: ''
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-- inputs:
+  inputs:
     provided:
       tu_id:
       - 5
@@ -74,10 +77,10 @@
   outputs:
     vorsorgeaufw_tu:
     - 2001
-  info:
+- info:
     note: ''
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-- inputs:
+  inputs:
     provided:
       tu_id:
       - 8
@@ -107,10 +110,10 @@
   outputs:
     vorsorgeaufw_tu:
     - 2475
-  info:
+- info:
     note: ''
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
-- inputs:
+  inputs:
     provided:
       tu_id:
       - 9
@@ -140,6 +143,3 @@
   outputs:
     vorsorgeaufw_tu:
     - 2001
-  info:
-    note: ''
-    source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980

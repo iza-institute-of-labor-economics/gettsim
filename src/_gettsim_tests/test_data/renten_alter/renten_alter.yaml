@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: ''
+  inputs:
     provided:
       id:
       - 1
@@ -10045,6 +10048,3 @@
       - 0.0
     assumed: {}
   outputs: {}
-  info:
-    note: ''
-    source: ''

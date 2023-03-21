@@ -1,4 +1,8 @@
-- inputs:
+- info:
+    note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
+      when you click on the question mark next to the housing allowance calculation)
+    source: ''
+  inputs:
     provided:
       hh_id:
       - 10
@@ -74,7 +78,3 @@
     - 249.0
     wohngeld_nach_vermög_check_m_hh:
     - 0.0
-  info:
-    note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
-      when you click on the question mark next to the housing allowance calculation)
-    source: ''

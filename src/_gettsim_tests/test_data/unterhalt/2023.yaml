@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.scheidung.org/anrechnung-kindergeld-auf-unterhalt/
+  inputs:
     provided:
       hh_id:
       - 1
@@ -18,10 +21,10 @@
   outputs:
     kind_unterh_zahlbetr_m:
     - 403.0
-  info:
+- info:
     note: ''
     source: https://www.scheidung.org/anrechnung-kindergeld-auf-unterhalt/
-- inputs:
+  inputs:
     provided:
       hh_id:
       - 2
@@ -41,6 +44,3 @@
   outputs:
     kind_unterh_zahlbetr_m:
     - 655.0
-  info:
-    note: ''
-    source: https://www.scheidung.org/anrechnung-kindergeld-auf-unterhalt/

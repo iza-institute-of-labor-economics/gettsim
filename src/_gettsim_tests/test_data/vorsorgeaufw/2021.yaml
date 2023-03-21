@@ -1,4 +1,7 @@
-- inputs:
+- info:
+    note: ''
+    source: https://www.finanztip.de/vorsorgeaufwendungen/
+  inputs:
     provided:
       tu_id:
       - 12
@@ -28,6 +31,3 @@
   outputs:
     vorsorgeaufw_tu:
     - 6666
-  info:
-    note: ''
-    source: https://www.finanztip.de/vorsorgeaufwendungen/
