@@ -16,20 +16,6 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
-    arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
-    arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
-    arbeitsl_geld_2_regelsatz_m_hh_ab_2011,
-    arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
-)
-from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
-    arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
-    arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
-)
-from _gettsim.transfers.benefit_checks.vermoegens_checks import (
-    arbeitsl_geld_2_vermög_freib_hh_ab_2023,
-    arbeitsl_geld_2_vermög_freib_hh_bis_2022,
-)
 from _gettsim.transfers.grunds_im_alter import (
     grunds_im_alter_ges_rente_m_ab_2021,
     grunds_im_alter_ges_rente_m_bis_2020,
@@ -237,39 +223,6 @@ def load_functions_for_date(date):
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
-
-    if year <= 2022:
-        functions[
-            "arbeitsl_geld_2_vermög_freib_hh"
-        ] = arbeitsl_geld_2_vermög_freib_hh_bis_2022
-    else:
-        functions[
-            "arbeitsl_geld_2_vermög_freib_hh"
-        ] = arbeitsl_geld_2_vermög_freib_hh_ab_2023
-
-    if year <= 2022:
-        functions[
-            "arbeitsl_geld_2_kost_unterk_m_hh"
-        ] = arbeitsl_geld_2_kost_unterk_m_hh_bis_2022
-    else:
-        functions[
-            "arbeitsl_geld_2_kost_unterk_m_hh"
-        ] = arbeitsl_geld_2_kost_unterk_m_hh_ab_2023
-
-    if year <= 2010:
-        functions[
-            "arbeitsl_geld_2_kindersatz_m_hh"
-        ] = arbeitsl_geld_2_kindersatz_m_hh_bis_2010
-        functions[
-            "arbeitsl_geld_2_regelsatz_m_hh"
-        ] = arbeitsl_geld_2_regelsatz_m_hh_bis_2010
-    else:
-        functions[
-            "arbeitsl_geld_2_kindersatz_m_hh"
-        ] = arbeitsl_geld_2_kindersatz_m_hh_ab_2011
-        functions[
-            "arbeitsl_geld_2_regelsatz_m_hh"
-        ] = arbeitsl_geld_2_regelsatz_m_hh_ab_2011
 
     # Introduction of Grundrente
     if year < 2021:

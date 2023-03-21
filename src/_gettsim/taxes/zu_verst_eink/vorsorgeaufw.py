@@ -288,8 +288,6 @@ def vorsorgeaufw_tu_bis_2004(
 
     Parameters
     ----------
-    _vorsorgeaufw_vom_lohn_bis_2019_single
-        See :func:`_vorsorgeaufw_vom_lohn_bis_2019_single`.
     _vorsorgeaufw_vom_lohn_tu_bis_2004
         See :func:`_vorsorgeaufw_vom_lohn_tu_bis_2004`.
     ges_krankenv_beitr_m_tu
