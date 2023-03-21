@@ -24,14 +24,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 148.22063
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:
@@ -77,14 +71,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 531.00938
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:
@@ -130,14 +118,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 913.79813
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:
@@ -183,14 +165,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 1296.58688
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:
@@ -236,14 +212,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 1679.37563
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:
@@ -289,14 +259,8 @@
       - false
       jahr:
       - '2018'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 6145.24438
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:

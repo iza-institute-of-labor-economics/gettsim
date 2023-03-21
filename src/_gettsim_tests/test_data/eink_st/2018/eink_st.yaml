@@ -24,8 +24,6 @@
       - false
       jahr:
       - 2018
-      'Unnamed: 12':
-      - .nan
       _st_abgelt_st_m_kein_kinderfreib:
       - 0
       _st_abgelt_st_m_kinderfreib_tu:
@@ -40,8 +38,6 @@
       - 54949
       R:
       - 260532
-      'Unnamed: 24':
-      - .nan
       solibase_inctax:
       - 0.0
     assumed: {}
@@ -83,8 +79,6 @@
       - false
       jahr:
       - 2018
-      'Unnamed: 12':
-      - .nan
       _st_abgelt_st_m_kein_kinderfreib:
       - 75378
       _st_abgelt_st_m_kinderfreib_tu:
@@ -99,8 +93,6 @@
       - 54949
       R:
       - 260532
-      'Unnamed: 24':
-      - .nan
       solibase_inctax:
       - 66978.25
     assumed: {}

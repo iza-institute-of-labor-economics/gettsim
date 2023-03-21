@@ -36,9 +36,6 @@
       alter:
       - 45
       - 40
-      'Unnamed: 12':
-      - .nan
-      - .nan
     assumed: {}
   outputs:
     vorsorgeaufw_tu:
@@ -85,9 +82,6 @@
       alter:
       - 43
       - 43
-      'Unnamed: 12':
-      - .nan
-      - .nan
     assumed: {}
   outputs:
     vorsorgeaufw_tu:

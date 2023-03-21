@@ -26,10 +26,6 @@
       - 0.8875
       entgeltp:
       - 31.0625
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -58,16 +54,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - https://www.smart-rechner.de/rentenbeginn/rechner.php
     assumed: {}
   outputs:
     entgeltp_update:
@@ -77,7 +65,7 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.16666667
   info:
-    note: ''
+    note: https://www.smart-rechner.de/rentenbeginn/rechner.php
     source: ''
 - inputs:
     provided:
@@ -107,10 +95,6 @@
       - 0.8587
       entgeltp:
       - 35.2067
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -139,17 +123,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 4650
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-        is lower'
-      Notes on Regelaltersgrenze:
-      - https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html
     assumed: {}
   outputs:
     entgeltp_update:
@@ -159,7 +134,11 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.5
   info:
-    note: ''
+    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
+      is lower
+
+
+      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html'
     source: ''
 - inputs:
     provided:
@@ -189,10 +168,6 @@
       - 0.8587
       entgeltp:
       - 35.2067
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -221,17 +196,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 4650
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-        is lower'
-      Notes on Regelaltersgrenze:
-      - https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html
     assumed: {}
   outputs:
     entgeltp_update:
@@ -241,7 +207,11 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.08333333
   info:
-    note: ''
+    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
+      is lower
+
+
+      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html'
     source: ''
 - inputs:
     provided:
@@ -271,10 +241,6 @@
       - 0.8875
       entgeltp:
       - 31.0625
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -303,16 +269,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - https://www.deutsche-rentenversicherung.de/SiteGlobals/Forms/RentenBeginnUndHoehenRechner/Rentenbeginn/rentenbeginnrechner_form.html?resourceId=fd80eb35-41ae-49ec-a76d-fae25f0fb182&input_=26d0ef0f-0f0e-4a04-b1db-4e7dbbba7228&pageLocale=de&emailText=&Geburtsdatum=01.01.1958&Schwerbehindert=Nein&Schwerbehindert.GROUP=1&Bergbau=Nein&Bergbau.GROUP=1&submit=Berechnen
     assumed: {}
   outputs:
     entgeltp_update:
@@ -322,5 +280,5 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.0
   info:
-    note: ''
+    note: https://www.deutsche-rentenversicherung.de/SiteGlobals/Forms/RentenBeginnUndHoehenRechner/Rentenbeginn/rentenbeginnrechner_form.html?resourceId=fd80eb35-41ae-49ec-a76d-fae25f0fb182&input_=26d0ef0f-0f0e-4a04-b1db-4e7dbbba7228&pageLocale=de&emailText=&Geburtsdatum=01.01.1958&Schwerbehindert=Nein&Schwerbehindert.GROUP=1&Bergbau=Nein&Bergbau.GROUP=1&submit=Berechnen
     source: ''

@@ -26,10 +26,6 @@
       - 0.6646
       entgeltp:
       - 5.9814
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -58,16 +54,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     assumed: {}
   outputs:
     entgeltp_update:
@@ -77,7 +65,7 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
   info:
-    note: ''
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
 - inputs:
     provided:
@@ -107,10 +95,6 @@
       - 0.7131
       entgeltp:
       - 8.5572
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -139,16 +123,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     assumed: {}
   outputs:
     entgeltp_update:
@@ -158,7 +134,7 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
   info:
-    note: ''
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
 - inputs:
     provided:
@@ -188,10 +164,6 @@
       - 0.8989
       entgeltp:
       - 30.5626
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -220,16 +192,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     assumed: {}
   outputs:
     entgeltp_update:
@@ -239,7 +203,7 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.33333333
   info:
-    note: ''
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
 - inputs:
     provided:
@@ -269,10 +233,6 @@
       - 0.8875
       entgeltp:
       - 31.0625
-      'Unnamed: 13':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       m_arbeitsunfähig:
       - 0.0
       m_krank_ab_16_bis_24:
@@ -301,16 +261,8 @@
       - 0.0
       m_pfleg_berücks_zeit:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       _ges_rentenv_beitr_bemess_grenze_m:
       - 5600
-      'Unnamed: 34':
-      - .nan
-      Notes on Entgeltpunkte:
-      - .nan
-      Notes on Regelaltersgrenze:
-      - 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     assumed: {}
   outputs:
     entgeltp_update:
@@ -320,5 +272,5 @@
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.16666667
   info:
-    note: ''
+    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''

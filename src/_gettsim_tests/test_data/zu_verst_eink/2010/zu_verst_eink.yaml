@@ -48,8 +48,6 @@
       - false
       vorsorgeaufw_tu:
       - 0.0
-      'Unnamed: 31':
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
     assumed: {}
@@ -121,8 +119,6 @@
       - false
       vorsorgeaufw_tu:
       - 1916.0
-      'Unnamed: 31':
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
     assumed: {}
@@ -194,8 +190,6 @@
       - false
       vorsorgeaufw_tu:
       - 1927.8
-      'Unnamed: 31':
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
     assumed: {}
@@ -267,8 +261,6 @@
       - false
       vorsorgeaufw_tu:
       - 2334.2
-      'Unnamed: 31':
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
     assumed: {}
@@ -340,8 +332,6 @@
       - false
       vorsorgeaufw_tu:
       - 2554.02
-      'Unnamed: 31':
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
     assumed: {}

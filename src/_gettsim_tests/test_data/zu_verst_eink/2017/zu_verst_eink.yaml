@@ -72,9 +72,6 @@
       vorsorgeaufw_tu:
       - 10359.0
       - 10359.0
-      'Unnamed: 31':
-      - .nan
-      - .nan
       Notes:
       - vorsorgeaufw calculated by adding up 'Altersvorsorge' and 'Sonstige Vorsorge' printed
         out by calculator

@@ -72,9 +72,6 @@
       vorsorgeaufw_tu:
       - 3119.94
       - 3119.94
-      'Unnamed: 31':
-      - .nan
-      - .nan
       Notes:
       - vorsorgeaufw was calculated by function in GETTSIM
       - vorsorgeaufw was calculated by function in GETTSIM

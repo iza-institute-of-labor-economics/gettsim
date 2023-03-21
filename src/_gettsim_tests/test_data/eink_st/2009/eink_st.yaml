@@ -24,8 +24,6 @@
       - false
       jahr:
       - 2009
-      'Unnamed: 12':
-      - .nan
       _st_abgelt_st_m_kein_kinderfreib:
       - 13985
       _st_abgelt_st_m_kinderfreib_tu:
@@ -40,8 +38,6 @@
       - 52551
       R:
       - 250400
-      'Unnamed: 24':
-      - .nan
       solibase_inctax:
       - 9830.288276
     assumed: {}

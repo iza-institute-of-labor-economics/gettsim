@@ -24,14 +24,8 @@
       - false
       jahr:
       - '2002'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - 675.85
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:

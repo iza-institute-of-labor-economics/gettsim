@@ -24,14 +24,8 @@
       - false
       jahr:
       - '2019'
-      'Unnamed: 15':
-      - .nan
-      'Unnamed: 16':
-      - .nan
       bemes:
       - -193.2
-      'Unnamed: 22':
-      - .nan
     assumed: {}
   outputs:
     sozialv_beitr_m:

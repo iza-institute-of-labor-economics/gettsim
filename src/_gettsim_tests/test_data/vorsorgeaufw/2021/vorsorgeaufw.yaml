@@ -24,8 +24,6 @@
       - 0.0
       alter:
       - 50
-      'Unnamed: 12':
-      - .nan
     assumed: {}
   outputs:
     vorsorgeaufw_tu:

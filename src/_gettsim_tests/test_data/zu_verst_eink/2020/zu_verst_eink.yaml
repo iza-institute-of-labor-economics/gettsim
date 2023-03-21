@@ -120,11 +120,6 @@
       - 10901.0
       - 10901.0
       - 10901.0
-      'Unnamed: 31':
-      - .nan
-      - .nan
-      - .nan
-      - .nan
       Notes:
       - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
         but distribution among adults of hh was done by hand and randomly
@@ -296,11 +291,6 @@
       - 10901.0
       - 10901.0
       - 10901.0
-      'Unnamed: 31':
-      - .nan
-      - .nan
-      - .nan
-      - .nan
       Notes:
       - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
         but distribution among adults of hh was done by hand and randomly
@@ -473,11 +463,6 @@
       - 10901.0
       - 10901.0
       - 10901.0
-      'Unnamed: 31':
-      - .nan
-      - .nan
-      - .nan
-      - .nan
       Notes:
       - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
         but  distribution among adults of hh was done by hand and randomly
