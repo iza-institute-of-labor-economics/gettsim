@@ -1,218 +1,219 @@
+---
 - inputs:
     provided:
       p_id:
-      - 8
-      - 9
+        - 8
+        - 9
       tu_id:
-      - 6
-      - 6
+        - 6
+        - 6
       hh_id:
-      - 6
-      - 6
+        - 6
+        - 6
       jahr:
-      - 2017
-      - 2017
+        - 2017
+        - 2017
       geburtstag:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsmonat:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsjahr:
-      - 1945
-      - 1950
+        - 1945
+        - 1950
       kind:
-      - false
-      - false
+        - false
+        - false
       alter:
-      - 72
-      - 67
+        - 72
+        - 67
       grundr_zeiten:
-      - 300
-      - 48
+        - 300
+        - 48
       rentner:
-      - true
-      - true
+        - true
+        - true
       schwerbeh_g:
-      - false
-      - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 460.0
-      - 460.0
+        - 460.0
+        - 460.0
       heizkosten_m_hh:
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
       wohnfläche_hh:
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
       ges_rente_m:
-      - 860.6
-      - 73.4
+        - 860.6
+        - 73.4
       priv_rente_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       alleinerz:
-      - false
-      - false
+        - false
+        - false
       bewohnt_eigentum_hh:
-      - false
-      - false
+        - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 322.0
-    - 322.0
+      - 322.0
+      - 322.0
   info:
     note: ''
     source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
 - inputs:
     provided:
       p_id:
-      - 17
-      - 18
+        - 17
+        - 18
       tu_id:
-      - 13
-      - 13
+        - 13
+        - 13
       hh_id:
-      - 13
-      - 13
+        - 13
+        - 13
       jahr:
-      - 2017
-      - 2017
+        - 2017
+        - 2017
       geburtstag:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsmonat:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsjahr:
-      - 1945
-      - 1950
+        - 1945
+        - 1950
       kind:
-      - false
-      - false
+        - false
+        - false
       alter:
-      - 72
-      - 67
+        - 72
+        - 67
       grundr_zeiten:
-      - 300
-      - 48
+        - 300
+        - 48
       rentner:
-      - true
-      - true
+        - true
+        - true
       schwerbeh_g:
-      - false
-      - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 460.0
-      - 460.0
+        - 460.0
+        - 460.0
       heizkosten_m_hh:
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
       wohnfläche_hh:
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
       ges_rente_m:
-      - 860.6
-      - 73.4
+        - 860.6
+        - 73.4
       priv_rente_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 10.0
-      - 0.0
+        - 10.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       alleinerz:
-      - false
-      - false
+        - false
+        - false
       bewohnt_eigentum_hh:
-      - false
-      - false
+        - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 314.1666667
-    - 314.1666667
+      - 314.1666667
+      - 314.1666667
   info:
     note: Added capital income of 10 euros for household (expected difference in grunds_im_alter_m_hh
       ((10*12)-26)/12)=7.83333333)
@@ -220,150 +221,150 @@
 - inputs:
     provided:
       p_id:
-      - 21
+        - 21
       tu_id:
-      - 16
+        - 16
       hh_id:
-      - 16
+        - 16
       jahr:
-      - 2017
+        - 2017
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1967
+        - 1967
       kind:
-      - false
+        - false
       alter:
-      - 50
+        - 50
       grundr_zeiten:
-      - 120
+        - 120
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - true
+        - true
       bruttokaltmiete_m_hh:
-      - 252.5
+        - 252.5
       heizkosten_m_hh:
-      - 50.0
+        - 50.0
       wohnfläche_hh:
-      - 35.0
+        - 35.0
       ges_rente_m:
-      - 425.0
+        - 425.0
       priv_rente_m:
-      - 0.0
+        - 0.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
+        - 0.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 356.03
+      - 356.03
   info:
     note: ''
     source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
 - inputs:
     provided:
       p_id:
-      - 22
+        - 22
       tu_id:
-      - 17
+        - 17
       hh_id:
-      - 17
+        - 17
       jahr:
-      - 2017
+        - 2017
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1935
+        - 1935
       kind:
-      - false
+        - false
       alter:
-      - 82
+        - 82
       grundr_zeiten:
-      - 36
+        - 36
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - true
+        - true
       bruttokaltmiete_m_hh:
-      - 300.0
+        - 300.0
       heizkosten_m_hh:
-      - 40.5
+        - 40.5
       wohnfläche_hh:
-      - 36.0
+        - 36.0
       ges_rente_m:
-      - 583.0
+        - 583.0
       priv_rente_m:
-      - 0.0
+        - 0.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
+        - 0.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 236.03
+      - 236.03
   info:
     note: ''
     source: https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele

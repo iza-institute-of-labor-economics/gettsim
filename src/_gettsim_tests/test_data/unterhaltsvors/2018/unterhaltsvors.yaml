@@ -1,115 +1,116 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 5
-      - 5
+        - 5
+        - 5
       tu_id:
-      - 5
-      - 5
+        - 5
+        - 5
       p_id:
-      - 6
-      - 7
+        - 6
+        - 7
       alleinerz:
-      - true
-      - false
+        - true
+        - false
       alter:
-      - 45
-      - 10
+        - 45
+        - 10
       bruttolohn_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       jahr:
-      - 2018
-      - 2018
+        - 2018
+        - 2018
       monat:
-      - 1
-      - 1
+        - 1
+        - 1
       Column1:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       _1:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       _2:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       _3:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       _4:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       _5:
-      - .nan
-      - .nan
+        - .nan
+        - .nan
       These test cases wer just to check that we return a Series of nans. We exclude this test case for now.:
-      - 1
-      - 1
+        - 1
+        - 1
       _6:
-      - 1
-      - 1
+        - 1
+        - 1
       _7:
-      - 23
-      - 25
+        - 23
+        - 25
       _8:
-      - false
-      - false
+        - false
+        - false
       _9:
-      - 40
-      - 35
+        - 40
+        - 35
       _10:
-      - 0
-      - 0
+        - 0
+        - 0
       _11:
-      - 0
-      - 0
+        - 0
+        - 0
       _12:
-      - 0
-      - 0
+        - 0
+        - 0
       _13:
-      - 0
-      - 0
+        - 0
+        - 0
       _14:
-      - 0
-      - 0
+        - 0
+        - 0
       _15:
-      - 0
-      - 0
+        - 0
+        - 0
       _16:
-      - 0
-      - 0
+        - 0
+        - 0
       _17:
-      - false
-      - false
+        - false
+        - false
       _18:
-      - 2017
-      - 2017
+        - 2017
+        - 2017
     assumed: {}
   outputs:
     unterhaltsvors_m:
-    - 0
-    - 205
+      - 0
+      - 205
   info:
     note: ''
     source: ''

@@ -1,79 +1,80 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 10
+        - 10
       tu_id:
-      - 10
+        - 10
       p_id:
-      - 55
+        - 55
       jahr:
-      - 2021
+        - 2021
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1964
+        - 1964
       haushaltsgröße_hh:
-      - 1
+        - 1
       kind:
-      - false
+        - false
       kindergeld_anspruch:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 600.0
+        - 600.0
       heizkost_m:
-      - 100
+        - 100
       alleinerz:
-      - false
+        - false
       alter:
-      - 57
+        - 57
       immobilie_baujahr_hh:
-      - 1980
+        - 1980
       mietstufe:
-      - 5
+        - 5
       bruttolohn_m:
-      - 1050.0
+        - 1050.0
       vermögen_bedürft_hh:
-      - 61000.0
+        - 61000.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       rente_ertragsanteil:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_abhängig_beschäftigt:
-      - 12600.0
+        - 12600.0
       kapitaleink_brutto:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 300.0
+        - 300.0
       eink_st_m:
-      - 300
+        - 300
       ges_rentenv_beitr_m:
-      - 100.0
+        - 100.0
       ges_krankenv_beitr_m:
-      - 80.0
+        - 80.0
       behinderungsgrad:
-      - 0
+        - 0
     assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
-    - 249.0
+      - 249.0
     wohngeld_nach_vermög_check_m_hh:
-    - 0.0
+      - 0.0
   info:
     note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
       when you click on the question mark next to the housing allowance calculation)

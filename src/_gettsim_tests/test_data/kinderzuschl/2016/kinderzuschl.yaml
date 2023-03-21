@@ -1,357 +1,358 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       tu_id:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       p_id:
-      - 1
-      - 2
-      - 3
+        - 1
+        - 2
+        - 3
       head:
-      - true
-      - false
-      - false
+        - true
+        - false
+        - false
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       geburtsjahr:
-      - 1986
-      - 1986
-      - 2014
+        - 1986
+        - 1986
+        - 2014
       hh_korr:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       alter:
-      - 30
-      - 30
-      - 2
+        - 30
+        - 30
+        - 2
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 0.0
+        - 2000.0
+        - 2000.0
+        - 0.0
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
+        - 700.0
+        - 700.0
+        - 700.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       kinderzuschl_bruttoeink_eltern_m:
-      - 600.0
-      - 0.0
-      - 0.0
+        - 600.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 322.0
-      - 0.0
-      - 0.0
+        - 322.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
+        - 190.0
+        - 190.0
+        - 190.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
   info:
     note: ''
     source: ''
 - inputs:
     provided:
       hh_id:
-      - 7
-      - 7
-      - 7
+        - 7
+        - 7
+        - 7
       tu_id:
-      - 7
-      - 7
-      - 7
+        - 7
+        - 7
+        - 7
       p_id:
-      - 18
-      - 19
-      - 20
+        - 18
+        - 19
+        - 20
       head:
-      - true
-      - false
-      - false
+        - true
+        - false
+        - false
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       geburtsjahr:
-      - 1986
-      - 1986
-      - 2014
+        - 1986
+        - 1986
+        - 2014
       hh_korr:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       alter:
-      - 30
-      - 30
-      - 2
+        - 30
+        - 30
+        - 2
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 100.0
+        - 2000.0
+        - 2000.0
+        - 100.0
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
+        - 700.0
+        - 700.0
+        - 700.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       kinderzuschl_bruttoeink_eltern_m:
-      - 1200.0
-      - 0.0
-      - 0.0
+        - 1200.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 644.0
-      - 0.0
-      - 0.0
+        - 644.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
+        - 190.0
+        - 190.0
+        - 190.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 40.0
-    - 40.0
-    - 40.0
+      - 40.0
+      - 40.0
+      - 40.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 40.0
-    - 40.0
-    - 40.0
+      - 40.0
+      - 40.0
+      - 40.0
   info:
     note: ''
     source: ''
 - inputs:
     provided:
       hh_id:
-      - 11
-      - 11
-      - 11
+        - 11
+        - 11
+        - 11
       tu_id:
-      - 11
-      - 11
-      - 11
+        - 11
+        - 11
+        - 11
       p_id:
-      - 30
-      - 31
-      - 32
+        - 30
+        - 31
+        - 32
       head:
-      - true
-      - false
-      - false
+        - true
+        - false
+        - false
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       geburtsjahr:
-      - 1976
-      - 1976
-      - 2005
+        - 1976
+        - 1976
+        - 2005
       hh_korr:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       alter:
-      - 40
-      - 40
-      - 11
+        - 40
+        - 40
+        - 11
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 0.0
+        - 2000.0
+        - 2000.0
+        - 0.0
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
+        - 700.0
+        - 700.0
+        - 700.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       kinderzuschl_bruttoeink_eltern_m:
-      - 1200.0
-      - 0.0
-      - 0.0
+        - 1200.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 644.0
-      - 0.0
-      - 0.0
+        - 644.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 4000.0
-      - 4000.0
-      - 4000.0
+        - 4000.0
+        - 4000.0
+        - 4000.0
       kindergeld_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
+        - 190.0
+        - 190.0
+        - 190.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 140.0
-    - 140.0
-    - 140.0
+      - 140.0
+      - 140.0
+      - 140.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 140.0
-    - 140.0
-    - 140.0
+      - 140.0
+      - 140.0
+      - 140.0
   info:
     note: Wealth below wealth allowance leading to no deduction in Kinderzuschlag
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz
@@ -359,240 +360,240 @@
 - inputs:
     provided:
       hh_id:
-      - 12
-      - 12
-      - 12
+        - 12
+        - 12
+        - 12
       tu_id:
-      - 12
-      - 12
-      - 12
+        - 12
+        - 12
+        - 12
       p_id:
-      - 33
-      - 34
-      - 35
+        - 33
+        - 34
+        - 35
       head:
-      - true
-      - false
-      - false
+        - true
+        - false
+        - false
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       geburtsjahr:
-      - 1976
-      - 1976
-      - 2005
+        - 1976
+        - 1976
+        - 2005
       hh_korr:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       alter:
-      - 40
-      - 40
-      - 11
+        - 40
+        - 40
+        - 11
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 0.0
+        - 2000.0
+        - 2000.0
+        - 0.0
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
+        - 700.0
+        - 700.0
+        - 700.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       kinderzuschl_bruttoeink_eltern_m:
-      - 1200.0
-      - 0.0
-      - 0.0
+        - 1200.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 644.0
-      - 0.0
-      - 0.0
+        - 644.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 17400.0
-      - 17400.0
-      - 17400.0
+        - 17400.0
+        - 17400.0
+        - 17400.0
       kindergeld_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
+        - 190.0
+        - 190.0
+        - 190.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 140.0
-    - 140.0
-    - 140.0
+      - 140.0
+      - 140.0
+      - 140.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 90.0
-    - 90.0
-    - 90.0
+      - 90.0
+      - 90.0
+      - 90.0
   info:
-    note: Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first
-      month
+    note: Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the
+      first month
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz
       BKGG Ã‚Â§ 6a)
 - inputs:
     provided:
       hh_id:
-      - 13
-      - 13
-      - 13
+        - 13
+        - 13
+        - 13
       tu_id:
-      - 13
-      - 13
-      - 13
+        - 13
+        - 13
+        - 13
       p_id:
-      - 36
-      - 37
-      - 38
+        - 36
+        - 37
+        - 38
       head:
-      - true
-      - false
-      - false
+        - true
+        - false
+        - false
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       geburtsjahr:
-      - 1976
-      - 1976
-      - 2005
+        - 1976
+        - 1976
+        - 2005
       hh_korr:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       alter:
-      - 40
-      - 40
-      - 11
+        - 40
+        - 40
+        - 11
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 0.0
+        - 2000.0
+        - 2000.0
+        - 0.0
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
+        - 700.0
+        - 700.0
+        - 700.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       kinderzuschl_bruttoeink_eltern_m:
-      - 1200.0
-      - 0.0
-      - 0.0
+        - 1200.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 644.0
-      - 0.0
-      - 0.0
+        - 644.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 25000.0
-      - 25000.0
-      - 25000.0
+        - 25000.0
+        - 25000.0
+        - 25000.0
       kindergeld_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
+        - 190.0
+        - 190.0
+        - 190.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 140.0
-    - 140.0
-    - 140.0
+      - 140.0
+      - 140.0
+      - 140.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
   info:
     note: Wealth significantly above wealth allowance leading to no claim
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz

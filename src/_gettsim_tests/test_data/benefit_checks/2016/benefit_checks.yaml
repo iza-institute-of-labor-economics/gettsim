@@ -1,139 +1,140 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       tu_id:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       p_id:
-      - 1
-      - 2
-      - 3
+        - 1
+        - 2
+        - 3
       kind:
-      - false
-      - false
-      - true
+        - false
+        - false
+        - true
       rentner:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       alter:
-      - 30
-      - 30
-      - 2
+        - 30
+        - 30
+        - 2
       geburtsjahr:
-      - 1986
-      - 1986
-      - 2014
+        - 1986
+        - 1986
+        - 2014
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erwachsene_hh:
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_bis_17_hh:
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
       _kinderzuschl_vor_vermög_check_m_tu:
-      - 140.0
-      - 140.0
-      - 140.0
+        - 140.0
+        - 140.0
+        - 140.0
       wohngeld_vor_vermög_check_m_hh:
-      - 350.0
-      - 350.0
-      - 350.0
+        - 350.0
+        - 350.0
+        - 350.0
       arbeitsl_geld_2_regelbedarf_m_hh:
-      - 1765.0
-      - 1765.0
-      - 1765.0
+        - 1765.0
+        - 1765.0
+        - 1765.0
       arbeitsl_geld_2_eink_m_hh:
-      - 1300.0
-      - 1300.0
-      - 1300.0
+        - 1300.0
+        - 1300.0
+        - 1300.0
       kind_unterh_erhalt_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kinderzuschl_basis:
-      - 140
-      - 140
-      - 140
+        - 140
+        - 140
+        - 140
       jahr:
-      - 2016
-      - 2016
-      - 2016
+        - 2016
+        - 2016
+        - 2016
       Column1:
-      - .nan
-      - .nan
-      - .nan
+        - .nan
+        - .nan
+        - .nan
       fehlbedarf_arbeitsl_geld_2:
-      - 465
-      - 465
-      - 465
+        - 465
+        - 465
+        - 465
       fehlbedarf_wohngeld:
-      - 115
-      - 115
-      - 115
+        - 115
+        - 115
+        - 115
       fehlbedarf_kinderzuschl:
-      - 325.0
-      - 325.0
-      - 325.0
+        - 325.0
+        - 325.0
+        - 325.0
       fehlbedarf_wohngeld_kinderzuschl:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       wohngeld_vorrang:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       kinderzuschl_vorrang:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       wohngeld_kinderzuschl_vorrang:
-      - true
-      - true
-      - true
+        - true
+        - true
+        - true
       vermfreibetr:
-      - .nan
-      - .nan
-      - .nan
+        - .nan
+        - .nan
+        - .nan
       maxvermfb:
-      - .nan
-      - .nan
-      - .nan
+        - .nan
+        - .nan
+        - .nan
       geburtsjahr_1:
-      - 1986
-      - 1986
-      - 2014
+        - 1986
+        - 1986
+        - 2014
     assumed: {}
   outputs:
     kinderzuschl_m_hh:
-    - 140
-    - 140
-    - 140
+      - 140
+      - 140
+      - 140
     wohngeld_m_hh:
-    - 350
-    - 350
-    - 350
+      - 350
+      - 350
+      - 350
     arbeitsl_geld_2_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
   info:
     note: ''
     source: ''

@@ -1,23 +1,24 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 5
+        - 5
       tu_id:
-      - 5
+        - 5
       p_id:
-      - 5
+        - 5
       kind:
-      - false
+        - false
       abgelt_st_tu:
-      - 0.0
+        - 0.0
       eink_st_mit_kinderfreib_tu:
-      - 3000.0
+        - 3000.0
       jahr:
-      - 1993
+        - 1993
     assumed: {}
   outputs:
     soli_st_tu:
-    - 0
+      - 0
   info:
     note: ''
     source: ''

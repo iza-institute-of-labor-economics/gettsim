@@ -1,55 +1,56 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 4
+        - 4
       tu_id:
-      - 4
+        - 4
       p_id:
-      - 4
+        - 4
       kind:
-      - false
+        - false
       zu_verst_eink_kein_kinderfreib:
-      - 50000.0
+        - 50000.0
       zu_verst_eink_kinderfreib:
-      - 42000.0
+        - 42000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 52500
+        - 52500
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 44500
+        - 44500
       kapitaleink_brutto:
-      - 2500.0
+        - 2500.0
       kapitaleink_brutto_tu:
-      - 2500
+        - 2500
       gem_veranlagt:
-      - false
+        - false
       jahr:
-      - 2009
+        - 2009
       _st_abgelt_st_m_kein_kinderfreib:
-      - 13985
+        - 13985
       _st_abgelt_st_m_kinderfreib_tu:
-      - 10773
+        - 10773
       soli_st_m:
-      - 564.01
+        - 564.01
       G:
-      - 7834
+        - 7834
       M:
-      - 13139
+        - 13139
       S:
-      - 52551
+        - 52551
       R:
-      - 250400
+        - 250400
       solibase_inctax:
-      - 9830.288276
+        - 9830.288276
     assumed: {}
   outputs:
     eink_st_ohne_kinderfreib_tu:
-    - 12950
+      - 12950
     eink_st_mit_kinderfreib_tu:
-    - 9830
+      - 9830
     abgelt_st_tu:
-    - 424.75
+      - 424.75
     soli_st_tu:
-    - 564.01
+      - 564.01
   info:
     note: ''
     source: ''

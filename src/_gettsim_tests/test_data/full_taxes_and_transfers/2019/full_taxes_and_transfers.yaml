@@ -1,365 +1,366 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       tu_id:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       p_id:
-      - 1
-      - 2
-      - 3
-      - 4
+        - 1
+        - 2
+        - 3
+        - 4
       tu_vorstand:
-      - true
-      - false
-      - false
-      - false
+        - true
+        - false
+        - false
+        - false
       bürgerg_bezug_vorj:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
-      - 5500.0
-      - 5500.0
-      - 5500.0
+        - 5500.0
+        - 5500.0
+        - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 300.0
-      - 600.0
-      - 900.0
-      - 1200.0
+        - 300.0
+        - 600.0
+        - 900.0
+        - 1200.0
       wohnort_ost:
-      - false
-      - false
-      - false
-      - true
+        - false
+        - false
+        - false
+        - true
       selbstständig:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       hat_kinder:
-      - false
-      - false
-      - false
-      - true
+        - false
+        - false
+        - false
+        - true
       eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       in_priv_krankenv:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bruttolohn_vorj_m:
-      - 1000.0
-      - 2000.0
-      - 3000.0
-      - 4000.0
+        - 1000.0
+        - 2000.0
+        - 3000.0
+        - 4000.0
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 20.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 20.0
       anz_kinder_tu:
-      - 0
-      - 0
-      - 1
-      - 1
+        - 0
+        - 0
+        - 1
+        - 1
       anz_erwachsene_tu:
-      - 4
-      - 4
-      - 4
-      - 4
+        - 4
+        - 4
+        - 4
+        - 4
       geburtsjahr:
-      - 1958
-      - 1957
-      - 1982
-      - 1970
+        - 1958
+        - 1957
+        - 1982
+        - 1970
       alter:
-      - 61
-      - 62
-      - 37
-      - 49
+        - 61
+        - 62
+        - 37
+        - 49
       geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       m_elterngeld:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       exper:
-      - 7
-      - 7
-      - 7
-      - 7
+        - 7
+        - 7
+        - 7
+        - 7
       grundr_zeiten:
-      - 43
-      - 44
-      - 19
-      - 31
+        - 43
+        - 44
+        - 19
+        - 31
       grundr_bew_zeiten:
-      - 43
-      - 44
-      - 19
-      - 31
+        - 43
+        - 44
+        - 19
+        - 31
       entgeltp:
-      - 6.2776
-      - 6.2776
-      - 6.2776
-      - 6.2776
+        - 6.2776
+        - 6.2776
+        - 6.2776
+        - 6.2776
       grundr_entgeltp:
-      - 6.2776
-      - 6.2776
-      - 6.2776
-      - 6.2776
+        - 6.2776
+        - 6.2776
+        - 6.2776
+        - 6.2776
       priv_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kind:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       rentner:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       kind_unterh_anspr_m:
-      - 177.0
-      - 177.0
-      - 177.0
-      - 177.0
+        - 177.0
+        - 177.0
+        - 177.0
+        - 177.0
       kind_unterh_erhalt_m:
-      - 177.0
-      - 177.0
-      - 177.0
-      - 177.0
+        - 177.0
+        - 177.0
+        - 177.0
+        - 177.0
       betreuungskost_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       kapitaleink_brutto_m:
-      - 200.0
-      - 200.0
-      - 200.0
-      - 200.0
+        - 200.0
+        - 200.0
+        - 200.0
+        - 200.0
       eink_vermietung_m:
-      - 0.0
-      - 1.0
-      - 2.0
-      - 3.0
+        - 0.0
+        - 1.0
+        - 2.0
+        - 3.0
       jahr_renteneintr:
-      - 2061
-      - 2062
-      - 2063
-      - 2064
+        - 2061
+        - 2062
+        - 2063
+        - 2064
       in_ausbildung:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       behinderungsgrad:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       alleinerz:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
-      - 400.0
-      - 400.0
-      - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       heizkosten_m_hh:
-      - 80.0
-      - 80.0
-      - 80.0
-      - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
+        - 3
       mietstufe:
-      - 3
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
       jahr:
-      - 2019
-      - 2019
-      - 2019
-      - 2019
+        - 2019
+        - 2019
+        - 2019
+        - 2019
       weiblich:
-      - false
-      - true
-      - false
-      - true
+        - false
+        - true
+        - false
+        - true
       m_pflichtbeitrag:
-      - 456.0
-      - 468.0
-      - 168.0
-      - 312.0
+        - 456.0
+        - 468.0
+        - 168.0
+        - 312.0
       m_freiw_beitrag:
-      - 5.0
-      - 5.0
-      - 5.0
-      - 5.0
+        - 5.0
+        - 5.0
+        - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
-      - 12.0
-      - 12.0
-      - 12.0
+        - 12.0
+        - 12.0
+        - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 3.0
-      - 4.0
-      - 0.0
-      - 0.0
+        - 3.0
+        - 4.0
+        - 0.0
+        - 0.0
       m_arbeitsunfähig:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
-      - true
-      - true
-      - true
+        - true
+        - true
+        - true
+        - true
       arbeitssuchend:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
-      - 60.0
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -368,365 +369,365 @@
 - inputs:
     provided:
       hh_id:
-      - 2
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
+        - 2
       tu_id:
-      - 3
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
+        - 3
       p_id:
-      - 5
-      - 6
-      - 7
-      - 8
+        - 5
+        - 6
+        - 7
+        - 8
       tu_vorstand:
-      - true
-      - false
-      - false
-      - false
+        - true
+        - false
+        - false
+        - false
       bürgerg_bezug_vorj:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
-      - 5500.0
-      - 5500.0
-      - 5500.0
+        - 5500.0
+        - 5500.0
+        - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 1500.0
-      - 5000.0
-      - 300.0
-      - 600.0
+        - 1500.0
+        - 5000.0
+        - 300.0
+        - 600.0
       wohnort_ost:
-      - true
-      - true
-      - true
-      - true
+        - true
+        - true
+        - true
+        - true
       selbstständig:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       hat_kinder:
-      - true
-      - true
-      - false
-      - false
+        - true
+        - true
+        - false
+        - false
       eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       in_priv_krankenv:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bruttolohn_vorj_m:
-      - 7000.0
-      - 2500.0
-      - 2300.0
-      - 1000.0
+        - 7000.0
+        - 2500.0
+        - 2300.0
+        - 1000.0
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 1
-      - 1
-      - 0
-      - 0
+        - 1
+        - 1
+        - 0
+        - 0
       anz_erwachsene_tu:
-      - 4
-      - 4
-      - 4
-      - 4
+        - 4
+        - 4
+        - 4
+        - 4
       geburtsjahr:
-      - 1952
-      - 1985
-      - 1982
-      - 1971
+        - 1952
+        - 1985
+        - 1982
+        - 1971
       alter:
-      - 67
-      - 34
-      - 37
-      - 48
+        - 67
+        - 34
+        - 37
+        - 48
       geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       m_elterngeld:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       exper:
-      - 7
-      - 7
-      - 2
-      - 2
+        - 7
+        - 7
+        - 2
+        - 2
       grundr_zeiten:
-      - 49
-      - 16
-      - 19
-      - 30
+        - 49
+        - 16
+        - 19
+        - 30
       grundr_bew_zeiten:
-      - 49
-      - 16
-      - 19
-      - 30
+        - 49
+        - 16
+        - 19
+        - 30
       entgeltp:
-      - 6.2776
-      - 6.2776
-      - 1.7936
-      - 1.7936
+        - 6.2776
+        - 6.2776
+        - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 6.2776
-      - 6.2776
-      - 1.7936
-      - 1.7936
+        - 6.2776
+        - 6.2776
+        - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kind:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       rentner:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       kind_unterh_anspr_m:
-      - 177.0
-      - 177.0
-      - 177.0
-      - 0.0
+        - 177.0
+        - 177.0
+        - 177.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 177.0
-      - 177.0
-      - 177.0
-      - 0.0
+        - 177.0
+        - 177.0
+        - 177.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       kapitaleink_brutto_m:
-      - 200.0
-      - 201.0
-      - 202.0
-      - 203.0
+        - 200.0
+        - 201.0
+        - 202.0
+        - 203.0
       eink_vermietung_m:
-      - 4.0
-      - 5.0
-      - 6.0
-      - 7.0
+        - 4.0
+        - 5.0
+        - 6.0
+        - 7.0
       jahr_renteneintr:
-      - 2065
-      - 2066
-      - 2067
-      - 2068
+        - 2065
+        - 2066
+        - 2067
+        - 2068
       in_ausbildung:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       behinderungsgrad:
-      - 0
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
+        - 0
       alleinerz:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
-      - 400.0
-      - 400.0
-      - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       heizkosten_m_hh:
-      - 80.0
-      - 80.0
-      - 80.0
-      - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
+        - 3
       mietstufe:
-      - 3
-      - 3
-      - 3
-      - 3
+        - 3
+        - 3
+        - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
       jahr:
-      - 2019
-      - 2019
-      - 2019
-      - 2019
+        - 2019
+        - 2019
+        - 2019
+        - 2019
       weiblich:
-      - false
-      - true
-      - false
-      - false
+        - false
+        - true
+        - false
+        - false
       m_pflichtbeitrag:
-      - 528.0
-      - 132.0
-      - 168.0
-      - 300.0
+        - 528.0
+        - 132.0
+        - 168.0
+        - 300.0
       m_freiw_beitrag:
-      - 5.0
-      - 5.0
-      - 5.0
-      - 5.0
+        - 5.0
+        - 5.0
+        - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
-      - 12.0
-      - 12.0
-      - 12.0
+        - 12.0
+        - 12.0
+        - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 8.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 8.0
+        - 0.0
+        - 0.0
+        - 0.0
       m_arbeitsunfähig:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
-      - true
-      - true
-      - true
+        - true
+        - true
+        - true
+        - true
       arbeitssuchend:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
-      - 60.0
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -735,149 +736,149 @@
 - inputs:
     provided:
       hh_id:
-      - 3
+        - 3
       tu_id:
-      - 5
+        - 5
       p_id:
-      - 9
+        - 9
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 900.0
+        - 900.0
       wohnort_ost:
-      - true
+        - true
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - false
+        - false
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 2000.0
+        - 2000.0
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 0
+        - 0
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1968
+        - 1968
       alter:
-      - 51
+        - 51
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 2
+        - 2
       grundr_zeiten:
-      - 33
+        - 33
       grundr_bew_zeiten:
-      - 33
+        - 33
       entgeltp:
-      - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 204.0
+        - 204.0
       eink_vermietung_m:
-      - 8.0
+        - 8.0
       jahr_renteneintr:
-      - 2069
+        - 2069
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - true
+        - true
       m_pflichtbeitrag:
-      - 336.0
+        - 336.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -886,149 +887,149 @@
 - inputs:
     provided:
       hh_id:
-      - 4
+        - 4
       tu_id:
-      - 6
+        - 6
       p_id:
-      - 10
+        - 10
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 1200.0
+        - 1200.0
       wohnort_ost:
-      - false
+        - false
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 3000.0
+        - 3000.0
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 1
+        - 1
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1964
+        - 1964
       alter:
-      - 55
+        - 55
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 2
+        - 2
       grundr_zeiten:
-      - 37
+        - 37
       grundr_bew_zeiten:
-      - 37
+        - 37
       entgeltp:
-      - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 205.0
+        - 205.0
       eink_vermietung_m:
-      - 9.0
+        - 9.0
       jahr_renteneintr:
-      - 2070
+        - 2070
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - false
+        - false
       m_pflichtbeitrag:
-      - 384.0
+        - 384.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -1037,149 +1038,149 @@
 - inputs:
     provided:
       hh_id:
-      - 5
+        - 5
       tu_id:
-      - 7
+        - 7
       p_id:
-      - 11
+        - 11
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 1500.0
+        - 1500.0
       wohnort_ost:
-      - false
+        - false
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 4000.0
+        - 4000.0
       arbeitsstunden_w:
-      - 20.0
+        - 20.0
       anz_kinder_tu:
-      - 1
+        - 1
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1967
+        - 1967
       alter:
-      - 52
+        - 52
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 2
+        - 2
       grundr_zeiten:
-      - 34
+        - 34
       grundr_bew_zeiten:
-      - 34
+        - 34
       entgeltp:
-      - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 206.0
+        - 206.0
       eink_vermietung_m:
-      - 10.0
+        - 10.0
       jahr_renteneintr:
-      - 2071
+        - 2071
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - true
+        - true
       m_pflichtbeitrag:
-      - 348.0
+        - 348.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -1188,149 +1189,149 @@
 - inputs:
     provided:
       hh_id:
-      - 6
+        - 6
       tu_id:
-      - 8
+        - 8
       p_id:
-      - 12
+        - 12
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 8000.0
+        - 8000.0
       wohnort_ost:
-      - false
+        - false
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 7000.0
+        - 7000.0
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 1
+        - 1
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1951
+        - 1951
       alter:
-      - 68
+        - 68
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 2
+        - 2
       grundr_zeiten:
-      - 50
+        - 50
       grundr_bew_zeiten:
-      - 50
+        - 50
       entgeltp:
-      - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 207.0
+        - 207.0
       eink_vermietung_m:
-      - 11.0
+        - 11.0
       jahr_renteneintr:
-      - 2072
+        - 2072
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - false
+        - false
       m_pflichtbeitrag:
-      - 540.0
+        - 540.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 10.0
+        - 10.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -1339,149 +1340,149 @@
 - inputs:
     provided:
       hh_id:
-      - 7
+        - 7
       tu_id:
-      - 9
+        - 9
       p_id:
-      - 13
+        - 13
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 700.0
+        - 700.0
       wohnort_ost:
-      - false
+        - false
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - false
+        - false
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 2500.0
+        - 2500.0
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 1
+        - 1
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1960
+        - 1960
       alter:
-      - 59
+        - 59
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 2
+        - 2
       grundr_zeiten:
-      - 41
+        - 41
       grundr_bew_zeiten:
-      - 41
+        - 41
       entgeltp:
-      - 1.7936
+        - 1.7936
       grundr_entgeltp:
-      - 1.7936
+        - 1.7936
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 208.0
+        - 208.0
       eink_vermietung_m:
-      - 12.0
+        - 12.0
       jahr_renteneintr:
-      - 2073
+        - 2073
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - true
+        - true
       m_pflichtbeitrag:
-      - 432.0
+        - 432.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 1.0
+        - 1.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:
@@ -1490,149 +1491,149 @@
 - inputs:
     provided:
       hh_id:
-      - 8
+        - 8
       tu_id:
-      - 10
+        - 10
       p_id:
-      - 14
+        - 14
       tu_vorstand:
-      - true
+        - true
       bürgerg_bezug_vorj:
-      - false
+        - false
       anz_kinder_bis_17_hh:
-      - 0
+        - 0
       vermögen_bedürft_hh:
-      - 5500.0
+        - 5500.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       wohnort_ost:
-      - false
+        - false
       selbstständig:
-      - true
+        - true
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 2500.0
+        - 2500.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       schwerbeh_g:
-      - false
+        - false
       in_priv_krankenv:
-      - false
+        - false
       bruttolohn_vorj_m:
-      - 2300.0
+        - 2300.0
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 0
+        - 0
       anz_erwachsene_tu:
-      - 1
+        - 1
       geburtsjahr:
-      - 1959
+        - 1959
       alter:
-      - 60
+        - 60
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       exper:
-      - 22
+        - 22
       grundr_zeiten:
-      - 42
+        - 42
       grundr_bew_zeiten:
-      - 42
+        - 42
       entgeltp:
-      - 19.7296
+        - 19.7296
       grundr_entgeltp:
-      - 19.7296
+        - 19.7296
       priv_rente_m:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       rentner:
-      - false
+        - false
       kind_unterh_anspr_m:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       betreuungskost_m:
-      - 0.0
+        - 0.0
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       miete_unterstellt:
-      - 0
+        - 0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 13.0
+        - 13.0
       jahr_renteneintr:
-      - 2074
+        - 2074
       in_ausbildung:
-      - false
+        - false
       behinderungsgrad:
-      - 0
+        - 0
       alleinerz:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
+        - 400.0
       wohnfläche_hh:
-      - 50.0
+        - 50.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       heizkosten_m_hh:
-      - 80.0
+        - 80.0
       immobilie_baujahr_hh:
-      - 3
+        - 3
       mietstufe:
-      - 3
+        - 3
       sonstig_eink_m:
-      - 50.0
+        - 50.0
       jahr:
-      - 2019
+        - 2019
       weiblich:
-      - false
+        - false
       m_pflichtbeitrag:
-      - 444.0
+        - 444.0
       m_freiw_beitrag:
-      - 5.0
+        - 5.0
       m_schul_ausbild:
-      - 12.0
+        - 12.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 2.0
+        - 2.0
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - false
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 60.0
+        - 60.0
     assumed: {}
   outputs: {}
   info:

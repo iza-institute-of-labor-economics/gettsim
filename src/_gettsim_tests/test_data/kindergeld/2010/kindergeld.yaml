@@ -1,74 +1,75 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 4
+        - 4
       tu_id:
-      - 4
+        - 4
       p_id:
-      - 19
+        - 19
       alter:
-      - 21
+        - 21
       arbeitsstunden_w:
-      - 10.0
+        - 10.0
       kind:
-      - false
+        - false
       in_ausbildung:
-      - true
+        - true
       bruttolohn_m:
-      - 700.0
+        - 700.0
       _zu_verst_eink_ohne_kinderfreib_tu:
-      - 0.0
+        - 0.0
       jahr:
-      - 2010
+        - 2010
       kinderbonus_m_tu.1:
-      - 0.0
+        - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
-    - 0
+      - 0
     kinderbonus_m_tu:
-    - 0.0
+      - 0.0
     kindergeld_m_hh:
-    - 0
+      - 0
     kinderbonus_m_hh:
-    - 0.0
+      - 0.0
   info:
     note: ''
     source: ''
 - inputs:
     provided:
       hh_id:
-      - 6
+        - 6
       tu_id:
-      - 6
+        - 6
       p_id:
-      - 21
+        - 21
       alter:
-      - 21
+        - 21
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
       kind:
-      - false
+        - false
       in_ausbildung:
-      - false
+        - false
       bruttolohn_m:
-      - 0.0
+        - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
-      - 0.0
+        - 0.0
       jahr:
-      - 2010
+        - 2010
       kinderbonus_m_tu.1:
-      - 0.0
+        - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
-    - 0
+      - 0
     kinderbonus_m_tu:
-    - 0.0
+      - 0.0
     kindergeld_m_hh:
-    - 0
+      - 0
     kinderbonus_m_hh:
-    - 0.0
+      - 0.0
   info:
     note: ''
     source: ''

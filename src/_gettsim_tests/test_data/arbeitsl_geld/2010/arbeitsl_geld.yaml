@@ -1,73 +1,74 @@
+---
 - inputs:
     provided:
       hh_id:
-      - 6
-      - 6
+        - 6
+        - 6
       tu_id:
-      - 6
-      - 6
+        - 6
+        - 6
       p_id:
-      - 9
-      - 10
+        - 9
+        - 10
       bruttolohn_vorj_m:
-      - 2500.0
-      - 0.0
+        - 2500.0
+        - 0.0
       wohnort_ost:
-      - false
-      - false
+        - false
+        - false
       kind:
-      - false
-      - true
+        - false
+        - true
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       anz_kinder_tu:
-      - 1
-      - 0
+        - 1
+        - 0
       alter:
-      - 40
-      - 6
+        - 40
+        - 6
       geburtsjahr:
-      - 1970
-      - 2004
+        - 1970
+        - 2004
       jahr:
-      - 2010
-      - 2010
+        - 2010
+        - 2010
       eligible:
-      - true
-      - false
+        - true
+        - false
       alg_wage:
-      - 2500
-      - 0
+        - 2500
+        - 0
       alg_ssc:
-      - 505.63
-      - 0.0
+        - 505.63
+        - 0.0
       alg_tax:
-      - 444.74
-      - 0.0
+        - 444.74
+        - 0.0
       alg_soli:
-      - 24.46
-      - 0.0
+        - 24.46
+        - 0.0
       alg_entgelt:
-      - 1525.17
-      - 0.0
+        - 1525.17
+        - 0.0
     assumed:
       anwartschaftszeit:
-      - true
-      - false
+        - true
+        - false
       arbeitssuchend:
-      - true
-      - false
+        - true
+        - false
       m_durchg_alg1_bezug:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 12.0
-      - 0.0
+        - 12.0
+        - 0.0
   outputs:
     arbeitsl_geld_m:
-    - 1021.87
-    - 0.0
+      - 1021.87
+      - 0.0
   info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
       were added manually
