@@ -1,4 +1,4 @@
-hh_id,tu_id,p_id,alter,arbeitsstunden_w,kind,in_ausbildung,bruttolohn_m,_zu_verst_eink_ohne_kinderfreib_tu,jahr,kindergeld_m_tu,kinderbonus_m_tu,kindergeld_m_hh,kinderbonus_m_hh,kinderbonus_m_tu_1,note
+hh_id,tu_id,p_id,alter,arbeitsstunden_w,kind,in_ausbildung,bruttolohn_m,_zu_verst_eink_ohne_kinderfreib_tu,jahr,kindergeld_m_tu,kinderbonus_m_tu,kindergeld_m_hh,kinderbonus_m_hh,kinderbonus_m_tu2,note
 0,0,1,45,40.0,FALSE,FALSE,3000.0,3000.0,2019,194,0,194,0,0,check age cut-offs at 18 and 25.
 0,0,2,40,0.0,FALSE,FALSE,0.0,3000.0,2019,194,0,194,0,0,
 0,0,3,25,10.0,FALSE,TRUE,700.0,3000.0,2019,194,0,194,0,0,
