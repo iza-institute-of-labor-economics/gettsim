@@ -55,6 +55,9 @@ hh_id_6:
       alleinerz:
       - true
       - false
+      bürgerg_bezug_vorj:
+      - false
+      - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
       - 0.36
       - 0.36

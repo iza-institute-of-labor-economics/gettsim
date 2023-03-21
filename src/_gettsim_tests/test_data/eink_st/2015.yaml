@@ -29,21 +29,21 @@ hh_id_2:
       - 5000.0
       - 0.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 6000
-      - 6000
-      - 0
+      - 6000.0
+      - 6000.0
+      - 0.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 6000
-      - 6000
-      - 0
+      - 6000.0
+      - 6000.0
+      - 0.0
       kapitaleink_brutto:
       - 1300.0
       - 500.0
       - 0.0
       kapitaleink_brutto_tu:
-      - 1800
-      - 1800
-      - 1800
+      - 1800.0
+      - 1800.0
+      - 1800.0
       gem_veranlagt:
       - true
       - true
@@ -52,6 +52,10 @@ hh_id_2:
       - 2015
       - 2015
       - 2015
+      Column1:
+      - null
+      - null
+      - null
       _st_abgelt_st_m_kein_kinderfreib:
       - 0
       - 0
@@ -65,21 +69,25 @@ hh_id_2:
       - 1.36
       - 0.23
       G:
-      - 8472
-      - 8472
-      - 8472
+      - 8472.0
+      - 8472.0
+      - 8472.0
       M:
-      - 13469
-      - 13469
-      - 13469
+      - 13469.0
+      - 13469.0
+      - 13469.0
       S:
-      - 52881
-      - 52881
-      - 52881
+      - 52881.0
+      - 52881.0
+      - 52881.0
       R:
-      - 250730
-      - 250730
-      - 250730
+      - 250730.0
+      - 250730.0
+      - 250730.0
+      _1:
+      - null
+      - null
+      - null
       solibase_inctax:
       - 0.0
       - 0.0

@@ -64,12 +64,6 @@ hh_id_0:
       - 2019
       - 2019
       - 2019
-      kinderbonus_m_tu.1:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
@@ -172,13 +166,6 @@ hh_id_1:
       - 2019
       - 2019
       - 2019
-      kinderbonus_m_tu.1:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
@@ -235,8 +222,6 @@ hh_id_3:
       - 0.0
       jahr:
       - 2019
-      kinderbonus_m_tu.1:
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
@@ -273,8 +258,6 @@ hh_id_5:
       - 0.0
       jahr:
       - 2019
-      kinderbonus_m_tu.1:
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:

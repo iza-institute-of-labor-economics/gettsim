@@ -44,10 +44,6 @@ hh_id_11:
       - 2021
       - 2021
       - 2021
-      kinderbonus_m_tu.1:
-      - 12.5
-      - 12.5
-      - 12.5
     assumed: {}
   outputs:
     kindergeld_m_tu:
@@ -92,8 +88,6 @@ hh_id_12:
       - 0.0
       jahr:
       - 2021
-      kinderbonus_m_tu.1:
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:

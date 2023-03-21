@@ -21,4 +21,4 @@ hh_id_6:
     assumed: {}
   outputs:
     soli_st_tu:
-    - 225
+    - 225.0

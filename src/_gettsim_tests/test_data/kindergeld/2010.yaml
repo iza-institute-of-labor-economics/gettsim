@@ -24,8 +24,6 @@ hh_id_4:
       - 0.0
       jahr:
       - 2010
-      kinderbonus_m_tu.1:
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
@@ -62,8 +60,6 @@ hh_id_6:
       - 0.0
       jahr:
       - 2010
-      kinderbonus_m_tu.1:
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:

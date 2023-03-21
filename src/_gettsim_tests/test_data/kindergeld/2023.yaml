@@ -1,49 +1,43 @@
-hh_id_2:
+hh_id_13:
   info:
-    note: ''
+    note: https://www.kindergeld.org/kindergeldrechner/
     source: ''
   inputs:
     provided:
       hh_id:
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-      tu_id:
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-      p_id:
-      - 12
       - 13
-      - 14
-      - 15
-      - 16
-      - 17
+      - 13
+      - 13
+      - 13
+      - 13
+      tu_id:
+      - 13
+      - 13
+      - 13
+      - 13
+      - 13
+      p_id:
+      - 40
+      - 41
+      - 43
+      - 44
+      - 45
       alter:
       - 45
       - 40
-      - 24
       - 18
       - 17
       - 15
       arbeitsstunden_w:
       - 40.0
       - 0.0
-      - 30.0
       - 0.0
       - 2.0
       - 0.0
       kind:
       - false
       - false
-      - false
-      - false
+      - true
       - true
       - true
       in_ausbildung:
@@ -52,11 +46,9 @@ hh_id_2:
       - true
       - true
       - true
-      - true
       bruttolohn_m:
       - 3000.0
       - 0.0
-      - 700.0
       - 200.0
       - 0.0
       - 0.0
@@ -66,39 +58,33 @@ hh_id_2:
       - 3000.0
       - 3000.0
       - 3000.0
-      - 3000.0
       jahr:
-      - 2002
-      - 2002
-      - 2002
-      - 2002
-      - 2002
-      - 2002
+      - 2023
+      - 2023
+      - 2023
+      - 2023
+      - 2023
     assumed: {}
   outputs:
     kindergeld_m_tu:
-    - 462
-    - 462
-    - 462
-    - 462
-    - 462
-    - 462
+    - 750
+    - 750
+    - 750
+    - 750
+    - 750
     kinderbonus_m_tu:
     - 0.0
     - 0.0
     - 0.0
     - 0.0
     - 0.0
-    - 0.0
     kindergeld_m_hh:
-    - 462
-    - 462
-    - 462
-    - 462
-    - 462
-    - 462
+    - 750
+    - 750
+    - 750
+    - 750
+    - 750
     kinderbonus_m_hh:
-    - 0.0
     - 0.0
     - 0.0
     - 0.0

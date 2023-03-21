@@ -1,60 +1,60 @@
-hh_id_3:
+hh_id_6:
   info:
     note: ''
-    source: ''
+    source: https://www.smart-rechner.de/einkommensteuer/rechner.php
   inputs:
     provided:
       hh_id:
-      - 3
+      - 6
       tu_id:
-      - 3
+      - 6
       p_id:
-      - 3
+      - 6
       kind:
       - false
       zu_verst_eink_kein_kinderfreib:
-      - 20000.0
+      - 36000.0
       zu_verst_eink_kinderfreib:
-      - 20000.0
+      - 36000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 21000.0
+      - 36000.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 21000.0
+      - 36000.0
       kapitaleink_brutto:
-      - 1000.0
+      - 0.0
       kapitaleink_brutto_tu:
-      - 1000.0
+      - 0.0
       gem_veranlagt:
       - false
       jahr:
-      - 2012
+      - 2023
       Column1:
       - null
       _st_abgelt_st_m_kein_kinderfreib:
-      - 2972
+      - 6531
       _st_abgelt_st_m_kinderfreib_tu:
-      - 2972
+      - 6531
       soli_st_m:
-      - 151.24
+      - 0.0
       G:
-      - 8005.0
+      - null
       M:
-      - 13470.0
+      - null
       S:
-      - 52881.0
+      - null
       R:
-      - 250730.0
+      - null
       _1:
       - null
       solibase_inctax:
-      - 2669.777795
+      - null
     assumed: {}
   outputs:
     eink_st_ohne_kinderfreib_tu:
-    - 2700
+    - 6531
     eink_st_mit_kinderfreib_tu:
-    - 2700
+    - 6531
     abgelt_st_tu:
-    - 49.75
+    - 0.0
     soli_st_tu:
-    - 151.24
+    - 0.0

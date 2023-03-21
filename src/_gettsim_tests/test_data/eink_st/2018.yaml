@@ -17,17 +17,19 @@ hh_id_1:
       zu_verst_eink_kinderfreib:
       - 5000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 5500
+      - 5500.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 5500
+      - 5500.0
       kapitaleink_brutto:
       - 500.0
       kapitaleink_brutto_tu:
-      - 500
+      - 500.0
       gem_veranlagt:
       - false
       jahr:
       - 2018
+      Column1:
+      - null
       _st_abgelt_st_m_kein_kinderfreib:
       - 0
       _st_abgelt_st_m_kinderfreib_tu:
@@ -35,13 +37,15 @@ hh_id_1:
       soli_st_m:
       - 0.0
       G:
-      - 9000
+      - 9000.0
       M:
-      - 13996
+      - 13996.0
       S:
-      - 54949
+      - 54949.0
       R:
-      - 260532
+      - 260532.0
+      _1:
+      - null
       solibase_inctax:
       - 0.0
     assumed: {}
@@ -73,17 +77,19 @@ hh_id_5:
       zu_verst_eink_kinderfreib:
       - 180000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 200000
+      - 200000.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 180000
+      - 180000.0
       kapitaleink_brutto:
       - 0.0
       kapitaleink_brutto_tu:
-      - 0
+      - 0.0
       gem_veranlagt:
       - false
       jahr:
       - 2018
+      Column1:
+      - null
       _st_abgelt_st_m_kein_kinderfreib:
       - 75378
       _st_abgelt_st_m_kinderfreib_tu:
@@ -91,13 +97,15 @@ hh_id_5:
       soli_st_m:
       - 3683.79
       G:
-      - 9000
+      - 9000.0
       M:
-      - 13996
+      - 13996.0
       S:
-      - 54949
+      - 54949.0
       R:
-      - 260532
+      - 260532.0
+      _1:
+      - null
       solibase_inctax:
       - 66978.25
     assumed: {}

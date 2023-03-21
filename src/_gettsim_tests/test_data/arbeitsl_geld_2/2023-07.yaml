@@ -1,7 +1,6 @@
 hh_id_20:
   info:
-    note: https://buergergeld-rechner.org/ (Test uses the wrong Regelbedarf for one adult
-      (520 instead of 502) thus result is adjusted by that difference)
+    note: (Test with new income thresholds) https://www.buerger-geld.org/rechner/ergebnis/index.php
     source: ''
   inputs:
     provided:
@@ -103,7 +102,8 @@ hh_id_20:
     - 304.0
 hh_id_21:
   info:
-    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
+    note: (Test with new income thresholds and new Kindergeld) https://buergergeld-rechner.org/(adjusted
+      for Kindersofortzuschlag of 20€)
     source: ''
   inputs:
     provided:
@@ -212,9 +212,9 @@ hh_id_21:
       - 140.0
       - 0.0
       kindergeld_m_hh:
-      - 219.0
-      - 219.0
-      - 219.0
+      - 250.0
+      - 250.0
+      - 250.0
       kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -299,7 +299,8 @@ hh_id_21:
     - 0.0
 hh_id_22:
   info:
-    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
+    note: (Test with new income thresholds and new Kindergeld) https://buergergeld-rechner.org/(adjusted
+      for Kindersofortzuschlag of 20€)
     source: ''
   inputs:
     provided:
@@ -408,9 +409,9 @@ hh_id_22:
       - 140.0
       - 0.0
       kindergeld_m_hh:
-      - 219.0
-      - 219.0
-      - 219.0
+      - 250.0
+      - 250.0
+      - 250.0
       kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -448,9 +449,9 @@ hh_id_22:
       - 0
       - 0
       arbeitsl_geld_2_vor_vorrang_m_hh:
-      - 1449.0
-      - 1449.0
-      - 1449.0
+      - 1403.4
+      - 1403.4
+      - 1403.4
       Column1:
       - null
       - null
@@ -490,13 +491,13 @@ hh_id_22:
     - 750.0
     - 750.0
     arbeitsl_geld_2_m_hh:
-    - 1449.0
-    - 1449.0
-    - 1449.0
+    - 1418.0
+    - 1418.0
+    - 1418.0
 hh_id_23:
   info:
-    note: Constructed Test Case after Karenzzeit with cost for living from testcase in 2011(adjusted
-      for Kindersofortzuschlag)
+    note: (Test with new income thresholds) Constructed Test Case after Karenzzeit with cost
+      for living from testcase in 2011(adjusted for Kindersofortzuschlag)
     source: ''
   inputs:
     provided:

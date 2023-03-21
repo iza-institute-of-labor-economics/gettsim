@@ -17,17 +17,19 @@ hh_id_4:
       zu_verst_eink_kinderfreib:
       - 42000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 52500
+      - 52500.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 44500
+      - 44500.0
       kapitaleink_brutto:
       - 2500.0
       kapitaleink_brutto_tu:
-      - 2500
+      - 2500.0
       gem_veranlagt:
       - false
       jahr:
       - 2009
+      Column1:
+      - null
       _st_abgelt_st_m_kein_kinderfreib:
       - 13985
       _st_abgelt_st_m_kinderfreib_tu:
@@ -35,13 +37,15 @@ hh_id_4:
       soli_st_m:
       - 564.01
       G:
-      - 7834
+      - 7834.0
       M:
-      - 13139
+      - 13139.0
       S:
-      - 52551
+      - 52551.0
       R:
-      - 250400
+      - 250400.0
+      _1:
+      - null
       solibase_inctax:
       - 9830.288276
     assumed: {}

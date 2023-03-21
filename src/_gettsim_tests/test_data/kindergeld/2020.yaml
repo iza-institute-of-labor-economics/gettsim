@@ -34,9 +34,6 @@ hh_id_10:
       jahr:
       - 2020
       - 2020
-      kinderbonus_m_tu.1:
-      - 25.0
-      - 25.0
     assumed: {}
   outputs:
     kindergeld_m_tu:

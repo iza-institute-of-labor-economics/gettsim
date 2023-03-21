@@ -84,14 +84,6 @@ hh_id_7:
       - 2011
       - 2011
       - 2011
-      kinderbonus_m_tu.1:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     assumed: {}
   outputs:
     kindergeld_m_tu:
