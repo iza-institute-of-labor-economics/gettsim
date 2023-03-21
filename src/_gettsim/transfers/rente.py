@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:
@@ -17,33 +17,6 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 
     """
     out = priv_rente_m + ges_rente_m
-    return out
-
-
-@add_rounding_spec(params_key="ges_rente")
-def ges_rente_nach_grundr_m(
-    ges_rente_vor_grundr_m: float,
-    grundr_zuschlag_m: float,
-    rentner: bool,
-) -> float:
-    """Calculate total individual public pension including Grundrentenzuschlag. Is only
-    active after 2021 when Grundrente is in place.
-
-    Parameters
-    ----------
-    ges_rente_vor_grundr_m
-        See :func:`ges_rente_vor_grundr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-
-    """
-    # Return 0 if person not yet retired
-    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 
@@ -82,12 +55,54 @@ def ges_rente_vor_grundr_m(
 
     """
 
-    # Return 0 if person not yet retired
     if rentner:
         out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
     else:
         out = 0.0
 
+    return out
+
+
+@dates_active(end="2020-12-31")
+def ges_rente_m(
+    ges_rente_zugangsfaktor: float,
+    entgeltp_update: float,
+    rentenwert: float,
+    rentner: bool,
+) -> float:
+    return ges_rente_vor_grundr_m(
+        ges_rente_zugangsfaktor=ges_rente_zugangsfaktor,
+        entgeltp_update=entgeltp_update,
+        rentenwert=rentenwert,
+        rentner=rentner,
+    )
+
+
+@dates_active(start="2021-01-01", change_name="ges_rente_m")
+@add_rounding_spec(params_key="ges_rente")
+def ges_rente_m_nach_grundr(
+    ges_rente_vor_grundr_m: float,
+    grundr_zuschlag_m: float,
+    rentner: bool,
+) -> float:
+    """Calculate total individual public pension including Grundrentenzuschlag. Is only
+    active after 2021 when Grundrente is in place.
+
+    Parameters
+    ----------
+    ges_rente_vor_grundr_m
+        See :func:`ges_rente_vor_grundr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+
+    """
+    # Return 0 if person not yet retired
+    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 

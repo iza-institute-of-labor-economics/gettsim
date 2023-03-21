@@ -35,7 +35,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
 
 
 @dates_active(end="2014-12-31", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_bis_2014(
+def eink_st_alleinerz_freib_tu_pauschal(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
     """Calculates tax deduction allowance for single parents until 2014.
@@ -62,7 +62,7 @@ def eink_st_alleinerz_freib_tu_bis_2014(
 
 
 @dates_active(start="2015-01-01", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_ab_2015(
+def eink_st_alleinerz_freib_tu_nach_kinderzahl(
     alleinerz: bool,
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,

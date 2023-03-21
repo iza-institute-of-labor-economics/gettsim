@@ -16,15 +16,6 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.transfers.grunds_im_alter import (
-    grunds_im_alter_ges_rente_m_ab_2021,
-    grunds_im_alter_ges_rente_m_bis_2020,
-)
-from _gettsim.transfers.kindergeld import (
-    kindergeld_anspruch_nach_lohn,
-    kindergeld_anspruch_nach_stunden,
-)
-from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
 
 
 def set_up_policy_environment(date):
@@ -210,7 +201,6 @@ def load_functions_for_date(date):
         data.
 
     """
-    year = date.year
 
     # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
     functions = {
@@ -218,19 +208,6 @@ def load_functions_for_date(date):
         for f in load_internal_functions().values()
         if is_time_dependent(f) and is_active_at_date(f, date)
     }
-
-    if year > 2011:
-        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
-    else:
-        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
-
-    # Introduction of Grundrente
-    if year < 2021:
-        functions["ges_rente_m"] = ges_rente_vor_grundr_m
-        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_bis_2020
-    else:
-        functions["ges_rente_m"] = ges_rente_nach_grundr_m
-        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
 
     return functions
 
