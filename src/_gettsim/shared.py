@@ -51,6 +51,14 @@ def dates_active(
     change_name: Optional[str] = None,
 ) -> Callable:
     """
+    Specifies that a function is only active between two dates, `start` and `end`. By
+    using the `change_name` argument, you can specify a different name for the function
+    in the DAG.
+
+    Note that even if you use this decorator with the `change_name` argument, you must
+    ensure that the function name is unique in the file where it is defined. Otherwise,
+    the function will be overwritten by the last function with the same name.
+
     Parameters
     ----------
     start
@@ -164,7 +172,8 @@ class ConflictingTimeDependentFunctionsError(Exception):
         super().__init__(
             f"Conflicting functions for key {dag_key!r}: "
             f"{function_name_1!r} ({start_1} to {end_1}) vs. "
-            f"{function_name_2!r} ({start_2} to {end_2})."
+            f"{function_name_2!r} ({start_2} to {end_2}).\n\n"
+            f"Overlapping from {max(start_1, start_2)} to {min(end_1, end_2)}."
         )
 
 
