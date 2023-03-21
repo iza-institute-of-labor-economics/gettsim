@@ -51,6 +51,14 @@ def dates_active(
     change_name: Optional[str] = None,
 ) -> Callable:
     """
+    Specifies that a function is only active between two dates, `start` and `end`. By
+    using the `change_name` argument, you can specify a different name for the function
+    in the DAG.
+
+    Note that even if you use this decorator with the `change_name` argument, you must
+    ensure that the function name is unique in the file where it is defined. Otherwise,
+    the function will be overwritten by the last function with the same name.
+
     Parameters
     ----------
     start
