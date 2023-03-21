@@ -1,12 +1,15 @@
-from datetime import datetime
+from __future__ import annotations
 from functools import lru_cache
-from typing import Union
+from typing import Union, TYPE_CHECKING
 
 from _gettsim.policy_environment import _parse_date, set_up_policy_environment
 
+if TYPE_CHECKING:
+    import datetime
+
 
 def cached_set_up_policy_environment(
-    date: Union[int, str, datetime.date]
+        date: Union[int, str, datetime.date]
 ) -> tuple[dict, dict]:
     normalized_date = _parse_date(date)
     return _cached_set_up_policy_environment(normalized_date)
