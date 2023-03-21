@@ -172,7 +172,8 @@ class ConflictingTimeDependentFunctionsError(Exception):
         super().__init__(
             f"Conflicting functions for key {dag_key!r}: "
             f"{function_name_1!r} ({start_1} to {end_1}) vs. "
-            f"{function_name_2!r} ({start_2} to {end_2})."
+            f"{function_name_2!r} ({start_2} to {end_2}).\n\n"
+            f"Overlapping from {max(start_1, start_2)} to {min(end_1, end_2)}."
         )
 
 
