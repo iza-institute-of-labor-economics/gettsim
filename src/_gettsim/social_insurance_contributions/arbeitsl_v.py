@@ -1,4 +1,5 @@
 """Functions for modeling unemployment and pension insurance."""
+from _gettsim.shared import dates_active
 
 
 def sozialv_beitr_m(
@@ -90,7 +91,7 @@ def arbeitsl_v_beitr_m(
     in_gleitzone: bool,
     _arbeitsl_v_beitr_midijob_arbeitn_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Contribution for each individual to the unemployment insurance.
 
@@ -104,8 +105,8 @@ def arbeitsl_v_beitr_m(
         See :func:`_arbeitsl_v_beitr_midijob_arbeitn_m`.
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
@@ -113,7 +114,7 @@ def arbeitsl_v_beitr_m(
     """
     arbeitsl_v_regulär_beschäftigt_m = (
         _ges_rentenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Set to 0 for minijobs
@@ -132,7 +133,7 @@ def arbeitsl_v_beitr_arbeitg_m(
     in_gleitzone: bool,
     _arbeitsl_v_beitr_midijob_arbeitg_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Contribution of the respective employer to the unemployment insurance.
 
@@ -146,8 +147,8 @@ def arbeitsl_v_beitr_arbeitg_m(
         See :func:`_arbeitsl_v_beitr_midijob_arbeitg_m`.
     _ges_rentenv_beitr_bruttolohn_m
         See :func:`_ges_rentenv_beitr_bruttolohn_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
@@ -155,7 +156,7 @@ def arbeitsl_v_beitr_arbeitg_m(
     """
     arbeitsl_v_regulär_beschäftigt_m = (
         _ges_rentenv_beitr_bruttolohn_m
-        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Set to 0 for minijobs
@@ -171,7 +172,7 @@ def arbeitsl_v_beitr_arbeitg_m(
 
 def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Calculating the sum of employee and employer unemployment insurance contribution
     for midijobs.
@@ -180,8 +181,8 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     ----------
     midijob_bemessungsentgelt_m
         See :func:`midijob_bemessungsentgelt_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
@@ -190,22 +191,26 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     out = (
         midijob_bemessungsentgelt_m
         * 2
-        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
     return out
 
 
-def _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022(
+@dates_active(
+    end="2022-09-30",
+    change_name="_arbeitsl_v_beitr_midijob_arbeitg_m",
+)
+def _arbeitsl_v_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Calculating the employer unemployment insurance contribution until September
     2022.
 
     Parameters
     ----------
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
 
@@ -213,11 +218,12 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022(
     -------
 
     """
-    out = bruttolohn_m * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     return out
 
 
-def _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022(
+@dates_active(start="2022-10-01", change_name="_arbeitsl_v_beitr_midijob_arbeitg_m")
+def _arbeitsl_v_beitr_midijob_arbeitg_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _arbeitsl_v_beitr_midijob_arbeitn_m: float,
 ) -> float:
@@ -241,7 +247,11 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022(
     return out
 
 
-def _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022(
+@dates_active(
+    end="2022-09-30",
+    change_name="_arbeitsl_v_beitr_midijob_arbeitn_m",
+)
+def _arbeitsl_v_beitr_midijob_arbeitn_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _arbeitsl_v_beitr_midijob_arbeitg_m: float,
 ) -> float:
@@ -266,25 +276,26 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022(
     return out
 
 
-def _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022(
-    _midijob_beitragspf_einnahme_arbeitn_m: float,
-    soz_vers_beitr_params: dict,
+@dates_active(start="2022-10-01", change_name="_arbeitsl_v_beitr_midijob_arbeitn_m")
+def _arbeitsl_v_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
+    _midijob_beitragspfl_einnahme_arbeitn_m: float,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Calculating the employee unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
-    _midijob_beitragspf_einnahme_arbeitn_m
-        See :func:`_midijob_beitragspf_einnahme_arbeitn_m`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    _midijob_beitragspfl_einnahme_arbeitn_m
+        See :func:`_midijob_beitragspfl_einnahme_arbeitn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
 
     """
     out = (
-        _midijob_beitragspf_einnahme_arbeitn_m
-        * soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+        _midijob_beitragspfl_einnahme_arbeitn_m
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
     return out

@@ -50,7 +50,7 @@ INTERNAL_PARAMS_GROUPS = [
     "eink_st_abzuege",
     "soli_st",
     "arbeitsl_geld",
-    "soz_vers_beitr",
+    "sozialv_beitr",
     "unterhalt",
     "abgelt_st",
     "wohngeld",
