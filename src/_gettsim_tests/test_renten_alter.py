@@ -4,9 +4,9 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import pytest
+from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
@@ -148,7 +148,9 @@ def input_data():
 def test_renten_alter(input_data, year, column):
     year_data = input_data.reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(date=f"{year}-07-01")
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=f"{year}-07-01"
+    )
 
     calc_result = compute_taxes_and_transfers(
         data=df,

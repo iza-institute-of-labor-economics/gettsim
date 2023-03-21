@@ -2,10 +2,10 @@ import itertools
 
 import pandas as pd
 import pytest
-from pandas.testing import assert_series_equal
-
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
+from pandas.testing import assert_series_equal
+
 from _gettsim_tests import TEST_DATA_DIR
 
 # Variables for the standard wohngeld test.

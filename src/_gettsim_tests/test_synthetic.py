@@ -3,6 +3,7 @@ from __future__ import annotations
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.synthetic import create_synthetic_data
+
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 

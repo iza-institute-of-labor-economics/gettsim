@@ -2,8 +2,8 @@ import itertools
 
 import pandas as pd
 import pytest
-
 from _gettsim.interface import compute_taxes_and_transfers
+
 from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
