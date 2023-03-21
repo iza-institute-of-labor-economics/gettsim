@@ -1,8 +1,11 @@
 """Some tests for the policy_environment module."""
+from datetime import date, timedelta
+
 import pandas as pd
 import pytest
 from _gettsim.policy_environment import (
     _load_parameter_group_from_yaml,
+    load_functions_for_date,
     set_up_policy_environment,
 )
 
@@ -37,3 +40,39 @@ def test_access_different_date_vorjahr():
     )
     assert params["foo"] == 2020
     assert params["foo_vorjahr"] == 2019
+
+
+@pytest.mark.parametrize(
+    "dag_key, last_day, function_name_last_day, function_name_next_day",
+    [
+        (
+            "eink_st_altersfreib",
+            date(2004, 12, 31),
+            "eink_st_altersfreib_bis_2004",
+            "eink_st_altersfreib_ab_2005",
+        ),
+        (
+            "alleinerz_freib_tu",
+            date(2014, 12, 31),
+            "eink_st_alleinerz_freib_tu_bis_2014",
+            "eink_st_alleinerz_freib_tu_ab_2015",
+        ),
+        (
+            "sum_eink",
+            date(2008, 12, 31),
+            "sum_eink_mit_kapital_eink",
+            "sum_eink_ohne_kapital_eink",
+        ),
+    ],
+)
+def test_load_functions_for_date(
+    dag_key: str,
+    last_day: date,
+    function_name_last_day: str,
+    function_name_next_day: str,
+):
+    functions_last_day = load_functions_for_date(date=last_day)
+    functions_next_day = load_functions_for_date(date=last_day + timedelta(days=1))
+
+    assert functions_last_day[dag_key].__name__ == function_name_last_day
+    assert functions_next_day[dag_key].__name__ == function_name_next_day

@@ -1,5 +1,5 @@
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def _eink_st_behinderungsgrad_pauschbetrag(
@@ -34,6 +34,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     return float(out)
 
 
+@dates_active(end="2014-12-31", change_name="alleinerz_freib_tu")
 def eink_st_alleinerz_freib_tu_bis_2014(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
@@ -60,6 +61,7 @@ def eink_st_alleinerz_freib_tu_bis_2014(
     return out
 
 
+@dates_active(start="2015-01-01", change_name="alleinerz_freib_tu")
 def eink_st_alleinerz_freib_tu_ab_2015(
     alleinerz: bool,
     anz_kinder_tu: int,
@@ -95,6 +97,7 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     return out
 
 
+@dates_active(end="2004-12-31", change_name="eink_st_altersfreib")
 def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
@@ -141,6 +144,7 @@ def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2005-01-01", change_name="eink_st_altersfreib")
 def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
