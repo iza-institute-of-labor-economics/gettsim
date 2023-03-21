@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
+
 - {gh}`495` Add @dates_active decorator to easily specify when a function is active.
   ({ghuser}`lars-reimann`).
 
@@ -24,8 +26,6 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`503`, {gh}`511`, Move packaging to PyPI/conda-forge, update documentation
   ({ghuser}`timmens`, {ghuser}`hmgaudecker`).
-
-- {gh}`495` Add @dates_active decorator to easily specify when a function is active. ({ghuser}`lars-reimann`).
 
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
 
