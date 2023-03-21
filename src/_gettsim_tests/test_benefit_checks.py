@@ -2,11 +2,11 @@ import itertools
 
 import pandas as pd
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
+from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -50,7 +50,7 @@ def test_benefit_checks(input_data, year, target):
         "arbeitsl_geld_2_eink_m_hh",
     ]
 
-    policy_params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,

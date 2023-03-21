@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 
 def test_synthetic():
@@ -44,6 +44,6 @@ def test_synthetic():
     assert incrange.notna().all().all()
 
     # finally, run through gettsim
-    policy_params, policy_functions = set_up_policy_environment(2020)
+    policy_params, policy_functions = cached_set_up_policy_environment(2020)
     results = compute_taxes_and_transfers(df, policy_params, policy_functions)
     assert len(results) == len(df)
