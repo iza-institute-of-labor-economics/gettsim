@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 def cached_set_up_policy_environment(
-    date: int | str | datetime.date
+    date: int | str | datetime.date,
 ) -> tuple[dict, dict]:
     normalized_date = _parse_date(date)
     return _cached_set_up_policy_environment(normalized_date)
