@@ -7,10 +7,16 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`495` Add @dates_active decorator to easily specify when a function is active.
+  ({ghuser}`lars-reimann`).
+
 - {gh}`544` Added Kindesunterhalt ({ghuser}`LauraGergeleit`).
+
 - {gh}`529` Consider Elterngeld in other transfers only above a certain threshold.
   ({ghuser}`LauraGergeleit`).
+
 - {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
+
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
 
 
@@ -18,8 +24,6 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`503`, {gh}`511`, Move packaging to PyPI/conda-forge, update documentation
   ({ghuser}`timmens`, {ghuser}`hmgaudecker`).
-
-- {gh}`495` Add @dates_active decorator to easily specify when a function is active. ({ghuser}`lars-reimann`).
 
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
 
