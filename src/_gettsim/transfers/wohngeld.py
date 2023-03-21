@@ -1,7 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def wohngeld_m_hh(
@@ -139,6 +139,25 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     return out
 
 
+def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
+    """Check if children are working.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
+
+    Returns
+    -------
+
+    """
+    out = (bruttolohn_m > 0) and kindergeld_anspruch
+    return out
+
+
+@dates_active(end="2015-12-31", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -196,24 +215,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
-    """Check if children are working.
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-    out = (bruttolohn_m > 0) and kindergeld_anspruch
-    return out
-
-
+@dates_active(start="2016-01-01", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -246,8 +248,9 @@ def wohngeld_eink_freib_m_ab_2016(
     )
 
     # Subtraction for single parents and working children
-    # ToDo: Check how to handle subjects that are single parents and also still count
-    # ToDO: as arbeitendes kind (are eligible for Kindergeld)
+    # ToDo:
+    #     Check how to handle subjects that are single parents and also still count
+    #     as arbeitendes Kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
@@ -316,6 +319,7 @@ def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
     return float(out)
 
 
+@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
@@ -379,6 +383,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     haushaltsgröße_hh: int,

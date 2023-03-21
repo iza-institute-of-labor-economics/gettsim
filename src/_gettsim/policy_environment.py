@@ -16,7 +16,6 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
 from _gettsim.taxes.zu_verst_eink.freibetraege import (
     eink_st_sonderausgaben_tu_ab_2012,
     eink_st_sonderausgaben_tu_bis_2011,
@@ -50,12 +49,6 @@ from _gettsim.transfers.kindergeld import (
     kindergeld_anspruch_nach_stunden,
 )
 from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
-from _gettsim.transfers.wohngeld import (
-    wohngeld_eink_freib_m_ab_2016,
-    wohngeld_eink_freib_m_bis_2015,
-    wohngeld_miete_m_hh_ab_2009,
-    wohngeld_miete_m_hh_bis_2008,
-)
 
 
 def set_up_policy_environment(date):
@@ -250,11 +243,6 @@ def load_functions_for_date(date):
         if is_time_dependent(f) and is_active_at_date(f, date)
     }
 
-    if year <= 1996:
-        functions["eink_st_tu"] = eink_st_tu_bis_1996
-    else:
-        functions["eink_st_tu"] = eink_st_tu_ab_1997
-
     if year > 2011:
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
@@ -273,16 +261,6 @@ def load_functions_for_date(date):
         functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2005_bis_2009
     elif year <= 2004:
         functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_bis_2004
-
-    if year <= 2015:
-        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_bis_2015
-    else:
-        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_ab_2016
-
-    if year <= 2008:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
-    else:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009
 
     if year <= 2022:
         functions[
