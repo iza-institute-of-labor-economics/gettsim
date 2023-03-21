@@ -16,16 +16,6 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_sonderausgaben_tu_ab_2012,
-    eink_st_sonderausgaben_tu_bis_2011,
-)
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import (
-    vorsorgeaufw_tu_ab_2005_bis_2009,
-    vorsorgeaufw_tu_ab_2010_bis_2019,
-    vorsorgeaufw_tu_ab_2020,
-    vorsorgeaufw_tu_bis_2004,
-)
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
     arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
     arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
@@ -247,20 +237,6 @@ def load_functions_for_date(date):
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
     else:
         functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
-
-    if year > 2011:
-        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_ab_2012
-    else:
-        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_bis_2011
-
-    if year >= 2020:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2020
-    elif 2020 > year >= 2010:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2010_bis_2019
-    elif 2010 > year >= 2005:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2005_bis_2009
-    elif year <= 2004:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_bis_2004
 
     if year <= 2022:
         functions[

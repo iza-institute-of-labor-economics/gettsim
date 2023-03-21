@@ -1,16 +1,14 @@
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def vorsorgeaufw_alter_tu(
+@dates_active(start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_tu")
+def vorsorgeaufw_alter_tu_einfuehrung(
     ges_rentenv_beitr_m_tu: float,
     priv_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Determine contributions to retirement savings deductible from taxable income.
-
-    This function becomes relevant in 2005, do not use it for prior
-    year.
 
     The share of deductible contributions increases each year from 60% in 2005 to 100%
     in 2025.
@@ -41,7 +39,42 @@ def vorsorgeaufw_alter_tu(
     return out
 
 
-def _vorsorge_alternative_tu_ab_2005_bis_2009(  # noqa: PLR0913
+@dates_active(start="2023-01-01")
+def vorsorgeaufw_alter_tu(
+    ges_rentenv_beitr_m_tu: float,
+    priv_rentenv_beitr_m_tu: float,
+    anz_erwachsene_tu: int,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Determine contributions to retirement savings deductible from taxable income.
+
+    Parameters
+    ----------
+    ges_rentenv_beitr_m_tu
+        See :func:`ges_rentenv_beitr_m_tu`.
+    priv_rentenv_beitr_m_tu
+        See :func:`priv_rentenv_beitr_m_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
+    out = (ges_rentenv_beitr_m_tu + priv_rentenv_beitr_m_tu) * 12
+    max_value = anz_erwachsene_tu * eink_st_abzuege_params["vorsorge_altersaufw_max"]
+
+    return min(out, max_value)
+
+
+@dates_active(
+    start="2005-01-01",
+    end="2009-12-31",
+    change_name="vorsorgeaufw_tu_während_einführung",
+)
+def vorsorgeaufw_tu_ab_2005_bis_2009(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_krankenv_beitr_m_tu: float,
     arbeitsl_v_beitr_m_tu: float,
@@ -49,11 +82,7 @@ def _vorsorge_alternative_tu_ab_2005_bis_2009(  # noqa: PLR0913
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate Vorsorgeaufwendungen from 2005 to 2010.
-
-    Pension contributions are accounted for up to €20k. From this, a certain share
-    can actually be deducted, starting with 60% in 2005. Other deductions are simply
-    added up, up to a ceiling of 1500 p.a. for standard employees.
+    """Calculate Vorsorgeaufwendungen from 2005 to 2009, new mode.
 
     Parameters
     ----------
@@ -85,38 +114,17 @@ def _vorsorge_alternative_tu_ab_2005_bis_2009(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_tu")
 @add_rounding_spec(params_key="eink_st_abzuege")
-def vorsorgeaufw_tu_ab_2005_bis_2009(
-    _vorsorge_alternative_tu_ab_2005_bis_2009: float,
+def vorsorgeaufw_tu_guenstiger(
     vorsorgeaufw_tu_bis_2004: float,
+    vorsorgeaufw_tu_während_einführung: float,
 ) -> float:
-    """Calculate Vorsorgeaufwendungen from 2005 to 2009.
+    """Calculate Vorsorgeaufwendungen from 2005 to 2019.
 
     With the 2005 reform, no taxpayer was supposed to be affected negatively.
     Therefore, one needs to compute amounts under the 2004 and 2005 regimes
     and take the more favourable one.
-
-    Parameters
-    ----------
-    _vorsorge_alternative_tu_ab_2005_bis_2009
-        See :func:`_vorsorge_alternative_tu_ab_2005_bis_2009`.
-    vorsorgeaufw_tu_bis_2004
-        See :func:`vorsorgeaufw_tu_bis_2004`.
-
-    Returns
-    -------
-
-    """
-    out = max(vorsorgeaufw_tu_bis_2004, _vorsorge_alternative_tu_ab_2005_bis_2009)
-
-    return out
-
-
-@add_rounding_spec(params_key="eink_st_abzuege")
-def vorsorgeaufw_tu_ab_2010_bis_2019(
-    vorsorgeaufw_tu_bis_2004: float, vorsorgeaufw_tu_ab_2020: float
-) -> float:
-    """Calculate Vorsorgeaufwendungen from 2010 to 2019.
 
     After a supreme court ruling, the 2005 rule had to be changed in 2010.
     Therefore, one needs to compute amounts under the 2004 and 2010 regimes
@@ -125,24 +133,71 @@ def vorsorgeaufw_tu_ab_2010_bis_2019(
     Sidenote: The 2010 rules are by construction at least as beneficial as
     the 2005 regime, so there is no need for a separate check.
 
-
     Parameters
     ----------
+    vorsorgeaufw_tu
+        See :func:`vorsorgeaufw_tu`.
     vorsorgeaufw_tu_bis_2004
         See :func:`vorsorgeaufw_tu_bis_2004`.
-    vorsorgeaufw_tu_ab_2020
-        See :func:`vorsorgeaufw_tu_ab_2020`.
 
     Returns
     -------
 
     """
-    out = max(vorsorgeaufw_tu_bis_2004, vorsorgeaufw_tu_ab_2020)
+    out = max(vorsorgeaufw_tu_bis_2004, vorsorgeaufw_tu_während_einführung)
 
     return out
 
 
-@add_rounding_spec(params_key="eink_st_abzuege")
+@dates_active(
+    start="2010-01-01",
+    end="2019-12-31",
+    change_name="vorsorgeaufw_tu_während_einführung",
+)
+def _vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
+    vorsorgeaufw_alter_tu: float,
+    ges_pflegev_beitr_m_tu: float,
+    ges_krankenv_beitr_m_tu: float,
+    arbeitsl_v_beitr_m_tu: float,
+    anz_erwachsene_tu: int,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Calculate Vorsorgeaufwendungen since 2020.
+
+    Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
+    see § 10 (3) EStG.
+
+    Parameters
+    ----------
+    vorsorgeaufw_alter_tu
+        See :func:`vorsorgeaufw_alter_tu`.
+    ges_pflegev_beitr_m_tu
+        See :func:`ges_pflegev_beitr_m_tu`.
+    ges_krankenv_beitr_m_tu
+        See :func:`ges_krankenv_beitr_m_tu`.
+    arbeitsl_v_beitr_m_tu
+        See :func:`arbeitsl_v_beitr_m_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
+
+    return vorsorgeaufw_tu_ab_2020(
+        vorsorgeaufw_alter_tu=vorsorgeaufw_alter_tu,
+        ges_pflegev_beitr_m_tu=ges_pflegev_beitr_m_tu,
+        ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
+        arbeitsl_v_beitr_m_tu=arbeitsl_v_beitr_m_tu,
+        anz_erwachsene_tu=anz_erwachsene_tu,
+        eink_st_abzuege_params=eink_st_abzuege_params,
+    )
+
+
+@dates_active(start="2020-01-01", change_name="vorsorgeaufw_tu")
 def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_pflegev_beitr_m_tu: float,
@@ -197,6 +252,29 @@ def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
     return out
 
 
+@dates_active(
+    start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_tu_bis_2004"
+)
+def _vorsorgeaufw_tu_bis_2004(
+    _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
+    ges_krankenv_beitr_m_tu: float,
+    ges_rentenv_beitr_m_tu: float,
+    anz_erwachsene_tu: int,
+    eink_st_abzuege_params: dict,
+) -> float:
+    return vorsorgeaufw_tu_bis_2004(
+        _vorsorgeaufw_vom_lohn_tu_bis_2004=_vorsorgeaufw_vom_lohn_tu_bis_2004,
+        ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
+        ges_rentenv_beitr_m_tu=ges_rentenv_beitr_m_tu,
+        anz_erwachsene_tu=anz_erwachsene_tu,
+        eink_st_abzuege_params=eink_st_abzuege_params,
+    )
+
+
+@dates_active(
+    end="2004-12-31",
+    change_name="vorsorgeaufw_tu",
+)
 @add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_tu_bis_2004(
     _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
@@ -257,6 +335,7 @@ def vorsorgeaufw_tu_bis_2004(
     return out
 
 
+@dates_active(end="2019-12-31")
 def _vorsorgeaufw_vom_lohn_tu_bis_2004(
     bruttolohn_m_tu: float,
     gemeinsam_veranlagt_tu: bool,
