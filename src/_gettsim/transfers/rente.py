@@ -317,7 +317,55 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     return out
 
 
-def _ges_rente_altersgrenze_abschlagsfrei(  # noqa: PLR0913
+@dates_active(end="2011-12-31", change_name="_ges_rente_altersgrenze_abschlagsfrei")
+def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
+    ges_rente_regelaltersgrenze: float,
+    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_langj_altersgrenze: float,
+    ges_rente_vorauss_regelrente: bool,
+    ges_rente_vorauss_frauen: bool,
+    ges_rente_vorauss_langj: bool,
+) -> float:
+    """Calculates the age, at which a person is eligible to claim the full pension. Full
+    retirement age (FRA) without deductions. This age is smaller or equal to the
+    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
+    insurance duration, health/disability, employment status.
+
+    Parameters
+    ----------
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_frauen_altersgrenze
+        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_langj_altersgrenze
+        See :func:`_ges_rente_langj_altersgrenze`.
+    ges_rente_vorauss_regelrente
+        See :func:`ges_rente_vorauss_regelrente`.
+    ges_rente_vorauss_frauen
+        See :func:`ges_rente_vorauss_frauen`.
+    ges_rente_vorauss_langj
+        See :func:`ges_rente_vorauss_langj`.
+
+    Returns
+    -------
+    Lowest possible full retirement age (without deductions). Nan if
+    person not eligigble for a public pension.
+
+    """
+
+    out = float("Nan")
+    if ges_rente_vorauss_regelrente:
+        out = ges_rente_regelaltersgrenze
+    if ges_rente_vorauss_frauen:
+        out = min([out, ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_langj:
+        out = min([out, _ges_rente_langj_altersgrenze])
+
+    return out
+
+
+@dates_active(start="2012-01-01", change_name="_ges_rente_altersgrenze_abschlagsfrei")
+def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -531,6 +579,7 @@ def _ges_rente_langj_altersgrenze(
     return out
 
 
+@dates_active(start="2012-01-01")
 def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -697,6 +746,7 @@ def ges_rente_vorauss_langj(
     return out
 
 
+@dates_active(start="2012-01-01")
 def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte
     (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
