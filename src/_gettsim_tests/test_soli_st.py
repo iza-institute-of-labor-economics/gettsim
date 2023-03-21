@@ -15,7 +15,7 @@ INPUT_COLS = [
     "abgelt_st_tu",
 ]
 
-YEARS = [1991, 1993, 1996, 1999, 2003, 2022]
+YEARS = [1991, 1993, 1996, 1999, 2003, 2022, 2023]
 
 
 @pytest.fixture(scope="module")

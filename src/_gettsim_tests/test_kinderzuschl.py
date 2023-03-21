@@ -30,13 +30,14 @@ INPUT_COLS = [
     "jahr",
     "geburtsjahr",
     "vermögen_bedürft_hh",
+    "bürgerg_bezug_vorj",
 ]
 OUT_COLS = [
     "_kinderzuschl_vor_vermög_check_m_tu",
     "_kinderzuschl_nach_vermög_check_m_tu",
 ]
 # 2006 and 2009 are missing -> are currently failing
-YEARS = [2013, 2016, 2017, 2019, 2020, 2021]
+YEARS = [2013, 2016, 2017, 2019, 2020, 2021, 2023]
 
 OVERRIDE_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",

@@ -24,7 +24,7 @@ TEST_COLUMNS = [
     "abgelt_st_tu",
     "soli_st_tu",
 ]
-YEARS = [2009, 2012, 2015, 2018]
+YEARS = [2009, 2012, 2015, 2018, 2023]
 
 
 @pytest.fixture(scope="module")
