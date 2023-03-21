@@ -663,30 +663,6 @@ rounding:
     1984-01-01:
       base: 0.01
       direction: nearest
-  vorsorgeaufw_tu_ab_2010_bis_2019:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: nearest
-  vorsorgeaufw_tu_ab_2020:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: nearest
-  vorsorgeaufw_tu_bis_2004:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: nearest
-  vorsorgeaufw_tu_ab_2005_bis_2009:
-    note:
-      en: Starting date unclear
-    1984-01-01:
-      base: 0.01
-      direction: nearest
   sonderausgaben_betreuung_tu:
     note:
       en: Starting date unclear

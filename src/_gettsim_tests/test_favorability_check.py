@@ -3,10 +3,10 @@ from itertools import product
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "hh_id",
@@ -34,7 +34,7 @@ def input_data():
 def test_favorability_check(input_data, year, target):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
     columns_overriding_functions = [
         "eink_st_ohne_kinderfreib_tu",
         "eink_st_mit_kinderfreib_tu",
