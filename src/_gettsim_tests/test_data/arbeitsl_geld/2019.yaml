@@ -19,8 +19,8 @@ hh_id_1:
       - false
       arbeitsstunden_w:
       - 0.0
-      anz_kinder_tu:
-      - 0
+#      anz_kinder_tu:
+#      - 0
       alter:
       - 30
       geburtsjahr:
@@ -29,16 +29,16 @@ hh_id_1:
       - 2019
       eligible:
       - true
-      alg_wage:
-      - 1000
-      alg_ssc:
-      - 200.0
-      alg_tax:
-      - 24.08
-      alg_soli:
-      - 0.0
-      alg_entgelt:
-      - 775.92
+#      alg_wage:
+#      - 1000
+#      alg_ssc:
+#      - 200.0
+#      alg_tax:
+#      - 24.08
+#      alg_soli:
+#      - 0.0
+#      alg_entgelt:
+#      - 775.92
     assumed:
       anwartschaftszeit:
       - true
@@ -72,8 +72,8 @@ hh_id_2:
       - false
       arbeitsstunden_w:
       - 0.0
-      anz_kinder_tu:
-      - 0
+#      anz_kinder_tu:
+#      - 0
       alter:
       - 30
       geburtsjahr:
@@ -82,16 +82,16 @@ hh_id_2:
       - 2019
       eligible:
       - true
-      alg_wage:
-      - 2000
-      alg_ssc:
-      - 400.0
-      alg_tax:
-      - 268.92
-      alg_soli:
-      - 14.79
-      alg_entgelt:
-      - 1316.29
+#      alg_wage:
+#      - 2000
+#      alg_ssc:
+#      - 400.0
+#      alg_tax:
+#      - 268.92
+#      alg_soli:
+#      - 14.79
+#      alg_entgelt:
+#      - 1316.29
     assumed:
       anwartschaftszeit:
       - true
@@ -132,9 +132,9 @@ hh_id_3:
       arbeitsstunden_w:
       - 0.0
       - 0.0
-      anz_kinder_tu:
-      - 1
-      - 1
+#      anz_kinder_tu:
+#      - 1
+#      - 1
       alter:
       - 5
       - 30
@@ -147,21 +147,21 @@ hh_id_3:
       eligible:
       - false
       - false
-      alg_wage:
-      - 0
-      - 3000
-      alg_ssc:
-      - 0.0
-      - 600.0
-      alg_tax:
-      - 0.0
-      - 572.33
-      alg_soli:
-      - 0.0
-      - 31.48
-      alg_entgelt:
-      - 0.0
-      - 1796.19
+#      alg_wage:
+#      - 0
+#      - 3000
+#      alg_ssc:
+#      - 0.0
+#      - 600.0
+#      alg_tax:
+#      - 0.0
+#      - 572.33
+#      alg_soli:
+#      - 0.0
+#      - 31.48
+#      alg_entgelt:
+#      - 0.0
+#      - 1796.19
     assumed:
       anwartschaftszeit:
       - false
@@ -207,9 +207,9 @@ hh_id_4:
       arbeitsstunden_w:
       - 20.0
       - 0.0
-      anz_kinder_tu:
-      - 1
-      - 1
+#      anz_kinder_tu:
+#      - 1
+#      - 1
       alter:
       - 30
       - 5
@@ -222,21 +222,21 @@ hh_id_4:
       eligible:
       - false
       - false
-      alg_wage:
-      - 4000
-      - 0
-      alg_ssc:
-      - 800.0
-      - 0.0
-      alg_tax:
-      - 927.66
-      - 0.0
-      alg_soli:
-      - 51.02
-      - 0.0
-      alg_entgelt:
-      - 2221.32
-      - 0.0
+#      alg_wage:
+#      - 4000
+#      - 0
+#      alg_ssc:
+#      - 800.0
+#      - 0.0
+#      alg_tax:
+#      - 927.66
+#      - 0.0
+#      alg_soli:
+#      - 51.02
+#      - 0.0
+#      alg_entgelt:
+#      - 2221.32
+#      - 0.0
     assumed:
       anwartschaftszeit:
       - true

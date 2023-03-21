@@ -26,9 +26,9 @@ hh_id_5:
       arbeitsstunden_w:
       - 0.0
       - 0.0
-      anz_kinder_tu:
-      - 1
-      - 0
+#      anz_kinder_tu:
+#      - 1
+#      - 0
       alter:
       - 30
       - 5
@@ -41,21 +41,21 @@ hh_id_5:
       eligible:
       - true
       - false
-      alg_wage:
-      - 5200
-      - 0
-      alg_ssc:
-      - 1092.0
-      - 0.0
-      alg_tax:
-      - 1460.56
-      - 0.0
-      alg_soli:
-      - 80.33
-      - 0.0
-      alg_entgelt:
-      - 2567.11
-      - 0.0
+#      alg_wage:
+#      - 5200
+#      - 0
+#      alg_ssc:
+#      - 1092.0
+#      - 0.0
+#      alg_tax:
+#      - 1460.56
+#      - 0.0
+#      alg_soli:
+#      - 80.33
+#      - 0.0
+#      alg_entgelt:
+#      - 2567.11
+#      - 0.0
     assumed:
       anwartschaftszeit:
       - true

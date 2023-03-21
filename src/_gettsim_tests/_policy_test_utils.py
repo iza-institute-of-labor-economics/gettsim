@@ -44,14 +44,14 @@ class PolicyTestData:
 
     @property
     def input_df(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict({**self._inputs_provided, **self._inputs_assumed})
+        return pd.DataFrame.from_dict({**self._inputs_provided, **self._inputs_assumed}).reset_index(drop=True)
 
     @property
     def output_df(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict(self._outputs)
+        return pd.DataFrame.from_dict(self._outputs).reset_index(drop=True)
 
     def __str__(self):
-        return f"{self.policy_name} {self.date} {self.household_name}"
+        return f"{self.date} {self.household_name}"
 
 
 def load_policy_test_data(policy_name: str) -> PolicyTestSet:
@@ -100,8 +100,3 @@ def _parse_date(date: str) -> datetime.date:
 @lru_cache(maxsize=64)
 def cached_set_up_policy_environment(date: datetime.date) -> tuple[dict, dict]:
     return set_up_policy_environment(date)
-
-
-if __name__ == '__main__':
-    data = load_policy_test_data("arbeitsl_geld")
-    print(data)

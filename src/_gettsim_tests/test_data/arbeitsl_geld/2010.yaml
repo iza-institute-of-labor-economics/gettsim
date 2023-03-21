@@ -26,9 +26,9 @@ hh_id_6:
       arbeitsstunden_w:
       - 0.0
       - 0.0
-      anz_kinder_tu:
-      - 1
-      - 0
+#      anz_kinder_tu:
+#      - 1
+#      - 0
       alter:
       - 40
       - 6
@@ -38,24 +38,24 @@ hh_id_6:
       jahr:
       - 2010
       - 2010
-      eligible:
-      - true
-      - false
-      alg_wage:
-      - 2500
-      - 0
-      alg_ssc:
-      - 505.63
-      - 0.0
-      alg_tax:
-      - 444.74
-      - 0.0
-      alg_soli:
-      - 24.46
-      - 0.0
-      alg_entgelt:
-      - 1525.17
-      - 0.0
+#      eligible:
+#      - true
+#      - false
+#      alg_wage:
+#      - 2500
+#      - 0
+#      alg_ssc:
+#      - 505.63
+#      - 0.0
+#      alg_tax:
+#      - 444.74
+#      - 0.0
+#      alg_soli:
+#      - 24.46
+#      - 0.0
+#      alg_entgelt:
+#      - 1525.17
+#      - 0.0
     assumed:
       anwartschaftszeit:
       - true
