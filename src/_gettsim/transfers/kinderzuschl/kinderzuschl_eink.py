@@ -172,7 +172,9 @@ def kinderzuschl_eink_max_m_bg(
         + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_bg
     )
 
-    kindersofortzuschl = kinderzuschl_params.get("kindersofortzuschl", 0.0)
+    kindersofortzuschl = kinderzuschl_params.get("kindersofortzuschl", None)
+    if not kindersofortzuschl:
+        kindersofortzuschl = 0
     out += kindersofortzuschl * _kinderzuschl_anz_kinder_anspruch_bg
 
     return out

@@ -29,7 +29,6 @@ def arbeitsl_geld_m(
     -------
 
     """
-
     if anz_kinder_bg == 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
     elif anz_kinder_bg > 0:
