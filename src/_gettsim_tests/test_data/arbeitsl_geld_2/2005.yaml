@@ -153,9 +153,9 @@ hh_id_7:
       - 0.0
       - 0.0
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       cost_per_qm:
       - 8.0
       - 8.0
@@ -169,9 +169,9 @@ hh_id_7:
       - 3.0
       - 3.0
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       nettoquote:
       - '0.686675'
       - '0.7433375'
@@ -275,7 +275,7 @@ hh_id_8:
       arbeitsl_geld_2_vor_vorrang_m_hh:
       - 122.53
       Column1:
-      - .nan
+      - null
       cost_per_qm:
       - 10.0
       wohnfl_just:
@@ -283,7 +283,7 @@ hh_id_8:
       hhsize:
       - 1.0
       _1:
-      - .nan
+      - null
       nettoquote:
       - '0.771116667'
     assumed: {}

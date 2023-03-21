@@ -119,11 +119,11 @@ hh_id_4:
       - 2006
       - 2006
       Column1:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 1819
       - 1819
@@ -167,17 +167,17 @@ hh_id_4:
       - false
       - false
       vermfreibetr:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
       geburtsjahr_1:
       - 1973
       - 1976

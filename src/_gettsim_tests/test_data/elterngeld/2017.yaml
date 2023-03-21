@@ -41,9 +41,9 @@ hh_id_2:
       m_elterngeld:
       - 0
       considered_wage:
-      - .nan
+      - null
       payed_percentage:
-      - .nan
+      - null
     assumed: {}
   outputs:
     elterngeld_m:

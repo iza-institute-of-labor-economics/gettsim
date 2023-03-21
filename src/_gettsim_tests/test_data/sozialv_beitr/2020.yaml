@@ -29,7 +29,7 @@ hh_id_15:
       jahr:
       - '2020'
       bemes:
-      - .nan
+      - null
     assumed: {}
   outputs:
     sozialv_beitr_m:

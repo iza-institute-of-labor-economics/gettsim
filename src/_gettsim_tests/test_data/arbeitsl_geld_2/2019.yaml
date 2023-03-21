@@ -153,9 +153,9 @@ hh_id_6:
       - 457.64
       - 457.64
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       cost_per_qm:
       - 8.633333333
       - 8.633333333
@@ -169,13 +169,13 @@ hh_id_6:
       - 3.0
       - 3.0
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:

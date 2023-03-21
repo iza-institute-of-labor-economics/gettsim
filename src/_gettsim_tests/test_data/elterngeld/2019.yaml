@@ -60,10 +60,10 @@ hh_id_1:
       - 0
       considered_wage:
       - 0.0
-      - .nan
+      - null
       payed_percentage:
       - 0.0
-      - .nan
+      - null
     assumed: {}
   outputs:
     elterngeld_m:
@@ -158,12 +158,12 @@ hh_id_3:
       - 0
       considered_wage:
       - 703.32
-      - .nan
-      - .nan
+      - null
+      - null
       payed_percentage:
       - 0.81834
-      - .nan
-      - .nan
+      - null
+      - null
     assumed: {}
   outputs:
     elterngeld_m:
@@ -244,10 +244,10 @@ hh_id_5:
       - 0
       considered_wage:
       - 2021.81
-      - .nan
+      - null
       payed_percentage:
       - 0.65
-      - .nan
+      - null
     assumed: {}
   outputs:
     elterngeld_m:
@@ -341,12 +341,12 @@ hh_id_6:
       - 0
       - 2
       considered_wage:
-      - .nan
-      - .nan
+      - null
+      - null
       - 703.32
       payed_percentage:
-      - .nan
-      - .nan
+      - null
+      - null
       - 0.81834
     assumed: {}
   outputs:
@@ -445,13 +445,13 @@ hh_id_7:
       - 0
       - 0
       considered_wage:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       payed_percentage:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     elterngeld_m:
@@ -567,14 +567,14 @@ hh_id_8:
       - 0
       - 2
       considered_wage:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       - 703.32
       payed_percentage:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       - 0.81834
     assumed: {}
   outputs:

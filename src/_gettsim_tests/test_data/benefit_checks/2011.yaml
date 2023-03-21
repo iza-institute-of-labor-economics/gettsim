@@ -81,9 +81,9 @@ hh_id_5:
       - 2011
       - 2011
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 125
       - 125
@@ -113,13 +113,13 @@ hh_id_5:
       - true
       - true
       vermfreibetr:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       geburtsjahr_1:
       - 1981
       - 1971

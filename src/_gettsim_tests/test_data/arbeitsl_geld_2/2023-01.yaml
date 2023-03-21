@@ -81,7 +81,7 @@ hh_id_16:
       arbeitsl_geld_2_vor_vorrang_m_hh:
       - 256.0
       Column1:
-      - .nan
+      - null
       cost_per_qm:
       - 10.83333333
       wohnfl_just:
@@ -89,9 +89,9 @@ hh_id_16:
       hhsize:
       - 1.0
       _1:
-      - .nan
+      - null
       nettoquote:
-      - .nan
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:
@@ -258,29 +258,29 @@ hh_id_17:
       - 0.0
       - 0.0
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       cost_per_qm:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       wohnfl_just:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       hhsize:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:
@@ -455,29 +455,29 @@ hh_id_18:
       - 1431.0
       - 1431.0
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       cost_per_qm:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       wohnfl_just:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       hhsize:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:
@@ -652,9 +652,9 @@ hh_id_19:
       - 796.86
       - 796.86
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       cost_per_qm:
       - 7.904761905
       - 7.904761905
@@ -668,13 +668,13 @@ hh_id_19:
       - 3.0
       - 3.0
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:

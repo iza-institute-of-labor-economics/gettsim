@@ -116,8 +116,8 @@ hh_id_3:
       - 319.46
       - 319.46
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       cost_per_qm:
       - 8.275862069
       - 8.275862069
@@ -128,11 +128,11 @@ hh_id_3:
       - 2.0
       - 2.0
       _1:
-      - .nan
-      - .nan
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:

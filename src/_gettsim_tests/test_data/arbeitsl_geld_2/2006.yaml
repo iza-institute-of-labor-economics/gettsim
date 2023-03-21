@@ -227,11 +227,11 @@ hh_id_4:
       - 1680.71
       - 1680.71
       Column1:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
       cost_per_qm:
       - 8.818181818
       - 8.818181818
@@ -251,17 +251,17 @@ hh_id_4:
       - 5.0
       - 5.0
       _1:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
       nettoquote:
-      - .nan
-      - .nan
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
+      - null
+      - null
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:

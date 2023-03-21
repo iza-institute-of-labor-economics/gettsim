@@ -62,8 +62,8 @@ hh_id_2:
       - 2013
       - 2013
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 470
       - 470
@@ -86,11 +86,11 @@ hh_id_2:
       - false
       - false
       vermfreibetr:
-      - .nan
-      - .nan
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
+      - null
+      - null
       geburtsjahr_1:
       - 1973
       - 1973

@@ -62,8 +62,8 @@ hh_id_6:
       - 2019
       - 2019
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 629
       - 629
@@ -86,11 +86,11 @@ hh_id_6:
       - false
       - false
       vermfreibetr:
-      - .nan
-      - .nan
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
+      - null
+      - null
       geburtsjahr_1:
       - 1991
       - 2018
@@ -150,25 +150,25 @@ hh_id_8:
       jahr:
       - 2019
       Column1:
-      - .nan
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 1000
       fehlbedarf_wohngeld:
       - 1000
       fehlbedarf_kinderzuschl:
-      - .nan
+      - null
       fehlbedarf_wohngeld_kinderzuschl:
-      - .nan
+      - null
       wohngeld_vorrang:
       - false
       kinderzuschl_vorrang:
-      - .nan
+      - null
       wohngeld_kinderzuschl_vorrang:
-      - .nan
+      - null
       vermfreibetr:
-      - .nan
+      - null
       maxvermfb:
-      - .nan
+      - null
       geburtsjahr_1:
       - 1939
     assumed: {}

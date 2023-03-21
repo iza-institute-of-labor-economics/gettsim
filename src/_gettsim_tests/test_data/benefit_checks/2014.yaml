@@ -62,8 +62,8 @@ hh_id_7:
       - 2014
       - 2014
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 746
       - 746
@@ -71,20 +71,20 @@ hh_id_7:
       - 746
       - 746
       fehlbedarf_kinderzuschl:
-      - .nan
-      - .nan
+      - null
+      - null
       fehlbedarf_wohngeld_kinderzuschl:
-      - .nan
-      - .nan
+      - null
+      - null
       wohngeld_vorrang:
       - false
       - false
       kinderzuschl_vorrang:
-      - .nan
-      - .nan
+      - null
+      - null
       wohngeld_kinderzuschl_vorrang:
-      - .nan
-      - .nan
+      - null
+      - null
       vermfreibetr:
       - 39000.0
       - 7500.0

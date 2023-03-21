@@ -62,8 +62,8 @@ hh_id_3:
       - 2009
       - 2009
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 629
       - 629
@@ -86,11 +86,11 @@ hh_id_3:
       - true
       - true
       vermfreibetr:
-      - .nan
-      - .nan
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
+      - null
+      - null
       geburtsjahr_1:
       - 1981
       - 2008

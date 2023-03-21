@@ -81,9 +81,9 @@ hh_id_1:
       - 2016
       - 2016
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       fehlbedarf_arbeitsl_geld_2:
       - 465
       - 465
@@ -113,13 +113,13 @@ hh_id_1:
       - true
       - true
       vermfreibetr:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       maxvermfb:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       geburtsjahr_1:
       - 1986
       - 1986

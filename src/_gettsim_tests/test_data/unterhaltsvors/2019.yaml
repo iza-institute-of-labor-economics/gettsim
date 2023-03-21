@@ -50,23 +50,23 @@ hh_id_1:
       - 8
       - 8
       Column1:
-      - .nan
-      - .nan
+      - null
+      - null
       _1:
-      - .nan
-      - .nan
+      - null
+      - null
       _2:
-      - .nan
-      - .nan
+      - null
+      - null
       _3:
-      - .nan
-      - .nan
+      - null
+      - null
       _4:
-      - .nan
-      - .nan
+      - null
+      - null
       _5:
-      - .nan
-      - .nan
+      - null
+      - null
       These test cases wer just to check that we return a Series of nans. We exclude this test case for now.:
       - 3
       - 3
@@ -181,29 +181,29 @@ hh_id_4:
       - 1
       - 1
       Column1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _1:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _2:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _3:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _4:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       _5:
-      - .nan
-      - .nan
-      - .nan
+      - null
+      - null
+      - null
       These test cases wer just to check that we return a Series of nans. We exclude this test case for now.:
       - 1
       - 2
