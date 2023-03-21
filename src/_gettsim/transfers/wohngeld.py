@@ -78,7 +78,66 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
+@dates_active(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
+def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
+    eink_selbst: float,
+    eink_abhängig_beschäftigt: float,
+    kapitaleink_brutto: float,
+    eink_vermietung: float,
+    arbeitsl_geld_m: float,
+    sonstig_eink_m: float,
+    eink_rente_zu_verst_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    wohngeld_abzüge_st_sozialv_m: float,
+) -> float:
+    """Sum gross incomes relevant for housing benefit calculation on individual level
+    and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
+
+    Parameters
+    ----------
+    eink_selbst
+        See :func:`_eink_selbst`.
+    eink_abhängig_beschäftigt
+        See :func:`eink_abhängig_beschäftigt`.
+    kapitaleink_brutto
+        See :func:`kapitaleink_brutto`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
+    arbeitsl_geld_m
+        See :func:`arbeitsl_geld_m`.
+    sonstig_eink_m
+        See :func:`sonstig_eink_m`.
+    eink_rente_zu_verst_m
+        See :func:`eink_rente_zu_verst_m`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+
+    Returns
+    -------
+
+    """
+    einkommen = (
+        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+    ) / 12
+
+    transfers = (
+        arbeitsl_geld_m
+        + eink_rente_zu_verst_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+    )
+
+    eink_ind = einkommen + transfers + sonstig_eink_m
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    return out
+
+
+@dates_active(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
+def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
     kapitaleink_brutto: float,
