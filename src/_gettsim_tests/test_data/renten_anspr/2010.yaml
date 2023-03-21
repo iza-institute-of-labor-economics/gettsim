@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -5,69 +6,69 @@ hh_id_1:
   inputs:
     provided:
       hh_id:
-      - 1
+        - 1
       tu_id:
-      - 1
+        - 1
       p_id:
-      - 1
+        - 1
       bruttolohn_m:
-      - 600.0
+        - 600.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 39
+        - 39
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1971
+        - 1971
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 21
+        - 21
       avg_ep:
-      - 0.8706
+        - 0.8706
       entgeltp:
-      - 18.2826
+        - 18.2826
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 18.51378418
+      - 18.51378418
     entgeltp_update_lohn:
-    - 0.231184177
+      - 0.231184177
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 67.0
+      - 67.0
 hh_id_2:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -75,142 +76,140 @@ hh_id_2:
   inputs:
     provided:
       hh_id:
-      - 2
+        - 2
       tu_id:
-      - 2
+        - 2
       p_id:
-      - 2
+        - 2
       bruttolohn_m:
-      - 900.0
+        - 900.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 42
+        - 42
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1968
+        - 1968
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 24
+        - 24
       avg_ep:
-      - 0.8904
+        - 0.8904
       entgeltp:
-      - 21.3696
+        - 21.3696
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 21.71637627
+      - 21.71637627
     entgeltp_update_lohn:
-    - 0.346776265
+      - 0.346776265
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 67.0
+      - 67.0
 hh_id_3:
   info:
-    note: 'from eastern Germany: earns more Entgeltpunkte for same wage
-
-
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+    note: "from eastern Germany: earns more Entgeltpunkte for same wage\n\nverified or corrected\
+      \ using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
     source: ''
   inputs:
     provided:
       hh_id:
-      - 3
+        - 3
       tu_id:
-      - 3
+        - 3
       p_id:
-      - 3
+        - 3
       bruttolohn_m:
-      - 900.0
+        - 900.0
       wohnort_ost:
-      - true
+        - true
       alter:
-      - 42
+        - 42
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1968
+        - 1968
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 24
+        - 24
       avg_ep:
-      - 0.8904
+        - 0.8904
       entgeltp:
-      - 21.3696
+        - 21.3696
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 4650
+        - 4650
     assumed: {}
   outputs:
     entgeltp_update:
-    - 21.77622985
+      - 21.77622985
     entgeltp_update_lohn:
-    - 0.406629848
+      - 0.406629848
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 67.0
+      - 67.0
 hh_id_4:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -218,69 +217,69 @@ hh_id_4:
   inputs:
     provided:
       hh_id:
-      - 4
+        - 4
       tu_id:
-      - 4
+        - 4
       p_id:
-      - 4
+        - 4
       bruttolohn_m:
-      - 1200.0
+        - 1200.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 46
+        - 46
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1964
+        - 1964
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 28
+        - 28
       avg_ep:
-      - 0.9053
+        - 0.9053
       entgeltp:
-      - 25.3484
+        - 25.3484
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 25.81076835
+      - 25.81076835
     entgeltp_update_lohn:
-    - 0.462368353
+      - 0.462368353
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 67.0
+      - 67.0
 hh_id_5:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -288,69 +287,69 @@ hh_id_5:
   inputs:
     provided:
       hh_id:
-      - 5
+        - 5
       tu_id:
-      - 5
+        - 5
       p_id:
-      - 5
+        - 5
       bruttolohn_m:
-      - 1500.0
+        - 1500.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 43
+        - 43
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1967
+        - 1967
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 25
+        - 25
       avg_ep:
-      - 0.8968
+        - 0.8968
       entgeltp:
-      - 22.42
+        - 22.42
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 22.99796044
+      - 22.99796044
     entgeltp_update_lohn:
-    - 0.577960442
+      - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 67.0
+      - 67.0
 hh_id_6:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -358,360 +357,349 @@ hh_id_6:
   inputs:
     provided:
       hh_id:
-      - 6
+        - 6
       tu_id:
-      - 6
+        - 6
       p_id:
-      - 6
+        - 6
       bruttolohn_m:
-      - 8000.0
+        - 8000.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 59
+        - 59
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1951
+        - 1951
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 41
+        - 41
       avg_ep:
-      - 0.8587
+        - 0.8587
       entgeltp:
-      - 35.2067
+        - 35.2067
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 37.32588829
+      - 37.32588829
     entgeltp_update_lohn:
-    - 2.119188287
+      - 2.119188287
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.41666667
+      - 65.41666667
 hh_id_7:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nverified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
     source: ''
   inputs:
     provided:
       hh_id:
-      - 7
+        - 7
       tu_id:
-      - 7
+        - 7
       p_id:
-      - 7
+        - 7
       bruttolohn_m:
-      - 8000.0
+        - 8000.0
       wohnort_ost:
-      - true
+        - true
       alter:
-      - 59
+        - 59
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1951
+        - 1951
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 41
+        - 41
       avg_ep:
-      - 0.8587
+        - 0.8587
       entgeltp:
-      - 35.2067
+        - 35.2067
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 4650
+        - 4650
     assumed: {}
   outputs:
     entgeltp_update:
-    - 36.99837737
+      - 36.99837737
     entgeltp_update_lohn:
-    - 1.79167737
+      - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.41666667
+      - 65.41666667
 hh_id_19:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nhttps://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html"
     source: ''
   inputs:
     provided:
       hh_id:
-      - 19
+        - 19
       tu_id:
-      - 19
+        - 19
       p_id:
-      - 19
+        - 19
       bruttolohn_m:
-      - 8000.0
+        - 8000.0
       wohnort_ost:
-      - true
+        - true
       alter:
-      - 59
+        - 59
       weiblich:
-      - false
+        - false
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1956
+        - 1956
       geburtsmonat:
-      - 1
+        - 1
       exper:
-      - 41
+        - 41
       avg_ep:
-      - 0.8587
+        - 0.8587
       entgeltp:
-      - 35.2067
+        - 35.2067
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 0.0
+        - 0.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 0.0
+        - 0.0
       y_pflichtbeitr_ab_40:
-      - 0.0
+        - 0.0
       m_pflichtbeitrag:
-      - 60.0
+        - 60.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 0.0
+        - 0.0
       m_pfleg_berücks_zeit:
-      - 0.0
+        - 0.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 4650
+        - 4650
     assumed: {}
   outputs:
     entgeltp_update:
-    - 36.99837737
+      - 36.99837737
     entgeltp_update_lohn:
-    - 1.79167737
+      - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.83333333
+      - 65.83333333
 hh_id_24:
   info:
-    note: 'Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)
-
-
-      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
+    note: "Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)\n\nhttps://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/"
     source: ''
   inputs:
     provided:
       hh_id:
-      - 24
+        - 24
       tu_id:
-      - 24
+        - 24
       p_id:
-      - 24
+        - 24
       bruttolohn_m:
-      - 1500.0
+        - 1500.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 72
+        - 72
       weiblich:
-      - true
+        - true
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1938
+        - 1938
       geburtsmonat:
-      - 12
+        - 12
       exper:
-      - 35
+        - 35
       avg_ep:
-      - 0.8968
+        - 0.8968
       entgeltp:
-      - 22.42
+        - 22.42
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 9.0
+        - 9.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 60.0
+        - 60.0
       y_pflichtbeitr_ab_40:
-      - 15.0
+        - 15.0
       m_pflichtbeitrag:
-      - 420.0
+        - 420.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 108.0
+        - 108.0
       m_pfleg_berücks_zeit:
-      - 10.0
+        - 10.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 22.99796044
+      - 22.99796044
     entgeltp_update_lohn:
-    - 0.577960442
+      - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 60.0
+      - 60.0
 hh_id_25:
   info:
-    note: 'Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)
-
-
-      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
+    note: "Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)\n\n\
+      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/"
     source: ''
   inputs:
     provided:
       hh_id:
-      - 25
+        - 25
       tu_id:
-      - 25
+        - 25
       p_id:
-      - 25
+        - 25
       bruttolohn_m:
-      - 1500.0
+        - 1500.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 54
+        - 54
       weiblich:
-      - true
+        - true
       jahr:
-      - 2010
+        - 2010
       geburtsjahr:
-      - 1948
+        - 1948
       geburtsmonat:
-      - 12
+        - 12
       exper:
-      - 35
+        - 35
       avg_ep:
-      - 0.8968
+        - 0.8968
       entgeltp:
-      - 22.42
+        - 22.42
       m_arbeitsunfähig:
-      - 0.0
+        - 0.0
       m_krank_ab_16_bis_24:
-      - 0.0
+        - 0.0
       m_mutterschutz:
-      - 9.0
+        - 9.0
       m_arbeitslos:
-      - 0.0
+        - 0.0
       m_ausbild_suche:
-      - 0.0
+        - 0.0
       m_schul_ausbild:
-      - 0.0
+        - 0.0
       m_alg1_übergang:
-      - 0.0
+        - 0.0
       m_geringf_beschäft:
-      - 60.0
+        - 60.0
       y_pflichtbeitr_ab_40:
-      - 15.0
+        - 15.0
       m_pflichtbeitrag:
-      - 420.0
+        - 420.0
       m_freiw_beitrag:
-      - 0.0
+        - 0.0
       m_ersatzzeit:
-      - 0.0
+        - 0.0
       m_kind_berücks_zeit:
-      - 108.0
+        - 108.0
       m_pfleg_berücks_zeit:
-      - 10.0
+        - 10.0
       _ges_rentenv_beitr_bemess_grenze_m:
-      - 5500
+        - 5500
     assumed: {}
   outputs:
     entgeltp_update:
-    - 22.99796044
+      - 22.99796044
     entgeltp_update_lohn:
-    - 0.577960442
+      - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.0
+      - 65.0

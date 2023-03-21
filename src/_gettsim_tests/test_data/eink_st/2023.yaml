@@ -1,3 +1,4 @@
+---
 hh_id_6:
   info:
     note: ''
@@ -5,56 +6,56 @@ hh_id_6:
   inputs:
     provided:
       hh_id:
-      - 6
+        - 6
       tu_id:
-      - 6
+        - 6
       p_id:
-      - 6
+        - 6
       kind:
-      - false
+        - false
       zu_verst_eink_kein_kinderfreib:
-      - 36000.0
+        - 36000.0
       zu_verst_eink_kinderfreib:
-      - 36000.0
+        - 36000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 36000.0
+        - 36000.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 36000.0
+        - 36000.0
       kapitaleink_brutto:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_tu:
-      - 0.0
+        - 0.0
       gem_veranlagt:
-      - false
+        - false
       jahr:
-      - 2023
+        - 2023
       Column1:
-      - null
+        - null
       _st_abgelt_st_m_kein_kinderfreib:
-      - 6531
+        - 6531
       _st_abgelt_st_m_kinderfreib_tu:
-      - 6531
+        - 6531
       soli_st_m:
-      - 0.0
+        - 0.0
       G:
-      - null
+        - null
       M:
-      - null
+        - null
       S:
-      - null
+        - null
       R:
-      - null
+        - null
       _1:
-      - null
+        - null
       solibase_inctax:
-      - null
+        - null
     assumed: {}
   outputs:
     eink_st_ohne_kinderfreib_tu:
-    - 6531
+      - 6531
     eink_st_mit_kinderfreib_tu:
-    - 6531
+      - 6531
     abgelt_st_tu:
-    - 0.0
+      - 0.0
     soli_st_tu:
-    - 0.0
+      - 0.0

@@ -5,7 +5,11 @@ from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
-from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestData, cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import (
+    PolicyTestData,
+    cached_set_up_policy_environment,
+    load_policy_test_data,
+)
 
 INPUT_COLS = [
     "hh_id",
@@ -27,6 +31,7 @@ YEARS = [2010, 2011, 2015, 2019]
 
 data = load_policy_test_data("arbeitsl_geld")
 
+
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,
@@ -37,7 +42,9 @@ def test_arbeitsl_geld_new(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(date=test_data.date)
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
 
     result = compute_taxes_and_transfers(
         data=df,
@@ -54,6 +61,7 @@ def test_arbeitsl_geld_new(
         rtol=0,
         check_dtype=False,
     )
+
 
 @pytest.fixture(scope="module")
 def input_data():

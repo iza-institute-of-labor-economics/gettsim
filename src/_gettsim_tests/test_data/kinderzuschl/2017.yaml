@@ -1,3 +1,4 @@
+---
 hh_id_9:
   info:
     note: ''
@@ -5,149 +6,149 @@ hh_id_9:
   inputs:
     provided:
       hh_id:
-      - 9
-      - 9
-      - 9
-      - 9
+        - 9
+        - 9
+        - 9
+        - 9
       tu_id:
-      - 9
-      - 9
-      - 9
-      - 9
+        - 9
+        - 9
+        - 9
+        - 9
       p_id:
-      - 23
-      - 24
-      - 25
-      - 26
+        - 23
+        - 24
+        - 25
+        - 26
       head:
-      - true
-      - false
-      - false
-      - false
+        - true
+        - false
+        - false
+        - false
       jahr:
-      - 2017
-      - 2017
-      - 2017
-      - 2017
+        - 2017
+        - 2017
+        - 2017
+        - 2017
       geburtsjahr:
-      - 1977
-      - 1979
-      - 2002
-      - 2004
+        - 1977
+        - 1979
+        - 2002
+        - 2004
       hh_korr:
-      - 1
-      - 1
-      - 1
-      - 1
+        - 1
+        - 1
+        - 1
+        - 1
       hhsize:
-      - 4
-      - 4
-      - 4
-      - 4
+        - 4
+        - 4
+        - 4
+        - 4
       kind:
-      - false
-      - false
-      - true
-      - true
+        - false
+        - false
+        - true
+        - true
       kindergeld_anspruch:
-      - false
-      - false
-      - true
-      - true
+        - false
+        - false
+        - true
+        - true
       alter:
-      - 40
-      - 38
-      - 15
-      - 13
+        - 40
+        - 38
+        - 15
+        - 13
       arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       bruttolohn_m:
-      - 1300.0
-      - 0.0
-      - 120.0
-      - 180.0
+        - 1300.0
+        - 0.0
+        - 120.0
+        - 180.0
       in_ausbildung:
-      - false
-      - false
-      - true
-      - true
+        - false
+        - false
+        - true
+        - true
       bruttokaltmiete_m_hh:
-      - 800.0
-      - 800.0
-      - 800.0
-      - 800.0
+        - 800.0
+        - 800.0
+        - 800.0
+        - 800.0
       heizkosten_m_hh:
-      - 90.0
-      - 90.0
-      - 90.0
-      - 90.0
+        - 90.0
+        - 90.0
+        - 90.0
+        - 90.0
       alleinerz:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bürgerg_bezug_vorj:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       anz_erw_tu:
-      - 2
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
+        - 2
       anz_kinder_tu:
-      - 2
-      - 2
-      - 2
-      - 2
+        - 2
+        - 2
+        - 2
+        - 2
       kinderzuschl_bruttoeink_eltern_m:
-      - 1300.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 1300.0
+        - 0.0
+        - 0.0
+        - 0.0
       kinderzuschl_eink_eltern_m:
-      - 900.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 900.0
+        - 0.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 384.0
-      - 384.0
-      - 384.0
-      - 384.0
+        - 384.0
+        - 384.0
+        - 384.0
+        - 384.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
-    - 50.0
-    - 50.0
-    - 50.0
-    - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
     _kinderzuschl_nach_vermög_check_m_tu:
-    - 50.0
-    - 50.0
-    - 50.0
-    - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0

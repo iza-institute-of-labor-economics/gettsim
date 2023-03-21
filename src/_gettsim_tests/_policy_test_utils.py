@@ -18,22 +18,18 @@ class PolicyTestSet:
 
     @property
     def parametrize_args(self) -> list[tuple[PolicyTestData, str]]:
-        return [
-            (test, column)
-            for test in self._test_data
-            for column in test.output_df
-        ]
+        return [(test, column) for test in self._test_data for column in test.output_df]
 
 
 class PolicyTestData:
     def __init__(
-            self,
-            policy_name: str,
-            date: str,
-            household_name: str,
-            inputs_provided: _ValueDict,
-            inputs_assumed: _ValueDict,
-            outputs: _ValueDict,
+        self,
+        policy_name: str,
+        date: str,
+        household_name: str,
+        inputs_provided: _ValueDict,
+        inputs_assumed: _ValueDict,
+        outputs: _ValueDict,
     ):
         self.policy_name = policy_name
         self.date: date = _parse_date(date)
@@ -44,7 +40,9 @@ class PolicyTestData:
 
     @property
     def input_df(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict({**self._inputs_provided, **self._inputs_assumed}).reset_index(drop=True)
+        return pd.DataFrame.from_dict(
+            {**self._inputs_provided, **self._inputs_assumed}
+        ).reset_index(drop=True)
 
     @property
     def output_df(self) -> pd.DataFrame:
@@ -73,14 +71,16 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
             inputs_assumed: _ValueDict = inputs["assumed"]
             outputs: _ValueDict = household_data["outputs"]
 
-            out.append(PolicyTestData(
-                policy_name=policy_name,
-                date=date,
-                household_name=household_name,
-                inputs_provided=inputs_provided,
-                inputs_assumed=inputs_assumed,
-                outputs=outputs,
-            ))
+            out.append(
+                PolicyTestData(
+                    policy_name=policy_name,
+                    date=date,
+                    household_name=household_name,
+                    inputs_provided=inputs_provided,
+                    inputs_assumed=inputs_assumed,
+                    outputs=outputs,
+                )
+            )
 
     return PolicyTestSet(policy_name, out)
 

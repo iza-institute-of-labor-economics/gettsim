@@ -1,3 +1,4 @@
+---
 hh_id_7:
   info:
     note: ''
@@ -5,195 +6,195 @@ hh_id_7:
   inputs:
     provided:
       hh_id:
-      - 7
-      - 7
-      - 7
+        - 7
+        - 7
+        - 7
       tu_id:
-      - 7
-      - 7
-      - 7
+        - 7
+        - 7
+        - 7
       p_id:
-      - 1
-      - 2
-      - 3
+        - 1
+        - 2
+        - 3
       jahr:
-      - '2005'
-      - '2005'
-      - '2005'
+        - '2005'
+        - '2005'
+        - '2005'
       kind:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       alter:
-      - 32
-      - 35
-      - 40
+        - 32
+        - 35
+        - 40
       rentner:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       in_ausbildung:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       geburtsjahr:
-      - 1973
-      - 1970
-      - 1965
+        - 1973
+        - 1970
+        - 1965
       bürgerg_bezug_vorj:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 500.0
-      - 500.0
-      - 500.0
+        - 500.0
+        - 500.0
+        - 500.0
       heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
       wohnfläche_hh:
-      - 75.0
-      - 75.0
-      - 75.0
+        - 75.0
+        - 75.0
+        - 75.0
       bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       alleinerz:
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
       bruttolohn_m:
-      - 400.0
-      - 800.0
-      - 1200.0
+        - 400.0
+        - 800.0
+        - 1200.0
       arbeitsstunden_w:
-      - 20.0
-      - 20.0
-      - 40.0
+        - 20.0
+        - 20.0
+        - 40.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 80.0
-      - 160.0
-      - 240.0
+        - 80.0
+        - 160.0
+        - 240.0
       kindergeld_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       wohngeld_vor_vermög_check_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       arbeitsl_geld_2_bruttoeink_m:
-      - 400
-      - 800
-      - 1200
+        - 400
+        - 800
+        - 1200
       arbeitsl_geld_2_eink_anr_frei_m:
-      - 41.2005
-      - 133.80075
-      - 194.367375
+        - 41.2005
+        - 133.80075
+        - 194.367375
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m_hh:
-      - 0
-      - 0
-      - 0
+        - 0
+        - 0
+        - 0
       arbeitsl_geld_2_vor_vorrang_m_hh:
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       Column1:
-      - null
-      - null
-      - null
+        - null
+        - null
+        - null
       cost_per_qm:
-      - 8.0
-      - 8.0
-      - 8.0
+        - 8.0
+        - 8.0
+        - 8.0
       wohnfl_just:
-      - 75.0
-      - 75.0
-      - 75.0
+        - 75.0
+        - 75.0
+        - 75.0
       hhsize:
-      - 3.0
-      - 3.0
-      - 3.0
+        - 3.0
+        - 3.0
+        - 3.0
       _1:
-      - null
-      - null
-      - null
+        - null
+        - null
+        - null
       nettoquote:
-      - '0.686675'
-      - '0.7433375'
-      - '0.762225'
+        - '0.686675'
+        - '0.7433375'
+        - '0.762225'
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:
-    - 278.7995
-    - 506.19925
-    - 765.632625
+      - 278.7995
+      - 506.19925
+      - 765.632625
     arbeitsl_geld_2_regelsatz_m_hh:
-    - 878.8
-    - 878.8
-    - 878.8
+      - 878.8
+      - 878.8
+      - 878.8
     arbeitsl_geld_2_kost_unterk_m_hh:
-    - 600.0
-    - 600.0
-    - 600.0
+      - 600.0
+      - 600.0
+      - 600.0
     arbeitsl_geld_2_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
 hh_id_8:
   info:
     note: ''
@@ -201,98 +202,98 @@ hh_id_8:
   inputs:
     provided:
       hh_id:
-      - 8
+        - 8
       tu_id:
-      - 8
+        - 8
       p_id:
-      - 4
+        - 4
       jahr:
-      - '2005'
+        - '2005'
       kind:
-      - false
+        - false
       alter:
-      - 45
+        - 45
       rentner:
-      - false
+        - false
       in_ausbildung:
-      - false
+        - false
       geburtsjahr:
-      - 1960
+        - 1960
       bürgerg_bezug_vorj:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 300.0
+        - 300.0
       heizkosten_m_hh:
-      - 100.0
+        - 100.0
       wohnfläche_hh:
-      - 20.0
+        - 20.0
       bewohnt_eigentum_hh:
-      - false
+        - false
       alleinerz:
-      - false
+        - false
       bruttolohn_m:
-      - 600.0
+        - 600.0
       arbeitsstunden_w:
-      - 20.0
+        - 20.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 92.0
+        - 92.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
+        - 0.0
       wohngeld_vor_vermög_check_m_hh:
-      - 0.0
+        - 0.0
       arbeitsl_geld_2_bruttoeink_m:
-      - 600
+        - 600
       arbeitsl_geld_2_eink_anr_frei_m:
-      - 92.534
+        - 92.534
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m_hh:
-      - 0
+        - 0
       arbeitsl_geld_2_vor_vorrang_m_hh:
-      - 122.53
+        - 122.53
       Column1:
-      - null
+        - null
       cost_per_qm:
-      - 10.0
+        - 10.0
       wohnfl_just:
-      - 20.0
+        - 20.0
       hhsize:
-      - 1.0
+        - 1.0
       _1:
-      - null
+        - null
       nettoquote:
-      - '0.771116667'
+        - '0.771116667'
     assumed: {}
   outputs:
     arbeitsl_geld_2_eink_m:
-    - 415.466
+      - 415.466
     arbeitsl_geld_2_regelsatz_m_hh:
-    - 338.0
+      - 338.0
     arbeitsl_geld_2_kost_unterk_m_hh:
-    - 200.0
+      - 200.0
     arbeitsl_geld_2_m_hh:
-    - 122.53
+      - 122.53

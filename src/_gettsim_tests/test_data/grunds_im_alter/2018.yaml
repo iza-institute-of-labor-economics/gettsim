@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -5,75 +6,75 @@ hh_id_3:
   inputs:
     provided:
       p_id:
-      - 4
+        - 4
       tu_id:
-      - 3
+        - 3
       hh_id:
-      - 3
+        - 3
       jahr:
-      - 2018
+        - 2018
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1950
+        - 1950
       kind:
-      - false
+        - false
       alter:
-      - 68
+        - 68
       grundr_zeiten:
-      - 300
+        - 300
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 344.0
+        - 344.0
       heizkosten_m_hh:
-      - 92.0
+        - 92.0
       wohnfläche_hh:
-      - 45.0
+        - 45.0
       ges_rente_m:
-      - 440.0
+        - 440.0
       priv_rente_m:
-      - 400.0
+        - 400.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
+        - 0.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 202.0
+      - 202.0
 hh_id_12:
   info:
     note: Added minor capital income of 2 euros (no deduction from claim since below allowance
@@ -82,75 +83,75 @@ hh_id_12:
   inputs:
     provided:
       p_id:
-      - 16
+        - 16
       tu_id:
-      - 12
+        - 12
       hh_id:
-      - 12
+        - 12
       jahr:
-      - 2018
+        - 2018
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1950
+        - 1950
       kind:
-      - false
+        - false
       alter:
-      - 68
+        - 68
       grundr_zeiten:
-      - 300
+        - 300
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 344.0
+        - 344.0
       heizkosten_m_hh:
-      - 92.0
+        - 92.0
       wohnfläche_hh:
-      - 45.0
+        - 45.0
       ges_rente_m:
-      - 440.0
+        - 440.0
       priv_rente_m:
-      - 400.0
+        - 400.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 2.0
+        - 2.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 0.0
+        - 0.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 202.0
+      - 202.0
 hh_id_20:
   info:
     note: Test with positive wealth above wealth allowance
@@ -158,75 +159,75 @@ hh_id_20:
   inputs:
     provided:
       p_id:
-      - 26
+        - 26
       tu_id:
-      - 20
+        - 20
       hh_id:
-      - 20
+        - 20
       jahr:
-      - 2018
+        - 2018
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1950
+        - 1950
       kind:
-      - false
+        - false
       alter:
-      - 68
+        - 68
       grundr_zeiten:
-      - 300
+        - 300
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 344.0
+        - 344.0
       heizkosten_m_hh:
-      - 92.0
+        - 92.0
       wohnfläche_hh:
-      - 45.0
+        - 45.0
       ges_rente_m:
-      - 440.0
+        - 440.0
       priv_rente_m:
-      - 400.0
+        - 400.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 5600.0
+        - 5600.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 0.0
+      - 0.0
 hh_id_22:
   info:
     note: Test with positive wealth below wealth allowance
@@ -234,72 +235,72 @@ hh_id_22:
   inputs:
     provided:
       p_id:
-      - 29
+        - 29
       tu_id:
-      - 22
+        - 22
       hh_id:
-      - 22
+        - 22
       jahr:
-      - 2018
+        - 2018
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       geburtsjahr:
-      - 1950
+        - 1950
       kind:
-      - false
+        - false
       alter:
-      - 68
+        - 68
       grundr_zeiten:
-      - 300
+        - 300
       rentner:
-      - true
+        - true
       schwerbeh_g:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 344.0
+        - 344.0
       heizkosten_m_hh:
-      - 92.0
+        - 92.0
       wohnfläche_hh:
-      - 45.0
+        - 45.0
       ges_rente_m:
-      - 440.0
+        - 440.0
       priv_rente_m:
-      - 400.0
+        - 400.0
       bruttolohn_m:
-      - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
+        - 0.0
       eink_st_tu:
-      - 0.0
+        - 0.0
       soli_st_tu:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 4900.0
+        - 4900.0
       alleinerz:
-      - false
+        - false
       bewohnt_eigentum_hh:
-      - false
+        - false
     assumed: {}
   outputs:
     grunds_im_alter_m_hh:
-    - 202.0
+      - 202.0

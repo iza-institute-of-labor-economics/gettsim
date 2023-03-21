@@ -1,3 +1,4 @@
+---
 hh_id_7:
   info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
@@ -6,29 +7,29 @@ hh_id_7:
   inputs:
     provided:
       hh_id:
-      - 7
+        - 7
       tu_id:
-      - 7
+        - 7
       p_id:
-      - 11
+        - 11
       bruttolohn_vorj_m:
-      - 2300.0
+        - 2300.0
       wohnort_ost:
-      - false
+        - false
       kind:
-      - false
+        - false
       arbeitsstunden_w:
-      - 0.0
+        - 0.0
 #      anz_kinder_tu:
 #      - 0
       alter:
-      - 66
+        - 66
       geburtsjahr:
-      - 1945
+        - 1945
       jahr:
-      - 2011
+        - 2011
       eligible:
-      - false
+        - false
 #      alg_wage:
 #      - 2300
 #      alg_ssc:
@@ -41,13 +42,13 @@ hh_id_7:
 #      - 1412.28
     assumed:
       anwartschaftszeit:
-      - true
+        - true
       arbeitssuchend:
-      - true
+        - true
       m_durchg_alg1_bezug:
-      - 0.0
+        - 0.0
       soz_vers_pflicht_5j:
-      - 12.0
+        - 12.0
   outputs:
     arbeitsl_geld_m:
-    - 0.0
+      - 0.0

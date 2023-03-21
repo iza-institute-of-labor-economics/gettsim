@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -5,103 +6,103 @@ hh_id_3:
   inputs:
     provided:
       hh_id:
-      - 3
-      - 3
+        - 3
+        - 3
       tu_id:
-      - 3
-      - 3
+        - 3
+        - 3
       p_id:
-      - 6
-      - 7
+        - 6
+        - 7
       kind:
-      - false
-      - true
+        - false
+        - true
       rentner:
-      - false
-      - false
+        - false
+        - false
       alter:
-      - 28
-      - 1
+        - 28
+        - 1
       geburtsjahr:
-      - 1981
-      - 2008
+        - 1981
+        - 2008
       vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       anz_erwachsene_hh:
-      - 1
-      - 1
+        - 1
+        - 1
       anz_kinder_bis_17_hh:
-      - 1
-      - 1
+        - 1
+        - 1
       _kinderzuschl_vor_vermög_check_m_tu:
-      - 140.0
-      - 140.0
+        - 140.0
+        - 140.0
       wohngeld_vor_vermög_check_m_hh:
-      - 500.0
-      - 500.0
+        - 500.0
+        - 500.0
       arbeitsl_geld_2_regelbedarf_m_hh:
-      - 1183.64
-      - 1183.64
+        - 1183.64
+        - 1183.64
       arbeitsl_geld_2_eink_m_hh:
-      - 555.0
-      - 555.0
+        - 555.0
+        - 555.0
       kind_unterh_erhalt_m_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kindergeld_m_hh:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kinderzuschl_basis:
-      - 140
-      - 140
+        - 140
+        - 140
       jahr:
-      - 2009
-      - 2009
+        - 2009
+        - 2009
       Column1:
-      - null
-      - null
+        - null
+        - null
       fehlbedarf_arbeitsl_geld_2:
-      - 629
-      - 629
+        - 629
+        - 629
       fehlbedarf_wohngeld:
-      - 129
-      - 129
+        - 129
+        - 129
       fehlbedarf_kinderzuschl:
-      - 489.0
-      - 489.0
+        - 489.0
+        - 489.0
       fehlbedarf_wohngeld_kinderzuschl:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       wohngeld_vorrang:
-      - false
-      - false
+        - false
+        - false
       kinderzuschl_vorrang:
-      - false
-      - false
+        - false
+        - false
       wohngeld_kinderzuschl_vorrang:
-      - true
-      - true
+        - true
+        - true
       vermfreibetr:
-      - null
-      - null
+        - null
+        - null
       maxvermfb:
-      - null
-      - null
+        - null
+        - null
       geburtsjahr_1:
-      - 1981
-      - 2008
+        - 1981
+        - 2008
     assumed: {}
   outputs:
     kinderzuschl_m_hh:
-    - 140
-    - 140
+      - 140
+      - 140
     wohngeld_m_hh:
-    - 500
-    - 500
+      - 500
+      - 500
     arbeitsl_geld_2_m_hh:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0

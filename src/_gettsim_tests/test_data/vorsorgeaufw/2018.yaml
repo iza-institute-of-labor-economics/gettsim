@@ -1,3 +1,4 @@
+---
 hh_id_15:
   info:
     note: ''
@@ -5,30 +6,30 @@ hh_id_15:
   inputs:
     provided:
       tu_id:
-      - 15
+        - 15
       hh_id:
-      - 15
+        - 15
       p_id:
-      - 16
+        - 16
       jahr:
-      - 2018
+        - 2018
       bruttolohn_m:
-      - 1500.0
+        - 1500.0
       kind:
-      - false
+        - false
       priv_rentenv_beitr_m:
-      - 0.0
+        - 0.0
       ges_rentenv_beitr_m:
-      - 150.0
+        - 150.0
       arbeitsl_v_beitr_m:
-      - 30.0
+        - 30.0
       ges_krankenv_beitr_m:
-      - 120.0
+        - 120.0
       ges_pflegev_beitr_m:
-      - 22.5
+        - 22.5
       alter:
-      - 40
+        - 40
     assumed: {}
   outputs:
     vorsorgeaufw_tu:
-    - 3196
+      - 3196

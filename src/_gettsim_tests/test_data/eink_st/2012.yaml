@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -5,56 +6,56 @@ hh_id_3:
   inputs:
     provided:
       hh_id:
-      - 3
+        - 3
       tu_id:
-      - 3
+        - 3
       p_id:
-      - 3
+        - 3
       kind:
-      - false
+        - false
       zu_verst_eink_kein_kinderfreib:
-      - 20000.0
+        - 20000.0
       zu_verst_eink_kinderfreib:
-      - 20000.0
+        - 20000.0
       _zu_verst_eink_abgelt_st_m_kein_kinderfreib:
-      - 21000.0
+        - 21000.0
       _zu_versteuerndes_eink_abgelt_st_m_kinderfreib:
-      - 21000.0
+        - 21000.0
       kapitaleink_brutto:
-      - 1000.0
+        - 1000.0
       kapitaleink_brutto_tu:
-      - 1000.0
+        - 1000.0
       gem_veranlagt:
-      - false
+        - false
       jahr:
-      - 2012
+        - 2012
       Column1:
-      - null
+        - null
       _st_abgelt_st_m_kein_kinderfreib:
-      - 2972
+        - 2972
       _st_abgelt_st_m_kinderfreib_tu:
-      - 2972
+        - 2972
       soli_st_m:
-      - 151.24
+        - 151.24
       G:
-      - 8005.0
+        - 8005.0
       M:
-      - 13470.0
+        - 13470.0
       S:
-      - 52881.0
+        - 52881.0
       R:
-      - 250730.0
+        - 250730.0
       _1:
-      - null
+        - null
       solibase_inctax:
-      - 2669.777795
+        - 2669.777795
     assumed: {}
   outputs:
     eink_st_ohne_kinderfreib_tu:
-    - 2700
+      - 2700
     eink_st_mit_kinderfreib_tu:
-    - 2700
+      - 2700
     abgelt_st_tu:
-    - 49.75
+      - 49.75
     soli_st_tu:
-    - 151.24
+      - 151.24

@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -5,112 +6,112 @@ hh_id_3:
   inputs:
     provided:
       hh_id:
-      - 3
-      - 3
+        - 3
+        - 3
       tu_id:
-      - 3
-      - 3
+        - 3
+        - 3
       p_id:
-      - 20
-      - 21
+        - 20
+        - 21
       jahr:
-      - 2009
-      - 2009
+        - 2009
+        - 2009
       geburtstag:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsmonat:
-      - 1
-      - 1
+        - 1
+        - 1
       geburtsjahr:
-      - 1972
-      - 2001
+        - 1972
+        - 2001
       haushaltsgröße_hh:
-      - 2
-      - 2
+        - 2
+        - 2
       kind:
-      - false
-      - true
+        - false
+        - true
       kindergeld_anspruch:
-      - false
-      - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
-      - 400.0
+        - 400.0
+        - 400.0
       heizkost_m:
-      - 80
-      - 80
+        - 80
+        - 80
       alleinerz:
-      - true
-      - false
+        - true
+        - false
       alter:
-      - 37
-      - 8
+        - 37
+        - 8
       immobilie_baujahr_hh:
-      - 1995
-      - 1995
+        - 1995
+        - 1995
       mietstufe:
-      - 3
-      - 3
+        - 3
+        - 3
       bruttolohn_m:
-      - 1000.0
-      - 0.0
+        - 1000.0
+        - 0.0
       vermögen_bedürft_hh:
-      - 95000.0
-      - 95000.0
+        - 95000.0
+        - 95000.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       rente_ertragsanteil:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       arbeitsl_geld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sonstig_eink_m:
-      - 250.0
-      - 0.0
+        - 250.0
+        - 0.0
       kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       unterhaltsvors_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       elterngeld_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_abhängig_beschäftigt:
-      - 16000.0
-      - 0.0
+        - 16000.0
+        - 0.0
       kapitaleink_brutto:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_st_tu:
-      - 1000.0
-      - 1000.0
+        - 1000.0
+        - 1000.0
       eink_st_m:
-      - 1000
-      - 0
+        - 1000
+        - 0
       ges_rentenv_beitr_m:
-      - 100.0
-      - 0.0
+        - 100.0
+        - 0.0
       ges_krankenv_beitr_m:
-      - 80.0
-      - 0.0
+        - 80.0
+        - 0.0
       behinderungsgrad:
-      - 0
-      - 0
+        - 0
+        - 0
     assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
-    - 26.0
-    - 26.0
+      - 26.0
+      - 26.0
     wohngeld_nach_vermög_check_m_hh:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0

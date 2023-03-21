@@ -1,3 +1,4 @@
+---
 hh_id_18:
   info:
     note: 'EinfÃ¼hrung GeringfÃ¼gigkeitsgrenze 2022 '
@@ -5,47 +6,47 @@ hh_id_18:
   inputs:
     provided:
       hh_id:
-      - 18
+        - 18
       tu_id:
-      - 18
+        - 18
       p_id:
-      - 225
+        - 225
       bruttolohn_m:
-      - 510.0
+        - 510.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 30
+        - 30
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - false
+        - false
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       in_priv_krankenv:
-      - false
+        - false
       jahr:
-      - 2022-10
+        - 2022-10
       bemes:
-      - null
+        - null
     assumed: {}
   outputs:
     sozialv_beitr_m:
-    - 0.0
+      - 0.0
     sozialv_beitr_arbeitg_m:
-    - 142.8
+      - 142.8
     _sozialv_beitr_arbeitn_arbeitg_m:
-    - 142.8
+      - 142.8
     ges_rentenv_beitr_m:
-    - 0.0
+      - 0.0
     arbeitsl_v_beitr_m:
-    - 0.0
+      - 0.0
     ges_krankenv_beitr_m:
-    - 0.0
+      - 0.0
     ges_pflegev_beitr_m:
-    - 0.0
+      - 0.0
 hh_id_19:
   info:
     note: Ã„nderungen MidiJob 2022 (kinderlos) https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html)
@@ -53,47 +54,47 @@ hh_id_19:
   inputs:
     provided:
       hh_id:
-      - 19
+        - 19
       tu_id:
-      - 19
+        - 19
       p_id:
-      - 19
+        - 19
       bruttolohn_m:
-      - 1100.0
+        - 1100.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 35
+        - 35
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - false
+        - false
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       in_priv_krankenv:
-      - false
+        - false
       jahr:
-      - 2022-10
+        - 2022-10
       bemes:
-      - null
+        - null
     assumed: {}
   outputs:
     sozialv_beitr_m:
-    - 175.24
+      - 175.24
     sozialv_beitr_arbeitg_m:
-    - 239.04
+      - 239.04
     _sozialv_beitr_arbeitn_arbeitg_m:
-    - 414.28
+      - 414.28
     ges_rentenv_beitr_m:
-    - 79.91
+      - 79.91
     arbeitsl_v_beitr_m:
-    - 10.31
+      - 10.31
     ges_krankenv_beitr_m:
-    - 68.32
+      - 68.32
     ges_pflegev_beitr_m:
-    - 16.7
+      - 16.7
 hh_id_20:
   info:
     note: Ã„nderungen MidiJob 2022 (mit Kindern) https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html)
@@ -101,47 +102,47 @@ hh_id_20:
   inputs:
     provided:
       hh_id:
-      - 20
+        - 20
       tu_id:
-      - 20
+        - 20
       p_id:
-      - 20
+        - 20
       bruttolohn_m:
-      - 800.0
+        - 800.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 35
+        - 35
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       in_priv_krankenv:
-      - false
+        - false
       jahr:
-      - 2022-10
+        - 2022-10
       bemes:
-      - null
+        - null
     assumed: {}
   outputs:
     sozialv_beitr_m:
-    - 82.87
+      - 82.87
     sozialv_beitr_arbeitg_m:
-    - 190.71
+      - 190.71
     _sozialv_beitr_arbeitn_arbeitg_m:
-    - 273.58
+      - 273.58
     ges_rentenv_beitr_m:
-    - 38.58
+      - 38.58
     arbeitsl_v_beitr_m:
-    - 4.98
+      - 4.98
     ges_krankenv_beitr_m:
-    - 32.96
+      - 32.96
     ges_pflegev_beitr_m:
-    - 6.33
+      - 6.33
 hh_id_21:
   info:
     note: Ã„nderungen MidiJob 2022 (mit Kindern) https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html)
@@ -149,47 +150,47 @@ hh_id_21:
   inputs:
     provided:
       hh_id:
-      - 21
+        - 21
       tu_id:
-      - 21
+        - 21
       p_id:
-      - 21
+        - 21
       bruttolohn_m:
-      - 1400.0
+        - 1400.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 45
+        - 45
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - true
+        - true
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       in_priv_krankenv:
-      - false
+        - false
       jahr:
-      - 2022-10
+        - 2022-10
       bemes:
-      - null
+        - null
     assumed: {}
   outputs:
     sozialv_beitr_m:
-    - 260.4
+      - 260.4
     sozialv_beitr_arbeitg_m:
-    - 287.38
+      - 287.38
     _sozialv_beitr_arbeitn_arbeitg_m:
-    - 547.78
+      - 547.78
     ges_rentenv_beitr_m:
-    - 121.24
+      - 121.24
     arbeitsl_v_beitr_m:
-    - 15.64
+      - 15.64
     ges_krankenv_beitr_m:
-    - 103.64
+      - 103.64
     ges_pflegev_beitr_m:
-    - 19.88
+      - 19.88
 hh_id_22:
   info:
     note: Ã„nderung MidiJob 2022 (mit KV-Zusatzbeitrag 1.3 https://www.tk.de/resource/blob/2031420/94a8837d0957984a165ec6a2d415d7af/beratungsblatt-beschaeftigung-im-uebergangs--midijobbereich-data.pdf)
@@ -197,44 +198,44 @@ hh_id_22:
   inputs:
     provided:
       hh_id:
-      - 22
+        - 22
       tu_id:
-      - 22
+        - 22
       p_id:
-      - 22
+        - 22
       bruttolohn_m:
-      - 1000.0
+        - 1000.0
       wohnort_ost:
-      - false
+        - false
       alter:
-      - 50
+        - 50
       selbstständig:
-      - false
+        - false
       hat_kinder:
-      - false
+        - false
       eink_selbst_m:
-      - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
+        - 0.0
       in_priv_krankenv:
-      - false
+        - false
       jahr:
-      - 2022-10
+        - 2022-10
       bemes:
-      - null
+        - null
     assumed: {}
   outputs:
     sozialv_beitr_m:
-    - 145.24
+      - 145.24
     sozialv_beitr_arbeitg_m:
-    - 222.93
+      - 222.93
     _sozialv_beitr_arbeitn_arbeitg_m:
-    - 368.17
+      - 368.17
     ges_rentenv_beitr_m:
-    - 66.14
+      - 66.14
     arbeitsl_v_beitr_m:
-    - 8.53
+      - 8.53
     ges_krankenv_beitr_m:
-    - 56.53
+      - 56.53
     ges_pflegev_beitr_m:
-    - 14.04
+      - 14.04

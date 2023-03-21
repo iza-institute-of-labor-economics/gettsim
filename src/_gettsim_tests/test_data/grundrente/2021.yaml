@@ -1,186 +1,187 @@
+---
 hh_id_1:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
-      - 1
+        - 1
       tu_id:
-      - 1
+        - 1
       hh_id:
-      - 1
+        - 1
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 420
+        - 420
       grundr_bew_zeiten:
-      - 420
+        - 420
       entgeltp:
-      - 14.014
+        - 14.014
       grundr_entgeltp:
-      - 14.014
+        - 14.014
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.35
+        - 0.35
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.029166667
+      - 0.029166667
     grundr_zuschlag_vor_eink_anr_m:
-    - 418.83
+      - 418.83
     grundr_zuschlag_m:
-    - 418.83
+      - 418.83
     ges_rente_m:
-    - 897.97
+      - 897.97
 hh_id_2:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
-      - 2
+        - 2
       tu_id:
-      - 2
+        - 2
       hh_id:
-      - 2
+        - 2
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 420
+        - 420
       grundr_bew_zeiten:
-      - 420
+        - 420
       entgeltp:
-      - 17.5
+        - 17.5
       grundr_entgeltp:
-      - 17.5
+        - 17.5
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.2629
+        - 0.2629
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.021908333
+      - 0.021908333
     grundr_zuschlag_vor_eink_anr_m:
-    - 314.6
+      - 314.6
     grundr_zuschlag_m:
-    - 314.6
+      - 314.6
     ges_rente_m:
-    - 912.93
+      - 912.93
 hh_id_3:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
-      - 3
+        - 3
       tu_id:
-      - 3
+        - 3
       hh_id:
-      - 3
+        - 3
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 420
+        - 420
       grundr_bew_zeiten:
-      - 420
+        - 420
       entgeltp:
-      - 21.0
+        - 21.0
       grundr_entgeltp:
-      - 21.0
+        - 21.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.1754
+        - 0.1754
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.014616667
+      - 0.014616667
     grundr_zuschlag_vor_eink_anr_m:
-    - 209.89
+      - 209.89
     grundr_zuschlag_m:
-    - 209.89
+      - 209.89
     ges_rente_m:
-    - 927.88
+      - 927.88
 hh_id_4:
   info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
@@ -190,59 +191,59 @@ hh_id_4:
   inputs:
     provided:
       p_id:
-      - 4
+        - 4
       tu_id:
-      - 4
+        - 4
       hh_id:
-      - 4
+        - 4
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 480
+        - 480
       grundr_bew_zeiten:
-      - 480
+        - 480
       entgeltp:
-      - 28.8
+        - 28.8
       grundr_entgeltp:
-      - 28.8
+        - 28.8
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.07035
+        - 0.07035
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.0058625
+      - 0.0058625
     grundr_zuschlag_vor_eink_anr_m:
-    - 83.77
+      - 83.77
     grundr_zuschlag_m:
-    - 83.77
+      - 83.77
     ges_rente_m:
-    - 1069.0
+      - 1069.0
 hh_id_5:
   info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
@@ -252,59 +253,59 @@ hh_id_5:
   inputs:
     provided:
       p_id:
-      - 5
+        - 5
       tu_id:
-      - 5
+        - 5
       hh_id:
-      - 5
+        - 5
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 408
+        - 408
       grundr_bew_zeiten:
-      - 408
+        - 408
       entgeltp:
-      - 18.7
+        - 18.7
       grundr_entgeltp:
-      - 18.7
+        - 18.7
       wohnort_ost:
-      - true
+        - true
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.04438
+        - 0.04438
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.003698333
+      - 0.003698333
     grundr_zuschlag_vor_eink_anr_m:
-    - 50.98
+      - 50.98
     grundr_zuschlag_m:
-    - 50.98
+      - 50.98
     ges_rente_m:
-    - 677.0
+      - 677.0
 hh_id_6:
   info:
     note: ''
@@ -313,59 +314,59 @@ hh_id_6:
   inputs:
     provided:
       p_id:
-      - 6
+        - 6
       tu_id:
-      - 6
+        - 6
       hh_id:
-      - 6
+        - 6
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 480
+        - 480
       grundr_bew_zeiten:
-      - 300
+        - 300
       entgeltp:
-      - 19.2
+        - 19.2
       grundr_entgeltp:
-      - 15.0
+        - 15.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.175
+        - 0.175
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.014583333
+      - 0.014583333
     grundr_zuschlag_vor_eink_anr_m:
-    - 149.72
+      - 149.72
     grundr_zuschlag_m:
-    - 149.72
+      - 149.72
     ges_rente_m:
-    - 806.0
+      - 806.0
 hh_id_7:
   info:
     note: ''
@@ -374,59 +375,59 @@ hh_id_7:
   inputs:
     provided:
       p_id:
-      - 7
+        - 7
       tu_id:
-      - 7
+        - 7
       hh_id:
-      - 7
+        - 7
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 480
+        - 480
       grundr_bew_zeiten:
-      - 300
+        - 300
       entgeltp:
-      - 19.2
+        - 19.2
       grundr_entgeltp:
-      - 15.0
+        - 15.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 1400.0
+        - 1400.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.175
+        - 0.175
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.014583333
+      - 0.014583333
     grundr_zuschlag_vor_eink_anr_m:
-    - 149.72
+      - 149.72
     grundr_zuschlag_m:
-    - 59.72
+      - 59.72
     ges_rente_m:
-    - 716.0
+      - 716.0
 hh_id_8:
   info:
     note: ''
@@ -435,59 +436,59 @@ hh_id_8:
   inputs:
     provided:
       p_id:
-      - 8
+        - 8
       tu_id:
-      - 8
+        - 8
       hh_id:
-      - 8
+        - 8
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 480
+        - 480
       grundr_bew_zeiten:
-      - 300
+        - 300
       entgeltp:
-      - 19.2
+        - 19.2
       grundr_entgeltp:
-      - 15.0
+        - 15.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 2400.0
+        - 2400.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - false
+        - false
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.175
+        - 0.175
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.014583333
+      - 0.014583333
     grundr_zuschlag_vor_eink_anr_m:
-    - 149.72
+      - 149.72
     grundr_zuschlag_m:
-    - 0.0
+      - 0.0
     ges_rente_m:
-    - 656.0
+      - 656.0
 hh_id_9:
   info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
@@ -497,59 +498,59 @@ hh_id_9:
   inputs:
     provided:
       p_id:
-      - 9
+        - 9
       tu_id:
-      - 9
+        - 9
       hh_id:
-      - 9
+        - 9
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 552
+        - 552
       grundr_bew_zeiten:
-      - 552
+        - 552
       entgeltp:
-      - 34.5
+        - 34.5
       grundr_entgeltp:
-      - 34.5
+        - 34.5
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 1380.0
+        - 1380.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.0438
+        - 0.0438
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.0037
+      - 0.0037
     grundr_zuschlag_vor_eink_anr_m:
-    - 53.0
+      - 53.0
     grundr_zuschlag_m:
-    - 0.0
+      - 0.0
     ges_rente_m:
-    - 1179.55
+      - 1179.55
 hh_id_10:
   info:
     note: Adjusted staatl rente
@@ -558,59 +559,59 @@ hh_id_10:
   inputs:
     provided:
       p_id:
-      - 10
+        - 10
       tu_id:
-      - 10
+        - 10
       hh_id:
-      - 10
+        - 10
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 492
+        - 492
       grundr_bew_zeiten:
-      - 492
+        - 492
       entgeltp:
-      - 41.0
+        - 41.0
       grundr_entgeltp:
-      - 41.0
+        - 41.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.0
+        - 0.0
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.0
+      - 0.0
     grundr_zuschlag_vor_eink_anr_m:
-    - 0.0
+      - 0.0
     grundr_zuschlag_m:
-    - 0.0
+      - 0.0
     ges_rente_m:
-    - 1402.0
+      - 1402.0
 hh_id_11:
   info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
@@ -620,59 +621,59 @@ hh_id_11:
   inputs:
     provided:
       p_id:
-      - 11
+        - 11
       tu_id:
-      - 11
+        - 11
       hh_id:
-      - 11
+        - 11
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 516
+        - 516
       grundr_bew_zeiten:
-      - 372
+        - 372
       entgeltp:
-      - 18.5
+        - 18.5
       grundr_entgeltp:
-      - 15.5
+        - 15.5
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1951
+        - 1951
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - true
+        - true
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.2625
+        - 0.2625
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.021875
+      - 0.021875
     grundr_zuschlag_vor_eink_anr_m:
-    - 279.0
+      - 279.0
     grundr_zuschlag_m:
-    - 279.0
+      - 279.0
     ges_rente_m:
-    - 911.0
+      - 911.0
 hh_id_12:
   info:
     note: Person with zero Grundrente Bewertungszeiten
@@ -680,56 +681,56 @@ hh_id_12:
   inputs:
     provided:
       p_id:
-      - 12
+        - 12
       tu_id:
-      - 12
+        - 12
       hh_id:
-      - 12
+        - 12
       jahr:
-      - 2021
+        - 2021
       kind:
-      - false
+        - false
       grundr_zeiten:
-      - 0
+        - 0
       grundr_bew_zeiten:
-      - 0
+        - 0
       entgeltp:
-      - 0.0
+        - 0.0
       grundr_entgeltp:
-      - 0.0
+        - 0.0
       wohnort_ost:
-      - false
+        - false
       rente_vorj_vor_grundr_proxy_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       eink_selbst:
-      - 0.0
+        - 0.0
       eink_vermietung:
-      - 0.0
+        - 0.0
       kapitaleink:
-      - 0.0
+        - 0.0
       alter:
-      - 70
+        - 70
       alleinstehend:
-      - true
+        - true
       geburtsjahr:
-      - 1990
+        - 1990
       bruttolohn_m:
-      - 0.0
+        - 0.0
       ges_rente_zugangsfaktor:
-      - 1.0
+        - 1.0
       rentner:
-      - false
+        - false
       grundr_zuschlag_bonus_entgeltp (yearly):
-      - 0.0
+        - 0.0
     assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
-    - 0.0
+      - 0.0
     grundr_zuschlag_vor_eink_anr_m:
-    - 0.0
+      - 0.0
     grundr_zuschlag_m:
-    - 0.0
+      - 0.0
     ges_rente_m:
-    - 0.0
+      - 0.0

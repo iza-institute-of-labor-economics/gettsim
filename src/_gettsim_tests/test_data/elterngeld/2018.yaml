@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -5,55 +6,55 @@ hh_id_1:
   inputs:
     provided:
       hh_id:
-      - 1
+        - 1
       tu_id:
-      - 1
+        - 1
       p_id:
-      - 23
+        - 23
       jahr:
-      - 2018
+        - 2018
       bruttolohn_m:
-      - 0.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 0.0
+        - 0.0
       wohnort_ost:
-      - false
+        - false
       kind:
-      - false
+        - false
       eink_st_m:
-      - 0.0
+        - 0.0
       soli_st_m:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
+        - 0.0
       geburtsjahr:
-      - 1972
+        - 1972
       geburtstag:
-      - 1
+        - 1
       geburtsmonat:
-      - 1
+        - 1
       alter:
-      - 46
+        - 46
       m_elterngeld_mut_hh:
-      - 2
+        - 2
       m_elterngeld_vat_hh:
-      - 2
+        - 2
       m_elterngeld:
-      - 0
+        - 0
       considered_wage:
-      - null
+        - null
       payed_percentage:
-      - null
+        - null
     assumed: {}
   outputs:
     elterngeld_m:
-    - 0.0
+      - 0.0
     elterngeld_geschw_bonus_anspruch:
-    - false
+      - false
     _elterngeld_anz_mehrlinge_anspruch:
-    - 0
+      - 0
     elternzeit_anspruch:
-    - false
+      - false
 hh_id_2:
   info:
     note: ''
@@ -61,79 +62,79 @@ hh_id_2:
   inputs:
     provided:
       hh_id:
-      - 2
-      - 2
+        - 2
+        - 2
       tu_id:
-      - 2
-      - 2
+        - 2
+        - 2
       p_id:
-      - 42
-      - 43
+        - 42
+        - 43
       jahr:
-      - 2018
-      - 2018
+        - 2018
+        - 2018
       bruttolohn_m:
-      - 100.0
-      - 0.0
+        - 100.0
+        - 0.0
       bruttolohn_vorj_m:
-      - 1800.0
-      - 0.0
+        - 1800.0
+        - 0.0
       wohnort_ost:
-      - false
-      - false
+        - false
+        - false
       kind:
-      - false
-      - true
+        - false
+        - true
       eink_st_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       soli_st_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       geburtsjahr:
-      - 1974
-      - 2017
+        - 1974
+        - 2017
       geburtstag:
-      - 4
-      - 12
+        - 4
+        - 12
       geburtsmonat:
-      - 4
-      - 6
+        - 4
+        - 6
       alter:
-      - 43
-      - 0
+        - 43
+        - 0
       m_elterngeld_mut_hh:
-      - 1
-      - 1
+        - 1
+        - 1
       m_elterngeld_vat_hh:
-      - 0
-      - 0
+        - 0
+        - 0
       m_elterngeld:
-      - 0
-      - 0
+        - 0
+        - 0
       considered_wage:
-      - 1091.0
-      - null
+        - 1091.0
+        - null
       payed_percentage:
-      - 0.67
-      - null
+        - 0.67
+        - null
     assumed: {}
   outputs:
     elterngeld_m:
-    - 730.97
-    - 0.0
+      - 730.97
+      - 0.0
     elterngeld_geschw_bonus_anspruch:
-    - false
-    - false
+      - false
+      - false
     _elterngeld_anz_mehrlinge_anspruch:
-    - 0
-    - 0
+      - 0
+      - 0
     elternzeit_anspruch:
-    - true
-    - false
+      - true
+      - false
 hh_id_3:
   info:
     note: ''
@@ -141,79 +142,79 @@ hh_id_3:
   inputs:
     provided:
       hh_id:
-      - 3
-      - 3
+        - 3
+        - 3
       tu_id:
-      - 3
-      - 3
+        - 3
+        - 3
       p_id:
-      - 55
-      - 56
+        - 55
+        - 56
       jahr:
-      - 2018
-      - 2018
+        - 2018
+        - 2018
       bruttolohn_m:
-      - 900.0
-      - 3400.0
+        - 900.0
+        - 3400.0
       bruttolohn_vorj_m:
-      - 900.0
-      - 3600.0
+        - 900.0
+        - 3600.0
       wohnort_ost:
-      - false
-      - false
+        - false
+        - false
       kind:
-      - false
-      - false
+        - false
+        - false
       eink_st_m:
-      - 7.68
-      - 708.27
+        - 7.68
+        - 708.27
       soli_st_m:
-      - 0.0
-      - 38.96
+        - 0.0
+        - 38.96
       sozialv_beitr_m:
-      - 180.0
-      - 680.0
+        - 180.0
+        - 680.0
       geburtsjahr:
-      - 1976
-      - 1976
+        - 1976
+        - 1976
       geburtstag:
-      - 5
-      - 7
+        - 5
+        - 7
       geburtsmonat:
-      - 5
-      - 7
+        - 5
+        - 7
       alter:
-      - 41
-      - 41
+        - 41
+        - 41
       m_elterngeld_mut_hh:
-      - 1
-      - 1
+        - 1
+        - 1
       m_elterngeld_vat_hh:
-      - 0
-      - 0
+        - 0
+        - 0
       m_elterngeld:
-      - 0
-      - 0
+        - 0
+        - 0
       considered_wage:
-      - null
-      - null
+        - null
+        - null
       payed_percentage:
-      - null
-      - null
+        - null
+        - null
     assumed: {}
   outputs:
     elterngeld_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     elterngeld_geschw_bonus_anspruch:
-    - false
-    - false
+      - false
+      - false
     _elterngeld_anz_mehrlinge_anspruch:
-    - 0
-    - 0
+      - 0
+      - 0
     elternzeit_anspruch:
-    - false
-    - false
+      - false
+      - false
 hh_id_4:
   info:
     note: ''
@@ -221,79 +222,79 @@ hh_id_4:
   inputs:
     provided:
       hh_id:
-      - 4
-      - 4
+        - 4
+        - 4
       tu_id:
-      - 4
-      - 4
+        - 4
+        - 4
       p_id:
-      - 59
-      - 57
+        - 59
+        - 57
       jahr:
-      - 2018
-      - 2018
+        - 2018
+        - 2018
       bruttolohn_m:
-      - 0.0
-      - 3600.0
+        - 0.0
+        - 3600.0
       bruttolohn_vorj_m:
-      - 0.0
-      - 3400.0
+        - 0.0
+        - 3400.0
       wohnort_ost:
-      - false
-      - false
+        - false
+        - false
       kind:
-      - true
-      - false
+        - true
+        - false
       eink_st_m:
-      - 0.0
-      - 779.33
+        - 0.0
+        - 779.33
       soli_st_m:
-      - 0.0
-      - 42.86
+        - 0.0
+        - 42.86
       sozialv_beitr_m:
-      - 0.0
-      - 756.0
+        - 0.0
+        - 756.0
       geburtsjahr:
-      - 2017
-      - 1976
+        - 2017
+        - 1976
       geburtstag:
-      - 12
-      - 9
+        - 12
+        - 9
       geburtsmonat:
-      - 6
-      - 9
+        - 6
+        - 9
       alter:
-      - 0
-      - 41
+        - 0
+        - 41
       m_elterngeld_mut_hh:
-      - 1
-      - 1
+        - 1
+        - 1
       m_elterngeld_vat_hh:
-      - 0
-      - 0
+        - 0
+        - 0
       m_elterngeld:
-      - 0
-      - 0
+        - 0
+        - 0
       considered_wage:
-      - null
-      - null
+        - null
+        - null
       payed_percentage:
-      - null
-      - null
+        - null
+        - null
     assumed: {}
   outputs:
     elterngeld_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     elterngeld_geschw_bonus_anspruch:
-    - false
-    - false
+      - false
+      - false
     _elterngeld_anz_mehrlinge_anspruch:
-    - 0
-    - 0
+      - 0
+      - 0
     elternzeit_anspruch:
-    - false
-    - true
+      - false
+      - true
 hh_id_6:
   info:
     note: ''
@@ -301,52 +302,52 @@ hh_id_6:
   inputs:
     provided:
       hh_id:
-      - 6
+        - 6
       tu_id:
-      - 19
+        - 19
       p_id:
-      - 19
+        - 19
       jahr:
-      - 2018
+        - 2018
       bruttolohn_m:
-      - 900.0
+        - 900.0
       bruttolohn_vorj_m:
-      - 900.0
+        - 900.0
       wohnort_ost:
-      - false
+        - false
       kind:
-      - false
+        - false
       eink_st_m:
-      - 7.68
+        - 7.68
       soli_st_m:
-      - 0.0
+        - 0.0
       sozialv_beitr_m:
-      - 180.0
+        - 180.0
       geburtsjahr:
-      - 1980
+        - 1980
       geburtstag:
-      - 11
+        - 11
       geburtsmonat:
-      - 11
+        - 11
       alter:
-      - 37
+        - 37
       m_elterngeld_mut_hh:
-      - 0
+        - 0
       m_elterngeld_vat_hh:
-      - 0
+        - 0
       m_elterngeld:
-      - 0
+        - 0
       considered_wage:
-      - null
+        - null
       payed_percentage:
-      - null
+        - null
     assumed: {}
   outputs:
     elterngeld_m:
-    - 0.0
+      - 0.0
     elterngeld_geschw_bonus_anspruch:
-    - false
+      - false
     _elterngeld_anz_mehrlinge_anspruch:
-    - 0
+      - 0
     elternzeit_anspruch:
-    - false
+      - false

@@ -1,3 +1,4 @@
+---
 hh_id_18:
   info:
     note: ''
@@ -5,102 +6,102 @@ hh_id_18:
   inputs:
     provided:
       hh_id:
-      - 18
-      - 18
+        - 18
+        - 18
       tu_id:
-      - 18
-      - 18
+        - 18
+        - 18
       p_id:
-      - 25
-      - 26
+        - 25
+        - 26
       jahr:
-      - 2017
-      - 2017
+        - 2017
+        - 2017
       geburtsjahr:
-      - 1980
-      - 1982
+        - 1980
+        - 1982
       alter:
-      - 37
-      - 35
+        - 37
+        - 35
       bruttolohn_m:
-      - 3000.0
-      - 2500.0
+        - 3000.0
+        - 2500.0
       betreuungskost_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_selbst_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       kapitaleink_brutto_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       eink_vermietung_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       jahr_renteneintr:
-      - 2045
-      - 2047
+        - 2045
+        - 2047
       arbeitsstunden_w:
-      - 38.0
-      - 30.0
+        - 38.0
+        - 30.0
       in_ausbildung:
-      - false
-      - false
+        - false
+        - false
       wohnort_ost:
-      - false
-      - false
+        - false
+        - false
       kind:
-      - false
-      - false
+        - false
+        - false
       selbstständig:
-      - false
-      - false
+        - false
+        - false
       in_priv_krankenv:
-      - false
-      - false
+        - false
+        - false
       hat_kinder:
-      - true
-      - true
+        - true
+        - true
       behinderungsgrad:
-      - 0
-      - 0
+        - 0
+        - 0
       priv_rentenv_beitr_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
       alleinerz:
-      - false
-      - false
+        - false
+        - false
       vorsorgeaufw_tu:
-      - 10359.0
-      - 10359.0
+        - 10359.0
+        - 10359.0
       Notes:
-      - vorsorgeaufw calculated by adding up 'Altersvorsorge' and 'Sonstige Vorsorge' printed
-        out by calculator
-      - vorsorgeaufw calculated by adding up 'Altersvorsorge' and 'Sonstige Vorsorge' printed
-        out by calculator
+        - vorsorgeaufw calculated by adding up 'Altersvorsorge' and 'Sonstige Vorsorge' printed
+          out by calculator
+        - vorsorgeaufw calculated by adding up 'Altersvorsorge' and 'Sonstige Vorsorge' printed
+          out by calculator
     assumed: {}
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
-    - 53569.0
-    - 53569.0
+      - 53569.0
+      - 53569.0
     zu_verst_eink_mit_kinderfreib_tu:
-    - 53569.0
-    - 53569.0
+      - 53569.0
+      - 53569.0
     eink_st_kinderfreib_tu:
-    - 0
-    - 0
+      - 0
+      - 0
     eink_st_altersfreib:
-    - 0
-    - 0
+      - 0
+      - 0
     alleinerz_freib_tu:
-    - 0
-    - 0
+      - 0
+      - 0
     sum_eink:
-    - 35000
-    - 29000
+      - 35000
+      - 29000
     _eink_st_behinderungsgrad_pauschbetrag:
-    - 0
-    - 0
+      - 0
+      - 0

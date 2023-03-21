@@ -1,3 +1,4 @@
+---
 hh_id_12:
   info:
     note: ''
@@ -5,30 +6,30 @@ hh_id_12:
   inputs:
     provided:
       tu_id:
-      - 12
+        - 12
       hh_id:
-      - 12
+        - 12
       p_id:
-      - 13
+        - 13
       jahr:
-      - 2021
+        - 2021
       bruttolohn_m:
-      - 4305.56
+        - 4305.56
       kind:
-      - false
+        - false
       priv_rentenv_beitr_m:
-      - 250.0
+        - 250.0
       ges_rentenv_beitr_m:
-      - 387.5
+        - 387.5
       arbeitsl_v_beitr_m:
-      - 0.0
+        - 0.0
       ges_krankenv_beitr_m:
-      - 0.0
+        - 0.0
       ges_pflegev_beitr_m:
-      - 0.0
+        - 0.0
       alter:
-      - 50
+        - 50
     assumed: {}
   outputs:
     vorsorgeaufw_tu:
-    - 6666
+      - 6666
