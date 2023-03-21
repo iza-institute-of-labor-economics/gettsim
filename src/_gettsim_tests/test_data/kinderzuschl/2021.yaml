@@ -1,0 +1,119 @@
+- inputs:
+    provided:
+      hh_id:
+      - 10
+      - 10
+      - 10
+      tu_id:
+      - 10
+      - 10
+      - 10
+      p_id:
+      - 27
+      - 28
+      - 29
+      head:
+      - true
+      - true
+      - false
+      jahr:
+      - 2021
+      - 2021
+      - 2021
+      geburtsjahr:
+      - 1986
+      - 1988
+      - 2009
+      hh_korr:
+      - 1
+      - 1
+      - 1
+      hhsize:
+      - 2
+      - 2
+      - 2
+      kind:
+      - false
+      - false
+      - true
+      kindergeld_anspruch:
+      - false
+      - false
+      - true
+      alter:
+      - 35
+      - 33
+      - 12
+      arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 1600.0
+      - 0.0
+      - 0.0
+      in_ausbildung:
+      - false
+      - false
+      - true
+      bruttokaltmiete_m_hh:
+      - 750.0
+      - 750.0
+      - 750.0
+      heizkosten_m_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      alleinerz:
+      - false
+      - false
+      - false
+      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      anz_erw_tu:
+      - 2
+      - 2
+      - 2
+      anz_kinder_tu:
+      - 1
+      - 1
+      - 1
+      kinderzuschl_bruttoeink_eltern_m:
+      - 1600.0
+      - 0.0
+      - 0.0
+      kinderzuschl_eink_eltern_m:
+      - 1200.0
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 219.0
+      - 219.0
+      - 219.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    assumed: {}
+  outputs:
+    _kinderzuschl_vor_vermög_check_m_tu:
+    - 205.0
+    - 205.0
+    - 205.0
+    _kinderzuschl_nach_vermög_check_m_tu:
+    - 205.0
+    - 205.0
+    - 205.0
+  info:
+    note: ''
+    source: ''

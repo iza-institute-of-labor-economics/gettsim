@@ -1,0 +1,139 @@
+- inputs:
+    provided:
+      hh_id:
+      - 5
+      - 5
+      - 5
+      tu_id:
+      - 5
+      - 5
+      - 5
+      p_id:
+      - 13
+      - 14
+      - 15
+      kind:
+      - false
+      - false
+      - false
+      rentner:
+      - false
+      - false
+      - false
+      alter:
+      - 30
+      - 40
+      - 35
+      geburtsjahr:
+      - 1981
+      - 1971
+      - 1976
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      anz_erwachsene_hh:
+      - 3
+      - 3
+      - 3
+      anz_kinder_bis_17_hh:
+      - 0
+      - 0
+      - 0
+      _kinderzuschl_vor_vermög_check_m_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 400.0
+      - 400.0
+      - 400.0
+      arbeitsl_geld_2_regelbedarf_m_hh:
+      - 1703.0
+      - 1703.0
+      - 1703.0
+      arbeitsl_geld_2_eink_m_hh:
+      - 1578.0
+      - 1578.0
+      - 1578.0
+      kind_unterh_erhalt_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      unterhaltsvors_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kinderzuschl_basis:
+      - 0
+      - 0
+      - 0
+      jahr:
+      - 2011
+      - 2011
+      - 2011
+      Column1:
+      - .nan
+      - .nan
+      - .nan
+      fehlbedarf_arbeitsl_geld_2:
+      - 125
+      - 125
+      - 125
+      fehlbedarf_wohngeld:
+      - 0
+      - 0
+      - 0
+      fehlbedarf_kinderzuschl:
+      - 125.0
+      - 125.0
+      - 125.0
+      fehlbedarf_wohngeld_kinderzuschl:
+      - 0.0
+      - 0.0
+      - 0.0
+      wohngeld_vorrang:
+      - true
+      - true
+      - true
+      kinderzuschl_vorrang:
+      - false
+      - false
+      - false
+      wohngeld_kinderzuschl_vorrang:
+      - true
+      - true
+      - true
+      vermfreibetr:
+      - .nan
+      - .nan
+      - .nan
+      maxvermfb:
+      - .nan
+      - .nan
+      - .nan
+      geburtsjahr_1:
+      - 1981
+      - 1971
+      - 1976
+    assumed: {}
+  outputs:
+    kinderzuschl_m_hh:
+    - 0
+    - 0
+    - 0
+    wohngeld_m_hh:
+    - 400
+    - 400
+    - 400
+    arbeitsl_geld_2_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+  info:
+    note: ''
+    source: ''

@@ -1,0 +1,23 @@
+- inputs:
+    provided:
+      hh_id:
+      - 2
+      tu_id:
+      - 2
+      p_id:
+      - 2
+      kind:
+      - false
+      abgelt_st_tu:
+      - 0.0
+      eink_st_mit_kinderfreib_tu:
+      - 6000.0
+      jahr:
+      - 1991
+    assumed: {}
+  outputs:
+    soli_st_tu:
+    - 225
+  info:
+    note: ''
+    source: ''

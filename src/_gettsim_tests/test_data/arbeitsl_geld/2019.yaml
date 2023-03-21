@@ -1,0 +1,252 @@
+- inputs:
+    provided:
+      hh_id:
+      - 1
+      tu_id:
+      - 1
+      p_id:
+      - 1
+      bruttolohn_vorj_m:
+      - 1000.0
+      wohnort_ost:
+      - true
+      kind:
+      - false
+      arbeitsstunden_w:
+      - 0.0
+      anz_kinder_tu:
+      - 0
+      alter:
+      - 30
+      geburtsjahr:
+      - 1989
+      jahr:
+      - 2019
+      eligible:
+      - true
+      alg_wage:
+      - 1000
+      alg_ssc:
+      - 200.0
+      alg_tax:
+      - 24.08
+      alg_soli:
+      - 0.0
+      alg_entgelt:
+      - 775.92
+    assumed:
+      anwartschaftszeit:
+      - true
+      arbeitssuchend:
+      - true
+      m_durchg_alg1_bezug:
+      - 0.0
+      soz_vers_pflicht_5j:
+      - 12.0
+  outputs:
+    arbeitsl_geld_m:
+    - 465.54
+  info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none
+- inputs:
+    provided:
+      hh_id:
+      - 2
+      tu_id:
+      - 2
+      p_id:
+      - 2
+      bruttolohn_vorj_m:
+      - 2000.0
+      wohnort_ost:
+      - true
+      kind:
+      - false
+      arbeitsstunden_w:
+      - 0.0
+      anz_kinder_tu:
+      - 0
+      alter:
+      - 30
+      geburtsjahr:
+      - 1989
+      jahr:
+      - 2019
+      eligible:
+      - true
+      alg_wage:
+      - 2000
+      alg_ssc:
+      - 400.0
+      alg_tax:
+      - 268.92
+      alg_soli:
+      - 14.79
+      alg_entgelt:
+      - 1316.29
+    assumed:
+      anwartschaftszeit:
+      - true
+      arbeitssuchend:
+      - true
+      m_durchg_alg1_bezug:
+      - 0.0
+      soz_vers_pflicht_5j:
+      - 12.0
+  outputs:
+    arbeitsl_geld_m:
+    - 789.772
+  info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none
+- inputs:
+    provided:
+      hh_id:
+      - 3
+      - 3
+      tu_id:
+      - 3
+      - 3
+      p_id:
+      - 3
+      - 4
+      bruttolohn_vorj_m:
+      - 0.0
+      - 3000.0
+      wohnort_ost:
+      - false
+      - false
+      kind:
+      - true
+      - false
+      arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      anz_kinder_tu:
+      - 1
+      - 1
+      alter:
+      - 5
+      - 30
+      geburtsjahr:
+      - 2014
+      - 1989
+      jahr:
+      - 2019
+      - 2019
+      eligible:
+      - false
+      - false
+      alg_wage:
+      - 0
+      - 3000
+      alg_ssc:
+      - 0.0
+      - 600.0
+      alg_tax:
+      - 0.0
+      - 572.33
+      alg_soli:
+      - 0.0
+      - 31.48
+      alg_entgelt:
+      - 0.0
+      - 1796.19
+    assumed:
+      anwartschaftszeit:
+      - false
+      - true
+      arbeitssuchend:
+      - false
+      - true
+      m_durchg_alg1_bezug:
+      - 0.0
+      - 12.0
+      soz_vers_pflicht_5j:
+      - 0.0
+      - 0.0
+  outputs:
+    arbeitsl_geld_m:
+    - 0.0
+    - 0.0
+  info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none
+- inputs:
+    provided:
+      hh_id:
+      - 4
+      - 4
+      tu_id:
+      - 4
+      - 4
+      p_id:
+      - 5
+      - 6
+      bruttolohn_vorj_m:
+      - 4000.0
+      - 0.0
+      wohnort_ost:
+      - false
+      - false
+      kind:
+      - false
+      - true
+      arbeitsstunden_w:
+      - 20.0
+      - 0.0
+      anz_kinder_tu:
+      - 1
+      - 1
+      alter:
+      - 30
+      - 5
+      geburtsjahr:
+      - 1989
+      - 2014
+      jahr:
+      - 2019
+      - 2019
+      eligible:
+      - false
+      - false
+      alg_wage:
+      - 4000
+      - 0
+      alg_ssc:
+      - 800.0
+      - 0.0
+      alg_tax:
+      - 927.66
+      - 0.0
+      alg_soli:
+      - 51.02
+      - 0.0
+      alg_entgelt:
+      - 2221.32
+      - 0.0
+    assumed:
+      anwartschaftszeit:
+      - true
+      - false
+      arbeitssuchend:
+      - true
+      - false
+      m_durchg_alg1_bezug:
+      - 0.0
+      - 0.0
+      soz_vers_pflicht_5j:
+      - 12.0
+      - 0.0
+  outputs:
+    arbeitsl_geld_m:
+    - 0.0
+    - 0.0
+  info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none

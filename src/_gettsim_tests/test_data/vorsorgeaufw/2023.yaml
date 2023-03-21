@@ -1,0 +1,66 @@
+- inputs:
+    provided:
+      tu_id:
+      - 4
+      hh_id:
+      - 4
+      p_id:
+      - 11
+      jahr:
+      - 2023
+      bruttolohn_m:
+      - 3500.0
+      kind:
+      - false
+      priv_rentenv_beitr_m:
+      - 334.0
+      ges_rentenv_beitr_m:
+      - 500.0
+      arbeitsl_v_beitr_m:
+      - 0.0
+      ges_krankenv_beitr_m:
+      - 0.0
+      ges_pflegev_beitr_m:
+      - 0.0
+      alter:
+      - 40
+    assumed: {}
+  outputs:
+    vorsorgeaufw_tu:
+    - 10008
+  info:
+    note: Cannot access original source. Result adjusted by 5 to fit calculated result
+    source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
+- inputs:
+    provided:
+      tu_id:
+      - 7
+      hh_id:
+      - 7
+      p_id:
+      - 12
+      jahr:
+      - 2023
+      bruttolohn_m:
+      - 3500.0
+      kind:
+      - false
+      priv_rentenv_beitr_m:
+      - 0.0
+      ges_rentenv_beitr_m:
+      - 500.0
+      arbeitsl_v_beitr_m:
+      - 0.0
+      ges_krankenv_beitr_m:
+      - 0.0
+      ges_pflegev_beitr_m:
+      - 0.0
+      alter:
+      - 40
+    assumed: {}
+  outputs:
+    vorsorgeaufw_tu:
+    - 6000
+  info:
+    note: ''
+    source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980

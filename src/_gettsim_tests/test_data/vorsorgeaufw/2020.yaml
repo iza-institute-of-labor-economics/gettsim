@@ -1,0 +1,33 @@
+- inputs:
+    provided:
+      tu_id:
+      - 13
+      hh_id:
+      - 13
+      p_id:
+      - 14
+      jahr:
+      - 2020
+      bruttolohn_m:
+      - 2583.33
+      kind:
+      - false
+      priv_rentenv_beitr_m:
+      - 150.0
+      ges_rentenv_beitr_m:
+      - 232.5
+      arbeitsl_v_beitr_m:
+      - 0.0
+      ges_krankenv_beitr_m:
+      - 0.0
+      ges_pflegev_beitr_m:
+      - 0.0
+      alter:
+      - 45
+    assumed: {}
+  outputs:
+    vorsorgeaufw_tu:
+    - 3852
+  info:
+    note: ''
+    source: https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug

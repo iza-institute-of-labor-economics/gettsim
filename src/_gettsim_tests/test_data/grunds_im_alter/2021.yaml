@@ -1,0 +1,817 @@
+- inputs:
+    provided:
+      p_id:
+      - 1
+      - 2
+      tu_id:
+      - 1
+      - 1
+      hh_id:
+      - 1
+      - 1
+      jahr:
+      - 2021
+      - 2021
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1951
+      - 1954
+      kind:
+      - false
+      - false
+      alter:
+      - 70
+      - 67
+      grundr_zeiten:
+      - 240
+      - 240
+      rentner:
+      - true
+      - true
+      schwerbeh_g:
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      - 300.0
+      heizkosten_m_hh:
+      - 66.0
+      - 66.0
+      wohnfläche_hh:
+      - 50.0
+      - 50.0
+      ges_rente_m:
+      - 350.0
+      - 590.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 228.0
+    - 228.0
+  info:
+    note: ''
+    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
+      (Max B. und Inge M.)
+- inputs:
+    provided:
+      p_id:
+      - 3
+      tu_id:
+      - 2
+      hh_id:
+      - 2
+      jahr:
+      - 2021
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1951
+      kind:
+      - false
+      alter:
+      - 70
+      grundr_zeiten:
+      - 420
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 405.0
+      heizkosten_m_hh:
+      - 40.0
+      wohnfläche_hh:
+      - 45.0
+      ges_rente_m:
+      - 850.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 94.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 358.0
+  info:
+    note: ''
+    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
+      (Harald F.)
+- inputs:
+    provided:
+      p_id:
+      - 7
+      tu_id:
+      - 5
+      hh_id:
+      - 5
+      jahr:
+      - 2021
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1953
+      kind:
+      - false
+      alter:
+      - 68
+      grundr_zeiten:
+      - 0
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 350.0
+      heizkosten_m_hh:
+      - 35.0
+      wohnfläche_hh:
+      - 40.0
+      ges_rente_m:
+      - 430.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 401.0
+  info:
+    note: ''
+    source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
+- inputs:
+    provided:
+      p_id:
+      - 10
+      tu_id:
+      - 7
+      hh_id:
+      - 7
+      jahr:
+      - 2021
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1953
+      kind:
+      - false
+      alter:
+      - 68
+      grundr_zeiten:
+      - 0
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 350.0
+      heizkosten_m_hh:
+      - 35.0
+      wohnfläche_hh:
+      - 40.0
+      ges_rente_m:
+      - 430.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 401.0
+  info:
+    note: ''
+    source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
+- inputs:
+    provided:
+      p_id:
+      - 12
+      - 13
+      tu_id:
+      - 9
+      - 9
+      hh_id:
+      - 9
+      - 9
+      jahr:
+      - 2021
+      - 2021
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1951
+      - 1961
+      kind:
+      - false
+      - false
+      alter:
+      - 70
+      - 60
+      grundr_zeiten:
+      - 240
+      - 240
+      rentner:
+      - true
+      - false
+      schwerbeh_g:
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      - 300.0
+      heizkosten_m_hh:
+      - 66.0
+      - 66.0
+      wohnfläche_hh:
+      - 50.0
+      - 50.0
+      ges_rente_m:
+      - 350.0
+      - 0.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 0.0
+    - 0.0
+  info:
+    note: Test if households with non-retired adult do not get Grundsicherung im Alter (as
+      currently implemented those households get ALG 2)
+    source: ''
+- inputs:
+    provided:
+      p_id:
+      - 19
+      tu_id:
+      - 14
+      hh_id:
+      - 14
+      jahr:
+      - 2021
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1953
+      kind:
+      - false
+      alter:
+      - 68
+      grundr_zeiten:
+      - 0
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 350.0
+      heizkosten_m_hh:
+      - 35.0
+      wohnfläche_hh:
+      - 40.0
+      ges_rente_m:
+      - 430.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 50.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 353.17
+  info:
+    note: Added capital income of 50 euros (expected difference in grunds_im_alter_m_hh ((50*12)-26)/12)=47.83333333)
+    source: Adjusted test case based on https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
+- inputs:
+    provided:
+      p_id:
+      - 20
+      tu_id:
+      - 15
+      hh_id:
+      - 15
+      jahr:
+      - 2021
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1954
+      kind:
+      - false
+      alter:
+      - 67
+      grundr_zeiten:
+      - 0
+      rentner:
+      - true
+      schwerbeh_g:
+      - true
+      bruttokaltmiete_m_hh:
+      - 335.0
+      heizkosten_m_hh:
+      - 35.0
+      wohnfläche_hh:
+      - 40.0
+      ges_rente_m:
+      - 325.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 566.82
+  info:
+    note: ''
+    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
+      (Gerda M.)
+- inputs:
+    provided:
+      p_id:
+      - 27
+      - 28
+      tu_id:
+      - 21
+      - 21
+      hh_id:
+      - 21
+      - 21
+      jahr:
+      - 2021
+      - 2021
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1951
+      - 1954
+      kind:
+      - false
+      - false
+      alter:
+      - 70
+      - 67
+      grundr_zeiten:
+      - 240
+      - 240
+      rentner:
+      - true
+      - true
+      schwerbeh_g:
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      - 300.0
+      heizkosten_m_hh:
+      - 66.0
+      - 66.0
+      wohnfläche_hh:
+      - 50.0
+      - 50.0
+      ges_rente_m:
+      - 350.0
+      - 590.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 10500.0
+      - 10500.0
+      alleinerz:
+      - false
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 0.0
+    - 0.0
+  info:
+    note: Test with positive wealth above wealth allowance
+    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
+      (Max B. und Inge M.)
+- inputs:
+    provided:
+      p_id:
+      - 30
+      - 31
+      tu_id:
+      - 23
+      - 23
+      hh_id:
+      - 23
+      - 23
+      jahr:
+      - 2021
+      - 2021
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1951
+      - 1954
+      kind:
+      - false
+      - false
+      alter:
+      - 70
+      - 67
+      grundr_zeiten:
+      - 240
+      - 240
+      rentner:
+      - true
+      - true
+      schwerbeh_g:
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      - 300.0
+      heizkosten_m_hh:
+      - 66.0
+      - 66.0
+      wohnfläche_hh:
+      - 50.0
+      - 50.0
+      ges_rente_m:
+      - 350.0
+      - 590.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 8250.0
+      - 8250.0
+      alleinerz:
+      - false
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 228.0
+    - 228.0
+  info:
+    note: Test with positive wealth below wealth allowance
+    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
+      (Max B. und Inge M.)

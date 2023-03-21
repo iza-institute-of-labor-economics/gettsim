@@ -1,0 +1,688 @@
+- inputs:
+    provided:
+      hh_id:
+      - 20
+      tu_id:
+      - 20
+      p_id:
+      - 49
+      jahr:
+      - 2023-07
+      kind:
+      - false
+      alter:
+      - 45
+      rentner:
+      - false
+      in_ausbildung:
+      - false
+      geburtsjahr:
+      - 1978
+      bürgerg_bezug_vorj:
+      - false
+      bruttokaltmiete_m_hh:
+      - 400.0
+      heizkosten_m_hh:
+      - 50.0
+      wohnfläche_hh:
+      - 60.0
+      bewohnt_eigentum_hh:
+      - false
+      alleinerz:
+      - false
+      bruttolohn_m:
+      - 1200.0
+      arbeitsstunden_w:
+      - 20.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 204.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 40000.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 0.0
+      arbeitsl_geld_2_bruttoeink_m:
+      - 1200
+      arbeitsl_geld_2_eink_anr_frei_m:
+      - 348.0
+      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m_hh:
+      - 0
+      arbeitsl_geld_2_vor_vorrang_m_hh:
+      - 304.0
+      Column1:
+      - .nan
+      cost_per_qm:
+      - 10.83333333
+      wohnfl_just:
+      - 60.0
+      hhsize:
+      - 1.0
+      _1:
+      - .nan
+      nettoquote:
+      - .nan
+    assumed: {}
+  outputs:
+    arbeitsl_geld_2_eink_m:
+    - 648.0
+    arbeitsl_geld_2_regelsatz_m_hh:
+    - 502.0
+    arbeitsl_geld_2_kost_unterk_m_hh:
+    - 450.0
+    arbeitsl_geld_2_m_hh:
+    - 304.0
+  info:
+    note: https://buergergeld-rechner.org/ (Test uses the wrong Regelbedarf for one adult
+      (520 instead of 502) thus result is adjusted by that difference)
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 21
+      - 21
+      - 21
+      tu_id:
+      - 21
+      - 21
+      - 21
+      p_id:
+      - 50
+      - 51
+      - 52
+      jahr:
+      - 2023-07
+      - 2023-07
+      - 2023-07
+      kind:
+      - false
+      - false
+      - true
+      alter:
+      - 40
+      - 38
+      - 3
+      rentner:
+      - false
+      - false
+      - false
+      in_ausbildung:
+      - false
+      - false
+      - false
+      geburtsjahr:
+      - 1983
+      - 1985
+      - 2020
+      bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 650.0
+      - 650.0
+      - 650.0
+      heizkosten_m_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      wohnfläche_hh:
+      - 70.0
+      - 70.0
+      - 70.0
+      bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      alleinerz:
+      - false
+      - false
+      - false
+      bruttolohn_m:
+      - 0.0
+      - 700.0
+      - 0.0
+      arbeitsstunden_w:
+      - 0.0
+      - 12.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 140.0
+      - 0.0
+      kindergeld_m_hh:
+      - 219.0
+      - 219.0
+      - 219.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 85000.0
+      - 85000.0
+      - 85000.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_2_bruttoeink_m:
+      - 0
+      - 700
+      - 0
+      arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 238.0
+      - 0.0
+      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m_hh:
+      - 0
+      - 0
+      - 0
+      arbeitsl_geld_2_vor_vorrang_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      Column1:
+      - .nan
+      - .nan
+      - .nan
+      cost_per_qm:
+      - .nan
+      - .nan
+      - .nan
+      wohnfl_just:
+      - .nan
+      - .nan
+      - .nan
+      hhsize:
+      - .nan
+      - .nan
+      - .nan
+      _1:
+      - .nan
+      - .nan
+      - .nan
+      nettoquote:
+      - .nan
+      - .nan
+      - .nan
+    assumed: {}
+  outputs:
+    arbeitsl_geld_2_eink_m:
+    - 0.0
+    - 322.0
+    - 0.0
+    arbeitsl_geld_2_regelsatz_m_hh:
+    - 1240.0
+    - 1240.0
+    - 1240.0
+    arbeitsl_geld_2_kost_unterk_m_hh:
+    - 750.0
+    - 750.0
+    - 750.0
+    arbeitsl_geld_2_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+  info:
+    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 22
+      - 22
+      - 22
+      tu_id:
+      - 22
+      - 22
+      - 22
+      p_id:
+      - 53
+      - 54
+      - 55
+      jahr:
+      - 2023-07
+      - 2023-07
+      - 2023-07
+      kind:
+      - false
+      - false
+      - true
+      alter:
+      - 40
+      - 38
+      - 3
+      rentner:
+      - false
+      - false
+      - false
+      in_ausbildung:
+      - false
+      - false
+      - false
+      geburtsjahr:
+      - 1983
+      - 1985
+      - 2020
+      bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 650.0
+      - 650.0
+      - 650.0
+      heizkosten_m_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      wohnfläche_hh:
+      - 70.0
+      - 70.0
+      - 70.0
+      bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      alleinerz:
+      - false
+      - false
+      - false
+      bruttolohn_m:
+      - 0.0
+      - 700.0
+      - 0.0
+      arbeitsstunden_w:
+      - 0.0
+      - 12.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 140.0
+      - 0.0
+      kindergeld_m_hh:
+      - 219.0
+      - 219.0
+      - 219.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 50000.0
+      - 50000.0
+      - 50000.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_2_bruttoeink_m:
+      - 0
+      - 700
+      - 0
+      arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 238.0
+      - 0.0
+      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m_hh:
+      - 0
+      - 0
+      - 0
+      arbeitsl_geld_2_vor_vorrang_m_hh:
+      - 1449.0
+      - 1449.0
+      - 1449.0
+      Column1:
+      - .nan
+      - .nan
+      - .nan
+      cost_per_qm:
+      - .nan
+      - .nan
+      - .nan
+      wohnfl_just:
+      - .nan
+      - .nan
+      - .nan
+      hhsize:
+      - .nan
+      - .nan
+      - .nan
+      _1:
+      - .nan
+      - .nan
+      - .nan
+      nettoquote:
+      - .nan
+      - .nan
+      - .nan
+    assumed: {}
+  outputs:
+    arbeitsl_geld_2_eink_m:
+    - 0.0
+    - 322.0
+    - 0.0
+    arbeitsl_geld_2_regelsatz_m_hh:
+    - 1240.0
+    - 1240.0
+    - 1240.0
+    arbeitsl_geld_2_kost_unterk_m_hh:
+    - 750.0
+    - 750.0
+    - 750.0
+    arbeitsl_geld_2_m_hh:
+    - 1449.0
+    - 1449.0
+    - 1449.0
+  info:
+    note: https://buergergeld-rechner.org/(adjusted for Kindersofortzuschlag)
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 23
+      - 23
+      - 23
+      tu_id:
+      - 23
+      - 23
+      - 23
+      p_id:
+      - 56
+      - 57
+      - 58
+      jahr:
+      - 2023-07
+      - 2023-07
+      - 2023-07
+      kind:
+      - false
+      - true
+      - false
+      alter:
+      - 30
+      - 3
+      - 35
+      rentner:
+      - false
+      - false
+      - false
+      in_ausbildung:
+      - false
+      - false
+      - false
+      geburtsjahr:
+      - 1993
+      - 2020
+      - 1988
+      bürgerg_bezug_vorj:
+      - true
+      - true
+      - true
+      bruttokaltmiete_m_hh:
+      - 720.0
+      - 720.0
+      - 720.0
+      heizkosten_m_hh:
+      - 110.0
+      - 110.0
+      - 110.0
+      wohnfläche_hh:
+      - 105.0
+      - 105.0
+      - 105.0
+      bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      alleinerz:
+      - false
+      - false
+      - false
+      bruttolohn_m:
+      - 1200.0
+      - 0.0
+      - 700.0
+      arbeitsstunden_w:
+      - 20.0
+      - 0.0
+      - 20.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 204.0
+      - 0.0
+      - 140.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      arbeitsl_geld_2_bruttoeink_m:
+      - 1200
+      - 0
+      - 700
+      arbeitsl_geld_2_eink_anr_frei_m:
+      - 348.0
+      - 0.0
+      - 238.0
+      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      - 0.0
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m_hh:
+      - 0
+      - 0
+      - 0
+      arbeitsl_geld_2_vor_vorrang_m_hh:
+      - 862.86
+      - 862.86
+      - 862.86
+      Column1:
+      - .nan
+      - .nan
+      - .nan
+      cost_per_qm:
+      - 7.904761905
+      - 7.904761905
+      - 7.904761905
+      wohnfl_just:
+      - 75.0
+      - 75.0
+      - 75.0
+      hhsize:
+      - 3.0
+      - 3.0
+      - 3.0
+      _1:
+      - .nan
+      - .nan
+      - .nan
+      nettoquote:
+      - .nan
+      - .nan
+      - .nan
+    assumed: {}
+  outputs:
+    arbeitsl_geld_2_eink_m:
+    - 648.0
+    - 0.0
+    - 322.0
+    arbeitsl_geld_2_regelsatz_m_hh:
+    - 1240.0
+    - 1240.0
+    - 1240.0
+    arbeitsl_geld_2_kost_unterk_m_hh:
+    - 592.86
+    - 592.86
+    - 592.86
+    arbeitsl_geld_2_m_hh:
+    - 862.86
+    - 862.86
+    - 862.86
+  info:
+    note: Constructed Test Case after Karenzzeit with cost for living from testcase in 2011(adjusted
+      for Kindersofortzuschlag)
+    source: ''
