@@ -87,7 +87,7 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 
 @dates_active(end="1996-12-31", change_name="eink_st_tu")
 @add_rounding_spec(params_key="eink_st")
-def eink_st_tu_kinderfreib_kindergeld_parallel(
+def eink_st_tu_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_tu: float,
 ) -> float:
     """Income tax calculation on tax unit level allowing for claiming Kinderfreibetrag
@@ -107,7 +107,7 @@ def eink_st_tu_kinderfreib_kindergeld_parallel(
 
 @dates_active(start="1997-01-01", change_name="eink_st_tu")
 @add_rounding_spec(params_key="eink_st")
-def eink_st_tu_ab_1997(
+def eink_st_tu_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_tu: float,
     eink_st_mit_kinderfreib_tu: float,
     kinderfreib_günstiger_tu: bool,
