@@ -1,4 +1,5 @@
-- info:
+hh_id_3:
+  info:
     note: ''
     source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
   inputs:
@@ -73,7 +74,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 202.0
-- info:
+hh_id_12:
+  info:
     note: Added minor capital income of 2 euros (no deduction from claim since below allowance
       of 26 euros per year)
     source: Adjusted test case based on https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
@@ -149,7 +151,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 202.0
-- info:
+hh_id_20:
+  info:
     note: Test with positive wealth above wealth allowance
     source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
   inputs:
@@ -224,7 +227,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 0.0
-- info:
+hh_id_22:
+  info:
     note: Test with positive wealth below wealth allowance
     source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
   inputs:

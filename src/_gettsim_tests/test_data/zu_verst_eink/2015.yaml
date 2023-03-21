@@ -1,4 +1,5 @@
-- info:
+hh_id_16:
+  info:
     note: ''
     source: http://www.dr-wolters.de/content/inhalte/steuerberater_service/onlinerechner/einkommensteuer_berechnung/einkommensteuer_rechner/index.html
   inputs:
@@ -70,7 +71,8 @@
     - 35000
     _eink_st_behinderungsgrad_pauschbetrag:
     - 0
-- info:
+hh_id_17:
+  info:
     note: ''
     source: http://www.dr-wolters.de/content/inhalte/steuerberater_service/onlinerechner/einkommensteuer_berechnung/einkommensteuer_rechner/index.html
   inputs:

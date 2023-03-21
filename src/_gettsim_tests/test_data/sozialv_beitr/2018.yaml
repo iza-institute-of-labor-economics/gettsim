@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
@@ -45,7 +46,8 @@
     - 0.0
     ges_pflegev_beitr_m:
     - 0.0
-- info:
+hh_id_2:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
@@ -92,7 +94,8 @@
     - 39.03746
     ges_pflegev_beitr_m:
     - 7.21826
-- info:
+hh_id_3:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
@@ -139,7 +142,8 @@
     - 74.7
     ges_pflegev_beitr_m:
     - 13.725
-- info:
+hh_id_4:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
@@ -186,7 +190,8 @@
     - 99.6
     ges_pflegev_beitr_m:
     - 15.3
-- info:
+hh_id_5:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
@@ -233,7 +238,8 @@
     - 124.5
     ges_pflegev_beitr_m:
     - 19.125
-- info:
+hh_id_6:
+  info:
     note: ''
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:

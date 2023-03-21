@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: ''
     source: ''
   inputs:
@@ -117,7 +118,8 @@
     - 0.0
     - 0.0
     - 0.0
-- info:
+hh_id_7:
+  info:
     note: ''
     source: ''
   inputs:
@@ -236,7 +238,8 @@
     - 40.0
     - 40.0
     - 40.0
-- info:
+hh_id_11:
+  info:
     note: Wealth below wealth allowance leading to no deduction in Kinderzuschlag
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz
       BKGG Ã‚Â§ 6a)
@@ -356,7 +359,8 @@
     - 140.0
     - 140.0
     - 140.0
-- info:
+hh_id_12:
+  info:
     note: Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first
       month
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz
@@ -477,7 +481,8 @@
     - 90.0
     - 90.0
     - 90.0
-- info:
+hh_id_13:
+  info:
     note: Wealth significantly above wealth allowance leading to no claim
     source: inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf (Gesetz
       BKGG Ã‚Â§ 6a)

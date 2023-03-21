@@ -1,4 +1,5 @@
-- info:
+hh_id_4:
+  info:
     note: ''
     source: https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
   inputs:
@@ -107,7 +108,8 @@
     grunds_im_alter_m_hh:
     - 928.0
     - 928.0
-- info:
+hh_id_8:
+  info:
     note: ''
     source: https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
   inputs:
@@ -182,7 +184,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 384.0
-- info:
+hh_id_10:
+  info:
     note: Capital income of 20 euros (monthly amount deducted from claim due to capital income
       ((20*12)-26)/12 = 17.83333333)
     source: Self-created test case
@@ -258,7 +261,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 531.17
-- info:
+hh_id_11:
+  info:
     note: Capital income of 50 euros (monthly amount deducted from claim due to capital income
       ((50*12)-26)/12=47.83333333)
     source: Self-created test case
@@ -334,7 +338,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 421.17
-- info:
+hh_id_24:
+  info:
     note: Test with child and positive wealth above wealth allowance
     source: https://www.smart-rechner.de/grundsicherung/rechner.php
   inputs:
@@ -443,7 +448,8 @@
     grunds_im_alter_m_hh:
     - 0.0
     - 0.0
-- info:
+hh_id_25:
+  info:
     note: Test with child and positive wealth below wealth allowance (website didn't add general
       amount for child)
     source: https://www.smart-rechner.de/grundsicherung/rechner.php

@@ -1,4 +1,5 @@
-- info:
+hh_id_2:
+  info:
     note: ''
     source: ''
   inputs:
@@ -113,7 +114,8 @@
     wohngeld_nach_vermög_check_m_hh:
     - 202.0
     - 202.0
-- info:
+hh_id_9:
+  info:
     note: ''
     source: ''
   inputs:

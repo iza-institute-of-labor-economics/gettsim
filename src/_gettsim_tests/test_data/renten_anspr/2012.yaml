@@ -1,4 +1,5 @@
-- info:
+hh_id_8:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -67,7 +68,8 @@
     - 1.818071632
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_9:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -136,7 +138,8 @@
     - 0.109084298
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_10:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -205,7 +208,8 @@
     - 0.254530028
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.33333333
-- info:
+hh_id_11:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:

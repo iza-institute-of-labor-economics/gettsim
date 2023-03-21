@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -67,7 +68,8 @@
     - 0.231184177
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_2:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -136,7 +138,8 @@
     - 0.346776265
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_3:
+  info:
     note: 'from eastern Germany: earns more Entgeltpunkte for same wage
 
 
@@ -208,7 +211,8 @@
     - 0.406629848
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_4:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -277,7 +281,8 @@
     - 0.462368353
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_5:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -346,7 +351,8 @@
     - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_6:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -415,7 +421,8 @@
     - 2.119188287
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.41666667
-- info:
+hh_id_7:
+  info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
@@ -488,7 +495,8 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.41666667
-- info:
+hh_id_19:
+  info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
@@ -561,7 +569,8 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.83333333
-- info:
+hh_id_24:
+  info:
     note: 'Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)
 
 
@@ -633,7 +642,8 @@
     - 0.577960442
     _ges_rente_altersgrenze_abschlagsfrei:
     - 60.0
-- info:
+hh_id_25:
+  info:
     note: 'Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)
 
 

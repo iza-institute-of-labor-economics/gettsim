@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
       (Max B. und Inge M.)
@@ -108,7 +109,8 @@
     grunds_im_alter_m_hh:
     - 228.0
     - 228.0
-- info:
+hh_id_2:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
       (Harald F.)
@@ -184,7 +186,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 358.0
-- info:
+hh_id_5:
+  info:
     note: ''
     source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
   inputs:
@@ -259,7 +262,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 401.0
-- info:
+hh_id_7:
+  info:
     note: ''
     source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
   inputs:
@@ -334,7 +338,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 401.0
-- info:
+hh_id_9:
+  info:
     note: Test if households with non-retired adult do not get Grundsicherung im Alter (as
       currently implemented those households get ALG 2)
     source: ''
@@ -444,7 +449,8 @@
     grunds_im_alter_m_hh:
     - 0.0
     - 0.0
-- info:
+hh_id_14:
+  info:
     note: Added capital income of 50 euros (expected difference in grunds_im_alter_m_hh ((50*12)-26)/12)=47.83333333)
     source: Adjusted test case based on https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
   inputs:
@@ -519,7 +525,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 353.17
-- info:
+hh_id_15:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
       (Gerda M.)
@@ -595,7 +602,8 @@
   outputs:
     grunds_im_alter_m_hh:
     - 566.82
-- info:
+hh_id_21:
+  info:
     note: Test with positive wealth above wealth allowance
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
       (Max B. und Inge M.)
@@ -705,7 +713,8 @@
     grunds_im_alter_m_hh:
     - 0.0
     - 0.0
-- info:
+hh_id_23:
+  info:
     note: Test with positive wealth below wealth allowance
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
       (Max B. und Inge M.)

@@ -1,4 +1,5 @@
-- info:
+hh_id_7:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
@@ -45,7 +46,8 @@
     - 0.0
     ges_pflegev_beitr_m:
     - 0.0
-- info:
+hh_id_8:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
@@ -92,7 +94,8 @@
     - 40.2033
     ges_pflegev_beitr_m:
     - 4.90815
-- info:
+hh_id_9:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
@@ -139,7 +142,8 @@
     - 71.1
     ges_pflegev_beitr_m:
     - 8.775
-- info:
+hh_id_10:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
@@ -186,7 +190,8 @@
     - 94.8
     ges_pflegev_beitr_m:
     - 11.7
-- info:
+hh_id_11:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
@@ -233,7 +238,8 @@
     - 118.5
     ges_pflegev_beitr_m:
     - 14.625
-- info:
+hh_id_12:
+  info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:

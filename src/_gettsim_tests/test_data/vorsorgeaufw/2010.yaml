@@ -1,4 +1,5 @@
-- info:
+hh_id_3:
+  info:
     note: Cannot access original source. Result adjusted by 5 to fit calculated result
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
   inputs:
@@ -31,7 +32,8 @@
   outputs:
     vorsorgeaufw_tu:
     - 5205
-- info:
+hh_id_6:
+  info:
     note: ''
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
   inputs:
@@ -77,7 +79,8 @@
     vorsorgeaufw_tu:
     - 2400
     - 2400
-- info:
+hh_id_16:
+  info:
     note: ''
     source: Testcase from zu_verst_eink
   inputs:

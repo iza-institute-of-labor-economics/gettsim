@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: ''
     source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
       Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
@@ -58,7 +59,8 @@
     - 418.83
     ges_rente_m:
     - 897.97
-- info:
+hh_id_2:
+  info:
     note: ''
     source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
       Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
@@ -118,7 +120,8 @@
     - 314.6
     ges_rente_m:
     - 912.93
-- info:
+hh_id_3:
+  info:
     note: ''
     source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
       Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
@@ -178,7 +181,8 @@
     - 209.89
     ges_rente_m:
     - 927.88
-- info:
+hh_id_4:
+  info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
       of 0.8004
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
@@ -239,7 +243,8 @@
     - 83.77
     ges_rente_m:
     - 1069.0
-- info:
+hh_id_5:
+  info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
       of 0.8004. Staatliche Rente adjusted.
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
@@ -300,7 +305,8 @@
     - 50.98
     ges_rente_m:
     - 677.0
-- info:
+hh_id_6:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
       (Ramona K.)
@@ -360,7 +366,8 @@
     - 149.72
     ges_rente_m:
     - 806.0
-- info:
+hh_id_7:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
       (Ramona K. + Dieter P.)
@@ -420,7 +427,8 @@
     - 59.72
     ges_rente_m:
     - 716.0
-- info:
+hh_id_8:
+  info:
     note: ''
     source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
       (Ramona K.) + Dieter P.MonikaL
@@ -480,7 +488,8 @@
     - 0.0
     ges_rente_m:
     - 656.0
-- info:
+hh_id_9:
+  info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
       of 0.8004
     source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
@@ -541,7 +550,8 @@
     - 0.0
     ges_rente_m:
     - 1179.55
-- info:
+hh_id_10:
+  info:
     note: Adjusted staatl rente
     source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
       (Alexander Langkowski)
@@ -601,7 +611,8 @@
     - 0.0
     ges_rente_m:
     - 1402.0
-- info:
+hh_id_11:
+  info:
     note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
       of 0.8004
     source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
@@ -662,7 +673,8 @@
     - 279.0
     ges_rente_m:
     - 911.0
-- info:
+hh_id_12:
+  info:
     note: Person with zero Grundrente Bewertungszeiten
     source: ''
   inputs:

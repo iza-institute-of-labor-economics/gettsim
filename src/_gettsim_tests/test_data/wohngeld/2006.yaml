@@ -1,4 +1,5 @@
-- info:
+hh_id_4:
+  info:
     note: no wealth treshold in place before 2009
     source: ''
   inputs:
@@ -221,7 +222,8 @@
     - 509.0
     - 509.0
     - 509.0
-- info:
+hh_id_15:
+  info:
     note: Test case was expanded to include additional household members so that more than
       seven people are eligible for housing subsidies
     source: ''

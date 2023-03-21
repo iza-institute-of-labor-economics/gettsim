@@ -1,4 +1,5 @@
-- info:
+hh_id_20:
+  info:
     note: https://www.smart-rechner.de/rentenbeginn/rechner.php
     source: ''
   inputs:
@@ -67,7 +68,8 @@
     - 0.0
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.16666667
-- info:
+hh_id_21:
+  info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
@@ -140,7 +142,8 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.5
-- info:
+hh_id_22:
+  info:
     note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
       is lower
 
@@ -213,7 +216,8 @@
     - 1.79167737
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.08333333
-- info:
+hh_id_23:
+  info:
     note: https://www.deutsche-rentenversicherung.de/SiteGlobals/Forms/RentenBeginnUndHoehenRechner/Rentenbeginn/rentenbeginnrechner_form.html?resourceId=fd80eb35-41ae-49ec-a76d-fae25f0fb182&input_=26d0ef0f-0f0e-4a04-b1db-4e7dbbba7228&pageLocale=de&emailText=&Geburtsdatum=01.01.1958&Schwerbehindert=Nein&Schwerbehindert.GROUP=1&Bergbau=Nein&Bergbau.GROUP=1&submit=Berechnen
     source: ''
   inputs:

@@ -1,4 +1,5 @@
-- info:
+hh_id_2:
+  info:
     note: ''
     source: ''
   inputs:
@@ -146,7 +147,8 @@
     arbeitsl_geld_2_m_hh:
     - 670.0
     - 670.0
-- info:
+hh_id_12:
+  info:
     note: Test if household with all partners being retired does not get ALG 2
     source: ''
   inputs:
@@ -294,7 +296,8 @@
     arbeitsl_geld_2_m_hh:
     - 0.0
     - 0.0
-- info:
+hh_id_13:
+  info:
     note: Test if household with retired and non-retired adults do get ALG 2
     source: ''
   inputs:
@@ -442,7 +445,8 @@
     arbeitsl_geld_2_m_hh:
     - 710.0
     - 710.0
-- info:
+hh_id_14:
+  info:
     note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
     source: ''
   inputs:
@@ -590,7 +594,8 @@
     arbeitsl_geld_2_m_hh:
     - 670.0
     - 670.0
-- info:
+hh_id_15:
+  info:
     note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
     source: ''
   inputs:

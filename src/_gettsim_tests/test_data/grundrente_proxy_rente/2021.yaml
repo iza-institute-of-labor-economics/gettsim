@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -63,7 +64,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 673.54
-- info:
+hh_id_2:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -128,7 +130,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 1010.31
-- info:
+hh_id_3:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -193,7 +196,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 654.63
-- info:
+hh_id_4:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -258,7 +262,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 1673.54
-- info:
+hh_id_5:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -323,7 +328,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 624.31
-- info:
+hh_id_6:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -388,7 +394,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 830.82
-- info:
+hh_id_7:
+  info:
     note: made up, regression test
     source: ''
   inputs:
@@ -453,7 +460,8 @@
   outputs:
     rente_vorj_vor_grundr_proxy_m:
     - 683.8
-- info:
+hh_id_8:
+  info:
     note: made up, regression test
     source: ''
   inputs:

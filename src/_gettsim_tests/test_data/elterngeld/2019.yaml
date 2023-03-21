@@ -1,4 +1,5 @@
-- info:
+hh_id_1:
+  info:
     note: ''
     source: ''
   inputs:
@@ -77,7 +78,8 @@
     elternzeit_anspruch:
     - true
     - false
-- info:
+hh_id_3:
+  info:
     note: ''
     source: ''
   inputs:
@@ -180,7 +182,8 @@
     - true
     - false
     - true
-- info:
+hh_id_5:
+  info:
     note: ''
     source: ''
   inputs:
@@ -259,7 +262,8 @@
     elternzeit_anspruch:
     - true
     - false
-- info:
+hh_id_6:
+  info:
     note: ''
     source: ''
   inputs:
@@ -362,7 +366,8 @@
     - false
     - false
     - true
-- info:
+hh_id_7:
+  info:
     note: ''
     source: ''
   inputs:
@@ -465,7 +470,8 @@
     - true
     - true
     - false
-- info:
+hh_id_8:
+  info:
     note: ''
     source: ''
   inputs:

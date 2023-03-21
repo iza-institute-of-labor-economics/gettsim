@@ -1,4 +1,5 @@
-- info:
+hh_id_12:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -67,7 +68,8 @@
     - 0.101801318
     _ges_rente_altersgrenze_abschlagsfrei:
     - 66.0
-- info:
+hh_id_13:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -136,7 +138,8 @@
     - 0.203602636
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.91666667
-- info:
+hh_id_14:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -205,7 +208,8 @@
     - 0.305403953
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_15:
+  info:
     note: 'from eastern Germany: earns more Entgeltpunkte for same wage
 
 
@@ -277,7 +281,8 @@
     - 0.351275627
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_16:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -346,7 +351,8 @@
     - 0.407205271
     _ges_rente_altersgrenze_abschlagsfrei:
     - 67.0
-- info:
+hh_id_17:
+  info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
     source: ''
   inputs:
@@ -415,7 +421,8 @@
     - 0.509006589
     _ges_rente_altersgrenze_abschlagsfrei:
     - 65.5
-- info:
+hh_id_18:
+  info:
     note: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
     source: ''
   inputs:
