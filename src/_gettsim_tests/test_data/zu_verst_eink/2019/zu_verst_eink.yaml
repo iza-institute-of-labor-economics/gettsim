@@ -1,0 +1,106 @@
+- inputs:
+    provided:
+      hh_id:
+      - 13
+      - 13
+      tu_id:
+      - 13
+      - 13
+      p_id:
+      - 13
+      - 14
+      jahr:
+      - 2019
+      - 2019
+      geburtsjahr:
+      - 1984
+      - 2014
+      alter:
+      - 35
+      - 5
+      bruttolohn_m:
+      - 1500.0
+      - 0.0
+      betreuungskost_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      jahr_renteneintr:
+      - 2050
+      - 2070
+      arbeitsstunden_w:
+      - 20.0
+      - 0.0
+      in_ausbildung:
+      - false
+      - false
+      wohnort_ost:
+      - false
+      - false
+      kind:
+      - false
+      - true
+      selbstständig:
+      - false
+      - false
+      in_priv_krankenv:
+      - false
+      - false
+      hat_kinder:
+      - true
+      - true
+      behinderungsgrad:
+      - 0
+      - 0
+      priv_rentenv_beitr_m:
+      - 0.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      alleinerz:
+      - true
+      - false
+      vorsorgeaufw_tu:
+      - 3119.94
+      - 3119.94
+      'Unnamed: 31':
+      - .nan
+      - .nan
+      Notes:
+      - vorsorgeaufw was calculated by function in GETTSIM
+      - vorsorgeaufw was calculated by function in GETTSIM
+    assumed: {}
+  outputs:
+    _zu_verst_eink_ohne_kinderfreib_tu:
+    - 11936.06
+    - 11936.06
+    zu_verst_eink_mit_kinderfreib_tu:
+    - 8126.06
+    - 8126.06
+    eink_st_kinderfreib_tu:
+    - 3810
+    - 3810
+    eink_st_altersfreib:
+    - 0
+    - 0
+    alleinerz_freib_tu:
+    - 1908
+    - 0
+    sum_eink:
+    - 17000
+    - 0
+    _eink_st_behinderungsgrad_pauschbetrag:
+    - 0
+    - 0
+  info:
+    note: ''
+    source: ''

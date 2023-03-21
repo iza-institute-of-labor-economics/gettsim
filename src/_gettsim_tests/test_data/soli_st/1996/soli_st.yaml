@@ -1,0 +1,27 @@
+- inputs:
+    provided:
+      hh_id:
+      - 6
+      tu_id:
+      - 6
+      p_id:
+      - 6
+      kind:
+      - false
+      abgelt_st_tu:
+      - 0.0
+      eink_st_mit_kinderfreib_tu:
+      - 3000.0
+      'Unnamed: 6':
+      - .nan
+      jahr:
+      - 1996
+      'Unnamed: 8':
+      - .nan
+    assumed: {}
+  outputs:
+    soli_st_tu:
+    - 225
+  info:
+    note: ''
+    source: ''

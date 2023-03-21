@@ -1,0 +1,555 @@
+- inputs:
+    provided:
+      p_id:
+      - 5
+      - 6
+      tu_id:
+      - 4
+      - 4
+      hh_id:
+      - 4
+      - 4
+      jahr:
+      - 2022
+      - 2022
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1946
+      - 1952
+      kind:
+      - false
+      - false
+      alter:
+      - 76
+      - 70
+      grundr_zeiten:
+      - 240
+      - 120
+      rentner:
+      - true
+      - true
+      schwerbeh_g:
+      - false
+      - false
+      bruttokaltmiete_m_hh:
+      - 430.0
+      - 430.0
+      heizkosten_m_hh:
+      - 70.0
+      - 70.0
+      wohnfläche_hh:
+      - 55.0
+      - 55.0
+      ges_rente_m:
+      - 360.0
+      - 120.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 50.0
+      - 50.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 928.0
+    - 928.0
+  info:
+    note: ''
+    source: https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
+- inputs:
+    provided:
+      p_id:
+      - 11
+      tu_id:
+      - 8
+      hh_id:
+      - 8
+      jahr:
+      - 2022
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1945
+      kind:
+      - false
+      alter:
+      - 77
+      grundr_zeiten:
+      - 120
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      heizkosten_m_hh:
+      - 45.0
+      wohnfläche_hh:
+      - 40.0
+      ges_rente_m:
+      - 250.0
+      priv_rente_m:
+      - 400.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 50.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 384.0
+  info:
+    note: ''
+    source: https://www.vdk.de/deutschland/pages/themen/81170/grundsicherungsrechner
+- inputs:
+    provided:
+      p_id:
+      - 14
+      tu_id:
+      - 10
+      hh_id:
+      - 10
+      jahr:
+      - 2022
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1949
+      kind:
+      - false
+      alter:
+      - 73
+      grundr_zeiten:
+      - 120
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      heizkosten_m_hh:
+      - 50.0
+      wohnfläche_hh:
+      - 45.0
+      ges_rente_m:
+      - 250.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 20.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 531.17
+  info:
+    note: Capital income of 20 euros (monthly amount deducted from claim due to capital income
+      ((20*12)-26)/12 = 17.83333333)
+    source: Self-created test case
+- inputs:
+    provided:
+      p_id:
+      - 15
+      tu_id:
+      - 11
+      hh_id:
+      - 11
+      jahr:
+      - 2022
+      geburtstag:
+      - 1
+      geburtsmonat:
+      - 1
+      geburtsjahr:
+      - 1953
+      kind:
+      - false
+      alter:
+      - 69
+      grundr_zeiten:
+      - 216
+      rentner:
+      - true
+      schwerbeh_g:
+      - false
+      bruttokaltmiete_m_hh:
+      - 300.0
+      heizkosten_m_hh:
+      - 70.0
+      wohnfläche_hh:
+      - 45.0
+      ges_rente_m:
+      - 400.0
+      priv_rente_m:
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      kapitaleink_brutto_m:
+      - 50.0
+      arbeitsl_geld_m:
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      sozialv_beitr_m:
+      - 50.0
+      kindergeld_m_hh:
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      vermögen_bedürft_hh:
+      - 0.0
+      alleinerz:
+      - false
+      bewohnt_eigentum_hh:
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 421.17
+  info:
+    note: Capital income of 50 euros (monthly amount deducted from claim due to capital income
+      ((50*12)-26)/12=47.83333333)
+    source: Self-created test case
+- inputs:
+    provided:
+      p_id:
+      - 32
+      - 33
+      tu_id:
+      - 24
+      - 24
+      hh_id:
+      - 24
+      - 24
+      jahr:
+      - 2022
+      - 2022
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1972
+      - 2006
+      kind:
+      - false
+      - true
+      alter:
+      - 50
+      - 16
+      grundr_zeiten:
+      - 120
+      - 0
+      rentner:
+      - true
+      - false
+      schwerbeh_g:
+      - true
+      - false
+      bruttokaltmiete_m_hh:
+      - 252.5
+      - 252.5
+      heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      wohnfläche_hh:
+      - 35.0
+      - 35.0
+      ges_rente_m:
+      - 425.0
+      - 0.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 5600.0
+      - 5600.0
+      alleinerz:
+      - true
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 0.0
+    - 0.0
+  info:
+    note: Test with child and positive wealth above wealth allowance
+    source: https://www.smart-rechner.de/grundsicherung/rechner.php
+- inputs:
+    provided:
+      p_id:
+      - 34
+      - 35
+      tu_id:
+      - 25
+      - 25
+      hh_id:
+      - 25
+      - 25
+      jahr:
+      - 2022
+      - 2022
+      geburtstag:
+      - 1
+      - 1
+      geburtsmonat:
+      - 1
+      - 1
+      geburtsjahr:
+      - 1972
+      - 2006
+      kind:
+      - false
+      - true
+      alter:
+      - 50
+      - 16
+      grundr_zeiten:
+      - 120
+      - 0
+      rentner:
+      - true
+      - false
+      schwerbeh_g:
+      - true
+      - false
+      bruttokaltmiete_m_hh:
+      - 252.5
+      - 252.5
+      heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      wohnfläche_hh:
+      - 35.0
+      - 35.0
+      ges_rente_m:
+      - 425.0
+      - 0.0
+      priv_rente_m:
+      - 0.0
+      - 0.0
+      bruttolohn_m:
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      sonstig_eink_m:
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      eink_st_tu:
+      - 0.0
+      - 0.0
+      soli_st_tu:
+      - 0.0
+      - 0.0
+      sozialv_beitr_m:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      elterngeld_m:
+      - 0.0
+      - 0.0
+      vermögen_bedürft_hh:
+      - 5400.0
+      - 5400.0
+      alleinerz:
+      - true
+      - false
+      bewohnt_eigentum_hh:
+      - false
+      - false
+    assumed: {}
+  outputs:
+    grunds_im_alter_m_hh:
+    - 852.71
+    - 852.71
+  info:
+    note: Test with child and positive wealth below wealth allowance (website didn't add general
+      amount for child)
+    source: https://www.smart-rechner.de/grundsicherung/rechner.php

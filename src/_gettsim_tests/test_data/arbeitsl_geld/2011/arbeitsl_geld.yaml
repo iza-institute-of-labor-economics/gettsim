@@ -1,0 +1,52 @@
+- inputs:
+    provided:
+      hh_id:
+      - 7
+      tu_id:
+      - 7
+      p_id:
+      - 11
+      bruttolohn_vorj_m:
+      - 2300.0
+      wohnort_ost:
+      - false
+      kind:
+      - false
+      arbeitsstunden_w:
+      - 0.0
+      anz_kinder_tu:
+      - 0
+      alter:
+      - 66
+      geburtsjahr:
+      - 1945
+      jahr:
+      - 2011
+      eligible:
+      - false
+      alg_wage:
+      - 2300
+      alg_ssc:
+      - 483.0
+      alg_tax:
+      - 383.62
+      alg_soli:
+      - 21.1
+      alg_entgelt:
+      - 1412.28
+    assumed:
+      anwartschaftszeit:
+      - true
+      arbeitssuchend:
+      - true
+      m_durchg_alg1_bezug:
+      - 0.0
+      soz_vers_pflicht_5j:
+      - 12.0
+  outputs:
+    arbeitsl_geld_m:
+    - 0.0
+  info:
+    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and soz_vers_pflicht_5j
+      were added manually
+    source: none

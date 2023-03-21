@@ -1,0 +1,35 @@
+- inputs:
+    provided:
+      tu_id:
+      - 15
+      hh_id:
+      - 15
+      p_id:
+      - 16
+      jahr:
+      - 2018
+      bruttolohn_m:
+      - 1500.0
+      kind:
+      - false
+      priv_rentenv_beitr_m:
+      - 0.0
+      ges_rentenv_beitr_m:
+      - 150.0
+      arbeitsl_v_beitr_m:
+      - 30.0
+      ges_krankenv_beitr_m:
+      - 120.0
+      ges_pflegev_beitr_m:
+      - 22.5
+      alter:
+      - 40
+      'Unnamed: 12':
+      - .nan
+    assumed: {}
+  outputs:
+    vorsorgeaufw_tu:
+    - 3196
+  info:
+    note: ''
+    source: Testcase from zu_verst_eink

@@ -1,0 +1,283 @@
+- inputs:
+    provided:
+      hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      tu_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      p_id:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      alter:
+      - 45
+      - 40
+      - 25
+      - 18
+      - 18
+      arbeitsstunden_w:
+      - 40.0
+      - 0.0
+      - 10.0
+      - 10.0
+      - 30.0
+      kind:
+      - false
+      - false
+      - false
+      - false
+      - false
+      in_ausbildung:
+      - false
+      - false
+      - true
+      - true
+      - true
+      bruttolohn_m:
+      - 3000.0
+      - 0.0
+      - 700.0
+      - 200.0
+      - 200.0
+      _zu_verst_eink_ohne_kinderfreib_tu:
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      jahr:
+      - 2019
+      - 2019
+      - 2019
+      - 2019
+      - 2019
+      kinderbonus_m_tu.1:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    assumed: {}
+  outputs:
+    kindergeld_m_tu:
+    - 194
+    - 194
+    - 194
+    - 194
+    - 194
+    kinderbonus_m_tu:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    kindergeld_m_hh:
+    - 194
+    - 194
+    - 194
+    - 194
+    - 194
+    kinderbonus_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  info:
+    note: check age cut-offs at 18 and 25.
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      tu_id:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      p_id:
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      alter:
+      - 45
+      - 40
+      - 24
+      - 18
+      - 17
+      - 15
+      arbeitsstunden_w:
+      - 40.0
+      - 0.0
+      - 30.0
+      - 0.0
+      - 2.0
+      - 0.0
+      kind:
+      - false
+      - false
+      - false
+      - true
+      - true
+      - true
+      in_ausbildung:
+      - false
+      - false
+      - true
+      - true
+      - true
+      - true
+      bruttolohn_m:
+      - 3000.0
+      - 0.0
+      - 700.0
+      - 200.0
+      - 0.0
+      - 0.0
+      _zu_verst_eink_ohne_kinderfreib_tu:
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      jahr:
+      - 2019
+      - 2019
+      - 2019
+      - 2019
+      - 2019
+      - 2019
+      kinderbonus_m_tu.1:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    assumed: {}
+  outputs:
+    kindergeld_m_tu:
+    - 588
+    - 588
+    - 588
+    - 588
+    - 588
+    - 588
+    kinderbonus_m_tu:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    kindergeld_m_hh:
+    - 588
+    - 588
+    - 588
+    - 588
+    - 588
+    - 588
+    kinderbonus_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  info:
+    note: ''
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 3
+      tu_id:
+      - 3
+      p_id:
+      - 18
+      alter:
+      - 21
+      arbeitsstunden_w:
+      - 10.0
+      kind:
+      - false
+      in_ausbildung:
+      - true
+      bruttolohn_m:
+      - 700.0
+      _zu_verst_eink_ohne_kinderfreib_tu:
+      - 0.0
+      jahr:
+      - 2019
+      kinderbonus_m_tu.1:
+      - 0.0
+    assumed: {}
+  outputs:
+    kindergeld_m_tu:
+    - 194
+    kinderbonus_m_tu:
+    - 0.0
+    kindergeld_m_hh:
+    - 194
+    kinderbonus_m_hh:
+    - 0.0
+  info:
+    note: ''
+    source: ''
+- inputs:
+    provided:
+      hh_id:
+      - 5
+      tu_id:
+      - 5
+      p_id:
+      - 20
+      alter:
+      - 21
+      arbeitsstunden_w:
+      - 0.0
+      kind:
+      - false
+      in_ausbildung:
+      - false
+      bruttolohn_m:
+      - 0.0
+      _zu_verst_eink_ohne_kinderfreib_tu:
+      - 0.0
+      jahr:
+      - 2019
+      kinderbonus_m_tu.1:
+      - 0.0
+    assumed: {}
+  outputs:
+    kindergeld_m_tu:
+    - 0
+    kinderbonus_m_tu:
+    - 0.0
+    kindergeld_m_hh:
+    - 0
+    kinderbonus_m_hh:
+    - 0.0
+  info:
+    note: ''
+    source: ''

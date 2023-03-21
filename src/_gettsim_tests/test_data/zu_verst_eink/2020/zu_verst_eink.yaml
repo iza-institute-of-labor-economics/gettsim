@@ -1,0 +1,530 @@
+- inputs:
+    provided:
+      hh_id:
+      - 14
+      - 14
+      - 14
+      - 14
+      tu_id:
+      - 14
+      - 14
+      - 14
+      - 14
+      p_id:
+      - 15
+      - 16
+      - 17
+      - 18
+      jahr:
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      geburtsjahr:
+      - 1975
+      - 1976
+      - 2007
+      - 2005
+      alter:
+      - 45
+      - 44
+      - 13
+      - 15
+      bruttolohn_m:
+      - 3500.0
+      - 2000.0
+      - 0.0
+      - 0.0
+      betreuungskost_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      jahr_renteneintr:
+      - 2037
+      - 2038
+      - 2074
+      - 2072
+      arbeitsstunden_w:
+      - 40.0
+      - 25.0
+      - 0.0
+      - 0.0
+      in_ausbildung:
+      - false
+      - false
+      - false
+      - false
+      wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      kind:
+      - false
+      - false
+      - true
+      - true
+      selbstständig:
+      - false
+      - false
+      - false
+      - false
+      in_priv_krankenv:
+      - false
+      - false
+      - false
+      - false
+      hat_kinder:
+      - true
+      - true
+      - false
+      - false
+      behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      priv_rentenv_beitr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      - false
+      - false
+      vorsorgeaufw_tu:
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      'Unnamed: 31':
+      - .nan
+      - .nan
+      - .nan
+      - .nan
+      Notes:
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+    assumed: {}
+  outputs:
+    _zu_verst_eink_ohne_kinderfreib_tu:
+    - 53027.0
+    - 53027.0
+    - 53027.0
+    - 53027.0
+    zu_verst_eink_mit_kinderfreib_tu:
+    - 37403.0
+    - 37403.0
+    - 37403.0
+    - 37403.0
+    eink_st_kinderfreib_tu:
+    - 15624
+    - 15624
+    - 15624
+    - 15624
+    eink_st_altersfreib:
+    - 0
+    - 0
+    - 0
+    - 0
+    alleinerz_freib_tu:
+    - 0
+    - 0
+    - 0
+    - 0
+    sum_eink:
+    - 41000
+    - 23000
+    - 0
+    - 0
+    _eink_st_behinderungsgrad_pauschbetrag:
+    - 0
+    - 0
+    - 0
+    - 0
+  info:
+    note: ''
+    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020
+- inputs:
+    provided:
+      hh_id:
+      - 19
+      - 19
+      - 19
+      - 19
+      tu_id:
+      - 19
+      - 19
+      - 19
+      - 19
+      p_id:
+      - 27
+      - 28
+      - 29
+      - 30
+      jahr:
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      geburtsjahr:
+      - 1975
+      - 1976
+      - 2007
+      - 2005
+      alter:
+      - 45
+      - 44
+      - 13
+      - 11
+      bruttolohn_m:
+      - 3500.0
+      - 2000.0
+      - 0.0
+      - 0.0
+      betreuungskost_m:
+      - 0.0
+      - 0.0
+      - 45.0
+      - 80.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      jahr_renteneintr:
+      - 2037
+      - 2038
+      - 2074
+      - 2072
+      arbeitsstunden_w:
+      - 40.0
+      - 25.0
+      - 0.0
+      - 0.0
+      in_ausbildung:
+      - false
+      - false
+      - false
+      - false
+      wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      kind:
+      - false
+      - false
+      - true
+      - true
+      selbstständig:
+      - false
+      - false
+      - false
+      - false
+      in_priv_krankenv:
+      - false
+      - false
+      - false
+      - false
+      hat_kinder:
+      - true
+      - true
+      - false
+      - false
+      behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      priv_rentenv_beitr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      - false
+      - false
+      vorsorgeaufw_tu:
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      'Unnamed: 31':
+      - .nan
+      - .nan
+      - .nan
+      - .nan
+      Notes:
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+    assumed: {}
+  outputs:
+    _zu_verst_eink_ohne_kinderfreib_tu:
+    - 52099.0
+    - 52099.0
+    - 52099.0
+    - 52099.0
+    zu_verst_eink_mit_kinderfreib_tu:
+    - 36475.0
+    - 36475.0
+    - 36475.0
+    - 36475.0
+    eink_st_kinderfreib_tu:
+    - 15624
+    - 15624
+    - 15624
+    - 15624
+    eink_st_altersfreib:
+    - 0
+    - 0
+    - 0
+    - 0
+    alleinerz_freib_tu:
+    - 0
+    - 0
+    - 0
+    - 0
+    sum_eink:
+    - 41000
+    - 23000
+    - 0
+    - 0
+    _eink_st_behinderungsgrad_pauschbetrag:
+    - 0
+    - 0
+    - 0
+    - 0
+  info:
+    note: ''
+    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020 (including
+      Betreuungskosten)
+- inputs:
+    provided:
+      hh_id:
+      - 20
+      - 20
+      - 20
+      - 20
+      tu_id:
+      - 20
+      - 20
+      - 20
+      - 20
+      p_id:
+      - 31
+      - 32
+      - 33
+      - 34
+      jahr:
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      geburtsjahr:
+      - 1975
+      - 1976
+      - 2007
+      - 2005
+      alter:
+      - 45
+      - 44
+      - 13
+      - 15
+      bruttolohn_m:
+      - 3500.0
+      - 2000.0
+      - 0.0
+      - 0.0
+      betreuungskost_m:
+      - 0.0
+      - 0.0
+      - 62.5
+      - 0.0
+      eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      jahr_renteneintr:
+      - 2037
+      - 2038
+      - 2074
+      - 2072
+      arbeitsstunden_w:
+      - 40.0
+      - 25.0
+      - 0.0
+      - 0.0
+      in_ausbildung:
+      - false
+      - false
+      - false
+      - false
+      wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      kind:
+      - false
+      - false
+      - true
+      - true
+      selbstständig:
+      - false
+      - false
+      - false
+      - false
+      in_priv_krankenv:
+      - false
+      - false
+      - false
+      - false
+      hat_kinder:
+      - true
+      - true
+      - false
+      - false
+      behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      priv_rentenv_beitr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      alleinerz:
+      - false
+      - false
+      - false
+      - false
+      vorsorgeaufw_tu:
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      - 10901.0
+      'Unnamed: 31':
+      - .nan
+      - .nan
+      - .nan
+      - .nan
+      Notes:
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+      - vorsorgeaufw of 10901 = sum_eink of hh - (Sonderasugabenpauschale + _zu_verst_eink_ohne_kinderfreib_tu)
+        but  distribution among adults of hh was done by hand and randomly
+    assumed: {}
+  outputs:
+    _zu_verst_eink_ohne_kinderfreib_tu:
+    - 52599.0
+    - 52599.0
+    - 52599.0
+    - 52599.0
+    zu_verst_eink_mit_kinderfreib_tu:
+    - 36975.0
+    - 36975.0
+    - 36975.0
+    - 36975.0
+    eink_st_kinderfreib_tu:
+    - 15624
+    - 15624
+    - 15624
+    - 15624
+    eink_st_altersfreib:
+    - 0
+    - 0
+    - 0
+    - 0
+    alleinerz_freib_tu:
+    - 0
+    - 0
+    - 0
+    - 0
+    sum_eink:
+    - 41000
+    - 23000
+    - 0
+    - 0
+    _eink_st_behinderungsgrad_pauschbetrag:
+    - 0
+    - 0
+    - 0
+    - 0
+  info:
+    note: ''
+    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020 (including
+      Betreuungskosten)

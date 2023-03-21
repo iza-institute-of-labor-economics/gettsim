@@ -1,0 +1,106 @@
+- inputs:
+    provided:
+      hh_id:
+      - 2
+      - 2
+      tu_id:
+      - 2
+      - 2
+      p_id:
+      - 4
+      - 5
+      kind:
+      - false
+      - false
+      rentner:
+      - false
+      - false
+      alter:
+      - 40
+      - 40
+      geburtsjahr:
+      - 1973
+      - 1973
+      vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+      anz_erwachsene_hh:
+      - 2
+      - 2
+      anz_kinder_bis_17_hh:
+      - 0
+      - 0
+      _kinderzuschl_vor_vermög_check_m_tu:
+      - 0.0
+      - 0.0
+      wohngeld_vor_vermög_check_m_hh:
+      - 400.0
+      - 400.0
+      arbeitsl_geld_2_regelbedarf_m_hh:
+      - 1170.0
+      - 1170.0
+      arbeitsl_geld_2_eink_m_hh:
+      - 700.0
+      - 700.0
+      kind_unterh_erhalt_m_hh:
+      - 0.0
+      - 0.0
+      unterhaltsvors_m_hh:
+      - 0.0
+      - 0.0
+      kindergeld_m_hh:
+      - 0.0
+      - 0.0
+      kinderzuschl_basis:
+      - 0
+      - 0
+      jahr:
+      - 2013
+      - 2013
+      Column1:
+      - .nan
+      - .nan
+      fehlbedarf_arbeitsl_geld_2:
+      - 470
+      - 470
+      fehlbedarf_wohngeld:
+      - 70
+      - 70
+      fehlbedarf_kinderzuschl:
+      - 470.0
+      - 470.0
+      fehlbedarf_wohngeld_kinderzuschl:
+      - 70.0
+      - 70.0
+      wohngeld_vorrang:
+      - false
+      - false
+      kinderzuschl_vorrang:
+      - false
+      - false
+      wohngeld_kinderzuschl_vorrang:
+      - false
+      - false
+      vermfreibetr:
+      - .nan
+      - .nan
+      maxvermfb:
+      - .nan
+      - .nan
+      geburtsjahr_1:
+      - 1973
+      - 1973
+    assumed: {}
+  outputs:
+    kinderzuschl_m_hh:
+    - 0
+    - 0
+    wohngeld_m_hh:
+    - 0
+    - 0
+    arbeitsl_geld_2_m_hh:
+    - 470.0
+    - 470.0
+  info:
+    note: ''
+    source: ''
