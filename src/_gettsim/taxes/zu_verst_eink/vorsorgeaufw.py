@@ -74,7 +74,7 @@ def vorsorgeaufw_alter_tu(
     end="2009-12-31",
     change_name="vorsorgeaufw_tu_einführung",
 )
-def vorsorgeaufw_tu_ab_2005_bis_2009(  # noqa: PLR0913
+def vorsorgeaufw_tu_einführung_ab_2005_bis_2009(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_krankenv_beitr_m_tu: float,
     arbeitsl_v_beitr_m_tu: float,
@@ -144,9 +144,8 @@ def vorsorgeaufw_tu_guenstiger(
     -------
 
     """
-    out = max(vorsorgeaufw_tu_bis_2004, vorsorgeaufw_tu_einführung)
 
-    return out
+    return max(vorsorgeaufw_tu_bis_2004, vorsorgeaufw_tu_einführung)
 
 
 @dates_active(
@@ -154,51 +153,18 @@ def vorsorgeaufw_tu_guenstiger(
     end="2019-12-31",
     change_name="vorsorgeaufw_tu_einführung",
 )
-def _vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
-    vorsorgeaufw_alter_tu: float,
-    ges_pflegev_beitr_m_tu: float,
-    ges_krankenv_beitr_m_tu: float,
-    arbeitsl_v_beitr_m_tu: float,
-    anz_erwachsene_tu: int,
-    eink_st_abzuege_params: dict,
+def vorsorgeaufw_tu_einführung_ab_2010_bis_2019(
+    vorsorgeaufw_tu_ab_2020: float,
 ) -> float:
-    """Calculate Vorsorgeaufwendungen since 2020.
-
-    Vorsorgeaufwendungen after the regime implemented in 2010 is in full effect,
-    see § 10 (3) EStG.
-
-    Parameters
-    ----------
-    vorsorgeaufw_alter_tu
-        See :func:`vorsorgeaufw_alter_tu`.
-    ges_pflegev_beitr_m_tu
-        See :func:`ges_pflegev_beitr_m_tu`.
-    ges_krankenv_beitr_m_tu
-        See :func:`ges_krankenv_beitr_m_tu`.
-    arbeitsl_v_beitr_m_tu
-        See :func:`arbeitsl_v_beitr_m_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-
-    Returns
-    -------
-
-    """
-
-    return vorsorgeaufw_tu_ab_2020(
-        vorsorgeaufw_alter_tu=vorsorgeaufw_alter_tu,
-        ges_pflegev_beitr_m_tu=ges_pflegev_beitr_m_tu,
-        ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
-        arbeitsl_v_beitr_m_tu=arbeitsl_v_beitr_m_tu,
-        anz_erwachsene_tu=anz_erwachsene_tu,
-        eink_st_abzuege_params=eink_st_abzuege_params,
-    )
+    return vorsorgeaufw_tu_ab_2020
 
 
 @dates_active(start="2020-01-01", change_name="vorsorgeaufw_tu")
 @add_rounding_spec(params_key="eink_st_abzuege")
+def _vorsorgeaufw_tu_ab_2020(vorsorgeaufw_tu_ab_2020: float) -> float:
+    return vorsorgeaufw_tu_ab_2020
+
+
 def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
     vorsorgeaufw_alter_tu: float,
     ges_pflegev_beitr_m_tu: float,
