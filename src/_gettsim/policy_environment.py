@@ -2,12 +2,15 @@ import copy
 import datetime
 import operator
 from functools import reduce
+from typing import Callable
 
 import numpy
 import pandas as pd
 import yaml
 
+import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.functions_loader import load_internal_functions
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -53,15 +56,7 @@ from _gettsim.social_insurance_contributions.ges_rentenv import (
     _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
 )
 from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
-from _gettsim.taxes.zu_verst_eink.eink import (
-    sum_eink_mit_kapital,
-    sum_eink_ohne_kapital,
-)
 from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_alleinerz_freib_tu_ab_2015,
-    eink_st_alleinerz_freib_tu_bis_2014,
-    eink_st_altersfreib_ab_2005,
-    eink_st_altersfreib_bis_2004,
     eink_st_sonderausgaben_tu_ab_2012,
     eink_st_sonderausgaben_tu_bis_2011,
 )
@@ -298,21 +293,13 @@ def load_functions_for_date(date):
 
     """
     year = date.year
-    functions = {}
-    if year < 2009:
-        functions["sum_eink"] = sum_eink_mit_kapital
-    else:
-        functions["sum_eink"] = sum_eink_ohne_kapital
 
-    if year <= 2014:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_bis_2014
-    else:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_ab_2015
-
-    if year <= 2004:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_bis_2004
-    else:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_ab_2005
+    # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
+    functions = {
+        f.__info__["dates_active_dag_key"]: f
+        for f in load_internal_functions().values()
+        if is_time_dependent(f) and is_active_at_date(f, date)
+    }
 
     if year <= 1996:
         functions["eink_st_tu"] = eink_st_tu_bis_1996
@@ -529,6 +516,14 @@ def load_functions_for_date(date):
         ] = _ges_krankenv_beitr_satz_arbeitg_ab_2019
 
     return functions
+
+
+def is_time_dependent(f: Callable) -> bool:
+    return hasattr(f, "__info__") and "dates_active_dag_key" in f.__info__
+
+
+def is_active_at_date(f: Callable, date: datetime.date) -> bool:
+    return f.__info__["dates_active_start"] <= date <= f.__info__["dates_active_end"]
 
 
 def _load_parameter_group_from_yaml(

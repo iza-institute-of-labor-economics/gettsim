@@ -3,10 +3,10 @@ import itertools
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -20,6 +20,7 @@ INPUT_COLS = [
     "wohngeld_vor_vermög_check_m_hh",
     "arbeitsl_geld_2_regelbedarf_m_hh",
     "kindergeld_m_hh",
+    "kind_unterh_erhalt_m_hh",
     "unterhaltsvors_m_hh",
     "arbeitsl_geld_2_eink_m_hh",
     "geburtsjahr",
@@ -49,7 +50,7 @@ def test_benefit_checks(input_data, year, target):
         "arbeitsl_geld_2_eink_m_hh",
     ]
 
-    policy_params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,

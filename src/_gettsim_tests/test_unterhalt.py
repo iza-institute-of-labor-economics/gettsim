@@ -1,29 +1,24 @@
+import itertools
+
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
     "hh_id",
     "tu_id",
-    "alleinerz",
-    "alter",
-    "bruttolohn_m",
-    "sonstig_eink_m",
-    "kapitaleink_brutto_m",
-    "eink_vermietung_m",
-    "eink_selbst_m",
-    "arbeitsl_geld_m",
-    "sum_ges_rente_priv_rente_m",
+    "kind_unterh_anspr_m",
+    "kindergeld_m",
     "jahr",
-    "monat",
+    "kind",
 ]
-OUT_COLS = ["unterhaltsvors_m"]
-YEAR_MONTHS = [[2018, 1], [2019, 1], [2019, 8]]
+OUT_COLS = ["kind_unterh_zahlbetr_m"]
+YEARS = [2023]
 
 
 @pytest.fixture(scope="module")
@@ -33,27 +28,18 @@ def input_data():
     return out
 
 
-@pytest.mark.parametrize(
-    "column, year, month",
-    [
-        (col, year_month[0], year_month[1])
-        for col in OUT_COLS
-        for year_month in YEAR_MONTHS
-    ],
-)
-def test_unterhalt(input_data, column, year, month):
-    year_data = input_data[
-        (input_data["jahr"] == year) & (input_data["monat"] == month)
-    ].reset_index(drop=True)
+@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+def test_unterhalt(input_data, column, year):
+    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-{month}")
+    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
 
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=["arbeitsl_geld_m", "sum_ges_rente_priv_rente_m"],
+        columns_overriding_functions=["kindergeld_m"],
     )
 
     assert_series_equal(

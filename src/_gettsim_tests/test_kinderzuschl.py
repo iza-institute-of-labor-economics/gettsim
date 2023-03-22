@@ -3,10 +3,10 @@ import itertools
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -25,17 +25,19 @@ INPUT_COLS = [
     "kinderzuschl_bruttoeink_eltern_m",
     "kinderzuschl_eink_eltern_m",
     "kindergeld_m_hh",
+    "kind_unterh_erhalt_m",
     "unterhaltsvors_m",
     "jahr",
     "geburtsjahr",
     "vermögen_bedürft_hh",
+    "bürgerg_bezug_vorj",
 ]
 OUT_COLS = [
     "_kinderzuschl_vor_vermög_check_m_tu",
     "_kinderzuschl_nach_vermög_check_m_tu",
 ]
 # 2006 and 2009 are missing -> are currently failing
-YEARS = [2013, 2016, 2017, 2019, 2020, 2021]
+YEARS = [2013, 2016, 2017, 2019, 2020, 2021, 2023]
 
 OVERRIDE_COLS = [
     "_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh",
@@ -60,7 +62,7 @@ def test_kinderzuschl(
 ):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=year)
+    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
 
     result = compute_taxes_and_transfers(
         data=df,
