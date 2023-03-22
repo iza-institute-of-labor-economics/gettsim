@@ -83,7 +83,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
+    prox_ssc = elterngeld_params["sozialv_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]

@@ -15,7 +15,7 @@ freibetrag:
   2002-01-01:
     scalar: 165
     reference: Art. 3 G. v. 21.12.2000 BGBl. I S. 1983
-soz_vers_pausch:
+sozialv_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Leistungsentgelts
     en: Fictitious social insurance contribution rate

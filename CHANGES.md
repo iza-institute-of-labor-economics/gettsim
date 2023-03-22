@@ -9,6 +9,9 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
 
+- {gh}`405` Fix calculation of voluntary contribution by self-employed to the GKV.
+  ({ghuser}`JHermann99`)
+
 - {gh}`495` Add @dates_active decorator to easily specify when a function is active.
   ({ghuser}`lars-reimann`).
 
