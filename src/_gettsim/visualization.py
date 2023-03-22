@@ -145,10 +145,8 @@ def plot_dag(
         edge_x = list(reduce(operator.concat, edge_x))
         edge_y = df[["y0", "y1", "None"]].apply(tuple, axis=1).tolist()
         edge_y = list(reduce(operator.concat, edge_y))
-    # prepare for the arrows
-    arrows = []
-    for i in range(len(df)):
-        arrow = go.layout.Annotation(
+    arrows = [
+        go.layout.Annotation(
             x=df["x1"][i],
             y=df["y1"][i],
             xref="x",
@@ -165,10 +163,10 @@ def plot_dag(
             standoff=5,
             arrowcolor="gray",
         )
-        arrows.append(arrow)
+        for i in range(len(df))
+    ]
 
     # plot the nodes, edges and arrows together
-
     fig = go.FigureWidget(
         layout=go.Layout(
             showlegend=False,
