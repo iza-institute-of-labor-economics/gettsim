@@ -690,20 +690,22 @@ bezugsgröße_selbst_m:
     west: 3395
     ost: 3290
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
-bezugsgröße_selbst_anteil:
+mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   name:
-    de: Einkommensbezugsgröße für Selbständige
-    en: Reference size of income for selfemployed
+    de: Mindestberechungsbeitrag für Selbstständige als Anteil der Bezugsgröße
+    en: Minimum contribution for self employed as fraction of Bezugsgröße
   description:
     de: >-
-      Maximale Bezugsgröße des Einkommens in der gesetzlichen Krankenversicherung für
-      Selbständige
+      Als beitragspflichtige Einnahmen gilt für den Kalendertag mindestens der
+      neunzigste Teil der monatlichen Bezugsgröße (1/90*30)
     en: >-
-      Maximum amount of income which is subject to health insurance contribution for
-      selfemployed
+      Health Insurance contributions have to be payed, at the minimum, on the ninetieth
+      part of the monthly Bezugsgröße for each calender day
   unit: Share
-  1984-01-01:
-    scalar: 0.75
+  reference: §240 SGB V Abs. 4
+  note: Exact date of introduction of this parameter unclear (was in place in 2006)
+  2006-01-01:
+    scalar: 0.33333333
 geringfügige_eink_grenzen_m:
   name:
     de: >-
