@@ -64,18 +64,8 @@ def ges_rente_vor_grundr_m(
 
 
 @dates_active(end="2020-12-31")
-def ges_rente_m(
-    ges_rente_zugangsfaktor: float,
-    entgeltp_update: float,
-    rentenwert: float,
-    rentner: bool,
-) -> float:
-    return ges_rente_vor_grundr_m(
-        ges_rente_zugangsfaktor=ges_rente_zugangsfaktor,
-        entgeltp_update=entgeltp_update,
-        rentenwert=rentenwert,
-        rentner=rentner,
-    )
+def ges_rente_m(ges_rente_vor_grundr_m: float) -> float:
+    return ges_rente_vor_grundr_m
 
 
 @dates_active(start="2021-01-01", change_name="ges_rente_m")
