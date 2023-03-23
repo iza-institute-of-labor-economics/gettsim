@@ -1,4 +1,4 @@
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
@@ -93,15 +93,19 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     return out
 
 
+@dates_active(
+    start="2010-01-01",
+    change_name="vorsorgepauschale",
+)
 @add_rounding_spec(params_key="lohn_st")
 def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
     steuerklasse: int,
     wohnort_ost: bool,
-    ges_krankenv_zusatzbeitrag: float,
+    ges_krankenv_zusatzbeitr_satz: float,
     ges_pflegev_zusatz_kinderlos: bool,
     eink_st_abzuege_params: dict,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -117,12 +121,12 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
       See :func:`ges_pflegev_zusatz_kinderlos`
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_krankenv_zusatzbeitrag
-        See :func:ges_krankenv_zusatzbeitrag`.
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
-    soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params`
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params`
 
 
     Returns
@@ -135,17 +139,17 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     if wohnort_ost:
         bruttolohn_rente = min(
             12 * bruttolohn_m,
-            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
+            12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
         )
     else:
         bruttolohn_rente = min(
             12 * bruttolohn_m,
-            12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
+            12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 
     vorsorg_rv = (
         bruttolohn_rente
-        * soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
+        * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
         * eink_st_abzuege_params["vorsorgepauschale_rv_anteil"]
     )
 
@@ -156,7 +160,7 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
     bruttolohn_kv = min(
         12 * bruttolohn_m,
-        12 * soz_vers_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
+        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
     )
     vorsorg_kv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
@@ -178,17 +182,17 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 
     if ges_pflegev_zusatz_kinderlos:
         beitr_satz_pflegev = (
-            soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-            + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
     else:
-        beitr_satz_pflegev = soz_vers_beitr_params["beitr_satz"]["ges_pflegev"][
+        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "standard"
         ]
 
     vorsorg_kv_option_b = bruttolohn_kv * (
-        soz_vers_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitrag / 2 / 100
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + ges_krankenv_zusatzbeitr_satz / 2 / 100
         + beitr_satz_pflegev
     )
 
@@ -197,6 +201,11 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
     return out
 
 
+@dates_active(
+    start="2005-01-01",
+    end="2009-12-31",
+    change_name="vorsorgepauschale",
+)
 @add_rounding_spec(params_key="lohn_st")
 def vorsorgepauschale_ab_2005_bis_2009() -> float:
     out = 0.0

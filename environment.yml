@@ -6,7 +6,7 @@ channels:
 dependencies:
   - astor
   - dags
-  - ipywidgets
+  - ipywidgets==8.0.4
   - jupyterlab
   - myst-parser>=0.18.0
   - nbsphinx

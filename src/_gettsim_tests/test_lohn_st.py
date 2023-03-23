@@ -19,7 +19,7 @@ INPUT_COLS = [
     "hat_kinder",
     "arbeitsstunden_w",
     "in_ausbildung",
-    "ges_krankenv_zusatzbeitrag",
+    "ges_krankenv_zusatzbeitr_satz",
     "ges_pflegev_zusatz_kinderlos",
 ]
 
@@ -85,7 +85,7 @@ def input_data():
         "lzz": "period_of_obtained_wage",
         "lstlzz": "lohnst",
         "solzlzz": "lohnst_soli",
-        "kvz": "ges_krankenv_zusatzbeitrag",
+        "kvz": "ges_krankenv_zusatzbeitr_satz",
         "pvz": "ges_pflegev_zusatz_kinderlos",
     }
     test_data = lst_data[[*var_names]].rename(columns=var_names).copy()
@@ -166,7 +166,7 @@ def test_lohnsteuer(input_data, year, column):
         functions=policy_functions,
         targets=column,
         columns_overriding_functions=[
-            "ges_krankenv_zusatzbeitrag",
+            "ges_krankenv_zusatzbeitr_satz",
             "ges_pflegev_zusatz_kinderlos",
         ],
     )

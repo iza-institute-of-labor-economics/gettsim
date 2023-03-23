@@ -140,7 +140,7 @@ mehrlingbonus:
   2007-01-01:
     scalar: 300
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-soz_vers_pausch:
+sozialv_pausch:
   name:
     de: Sozialversicherungspauschale zur Berechnung des Nettoeinkommens
     en: null

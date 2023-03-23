@@ -1,28 +1,7 @@
 """Kinderzuschlag / Additional Child Benefit.
 
-The purpose of Kinderzuschlag (Kiz) is to keep families out of ALG2. If they would
-be eligible to ALG2 due to the fact that their claim rises because of their
-children, they can claim Kiz.
-
-A couple of criteria need to be met.
-
-1. the household has to have some income
-
-2. net income minus housing benefit needs has to be lower than total ALG2 need plus
-   additional child benefit.
-
-3. Over a certain income threshold (which depends on housing costs, and is
-   therefore household-specific), parental income is deducted from child benefit
-   claim.
-
-In contrast to ALG2, Kiz considers only the rental costs that are attributed to the
-parents. This is done by some fixed share which is updated on annual basis
-('jährlicher Existenzminimumsbericht')
-
-# ToDo: Reconsider current assumption: not payed out if a pensioneer lives in the
-# ToDo: household.
-
 """
+from _gettsim.shared import dates_active
 
 
 def kinderzuschl_m_hh(
@@ -58,7 +37,11 @@ def kinderzuschl_m_hh(
     return out
 
 
-def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(  # noqa: PLR0913
+@dates_active(
+    end="2019-06-30",
+    change_name="_kinderzuschl_vor_vermög_check_m_tu",
+)
+def _kinderzuschl_vor_vermög_check_m_tu_check_eink_max(  # noqa: PLR0913
     kinderzuschl_bruttoeink_eltern_m_tu: float,
     kinderzuschl_eink_eltern_m_tu: float,
     kinderzuschl_eink_min_m_tu: float,
@@ -106,7 +89,8 @@ def _kinderzuschl_vor_vermög_check_m_tu_bis_06_2019(  # noqa: PLR0913
     return out
 
 
-def _kinderzuschl_vor_vermög_check_m_tu_ab_07_2019(
+@dates_active(start="2019-07-01")
+def _kinderzuschl_vor_vermög_check_m_tu(
     kinderzuschl_bruttoeink_eltern_m_tu: float,
     kinderzuschl_eink_min_m_tu: float,
     kinderzuschl_kindereink_abzug_m_tu: float,
