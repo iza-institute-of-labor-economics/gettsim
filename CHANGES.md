@@ -27,6 +27,7 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
 
+
 ## v0.6.0 — 2023-01-30
 
 - {gh}`503`, {gh}`511`, Move packaging to PyPI/conda-forge, update documentation
