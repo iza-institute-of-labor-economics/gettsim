@@ -1,3 +1,6 @@
+from _gettsim.shared import dates_active
+
+
 def arbeitsl_geld_2_m_hh(
     arbeitsl_geld_2_vor_vorrang_m_hh: float,
     wohngeld_vorrang_hh: bool,
@@ -120,6 +123,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     return out
 
 
+@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_hh")
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     anz_kinder_bis_6_hh: int,
     anz_kinder_ab_7_bis_13_hh: int,
@@ -128,8 +132,6 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 ) -> float:
     """Calculate basic monthly subsistence for children until 2010. Since 2010 children
     get additional shares instead of lump sum payments.
-
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -160,6 +162,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     return float(out)
 
 
+@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_kindersatz_m_hh")
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     anz_kinder_bis_6_hh: int,
     anz_kinder_ab_7_bis_13_hh: int,
@@ -210,6 +213,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     return float(out)
 
 
+@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_hh")
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
@@ -217,8 +221,6 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate basic monthly subsistence without dwelling until 2010.
-
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
     Parameters
     ----------
@@ -252,6 +254,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     return out + arbeitsl_geld_2_kindersatz_m_hh
 
 
+@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_hh")
 def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,

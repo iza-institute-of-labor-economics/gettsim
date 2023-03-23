@@ -914,21 +914,8 @@ rounding:
       base: 0.0001
       direction: nearest
       reference: null
-  minijob_grenze_west:
+  minijob_grenze:
     1990-01-01:
-      base: 1
-      direction: up
-      reference: null
-    2022-10-01:
-      base: 1
-      direction: up
-      reference: §8 (1a) S.2 SGB IV.
-  minijob_grenze_ost:
-    1990-01-01:
-      base: 1
-      direction: up
-      reference: null
-    2022-10-01:
       base: 1
       direction: up
       reference: §8 (1a) S.2 SGB IV.

@@ -54,8 +54,8 @@ def test_access_different_date_vorjahr():
         (
             "alleinerz_freib_tu",
             date(2014, 12, 31),
-            "eink_st_alleinerz_freib_tu_bis_2014",
-            "eink_st_alleinerz_freib_tu_ab_2015",
+            "eink_st_alleinerz_freib_tu_pauschal",
+            "eink_st_alleinerz_freib_tu_nach_kinderzahl",
         ),
         (
             "sum_eink",

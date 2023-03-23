@@ -961,7 +961,7 @@ altersgrenze_besonders_langj_versicherte:
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
     en: null
   type: piecewise_linear
-  2010-01-01:
+  2012-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: inf

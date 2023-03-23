@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
+
 - {gh}`405` Fix calculation of voluntary contribution by self-employed to the GKV.
   ({ghuser}`JHermann99`)
 

@@ -15,7 +15,7 @@ INPUT_COLS = [
     "kind",
     "anwartschaftszeit",
     "arbeitssuchend",
-    "soz_vers_pflicht_5j",
+    "sozialv_pflicht_5j",
     "m_durchg_alg1_bezug",
     "arbeitsstunden_w",
     "alter",
