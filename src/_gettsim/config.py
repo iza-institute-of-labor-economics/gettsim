@@ -61,6 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
+    "lohn_st",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -159,4 +160,5 @@ TYPES_INPUT_VARIABLES = {
     "bürgerg_bezug_vorj": bool,
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
+    "steuerklasse": int,
 }

@@ -13,6 +13,7 @@ dependencies:
   - networkx
   - numpy_groupies
   - numpydoc
+  - openpyxl
   - pandas
   - pdbpp
   - pip

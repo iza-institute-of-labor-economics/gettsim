@@ -50,7 +50,7 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-
+    params = _parse_vorsorgepauschale_rv_anteil(date, params)
     functions = load_functions_for_date(date)
 
     return params, functions
@@ -134,6 +134,7 @@ def _parse_kinderzuschl_max(date, params):
         updated dictionary
 
     """
+
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
@@ -183,6 +184,40 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
         params["eink_st_abzuege"][
             "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
         ] = out.loc[0]
+    return params
+
+
+def _parse_vorsorgepauschale_rv_anteil(date, params):
+    """Calculate the share of pension contributions to be deducted for Lohnsteuer
+    increases by year.
+
+    Parameters
+    ----------
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
+
+    Returns
+    -------
+    out: float
+
+    """
+
+    jahr = float(date.year)
+    if jahr >= 2005:
+        out = piecewise_polynomial(
+            pd.Series(jahr),
+            thresholds=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"][
+                "thresholds"
+            ],
+            rates=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
+                "vorsorgepauschale_rv_anteil"
+            ]["intercepts_at_lower_thresholds"],
+        )
+        params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"] = out.loc[0]
+
     return params
 
 

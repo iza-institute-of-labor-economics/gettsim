@@ -508,3 +508,11 @@ Type: float
 Monthly actual child alimony payments received
 
 Type: float
+
+(steuerklasse)=
+
+## `steuerklasse`
+
+Tax Bracket (1 to 5) for withholding tax
+
+Type: int

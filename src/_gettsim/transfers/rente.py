@@ -365,7 +365,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Calculates the age, at which a person is eligible to claim the full pension. Full
+    """Calculate the age, at which a person is eligible to claim the full pension. Full
     retirement age (FRA) without deductions. This age is smaller or equal to the
     regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
     insurance duration, health/disability, employment status.
@@ -448,7 +448,7 @@ def referenz_alter_abschlag(
 
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
-    """Calculates the age, at which a person is eligible to claim the regular pension.
+    """Calculate the age, at which a person is eligible to claim the regular pension.
     Normal retirement age (NRA). This pension cannot be claimed earlier than at the NRA,
     ie it does not serve as reference for calculating deductions. However, it serves as
     reference for calculating gains in the Zugangsfakor in case of later retirement.
@@ -482,7 +482,7 @@ def ges_rente_frauen_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a women is eligible to claim the full pension
+    """Calculate the age, at which a women is eligible to claim the full pension
     (without deductions). This pension scheme allows for early retirement from age 60
     with deductions. Hence this threshold is needed as reference for calculating the
     zugangsfaktor.
@@ -527,7 +527,7 @@ def _ges_rente_langj_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a long term insured person (at least 35 years) is
+    """Calculate the age, at which a long term insured person (at least 35 years) is
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
@@ -575,7 +575,7 @@ def _ges_rente_besond_langj_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the threshold from which very long term insured people (at least 45
+    """Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
     # ToDo: This function should only exist from 2014-07-01 onwards. Add decorator once

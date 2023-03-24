@@ -146,7 +146,7 @@ def ges_pflegev_beitr_selbst_m(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculates care insurance contributions for self-employed individuals.
+    """Calculate care insurance contributions for self-employed individuals.
 
     Self-employed pay the full
     contribution (employer + employee), which is either assessed on their

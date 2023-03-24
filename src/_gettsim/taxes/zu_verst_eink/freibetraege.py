@@ -38,7 +38,7 @@ def _eink_st_behinderungsgrad_pauschbetrag(
 def eink_st_alleinerz_freib_tu_pauschal(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
-    """Calculates tax deduction allowance for single parents until 2014.
+    """Calculate tax deduction allowance for single parents until 2014.
 
     This used to be called 'Haushaltsfreibetrag'.
 
@@ -67,7 +67,7 @@ def eink_st_alleinerz_freib_tu_nach_kinderzahl(
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for single parents since 2015.
+    """Calculate tax deduction allowance for single parents since 2015.
 
     Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -106,7 +106,7 @@ def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly until 2004.
+    """Calculate tax deduction allowance for elderly until 2004.
 
     Parameters
     ----------
@@ -155,7 +155,7 @@ def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly since 2005.
+    """Calculate tax deduction allowance for elderly since 2005.
 
     Parameters
     ----------
@@ -355,7 +355,7 @@ def eink_st_kinderfreib_tu(
     -------
 
     """
-    kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
+    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
     return float(out)
