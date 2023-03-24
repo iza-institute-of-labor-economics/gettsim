@@ -36,6 +36,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "myst_parser",
+    "autodoc2"
 ]
 
 # The master toctree document.
@@ -59,7 +60,19 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Extensions configuration ------------------------------------------------
 
+myst_enable_extensions = ["fieldlist"]
+
 add_module_names = False
+
+autodoc2_packages = [
+    {
+        "path": "../src/_gettsim",
+        "module": "interface",
+        "auto_mode": False,
+    },
+]
+
+autodoc2_render_plugin = "myst"
 
 autodoc_default_options = {
     "members": True,
