@@ -31,6 +31,7 @@ dependencies:
   - sphinx
   - sphinx-automodapi
   - sphinx-copybutton
+  - sphinx-autodoc2
   - toml
   - pip:
       - kaleido
