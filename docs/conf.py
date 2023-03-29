@@ -36,7 +36,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "myst_parser",
-    "autodoc2"
+    "autodoc2",
 ]
 
 # The master toctree document.
@@ -65,7 +65,7 @@ myst_enable_extensions = ["fieldlist"]
 add_module_names = False
 
 autodoc2_packages = [
-     {
+    {
         "path": "../src/_gettsim/social_insurance_contributions",
     },
     {
@@ -74,7 +74,6 @@ autodoc2_packages = [
     {
         "path": "../src/_gettsim/transfers",
     },
-    
 ]
 
 autodoc2_render_plugin = "myst"

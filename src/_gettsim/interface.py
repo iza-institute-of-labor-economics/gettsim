@@ -35,7 +35,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 ):
     """Compute taxes and transfers.
 
-    :param #: 
+    :param #:
     :type #: PLR0913data
     :param params: A dictionary with parameters from the policy environment. For more information
         see the documentation of the :ref:`params_files`.
@@ -70,7 +70,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     :returns: results ->     DataFrame containing computed variables.
     :rtype: pandas.DataFrame
 
-    
+
     """
 
     targets = DEFAULT_TARGETS if targets is None else targets
@@ -172,7 +172,7 @@ def set_up_dag(
     :returns: dag->     The DAG of the tax and transfer system.
     :rtype: networkx.DiGraph
 
-    
+
     """
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
@@ -199,7 +199,7 @@ def _process_and_check_data(data, columns_overriding_functions):
     :returns: data->
     :rtype: dict of pandas.Series
 
-    
+
     """
     if isinstance(data, pd.DataFrame):
         _fail_if_duplicates_in_columns(data)
@@ -245,7 +245,7 @@ def _convert_data_to_correct_types(data, functions_overridden):
     :returns: data->
     :rtype: dict of pandas.Series with correct type
 
-    
+
     """
     collected_errors = ["The data types of the following columns are invalid: \n"]
     collected_conversions = [
@@ -309,7 +309,7 @@ def _create_input_data(
     check_minimal_specification="ignore",
 ):
     """Create input data for use in the calculation of taxes and transfers by:
-    
+
     - reducing to necessary data
     - convert pandas.Series to numpy.array
 
@@ -329,7 +329,7 @@ def _create_input_data(
     :returns: input_data->     Data which can be used to calculate taxes and transfers.
     :rtype: Dict of numpy.array
 
-    
+
     """
     # Create dag using processed functions
     dag = set_up_dag(
@@ -353,7 +353,7 @@ def _create_input_data(
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique.
 
-    :param data: 
+    :param data:
 
     """
     if any(data.columns.duplicated()):
@@ -369,7 +369,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
     :param data: Dictionary containing a series for each column.
     :type data: dict of pandas.Series
 
-    
+
     """
     for name, col in data.items():
         for level in SUPPORTED_GROUPINGS:
@@ -400,7 +400,7 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
     :type columns: list of str
     :raises ValueError: Fail if functions which compute columns overlap with existing columns.
 
-    
+
     """
     unused_columns_overriding_functions = sorted(
         c for c in set(columns) if c not in data_cols
@@ -437,7 +437,7 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
 def _fail_if_pid_is_non_unique(data):
     """Check that pid is unique.
 
-    :param data: 
+    :param data:
 
     """
     if "p_id" not in data:
@@ -499,7 +499,7 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
         parameters.
     :rtype: dict of callable
 
-    
+
     """
     # Add rounding to functions.
     if rounding:
@@ -541,7 +541,7 @@ def _add_rounding_to_functions(functions, params):
     :returns: functions_new->     Dictionary of rounded functions.
     :rtype: dict of callable
 
-    
+
     """
     functions_new = copy.deepcopy(functions)
 
@@ -600,7 +600,7 @@ def _add_rounding_to_one_function(base, direction):
     :returns: results->     Series with (potentially) rounded numbers
     :rtype: pandas.Series
 
-    
+
     """
 
     def inner(func):
@@ -649,7 +649,7 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     :raises ValueError: Raised if there are columns in 'columns_overriding_functions' which are not
         necessary and ``check_minimal_specification`` is set to "raise".
 
-    
+
     """
     unused_columns = set(columns_overriding_functions) - set(dag.nodes)
     formatted = format_list_linewise(unused_columns)
@@ -675,7 +675,7 @@ def _prepare_results(results, data, debug):
     :returns: results->     Nicely formatted DataFrame of the results.
     :rtype: pandas.DataFrame
 
-    
+
     """
     if debug:
         results = pd.DataFrame({**data, **results})
