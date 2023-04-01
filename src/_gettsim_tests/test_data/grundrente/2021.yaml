@@ -1,9 +1,8 @@
----
 hh_id_1:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
+      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
   inputs:
     provided:
       p_id:
@@ -12,18 +11,10 @@ hh_id_1:
         - 1
       hh_id:
         - 1
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 420
       grundr_bew_zeiten:
         - 420
-      entgeltp:
-        - 14.014
-      grundr_entgeltp:
-        - 14.014
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -44,13 +35,17 @@ hh_id_1:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 14.014
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.35
-    assumed: {}
+      grundr_entgeltp:
+        - 14.014
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.029166667
@@ -63,8 +58,8 @@ hh_id_1:
 hh_id_2:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
+      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
   inputs:
     provided:
       p_id:
@@ -73,18 +68,10 @@ hh_id_2:
         - 2
       hh_id:
         - 2
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 420
       grundr_bew_zeiten:
         - 420
-      entgeltp:
-        - 17.5
-      grundr_entgeltp:
-        - 17.5
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -105,13 +92,17 @@ hh_id_2:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 17.5
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.2629
-    assumed: {}
+      grundr_entgeltp:
+        - 17.5
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.021908333
@@ -124,8 +115,8 @@ hh_id_2:
 hh_id_3:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
+      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
   inputs:
     provided:
       p_id:
@@ -134,18 +125,10 @@ hh_id_3:
         - 3
       hh_id:
         - 3
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 420
       grundr_bew_zeiten:
         - 420
-      entgeltp:
-        - 21.0
-      grundr_entgeltp:
-        - 21.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -166,13 +149,17 @@ hh_id_3:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 21.0
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.1754
-    assumed: {}
+      grundr_entgeltp:
+        - 21.0
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014616667
@@ -196,18 +183,10 @@ hh_id_4:
         - 4
       hh_id:
         - 4
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 480
       grundr_bew_zeiten:
         - 480
-      entgeltp:
-        - 28.8
-      grundr_entgeltp:
-        - 28.8
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -228,13 +207,17 @@ hh_id_4:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 28.8
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.07035
-    assumed: {}
+      grundr_entgeltp:
+        - 28.8
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0058625
@@ -258,18 +241,10 @@ hh_id_5:
         - 5
       hh_id:
         - 5
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 408
       grundr_bew_zeiten:
         - 408
-      entgeltp:
-        - 18.7
-      grundr_entgeltp:
-        - 18.7
       wohnort_ost:
         - true
       rente_vorj_vor_grundr_proxy_m:
@@ -290,13 +265,17 @@ hh_id_5:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 18.7
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.04438
-    assumed: {}
+      grundr_entgeltp:
+        - 18.7
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.003698333
@@ -319,18 +298,10 @@ hh_id_6:
         - 6
       hh_id:
         - 6
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 480
       grundr_bew_zeiten:
         - 300
-      entgeltp:
-        - 19.2
-      grundr_entgeltp:
-        - 15.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -351,13 +322,17 @@ hh_id_6:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 19.2
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.175
-    assumed: {}
+      grundr_entgeltp:
+        - 15.0
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -380,18 +355,10 @@ hh_id_7:
         - 7
       hh_id:
         - 7
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 480
       grundr_bew_zeiten:
         - 300
-      entgeltp:
-        - 19.2
-      grundr_entgeltp:
-        - 15.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -412,13 +379,17 @@ hh_id_7:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 19.2
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.175
-    assumed: {}
+      grundr_entgeltp:
+        - 15.0
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -441,18 +412,10 @@ hh_id_8:
         - 8
       hh_id:
         - 8
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 480
       grundr_bew_zeiten:
         - 300
-      entgeltp:
-        - 19.2
-      grundr_entgeltp:
-        - 15.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -473,13 +436,17 @@ hh_id_8:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 19.2
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.175
-    assumed: {}
+      grundr_entgeltp:
+        - 15.0
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -503,18 +470,10 @@ hh_id_9:
         - 9
       hh_id:
         - 9
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 552
       grundr_bew_zeiten:
         - 552
-      entgeltp:
-        - 34.5
-      grundr_entgeltp:
-        - 34.5
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -535,13 +494,17 @@ hh_id_9:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 34.5
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.0438
-    assumed: {}
+      grundr_entgeltp:
+        - 34.5
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0037
@@ -564,18 +527,10 @@ hh_id_10:
         - 10
       hh_id:
         - 10
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 492
       grundr_bew_zeiten:
         - 492
-      entgeltp:
-        - 41.0
-      grundr_entgeltp:
-        - 41.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -596,13 +551,17 @@ hh_id_10:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 41.0
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.0
-    assumed: {}
+      grundr_entgeltp:
+        - 41.0
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0
@@ -626,18 +585,10 @@ hh_id_11:
         - 11
       hh_id:
         - 11
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 516
       grundr_bew_zeiten:
         - 372
-      entgeltp:
-        - 18.5
-      grundr_entgeltp:
-        - 15.5
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -658,13 +609,17 @@ hh_id_11:
         - 1951
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 18.5
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - true
-      grundr_zuschlag_bonus_entgeltp (yearly):
-        - 0.2625
-    assumed: {}
+      grundr_entgeltp:
+        - 15.5
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.021875
@@ -686,18 +641,10 @@ hh_id_12:
         - 12
       hh_id:
         - 12
-      jahr:
-        - 2021
-      kind:
-        - false
       grundr_zeiten:
         - 0
       grundr_bew_zeiten:
         - 0
-      entgeltp:
-        - 0.0
-      grundr_entgeltp:
-        - 0.0
       wohnort_ost:
         - false
       rente_vorj_vor_grundr_proxy_m:
@@ -718,13 +665,17 @@ hh_id_12:
         - 1990
       bruttolohn_m:
         - 0.0
+      entgeltp:
+        - 0.0
       ges_rente_zugangsfaktor:
         - 1.0
       rentner:
         - false
-      grundr_zuschlag_bonus_entgeltp (yearly):
+      grundr_entgeltp:
         - 0.0
-    assumed: {}
+      kind:
+        - false
+    assumed: { }
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0

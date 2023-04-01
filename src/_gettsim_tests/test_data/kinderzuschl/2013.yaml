@@ -1,38 +1,19 @@
----
 hh_id_2:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 4
+        - 5
       hh_id:
         - 2
         - 2
       tu_id:
         - 2
         - 2
-      p_id:
-        - 4
-        - 5
-      head:
-        - true
-        - false
-      jahr:
-        - 2013
-        - 2013
-      geburtsjahr:
-        - 1973
-        - 1973
-      hh_korr:
-        - 1
-        - 1
-      hhsize:
-        - 2
-        - 2
       kind:
-        - false
-        - false
-      kindergeld_anspruch:
         - false
         - false
       alter:
@@ -56,26 +37,17 @@ hh_id_2:
       alleinerz:
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 0
-        - 0
       kinderzuschl_bruttoeink_eltern_m:
         - 800.0
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 512.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
       kindergeld_m_hh:
         - 0.0
@@ -86,7 +58,19 @@ hh_id_2:
       unterhaltsvors_m:
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2013
+        - 2013
+      geburtsjahr:
+        - 1973
+        - 1973
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0

@@ -1,49 +1,36 @@
----
 hh_id_5:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 27
       hh_id:
         - 5
       tu_id:
         - 5
-      p_id:
-        - 27
-      jahr:
-        - 2019
-      geburtstag:
-        - 1
-      geburtsmonat:
-        - 1
-      geburtsjahr:
-        - 1967
-      haushaltsgröße_hh:
-        - 1
       kind:
-        - false
-      kindergeld_anspruch:
         - false
       bruttokaltmiete_m_hh:
         - 1200.0
-      heizkost_m:
-        - 100
       alleinerz:
         - false
       alter:
         - 52
       immobilie_baujahr_hh:
         - 1995
+      kindergeld_anspruch:
+        - false
       mietstufe:
         - 5
       bruttolohn_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 55000.0
       sum_ges_rente_priv_rente_m:
         - 0.0
       rente_ertragsanteil:
+        - 0.0
+      elterngeld_m:
         - 0.0
       arbeitsl_geld_m:
         - 0.0
@@ -53,8 +40,6 @@ hh_id_5:
         - 0.0
       unterhaltsvors_m:
         - 0.0
-      elterngeld_m:
-        - 0.0
       eink_selbst_m:
         - 0.0
       eink_abhängig_beschäftigt:
@@ -63,17 +48,27 @@ hh_id_5:
         - 0.0
       eink_vermietung_m:
         - 0.0
-      eink_st_tu:
-        - 0.0
-      eink_st_m:
-        - 0
       ges_rentenv_beitr_m:
         - 0.0
       ges_krankenv_beitr_m:
         - 0.0
       behinderungsgrad:
         - 0
-    assumed: {}
+      jahr:
+        - 2019
+      eink_st_tu:
+        - 0.0
+      vermögen_bedürft_hh:
+        - 55000.0
+      haushaltsgröße_hh:
+        - 1
+      geburtstag:
+        - 1
+      geburtsmonat:
+        - 1
+      geburtsjahr:
+        - 1967
+    assumed: { }
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 451.0

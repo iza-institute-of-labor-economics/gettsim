@@ -1,4 +1,3 @@
----
 hh_id_1:
   info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
@@ -6,11 +5,11 @@ hh_id_1:
     source: none
   inputs:
     provided:
+      p_id:
+        - 1
       hh_id:
         - 1
       tu_id:
-        - 1
-      p_id:
         - 1
       bruttolohn_vorj_m:
         - 1000.0
@@ -20,26 +19,12 @@ hh_id_1:
         - false
       arbeitsstunden_w:
         - 0.0
-#      anz_kinder_tu:
-#      - 0
       alter:
         - 30
       geburtsjahr:
         - 1989
       jahr:
         - 2019
-      eligible:
-        - true
-#      alg_wage:
-#      - 1000
-#      alg_ssc:
-#      - 200.0
-#      alg_tax:
-#      - 24.08
-#      alg_soli:
-#      - 0.0
-#      alg_entgelt:
-#      - 775.92
     assumed:
       anwartschaftszeit:
         - true
@@ -59,11 +44,11 @@ hh_id_2:
     source: none
   inputs:
     provided:
+      p_id:
+        - 2
       hh_id:
         - 2
       tu_id:
-        - 2
-      p_id:
         - 2
       bruttolohn_vorj_m:
         - 2000.0
@@ -73,26 +58,12 @@ hh_id_2:
         - false
       arbeitsstunden_w:
         - 0.0
-#      anz_kinder_tu:
-#      - 0
       alter:
         - 30
       geburtsjahr:
         - 1989
       jahr:
         - 2019
-      eligible:
-        - true
-#      alg_wage:
-#      - 2000
-#      alg_ssc:
-#      - 400.0
-#      alg_tax:
-#      - 268.92
-#      alg_soli:
-#      - 14.79
-#      alg_entgelt:
-#      - 1316.29
     assumed:
       anwartschaftszeit:
         - true
@@ -112,15 +83,15 @@ hh_id_3:
     source: none
   inputs:
     provided:
+      p_id:
+        - 3
+        - 4
       hh_id:
         - 3
         - 3
       tu_id:
         - 3
         - 3
-      p_id:
-        - 3
-        - 4
       bruttolohn_vorj_m:
         - 0.0
         - 3000.0
@@ -133,9 +104,6 @@ hh_id_3:
       arbeitsstunden_w:
         - 0.0
         - 0.0
-#      anz_kinder_tu:
-#      - 1
-#      - 1
       alter:
         - 5
         - 30
@@ -145,24 +113,6 @@ hh_id_3:
       jahr:
         - 2019
         - 2019
-      eligible:
-        - false
-        - false
-#      alg_wage:
-#      - 0
-#      - 3000
-#      alg_ssc:
-#      - 0.0
-#      - 600.0
-#      alg_tax:
-#      - 0.0
-#      - 572.33
-#      alg_soli:
-#      - 0.0
-#      - 31.48
-#      alg_entgelt:
-#      - 0.0
-#      - 1796.19
     assumed:
       anwartschaftszeit:
         - false
@@ -187,15 +137,15 @@ hh_id_4:
     source: none
   inputs:
     provided:
+      p_id:
+        - 5
+        - 6
       hh_id:
         - 4
         - 4
       tu_id:
         - 4
         - 4
-      p_id:
-        - 5
-        - 6
       bruttolohn_vorj_m:
         - 4000.0
         - 0.0
@@ -208,9 +158,6 @@ hh_id_4:
       arbeitsstunden_w:
         - 20.0
         - 0.0
-#      anz_kinder_tu:
-#      - 1
-#      - 1
       alter:
         - 30
         - 5
@@ -220,24 +167,6 @@ hh_id_4:
       jahr:
         - 2019
         - 2019
-      eligible:
-        - false
-        - false
-#      alg_wage:
-#      - 4000
-#      - 0
-#      alg_ssc:
-#      - 800.0
-#      - 0.0
-#      alg_tax:
-#      - 927.66
-#      - 0.0
-#      alg_soli:
-#      - 51.02
-#      - 0.0
-#      alg_entgelt:
-#      - 2221.32
-#      - 0.0
     assumed:
       anwartschaftszeit:
         - true

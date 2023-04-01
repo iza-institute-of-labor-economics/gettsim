@@ -7,7 +7,6 @@ from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestD
 
 data = load_policy_test_data("arbeitsl_geld")
 
-
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,

@@ -1,10 +1,14 @@
----
 hh_id_9:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 23
+        - 24
+        - 25
+        - 26
       hh_id:
         - 9
         - 9
@@ -15,42 +19,7 @@ hh_id_9:
         - 9
         - 9
         - 9
-      p_id:
-        - 23
-        - 24
-        - 25
-        - 26
-      head:
-        - true
-        - false
-        - false
-        - false
-      jahr:
-        - 2017
-        - 2017
-        - 2017
-        - 2017
-      geburtsjahr:
-        - 1977
-        - 1979
-        - 2002
-        - 2004
-      hh_korr:
-        - 1
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 4
-        - 4
-        - 4
-        - 4
       kind:
-        - false
-        - false
-        - true
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -90,26 +59,16 @@ hh_id_9:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
-        - false
+        - true
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 2
-        - 2
-        - 2
-        - 2
       kinderzuschl_bruttoeink_eltern_m:
         - 1300.0
         - 0.0
@@ -117,11 +76,6 @@ hh_id_9:
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 900.0
-        - 0.0
-        - 0.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
         - 0.0
         - 0.0
@@ -140,7 +94,27 @@ hh_id_9:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2017
+        - 2017
+        - 2017
+        - 2017
+      geburtsjahr:
+        - 1977
+        - 1979
+        - 2002
+        - 2004
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 50.0

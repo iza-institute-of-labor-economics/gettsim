@@ -1,30 +1,19 @@
----
 hh_id_16:
   info:
     note: (Test with old income thresholds) https://www.buerger-geld.org/rechner/ergebnis/index.php
     source: ''
   inputs:
     provided:
+      p_id:
+        - 39
       hh_id:
         - 16
       tu_id:
         - 16
-      p_id:
-        - 39
-      jahr:
-        - 2023-01
       kind:
         - false
       alter:
         - 45
-      rentner:
-        - false
-      in_ausbildung:
-        - false
-      geburtsjahr:
-        - 1978
-      bürgerg_bezug_vorj:
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
       heizkosten_m_hh:
@@ -37,8 +26,6 @@ hh_id_16:
         - false
       bruttolohn_m:
         - 1200.0
-      arbeitsstunden_w:
-        - 20.0
       sum_ges_rente_priv_rente_m:
         - 0.0
       kapitaleink_brutto_m:
@@ -65,34 +52,26 @@ hh_id_16:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 40000.0
+      jahr:
+        - 2023-01
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 1200
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 300.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 256.0
-      Column1:
-        - null
-      cost_per_qm:
-        - 10.83333333
-      wohnfl_just:
-        - 60.0
-      hhsize:
-        - 1.0
-      _1:
-        - null
-      nettoquote:
-        - null
-    assumed: {}
+      vermögen_bedürft_hh:
+        - 40000.0
+      geburtsjahr:
+        - 1978
+      rentner:
+        - false
+      in_ausbildung:
+        - false
+      arbeitsstunden_w:
+        - 20.0
+      bürgerg_bezug_vorj:
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 300.0
     arbeitsl_geld_2_eink_m:
       - 696.0
     arbeitsl_geld_2_regelsatz_m_hh:
@@ -108,6 +87,10 @@ hh_id_17:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 40
+        - 41
+        - 42
       hh_id:
         - 17
         - 17
@@ -116,14 +99,6 @@ hh_id_17:
         - 17
         - 17
         - 17
-      p_id:
-        - 40
-        - 41
-        - 42
-      jahr:
-        - 2023-01
-        - 2023-01
-        - 2023-01
       kind:
         - false
         - false
@@ -132,22 +107,6 @@ hh_id_17:
         - 40
         - 38
         - 3
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-        - false
-      geburtsjahr:
-        - 1983
-        - 1985
-        - 2020
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 650.0
         - 650.0
@@ -171,10 +130,6 @@ hh_id_17:
       bruttolohn_m:
         - 0.0
         - 700.0
-        - 0.0
-      arbeitsstunden_w:
-        - 0.0
-        - 12.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -228,60 +183,44 @@ hh_id_17:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 85000.0
-        - 85000.0
-        - 85000.0
+      jahr:
+        - 2023-01
+        - 2023-01
+        - 2023-01
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 0
-        - 700
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
+      vermögen_bedürft_hh:
+        - 85000.0
+        - 85000.0
+        - 85000.0
+      geburtsjahr:
+        - 1983
+        - 1985
+        - 2020
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+        - false
+      arbeitsstunden_w:
         - 0.0
-        - 220.0
+        - 12.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - null
-        - null
-        - null
-      wohnfl_just:
-        - null
-        - null
-        - null
-      hhsize:
-        - null
-        - null
-        - null
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 220.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 0.0
       - 340.0
@@ -305,6 +244,10 @@ hh_id_18:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 43
+        - 44
+        - 45
       hh_id:
         - 18
         - 18
@@ -313,14 +256,6 @@ hh_id_18:
         - 18
         - 18
         - 18
-      p_id:
-        - 43
-        - 44
-        - 45
-      jahr:
-        - 2023-01
-        - 2023-01
-        - 2023-01
       kind:
         - false
         - false
@@ -329,22 +264,6 @@ hh_id_18:
         - 40
         - 38
         - 3
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-        - false
-      geburtsjahr:
-        - 1983
-        - 1985
-        - 2020
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 650.0
         - 650.0
@@ -368,10 +287,6 @@ hh_id_18:
       bruttolohn_m:
         - 0.0
         - 700.0
-        - 0.0
-      arbeitsstunden_w:
-        - 0.0
-        - 12.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -425,60 +340,44 @@ hh_id_18:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 50000.0
-        - 50000.0
-        - 50000.0
+      jahr:
+        - 2023-01
+        - 2023-01
+        - 2023-01
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 0
-        - 700
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
+      vermögen_bedürft_hh:
+        - 50000.0
+        - 50000.0
+        - 50000.0
+      geburtsjahr:
+        - 1983
+        - 1985
+        - 2020
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+        - false
+      arbeitsstunden_w:
         - 0.0
-        - 220.0
+        - 12.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 1400.0
-        - 1400.0
-        - 1400.0
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - null
-        - null
-        - null
-      wohnfl_just:
-        - null
-        - null
-        - null
-      hhsize:
-        - null
-        - null
-        - null
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 220.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 0.0
       - 340.0
@@ -502,6 +401,10 @@ hh_id_19:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 46
+        - 47
+        - 48
       hh_id:
         - 19
         - 19
@@ -510,14 +413,6 @@ hh_id_19:
         - 19
         - 19
         - 19
-      p_id:
-        - 46
-        - 47
-        - 48
-      jahr:
-        - 2023-01
-        - 2023-01
-        - 2023-01
       kind:
         - false
         - true
@@ -526,22 +421,6 @@ hh_id_19:
         - 30
         - 3
         - 35
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-        - false
-      geburtsjahr:
-        - 1993
-        - 2020
-        - 1988
-      bürgerg_bezug_vorj:
-        - true
-        - true
-        - true
       bruttokaltmiete_m_hh:
         - 720.0
         - 720.0
@@ -566,10 +445,6 @@ hh_id_19:
         - 1200.0
         - 0.0
         - 700.0
-      arbeitsstunden_w:
-        - 20.0
-        - 0.0
-        - 20.0
       sum_ges_rente_priv_rente_m:
         - 0.0
         - 0.0
@@ -622,60 +497,44 @@ hh_id_19:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
-        - 0.0
+      jahr:
+        - 2023-01
+        - 2023-01
+        - 2023-01
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 1200
-        - 0
-        - 700
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 300.0
-        - 0.0
-        - 220.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 796.86
-        - 796.86
-        - 796.86
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 7.904761905
-        - 7.904761905
-        - 7.904761905
-      wohnfl_just:
-        - 75.0
-        - 75.0
-        - 75.0
-      hhsize:
-        - 3.0
-        - 3.0
-        - 3.0
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-    assumed: {}
+      geburtsjahr:
+        - 1993
+        - 2020
+        - 1988
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+        - false
+      arbeitsstunden_w:
+        - 20.0
+        - 0.0
+        - 20.0
+      bürgerg_bezug_vorj:
+        - true
+        - true
+        - true
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 300.0
+      - 0.0
+      - 220.0
     arbeitsl_geld_2_eink_m:
       - 696.0
       - 0.0

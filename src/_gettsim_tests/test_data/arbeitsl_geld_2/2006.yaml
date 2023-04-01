@@ -1,10 +1,15 @@
----
 hh_id_4:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
       hh_id:
         - 4
         - 4
@@ -17,18 +22,6 @@ hh_id_4:
         - 4
         - 4
         - 4
-      p_id:
-        - 5
-        - 6
-        - 7
-        - 8
-        - 9
-      jahr:
-        - '2006'
-        - '2006'
-        - '2006'
-        - '2006'
-        - '2006'
       kind:
         - false
         - false
@@ -41,30 +34,6 @@ hh_id_4:
         - 12
         - 10
         - 2
-      rentner:
-        - false
-        - false
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-        - true
-        - true
-        - true
-      geburtsjahr:
-        - 1973
-        - 1976
-        - 1994
-        - 1996
-        - 2004
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 850.0
         - 850.0
@@ -96,12 +65,6 @@ hh_id_4:
         - false
         - false
       bruttolohn_m:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-      arbeitsstunden_w:
         - 0.0
         - 0.0
         - 0.0
@@ -185,86 +148,62 @@ hh_id_4:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
+      jahr:
+        - '2006'
+        - '2006'
+        - '2006'
+        - '2006'
+        - '2006'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      geburtsjahr:
+        - 1973
+        - 1976
+        - 1994
+        - 1996
+        - 2004
+      rentner:
+        - false
+        - false
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+        - true
+        - true
+        - true
+      arbeitsstunden_w:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 1680.71
-        - 1680.71
-        - 1680.71
-        - 1680.71
-        - 1680.71
-      Column1:
-        - null
-        - null
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 8.818181818
-        - 8.818181818
-        - 8.818181818
-        - 8.818181818
-        - 8.818181818
-      wohnfl_just:
-        - 105.0
-        - 105.0
-        - 105.0
-        - 105.0
-        - 105.0
-      hhsize:
-        - 5.0
-        - 5.0
-        - 5.0
-        - 5.0
-        - 5.0
-      _1:
-        - null
-        - null
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 0.0
       - 0.0

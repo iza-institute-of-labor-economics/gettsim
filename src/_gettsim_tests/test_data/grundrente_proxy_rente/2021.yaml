@@ -1,4 +1,3 @@
----
 hh_id_1:
   info:
     note: made up, regression test
@@ -11,45 +10,45 @@ hh_id_1:
         - 1
       hh_id:
         - 1
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2016
       alter:
         - 70
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2016
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -59,9 +58,7 @@ hh_id_1:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 673.54
@@ -77,45 +74,45 @@ hh_id_2:
         - 2
       hh_id:
         - 2
-      jahr:
-        - 2021
-      entgeltp:
-        - 30.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2016
       alter:
         - 70
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 30.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2016
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -125,9 +122,7 @@ hh_id_2:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 1010.31
@@ -143,45 +138,45 @@ hh_id_3:
         - 3
       hh_id:
         - 3
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - true
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2016
       alter:
         - 70
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2016
+      wohnort_ost:
+        - true
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -191,9 +186,7 @@ hh_id_3:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 654.63
@@ -209,45 +202,45 @@ hh_id_4:
         - 4
       hh_id:
         - 4
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 1000.0
-      jahr_renteneintr:
-        - 2016
       alter:
         - 70
-      bruttolohn_m:
-        - 0.0
+      priv_rente_m:
+        - 1000.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2016
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -257,9 +250,7 @@ hh_id_4:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 1673.54
@@ -275,45 +266,45 @@ hh_id_5:
         - 5
       hh_id:
         - 5
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2014
       alter:
         - 70
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2014
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -323,9 +314,7 @@ hh_id_5:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 624.31
@@ -341,45 +330,45 @@ hh_id_6:
         - 6
       hh_id:
         - 6
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2020
       alter:
         - 70
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1951
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 2020
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -389,9 +378,7 @@ hh_id_6:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 830.82
@@ -407,45 +394,45 @@ hh_id_7:
         - 7
       hh_id:
         - 7
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 1996
       alter:
         - 90
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1931
       geburtsmonat:
         - 1
       rentner:
         - true
+      jahr_renteneintr:
+        - 1996
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 240.0
       m_pflichtbeitrag:
         - 480.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 36.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 36.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -455,9 +442,7 @@ hh_id_7:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 240.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 683.8
@@ -473,45 +458,45 @@ hh_id_8:
         - 8
       hh_id:
         - 8
-      jahr:
-        - 2021
-      entgeltp:
-        - 20.0
-      wohnort_ost:
-        - false
-      priv_rente_m:
-        - 0.0
-      jahr_renteneintr:
-        - 2033
       alter:
         - 50
-      bruttolohn_m:
+      priv_rente_m:
         - 0.0
+      entgeltp:
+        - 20.0
       geburtsjahr:
         - 1971
       geburtsmonat:
         - 1
       rentner:
         - false
+      jahr_renteneintr:
+        - 2033
+      wohnort_ost:
+        - false
+      bruttolohn_m:
+        - 0.0
       weiblich:
         - false
+      y_pflichtbeitr_ab_40:
+        - 120.0
       m_pflichtbeitrag:
         - 300.0
       m_freiw_beitrag:
         - 6.0
-      m_schul_ausbild:
-        - 63.0
       m_ersatzzeit:
         - 0.0
+      m_schul_ausbild:
+        - 63.0
       m_kind_berücks_zeit:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
       m_arbeitsunfähig:
         - 0.0
-      m_mutterschutz:
-        - 0.0
       m_krank_ab_16_bis_24:
+        - 0.0
+      m_mutterschutz:
         - 0.0
       m_arbeitslos:
         - 0.0
@@ -521,9 +506,7 @@ hh_id_8:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-      y_pflichtbeitr_ab_40:
-        - 120.0
-    assumed: {}
+    assumed: { }
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 0.0

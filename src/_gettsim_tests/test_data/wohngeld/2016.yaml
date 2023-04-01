@@ -1,10 +1,13 @@
----
 hh_id_1:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 15
+        - 16
+        - 17
       hh_id:
         - 1
         - 1
@@ -13,35 +16,7 @@ hh_id_1:
         - 1
         - 1
         - 1
-      p_id:
-        - 15
-        - 16
-        - 17
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtstag:
-        - 1
-        - 1
-        - 1
-      geburtsmonat:
-        - 1
-        - 1
-        - 1
-      geburtsjahr:
-        - 1971
-        - 1970
-        - 2007
-      haushaltsgröße_hh:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -49,10 +24,6 @@ hh_id_1:
         - 700.0
         - 700.0
         - 700.0
-      heizkost_m:
-        - 100
-        - 100
-        - 100
       alleinerz:
         - false
         - false
@@ -65,6 +36,10 @@ hh_id_1:
         - 1995
         - 1995
         - 1995
+      kindergeld_anspruch:
+        - false
+        - false
+        - true
       mietstufe:
         - 3
         - 3
@@ -73,15 +48,15 @@ hh_id_1:
         - 2000.0
         - 0.0
         - 200.0
-      vermögen_bedürft_hh:
-        - 120000.0
-        - 120000.0
-        - 120000.0
       sum_ges_rente_priv_rente_m:
         - 0.0
         - 0.0
         - 0.0
       rente_ertragsanteil:
+        - 0.0
+        - 0.0
+        - 0.0
+      elterngeld_m:
         - 0.0
         - 0.0
         - 0.0
@@ -101,10 +76,6 @@ hh_id_1:
         - 0.0
         - 0.0
         - 0.0
-      elterngeld_m:
-        - 0.0
-        - 0.0
-        - 0.0
       eink_selbst_m:
         - 0.0
         - 0.0
@@ -121,14 +92,6 @@ hh_id_1:
         - 0.0
         - 0.0
         - 0.0
-      eink_st_tu:
-        - 1000.0
-        - 1000.0
-        - 1000.0
-      eink_st_m:
-        - 1000
-        - 0
-        - 0
       ges_rentenv_beitr_m:
         - 100.0
         - 0.0
@@ -141,7 +104,35 @@ hh_id_1:
         - 0
         - 0
         - 0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      eink_st_tu:
+        - 1000.0
+        - 1000.0
+        - 1000.0
+      vermögen_bedürft_hh:
+        - 120000.0
+        - 120000.0
+        - 120000.0
+      haushaltsgröße_hh:
+        - 3
+        - 3
+        - 3
+      geburtstag:
+        - 1
+        - 1
+        - 1
+      geburtsmonat:
+        - 1
+        - 1
+        - 1
+      geburtsjahr:
+        - 1971
+        - 1970
+        - 2007
+    assumed: { }
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 75.0

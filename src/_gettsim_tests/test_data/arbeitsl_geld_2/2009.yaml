@@ -1,40 +1,24 @@
----
 hh_id_3:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 10
+        - 11
       hh_id:
         - 3
         - 3
       tu_id:
         - 3
         - 3
-      p_id:
-        - 10
-        - 11
-      jahr:
-        - '2009'
-        - '2009'
       kind:
         - false
         - true
       alter:
         - 28
         - 1
-      rentner:
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - true
-      geburtsjahr:
-        - 1981
-        - 2008
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -52,9 +36,6 @@ hh_id_3:
         - false
       bruttolohn_m:
         - 1000.0
-        - 0.0
-      arbeitsstunden_w:
-        - 40.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -95,47 +76,35 @@ hh_id_3:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
+      jahr:
+        - '2009'
+        - '2009'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 1250
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 260.0
+      vermögen_bedürft_hh:
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.36
-        - 0.36
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 319.46
-        - 319.46
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 8.275862069
-        - 8.275862069
-      wohnfl_just:
-        - 58.0
-        - 58.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+        - 0.0
+      geburtsjahr:
+        - 1981
+        - 2008
+      rentner:
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - true
+      arbeitsstunden_w:
+        - 40.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 260.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 684.5
       - 0.0

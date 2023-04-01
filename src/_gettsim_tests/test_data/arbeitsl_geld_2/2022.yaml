@@ -1,10 +1,13 @@
----
 hh_id_10:
   info:
     note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
     source: ''
   inputs:
     provided:
+      p_id:
+        - 29
+        - 30
+        - 31
       hh_id:
         - 10
         - 10
@@ -13,14 +16,6 @@ hh_id_10:
         - 10
         - 10
         - 10
-      p_id:
-        - 29
-        - 30
-        - 31
-      jahr:
-        - '2022'
-        - '2022'
-        - '2022'
       kind:
         - false
         - true
@@ -29,22 +24,6 @@ hh_id_10:
         - 30
         - 8
         - 3
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - true
-        - true
-      geburtsjahr:
-        - 1992
-        - 2014
-        - 2019
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 438.0
         - 438.0
@@ -67,10 +46,6 @@ hh_id_10:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
         - 0.0
       sum_ges_rente_priv_rente_m:
@@ -125,60 +100,44 @@ hh_id_10:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 10000.0
-        - 10000.0
-        - 10000.0
+      jahr:
+        - '2022'
+        - '2022'
+        - '2022'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 800
-        - 0
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
+      vermögen_bedürft_hh:
+        - 10000.0
+        - 10000.0
+        - 10000.0
+      geburtsjahr:
+        - 1992
+        - 2014
+        - 2019
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - true
+        - true
+      arbeitsstunden_w:
+        - 20.0
         - 0.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.36
-        - 0.36
-        - 0.36
-      kind_unterh_erhalt_m_hh:
-        - 372
-        - 372
-        - 372
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 540.64
-        - 540.64
-        - 540.64
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 8.633333333
-        - 8.633333333
-        - 8.633333333
-      wohnfl_just:
-        - 60.0
-        - 60.0
-        - 60.0
-      hhsize:
-        - 3.0
-        - 3.0
-        - 3.0
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 424.0
       - 0.0
@@ -201,6 +160,10 @@ hh_id_11:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 32
+        - 33
+        - 34
       hh_id:
         - 11
         - 11
@@ -209,14 +172,6 @@ hh_id_11:
         - 11
         - 11
         - 11
-      p_id:
-        - 32
-        - 33
-        - 34
-      jahr:
-        - '2022'
-        - '2022'
-        - '2022'
       kind:
         - false
         - true
@@ -225,22 +180,6 @@ hh_id_11:
         - 30
         - 8
         - 3
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - true
-        - true
-      geburtsjahr:
-        - 1992
-        - 2014
-        - 2019
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 438.0
         - 438.0
@@ -263,10 +202,6 @@ hh_id_11:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
         - 0.0
       sum_ges_rente_priv_rente_m:
@@ -321,60 +256,44 @@ hh_id_11:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 13000.0
-        - 13000.0
-        - 13000.0
+      jahr:
+        - '2022'
+        - '2022'
+        - '2022'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 800
-        - 0
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
+      vermögen_bedürft_hh:
+        - 13000.0
+        - 13000.0
+        - 13000.0
+      geburtsjahr:
+        - 1992
+        - 2014
+        - 2019
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - true
+        - true
+      arbeitsstunden_w:
+        - 20.0
         - 0.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.36
-        - 0.36
-        - 0.36
-      kind_unterh_erhalt_m_hh:
-        - 372
-        - 372
-        - 372
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 8.633333333
-        - 8.633333333
-        - 8.633333333
-      wohnfl_just:
-        - 60.0
-        - 60.0
-        - 60.0
-      hhsize:
-        - 3.0
-        - 3.0
-        - 3.0
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 424.0
       - 0.0

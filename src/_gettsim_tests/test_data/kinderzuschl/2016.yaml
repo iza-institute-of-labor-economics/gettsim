@@ -1,10 +1,13 @@
----
 hh_id_1:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 1
+        - 2
+        - 3
       hh_id:
         - 1
         - 1
@@ -13,35 +16,7 @@ hh_id_1:
         - 1
         - 1
         - 1
-      p_id:
-        - 1
-        - 2
-        - 3
-      head:
-        - true
-        - false
-        - false
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtsjahr:
-        - 1986
-        - 1986
-        - 2014
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -73,32 +48,20 @@ hh_id_1:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 600.0
         - 0.0
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 322.0
-        - 0.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
         - 0.0
       kindergeld_m_hh:
@@ -113,7 +76,23 @@ hh_id_1:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      geburtsjahr:
+        - 1986
+        - 1986
+        - 2014
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0
@@ -129,6 +108,10 @@ hh_id_7:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 18
+        - 19
+        - 20
       hh_id:
         - 7
         - 7
@@ -137,35 +120,7 @@ hh_id_7:
         - 7
         - 7
         - 7
-      p_id:
-        - 18
-        - 19
-        - 20
-      head:
-        - true
-        - false
-        - false
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtsjahr:
-        - 1986
-        - 1986
-        - 2014
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -197,32 +152,20 @@ hh_id_7:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1200.0
         - 0.0
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 644.0
-        - 0.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
         - 0.0
       kindergeld_m_hh:
@@ -237,7 +180,23 @@ hh_id_7:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      geburtsjahr:
+        - 1986
+        - 1986
+        - 2014
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 40.0
@@ -254,6 +213,10 @@ hh_id_11:
       BKGG Ã‚Â§ 6a)
   inputs:
     provided:
+      p_id:
+        - 30
+        - 31
+        - 32
       hh_id:
         - 11
         - 11
@@ -262,35 +225,7 @@ hh_id_11:
         - 11
         - 11
         - 11
-      p_id:
-        - 30
-        - 31
-        - 32
-      head:
-        - true
-        - false
-        - false
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtsjahr:
-        - 1976
-        - 1976
-        - 2005
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -322,22 +257,14 @@ hh_id_11:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1200.0
         - 0.0
@@ -346,10 +273,6 @@ hh_id_11:
         - 644.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 4000.0
-        - 4000.0
-        - 4000.0
       kindergeld_m_hh:
         - 190.0
         - 190.0
@@ -362,7 +285,23 @@ hh_id_11:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      geburtsjahr:
+        - 1976
+        - 1976
+        - 2005
+      vermögen_bedürft_hh:
+        - 4000.0
+        - 4000.0
+        - 4000.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0
@@ -380,6 +319,10 @@ hh_id_12:
       BKGG Ã‚Â§ 6a)
   inputs:
     provided:
+      p_id:
+        - 33
+        - 34
+        - 35
       hh_id:
         - 12
         - 12
@@ -388,35 +331,7 @@ hh_id_12:
         - 12
         - 12
         - 12
-      p_id:
-        - 33
-        - 34
-        - 35
-      head:
-        - true
-        - false
-        - false
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtsjahr:
-        - 1976
-        - 1976
-        - 2005
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -448,22 +363,14 @@ hh_id_12:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1200.0
         - 0.0
@@ -472,10 +379,6 @@ hh_id_12:
         - 644.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 17400.0
-        - 17400.0
-        - 17400.0
       kindergeld_m_hh:
         - 190.0
         - 190.0
@@ -488,7 +391,23 @@ hh_id_12:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      geburtsjahr:
+        - 1976
+        - 1976
+        - 2005
+      vermögen_bedürft_hh:
+        - 17400.0
+        - 17400.0
+        - 17400.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0
@@ -505,6 +424,10 @@ hh_id_13:
       BKGG Ã‚Â§ 6a)
   inputs:
     provided:
+      p_id:
+        - 36
+        - 37
+        - 38
       hh_id:
         - 13
         - 13
@@ -513,35 +436,7 @@ hh_id_13:
         - 13
         - 13
         - 13
-      p_id:
-        - 36
-        - 37
-        - 38
-      head:
-        - true
-        - false
-        - false
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      geburtsjahr:
-        - 1976
-        - 1976
-        - 2005
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 3
-        - 3
-        - 3
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -573,22 +468,14 @@ hh_id_13:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1200.0
         - 0.0
@@ -597,10 +484,6 @@ hh_id_13:
         - 644.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 25000.0
-        - 25000.0
-        - 25000.0
       kindergeld_m_hh:
         - 190.0
         - 190.0
@@ -613,7 +496,23 @@ hh_id_13:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+      geburtsjahr:
+        - 1976
+        - 1976
+        - 2005
+      vermögen_bedürft_hh:
+        - 25000.0
+        - 25000.0
+        - 25000.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0

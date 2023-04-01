@@ -1,19 +1,18 @@
----
 hh_id_6:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 16
+        - 17
       hh_id:
         - 6
         - 6
       tu_id:
         - 6
         - 6
-      p_id:
-        - 16
-        - 17
       kind:
         - false
         - true
@@ -23,18 +22,9 @@ hh_id_6:
       alter:
         - 28
         - 1
-      geburtsjahr:
-        - 1991
-        - 2018
       vermögen_bedürft_hh:
         - 0.0
         - 0.0
-      anz_erwachsene_hh:
-        - 1
-        - 1
-      anz_kinder_bis_17_hh:
-        - 1
-        - 1
       _kinderzuschl_vor_vermög_check_m_tu:
         - 0.0
         - 0.0
@@ -44,58 +34,25 @@ hh_id_6:
       arbeitsl_geld_2_regelbedarf_m_hh:
         - 1183.64
         - 1183.64
-      arbeitsl_geld_2_eink_m_hh:
-        - 555.0
-        - 555.0
+      kindergeld_m_hh:
+        - 0.0
+        - 0.0
       kind_unterh_erhalt_m_hh:
         - 0.0
         - 0.0
       unterhaltsvors_m_hh:
         - 0.0
         - 0.0
-      kindergeld_m_hh:
-        - 0.0
-        - 0.0
-      kinderzuschl_basis:
-        - 0
-        - 0
+      arbeitsl_geld_2_eink_m_hh:
+        - 555.0
+        - 555.0
+      geburtsjahr:
+        - 1991
+        - 2018
       jahr:
         - 2019
         - 2019
-      Column1:
-        - null
-        - null
-      fehlbedarf_arbeitsl_geld_2:
-        - 629
-        - 629
-      fehlbedarf_wohngeld:
-        - 273
-        - 373
-      fehlbedarf_kinderzuschl:
-        - 629.0
-        - 629.0
-      fehlbedarf_wohngeld_kinderzuschl:
-        - 273.0
-        - 373.0
-      wohngeld_vorrang:
-        - false
-        - false
-      kinderzuschl_vorrang:
-        - false
-        - false
-      wohngeld_kinderzuschl_vorrang:
-        - false
-        - false
-      vermfreibetr:
-        - null
-        - null
-      maxvermfb:
-        - null
-        - null
-      geburtsjahr_1:
-        - 1991
-        - 2018
-    assumed: {}
+    assumed: { }
   outputs:
     kinderzuschl_m_hh:
       - 0
@@ -112,67 +69,39 @@ hh_id_8:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 20
       hh_id:
         - 8
       tu_id:
         - 8
-      p_id:
-        - 20
       kind:
         - false
       rentner:
         - true
       alter:
         - 80
-      geburtsjahr:
-        - 1939
       vermögen_bedürft_hh:
         - 0.0
-      anz_erwachsene_hh:
-        - 1
-      anz_kinder_bis_17_hh:
-        - 0
       _kinderzuschl_vor_vermög_check_m_tu:
         - 0.0
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
       arbeitsl_geld_2_regelbedarf_m_hh:
         - 1000.0
-      arbeitsl_geld_2_eink_m_hh:
+      kindergeld_m_hh:
         - 0.0
       kind_unterh_erhalt_m_hh:
         - 0.0
       unterhaltsvors_m_hh:
         - 0.0
-      kindergeld_m_hh:
+      arbeitsl_geld_2_eink_m_hh:
         - 0.0
-      kinderzuschl_basis:
-        - 0
+      geburtsjahr:
+        - 1939
       jahr:
         - 2019
-      Column1:
-        - null
-      fehlbedarf_arbeitsl_geld_2:
-        - 1000
-      fehlbedarf_wohngeld:
-        - 1000
-      fehlbedarf_kinderzuschl:
-        - null
-      fehlbedarf_wohngeld_kinderzuschl:
-        - null
-      wohngeld_vorrang:
-        - false
-      kinderzuschl_vorrang:
-        - null
-      wohngeld_kinderzuschl_vorrang:
-        - null
-      vermfreibetr:
-        - null
-      maxvermfb:
-        - null
-      geburtsjahr_1:
-        - 1939
-    assumed: {}
+    assumed: { }
   outputs:
     kinderzuschl_m_hh:
       - 0

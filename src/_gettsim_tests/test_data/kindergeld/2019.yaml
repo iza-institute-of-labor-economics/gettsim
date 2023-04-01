@@ -1,4 +1,3 @@
----
 hh_id_0:
   info:
     note: check age cut-offs at 18 and 25.
@@ -29,18 +28,18 @@ hh_id_0:
         - 25
         - 18
         - 18
-      arbeitsstunden_w:
-        - 40.0
-        - 0.0
-        - 10.0
-        - 10.0
-        - 30.0
       kind:
         - false
         - false
         - false
         - false
         - false
+      arbeitsstunden_w:
+        - 40.0
+        - 0.0
+        - 10.0
+        - 10.0
+        - 30.0
       in_ausbildung:
         - false
         - false
@@ -59,13 +58,7 @@ hh_id_0:
         - 3000.0
         - 3000.0
         - 3000.0
-      jahr:
-        - 2019
-        - 2019
-        - 2019
-        - 2019
-        - 2019
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 194
@@ -125,13 +118,6 @@ hh_id_1:
         - 18
         - 17
         - 15
-      arbeitsstunden_w:
-        - 40.0
-        - 0.0
-        - 30.0
-        - 0.0
-        - 2.0
-        - 0.0
       kind:
         - false
         - false
@@ -139,6 +125,13 @@ hh_id_1:
         - true
         - true
         - true
+      arbeitsstunden_w:
+        - 40.0
+        - 0.0
+        - 30.0
+        - 0.0
+        - 2.0
+        - 0.0
       in_ausbildung:
         - false
         - false
@@ -160,14 +153,7 @@ hh_id_1:
         - 3000.0
         - 3000.0
         - 3000.0
-      jahr:
-        - 2019
-        - 2019
-        - 2019
-        - 2019
-        - 2019
-        - 2019
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 588
@@ -211,19 +197,17 @@ hh_id_3:
         - 18
       alter:
         - 21
-      arbeitsstunden_w:
-        - 10.0
       kind:
         - false
+      arbeitsstunden_w:
+        - 10.0
       in_ausbildung:
         - true
       bruttolohn_m:
         - 700.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-      jahr:
-        - 2019
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 194
@@ -247,19 +231,17 @@ hh_id_5:
         - 20
       alter:
         - 21
-      arbeitsstunden_w:
-        - 0.0
       kind:
         - false
+      arbeitsstunden_w:
+        - 0.0
       in_ausbildung:
         - false
       bruttolohn_m:
         - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-      jahr:
-        - 2019
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 0

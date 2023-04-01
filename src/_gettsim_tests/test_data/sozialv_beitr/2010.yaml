@@ -1,16 +1,15 @@
----
 hh_id_7:
   info:
     note: ''
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 3483
       hh_id:
         - 7
       tu_id:
         - 7
-      p_id:
-        - 3483
       bruttolohn_m:
         - 300.0
       wohnort_ost:
@@ -29,9 +28,7 @@ hh_id_7:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 144.75
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 0.0
@@ -53,12 +50,12 @@ hh_id_8:
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 874
       hh_id:
         - 8
       tu_id:
         - 8
-      p_id:
-        - 874
       bruttolohn_m:
         - 600.0
       wohnort_ost:
@@ -77,9 +74,7 @@ hh_id_8:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 551.7
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 102.24735
@@ -101,12 +96,12 @@ hh_id_9:
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 6414
       hh_id:
         - 9
       tu_id:
         - 9
-      p_id:
-        - 6414
       bruttolohn_m:
         - 900.0
       wohnort_ost:
@@ -125,9 +120,7 @@ hh_id_9:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 924.15
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 182.025
@@ -149,12 +142,12 @@ hh_id_10:
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 54684
       hh_id:
         - 10
       tu_id:
         - 10
-      p_id:
-        - 54684
       bruttolohn_m:
         - 1200.0
       wohnort_ost:
@@ -173,9 +166,7 @@ hh_id_10:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 1296.6
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 242.7
@@ -197,12 +188,12 @@ hh_id_11:
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 35
       hh_id:
         - 11
       tu_id:
         - 11
-      p_id:
-        - 35
       bruttolohn_m:
         - 1500.0
       wohnort_ost:
@@ -221,9 +212,7 @@ hh_id_11:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 1669.05
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 303.375
@@ -245,12 +234,12 @@ hh_id_12:
     source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
   inputs:
     provided:
+      p_id:
+        - 369
       hh_id:
         - 12
       tu_id:
         - 12
-      p_id:
-        - 369
       bruttolohn_m:
         - 8000.0
       wohnort_ost:
@@ -269,9 +258,7 @@ hh_id_12:
         - false
       jahr:
         - '2010'
-      bemes:
-        - 9738.8
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 957.0625

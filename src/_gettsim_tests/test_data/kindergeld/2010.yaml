@@ -1,4 +1,3 @@
----
 hh_id_4:
   info:
     note: ''
@@ -13,19 +12,17 @@ hh_id_4:
         - 19
       alter:
         - 21
-      arbeitsstunden_w:
-        - 10.0
       kind:
         - false
+      arbeitsstunden_w:
+        - 10.0
       in_ausbildung:
         - true
       bruttolohn_m:
         - 700.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-      jahr:
-        - 2010
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 0
@@ -49,19 +46,17 @@ hh_id_6:
         - 21
       alter:
         - 21
-      arbeitsstunden_w:
-        - 0.0
       kind:
         - false
+      arbeitsstunden_w:
+        - 0.0
       in_ausbildung:
         - false
       bruttolohn_m:
         - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-      jahr:
-        - 2010
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 0

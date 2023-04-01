@@ -1,4 +1,3 @@
----
 hh_id_3:
   info:
     note: ''
@@ -13,36 +12,32 @@ hh_id_3:
         - 3
       jahr:
         - 2018
-      geburtstag:
-        - 1
-      geburtsmonat:
-        - 1
-      geburtsjahr:
-        - 1950
       kind:
         - false
       alter:
         - 68
-      grundr_zeiten:
-        - 300
-      rentner:
-        - true
-      schwerbeh_g:
-        - false
       bruttokaltmiete_m_hh:
         - 344.0
       heizkosten_m_hh:
         - 92.0
       wohnfläche_hh:
         - 45.0
-      ges_rente_m:
-        - 440.0
-      priv_rente_m:
-        - 400.0
       bruttolohn_m:
         - 0.0
       kapitaleink_brutto_m:
         - 0.0
+      grundr_zeiten:
+        - 300
+      rentner:
+        - true
+      schwerbeh_g:
+        - false
+      vermögen_bedürft_hh:
+        - 0.0
+      alleinerz:
+        - false
+      bewohnt_eigentum_hh:
+        - false
       arbeitsl_geld_m:
         - 0.0
       sonstig_eink_m:
@@ -65,13 +60,17 @@ hh_id_3:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-      alleinerz:
-        - false
-      bewohnt_eigentum_hh:
-        - false
-    assumed: {}
+      priv_rente_m:
+        - 400.0
+      ges_rente_m:
+        - 440.0
+      geburtstag:
+        - 1
+      geburtsmonat:
+        - 1
+      geburtsjahr:
+        - 1950
+    assumed: { }
   outputs:
     grunds_im_alter_m_hh:
       - 202.0
@@ -90,36 +89,32 @@ hh_id_12:
         - 12
       jahr:
         - 2018
-      geburtstag:
-        - 1
-      geburtsmonat:
-        - 1
-      geburtsjahr:
-        - 1950
       kind:
         - false
       alter:
         - 68
-      grundr_zeiten:
-        - 300
-      rentner:
-        - true
-      schwerbeh_g:
-        - false
       bruttokaltmiete_m_hh:
         - 344.0
       heizkosten_m_hh:
         - 92.0
       wohnfläche_hh:
         - 45.0
-      ges_rente_m:
-        - 440.0
-      priv_rente_m:
-        - 400.0
       bruttolohn_m:
         - 0.0
       kapitaleink_brutto_m:
         - 2.0
+      grundr_zeiten:
+        - 300
+      rentner:
+        - true
+      schwerbeh_g:
+        - false
+      vermögen_bedürft_hh:
+        - 0.0
+      alleinerz:
+        - false
+      bewohnt_eigentum_hh:
+        - false
       arbeitsl_geld_m:
         - 0.0
       sonstig_eink_m:
@@ -142,13 +137,17 @@ hh_id_12:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-      alleinerz:
-        - false
-      bewohnt_eigentum_hh:
-        - false
-    assumed: {}
+      priv_rente_m:
+        - 400.0
+      ges_rente_m:
+        - 440.0
+      geburtstag:
+        - 1
+      geburtsmonat:
+        - 1
+      geburtsjahr:
+        - 1950
+    assumed: { }
   outputs:
     grunds_im_alter_m_hh:
       - 202.0
@@ -166,36 +165,32 @@ hh_id_20:
         - 20
       jahr:
         - 2018
-      geburtstag:
-        - 1
-      geburtsmonat:
-        - 1
-      geburtsjahr:
-        - 1950
       kind:
         - false
       alter:
         - 68
-      grundr_zeiten:
-        - 300
-      rentner:
-        - true
-      schwerbeh_g:
-        - false
       bruttokaltmiete_m_hh:
         - 344.0
       heizkosten_m_hh:
         - 92.0
       wohnfläche_hh:
         - 45.0
-      ges_rente_m:
-        - 440.0
-      priv_rente_m:
-        - 400.0
       bruttolohn_m:
         - 0.0
       kapitaleink_brutto_m:
         - 0.0
+      grundr_zeiten:
+        - 300
+      rentner:
+        - true
+      schwerbeh_g:
+        - false
+      vermögen_bedürft_hh:
+        - 5600.0
+      alleinerz:
+        - false
+      bewohnt_eigentum_hh:
+        - false
       arbeitsl_geld_m:
         - 0.0
       sonstig_eink_m:
@@ -218,13 +213,17 @@ hh_id_20:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 5600.0
-      alleinerz:
-        - false
-      bewohnt_eigentum_hh:
-        - false
-    assumed: {}
+      priv_rente_m:
+        - 400.0
+      ges_rente_m:
+        - 440.0
+      geburtstag:
+        - 1
+      geburtsmonat:
+        - 1
+      geburtsjahr:
+        - 1950
+    assumed: { }
   outputs:
     grunds_im_alter_m_hh:
       - 0.0
@@ -242,36 +241,32 @@ hh_id_22:
         - 22
       jahr:
         - 2018
-      geburtstag:
-        - 1
-      geburtsmonat:
-        - 1
-      geburtsjahr:
-        - 1950
       kind:
         - false
       alter:
         - 68
-      grundr_zeiten:
-        - 300
-      rentner:
-        - true
-      schwerbeh_g:
-        - false
       bruttokaltmiete_m_hh:
         - 344.0
       heizkosten_m_hh:
         - 92.0
       wohnfläche_hh:
         - 45.0
-      ges_rente_m:
-        - 440.0
-      priv_rente_m:
-        - 400.0
       bruttolohn_m:
         - 0.0
       kapitaleink_brutto_m:
         - 0.0
+      grundr_zeiten:
+        - 300
+      rentner:
+        - true
+      schwerbeh_g:
+        - false
+      vermögen_bedürft_hh:
+        - 4900.0
+      alleinerz:
+        - false
+      bewohnt_eigentum_hh:
+        - false
       arbeitsl_geld_m:
         - 0.0
       sonstig_eink_m:
@@ -294,13 +289,17 @@ hh_id_22:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 4900.0
-      alleinerz:
-        - false
-      bewohnt_eigentum_hh:
-        - false
-    assumed: {}
+      priv_rente_m:
+        - 400.0
+      ges_rente_m:
+        - 440.0
+      geburtstag:
+        - 1
+      geburtsmonat:
+        - 1
+      geburtsjahr:
+        - 1950
+    assumed: { }
   outputs:
     grunds_im_alter_m_hh:
       - 202.0

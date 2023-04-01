@@ -1,22 +1,15 @@
----
 hh_id_1:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 1
       hh_id:
         - 1
       tu_id:
         - 1
-      p_id:
-        - 1
-      jahr:
-        - 2010
-      geburtsjahr:
-        - 1970
-      alter:
-        - 40
       bruttolohn_m:
         - 300.0
       betreuungskost_m:
@@ -29,33 +22,37 @@ hh_id_1:
         - 0.0
       jahr_renteneintr:
         - 2035
+      sum_ges_rente_priv_rente_m:
+        - 0.0
       arbeitsstunden_w:
         - 40.0
       in_ausbildung:
         - false
-      wohnort_ost:
-        - false
       kind:
-        - false
-      selbstständig:
-        - false
-      in_priv_krankenv:
-        - false
-      hat_kinder:
         - false
       behinderungsgrad:
         - 0
       priv_rentenv_beitr_m:
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
       alleinerz:
         - false
+      alter:
+        - 40
+      jahr:
+        - 2010
+      wohnort_ost:
+        - false
+      selbstständig:
+        - false
+      hat_kinder:
+        - false
+      in_priv_krankenv:
+        - false
+      geburtsjahr:
+        - 1970
       vorsorgeaufw_tu:
         - 0.0
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 0.0
@@ -77,18 +74,12 @@ hh_id_2:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 2
       hh_id:
         - 2
       tu_id:
         - 2
-      p_id:
-        - 2
-      jahr:
-        - 2010
-      geburtsjahr:
-        - 1970
-      alter:
-        - 40
       bruttolohn_m:
         - 600.0
       betreuungskost_m:
@@ -101,33 +92,37 @@ hh_id_2:
         - 0.0
       jahr_renteneintr:
         - 2035
+      sum_ges_rente_priv_rente_m:
+        - 0.0
       arbeitsstunden_w:
         - 40.0
       in_ausbildung:
         - false
-      wohnort_ost:
-        - false
       kind:
-        - false
-      selbstständig:
-        - false
-      in_priv_krankenv:
-        - false
-      hat_kinder:
         - false
       behinderungsgrad:
         - 0
       priv_rentenv_beitr_m:
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
       alleinerz:
         - false
+      alter:
+        - 40
+      jahr:
+        - 2010
+      wohnort_ost:
+        - false
+      selbstständig:
+        - false
+      hat_kinder:
+        - false
+      in_priv_krankenv:
+        - false
+      geburtsjahr:
+        - 1970
       vorsorgeaufw_tu:
         - 1916.0
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 4328.0
@@ -149,18 +144,12 @@ hh_id_3:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 3
       hh_id:
         - 3
       tu_id:
         - 3
-      p_id:
-        - 3
-      jahr:
-        - 2010
-      geburtsjahr:
-        - 1970
-      alter:
-        - 40
       bruttolohn_m:
         - 900.0
       betreuungskost_m:
@@ -173,33 +162,37 @@ hh_id_3:
         - 0.0
       jahr_renteneintr:
         - 2035
+      sum_ges_rente_priv_rente_m:
+        - 0.0
       arbeitsstunden_w:
         - 40.0
       in_ausbildung:
         - false
-      wohnort_ost:
-        - false
       kind:
-        - false
-      selbstständig:
-        - false
-      in_priv_krankenv:
-        - false
-      hat_kinder:
         - false
       behinderungsgrad:
         - 0
       priv_rentenv_beitr_m:
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
       alleinerz:
         - false
+      alter:
+        - 40
+      jahr:
+        - 2010
+      wohnort_ost:
+        - false
+      selbstständig:
+        - false
+      hat_kinder:
+        - false
+      in_priv_krankenv:
+        - false
+      geburtsjahr:
+        - 1970
       vorsorgeaufw_tu:
         - 1927.8
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 7916.2
@@ -221,18 +214,12 @@ hh_id_4:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 4
       hh_id:
         - 4
       tu_id:
         - 4
-      p_id:
-        - 4
-      jahr:
-        - 2010
-      geburtsjahr:
-        - 1970
-      alter:
-        - 40
       bruttolohn_m:
         - 1200.0
       betreuungskost_m:
@@ -245,33 +232,37 @@ hh_id_4:
         - 0.0
       jahr_renteneintr:
         - 2035
+      sum_ges_rente_priv_rente_m:
+        - 0.0
       arbeitsstunden_w:
         - 40.0
       in_ausbildung:
         - false
-      wohnort_ost:
-        - false
       kind:
-        - false
-      selbstständig:
-        - false
-      in_priv_krankenv:
-        - false
-      hat_kinder:
         - false
       behinderungsgrad:
         - 0
       priv_rentenv_beitr_m:
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
       alleinerz:
         - false
+      alter:
+        - 40
+      jahr:
+        - 2010
+      wohnort_ost:
+        - false
+      selbstständig:
+        - false
+      hat_kinder:
+        - false
+      in_priv_krankenv:
+        - false
+      geburtsjahr:
+        - 1970
       vorsorgeaufw_tu:
         - 2334.2
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 11109.8
@@ -293,18 +284,12 @@ hh_id_5:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 5
       hh_id:
         - 5
       tu_id:
         - 5
-      p_id:
-        - 5
-      jahr:
-        - 2010
-      geburtsjahr:
-        - 1970
-      alter:
-        - 40
       bruttolohn_m:
         - 1500.0
       betreuungskost_m:
@@ -317,33 +302,37 @@ hh_id_5:
         - 0.0
       jahr_renteneintr:
         - 2035
+      sum_ges_rente_priv_rente_m:
+        - 0.0
       arbeitsstunden_w:
         - 40.0
       in_ausbildung:
         - false
-      wohnort_ost:
-        - false
       kind:
-        - false
-      selbstständig:
-        - false
-      in_priv_krankenv:
-        - false
-      hat_kinder:
         - false
       behinderungsgrad:
         - 0
       priv_rentenv_beitr_m:
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
       alleinerz:
         - false
+      alter:
+        - 40
+      jahr:
+        - 2010
+      wohnort_ost:
+        - false
+      selbstständig:
+        - false
+      hat_kinder:
+        - false
+      in_priv_krankenv:
+        - false
+      geburtsjahr:
+        - 1970
       vorsorgeaufw_tu:
         - 2554.02
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 14489.98

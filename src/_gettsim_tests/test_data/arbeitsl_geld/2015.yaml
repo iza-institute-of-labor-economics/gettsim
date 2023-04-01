@@ -1,4 +1,3 @@
----
 hh_id_5:
   info:
     note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
@@ -6,15 +5,15 @@ hh_id_5:
     source: none
   inputs:
     provided:
+      p_id:
+        - 7
+        - 8
       hh_id:
         - 5
         - 5
       tu_id:
         - 5
         - 5
-      p_id:
-        - 7
-        - 8
       bruttolohn_vorj_m:
         - 7000.0
         - 0.0
@@ -27,9 +26,6 @@ hh_id_5:
       arbeitsstunden_w:
         - 0.0
         - 0.0
-#      anz_kinder_tu:
-#      - 1
-#      - 0
       alter:
         - 30
         - 5
@@ -39,24 +35,6 @@ hh_id_5:
       jahr:
         - 2015
         - 2015
-      eligible:
-        - true
-        - false
-#      alg_wage:
-#      - 5200
-#      - 0
-#      alg_ssc:
-#      - 1092.0
-#      - 0.0
-#      alg_tax:
-#      - 1460.56
-#      - 0.0
-#      alg_soli:
-#      - 80.33
-#      - 0.0
-#      alg_entgelt:
-#      - 2567.11
-#      - 0.0
     assumed:
       anwartschaftszeit:
         - true

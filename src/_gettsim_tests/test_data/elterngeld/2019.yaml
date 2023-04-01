@@ -1,4 +1,3 @@
----
 hh_id_1:
   info:
     note: ''
@@ -14,9 +13,9 @@ hh_id_1:
       p_id:
         - 23
         - 18
-      jahr:
-        - 2019
-        - 2019
+      kind:
+        - false
+        - true
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -26,9 +25,6 @@ hh_id_1:
       wohnort_ost:
         - false
         - false
-      kind:
-        - false
-        - true
       eink_st_m:
         - 0.0
         - 0.0
@@ -41,15 +37,12 @@ hh_id_1:
       geburtsjahr:
         - 1972
         - 2018
-      geburtstag:
-        - 2
-        - 12
       geburtsmonat:
         - 2
         - 10
-      alter:
-        - 46
-        - 0
+      geburtstag:
+        - 2
+        - 12
       m_elterngeld_mut_hh:
         - 2
         - 2
@@ -59,13 +52,10 @@ hh_id_1:
       m_elterngeld:
         - 0
         - 0
-      considered_wage:
-        - 0.0
-        - null
-      payed_percentage:
-        - 0.0
-        - null
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 300.0
@@ -97,10 +87,10 @@ hh_id_3:
         - 55
         - 50
         - 56
-      jahr:
-        - 2019
-        - 2019
-        - 2019
+      kind:
+        - false
+        - true
+        - false
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -112,10 +102,6 @@ hh_id_3:
       wohnort_ost:
         - false
         - false
-        - false
-      kind:
-        - false
-        - true
         - false
       eink_st_m:
         - 0.0
@@ -133,18 +119,14 @@ hh_id_3:
         - 1976
         - 2018
         - 1976
-      geburtstag:
-        - 6
-        - 12
-        - 8
       geburtsmonat:
         - 6
         - 6
         - 8
-      alter:
-        - 42
-        - 0
-        - 42
+      geburtstag:
+        - 6
+        - 12
+        - 8
       m_elterngeld_mut_hh:
         - 1
         - 1
@@ -157,15 +139,11 @@ hh_id_3:
         - 0
         - 0
         - 0
-      considered_wage:
-        - 703.32
-        - null
-        - null
-      payed_percentage:
-        - 0.81834
-        - null
-        - null
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 575.554889
@@ -198,9 +176,9 @@ hh_id_5:
       p_id:
         - 58
         - 60
-      jahr:
-        - 2019
-        - 2019
+      kind:
+        - false
+        - true
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -210,9 +188,6 @@ hh_id_5:
       wohnort_ost:
         - false
         - false
-      kind:
-        - false
-        - true
       eink_st_m:
         - 0.0
         - 0.0
@@ -225,15 +200,12 @@ hh_id_5:
       geburtsjahr:
         - 1978
         - 2018
-      geburtstag:
-        - 10
-        - 12
       geburtsmonat:
         - 10
         - 4
-      alter:
-        - 40
-        - 0
+      geburtstag:
+        - 10
+        - 12
       m_elterngeld_mut_hh:
         - 1
         - 1
@@ -243,13 +215,10 @@ hh_id_5:
       m_elterngeld:
         - 0
         - 0
-      considered_wage:
-        - 2021.81
-        - null
-      payed_percentage:
-        - 0.65
-        - null
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 1314.1765
@@ -281,10 +250,10 @@ hh_id_6:
         - 20
         - 21
         - 19
-      jahr:
-        - 2019
-        - 2019
-        - 2019
+      kind:
+        - true
+        - true
+        - false
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -296,10 +265,6 @@ hh_id_6:
       wohnort_ost:
         - false
         - false
-        - false
-      kind:
-        - true
-        - true
         - false
       eink_st_m:
         - 0.0
@@ -317,18 +282,14 @@ hh_id_6:
         - 2017
         - 2018
         - 1982
-      geburtstag:
-        - 12
-        - 12
-        - 13
       geburtsmonat:
         - 2
         - 10
         - 2
-      alter:
-        - 1
-        - 0
-        - 36
+      geburtstag:
+        - 12
+        - 12
+        - 13
       m_elterngeld_mut_hh:
         - 2
         - 2
@@ -341,15 +302,11 @@ hh_id_6:
         - 0
         - 0
         - 2
-      considered_wage:
-        - null
-        - null
-        - 703.32
-      payed_percentage:
-        - null
-        - null
-        - 0.81834
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 0.0
@@ -385,10 +342,10 @@ hh_id_7:
         - 71
         - 72
         - 73
-      jahr:
-        - 2019
-        - 2019
-        - 2019
+      kind:
+        - false
+        - false
+        - true
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -401,10 +358,6 @@ hh_id_7:
         - false
         - false
         - false
-      kind:
-        - false
-        - false
-        - true
       eink_st_m:
         - 0.0
         - 0.0
@@ -421,18 +374,14 @@ hh_id_7:
         - 1976
         - 1976
         - 2018
-      geburtstag:
-        - 5
-        - 6
-        - 1
       geburtsmonat:
         - 5
         - 6
         - 12
-      alter:
-        - 41
-        - 42
-        - 0
+      geburtstag:
+        - 5
+        - 6
+        - 1
       m_elterngeld_mut_hh:
         - 0
         - 0
@@ -445,15 +394,11 @@ hh_id_7:
         - 0
         - 0
         - 0
-      considered_wage:
-        - null
-        - null
-        - null
-      payed_percentage:
-        - null
-        - null
-        - null
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 801.15
@@ -492,11 +437,11 @@ hh_id_8:
         - 27
         - 26
         - 28
-      jahr:
-        - 2019
-        - 2019
-        - 2019
-        - 2019
+      kind:
+        - true
+        - true
+        - true
+        - false
       bruttolohn_m:
         - 0.0
         - 0.0
@@ -511,11 +456,6 @@ hh_id_8:
         - false
         - false
         - false
-        - false
-      kind:
-        - true
-        - true
-        - true
         - false
       eink_st_m:
         - 0.0
@@ -537,21 +477,16 @@ hh_id_8:
         - 2018
         - 2018
         - 1982
-      geburtstag:
-        - 12
-        - 12
-        - 12
-        - 13
       geburtsmonat:
         - 2
         - 10
         - 10
         - 2
-      alter:
-        - 1
-        - 0
-        - 0
-        - 36
+      geburtstag:
+        - 12
+        - 12
+        - 12
+        - 13
       m_elterngeld_mut_hh:
         - 2
         - 2
@@ -567,17 +502,12 @@ hh_id_8:
         - 0
         - 0
         - 2
-      considered_wage:
-        - null
-        - null
-        - null
-        - 703.32
-      payed_percentage:
-        - null
-        - null
-        - null
-        - 0.81834
-    assumed: {}
+      jahr:
+        - 2019
+        - 2019
+        - 2019
+        - 2019
+    assumed: { }
   outputs:
     elterngeld_m:
       - 0.0

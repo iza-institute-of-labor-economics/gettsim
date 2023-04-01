@@ -1,16 +1,15 @@
----
 hh_id_18:
   info:
     note: 'EinfÃ¼hrung GeringfÃ¼gigkeitsgrenze 2022 '
     source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
   inputs:
     provided:
+      p_id:
+        - 225
       hh_id:
         - 18
       tu_id:
         - 18
-      p_id:
-        - 225
       bruttolohn_m:
         - 510.0
       wohnort_ost:
@@ -29,9 +28,7 @@ hh_id_18:
         - false
       jahr:
         - 2022-10
-      bemes:
-        - null
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 0.0
@@ -53,11 +50,11 @@ hh_id_19:
     source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
   inputs:
     provided:
+      p_id:
+        - 19
       hh_id:
         - 19
       tu_id:
-        - 19
-      p_id:
         - 19
       bruttolohn_m:
         - 1100.0
@@ -77,9 +74,7 @@ hh_id_19:
         - false
       jahr:
         - 2022-10
-      bemes:
-        - null
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 175.24
@@ -101,11 +96,11 @@ hh_id_20:
     source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
   inputs:
     provided:
+      p_id:
+        - 20
       hh_id:
         - 20
       tu_id:
-        - 20
-      p_id:
         - 20
       bruttolohn_m:
         - 800.0
@@ -125,9 +120,7 @@ hh_id_20:
         - false
       jahr:
         - 2022-10
-      bemes:
-        - null
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 82.87
@@ -149,11 +142,11 @@ hh_id_21:
     source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
   inputs:
     provided:
+      p_id:
+        - 21
       hh_id:
         - 21
       tu_id:
-        - 21
-      p_id:
         - 21
       bruttolohn_m:
         - 1400.0
@@ -173,9 +166,7 @@ hh_id_21:
         - false
       jahr:
         - 2022-10
-      bemes:
-        - null
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 260.4
@@ -197,11 +188,11 @@ hh_id_22:
     source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
   inputs:
     provided:
+      p_id:
+        - 22
       hh_id:
         - 22
       tu_id:
-        - 22
-      p_id:
         - 22
       bruttolohn_m:
         - 1000.0
@@ -221,9 +212,7 @@ hh_id_22:
         - false
       jahr:
         - 2022-10
-      bemes:
-        - null
-    assumed: {}
+    assumed: { }
   outputs:
     sozialv_beitr_m:
       - 145.24

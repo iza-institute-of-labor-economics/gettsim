@@ -1,4 +1,3 @@
----
 hh_id_11:
   info:
     note: ''
@@ -21,14 +20,14 @@ hh_id_11:
         - 35
         - 35
         - 12
-      arbeitsstunden_w:
-        - 0.0
-        - 0.0
-        - 0.0
       kind:
         - false
         - false
         - true
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+        - 0.0
       in_ausbildung:
         - false
         - false
@@ -41,11 +40,7 @@ hh_id_11:
         - 200000.0
         - 200000.0
         - 200000.0
-      jahr:
-        - 2021
-        - 2021
-        - 2021
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 219
@@ -77,19 +72,17 @@ hh_id_12:
         - 39
       alter:
         - 35
-      arbeitsstunden_w:
-        - 0.0
       kind:
         - false
+      arbeitsstunden_w:
+        - 0.0
       in_ausbildung:
         - false
       bruttolohn_m:
         - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-      jahr:
-        - 2021
-    assumed: {}
+    assumed: { }
   outputs:
     kindergeld_m_tu:
       - 0

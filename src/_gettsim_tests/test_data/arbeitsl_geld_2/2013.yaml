@@ -1,40 +1,24 @@
----
 hh_id_2:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 15
+        - 16
       hh_id:
         - 2
         - 2
       tu_id:
         - 2
         - 2
-      p_id:
-        - 15
-        - 16
-      jahr:
-        - '2013'
-        - '2013'
       kind:
         - false
         - false
       alter:
         - 40
         - 40
-      rentner:
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-      geburtsjahr:
-        - 1973
-        - 1973
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -52,9 +36,6 @@ hh_id_2:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -95,47 +76,35 @@ hh_id_2:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
+      jahr:
+        - '2013'
+        - '2013'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 900
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
-        - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 670.0
-        - 670.0
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 6.857142857
-        - 6.857142857
-      wohnfl_just:
-        - 70.0
-        - 70.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+      geburtsjahr:
+        - 1973
+        - 1973
+      rentner:
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+      arbeitsstunden_w:
+        - 20.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 500.0
       - 0.0
@@ -154,36 +123,21 @@ hh_id_12:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 25
+        - 26
       hh_id:
         - 12
         - 12
       tu_id:
         - 12
         - 12
-      p_id:
-        - 25
-        - 26
-      jahr:
-        - '2013'
-        - '2013'
       kind:
         - false
         - false
       alter:
         - 70
         - 70
-      rentner:
-        - true
-        - true
-      in_ausbildung:
-        - false
-        - false
-      geburtsjahr:
-        - 1943
-        - 1943
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -200,9 +154,6 @@ hh_id_12:
         - false
         - false
       bruttolohn_m:
-        - 0.0
-        - 0.0
-      arbeitsstunden_w:
         - 0.0
         - 0.0
       sum_ges_rente_priv_rente_m:
@@ -244,47 +195,35 @@ hh_id_12:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
+      jahr:
+        - '2013'
+        - '2013'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 400
-        - 300
-      arbeitsl_geld_2_eink_anr_frei_m:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      geburtsjahr:
+        - 1943
+        - 1943
+      rentner:
+        - true
+        - true
+      in_ausbildung:
+        - false
+        - false
+      arbeitsstunden_w:
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 570.0
-        - 570.0
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 6.857142857
-        - 6.857142857
-      wohnfl_just:
-        - 70.0
-        - 70.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 350.0
       - 250.0
@@ -303,36 +242,21 @@ hh_id_13:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 27
+        - 28
       hh_id:
         - 13
         - 13
       tu_id:
         - 13
         - 13
-      p_id:
-        - 27
-        - 28
-      jahr:
-        - '2013'
-        - '2013'
       kind:
         - false
         - false
       alter:
         - 40
         - 70
-      rentner:
-        - false
-        - true
-      in_ausbildung:
-        - false
-        - false
-      geburtsjahr:
-        - 1973
-        - 1943
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -350,9 +274,6 @@ hh_id_13:
         - false
       bruttolohn_m:
         - 300.0
-        - 0.0
-      arbeitsstunden_w:
-        - 0.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -393,47 +314,35 @@ hh_id_13:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
+      jahr:
+        - '2013'
+        - '2013'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 400
-        - 300
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 140.0
-        - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 710.0
-        - 710.0
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 6.857142857
-        - 6.857142857
-      wohnfl_just:
-        - 70.0
-        - 70.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+      geburtsjahr:
+        - 1973
+        - 1943
+      rentner:
+        - false
+        - true
+      in_ausbildung:
+        - false
+        - false
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 140.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 210.0
       - 250.0
@@ -452,36 +361,21 @@ hh_id_14:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 35
+        - 36
       hh_id:
         - 14
         - 14
       tu_id:
         - 14
         - 14
-      p_id:
-        - 35
-        - 36
-      jahr:
-        - '2013'
-        - '2013'
       kind:
         - false
         - false
       alter:
         - 40
         - 40
-      rentner:
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-      geburtsjahr:
-        - 1973
-        - 1973
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -499,9 +393,6 @@ hh_id_14:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -542,47 +433,35 @@ hh_id_14:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 12900.0
-        - 12900.0
+      jahr:
+        - '2013'
+        - '2013'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 900
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
+      vermögen_bedürft_hh:
+        - 12900.0
+        - 12900.0
+      geburtsjahr:
+        - 1973
+        - 1973
+      rentner:
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+      arbeitsstunden_w:
+        - 20.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.0
-        - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 670.0
-        - 670.0
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 6.857142857
-        - 6.857142857
-      wohnfl_just:
-        - 70.0
-        - 70.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 500.0
       - 0.0
@@ -601,36 +480,21 @@ hh_id_15:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 37
+        - 38
       hh_id:
         - 15
         - 15
       tu_id:
         - 15
         - 15
-      p_id:
-        - 37
-        - 38
-      jahr:
-        - '2013'
-        - '2013'
       kind:
         - false
         - false
       alter:
         - 40
         - 40
-      rentner:
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-      geburtsjahr:
-        - 1973
-        - 1973
-      bürgerg_bezug_vorj:
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
@@ -648,9 +512,6 @@ hh_id_15:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
       sum_ges_rente_priv_rente_m:
         - 0.0
@@ -691,47 +552,35 @@ hh_id_15:
       elterngeld_m:
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 14000.0
-        - 14000.0
+      jahr:
+        - '2013'
+        - '2013'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 900
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
+      vermögen_bedürft_hh:
+        - 14000.0
+        - 14000.0
+      geburtsjahr:
+        - 1973
+        - 1973
+      rentner:
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+      arbeitsstunden_w:
+        - 20.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.0
-        - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 0.0
-        - 0.0
-      Column1:
-        - null
-        - null
-      cost_per_qm:
-        - 6.857142857
-        - 6.857142857
-      wohnfl_just:
-        - 70.0
-        - 70.0
-      hhsize:
-        - 2.0
-        - 2.0
-      _1:
-        - null
-        - null
-      nettoquote:
-        - null
-        - null
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 500.0
       - 0.0

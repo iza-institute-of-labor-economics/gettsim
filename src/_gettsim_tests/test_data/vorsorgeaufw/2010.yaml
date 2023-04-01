@@ -1,18 +1,15 @@
----
 hh_id_3:
   info:
     note: Cannot access original source. Result adjusted by 5 to fit calculated result
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
   inputs:
     provided:
+      p_id:
+        - 7
       tu_id:
         - 3
       hh_id:
         - 3
-      p_id:
-        - 7
-      jahr:
-        - 2010
       bruttolohn_m:
         - 3500.0
       kind:
@@ -23,13 +20,13 @@ hh_id_3:
         - 500.0
       arbeitsl_v_beitr_m:
         - 0.0
-      ges_krankenv_beitr_m:
-        - 0.0
       ges_pflegev_beitr_m:
         - 0.0
-      alter:
-        - 40
-    assumed: {}
+      jahr:
+        - 2010
+      ges_krankenv_beitr_m:
+        - 0.0
+    assumed: { }
   outputs:
     vorsorgeaufw_tu:
       - 5205
@@ -39,18 +36,15 @@ hh_id_6:
     source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
   inputs:
     provided:
+      p_id:
+        - 8
+        - 9
       tu_id:
         - 6
         - 6
       hh_id:
         - 6
         - 6
-      p_id:
-        - 8
-        - 9
-      jahr:
-        - 2010
-        - 2010
       bruttolohn_m:
         - 3500.0
         - 0.0
@@ -66,16 +60,16 @@ hh_id_6:
       arbeitsl_v_beitr_m:
         - 0.0
         - 0.0
-      ges_krankenv_beitr_m:
-        - 0.0
-        - 0.0
       ges_pflegev_beitr_m:
         - 0.0
         - 0.0
-      alter:
-        - 40
-        - 0
-    assumed: {}
+      jahr:
+        - 2010
+        - 2010
+      ges_krankenv_beitr_m:
+        - 0.0
+        - 0.0
+    assumed: { }
   outputs:
     vorsorgeaufw_tu:
       - 2400
@@ -86,14 +80,12 @@ hh_id_16:
     source: Testcase from zu_verst_eink
   inputs:
     provided:
+      p_id:
+        - 17
       tu_id:
         - 16
       hh_id:
         - 16
-      p_id:
-        - 17
-      jahr:
-        - 2010
       bruttolohn_m:
         - 1500.0
       kind:
@@ -104,13 +96,13 @@ hh_id_16:
         - 150.0
       arbeitsl_v_beitr_m:
         - 30.0
-      ges_krankenv_beitr_m:
-        - 120.0
       ges_pflegev_beitr_m:
         - 22.5
-      alter:
-        - 40
-    assumed: {}
+      jahr:
+        - 2010
+      ges_krankenv_beitr_m:
+        - 120.0
+    assumed: { }
   outputs:
     vorsorgeaufw_tu:
       - 2620

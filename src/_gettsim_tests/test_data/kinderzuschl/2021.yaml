@@ -1,10 +1,13 @@
----
 hh_id_10:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 27
+        - 28
+        - 29
       hh_id:
         - 10
         - 10
@@ -13,35 +16,7 @@ hh_id_10:
         - 10
         - 10
         - 10
-      p_id:
-        - 27
-        - 28
-        - 29
-      head:
-        - true
-        - true
-        - false
-      jahr:
-        - 2021
-        - 2021
-        - 2021
-      geburtsjahr:
-        - 1986
-        - 1988
-        - 2009
-      hh_korr:
-        - 1
-        - 1
-        - 1
-      hhsize:
-        - 2
-        - 2
-        - 2
       kind:
-        - false
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - false
         - true
@@ -73,32 +48,20 @@ hh_id_10:
         - false
         - false
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      anz_erw_tu:
-        - 2
-        - 2
-        - 2
-      anz_kinder_tu:
-        - 1
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1600.0
         - 0.0
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 1200.0
-        - 0.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
         - 0.0
       kindergeld_m_hh:
@@ -113,7 +76,23 @@ hh_id_10:
         - 0.0
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2021
+        - 2021
+        - 2021
+      geburtsjahr:
+        - 1986
+        - 1988
+        - 2009
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 205.0

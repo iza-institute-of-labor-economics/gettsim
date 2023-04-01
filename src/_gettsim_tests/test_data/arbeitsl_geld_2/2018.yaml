@@ -1,10 +1,15 @@
----
 hh_id_9:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 17
+        - 18
+        - 19
+        - 20
+        - 21
       hh_id:
         - 9
         - 9
@@ -17,18 +22,6 @@ hh_id_9:
         - 9
         - 9
         - 9
-      p_id:
-        - 17
-        - 18
-        - 19
-        - 20
-        - 21
-      jahr:
-        - '2018'
-        - '2018'
-        - '2018'
-        - '2018'
-        - '2018'
       kind:
         - false
         - true
@@ -41,30 +34,6 @@ hh_id_9:
         - 3
         - 8
         - 3
-      rentner:
-        - false
-        - false
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - true
-        - true
-        - true
-        - true
-      geburtsjahr:
-        - 1988
-        - 2010
-        - 2015
-        - 2010
-        - 2015
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 438.0
         - 438.0
@@ -97,12 +66,6 @@ hh_id_9:
         - false
       bruttolohn_m:
         - 800.0
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-      arbeitsstunden_w:
-        - 20.0
         - 0.0
         - 0.0
         - 0.0
@@ -185,86 +148,62 @@ hh_id_9:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
+      jahr:
+        - '2018'
+        - '2018'
+        - '2018'
+        - '2018'
+        - '2018'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 1172
-        - 0
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 240.0
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
-        - 0.48
-        - 0.48
-        - 0.48
-        - 0.48
-        - 0.48
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 1021.68
-        - 1021.68
-        - 1021.68
-        - 1021.68
-        - 1021.68
-      Column1:
-        - null
-        - null
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 8.633333333
-        - 8.633333333
-        - 8.633333333
-        - 8.633333333
-        - 8.633333333
-      wohnfl_just:
-        - 60.0
-        - 60.0
-        - 60.0
-        - 60.0
-        - 60.0
-      hhsize:
-        - 3.0
-        - 3.0
-        - 3.0
-        - 3.0
-        - 3.0
-      _1:
-        - null
-        - null
-        - null
-        - null
-        - null
-      nettoquote:
-        - hh_id = 9 were originally year 2019
-        - null
-        - null
-        - null
-        - null
-    assumed: {}
+        - 0.0
+      geburtsjahr:
+        - 1988
+        - 2010
+        - 2015
+        - 2010
+        - 2015
+      rentner:
+        - false
+        - false
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - true
+        - true
+        - true
+        - true
+      arbeitsstunden_w:
+        - 20.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 240.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     arbeitsl_geld_2_eink_m:
       - 796.0
       - 0.0

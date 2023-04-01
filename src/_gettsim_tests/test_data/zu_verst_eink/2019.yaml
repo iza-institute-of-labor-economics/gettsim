@@ -1,28 +1,18 @@
----
 hh_id_13:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 13
+        - 14
       hh_id:
         - 13
         - 13
       tu_id:
         - 13
         - 13
-      p_id:
-        - 13
-        - 14
-      jahr:
-        - 2019
-        - 2019
-      geburtsjahr:
-        - 1984
-        - 2014
-      alter:
-        - 35
-        - 5
       bruttolohn_m:
         - 1500.0
         - 0.0
@@ -41,26 +31,17 @@ hh_id_13:
       jahr_renteneintr:
         - 2050
         - 2070
+      sum_ges_rente_priv_rente_m:
+        - 0.0
+        - 0.0
       arbeitsstunden_w:
         - 20.0
         - 0.0
       in_ausbildung:
         - false
         - false
-      wohnort_ost:
-        - false
-        - false
       kind:
         - false
-        - true
-      selbstständig:
-        - false
-        - false
-      in_priv_krankenv:
-        - false
-        - false
-      hat_kinder:
-        - true
         - true
       behinderungsgrad:
         - 0
@@ -68,19 +49,34 @@ hh_id_13:
       priv_rentenv_beitr_m:
         - 0.0
         - 0.0
-      sum_ges_rente_priv_rente_m:
-        - 0.0
-        - 0.0
       alleinerz:
         - true
         - false
+      alter:
+        - 35
+        - 5
+      jahr:
+        - 2019
+        - 2019
+      wohnort_ost:
+        - false
+        - false
+      selbstständig:
+        - false
+        - false
+      hat_kinder:
+        - true
+        - true
+      in_priv_krankenv:
+        - false
+        - false
+      geburtsjahr:
+        - 1984
+        - 2014
       vorsorgeaufw_tu:
         - 3119.94
         - 3119.94
-      Notes:
-        - vorsorgeaufw was calculated by function in GETTSIM
-        - vorsorgeaufw was calculated by function in GETTSIM
-    assumed: {}
+    assumed: { }
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 11936.06

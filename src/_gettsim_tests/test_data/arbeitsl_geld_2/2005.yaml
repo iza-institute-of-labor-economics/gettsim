@@ -1,10 +1,13 @@
----
 hh_id_7:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 1
+        - 2
+        - 3
       hh_id:
         - 7
         - 7
@@ -13,14 +16,6 @@ hh_id_7:
         - 7
         - 7
         - 7
-      p_id:
-        - 1
-        - 2
-        - 3
-      jahr:
-        - '2005'
-        - '2005'
-        - '2005'
       kind:
         - false
         - false
@@ -29,22 +24,6 @@ hh_id_7:
         - 32
         - 35
         - 40
-      rentner:
-        - false
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-        - false
-      geburtsjahr:
-        - 1973
-        - 1970
-        - 1965
-      bürgerg_bezug_vorj:
-        - false
-        - false
-        - false
       bruttokaltmiete_m_hh:
         - 500.0
         - 500.0
@@ -69,10 +48,6 @@ hh_id_7:
         - 400.0
         - 800.0
         - 1200.0
-      arbeitsstunden_w:
-        - 20.0
-        - 20.0
-        - 40.0
       sum_ges_rente_priv_rente_m:
         - 0.0
         - 0.0
@@ -125,60 +100,44 @@ hh_id_7:
         - 0.0
         - 0.0
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
-        - 0.0
-        - 0.0
+      jahr:
+        - '2005'
+        - '2005'
+        - '2005'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
         - 0.0
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 400
-        - 800
-        - 1200
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 41.2005
-        - 133.80075
-        - 194.367375
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      vermögen_bedürft_hh:
         - 0.0
         - 0.0
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-        - 0
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 0.0
-        - 0.0
-        - 0.0
-      Column1:
-        - null
-        - null
-        - null
-      cost_per_qm:
-        - 8.0
-        - 8.0
-        - 8.0
-      wohnfl_just:
-        - 75.0
-        - 75.0
-        - 75.0
-      hhsize:
-        - 3.0
-        - 3.0
-        - 3.0
-      _1:
-        - null
-        - null
-        - null
-      nettoquote:
-        - '0.686675'
-        - '0.7433375'
-        - '0.762225'
-    assumed: {}
+      geburtsjahr:
+        - 1973
+        - 1970
+        - 1965
+      rentner:
+        - false
+        - false
+        - false
+      in_ausbildung:
+        - false
+        - false
+        - false
+      arbeitsstunden_w:
+        - 20.0
+        - 20.0
+        - 40.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 41.2005
+      - 133.80075
+      - 194.367375
     arbeitsl_geld_2_eink_m:
       - 278.7995
       - 506.19925
@@ -201,26 +160,16 @@ hh_id_8:
     source: ''
   inputs:
     provided:
+      p_id:
+        - 4
       hh_id:
         - 8
       tu_id:
         - 8
-      p_id:
-        - 4
-      jahr:
-        - '2005'
       kind:
         - false
       alter:
         - 45
-      rentner:
-        - false
-      in_ausbildung:
-        - false
-      geburtsjahr:
-        - 1960
-      bürgerg_bezug_vorj:
-        - false
       bruttokaltmiete_m_hh:
         - 300.0
       heizkosten_m_hh:
@@ -233,8 +182,6 @@ hh_id_8:
         - false
       bruttolohn_m:
         - 600.0
-      arbeitsstunden_w:
-        - 20.0
       sum_ges_rente_priv_rente_m:
         - 0.0
       kapitaleink_brutto_m:
@@ -261,34 +208,26 @@ hh_id_8:
         - 0.0
       elterngeld_m:
         - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
+      jahr:
+        - '2005'
       wohngeld_vor_vermög_check_m_hh:
         - 0.0
-      arbeitsl_geld_2_bruttoeink_m:
-        - 600
-      arbeitsl_geld_2_eink_anr_frei_m:
-        - 92.534
-      _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+      vermögen_bedürft_hh:
         - 0.0
-      kind_unterh_erhalt_m_hh:
-        - 0
-      arbeitsl_geld_2_vor_vorrang_m_hh:
-        - 122.53
-      Column1:
-        - null
-      cost_per_qm:
-        - 10.0
-      wohnfl_just:
+      geburtsjahr:
+        - 1960
+      rentner:
+        - false
+      in_ausbildung:
+        - false
+      arbeitsstunden_w:
         - 20.0
-      hhsize:
-        - 1.0
-      _1:
-        - null
-      nettoquote:
-        - '0.771116667'
-    assumed: {}
+      bürgerg_bezug_vorj:
+        - false
+    assumed: { }
   outputs:
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 92.534
     arbeitsl_geld_2_eink_m:
       - 415.466
     arbeitsl_geld_2_regelsatz_m_hh:

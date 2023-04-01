@@ -1,38 +1,19 @@
----
 hh_id_8:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 21
+        - 22
       hh_id:
         - 8
         - 8
       tu_id:
         - 8
         - 8
-      p_id:
-        - 21
-        - 22
-      head:
-        - true
-        - false
-      jahr:
-        - 2020
-        - 2020
-      geburtsjahr:
-        - 1982
-        - 2005
-      hh_korr:
-        - 1
-        - 1
-      hhsize:
-        - 2
-        - 2
       kind:
-        - false
-        - true
-      kindergeld_anspruch:
         - false
         - true
       alter:
@@ -56,26 +37,17 @@ hh_id_8:
       alleinerz:
         - true
         - false
-      bürgerg_bezug_vorj:
+      kindergeld_anspruch:
         - false
-        - false
+        - true
       _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
         - 0.36
         - 0.36
-      anz_erw_tu:
-        - 1
-        - 1
-      anz_kinder_tu:
-        - 1
-        - 1
       kinderzuschl_bruttoeink_eltern_m:
         - 1000.0
         - 0.0
       kinderzuschl_eink_eltern_m:
         - 719.0
-        - 0.0
-      vermögen_bedürft_hh:
-        - 0.0
         - 0.0
       kindergeld_m_hh:
         - 204.0
@@ -86,7 +58,19 @@ hh_id_8:
       unterhaltsvors_m:
         - 0.0
         - 0.0
-    assumed: {}
+      jahr:
+        - 2020
+        - 2020
+      geburtsjahr:
+        - 1982
+        - 2005
+      vermögen_bedürft_hh:
+        - 0.0
+        - 0.0
+      bürgerg_bezug_vorj:
+        - false
+        - false
+    assumed: { }
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 117.5

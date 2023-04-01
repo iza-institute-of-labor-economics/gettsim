@@ -1,4 +1,3 @@
----
 hh_id_1:
   info:
     note: ''
@@ -17,31 +16,11 @@ hh_id_1:
         - 1
         - 2
         - 3
-      jahr:
-        - 2016
-        - 2016
-        - 2016
-      gem_veranlagt:
-        - true
-        - true
-        - false
       kind:
         - false
         - false
         - true
-      _zu_verst_eink_ohne_kinderfreib_tu:
-        - 10000.0
-        - 10000.0
-        - 10000.0
-      zu_verst_eink_mit_kinderfreib_tu:
-        - 92752.0
-        - 92752.0
-        - 92752.0
       eink_st_ohne_kinderfreib_tu:
-        - 10000.0
-        - 10000.0
-        - 10000.0
-      _st_abgelteink_st_ohne_kinderfreib_tu:
         - 10000.0
         - 10000.0
         - 10000.0
@@ -49,10 +28,14 @@ hh_id_1:
         - 7000.0
         - 7000.0
         - 7000.0
-      _st_abgelt_st_m_kinderfreib_tu:
-        - 7000
-        - 7000
-        - 0
+      zu_verst_eink_mit_kinderfreib_tu:
+        - 92752.0
+        - 92752.0
+        - 92752.0
+      _zu_verst_eink_ohne_kinderfreib_tu:
+        - 10000.0
+        - 10000.0
+        - 10000.0
       abgelt_st_tu:
         - 0.0
         - 0.0
@@ -61,23 +44,11 @@ hh_id_1:
         - 0.0
         - 0.0
         - 194.0
-      kindergeld_m_hh:
-        - 194
-        - 194
-        - 194
-      kindergeld_m_tu:
-        - 194
-        - 194
-        - 194
-      nettax_nokfb_tu:
-        - 7672
-        - 7672
-        - 0
-      nettax_kfb_tu:
-        - 7000
-        - 7000
-        - 0
-    assumed: {}
+      jahr:
+        - 2016
+        - 2016
+        - 2016
+    assumed: { }
   outputs:
     eink_st_tu:
       - 9328

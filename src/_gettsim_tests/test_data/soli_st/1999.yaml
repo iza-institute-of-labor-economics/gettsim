@@ -1,25 +1,22 @@
----
 hh_id_4:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 4
       hh_id:
         - 4
       tu_id:
         - 4
-      p_id:
-        - 4
       kind:
         - false
-      abgelt_st_tu:
-        - 0.0
       eink_st_mit_kinderfreib_tu:
         - 3000.0
-      jahr:
-        - 1999
-    assumed: {}
+      abgelt_st_tu:
+        - 0.0
+    assumed: { }
   outputs:
     soli_st_tu:
       - 165.0

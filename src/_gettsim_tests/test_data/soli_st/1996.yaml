@@ -1,25 +1,22 @@
----
 hh_id_6:
   info:
     note: ''
     source: ''
   inputs:
     provided:
+      p_id:
+        - 6
       hh_id:
         - 6
       tu_id:
         - 6
-      p_id:
-        - 6
       kind:
         - false
-      abgelt_st_tu:
-        - 0.0
       eink_st_mit_kinderfreib_tu:
         - 3000.0
-      jahr:
-        - 1996
-    assumed: {}
+      abgelt_st_tu:
+        - 0.0
+    assumed: { }
   outputs:
     soli_st_tu:
       - 225.0
