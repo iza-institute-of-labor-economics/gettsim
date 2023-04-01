@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -55,7 +56,7 @@ hh_id_1:
       jahr:
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 300.0
@@ -143,7 +144,7 @@ hh_id_3:
         - 2019
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 575.554889
@@ -218,7 +219,7 @@ hh_id_5:
       jahr:
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 1314.1765
@@ -306,7 +307,7 @@ hh_id_6:
         - 2019
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 0.0
@@ -398,7 +399,7 @@ hh_id_7:
         - 2019
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 801.15
@@ -507,7 +508,7 @@ hh_id_8:
         - 2019
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 0.0

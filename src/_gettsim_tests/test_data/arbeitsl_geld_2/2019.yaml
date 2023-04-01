@@ -1,3 +1,4 @@
+---
 hh_id_6:
   info:
     note: ''
@@ -132,7 +133,7 @@ hh_id_6:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 240.0

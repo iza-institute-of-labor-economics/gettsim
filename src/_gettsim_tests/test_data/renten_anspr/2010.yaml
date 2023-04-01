@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -54,7 +55,7 @@ hh_id_1:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 18.51378418
@@ -118,7 +119,7 @@ hh_id_2:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 21.71637627
@@ -128,10 +129,8 @@ hh_id_2:
       - 67.0
 hh_id_3:
   info:
-    note: 'from eastern Germany: earns more Entgeltpunkte for same wage
-
-
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+    note: "from eastern Germany: earns more Entgeltpunkte for same wage\n\nverified or corrected\
+      \ using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
     source: ''
   inputs:
     provided:
@@ -185,7 +184,7 @@ hh_id_3:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 21.77622985
@@ -249,7 +248,7 @@ hh_id_4:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 25.81076835
@@ -313,7 +312,7 @@ hh_id_5:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 22.99796044
@@ -377,7 +376,7 @@ hh_id_6:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 37.32588829
@@ -387,11 +386,8 @@ hh_id_6:
       - 65.41666667
 hh_id_7:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nverified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
     source: ''
   inputs:
     provided:
@@ -445,7 +441,7 @@ hh_id_7:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 36.99837737
@@ -455,11 +451,8 @@ hh_id_7:
       - 65.41666667
 hh_id_19:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nhttps://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html"
     source: ''
   inputs:
     provided:
@@ -513,7 +506,7 @@ hh_id_19:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 36.99837737
@@ -523,10 +516,7 @@ hh_id_19:
       - 65.83333333
 hh_id_24:
   info:
-    note: 'Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)
-
-
-      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
+    note: "Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)\n\nhttps://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/"
     source: ''
   inputs:
     provided:
@@ -580,7 +570,7 @@ hh_id_24:
         - 108.0
       m_pfleg_berücks_zeit:
         - 10.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 22.99796044

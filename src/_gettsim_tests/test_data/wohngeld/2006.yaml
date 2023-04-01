@@ -1,3 +1,4 @@
+---
 hh_id_4:
   info:
     note: no wealth treshold in place before 2009
@@ -196,7 +197,7 @@ hh_id_4:
         - 1999
         - 1998
         - 1994
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 509.0
@@ -505,7 +506,7 @@ hh_id_15:
         - 2004
         - 2004
         - 2001
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 690.0

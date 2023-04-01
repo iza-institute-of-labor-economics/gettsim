@@ -1,3 +1,4 @@
+---
 hh_id_4:
   info:
     note: ''
@@ -103,7 +104,7 @@ hh_id_4:
       geburtsjahr:
         - 1946
         - 1952
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 928.0
@@ -180,7 +181,7 @@ hh_id_8:
         - 1
       geburtsjahr:
         - 1945
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 384.0
@@ -257,7 +258,7 @@ hh_id_10:
         - 1
       geburtsjahr:
         - 1949
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 531.17
@@ -334,7 +335,7 @@ hh_id_11:
         - 1
       geburtsjahr:
         - 1953
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 421.17
@@ -443,7 +444,7 @@ hh_id_24:
       geburtsjahr:
         - 1972
         - 2006
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 0.0
@@ -554,7 +555,7 @@ hh_id_25:
       geburtsjahr:
         - 1972
         - 2006
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 852.71

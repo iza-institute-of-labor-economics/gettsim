@@ -1,3 +1,4 @@
+---
 hh_id_8:
   info:
     note: ''
@@ -58,7 +59,7 @@ hh_id_8:
         - 200000.0
         - 200000.0
         - 200000.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 558

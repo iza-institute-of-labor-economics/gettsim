@@ -1,3 +1,4 @@
+---
 hh_id_2:
   info:
     note: ''
@@ -38,7 +39,7 @@ hh_id_2:
         - 0
       jahr:
         - 2017
-    assumed: { }
+    assumed: {}
   outputs:
     elterngeld_m:
       - 0.0

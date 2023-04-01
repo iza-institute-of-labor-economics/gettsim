@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -18,7 +19,7 @@ hh_id_1:
         - 2023
       kind:
         - true
-    assumed: { }
+    assumed: {}
   outputs:
     kind_unterh_zahlbetr_m:
       - 403.0
@@ -42,7 +43,7 @@ hh_id_2:
         - 2023
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     kind_unterh_zahlbetr_m:
       - 655.0

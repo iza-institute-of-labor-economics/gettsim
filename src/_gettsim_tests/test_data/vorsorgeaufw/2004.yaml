@@ -1,3 +1,4 @@
+---
 hh_id_11:
   info:
     note: ''
@@ -26,7 +27,7 @@ hh_id_11:
         - 2004
       ges_krankenv_beitr_m:
         - 237.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 2001

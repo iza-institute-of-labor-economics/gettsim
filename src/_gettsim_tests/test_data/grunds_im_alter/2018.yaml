@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -70,7 +71,7 @@ hh_id_3:
         - 1
       geburtsjahr:
         - 1950
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 202.0
@@ -147,7 +148,7 @@ hh_id_12:
         - 1
       geburtsjahr:
         - 1950
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 202.0
@@ -223,7 +224,7 @@ hh_id_20:
         - 1
       geburtsjahr:
         - 1950
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 0.0
@@ -299,7 +300,7 @@ hh_id_22:
         - 1
       geburtsjahr:
         - 1950
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 202.0

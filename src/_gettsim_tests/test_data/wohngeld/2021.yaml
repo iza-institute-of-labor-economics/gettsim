@@ -1,3 +1,4 @@
+---
 hh_id_10:
   info:
     note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed
@@ -69,7 +70,7 @@ hh_id_10:
         - 1
       geburtsjahr:
         - 1964
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 249.0

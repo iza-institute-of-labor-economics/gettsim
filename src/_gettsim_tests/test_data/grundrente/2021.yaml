@@ -1,8 +1,9 @@
+---
 hh_id_1:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
@@ -45,7 +46,7 @@ hh_id_1:
         - 14.014
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.029166667
@@ -58,8 +59,8 @@ hh_id_1:
 hh_id_2:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
@@ -102,7 +103,7 @@ hh_id_2:
         - 17.5
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.021908333
@@ -115,8 +116,8 @@ hh_id_2:
 hh_id_3:
   info:
     note: ''
-    source: '"Das Grundrentengesetz''" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte
-      Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)'
+    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
+      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
   inputs:
     provided:
       p_id:
@@ -159,7 +160,7 @@ hh_id_3:
         - 21.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014616667
@@ -217,7 +218,7 @@ hh_id_4:
         - 28.8
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0058625
@@ -275,7 +276,7 @@ hh_id_5:
         - 18.7
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.003698333
@@ -332,7 +333,7 @@ hh_id_6:
         - 15.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -389,7 +390,7 @@ hh_id_7:
         - 15.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -446,7 +447,7 @@ hh_id_8:
         - 15.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.014583333
@@ -504,7 +505,7 @@ hh_id_9:
         - 34.5
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0037
@@ -561,7 +562,7 @@ hh_id_10:
         - 41.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0
@@ -619,7 +620,7 @@ hh_id_11:
         - 15.5
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.021875
@@ -675,7 +676,7 @@ hh_id_12:
         - 0.0
       kind:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     grundr_zuschlag_bonus_entgeltp:
       - 0.0

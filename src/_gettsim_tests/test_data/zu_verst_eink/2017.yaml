@@ -1,3 +1,4 @@
+---
 hh_id_18:
   info:
     note: ''
@@ -76,7 +77,7 @@ hh_id_18:
       vorsorgeaufw_tu:
         - 10359.0
         - 10359.0
-    assumed: { }
+    assumed: {}
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 53569.0

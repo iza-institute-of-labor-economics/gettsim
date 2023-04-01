@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: ''
@@ -100,7 +101,7 @@ hh_id_3:
       bürgerg_bezug_vorj:
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 260.0

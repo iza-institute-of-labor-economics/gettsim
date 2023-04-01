@@ -1,3 +1,4 @@
+---
 hh_id_10:
   info:
     note: ''
@@ -31,7 +32,7 @@ hh_id_10:
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 204

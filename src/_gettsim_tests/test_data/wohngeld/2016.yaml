@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -132,7 +133,7 @@ hh_id_1:
         - 1971
         - 1970
         - 2007
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 75.0

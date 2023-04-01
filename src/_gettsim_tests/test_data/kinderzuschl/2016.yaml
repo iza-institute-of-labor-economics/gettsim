@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -92,7 +93,7 @@ hh_id_1:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0
@@ -196,7 +197,7 @@ hh_id_7:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 40.0
@@ -301,7 +302,7 @@ hh_id_11:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0
@@ -407,7 +408,7 @@ hh_id_12:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0
@@ -512,7 +513,7 @@ hh_id_13:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 140.0

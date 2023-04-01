@@ -1,3 +1,4 @@
+---
 hh_id_7:
   info:
     note: ''
@@ -132,7 +133,7 @@ hh_id_7:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 41.2005
@@ -224,7 +225,7 @@ hh_id_8:
         - 20.0
       bürgerg_bezug_vorj:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 92.534

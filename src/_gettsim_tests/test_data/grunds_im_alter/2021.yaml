@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: ''
@@ -104,7 +105,7 @@ hh_id_1:
       geburtsjahr:
         - 1951
         - 1954
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 228.0
@@ -182,7 +183,7 @@ hh_id_2:
         - 1
       geburtsjahr:
         - 1951
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 358.0
@@ -258,7 +259,7 @@ hh_id_5:
         - 1
       geburtsjahr:
         - 1953
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 401.0
@@ -334,7 +335,7 @@ hh_id_7:
         - 1
       geburtsjahr:
         - 1953
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 401.0
@@ -444,7 +445,7 @@ hh_id_9:
       geburtsjahr:
         - 1951
         - 1961
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 0.0
@@ -521,7 +522,7 @@ hh_id_14:
         - 1
       geburtsjahr:
         - 1953
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 353.17
@@ -598,7 +599,7 @@ hh_id_15:
         - 1
       geburtsjahr:
         - 1954
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 566.82
@@ -708,7 +709,7 @@ hh_id_21:
       geburtsjahr:
         - 1951
         - 1954
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 0.0
@@ -819,7 +820,7 @@ hh_id_23:
       geburtsjahr:
         - 1951
         - 1954
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 228.0

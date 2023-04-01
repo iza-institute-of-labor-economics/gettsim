@@ -1,3 +1,4 @@
+---
 hh_id_16:
   info:
     note: (Test with old income thresholds) https://www.buerger-geld.org/rechner/ergebnis/index.php
@@ -68,7 +69,7 @@ hh_id_16:
         - 20.0
       bürgerg_bezug_vorj:
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 300.0
@@ -215,7 +216,7 @@ hh_id_17:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 0.0
@@ -372,7 +373,7 @@ hh_id_18:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 0.0
@@ -529,7 +530,7 @@ hh_id_19:
         - true
         - true
         - true
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 300.0

@@ -1,3 +1,4 @@
+---
 hh_id_6:
   info:
     note: ''
@@ -228,7 +229,7 @@ hh_id_6:
         - 2003
         - 2012
         - 2013
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 42.0
@@ -698,7 +699,7 @@ hh_id_7:
         - 1998
         - 2009
         - 2011
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 1233.0
@@ -958,7 +959,7 @@ hh_id_8:
         - 2003
         - 2012
         - 2013
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 246.0

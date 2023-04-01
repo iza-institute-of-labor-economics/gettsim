@@ -1,3 +1,4 @@
+---
 hh_id_14:
   info:
     note: ''
@@ -124,7 +125,7 @@ hh_id_14:
         - 10901.0
         - 10901.0
         - 10901.0
-    assumed: { }
+    assumed: {}
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 53027.0
@@ -288,7 +289,7 @@ hh_id_19:
         - 10901.0
         - 10901.0
         - 10901.0
-    assumed: { }
+    assumed: {}
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 52099.0
@@ -452,7 +453,7 @@ hh_id_20:
         - 10901.0
         - 10901.0
         - 10901.0
-    assumed: { }
+    assumed: {}
   outputs:
     _zu_verst_eink_ohne_kinderfreib_tu:
       - 52599.0

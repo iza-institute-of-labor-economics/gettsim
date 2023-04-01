@@ -1,3 +1,4 @@
+---
 hh_id_20:
   info:
     note: https://www.smart-rechner.de/rentenbeginn/rechner.php
@@ -54,7 +55,7 @@ hh_id_20:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 31.0625
@@ -64,11 +65,8 @@ hh_id_20:
       - 66.16666667
 hh_id_21:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nhttps://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html"
     source: ''
   inputs:
     provided:
@@ -122,7 +120,7 @@ hh_id_21:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 36.99837737
@@ -132,11 +130,8 @@ hh_id_21:
       - 65.5
 hh_id_22:
   info:
-    note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-      is lower
-
-
-      https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html'
+    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
+      \ is lower\n\nhttps://www.ihre-vorsorge.de/rechner/rentenbeginnrechner/ergebnis.html"
     source: ''
   inputs:
     provided:
@@ -190,7 +185,7 @@ hh_id_22:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 36.99837737
@@ -254,7 +249,7 @@ hh_id_23:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 31.0625

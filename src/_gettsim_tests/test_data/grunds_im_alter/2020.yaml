@@ -1,3 +1,4 @@
+---
 hh_id_18:
   info:
     note: ''
@@ -70,7 +71,7 @@ hh_id_18:
         - 1
       geburtsjahr:
         - 1940
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 605.44
@@ -179,7 +180,7 @@ hh_id_19:
       geburtsjahr:
         - 1953
         - 1950
-    assumed: { }
+    assumed: {}
   outputs:
     grunds_im_alter_m_hh:
       - 210.13

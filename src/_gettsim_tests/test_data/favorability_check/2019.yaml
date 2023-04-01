@@ -1,3 +1,4 @@
+---
 hh_id_5:
   info:
     note: ''
@@ -48,7 +49,7 @@ hh_id_5:
         - 2019
         - 2019
         - 2019
-    assumed: { }
+    assumed: {}
   outputs:
     eink_st_tu:
       - 19344

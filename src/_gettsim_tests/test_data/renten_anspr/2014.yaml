@@ -1,9 +1,8 @@
+---
 hh_id_25:
   info:
-    note: 'Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)
-
-
-      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
+    note: "Beispiel: Abwandlung Erna RÃ¼stig (Altersrente fÃ¼r langjÃ¤hrig Versicherte)\n\n\
+      https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/"
     source: ''
   inputs:
     provided:
@@ -57,7 +56,7 @@ hh_id_25:
         - 108.0
       m_pfleg_berücks_zeit:
         - 10.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 22.99796044

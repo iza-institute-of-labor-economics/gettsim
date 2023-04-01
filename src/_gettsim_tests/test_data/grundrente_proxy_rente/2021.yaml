@@ -1,3 +1,4 @@
+---
 hh_id_1:
   info:
     note: made up, regression test
@@ -58,7 +59,7 @@ hh_id_1:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 673.54
@@ -122,7 +123,7 @@ hh_id_2:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 1010.31
@@ -186,7 +187,7 @@ hh_id_3:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 654.63
@@ -250,7 +251,7 @@ hh_id_4:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 1673.54
@@ -314,7 +315,7 @@ hh_id_5:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 624.31
@@ -378,7 +379,7 @@ hh_id_6:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 830.82
@@ -442,7 +443,7 @@ hh_id_7:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 683.8
@@ -506,7 +507,7 @@ hh_id_8:
         - 0.0
       m_geringf_beschäft:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     rente_vorj_vor_grundr_proxy_m:
       - 0.0

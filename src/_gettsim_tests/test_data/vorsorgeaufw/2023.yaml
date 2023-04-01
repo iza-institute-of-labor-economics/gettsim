@@ -1,3 +1,4 @@
+---
 hh_id_4:
   info:
     note: Cannot access original source. Result adjusted by 5 to fit calculated result
@@ -26,7 +27,7 @@ hh_id_4:
         - 2023
       ges_krankenv_beitr_m:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 10008
@@ -58,7 +59,7 @@ hh_id_7:
         - 2023
       ges_krankenv_beitr_m:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 6000

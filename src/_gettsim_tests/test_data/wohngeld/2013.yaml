@@ -1,3 +1,4 @@
+---
 hh_id_2:
   info:
     note: ''
@@ -100,7 +101,7 @@ hh_id_2:
       geburtsjahr:
         - 1973
         - 1958
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 202.0
@@ -210,7 +211,7 @@ hh_id_9:
       geburtsjahr:
         - 1963
         - 1958
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 202.0

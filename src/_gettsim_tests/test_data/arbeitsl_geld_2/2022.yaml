@@ -1,3 +1,4 @@
+---
 hh_id_10:
   info:
     note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
@@ -132,7 +133,7 @@ hh_id_10:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 240.0
@@ -288,7 +289,7 @@ hh_id_11:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     arbeitsl_geld_2_eink_anr_frei_m:
       - 240.0

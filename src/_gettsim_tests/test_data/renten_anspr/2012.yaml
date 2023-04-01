@@ -1,3 +1,4 @@
+---
 hh_id_8:
   info:
     note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
@@ -54,7 +55,7 @@ hh_id_8:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 7.799471632
@@ -118,7 +119,7 @@ hh_id_9:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 8.666284298
@@ -182,7 +183,7 @@ hh_id_10:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 30.81713003
@@ -246,7 +247,7 @@ hh_id_11:
         - 0.0
       m_pfleg_berücks_zeit:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     entgeltp_update:
       - 31.0625

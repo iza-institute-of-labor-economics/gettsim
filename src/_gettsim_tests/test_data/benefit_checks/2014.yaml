@@ -1,3 +1,4 @@
+---
 hh_id_7:
   info:
     note: ''
@@ -52,7 +53,7 @@ hh_id_7:
       jahr:
         - 2014
         - 2014
-    assumed: { }
+    assumed: {}
   outputs:
     kinderzuschl_m_hh:
       - 0

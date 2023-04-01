@@ -1,3 +1,4 @@
+---
 hh_id_0:
   info:
     note: check age cut-offs at 18 and 25.
@@ -58,7 +59,7 @@ hh_id_0:
         - 3000.0
         - 3000.0
         - 3000.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 194
@@ -153,7 +154,7 @@ hh_id_1:
         - 3000.0
         - 3000.0
         - 3000.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 588
@@ -207,7 +208,7 @@ hh_id_3:
         - 700.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 194
@@ -241,7 +242,7 @@ hh_id_5:
         - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 0

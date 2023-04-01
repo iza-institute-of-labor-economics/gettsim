@@ -1,3 +1,4 @@
+---
 hh_id_17:
   info:
     note: corrected tax-exempt employer contribution in testcase
@@ -37,7 +38,7 @@ hh_id_17:
       ges_krankenv_beitr_m:
         - 0.0
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 11674
@@ -81,7 +82,7 @@ hh_id_18:
       ges_krankenv_beitr_m:
         - 0.0
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 22560

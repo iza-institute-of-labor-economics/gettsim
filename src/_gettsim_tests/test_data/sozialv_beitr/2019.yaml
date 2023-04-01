@@ -1,3 +1,4 @@
+---
 hh_id_23:
   info:
     note: based on www.tk.de calculator with modifications to the kv-zusatzbeitrag
@@ -28,7 +29,7 @@ hh_id_23:
         - false
       jahr:
         - '2019'
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 186.3808333
@@ -74,7 +75,7 @@ hh_id_24:
         - false
       jahr:
         - '2019'
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 718.0

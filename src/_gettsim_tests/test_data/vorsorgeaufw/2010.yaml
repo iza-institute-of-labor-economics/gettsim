@@ -1,3 +1,4 @@
+---
 hh_id_3:
   info:
     note: Cannot access original source. Result adjusted by 5 to fit calculated result
@@ -26,7 +27,7 @@ hh_id_3:
         - 2010
       ges_krankenv_beitr_m:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 5205
@@ -69,7 +70,7 @@ hh_id_6:
       ges_krankenv_beitr_m:
         - 0.0
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 2400
@@ -102,7 +103,7 @@ hh_id_16:
         - 2010
       ges_krankenv_beitr_m:
         - 120.0
-    assumed: { }
+    assumed: {}
   outputs:
     vorsorgeaufw_tu:
       - 2620

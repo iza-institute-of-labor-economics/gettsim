@@ -1,3 +1,4 @@
+---
 hh_id_11:
   info:
     note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=1&housingbenefitRecipients=1&income=735&rent=600&rentLevelZIPCode=53123&rentLevelTown.GROUP=1&rentLevel=5&rentLevel.GROUP=1&update=Berechnen&result=260%2C00
@@ -68,7 +69,7 @@ hh_id_11:
         - 1
       geburtsjahr:
         - 1966
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 425.0
@@ -144,7 +145,7 @@ hh_id_12:
         - 1
       geburtsjahr:
         - 1966
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 425.0
@@ -284,7 +285,7 @@ hh_id_13:
         - 1984
         - 1988
         - 2013
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 469.0
@@ -525,7 +526,7 @@ hh_id_14:
         - 2013
         - 2015
         - 2020
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 777.0
@@ -707,7 +708,7 @@ hh_id_16:
         - 1988
         - 2013
         - 2011
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 758.0
@@ -917,7 +918,7 @@ hh_id_17:
         - 2008
         - 2013
         - 2015
-    assumed: { }
+    assumed: {}
   outputs:
     wohngeld_vor_vermög_check_m_hh:
       - 631.0

@@ -1,3 +1,4 @@
+---
 hh_id_10:
   info:
     note: ''
@@ -92,7 +93,7 @@ hh_id_10:
         - false
         - false
         - false
-    assumed: { }
+    assumed: {}
   outputs:
     _kinderzuschl_vor_vermög_check_m_tu:
       - 205.0

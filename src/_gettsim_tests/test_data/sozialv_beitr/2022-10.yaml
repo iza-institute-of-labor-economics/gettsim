@@ -1,3 +1,4 @@
+---
 hh_id_18:
   info:
     note: 'EinfÃ¼hrung GeringfÃ¼gigkeitsgrenze 2022 '
@@ -28,7 +29,7 @@ hh_id_18:
         - false
       jahr:
         - 2022-10
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 0.0
@@ -74,7 +75,7 @@ hh_id_19:
         - false
       jahr:
         - 2022-10
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 175.24
@@ -120,7 +121,7 @@ hh_id_20:
         - false
       jahr:
         - 2022-10
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 82.87
@@ -166,7 +167,7 @@ hh_id_21:
         - false
       jahr:
         - 2022-10
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 260.4
@@ -212,7 +213,7 @@ hh_id_22:
         - false
       jahr:
         - 2022-10
-    assumed: { }
+    assumed: {}
   outputs:
     sozialv_beitr_m:
       - 145.24

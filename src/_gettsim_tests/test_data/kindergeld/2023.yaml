@@ -1,3 +1,4 @@
+---
 hh_id_13:
   info:
     note: https://www.kindergeld.org/kindergeldrechner/
@@ -58,7 +59,7 @@ hh_id_13:
         - 3000.0
         - 3000.0
         - 3000.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 750

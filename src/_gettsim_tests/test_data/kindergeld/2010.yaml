@@ -1,3 +1,4 @@
+---
 hh_id_4:
   info:
     note: ''
@@ -22,7 +23,7 @@ hh_id_4:
         - 700.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 0
@@ -56,7 +57,7 @@ hh_id_6:
         - 0.0
       _zu_verst_eink_ohne_kinderfreib_tu:
         - 0.0
-    assumed: { }
+    assumed: {}
   outputs:
     kindergeld_m_tu:
       - 0
