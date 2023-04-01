@@ -95,8 +95,3 @@ def _parse_date(date: str) -> datetime.date:
             return datetime.date(int(parts[0]), int(parts[1]), 1)
         case 3:
             return datetime.date(int(parts[0]), int(parts[1]), int(parts[2]))
-
-
-@lru_cache(maxsize=64)
-def cached_set_up_policy_environment(date: datetime.date) -> tuple[dict, dict]:
-    return set_up_policy_environment(date)
