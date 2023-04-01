@@ -1,11 +1,11 @@
 import pandas as pd
 import pytest
+from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestData
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 YEARS = [2021]
 
@@ -32,8 +32,10 @@ data = load_policy_test_data("grundrente")
     data.parametrize_args,
     ids=str,
 )
-def test_grundrente(test_data: PolicyTestData,
-                    column: str, ):
+def test_grundrente(
+    test_data: PolicyTestData,
+    column: str,
+):
     df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
@@ -48,7 +50,9 @@ def test_grundrente(test_data: PolicyTestData,
     )
 
     tol = OUT_COLS_TOL[column]
-    assert_series_equal(result[column], test_data.output_df[column], check_dtype=False, atol=tol, rtol=0)
+    assert_series_equal(
+        result[column], test_data.output_df[column], check_dtype=False, atol=tol, rtol=0
+    )
 
 
 INPUT_COLS_INCOME = [
@@ -89,8 +93,10 @@ data_proxy = load_policy_test_data("grundrente_proxy_rente")
     data_proxy.parametrize_args,
     ids=str,
 )
-def test_proxy_rente_vorj(test_data: PolicyTestData,
-                          column: str, ):
+def test_proxy_rente_vorj(
+    test_data: PolicyTestData,
+    column: str,
+):
     df = test_data.input_df[INPUT_COLS_INCOME]
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
@@ -104,7 +110,11 @@ def test_proxy_rente_vorj(test_data: PolicyTestData,
     )
 
     assert_series_equal(
-        result[column].astype(float), test_data.output_df[column], check_dtype=False, rtol=0, atol=0.01
+        result[column].astype(float),
+        test_data.output_df[column],
+        check_dtype=False,
+        rtol=0,
+        atol=0.01,
     )
 
 
