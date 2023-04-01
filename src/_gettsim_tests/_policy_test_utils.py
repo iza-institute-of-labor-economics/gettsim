@@ -60,7 +60,7 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
     out = []
 
     for test_file in root.glob("*.yaml"):
-        with open(test_file, "r") as file:
+        with open(test_file, "r", encoding="utf-8") as file:
             test_data: dict[str, dict] = yaml.safe_load(file)
 
         date = test_file.stem
