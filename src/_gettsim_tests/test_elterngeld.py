@@ -1,9 +1,9 @@
 import pytest
+from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestData
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OVERRIDE_COLS = [
     "soli_st_tu",
@@ -21,8 +21,8 @@ data = load_policy_test_data("elterngeld")
     ids=str,
 )
 def test_elterngeld(
-        test_data: PolicyTestData,
-        column: str,
+    test_data: PolicyTestData,
+    column: str,
 ):
     """Run tests to validate elterngeld.
 
@@ -49,5 +49,9 @@ def test_elterngeld(
     )
 
     assert_series_equal(
-        result[column], test_data.output_df[column], check_dtype=False, atol=1e-1, rtol=0
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=1e-1,
+        rtol=0,
     )
