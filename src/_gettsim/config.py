@@ -50,7 +50,7 @@ INTERNAL_PARAMS_GROUPS = [
     "eink_st_abzuege",
     "soli_st",
     "arbeitsl_geld",
-    "soz_vers_beitr",
+    "sozialv_beitr",
     "unterhalt",
     "unterhaltsvors",
     "abgelt_st",
@@ -61,6 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
+    "lohn_st",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -155,8 +156,9 @@ TYPES_INPUT_VARIABLES = {
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
-    "soz_vers_pflicht_5j": float,
+    "sozialv_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
+    "steuerklasse": int,
 }

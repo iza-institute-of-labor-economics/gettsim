@@ -3,10 +3,10 @@ import itertools
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
@@ -55,7 +55,9 @@ def input_data():
 def test_grundrente(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
     df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=f"{year}-07-01"
+    )
 
     calc_result = compute_taxes_and_transfers(
         data=df,
@@ -119,7 +121,9 @@ def input_data_proxy_rente():
 def test_proxy_rente_vorj(input_data_proxy_rente, year):
     year_data = input_data_proxy_rente[input_data_proxy_rente["jahr"] == year]
     df = year_data[INPUT_COLS_INCOME].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=f"{year}-07-01"
+    )
     target = "rente_vorj_vor_grundr_proxy_m"
     calc_result = compute_taxes_and_transfers(
         data=df,
@@ -136,7 +140,9 @@ def test_proxy_rente_vorj(input_data_proxy_rente, year):
 def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
     year_data = input_data_proxy_rente[input_data_proxy_rente["jahr"] == year]
     df = year_data[INPUT_COLS_INCOME].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=f"{year}-07-01")
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=f"{year}-07-01"
+    )
 
     calc_result = compute_taxes_and_transfers(
         data=df,
@@ -146,7 +152,7 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
     )
 
     # Calculate pension of last year
-    policy_params, policy_functions = set_up_policy_environment(
+    policy_params, policy_functions = cached_set_up_policy_environment(
         date=f"{year - 1}-07-01"
     )
     df["alter"] -= 1

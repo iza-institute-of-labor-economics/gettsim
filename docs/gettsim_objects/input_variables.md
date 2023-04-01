@@ -488,9 +488,9 @@ Months the individual already uninterruptedly receives Arbeitslosengeld
 
 Type: float
 
-(soz_vers_pflicht_5j)=
+(sozialv_pflicht_5j)=
 
-## `soz_vers_pflicht_5j`
+## `sozialv_pflicht_5j`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance
@@ -508,3 +508,11 @@ Type: float
 Monthly actual child alimony payments received
 
 Type: float
+
+(steuerklasse)=
+
+## `steuerklasse`
+
+Tax Bracket (1 to 5) for withholding tax
+
+Type: int
