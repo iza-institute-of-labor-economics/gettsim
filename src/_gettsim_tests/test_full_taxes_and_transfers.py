@@ -1,7 +1,7 @@
 import datetime
 
-import pandas as pd
 import pytest
+
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import _convert_paths_to_import_strings, _load_functions
 from _gettsim.gettsim_typing import check_series_has_expected_type
@@ -9,12 +9,9 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import (
     load_functions_for_date,
 )
-
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestData
 
-YEARS = [2019]
-INPUT_COLS = [*list(TYPES_INPUT_VARIABLES.keys()), "sum_ges_rente_priv_rente_m"]
 OUT_COLS = [
     "eink_st_tu",
     "soli_st_tu",
@@ -32,23 +29,21 @@ OUT_COLS = [
 ]
 OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
-
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "full_taxes_and_transfers.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    return out
+data = load_policy_test_data("full_taxes_and_transfers")
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize(
+    "test_data",
+    data.test_data,
+    ids=str,
+)
 def test_full_taxes_and_transfers(
-    input_data,
-    year,
+    test_data: PolicyTestData,
 ):
-    year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
-
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
     compute_taxes_and_transfers(
         data=df,
         params=policy_params,
@@ -58,10 +53,13 @@ def test_full_taxes_and_transfers(
     )
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize(
+    "test_data",
+    data.test_data,
+    ids=str,
+)
 def test_data_types(
-    input_data,
-    year,
+    test_data: PolicyTestData,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
@@ -70,11 +68,10 @@ def test_data_types(
     for y in range(1990, 2023):
         year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
 
-    year_data = input_data[input_data["jahr"] == year].copy()
-    df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(date=test_data.date)
 
-    data = compute_taxes_and_transfers(
+    result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
@@ -82,7 +79,7 @@ def test_data_types(
         debug=True,
         columns_overriding_functions=OVERRIDE_COLS,
     )
-    for column_name, series in data.items():
+    for column_name, series in result.items():
         if series.empty:
             pass
         else:
