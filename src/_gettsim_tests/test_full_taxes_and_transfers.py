@@ -1,7 +1,6 @@
 import datetime
 
 import pytest
-
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import _convert_paths_to_import_strings, _load_functions
 from _gettsim.gettsim_typing import check_series_has_expected_type
@@ -9,8 +8,9 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import (
     load_functions_for_date,
 )
+
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import load_policy_test_data, PolicyTestData
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
     "eink_st_tu",
@@ -69,7 +69,9 @@ def test_data_types(
         year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
 
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(date=test_data.date)
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
 
     result = compute_taxes_and_transfers(
         data=df,
