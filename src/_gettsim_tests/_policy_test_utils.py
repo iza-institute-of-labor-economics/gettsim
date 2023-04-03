@@ -18,6 +18,12 @@ class PolicyTestSet:
     def parametrize_args(self) -> list[tuple[PolicyTestData, str]]:
         return [(test, column) for test in self.test_data for column in test.output_df]
 
+    def merged_input_df(self) -> pd.DataFrame:
+        return pd.concat([test.input_df for test in self.test_data], ignore_index=True)
+
+    def merged_output_df(self) -> pd.DataFrame:
+        return pd.concat([test.output_df for test in self.test_data], ignore_index=True)
+
 
 class PolicyTestData:
     def __init__(
