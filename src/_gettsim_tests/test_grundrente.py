@@ -1,11 +1,9 @@
 from datetime import timedelta
 
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -125,9 +123,7 @@ def test_proxy_rente_vorj(
     data_proxy.test_data,
     ids=str,
 )
-def test_proxy_rente_vorj_comparison_last_year(
-    test_data: PolicyTestData
-):
+def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     df = test_data.input_df[INPUT_COLS_INCOME].copy()
     date = test_data.date
     policy_params, policy_functions = cached_set_up_policy_environment(date)
@@ -140,7 +136,9 @@ def test_proxy_rente_vorj_comparison_last_year(
     )
 
     # Calculate pension of last year
-    policy_params, policy_functions = cached_set_up_policy_environment(date - timedelta(days=365))
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date - timedelta(days=365)
+    )
     df["alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
