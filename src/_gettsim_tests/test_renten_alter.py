@@ -13,25 +13,31 @@ data = load_policy_test_data("renten_alter")
 
 
 @pytest.mark.parametrize(
-    ("year", "parametrize_arg"),
-    itertools.product(YEARS, data.parametrize_args),
-    ids=str,
+    "year",
+    YEARS,
 )
-def test_renten_alter(
-        year: int,
-        parametrize_arg: tuple[PolicyTestData, str],
-):
-    test_data, column = parametrize_arg
+class TestRentenAlter:
 
-    df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
+    @pytest.mark.parametrize(
+        ("test_data", "column"),
+        data.parametrize_args,
+        ids=str,
     )
+    def test_renten_alter(
+            self,
+            year: int,
+            test_data: PolicyTestData,
+            column: str,
+    ):
+        df = test_data.input_df
+        policy_params, policy_functions = cached_set_up_policy_environment(
+            date=f"{year}-07-01"
+        )
 
-    calc_result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-    )
-    assert_series_equal(calc_result[column], test_data.output_df[column], atol=1e-1, rtol=0)
+        calc_result = compute_taxes_and_transfers(
+            data=df,
+            params=policy_params,
+            functions=policy_functions,
+            targets=column,
+        )
+        assert_series_equal(calc_result[column], test_data.output_df[column], atol=1e-1, rtol=0)
