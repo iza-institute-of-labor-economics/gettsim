@@ -1,9 +1,9 @@
 import itertools
 
 import pytest
+from _gettsim.interface import compute_taxes_and_transfers
 from pandas._testing import assert_series_equal
 
-from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import load_policy_test_data
 
@@ -21,8 +21,8 @@ targets = merged_output_df.columns
     ids=str,
 )
 def test_renten_alter(
-        year: int,
-        target: str,
+    year: int,
+    target: str,
 ):
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=f"{year}-07-01"
@@ -34,4 +34,6 @@ def test_renten_alter(
         functions=policy_functions,
         targets=targets,
     )
-    assert_series_equal(calc_result[target], merged_output_df[target], atol=1e-1, rtol=0)
+    assert_series_equal(
+        calc_result[target], merged_output_df[target], atol=1e-1, rtol=0
+    )
