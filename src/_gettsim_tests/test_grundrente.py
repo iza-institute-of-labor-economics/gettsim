@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
@@ -118,23 +120,17 @@ def test_proxy_rente_vorj(
     )
 
 
-@pytest.fixture(scope="module")
-def input_data_proxy_rente():
-    file_name = "grundrente_proxy_rente.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    out["p_id"] = out["p_id"].astype(int)
-    out["jahr_renteneintr"] = out["jahr_renteneintr"].astype("Int64")
-
-    return out
-
-
-@pytest.mark.parametrize("year", YEARS)
-def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
-    year_data = input_data_proxy_rente[input_data_proxy_rente["jahr"] == year]
-    df = year_data[INPUT_COLS_INCOME].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
-    )
+@pytest.mark.parametrize(
+    "test_data",
+    data_proxy.test_data,
+    ids=str,
+)
+def test_proxy_rente_vorj_comparison_last_year(
+    test_data: PolicyTestData
+):
+    df = test_data.input_df[INPUT_COLS_INCOME].copy()
+    date = test_data.date
+    policy_params, policy_functions = cached_set_up_policy_environment(date)
 
     calc_result = compute_taxes_and_transfers(
         data=df,
@@ -144,19 +140,17 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
     )
 
     # Calculate pension of last year
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year - 1}-07-01"
-    )
+    policy_params, policy_functions = cached_set_up_policy_environment(date - timedelta(days=365))
     df["alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
-        functions=[policy_functions],
+        functions=policy_functions,
         targets=["ges_rente_vor_grundr_m"],
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["ges_rente_vor_grundr_m"] + year_data["priv_rente_m"],
+        calc_result_last_year["ges_rente_vor_grundr_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

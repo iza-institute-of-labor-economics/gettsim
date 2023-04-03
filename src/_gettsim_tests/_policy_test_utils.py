@@ -1,12 +1,10 @@
 from __future__ import annotations
+
 import datetime
-from functools import lru_cache
 from typing import Any
 
 import pandas as pd
 import yaml
-
-from _gettsim.policy_environment import set_up_policy_environment
 
 _ValueDict = dict[str, list[Any]]
 
@@ -14,11 +12,11 @@ _ValueDict = dict[str, list[Any]]
 class PolicyTestSet:
     def __init__(self, policy_name: str, test_data: list[PolicyTestData]):
         self.policy_name = policy_name
-        self._test_data = test_data
+        self.test_data = test_data
 
     @property
     def parametrize_args(self) -> list[tuple[PolicyTestData, str]]:
-        return [(test, column) for test in self._test_data for column in test.output_df]
+        return [(test, column) for test in self.test_data for column in test.output_df]
 
 
 class PolicyTestData:
