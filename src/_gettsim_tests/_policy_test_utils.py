@@ -26,7 +26,7 @@ class PolicyTestSet:
 
 
 class PolicyTestData:
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         policy_name: str,
         date: str,
@@ -67,7 +67,7 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
         if "skip" in test_file.stem:
             continue
 
-        with open(test_file, "r", encoding="utf-8") as file:
+        with test_file.open("r", encoding="utf-8") as file:
             test_data: dict[str, dict] = yaml.safe_load(file)
 
         date = test_file.stem
@@ -95,10 +95,9 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
 def _parse_date(date: str) -> datetime.date:
     parts = date.split("-")
 
-    match len(parts):
-        case 1:
-            return datetime.date(int(parts[0]), 1, 1)
-        case 2:
-            return datetime.date(int(parts[0]), int(parts[1]), 1)
-        case 3:
-            return datetime.date(int(parts[0]), int(parts[1]), int(parts[2]))
+    if len(parts) == 1:
+        return datetime.date(int(parts[0]), 1, 1)
+    if len(parts) == 2:
+        return datetime.date(int(parts[0]), int(parts[1]), 1)
+    if len(parts) == 3:
+        return datetime.date(int(parts[0]), int(parts[1]), int(parts[2]))

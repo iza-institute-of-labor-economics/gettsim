@@ -1,8 +1,11 @@
 from datetime import datetime
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 INPUT_COLS = [
     "p_id",
@@ -97,8 +100,8 @@ def convert(path: Path):
         "Langjährig_Monat"
     ] * (1 / 12)
     out["_ges_rente_besond_langj_altersgrenze"] = out[
-        "Besonders_Langjährig_Jahr"
-    ] + out["Besonders_Langjährig_Monat"] * (1 / 12)
+                                                      "Besonders_Langjährig_Jahr"
+                                                  ] + out["Besonders_Langjährig_Monat"] * (1 / 12)
 
     # assuming the months of compulsory contributions required for
     # "Besonders langjährig Versicherte"

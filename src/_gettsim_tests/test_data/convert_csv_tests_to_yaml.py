@@ -1,10 +1,14 @@
-from pathlib import Path
-from typing import Any, Optional
+
+from typing import Any, Optional, TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
 import yaml
+
 from _gettsim_tests import TEST_DATA_DIR
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 note_columns = [
     "note",
@@ -170,9 +174,9 @@ def write_yaml_to_file(
 
     path_.parent.mkdir(parents=True, exist_ok=True)
 
-    print(f"Writing to {path_}")
+    print(f"Writing to {path_}")  # noqa: T201
 
-    with open(path_, "w", encoding="utf-8") as text_file:
+    with path_.open("w", encoding="utf-8") as text_file:
         text_file.write(text)
 
 
@@ -192,6 +196,6 @@ def convert_test_data() -> None:
 
 if __name__ == "__main__":
     for path in list_csv_files():
-        print(f'"{path.stem}": {"{}"},')
+        print(f'"{path.stem}": {"{}"},') # noqa: T201
 
     convert_test_data()

@@ -1,7 +1,10 @@
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pandas as pd
 from _gettsim_tests import TEST_DATA_DIR
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 INPUT_COLS = [
     "hh_id",
