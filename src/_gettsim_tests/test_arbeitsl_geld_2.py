@@ -38,6 +38,7 @@ INPUT_COLS = [
     "soli_st_tu",
     "sozialv_beitr_m",
     "kindergeld_m_hh",
+    "kind_unterh_erhalt_m",
     "unterhaltsvors_m",
     "elterngeld_m",
     "jahr",
@@ -75,7 +76,7 @@ OVERRIDE_COLS = [
 ]
 
 
-YEARS = [2005, 2006, 2009, 2013, 2018, 2019, 2022, 2023]
+YEARS = ["2005", "2006", "2009", "2013", "2018", "2019", "2022", "2023-01", "2023-07"]
 
 
 @pytest.fixture(scope="module")

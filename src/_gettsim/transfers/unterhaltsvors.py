@@ -1,21 +1,32 @@
-"""This module provides functions to compute alimony payments (Unterhalt)."""
+"""This module provides functions to compute advance alimony payments
+(Unterhaltsvorschuss)."""
 
 
-def unterhaltsvors_m(
+def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_bg: bool,
     alter: int,
     unterhaltsvorschuss_eink_m_bg: float,
+    kind_unterh_erhalt_m: float,
     unterhalt_params: dict,
+    unterhaltsvors_params: dict,
     kindergeld_params: dict,
 ) -> float:
     """Calculate advance on alimony payment (Unterhaltsvorschuss).
 
     Single Parents get alimony payments for themselves and for their child from the ex
     partner. If the ex partner is not able to pay the child alimony, the government pays
-    the child alimony to the mother (or the father, if he has the kids)
+    the child alimony to the mother (or the father, if he has the kids).
+
+    According to §1 Abs.1 Nr.3 UhVorschG those single parents are entitled to
+    advance alimony payments, who do not or not regularly receive child alimony
+    payments or orphans' benefits (Waisenbezüge) in at least the amount specified in
+    §2 Abs.1 and 2 UhVorschG. The child alimonay payment paid by the other parent
+    is credited against the amount of the advance alimony payments
+    (§2 Abs.3 Nr.1 UhVorschG).
 
     The amount is specified in §1612a BGB and, ultimately, in
     Mindestunterhaltsverordnung.
+
 
     # ToDo: Result was rounded up in previous code. Check if this is correct and
     # ToDo: implement rounding spec accordingly
@@ -28,8 +39,12 @@ def unterhaltsvors_m(
         See basic input variable :ref:`alter <alter>`.
     unterhaltsvorschuss_eink_m_bg
         See :func:`unterhaltsvorschuss_eink_m_bg`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -37,35 +52,32 @@ def unterhaltsvors_m(
     -------
 
     """
-
-    altersgrenzen = sorted(unterhalt_params["mindestunterhalt"].keys())
-    if (alter < altersgrenzen[0]) and alleinerz_bg:
+    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    if (alter < altersgrenzen[1]) and alleinerz_bg:
         out = (
             unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
         )
-    elif (altersgrenzen[0] <= alter < altersgrenzen[1]) and alleinerz_bg:
+    elif (altersgrenzen[1] <= alter < altersgrenzen[2]) and alleinerz_bg:
         out = (
             unterhalt_params["mindestunterhalt"][12]
             - kindergeld_params["kindergeld"][1]
         )
 
-    # Older kids get it only if the single parent has income > 600€.
+    # Older kids get it only if the single parent has income > mindesteinkommen.
     elif (
-        (altersgrenzen[1] <= alter <= altersgrenzen[2])
+        (altersgrenzen[2] <= alter < altersgrenzen[3])
         and alleinerz_bg
-        and (
-            unterhaltsvorschuss_eink_m_bg
-            > unterhalt_params["unterhaltsvors_mindesteinkommen"]
-        )
+        and (unterhaltsvorschuss_eink_m_bg > unterhaltsvors_params["mindesteinkommen"])
     ):
         out = (
-            unterhalt_params["mindestunterhalt"][17]
+            unterhalt_params["mindestunterhalt"][18]
             - kindergeld_params["kindergeld"][1]
         )
     else:
         out = 0.0
 
-    # TODO: Check against actual transfers
+    # Check against the actual child alimony payments given by kindesunterhalt_m
+    out = max(out - kind_unterh_erhalt_m, 0.0)
 
     return out
 

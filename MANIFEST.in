@@ -20,5 +20,3 @@ exclude .readthedocs.yaml
 exclude .yamllint.yml
 
 prune docs
-prune dashboard
-prune src/_gettsim/parameters/_dynamic_pension_data

@@ -1952,7 +1952,7 @@ klimakomponente_m:
     en: climate component
   description:
     de: >-
-      Als Klimakomponente zu berücksichtigender Zuschlag zu den Höchstbeträgen nach § 12
+      Als Klimakomponente zu berücksichtigender Zuschlag zu den Höchstbeträgen nach §12
       Absatz 1 in Euro in Abhängigkeit der Haushaltsgröße; eingeführt mit der
       Wohngeldreform 2023
     en: >-
@@ -1969,3 +1969,9 @@ klimakomponente_m:
     4: 34.40
     5: 39.20
     jede_weitere_person: 4.8
+rounding:
+  wohngeld_vor_vermög_check_m_hh:
+    1970-01-01:
+      base: 1
+      direction: nearest
+      reference: § 19 WoGG Abs.2 Anlage 3

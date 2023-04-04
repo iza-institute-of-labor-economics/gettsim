@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import add_rounding_spec
 
 
 def wohngeld_m_hh(
@@ -88,11 +89,14 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
-    elterngeld_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
 
     Parameters
     ----------
@@ -110,8 +114,12 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See :func:`sonstig_eink_m`.
     eink_rente_zu_verst_m
         See :func:`eink_rente_zu_verst_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    elterngeld_anr_m
+        See :func:`elterngeld_anr_m`.
 
     Returns
     -------
@@ -121,7 +129,13 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
-    transfers = arbeitsl_geld_m + eink_rente_zu_verst_m + elterngeld_m
+    transfers = (
+        arbeitsl_geld_m
+        + eink_rente_zu_verst_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + elterngeld_anr_m
+    )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
     out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
@@ -259,6 +273,7 @@ def wohngeld_eink_m_hh(
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
     level.
+    Reference: § 13 WoGG
 
     Parameters
     ----------
@@ -484,6 +499,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
+@add_rounding_spec(params_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     anz_personen_hh: int,
     wohngeld_eink_m_hh: float,
