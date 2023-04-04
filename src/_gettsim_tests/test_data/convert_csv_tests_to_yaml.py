@@ -1,10 +1,8 @@
-
-from typing import Any, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional
 
 import numpy as np
 import pandas as pd
 import yaml
-
 from _gettsim_tests import TEST_DATA_DIR
 
 if TYPE_CHECKING:
@@ -196,6 +194,6 @@ def convert_test_data() -> None:
 
 if __name__ == "__main__":
     for path in list_csv_files():
-        print(f'"{path.stem}": {"{}"},') # noqa: T201
+        print(f'"{path.stem}": {"{}"},')  # noqa: T201
 
     convert_test_data()
