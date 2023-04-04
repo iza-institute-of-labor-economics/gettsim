@@ -83,13 +83,13 @@ def unique_years(df: pd.DataFrame, column_name: str = "jahr") -> list[int]:
 
 
 def grouped_by_year(
-        df: pd.DataFrame, column_name: str = "jahr"
+    df: pd.DataFrame, column_name: str = "jahr"
 ) -> dict[int, pd.DataFrame]:
     return {year: df[df[column_name] == year] for year in unique_years(df, column_name)}
 
 
 def columns_by_role(
-        df: pd.DataFrame, name: str
+    df: pd.DataFrame, name: str
 ) -> tuple[list[str], list[str], list[str], list[str], list[str]]:
     out_cols = roles[name]["out"] if name in roles and "out" in roles[name] else []
     in_cols_assumed = (
@@ -160,7 +160,7 @@ def value_to_string(value: Any) -> str:
 
 
 def write_yaml_to_file(
-        out: dict[str, dict], name: str, year: Optional[int] = None
+    out: dict[str, dict], name: str, year: Optional[int] = None
 ) -> None:
     text = yaml.dump(out, sort_keys=False, allow_unicode=True, indent=2, width=88)
     if year is None:
@@ -190,7 +190,7 @@ def convert_test_data() -> None:
                 write_yaml_to_file(yaml_out, name, year)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     for path in list_csv_files():
         print(f'"{path.stem}": {"{}"},')
 

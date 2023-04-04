@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pandas as pd
-
 from _gettsim_tests import TEST_DATA_DIR
 
 INPUT_COLS = [
@@ -62,7 +61,7 @@ def convert(path: Path):
         & (lst_data["vkapa"] == 0)
         & (lst_data["vmt"] == 0)
         & (lst_data["zmvb"] == 0)
-        ].copy()
+    ].copy()
 
     lst_data.head()
 
@@ -108,16 +107,16 @@ def convert(path: Path):
 
     # Take into account period of obtained wage (Lohnzahlungszeitraum, LZZ)
     test_data.loc[test_data["period_of_obtained_wage"] == 4, "bruttolohn_m"] = (
-            test_data["lst_wage"] * 360 / 12
+        test_data["lst_wage"] * 360 / 12
     )
     test_data.loc[test_data["period_of_obtained_wage"] == 3, "bruttolohn_m"] = (
-            test_data["lst_wage"] / 7 * 360 / 12
+        test_data["lst_wage"] / 7 * 360 / 12
     )
     test_data.loc[
         test_data["period_of_obtained_wage"] == 2, "bruttolohn_m"
     ] = test_data["lst_wage"]
     test_data.loc[test_data["period_of_obtained_wage"] == 1, "bruttolohn_m"] = (
-            test_data["lst_wage"] / 12
+        test_data["lst_wage"] / 12
     )
 
     test_data["lohnst_m"] = test_data["lohnst"]
@@ -125,16 +124,16 @@ def convert(path: Path):
 
     for outvar in ["lohnst_m", "soli_st_lohnst_m"]:
         test_data.loc[test_data["period_of_obtained_wage"] == 4, outvar] = (
-                test_data[outvar] * 360 / 12
+            test_data[outvar] * 360 / 12
         )
         test_data.loc[test_data["period_of_obtained_wage"] == 3, outvar] = (
-                test_data[outvar] / 7 * 360 / 12
+            test_data[outvar] / 7 * 360 / 12
         )
         test_data.loc[test_data["period_of_obtained_wage"] == 2, outvar] = test_data[
             outvar
         ]
         test_data.loc[test_data["period_of_obtained_wage"] == 1, outvar] = (
-                test_data[outvar] / 12
+            test_data[outvar] / 12
         )
 
     test_data["lohnst_m"] = test_data["lohnst_m"] // 1
@@ -146,5 +145,5 @@ def convert(path: Path):
     test_data[[*INPUT_COLS, *OUT_COLS]].to_csv("lohn_st_converted.csv", index=False)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     convert(TEST_DATA_DIR / "original_testfaelle" / "lohnsteuer_bmf_2022.xlsx")
