@@ -164,9 +164,8 @@ hh_id_14:
       - 0
 hh_id_19:
   info:
-    note: ''
-    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020 (including
-      Betreuungskosten)
+    note: Result from source including Betreuungskosten
+    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020
   inputs:
     provided:
       p_id:
@@ -328,9 +327,8 @@ hh_id_19:
       - 0
 hh_id_20:
   info:
-    note: ''
-    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020 (including
-      Betreuungskosten)
+    note: Result from source including Betreuungskosten
+    source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020
   inputs:
     provided:
       p_id:

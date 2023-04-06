@@ -1,8 +1,9 @@
 ---
 hh_id_1:
   info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
-      were added manually
+    note: >-
+      old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
+      sozialv_pflicht_5j were added manually
     source: none
   inputs:
     provided:
@@ -40,8 +41,9 @@ hh_id_1:
       - 465.54
 hh_id_2:
   info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
-      were added manually
+    note: >-
+      old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
+      sozialv_pflicht_5j were added manually
     source: none
   inputs:
     provided:
@@ -79,8 +81,9 @@ hh_id_2:
       - 789.772
 hh_id_3:
   info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
-      were added manually
+    note: >-
+      old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
+      sozialv_pflicht_5j were added manually
     source: none
   inputs:
     provided:
@@ -133,8 +136,9 @@ hh_id_3:
       - 0.0
 hh_id_4:
   info:
-    note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
-      were added manually
+    note: >-
+      old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
+      sozialv_pflicht_5j were added manually
     source: none
   inputs:
     provided:

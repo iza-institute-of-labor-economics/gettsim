@@ -187,8 +187,9 @@ hh_id_8:
       - 384.0
 hh_id_10:
   info:
-    note: Capital income of 20 euros (monthly amount deducted from claim due to capital income
-      ((20*12)-26)/12 = 17.83333333)
+    note: >-
+      Capital income of 20 euros (monthly amount deducted from claim due to capital
+      income (20*12 - 26) / 12 = 17.83333333)
     source: Self-created test case
   inputs:
     provided:
@@ -264,8 +265,9 @@ hh_id_10:
       - 531.17
 hh_id_11:
   info:
-    note: Capital income of 50 euros (monthly amount deducted from claim due to capital income
-      ((50*12)-26)/12=47.83333333)
+    note: >-
+      Capital income of 50 euros (monthly amount deducted from claim due to capital
+      income (50*12 - 26) / 12 = 47.83333333)
     source: Self-created test case
   inputs:
     provided:
@@ -451,8 +453,9 @@ hh_id_24:
       - 0.0
 hh_id_25:
   info:
-    note: Test with child and positive wealth below wealth allowance (website didn't add general
-      amount for child)
+    note: >-
+      Test with child and positive wealth below wealth allowance (website did not add
+      general amount for child)
     source: https://www.smart-rechner.de/grundsicherung/rechner.php
   inputs:
     provided:

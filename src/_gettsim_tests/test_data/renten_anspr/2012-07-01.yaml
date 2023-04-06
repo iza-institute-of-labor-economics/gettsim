@@ -1,8 +1,8 @@
 ---
 hh_id_8:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -65,8 +65,8 @@ hh_id_8:
       - 67.0
 hh_id_9:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -129,8 +129,8 @@ hh_id_9:
       - 67.0
 hh_id_10:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -193,8 +193,8 @@ hh_id_10:
       - 66.33333333
 hh_id_11:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:

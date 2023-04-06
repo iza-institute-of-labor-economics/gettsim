@@ -358,7 +358,9 @@ hh_id_13:
       - 710.0
 hh_id_14:
   info:
-    note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
+    note: >-
+      Test with wealth (calculated wealth allowance using
+      https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
     source: ''
   inputs:
     provided:
@@ -477,7 +479,9 @@ hh_id_14:
       - 670.0
 hh_id_15:
   info:
-    note: 'Test with wealth (calculated wealth allowance with: https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)'
+    note: >-
+      Test with wealth (calculated wealth allowance using
+      https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
     source: ''
   inputs:
     provided:

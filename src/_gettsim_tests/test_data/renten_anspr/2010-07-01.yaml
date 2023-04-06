@@ -1,8 +1,8 @@
 ---
 hh_id_1:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -65,8 +65,8 @@ hh_id_1:
       - 67.0
 hh_id_2:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -129,9 +129,10 @@ hh_id_2:
       - 67.0
 hh_id_3:
   info:
-    note: "from eastern Germany: earns more Entgeltpunkte for same wage\n\nverified or corrected\
-      \ using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
-    source: ''
+    note: >-
+      From eastern Germany: earns more Entgeltpunkte for same wage. Verified or
+      corrected based on source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
   inputs:
     provided:
       p_id:
@@ -194,8 +195,8 @@ hh_id_3:
       - 67.0
 hh_id_4:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -258,8 +259,8 @@ hh_id_4:
       - 67.0
 hh_id_5:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -322,8 +323,8 @@ hh_id_5:
       - 67.0
 hh_id_6:
   info:
-    note: 'verified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html'
-    source: ''
+    note: Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -386,9 +387,10 @@ hh_id_6:
       - 65.41666667
 hh_id_7:
   info:
-    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
-      \ is lower\n\nverified or corrected using: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
-    source: ''
+    note: >-
+      From eastern Germany: earns less Entgeltpunkte for same wage because
+      Beitragsbemessungsgrenze is lower. Verified or corrected using source.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
   inputs:
     provided:
       p_id:
@@ -451,9 +453,10 @@ hh_id_7:
       - 65.41666667
 hh_id_19:
   info:
-    note: "from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze\
-      \ is lower\n\nhttps://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html"
-    source: ''
+    note: >-
+      From eastern Germany: earns less Entgeltpunkte for same wage because
+      Beitragsbemessungsgrenze is lower.
+    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Kurz-vor-der-Rente/Wann-kann-ich-in-Rente-gehen/Wann-kann-ich-in-Rente-gehen_detailseite.html"
   inputs:
     provided:
       p_id:
@@ -516,8 +519,8 @@ hh_id_19:
       - 65.83333333
 hh_id_24:
   info:
-    note: "Beispiel: Erna RÃ¼stig (Altersrente fÃ¼r Frauen)\n\nhttps://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/"
-    source: ''
+    note: 'Beispiel: Erna Rüstig (Altersrente für Frauen)'
+    source: https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/
   inputs:
     provided:
       p_id:
