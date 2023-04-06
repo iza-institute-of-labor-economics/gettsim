@@ -26,7 +26,6 @@ OVERRIDE_COLS = [
 data = load_policy_test_data("wohngeld")
 
 
-@pytest.mark.xfail()
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,
