@@ -30,17 +30,17 @@ class PolicyTestData:
     def __init__(  # noqa: PLR0913
         self,
         policy_name: str,
-        date: str,
-        household_name: str,
         test_file: Path,
+        household_name: str,
+        date: str,
         inputs_provided: _ValueDict,
         inputs_assumed: _ValueDict,
         outputs: _ValueDict,
     ):
         self.policy_name = policy_name
-        self.date: date = _parse_date(date)
-        self.household_name = household_name
         self.test_file = test_file
+        self.household_name = household_name
+        self.date: date = _parse_date(date)
         self._inputs_provided = inputs_provided
         self._inputs_assumed = inputs_assumed
         self._outputs = outputs
@@ -55,7 +55,10 @@ class PolicyTestData:
     def output_df(self) -> pd.DataFrame:
         return pd.DataFrame.from_dict(self._outputs).reset_index(drop=True)
 
-    def __str__(self):
+    def __repr__(self) -> str:
+        return f"PolicyTestData({self.policy_name}, {self.test_file.name}, {self.household_name})"
+
+    def __str__(self) -> str:
         return f"{self.test_file.name} {self.household_name}"
 
 
@@ -84,9 +87,9 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
             out.append(
                 PolicyTestData(
                     policy_name=policy_name,
-                    date=date,
-                    household_name=household_name,
                     test_file=test_file,
+                    household_name=household_name,
+                    date=date,
                     inputs_provided=inputs_provided,
                     inputs_assumed=inputs_assumed,
                     outputs=outputs,
