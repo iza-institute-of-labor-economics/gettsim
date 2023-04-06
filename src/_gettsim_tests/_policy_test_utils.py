@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -31,6 +32,7 @@ class PolicyTestData:
         policy_name: str,
         date: str,
         household_name: str,
+        test_file: Path,
         inputs_provided: _ValueDict,
         inputs_assumed: _ValueDict,
         outputs: _ValueDict,
@@ -38,6 +40,7 @@ class PolicyTestData:
         self.policy_name = policy_name
         self.date: date = _parse_date(date)
         self.household_name = household_name
+        self.test_file = test_file
         self._inputs_provided = inputs_provided
         self._inputs_assumed = inputs_assumed
         self._outputs = outputs
@@ -53,7 +56,7 @@ class PolicyTestData:
         return pd.DataFrame.from_dict(self._outputs).reset_index(drop=True)
 
     def __str__(self):
-        return f"{self.date} {self.household_name}"
+        return f"{self.test_file.name} {self.household_name}"
 
 
 def load_policy_test_data(policy_name: str) -> PolicyTestSet:
@@ -83,6 +86,7 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
                     policy_name=policy_name,
                     date=date,
                     household_name=household_name,
+                    test_file=test_file,
                     inputs_provided=inputs_provided,
                     inputs_assumed=inputs_assumed,
                     outputs=outputs,
