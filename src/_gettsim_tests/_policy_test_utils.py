@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
 import yaml
@@ -10,6 +10,7 @@ _ValueDict = dict[str, list[Any]]
 
 if TYPE_CHECKING:
     from pathlib import Path
+
 
 class PolicyTestSet:
     def __init__(self, policy_name: str, test_data: list[PolicyTestData]):
@@ -57,8 +58,10 @@ class PolicyTestData:
         return pd.DataFrame.from_dict(self._outputs).reset_index(drop=True)
 
     def __repr__(self) -> str:
-        return f"PolicyTestData({self.policy_name}, {self.test_file.name}, "\
-               f"{self.household_name})"
+        return (
+            f"PolicyTestData({self.policy_name}, {self.test_file.name}, "
+            f"{self.household_name})"
+        )
 
     def __str__(self) -> str:
         return f"{self.test_file.name} {self.household_name}"
