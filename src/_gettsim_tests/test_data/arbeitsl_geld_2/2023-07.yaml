@@ -1,7 +1,9 @@
 ---
 hh_id_20:
   info:
-    note: (Test with new income thresholds) https://www.buerger-geld.org/rechner/ergebnis/index.php
+    note: >-
+      Test with new income thresholds
+      https://www.buerger-geld.org/rechner/ergebnis/index.php
     source: ''
   inputs:
     provided:
@@ -83,8 +85,9 @@ hh_id_20:
       - 304.0
 hh_id_21:
   info:
-    note: (Test with new income thresholds and new Kindergeld) https://buergergeld-rechner.org/(adjusted
-      for Kindersofortzuschlag of 20€)
+    note: >-
+      Test with new income thresholds and new Kindergeld, adjusted for
+      Kindersofortzuschlag of 20€. https://buergergeld-rechner.org/
     source: ''
   inputs:
     provided:
@@ -240,8 +243,9 @@ hh_id_21:
       - 0.0
 hh_id_22:
   info:
-    note: (Test with new income thresholds and new Kindergeld) https://buergergeld-rechner.org/(adjusted
-      for Kindersofortzuschlag of 20€)
+    note: >-
+      Test with new income thresholds and new Kindergeld, adjusted for
+      Kindersofortzuschlag of 20€. https://buergergeld-rechner.org/
     source: ''
   inputs:
     provided:
@@ -397,8 +401,9 @@ hh_id_22:
       - 1418.0
 hh_id_23:
   info:
-    note: (Test with new income thresholds) Constructed Test Case after Karenzzeit with cost
-      for living from testcase in 2011(adjusted for Kindersofortzuschlag)
+    note: >-
+      Test with new income thresholds, adjusted for Kindersofortzuschlag. Constructed
+      test case after Karenzzeit with cost for living from 2011 testcase.
     source: ''
   inputs:
     provided:

@@ -2,8 +2,10 @@
 hh_id_1:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: >-
+      Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das
+      Grundrentengesetz",
+      https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
   inputs:
     provided:
       p_id:
@@ -59,8 +61,10 @@ hh_id_1:
 hh_id_2:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: >-
+      Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das
+      Grundrentengesetz",
+      https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
   inputs:
     provided:
       p_id:
@@ -116,8 +120,10 @@ hh_id_2:
 hh_id_3:
   info:
     note: ''
-    source: "\"Das Grundrentengesetz'\" von Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte\
-      \ Heckenberger  (https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4)"
+    source: >-
+      Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das
+      Grundrentengesetz",
+      https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
   inputs:
     provided:
       p_id:
@@ -172,10 +178,12 @@ hh_id_3:
       - 927.88
 hh_id_4:
   info:
-    note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-      of 0.8004
-    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
-      (Sabine M.)
+    note: >-
+      adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum
+      instead of 0.8004
+    source: >-
+      Beispiel Sabine M. aus:
+      https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
   inputs:
     provided:
       p_id:
@@ -230,10 +238,12 @@ hh_id_4:
       - 1069.0
 hh_id_5:
   info:
-    note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-      of 0.8004. Staatliche Rente adjusted.
-    source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
-      (Martin S.)
+    note: >-
+      adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum
+      instead of 0.8004. Staatliche Rente adjusted.
+    source: >-
+      Beispiel Martin S. aus:
+      https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
   inputs:
     provided:
       p_id:
@@ -459,10 +469,12 @@ hh_id_8:
       - 656.0
 hh_id_9:
   info:
-    note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-      of 0.8004
-    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
-      (Richard Frenzel)
+    note: >-
+      adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum
+      instead of 0.8004
+    source: >-
+      Beispiel Richard Frenzel aus:
+      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
   inputs:
     provided:
       p_id:
@@ -574,10 +586,12 @@ hh_id_10:
       - 1402.0
 hh_id_11:
   info:
-    note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-      of 0.8004
-    source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
-      (Alexander Langkowski) Hatice Yilmaz
+    note: >-
+      adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum
+      instead of 0.8004
+    source: >-
+      Beispiel Alexander Langkowski / Hatice Yilmaz aus:
+      https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
   inputs:
     provided:
       p_id:
