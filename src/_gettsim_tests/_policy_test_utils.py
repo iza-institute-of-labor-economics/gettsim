@@ -30,14 +30,14 @@ class PolicyTestSet:
 
 class PolicyTestData:
     def __init__(  # noqa: PLR0913
-        self,
-        policy_name: str,
-        test_file: Path,
-        household_name: str,
-        date: str,
-        inputs_provided: _ValueDict,
-        inputs_assumed: _ValueDict,
-        outputs: _ValueDict,
+            self,
+            policy_name: str,
+            test_file: Path,
+            household_name: str,
+            date: str,
+            inputs_provided: _ValueDict,
+            inputs_assumed: _ValueDict,
+            outputs: _ValueDict,
     ):
         self.policy_name = policy_name
         self.test_file = test_file
@@ -74,34 +74,38 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
 
     out = []
 
-    for test_file in root.glob("*.yaml"):
-        if "skip" in test_file.stem:
+    for test_file in root.glob("**/*.yaml"):
+        if _is_skipped(test_file):
             continue
 
         with test_file.open("r", encoding="utf-8") as file:
-            test_data: dict[str, dict] = yaml.safe_load(file)
+            household_data: dict[str, dict] = yaml.safe_load(file)
 
-        date = test_file.stem
+        date = test_file.parent.name
+        household_name = test_file.stem
 
-        for household_name, household_data in test_data.items():
-            inputs: dict[str, dict] = household_data["inputs"]
-            inputs_provided: _ValueDict = inputs["provided"]
-            inputs_assumed: _ValueDict = inputs["assumed"]
-            outputs: _ValueDict = household_data["outputs"]
+        inputs: dict[str, dict] = household_data["inputs"]
+        inputs_provided: _ValueDict = inputs["provided"]
+        inputs_assumed: _ValueDict = inputs["assumed"]
+        outputs: _ValueDict = household_data["outputs"]
 
-            out.append(
-                PolicyTestData(
-                    policy_name=policy_name,
-                    test_file=test_file,
-                    household_name=household_name,
-                    date=date,
-                    inputs_provided=inputs_provided,
-                    inputs_assumed=inputs_assumed,
-                    outputs=outputs,
-                )
+        out.append(
+            PolicyTestData(
+                policy_name=policy_name,
+                test_file=test_file,
+                household_name=household_name,
+                date=date,
+                inputs_provided=inputs_provided,
+                inputs_assumed=inputs_assumed,
+                outputs=outputs,
             )
+        )
 
     return PolicyTestSet(policy_name, out)
+
+
+def _is_skipped(test_file: Path) -> bool:
+    return "skip" in test_file.stem or "skip" in test_file.parent.name
 
 
 def _parse_date(date: str) -> datetime.date:
