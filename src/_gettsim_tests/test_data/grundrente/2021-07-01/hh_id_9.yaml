@@ -1,3 +1,4 @@
+---
 info:
   note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
     of 0.8004
@@ -5,52 +6,52 @@ info:
 inputs:
   provided:
     p_id:
-    - 9
+      - 9
     tu_id:
-    - 9
+      - 9
     hh_id:
-    - 9
+      - 9
     grundr_zeiten:
-    - 552
+      - 552
     grundr_bew_zeiten:
-    - 552
+      - 552
     wohnort_ost:
-    - false
+      - false
     rente_vorj_vor_grundr_proxy_m:
-    - 0.0
+      - 0.0
     bruttolohn_vorj_m:
-    - 1380.0
+      - 1380.0
     eink_selbst:
-    - 0.0
+      - 0.0
     eink_vermietung:
-    - 0.0
+      - 0.0
     kapitaleink:
-    - 0.0
+      - 0.0
     alter:
-    - 70
+      - 70
     alleinstehend:
-    - true
+      - true
     geburtsjahr:
-    - 1951
+      - 1951
     bruttolohn_m:
-    - 0.0
+      - 0.0
     entgeltp:
-    - 34.5
+      - 34.5
     ges_rente_zugangsfaktor:
-    - 1.0
+      - 1.0
     rentner:
-    - true
+      - true
     grundr_entgeltp:
-    - 34.5
+      - 34.5
     kind:
-    - false
+      - false
   assumed: {}
 outputs:
   grundr_zuschlag_bonus_entgeltp:
-  - 0.0037
+    - 0.0037
   grundr_zuschlag_vor_eink_anr_m:
-  - 53.0
+    - 53.0
   grundr_zuschlag_m:
-  - 0.0
+    - 0.0
   ges_rente_m:
-  - 1179.55
+    - 1179.55

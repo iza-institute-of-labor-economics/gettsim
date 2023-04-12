@@ -1,31 +1,32 @@
+---
 info:
   note: ''
   source: Testcase from zu_verst_eink
 inputs:
   provided:
     p_id:
-    - 17
+      - 17
     tu_id:
-    - 16
+      - 16
     hh_id:
-    - 16
+      - 16
     bruttolohn_m:
-    - 1500.0
+      - 1500.0
     kind:
-    - false
+      - false
     priv_rentenv_beitr_m:
-    - 0.0
+      - 0.0
     ges_rentenv_beitr_m:
-    - 150.0
+      - 150.0
     arbeitsl_v_beitr_m:
-    - 30.0
+      - 30.0
     ges_pflegev_beitr_m:
-    - 22.5
+      - 22.5
     jahr:
-    - 2010
+      - 2010
     ges_krankenv_beitr_m:
-    - 120.0
+      - 120.0
   assumed: {}
 outputs:
   vorsorgeaufw_tu:
-  - 2620
+    - 2620

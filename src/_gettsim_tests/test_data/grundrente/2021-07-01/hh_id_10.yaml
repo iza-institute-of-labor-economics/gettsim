@@ -1,3 +1,4 @@
+---
 info:
   note: Adjusted staatl rente
   source: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
@@ -5,52 +6,52 @@ info:
 inputs:
   provided:
     p_id:
-    - 10
+      - 10
     tu_id:
-    - 10
+      - 10
     hh_id:
-    - 10
+      - 10
     grundr_zeiten:
-    - 492
+      - 492
     grundr_bew_zeiten:
-    - 492
+      - 492
     wohnort_ost:
-    - false
+      - false
     rente_vorj_vor_grundr_proxy_m:
-    - 0.0
+      - 0.0
     bruttolohn_vorj_m:
-    - 0.0
+      - 0.0
     eink_selbst:
-    - 0.0
+      - 0.0
     eink_vermietung:
-    - 0.0
+      - 0.0
     kapitaleink:
-    - 0.0
+      - 0.0
     alter:
-    - 70
+      - 70
     alleinstehend:
-    - true
+      - true
     geburtsjahr:
-    - 1951
+      - 1951
     bruttolohn_m:
-    - 0.0
+      - 0.0
     entgeltp:
-    - 41.0
+      - 41.0
     ges_rente_zugangsfaktor:
-    - 1.0
+      - 1.0
     rentner:
-    - true
+      - true
     grundr_entgeltp:
-    - 41.0
+      - 41.0
     kind:
-    - false
+      - false
   assumed: {}
 outputs:
   grundr_zuschlag_bonus_entgeltp:
-  - 0.0
+    - 0.0
   grundr_zuschlag_vor_eink_anr_m:
-  - 0.0
+    - 0.0
   grundr_zuschlag_m:
-  - 0.0
+    - 0.0
   ges_rente_m:
-  - 1402.0
+    - 1402.0

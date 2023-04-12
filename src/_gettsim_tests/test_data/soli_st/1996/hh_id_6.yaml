@@ -1,21 +1,22 @@
+---
 info:
   note: ''
   source: ''
 inputs:
   provided:
     p_id:
-    - 6
+      - 6
     hh_id:
-    - 6
+      - 6
     tu_id:
-    - 6
+      - 6
     kind:
-    - false
+      - false
     eink_st_mit_kinderfreib_tu:
-    - 3000.0
+      - 3000.0
     abgelt_st_tu:
-    - 0.0
+      - 0.0
   assumed: {}
 outputs:
   soli_st_tu:
-  - 225.0
+    - 225.0

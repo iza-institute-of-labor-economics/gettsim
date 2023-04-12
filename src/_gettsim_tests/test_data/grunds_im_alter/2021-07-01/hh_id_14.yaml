@@ -1,3 +1,4 @@
+---
 info:
   note: Adjusted test case by adding capital income of 50 euros (expected difference in grunds_im_alter_m_hh
     (50*12 - 26) / 12) = 47.83333333)
@@ -5,72 +6,72 @@ info:
 inputs:
   provided:
     p_id:
-    - 19
+      - 19
     tu_id:
-    - 14
+      - 14
     hh_id:
-    - 14
+      - 14
     jahr:
-    - 2021
+      - 2021
     kind:
-    - false
+      - false
     alter:
-    - 68
+      - 68
     bruttokaltmiete_m_hh:
-    - 350.0
+      - 350.0
     heizkosten_m_hh:
-    - 35.0
+      - 35.0
     wohnfläche_hh:
-    - 40.0
+      - 40.0
     bruttolohn_m:
-    - 0.0
+      - 0.0
     kapitaleink_brutto_m:
-    - 50.0
+      - 50.0
     grundr_zeiten:
-    - 0
+      - 0
     rentner:
-    - true
+      - true
     schwerbeh_g:
-    - false
+      - false
     vermögen_bedürft_hh:
-    - 0.0
+      - 0.0
     alleinerz:
-    - false
+      - false
     bewohnt_eigentum_hh:
-    - false
+      - false
     arbeitsl_geld_m:
-    - 0.0
+      - 0.0
     sonstig_eink_m:
-    - 0.0
+      - 0.0
     eink_selbst_m:
-    - 0.0
+      - 0.0
     eink_vermietung_m:
-    - 0.0
+      - 0.0
     eink_st_tu:
-    - 0.0
+      - 0.0
     soli_st_tu:
-    - 0.0
+      - 0.0
     sozialv_beitr_m:
-    - 0.0
+      - 0.0
     kindergeld_m_hh:
-    - 0.0
+      - 0.0
     kind_unterh_erhalt_m:
-    - 0.0
+      - 0.0
     unterhaltsvors_m:
-    - 0.0
+      - 0.0
     elterngeld_m:
-    - 0.0
+      - 0.0
     priv_rente_m:
-    - 0.0
+      - 0.0
     ges_rente_m:
-    - 430.0
+      - 430.0
     geburtstag:
-    - 1
+      - 1
     geburtsmonat:
-    - 1
+      - 1
     geburtsjahr:
-    - 1953
+      - 1953
   assumed: {}
 outputs:
   grunds_im_alter_m_hh:
-  - 353.17
+    - 353.17

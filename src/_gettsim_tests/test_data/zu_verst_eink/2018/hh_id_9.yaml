@@ -1,69 +1,70 @@
+---
 info:
   note: ''
   source: ''
 inputs:
   provided:
     p_id:
-    - 9
+      - 9
     hh_id:
-    - 9
+      - 9
     tu_id:
-    - 9
+      - 9
     bruttolohn_m:
-    - 900.0
+      - 900.0
     betreuungskost_m:
-    - 0.0
+      - 0.0
     eink_selbst_m:
-    - 0.0
+      - 0.0
     kapitaleink_brutto_m:
-    - 100.0
+      - 100.0
     eink_vermietung_m:
-    - 0.0
+      - 0.0
     jahr_renteneintr:
-    - 2043
+      - 2043
     sum_ges_rente_priv_rente_m:
-    - 0.0
+      - 0.0
     arbeitsstunden_w:
-    - 40.0
+      - 40.0
     in_ausbildung:
-    - false
+      - false
     kind:
-    - false
+      - false
     behinderungsgrad:
-    - 0
+      - 0
     priv_rentenv_beitr_m:
-    - 0.0
+      - 0.0
     alleinerz:
-    - false
+      - false
     alter:
-    - 40
+      - 40
     jahr:
-    - 2018
+      - 2018
     wohnort_ost:
-    - false
+      - false
     selbstständig:
-    - false
+      - false
     hat_kinder:
-    - false
+      - false
     in_priv_krankenv:
-    - false
+      - false
     geburtsjahr:
-    - 1978
+      - 1978
     vorsorgeaufw_tu:
-    - 1910.41
+      - 1910.41
   assumed: {}
 outputs:
   _zu_verst_eink_ohne_kinderfreib_tu:
-  - 7853.59
+    - 7853.59
   zu_verst_eink_mit_kinderfreib_tu:
-  - 7853.59
+    - 7853.59
   eink_st_kinderfreib_tu:
-  - 0
+    - 0
   eink_st_altersfreib:
-  - 0
+    - 0
   alleinerz_freib_tu:
-  - 0
+    - 0
   sum_eink:
-  - 9800
+    - 9800
   _eink_st_behinderungsgrad_pauschbetrag:
-  - 0
+    - 0

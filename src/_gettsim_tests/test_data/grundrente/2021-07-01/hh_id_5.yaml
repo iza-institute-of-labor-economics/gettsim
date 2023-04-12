@@ -1,3 +1,4 @@
+---
 info:
   note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
     of 0.8004. Staatliche Rente adjusted.
@@ -5,52 +6,52 @@ info:
 inputs:
   provided:
     p_id:
-    - 5
+      - 5
     tu_id:
-    - 5
+      - 5
     hh_id:
-    - 5
+      - 5
     grundr_zeiten:
-    - 408
+      - 408
     grundr_bew_zeiten:
-    - 408
+      - 408
     wohnort_ost:
-    - true
+      - true
     rente_vorj_vor_grundr_proxy_m:
-    - 0.0
+      - 0.0
     bruttolohn_vorj_m:
-    - 0.0
+      - 0.0
     eink_selbst:
-    - 0.0
+      - 0.0
     eink_vermietung:
-    - 0.0
+      - 0.0
     kapitaleink:
-    - 0.0
+      - 0.0
     alter:
-    - 70
+      - 70
     alleinstehend:
-    - true
+      - true
     geburtsjahr:
-    - 1951
+      - 1951
     bruttolohn_m:
-    - 0.0
+      - 0.0
     entgeltp:
-    - 18.7
+      - 18.7
     ges_rente_zugangsfaktor:
-    - 1.0
+      - 1.0
     rentner:
-    - true
+      - true
     grundr_entgeltp:
-    - 18.7
+      - 18.7
     kind:
-    - false
+      - false
   assumed: {}
 outputs:
   grundr_zuschlag_bonus_entgeltp:
-  - 0.003698333
+    - 0.003698333
   grundr_zuschlag_vor_eink_anr_m:
-  - 50.98
+    - 50.98
   grundr_zuschlag_m:
-  - 50.98
+    - 50.98
   ges_rente_m:
-  - 677.0
+    - 677.0

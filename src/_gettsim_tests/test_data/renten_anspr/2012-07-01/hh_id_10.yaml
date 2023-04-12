@@ -1,63 +1,64 @@
+---
 info:
   note: Verified or corrected using source.
   source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
 inputs:
   provided:
     p_id:
-    - 10
+      - 10
     hh_id:
-    - 10
+      - 10
     tu_id:
-    - 10
+      - 10
     bruttolohn_m:
-    - 700.0
+      - 700.0
     wohnort_ost:
-    - false
+      - false
     alter:
-    - 52
+      - 52
     jahr:
-    - 2012
+      - 2012
     geburtsjahr:
-    - 1960
+      - 1960
     entgeltp:
-    - 30.5626
+      - 30.5626
     geburtsmonat:
-    - 1
+      - 1
     m_arbeitsunfähig:
-    - 0.0
+      - 0.0
     m_krank_ab_16_bis_24:
-    - 0.0
+      - 0.0
     m_mutterschutz:
-    - 0.0
+      - 0.0
     m_arbeitslos:
-    - 0.0
+      - 0.0
     m_ausbild_suche:
-    - 0.0
+      - 0.0
     m_schul_ausbild:
-    - 0.0
+      - 0.0
     m_alg1_übergang:
-    - 0.0
+      - 0.0
     m_geringf_beschäft:
-    - 0.0
+      - 0.0
     weiblich:
-    - false
+      - false
     y_pflichtbeitr_ab_40:
-    - 0.0
+      - 0.0
     m_pflichtbeitrag:
-    - 60.0
+      - 60.0
     m_freiw_beitrag:
-    - 0.0
+      - 0.0
     m_ersatzzeit:
-    - 0.0
+      - 0.0
     m_kind_berücks_zeit:
-    - 0.0
+      - 0.0
     m_pfleg_berücks_zeit:
-    - 0.0
+      - 0.0
   assumed: {}
 outputs:
   entgeltp_update:
-  - 30.81713003
+    - 30.81713003
   entgeltp_update_lohn:
-  - 0.254530028
+    - 0.254530028
   _ges_rente_altersgrenze_abschlagsfrei:
-  - 66.33333333
+    - 66.33333333

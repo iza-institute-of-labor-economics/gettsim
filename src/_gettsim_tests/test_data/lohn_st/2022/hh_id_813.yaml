@@ -1,33 +1,34 @@
+---
 info:
   note: ''
   source: Lohnsteuer BMBF 2022
 inputs:
   provided:
     hh_id:
-    - 813
+      - 813
     tu_id:
-    - 813
+      - 813
     p_id:
-    - 813
+      - 813
     wohnort_ost:
-    - true
+      - true
     steuerklasse:
-    - 2
+      - 2
     bruttolohn_m:
-    - 82.54
+      - 82.54
     alter:
-    - 25
+      - 25
     hat_kinder:
-    - true
+      - true
     arbeitsstunden_w:
-    - 40.0
+      - 40.0
     in_ausbildung:
-    - false
+      - false
     ges_krankenv_zusatzbeitr_satz:
-    - 1.33
+      - 1.33
     ges_pflegev_zusatz_kinderlos:
-    - false
+      - false
   assumed: {}
 outputs:
   lohnst_m:
-  - 0.0
+    - 0.0

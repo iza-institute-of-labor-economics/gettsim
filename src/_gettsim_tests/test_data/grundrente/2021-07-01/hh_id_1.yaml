@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das Grundrentengesetz",
@@ -5,52 +6,52 @@ info:
 inputs:
   provided:
     p_id:
-    - 1
+      - 1
     tu_id:
-    - 1
+      - 1
     hh_id:
-    - 1
+      - 1
     grundr_zeiten:
-    - 420
+      - 420
     grundr_bew_zeiten:
-    - 420
+      - 420
     wohnort_ost:
-    - false
+      - false
     rente_vorj_vor_grundr_proxy_m:
-    - 0.0
+      - 0.0
     bruttolohn_vorj_m:
-    - 0.0
+      - 0.0
     eink_selbst:
-    - 0.0
+      - 0.0
     eink_vermietung:
-    - 0.0
+      - 0.0
     kapitaleink:
-    - 0.0
+      - 0.0
     alter:
-    - 70
+      - 70
     alleinstehend:
-    - true
+      - true
     geburtsjahr:
-    - 1951
+      - 1951
     bruttolohn_m:
-    - 0.0
+      - 0.0
     entgeltp:
-    - 14.014
+      - 14.014
     ges_rente_zugangsfaktor:
-    - 1.0
+      - 1.0
     rentner:
-    - true
+      - true
     grundr_entgeltp:
-    - 14.014
+      - 14.014
     kind:
-    - false
+      - false
   assumed: {}
 outputs:
   grundr_zuschlag_bonus_entgeltp:
-  - 0.029166667
+    - 0.029166667
   grundr_zuschlag_vor_eink_anr_m:
-  - 418.83
+    - 418.83
   grundr_zuschlag_m:
-  - 418.83
+    - 418.83
   ges_rente_m:
-  - 897.97
+    - 897.97

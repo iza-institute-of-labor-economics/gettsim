@@ -1,63 +1,64 @@
+---
 info:
   note: 'Beispiel: Abwandlung Erna Rüstig (Altersrente für langjährig Versicherte) https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/'
   source: ''
 inputs:
   provided:
     p_id:
-    - 25
+      - 25
     hh_id:
-    - 25
+      - 25
     tu_id:
-    - 25
+      - 25
     bruttolohn_m:
-    - 1500.0
+      - 1500.0
     wohnort_ost:
-    - false
+      - false
     alter:
-    - 65
+      - 65
     jahr:
-    - 2014
+      - 2014
     geburtsjahr:
-    - 1948
+      - 1948
     entgeltp:
-    - 22.42
+      - 22.42
     geburtsmonat:
-    - 12
+      - 12
     m_arbeitsunfähig:
-    - 0.0
+      - 0.0
     m_krank_ab_16_bis_24:
-    - 0.0
+      - 0.0
     m_mutterschutz:
-    - 9.0
+      - 9.0
     m_arbeitslos:
-    - 0.0
+      - 0.0
     m_ausbild_suche:
-    - 0.0
+      - 0.0
     m_schul_ausbild:
-    - 0.0
+      - 0.0
     m_alg1_übergang:
-    - 0.0
+      - 0.0
     m_geringf_beschäft:
-    - 60.0
+      - 60.0
     weiblich:
-    - true
+      - true
     y_pflichtbeitr_ab_40:
-    - 15.0
+      - 15.0
     m_pflichtbeitrag:
-    - 420.0
+      - 420.0
     m_freiw_beitrag:
-    - 0.0
+      - 0.0
     m_ersatzzeit:
-    - 0.0
+      - 0.0
     m_kind_berücks_zeit:
-    - 108.0
+      - 108.0
     m_pfleg_berücks_zeit:
-    - 10.0
+      - 10.0
   assumed: {}
 outputs:
   entgeltp_update:
-  - 22.99796044
+    - 22.99796044
   entgeltp_update_lohn:
-  - 0.577960442
+    - 0.577960442
   _ges_rente_altersgrenze_abschlagsfrei:
-  - 65.0
+    - 65.0

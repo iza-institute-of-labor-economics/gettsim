@@ -32,14 +32,14 @@ class PolicyTestSet:
 
 class PolicyTestData:
     def __init__(  # noqa: PLR0913
-            self,
-            policy_name: str,
-            test_file: Path,
-            household_name: str,
-            date: str,
-            inputs_provided: _ValueDict,
-            inputs_assumed: _ValueDict,
-            outputs: _ValueDict,
+        self,
+        policy_name: str,
+        test_file: Path,
+        household_name: str,
+        date: str,
+        inputs_provided: _ValueDict,
+        inputs_assumed: _ValueDict,
+        outputs: _ValueDict,
     ):
         self.policy_name = policy_name
         self.test_file = test_file
