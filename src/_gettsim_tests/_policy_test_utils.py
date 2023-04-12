@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Any
 import pandas as pd
 import yaml
 
+from _gettsim_tests import TEST_DATA_DIR
+
 _ValueDict = dict[str, list[Any]]
 
 if TYPE_CHECKING:
@@ -64,7 +66,9 @@ class PolicyTestData:
         )
 
     def __str__(self) -> str:
-        return f"{self.test_file.name} {self.household_name}"
+        relative_path = self.test_file.relative_to(TEST_DATA_DIR)
+        backslash = "\\"
+        return f"{str(relative_path).replace(backslash, '/')}"
 
 
 def load_policy_test_data(policy_name: str) -> PolicyTestSet:
