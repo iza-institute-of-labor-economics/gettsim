@@ -1,6 +1,7 @@
 ---
 info:
-  note: Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first
+  note: >-
+    Wealth above wealth allowance leading to a deduction in Kinderzuschlag in the first
     month
   source: Inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf
 inputs:

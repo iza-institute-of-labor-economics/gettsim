@@ -1,7 +1,8 @@
 ---
 info:
-  note: Adjusted test case by adding capital income of 50 euros (expected difference in grunds_im_alter_m_hh
-    (50*12 - 26) / 12) = 47.83333333)
+  note: >-
+    Adjusted test case by adding capital income of 50 euros (expected difference in
+    grunds_im_alter_m_hh (50*12 - 26) / 12) = 47.83333333)
   source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
 inputs:
   provided:

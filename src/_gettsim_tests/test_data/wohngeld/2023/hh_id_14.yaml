@@ -1,6 +1,7 @@
 ---
 info:
-  note: When using that site, the unrounded value is displayed when clicking on the question
+  note: >-
+    When using that site, the unrounded value is displayed when clicking on the question
     mark next to the housing allowance calculation.
   source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:

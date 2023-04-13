@@ -1,8 +1,9 @@
 ---
 info:
-  note: https://www.smart-rechner.de/wohngeld/rechner.php (unrounded value is displayed when
-    you click on the question mark next to the housing allowance calculation)
-  source: ''
+  note: >-
+    (unrounded value is displayed when you click on the question mark next to the
+    housing allowance calculation)
+  source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
   provided:
     p_id:

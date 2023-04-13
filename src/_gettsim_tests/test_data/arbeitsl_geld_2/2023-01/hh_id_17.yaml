@@ -1,7 +1,8 @@
 ---
 info:
-  note: Test with old income thresholds and new Kindergeld, (adjusted for Kindersofortzuschlag
-    of 20€)
+  note: >-
+    Test with old income thresholds and new Kindergeld, (adjusted for
+    Kindersofortzuschlag of 20€)
   source: https://www.hartziv.org/rechner/
 inputs:
   provided:

@@ -1,6 +1,8 @@
 ---
 info:
-  note: Test with wealth (calculated wealth allowance using https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
+  note: >-
+    Test with wealth (calculated wealth allowance using
+    https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
   source: ''
 inputs:
   provided:

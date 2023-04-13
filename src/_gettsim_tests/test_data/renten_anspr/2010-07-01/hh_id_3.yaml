@@ -1,8 +1,10 @@
 ---
 info:
-  note: 'From eastern Germany: earns more Entgeltpunkte for same wage. Verified or corrected
-    based on source.'
-  source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html"
+  note: >-
+    From eastern Germany: earns more Entgeltpunkte for same wage. Verified or corrected
+    based on source.
+  source: >-
+    https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
 inputs:
   provided:
     p_id:

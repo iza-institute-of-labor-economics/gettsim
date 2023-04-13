@@ -1,8 +1,10 @@
 ---
 info:
-  note: 'From eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-    is lower. Verified or corrected using source.'
-  source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
+  note: >-
+    From eastern Germany: earns less Entgeltpunkte for same wage because
+    Beitragsbemessungsgrenze is lower. Verified or corrected using source.
+  source: >-
+    https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
 inputs:
   provided:
     p_id:

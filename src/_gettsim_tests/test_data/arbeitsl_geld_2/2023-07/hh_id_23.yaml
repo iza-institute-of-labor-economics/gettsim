@@ -1,6 +1,7 @@
 ---
 info:
-  note: Test with new income thresholds, adjusted for Kindersofortzuschlag. Constructed test
+  note: >-
+    Test with new income thresholds, adjusted for Kindersofortzuschlag. Constructed test
     case after Karenzzeit with cost for living from 2011 testcase.
   source: ''
 inputs:

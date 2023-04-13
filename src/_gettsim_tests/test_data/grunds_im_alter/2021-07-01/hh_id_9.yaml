@@ -1,7 +1,8 @@
 ---
 info:
-  note: Test if households with non-retired adult do not get Grundsicherung im Alter (as currently
-    implemented those households get ALG 2)
+  note: >-
+    Test if households with non-retired adult do not get Grundsicherung im Alter (as
+    currently implemented those households get ALG 2)
   source: ''
 inputs:
   provided:

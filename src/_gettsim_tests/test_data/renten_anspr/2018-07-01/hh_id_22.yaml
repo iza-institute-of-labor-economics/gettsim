@@ -1,8 +1,9 @@
 ---
 info:
-  note: 'from eastern Germany: earns less Entgeltpunkte for same wage because Beitragsbemessungsgrenze
-    is lower https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html'
-  source: ''
+  note: >-
+    From eastern Germany: earns less Entgeltpunkte for same wage because
+    Beitragsbemessungsgrenze is lower
+  source: https://www.ihre-vorsorge.de/rechner/rentenbeginnrechner.html
 inputs:
   provided:
     p_id:

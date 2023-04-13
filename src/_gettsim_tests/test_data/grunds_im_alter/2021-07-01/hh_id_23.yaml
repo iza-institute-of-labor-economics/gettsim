@@ -1,6 +1,7 @@
 ---
 info:
-  note: Test with positive wealth below wealth allowance. Beispielpersonen Max B. und Inge
+  note: >-
+    Test with positive wealth below wealth allowance. Beispielpersonen Max B. und Inge
     M.
   source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
 inputs:

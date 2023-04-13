@@ -1,6 +1,7 @@
 ---
 info:
-  note: Capital income of 20 euros (monthly amount deducted from claim due to capital income
+  note: >-
+    Capital income of 20 euros (monthly amount deducted from claim due to capital income
     (20*12 - 26) / 12 = 17.83333333)
   source: Self-created test case
 inputs:

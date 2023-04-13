@@ -1,8 +1,11 @@
 ---
 info:
-  note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
+  note: >-
+    adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
     of 0.8004
-  source: 'Beispiel Alexander Langkowski / Hatice Yilmaz aus: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html'
+  source: >-
+    Beispiel Alexander Langkowski / Hatice Yilmaz aus:
+    https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
 inputs:
   provided:
     p_id:

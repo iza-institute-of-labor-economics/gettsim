@@ -1,7 +1,8 @@
 ---
 info:
-  note: Test with new income thresholds https://www.buerger-geld.org/rechner/ergebnis/index.php
-  source: ''
+  note: >-
+    Test with new income thresholds
+  source: https://www.buerger-geld.org/rechner/ergebnis/index.php
 inputs:
   provided:
     p_id:

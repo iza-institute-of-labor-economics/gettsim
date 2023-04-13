@@ -1,8 +1,10 @@
 ---
 info:
-  note: adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-    of 0.8004. Staatliche Rente adjusted.
-  source: 'Beispiel Martin S. aus: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html'
+  note: >-
+    Adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
+    of 0.8004. Beispiel Martin S.
+  source: >-
+    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
 inputs:
   provided:
     p_id:

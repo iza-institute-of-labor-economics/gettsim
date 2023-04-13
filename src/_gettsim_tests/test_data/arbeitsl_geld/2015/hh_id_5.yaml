@@ -1,7 +1,8 @@
 ---
 info:
-  note: old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and sozialv_pflicht_5j
-    were added manually
+  note: >-
+    old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
+    sozialv_pflicht_5j were added manually
   source: none
 inputs:
   provided:
