@@ -1,9 +1,0 @@
-hh_id,tu_id,p_id,kind,zu_verst_eink_kein_kinderfreib,zu_verst_eink_kinderfreib,_zu_verst_eink_abgelt_st_m_kein_kinderfreib,_zu_versteuerndes_eink_abgelt_st_m_kinderfreib,kapitaleink_brutto,kapitaleink_brutto_tu,gem_veranlagt,jahr,Column1,eink_st_ohne_kinderfreib_tu,eink_st_mit_kinderfreib_tu,_st_abgelt_st_m_kein_kinderfreib,_st_abgelt_st_m_kinderfreib_tu,abgelt_st_tu,soli_st_tu,soli_st_m,G,M,S,R,_1,solibase_inctax,source
-1,1,1,FALSE,5000.0,5000.0,5500,5500,500.0,500,FALSE,2018,,0,0,0,0,0,0,0,9000,13996,54949,260532,,0,
-2,2,2,FALSE,5000.0,5000.0,6000,6000,1300.0,1800,TRUE,2015,,0,0,0,0,49.5,2.72,1.36,8472,13469,52881,250730,,0,
-2,2,32,FALSE,5000.0,5000.0,6000,6000,500.0,1800,TRUE,2015,,0,0,0,0,49.5,2.72,1.36,8472,13469,52881,250730,,0,
-2,2,123,TRUE,0.0,0.0,0,0,0.0,1800,FALSE,2015,,0,0,0,0,49.5,2.72,0.23,8472,13469,52881,250730,,0,
-3,3,3,FALSE,20000.0,20000.0,21000,21000,1000.0,1000,FALSE,2012,,2700,2700,2972,2972,49.75,151.24,151.24,8005,13470,52881,250730,,2669.777795,
-4,4,4,FALSE,50000.0,42000.0,52500,44500,2500.0,2500,FALSE,2009,,12950,9830,13985,10773,424.75,564.01,564.01,7834,13139,52551,250400,,9830.288276,
-5,5,5,FALSE,200000.0,180000.0,200000,180000,0.0,0,FALSE,2018,,75378,66978,75378,66978,0,3683.79,3683.79,9000,13996,54949,260532,,66978.25,
-6,6,6,FALSE,36000.0,36000.0,36000.0,36000.0,0.0,0.0,FALSE,2023,,6531,6531,6531,6531,0.0,0.0,0.0,,,,,,,https://www.smart-rechner.de/einkommensteuer/rechner.php

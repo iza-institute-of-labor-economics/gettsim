@@ -1,0 +1,70 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 10
+    hh_id:
+      - 10
+    tu_id:
+      - 10
+    bruttolohn_m:
+      - 1200.0
+    betreuungskost_m:
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+    kapitaleink_brutto_m:
+      - 100.0
+    eink_vermietung_m:
+      - 0.0
+    jahr_renteneintr:
+      - 2043
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+    arbeitsstunden_w:
+      - 40.0
+    in_ausbildung:
+      - false
+    kind:
+      - false
+    behinderungsgrad:
+      - 0
+    priv_rentenv_beitr_m:
+      - 0.0
+    alleinerz:
+      - false
+    alter:
+      - 40
+    jahr:
+      - 2018
+    wohnort_ost:
+      - false
+    selbstständig:
+      - false
+    hat_kinder:
+      - false
+    in_priv_krankenv:
+      - false
+    geburtsjahr:
+      - 1978
+    vorsorgeaufw_tu:
+      - 2547.22
+  assumed: {}
+outputs:
+  _zu_verst_eink_ohne_kinderfreib_tu:
+    - 10816.78
+  zu_verst_eink_mit_kinderfreib_tu:
+    - 10816.78
+  eink_st_kinderfreib_tu:
+    - 0
+  eink_st_altersfreib:
+    - 0
+  alleinerz_freib_tu:
+    - 0
+  sum_eink:
+    - 13400
+  _eink_st_behinderungsgrad_pauschbetrag:
+    - 0
