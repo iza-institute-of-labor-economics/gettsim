@@ -11,8 +11,8 @@ current_year = datetime.datetime.today().year
 
 
 def create_synthetic_data(
-    n_adults=1,
-    n_children=0,
+    n_adults=None,
+    n_children=None,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -40,25 +40,27 @@ def create_synthetic_data(
     data : pd.DataFrame containing all variables that are needed to run GETTSIM.
 
     """
+    # Set Defaults
+    if n_adults is None:
+        n_adults = 1
+    if n_children is None:
+        n_children = 0
 
     # Check inputs
     if n_adults not in [1, 2]:
-        raise ValueError("household type must be either 1 or 2")
+        raise ValueError("n_adults must be either 1 or 2")
     if n_children not in [0, 1, 2]:
         raise ValueError("'n_children' must be 0, 1, or 2.")
 
     default_constant_specs = {
-        "weiblich": [bool(i % 2 == 0) for i in range(n_children + n_adults)],
+        "weiblich": [bool(i % 2 == 1) for i in range(n_children + n_adults)],
         "alter": [35] * n_adults + [8, 3][:n_children],
         "kind": [False] * n_adults + [True] * n_children,
         "in_ausbildung": [False] * n_adults + [True] * n_children,
     }
-    if specs_constant_over_households is None:
-        specs_constant_over_households = default_constant_specs
-    else:
-        for var in default_constant_specs:
-            if var not in specs_constant_over_households:
-                specs_constant_over_households[var] = default_constant_specs[var]
+    if specs_constant_over_households:
+        default_constant_specs.update(specs_constant_over_households)
+    specs_constant_over_households = default_constant_specs
 
     # Make sure length of lists in specs_constant_over_households is correct
     for var in specs_constant_over_households:
