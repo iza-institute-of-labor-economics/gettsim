@@ -90,13 +90,15 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    # unterhaltsvors_m: float,
     elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
-    and deducting individual housing benefit subtractions.
-    Reference: § 14 WoGG
+    and deducting individual housing benefit subtractions. Reference: § 14 WoGG
+
+    # ToDo: deduct unterhaltsvors_m here instead of in wohngeld_eink_m_hh. Functions in
+    KGS gettsim-application need to be adjusted, too.
 
     Parameters
     ----------
@@ -133,7 +135,7 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         arbeitsl_geld_m
         + eink_rente_zu_verst_m
         + kind_unterh_erhalt_m
-        + unterhaltsvors_m
+        # + unterhaltsvors_m
         + elterngeld_anr_m
     )
 
