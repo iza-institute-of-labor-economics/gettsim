@@ -17,7 +17,7 @@ def create_synthetic_data(
     specs_heterogeneous=None,
     policy_year=current_year,
 ):
-    """Creates a dataset with hypothetical household types, which can be used as input
+    """Create a dataset with hypothetical household types, which can be used as input
     for GETTSIM.
 
     Parameters
