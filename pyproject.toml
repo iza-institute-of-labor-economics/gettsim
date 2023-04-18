@@ -63,9 +63,7 @@ extend-ignore = [
     "PT011", # pytest raises without match statement
     "INP001", # implicit namespace packages without init.
 ]
-exclude = [
-    "dashboard"
-]
+exclude = []
 
 [tool.ruff.per-file-ignores]
 "src/_gettsim_tests/test_docs.py" = ["TRY"]
@@ -114,14 +112,6 @@ module = "gettsim"
 disallow_untyped_defs = false
 
 [[tool.mypy.overrides]]
-module = "_gettsim.parameters._dynamic_pension_data.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
-module = "dashboard.*"
-ignore_errors = true
-
-[[tool.mypy.overrides]]
 module = "_gettsim.*"
 ignore_errors = true
 
@@ -148,15 +138,9 @@ markers = [
     "integration: Flag for integration tests which may comprise of multiple unit tests.",
     "end_to_end: Flag for tests that cover the whole program.",
 ]
-norecursedirs = ["docs", "dashboard"]
+norecursedirs = ["docs"]
 testpaths = [
     "src/_gettsim_tests",
-]
-
-[tool.coverage.report]
-omit = [
-    "dashboard/**/*",
-    "src/_gettsim/parameters/_dynamic_pension_data",
 ]
 
 [tool.yamlfix]

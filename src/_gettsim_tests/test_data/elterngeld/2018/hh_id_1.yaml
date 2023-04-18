@@ -1,0 +1,50 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 1
+    tu_id:
+      - 1
+    p_id:
+      - 23
+    kind:
+      - false
+    bruttolohn_m:
+      - 0.0
+    bruttolohn_vorj_m:
+      - 0.0
+    wohnort_ost:
+      - false
+    eink_st_m:
+      - 0.0
+    soli_st_m:
+      - 0.0
+    sozialv_beitr_m:
+      - 0.0
+    geburtsjahr:
+      - 1972
+    geburtsmonat:
+      - 1
+    geburtstag:
+      - 1
+    m_elterngeld_mut_hh:
+      - 2
+    m_elterngeld_vat_hh:
+      - 2
+    m_elterngeld:
+      - 0
+    jahr:
+      - 2018
+  assumed: {}
+outputs:
+  elterngeld_m:
+    - 0.0
+  elterngeld_geschw_bonus_anspruch:
+    - false
+  _elterngeld_anz_mehrlinge_anspruch:
+    - 0
+  elternzeit_anspruch:
+    - false

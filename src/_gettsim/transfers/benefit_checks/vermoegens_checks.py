@@ -1,3 +1,6 @@
+from _gettsim.shared import dates_active
+
+
 def _kinderzuschl_nach_vermög_check_m_tu(
     _kinderzuschl_vor_vermög_check_m_tu: float,
     vermögen_bedürft_hh: float,
@@ -156,6 +159,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     return float(out)
 
 
+@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_vermög_freib_hh")
 def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
     _arbeitsl_geld_2_grundfreib_vermög_hh: float,
     anz_kinder_bis_17_hh: int,
@@ -190,6 +194,7 @@ def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
     return out
 
 
+@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_hh")
 def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,

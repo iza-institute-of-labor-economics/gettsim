@@ -11,8 +11,8 @@ current_year = datetime.datetime.today().year
 
 
 def create_synthetic_data(
-    n_adults=None,
-    n_children=None,
+    n_adults=1,
+    n_children=0,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -23,9 +23,9 @@ def create_synthetic_data(
     Parameters
     ----------
     n_adults : int
-        Number of adults in the household.
+        Number of adults in the household, must be either 1 or 2, default is 1.
     n_children : int
-        Number of children in the household.
+        Number of children in the household, must be 0, 1, or 2, default is 0.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
         households.
@@ -40,12 +40,6 @@ def create_synthetic_data(
     data : pd.DataFrame containing all variables that are needed to run GETTSIM.
 
     """
-    # Set Defaults
-    if n_adults is None:
-        n_adults = 1
-    if n_children is None:
-        n_children = 0
-
     # Check inputs
     if n_adults not in [1, 2]:
         raise ValueError("n_adults must be either 1 or 2")
@@ -198,6 +192,8 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string]),
         "bruttokaltmiete_m_hh": float(bg_daten["bruttokaltmiete"][hh_typ_string]),
         "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string]),
+        "kind_unterh_anspr_m": 0,
+        "kind_unterh_erhalt_m": 0,
     }
 
     # Set default values for new columns.

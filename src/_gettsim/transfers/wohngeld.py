@@ -1,6 +1,7 @@
 """This module provides functions to compute residence allowance (Wohngeld)."""
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def wohngeld_m_hh(
@@ -77,7 +78,8 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
+@dates_active(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
+def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst: float,
     eink_abhängig_beschäftigt: float,
     kapitaleink_brutto: float,
@@ -85,12 +87,13 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
+    kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
 
     Parameters
     ----------
@@ -108,10 +111,10 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
         See :func:`sonstig_eink_m`.
     eink_rente_zu_verst_m
         See :func:`eink_rente_zu_verst_m`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
 
     Returns
     -------
@@ -122,7 +125,10 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     ) / 12
 
     transfers = (
-        arbeitsl_geld_m + eink_rente_zu_verst_m + unterhaltsvors_m + elterngeld_m
+        arbeitsl_geld_m
+        + eink_rente_zu_verst_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
@@ -130,6 +136,87 @@ def wohngeld_eink_vor_freib_m(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
+def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
+    eink_selbst: float,
+    eink_abhängig_beschäftigt: float,
+    kapitaleink_brutto: float,
+    eink_vermietung: float,
+    arbeitsl_geld_m: float,
+    sonstig_eink_m: float,
+    eink_rente_zu_verst_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    elterngeld_anr_m: float,
+    wohngeld_abzüge_st_sozialv_m: float,
+) -> float:
+    """Sum gross incomes relevant for housing benefit calculation on individual level
+    and deducting individual housing benefit subtractions.
+    Reference: § 14 WoGG
+
+    Parameters
+    ----------
+    eink_selbst
+        See :func:`_eink_selbst`.
+    eink_abhängig_beschäftigt
+        See :func:`eink_abhängig_beschäftigt`.
+    kapitaleink_brutto
+        See :func:`kapitaleink_brutto`.
+    eink_vermietung
+        See :func:`eink_vermietung`.
+    arbeitsl_geld_m
+        See :func:`arbeitsl_geld_m`.
+    sonstig_eink_m
+        See :func:`sonstig_eink_m`.
+    eink_rente_zu_verst_m
+        See :func:`eink_rente_zu_verst_m`.
+    kind_unterh_erhalt_m
+        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    elterngeld_anr_m
+        See :func:`elterngeld_anr_m`.
+
+    Returns
+    -------
+
+    """
+    einkommen = (
+        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+    ) / 12
+
+    transfers = (
+        arbeitsl_geld_m
+        + eink_rente_zu_verst_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + elterngeld_anr_m
+    )
+
+    eink_ind = einkommen + transfers + sonstig_eink_m
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    return out
+
+
+def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
+    """Check if children are working.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
+
+    Returns
+    -------
+
+    """
+    out = (bruttolohn_m > 0) and kindergeld_anspruch
+    return out
+
+
+@dates_active(end="2015-12-31", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -187,24 +274,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
-    """Check if children are working.
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-    out = (bruttolohn_m > 0) and kindergeld_anspruch
-    return out
-
-
+@dates_active(start="2016-01-01", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -237,8 +307,9 @@ def wohngeld_eink_freib_m_ab_2016(
     )
 
     # Subtraction for single parents and working children
-    # ToDo: Check how to handle subjects that are single parents and also still count
-    # ToDO: as arbeitendes kind (are eligible for Kindergeld)
+    # ToDo:
+    #     Check how to handle subjects that are single parents and also still count
+    #     as arbeitendes Kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
@@ -259,6 +330,7 @@ def wohngeld_eink_m_hh(
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
     level.
+    Reference: § 13 WoGG
 
     Parameters
     ----------
@@ -306,6 +378,7 @@ def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
     return float(out)
 
 
+@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
@@ -369,6 +442,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     haushaltsgröße_hh: int,
@@ -486,6 +560,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
+@add_rounding_spec(params_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_hh: float,

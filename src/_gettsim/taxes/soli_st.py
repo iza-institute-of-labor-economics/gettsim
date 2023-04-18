@@ -37,16 +37,55 @@ def soli_st_tu(
     """
     eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
     out = (
-        anz_erwachsene_tu
-        * piecewise_polynomial(
-            eink_st_per_individual,
-            thresholds=soli_st_params["soli_st"]["thresholds"],
-            rates=soli_st_params["soli_st"]["rates"],
-            intercepts_at_lower_thresholds=soli_st_params["soli_st"][
-                "intercepts_at_lower_thresholds"
-            ],
-        )
+        anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_tu
+    )
+
+    return out
+
+
+def soli_st_lohnst_m(lohnst_mit_kinderfreib_m: float, soli_st_params: dict) -> float:
+    """Calculates the monthly Solidarity Surcharge on Lohnsteuer
+    (withholding tax on earnings).
+
+    Parameters
+    ----------
+    lohnst_mit_kinderfreib_m
+        See :func:`lohnst_mit_kinderfreib_m`.
+    soli_st_params
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
+
+    Returns
+        Solidarity Surcharge on Lohnsteuer
+    -------
+
+    """
+
+    return _soli_st_tarif(12 * lohnst_mit_kinderfreib_m, soli_st_params) / 12
+
+
+def _soli_st_tarif(st_per_individual: float, soli_st_params: dict) -> float:
+    """The isolated function for Solidaritätszuschlag.
+
+    Parameters
+    ----------
+    st_per_individual:
+        the tax amount to be topped up
+    soli_st_params :
+        See params documentation :ref:`soli_st_params <solo_st_params>`
+    Returns
+        solidarity surcharge
+    -------
+
+    """
+
+    out = piecewise_polynomial(
+        st_per_individual,
+        thresholds=soli_st_params["soli_st"]["thresholds"],
+        rates=soli_st_params["soli_st"]["rates"],
+        intercepts_at_lower_thresholds=soli_st_params["soli_st"][
+            "intercepts_at_lower_thresholds"
+        ],
     )
 
     return out

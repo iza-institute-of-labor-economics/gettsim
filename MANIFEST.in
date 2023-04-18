@@ -7,6 +7,7 @@ recursive-include src py.typed
 recursive-include src *.yaml
 recursive-include src *.csv
 recursive-include src *.py
+recursive-include src/_gettsim_tests/test_data/original_testfaelle *.xlsx
 
 global-exclude __pycache__/**/*
 global-exclude *.py[cod]
@@ -20,5 +21,3 @@ exclude .readthedocs.yaml
 exclude .yamllint.yml
 
 prune docs
-prune dashboard
-prune src/_gettsim/parameters/_dynamic_pension_data

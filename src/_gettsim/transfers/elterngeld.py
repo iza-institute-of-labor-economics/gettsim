@@ -83,7 +83,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
+    prox_ssc = elterngeld_params["sozialv_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]
@@ -453,3 +453,36 @@ def elterngeld_mehrlinge_bonus_m(
     return float(
         _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
     )
+
+
+def elterngeld_anr_m(
+    elterngeld_m: float,
+    elterngeld_params: dict,
+    anz_mehrlinge_jüngstes_kind_hh: int,
+) -> float:
+    """Calculate elterngeld above threshold which is considered as income for transfers
+    such as wohngeld and grunds_im_alter.
+    For arbeitsl_geld_2 as well as kinderzuschl the whole amount of elterngeld is
+    considered as income, except for the case in which the parents still worked
+    right before they had children.
+    See: https://www.kindergeld.org/elterngeld-einkommen/
+
+    Parameters
+    ----------
+    elterngeld_m
+        See :func:`elterngeld_m`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    anz_mehrlinge_jüngstes_kind_hh
+        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
+
+    Returns
+    -------
+
+    """
+    out = max(
+        elterngeld_m
+        - ((1 + anz_mehrlinge_jüngstes_kind_hh) * elterngeld_params["mindestbetrag"]),
+        0,
+    )
+    return out
