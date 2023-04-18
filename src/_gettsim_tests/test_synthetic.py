@@ -1,51 +1,86 @@
 from __future__ import annotations
 
-from _gettsim.config import numpy_or_jax as np
-from _gettsim.interface import compute_taxes_and_transfers
+import pandas as pd
 from _gettsim.synthetic import create_synthetic_data
-
-from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 
 def test_default():
     df = create_synthetic_data()
+
     # rent must be positive
     assert df["bruttokaltmiete_m_hh"].min() > 0
+
     # heating cost must be positive
     assert df["heizkosten_m_hh"].min() > 0
+
     # no NaN values
     assert df.notna().all().all()
-    # correct dimensions for every household type
-    assert len(df[df["hh_typ"] == "couple_0_children"] == 2)
-    assert len(df[df["hh_typ"] == "single_2_children"] == 3)
-    assert len(df[df["hh_typ"] == "couple_2_children"] == 4)
+
+    # correct dimension
+    assert df.shape[0] == 1
+
+
+def test_couple_with_children():
+    df = create_synthetic_data(n_adults=2, n_children=2)
+
+    # no NaN values
+    assert df.notna().all().all()
+
+    # correct dimension
+    assert df.shape[0] == 4
+
     # unique personal id?
     assert df["p_id"].is_unique
 
+    # constant hh_id
+    assert (df["hh_id"].max() == df["hh_id"]).all()
 
-def test_double_earner():
+
+def test_specs_constant_over_households():
     df = create_synthetic_data(
-        hh_typen=["couple"], n_children=[0], double_earner=True, bruttolohn_m=2000
-    )
-
-    assert (df["bruttolohn_m"] > 0).all()
-
-
-def test_income_range():
-    df = create_synthetic_data(
-        hh_typen=["couple"],
-        n_children=0,
-        heterogeneous_vars={
-            "bruttolohn_m": list(np.arange(0, 6000, 1000)),
-            "vermögen_bedürft_hh": [10_000, 500_000, 1_000_000],
+        n_adults=2,
+        n_children=1,
+        specs_constant_over_households={
+            "alter": [50, 30, 5],
+            "bruttolohn_m": [1000, 2000, 0],
         },
     )
-    # is household id unique?
-    assert (df.groupby("hh_id").size() == 2).all()
 
+    pd.testing.assert_series_equal(df["alter"], pd.Series([50, 30, 5], name="alter"))
+    pd.testing.assert_series_equal(
+        df["bruttolohn_m"], pd.Series([1000, 2000, 0], name="bruttolohn_m")
+    )
+
+
+def test_specs_heterogeneous():
+    df = create_synthetic_data(
+        n_adults=2,
+        n_children=1,
+        specs_constant_over_households={"alter": [50, 30, 5]},
+        specs_heterogeneous={
+            "bruttolohn_m": [[i / 2, i / 2, 0] for i in range(0, 1001, 100)]
+        },
+    )
+
+    # no NaN values
     assert df.notna().all().all()
 
-    # finally, run through gettsim
-    policy_params, policy_functions = cached_set_up_policy_environment(2020)
-    results = compute_taxes_and_transfers(df, policy_params, policy_functions)
-    assert len(results) == len(df)
+    # correct dimension
+    assert df.shape[0] == 33
+
+    # unique personal id?
+    assert df["p_id"].is_unique
+
+    pd.testing.assert_series_equal(
+        df["alter"], pd.Series([50, 30, 5] * 11, name="alter")
+    )
+    pd.testing.assert_series_equal(
+        df["bruttolohn_m"].head(3),
+        pd.Series([0, 0, 0], dtype=float, name="bruttolohn_m"),
+        check_index=False,
+    )
+    pd.testing.assert_series_equal(
+        df["bruttolohn_m"].tail(3),
+        pd.Series([500, 500, 0], dtype=float, name="bruttolohn_m"),
+        check_index=False,
+    )
