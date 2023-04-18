@@ -42,7 +42,7 @@ def create_synthetic_data(
     """
     # Check inputs
     if n_adults not in [1, 2]:
-        raise ValueError("n_adults must be either 1 or 2")
+        raise ValueError("'n_adults' must be either 1 or 2")
     if n_children not in [0, 1, 2]:
         raise ValueError("'n_children' must be 0, 1, or 2.")
 
@@ -165,9 +165,6 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
     )
     hh_typ_string = f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
-
-    if "alter" not in df:
-        df["alter"] = 30
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
