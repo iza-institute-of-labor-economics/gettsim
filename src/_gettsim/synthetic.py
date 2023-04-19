@@ -79,9 +79,10 @@ def create_basic_households(
 ):
     """Create basic variables for all households.
 
-    Basic variables are variables which: - are important to differentiate the
-    individual household members - or vary across households (as specified in
-    specs_heterogeneous)
+    Basic variables are variables which:
+
+    - are important to differentiate the individual household members
+    - or vary across households (as specified in specs_heterogeneous)
 
     Parameters
     ----------
