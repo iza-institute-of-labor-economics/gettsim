@@ -104,16 +104,20 @@ def create_basic_households(
     data : pd.DataFrame containing all basic variables.
 
     """
-    hh_typ_string = f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
+    hh_typ_string = create_hh_typ_string(n_adults, n_children)
 
-    # Identify number of households and individuals per household
+    # Identify number of households
     if len(specs_heterogeneous) > 0:
-        n_households = len(specs_heterogeneous[list(specs_heterogeneous.keys())[0]])
+        n_households = len(list(specs_heterogeneous.values())[0])
     else:
         n_households = 1
 
     for col in specs_heterogeneous:
-        assert len(specs_heterogeneous[col]) == n_households
+        if len(specs_heterogeneous[col]) != n_households:
+            raise ValueError(
+                f"Length of {col} in specs_heterogeneous is not "
+                "the same as all the other columns."
+            )
 
     if n_adults == 1 and n_children > 0:
         alleinerziehend = [True] + [False] * n_children
@@ -165,7 +169,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         datetime.date(policy_year, 1, 1),
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
     )
-    hh_typ_string = f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
+    hh_typ_string = create_hh_typ_string(n_adults, n_children)
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
@@ -210,3 +214,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
                     raise ValueError(f"Column type {col_type} not yet supported.")
 
     return df
+
+
+def create_hh_typ_string(n_adults, n_children):
+    return f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
