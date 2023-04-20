@@ -59,6 +59,7 @@ INTERNAL_PARAMS_GROUPS = [
     "kindergeld",
     "elterngeld",
     "ges_rente",
+    "erwerbsm_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
     "lohn_st",

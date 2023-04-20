@@ -262,7 +262,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     -------
 
     """
-
+    # Braucht man das?
     if rentner and ges_rente_vorauss_regelrente:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
         if (
@@ -280,7 +280,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
                 )
             else:
                 # Early retirement although not eligible to do so.
-                # ToDo: Implement early retirment for disabled or long-term unemployed
+
                 out = 0.0
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
