@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.9 — 2023-MM-DD
 
+- {gh}`573` Fix bug in age groups of Bürgergeld. ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`150` Implement Lohnsteuer / withholding tax.
   ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
 
