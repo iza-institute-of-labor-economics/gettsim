@@ -307,14 +307,14 @@ anteil_regelsatz:
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
-    kinder_0_6: 0.6
-    kinder_7_13: 0.6
+    kinder_0_5: 0.6
+    kinder_6_13: 0.6
     kinder_14_24: 0.8
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
-    kinder_7_13: 0.7
+    kinder_6_13: 0.7
 mehrbedarf_anteil:
   name:
     de: >-
