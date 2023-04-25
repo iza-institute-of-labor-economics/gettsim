@@ -87,6 +87,7 @@ exclude = []
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["TRY", "PLR"]
+"docs/" = ["T201", "B018"]
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
