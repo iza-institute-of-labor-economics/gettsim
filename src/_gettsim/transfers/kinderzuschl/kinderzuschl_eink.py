@@ -1,3 +1,5 @@
+from _gettsim.shared import dates_active
+
 aggregation_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
         "source_col": "kindergeld_anspruch",
@@ -60,7 +62,8 @@ def kinderzuschl_eink_eltern_m(
     return out
 
 
-def kinderzuschl_eink_regel_m_bg_bis_2010(
+@dates_active(end="2010-12-31", change_name="kinderzuschl_eink_regel_m_tu")
+def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
@@ -94,7 +97,8 @@ def kinderzuschl_eink_regel_m_bg_bis_2010(
     return float(out)
 
 
-def kinderzuschl_eink_regel_m_bg_ab_2011(
+@dates_active(start="2011-01-01")
+def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
@@ -143,6 +147,7 @@ def kinderzuschl_eink_relev_m_bg(
     return kinderzuschl_eink_regel_m_bg + kinderzuschl_kost_unterk_m_bg
 
 
+@dates_active(end="2019-06-30")
 def kinderzuschl_eink_max_m_bg(
     kinderzuschl_eink_relev_m_bg: float,
     _kinderzuschl_anz_kinder_anspruch_bg: int,

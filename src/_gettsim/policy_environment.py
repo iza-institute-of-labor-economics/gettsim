@@ -2,115 +2,19 @@ import copy
 import datetime
 import operator
 from functools import reduce
+from typing import Callable
 
 import numpy
 import pandas as pd
 import yaml
 
+import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.functions_loader import load_internal_functions
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
     piecewise_polynomial,
-)
-from _gettsim.social_insurance_contributions.arbeitsl_v import (
-    _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022,
-    _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022,
-    _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022,
-    _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.eink_grenzen import (
-    midijob_bemessungsentgelt_m_ab_10_2022,
-    midijob_bemessungsentgelt_m_bis_09_2022,
-    midijob_faktor_f_ab_10_2022,
-    midijob_faktor_f_bis_09_2022,
-    minijob_grenze_ab_10_2022,
-    minijob_grenze_ost_bis_09_2022,
-    minijob_grenze_west_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_krankenv import (
-    _ges_krankenv_beitr_satz_arbeitg_ab_2019,
-    _ges_krankenv_beitr_satz_arbeitg_bis_2018,
-    _ges_krankenv_midijob_arbeitg_m_ab_10_2022,
-    _ges_krankenv_midijob_arbeitg_m_bis_09_2022,
-    _ges_krankenv_midijob_arbeitn_m_ab_10_2022,
-    _ges_krankenv_midijob_arbeitn_m_bis_09_2022,
-    ges_krankenv_beitr_satz_ab_2019,
-    ges_krankenv_beitr_satz_bis_2018,
-)
-from _gettsim.social_insurance_contributions.ges_pflegev import (
-    _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022,
-    _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022,
-    _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022,
-    _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022,
-    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022,
-    _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022,
-)
-from _gettsim.social_insurance_contributions.ges_rentenv import (
-    _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022,
-    _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022,
-    _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022,
-    _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022,
-)
-from _gettsim.taxes.eink_st import eink_st_tu_ab_1997, eink_st_tu_bis_1996
-from _gettsim.taxes.zu_verst_eink.eink import (
-    sum_eink_mit_kapital,
-    sum_eink_ohne_kapital,
-)
-from _gettsim.taxes.zu_verst_eink.freibetraege import (
-    eink_st_alleinerz_freib_tu_ab_2015,
-    eink_st_alleinerz_freib_tu_bis_2014,
-    eink_st_altersfreib_ab_2005,
-    eink_st_altersfreib_bis_2004,
-    eink_st_sonderausgaben_tu_ab_2012,
-    eink_st_sonderausgaben_tu_bis_2011,
-)
-from _gettsim.taxes.zu_verst_eink.vorsorgeaufw import (
-    vorsorgeaufw_tu_ab_2005_bis_2009,
-    vorsorgeaufw_tu_ab_2010_bis_2019,
-    vorsorgeaufw_tu_ab_2020,
-    vorsorgeaufw_tu_bis_2004,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import (
-    arbeitsl_geld_2_kindersatz_m_hh_ab_2011,
-    arbeitsl_geld_2_kindersatz_m_hh_bis_2010,
-    arbeitsl_geld_2_regelsatz_m_hh_ab_2011,
-    arbeitsl_geld_2_regelsatz_m_hh_bis_2010,
-)
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import (
-    arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005,
-    arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005,
-)
-from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import (
-    arbeitsl_geld_2_kost_unterk_m_hh_ab_2023,
-    arbeitsl_geld_2_kost_unterk_m_hh_bis_2022,
-)
-from _gettsim.transfers.benefit_checks.vermoegens_checks import (
-    arbeitsl_geld_2_vermög_freib_hh_ab_2023,
-    arbeitsl_geld_2_vermög_freib_hh_bis_2022,
-)
-from _gettsim.transfers.grunds_im_alter import (
-    grunds_im_alter_ges_rente_m_ab_2021,
-    grunds_im_alter_ges_rente_m_bis_2020,
-)
-from _gettsim.transfers.kindergeld import (
-    kindergeld_anspruch_nach_lohn,
-    kindergeld_anspruch_nach_stunden,
-)
-from _gettsim.transfers.kinderzuschl.kinderzuschl import (
-    _kinderzuschl_vor_vermög_check_m_bg_ab_07_2019,
-    _kinderzuschl_vor_vermög_check_m_bg_bis_06_2019,
-)
-from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import (
-    kinderzuschl_eink_regel_m_bg_ab_2011,
-    kinderzuschl_eink_regel_m_bg_bis_2010,
-)
-from _gettsim.transfers.rente import ges_rente_nach_grundr_m, ges_rente_vor_grundr_m
-from _gettsim.transfers.wohngeld import (
-    wohngeld_eink_freib_m_ab_2016,
-    wohngeld_eink_freib_m_bis_2015,
-    wohngeld_miete_m_hh_ab_2009,
-    wohngeld_miete_m_hh_bis_2008,
 )
 
 
@@ -146,7 +50,7 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-
+    params = _parse_vorsorgepauschale_rv_anteil(date, params)
     functions = load_functions_for_date(date)
 
     return params, functions
@@ -230,6 +134,7 @@ def _parse_kinderzuschl_max(date, params):
         updated dictionary
 
     """
+
     if (date.year >= 2024) or (2023 > date.year >= 2021):
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
@@ -282,6 +187,40 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     return params
 
 
+def _parse_vorsorgepauschale_rv_anteil(date, params):
+    """Calculate the share of pension contributions to be deducted for Lohnsteuer
+    increases by year.
+
+    Parameters
+    ----------
+    date: datetime.date
+        The date for which the policy parameters are set up.
+    params: dict
+        A dictionary with parameters from the policy environment.
+
+    Returns
+    -------
+    out: float
+
+    """
+
+    jahr = float(date.year)
+    if jahr >= 2005:
+        out = piecewise_polynomial(
+            pd.Series(jahr),
+            thresholds=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"][
+                "thresholds"
+            ],
+            rates=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"]["rates"],
+            intercepts_at_lower_thresholds=params["eink_st_abzuege"][
+                "vorsorgepauschale_rv_anteil"
+            ]["intercepts_at_lower_thresholds"],
+        )
+        params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"] = out.loc[0]
+
+    return params
+
+
 def load_functions_for_date(date):
     """Load time-dependent policy reforms.
 
@@ -297,238 +236,23 @@ def load_functions_for_date(date):
         data.
 
     """
-    year = date.year
-    functions = {}
-    if year < 2009:
-        functions["sum_eink"] = sum_eink_mit_kapital
-    else:
-        functions["sum_eink"] = sum_eink_ohne_kapital
 
-    if year <= 2014:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_bis_2014
-    else:
-        functions["alleinerz_freib_tu"] = eink_st_alleinerz_freib_tu_ab_2015
-
-    if year <= 2004:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_bis_2004
-    else:
-        functions["eink_st_altersfreib"] = eink_st_altersfreib_ab_2005
-
-    if year <= 1996:
-        functions["eink_st_tu"] = eink_st_tu_bis_1996
-    else:
-        functions["eink_st_tu"] = eink_st_tu_ab_1997
-
-    if year > 2011:
-        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_stunden
-    else:
-        functions["kindergeld_anspruch"] = kindergeld_anspruch_nach_lohn
-
-    if year > 2011:
-        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_ab_2012
-    else:
-        functions["eink_st_sonderausgaben_tu"] = eink_st_sonderausgaben_tu_bis_2011
-
-    if year >= 2020:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2020
-    elif 2020 > year >= 2010:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2010_bis_2019
-    elif 2010 > year >= 2005:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_ab_2005_bis_2009
-    elif year <= 2004:
-        functions["vorsorgeaufw_tu"] = vorsorgeaufw_tu_bis_2004
-
-    if year <= 2015:
-        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_bis_2015
-    else:
-        functions["wohngeld_eink_freib_m"] = wohngeld_eink_freib_m_ab_2016
-
-    if year <= 2008:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_bis_2008
-    else:
-        functions["wohngeld_miete_m_hh"] = wohngeld_miete_m_hh_ab_2009
-
-    if year <= 2010:
-        functions[
-            "kinderzuschl_eink_regel_m_bg"
-        ] = kinderzuschl_eink_regel_m_bg_bis_2010
-    else:
-        functions["kinderzuschl_eink_regel_m_bg"] = kinderzuschl_eink_regel_m_bg_ab_2011
-
-    if year <= 2022:
-        functions[
-            "arbeitsl_geld_2_vermög_freib_hh"
-        ] = arbeitsl_geld_2_vermög_freib_hh_bis_2022
-    else:
-        functions[
-            "arbeitsl_geld_2_vermög_freib_hh"
-        ] = arbeitsl_geld_2_vermög_freib_hh_ab_2023
-
-    if year <= 2022:
-        functions[
-            "arbeitsl_geld_2_kost_unterk_m_hh"
-        ] = arbeitsl_geld_2_kost_unterk_m_hh_bis_2022
-    else:
-        functions[
-            "arbeitsl_geld_2_kost_unterk_m_hh"
-        ] = arbeitsl_geld_2_kost_unterk_m_hh_ab_2023
-
-    if date < datetime.date(year=2019, month=7, day=1):
-        functions[
-            "_kinderzuschl_vor_vermög_check_m_bg"
-        ] = _kinderzuschl_vor_vermög_check_m_bg_bis_06_2019
-    else:
-        functions[
-            "_kinderzuschl_vor_vermög_check_m_bg"
-        ] = _kinderzuschl_vor_vermög_check_m_bg_ab_07_2019
-
-    if year <= 2010:
-        functions[
-            "arbeitsl_geld_2_kindersatz_m_hh"
-        ] = arbeitsl_geld_2_kindersatz_m_hh_bis_2010
-        functions[
-            "arbeitsl_geld_2_regelsatz_m_hh"
-        ] = arbeitsl_geld_2_regelsatz_m_hh_bis_2010
-    else:
-        functions[
-            "arbeitsl_geld_2_kindersatz_m_hh"
-        ] = arbeitsl_geld_2_kindersatz_m_hh_ab_2011
-        functions[
-            "arbeitsl_geld_2_regelsatz_m_hh"
-        ] = arbeitsl_geld_2_regelsatz_m_hh_ab_2011
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions["minijob_grenze_west"] = minijob_grenze_ab_10_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ab_10_2022
-    else:
-        functions["minijob_grenze_west"] = minijob_grenze_west_bis_09_2022
-        functions["minijob_grenze_ost"] = minijob_grenze_ost_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions["midijob_faktor_f"] = midijob_faktor_f_ab_10_2022
-    else:
-        functions["midijob_faktor_f"] = midijob_faktor_f_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_arbeitsl_v_beitr_midijob_arbeitg_m"
-        ] = _arbeitsl_v_beitr_midijob_arbeitg_m_ab_10_2022
-    else:
-        functions[
-            "_arbeitsl_v_beitr_midijob_arbeitg_m"
-        ] = _arbeitsl_v_beitr_midijob_arbeitg_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_arbeitsl_v_beitr_midijob_arbeitn_m"
-        ] = _arbeitsl_v_beitr_midijob_arbeitn_m_ab_10_2022
-    else:
-        functions[
-            "_arbeitsl_v_beitr_midijob_arbeitn_m"
-        ] = _arbeitsl_v_beitr_midijob_arbeitn_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_krankenv_midijob_arbeitg_m"
-        ] = _ges_krankenv_midijob_arbeitg_m_ab_10_2022
-    else:
-        functions[
-            "_ges_krankenv_midijob_arbeitg_m"
-        ] = _ges_krankenv_midijob_arbeitg_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_krankenv_midijob_arbeitn_m"
-        ] = _ges_krankenv_midijob_arbeitn_m_ab_10_2022
-    else:
-        functions[
-            "_ges_krankenv_midijob_arbeitn_m"
-        ] = _ges_krankenv_midijob_arbeitn_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m"
-        ] = _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_10_2022
-    else:
-        functions[
-            "_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m"
-        ] = _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_pflegev_beitr_midijob_arbeitg_m"
-        ] = _ges_pflegev_beitr_midijob_arbeitg_m_ab_10_2022
-    else:
-        functions[
-            "_ges_pflegev_beitr_midijob_arbeitg_m"
-        ] = _ges_pflegev_beitr_midijob_arbeitg_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_pflegev_beitr_midijob_arbeitn_m"
-        ] = _ges_pflegev_beitr_midijob_arbeitn_m_ab_10_2022
-    else:
-        functions[
-            "_ges_pflegev_beitr_midijob_arbeitn_m"
-        ] = _ges_pflegev_beitr_midijob_arbeitn_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_rentenv_beitr_midijob_arbeitg_m"
-        ] = _ges_rentenv_beitr_midijob_arbeitg_m_ab_10_2022
-    else:
-        functions[
-            "_ges_rentenv_beitr_midijob_arbeitg_m"
-        ] = _ges_rentenv_beitr_midijob_arbeitg_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "_ges_rentenv_beitr_midijob_arbeitn_m"
-        ] = _ges_rentenv_beitr_midijob_arbeitn_m_ab_10_2022
-    else:
-        functions[
-            "_ges_rentenv_beitr_midijob_arbeitn_m"
-        ] = _ges_rentenv_beitr_midijob_arbeitn_m_bis_09_2022
-
-    if date >= datetime.date(year=2022, month=10, day=1):
-        functions[
-            "midijob_bemessungsentgelt_m"
-        ] = midijob_bemessungsentgelt_m_ab_10_2022
-    else:
-        functions[
-            "midijob_bemessungsentgelt_m"
-        ] = midijob_bemessungsentgelt_m_bis_09_2022
-
-    if date < datetime.date(year=2005, month=10, day=1):
-        functions[
-            "arbeitsl_geld_2_eink_anr_frei_m"
-        ] = arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005
-    else:
-        functions[
-            "arbeitsl_geld_2_eink_anr_frei_m"
-        ] = arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005
-
-    # Introduction of Grundrente
-    if year < 2021:
-        functions["ges_rente_m"] = ges_rente_vor_grundr_m
-        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_bis_2020
-    else:
-        functions["ges_rente_m"] = ges_rente_nach_grundr_m
-        functions["grunds_im_alter_ges_rente_m"] = grunds_im_alter_ges_rente_m_ab_2021
-
-    # Equal split of Zusatzbeitrag for health insurance contribution rates
-    if year <= 2018:
-        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_bis_2018
-        functions[
-            "_ges_krankenv_beitr_satz_arbeitg"
-        ] = _ges_krankenv_beitr_satz_arbeitg_bis_2018
-    else:
-        functions["ges_krankenv_beitr_satz"] = ges_krankenv_beitr_satz_ab_2019
-        functions[
-            "_ges_krankenv_beitr_satz_arbeitg"
-        ] = _ges_krankenv_beitr_satz_arbeitg_ab_2019
+    # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
+    functions = {
+        f.__info__["dates_active_dag_key"]: f
+        for f in load_internal_functions().values()
+        if is_time_dependent(f) and is_active_at_date(f, date)
+    }
 
     return functions
+
+
+def is_time_dependent(f: Callable) -> bool:
+    return hasattr(f, "__info__") and "dates_active_dag_key" in f.__info__
+
+
+def is_active_at_date(f: Callable, date: datetime.date) -> bool:
+    return f.__info__["dates_active_start"] <= date <= f.__info__["dates_active_end"]
 
 
 def _load_parameter_group_from_yaml(

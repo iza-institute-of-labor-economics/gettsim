@@ -44,7 +44,7 @@ def arbeitsl_geld_m(
 
 def arbeitsl_geld_restl_anspruchsd(
     alter: int,
-    soz_vers_pflicht_5j: float,
+    sozialv_pflicht_5j: float,
     anwartschaftszeit: bool,
     m_durchg_alg1_bezug: float,
     arbeitsl_geld_params: dict,
@@ -56,8 +56,8 @@ def arbeitsl_geld_restl_anspruchsd(
     ----------
     alter
         See basic input variable :ref:`alter <alter>`.
-    soz_vers_pflicht_5j
-        See basic input variable :ref:`soz_vers_pflicht_5j <soz_vers_pflicht_5j>`.
+    sozialv_pflicht_5j
+        See basic input variable :ref:`sozialv_pflicht_5j <sozialv_pflicht_5j>`.
     anwartschaftszeit
         See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
     m_durchg_alg1_bezug
@@ -83,7 +83,7 @@ def arbeitsl_geld_restl_anspruchsd(
         ),
     )
     nach_versich_pfl = piecewise_polynomial(
-        soz_vers_pflicht_5j,
+        sozialv_pflicht_5j,
         thresholds=[
             *list(
                 arbeitsl_geld_params["anspruchsdauer"][
@@ -196,7 +196,7 @@ def arbeitsl_geld_eink_vorj_proxy_m(
     max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = arbeitsl_geld_params["soz_vers_pausch"] * max_wage
+    prox_ssc = arbeitsl_geld_params["sozialv_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     # Caution: currently wrong calculation due to
