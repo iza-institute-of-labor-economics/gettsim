@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
 import yaml
@@ -29,17 +29,29 @@ class PolicyTestSet:
     def merged_output_df(self) -> pd.DataFrame:
         return pd.concat([test.output_df for test in self.test_data], ignore_index=True)
 
+    def filter_test_data(
+        self, *, test_name: str | None = None, date: datetime.date | None = None
+    ) -> PolicyTestSet:
+        filtered_test_data = [
+            test
+            for test in self.test_data
+            if (test_name is None or test.test_name == test_name)
+            and (date is None or test.date == date)
+        ]
+
+        return PolicyTestSet(self.policy_name, filtered_test_data)
+
 
 class PolicyTestData:
     def __init__(  # noqa: PLR0913
-            self,
-            policy_name: str,
-            test_file: Path,
-            test_name: str,
-            date: str,
-            inputs_provided: _ValueDict,
-            inputs_assumed: _ValueDict,
-            outputs: _ValueDict,
+        self,
+        policy_name: str,
+        test_file: Path,
+        test_name: str,
+        date: str,
+        inputs_provided: _ValueDict,
+        inputs_assumed: _ValueDict,
+        outputs: _ValueDict,
     ):
         self.policy_name = policy_name
         self.test_file = test_file
