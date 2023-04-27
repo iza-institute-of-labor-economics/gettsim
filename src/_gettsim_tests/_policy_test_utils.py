@@ -32,6 +32,34 @@ class PolicyTestSet:
     def filter_test_data(
         self, *, test_name: str | None = None, date: datetime.date | str | None = None
     ) -> PolicyTestSet:
+        """
+        Filter the test data in this PolicyTestSet.
+
+        Note that you must pass all arguments of this function by name (and not by
+        position).
+
+        Parameters
+        ----------
+        test_name : str | None
+            If provided, only instances of `PolicyTestData` with this name are included
+            in the result. If None, no filtering is done on test name.
+        date : datetime.date | str | None
+            If provided, only instances of `PolicyTestData` with this date are
+            included in the result. If None, no filtering is done on date.
+
+        Returns
+        -------
+        PolicyTestSet
+            A new PolicyTestSet with the filtered test data.
+
+        Examples
+        --------
+        >>> data = load_policy_test_data("soli_st")
+        >>> filtered_by_name = data.filter_test_data(test_name="hh_id_2")
+
+        >>> filtered_by_date = data.filter_test_data(date="1991")
+        """
+
         if isinstance(date, str):
             date = _parse_date(date)
 
