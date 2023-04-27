@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 import pandas as pd
 import yaml
@@ -32,19 +32,19 @@ class PolicyTestSet:
 
 class PolicyTestData:
     def __init__(  # noqa: PLR0913
-        self,
-        policy_name: str,
-        test_file: Path,
-        household_name: str,
-        date: str,
-        inputs_provided: _ValueDict,
-        inputs_assumed: _ValueDict,
-        outputs: _ValueDict,
+            self,
+            policy_name: str,
+            test_file: Path,
+            test_name: str,
+            date: str,
+            inputs_provided: _ValueDict,
+            inputs_assumed: _ValueDict,
+            outputs: _ValueDict,
     ):
         self.policy_name = policy_name
         self.test_file = test_file
-        self.household_name = household_name
-        self.date: date = _parse_date(date)
+        self.test_name = test_name
+        self.date = _parse_date(date)
         self._inputs_provided = inputs_provided
         self._inputs_assumed = inputs_assumed
         self._outputs = outputs
@@ -62,7 +62,7 @@ class PolicyTestData:
     def __repr__(self) -> str:
         return (
             f"PolicyTestData({self.policy_name}, {self.test_file.name}, "
-            f"{self.household_name})"
+            f"{self.test_name})"
         )
 
     def __str__(self) -> str:
@@ -83,21 +83,21 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
             continue
 
         with test_file.open("r", encoding="utf-8") as file:
-            household_data: dict[str, dict] = yaml.safe_load(file)
+            test_data: dict[str, dict] = yaml.safe_load(file)
 
         date = test_file.parent.name
-        household_name = test_file.stem
+        test_name = test_file.stem
 
-        inputs: dict[str, dict] = household_data["inputs"]
+        inputs: dict[str, dict] = test_data["inputs"]
         inputs_provided: _ValueDict = inputs["provided"]
         inputs_assumed: _ValueDict = inputs["assumed"]
-        outputs: _ValueDict = household_data["outputs"]
+        outputs: _ValueDict = test_data["outputs"]
 
         out.append(
             PolicyTestData(
                 policy_name=policy_name,
                 test_file=test_file,
-                household_name=household_name,
+                test_name=test_name,
                 date=date,
                 inputs_provided=inputs_provided,
                 inputs_assumed=inputs_assumed,
