@@ -125,8 +125,8 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
 
 @dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_hh")
 def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
-    anz_kinder_bis_6_hh: int,
-    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_bis_5_hh: int,
+    anz_kinder_ab_6_bis_13_hh: int,
     anz_kinder_ab_14_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -135,10 +135,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
     Parameters
     ----------
-    anz_kinder_bis_6_hh
-        See :func:`anz_kinder_bis_6_hh`.
-    anz_kinder_ab_7_bis_13_hh
-        See :func:`anz_kinder_ab_7_bis_13_hh`.
+    anz_kinder_bis_5_hh
+        See :func:`anz_kinder_bis_5_hh`.
+    anz_kinder_ab_6_bis_13_hh
+        See :func:`anz_kinder_ab_6_bis_13_hh`.
     anz_kinder_ab_14_bis_24_hh
         See :func:`anz_kinder_ab_14_bis_24_hh`.
     arbeitsl_geld_2_params
@@ -154,9 +154,9 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
     # Multiply number of kids in age range with corresponding additional share
     out = arbeitsl_geld_2_params["regelsatz"] * (
-        anteile["kinder_0_6"] * anz_kinder_bis_6_hh
-        + anteile["kinder_7_13"] * anz_kinder_ab_7_bis_13_hh
-        + anteile["kinder_14_24"] * anz_kinder_ab_14_bis_24_hh
+        anteile["kinder_bis_5"] * anz_kinder_bis_5_hh
+        + anteile["kinder_ab_6_bis_13"] * anz_kinder_ab_6_bis_13_hh
+        + anteile["kinder_ab_14_bis_24"] * anz_kinder_ab_14_bis_24_hh
     )
 
     return float(out)
@@ -164,8 +164,8 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
 @dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_kindersatz_m_hh")
 def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
-    anz_kinder_bis_6_hh: int,
-    anz_kinder_ab_7_bis_13_hh: int,
+    anz_kinder_bis_5_hh: int,
+    anz_kinder_ab_6_bis_13_hh: int,
     anz_kinder_ab_14_bis_17_hh: int,
     anz_kinder_ab_18_bis_24_hh: int,
     arbeitsl_geld_2_params: dict,
@@ -177,10 +177,10 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 
     Parameters
     ----------
-    anz_kinder_bis_6_hh
-        See :func:`anz_kinder_bis_6_hh`.
-    anz_kinder_ab_7_bis_13_hh
-        See :func:`anz_kinder_ab_7_bis_13_hh`.
+    anz_kinder_bis_5_hh
+        See :func:`anz_kinder_bis_5_hh`.
+    anz_kinder_ab_6_bis_13_hh
+        See :func:`anz_kinder_ab_6_bis_13_hh`.
     anz_kinder_ab_14_bis_17_hh
         See :func:`anz_kinder_ab_14_bis_17_hh`.
     anz_kinder_ab_18_bis_24_hh
@@ -196,16 +196,16 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 
     # Sum payments for each age group
     out = (
-        arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_6_hh
-        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_7_bis_13_hh
+        arbeitsl_geld_2_params["regelsatz"][6] * anz_kinder_bis_5_hh
+        + arbeitsl_geld_2_params["regelsatz"][5] * anz_kinder_ab_6_bis_13_hh
         + arbeitsl_geld_2_params["regelsatz"][4] * anz_kinder_ab_14_bis_17_hh
         + arbeitsl_geld_2_params["regelsatz"][3] * anz_kinder_ab_18_bis_24_hh
     )
 
     kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
     out += kindersofortzuschl * (
-        anz_kinder_bis_6_hh
-        + anz_kinder_ab_7_bis_13_hh
+        anz_kinder_bis_5_hh
+        + anz_kinder_ab_6_bis_13_hh
         + anz_kinder_ab_14_bis_17_hh
         + anz_kinder_ab_18_bis_24_hh
     )

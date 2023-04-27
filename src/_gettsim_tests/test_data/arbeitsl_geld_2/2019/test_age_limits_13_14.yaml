@@ -1,54 +1,52 @@
 ---
 info:
-  note: >-
-    Test with old income thresholds and new Kindergeld, (adjusted for
-    Kindersofortzuschlag of 20€)
-  source: https://www.hartziv.org/rechner/
+  note: Test to check the age cutoff at the age of 14.
+  source: ''
 inputs:
   provided:
     p_id:
-      - 40
-      - 41
-      - 42
+      - 0
+      - 1
+      - 2
     hh_id:
-      - 17
-      - 17
-      - 17
+      - 7
+      - 7
+      - 7
     tu_id:
-      - 17
-      - 17
-      - 17
+      - 7
+      - 7
+      - 7
     kind:
       - false
-      - false
+      - true
       - true
     alter:
-      - 40
-      - 38
-      - 3
+      - 30
+      - 14
+      - 13
     bruttokaltmiete_m_hh:
-      - 650.0
-      - 650.0
-      - 650.0
+      - 438.0
+      - 438.0
+      - 438.0
     heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
+      - 80.0
+      - 80.0
+      - 80.0
     wohnfläche_hh:
-      - 70.0
-      - 70.0
-      - 70.0
+      - 60.0
+      - 60.0
+      - 60.0
     bewohnt_eigentum_hh:
       - false
       - false
       - false
     alleinerz:
-      - false
+      - true
       - false
       - false
     bruttolohn_m:
+      - 800.0
       - 0.0
-      - 700.0
       - 0.0
     sum_ges_rente_priv_rente_m:
       - 0.0
@@ -83,17 +81,17 @@ inputs:
       - 0.0
       - 0.0
     sozialv_beitr_m:
+      - 136.0
       - 0.0
-      - 140.0
       - 0.0
     kindergeld_m_hh:
-      - 250.0
-      - 250.0
-      - 250.0
+      - 388.0
+      - 388.0
+      - 388.0
     kind_unterh_erhalt_m:
       - 0.0
-      - 0.0
-      - 0.0
+      - 212.0
+      - 160.0
     unterhaltsvors_m:
       - 0.0
       - 0.0
@@ -103,32 +101,32 @@ inputs:
       - 0.0
       - 0.0
     jahr:
-      - 2023-01
-      - 2023-01
-      - 2023-01
+      - '2019'
+      - '2019'
+      - '2019'
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
       - 0.0
     vermögen_bedürft_hh:
-      - 85000.0
-      - 85000.0
-      - 85000.0
+      - 0.0
+      - 0.0
+      - 0.0
     geburtsjahr:
-      - 1983
-      - 1985
-      - 2020
+      - 1989
+      - 2005
+      - 2006
     rentner:
       - false
       - false
       - false
     in_ausbildung:
       - false
-      - false
-      - false
+      - true
+      - true
     arbeitsstunden_w:
+      - 20.0
       - 0.0
-      - 12.0
       - 0.0
     bürgerg_bezug_vorj:
       - false
@@ -137,22 +135,22 @@ inputs:
   assumed: {}
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
+    - 240.0
     - 0.0
-    - 220.0
     - 0.0
   arbeitsl_geld_2_eink_m:
+    - 424.0
     - 0.0
-    - 340.0
     - 0.0
   arbeitsl_geld_2_regelsatz_m_hh:
-    - 1240.0
-    - 1240.0
-    - 1240.0
+    - 1200.64
+    - 1200.64
+    - 1200.64
   arbeitsl_geld_2_kost_unterk_m_hh:
-    - 750.0
-    - 750.0
-    - 750.0
+    - 518.0
+    - 518.0
+    - 518.0
   arbeitsl_geld_2_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
+    - 534.64
+    - 534.64
+    - 534.64
