@@ -30,8 +30,11 @@ class PolicyTestSet:
         return pd.concat([test.output_df for test in self.test_data], ignore_index=True)
 
     def filter_test_data(
-        self, *, test_name: str | None = None, date: datetime.date | None = None
+        self, *, test_name: str | None = None, date: datetime.date | str | None = None
     ) -> PolicyTestSet:
+        if isinstance(date, str):
+            date = _parse_date(date)
+
         filtered_test_data = [
             test
             for test in self.test_data
