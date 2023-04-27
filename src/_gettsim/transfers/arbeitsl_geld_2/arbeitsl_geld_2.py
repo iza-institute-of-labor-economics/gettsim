@@ -154,9 +154,9 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
 
     # Multiply number of kids in age range with corresponding additional share
     out = arbeitsl_geld_2_params["regelsatz"] * (
-        anteile["kinder_0_5"] * anz_kinder_bis_5_hh
-        + anteile["kinder_6_13"] * anz_kinder_ab_6_bis_13_hh
-        + anteile["kinder_14_24"] * anz_kinder_ab_14_bis_24_hh
+        anteile["kinder_bis_5"] * anz_kinder_bis_5_hh
+        + anteile["kinder_ab_6_bis_13"] * anz_kinder_ab_6_bis_13_hh
+        + anteile["kinder_ab_14_bis_24"] * anz_kinder_ab_14_bis_24_hh
     )
 
     return float(out)

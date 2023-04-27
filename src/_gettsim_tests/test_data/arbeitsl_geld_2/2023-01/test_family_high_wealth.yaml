@@ -2,7 +2,7 @@
 info:
   note: >-
     Test with old income thresholds and new Kindergeld, (adjusted for
-    Kindersofortzuschlag of 20€)
+    Kindersofortzuschlag of 20€). Household with wealth.
   source: https://www.hartziv.org/rechner/
 inputs:
   provided:

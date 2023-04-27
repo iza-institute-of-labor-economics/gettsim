@@ -120,7 +120,7 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
     -------
 
     """
-    out = kind and (alter < 18)
+    out = kind and (alter <= 17)
     return out
 
 
