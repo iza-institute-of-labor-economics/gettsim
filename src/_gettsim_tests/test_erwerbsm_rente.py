@@ -14,12 +14,18 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
+    "rentner",
+    "teilw_erwerbsm_rente",
+    "wohnort_ost",
     "jahr_renteneintr",
+    "alter",
+    "entgeltp",
     "geburtsjahr",
+    "m_beitragszeit",
 ]
 
 OUT_COLS = [
-    "erwerbsm_rente_zugangsfaktor",
+    "erwerbsm_rente_vor_grundr_m",
 ]
 
 YEARS = [2020]
@@ -27,7 +33,7 @@ YEARS = [2020]
 
 @pytest.fixture(scope="module")
 def input_data():
-    file_name = "test_erwerbsm_rente_zugangsfaktor.csv"
+    file_name = "test_erwerbsm_rente.csv"
     out = pd.read_csv(TEST_DATA_DIR / file_name)
     return out
 
