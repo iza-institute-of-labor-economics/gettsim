@@ -1,0 +1,4 @@
+p_id;jahr;m_beitragszeit;entgeltp;geburtsjahr;jahr_renteneintr;entgeltp_erwerbsm_rente
+1;2020;600;20;1950;2010;20
+2;2020;300;15;1960;2010;21
+3;2020;200;18;1980;2010;50.4

@@ -1,28 +1,30 @@
 def durchschnittliche_entgeltp(
     entgeltp: float,
-    m_pflichtbeitrag: float,
+    m_beitragszeit: int,
 ) -> float:
-    """Calculating average Entgeltpunkte earned since starting to contribute
-        to pensioninsurance per year
-    Summe aus allen Beitrags und Berücksichtigungszeiten oder Input
-    Anmerkung wie es berechnet wird
-        Parameters
-        ----------
-        entgeltp
+    """Calculating average Entgeltpunkte for Erwerbminderungsrente
+    (pension for reduced earning capacity)
+    m_beitragszeit = Summe aus vollwertigen Beitragszeiten,
+    beitragsgeminderten Zeiten, Anrechnungszeiten, Zurechnungszeiten
+    und Ersatzzeiten.
 
-        m_pflichtbeitrag
+    Parameters
+    ----------
+    entgeltp
+        See basic input variable :ref:`entgeltp <entgeltp>.
+    m_beitragszeit
+        See basic input variable :ref:`m_beitragszeit <m_beitragszeit>.
 
-        Returns
-        -------
-        Average Entgeldpunkte per year
+    Returns
+    -------
+    Average Entgeldpunkte per year
 
     """
-    out = entgeltp / (m_pflichtbeitrag / 12)
-
+    out = entgeltp / (m_beitragszeit / 12)
     return out
 
 
-def entgeltp_fuer_erwerbsm_rente(
+def entgeltp_erwerbsm_rente(
     entgeltp: float,
     durchschnittliche_entgeltp: float,
     erwerbsm_rente_params: dict,
@@ -30,22 +32,24 @@ def entgeltp_fuer_erwerbsm_rente(
     jahr_renteneintr: int,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
+    (pension for reduced earning capacity)
 
     Parameters
     ----------
     entgeltp
-
+        See basic input variable :ref:`entgeltp <entgeltp>
     durchschnittliche_entgeltp
-
+        See :func:`durchschnittliche_entgeltp`.
     erwerbsm_rente_params
-
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     geburtsjahr
-
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
     jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
 
     Returns
     -------
-    Average Entgeldpunkte per year
+    Final Entgeltpunkte for Erwerbsminderungsrente
 
     """
 
@@ -60,18 +64,18 @@ def entgeltp_fuer_erwerbsm_rente(
     return out
 
 
-def rentenfaktor_fuer_erwerbsm_rente(
-    arbeitsstunden_w: float,
+def rentenfaktor_erwerbsm_rente(
+    teilw_erwerbsm_rente: bool,
 ) -> float:
-    """Calculating Rentenfaktor for Erwerbsminderungsrente
-    based on the weekly working hours
+    """Checking Rentenfaktor for Erwerbsminderungsrente
+    (pension for reduced earning capacity)
+    based on input variable teilw_erwerbsm_rente
 
     Als Input Variable
     Parameters
     ----------
-    rentner
-
-    arbeitsstunden_w
+    teilw_erwerbsm_rente
+        See basic input variable :ref:`teilw_erwerbsm_rente <teilw_erwerbsm_rente>.
 
     Returns
     -------
@@ -79,20 +83,20 @@ def rentenfaktor_fuer_erwerbsm_rente(
 
     """
 
-    if arbeitsstunden_w < 15:
-        out = 1
+    if teilw_erwerbsm_rente:
+        out = 0.5
 
     else:
-        out = 0.5
+        out = 1
 
     return out
 
 
 def erwerbsm_rente_vor_grundr_m(
     ges_rente_zugangsfaktor: float,
-    entgeltp_fuer_erwerbsm_rente: float,
+    entgeltp_erwerbsm_rente: float,
     rentenwert: float,
-    rentenfaktor_fuer_erwerbsm_rente: float,
+    rentenfaktor_erwerbsm_rente: float,
     anspruch_erwerbsm_rente: bool,
 ) -> float:
     """Calculating the Erwerbsminderungsrente pension claim
@@ -100,27 +104,27 @@ def erwerbsm_rente_vor_grundr_m(
     Parameters
     ----------
     ges_rente_zugangsfaktor
-
+        See :func:`ges_rente_zugangsfaktor`.
     entgeltp_fuer_erwerbsm_rente
-
+        See :func:`entgeltp_fuer_erwerbsm_rente`.
     rentenwert
-
+        See :func:`rentenwert`.
     rentenfaktor_fuer_erwerbsm_rente
-
+        See :func:`rentenfaktor_fuer_erwerbsm_rente`.
     rentner
-
+        See basic input variable :ref:`rentner <rentner>.
     Returns
     -------
-    Erwerbsminderungsrente claim
+    Erwerbsminderungsrente pension claim
 
     """
 
     if anspruch_erwerbsm_rente:
         out = (
-            entgeltp_fuer_erwerbsm_rente
+            entgeltp_erwerbsm_rente
             * ges_rente_zugangsfaktor
             * rentenwert
-            * rentenfaktor_fuer_erwerbsm_rente
+            * rentenfaktor_erwerbsm_rente
         )
     else:
         out = 0.0
@@ -132,11 +136,11 @@ def erwerbsm_rente_altersgrenze(
     erwerbsm_rente_params: dict,
 ) -> float:
     """Calculating Altersgrenze for Erwerbsminderungsrente
-
+    (pension for reduced earning capacity)
     Parameters
     ----------
     erwerbsm_rente_params
-
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
     Returns
     -------
@@ -156,7 +160,27 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> float:
-    """ """
+    """Calculating Zugangsfaktor for Erwerbsminderungsrente
+    (pension for reduced earning capacity)
+
+    Parameters
+    ----------
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
+    erwerbsm_rente_altersgrenze
+        See :func:`erwerbsm_rente_altersgrenze`
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
+
+    Returns
+    -------
+    Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
+
+    """
     zugangsfaktor = (
         1
         + ((jahr_renteneintr - geburtsjahr) - erwerbsm_rente_altersgrenze)
@@ -164,7 +188,7 @@ def erwerbsm_rente_zugangsfaktor(
             "vorzeitiger_renteneintritt"
         ]
     )
-    out = min(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
+    out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
 
     return out
 
@@ -181,11 +205,15 @@ def anspruch_erwerbsm_rente(
     Parameters
     ----------
     alter
-    altersgrenze_langj_versicherte_vorzeitig
+        See basic input variable :ref:`alter <alter>.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>.
+    rentner
+        See basic input variable :ref:`rentner <rentner>.
 
     Returns
     -------
-    Eligibility as bool.
+    Eligibility for Erwerbsminderungsrente as bool.
 
     """
     if rentner and alter < ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]:

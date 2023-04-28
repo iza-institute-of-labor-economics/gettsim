@@ -1,0 +1,5 @@
+p_id,jahr,jahr_renteneintr,geburtsjahr,erwerbsm_rente_zugangsfaktor
+1,2020,2010,1980,0.892
+2,2020,2010,1960,0.892
+3,2020,2010,1950,0.892
+4,2020,2010,1948,0.964

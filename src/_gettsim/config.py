@@ -162,4 +162,6 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
+    "m_beitragszeit": int,
+    "teilw_erwerbsm_rente": bool,
 }
