@@ -93,7 +93,7 @@ def rentenfaktor_erwerbsm_rente(
 
 
 def erwerbsm_rente_vor_grundr_m(
-    ges_rente_zugangsfaktor: float,
+    erwerbsm_rente_zugangsfaktor: float,
     entgeltp_erwerbsm_rente: float,
     rentenwert: float,
     rentenfaktor_erwerbsm_rente: float,
@@ -122,7 +122,7 @@ def erwerbsm_rente_vor_grundr_m(
     if anspruch_erwerbsm_rente:
         out = (
             entgeltp_erwerbsm_rente
-            * ges_rente_zugangsfaktor
+            * erwerbsm_rente_zugangsfaktor
             * rentenwert
             * rentenfaktor_erwerbsm_rente
         )
