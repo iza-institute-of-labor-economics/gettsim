@@ -137,6 +137,7 @@ def erwerbsm_rente_altersgrenze(
 ) -> float:
     """Calculating Altersgrenze for Erwerbsminderungsrente
     (pension for reduced earning capacity)
+
     Parameters
     ----------
     erwerbsm_rente_params
