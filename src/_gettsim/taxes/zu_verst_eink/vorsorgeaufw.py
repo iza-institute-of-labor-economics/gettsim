@@ -226,14 +226,14 @@ def _vorsorgeaufw_tu_bis_2004(
     _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
     ges_krankenv_beitr_m_tu: float,
     ges_rentenv_beitr_m_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     return vorsorgeaufw_tu_bis_2004(
         _vorsorgeaufw_vom_lohn_tu_bis_2004=_vorsorgeaufw_vom_lohn_tu_bis_2004,
         ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
         ges_rentenv_beitr_m_tu=ges_rentenv_beitr_m_tu,
-        anz_erwachsene_tu=anz_erwachsene_tu,
+        anz_personen_tu=anz_personen_tu,
         eink_st_abzuege_params=eink_st_abzuege_params,
     )
 
