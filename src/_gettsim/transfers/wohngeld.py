@@ -148,7 +148,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
-    kind_unterh_erhalt_m: float,
+    # kind_unterh_erhalt_m: float,
     # unterhaltsvors_m: float,
     elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
@@ -193,7 +193,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     transfers = (
         arbeitsl_geld_m
         + eink_rente_zu_verst_m
-        + kind_unterh_erhalt_m
+        # + kind_unterh_erhalt_m
         # + unterhaltsvors_m
         + elterngeld_anr_m
     )
