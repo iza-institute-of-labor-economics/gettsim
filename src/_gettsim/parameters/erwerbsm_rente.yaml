@@ -9,7 +9,10 @@ altersgrenze_abschlagsfrei_in_m:
     de: Bis 2012 immer 63 ab 2012 Anhebung bis zum 65 um 2 Monate pro Jahr
     en: null
   unit: null
-  reference: Text von DR zu Erwerbsminderungsrente S.16
+  reference: >-
+    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads
+    /DE/Broschueren/national/erwerbsminderungsrente_das_netz_fuer_alle
+    _faelle.html    (S.18)
   2001-01-01:
     scalar: 756
   2012-01-01:
@@ -27,11 +30,11 @@ altersgrenze_abschlagsfrei_in_m:
   2018-01-01:
     scalar: 766
   2019-01-01:
-    scalar: 768
+    scalar: 770 ab hier okay
   2020-01-01:
-    scalar: 770
-  2021-01-01:
     scalar: 772
+  2021-01-01:
+    scalar: 774
   2022-01-01:
     scalar: 776
   2023-01-01:
@@ -49,11 +52,17 @@ zurechnungszeitsgrenze_in_m:
       60(720)Jahre gilt.
     en: null
   unit: month
-  reference: RVaktuell 9/2018 S.213
+  reference: >-
+    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads
+    /DE/Broschueren/national/erwerbsminderungsrente_das_netz_fuer_alle
+    _faelle.html    (S.16)
+    RVaktuell 9/2018 S.213
   2001-01-01:
     scalar: 720
   2014-07-01:
     scalar: 744
+  2018-01-01:
+    scalar: 746
   2019-01-01:
     scalar: 788
   2020-01-01:

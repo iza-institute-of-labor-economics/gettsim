@@ -202,6 +202,10 @@ def anspruch_erwerbsm_rente(
     altersgrenze_langj_versicherte_vorzeitig =
     mindestalter für altersrente = 63
 
+    This function is not completely accurate yet as individuals above age 63
+    can still claim reduced earnings capacity if they are below the
+    (Regelaltersgrenze)
+
     Parameters
     ----------
     alter
