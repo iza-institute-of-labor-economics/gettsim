@@ -82,11 +82,12 @@ exclude = []
 "src/_gettsim/policy_environment.py" = ["S506", "PLR", "TRY"]
 "src/_gettsim/rente.py" = ["N806", "ARG001"]
 "src/_gettsim/social_insurance_contributions/ges_krankenv.py" = ["SIM401"]
-"src/_gettsim/synthetic.py" = ["PLR", "TRY"]
+"src/_gettsim/synthetic.py" = ["TRY"]
 "src/_gettsim/tax_transfer.py" = ["ARG001"]
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["TRY", "PLR"]
+"docs/" = ["T201", "B018"]
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
