@@ -11,6 +11,8 @@ versioning](https://semver.org/) and all releases are available on
   The function can no longer create households of different household types with one
   function call. ({ghuser}`ChristianZimpelmann`).
 
+- {gh}`573` Fix bug in age groups of Bürgergeld. ({ghuser}`ChristianZimpelmann`).
+
 - {gh}`150` Implement Lohnsteuer / withholding tax.
   ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
 
