@@ -194,8 +194,8 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string]),
         "bruttokaltmiete_m_hh": float(bg_daten["bruttokaltmiete"][hh_typ_string]),
         "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string]),
-        "kind_unterh_anspr_m": 0,
-        "kind_unterh_erhalt_m": 0,
+        "kind_unterh_anspr_m": 0.0,
+        "kind_unterh_erhalt_m": 0.0,
     }
 
     # Set default values for new columns.
