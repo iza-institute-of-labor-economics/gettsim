@@ -1,6 +1,9 @@
+from _gettsim.shared import dates_active
+
+
 def durchschnittliche_entgeltp(
     entgeltp: float,
-    m_beitragszeit: int,
+    m_gesamtbew: int,
 ) -> float:
     """Calculating average Entgeltpunkte for Erwerbminderungsrente
     (pension for reduced earning capacity)
@@ -13,14 +16,14 @@ def durchschnittliche_entgeltp(
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>.
     m_beitragszeit
-        See basic input variable :ref:`m_beitragszeit <m_beitragszeit>.
+        See basic input variable :ref:`m_gesamtbew <m_gesamtbew>.
 
     Returns
     -------
     Average Entgeldpunkte per year
 
     """
-    out = entgeltp / (m_beitragszeit / 12)
+    out = entgeltp / (m_gesamtbew / 12)
     return out
 
 
@@ -132,6 +135,37 @@ def erwerbsm_rente_vor_grundr_m(
     return out
 
 
+@dates_active(end="2020-12-31")
+def erwerbsm_rente_m(erwerbsm_rente_vor_grundr_m: float) -> float:
+    return erwerbsm_rente_vor_grundr_m
+
+
+@dates_active(start="2021-01-01", change_name="erwerbsm_rente_m")
+def erwerbsm_rente_nach_grundr_m(
+    erwerbsm_rente_vor_grundr_m: float,
+    grundr_zuschlag_m: float,
+) -> float:
+    """Calculate total individual Erwerbsminderunsrente including
+    Grundrentenzuschlag. Is only active after 2021 when Grundrente
+    is in place.
+
+    Parameters
+    ----------
+    erwerbsm_rente_vor_grundr_m
+        See :func:`erwerbsm_rente_vor_grundr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+
+    Returns
+    -------
+
+    """
+
+    out = erwerbsm_rente_vor_grundr_m + grundr_zuschlag_m
+
+    return out
+
+
 def erwerbsm_rente_altersgrenze(
     erwerbsm_rente_params: dict,
 ) -> float:
@@ -145,18 +179,19 @@ def erwerbsm_rente_altersgrenze(
 
     Returns
     -------
-    Altersgrenze for Erwerbsminderungsrente
+    Altersgrenze for Erwerbsminderungsrente in month
 
     """
 
-    out = erwerbsm_rente_params["altersgrenze_abschlagsfrei_in_m"] / 12
+    out = erwerbsm_rente_params["altersgrenze_abschlagsfrei_in_m"]
 
     return out
 
 
-def erwerbsm_rente_zugangsfaktor(
+def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
     jahr_renteneintr: int,
     geburtsjahr: int,
+    geburtsmonat: int,
     erwerbsm_rente_altersgrenze: float,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
@@ -170,6 +205,8 @@ def erwerbsm_rente_zugangsfaktor(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>.
     erwerbsm_rente_altersgrenze
         See :func:`erwerbsm_rente_altersgrenze`
     ges_rente_params
@@ -182,12 +219,12 @@ def erwerbsm_rente_zugangsfaktor(
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
-    zugangsfaktor = (
-        1
-        + ((jahr_renteneintr - geburtsjahr) - erwerbsm_rente_altersgrenze)
-        * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+    m_alter_renteneintr = (jahr_renteneintr - geburtsjahr) * 12 + geburtsmonat
+    zugangsfaktor = 1 + (m_alter_renteneintr - erwerbsm_rente_altersgrenze) * (
+        ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]
+        / 12
     )
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
 

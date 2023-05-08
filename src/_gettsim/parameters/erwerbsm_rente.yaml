@@ -30,7 +30,7 @@ altersgrenze_abschlagsfrei_in_m:
   2018-01-01:
     scalar: 766
   2019-01-01:
-    scalar: 770 ab hier okay
+    scalar: 770
   2020-01-01:
     scalar: 772
   2021-01-01:

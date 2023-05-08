@@ -94,6 +94,7 @@ DEFAULT_TARGETS = [
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_hh",
     "ges_rente_m",
+    "erwerbsm_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
@@ -162,6 +163,6 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
-    "m_beitragszeit": int,
+    "m_gesamtbew": int,
     "teilw_erwerbsm_rente": bool,
 }

@@ -13,11 +13,7 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
-INPUT_COLS = [
-    "p_id",
-    "jahr_renteneintr",
-    "geburtsjahr",
-]
+INPUT_COLS = ["p_id", "jahr_renteneintr", "geburtsjahr", "geburtsmonat"]
 
 OUT_COLS = [
     "erwerbsm_rente_zugangsfaktor",
