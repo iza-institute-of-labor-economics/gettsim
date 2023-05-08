@@ -1,0 +1,71 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 5
+      - 5
+    tu_id:
+      - 5
+      - 5
+    p_id:
+      - 58
+      - 60
+    kind:
+      - false
+      - true
+    bruttolohn_m:
+      - 0.0
+      - 0.0
+    bruttolohn_vorj_m:
+      - 3600.0
+      - 0.0
+    wohnort_ost:
+      - false
+      - false
+    eink_st_m:
+      - 0.0
+      - 0.0
+    soli_st_m:
+      - 0.0
+      - 0.0
+    sozialv_beitr_m:
+      - 0.0
+      - 0.0
+    geburtsjahr:
+      - 1978
+      - 2018
+    geburtsmonat:
+      - 10
+      - 4
+    geburtstag:
+      - 10
+      - 12
+    m_elterngeld_mut_hh:
+      - 1
+      - 1
+    m_elterngeld_vat_hh:
+      - 0
+      - 0
+    m_elterngeld:
+      - 0
+      - 0
+    jahr:
+      - 2019
+      - 2019
+  assumed: {}
+outputs:
+  elterngeld_m:
+    - 1314.1765
+    - 0.0
+  elterngeld_geschw_bonus_anspruch:
+    - false
+    - false
+  _elterngeld_anz_mehrlinge_anspruch:
+    - 0
+    - 0
+  elternzeit_anspruch:
+    - true
+    - false
