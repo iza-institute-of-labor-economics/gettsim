@@ -74,11 +74,8 @@ repos:
     hooks:
       - id: nbqa-black
       - id: nbqa-ruff
-  # - repo: https://github.com/econchick/interrogate
-  #   rev: 1.5.0
-  #   hooks:
-  #     - id: interrogate
-  #       args: [-v, --fail-under=50]
+        args:
+          - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
     rev: 0.7.16
     hooks:

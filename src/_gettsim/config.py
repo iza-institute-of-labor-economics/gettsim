@@ -21,8 +21,8 @@ def set_array_backend(backend: str):
 
     if backend == "jax":
         assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
-        global USE_JAX
-        global numpy_or_jax
+        global USE_JAX  # noqa: PLW0603
+        global numpy_or_jax  # noqa: PLW0603
         import jax
 
         USE_JAX = True

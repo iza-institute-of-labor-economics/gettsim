@@ -44,7 +44,7 @@ extend-ignore = [
     "DTZ001", # use of `datetime.datetime()` without `tzinfo` argument is not allowed
     "DTZ002", # use of `datetime.datetime.today()` is not allowed
     "PT012", # `pytest.raises()` block should contain a single simple statement
-
+    "PLR5501", # elif not supported by Jax converter
 
     # Things we are not sure we want
     # ==============================
@@ -76,7 +76,7 @@ exclude = []
 "src/_gettsim/config.py" = ["TRY"]
 "src/_gettsim/functions.py" = ["F401"]
 "src/_gettsim/functions_loader.py" = ["TRY"]
-"src/_gettsim/gettsim_typing.py" = ["PGH", "PLR", "TRY"]
+"src/_gettsim/gettsim_typing.py" = ["PGH", "PLR", "TRY", "SIM114"]
 "src/_gettsim/interface.py" = ["TRY"]
 "src/_gettsim/piecewise_functions.py" = ["PLR", "TRY"]
 "src/_gettsim/policy_environment.py" = ["S506", "PLR", "TRY"]
@@ -87,7 +87,6 @@ exclude = []
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["TRY", "PLR"]
-"docs/" = ["T201", "B018"]
 
 [tool.ruff.pydocstyle]
 convention = "numpy"
