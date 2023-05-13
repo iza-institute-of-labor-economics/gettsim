@@ -29,13 +29,56 @@ class PolicyTestSet:
     def merged_output_df(self) -> pd.DataFrame:
         return pd.concat([test.output_df for test in self.test_data], ignore_index=True)
 
+    def filter_test_data(
+        self, *, test_name: str | None = None, date: datetime.date | str | None = None
+    ) -> PolicyTestSet:
+        """
+        Filter the test data in this PolicyTestSet.
+
+        Note that you must pass all arguments of this function by name (and not by
+        position).
+
+        Parameters
+        ----------
+        test_name : str | None
+            If provided, only instances of `PolicyTestData` with this name are included
+            in the result. If None, no filtering is done on test name.
+        date : datetime.date | str | None
+            If provided, only instances of `PolicyTestData` with this date are
+            included in the result. If None, no filtering is done on date.
+
+        Returns
+        -------
+        PolicyTestSet
+            A new PolicyTestSet with the filtered test data.
+
+        Examples
+        --------
+        >>> data = load_policy_test_data("soli_st")
+        >>> filtered_by_name = data.filter_test_data(test_name="hh_id_2")
+
+        >>> filtered_by_date = data.filter_test_data(date="1991")
+        """
+
+        if isinstance(date, str):
+            date = _parse_date(date)
+
+        filtered_test_data = [
+            test
+            for test in self.test_data
+            if (test_name is None or test.test_name == test_name)
+            and (date is None or test.date == date)
+        ]
+
+        return PolicyTestSet(self.policy_name, filtered_test_data)
+
 
 class PolicyTestData:
     def __init__(  # noqa: PLR0913
         self,
         policy_name: str,
         test_file: Path,
-        household_name: str,
+        test_name: str,
         date: str,
         inputs_provided: _ValueDict,
         inputs_assumed: _ValueDict,
@@ -43,8 +86,8 @@ class PolicyTestData:
     ):
         self.policy_name = policy_name
         self.test_file = test_file
-        self.household_name = household_name
-        self.date: date = _parse_date(date)
+        self.test_name = test_name
+        self.date = _parse_date(date)
         self._inputs_provided = inputs_provided
         self._inputs_assumed = inputs_assumed
         self._outputs = outputs
@@ -62,7 +105,7 @@ class PolicyTestData:
     def __repr__(self) -> str:
         return (
             f"PolicyTestData({self.policy_name}, {self.test_file.name}, "
-            f"{self.household_name})"
+            f"{self.test_name})"
         )
 
     def __str__(self) -> str:
@@ -83,21 +126,21 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
             continue
 
         with test_file.open("r", encoding="utf-8") as file:
-            household_data: dict[str, dict] = yaml.safe_load(file)
+            test_data: dict[str, dict] = yaml.safe_load(file)
 
         date = test_file.parent.name
-        household_name = test_file.stem
+        test_name = test_file.stem
 
-        inputs: dict[str, dict] = household_data["inputs"]
+        inputs: dict[str, dict] = test_data["inputs"]
         inputs_provided: _ValueDict = inputs["provided"]
         inputs_assumed: _ValueDict = inputs["assumed"]
-        outputs: _ValueDict = household_data["outputs"]
+        outputs: _ValueDict = test_data["outputs"]
 
         out.append(
             PolicyTestData(
                 policy_name=policy_name,
                 test_file=test_file,
-                household_name=household_name,
+                test_name=test_name,
                 date=date,
                 inputs_provided=inputs_provided,
                 inputs_assumed=inputs_assumed,
