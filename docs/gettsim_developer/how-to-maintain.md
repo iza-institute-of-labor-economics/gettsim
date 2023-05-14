@@ -59,13 +59,14 @@ To release a new major or minor version of GETTSIM, do the following.
 
 1. You are done!
 
-   The release is automatically published to [PyPI](https://pypi.org/project/gettsim/)
-   and scraped from there by conda-forge. A PR will be created on the
-   [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
-   which needs to be merged by a
-   [feedstock maintainer](https://github.com/conda-forge/gettsim-feedstock#feedstock-maintainers).
-
-   After the merge the new release will be available on conda-forge within a day.
+   - The release is automatically published to [PyPI](https://pypi.org/project/gettsim/)
+   - It is scraped from there by conda-forge. A PR will be created on the
+     [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
+     which will be merged automatically by the automerge bot in case all tests pass.
+     [Feedstock maintainers](https://github.com/conda-forge/gettsim-feedstock#feedstock-maintainers)
+     will get relevant messages.
+   - After the merge is completed, the new release will be available on conda-forge
+     within a day.
 
 (backports_release_patched)=
 
