@@ -1,4 +1,18 @@
 ---
+# Notes:
+
+# - if not noted otherwise, all hh members below the age of 25 are assumed to not have
+#   enough income and/or wealth to fend for themselves.
+
+# - An important output we are not yet considering here is the status of
+#   "Alleinerziehend" (There might even be differences in the definition relevant for
+#   taxes, Kinderzuschlag, Wohngeld, and Bürgergeld)
+
+# - "potentielle_kinderfreibeträge": Depends on child allowance eligibility of the
+#   children (based on input variables `in_ausbildung` and `arbeitsstunden_w` which are
+#   not specified in these examples)
+# - "potentieller_unterhaltsvors": depends on child allowance payed by the parent
+#   outside of the household.
 eltern_verheiratet_2_kinder:
   input:
     - id: 0
@@ -36,7 +50,7 @@ eltern_verheiratet_2_kinder:
         - 0
         - 0
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 2
         - 2
         - 0
@@ -74,7 +88,7 @@ eltern_unverheiratet_2_kinder:
         - 0
         - 0
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 1
         - 0
@@ -116,7 +130,7 @@ eltern_verheiratet_getrennt_veranlagt_2_kinder:
         - 0
         - 0
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 1
         - 0
@@ -154,24 +168,17 @@ eltern_verheiratet_1_junges_1_erwachsenes_kind:
         - 1
         - 2
     - id_bedarfsgemeinschaft:
-      # Das ältere Kind wäre technisch eine eigene (nicht bedürfige)
-      # BG, wenn sein Einkommen seinen Bedarf deckt. Das weiß man aber erst nach
-      # der Anspruchsprüfung.
-      # CZ: Einkommen hinzufügen um klar zu machen, dass Bedarf nicht gedeckt wird?
         - 0
         - 0
         - 1
         - 0
-    - kinderfreibeträge:
-      # Der Kinderfreibetrag für das erwachsene (aber unter 25jährige) Kind ist
-      # ebenfalls endogen. CZ: Hier müssten wir in_ausbildung und arbeitsstunden_w
-      # hinzufügen, um es eindeutig zu machen. Alternativ einfach vermerken, dass wir
-      # hier davon ausgehen, dass bis 24 Kindergeldanspruch besteht.
+    - potentielle_kinderfreibeträge:
         - 1
         - 1
         - 0
         - 0
 eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
+# child separate Bedarfsgemeinschaft if over 24
   input:
     - id: 0
       geburtstag: 1974-07-14
@@ -208,42 +215,122 @@ eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
         - 0
         - 1
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 0.5
         - 0.5
         - 0
         - 0
-eltern_verheiratet_1_kind_großeltern:
+eltern_verheiratet_1_kind_with_income:
+# child in separate Bedarfsgemeinschaft if he/she has enought income to fend for
+# him/herself
   input:
     - id: 0
-      geburtstag: 1984-07-14
+      geburtstag: 1974-02-13
       id_einstandspartner: 1
       id_ehepartner: 1
       gemeinsam_veranlagt: true
       id_haushalt: 0
     - id: 1
-      geburtstag: 1981-07-14
+      geburtstag: 1973-01-02
       id_einstandspartner: 0
       id_ehepartner: 0
       gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2001-07-14
+      enough_income: true  # through Kindergeld, earnings, (Wohngeld?)
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+eltern_verheiratet_1_kind_verheiratet:
+# child in separate Bedarfsgemeinschaft if he/she is married
+  input:
+    - id: 0
+      geburtstag: 1974-02-13
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1973-01-02
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2004-07-14
+      id_einstandspartner: 3
+      id_ehepartner: 3
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 3
+      geburtstag: 2001-07-14
+      id_einstandspartner: 2
+      id_ehepartner: 2
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_1_kind_mit_eigenem_kind:
+# child in separte Bedarfsgemeinschaft if it has children (Bedarfsgemeinschaft never
+# covers more than 2 generations)
+  input:
+    - id: 0
+      geburtstag: 2004-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2001-07-14
+      id_einstandspartner: 0
       id_haushalt: 0
       id_eltern:
         - 3
         - 4
     - id: 2
-      geburtstag: 2010-03-01
+      geburtstag: 2022-03-01
       id_haushalt: 0
       id_eltern:
         - 0
         - 1
     - id: 3
-      geburtstag: 1954-02-13
+      geburtstag: 1974-02-13
       id_einstandspartner: 4
       id_ehepartner: 4
       gemeinsam_veranlagt: true
       id_haushalt: 0
     - id: 4
-      geburtstag: 1953-01-02
+      geburtstag: 1973-01-02
       id_einstandspartner: 3
       id_ehepartner: 3
       gemeinsam_veranlagt: true
@@ -261,12 +348,12 @@ eltern_verheiratet_1_kind_großeltern:
         - 0
         - 1
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 1
         - 0
-        - 0
-        - 0
+        - 1
+        - 1
 eltern_verheiratet_1_kind_anderer_verwandter:
   input:
     - id: 0
@@ -301,7 +388,7 @@ eltern_verheiratet_1_kind_anderer_verwandter:
         - 0
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 1
         - 0
@@ -323,10 +410,10 @@ alleinerziehend_anderer_elternteil_unbekannt:
     - id_bedarfsgemeinschaft:
         - 0
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 0
-    - unterhaltsvors:
+    - potentieller_unterhaltsvors:
         - 0
         - 0
         - '> 0'
@@ -353,13 +440,13 @@ alleinerziehend_anderer_elternteil_in_anderem_haushalt:
         - 0
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
     # CZ: In case the other parent does not pay child support, the parent id==0, can
     # request full kinderfreibetrag (Add this as input?)
         - 0.5
         - 0
         - 0.5
-    - unterhaltsvors:
+    - potentieller_unterhaltsvors:
         - 0
         - 0
         - (potentially > 0)
@@ -393,13 +480,13 @@ neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_h
         - 0
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
     # CZ: see comment above
         - 0.5
         - 0
         - 0
         - 0.5
-    - unterhaltsvors:
+    - potentieller_unterhaltsvors:
         - 0
         - 0
         - (potentially > 0)
@@ -438,13 +525,13 @@ neuer_verheirateter_partner_1_kind_im_haushalt_anderer_elternteil_anderer_eltern
         - 0
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 0.5
         - 0.5  # CZ: I think so
         - 0
         - 0.5
-    - unterhaltsvors:
-    # not eligible for unterhaltsvorschuss if parent in same household is married to
+    - potentieller_unterhaltsvors:
+    # not eligible for potentieller_unterhaltsvorschuss if parent in same household is married to
     # new partner (kind_unterh_anspr_m unaffected)
         - 0
         - 0
@@ -474,11 +561,11 @@ neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_unbekannt:
         - 0
         - 0
         - 0
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 1
         - 0
         - 0
-    - unterhaltsvors:
+    - potentieller_unterhaltsvors:
         - 0
         - 0
         - '> 0'
@@ -497,7 +584,7 @@ enkelkind_und_sgb_ii_grossmutter:
     - id_bedarfsgemeinschaft:
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 0
         - 0
 enkelkind_und_sgb_xii_grossmutter:
@@ -515,7 +602,7 @@ enkelkind_und_sgb_xii_grossmutter:
     - id_bedarfsgemeinschaft:
         - 0
         - 1
-    - kinderfreibeträge:
+    - potentielle_kinderfreibeträge:
         - 0
         - 0
 eltern_nicht_einstandspflichtig_ein_haushalt:
