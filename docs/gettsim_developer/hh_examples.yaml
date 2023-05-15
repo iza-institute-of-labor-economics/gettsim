@@ -1,13 +1,11 @@
 ---
 # Notes:
-
 # - if not noted otherwise, all hh members below the age of 25 are assumed to not have
 #   enough income and/or wealth to fend for themselves.
 
 # - An important output we are not yet considering here is the status of
 #   "Alleinerziehend" (There might even be differences in the definition relevant for
 #   taxes, Kinderzuschlag, Wohngeld, and Bürgergeld)
-
 # - "potentielle_kinderfreibeträge": Depends on child allowance eligibility of the
 #   children (based on input variables `in_ausbildung` and `arbeitsstunden_w` which are
 #   not specified in these examples)
