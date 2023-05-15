@@ -219,7 +219,7 @@ def grundr_bew_zeiten_avg_entgeltp(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
-    """Calculates the maximum allowed number of average Entgeltpunkte (per month) after
+    """Calculate the maximum allowed number of average Entgeltpunkte (per month) after
     adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
@@ -283,7 +283,6 @@ def grundr_zuschlag_bonus_entgeltp(
     if grundr_zeiten < ges_rente_params["grundr_zeiten"]["min"]:
         out = 0.0
     else:
-
         # Case 1: Entgeltpunkte less than half of Höchstwert
         if grundr_bew_zeiten_avg_entgeltp <= (0.5 * grundr_zuschlag_höchstwert_m):
             out = grundr_bew_zeiten_avg_entgeltp
@@ -303,7 +302,7 @@ def grundr_zuschlag_bonus_entgeltp(
 
 
 @add_rounding_spec(params_key="ges_rente")
-def rente_vorj_vor_grundr_proxy_m(
+def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentner: bool,
     rentenwert_vorjahr: float,
     priv_rente_m: float,

@@ -5,9 +5,34 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## v0.9 — 2023-MM-DD
+## v0.7 — 2023-05-14
+
+- {gh}`514` Rewrite `create_synthetic_data` to make it more flexible and much faster.
+  The function can no longer create households of different household types with one
+  function call. ({ghuser}`ChristianZimpelmann`).
+
+- {gh}`573` Fix bug in age groups of Bürgergeld. ({ghuser}`ChristianZimpelmann`).
+
+- {gh}`150` Implement Lohnsteuer / withholding tax.
+  ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
+
+- {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
+
+- {gh}`405` Fix calculation of voluntary contribution by self-employed to the GKV.
+  ({ghuser}`JHermann99`)
+
+- {gh}`495` Add @dates_active decorator to easily specify when a function is active.
+  ({ghuser}`lars-reimann`).
+
+- {gh}`544` Add Kindesunterhalt ({ghuser}`LauraGergeleit`).
+
+- {gh}`529` Consider Elterngeld in other transfers only above a certain threshold.
+  ({ghuser}`LauraGergeleit`).
+
+- {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
 
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
+
 
 ## v0.6.0 — 2023-01-30
 
@@ -62,8 +87,9 @@ versioning](https://semver.org/) and all releases are available on
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
-- {gh}`396` Implement pension for (very) long term insured, including eligibility
-  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
+- {gh}`396`, Implement pension for (very) long term insured, including eligibility
+  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`), add
+  more tests ({gh}`428`, {ghuser}`LauraGergeleit`).
 
 - {gh}`393` Normal retirement age adjustment aligned with the rules ({ghuser}`TeBackh`).
 

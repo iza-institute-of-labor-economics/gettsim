@@ -1,7 +1,8 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import dates_active
 
 
-def arbeitsl_geld_2_eink_m(
+def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_tu: float,
     soli_st_tu: float,
@@ -10,7 +11,6 @@ def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_eink_anr_frei_m: float,
     kind: bool,
 ) -> float:
-
     """Income (after deduction of taxes, social insurance contributions, and other
     deductions) for calculation of basic subsistence.
 
@@ -60,7 +60,7 @@ def arbeitsl_geld_2_eink_m(
     return out
 
 
-def arbeitsl_geld_2_bruttoeink_m(
+def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
@@ -70,7 +70,6 @@ def arbeitsl_geld_2_bruttoeink_m(
     arbeitsl_geld_m: float,
     elterngeld_m: float,
 ) -> float:
-
     """Sum up the gross income for calculation of basic subsistence.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
@@ -114,23 +113,31 @@ def arbeitsl_geld_2_bruttoeink_m(
     return out
 
 
-def arbeitsl_geld_2_2005_netto_quote(
+@dates_active(end="2005-09-30")
+def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
-    elterngeld_nettolohn_m: float,
+    eink_st_tu: float,
+    soli_st_tu: float,
+    anz_erwachsene_tu: int,
+    sozialv_beitr_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
 
     Quotienten von bereinigtem Nettoeinkommen und Bruttoeinkommen. § 3 Abs. 2 Alg II-V.
 
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
-
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    elterngeld_nettolohn_m
-        See :func:`elterngeld_nettolohn_m`.
+    eink_st_tu
+        See :func:`eink_st_tu`.
+    soli_st_tu
+        See :func:`soli_st_tu`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+    sozialv_beitr_m
+        See :func:`sozialv_beitr_m`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -141,7 +148,10 @@ def arbeitsl_geld_2_2005_netto_quote(
     # Bereinigtes monatliches Einkommen aus Erwerbstätigkeit nach § 11 Abs. 2 Nr. 1-5.
     alg2_2005_bne = max(
         (
-            elterngeld_nettolohn_m
+            bruttolohn_m
+            - (eink_st_tu / anz_erwachsene_tu / 12)
+            - (soli_st_tu / anz_erwachsene_tu / 12)
+            - sozialv_beitr_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
         ),
@@ -151,21 +161,23 @@ def arbeitsl_geld_2_2005_netto_quote(
     return alg2_2005_bne / bruttolohn_m
 
 
-def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
+@dates_active(
+    end="2005-09-30",
+    change_name="arbeitsl_geld_2_eink_anr_frei_m",
+)
+def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
     bruttolohn_m: float,
-    arbeitsl_geld_2_2005_netto_quote: float,
+    arbeitsl_geld_2_nettoquote: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
-    """Calculate share of income, which remains to the individual until 09/2005.
-
-    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+    """Share of income which remains to the individual.
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    arbeitsl_geld_2_2005_netto_quote
-        See :func:`arbeitsl_geld_2_2005_netto_quote`.
+    arbeitsl_geld_2_nettoquote
+        See :func:`arbeitsl_geld_2_nettoquote`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -180,12 +192,13 @@ def arbeitsl_geld_2_eink_anr_frei_m_bis_09_2005(
         intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
-        rates_multiplier=arbeitsl_geld_2_2005_netto_quote,
+        rates_multiplier=arbeitsl_geld_2_nettoquote,
     )
     return out
 
 
-def arbeitsl_geld_2_eink_anr_frei_m_ab_10_2005(
+@dates_active(start="2005-10-01")
+def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     anz_kinder_hh: int,
     arbeitsl_geld_2_params: dict,

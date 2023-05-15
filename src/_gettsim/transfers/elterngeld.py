@@ -3,7 +3,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-def elterngeld_m(
+def elterngeld_m(  # noqa: PLR0913
     elterngeld_eink_relev_m: float,
     elternzeit_anspruch: bool,
     elterngeld_eink_erlass_m: float,
@@ -83,7 +83,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["soz_vers_pausch"] * max_wage
+    prox_ssc = elterngeld_params["sozialv_pausch"] * max_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"]
@@ -108,7 +108,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     return max(out, 0.0)
 
 
-def elternzeit_anspruch(
+def elternzeit_anspruch(  # noqa: PLR0913
     alter_monate_jüngstes_mitglied_hh: float,
     m_elterngeld_mut_hh: int,
     m_elterngeld_vat_hh: int,
@@ -229,7 +229,6 @@ def elterngeld_geschw_bonus_anspruch(
 
     """
     if elternzeit_anspruch:
-
         # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
         out = (
             elterngeld_kind_hh
@@ -454,3 +453,36 @@ def elterngeld_mehrlinge_bonus_m(
     return float(
         _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
     )
+
+
+def elterngeld_anr_m(
+    elterngeld_m: float,
+    elterngeld_params: dict,
+    anz_mehrlinge_jüngstes_kind_hh: int,
+) -> float:
+    """Calculate elterngeld above threshold which is considered as income for transfers
+    such as wohngeld and grunds_im_alter.
+    For arbeitsl_geld_2 as well as kinderzuschl the whole amount of elterngeld is
+    considered as income, except for the case in which the parents still worked
+    right before they had children.
+    See: https://www.kindergeld.org/elterngeld-einkommen/
+
+    Parameters
+    ----------
+    elterngeld_m
+        See :func:`elterngeld_m`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    anz_mehrlinge_jüngstes_kind_hh
+        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
+
+    Returns
+    -------
+
+    """
+    out = max(
+        elterngeld_m
+        - ((1 + anz_mehrlinge_jüngstes_kind_hh) * elterngeld_params["mindestbetrag"]),
+        0,
+    )
+    return out

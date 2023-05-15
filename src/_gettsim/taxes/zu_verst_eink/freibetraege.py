@@ -1,5 +1,5 @@
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def _eink_st_behinderungsgrad_pauschbetrag(
@@ -34,10 +34,11 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     return float(out)
 
 
-def eink_st_alleinerz_freib_tu_bis_2014(
+@dates_active(end="2014-12-31", change_name="alleinerz_freib_tu")
+def eink_st_alleinerz_freib_tu_pauschal(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
-    """Calculates tax deduction allowance for single parents until 2014.
+    """Calculate tax deduction allowance for single parents until 2014.
 
     This used to be called 'Haushaltsfreibetrag'.
 
@@ -60,12 +61,13 @@ def eink_st_alleinerz_freib_tu_bis_2014(
     return out
 
 
-def eink_st_alleinerz_freib_tu_ab_2015(
+@dates_active(start="2015-01-01", change_name="alleinerz_freib_tu")
+def eink_st_alleinerz_freib_tu_nach_kinderzahl(
     alleinerz: bool,
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for single parents since 2015.
+    """Calculate tax deduction allowance for single parents since 2015.
 
     Since 2015, it increases with
     number of children. Used to be called 'Haushaltsfreibetrag'
@@ -95,7 +97,8 @@ def eink_st_alleinerz_freib_tu_ab_2015(
     return out
 
 
-def eink_st_altersfreib_bis_2004(
+@dates_active(end="2004-12-31", change_name="eink_st_altersfreib")
+def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -103,7 +106,7 @@ def eink_st_altersfreib_bis_2004(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly until 2004.
+    """Calculate tax deduction allowance for elderly until 2004.
 
     Parameters
     ----------
@@ -141,8 +144,10 @@ def eink_st_altersfreib_bis_2004(
     return out
 
 
-def eink_st_altersfreib_ab_2005(
+@dates_active(start="2005-01-01", change_name="eink_st_altersfreib")
+def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
+    geringfügig_beschäftigt: bool,
     alter: int,
     geburtsjahr: int,
     kapitaleink_brutto_m: float,
@@ -150,7 +155,7 @@ def eink_st_altersfreib_ab_2005(
     eink_vermietung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculates tax deduction allowance for elderly since 2005.
+    """Calculate tax deduction allowance for elderly since 2005.
 
     Parameters
     ----------
@@ -168,6 +173,8 @@ def eink_st_altersfreib_ab_2005(
         See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
 
     Returns
     -------
@@ -186,13 +193,14 @@ def eink_st_altersfreib_ab_2005(
     # Select appropriate tax credit threshold and quota.
     out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
 
+    einkommen_lohn = 0 if geringfügig_beschäftigt else bruttolohn_m
     weiteres_einkommen = max(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )
     out_quote = (
         eink_st_abzuege_params["altersentlastung_quote"][selected_bin]
         * 12
-        * (bruttolohn_m + weiteres_einkommen)
+        * (einkommen_lohn + weiteres_einkommen)
     )
 
     if alter > eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]:
@@ -203,7 +211,8 @@ def eink_st_altersfreib_ab_2005(
     return out
 
 
-def eink_st_sonderausgaben_tu_bis_2011(
+@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_tu")
+def eink_st_sonderausgaben_tu_nur_pauschale(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
@@ -228,6 +237,46 @@ def eink_st_sonderausgaben_tu_bis_2011(
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
         * anz_erwachsene_tu
     )
+
+    return float(out)
+
+
+@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_tu")
+def eink_st_sonderausgaben_tu_mit_betreuung(
+    eink_st_abzuege_params: dict,
+    sonderausgaben_betreuung_tu: float,
+    anz_erwachsene_tu: int,
+) -> float:
+    """Individual sonderausgaben on tax unit level since 2012.
+
+    We follow 10 Abs.1 Nr. 5 EStG. You can
+    details here https://www.buzer.de/s1.htm?a=10&g=estg.
+
+    Parameters
+    ----------
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    sonderausgaben_betreuung_tu
+        See :func:`sonderausgaben_betreuung_tu`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    anz_erwachsene_tu
+        See :func:`anz_erwachsene_tu`.
+
+    Returns
+    -------
+
+    """
+    sonderausgaben_gesamt = sonderausgaben_betreuung_tu
+    pauschale = (
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        * anz_erwachsene_tu
+    )
+
+    if sonderausgaben_gesamt > pauschale:
+        out = sonderausgaben_gesamt
+    else:
+        out = pauschale
 
     return float(out)
 
@@ -286,45 +335,6 @@ def sonderausgaben_betreuung_tu(
     return float(out)
 
 
-def eink_st_sonderausgaben_tu_ab_2012(
-    eink_st_abzuege_params: dict,
-    sonderausgaben_betreuung_tu: float,
-    anz_erwachsene_tu: int,
-) -> float:
-    """Individual sonderausgaben on tax unit level since 2012.
-
-    We follow 10 Abs.1 Nr. 5 EStG. You can
-    details here https://www.buzer.de/s1.htm?a=10&g=estg.
-
-    Parameters
-    ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    sonderausgaben_betreuung_tu
-        See :func:`sonderausgaben_betreuung_tu`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-
-    Returns
-    -------
-
-    """
-    sonderausgaben_gesamt = sonderausgaben_betreuung_tu
-    pauschale = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * anz_erwachsene_tu
-    )
-
-    if sonderausgaben_gesamt > pauschale:
-        out = sonderausgaben_gesamt
-    else:
-        out = pauschale
-
-    return float(out)
-
-
 def eink_st_kinderfreib_tu(
     anz_kinder_mit_kindergeld_tu: float,
     anz_erwachsene_tu: int,
@@ -345,7 +355,7 @@ def eink_st_kinderfreib_tu(
     -------
 
     """
-    kifreib_total = sum(eink_st_abzuege_params["kinderfreibetrag"].values())
-    out = kifreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
+    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
     return float(out)

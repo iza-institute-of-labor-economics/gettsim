@@ -13,11 +13,14 @@ aggregation_demographic_vars = {
     "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
     "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
     "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
-    "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
+    "anz_kinder_bis_5_hh": {"source_col": "kind_bis_5", "aggr": "sum"},
     "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
     "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
-    "anz_kinder_ab_7_bis_13_hh": {"source_col": "kind_ab_7_bis_13", "aggr": "sum"},
+    "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
+    "anz_kinder_ab_6_bis_13_hh": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
+    "anz_kinder_ab_14_bis_17_hh": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
+    "anz_kinder_ab_18_bis_24_hh": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
     "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
     "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
@@ -31,8 +34,8 @@ aggregation_demographic_vars = {
 }
 
 
-def kind_bis_17(alter: int, kind: bool) -> bool:
-    """Calculate if underage person.
+def kind_bis_5(alter: int, kind: bool) -> bool:
+    """Calculate if child under the age of 6.
 
     Parameters
     ----------
@@ -45,7 +48,7 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
     -------
 
     """
-    out = kind and (alter < 18)
+    out = kind and (alter <= 5)
     return out
 
 
@@ -103,8 +106,8 @@ def kind_bis_15(alter: int, kind: bool) -> bool:
     return out
 
 
-def kind_ab_7_bis_13(alter: int, kind: bool) -> bool:
-    """Calculate if child between 7 and 13 years old.
+def kind_bis_17(alter: int, kind: bool) -> bool:
+    """Calculate if underage person.
 
     Parameters
     ----------
@@ -117,7 +120,25 @@ def kind_ab_7_bis_13(alter: int, kind: bool) -> bool:
     -------
 
     """
-    out = kind and (7 <= alter <= 13)
+    out = kind and (alter <= 17)
+    return out
+
+
+def kind_ab_6_bis_13(alter: int, kind: bool) -> bool:
+    """Calculate if child between 6 and 13 years old.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (6 <= alter <= 13)
     return out
 
 
@@ -136,6 +157,36 @@ def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
 
     """
     out = kind and (14 <= alter <= 24)
+    return out
+
+
+def kind_ab_14_bis_17(alter: int, kind: bool) -> bool:
+    """Calculate if child between 14 and 17 years old.
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    Returns
+    -------
+    """
+    out = kind and (14 <= alter <= 17)
+    return out
+
+
+def kind_ab_18_bis_24(alter: int, kind: bool) -> bool:
+    """Calculate if child between 18 and 24 years old.
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    Returns
+    -------
+    """
+    out = kind and (18 <= alter <= 24)
     return out
 
 

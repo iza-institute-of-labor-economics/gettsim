@@ -147,7 +147,7 @@ Type: float
 
 ## `eink_vermietung_m`
 
-Monthly rental income
+Monthly rental income net of deductions
 
 Type: float
 
@@ -488,11 +488,31 @@ Months the individual already uninterruptedly receives Arbeitslosengeld
 
 Type: float
 
-(soz_vers_pflicht_5j)=
+(sozialv_pflicht_5j)=
 
-## `soz_vers_pflicht_5j`
+## `sozialv_pflicht_5j`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance
 
 Type: float
+
+## `kind_unterh_anspr_m`
+
+Monthly gross child alimony payments to be received as determined by the court
+
+Type: float
+
+## `kind_unterh_erhalt_m`
+
+Monthly actual child alimony payments received
+
+Type: float
+
+(steuerklasse)=
+
+## `steuerklasse`
+
+Tax Bracket (1 to 5) for withholding tax
+
+Type: int

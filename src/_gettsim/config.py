@@ -16,14 +16,13 @@ def set_array_backend(backend: str):
     backend (str): Must be in {'jax', 'numpy'}.
 
     """
-
     if backend not in {"jax", "numpy"}:
         raise ValueError(f"Backend must be in {'jax', 'numpy'} but is {backend}.")
 
     if backend == "jax":
         assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
-        global USE_JAX
-        global numpy_or_jax
+        global USE_JAX  # noqa: PLW0603
+        global numpy_or_jax  # noqa: PLW0603
         import jax
 
         USE_JAX = True
@@ -51,8 +50,9 @@ INTERNAL_PARAMS_GROUPS = [
     "eink_st_abzuege",
     "soli_st",
     "arbeitsl_geld",
-    "soz_vers_beitr",
+    "sozialv_beitr",
     "unterhalt",
+    "unterhaltsvors",
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
@@ -61,6 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
+    "lohn_st",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -155,6 +156,9 @@ TYPES_INPUT_VARIABLES = {
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
-    "soz_vers_pflicht_5j": float,
+    "sozialv_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
+    "kind_unterh_anspr_m": float,
+    "kind_unterh_erhalt_m": float,
+    "steuerklasse": int,
 }

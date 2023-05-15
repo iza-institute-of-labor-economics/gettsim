@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:
@@ -17,33 +17,6 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 
     """
     out = priv_rente_m + ges_rente_m
-    return out
-
-
-@add_rounding_spec(params_key="ges_rente")
-def ges_rente_nach_grundr_m(
-    ges_rente_vor_grundr_m: float,
-    grundr_zuschlag_m: float,
-    rentner: bool,
-) -> float:
-    """Calculate total individual public pension including Grundrentenzuschlag. Is only
-    active after 2021 when Grundrente is in place.
-
-    Parameters
-    ----------
-    ges_rente_vor_grundr_m
-        See :func:`ges_rente_vor_grundr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-
-    """
-    # Return 0 if person not yet retired
-    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 
@@ -82,12 +55,44 @@ def ges_rente_vor_grundr_m(
 
     """
 
-    # Return 0 if person not yet retired
     if rentner:
         out = entgeltp_update * ges_rente_zugangsfaktor * rentenwert
     else:
         out = 0.0
 
+    return out
+
+
+@dates_active(end="2020-12-31")
+def ges_rente_m(ges_rente_vor_grundr_m: float) -> float:
+    return ges_rente_vor_grundr_m
+
+
+@dates_active(start="2021-01-01", change_name="ges_rente_m")
+@add_rounding_spec(params_key="ges_rente")
+def ges_rente_m_nach_grundr(
+    ges_rente_vor_grundr_m: float,
+    grundr_zuschlag_m: float,
+    rentner: bool,
+) -> float:
+    """Calculate total individual public pension including Grundrentenzuschlag. Is only
+    active after 2021 when Grundrente is in place.
+
+    Parameters
+    ----------
+    ges_rente_vor_grundr_m
+        See :func:`ges_rente_vor_grundr_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+
+    """
+    # Return 0 if person not yet retired
+    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 
@@ -152,7 +157,6 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     -------
 
     """
-
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
@@ -209,7 +213,7 @@ def entgeltp_update_lohn(
     return out
 
 
-def ges_rente_zugangsfaktor(
+def ges_rente_zugangsfaktor(  # noqa: PLR0913
     geburtsjahr: int,
     rentner: bool,
     jahr_renteneintr: int,
@@ -303,7 +307,55 @@ def ges_rente_zugangsfaktor(
     return out
 
 
-def _ges_rente_altersgrenze_abschlagsfrei(
+@dates_active(end="2011-12-31", change_name="_ges_rente_altersgrenze_abschlagsfrei")
+def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
+    ges_rente_regelaltersgrenze: float,
+    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_langj_altersgrenze: float,
+    ges_rente_vorauss_regelrente: bool,
+    ges_rente_vorauss_frauen: bool,
+    ges_rente_vorauss_langj: bool,
+) -> float:
+    """Calculates the age, at which a person is eligible to claim the full pension. Full
+    retirement age (FRA) without deductions. This age is smaller or equal to the
+    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
+    insurance duration, health/disability, employment status.
+
+    Parameters
+    ----------
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_frauen_altersgrenze
+        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_langj_altersgrenze
+        See :func:`_ges_rente_langj_altersgrenze`.
+    ges_rente_vorauss_regelrente
+        See :func:`ges_rente_vorauss_regelrente`.
+    ges_rente_vorauss_frauen
+        See :func:`ges_rente_vorauss_frauen`.
+    ges_rente_vorauss_langj
+        See :func:`ges_rente_vorauss_langj`.
+
+    Returns
+    -------
+    Lowest possible full retirement age (without deductions). Nan if
+    person not eligigble for a public pension.
+
+    """
+
+    out = float("Nan")
+    if ges_rente_vorauss_regelrente:
+        out = ges_rente_regelaltersgrenze
+    if ges_rente_vorauss_frauen:
+        out = min([out, ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_langj:
+        out = min([out, _ges_rente_langj_altersgrenze])
+
+    return out
+
+
+@dates_active(start="2012-01-01", change_name="_ges_rente_altersgrenze_abschlagsfrei")
+def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -313,7 +365,7 @@ def _ges_rente_altersgrenze_abschlagsfrei(
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Calculates the age, at which a person is eligible to claim the full pension. Full
+    """Calculate the age, at which a person is eligible to claim the full pension. Full
     retirement age (FRA) without deductions. This age is smaller or equal to the
     regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
     insurance duration, health/disability, employment status.
@@ -396,7 +448,7 @@ def referenz_alter_abschlag(
 
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
-    """Calculates the age, at which a person is eligible to claim the regular pension.
+    """Calculate the age, at which a person is eligible to claim the regular pension.
     Normal retirement age (NRA). This pension cannot be claimed earlier than at the NRA,
     ie it does not serve as reference for calculating deductions. However, it serves as
     reference for calculating gains in the Zugangsfakor in case of later retirement.
@@ -413,7 +465,6 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     -------
 
     """
-
     out = piecewise_polynomial(
         x=geburtsjahr,
         thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
@@ -431,7 +482,7 @@ def ges_rente_frauen_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a women is eligible to claim the full pension
+    """Calculate the age, at which a women is eligible to claim the full pension
     (without deductions). This pension scheme allows for early retirement from age 60
     with deductions. Hence this threshold is needed as reference for calculating the
     zugangsfaktor.
@@ -476,7 +527,7 @@ def _ges_rente_langj_altersgrenze(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the age, at which a long term insured person (at least 35 years) is
+    """Calculate the age, at which a long term insured person (at least 35 years) is
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
@@ -518,11 +569,13 @@ def _ges_rente_langj_altersgrenze(
     return out
 
 
+@dates_active(start="2012-01-01")
 def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculates the threshold from which very long term insured people (at least 45
+    """Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
     # ToDo: This function should only exist from 2014-07-01 onwards. Add decorator once
@@ -540,8 +593,13 @@ def _ges_rente_besond_langj_altersgrenze(
     Full retirement age (without deductions) for very long term insured.
 
     """
+    if geburtsjahr < 1952:
+        x = geburtsjahr + (geburtsmonat - 1) / 12
+    else:
+        x = geburtsjahr
+
     out = piecewise_polynomial(
-        x=geburtsjahr,
+        x=x,
         thresholds=ges_rente_params["altersgrenze_besonders_langj_versicherte"][
             "thresholds"
         ],
@@ -599,7 +657,7 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
     return out
 
 
-def ges_rente_vorauss_frauen(
+def ges_rente_vorauss_frauen(  # noqa: PLR0913
     weiblich: bool,
     ges_rente_wartezeit_15: float,
     y_pflichtbeitr_ab_40: float,
@@ -678,6 +736,7 @@ def ges_rente_vorauss_langj(
     return out
 
 
+@dates_active(start="2012-01-01")
 def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte
     (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
@@ -692,7 +751,6 @@ def ges_rente_vorauss_besond_langj(ges_rente_wartezeit_45: float) -> bool:
     Eligibility as bool.
 
     """
-
     out = ges_rente_wartezeit_45 >= 45
 
     return out
@@ -748,7 +806,7 @@ def ges_rente_wartezeit_15(
     return out
 
 
-def ges_rente_wartezeit_35(
+def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit: float,
@@ -791,7 +849,7 @@ def ges_rente_wartezeit_35(
     return out
 
 
-def ges_rente_wartezeit_45(
+def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,
@@ -843,7 +901,7 @@ def ges_rente_wartezeit_45(
     return out
 
 
-def ges_rente_anrechnungszeit(
+def ges_rente_anrechnungszeit(  # noqa: PLR0913
     m_arbeitsunfähig: float,
     m_krank_ab_16_bis_24: float,
     m_mutterschutz: float,

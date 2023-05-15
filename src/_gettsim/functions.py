@@ -9,6 +9,7 @@ from _gettsim.social_insurance_contributions.ges_pflegev import *  # noqa: F403
 from _gettsim.social_insurance_contributions.ges_rentenv import *  # noqa: F403
 from _gettsim.taxes.abgelt_st import *  # noqa: F403
 from _gettsim.taxes.eink_st import *  # noqa: F403
+from _gettsim.taxes.lohn_st import *  # noqa: F403
 from _gettsim.taxes.soli_st import *  # noqa: F403
 from _gettsim.taxes.zu_verst_eink.eink import *  # noqa: F403
 from _gettsim.taxes.zu_verst_eink.freibetraege import *  # noqa: F403
@@ -29,5 +30,6 @@ from _gettsim.transfers.kinderzuschl.kinderzuschl import *  # noqa: F403
 from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import *  # noqa: F403
 from _gettsim.transfers.kinderzuschl.kost_unterk import *  # noqa: F403
 from _gettsim.transfers.rente import *  # noqa: F403
-from _gettsim.transfers.unterhaltsv import *  # noqa: F403
+from _gettsim.transfers.unterhalt import *  # noqa: F403
+from _gettsim.transfers.unterhaltsvors import *  # noqa: F403
 from _gettsim.transfers.wohngeld import *  # noqa: F403

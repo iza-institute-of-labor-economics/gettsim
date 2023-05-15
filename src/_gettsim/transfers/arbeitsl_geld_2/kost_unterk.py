@@ -1,3 +1,7 @@
+from _gettsim.shared import dates_active
+
+
+@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
 def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
     _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_m_hh: float,
@@ -23,6 +27,7 @@ def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
     )
 
 
+@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
 def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
@@ -60,10 +65,10 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
             * _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
         )
     else:
-        out = bruttokaltmiete_m_hh + heizkosten_m_hh
         # ToDo: only reasonable heating costs are taken into account
         # these are calculated taking into account the actual size of the apartment
         # not just the appropriate size
+        out = bruttokaltmiete_m_hh + heizkosten_m_hh
 
     return out
 

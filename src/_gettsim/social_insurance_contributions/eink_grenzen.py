@@ -1,7 +1,47 @@
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def minijob_grenze(
+@dates_active(
+    end="2022-09-30",
+)
+def minijob_grenze_west(sozialv_beitr_params: dict) -> float:
+    """Obtains marginal job thresholds for West Germany until September 2022.
+
+    Parameters
+    ----------
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+
+    """
+    return sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
+
+
+@dates_active(
+    end="2022-09-30",
+)
+def minijob_grenze_ost(sozialv_beitr_params: dict) -> float:
+    """Obtains marginal job thresholds for East Germany until September 2022.
+
+    Parameters
+    ----------
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+
+    """
+    return sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
+
+
+@dates_active(end="2022-09-30", change_name="minijob_grenze")
+@add_rounding_spec(params_key="sozialv_beitr")
+def minijob_grenze_unterschied_ost_west(
     wohnort_ost: bool, minijob_grenze_west: float, minijob_grenze_ost: float
 ) -> float:
     """Select the income threshold depending on place of living.
@@ -10,14 +50,37 @@ def minijob_grenze(
     ----------
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     Returns
     -------
 
     """
     out = minijob_grenze_ost if wohnort_ost else minijob_grenze_west
     return float(out)
+
+
+@add_rounding_spec(params_key="sozialv_beitr")
+@dates_active(start="2022-10-01")
+def minijob_grenze(sozialv_beitr_params: dict) -> float:
+    """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
+    the statutory minimum wage.
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Marginal Job Threshold
+
+    """
+    return (
+        sozialv_beitr_params["mindestlohn"]
+        * sozialv_beitr_params["geringf_eink_faktor"]
+        / sozialv_beitr_params["geringf_eink_divisor"]
+    )
 
 
 def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
@@ -46,7 +109,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
 def in_gleitzone(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
 ) -> bool:
     """Check if individual's income is in midi-job range.
 
@@ -61,8 +124,8 @@ def in_gleitzone(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
@@ -70,14 +133,18 @@ def in_gleitzone(
 
     """
     out = (
-        bruttolohn_m <= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+        bruttolohn_m <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     ) and (not geringfügig_beschäftigt)
     return out
 
 
-@add_rounding_spec(params_key="soz_vers_beitr")
-def midijob_faktor_f_bis_09_2022(
-    soz_vers_beitr_params: dict,
+@dates_active(
+    end="2022-09-30",
+    change_name="midijob_faktor_f",
+)
+@add_rounding_spec(params_key="sozialv_beitr")
+def midijob_faktor_f_mit_minijob_st(
+    sozialv_beitr_params: dict,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
@@ -92,8 +159,8 @@ def midijob_faktor_f_bis_09_2022(
 
     Parameters
     ----------
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -106,21 +173,21 @@ def midijob_faktor_f_bis_09_2022(
     """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
-    allg_soz_vers_beitr = (
-        soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
-        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-        + soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    allg_sozialv_beitr = (
+        sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
+        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        + sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Then calculate specific shares
-    an_anteil = allg_soz_vers_beitr + ges_krankenv_beitr_satz
-    ag_anteil = allg_soz_vers_beitr + _ges_krankenv_beitr_satz_arbeitg
+    an_anteil = allg_sozialv_beitr + ges_krankenv_beitr_satz
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg
 
     # Sum over the shares which are specific for midijobs.
     pausch_mini = (
-        soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
-        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
-        + soz_vers_beitr_params["ag_abgaben_geringf"]["st"]
+        sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        + sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        + sozialv_beitr_params["ag_abgaben_geringf"]["st"]
     )
 
     # Now calculate final factor
@@ -129,9 +196,10 @@ def midijob_faktor_f_bis_09_2022(
     return out
 
 
-@add_rounding_spec(params_key="soz_vers_beitr")
-def midijob_faktor_f_ab_10_2022(
-    soz_vers_beitr_params: dict,
+@dates_active(start="2022-10-01", change_name="midijob_faktor_f")
+@add_rounding_spec(params_key="sozialv_beitr")
+def midijob_faktor_f_ohne_minijob_st(
+    sozialv_beitr_params: dict,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
@@ -147,8 +215,8 @@ def midijob_faktor_f_ab_10_2022(
 
     Parameters
     ----------
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -164,22 +232,22 @@ def midijob_faktor_f_ab_10_2022(
     # adding the mean Zusatzbeitrag
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
-    allg_soz_vers_beitr = (
-        soz_vers_beitr_params["beitr_satz"]["ges_rentenv"]
-        + soz_vers_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-        + soz_vers_beitr_params["beitr_satz"]["arbeitsl_v"]
+    allg_sozialv_beitr = (
+        sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
+        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        + sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
 
     # Then calculate specific shares
-    an_anteil = allg_soz_vers_beitr + ges_krankenv_beitr_satz
-    ag_anteil = allg_soz_vers_beitr + _ges_krankenv_beitr_satz_arbeitg
+    an_anteil = allg_sozialv_beitr + ges_krankenv_beitr_satz
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg
 
     # Sum over the shares which are specific for midijobs.
     # New formula only inludes the lump-sum contributions to health care
     # and pension insurance
     pausch_mini = (
-        soz_vers_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
-        + soz_vers_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        + sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
     )
 
     # Now calculate final factor f
@@ -188,16 +256,20 @@ def midijob_faktor_f_ab_10_2022(
     return out
 
 
+@dates_active(
+    end="2022-09-30",
+    change_name="midijob_bemessungsentgelt_m",
+)
 def midijob_bemessungsentgelt_m_bis_09_2022(
-    midijob_faktor_f: float,
     bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
-    minijob_grenze_west: float,
+    midijob_faktor_f: float,
+    minijob_grenze: float,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Income subject to social insurance contributions for midijob until September
     2022.
 
-    Bemmessungsgeld (Gleitzonenentgelt) is the reference income for midijobs subject to
+    Bemessungsgeld (Gleitzonenentgelt) is the reference income for midijobs subject to
     social insurance contribution.
 
     Legal reference: § 163 Abs. 10 SGB VI
@@ -205,12 +277,14 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
     Parameters
     ----------
-    midijob_faktor_f
-        See :func:`midijob_faktor_f`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    midijob_faktor_f
+        See :func:`midijob_faktor_f`.
+    minijob_grenze
+        See :func:`minijob_grenze`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
 
     Returns
@@ -219,19 +293,19 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
     """
     # Now use the factor to calculate the overall bemessungsentgelt
-    minijob_anteil = midijob_faktor_f * minijob_grenze_west
-    lohn_über_mini = bruttolohn_m - minijob_grenze_west
+    minijob_anteil = midijob_faktor_f * minijob_grenze
+    lohn_über_mini = bruttolohn_m - minijob_grenze
     gewichtete_midijob_rate = (
-        soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+        sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
-            - minijob_grenze_west
+            sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+            - minijob_grenze
         )
     ) - (
-        minijob_grenze_west
+        minijob_grenze
         / (
-            soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
-            - minijob_grenze_west
+            sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+            - minijob_grenze
         )
         * midijob_faktor_f
     )
@@ -239,11 +313,12 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
 
 
+@dates_active(start="2022-10-01", change_name="midijob_bemessungsentgelt_m")
 def midijob_bemessungsentgelt_m_ab_10_2022(
-    midijob_faktor_f: float,
     bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    midijob_faktor_f: float,
     minijob_grenze: float,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Total income subject to social insurance contributions for employers a and
     employees for midijob since October 2022. In the law, the considered income is
@@ -257,14 +332,14 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
     Parameters
     ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     minijob_grenze
         See :func:`minijob_grenze`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
 
     Returns
@@ -272,7 +347,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     Income subject to social insurance contributions for midijob.
 
     """
-    midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze)
     quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze)
@@ -285,9 +360,9 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     return out
 
 
-def _midijob_beitragspf_einnahme_arbeitn_m(
+def _midijob_beitragspfl_einnahme_arbeitn_m(
     bruttolohn_m: float,
-    soz_vers_beitr_params: dict,
+    sozialv_beitr_params: dict,
     minijob_grenze: float,
 ) -> float:
     """Income subject to employee social insurance contributions for midijob since
@@ -303,8 +378,8 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
@@ -314,7 +389,7 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     Income subject to employee social insurance contributions for midijob.
 
     """
-    midijob_grenze = soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
     einkommen_diff = bruttolohn_m - minijob_grenze
@@ -324,64 +399,7 @@ def _midijob_beitragspf_einnahme_arbeitn_m(
     return out
 
 
-@add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_west_bis_09_2022(soz_vers_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for West Germany until September 2022.
-
-    Parameters
-    ----------
-    soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-    Marginal Job Threshold
-
-    """
-    return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
-
-
-@add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_ost_bis_09_2022(soz_vers_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for East Germany until September 2022.
-
-    Parameters
-    ----------
-    soz_vers_beitr_params:
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-    Marginal Job Threshold
-
-    """
-    return soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
-
-
-@add_rounding_spec(params_key="soz_vers_beitr")
-def minijob_grenze_ab_10_2022(soz_vers_beitr_params: dict) -> float:
-    """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
-    the statutory minimum wage.
-
-    Parameters
-    ----------
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
-
-    Returns
-    -------
-    Marginal Job Threshold
-
-    """
-
-    return (
-        soz_vers_beitr_params["mindestlohn"]
-        * soz_vers_beitr_params["geringf_eink_faktor"]
-        / soz_vers_beitr_params["geringf_eink_divisor"]
-    )
-
-
-def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> bool:
+def regulär_beschäftigt(bruttolohn_m: float, sozialv_beitr_params: dict) -> bool:
     """Check if person is in regular employment.
 
     Employees earning more than the midijob threshold, are subject to all ordinary
@@ -392,15 +410,13 @@ def regulär_beschäftigt(bruttolohn_m: float, soz_vers_beitr_params: dict) -> b
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    soz_vers_beitr_params
-        See params documentation :ref:`soz_vers_beitr_params <soz_vers_beitr_params>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
     Whether regular employed persons.
 
     """
-    out = (
-        bruttolohn_m >= soz_vers_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
-    )
+    out = bruttolohn_m >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     return out

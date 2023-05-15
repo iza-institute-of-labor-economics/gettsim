@@ -30,7 +30,6 @@ maximum:
     scalar: null
     reference: § 6a (2) BKGG
     note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
-
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
@@ -50,7 +49,6 @@ kindersofortzuschl:
     scalar: null
   2024-01-01:
     scalar: 20
-
 min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
@@ -66,7 +64,6 @@ min_eink_paare:
   2008-10-01:
     scalar: 900
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-
 min_eink_alleinerz:
   name:
     de: Mindesteinkommen für Alleinerziehende
@@ -82,7 +79,6 @@ min_eink_alleinerz:
   2008-10-01:
     scalar: 600
     reference: Art. 1 G. v. 24.09.2008 BGBl. I S. 1854.
-
 entzugsrate_eltern:
   name:
     de: Minderungsrate durch Einkommen der Eltern über BMG
@@ -104,7 +100,6 @@ entzugsrate_eltern:
   2020-01-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-
 entzugsrate_kind:
   name:
     de: Minderungsrate durch Einkommen des Kindes
@@ -122,7 +117,6 @@ entzugsrate_kind:
   2019-07-01:
     scalar: 0.45
     reference: Art. 1 G. v. 29.04.2019 BGBl. I S. 530.
-
 existenzminimum:
   name:
     de: >-

@@ -226,17 +226,16 @@ eink_st_tarif:
       upper_threshold: 66761
     3:
       upper_threshold: 277826
-
 rente_ertragsanteil:
   name:
     de: >-
-      Piecewise linear Ertrgasanteil funktion für den Anteil an
-      sozialversicherungspflichtigen Renteneinkommen.
+      Ertragsanteil-Funktion für den Anteil an sozialversicherungspflichtigen
+      Renteneinkommen, der versteuert werden muss (piecewise linear)
     en: >-
       Piecewise linear function for calculating the share of pensions subject to income
       taxation.
   description:
-    de: Einkommensteuergesetz (EStG) § 22
+    de: § 22 EStG
     en: null
   note:
     de: >-
@@ -265,7 +264,6 @@ rente_ertragsanteil:
       upper_threshold: inf
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
-
 rounding:
   eink_st_tu:
     note:
