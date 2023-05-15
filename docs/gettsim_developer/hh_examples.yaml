@@ -26,14 +26,17 @@ eltern_verheiratet_2_kinder:
         - 0
         - 1
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
         - 0
         - 0
     - kinderfreibeträge:
-      # Sind Kinderfreibeträge hier als halbe Kinderfreibeträge (je Elternteil) zu verstehen?
-      # Warum dann bei den folgenden beiden Haushaltstypen jeweils nur ein halber Kinderfreibetrag trotz zwei Kindern?
         - 2
         - 2
         - 0
@@ -43,11 +46,51 @@ eltern_unverheiratet_2_kinder:
     - id: 0
       geburtstag: 1984-07-14
       id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 0
+    - kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_getrennt_veranlagt_2_kinder:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
       gemeinsam_veranlagt: false
       id_haushalt: 0
     - id: 1
       geburtstag: 1981-07-14
       id_einstandspartner: 0
+      id_ehepartner: 0
       gemeinsam_veranlagt: false
       id_haushalt: 0
     - id: 2
@@ -63,6 +106,11 @@ eltern_unverheiratet_2_kinder:
         - 0
         - 1
   output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
     - id_bedarfsgemeinschaft:
         - 0
         - 0
@@ -100,24 +148,25 @@ eltern_verheiratet_1_junges_1_erwachsenes_kind:
         - 0
         - 1
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
-      # Das ältere Kind ist am aktuellen Rand (2023-02-19) in der Regel keine
-      # eigene BG, da unter 25. Es wäre technisch eine eigene (nicht bedürfige)
+      # Das ältere Kind wäre technisch eine eigene (nicht bedürfige)
       # BG, wenn sein Einkommen seinen Bedarf deckt. Das weiß man aber erst nach
-      # der Anspruchsprüfung. Die Überlegung gilt grundsätzlich auch für minderjährige Kinder.
-      # Verständnisfrage: Was soll die "id_bedarfsgemeinschaft" anzeigen? Soll sie anzeigen,
-      # für welche Personen in einem Haushalt die Anspruchsprüfung gemeinsam durchgeführt
-      # werden muss? Oder soll sie die Zuordnung der Personen zu (eventuell nicht bedürfigen)
-      # Bedarfsgemeinschaften _nach_ der Anspruchsprüfung anzeigen? Ich vermute, dass Ersteres zutrifft.
+      # der Anspruchsprüfung.
+      # CZ: Einkommen hinzufügen um klar zu machen, dass Bedarf nicht gedeckt wird?
         - 0
         - 0
         - 1
         - 0
     - kinderfreibeträge:
-      # Der Kinderfreibetrag für das erwachsene (aber unter 25jährige) Kind ist ebenfalls endogen.
-      # Verständnisfrage: Ich bin mir nicht sicher, ob ich die Outputs richtig interpretiere.
-      # Sind die Outputs hier grundsätzlich als beispielhafte oder als erwartete Ergebnisse (eindeutig auf
-      # Grundlage der Inputs) zu verstehen? Ich vermute, dass Letzteres zutrifft.
+      # Der Kinderfreibetrag für das erwachsene (aber unter 25jährige) Kind ist
+      # ebenfalls endogen. CZ: Hier müssten wir in_ausbildung und arbeitsstunden_w
+      # hinzufügen, um es eindeutig zu machen. Alternativ einfach vermerken, dass wir
+      # hier davon ausgehen, dass bis 24 Kindergeldanspruch besteht.
         - 1
         - 1
         - 0
@@ -149,14 +198,17 @@ eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
         - 0
         - 1
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
         - 1
         - 0
     - kinderfreibeträge:
-      # Für das ältere Kind gibt es 2023 keinen Kinderfreibetrag mehr
-      # Für das jüngere Kind gibt es 2023 u.U. einen Kinderfreibetrag
         - 0.5
         - 0.5
         - 0
@@ -197,6 +249,12 @@ eltern_verheiratet_1_kind_großeltern:
       gemeinsam_veranlagt: true
       id_haushalt: 0
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
@@ -204,7 +262,6 @@ eltern_verheiratet_1_kind_großeltern:
         - 1
         - 1
     - kinderfreibeträge:
-      # Volle oder halbe Kinderfreibeträge?
         - 1
         - 1
         - 0
@@ -234,13 +291,17 @@ eltern_verheiratet_1_kind_anderer_verwandter:
       geburtstag: 1984-05-12
       id_haushalt: 0
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
         - 0
         - 1
     - kinderfreibeträge:
-      # Volle oder halbe Kinderfreibeträge?
         - 1
         - 1
         - 0
@@ -256,14 +317,19 @@ alleinerziehend_anderer_elternteil_unbekannt:
       id_eltern:
         - 0
   output:
+    - id_tax_unit:
+        - 0
+        - 1
     - id_bedarfsgemeinschaft:
         - 0
         - 0
     - kinderfreibeträge:
-      # Die Gegenüberstellung von diesem und dem folgenden Haushalt legt nahe,
-      # dass Kinderfreibeträge als volle Beträge gemessen werden sollen.
         - 1
         - 0
+    - unterhaltsvors:
+        - 0
+        - 0
+        - '> 0'
 alleinerziehend_anderer_elternteil_in_anderem_haushalt:
   input:
     - id: 0
@@ -279,15 +345,66 @@ alleinerziehend_anderer_elternteil_in_anderem_haushalt:
       geburtstag: 1971-12-24
       id_haushalt: 1
   output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
         - 1
     - kinderfreibeträge:
+    # CZ: In case the other parent does not pay child support, the parent id==0, can
+    # request full kinderfreibetrag (Add this as input?)
         - 0.5
         - 0
         - 0.5
-neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
+    - unterhaltsvors:
+        - 0
+        - 0
+        - (potentially > 0)
+neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 3
+    - id: 3
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - kinderfreibeträge:
+    # CZ: see comment above
+        - 0.5
+        - 0
+        - 0
+        - 0.5
+    - unterhaltsvors:
+        - 0
+        - 0
+        - (potentially > 0)
+        - 0
+neuer_verheirateter_partner_1_kind_im_haushalt_anderer_elternteil_anderer_elternteil_in_anderem_haushalt:
   input:
     - id: 0
       geburtstag: 1984-07-14
@@ -311,6 +428,11 @@ neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
       geburtstag: 1971-12-24
       id_haushalt: 1
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
@@ -318,9 +440,48 @@ neuer_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
         - 1
     - kinderfreibeträge:
         - 0.5
-        - 0
+        - 0.5  # CZ: I think so
         - 0
         - 0.5
+    - unterhaltsvors:
+    # not eligible for unterhaltsvorschuss if parent in same household is married to
+    # new partner (kind_unterh_anspr_m unaffected)
+        - 0
+        - 0
+        - 0
+        - 0
+neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_unbekannt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+    - kinderfreibeträge:
+        - 1
+        - 0
+        - 0
+    - unterhaltsvors:
+        - 0
+        - 0
+        - '> 0'
 enkelkind_und_sgb_ii_grossmutter:
   input:
     - id: 0
@@ -330,6 +491,9 @@ enkelkind_und_sgb_ii_grossmutter:
       geburtstag: 1966-03-01
       id_haushalt: 0
   output:
+    - id_tax_unit:
+        - 0
+        - 1
     - id_bedarfsgemeinschaft:
         - 0
         - 1
@@ -345,11 +509,12 @@ enkelkind_und_sgb_xii_grossmutter:
       geburtstag: 1954-03-01
       id_haushalt: 0
   output:
+    - id_tax_unit:
+        - 0
+        - 1
     - id_bedarfsgemeinschaft:
         - 0
-        - 1  # Die Großmutter hat die Altersgrenze gemäß § 7a SGB II überschritten
-            # und kann daher keine BG im Sinne des SGB II bilden. Vermutlich
-            # ist es daher nicht sinnvoll, hier eine non-missing ID zu vergeben?
+        - 1
     - kinderfreibeträge:
         - 0
         - 0
