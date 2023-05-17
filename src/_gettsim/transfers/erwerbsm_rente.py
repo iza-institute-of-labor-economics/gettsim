@@ -27,6 +27,7 @@ def durchschnittliche_entgeltp(
     return out
 
 
+@dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
     durchschnittliche_entgeltp: float,
@@ -59,6 +60,57 @@ def entgeltp_erwerbsm_rente(
     out = entgeltp + (
         (
             erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"] / 12
+            - (jahr_renteneintr - geburtsjahr)
+        )
+        * durchschnittliche_entgeltp
+    )
+
+    return out
+
+
+@dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
+def entgeltp_erwerbsm_rente_sonderregel(
+    entgeltp: float,
+    durchschnittliche_entgeltp: float,
+    erwerbsm_rente_params: dict,
+    geburtsjahr: int,
+    jahr_renteneintr: int,
+) -> float:
+    """Calculating Entgeltpunkte for Erwerbsminderungsrente
+    (pension for reduced earning capacity) considering a special change in
+    Zurechnungszeit from 2001-2003. Zurechnungszeitsgrenze is continually reduced
+    by one month each month in this time period.
+
+    Parameters
+    ----------
+    entgeltp
+        See basic input variable :ref:`entgeltp <entgeltp>
+    durchschnittliche_entgeltp
+        See :func:`durchschnittliche_entgeltp`.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
+
+    Returns
+    -------
+    Final Entgeltpunkte for Erwerbsminderungsrente
+
+    """
+    date_list = erwerbsm_rente_params["datum"].astype(str).split("-")
+    diff_zu_2001_in_m = (int(date_list[0]) - 2001) * 12 + (int(date_list[1]) - 1)
+
+    out = entgeltp + (
+        (
+            (
+                (
+                    erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"]
+                    - diff_zu_2001_in_m
+                )
+                / 12
+            )
             - (jahr_renteneintr - geburtsjahr)
         )
         * durchschnittliche_entgeltp
@@ -233,6 +285,8 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
 
 def anspruch_erwerbsm_rente(
     alter: int,
+    ges_rente_wartezeit_5: float,
+    m_pflichtbeitrag: int,
     ges_rente_params: dict,
     rentner: bool,
 ) -> bool:
@@ -258,7 +312,12 @@ def anspruch_erwerbsm_rente(
     Eligibility for Erwerbsminderungsrente as bool.
 
     """
-    if rentner and alter < ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]:
+    if (
+        rentner
+        and ges_rente_wartezeit_5 >= 5
+        and m_pflichtbeitrag >= 3
+        and alter < ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+    ):
         out = True
     else:
         out = False

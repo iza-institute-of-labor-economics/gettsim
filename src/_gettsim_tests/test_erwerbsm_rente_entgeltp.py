@@ -14,7 +14,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 INPUT_COLS = [
     "p_id",
-    "m_beitragszeit",
+    "m_gesamtbew",
     "geburtsjahr",
     "jahr_renteneintr",
     "entgeltp",
@@ -24,7 +24,7 @@ OUT_COLS = [
     "entgeltp_erwerbsm_rente",
 ]
 
-YEARS = [2020]
+YEARS = [2002, 2003, 2010]
 
 
 @pytest.fixture(scope="module")
