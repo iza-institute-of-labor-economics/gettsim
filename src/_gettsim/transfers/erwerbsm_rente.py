@@ -284,40 +284,25 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
 
 
 def anspruch_erwerbsm_rente(
-    alter: int,
-    ges_rente_wartezeit_5: float,
-    m_pflichtbeitrag: int,
-    ges_rente_params: dict,
-    rentner: bool,
+    erwerbsm_rentner: bool,
 ) -> bool:
     """Function determining the elegibility for Erwerbsminderungsrente
-    altersgrenze_langj_versicherte_vorzeitig =
-    mindestalter für altersrente = 63
 
-    This function is not completely accurate yet as individuals above age 63
-    can still claim reduced earnings capacity if they are below the
-    (Regelaltersgrenze)
+
+    Not sure yet if the elegibility should come as an input variable or if it
+    should be determined with other variables
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>.
-    rentner
-        See basic input variable :ref:`rentner <rentner>.
+    erwerbsm_rentner
+        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
 
     Returns
     -------
     Eligibility for Erwerbsminderungsrente as bool.
 
     """
-    if (
-        rentner
-        and ges_rente_wartezeit_5 >= 5
-        and m_pflichtbeitrag >= 3
-        and alter < ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
-    ):
+    if erwerbsm_rentner is True:
         out = True
     else:
         out = False
