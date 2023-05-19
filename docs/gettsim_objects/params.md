@@ -23,9 +23,9 @@ corresponding part of the {code}`params` file. For GETTSIM to read and process t
 arguments of functions correctly the {code}`compartment_name + _params` variables have
 to be last inputs in the function signature.
 
-(soz_vers_beitr_params)=
+(sozialv_beitr_params)=
 
-## `soz_vers_beitr_params`
+## `sozialv_beitr_params`
 
 Social insurance contributions
 
@@ -64,6 +64,12 @@ Unemployment benefits
 ## `unterhalt_params`
 
 Alimony payments
+
+(unterhaltsvors_params)=
+
+## `unterhaltsvors_params`
+
+Advance on alimony payments
 
 (abgelt_st_params)=
 

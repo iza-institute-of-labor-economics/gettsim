@@ -1,13 +1,13 @@
-from warnings import warn
+import warnings
 
-import numpy as np
+import numpy
 import numpy_groupies as npg
 
 
 def grouped_count(group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="count")
     out_on_hh = npg.aggregate(
-        group_id, np.ones(len(group_id)), func="sum", fill_value=0
+        group_id, numpy.ones(len(group_id)), func="sum", fill_value=0
     )
 
     out = out_on_hh[group_id]
@@ -42,7 +42,7 @@ def grouped_max(column, group_id):
 
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
-    if np.issubdtype(column.dtype, np.datetime64):
+    if numpy.issubdtype(column.dtype, numpy.datetime64):
         dtype = column.dtype
         float_col = column.astype("datetime64[D]").astype(int)
 
@@ -68,8 +68,8 @@ def grouped_min(column, group_id):
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
 
-    if np.issubdtype(column.dtype, np.datetime64) or np.issubdtype(
-        column.dtype, np.timedelta64
+    if numpy.issubdtype(column.dtype, numpy.datetime64) or numpy.issubdtype(
+        column.dtype, numpy.timedelta64
     ):
         dtype = column.dtype
         float_col = column.astype("datetime64[D]").astype(int)
@@ -112,7 +112,7 @@ def grouped_all(column, group_id):
 
 
 def grouped_cumsum(column, group_id):
-    warn(
+    warnings.warn(
         "'grouped_cumsum' is deprecated. It won't be supported anymore in a future "
         "version",
         DeprecationWarning,
@@ -128,7 +128,7 @@ def grouped_cumsum(column, group_id):
 
 
 def fail_if_dtype_not_numeric(column, agg_func):
-    if not np.issubdtype(column.dtype, np.number):
+    if not numpy.issubdtype(column.dtype, numpy.number):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. Allowed are only numerical dtypes."
@@ -136,7 +136,7 @@ def fail_if_dtype_not_numeric(column, agg_func):
 
 
 def fail_if_dtype_not_float(column, agg_func):
-    if not np.issubdtype(column.dtype, np.floating):
+    if not numpy.issubdtype(column.dtype, numpy.floating):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. Allowed is only float."
@@ -144,7 +144,7 @@ def fail_if_dtype_not_float(column, agg_func):
 
 
 def fail_if_dtype_of_group_id_not_int(group_id, agg_func):
-    if not np.issubdtype(group_id.dtype, np.integer):
+    if not numpy.issubdtype(group_id.dtype, numpy.integer):
         raise TypeError(
             f"The dtype of group_id must be integer. Grouped_{agg_func} was applied "
             f"to a group_id that has dtype {group_id.dtype}."
@@ -152,7 +152,7 @@ def fail_if_dtype_of_group_id_not_int(group_id, agg_func):
 
 
 def fail_if_dtype_not_numeric_or_boolean(column, agg_func):
-    if not (np.issubdtype(column.dtype, np.number) or column.dtype == "bool"):
+    if not (numpy.issubdtype(column.dtype, numpy.number) or column.dtype == "bool"):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
             f"that has dtype {column.dtype}. "
@@ -162,8 +162,8 @@ def fail_if_dtype_not_numeric_or_boolean(column, agg_func):
 
 def fail_if_dtype_not_numeric_or_datetime(column, agg_func):
     if not (
-        np.issubdtype(column.dtype, np.number)
-        or np.issubdtype(column.dtype, np.datetime64)
+        numpy.issubdtype(column.dtype, numpy.number)
+        or numpy.issubdtype(column.dtype, numpy.datetime64)
     ):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "
@@ -174,7 +174,8 @@ def fail_if_dtype_not_numeric_or_datetime(column, agg_func):
 
 def fail_if_dtype_not_boolean_or_int(column, agg_func):
     if not (
-        np.issubdtype(column.dtype, np.integer) or np.issubdtype(column.dtype, np.bool_)
+        numpy.issubdtype(column.dtype, numpy.integer)
+        or numpy.issubdtype(column.dtype, numpy.bool_)
     ):
         raise TypeError(
             f"grouped_{agg_func} was applied to a column "

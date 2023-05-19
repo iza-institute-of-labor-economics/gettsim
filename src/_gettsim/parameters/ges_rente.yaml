@@ -16,7 +16,6 @@ alpha:
     scalar: 0.0
   2002-01-01:
     scalar: 0.25
-
 altersvorsogeanteil:
   name:
     de: Altersvorsorgeanteil (AVA)
@@ -44,7 +43,6 @@ altersvorsogeanteil:
     scalar: 3.5
   2012-01-01:
     scalar: 4.0
-
 beitragsvolumen:
   name:
     de: Beitragsvolumen der gesetzlichen Rentenversicherung
@@ -116,7 +114,6 @@ beitragsvolumen:
     scalar: 236404000
   2019-01-01:
     scalar: 247949000
-
 eckrente:
   name:
     de: Regelaltersrente/ Standardrente
@@ -178,7 +175,6 @@ eckrente:
     scalar: 1242.58
   2018-01-01:
     scalar: 1284.06
-
 durchschnittslohn:
   name:
     de: Durchschnittslohn
@@ -212,7 +208,6 @@ durchschnittslohn:
     scalar: 33047.02
   2016-01-01:
     scalar: 33608.42
-
 beitragspflichtiges_durchschnittsentgelt:
   name:
     de: Beitragspflichtiges Durchschnittsentgelt aller Versicherten
@@ -270,7 +265,6 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 38901
     reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
     note: Das vorläufige Durchschnittsentgelt.
-
 umrechnung_entgeltp_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
@@ -446,7 +440,6 @@ umrechnung_entgeltp_beitrittsgebiet:
     scalar: 1.0280
   2024-01-01:
     scalar: 1.0140
-
 gesamtes_rentenvolumen:
   name:
     de: Rentenvolumen
@@ -514,15 +507,14 @@ gesamtes_rentenvolumen:
     scalar: 277102000
   2019-01-01:
     scalar: 291359000
-
 rentenwert:
   name:
     de: Rentenwerte alte und neue Bundesländer
     en: Pension value old and new federal states
   description:
     de: >-
-      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für einen
-      Entgeltpunkt entspricht.
+      Der aktuelle Rentenwert drückt den Betrag aus, der der monatlichen Rente für
+      einen Entgeltpunkt entspricht.
     en: >-
       The current pension value expresses the amount of monthly pension paid for one
       Entgeltpunkt.
@@ -622,7 +614,6 @@ rentenwert:
   2021-07-01:
     deviation_from: previous
     ost: 33.47
-
 grundr_höchstwert:
   name:
     de: Höchstwert der Entgeltpunkte für Grundrente
@@ -638,7 +629,6 @@ grundr_höchstwert:
     base: 0.0334
     increment: 0.001389
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
-
 grundr_zugangsfaktor_max:
   name:
     de: Zugangsfaktor bei Grundrente
@@ -649,7 +639,6 @@ grundr_zugangsfaktor_max:
   reference: § 77 Abs. 2 SGB VI
   2021-01-01:
     scalar: 1
-
 grundr_zeiten:
   name:
     de: Grundrentenzeiten
@@ -667,7 +656,6 @@ grundr_zeiten:
     min: 396
     max: 420
     reference: § 76g Abs. 4 S. 5,6 / Abs. 1 S. 1 SGB VI
-
 grundr_einkommensanr_single:
   name:
     de: Einkommensanrechnung Grundrente für Personen ohne verheiratetem Partner
@@ -693,7 +681,6 @@ grundr_einkommensanr_single:
     2:
       upper_threshold: inf
       rate_linear: 1
-
 grundr_einkommensanr_verheiratet:
   name:
     de: Einkommensanrechnung Grundrente für Personen mit verheiratetem Partner
@@ -719,7 +706,6 @@ grundr_einkommensanr_verheiratet:
     2:
       upper_threshold: inf
       rate_linear: 1
-
 grundr_faktor_bonus:
   name:
     de: Bonusfaktor aus Grundrente
@@ -735,7 +721,6 @@ grundr_faktor_bonus:
   2021-01-01:
     scalar: 0.875
     reference: §§ 76g Abs. 4 S. 3, 4 SGB VI
-
 zugangsfaktor_veränderung_pro_jahr:
   name:
     de: Veränderung des Zugangsfaktors pro Jahr
@@ -753,7 +738,6 @@ zugangsfaktor_veränderung_pro_jahr:
   2001-01-01:
     vorzeitiger_renteneintritt: 0.036
     späterer_renteneintritt: 0.06
-
 regelaltersgrenze:
   name:
     de: Eintrittsalter für Regelaltersrente
@@ -791,15 +775,14 @@ regelaltersgrenze:
     3:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_für_frauen_abschlagsfrei:
   name:
     de: Eintrittsalter für Altersrente für Frauen
     en: Entry age for receiving Altersrente für Frauen
   description:
     de: >-
-      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen geboren
-      vor 1952 in Rente gehen konnten.
+      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen
+      geboren vor 1952 in Rente gehen konnten.
     en: >-
       Piecewise linear function returning the age thresholds for retirement of women
       born before 1952.
@@ -846,15 +829,14 @@ altersgrenze_für_frauen_abschlagsfrei:
     6:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_für_frauen_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für Frauen.
     en: Early retirement age for women.
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann (mit
-      Abschlägen).
+      Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann
+      (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for women (with deductions).
   reference: § 237a SGB VI
@@ -872,22 +854,20 @@ altersgrenze_für_frauen_vorzeitig:
     2:
       upper_threshold: inf  # constant 67
       rate_linear: 0
-
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
     en: Early retirement age for long term insured
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte bezogen
-      werden kann (mit Abschlägen).
+      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte
+      bezogen werden kann (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for long term insured (with deductions).
   reference: § 236 SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
     scalar: 63
-
 altersgrenze_langj_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
@@ -918,7 +898,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
   1984-01-01:
     0:
       lower_threshold: -inf
-      upper_threshold: 1936.916667
+      upper_threshold: 1936.916666666
       rate_linear: 0
       intercept_at_lower_threshold: 63
     1:
@@ -935,18 +915,17 @@ altersgrenze_langj_versicherte_abschlagsfrei:
       rate_linear: 0
     5:
       upper_threshold: 1958
-      rate_linear: 0.08333333
+      rate_linear: 0.083333333
     6:
       upper_threshold: 1964
       rate_linear: 0.16666666
     7:
       upper_threshold: inf
       rate_linear: 0
-
 altersgrenze_besonders_langj_versicherte:
   name:
     de: >-
-      Eintrittsalter für besond. langjährig versicherte - abschlagsfrei (Rente mit 63)
+      Eintrittsalter für besonders langjährig Versicherte - abschlagsfrei (Rente mit 63)
     en: Entry age for very long term insured (45 insurance years) without deductions
   description:
     de: >-
@@ -954,23 +933,35 @@ altersgrenze_besonders_langj_versicherte:
       Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
       früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
       höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
+      Ab dem 1.7.2014 wurde die Altersgrenze für Kohorten bis 1952 auf 63 Jahre
+      gesenkt (für nachfolgende Kohorten steigt sie um 2 Monate pro Kohorte bis
+      65). Personen, die vor dem 1.7.1951 (codiert als 1951.5) geboren wurden,
+      waren zu diesem Zeitpunkt aber schon älter als 63 und hatten ensprechend ein
+      höheres verfügbares Renteneintrittsalter. Nur Personen, die ab dem 1.7.1949
+      geboren wurden konnten überhaupt profitieren, da alle anderen schon über 65
+      waren. Für die Zugangsfaktor berechnung werden die tatsächlich verfügbaren
+      Renteneintrittsalter benötigt. Daher brauchen wir für die inputs eine
+      monatliche Präzision bis Kohorte 1952.
     en: >-
-      Piecewise linear function returning the regelaltersgrenze at which the agent is
-      allowed to get pensions with his full claim. If the agent retires earlier or
+      Piecewise linear function returning the regelaltersgrenze at which the agent
+      is allowed to get pensions with his full claim. If the agent retires earlier or
       later, the Zugangsfaktor and therefore the pension claim is higher or lower,
       unless special conditions apply.
-      *From 1.7.2014 all cohorts could claim the pension for very long term insured
-      but people born before 1.7.1951 were already older than 63 at that date. Only
-      cohorts born after 1.7.1949 could benefit since the others were above 65 already.
+      From 1.7.2014 the retirement thresholds for cohorts born before 1953 was
+      lowered to 63 years (for subsequent cohort it raises by 2 months per cohort
+      up to 65  again). But people born before 1.7.1951 were already older than
+      63 at that date. Only cohorts born after 1.7.1949 could benefit since the
+      others were above 65  already. As the zugangsfaktor function runs on retirement
+      age, we need the actually  feasible retirement ages as inputs. The inputs
+      therefore require monthly precision  up to cohort 1952. From then we need
+      annual precision.
   reference: § 38 SGB VI
   note:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
-      Die Regelung existiert ab 2010. Für Kohorten bis einschließlich 1950 gilt die
-      Grenze von 65 Jahren.
     en: null
   type: piecewise_linear
-  2010-01-01:
+  2012-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: inf
@@ -979,16 +970,21 @@ altersgrenze_besonders_langj_versicherte:
   2014-07-01:
     0:
       lower_threshold: -inf
+      upper_threshold: 1949.5
+      rate_linear: 0
+      intercept_at_lower_threshold: 65
+    1:
+      upper_threshold: 1951.5
+      rate_linear: -1
+    2:
       upper_threshold: 1952
       rate_linear: 0
-      intercept_at_lower_threshold: 63
-    1:
+    3:
       upper_threshold: 1964
       rate_linear: 0.16666666
-    2:
+    4:
       upper_threshold: inf
       rate_linear: 0
-
 rounding:
   ges_rente_m:
     1980-01-01:

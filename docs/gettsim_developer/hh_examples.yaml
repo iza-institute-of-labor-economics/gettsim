@@ -1,5 +1,17 @@
 ---
-eltern_2_kinder:
+# Notes:
+# - if not noted otherwise, all hh members below the age of 25 are assumed to not have
+#   enough income and/or wealth to fend for themselves.
+
+# - An important output we are not yet considering here is the status of
+#   "Alleinerziehend" (There might even be differences in the definition relevant for
+#   taxes, Kinderzuschlag, Wohngeld, and Bürgergeld)
+# - "potentielle_kinderfreibeträge": Depends on child allowance eligibility of the
+#   children (based on input variables `in_ausbildung` and `arbeitsstunden_w` which are
+#   not specified in these examples)
+# - "potentieller_unterhaltsvors": depends on child allowance payed by the parent
+#   outside of the household.
+eltern_verheiratet_2_kinder:
   input:
     - id: 0
       geburtstag: 1984-07-14
@@ -26,9 +38,569 @@ eltern_2_kinder:
         - 0
         - 1
   output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
     - id_bedarfsgemeinschaft:
         - 0
         - 0
+        - 0
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 2
+        - 2
+        - 0
+        - 0
+eltern_unverheiratet_2_kinder:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_getrennt_veranlagt_2_kinder:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_1_junges_1_erwachsenes_kind:
+  input:
+    - id: 0
+      geburtstag: 1974-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1971-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2000-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_1_kind_bis24_1_kind_ueber_24:
+# child separate Bedarfsgemeinschaft if over 24
+  input:
+    - id: 0
+      geburtstag: 1974-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1971-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 1996-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2000-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 0.5
+        - 0.5
+        - 0
+        - 0
+eltern_verheiratet_1_kind_with_income:
+# child in separate Bedarfsgemeinschaft if he/she has enought income to fend for
+# him/herself
+  input:
+    - id: 0
+      geburtstag: 1974-02-13
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1973-01-02
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2001-07-14
+      enough_income: true  # through Kindergeld, earnings, (Wohngeld?)
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+eltern_verheiratet_1_kind_verheiratet:
+# child in separate Bedarfsgemeinschaft if he/she is married
+  input:
+    - id: 0
+      geburtstag: 1974-02-13
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1973-01-02
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2004-07-14
+      id_einstandspartner: 3
+      id_ehepartner: 3
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 3
+      geburtstag: 2001-07-14
+      id_einstandspartner: 2
+      id_ehepartner: 2
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+eltern_verheiratet_1_kind_mit_eigenem_kind:
+# child in separte Bedarfsgemeinschaft if it has children (Bedarfsgemeinschaft never
+# covers more than 2 generations)
+  input:
+    - id: 0
+      geburtstag: 2004-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2001-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+      id_eltern:
+        - 3
+        - 4
+    - id: 2
+      geburtstag: 2022-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 1974-02-13
+      id_einstandspartner: 4
+      id_ehepartner: 4
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 4
+      geburtstag: 1973-01-02
+      id_einstandspartner: 3
+      id_ehepartner: 3
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 1
+        - 1
+eltern_verheiratet_1_kind_anderer_verwandter:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 1984-05-12
+      id_haushalt: 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 1
+        - 0
+        - 0
+alleinerziehend_anderer_elternteil_unbekannt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 0
+    - potentieller_unterhaltsvors:
+        - 0
+        - 0
+        - '> 0'
+alleinerziehend_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 2
+    - id: 2
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+    # CZ: In case the other parent does not pay child support, the parent id==0, can
+    # request full kinderfreibetrag (Add this as input?)
+        - 0.5
+        - 0
+        - 0.5
+    - potentieller_unterhaltsvors:
+        - 0
+        - 0
+        - (potentially > 0)
+neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 3
+    - id: 3
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+        - 3
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+    # CZ: see comment above
+        - 0.5
+        - 0
+        - 0
+        - 0.5
+    - potentieller_unterhaltsvors:
+        - 0
+        - 0
+        - (potentially > 0)
+        - 0
+neuer_verheirateter_partner_1_kind_im_haushalt_anderer_elternteil_anderer_elternteil_in_anderem_haushalt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 3
+    - id: 3
+      geburtstag: 1971-12-24
+      id_haushalt: 1
+  output:
+    - id_tax_unit:
+        - 0
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 0.5
+        - 0.5  # CZ: I think so
+        - 0
+        - 0.5
+    - potentieller_unterhaltsvors:
+    # not eligible for potentieller_unterhaltsvorschuss if parent in same household is married to
+    # new partner (kind_unterh_anspr_m unaffected)
+        - 0
+        - 0
+        - 0
+        - 0
+neuer_unverheirateter_partner_1_kind_im_haushalt_anderer_elternteil_unbekannt:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_haushalt: 0
+      id_eltern:
+        - 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+        - 2
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 0
+        - 0
+    - potentielle_kinderfreibeträge:
+        - 1
+        - 0
+        - 0
+    - potentieller_unterhaltsvors:
+        - 0
+        - 0
+        - '> 0'
+enkelkind_und_sgb_ii_grossmutter:
+  input:
+    - id: 0
+      geburtstag: 2002-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1966-03-01
+      id_haushalt: 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
+        - 0
+        - 0
+enkelkind_und_sgb_xii_grossmutter:
+  input:
+    - id: 0
+      geburtstag: 2002-07-14
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1954-03-01
+      id_haushalt: 0
+  output:
+    - id_tax_unit:
+        - 0
+        - 1
+    - id_bedarfsgemeinschaft:
+        - 0
+        - 1
+    - potentielle_kinderfreibeträge:
         - 0
         - 0
 eltern_nicht_einstandspflichtig_ein_haushalt:
@@ -53,3 +625,113 @@ eltern_nicht_einstandspflichtig_ein_haushalt:
         - 1
   output:
     - error: Eltern im selben Haushalt, aber nicht füreinander einstandspflichtig
+eltern_widerspruechliche_veranlagungs_info:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      id_ehepartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_ehepartner: 0
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+  output:
+    - error: Informationen zur gemeinsamen Veranlagung widersprechen sich zwischen zwei Ehepartnern
+eltern_gemeinsam_veranlagt_unverheiratet:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+  output:
+    - error: Personen sind nicht verheiratet, aber gemeinsam veranlagt
+# Es gibt eine große Zahl von unerlaubten Konstellationen der Input-Variablen
+# Hier nur ein paar Beispiele. Wollen wir die tatsächlich alle testen?
+eltern_widerspruechliche_veranlagung:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      gemeinsam_veranlagt: true
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_einstandspartner: 0
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - error: Eltern müssen konsistente Informationen in 'gemeinsam_veranlagt' aufweisen
+eltern_kinder_widerspruechliche_inputs_1:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      id_einstandspartner: 0
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - error: Kind kann nicht Einstandspartner eines Elternteils sein
+eltern_kinder_widerspruechliche_inputs_2:
+  input:
+    - id: 0
+      geburtstag: 1984-07-14
+      id_einstandspartner: 1
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+    - id: 1
+      geburtstag: 1981-07-14
+      id_einstandspartner: 0
+      id_haushalt: 0
+    - id: 2
+      geburtstag: 2010-03-01
+      gemeinsam_veranlagt: false
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+    - id: 3
+      geburtstag: 2013-10-21
+      id_haushalt: 0
+      id_eltern:
+        - 0
+        - 1
+  output:
+    - error: Kind kann nicht mit Elternteil gemeinsam veranlagt sein

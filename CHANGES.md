@@ -5,9 +5,38 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## v0.6.0 —
+## v0.7 — 2023-05-14
 
-- {gh}`503`, {gh}`XXX`, Move packaging to PyPI/conda-forge, update documentation
+- {gh}`514` Rewrite `create_synthetic_data` to make it more flexible and much faster.
+  The function can no longer create households of different household types with one
+  function call. ({ghuser}`ChristianZimpelmann`).
+
+- {gh}`573` Fix bug in age groups of Bürgergeld. ({ghuser}`ChristianZimpelmann`).
+
+- {gh}`150` Implement Lohnsteuer / withholding tax.
+  ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
+
+- {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
+
+- {gh}`405` Fix calculation of voluntary contribution by self-employed to the GKV.
+  ({ghuser}`JHermann99`)
+
+- {gh}`495` Add @dates_active decorator to easily specify when a function is active.
+  ({ghuser}`lars-reimann`).
+
+- {gh}`544` Add Kindesunterhalt ({ghuser}`LauraGergeleit`).
+
+- {gh}`529` Consider Elterngeld in other transfers only above a certain threshold.
+  ({ghuser}`LauraGergeleit`).
+
+- {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
+
+- {gh}`425` Add Jax backend ({ghuser}`timmens`).
+
+
+## v0.6.0 — 2023-01-30
+
+- {gh}`503`, {gh}`511`, Move packaging to PyPI/conda-forge, update documentation
   ({ghuser}`timmens`, {ghuser}`hmgaudecker`).
 
 - {gh}`487` Replace pydot_layout with pygraphviz_layout. ({ghuser}`lars-reimann`).
@@ -58,8 +87,9 @@ versioning](https://semver.org/) and all releases are available on
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
-- {gh}`396` Implement pension for (very) long term insured, including eligibility
-  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`).
+- {gh}`396`, Implement pension for (very) long term insured, including eligibility
+  criteria, i.e. "Wartezeiten". Implement pension for women ({ghuser}`TeBackh`), add
+  more tests ({gh}`428`, {ghuser}`LauraGergeleit`).
 
 - {gh}`393` Normal retirement age adjustment aligned with the rules ({ghuser}`TeBackh`).
 
@@ -73,7 +103,6 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`323` Align health insurance contribution parameters better aligned with law.
   Restructure calculation of `ges_krankenv`, minor changes to `ges_pflegev`.
   ({ghuser}`Eric-Sommer`, {ghuser}`ChristianZimpelmann`).
-
 
 ## v0.5.1 — 2022-04-21
 

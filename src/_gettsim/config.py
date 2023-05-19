@@ -1,9 +1,36 @@
 from __future__ import annotations
 
+import importlib
 from pathlib import Path
 
-# Obtain the root directory of the package. Do not import gettsim which creates a
-# circular import.
+import numpy
+
+# Defaults
+USE_JAX = False
+numpy_or_jax = numpy
+
+
+def set_array_backend(backend: str):
+    """Set array library backend.
+
+    backend (str): Must be in {'jax', 'numpy'}.
+
+    """
+    if backend not in {"jax", "numpy"}:
+        raise ValueError(f"Backend must be in {'jax', 'numpy'} but is {backend}.")
+
+    if backend == "jax":
+        assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
+        global USE_JAX  # noqa: PLW0603
+        global numpy_or_jax  # noqa: PLW0603
+        import jax
+
+        USE_JAX = True
+        numpy_or_jax = jax.numpy
+        jax.config.update("jax_platform_name", "cpu")
+
+
+# Obtain the root directory of the package.
 RESOURCE_DIR = Path(__file__).parent.resolve()
 
 GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS = 20
@@ -23,8 +50,9 @@ INTERNAL_PARAMS_GROUPS = [
     "eink_st_abzuege",
     "soli_st",
     "arbeitsl_geld",
-    "soz_vers_beitr",
+    "sozialv_beitr",
     "unterhalt",
+    "unterhaltsvors",
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
@@ -33,6 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
+    "lohn_st",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -127,12 +156,9 @@ TYPES_INPUT_VARIABLES = {
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
-    "soz_vers_pflicht_5j": float,
+    "sozialv_pflicht_5j": float,
     "bürgerg_bezug_vorj": bool,
+    "kind_unterh_anspr_m": float,
+    "kind_unterh_erhalt_m": float,
+    "steuerklasse": int,
 }
-
-# =====================================================================================
-# Check Available Packages
-# =====================================================================================
-
-USE_JAX = False

@@ -4,10 +4,10 @@ import inspect
 import warnings
 
 import dags
-import numpy as np
 import pandas as pd
 
 from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
@@ -22,7 +22,7 @@ from _gettsim.shared import (
 )
 
 
-def compute_taxes_and_transfers(
+def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
     params,
     functions,
@@ -110,7 +110,6 @@ def compute_taxes_and_transfers(
         f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
     }
 
-    # Round and partial all necessary functions.
     processed_functions = _round_and_partial_parameters_to_functions(
         necessary_functions, params, rounding
     )
@@ -274,7 +273,6 @@ def _convert_data_to_correct_types(data, functions_overridden):
         " types yourself."
     )
     for column_name, series in data.items():
-
         # Find out if internal_type is defined
         internal_type = None
         if column_name in TYPES_INPUT_VARIABLES:
@@ -312,9 +310,12 @@ def _convert_data_to_correct_types(data, functions_overridden):
             " to the expected data types yourself."
         )
 
-    # Otherwise raise warning which lists all sucessful conversions
+    # Otherwise raise warning which lists all successful conversions
     elif len(collected_conversions) > 1:
-        warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
+        warnings.warn(
+            "\n".join(collected_conversions) + "\n" + "\n" + general_warning,
+            stacklevel=2,
+        )
     return data
 
 
@@ -454,12 +455,11 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, list_, second_part]))
+        raise ValueError(f"{first_part}\n{list_}\n{second_part}")
 
 
 def _fail_if_pid_is_non_unique(data):
     """Check that pid is unique."""
-
     if "p_id" not in data:
         message = "The input data must contain the column p_id"
         raise ValueError(message)
@@ -498,7 +498,7 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
     formatted = format_list_linewise(unnecessary_data)
     message = f"The following columns in 'data' are unused.\n\n{formatted}"
     if unnecessary_data and check_minimal_specification == "warn":
-        warnings.warn(message)
+        warnings.warn(message, stacklevel=2)
     elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
 
@@ -534,7 +534,6 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
     # parameters.
     processed_functions = {}
     for name, function in functions.items():
-
         arguments = get_names_of_arguments_without_defaults(function)
         partial_params = {
             i: params[i[:-7]]
@@ -544,10 +543,10 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
         if partial_params:
             partial_func = functools.partial(function, **partial_params)
 
-            # Make sure that rounding parameter attribute is transferred to partial
+            # Make sure any GETTSIM metadata is transferred to partial
             # function. Otherwise, this information would get lost.
-            if hasattr(function, "__rounding_params_key__"):
-                partial_func.__rounding_params_key__ = function.__rounding_params_key__
+            if hasattr(function, "__info__"):
+                partial_func.__info__ = function.__info__
 
             processed_functions[name] = partial_func
         else:
@@ -575,11 +574,10 @@ def _add_rounding_to_functions(functions, params):
     functions_new = copy.deepcopy(functions)
 
     for func_name, func in functions.items():
-
         # If function has rounding params attribute, look for rounding specs in
         # params dict.
-        if hasattr(func, "__rounding_params_key__"):
-            params_key = func.__rounding_params_key__
+        if hasattr(func, "__info__") and "rounding_params_key" in func.__info__:
+            params_key = func.__info__["rounding_params_key"]
 
             # Check if there are any rounding specifications.
             if not (
@@ -701,7 +699,8 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     formatted = format_list_linewise(unused_columns)
     if unused_columns and check_minimal_specification == "warn":
         warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
+            stacklevel=2,
         )
     elif unused_columns and check_minimal_specification == "raise":
         raise ValueError(

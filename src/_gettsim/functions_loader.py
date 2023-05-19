@@ -5,7 +5,7 @@ import importlib
 import inspect
 from pathlib import Path
 
-import numpy as np
+import numpy
 
 from _gettsim.aggregation import (
     grouped_all,
@@ -22,7 +22,6 @@ from _gettsim.config import (
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
-    USE_JAX,
 )
 from _gettsim.shared import (
     format_errors_and_warnings,
@@ -135,6 +134,13 @@ def load_user_and_internal_functions(user_functions_raw):
     return user_functions, internal_functions
 
 
+def load_internal_functions():
+    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
+    internal_functions = _load_functions(imports)
+
+    return internal_functions
+
+
 def load_aggregation_dict():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
@@ -177,7 +183,6 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -188,7 +193,7 @@ def _load_functions(sources, include_imported_functions=False):
     functions = {}
     for source in all_sources:
         if callable(source):
-            source = {source.__name__: source}
+            source = {source.__name__: source}  # noqa: PLW2901
 
         if isinstance(source, dict) and all(
             inspect.isfunction(i) for i in source.values()
@@ -403,7 +408,9 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions):
+def _create_one_aggregation_func(  # noqa: PLR0912
+    agg_col, agg_specs, user_and_internal_functions
+):
     """Create an aggregation function based on aggregation specification.
 
     Parameters
@@ -422,7 +429,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     aggregation_func : The aggregation func with the expected signature
 
     """
-
     # Read individual specification parameters and make sure nothing is missing
     try:
         aggr = agg_specs["aggr"]
@@ -456,7 +462,6 @@ def _create_one_aggregation_func(agg_col, agg_specs, user_and_internal_functions
     if aggr == "count":
         annotations["return"] = int
     else:
-
         if (
             source_col in user_and_internal_functions
             and "return" in user_and_internal_functions[source_col].__annotations__
@@ -566,16 +571,9 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _vectorize_func(func):
+    # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
-
-    # Vectorize
-    if USE_JAX:
-
-        # ToDo: user jnp.vectorize once all functions are compatible with jax
-        func_vec = np.vectorize(func)
-
-    else:
-        func_vec = np.vectorize(func)
+    func_vec = numpy.vectorize(func)
 
     @functools.wraps(func)
     def wrapper_vectorize_func(*args, **kwargs):
@@ -640,7 +638,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, formatted, second_part]))
+        raise ValueError(f"{first_part}\n{formatted}\n{second_part}")
 
 
 def _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -678,7 +676,7 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
             """
         )
         list_ = format_list_linewise(unnecessary_columns_overriding_functions)
-        raise ValueError("\n".join([intro, list_]))
+        raise ValueError(f"{intro}\n{list_}")
 
 
 def _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
