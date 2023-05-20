@@ -46,7 +46,7 @@ Also see
 
 - Eltern-/Kindbeziehung
   - Keine Referenz zu gemeinsamen Haushalt
-  - Keine Referenz zu Alterskategorien
+  - Keine Referenz zu Alterskategorien der Kinder
 
 ## Rente
 
@@ -75,7 +75,7 @@ Also see
 (1,5 Mrd €)
 
 - Relevant sind
-  - vertikale Beziehungen vertikale Beziehungen (Eltern / Kinder)
+  - vertikale Beziehungen (Eltern / Kinder)
     - Keine Referenz zu gemeinsamen Haushalt
     - Keine Referenz zu Alterskategorien
   - Haushaltsgemeinschaft
@@ -162,7 +162,7 @@ Bsp:
   - Einstandspartner `id_einstandspartner`
   - Kinder bis 17/24 von mir und meinem Einstandspartner. Es sei denn herausgelöst
     - über eigenes Einkommen
-    - Kinderwohngeld/ herausgelöst)
+    - Kinderwohngeld
 
 #### Limitierung
 
@@ -187,3 +187,9 @@ Bsp:
 - Erwachsene Kinder da, aber nicht im Datensatz
 - Unterhaltspflichtiger Ehepartner da, aber nicht im Datensatz
 - ...
+
+Optionen:
+
+- Datenzeilen hinzufügen (seitens Nutzer:in, ggf. Hilfsfunktionen zum Auffüllen von
+  Datensätzen), diese müssten aber wohl wieder aus Berechnung herausfallen
+- Personen-ID mit negativem Wert (o.Ä.) zu Datensatz hinzugeben.
