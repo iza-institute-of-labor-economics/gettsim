@@ -1,0 +1,44 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  - id: 0
+    geburtstag: 1984-07-14
+    id_einstandspartner: 1
+    id_haushalt: 0
+  - id: 1
+    geburtstag: 1981-07-14
+    id_einstandspartner: 0
+    id_haushalt: 0
+  - id: 2
+    geburtstag: 2010-03-01
+    id_haushalt: 0
+    id_eltern:
+      - 0
+      - 3
+  - id: 3
+    geburtstag: 1971-12-24
+    id_haushalt: 1
+outputs:
+  - id_tax_unit:
+      - 0
+      - 1
+      - 2
+      - 3
+  - id_bedarfsgemeinschaft:
+      - 0
+      - 0
+      - 0
+      - 1
+  - potentielle_kinderfreibeträge:
+      # CZ: see comment above
+      - 0.5
+      - 0
+      - 0
+      - 0.5
+  - potentieller_unterhaltsvors:
+      - 0
+      - 0
+      - (potentially > 0)
+      - 0

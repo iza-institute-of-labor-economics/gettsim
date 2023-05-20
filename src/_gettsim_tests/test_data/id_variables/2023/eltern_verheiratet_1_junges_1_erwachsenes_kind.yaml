@@ -1,0 +1,45 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  - id: 0
+    geburtstag: 1974-07-14
+    id_einstandspartner: 1
+    id_ehepartner: 1
+    gemeinsam_veranlagt: true
+    id_haushalt: 0
+  - id: 1
+    geburtstag: 1971-07-14
+    id_einstandspartner: 0
+    id_ehepartner: 0
+    gemeinsam_veranlagt: true
+    id_haushalt: 0
+  - id: 2
+    geburtstag: 2000-03-01
+    id_haushalt: 0
+    id_eltern:
+      - 0
+      - 1
+  - id: 3
+    geburtstag: 2013-10-21
+    id_haushalt: 0
+    id_eltern:
+      - 0
+      - 1
+outputs:
+  - id_tax_unit:
+      - 0
+      - 0
+      - 1
+      - 2
+  - id_bedarfsgemeinschaft:
+      - 0
+      - 0
+      - 1
+      - 0
+  - potentielle_kinderfreibeträge:
+      - 1
+      - 1
+      - 0
+      - 0
