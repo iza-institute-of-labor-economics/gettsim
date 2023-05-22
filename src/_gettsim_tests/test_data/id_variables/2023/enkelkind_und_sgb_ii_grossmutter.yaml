@@ -1,0 +1,21 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  - id: 0
+    geburtstag: 2002-07-14
+    id_haushalt: 0
+  - id: 1
+    geburtstag: 1966-03-01
+    id_haushalt: 0
+outputs:
+  - id_tax_unit:
+      - 0
+      - 1
+  - id_bedarfsgemeinschaft:
+      - 0
+      - 1
+  - potentielle_kinderfreibeträge:
+      - 0
+      - 0
