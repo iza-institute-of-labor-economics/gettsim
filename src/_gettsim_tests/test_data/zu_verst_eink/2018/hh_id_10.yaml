@@ -50,7 +50,7 @@ inputs:
       - false
     geburtsjahr:
       - 1978
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 2547.22
   assumed: {}
 outputs:

@@ -47,7 +47,7 @@ def freibeträge_ind_y(
 
 def freibeträge_y_tu(
     eink_st_sonderausgaben_y_tu: float,
-    vorsorgeaufw_tu: float,
+    vorsorgeaufw_y_tu: float,
     freibeträge_ind_y_tu: float,
 ) -> float:
     """Calculate total allowances on tax unit level.
@@ -57,8 +57,8 @@ def freibeträge_y_tu(
 
     eink_st_sonderausgaben_y_tu
         See :func:`eink_st_sonderausgaben_y_tu`.
-    vorsorgeaufw_tu
-        See :func:`vorsorgeaufw_tu`.
+    vorsorgeaufw_y_tu
+        See :func:`vorsorgeaufw_y_tu`.
     freibeträge_ind_y_tu
         See :func:`freibeträge_ind_y_tu`.
 
@@ -66,7 +66,7 @@ def freibeträge_y_tu(
     -------
 
     """
-    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_tu + freibeträge_ind_y_tu
+    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_y_tu + freibeträge_ind_y_tu
 
     return out
 

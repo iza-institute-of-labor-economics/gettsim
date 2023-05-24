@@ -116,10 +116,10 @@ def einführung_vorsorgeaufw_y_tu_ab_2005_bis_2009(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_tu")
+@dates_active(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_tu")
 @add_rounding_spec(params_key="eink_st_abzuege")
-def vorsorgeaufw_tu_guenstiger(
-    vorsorgeaufw_tu_bis_2004: float,
+def vorsorgeaufw_y_tu_guenstiger(
+    vorsorgeaufw_y_tu_bis_2004: float,
     einführung_vorsorgeaufw_y_tu: float,
 ) -> float:
     """Calculate Vorsorgeaufwendungen from 2005 to 2019.
@@ -137,17 +137,17 @@ def vorsorgeaufw_tu_guenstiger(
 
     Parameters
     ----------
-    vorsorgeaufw_tu
-        See :func:`vorsorgeaufw_tu`.
-    vorsorgeaufw_tu_bis_2004
-        See :func:`vorsorgeaufw_tu_bis_2004`.
+    vorsorgeaufw_y_tu
+        See :func:`vorsorgeaufw_y_tu`.
+    vorsorgeaufw_y_tu_bis_2004
+        See :func:`vorsorgeaufw_y_tu_bis_2004`.
 
     Returns
     -------
 
     """
 
-    return max(vorsorgeaufw_tu_bis_2004, einführung_vorsorgeaufw_y_tu)
+    return max(vorsorgeaufw_y_tu_bis_2004, einführung_vorsorgeaufw_y_tu)
 
 
 @dates_active(
@@ -156,18 +156,18 @@ def vorsorgeaufw_tu_guenstiger(
     change_name="einführung_vorsorgeaufw_y_tu",
 )
 def einführung_vorsorgeaufw_y_tu_ab_2010_bis_2019(
-    vorsorgeaufw_tu_ab_2020: float,
+    vorsorgeaufw_y_tu_ab_2020: float,
 ) -> float:
-    return vorsorgeaufw_tu_ab_2020
+    return vorsorgeaufw_y_tu_ab_2020
 
 
-@dates_active(start="2020-01-01", change_name="vorsorgeaufw_tu")
+@dates_active(start="2020-01-01", change_name="vorsorgeaufw_y_tu")
 @add_rounding_spec(params_key="eink_st_abzuege")
-def _vorsorgeaufw_tu_ab_2020(vorsorgeaufw_tu_ab_2020: float) -> float:
-    return vorsorgeaufw_tu_ab_2020
+def _vorsorgeaufw_y_tu_ab_2020(vorsorgeaufw_y_tu_ab_2020: float) -> float:
+    return vorsorgeaufw_y_tu_ab_2020
 
 
-def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
+def vorsorgeaufw_y_tu_ab_2020(  # noqa: PLR0913
     vorsorgeaufw_alter_y_tu: float,
     ges_pflegev_beitr_m_tu: float,
     ges_krankenv_beitr_m_tu: float,
@@ -222,16 +222,16 @@ def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
 
 
 @dates_active(
-    start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_tu_bis_2004"
+    start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_tu_bis_2004"
 )
-def _vorsorgeaufw_tu_bis_2004(
+def _vorsorgeaufw_y_tu_bis_2004(
     _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
     ges_krankenv_beitr_m_tu: float,
     ges_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    return vorsorgeaufw_tu_bis_2004(
+    return vorsorgeaufw_y_tu_bis_2004(
         _vorsorgeaufw_vom_lohn_tu_bis_2004=_vorsorgeaufw_vom_lohn_tu_bis_2004,
         ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
         ges_rentenv_beitr_m_tu=ges_rentenv_beitr_m_tu,
@@ -242,10 +242,10 @@ def _vorsorgeaufw_tu_bis_2004(
 
 @dates_active(
     end="2004-12-31",
-    change_name="vorsorgeaufw_tu",
+    change_name="vorsorgeaufw_y_tu",
 )
 @add_rounding_spec(params_key="eink_st_abzuege")
-def vorsorgeaufw_tu_bis_2004(
+def vorsorgeaufw_y_tu_bis_2004(
     _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
     ges_krankenv_beitr_m_tu: float,
     ges_rentenv_beitr_m_tu: float,

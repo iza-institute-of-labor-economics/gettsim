@@ -73,7 +73,7 @@ inputs:
     geburtsjahr:
       - 1975
       - 1975
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 7700.0
       - 7700.0
   assumed: {}

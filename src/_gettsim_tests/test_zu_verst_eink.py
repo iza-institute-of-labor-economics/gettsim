@@ -7,7 +7,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OVERRIDE_COLS = [
     "sum_ges_rente_priv_rente_m",
-    "vorsorgeaufw_tu",
+    "vorsorgeaufw_y_tu",
 ]
 
 data = load_policy_test_data("zu_verst_eink")

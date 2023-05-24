@@ -73,7 +73,7 @@ inputs:
     geburtsjahr:
       - 1984
       - 2014
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 3119.94
       - 3119.94
   assumed: {}
