@@ -7,7 +7,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OVERRIDE_COLS = [
     "_zu_verst_eink_ohne_kinderfreib_y_tu",
-    "zu_verst_eink_mit_kinderfreib_tu",
+    "_zu_verst_eink_mit_kinderfreib_y_tu",
     "kapitaleink_brutto_y",
 ]
 
@@ -29,7 +29,7 @@ def test_eink_st(
         df["zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 
-    df["zu_verst_eink_mit_kinderfreib_tu"] = (
+    df["_zu_verst_eink_mit_kinderfreib_y_tu"] = (
         df["zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
     )
 

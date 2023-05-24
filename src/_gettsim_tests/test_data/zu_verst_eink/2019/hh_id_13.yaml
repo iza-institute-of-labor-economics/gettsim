@@ -81,7 +81,7 @@ outputs:
   _zu_verst_eink_ohne_kinderfreib_y_tu:
     - 11936.06
     - 11936.06
-  zu_verst_eink_mit_kinderfreib_tu:
+  _zu_verst_eink_mit_kinderfreib_y_tu:
     - 8126.06
     - 8126.06
   eink_st_kinderfreib_y_tu:

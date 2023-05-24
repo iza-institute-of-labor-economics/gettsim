@@ -32,7 +32,7 @@ def eink_st_ohne_kinderfreib_tu(
 
 
 def eink_st_mit_kinderfreib_tu(
-    zu_verst_eink_mit_kinderfreib_tu: float,
+    _zu_verst_eink_mit_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
     eink_st_params: dict,
 ) -> float:
@@ -41,8 +41,8 @@ def eink_st_mit_kinderfreib_tu(
 
     Parameters
     ----------
-    zu_verst_eink_mit_kinderfreib_tu
-        See :func:`zu_verst_eink_mit_kinderfreib_tu`.
+    _zu_verst_eink_mit_kinderfreib_y_tu
+        See :func:`_zu_verst_eink_mit_kinderfreib_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_params
@@ -52,7 +52,7 @@ def eink_st_mit_kinderfreib_tu(
     -------
 
     """
-    zu_verst_eink_per_indiv = zu_verst_eink_mit_kinderfreib_tu / anz_erwachsene_tu
+    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_tu / anz_erwachsene_tu
     out = anz_erwachsene_tu * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )

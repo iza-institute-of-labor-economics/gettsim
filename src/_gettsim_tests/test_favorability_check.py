@@ -10,7 +10,7 @@ OVERRIDE_COLS = [
     "eink_st_mit_kinderfreib_tu",
     "abgelt_st_y_tu",
     "kindergeld_m",
-    "zu_verst_eink_mit_kinderfreib_tu",
+    "_zu_verst_eink_mit_kinderfreib_y_tu",
     "_zu_verst_eink_ohne_kinderfreib_y_tu",
 ]
 
