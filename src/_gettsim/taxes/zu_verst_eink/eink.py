@@ -199,7 +199,7 @@ def kapitaleink_y(
 
 
 @dates_active(end="2008-12-31", change_name="sum_eink")
-def sum_eink_mit_kapital_eink(
+def sum_eink_mit_kapital_eink_y(
     sum_eink_ohne_kapital_eink_y: float,
     kapitaleink_y: float,
 ) -> float:
