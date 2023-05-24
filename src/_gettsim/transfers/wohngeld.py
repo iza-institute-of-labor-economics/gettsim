@@ -80,7 +80,7 @@ def wohngeld_abzüge_st_sozialv_m(
 
 @dates_active(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
-    eink_selbst: float,
+    eink_selbst_y: float,
     eink_abhängig_beschäftigt: float,
     kapitaleink_brutto: float,
     eink_vermietung: float,
@@ -97,7 +97,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    eink_selbst
+    eink_selbst_y
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
@@ -121,7 +121,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
     transfers = (
@@ -138,7 +138,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
 @dates_active(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
-    eink_selbst: float,
+    eink_selbst_y: float,
     eink_abhängig_beschäftigt: float,
     kapitaleink_brutto: float,
     eink_vermietung: float,
@@ -156,7 +156,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    eink_selbst
+    eink_selbst_y
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
@@ -182,7 +182,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
     ) / 12
 
     transfers = (

@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def eink_selbst(eink_selbst_m: float) -> float:
+def eink_selbst_y(eink_selbst_m: float) -> float:
     """Aggregate gross income from self-employment to full year income.
 
     Parameters
@@ -140,7 +140,7 @@ def eink_rente_zu_verst(
 
 @dates_active(start="2009-01-01", change_name="sum_eink")
 def sum_eink_ohne_kapital_eink(
-    eink_selbst: float,
+    eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt: float,
     eink_vermietung: float,
     eink_rente_zu_verst: float,
@@ -150,8 +150,8 @@ def sum_eink_ohne_kapital_eink(
     Since 2009 capital income is not subject to normal taxation.
     Parameters
     ----------
-    eink_selbst
-        See :func:`eink_selbst`.
+    eink_selbst_y
+        See :func:`eink_selbst_y`.
     _zu_verst_eink_abhängig_beschäftigt
         See :func:`_zu_verst_eink_abhängig_beschäftigt`.
     eink_vermietung
@@ -164,7 +164,7 @@ def sum_eink_ohne_kapital_eink(
 
     """
     out = (
-        eink_selbst
+        eink_selbst_y
         + _zu_verst_eink_abhängig_beschäftigt
         + eink_vermietung
         + eink_rente_zu_verst

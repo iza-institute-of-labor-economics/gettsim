@@ -27,7 +27,7 @@ def grundr_zuschlag_m(
 def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: float,
     bruttolohn_vorj_m: float,
-    eink_selbst: float,
+    eink_selbst_y: float,
     eink_vermietung: float,
     kapitaleink: float,
 ) -> float:
@@ -59,8 +59,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`rente_vorj_vor_grundr_proxy_m`.
     bruttolohn_vorj_m
         See :func:`bruttolohn_vorj_m`.
-    eink_selbst
-        See :func:`eink_selbst`.
+    eink_selbst_y
+        See :func:`eink_selbst_y`.
     eink_vermietung
         See :func:`eink_vermietung`.
     kapitaleink
@@ -75,7 +75,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     out = (
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
-        + eink_selbst / 12  # income from self-employment
+        + eink_selbst_y / 12  # income from self-employment
         + eink_vermietung / 12  # rental income
         + kapitaleink / 12
     )
