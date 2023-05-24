@@ -1,8 +1,8 @@
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-@dates_active(start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_tu")
-def vorsorgeaufw_alter_tu_einfuehrung(
+@dates_active(start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_tu")
+def vorsorgeaufw_alter_y_tu_einfuehrung(
     ges_rentenv_beitr_m_tu: float,
     priv_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
@@ -40,7 +40,7 @@ def vorsorgeaufw_alter_tu_einfuehrung(
 
 
 @dates_active(start="2023-01-01")
-def vorsorgeaufw_alter_tu(
+def vorsorgeaufw_alter_y_tu(
     ges_rentenv_beitr_m_tu: float,
     priv_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
@@ -75,7 +75,7 @@ def vorsorgeaufw_alter_tu(
     change_name="vorsorgeaufw_tu_einführung",
 )
 def vorsorgeaufw_tu_einführung_ab_2005_bis_2009(  # noqa: PLR0913
-    vorsorgeaufw_alter_tu: float,
+    vorsorgeaufw_alter_y_tu: float,
     ges_krankenv_beitr_m_tu: float,
     arbeitsl_v_beitr_m_tu: float,
     ges_pflegev_beitr_m_tu: float,
@@ -86,8 +86,8 @@ def vorsorgeaufw_tu_einführung_ab_2005_bis_2009(  # noqa: PLR0913
 
     Parameters
     ----------
-    vorsorgeaufw_alter_tu
-        See :func:`vorsorgeaufw_alter_tu`.
+    vorsorgeaufw_alter_y_tu
+        See :func:`vorsorgeaufw_alter_y_tu`.
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
     arbeitsl_v_beitr_m_tu
@@ -109,7 +109,7 @@ def vorsorgeaufw_tu_einführung_ab_2005_bis_2009(  # noqa: PLR0913
     max_value = anz_erwachsene_tu * eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
 
     sum_vorsorge = min(sum_vorsorge, max_value)
-    out = sum_vorsorge + vorsorgeaufw_alter_tu
+    out = sum_vorsorge + vorsorgeaufw_alter_y_tu
 
     return out
 
@@ -166,7 +166,7 @@ def _vorsorgeaufw_tu_ab_2020(vorsorgeaufw_tu_ab_2020: float) -> float:
 
 
 def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
-    vorsorgeaufw_alter_tu: float,
+    vorsorgeaufw_alter_y_tu: float,
     ges_pflegev_beitr_m_tu: float,
     ges_krankenv_beitr_m_tu: float,
     arbeitsl_v_beitr_m_tu: float,
@@ -180,8 +180,8 @@ def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
 
     Parameters
     ----------
-    vorsorgeaufw_alter_tu
-        See :func:`vorsorgeaufw_alter_tu`.
+    vorsorgeaufw_alter_y_tu
+        See :func:`vorsorgeaufw_alter_y_tu`.
     ges_pflegev_beitr_m_tu
         See :func:`ges_pflegev_beitr_m_tu`.
     ges_krankenv_beitr_m_tu
@@ -215,7 +215,7 @@ def vorsorgeaufw_tu_ab_2020(  # noqa: PLR0913
     # Basiskrankenversicherung can always be deducted even if above sonst_vors_max
     sonst_vors = max(basiskrankenversicherung, sonst_vors_before_basiskrankenv)
 
-    out = sonst_vors + vorsorgeaufw_alter_tu
+    out = sonst_vors + vorsorgeaufw_alter_y_tu
     return out
 
 
