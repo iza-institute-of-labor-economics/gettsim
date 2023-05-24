@@ -211,8 +211,8 @@ def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     return out
 
 
-@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_tu")
-def eink_st_sonderausgaben_tu_nur_pauschale(
+@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_y_tu")
+def eink_st_sonderausgaben_y_tu_nur_pauschale(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
@@ -241,8 +241,8 @@ def eink_st_sonderausgaben_tu_nur_pauschale(
     return float(out)
 
 
-@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_tu")
-def eink_st_sonderausgaben_tu_mit_betreuung(
+@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_y_tu")
+def eink_st_sonderausgaben_y_tu_mit_betreuung(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_tu: float,
     anz_erwachsene_tu: int,

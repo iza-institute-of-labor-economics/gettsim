@@ -46,7 +46,7 @@ def freibeträge_ind(
 
 
 def freibeträge_tu(
-    eink_st_sonderausgaben_tu: float,
+    eink_st_sonderausgaben_y_tu: float,
     vorsorgeaufw_tu: float,
     freibeträge_ind_tu: float,
 ) -> float:
@@ -55,8 +55,8 @@ def freibeträge_tu(
     Parameters
     ----------
 
-    eink_st_sonderausgaben_tu
-        See :func:`eink_st_sonderausgaben_tu`.
+    eink_st_sonderausgaben_y_tu
+        See :func:`eink_st_sonderausgaben_y_tu`.
     vorsorgeaufw_tu
         See :func:`vorsorgeaufw_tu`.
     freibeträge_ind_tu
@@ -66,7 +66,7 @@ def freibeträge_tu(
     -------
 
     """
-    out = eink_st_sonderausgaben_tu + vorsorgeaufw_tu + freibeträge_ind_tu
+    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_tu + freibeträge_ind_tu
 
     return out
 
