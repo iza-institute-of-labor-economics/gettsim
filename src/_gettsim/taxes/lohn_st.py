@@ -212,7 +212,7 @@ def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
     return out
 
 
-def kinderfreib_für_soli_st_lohnst(
+def kinderfreib_für_soli_st_lohnst_y(
     steuerklasse: int,
     anz_kinder_mit_kindergeld_tu: float,
     eink_st_abzuege_params: dict,
@@ -333,7 +333,7 @@ def lohnst_m(
 
 def lohnst_mit_kinderfreib_m(
     lohnst_eink_y: float,
-    kinderfreib_für_soli_st_lohnst: float,
+    kinderfreib_für_soli_st_lohnst_y: float,
     eink_st_params: dict,
     lohn_st_params: dict,
     steuerklasse: int,
@@ -344,6 +344,6 @@ def lohnst_mit_kinderfreib_m(
     of soli on Lohnsteuer!
     """
 
-    eink = max(lohnst_eink_y - kinderfreib_für_soli_st_lohnst, 0)
+    eink = max(lohnst_eink_y - kinderfreib_für_soli_st_lohnst_y, 0)
 
     return _lohnst_m(eink, eink_st_params, lohn_st_params, steuerklasse)
