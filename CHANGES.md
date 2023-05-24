@@ -5,6 +5,10 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
+## Unpublished
+
+- {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).
+
 ## v0.7 — 2023-05-14
 
 - {gh}`514` Rewrite `create_synthetic_data` to make it more flexible and much faster.
