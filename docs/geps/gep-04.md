@@ -80,13 +80,13 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_y_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
     """Calculate Abgeltungssteuer on tax unit level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_tu
-        See :func:`zu_verst_kapitaleink_tu`.
+    zu_verst_kapitaleink_y_tu
+        See :func:`zu_verst_kapitaleink_y_tu`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -94,7 +94,7 @@ def abgelt_st_y_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> fl
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
+    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
 ```
 
 The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_tu` which
