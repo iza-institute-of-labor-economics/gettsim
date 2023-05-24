@@ -335,7 +335,7 @@ def sonderausgaben_betreuung_y_tu(
     return float(out)
 
 
-def eink_st_kinderfreib_tu(
+def eink_st_kinderfreib_y_tu(
     anz_kinder_mit_kindergeld_tu: float,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
