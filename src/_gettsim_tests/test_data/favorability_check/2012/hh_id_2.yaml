@@ -30,5 +30,5 @@ inputs:
 outputs:
   eink_st_tu:
     - 5000
-  zu_verst_eink_tu:
+  zu_verst_eink_y_tu:
     - 5000

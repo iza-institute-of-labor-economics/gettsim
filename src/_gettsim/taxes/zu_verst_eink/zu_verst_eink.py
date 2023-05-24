@@ -115,7 +115,7 @@ def _zu_verst_eink_mit_kinderfreib_y_tu(
     return max(out, 0.0)
 
 
-def zu_verst_eink_tu(
+def zu_verst_eink_y_tu(
     _zu_verst_eink_mit_kinderfreib_y_tu: float,
     _zu_verst_eink_ohne_kinderfreib_y_tu: float,
     kinderfreib_günstiger_tu: bool,
