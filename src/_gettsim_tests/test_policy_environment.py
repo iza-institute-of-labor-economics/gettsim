@@ -52,10 +52,10 @@ def test_access_different_date_vorjahr():
             "eink_st_altersfreib_ab_2005",
         ),
         (
-            "alleinerz_freib_tu",
+            "alleinerz_freib_y_tu",
             date(2014, 12, 31),
-            "eink_st_alleinerz_freib_tu_pauschal",
-            "eink_st_alleinerz_freib_tu_nach_kinderzahl",
+            "eink_st_alleinerz_freib_y_tu_pauschal",
+            "eink_st_alleinerz_freib_y_tu_nach_kinderzahl",
         ),
         (
             "sum_eink_y",

@@ -34,8 +34,8 @@ def _eink_st_behinderungsgrad_pauschbetrag_y(
     return float(out)
 
 
-@dates_active(end="2014-12-31", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_pauschal(
+@dates_active(end="2014-12-31", change_name="alleinerz_freib_y_tu")
+def eink_st_alleinerz_freib_y_tu_pauschal(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
     """Calculate tax deduction allowance for single parents until 2014.
@@ -61,8 +61,8 @@ def eink_st_alleinerz_freib_tu_pauschal(
     return out
 
 
-@dates_active(start="2015-01-01", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_nach_kinderzahl(
+@dates_active(start="2015-01-01", change_name="alleinerz_freib_y_tu")
+def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     alleinerz: bool,
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,
@@ -85,12 +85,12 @@ def eink_st_alleinerz_freib_tu_nach_kinderzahl(
     -------
 
     """
-    alleinerz_freib_tu = (
+    alleinerz_freib_y_tu = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
         + (anz_kinder_tu - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz:
-        out = alleinerz_freib_tu
+        out = alleinerz_freib_y_tu
     else:
         out = 0.0
 
