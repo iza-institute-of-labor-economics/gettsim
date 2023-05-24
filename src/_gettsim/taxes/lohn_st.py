@@ -3,7 +3,7 @@ from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
 @add_rounding_spec(params_key="lohn_st")
-def lohnst_eink(
+def lohnst_eink_y(
     bruttolohn_m: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
@@ -71,7 +71,7 @@ def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> flo
     ----------
 
     taxable_inc:
-        Taxable Income used in function (not necessarily the same as lohnst_eink)
+        Taxable Income used in function (not necessarily the same as lohnst_eink_y)
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
 
@@ -240,7 +240,7 @@ def kinderfreib_für_soli_st_lohnst(
 
 
 def _lohnst_m(
-    lohnst_eink: float, eink_st_params: dict, lohn_st_params: dict, steuerklasse: int
+    lohnst_eink_y: float, eink_st_params: dict, lohn_st_params: dict, steuerklasse: int
 ) -> float:
     """
     Calculates Lohnsteuer (withholding tax on earnings), paid monthly by the employer on
@@ -255,8 +255,8 @@ def _lohnst_m(
 
     Parameters
     ----------
-    lohnst_eink
-        See :func:`lohnst_eink`.
+    lohnst_eink_y
+        See :func:`lohnst_eink_y`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
     lohn_st_params
@@ -271,9 +271,9 @@ def _lohnst_m(
 
     """
 
-    lohnsteuer_basistarif = _eink_st_tarif(lohnst_eink, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohnst_eink / 2, eink_st_params)
-    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohnst_eink, eink_st_params)
+    lohnsteuer_basistarif = _eink_st_tarif(lohnst_eink_y, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohnst_eink_y / 2, eink_st_params)
+    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohnst_eink_y, eink_st_params)
 
     grenze_1 = lohn_st_params["lohnst_einkommensgrenzen"][0]
     grenze_2 = lohn_st_params["lohnst_einkommensgrenzen"][1]
@@ -282,7 +282,7 @@ def _lohnst_m(
     lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
     max_lohnsteuer = (
         lohnsteuer_grenze_1
-        + (lohnst_eink - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
+        + (lohnst_eink_y - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
     )
     lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
     lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params["eink_st_tarif"][
@@ -290,21 +290,21 @@ def _lohnst_m(
     ][0][3]
     lohnsteuer_klasse5_6_tmp = lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3
 
-    if lohnst_eink < grenze_1:
+    if lohnst_eink_y < grenze_1:
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
-    elif grenze_1 <= lohnst_eink < grenze_2:
+    elif grenze_1 <= lohnst_eink_y < grenze_2:
         lohnsteuer_klasse5_6 = min(
-            max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink, eink_st_params)
+            max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink_y, eink_st_params)
         )
-    elif grenze_2 <= lohnst_eink < grenze_3:
+    elif grenze_2 <= lohnst_eink_y < grenze_3:
         lohnsteuer_klasse5_6 = (
             lohnsteuer_grenze_2
-            + (lohnst_eink - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
+            + (lohnst_eink_y - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
     else:
         lohnsteuer_klasse5_6 = (
             lohnsteuer_klasse5_6_tmp
-            + (lohnst_eink - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
+            + (lohnst_eink_y - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
 
     if steuerklasse in (1, 2, 4):
@@ -320,7 +320,7 @@ def _lohnst_m(
 
 
 def lohnst_m(
-    lohnst_eink: float,
+    lohnst_eink_y: float,
     eink_st_params: dict,
     lohn_st_params: dict,
     steuerklasse: int,
@@ -328,11 +328,11 @@ def lohnst_m(
     """
     Calls _lohnst_m with individual income
     """
-    return _lohnst_m(lohnst_eink, eink_st_params, lohn_st_params, steuerklasse)
+    return _lohnst_m(lohnst_eink_y, eink_st_params, lohn_st_params, steuerklasse)
 
 
 def lohnst_mit_kinderfreib_m(
-    lohnst_eink: float,
+    lohnst_eink_y: float,
     kinderfreib_für_soli_st_lohnst: float,
     eink_st_params: dict,
     lohn_st_params: dict,
@@ -344,6 +344,6 @@ def lohnst_mit_kinderfreib_m(
     of soli on Lohnsteuer!
     """
 
-    eink = max(lohnst_eink - kinderfreib_für_soli_st_lohnst, 0)
+    eink = max(lohnst_eink_y - kinderfreib_für_soli_st_lohnst, 0)
 
     return _lohnst_m(eink, eink_st_params, lohn_st_params, steuerklasse)
