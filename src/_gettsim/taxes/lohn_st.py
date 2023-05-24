@@ -7,7 +7,7 @@ def lohnst_eink_y(
     bruttolohn_m: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
-    vorsorgepauschale: float,
+    vorsorgepauschale_y: float,
 ) -> float:
     """Calculate tax base for Lohnsteuer (withholding tax on earnings).
 
@@ -19,8 +19,8 @@ def lohnst_eink_y(
       See :func:`steuerklasse`
     eink_st_abzuege_params:
       See :func:`eink_st_abzuege_params`
-    vorsorgepauschale
-        See :func:`vorsorgepauschale`
+    vorsorgepauschale_y
+        See :func:`vorsorgepauschale_y`
 
     Returns
     -------
@@ -46,7 +46,7 @@ def lohnst_eink_y(
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
-        - vorsorgepauschale,
+        - vorsorgepauschale_y,
         0.0,
     )
 
@@ -95,10 +95,10 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 @dates_active(
     start="2010-01-01",
-    change_name="vorsorgepauschale",
+    change_name="vorsorgepauschale_y",
 )
 @add_rounding_spec(params_key="lohn_st")
-def vorsorgepauschale_ab_2010(  # noqa: PLR0913
+def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
     steuerklasse: int,
     wohnort_ost: bool,
@@ -204,10 +204,10 @@ def vorsorgepauschale_ab_2010(  # noqa: PLR0913
 @dates_active(
     start="2005-01-01",
     end="2009-12-31",
-    change_name="vorsorgepauschale",
+    change_name="vorsorgepauschale_y",
 )
 @add_rounding_spec(params_key="lohn_st")
-def vorsorgepauschale_ab_2005_bis_2009() -> float:
+def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
     out = 0.0
     return out
 
