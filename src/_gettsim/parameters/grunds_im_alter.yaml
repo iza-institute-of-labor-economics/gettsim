@@ -61,7 +61,7 @@ ges_rente_anr_frei:
       rate: 0.3
 kapitaleink_anr_frei:
   name:
-    de: Freibetrag des kapitaleink_yommens für Grundsicherung
+    de: Freibetrag des Kapitaleinkommens für Grundsicherung
     en: Amount of capital income not subject to transfer withdrawal
   description:
     de: >-
