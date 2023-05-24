@@ -1,7 +1,9 @@
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-@dates_active(start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_tu")
+@dates_active(
+    start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_tu"
+)
 def vorsorgeaufw_alter_y_tu_einfuehrung(
     ges_rentenv_beitr_m_tu: float,
     priv_rentenv_beitr_m_tu: float,
