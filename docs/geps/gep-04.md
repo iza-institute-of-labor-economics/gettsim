@@ -63,7 +63,7 @@ GETTSIM; this is irrelevant for the DAG.
 Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `bruttolohn_m`).
-- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_tu`).
+- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_tu`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 

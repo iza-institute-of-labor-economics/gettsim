@@ -13,7 +13,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
-    "eink_st_tu",
+    "eink_st_y_tu",
     "soli_st_y_tu",
     "abgelt_st_y_tu",
     "ges_rentenv_beitr_m",

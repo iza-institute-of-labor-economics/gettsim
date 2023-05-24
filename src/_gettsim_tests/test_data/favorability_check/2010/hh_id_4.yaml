@@ -61,7 +61,7 @@ inputs:
       - 2010
   assumed: {}
 outputs:
-  eink_st_tu:
+  eink_st_y_tu:
     - 20000
     - 20000
     - 20000

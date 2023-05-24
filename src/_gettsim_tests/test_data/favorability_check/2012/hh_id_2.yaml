@@ -28,7 +28,7 @@ inputs:
       - 2012
   assumed: {}
 outputs:
-  eink_st_tu:
+  eink_st_y_tu:
     - 5000
   zu_verst_eink_y_tu:
     - 5000

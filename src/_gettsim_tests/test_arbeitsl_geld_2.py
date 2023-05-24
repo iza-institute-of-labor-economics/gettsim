@@ -20,7 +20,7 @@ OVERRIDE_COLS = [
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",
-    "eink_st_tu",
+    "eink_st_y_tu",
     "sozialv_beitr_m",
     "sum_ges_rente_priv_rente_m",
     "wohngeld_vor_vermög_check_m_hh",

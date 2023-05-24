@@ -4,7 +4,7 @@ from _gettsim.shared import dates_active
 
 def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
-    eink_st_tu: float,
+    eink_st_y_tu: float,
     soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
@@ -22,8 +22,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_eink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
     soli_st_y_tu
         See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
@@ -51,7 +51,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     else:
         out = (
             arbeitsl_geld_2_bruttoeink_m
-            - (eink_st_tu / anz_erwachsene_tu / 12)
+            - (eink_st_y_tu / anz_erwachsene_tu / 12)
             - (soli_st_y_tu / anz_erwachsene_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_eink_anr_frei_m
@@ -116,7 +116,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 @dates_active(end="2005-09-30")
 def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
-    eink_st_tu: float,
+    eink_st_y_tu: float,
     soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
@@ -130,8 +130,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
     soli_st_y_tu
         See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
@@ -149,7 +149,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             bruttolohn_m
-            - (eink_st_tu / anz_erwachsene_tu / 12)
+            - (eink_st_y_tu / anz_erwachsene_tu / 12)
             - (soli_st_y_tu / anz_erwachsene_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]

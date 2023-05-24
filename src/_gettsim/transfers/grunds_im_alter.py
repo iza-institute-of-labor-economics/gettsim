@@ -75,7 +75,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
-    eink_st_tu: float,
+    eink_st_y_tu: float,
     soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
@@ -98,8 +98,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
     soli_st_y_tu
         See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
@@ -129,7 +129,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     # TODO: Change this to lohnsteuer
     out = (
         total_income
-        - (eink_st_tu / anz_erwachsene_tu / 12)
+        - (eink_st_y_tu / anz_erwachsene_tu / 12)
         - (soli_st_y_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_m
     )
