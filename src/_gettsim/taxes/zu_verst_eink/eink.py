@@ -121,7 +121,7 @@ def eink_rente_zu_verst_m(
     return rente_ertragsanteil * sum_ges_rente_priv_rente_m
 
 
-def eink_rente_zu_verst(
+def eink_rente_zu_verst_y(
     eink_rente_zu_verst_m: float,
 ) -> float:
     """Aggregate monthly gross pension income subject to taxation to yearly income.
@@ -143,7 +143,7 @@ def sum_eink_ohne_kapital_eink(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,
     eink_vermietung_y: float,
-    eink_rente_zu_verst: float,
+    eink_rente_zu_verst_y: float,
 ) -> float:
     """Sum of gross incomes without capital income.
 
@@ -156,8 +156,8 @@ def sum_eink_ohne_kapital_eink(
         See :func:`_zu_verst_eink_abhängig_beschäftigt_y`.
     eink_vermietung_y
         See :func:`eink_vermietung_y`.
-    eink_rente_zu_verst
-        See :func:`eink_rente_zu_verst`.
+    eink_rente_zu_verst_y
+        See :func:`eink_rente_zu_verst_y`.
 
     Returns
     -------
@@ -167,7 +167,7 @@ def sum_eink_ohne_kapital_eink(
         eink_selbst_y
         + _zu_verst_eink_abhängig_beschäftigt_y
         + eink_vermietung_y
-        + eink_rente_zu_verst
+        + eink_rente_zu_verst_y
     )
     return out
 
