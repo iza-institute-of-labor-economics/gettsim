@@ -71,7 +71,7 @@ def freibeträge_y_tu(
     return out
 
 
-def _zu_verst_eink_ohne_kinderfreib_tu(
+def _zu_verst_eink_ohne_kinderfreib_y_tu(
     sum_eink_y_tu: float,
     freibeträge_y_tu: float,
 ) -> float:
@@ -95,14 +95,14 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
 
 
 def zu_verst_eink_mit_kinderfreib_tu(
-    _zu_verst_eink_ohne_kinderfreib_tu: float, eink_st_kinderfreib_y_tu: float
+    _zu_verst_eink_ohne_kinderfreib_y_tu: float, eink_st_kinderfreib_y_tu: float
 ) -> float:
     """Calculate taxable income with child allowance on tax unit level.
 
     Parameters
     ----------
-    _zu_verst_eink_ohne_kinderfreib_tu
-        See :func:`_zu_verst_eink_ohne_kinderfreib_tu`.
+    _zu_verst_eink_ohne_kinderfreib_y_tu
+        See :func:`_zu_verst_eink_ohne_kinderfreib_y_tu`.
     eink_st_kinderfreib_y_tu
         See :func:`eink_st_kinderfreib_y_tu`.
 
@@ -111,13 +111,13 @@ def zu_verst_eink_mit_kinderfreib_tu(
 
     """
 
-    out = _zu_verst_eink_ohne_kinderfreib_tu - eink_st_kinderfreib_y_tu
+    out = _zu_verst_eink_ohne_kinderfreib_y_tu - eink_st_kinderfreib_y_tu
     return max(out, 0.0)
 
 
 def zu_verst_eink_tu(
     zu_verst_eink_mit_kinderfreib_tu: float,
-    _zu_verst_eink_ohne_kinderfreib_tu: float,
+    _zu_verst_eink_ohne_kinderfreib_y_tu: float,
     kinderfreib_günstiger_tu: bool,
 ) -> float:
     """Calculate taxable income on tax unit level.
@@ -126,8 +126,8 @@ def zu_verst_eink_tu(
     ----------
     zu_verst_eink_mit_kinderfreib_tu
         See :func:`zu_verst_eink_mit_kinderfreib_tu`.
-    _zu_verst_eink_ohne_kinderfreib_tu
-        See :func:`_zu_verst_eink_ohne_kinderfreib_tu`.
+    _zu_verst_eink_ohne_kinderfreib_y_tu
+        See :func:`_zu_verst_eink_ohne_kinderfreib_y_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
 
@@ -138,6 +138,6 @@ def zu_verst_eink_tu(
     if kinderfreib_günstiger_tu:
         out = zu_verst_eink_mit_kinderfreib_tu
     else:
-        out = _zu_verst_eink_ohne_kinderfreib_tu
+        out = _zu_verst_eink_ohne_kinderfreib_y_tu
 
     return out

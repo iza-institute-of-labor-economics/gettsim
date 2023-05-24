@@ -78,7 +78,7 @@ inputs:
       - 7700.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_tu:
     - 50228.0
     - 50228.0
   zu_verst_eink_mit_kinderfreib_tu:
