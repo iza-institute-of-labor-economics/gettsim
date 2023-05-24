@@ -26,7 +26,7 @@ inputs:
       - 1380.0
     eink_selbst_y:
       - 0.0
-    eink_vermietung:
+    eink_vermietung_y:
       - 0.0
     kapitaleink:
       - 0.0
