@@ -115,7 +115,8 @@ If names need to be concatenated for making clear what a column name refers to (
 `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
 (i.e., the tax or transfer) that a variable refers to appears first.
 
-The time unit of a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
+The time unit of a column is indicated by an underscore plus one of {`y`, `m`, `w`,
+`d`}.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
