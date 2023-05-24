@@ -24,7 +24,7 @@ inputs:
       - 0.0
     eink_vermietung_y:
       - 0.0
-    kapitaleink:
+    kapitaleink_y:
       - 0.0
     alter:
       - 70

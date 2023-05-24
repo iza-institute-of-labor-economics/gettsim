@@ -61,11 +61,11 @@ ges_rente_anr_frei:
       rate: 0.3
 kapitaleink_anr_frei:
   name:
-    de: Freibetrag des Kapitaleinkommens für Grundsicherung
+    de: Freibetrag des kapitaleink_yommens für Grundsicherung
     en: Amount of capital income not subject to transfer withdrawal
   description:
     de: >-
-      Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die
+      Nur das kapitaleink_yommen, das über diesem Freibetrag liegt, wird auf die
       Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
     en: >-
       Only the capital income above the threshold is considered for the calculation of

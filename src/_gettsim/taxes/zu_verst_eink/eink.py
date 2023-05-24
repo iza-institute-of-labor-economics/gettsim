@@ -172,7 +172,7 @@ def sum_eink_ohne_kapital_eink_y(
     return out
 
 
-def kapitaleink(
+def kapitaleink_y(
     kapitaleink_brutto_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -201,7 +201,7 @@ def kapitaleink(
 @dates_active(end="2008-12-31", change_name="sum_eink")
 def sum_eink_mit_kapital_eink(
     sum_eink_ohne_kapital_eink_y: float,
-    kapitaleink: float,
+    kapitaleink_y: float,
 ) -> float:
     """Sum of gross incomes with capital income.
 
@@ -209,14 +209,14 @@ def sum_eink_mit_kapital_eink(
     ----------
     sum_eink_ohne_kapital_eink_y
         See :func:`sum_eink_ohne_kapital`.
-    kapitaleink
-        See :func:`kapitaleink`.
+    kapitaleink_y
+        See :func:`kapitaleink_y`.
 
     Returns
     -------
 
     """
-    return sum_eink_ohne_kapital_eink_y + kapitaleink
+    return sum_eink_ohne_kapital_eink_y + kapitaleink_y
 
 
 def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
