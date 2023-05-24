@@ -244,7 +244,7 @@ def eink_st_sonderausgaben_y_tu_nur_pauschale(
 @dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_y_tu")
 def eink_st_sonderausgaben_y_tu_mit_betreuung(
     eink_st_abzuege_params: dict,
-    sonderausgaben_betreuung_tu: float,
+    sonderausgaben_betreuung_y_tu: float,
     anz_erwachsene_tu: int,
 ) -> float:
     """Individual sonderausgaben on tax unit level since 2012.
@@ -256,8 +256,8 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    sonderausgaben_betreuung_tu
-        See :func:`sonderausgaben_betreuung_tu`.
+    sonderausgaben_betreuung_y_tu
+        See :func:`sonderausgaben_betreuung_y_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     anz_erwachsene_tu
@@ -267,7 +267,7 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
     -------
 
     """
-    sonderausgaben_gesamt = sonderausgaben_betreuung_tu
+    sonderausgaben_gesamt = sonderausgaben_betreuung_y_tu
     pauschale = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
         * anz_erwachsene_tu
@@ -306,7 +306,7 @@ def eink_st_abz_betreuungskost_y(
 
 
 @add_rounding_spec(params_key="eink_st_abzuege")
-def sonderausgaben_betreuung_tu(
+def sonderausgaben_betreuung_y_tu(
     eink_st_abzuege_params: dict,
     eink_st_abz_betreuungskost_y_tu: float,
 ) -> float:
