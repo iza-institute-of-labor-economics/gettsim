@@ -17,7 +17,7 @@ def eink_selbst_y(eink_selbst_m: float) -> float:
     return 12 * eink_selbst_m
 
 
-def eink_abhängig_beschäftigt(
+def eink_abhängig_beschäftigt_y(
     bruttolohn_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -44,8 +44,8 @@ def eink_abhängig_beschäftigt(
     return out
 
 
-def _zu_verst_eink_abhängig_beschäftigt(
-    eink_abhängig_beschäftigt: float,
+def _zu_verst_eink_abhängig_beschäftigt_y(
+    eink_abhängig_beschäftigt_y: float,
     geringfügig_beschäftigt: bool,
 ) -> float:
     """Calculate taxable income from dependent employment. In particular, taxable
@@ -53,9 +53,9 @@ def _zu_verst_eink_abhängig_beschäftigt(
 
     Parameters
     ----------
-    eink_abhängig_beschäftigt
-        See basic input variable :ref:`eink_abhängig_beschäftigt
-        <eink_abhängig_beschäftigt>`.
+    eink_abhängig_beschäftigt_y
+        See basic input variable :ref:`eink_abhängig_beschäftigt_y
+        <eink_abhängig_beschäftigt_y>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
 
@@ -66,7 +66,7 @@ def _zu_verst_eink_abhängig_beschäftigt(
     if geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = eink_abhängig_beschäftigt
+        out = eink_abhängig_beschäftigt_y
 
     return out
 
@@ -141,7 +141,7 @@ def eink_rente_zu_verst(
 @dates_active(start="2009-01-01", change_name="sum_eink")
 def sum_eink_ohne_kapital_eink(
     eink_selbst_y: float,
-    _zu_verst_eink_abhängig_beschäftigt: float,
+    _zu_verst_eink_abhängig_beschäftigt_y: float,
     eink_vermietung: float,
     eink_rente_zu_verst: float,
 ) -> float:
@@ -152,8 +152,8 @@ def sum_eink_ohne_kapital_eink(
     ----------
     eink_selbst_y
         See :func:`eink_selbst_y`.
-    _zu_verst_eink_abhängig_beschäftigt
-        See :func:`_zu_verst_eink_abhängig_beschäftigt`.
+    _zu_verst_eink_abhängig_beschäftigt_y
+        See :func:`_zu_verst_eink_abhängig_beschäftigt_y`.
     eink_vermietung
         See :func:`eink_vermietung`.
     eink_rente_zu_verst
@@ -165,7 +165,7 @@ def sum_eink_ohne_kapital_eink(
     """
     out = (
         eink_selbst_y
-        + _zu_verst_eink_abhängig_beschäftigt
+        + _zu_verst_eink_abhängig_beschäftigt_y
         + eink_vermietung
         + eink_rente_zu_verst
     )

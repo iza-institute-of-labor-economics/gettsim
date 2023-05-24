@@ -139,7 +139,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 15600.0
       - 14400.0
       - 0.0

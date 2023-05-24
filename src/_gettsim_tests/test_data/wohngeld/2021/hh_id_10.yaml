@@ -44,7 +44,7 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 12600.0
     kapitaleink_brutto_y:
       - 0.0

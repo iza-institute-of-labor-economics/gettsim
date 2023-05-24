@@ -12,7 +12,7 @@ OVERRIDE_COLS = [
     "elterngeld_m",
     "arbeitsl_geld_m",
     "rente_ertragsanteil",
-    "eink_abhängig_beschäftigt",
+    "eink_abhängig_beschäftigt_y",
     "eink_st_tu",
     "ges_krankenv_beitr_m",
     "ges_rentenv_beitr_m",
