@@ -14,7 +14,7 @@ inputs:
       - false
     eink_st_ohne_kinderfreib_y_tu:
       - 5000.0
-    eink_st_mit_kinderfreib_tu:
+    eink_st_mit_kinderfreib_y_tu:
       - 5000.0
     _zu_verst_eink_mit_kinderfreib_y_tu:
       - 5000.0

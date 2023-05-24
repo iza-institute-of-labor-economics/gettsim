@@ -108,7 +108,7 @@ Another function, say
 
 ```python
 def soli_st_y_tu(
-    eink_st_mit_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
     abgelt_st_y_tu: float,
     soli_st_params: dict,

@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 
 def soli_st_y_tu(
-    eink_st_mit_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
     abgelt_st_y_tu: float,
     soli_st_params: dict,
@@ -22,8 +22,8 @@ def soli_st_y_tu(
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_tu
-        See :func:`eink_st_mit_kinderfreib_tu`.
+    eink_st_mit_kinderfreib_y_tu
+        See :func:`eink_st_mit_kinderfreib_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     abgelt_st_y_tu
@@ -35,7 +35,7 @@ def soli_st_y_tu(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
     out = (
         anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_tu

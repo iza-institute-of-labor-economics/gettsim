@@ -31,7 +31,7 @@ def eink_st_ohne_kinderfreib_y_tu(
     return out
 
 
-def eink_st_mit_kinderfreib_tu(
+def eink_st_mit_kinderfreib_y_tu(
     _zu_verst_eink_mit_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
     eink_st_params: dict,
@@ -88,28 +88,28 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 @dates_active(end="1996-12-31", change_name="eink_st_tu")
 @add_rounding_spec(params_key="eink_st")
 def eink_st_tu_kindergeld_kinderfreib_parallel(
-    eink_st_mit_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_y_tu: float,
 ) -> float:
     """Income tax calculation on tax unit level allowing for claiming Kinderfreibetrag
     and receiving Kindergeld at the same time.
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_tu
-        See :func:`eink_st_mit_kinderfreib_tu`.
+    eink_st_mit_kinderfreib_y_tu
+        See :func:`eink_st_mit_kinderfreib_y_tu`.
 
     Returns
     -------
 
     """
-    return eink_st_mit_kinderfreib_tu
+    return eink_st_mit_kinderfreib_y_tu
 
 
 @dates_active(start="1997-01-01", change_name="eink_st_tu")
 @add_rounding_spec(params_key="eink_st")
 def eink_st_tu_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_y_tu: float,
-    eink_st_mit_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_y_tu: float,
     kinderfreib_günstiger_tu: bool,
     eink_st_rel_kindergeld_tu: float,
 ) -> float:
@@ -119,8 +119,8 @@ def eink_st_tu_kindergeld_oder_kinderfreib(
     ----------
     eink_st_ohne_kinderfreib_y_tu
         See :func:`eink_st_ohne_kinderfreib_y_tu`.
-    eink_st_mit_kinderfreib_tu
-        See :func:`eink_st_mit_kinderfreib_tu`.
+    eink_st_mit_kinderfreib_y_tu
+        See :func:`eink_st_mit_kinderfreib_y_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
     eink_st_rel_kindergeld_tu
@@ -131,7 +131,7 @@ def eink_st_tu_kindergeld_oder_kinderfreib(
 
     """
     if kinderfreib_günstiger_tu:
-        out = eink_st_mit_kinderfreib_tu + eink_st_rel_kindergeld_tu
+        out = eink_st_mit_kinderfreib_y_tu + eink_st_rel_kindergeld_tu
     else:
         out = eink_st_ohne_kinderfreib_y_tu
 
@@ -140,7 +140,7 @@ def eink_st_tu_kindergeld_oder_kinderfreib(
 
 def kinderfreib_günstiger_tu(
     eink_st_ohne_kinderfreib_y_tu: float,
-    eink_st_mit_kinderfreib_tu: float,
+    eink_st_mit_kinderfreib_y_tu: float,
     eink_st_rel_kindergeld_tu: float,
 ) -> bool:
     """Return whether Kinderfreibetrag is more favorable than Kindergeld.
@@ -149,15 +149,15 @@ def kinderfreib_günstiger_tu(
     ----------
     eink_st_ohne_kinderfreib_y_tu
         See :func:`eink_st_ohne_kinderfreib_y_tu`.
-    eink_st_mit_kinderfreib_tu
-        See :func:`eink_st_mit_kinderfreib_tu`.
+    eink_st_mit_kinderfreib_y_tu
+        See :func:`eink_st_mit_kinderfreib_y_tu`.
     eink_st_rel_kindergeld_tu
         See :func:`eink_st_rel_kindergeld_tu`.
     Returns
     -------
 
     """
-    unterschiedsbeitrag = eink_st_ohne_kinderfreib_y_tu - eink_st_mit_kinderfreib_tu
+    unterschiedsbeitrag = eink_st_ohne_kinderfreib_y_tu - eink_st_mit_kinderfreib_y_tu
 
     out = unterschiedsbeitrag > eink_st_rel_kindergeld_tu
     return out

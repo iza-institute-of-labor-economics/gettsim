@@ -12,7 +12,7 @@ inputs:
       - 7
     kind:
       - false
-    eink_st_mit_kinderfreib_tu:
+    eink_st_mit_kinderfreib_y_tu:
       - 32027.0
     abgelt_st_y_tu:
       - 0.0
