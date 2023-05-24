@@ -80,7 +80,7 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
     """Calculate Abgeltungssteuer on tax unit level.
 
     Parameters
@@ -97,12 +97,12 @@ def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> floa
     return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
 ```
 
-The function {func}`abgelt_st_tu` requires the variable `zu_verst_kapital_eink_tu` which
+The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_tu` which
 is the amount of taxable capital income on tax unit level (the latter is implied by the
 `_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by the user
 as a column of the input data or it has to be the name of another function.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of
-`abgelt_st_tu`.
+`abgelt_st_y_tu`.
 
 Another function, say
 
@@ -110,14 +110,14 @@ Another function, say
 def soli_st_tu(
     eink_st_mit_kinderfreib_tu: float,
     anz_erwachsene_tu: int,
-    abgelt_st_tu: float,
+    abgelt_st_y_tu: float,
     soli_st_params: dict,
 ) -> float:
     ...
 ```
 
-may use `abgelt_st_tu` as an input argument. The DAG backend ensures that the function
-`abgelt_st_tu` will be executed first.
+may use `abgelt_st_y_tu` as an input argument. The DAG backend ensures that the function
+`abgelt_st_y_tu` will be executed first.
 
 Note that the type annotations (e.g. `float`) indicate the expected type of each input
 and the output of a function, see {ref}`gep-2`.

@@ -20,7 +20,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly amount of unemployment assistance
 * - {func}`entgeltp_update <_gettsim.functions.entgeltp_update>`
   - Updated earning points for pension claim
-* - {func}`abgelt_st_tu <_gettsim.functions.abgelt_st_tu>`
+* - {func}`abgelt_st_y_tu <_gettsim.functions.abgelt_st_y_tu>`
   - Capital income tax on tax unit level
 * - {func}`soli_st_tu <_gettsim.functions.soli_st_tu>`
   - Solidarity surcharge on tax unit level

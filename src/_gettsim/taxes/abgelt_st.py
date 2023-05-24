@@ -1,4 +1,4 @@
-def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
     """Calculate abgeltungssteuer on tax unit level.
 
     Parameters

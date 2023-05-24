@@ -79,7 +79,7 @@ SUPPORTED_GROUPINGS = {
 DEFAULT_TARGETS = [
     "eink_st_tu",
     "soli_st_tu",
-    "abgelt_st_tu",
+    "abgelt_st_y_tu",
     "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
