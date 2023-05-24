@@ -281,7 +281,7 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
     return float(out)
 
 
-def eink_st_abz_betreuungskost(
+def eink_st_abz_betreuungskost_y(
     eink_st_abzuege_params: dict,
     betreuungskost_m: float,
 ) -> float:
@@ -308,7 +308,7 @@ def eink_st_abz_betreuungskost(
 @add_rounding_spec(params_key="eink_st_abzuege")
 def sonderausgaben_betreuung_tu(
     eink_st_abzuege_params: dict,
-    eink_st_abz_betreuungskost_tu: float,
+    eink_st_abz_betreuungskost_y_tu: float,
 ) -> float:
     """Sonderausgaben for childcare on tax unit level.
 
@@ -319,8 +319,8 @@ def sonderausgaben_betreuung_tu(
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    eink_st_abz_betreuungskost_tu
-        See :func:`eink_st_abz_betreuungskost_tu`.
+    eink_st_abz_betreuungskost_y_tu
+        See :func:`eink_st_abz_betreuungskost_y_tu`.
 
     Returns
     -------
@@ -328,7 +328,7 @@ def sonderausgaben_betreuung_tu(
     """
 
     out = (
-        eink_st_abz_betreuungskost_tu
+        eink_st_abz_betreuungskost_y_tu
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     )
 
