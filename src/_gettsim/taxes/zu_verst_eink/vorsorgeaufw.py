@@ -225,14 +225,14 @@ def vorsorgeaufw_y_tu_ab_2020(  # noqa: PLR0913
     start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_tu_bis_2004"
 )
 def _vorsorgeaufw_y_tu_bis_2004(
-    _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
+    _vorsorgeaufw_vom_lohn_y_tu_bis_2004: float,
     ges_krankenv_beitr_m_tu: float,
     ges_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     return vorsorgeaufw_y_tu_bis_2004(
-        _vorsorgeaufw_vom_lohn_tu_bis_2004=_vorsorgeaufw_vom_lohn_tu_bis_2004,
+        _vorsorgeaufw_vom_lohn_y_tu_bis_2004=_vorsorgeaufw_vom_lohn_y_tu_bis_2004,
         ges_krankenv_beitr_m_tu=ges_krankenv_beitr_m_tu,
         ges_rentenv_beitr_m_tu=ges_rentenv_beitr_m_tu,
         anz_erwachsene_tu=anz_erwachsene_tu,
@@ -246,7 +246,7 @@ def _vorsorgeaufw_y_tu_bis_2004(
 )
 @add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_y_tu_bis_2004(
-    _vorsorgeaufw_vom_lohn_tu_bis_2004: float,
+    _vorsorgeaufw_vom_lohn_y_tu_bis_2004: float,
     ges_krankenv_beitr_m_tu: float,
     ges_rentenv_beitr_m_tu: float,
     anz_erwachsene_tu: int,
@@ -256,8 +256,8 @@ def vorsorgeaufw_y_tu_bis_2004(
 
     Parameters
     ----------
-    _vorsorgeaufw_vom_lohn_tu_bis_2004
-        See :func:`_vorsorgeaufw_vom_lohn_tu_bis_2004`.
+    _vorsorgeaufw_vom_lohn_y_tu_bis_2004
+        See :func:`_vorsorgeaufw_vom_lohn_y_tu_bis_2004`.
     ges_krankenv_beitr_m_tu
         See :func:`ges_krankenv_beitr_m_tu`.
     ges_rentenv_beitr_m_tu
@@ -274,7 +274,7 @@ def vorsorgeaufw_y_tu_bis_2004(
     multiplikator1 = max(
         (
             12 * (ges_rentenv_beitr_m_tu + ges_krankenv_beitr_m_tu)
-            - _vorsorgeaufw_vom_lohn_tu_bis_2004
+            - _vorsorgeaufw_vom_lohn_y_tu_bis_2004
         ),
         0.0,
     )
@@ -297,13 +297,13 @@ def vorsorgeaufw_y_tu_bis_2004(
     else:
         item_3 = 0.5 * (item_1 - item_2)
 
-    out = _vorsorgeaufw_vom_lohn_tu_bis_2004 + item_2 + item_3
+    out = _vorsorgeaufw_vom_lohn_y_tu_bis_2004 + item_2 + item_3
 
     return out
 
 
 @dates_active(end="2019-12-31")
-def _vorsorgeaufw_vom_lohn_tu_bis_2004(
+def _vorsorgeaufw_vom_lohn_y_tu_bis_2004(
     bruttolohn_m_tu: float,
     gemeinsam_veranlagt_tu: bool,
     eink_st_abzuege_params: dict,
