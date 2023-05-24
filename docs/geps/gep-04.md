@@ -97,10 +97,10 @@ def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> 
     return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
 ```
 
-The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_tu` which
-is the amount of taxable capital income on tax unit level (the latter is implied by the
-`_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by the user
-as a column of the input data or it has to be the name of another function.
+The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_tu`
+which is the amount of taxable capital income on tax unit level (the latter is implied
+by the `_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by
+the user as a column of the input data or it has to be the name of another function.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of
 `abgelt_st_y_tu`.
 
