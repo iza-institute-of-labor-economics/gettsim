@@ -299,12 +299,14 @@ def _lohnst_m(
     elif grenze_2 <= lohnst_eink_y < grenze_3:
         lohnsteuer_klasse5_6 = (
             lohnsteuer_grenze_2
-            + (lohnst_eink_y - grenze_2) * eink_st_params["eink_st_tarif"]["rates"][0][3]
+            + (lohnst_eink_y - grenze_2)
+            * eink_st_params["eink_st_tarif"]["rates"][0][3]
         )
     else:
         lohnsteuer_klasse5_6 = (
             lohnsteuer_klasse5_6_tmp
-            + (lohnst_eink_y - grenze_3) * eink_st_params["eink_st_tarif"]["rates"][0][4]
+            + (lohnst_eink_y - grenze_3)
+            * eink_st_params["eink_st_tarif"]["rates"][0][4]
         )
 
     if steuerklasse in (1, 2, 4):
