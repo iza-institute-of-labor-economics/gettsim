@@ -18,5 +18,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  soli_st_tu:
+  soli_st_y_tu:
     - 225.0

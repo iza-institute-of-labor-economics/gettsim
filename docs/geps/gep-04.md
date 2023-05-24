@@ -107,7 +107,7 @@ as a column of the input data or it has to be the name of another function.
 Another function, say
 
 ```python
-def soli_st_tu(
+def soli_st_y_tu(
     eink_st_mit_kinderfreib_tu: float,
     anz_erwachsene_tu: int,
     abgelt_st_y_tu: float,

@@ -14,7 +14,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OUT_COLS = [
     "eink_st_tu",
-    "soli_st_tu",
+    "soli_st_y_tu",
     "abgelt_st_y_tu",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",

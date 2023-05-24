@@ -16,7 +16,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OVERRIDE_COLS = [
     "arbeitsl_geld_m",
-    "soli_st_tu",
+    "soli_st_y_tu",
     "kindergeld_m_hh",
     "unterhaltsvors_m",
     "elterngeld_m",

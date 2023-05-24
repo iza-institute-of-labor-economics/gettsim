@@ -1,7 +1,7 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-def soli_st_tu(
+def soli_st_y_tu(
     eink_st_mit_kinderfreib_tu: float,
     anz_erwachsene_tu: int,
     abgelt_st_y_tu: float,

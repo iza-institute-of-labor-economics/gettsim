@@ -6,7 +6,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OVERRIDE_COLS = [
-    "soli_st_tu",
+    "soli_st_y_tu",
     "sozialv_beitr_m",
     "eink_st_tu",
 ]
@@ -37,7 +37,7 @@ def test_elterngeld(
         date=test_data.date
     )
 
-    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["soli_st_y_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
     df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
     result = compute_taxes_and_transfers(

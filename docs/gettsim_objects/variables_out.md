@@ -22,7 +22,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Updated earning points for pension claim
 * - {func}`abgelt_st_y_tu <_gettsim.functions.abgelt_st_y_tu>`
   - Capital income tax on tax unit level
-* - {func}`soli_st_tu <_gettsim.functions.soli_st_tu>`
+* - {func}`soli_st_y_tu <_gettsim.functions.soli_st_y_tu>`
   - Solidarity surcharge on tax unit level
 * - {func}`kindergeld_m <_gettsim.functions.kindergeld_m>`
   - Monthly child benefit
