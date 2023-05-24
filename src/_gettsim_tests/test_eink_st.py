@@ -8,7 +8,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 OVERRIDE_COLS = [
     "_zu_verst_eink_ohne_kinderfreib_tu",
     "zu_verst_eink_mit_kinderfreib_tu",
-    "kapitaleink_brutto",
+    "kapitaleink_brutto_y",
 ]
 
 data = load_policy_test_data("eink_st")

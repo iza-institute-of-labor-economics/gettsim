@@ -179,7 +179,7 @@ def grunds_im_alter_erwerbseink_m(
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
-    kapitaleink_brutto: float,
+    kapitaleink_brutto_y: float,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate individual capital income considered in the calculation of
@@ -190,8 +190,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
 
     Parameters
     ----------
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params
         <grunds_im_alter_params>`.
@@ -202,7 +202,7 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        kapitaleink_brutto - grunds_im_alter_params["kapitaleink_anr_frei"]
+        kapitaleink_brutto_y - grunds_im_alter_params["kapitaleink_anr_frei"]
     )
 
     # Calculate and return monthly capital income (after deduction)

@@ -18,7 +18,7 @@ OVERRIDE_COLS = [
     "ges_rentenv_beitr_m",
     "kindergeld_anspruch",
     "sum_ges_rente_priv_rente_m",
-    "kapitaleink_brutto",
+    "kapitaleink_brutto_y",
     "haushaltsgröße_hh",
     "unterhaltsvors_m",
 ]

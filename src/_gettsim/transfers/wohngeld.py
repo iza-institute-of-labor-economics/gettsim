@@ -82,7 +82,7 @@ def wohngeld_abzüge_st_sozialv_m(
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt: float,
-    kapitaleink_brutto: float,
+    kapitaleink_brutto_y: float,
     eink_vermietung: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
@@ -101,8 +101,8 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
     eink_vermietung
         See :func:`eink_vermietung`.
     arbeitsl_geld_m
@@ -121,7 +121,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto_y + eink_vermietung
     ) / 12
 
     transfers = (
@@ -140,7 +140,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt: float,
-    kapitaleink_brutto: float,
+    kapitaleink_brutto_y: float,
     eink_vermietung: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
@@ -160,8 +160,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt
         See :func:`eink_abhängig_beschäftigt`.
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
     eink_vermietung
         See :func:`eink_vermietung`.
     arbeitsl_geld_m
@@ -182,7 +182,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y + eink_abhängig_beschäftigt + kapitaleink_brutto_y + eink_vermietung
     ) / 12
 
     transfers = (

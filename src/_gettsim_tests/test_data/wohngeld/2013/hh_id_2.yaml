@@ -64,7 +64,7 @@ inputs:
     eink_abhängig_beschäftigt:
       - 10000.0
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
       - 0.0
     eink_vermietung_m:

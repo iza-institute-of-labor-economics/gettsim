@@ -16,7 +16,7 @@ def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> floa
 
 
 def zu_verst_kapitaleink_tu(
-    kapitaleink_brutto_tu: float,
+    kapitaleink_brutto_y_tu: float,
     anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -24,8 +24,8 @@ def zu_verst_kapitaleink_tu(
 
     Parameters
     ----------
-    kapitaleink_brutto_tu
-        See :func:`kapitaleink_brutto_tu`.
+    kapitaleink_brutto_y_tu
+        See :func:`kapitaleink_brutto_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
@@ -35,7 +35,7 @@ def zu_verst_kapitaleink_tu(
     -------
 
     """
-    out = kapitaleink_brutto_tu - anz_erwachsene_tu * (
+    out = kapitaleink_brutto_y_tu - anz_erwachsene_tu * (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )

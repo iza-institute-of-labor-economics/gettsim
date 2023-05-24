@@ -84,7 +84,7 @@ inputs:
       - 10800.0
       - 12600.0
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
       - 0.0
       - 0.0

@@ -71,7 +71,7 @@ def _zu_verst_eink_abhängig_beschäftigt(
     return out
 
 
-def kapitaleink_brutto(kapitaleink_brutto_m: float) -> float:
+def kapitaleink_brutto_y(kapitaleink_brutto_m: float) -> float:
     """Aggregate monthly gross capital income to yearly income.
 
     Parameters
@@ -173,15 +173,15 @@ def sum_eink_ohne_kapital_eink(
 
 
 def kapitaleink(
-    kapitaleink_brutto: float,
+    kapitaleink_brutto_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Capital income minus Sparerpauschbetrag.
 
     Parameters
     ----------
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -190,7 +190,7 @@ def kapitaleink(
 
     """
     out = (
-        kapitaleink_brutto
+        kapitaleink_brutto_y
         - eink_st_abzuege_params["sparerpauschbetrag"]
         - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )

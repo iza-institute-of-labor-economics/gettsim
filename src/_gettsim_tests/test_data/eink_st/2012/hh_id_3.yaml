@@ -16,7 +16,7 @@ inputs:
       - 20000.0
     zu_verst_eink_kinderfreib:
       - 20000.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 1000.0
   assumed: {}
 outputs:
