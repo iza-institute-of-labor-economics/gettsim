@@ -121,7 +121,10 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst_y + eink_abhängig_beschäftigt_y + kapitaleink_brutto_y + eink_vermietung_y
+        eink_selbst_y
+        + eink_abhängig_beschäftigt_y
+        + kapitaleink_brutto_y
+        + eink_vermietung_y
     ) / 12
 
     transfers = (
@@ -182,7 +185,10 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst_y + eink_abhängig_beschäftigt_y + kapitaleink_brutto_y + eink_vermietung_y
+        eink_selbst_y
+        + eink_abhängig_beschäftigt_y
+        + kapitaleink_brutto_y
+        + eink_vermietung_y
     ) / 12
 
     transfers = (
