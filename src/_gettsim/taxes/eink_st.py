@@ -111,7 +111,7 @@ def eink_st_y_tu_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_y_tu: float,
     eink_st_mit_kinderfreib_y_tu: float,
     kinderfreib_günstiger_tu: bool,
-    eink_st_rel_kindergeld_tu: float,
+    eink_st_rel_kindergeld_y_tu: float,
 ) -> float:
     """Income tax calculation on tax unit level since 1997.
 
@@ -123,15 +123,15 @@ def eink_st_y_tu_kindergeld_oder_kinderfreib(
         See :func:`eink_st_mit_kinderfreib_y_tu`.
     kinderfreib_günstiger_tu
         See :func:`kinderfreib_günstiger_tu`.
-    eink_st_rel_kindergeld_tu
-        See :func:`eink_st_rel_kindergeld_tu`.
+    eink_st_rel_kindergeld_y_tu
+        See :func:`eink_st_rel_kindergeld_y_tu`.
 
     Returns
     -------
 
     """
     if kinderfreib_günstiger_tu:
-        out = eink_st_mit_kinderfreib_y_tu + eink_st_rel_kindergeld_tu
+        out = eink_st_mit_kinderfreib_y_tu + eink_st_rel_kindergeld_y_tu
     else:
         out = eink_st_ohne_kinderfreib_y_tu
 
@@ -141,7 +141,7 @@ def eink_st_y_tu_kindergeld_oder_kinderfreib(
 def kinderfreib_günstiger_tu(
     eink_st_ohne_kinderfreib_y_tu: float,
     eink_st_mit_kinderfreib_y_tu: float,
-    eink_st_rel_kindergeld_tu: float,
+    eink_st_rel_kindergeld_y_tu: float,
 ) -> bool:
     """Return whether Kinderfreibetrag is more favorable than Kindergeld.
 
@@ -151,19 +151,19 @@ def kinderfreib_günstiger_tu(
         See :func:`eink_st_ohne_kinderfreib_y_tu`.
     eink_st_mit_kinderfreib_y_tu
         See :func:`eink_st_mit_kinderfreib_y_tu`.
-    eink_st_rel_kindergeld_tu
-        See :func:`eink_st_rel_kindergeld_tu`.
+    eink_st_rel_kindergeld_y_tu
+        See :func:`eink_st_rel_kindergeld_y_tu`.
     Returns
     -------
 
     """
     unterschiedsbeitrag = eink_st_ohne_kinderfreib_y_tu - eink_st_mit_kinderfreib_y_tu
 
-    out = unterschiedsbeitrag > eink_st_rel_kindergeld_tu
+    out = unterschiedsbeitrag > eink_st_rel_kindergeld_y_tu
     return out
 
 
-def eink_st_rel_kindergeld_tu(
+def eink_st_rel_kindergeld_y_tu(
     kindergeld_m_tu: float,
     kinderbonus_m_tu: float,
     anz_erwachsene_tu: int,
