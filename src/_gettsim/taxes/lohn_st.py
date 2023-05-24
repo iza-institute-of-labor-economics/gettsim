@@ -53,7 +53,7 @@ def lohnst_eink_y(
     return out
 
 
-def _lohnsteuer_klasse5_6_basis(taxable_inc: float, eink_st_params: dict) -> float:
+def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> float:
     """Calculate base for Lohnsteuer for Steuerklasse 5 and 6, by applying
     obtaining twice the difference between applying the factors 1.25 and 0.75
     to the lohnsteuer payment. There is a also a minimum amount, which is checked
@@ -273,18 +273,18 @@ def _lohnst_m(
 
     lohnsteuer_basistarif = _eink_st_tarif(lohnst_eink_y, eink_st_params)
     lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohnst_eink_y / 2, eink_st_params)
-    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis(lohnst_eink_y, eink_st_params)
+    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis_y(lohnst_eink_y, eink_st_params)
 
     grenze_1 = lohn_st_params["lohnst_einkommensgrenzen"][0]
     grenze_2 = lohn_st_params["lohnst_einkommensgrenzen"][1]
     grenze_3 = lohn_st_params["lohnst_einkommensgrenzen"][2]
 
-    lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis(grenze_1, eink_st_params)
+    lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis_y(grenze_1, eink_st_params)
     max_lohnsteuer = (
         lohnsteuer_grenze_1
         + (lohnst_eink_y - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
     )
-    lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis(grenze_2, eink_st_params)
+    lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis_y(grenze_2, eink_st_params)
     lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params["eink_st_tarif"][
         "rates"
     ][0][3]
@@ -294,7 +294,7 @@ def _lohnst_m(
         lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
     elif grenze_1 <= lohnst_eink_y < grenze_2:
         lohnsteuer_klasse5_6 = min(
-            max_lohnsteuer, _lohnsteuer_klasse5_6_basis(lohnst_eink_y, eink_st_params)
+            max_lohnsteuer, _lohnsteuer_klasse5_6_basis_y(lohnst_eink_y, eink_st_params)
         )
     elif grenze_2 <= lohnst_eink_y < grenze_3:
         lohnsteuer_klasse5_6 = (
