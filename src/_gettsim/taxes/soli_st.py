@@ -37,7 +37,7 @@ def soli_st_y_tu(
     """
     eink_st_per_individual = eink_st_mit_kinderfreib_tu / anz_erwachsene_tu
     out = (
-        anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
+        anz_erwachsene_tu * _soli_st_tarif_y(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_tu
     )
 
@@ -61,10 +61,10 @@ def soli_st_lohnst_m(lohnst_mit_kinderfreib_m: float, soli_st_params: dict) -> f
 
     """
 
-    return _soli_st_tarif(12 * lohnst_mit_kinderfreib_m, soli_st_params) / 12
+    return _soli_st_tarif_y(12 * lohnst_mit_kinderfreib_m, soli_st_params) / 12
 
 
-def _soli_st_tarif(st_per_individual: float, soli_st_params: dict) -> float:
+def _soli_st_tarif_y(st_per_individual: float, soli_st_params: dict) -> float:
     """The isolated function for Solidaritätszuschlag.
 
     Parameters
