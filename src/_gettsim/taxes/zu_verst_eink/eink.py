@@ -138,7 +138,7 @@ def eink_rente_zu_verst_y(
     return eink_rente_zu_verst_m * 12
 
 
-@dates_active(start="2009-01-01", change_name="sum_eink")
+@dates_active(start="2009-01-01", change_name="sum_eink_y")
 def sum_eink_ohne_kapital_eink_y(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,
@@ -198,7 +198,7 @@ def kapitaleink_y(
     return max(out, 0.0)
 
 
-@dates_active(end="2008-12-31", change_name="sum_eink")
+@dates_active(end="2008-12-31", change_name="sum_eink_y")
 def sum_eink_mit_kapital_eink_y(
     sum_eink_ohne_kapital_eink_y: float,
     kapitaleink_y: float,

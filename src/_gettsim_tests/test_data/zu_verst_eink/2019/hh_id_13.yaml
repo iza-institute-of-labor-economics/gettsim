@@ -93,7 +93,7 @@ outputs:
   alleinerz_freib_tu:
     - 1908
     - 0
-  sum_eink:
+  sum_eink_y:
     - 17000
     - 0
   _eink_st_behinderungsgrad_pauschbetrag:

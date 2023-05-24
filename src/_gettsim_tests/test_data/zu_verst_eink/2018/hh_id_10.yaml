@@ -64,7 +64,7 @@ outputs:
     - 0
   alleinerz_freib_tu:
     - 0
-  sum_eink:
+  sum_eink_y:
     - 13400
   _eink_st_behinderungsgrad_pauschbetrag:
     - 0

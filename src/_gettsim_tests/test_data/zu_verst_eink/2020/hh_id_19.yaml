@@ -151,7 +151,7 @@ outputs:
     - 0
     - 0
     - 0
-  sum_eink:
+  sum_eink_y:
     - 41000
     - 23000
     - 0

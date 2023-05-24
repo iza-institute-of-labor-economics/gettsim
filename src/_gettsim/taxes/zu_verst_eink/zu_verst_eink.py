@@ -72,15 +72,15 @@ def freibeträge_tu(
 
 
 def _zu_verst_eink_ohne_kinderfreib_tu(
-    sum_eink_tu: float,
+    sum_eink_y_tu: float,
     freibeträge_tu: float,
 ) -> float:
     """Calculate taxable income without child allowance on tax unit level.
 
     Parameters
     ----------
-    sum_eink_tu
-        See :func:`sum_eink_tu`.
+    sum_eink_y_tu
+        See :func:`sum_eink_y_tu`.
     freibeträge_tu
         See :func:`freibeträge_tu`.
 
@@ -89,7 +89,7 @@ def _zu_verst_eink_ohne_kinderfreib_tu(
     -------
 
     """
-    out = sum_eink_tu - freibeträge_tu
+    out = sum_eink_y_tu - freibeträge_tu
 
     return max(out, 0.0)
 

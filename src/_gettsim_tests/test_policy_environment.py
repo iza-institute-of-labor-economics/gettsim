@@ -58,7 +58,7 @@ def test_access_different_date_vorjahr():
             "eink_st_alleinerz_freib_tu_nach_kinderzahl",
         ),
         (
-            "sum_eink",
+            "sum_eink_y",
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",
