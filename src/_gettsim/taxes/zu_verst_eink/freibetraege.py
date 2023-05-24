@@ -2,7 +2,7 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def _eink_st_behinderungsgrad_pauschbetrag(
+def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict
 ) -> float:
     """Assign tax deduction allowance for handicaped to different handicap degrees.

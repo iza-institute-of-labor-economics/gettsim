@@ -16,7 +16,7 @@ applying the tax schedule.
 
 
 def freibeträge_ind(
-    _eink_st_behinderungsgrad_pauschbetrag: float,
+    _eink_st_behinderungsgrad_pauschbetrag_y: float,
     eink_st_altersfreib: float,
     alleinerz_freib_tu: float,
 ) -> float:
@@ -26,8 +26,8 @@ def freibeträge_ind(
     Parameters
     ----------
 
-    _eink_st_behinderungsgrad_pauschbetrag
-        See :func:`_eink_st_behinderungsgrad_pauschbetrag`.
+    _eink_st_behinderungsgrad_pauschbetrag_y
+        See :func:`_eink_st_behinderungsgrad_pauschbetrag_y`.
     eink_st_altersfreib
         See :func:`eink_st_altersfreib`.
     alleinerz_freib_tu
@@ -38,7 +38,7 @@ def freibeträge_ind(
 
     """
     out = (
-        _eink_st_behinderungsgrad_pauschbetrag
+        _eink_st_behinderungsgrad_pauschbetrag_y
         + eink_st_altersfreib
         + alleinerz_freib_tu
     )

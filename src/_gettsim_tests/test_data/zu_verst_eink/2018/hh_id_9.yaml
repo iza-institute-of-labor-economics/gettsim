@@ -66,5 +66,5 @@ outputs:
     - 0
   sum_eink_y:
     - 9800
-  _eink_st_behinderungsgrad_pauschbetrag:
+  _eink_st_behinderungsgrad_pauschbetrag_y:
     - 0
