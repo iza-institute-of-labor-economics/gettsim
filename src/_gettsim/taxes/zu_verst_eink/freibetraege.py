@@ -97,8 +97,8 @@ def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     return out
 
 
-@dates_active(end="2004-12-31", change_name="eink_st_altersfreib")
-def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
+@dates_active(end="2004-12-31", change_name="eink_st_altersfreib_y")
+def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -144,8 +144,8 @@ def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2005-01-01", change_name="eink_st_altersfreib")
-def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
+@dates_active(start="2005-01-01", change_name="eink_st_altersfreib_y")
+def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     alter: int,
