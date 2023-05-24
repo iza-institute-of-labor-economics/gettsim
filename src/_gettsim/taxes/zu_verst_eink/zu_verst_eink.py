@@ -15,7 +15,7 @@ applying the tax schedule.
 """
 
 
-def freibeträge_ind(
+def freibeträge_ind_y(
     _eink_st_behinderungsgrad_pauschbetrag_y: float,
     eink_st_altersfreib_y: float,
     alleinerz_freib_y_tu: float,
@@ -48,7 +48,7 @@ def freibeträge_ind(
 def freibeträge_tu(
     eink_st_sonderausgaben_y_tu: float,
     vorsorgeaufw_tu: float,
-    freibeträge_ind_tu: float,
+    freibeträge_ind_y_tu: float,
 ) -> float:
     """Calculate total allowances on tax unit level.
 
@@ -59,14 +59,14 @@ def freibeträge_tu(
         See :func:`eink_st_sonderausgaben_y_tu`.
     vorsorgeaufw_tu
         See :func:`vorsorgeaufw_tu`.
-    freibeträge_ind_tu
-        See :func:`freibeträge_ind_tu`.
+    freibeträge_ind_y_tu
+        See :func:`freibeträge_ind_y_tu`.
 
     Returns
     -------
 
     """
-    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_tu + freibeträge_ind_tu
+    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_tu + freibeträge_ind_y_tu
 
     return out
 
