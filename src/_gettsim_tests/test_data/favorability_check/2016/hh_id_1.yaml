@@ -20,7 +20,7 @@ inputs:
       - false
       - false
       - true
-    eink_st_ohne_kinderfreib_tu:
+    eink_st_ohne_kinderfreib_y_tu:
       - 10000.0
       - 10000.0
       - 10000.0

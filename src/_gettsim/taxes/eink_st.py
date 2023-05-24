@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def eink_st_ohne_kinderfreib_tu(
+def eink_st_ohne_kinderfreib_y_tu(
     _zu_verst_eink_ohne_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
     eink_st_params: dict,
@@ -108,7 +108,7 @@ def eink_st_tu_kindergeld_kinderfreib_parallel(
 @dates_active(start="1997-01-01", change_name="eink_st_tu")
 @add_rounding_spec(params_key="eink_st")
 def eink_st_tu_kindergeld_oder_kinderfreib(
-    eink_st_ohne_kinderfreib_tu: float,
+    eink_st_ohne_kinderfreib_y_tu: float,
     eink_st_mit_kinderfreib_tu: float,
     kinderfreib_günstiger_tu: bool,
     eink_st_rel_kindergeld_tu: float,
@@ -117,8 +117,8 @@ def eink_st_tu_kindergeld_oder_kinderfreib(
 
     Parameters
     ----------
-    eink_st_ohne_kinderfreib_tu
-        See :func:`eink_st_ohne_kinderfreib_tu`.
+    eink_st_ohne_kinderfreib_y_tu
+        See :func:`eink_st_ohne_kinderfreib_y_tu`.
     eink_st_mit_kinderfreib_tu
         See :func:`eink_st_mit_kinderfreib_tu`.
     kinderfreib_günstiger_tu
@@ -133,13 +133,13 @@ def eink_st_tu_kindergeld_oder_kinderfreib(
     if kinderfreib_günstiger_tu:
         out = eink_st_mit_kinderfreib_tu + eink_st_rel_kindergeld_tu
     else:
-        out = eink_st_ohne_kinderfreib_tu
+        out = eink_st_ohne_kinderfreib_y_tu
 
     return out
 
 
 def kinderfreib_günstiger_tu(
-    eink_st_ohne_kinderfreib_tu: float,
+    eink_st_ohne_kinderfreib_y_tu: float,
     eink_st_mit_kinderfreib_tu: float,
     eink_st_rel_kindergeld_tu: float,
 ) -> bool:
@@ -147,8 +147,8 @@ def kinderfreib_günstiger_tu(
 
     Parameters
     ----------
-    eink_st_ohne_kinderfreib_tu
-        See :func:`eink_st_ohne_kinderfreib_tu`.
+    eink_st_ohne_kinderfreib_y_tu
+        See :func:`eink_st_ohne_kinderfreib_y_tu`.
     eink_st_mit_kinderfreib_tu
         See :func:`eink_st_mit_kinderfreib_tu`.
     eink_st_rel_kindergeld_tu
@@ -157,7 +157,7 @@ def kinderfreib_günstiger_tu(
     -------
 
     """
-    unterschiedsbeitrag = eink_st_ohne_kinderfreib_tu - eink_st_mit_kinderfreib_tu
+    unterschiedsbeitrag = eink_st_ohne_kinderfreib_y_tu - eink_st_mit_kinderfreib_tu
 
     out = unterschiedsbeitrag > eink_st_rel_kindergeld_tu
     return out

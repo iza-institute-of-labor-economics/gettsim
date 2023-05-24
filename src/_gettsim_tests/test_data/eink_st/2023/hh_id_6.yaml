@@ -20,7 +20,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_tu:
+  eink_st_ohne_kinderfreib_y_tu:
     - 6531
   eink_st_mit_kinderfreib_tu:
     - 6531
