@@ -115,7 +115,7 @@ def test_plot_dag():
 
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
-    selectors = "kapitaleink_brutto_tu"
+    selectors = "kapitaleink_brutto_y_tu"
     plot_dag(functions=policy_functions, selectors=selectors)
 
 
@@ -131,7 +131,7 @@ def test_horizontal_plot_dag():
     produce an error."""
     plot_dag(
         functions=policy_functions,
-        selectors=[{"node": "zu_verst_kapitaleink_tu", "type": "neighbors"}],
+        selectors=[{"node": "zu_verst_kapitaleink_y_tu", "type": "neighbors"}],
         orientation="h",
     )
 
@@ -141,7 +141,7 @@ def test_hover_source_code_plot_dag():
     produce an error and works properly."""
     plot_dag(
         functions=policy_functions,
-        selectors=[{"node": "zu_verst_kapitaleink_tu", "type": "neighbors"}],
+        selectors=[{"node": "zu_verst_kapitaleink_y_tu", "type": "neighbors"}],
         orientation="h",
         hover_source_code=True,
     )

@@ -55,10 +55,10 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    eink_st_tu:
+    eink_st_y_tu:
       - 1200.0
       - 1200.0
-    soli_st_tu:
+    soli_st_y_tu:
       - 66.0
       - 66.0
     sozialv_beitr_m:

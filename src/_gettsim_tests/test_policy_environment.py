@@ -46,22 +46,22 @@ def test_access_different_date_vorjahr():
     "dag_key, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            "eink_st_altersfreib",
+            "eink_st_altersfreib_y",
             date(2004, 12, 31),
-            "eink_st_altersfreib_bis_2004",
-            "eink_st_altersfreib_ab_2005",
+            "eink_st_altersfreib_y_bis_2004",
+            "eink_st_altersfreib_y_ab_2005",
         ),
         (
-            "alleinerz_freib_tu",
+            "alleinerz_freib_y_tu",
             date(2014, 12, 31),
-            "eink_st_alleinerz_freib_tu_pauschal",
-            "eink_st_alleinerz_freib_tu_nach_kinderzahl",
+            "eink_st_alleinerz_freib_y_tu_pauschal",
+            "eink_st_alleinerz_freib_y_tu_nach_kinderzahl",
         ),
         (
-            "sum_eink",
+            "sum_eink_y",
             date(2008, 12, 31),
-            "sum_eink_mit_kapital_eink",
-            "sum_eink_ohne_kapital_eink",
+            "sum_eink_mit_kapital_eink_y",
+            "sum_eink_ohne_kapital_eink_y",
         ),
     ],
 )
