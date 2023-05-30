@@ -29,6 +29,7 @@ from _gettsim.shared import (
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
 )
+from _gettsim.time_conversion import create_functions_for_time_units
 
 
 def load_and_check_functions(
@@ -87,6 +88,9 @@ def load_and_check_functions(
         for fn, f in {**internal_functions, **user_functions}.items()
     }
 
+    # Create functions for different time units
+    timed_functions = create_functions_for_time_units(user_and_internal_functions, data_cols)
+
     # Create and add aggregation functions.
     aggregation_functions = _create_aggregation_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
@@ -102,7 +106,7 @@ def load_and_check_functions(
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
-    all_functions = {**user_and_internal_functions, **aggregation_functions}
+    all_functions = {**timed_functions, **user_and_internal_functions, **aggregation_functions}
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
