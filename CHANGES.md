@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`583` Automatic conversion between different time units ({ghuser}`lars-reimann`).
 - {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).
 
 ## v0.7 — 2023-05-14

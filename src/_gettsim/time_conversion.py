@@ -215,6 +215,35 @@ def create_functions_for_time_units(
         functions: dict[str, Callable],
         data_cols: list[str],
 ) -> dict[str, Callable]:
+    """
+    Create functions for other time units.
+
+    The time unit of a function is determined by a naming convention:
+    * Yearly functions end with "_y", "_y_hh" or "_y_tu".
+    * Monthly functions end with "_m", "_m_hh" or "_m_tu".
+    * Weekly functions end with "_w", "_w_hh" or "_w_tu".
+    * Daily functions end with "_d", "_d_hh" or "_d_tu".
+
+    Unless the corresponding function already exists, the following functions are
+    created:
+    * For yearly functions, create monthly, weekly and daily functions.
+    * For monthly functions, create yearly, weekly and daily functions.
+    * For weekly functions, create yearly, monthly and daily functions.
+    * For daily functions, create yearly, monthly and weekly functions.
+
+    Parameters
+    ----------
+    functions
+        Dictionary of functions.
+    data_cols
+        List of data columns.
+
+    Returns
+    -------
+    dict[str, Callable]
+        Dictionary of created functions.
+    """
+
     result = {}
 
     for name, func in functions.items():
