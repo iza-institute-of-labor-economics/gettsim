@@ -89,7 +89,9 @@ def load_and_check_functions(
     }
 
     # Create functions for different time units
-    timed_functions = create_functions_for_time_units(user_and_internal_functions, data_cols)
+    timed_functions = create_functions_for_time_units(
+        user_and_internal_functions, data_cols
+    )
 
     # Create and add aggregation functions.
     aggregation_functions = _create_aggregation_functions(
@@ -106,7 +108,11 @@ def load_and_check_functions(
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
-    all_functions = {**timed_functions, **user_and_internal_functions, **aggregation_functions}
+    all_functions = {
+        **timed_functions,
+        **user_and_internal_functions,
+        **aggregation_functions,
+    }
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions

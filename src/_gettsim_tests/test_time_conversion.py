@@ -168,9 +168,11 @@ class TestCreateFunctionsForTimeUnits:
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
             ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
-        ]
+        ],
     )
-    def test_should_create_functions_for_other_time_units_for_functions(self, name: str, expected: list[str]) -> None:
+    def test_should_create_functions_for_other_time_units_for_functions(
+        self, name: str, expected: list[str]
+    ) -> None:
         timed_functions = create_functions_for_time_units({name: lambda: 1}, [])
 
         for expected_name in expected:
@@ -191,16 +193,20 @@ class TestCreateFunctionsForTimeUnits:
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
             ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
-        ]
+        ],
     )
-    def test_should_create_functions_for_other_time_units_for_data_cols(self, name: str, expected: list[str]) -> None:
+    def test_should_create_functions_for_other_time_units_for_data_cols(
+        self, name: str, expected: list[str]
+    ) -> None:
         timed_functions = create_functions_for_time_units({}, [name])
 
         for expected_name in expected:
             assert expected_name in timed_functions
 
     def test_should_not_create_functions_that_exist_already(self) -> None:
-        timed_functions = create_functions_for_time_units({"test_d": lambda: 1}, ["test_y"])
+        timed_functions = create_functions_for_time_units(
+            {"test_d": lambda: 1}, ["test_y"]
+        )
 
         assert "test_y" not in timed_functions
         assert "test_d" not in timed_functions
@@ -211,9 +217,11 @@ class TestCreateFunctionsForTimeUnits:
     [
         ("test.txt", ".txt", ".csv", "test.csv"),
         ("test.yml", ".txt", ".csv", "test.yml"),
-    ]
+    ],
 )
-def test_replace_suffix(name: str, old_suffix: str, new_suffix: str, expected: str) -> None:
+def test_replace_suffix(
+    name: str, old_suffix: str, new_suffix: str, expected: str
+) -> None:
     assert _replace_suffix(name, old_suffix, new_suffix) == expected
 
 
