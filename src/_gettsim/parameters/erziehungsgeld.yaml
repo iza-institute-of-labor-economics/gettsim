@@ -1,9 +1,10 @@
+---
 einkommensgrenze_bis_6m:
   name:
-    de: 
-    en: 
+    de: null
+    en: null
   description:
-    de: 
+    de: null
     en: null
   unit: Euro
   reference: >-
@@ -15,10 +16,10 @@ einkommensgrenze_bis_6m:
     paar: 23000
 einkommensgrenze_ab_7m:
   name:
-    de: 
-    en: 
+    de: null
+    en: null
   description:
-    de: 
+    de: null
     en: null
   unit: Euro
   reference: >-
@@ -30,8 +31,8 @@ einkommensgrenze_ab_7m:
     paar: 16500
 aufschlag_einkommen:
   name:
-    de: 
-    en: 
+    de: null
+    en: null
   description:
     de: Erhöhung der Einkommensgrenze pro weiterem Kind
     en: null
@@ -41,12 +42,12 @@ aufschlag_einkommen:
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
-    alleinerz: 
+    alleinerz: null
     paar: 3140
 erziehungsgeld_regelsatz:
-  name: 
+  name:
     de: Erziehungsgeld Regelsatz
-    en: 
+    en: null
   description:
     de: Höhe des Erziehungsgeldes
     en: null
@@ -58,13 +59,13 @@ erziehungsgeld_regelsatz:
   2004-02-09:
     scalar: 300
 reduzierung_erziehungsgeld:
-  name: 
+  name:
     de: >-
-      Faktor um den das Erziehungsgeld bei Überschreitung der Einkommensgrenze 
-      ab dem 7. Lebensmonat reduziert wird
-    en: 
+      Faktor um den das Erziehungsgeld bei Überschreitung der Einkommensgrenze  ab dem 7.
+      Lebensmonat reduziert wird
+    en: null
   description:
-    de: 
+    de: null
     en: null
   unit: faktor
   reference: >-
@@ -75,12 +76,12 @@ reduzierung_erziehungsgeld:
     scalar: 0.052
 pauschal_abzug_auf_einkommen:
   name:
-    de: 
-    en: 
-  description:
-    de: 
+    de: null
     en: null
-  unit: 
+  description:
+    de: null
+    en: null
+  unit: null
   reference: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
