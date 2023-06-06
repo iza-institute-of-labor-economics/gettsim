@@ -62,6 +62,7 @@ INTERNAL_PARAMS_GROUPS = [
     "arbeitsl_geld_2",
     "grunds_im_alter",
     "lohn_st",
+    "erziehungsgeld",
 ]
 
 SUPPORTED_GROUPINGS = {
