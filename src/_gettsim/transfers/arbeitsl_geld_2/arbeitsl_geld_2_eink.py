@@ -220,9 +220,9 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     -------
 
     """
-    # Beneficiaries who live with a minor child in a group home or who have a minor
-    # child have slightly different thresholds. We currently do not consider the second
-    # condition.
+    # Beneficiaries who live with a minor child in a Bedarfsgemeinschaft or who have a
+    # minor child have slightly different thresholds. We currently do not consider the
+    # second condition.
     if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
             x=bruttolohn_m,
