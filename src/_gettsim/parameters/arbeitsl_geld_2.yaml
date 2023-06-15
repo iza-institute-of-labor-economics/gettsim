@@ -95,7 +95,7 @@ eink_anr_frei_kinder:
   description:
     de: >-
       Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit
-      Kindern. Gilt statt die Parameter in eink_anr_frei für Leistungsbezieher, die mit
+      Kindern. Gilt statt der Parameter in eink_anr_frei für Leistungsbezieher, die mit
       minderjährigem Kind in BG leben oder die ein minderjähriges Kind haben (zweiteres
       wird aktuell noch nicht im Code beachtet). § 30 SGB II. Seit 01.04.2011 § 11b SGB
       II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011
