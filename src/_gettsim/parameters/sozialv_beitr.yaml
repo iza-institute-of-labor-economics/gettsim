@@ -274,6 +274,10 @@ beitr_satz:
     reference: >-
       (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+  2023-07-01:
+    ges_pflegev:
+      standard: 0.017
+      zusatz_kinderlos: 0.006
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
