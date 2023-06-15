@@ -200,7 +200,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
 @dates_active(start="2005-10-01")
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
-    anz_kinder_hh: int,
+    anz_kinder_bis_17_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -211,8 +211,8 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    anz_kinder_hh
-        See :func:`anz_kinder_hh`.
+    anz_kinder_bis_17_hh
+        See :func:`anz_kinder_bis_17_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -220,8 +220,10 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     -------
 
     """
-
-    if anz_kinder_hh > 0:
+    # Beneficiaries who live with a minor child in a group home or who have a minor
+    # child have slightly different thresholds. We currently do not consider the second
+    # condition.
+    if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
             x=bruttolohn_m,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
