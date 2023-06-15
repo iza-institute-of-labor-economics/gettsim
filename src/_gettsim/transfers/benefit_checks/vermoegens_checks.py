@@ -6,7 +6,7 @@ def _kinderzuschl_nach_vermög_check_m_tu(
     vermögen_bedürft_hh: float,
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
-    """Set preliminary child benefit to zero if it exceeds the wealth exemption.
+    """Reduce child benefit if it exceeds the wealth exemption.
 
     Parameters
     ----------
