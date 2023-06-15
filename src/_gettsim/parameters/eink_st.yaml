@@ -265,7 +265,7 @@ rente_ertragsanteil:
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
 rounding:
-  eink_st_tu:
+  eink_st_y_tu:
     note:
       en: Starting date unclear
     1984-01-01:

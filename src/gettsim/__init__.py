@@ -42,7 +42,8 @@ def test(*args):
         warnings.warn(
             "Repeated execution of the test suite is not possible. Start a new Python "
             "session or restart the kernel in a Jupyter/IPython notebook to re-run the "
-            "tests."
+            "tests.",
+            stacklevel=2,
         )
 
 

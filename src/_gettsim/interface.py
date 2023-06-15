@@ -309,9 +309,12 @@ def _convert_data_to_correct_types(data, functions_overridden):
             " to the expected data types yourself."
         )
 
-    # Otherwise raise warning which lists all sucessful conversions
+    # Otherwise raise warning which lists all successful conversions
     elif len(collected_conversions) > 1:
-        warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
+        warnings.warn(
+            "\n".join(collected_conversions) + "\n" + "\n" + general_warning,
+            stacklevel=2,
+        )
     return data
 
 
@@ -451,7 +454,7 @@ def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, list_, second_part]))
+        raise ValueError(f"{first_part}\n{list_}\n{second_part}")
 
 
 def _fail_if_pid_is_non_unique(data):
@@ -494,7 +497,7 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
     formatted = format_list_linewise(unnecessary_data)
     message = f"The following columns in 'data' are unused.\n\n{formatted}"
     if unnecessary_data and check_minimal_specification == "warn":
-        warnings.warn(message)
+        warnings.warn(message, stacklevel=2)
     elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
 
@@ -695,7 +698,8 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     formatted = format_list_linewise(unused_columns)
     if unused_columns and check_minimal_specification == "warn":
         warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
+            stacklevel=2,
         )
     elif unused_columns and check_minimal_specification == "raise":
         raise ValueError(

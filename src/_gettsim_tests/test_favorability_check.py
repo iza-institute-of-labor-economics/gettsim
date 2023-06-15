@@ -6,12 +6,12 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OVERRIDE_COLS = [
-    "eink_st_ohne_kinderfreib_tu",
-    "eink_st_mit_kinderfreib_tu",
-    "abgelt_st_tu",
+    "eink_st_ohne_kinderfreib_y_tu",
+    "eink_st_mit_kinderfreib_y_tu",
+    "abgelt_st_y_tu",
     "kindergeld_m",
-    "zu_verst_eink_mit_kinderfreib_tu",
-    "_zu_verst_eink_ohne_kinderfreib_tu",
+    "_zu_verst_eink_mit_kinderfreib_y_tu",
+    "_zu_verst_eink_ohne_kinderfreib_y_tu",
 ]
 
 data = load_policy_test_data("favorability_check")

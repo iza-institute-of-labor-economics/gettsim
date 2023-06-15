@@ -73,29 +73,29 @@ inputs:
     geburtsjahr:
       - 1984
       - 2014
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 3119.94
       - 3119.94
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_tu:
     - 11936.06
     - 11936.06
-  zu_verst_eink_mit_kinderfreib_tu:
+  _zu_verst_eink_mit_kinderfreib_y_tu:
     - 8126.06
     - 8126.06
-  eink_st_kinderfreib_tu:
+  eink_st_kinderfreib_y_tu:
     - 3810
     - 3810
-  eink_st_altersfreib:
+  eink_st_altersfreib_y:
     - 0
     - 0
-  alleinerz_freib_tu:
+  alleinerz_freib_y_tu:
     - 1908
     - 0
-  sum_eink:
+  sum_eink_y:
     - 17000
     - 0
-  _eink_st_behinderungsgrad_pauschbetrag:
+  _eink_st_behinderungsgrad_pauschbetrag_y:
     - 0
     - 0

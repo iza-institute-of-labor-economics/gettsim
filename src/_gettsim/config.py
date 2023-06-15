@@ -21,8 +21,8 @@ def set_array_backend(backend: str):
 
     if backend == "jax":
         assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
-        global USE_JAX
-        global numpy_or_jax
+        global USE_JAX  # noqa: PLW0603
+        global numpy_or_jax  # noqa: PLW0603
         import jax
 
         USE_JAX = True
@@ -83,9 +83,9 @@ SUPPORTED_GROUPINGS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_tu",
-    "soli_st_tu",
-    "abgelt_st_tu",
+    "eink_st_y_tu",
+    "soli_st_y_tu",
+    "abgelt_st_y_tu",
     "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",

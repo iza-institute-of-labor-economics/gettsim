@@ -1,10 +1,10 @@
-def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
     """Calculate abgeltungssteuer on tax unit level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_tu
-        See :func:`zu_verst_kapitaleink_tu`.
+    zu_verst_kapitaleink_y_tu
+        See :func:`zu_verst_kapitaleink_y_tu`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -12,11 +12,11 @@ def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> floa
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
+    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
 
 
-def zu_verst_kapitaleink_tu(
-    kapitaleink_brutto_tu: float,
+def zu_verst_kapitaleink_y_tu(
+    kapitaleink_brutto_y_tu: float,
     anz_personen_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -24,8 +24,8 @@ def zu_verst_kapitaleink_tu(
 
     Parameters
     ----------
-    kapitaleink_brutto_tu
-        See :func:`kapitaleink_brutto_tu`.
+    kapitaleink_brutto_y_tu
+        See :func:`kapitaleink_brutto_y_tu`.
     anz_personen_tu
         See :func:`anz_personen_tu`.
     eink_st_abzuege_params
@@ -35,7 +35,7 @@ def zu_verst_kapitaleink_tu(
     -------
 
     """
-    out = kapitaleink_brutto_tu - anz_personen_tu * (
+    out = kapitaleink_brutto_y_tu - anz_personen_tu * (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )

@@ -4,8 +4,8 @@ from _gettsim.shared import dates_active
 
 def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
-    eink_st_tu: float,
-    soli_st_tu: float,
+    eink_st_y_tu: float,
+    soli_st_y_tu: float,
     anz_personen_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
@@ -22,10 +22,10 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_eink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
-    soli_st_tu
-        See :func:`soli_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
+    soli_st_y_tu
+        See :func:`soli_st_y_tu`.
     anz_personen_tu
         See :func:`anz_personen_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
@@ -51,8 +51,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     else:
         out = (
             arbeitsl_geld_2_bruttoeink_m
-            - (eink_st_tu / anz_personen_tu / 12)
-            - (soli_st_tu / anz_personen_tu / 12)
+            - (eink_st_y_tu / anz_personen_tu / 12)
+            - (soli_st_y_tu / anz_personen_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_eink_anr_frei_m
         )
@@ -116,8 +116,8 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 @dates_active(end="2005-09-30")
 def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
-    eink_st_tu: float,
-    soli_st_tu: float,
+    eink_st_y_tu: float,
+    soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_params: dict,
@@ -130,10 +130,10 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
-    soli_st_tu
-        See :func:`soli_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
+    soli_st_y_tu
+        See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_m
@@ -149,8 +149,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             bruttolohn_m
-            - (eink_st_tu / anz_erwachsene_tu / 12)
-            - (soli_st_tu / anz_erwachsene_tu / 12)
+            - (eink_st_y_tu / anz_erwachsene_tu / 12)
+            - (soli_st_y_tu / anz_erwachsene_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
@@ -200,7 +200,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
 @dates_active(start="2005-10-01")
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
-    anz_kinder_hh: int,
+    anz_kinder_bis_17_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -211,8 +211,8 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    anz_kinder_hh
-        See :func:`anz_kinder_hh`.
+    anz_kinder_bis_17_hh
+        See :func:`anz_kinder_bis_17_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -220,8 +220,10 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     -------
 
     """
-
-    if anz_kinder_hh > 0:
+    # Beneficiaries who live with a minor child in a Bedarfsgemeinschaft or who have a
+    # minor child have slightly different thresholds. We currently do not consider the
+    # second condition.
+    if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
             x=bruttolohn_m,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

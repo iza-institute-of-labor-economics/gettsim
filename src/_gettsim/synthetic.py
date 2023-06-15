@@ -10,7 +10,7 @@ from _gettsim.policy_environment import _load_parameter_group_from_yaml
 current_year = datetime.datetime.today().year
 
 
-def create_synthetic_data(
+def create_synthetic_data(  # noqa: PLR0913
     n_adults=None,
     n_children=None,
     adults_married=True,
@@ -18,7 +18,7 @@ def create_synthetic_data(
     specs_heterogeneous=None,
     policy_year=current_year,
 ):
-    """Creates a dataset with hypothetical household types, which can be used as input
+    """Create a dataset with hypothetical household types, which can be used as input
     for GETTSIM.
 
     Parameters

@@ -366,13 +366,6 @@ changes in their body.
 The `dates_active` key can be used to include certain functions only in certain years
 and to switch between different implementations of other functions.
 
-```{eval-rst}
-.. todo::
-
-    This will become a separate GEP, move gist here.
-
-```
-
 (gep-3-storage-of-parameters)=
 
 ## Storage of parameters

@@ -5,7 +5,7 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-OVERRIDE_COLS = ["_zu_verst_eink_ohne_kinderfreib_tu"]
+OVERRIDE_COLS = ["_zu_verst_eink_ohne_kinderfreib_y_tu"]
 
 data = load_policy_test_data("kindergeld")
 
