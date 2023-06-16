@@ -37,6 +37,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0
       zusatz_kinderlos: 0
+      abschlag_kinder: 0
     arbeitsl_v: 0.023
     ges_rentenv: 0.0925
   1985-01-01:
@@ -56,6 +57,7 @@ beitr_satz:
     arbeitsl_v: 0.0205
     ges_rentenv: 0.096
   1987-01-01:
+    deviation_from: previous
     ges_krankenv:
       mean_allgemein: 0.1248
     ges_pflegev:
@@ -84,6 +86,7 @@ beitr_satz:
     arbeitsl_v: 0.0315
     ges_rentenv: 0.0885
   1993-01-01:
+    deviation_from: previous
     ges_krankenv:
       mean_allgemein: 0.134
     ges_pflegev:
@@ -105,6 +108,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0.005
   1997-01-01:
+    deviation_from: previous
     ges_krankenv:
       mean_allgemein: 0.134
     ges_pflegev:
@@ -140,6 +144,7 @@ beitr_satz:
     ges_krankenv:
       mean_allgemein: 0.142
   2005-01-01:
+    deviation_from: previous
     ges_krankenv:
       mean_allgemein: 0.142
     ges_pflegev:
@@ -163,6 +168,7 @@ beitr_satz:
     arbeitsl_v: 0.021
     ges_rentenv: 0.0995
   2008-01-01:
+    deviation_from: previous
     ges_krankenv:
       allgemein: 0.14
       sonderbeitrag: 0.009
@@ -203,6 +209,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0.01025
   2015-01-01:
+    deviation_from: previous
     ges_krankenv:
       allgemein: 0.146
       ermäßigt: 0.14
@@ -228,6 +235,7 @@ beitr_satz:
       mean_zusatzbeitrag: 0.01
     ges_rentenv: 0.093
   2019-01-01:
+    deviation_from: previous
     ges_krankenv:
       allgemein: 0.146
       ermäßigt: 0.14
@@ -278,6 +286,11 @@ beitr_satz:
     ges_pflegev:
       standard: 0.017
       zusatz_kinderlos: 0.006
+      abschlag_kinder: 0.0025
+    note: >-
+      Pflegeunterstützungs- und -entlastungsgesetz - PUEG
+      Increase of contribution rates for ges_pflegev and  introduction of reduction of
+      contribution rates for people with children.
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge

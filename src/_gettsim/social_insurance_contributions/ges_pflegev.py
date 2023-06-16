@@ -29,14 +29,71 @@ def ges_pflegev_zusatz_kinderlos(
     return out
 
 
+def ges_pflegev_beitr_regulär_besch_m(
+    _ges_krankenv_bruttolohn_m: float,
+    anz_kinder_u_25: int,
+    ges_pflegev_zusatz_kinderlos: bool,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Calculate care insurance contributions for regular jobs.
+
+    Add additional contribution for childless individuals and substract contribution
+    for individuals with two or more children under 25.
+
+    Parameters
+    ----------
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
+    anz_kinder_u_25
+        See basic input variable :ref:`anz_kinder_u_25 <anz_kinder_u_25>`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Monthly care insurance contributions for regular jobs.
+
+
+    """
+
+    beitr_regulär_beschäftigt_m = (
+        _ges_krankenv_bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        beitr_regulär_beschäftigt_m += (
+            _ges_krankenv_bruttolohn_m
+            * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+
+    # Substract contribution for individuals with two or more children under 25
+    for i in range(2, 5):
+        if anz_kinder_u_25 == i:
+            beitr_regulär_beschäftigt_m -= (
+                _ges_krankenv_bruttolohn_m
+                * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["abschlag_kinder"]
+                * (i - 1)
+            )
+    if anz_kinder_u_25 >= 5:
+        beitr_regulär_beschäftigt_m -= (
+            _ges_krankenv_bruttolohn_m
+            * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["abschlag_5_kinder"]
+            * 4
+        )
+
+    return beitr_regulär_beschäftigt_m
+
+
 def ges_pflegev_beitr_m(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rente_m: float,
     ges_pflegev_beitr_selbst_m: float,
     _ges_pflegev_beitr_midijob_arbeitn_m: float,
-    ges_pflegev_zusatz_kinderlos: bool,
-    _ges_krankenv_bruttolohn_m: float,
-    sozialv_beitr_params: dict,
+    ges_pflegev_beitr_regulär_besch_m: float,
     in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
@@ -52,12 +109,8 @@ def ges_pflegev_beitr_m(  # noqa: PLR0913
         See :func:`ges_pflegev_beitr_selbst_m`.
     _ges_pflegev_beitr_midijob_arbeitn_m
         See :func:`_ges_pflegev_beitr_midijob_arbeitn_m`.
-    ges_pflegev_zusatz_kinderlos
-        See :func:`ges_pflegev_zusatz_kinderlos`.
-    _ges_krankenv_bruttolohn_m
-        See :func:`_ges_krankenv_bruttolohn_m`.
-    sozialv_beitr_params
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+    ges_pflegev_beitr_regulär_besch_m
+        See :func:`ges_pflegev_beitr_regulär_besch_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     selbstständig
@@ -68,19 +121,6 @@ def ges_pflegev_beitr_m(  # noqa: PLR0913
 
     """
 
-    # Calculate care insurance contributions for regular jobs.
-    beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_bruttolohn_m
-        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-    )
-
-    # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
-        beitr_regulär_beschäftigt_m += (
-            _ges_krankenv_bruttolohn_m
-            * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-
     if selbstständig:
         out = ges_pflegev_beitr_selbst_m
     elif geringfügig_beschäftigt:
@@ -88,7 +128,7 @@ def ges_pflegev_beitr_m(  # noqa: PLR0913
     elif in_gleitzone:
         out = _ges_pflegev_beitr_midijob_arbeitn_m
     else:
-        out = beitr_regulär_beschäftigt_m
+        out = ges_pflegev_beitr_regulär_besch_m
 
     # Add the care insurance contribution for pensions
     return out + ges_pflegev_beitr_rente_m

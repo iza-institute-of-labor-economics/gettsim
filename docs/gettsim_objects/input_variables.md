@@ -516,3 +516,9 @@ Type: float
 Tax Bracket (1 to 5) for withholding tax
 
 Type: int
+
+## `anz_kinder_u_25`
+
+Amount of children below tha age of 25
+
+Type: int
