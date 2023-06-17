@@ -258,9 +258,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_hh(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    out = (
-        params["während_karenzzeit"] + (anz_personen_hh - 1) * params["normaler_satz"]
-    )
+    out = params["während_karenzzeit"] + (anz_personen_hh - 1) * params["normaler_satz"]
 
     return out
 
