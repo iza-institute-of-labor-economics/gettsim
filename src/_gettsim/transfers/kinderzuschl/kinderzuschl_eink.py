@@ -228,6 +228,8 @@ def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
 ) -> float:
     """Child benefit after children income for each eligible child is considered.
 
+    # ToDo: consider self-employment income of the child.
+
     (§6a (3) S.3 BKGG)
 
     Parameters
