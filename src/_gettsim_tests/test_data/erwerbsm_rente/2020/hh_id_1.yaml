@@ -1,0 +1,44 @@
+---
+info:
+  note: ''
+  source: Own calculations
+inputs:
+  provided:
+    p_id:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    jahr:
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+    geburtsjahr:
+      - 1980
+      - 1960
+      - 1950
+      - 1948
+      - 1947
+    geburtsmonat:
+      - 2
+      - 4
+      - 6
+      - 8
+      - 1
+    jahr_renteneintr:
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+  assumed: {}
+outputs:
+  erwerbsm_rente_zugangsfaktor:
+    - 0.892
+    - 0.892
+    - 0.892
+    - 0.94
+    - 0.955
