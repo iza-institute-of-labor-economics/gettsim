@@ -1,0 +1,56 @@
+---
+info:
+  note: ''
+  source: own calculations
+inputs:
+  provided:
+    hh_id:
+      - 3
+      - 3
+    tu_id:
+      - 3
+      - 3
+    p_id:
+      - 6
+      - 7
+    jahr:
+      - 2005
+      - 2005
+    alter:
+      - 25
+      - 1
+    arbeitsstunden_w:
+      - 29.0
+      - 0.0
+    in_ausbildung:
+      - false
+      - false
+    bruttolohn_m:
+      - 1400.0
+      - 0.0
+    bruttolohn_vorj_m:
+      - 1700.0
+      - 0.0
+    geburtstag:
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+    hat_kinder:
+      - true
+      - false
+    kind:
+      - false
+      - true
+    alleinerz:
+      - true
+      - false
+    geburtsjahr:
+      - 1980
+      - 2004
+  assumed: {}
+outputs:
+  erziehungsgeld_m:
+    - 235.8
+    - 0.0
