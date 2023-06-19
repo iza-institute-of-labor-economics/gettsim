@@ -38,6 +38,8 @@ def input_data():
     return out
 
 
+# Data still missing, will be finished till merging
+@pytest.mark.xfail()
 @pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
 def test_erwerbsm_rente_zugangsfaktor(input_data, year, column):
     year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
