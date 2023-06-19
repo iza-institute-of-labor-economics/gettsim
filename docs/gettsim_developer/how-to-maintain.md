@@ -50,18 +50,23 @@ To release a new major or minor version of GETTSIM, do the following.
 
 1. Go to the
    [page for releases](https://github.com/iza-institute-of-labor-economics/gettsim/releases)
-   and draft a new release. Set both a new tag and the release title to `vX.Y.Z`.
+   and draft a new release.
 
-   A long description is usually not necessary as the most important information is
-   documented under {ref}`changes`. Release the new version by clicking "Publish
-   release".
+   - Set both a new tag and the release title to `vX.Y.Z`.
+   - Add the release notes. These should include the most important changes in a
+     bulleted list and a reference to {ref}`changes`.
+   - Release the new version by clicking "Publish release".
 
-1. You are done! The release is automatically published to
-   [PyPI](https://pypi.org/project/gettsim/) and scraped from there by conda-forge. A PR
-   will be created on the
-   [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
-   which needs to be merged by a [gettsim maintainer](https://github.com/hmgaudecker).
-   After the merge the new release will be available on conda-forge within a day.
+1. You are done!
+
+   - The release is automatically published to [PyPI](https://pypi.org/project/gettsim/)
+   - It is scraped from there by conda-forge. A PR will be created on the
+     [gettsim-feedstock](https://github.com/conda-forge/gettsim-feedstock) repository,
+     which will be merged automatically by the automerge bot in case all tests pass.
+     [Feedstock maintainers](https://github.com/conda-forge/gettsim-feedstock#feedstock-maintainers)
+     will get relevant messages.
+   - After the merge is completed, the new release will be available on conda-forge
+     within a day.
 
 (backports_release_patched)=
 

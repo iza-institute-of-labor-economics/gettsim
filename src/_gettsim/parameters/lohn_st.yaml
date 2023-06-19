@@ -74,12 +74,12 @@ lohnst_einkommensgrenzen:
     1: 31404
     2: 222260
 rounding:
-  lohnst_eink:
+  lohnst_eink_y:
     1990-01-01:
       base: 1
       direction: down
       reference: null
-  vorsorgepauschale:
+  vorsorgepauschale_y:
     1990-01-01:
       base: 1
       direction: up

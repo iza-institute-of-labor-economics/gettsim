@@ -193,7 +193,7 @@ def _load_functions(sources, include_imported_functions=False):
     functions = {}
     for source in all_sources:
         if callable(source):
-            source = {source.__name__: source}
+            source = {source.__name__: source}  # noqa: PLW2901
 
         if isinstance(source, dict) and all(
             inspect.isfunction(i) for i in source.values()
@@ -638,7 +638,7 @@ def _fail_if_functions_and_columns_overlap(columns, functions, type_):
             appears in the list above.'''}
             """
         )
-        raise ValueError("\n".join([first_part, formatted, second_part]))
+        raise ValueError(f"{first_part}\n{formatted}\n{second_part}")
 
 
 def _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -676,7 +676,7 @@ def _fail_if_columns_overriding_functions_are_not_in_functions(
             """
         )
         list_ = format_list_linewise(unnecessary_columns_overriding_functions)
-        raise ValueError("\n".join([intro, list_]))
+        raise ValueError(f"{intro}\n{list_}")
 
 
 def _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(

@@ -27,9 +27,9 @@ def grundr_zuschlag_m(
 def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: float,
     bruttolohn_vorj_m: float,
-    eink_selbst: float,
-    eink_vermietung: float,
-    kapitaleink: float,
+    eink_selbst_y: float,
+    eink_vermietung_y: float,
+    kapitaleink_y: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
@@ -48,7 +48,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
       two years ago to avoid the need for several new input variables.
 
     # ToDo: Freibeträge for income are currently not considered
-    # ToDo: as freibeträge_tu depends on pension income through
+    # ToDo: as freibeträge_y_tu depends on pension income through
     # ToDo: `ges_krankenv_beitr_m` -> `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
@@ -59,12 +59,12 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`rente_vorj_vor_grundr_proxy_m`.
     bruttolohn_vorj_m
         See :func:`bruttolohn_vorj_m`.
-    eink_selbst
-        See :func:`eink_selbst`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
-    kapitaleink
-        See :func:`kapitaleink`.
+    eink_selbst_y
+        See :func:`eink_selbst_y`.
+    eink_vermietung_y
+        See :func:`eink_vermietung_y`.
+    kapitaleink_y
+        See :func:`kapitaleink_y`.
 
     Returns
     -------
@@ -75,9 +75,9 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     out = (
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
-        + eink_selbst / 12  # income from self-employment
-        + eink_vermietung / 12  # rental income
-        + kapitaleink / 12
+        + eink_selbst_y / 12  # income from self-employment
+        + eink_vermietung_y / 12  # rental income
+        + kapitaleink_y / 12
     )
 
     return out

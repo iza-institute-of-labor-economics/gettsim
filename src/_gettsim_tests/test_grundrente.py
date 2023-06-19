@@ -18,9 +18,9 @@ OUT_COLS_TOL = {
 
 OVERRIDE_COLS = [
     "rente_vorj_vor_grundr_proxy_m",
-    "eink_selbst",
-    "eink_vermietung",
-    "kapitaleink",
+    "eink_selbst_y",
+    "eink_vermietung_y",
+    "kapitaleink_y",
     "ges_rente_zugangsfaktor",
 ]
 

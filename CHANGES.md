@@ -5,7 +5,13 @@ in reverse chronological order. We follow [semantic
 versioning](https://semver.org/) and all releases are available on
 [Anaconda.org](https://anaconda.org/gettsim/gettsim).
 
-## v0.9 — 2023-MM-DD
+## Unpublished
+
+- {gh}`589` Fix minor bug in `arbeitsl_geld_2_eink_anr_frei_m`.
+  ({ghuser}`ChristianZimpelmann`).
+- {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).
+
+## v0.7 — 2023-05-14
 
 - {gh}`514` Rewrite `create_synthetic_data` to make it more flexible and much faster.
   The function can no longer create households of different household types with one
@@ -24,7 +30,7 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`495` Add @dates_active decorator to easily specify when a function is active.
   ({ghuser}`lars-reimann`).
 
-- {gh}`544` Added Kindesunterhalt ({ghuser}`LauraGergeleit`).
+- {gh}`544` Add Kindesunterhalt ({ghuser}`LauraGergeleit`).
 
 - {gh}`529` Consider Elterngeld in other transfers only above a certain threshold.
   ({ghuser}`LauraGergeleit`).

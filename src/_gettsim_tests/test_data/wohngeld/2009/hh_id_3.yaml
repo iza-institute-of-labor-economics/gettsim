@@ -61,10 +61,10 @@ inputs:
     eink_selbst_m:
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 16000.0
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
       - 0.0
     eink_vermietung_m:
@@ -82,7 +82,7 @@ inputs:
     jahr:
       - 2009
       - 2009
-    eink_st_tu:
+    eink_st_y_tu:
       - 1000.0
       - 1000.0
     vermögen_bedürft_hh:
