@@ -47,7 +47,9 @@ inputs:
     geburtstag:
       - 1
       - 1
+      - 1
     geburtsmonat:
+      - 1
       - 1
       - 1
     hat_kinder:
@@ -65,6 +67,6 @@ inputs:
   assumed: {}
 outputs:
   erziehungsgeld_m:
-    - 207.0
+    - 207.25
     - 0.0
     - 0.0
