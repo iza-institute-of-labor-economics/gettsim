@@ -231,8 +231,8 @@ _time_conversion_functions = {
 
 
 def create_functions_for_time_units(
-        functions: dict[str, Callable],
-        data_cols: list[str],
+    functions: dict[str, Callable],
+    data_cols: list[str],
 ) -> dict[str, Callable]:
     """
     Create functions for other time units.
@@ -279,7 +279,7 @@ def create_functions_for_time_units(
 
 
 def _create_functions_for_time_units(
-        name: str, func: Callable | None = None
+    name: str, func: Callable | None = None
 ) -> dict[str, Callable]:
     result = {}
     info = getattr(func, "__info__", None)
@@ -288,7 +288,9 @@ def _create_functions_for_time_units(
 
     units = "".join(all_time_units)
     groupings = "|".join([f"_{grouping}" for grouping in SUPPORTED_GROUPINGS])
-    function_with_time_unit = re.compile(f"(?P<base_name>.*_)(?P<time_unit>[{units}])(?P<aggregation>{groupings})?")
+    function_with_time_unit = re.compile(
+        f"(?P<base_name>.*_)(?P<time_unit>[{units}])(?P<aggregation>{groupings})?"
+    )
     match = function_with_time_unit.fullmatch(name)
 
     if match:
@@ -298,8 +300,12 @@ def _create_functions_for_time_units(
 
         missing_time_units = [unit for unit in all_time_units if unit != time_unit]
         for missing_time_unit in missing_time_units:
-            result[f"{base_name}{missing_time_unit}{aggregation}"] = _create_function_for_time_unit(
-                name, info, _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"]
+            result[
+                f"{base_name}{missing_time_unit}{aggregation}"
+            ] = _create_function_for_time_unit(
+                name,
+                info,
+                _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
             )
 
     return result
@@ -313,7 +319,7 @@ def _replace_suffix(name: str, old_suffix: str, new_suffix: str) -> str:
 
 
 def _create_function_for_time_unit(
-        function_name: str, info: dict | None, converter: Callable[[float], float]
+    function_name: str, info: dict | None, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
     @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:

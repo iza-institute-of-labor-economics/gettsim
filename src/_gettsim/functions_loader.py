@@ -131,10 +131,10 @@ def load_and_check_functions(
 
 
 def _create_derived_functions(
-        user_and_internal_functions: dict[str, Callable],
-        targets,
-        data_cols,
-        aggregation_specs
+    user_and_internal_functions: dict[str, Callable],
+    targets,
+    data_cols,
+    aggregation_specs,
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -151,7 +151,10 @@ def _create_derived_functions(
 
     # Create aggregation functions
     aggregation_functions = _create_aggregation_functions(
-        {**timed_functions, **user_and_internal_functions}, targets, data_cols, aggregation_specs
+        {**timed_functions, **user_and_internal_functions},
+        targets,
+        data_cols,
+        aggregation_specs,
     )
 
     return timed_functions, aggregation_functions

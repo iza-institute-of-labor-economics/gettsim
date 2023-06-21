@@ -88,7 +88,7 @@ SUPPORTED_TIME_UNITS = {
     },
     "d": {
         "name": "day",
-    }
+    },
 }
 
 DEFAULT_TARGETS = [
