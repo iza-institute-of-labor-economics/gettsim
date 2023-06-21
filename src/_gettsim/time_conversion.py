@@ -3,7 +3,7 @@ from typing import Callable
 
 from dags.signature import rename_arguments
 
-from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -214,9 +214,25 @@ def d_to_w(value: float) -> float:
     return value * _D_PER_Y / _W_PER_Y
 
 
+_time_conversion_functions = {
+    "y_to_m": y_to_m,
+    "y_to_w": y_to_w,
+    "y_to_d": y_to_d,
+    "m_to_y": m_to_y,
+    "m_to_w": m_to_w,
+    "m_to_d": m_to_d,
+    "w_to_y": w_to_y,
+    "w_to_m": w_to_m,
+    "w_to_d": w_to_d,
+    "d_to_y": d_to_y,
+    "d_to_m": d_to_m,
+    "d_to_w": d_to_w,
+}
+
+
 def create_functions_for_time_units(
-    functions: dict[str, Callable],
-    data_cols: list[str],
+        functions: dict[str, Callable],
+        data_cols: list[str],
 ) -> dict[str, Callable]:
     """
     Create functions for other time units.
@@ -263,13 +279,16 @@ def create_functions_for_time_units(
 
 
 def _create_functions_for_time_units(
-    name: str, func: Callable | None = None
+        name: str, func: Callable | None = None
 ) -> dict[str, Callable]:
     result = {}
     info = getattr(func, "__info__", None)
 
+    all_time_units = list(SUPPORTED_TIME_UNITS)
+
+    units = "".join(all_time_units)
     groupings = "|".join([f"_{grouping}" for grouping in SUPPORTED_GROUPINGS])
-    function_with_time_unit = re.compile(f"(?P<base_name>.*_)(?P<time_unit>[ymwd])(?P<aggregation>{groupings})?")
+    function_with_time_unit = re.compile(f"(?P<base_name>.*_)(?P<time_unit>[{units}])(?P<aggregation>{groupings})?")
     match = function_with_time_unit.fullmatch(name)
 
     if match:
@@ -277,45 +296,10 @@ def _create_functions_for_time_units(
         time_unit = match.group("time_unit")
         aggregation = match.group("aggregation") or ""
 
-        if time_unit == "y":
-            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
-                name, info, y_to_m
-            )
-            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
-                name, info, y_to_w
-            )
-            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
-                name, info, y_to_d
-            )
-        elif time_unit == "m":
-            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
-                name, info, m_to_y
-            )
-            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
-                name, info, m_to_w
-            )
-            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
-                name, info, m_to_d
-            )
-        elif time_unit == "w":
-            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
-                name, info, w_to_y
-            )
-            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
-                name, info, w_to_m
-            )
-            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
-                name, info, w_to_d
-            )
-        elif time_unit == "d":
-            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
-                name, info, d_to_y
-            )
-            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
-                name, info, d_to_m
-            )
-            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
-                name, info, d_to_w
+        missing_time_units = [unit for unit in all_time_units if unit != time_unit]
+        for missing_time_unit in missing_time_units:
+            result[f"{base_name}{missing_time_unit}{aggregation}"] = _create_function_for_time_unit(
+                name, info, _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"]
             )
 
     return result
@@ -329,7 +313,7 @@ def _replace_suffix(name: str, old_suffix: str, new_suffix: str) -> str:
 
 
 def _create_function_for_time_unit(
-    function_name: str, info: dict | None, converter: Callable[[float], float]
+        function_name: str, info: dict | None, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
     @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:
