@@ -1,3 +1,4 @@
+import re
 from typing import Callable
 
 from dags.signature import rename_arguments
@@ -259,135 +260,60 @@ def create_functions_for_time_units(
     }
 
 
-def _create_functions_for_time_units(  # noqa: PLR0915
+def _create_functions_for_time_units(
     name: str, func: Callable | None = None
 ) -> dict[str, Callable]:
     result = {}
     info = getattr(func, "__info__", None)
 
-    if name.endswith("_y"):
-        result[_replace_suffix(name, "_y", "_m")] = _create_function_for_time_unit(
-            name, info, y_to_m
-        )
-        result[_replace_suffix(name, "_y", "_w")] = _create_function_for_time_unit(
-            name, info, y_to_w
-        )
-        result[_replace_suffix(name, "_y", "_d")] = _create_function_for_time_unit(
-            name, info, y_to_d
-        )
-    if name.endswith("_y_hh"):
-        result[
-            _replace_suffix(name, "_y_hh", "_m_hh")
-        ] = _create_function_for_time_unit(name, info, y_to_m)
-        result[
-            _replace_suffix(name, "_y_hh", "_w_hh")
-        ] = _create_function_for_time_unit(name, info, y_to_w)
-        result[
-            _replace_suffix(name, "_y_hh", "_d_hh")
-        ] = _create_function_for_time_unit(name, info, y_to_d)
-    if name.endswith("_y_tu"):
-        result[
-            _replace_suffix(name, "_y_tu", "_m_tu")
-        ] = _create_function_for_time_unit(name, info, y_to_m)
-        result[
-            _replace_suffix(name, "_y_tu", "_w_tu")
-        ] = _create_function_for_time_unit(name, info, y_to_w)
-        result[
-            _replace_suffix(name, "_y_tu", "_d_tu")
-        ] = _create_function_for_time_unit(name, info, y_to_d)
+    function_with_time_unit = re.compile(r"(?P<base_name>.*_)(?P<time_unit>[ymwd])(?P<aggregation>_hh|_tu)?")
+    match = function_with_time_unit.fullmatch(name)
 
-    if name.endswith("_m"):
-        result[_replace_suffix(name, "_m", "_y")] = _create_function_for_time_unit(
-            name, info, m_to_y
-        )
-        result[_replace_suffix(name, "_m", "_w")] = _create_function_for_time_unit(
-            name, info, m_to_w
-        )
-        result[_replace_suffix(name, "_m", "_d")] = _create_function_for_time_unit(
-            name, info, m_to_d
-        )
-    if name.endswith("_m_hh"):
-        result[
-            _replace_suffix(name, "_m_hh", "_y_hh")
-        ] = _create_function_for_time_unit(name, info, m_to_y)
-        result[
-            _replace_suffix(name, "_m_hh", "_w_hh")
-        ] = _create_function_for_time_unit(name, info, m_to_w)
-        result[
-            _replace_suffix(name, "_m_hh", "_d_hh")
-        ] = _create_function_for_time_unit(name, info, m_to_d)
-    if name.endswith("_m_tu"):
-        result[
-            _replace_suffix(name, "_m_tu", "_y_tu")
-        ] = _create_function_for_time_unit(name, info, m_to_y)
-        result[
-            _replace_suffix(name, "_m_tu", "_w_tu")
-        ] = _create_function_for_time_unit(name, info, m_to_w)
-        result[
-            _replace_suffix(name, "_m_tu", "_d_tu")
-        ] = _create_function_for_time_unit(name, info, m_to_d)
+    if match:
+        base_name = match.group("base_name")
+        time_unit = match.group("time_unit")
+        aggregation = match.group("aggregation") or ""
 
-    if name.endswith("_w"):
-        result[_replace_suffix(name, "_w", "_y")] = _create_function_for_time_unit(
-            name, info, w_to_y
-        )
-        result[_replace_suffix(name, "_w", "_m")] = _create_function_for_time_unit(
-            name, info, w_to_m
-        )
-        result[_replace_suffix(name, "_w", "_d")] = _create_function_for_time_unit(
-            name, info, w_to_d
-        )
-    if name.endswith("_w_hh"):
-        result[
-            _replace_suffix(name, "_w_hh", "_y_hh")
-        ] = _create_function_for_time_unit(name, info, w_to_y)
-        result[
-            _replace_suffix(name, "_w_hh", "_m_hh")
-        ] = _create_function_for_time_unit(name, info, w_to_m)
-        result[
-            _replace_suffix(name, "_w_hh", "_d_hh")
-        ] = _create_function_for_time_unit(name, info, w_to_d)
-    if name.endswith("_w_tu"):
-        result[
-            _replace_suffix(name, "_w_tu", "_y_tu")
-        ] = _create_function_for_time_unit(name, info, w_to_y)
-        result[
-            _replace_suffix(name, "_w_tu", "_m_tu")
-        ] = _create_function_for_time_unit(name, info, w_to_m)
-        result[
-            _replace_suffix(name, "_w_tu", "_d_tu")
-        ] = _create_function_for_time_unit(name, info, w_to_d)
-
-    if name.endswith("_d"):
-        result[_replace_suffix(name, "_d", "_y")] = _create_function_for_time_unit(
-            name, info, d_to_y
-        )
-        result[_replace_suffix(name, "_d", "_m")] = _create_function_for_time_unit(
-            name, info, d_to_m
-        )
-        result[_replace_suffix(name, "_d", "_w")] = _create_function_for_time_unit(
-            name, info, d_to_w
-        )
-    if name.endswith("_d_hh"):
-        result[
-            _replace_suffix(name, "_d_hh", "_y_hh")
-        ] = _create_function_for_time_unit(name, info, d_to_y)
-        result[
-            _replace_suffix(name, "_d_hh", "_m_hh")
-        ] = _create_function_for_time_unit(name, info, d_to_m)
-        result[
-            _replace_suffix(name, "_d_hh", "_w_hh")
-        ] = _create_function_for_time_unit(name, info, d_to_w)
-    if name.endswith("_d_tu"):
-        result[
-            _replace_suffix(name, "_d_tu", "_y_tu")
-        ] = _create_function_for_time_unit(name, info, d_to_y)
-        result[
-            _replace_suffix(name, "_d_tu", "_m_tu")
-        ] = _create_function_for_time_unit(name, info, d_to_m)
-        result[
-            _replace_suffix(name, "_d_tu", "_w_tu")
-        ] = _create_function_for_time_unit(name, info, d_to_w)
+        if time_unit == "y":
+            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
+                name, info, y_to_m
+            )
+            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
+                name, info, y_to_w
+            )
+            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
+                name, info, y_to_d
+            )
+        elif time_unit == "m":
+            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
+                name, info, m_to_y
+            )
+            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
+                name, info, m_to_w
+            )
+            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
+                name, info, m_to_d
+            )
+        elif time_unit == "w":
+            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
+                name, info, w_to_y
+            )
+            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
+                name, info, w_to_m
+            )
+            result[f"{base_name}d{aggregation}"] = _create_function_for_time_unit(
+                name, info, w_to_d
+            )
+        elif time_unit == "d":
+            result[f"{base_name}y{aggregation}"] = _create_function_for_time_unit(
+                name, info, d_to_y
+            )
+            result[f"{base_name}m{aggregation}"] = _create_function_for_time_unit(
+                name, info, d_to_m
+            )
+            result[f"{base_name}w{aggregation}"] = _create_function_for_time_unit(
+                name, info, d_to_w
+            )
 
     return result
 
