@@ -3,6 +3,8 @@ from typing import Callable
 
 from dags.signature import rename_arguments
 
+from _gettsim.config import SUPPORTED_GROUPINGS
+
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
 _D_PER_Y = 365.25
@@ -266,7 +268,8 @@ def _create_functions_for_time_units(
     result = {}
     info = getattr(func, "__info__", None)
 
-    function_with_time_unit = re.compile(r"(?P<base_name>.*_)(?P<time_unit>[ymwd])(?P<aggregation>_hh|_tu)?")
+    groupings = "|".join([f"_{grouping}" for grouping in SUPPORTED_GROUPINGS])
+    function_with_time_unit = re.compile(f"(?P<base_name>.*_)(?P<time_unit>[ymwd])(?P<aggregation>{groupings})?")
     match = function_with_time_unit.fullmatch(name)
 
     if match:
