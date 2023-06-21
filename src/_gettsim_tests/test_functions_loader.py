@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import textwrap
+from typing import Callable
+
+import pytest
 
 from _gettsim.config import RESOURCE_DIR
-from _gettsim.functions_loader import _load_functions
+from _gettsim.functions_loader import _load_functions, _create_derived_functions
 
 
 def func():
@@ -50,3 +53,28 @@ def test_special_attribute_module_is_set_for_internal_functions():
     function = out[list(out)[0]]
 
     assert function.__module__ == "_gettsim.social_insurance_contributions.eink_grenzen"
+
+
+@pytest.mark.parametrize(
+    ("functions", "targets"),
+    [
+        (
+            {
+                "foo_y": lambda: 1
+            },
+            ["foo_d_hh"]
+        ),
+        (
+            {
+                "foo_y": lambda: 1
+            },
+            ["foo_d", "foo_d_hh"]
+        )
+    ]
+)
+def test_create_derived_functions(functions: dict[str, Callable], targets: list[str]) -> None:
+    timed_functions, aggregation_functions = _create_derived_functions(functions, targets, [], {})
+    derived_functions = {**timed_functions, **aggregation_functions}
+
+    for name in targets:
+        assert name in derived_functions

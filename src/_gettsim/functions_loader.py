@@ -4,6 +4,7 @@ import functools
 import importlib
 import inspect
 from pathlib import Path
+from typing import Callable
 
 import numpy
 
@@ -88,13 +89,8 @@ def load_and_check_functions(
         for fn, f in {**internal_functions, **user_functions}.items()
     }
 
-    # Create functions for different time units
-    timed_functions = create_functions_for_time_units(
-        user_and_internal_functions, data_cols
-    )
-
-    # Create and add aggregation functions.
-    aggregation_functions = _create_aggregation_functions(
+    # Create derived functions
+    timed_functions, aggregation_functions = _create_derived_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
@@ -103,8 +99,8 @@ def load_and_check_functions(
         c for c in data_cols if c not in columns_overriding_functions
     ]
     for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_functions],
-        ["internal", "user", "aggregation"],
+        [internal_functions, user_functions, aggregation_functions, timed_functions],
+        ["internal", "user", "aggregation", "timed"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
@@ -132,6 +128,33 @@ def load_and_check_functions(
             functions_not_overridden[k] = v
 
     return functions_not_overridden, functions_overridden
+
+
+def _create_derived_functions(
+        user_and_internal_functions: dict[str, Callable],
+        targets,
+        data_cols,
+        aggregation_specs
+) -> tuple[dict[str, Callable], dict[str, Callable]]:
+    """
+    Create functions that are derived from the user and internal functions.
+
+    This includes:
+    - aggregation functions
+    - functions for different time units
+    """
+
+    # Create functions for different time units
+    timed_functions = create_functions_for_time_units(
+        user_and_internal_functions, data_cols
+    )
+
+    # Create aggregation functions
+    aggregation_functions = _create_aggregation_functions(
+        {**timed_functions, **user_and_internal_functions}, targets, data_cols, aggregation_specs
+    )
+
+    return timed_functions, aggregation_functions
 
 
 def load_user_and_internal_functions(user_functions_raw):
