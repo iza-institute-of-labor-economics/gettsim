@@ -60,7 +60,7 @@ def ges_pflegev_beitr_satz_ohne_kinder_abschlag(
 
 @dates_active(start="2023-07-01", change_name="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_mit_kinder_abschlag(
-    eigene_kind_bis_24: int,
+    anz_eig_kind_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -69,8 +69,8 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
 
     Parameters
     ----------
-    eigene_kind_bis_24: int,
-        See basic input variable :ref:`eigene_kind_bis_24 <eigene_kind_bis_24>`.
+    anz_eig_kind_bis_24: int,
+        See basic input variable :ref:`anz_eig_kind_bis_24 <anz_eig_kind_bis_24>`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     sozialv_beitr_params
@@ -87,10 +87,10 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
         out += sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
 
     # Substract contribution for individuals with two or more children under 25
-    if eigene_kind_bis_24 >= 2:
+    if anz_eig_kind_bis_24 >= 2:
         out -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "abschlag_kinder"
-        ] * min(eigene_kind_bis_24 - 1, 4)
+        ] * min(anz_eig_kind_bis_24 - 1, 4)
 
     return out
 
