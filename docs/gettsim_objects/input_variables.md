@@ -519,6 +519,6 @@ Type: int
 
 ## `eigene_kind_bis_24`
 
-Amount of children below tha age of 25
+Amount of own children below the age of 25 (incl. not in hh)
 
 Type: int
