@@ -517,7 +517,7 @@ Tax Bracket (1 to 5) for withholding tax
 
 Type: int
 
-## `anz_kinder_u_25`
+## `eigene_kind_bis_24`
 
 Amount of children below tha age of 25
 

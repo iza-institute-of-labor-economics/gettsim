@@ -31,7 +31,7 @@ def ges_pflegev_zusatz_kinderlos(
 
 def ges_pflegev_beitr_regulär_besch_m(
     _ges_krankenv_bruttolohn_m: float,
-    anz_kinder_u_25: int,
+    eigene_kind_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -44,8 +44,8 @@ def ges_pflegev_beitr_regulär_besch_m(
     ----------
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
-    anz_kinder_u_25
-        See basic input variable :ref:`anz_kinder_u_25 <anz_kinder_u_25>`.
+    eigene_kind_bis_24
+        See basic input variable :ref:`eigene_kind_bis_24 <eigene_kind_bis_24>`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     sozialv_beitr_params
@@ -72,13 +72,13 @@ def ges_pflegev_beitr_regulär_besch_m(
 
     # Substract contribution for individuals with two or more children under 25
     for i in range(2, 5):
-        if anz_kinder_u_25 == i:
+        if eigene_kind_bis_24 == i:
             beitr_regulär_beschäftigt_m -= (
                 _ges_krankenv_bruttolohn_m
                 * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["abschlag_kinder"]
                 * (i - 1)
             )
-    if anz_kinder_u_25 >= 5:
+    if eigene_kind_bis_24 >= 5:
         beitr_regulär_beschäftigt_m -= (
             _ges_krankenv_bruttolohn_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["abschlag_5_kinder"]
