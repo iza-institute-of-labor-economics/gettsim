@@ -44,7 +44,7 @@ def load_and_check_functions(
 
     - merging user and internal functions
     - vectorize all functions
-    - adding aggregation functions
+    - adding time conversion functions, aggregation functions, and combinations
 
     Check that:
     - all targets are in set of functions or in columns_overriding_functions
@@ -145,8 +145,10 @@ def _create_derived_functions(
     Create functions that are derived from the user and internal functions.
 
     This includes:
-    - aggregation functions
     - functions for converting to different time units
+    - aggregation functions
+    - combinations of these
+
     """
 
     # Create functions for different time units
