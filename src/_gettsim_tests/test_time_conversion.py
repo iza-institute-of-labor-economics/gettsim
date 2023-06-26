@@ -4,7 +4,7 @@ import pytest
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
     _replace_suffix,
-    create_functions_for_time_units,
+    create_time_conversion_functions,
     d_to_m,
     d_to_w,
     d_to_y,
@@ -173,10 +173,10 @@ class TestCreateFunctionsForTimeUnits:
     def test_should_create_functions_for_other_time_units_for_functions(
         self, name: str, expected: list[str]
     ) -> None:
-        timed_functions = create_functions_for_time_units({name: lambda: 1}, [])
+        time_conversion_functions = create_time_conversion_functions({name: lambda: 1}, [])
 
         for expected_name in expected:
-            assert expected_name in timed_functions
+            assert expected_name in time_conversion_functions
 
     @pytest.mark.parametrize(
         ("name", "expected"),
@@ -198,18 +198,18 @@ class TestCreateFunctionsForTimeUnits:
     def test_should_create_functions_for_other_time_units_for_data_cols(
         self, name: str, expected: list[str]
     ) -> None:
-        timed_functions = create_functions_for_time_units({}, [name])
+        time_conversion_functions = create_time_conversion_functions({}, [name])
 
         for expected_name in expected:
-            assert expected_name in timed_functions
+            assert expected_name in time_conversion_functions
 
     def test_should_not_create_functions_that_exist_already(self) -> None:
-        timed_functions = create_functions_for_time_units(
+        time_conversion_functions = create_time_conversion_functions(
             {"test_d": lambda: 1}, ["test_y"]
         )
 
-        assert "test_y" not in timed_functions
-        assert "test_d" not in timed_functions
+        assert "test_y" not in time_conversion_functions
+        assert "test_d" not in time_conversion_functions
 
 
 @pytest.mark.parametrize(

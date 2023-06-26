@@ -30,7 +30,7 @@ from _gettsim.shared import (
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
 )
-from _gettsim.time_conversion import create_functions_for_time_units
+from _gettsim.time_conversion import create_time_conversion_functions
 
 
 def load_and_check_functions(
@@ -90,7 +90,7 @@ def load_and_check_functions(
     }
 
     # Create derived functions
-    timed_functions, aggregation_functions = _create_derived_functions(
+    time_conversion_functions, aggregation_functions = _create_derived_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
@@ -99,13 +99,13 @@ def load_and_check_functions(
         c for c in data_cols if c not in columns_overriding_functions
     ]
     for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_functions, timed_functions],
-        ["internal", "user", "aggregation", "timed"],
+        [internal_functions, user_functions, aggregation_functions, time_conversion_functions],
+        ["internal", "user", "aggregation", "time_conversion"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     all_functions = {
-        **timed_functions,
+        **time_conversion_functions,
         **user_and_internal_functions,
         **aggregation_functions,
     }
@@ -145,19 +145,19 @@ def _create_derived_functions(
     """
 
     # Create functions for different time units
-    timed_functions = create_functions_for_time_units(
+    time_conversion_functions = create_time_conversion_functions(
         user_and_internal_functions, data_cols
     )
 
     # Create aggregation functions
     aggregation_functions = _create_aggregation_functions(
-        {**timed_functions, **user_and_internal_functions},
+        {**time_conversion_functions, **user_and_internal_functions},
         targets,
         data_cols,
         aggregation_specs,
     )
 
-    return timed_functions, aggregation_functions
+    return time_conversion_functions, aggregation_functions
 
 
 def load_user_and_internal_functions(user_functions_raw):

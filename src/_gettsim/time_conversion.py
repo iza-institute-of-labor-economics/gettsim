@@ -230,7 +230,7 @@ _time_conversion_functions = {
 }
 
 
-def create_functions_for_time_units(
+def create_time_conversion_functions(
     functions: dict[str, Callable],
     data_cols: list[str],
 ) -> dict[str, Callable]:
@@ -266,10 +266,10 @@ def create_functions_for_time_units(
     result = {}
 
     for name, func in functions.items():
-        result.update(_create_functions_for_time_units(name, func))
+        result.update(_create_time_conversion_functions(name, func))
 
     for name in data_cols:
-        result.update(_create_functions_for_time_units(name))
+        result.update(_create_time_conversion_functions(name))
 
     return {
         name: func
@@ -278,7 +278,7 @@ def create_functions_for_time_units(
     }
 
 
-def _create_functions_for_time_units(
+def _create_time_conversion_functions(
     name: str, func: Callable | None = None
 ) -> dict[str, Callable]:
     result = {}
