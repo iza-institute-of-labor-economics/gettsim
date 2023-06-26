@@ -99,7 +99,12 @@ def load_and_check_functions(
         c for c in data_cols if c not in columns_overriding_functions
     ]
     for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_functions, time_conversion_functions],
+        [
+            internal_functions,
+            user_functions,
+            aggregation_functions,
+            time_conversion_functions,
+        ],
         ["internal", "user", "aggregation", "time_conversion"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)

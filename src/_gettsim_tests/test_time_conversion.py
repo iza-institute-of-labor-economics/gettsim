@@ -173,7 +173,9 @@ class TestCreateFunctionsForTimeUnits:
     def test_should_create_functions_for_other_time_units_for_functions(
         self, name: str, expected: list[str]
     ) -> None:
-        time_conversion_functions = create_time_conversion_functions({name: lambda: 1}, [])
+        time_conversion_functions = create_time_conversion_functions(
+            {name: lambda: 1}, []
+        )
 
         for expected_name in expected:
             assert expected_name in time_conversion_functions
