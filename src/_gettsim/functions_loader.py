@@ -141,7 +141,7 @@ def _create_derived_functions(
 
     This includes:
     - aggregation functions
-    - functions for different time units
+    - functions for converting to different time units
     """
 
     # Create functions for different time units
