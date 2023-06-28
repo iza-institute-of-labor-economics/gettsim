@@ -519,6 +519,6 @@ Type: int
 
 ## `anz_eig_kind_bis_24`
 
-Amount of own children below the age of 25 (incl. not in hh)
+Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
