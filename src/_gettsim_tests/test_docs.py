@@ -60,6 +60,10 @@ def time_indep_function_names(all_function_names):
     return time_indep_function_names
 
 
+@pytest.mark.xfail(
+    reason="Uses an internal function to load functions,"
+    " which does not include derived functions."
+)
 def test_all_input_vars_documented(
     default_input_variables,
     time_indep_function_names,

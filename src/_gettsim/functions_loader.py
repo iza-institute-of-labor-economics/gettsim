@@ -4,6 +4,7 @@ import functools
 import importlib
 import inspect
 from pathlib import Path
+from typing import Callable
 
 import numpy
 
@@ -29,6 +30,7 @@ from _gettsim.shared import (
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
 )
+from _gettsim.time_conversion import create_time_conversion_functions
 
 
 def load_and_check_functions(
@@ -42,7 +44,7 @@ def load_and_check_functions(
 
     - merging user and internal functions
     - vectorize all functions
-    - adding aggregation functions
+    - adding time conversion functions, aggregation functions, and combinations
 
     Check that:
     - all targets are in set of functions or in columns_overriding_functions
@@ -87,8 +89,8 @@ def load_and_check_functions(
         for fn, f in {**internal_functions, **user_functions}.items()
     }
 
-    # Create and add aggregation functions.
-    aggregation_functions = _create_aggregation_functions(
+    # Create derived functions
+    time_conversion_functions, aggregation_functions = _create_derived_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
@@ -97,12 +99,21 @@ def load_and_check_functions(
         c for c in data_cols if c not in columns_overriding_functions
     ]
     for funcs, name in zip(
-        [internal_functions, user_functions, aggregation_functions],
-        ["internal", "user", "aggregation"],
+        [
+            internal_functions,
+            user_functions,
+            aggregation_functions,
+            time_conversion_functions,
+        ],
+        ["internal", "user", "aggregation", "time_conversion"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
-    all_functions = {**user_and_internal_functions, **aggregation_functions}
+    all_functions = {
+        **time_conversion_functions,
+        **user_and_internal_functions,
+        **aggregation_functions,
+    }
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
         columns_overriding_functions, all_functions
@@ -122,6 +133,38 @@ def load_and_check_functions(
             functions_not_overridden[k] = v
 
     return functions_not_overridden, functions_overridden
+
+
+def _create_derived_functions(
+    user_and_internal_functions: dict[str, Callable],
+    targets,
+    data_cols,
+    aggregation_specs,
+) -> tuple[dict[str, Callable], dict[str, Callable]]:
+    """
+    Create functions that are derived from the user and internal functions.
+
+    This includes:
+    - functions for converting to different time units
+    - aggregation functions
+    - combinations of these
+
+    """
+
+    # Create functions for different time units
+    time_conversion_functions = create_time_conversion_functions(
+        user_and_internal_functions, data_cols
+    )
+
+    # Create aggregation functions
+    aggregation_functions = _create_aggregation_functions(
+        {**time_conversion_functions, **user_and_internal_functions},
+        targets,
+        data_cols,
+        aggregation_specs,
+    )
+
+    return time_conversion_functions, aggregation_functions
 
 
 def load_user_and_internal_functions(user_functions_raw):
