@@ -4,18 +4,18 @@ info:
     Erhöhung der Pflegeversicherungsraten &
     Änderung der Berechnung für Menschen mit Kindern unter 25 Jahren (ab Juli 2023),
     Pflegeunterstützungs- und -entlastungsgesetz
-    2 Kinder unter 25 Jahren
+    5 Kinder unter 25 Jahren
   source: https://www.steuertipps.de/service/rechner/brutto-netto-gehaltsrechner/
 inputs:
   provided:
     p_id:
-      - 23
+      - 25
     hh_id:
-      - 23
+      - 25
     tu_id:
-      - 23
+      - 25
     bruttolohn_m:
-      - 3000.0
+      - 4000.0
     wohnort_ost:
       - false
     alter:
@@ -25,7 +25,7 @@ inputs:
     hat_kinder:
       - true
     anz_eig_kind_bis_24:
-      - 2
+      - 5
     eink_selbst_m:
       - 0.0
     sum_ges_rente_priv_rente_m:
@@ -37,16 +37,16 @@ inputs:
   assumed: {}
 outputs:
   sozialv_beitr_m:
-    - 604.50
+    - 776.00
   sozialv_beitr_arbeitg_m:
-    - 612.00
+    - 816.00
   _sozialv_beitr_arbeitn_arbeitg_m:
-    - 1216.50
+    - 1592.00
   ges_rentenv_beitr_m:
-    - 279.00
+    - 372.00
   arbeitsl_v_beitr_m:
-    - 39.00
+    - 52.00
   ges_krankenv_beitr_m:
-    - 243.00
+    - 324.00
   ges_pflegev_beitr_m:
-    - 43.50
+    - 28.00
