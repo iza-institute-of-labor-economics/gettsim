@@ -430,7 +430,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     return an_beitr_midijob_m
 
 
-@dates_active(start="2023-07-01", change_name="_ges_pflegev_beitr_midijob")
+@dates_active(start="2023-07-01", change_name="_ges_pflegev_beitr_midijob_arbeitn_m")
 def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_mit_kinder_abschlag(
     anz_eig_kind_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
