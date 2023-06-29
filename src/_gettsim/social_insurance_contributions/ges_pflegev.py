@@ -386,10 +386,16 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
     return out
 
 
-@dates_active(start="2022-10-01", change_name="_ges_pflegev_beitr_midijob_arbeitn_m")
+@dates_active(
+    start="2022-10-01",
+    end="2023-06-30",
+    change_name="_ges_pflegev_beitr_midijob_arbeitn_m",
+)
 def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
+    ges_pflegev_zusatz_kinderlos: bool,
     _midijob_beitragspfl_einnahme_arbeitn_m: float,
-    ges_pflegev_beitr_satz: float,
+    midijob_bemessungsentgelt_m: float,
+    sozialv_beitr_params: dict,
 ) -> float:
     """Calculating the employee care insurance contribution since October 2022.
 
@@ -397,8 +403,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     ----------
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    ges_pflegev_beitr_satz
-        See :func:`ges_pflegev_beitr_satz`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
     _midijob_beitragspfl_einnahme_arbeitn_m
         See :func:`_midijob_beitragspfl_einnahme_arbeitn_m`.
     sozialv_beitr_params
@@ -410,7 +416,64 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     """
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = (
-        _midijob_beitragspfl_einnahme_arbeitn_m * ges_pflegev_beitr_satz
+        _midijob_beitragspfl_einnahme_arbeitn_m
+        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        an_beitr_midijob_m += (
+            midijob_bemessungsentgelt_m
+            * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+
+    return an_beitr_midijob_m
+
+
+@dates_active(start="2023-07-01", change_name="_ges_pflegev_beitr_midijob")
+def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_mit_kinder_abschlag(
+    anz_eig_kind_bis_24: int,
+    ges_pflegev_zusatz_kinderlos: bool,
+    _midijob_beitragspfl_einnahme_arbeitn_m: float,
+    midijob_bemessungsentgelt_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Calculating the employee care insurance contribution since October 2022.
+
+    Parameters
+    ----------
+    anz_eig_kind_bis_24
+        See basic input variable :ref:`anz_eig_kind_bis_24 <anz_eig_kind_bis_24>`.
+    ges_pflegev_zusatz_kinderlos
+        See :func:`ges_pflegev_zusatz_kinderlos`.
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
+    _midijob_beitragspfl_einnahme_arbeitn_m
+        See :func:`_midijob_beitragspfl_einnahme_arbeitn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    # Calculate the employee care insurance rate
+    ges_pflegev_rate = sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+
+    # Substract contribution for individuals with two or more children under 25
+    if anz_eig_kind_bis_24 >= 2:
+        ges_pflegev_rate -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
+            "abschlag_kinder"
+        ] * min(anz_eig_kind_bis_24 - 1, 4)
+
+    # Calculate the employee care insurance contribution
+    an_beitr_midijob_m = _midijob_beitragspfl_einnahme_arbeitn_m * ges_pflegev_rate
+
+    # Add additional contribution for childless individuals
+    if ges_pflegev_zusatz_kinderlos:
+        an_beitr_midijob_m += (
+            midijob_bemessungsentgelt_m
+            * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
 
     return an_beitr_midijob_m
