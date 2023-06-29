@@ -13,6 +13,7 @@ versioning](https://semver.org/) and all releases are available on
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`589` Fix minor bug in `arbeitsl_geld_2_eink_anr_frei_m`
   ({ghuser}`ChristianZimpelmann`).
+- {gh}`583` Automatic conversion between different time units ({ghuser}`lars-reimann`).
 - {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).
 
 ## v0.7 — 2023-05-14
