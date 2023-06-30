@@ -96,7 +96,7 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
 
 
 def ges_pflegev_beitr_m(  # noqa: PLR0913
-    ges_pflegev_beitr_regulär_besch_m_: float,
+    _ges_pflegev_beitr_reg_beschäftigt_m: float,
     geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rente_m: float,
     ges_pflegev_beitr_selbst_m: float,
@@ -135,13 +135,13 @@ def ges_pflegev_beitr_m(  # noqa: PLR0913
     elif in_gleitzone:
         out = _ges_pflegev_beitr_midijob_arbeitn_m
     else:
-        out = ges_pflegev_beitr_regulär_besch_m_
+        out = _ges_pflegev_beitr_reg_beschäftigt_m
 
     # Add the care insurance contribution for pensions
     return out + ges_pflegev_beitr_rente_m
 
 
-def ges_pflegev_beitr_regulär_besch_m_(
+def _ges_pflegev_beitr_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
