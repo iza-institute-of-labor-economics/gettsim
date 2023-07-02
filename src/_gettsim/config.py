@@ -82,6 +82,21 @@ SUPPORTED_GROUPINGS = {
     },
 }
 
+SUPPORTED_TIME_UNITS = {
+    "y": {
+        "name": "year",
+    },
+    "m": {
+        "name": "month",
+    },
+    "w": {
+        "name": "week",
+    },
+    "d": {
+        "name": "day",
+    },
+}
+
 DEFAULT_TARGETS = [
     "eink_st_y_tu",
     "soli_st_y_tu",
