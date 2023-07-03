@@ -386,16 +386,19 @@ def _load_parameter_group_from_yaml(
                         out_params[f"{param}_vorjahr"] = params_last_year[param]
                 elif raw_group_data[param]["access_different_date"] == "jahresanfang":
                     date_beginning_of_year = set_date_to_beginning_of_year(date)
-                    params_beginning_of_year = _load_parameter_group_from_yaml(
-                        date_beginning_of_year,
-                        group,
-                        parameters=[param],
-                        yaml_path=yaml_path,
-                    )
-                    if param in params_beginning_of_year:
-                        out_params[f"{param}_jahresanfang"] = params_beginning_of_year[
-                            param
-                        ]
+                    if date_beginning_of_year == date:
+                        out_params[f"{param}_jahresanfang"] = out_params[param]
+                    else:
+                        params_beginning_of_year = _load_parameter_group_from_yaml(
+                            date_beginning_of_year,
+                            group,
+                            parameters=[param],
+                            yaml_path=yaml_path,
+                        )
+                        if param in params_beginning_of_year:
+                            out_params[
+                                f"{param}_jahresanfang"
+                            ] = params_beginning_of_year[param]
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "
