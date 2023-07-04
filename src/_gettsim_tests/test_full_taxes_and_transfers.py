@@ -92,8 +92,8 @@ def test_data_types(
             elif column_name in year_functions:
                 internal_type = year_functions[column_name].__annotations__["return"]
             else:
-                # ToDo: Implement easy way to find out expected type of
-                # ToDo: aggregated functions
+                # TODO: Implement easy way to find out expected type of
+                # TODO: aggregated functions
                 if column_name.endswith(("_tu", "_hh")):
                     internal_type = None
                 else:

@@ -38,11 +38,11 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     Income of a person by unemployment insurance.
 
     """
-    # ToDo: Implement deduction of child income including allowance of 100 EUR.
+    # TODO: Implement deduction of child income including allowance of 100 EUR.
     if kind:
         # Do not substract income tax as long as children are still part of the tax
         # unit of their parents
-        # ToDo: Rewrite once children are in a separate tax unit
+        # TODO: Rewrite once children are in a separate tax unit
         out = (
             arbeitsl_geld_2_bruttoeink_m
             - sozialv_beitr_m

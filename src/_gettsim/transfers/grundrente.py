@@ -339,8 +339,8 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     """
 
     # Assume priv_rente_m did not change
-    # ToDo: Use current_year as argument of this function once we addressed
-    # ToDo: issue #211
+    # TODO: Use current_year as argument of this function once we addressed
+    # TODO: issue #211
     # Calculate if subect was retired last year
     if rentner:
         rentner_vorjahr = jahr_renteneintr < geburtsjahr + alter

@@ -52,7 +52,7 @@ __all__ = [
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
-    # ToDo: See what can be changed/removed from remainder.
+    # TODO: See what can be changed/removed from remainder.
     "aggregation",
     "config",
     "piecewise_functions",

@@ -313,7 +313,7 @@ def wohngeld_eink_freib_m_ab_2016(
     )
 
     # Subtraction for single parents and working children
-    # ToDo:
+    # TODO:
     #     Check how to handle subjects that are single parents and also still count
     #     as arbeitendes Kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
@@ -430,8 +430,8 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
-    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
-    # ToDo: pre-processing and add it to wohngeld_params
+    # TODO: Think about calculating max_definierte_hh_größe already in parameter
+    # TODO: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if haushaltsgröße_hh <= max_definierte_hh_größe:
         max_miete_m_hh = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]

@@ -233,7 +233,7 @@ def _process_and_check_data(data, columns_overriding_functions):
     # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
     # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
     # unit within a household.
-    # ToDo: Remove check once Günstigerprüfung ist taken care of.
+    # TODO: Remove check once Günstigerprüfung ist taken care of.
     if ("tu_id" in data) and ("hh_id" in data):
         assert (
             not data["tu_id"].groupby(data["hh_id"]).std().max() > 0

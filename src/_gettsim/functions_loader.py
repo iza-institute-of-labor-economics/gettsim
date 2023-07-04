@@ -521,8 +521,8 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             # Find out return type
             annotations["return"] = _select_return_type(aggr, annotations[source_col])
         else:
-            # ToDo: Think about how type annotations of aggregations of user-provided
-            # ToDo: input variables are handled
+            # TODO: Think about how type annotations of aggregations of user-provided
+            # TODO: input variables are handled
             pass
 
     # Define aggregation func

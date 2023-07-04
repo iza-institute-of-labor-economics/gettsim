@@ -187,8 +187,8 @@ def entgeltp_update_lohn(
 
     """
 
-    # ToDo: Does the scaling bonus really apply to current wages or only to those that
-    # ToDo: had been earned during GDR times?
+    # TODO: Does the scaling bonus really apply to current wages or only to those that
+    # TODO: had been earned during GDR times?
 
     # Scale bruttolohn up if earned in eastern Germany
     if wohnort_ost:
@@ -280,7 +280,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
                 )
             else:
                 # Early retirement although not eligible to do so.
-                # ToDo: Implement early retirment for disabled or long-term unemployed
+                # TODO: Implement early retirment for disabled or long-term unemployed
                 out = 0.0
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
