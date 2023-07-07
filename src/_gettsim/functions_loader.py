@@ -24,6 +24,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
+from _gettsim.endogenous_groupings import create_endogenous_groupings
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -94,6 +95,9 @@ def load_and_check_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
+    # Create endogenous groupings
+    endogenous_groupings = create_endogenous_groupings()
+
     # Check for implicit overlap of functions and data columns.
     data_cols_excl_overriding = [
         c for c in data_cols if c not in columns_overriding_functions
@@ -104,8 +108,9 @@ def load_and_check_functions(
             user_functions,
             aggregation_functions,
             time_conversion_functions,
+            endogenous_groupings,
         ],
-        ["internal", "user", "aggregation", "time_conversion"],
+        ["internal", "user", "aggregation", "time_conversion", "endogenous_groupings"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
@@ -113,6 +118,7 @@ def load_and_check_functions(
         **time_conversion_functions,
         **user_and_internal_functions,
         **aggregation_functions,
+        **endogenous_groupings,
     }
 
     _fail_if_columns_overriding_functions_are_not_in_functions(
@@ -148,7 +154,6 @@ def _create_derived_functions(
     - functions for converting to different time units
     - aggregation functions
     - combinations of these
-
     """
 
     # Create functions for different time units
