@@ -41,21 +41,22 @@ def test_st_id(
         rtol=0,
     )
 
-def test_should_raise_if_gemeinsam_veranlagt_differs():
-    df = DataFrame({
-        "p_id": [0, 1],
-        "p_id_ehepartner": [1, 0],
-        "gemeinsam_veranlagt": [True, False]
-    })
 
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date="2023"
+def test_should_raise_if_gemeinsam_veranlagt_differs():
+    df = DataFrame(
+        {
+            "p_id": [0, 1],
+            "p_id_ehepartner": [1, 0],
+            "gemeinsam_veranlagt": [True, False],
+        }
     )
 
+    policy_params, policy_functions = cached_set_up_policy_environment(date="2023")
+
     with pytest.raises(
-            ValueError,
-            match=r"0 and 1 are married, but have different values for "
-                  r"gemeinsam_veranlagt\."
+        ValueError,
+        match=r"0 and 1 are married, but have different values for "
+        r"gemeinsam_veranlagt\.",
     ):
         compute_taxes_and_transfers(
             data=df,

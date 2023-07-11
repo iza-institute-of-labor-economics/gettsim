@@ -10,7 +10,7 @@ def create_groupings() -> dict[str, Callable]:
 def st_id_numpy(
     p_id: numpy.ndarray,
     p_id_ehepartner: numpy.ndarray,
-    gemeinsam_veranlagt: numpy.ndarray[bool]
+    gemeinsam_veranlagt: numpy.ndarray[bool],
 ):
     p_id_to_st_id = {}
     p_id_to_gemeinsam_veranlagt = {}
@@ -21,10 +21,7 @@ def st_id_numpy(
         current_p_id_ehepartner = p_id_ehepartner[index]
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
-        if (
-            current_p_id_ehepartner != -1
-            and current_p_id_ehepartner in p_id_to_st_id
-        ):
+        if current_p_id_ehepartner != -1 and current_p_id_ehepartner in p_id_to_st_id:
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
                 current_p_id_ehepartner
             ]
