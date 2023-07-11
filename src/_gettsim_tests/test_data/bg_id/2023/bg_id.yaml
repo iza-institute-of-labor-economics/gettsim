@@ -1,0 +1,75 @@
+---
+info:
+  note: >-
+    Parents with three kids, assume that one is eligible to be in the same 
+    Bedarfsgemeinschaft. One is not because it is living outside the household, another
+    is not because it is 25 years of age. Both parents should be a single steuersubject,
+    each kid is its own.
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+    hh_id:
+      - 0
+      - 0
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
+    alter:
+      - 50
+      - 48
+      - 18
+      - 20
+      - 25
+      - 24
+      - 24
+    p_id_ehepartner:
+      - 1
+      - 0
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+      - 0
+      - 1
+      - 5
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 1
+      - 1
+      - 0
+      - -1
+      - -1
+    enough_income:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - true
+outputs:
+  bg_id:
+    - 0
+    - 0
+    - 1
+    - 0
+    - 2
+    - 3
+    - 4
