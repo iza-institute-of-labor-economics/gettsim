@@ -1,5 +1,6 @@
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
+from pandas import DataFrame
 from pandas.testing import assert_series_equal
 
 from _gettsim_tests._helpers import cached_set_up_policy_environment
@@ -39,3 +40,27 @@ def test_st_id(
         atol=1e-1,
         rtol=0,
     )
+
+def test_should_raise_if_gemeinsam_veranlagt_differs():
+    df = DataFrame({
+        "p_id": [0, 1],
+        "p_id_ehepartner": [1, 0],
+        "gemeinsam_veranlagt": [True, False]
+    })
+
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date="2023"
+    )
+
+    with pytest.raises(
+            ValueError,
+            match=r"0 and 1 are married, but have different values for "
+                  r"gemeinsam_veranlagt\."
+    ):
+        compute_taxes_and_transfers(
+            data=df,
+            params=policy_params,
+            functions=policy_functions,
+            targets="st_id",
+            columns_overriding_functions=OVERRIDE_COLS,
+        )
