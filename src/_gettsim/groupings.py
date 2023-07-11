@@ -3,7 +3,7 @@ from typing import Callable
 import numpy
 
 
-def create_endogenous_groupings() -> dict[str, Callable]:
+def create_groupings() -> dict[str, Callable]:
     return {"st_id": st_id_numpy}
 
 
