@@ -152,7 +152,8 @@ def midijob_faktor_f_mit_minijob_st(
     (beitragspflichtige Einnahme) of midijobs before October 2022. It is calculated as
     the ratio of the sum of lump-sum contributions for marginal employment (30 %)
     divided by the total social security contribution rate
-    (Gesamtsozialversicherungsbeitragssatz).
+    (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
+    the year and is valid for the whole year.
 
     Legal reference: § 163 Abs. 10 SGB VI
 
@@ -161,10 +162,10 @@ def midijob_faktor_f_mit_minijob_st(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    ges_krankenv_beitr_satz
-        See :func:`ges_krankenv_beitr_satz`.
-    _ges_krankenv_beitr_satz_arbeitg
-        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+    _ges_krankenv_beitr_satz_jahresanf
+        See :func:`_ges_krankenv_beitr_satz_jahresanf`.
+    _ges_krankenv_beitr_satz_arbeitg_jahresanf
+        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanf`.
 
     Returns
     -------
@@ -209,6 +210,7 @@ def midijob_faktor_f_ohne_minijob_st(
     divided by the total social security contribution rate
     (Gesamtsozialversicherungsbeitragssatz). Since October 2022 the sum of lump-sum
     contributions for marginal employment does not include the 2% flat-rate tax.
+    It is calculated once at the beginning of the year and is valid for the whole year.
 
     Legal reference: § 163 Abs. 10 SGB VI
 
@@ -217,10 +219,10 @@ def midijob_faktor_f_ohne_minijob_st(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    ges_krankenv_beitr_satz
-        See :func:`ges_krankenv_beitr_satz`.
-    _ges_krankenv_beitr_satz_arbeitg
-        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+    _ges_krankenv_beitr_satz_jahresanf
+        See :func:`_ges_krankenv_beitr_satz_jahresanf`.
+    _ges_krankenv_beitr_satz_arbeitg_jahresanf
+        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanf`.
 
     Returns
     -------

@@ -236,9 +236,10 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_paritätisch(
 def _ges_krankenv_beitr_satz_jahresanf(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Select contribution rates of employees for health insurance, just a basic split
-    between employees and employers. Incorporates regime changes regarding different
-    values across insurers (pick "official" mean) and same contribution rate for all.
+    """Select contribution rates of employees for health insurance for the begging
+    of a year, just a basic split between employees and employers. Incorporates
+    regime changes regarding different values across insurers (pick "official" mean)
+    and same contribution rate for all.
 
     Parameters
     ----------
@@ -247,7 +248,7 @@ def _ges_krankenv_beitr_satz_jahresanf(
 
     Returns
     -------
-    Beitragssatz for statutory health insurance.
+    Beitragssatz for statutory health insurance at the begging of the year.
 
     """
     params = sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_krankenv"]
@@ -266,7 +267,8 @@ def _ges_krankenv_beitr_satz_zusatzbeitrag_nur_arbeitn_jahresanf(
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Select contribution rates of employees for health insurance until 2018.
+    """Select contribution rates of employees for health insurance for the beginning
+    of a year until 2018.
 
     The contribution rates consists of a general rate (split equally between employers
     and employees) and a top-up rate which is fully paid by employees.
@@ -301,7 +303,8 @@ def _ges_krankenv_beitr_satz_zusatzbeitrag_paritätisch_jahresanf(
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Select contribution rates of employees for health insurance since 2019.
+    """Select contribution rates of employees for health insurance for the beginning
+    of a year since 2019.
 
     Zusatzbeitrag is now split equally between employers and employees.
 
@@ -377,7 +380,8 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch(
 def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_nur_arbeitn_jahresanf(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Select contribution rates of employers for health insurance until 2018.
+    """Select contribution rates of employers for health insurance for the beginning
+    of a year until 2018.
 
     Parameters
     ----------
@@ -404,7 +408,8 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_nur_arbeitn_jahresanf(
 def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch_jahresanf(
     _ges_krankenv_beitr_satz_jahresanf: float,
 ) -> float:
-    """Select contribution rates of employers for health insurance since 2019.
+    """Select contribution rates of employers for health insurance for the beginning
+    of a year since 2019.
 
     The full contribution rate is now split equally between employers and employees.
 
