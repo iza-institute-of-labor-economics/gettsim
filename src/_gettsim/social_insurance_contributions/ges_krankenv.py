@@ -231,6 +231,96 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_paritätisch(
 
 
 @dates_active(
+    end="2005-06-30",
+)
+def _ges_krankenv_beitr_satz_jahresanf(
+    sozialv_beitr_params: dict,
+) -> float:
+    """Select contribution rates of employees for health insurance, just a basic split
+    between employees and employers. Incorporates regime changes regarding different
+    values across insurers (pick "official" mean) and same contribution rate for all.
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Beitragssatz for statutory health insurance.
+
+    """
+    params = sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_krankenv"]
+
+    return (
+        params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
+    ) / 2
+
+
+@dates_active(
+    start="2005-07-01",
+    end="2018-12-31",
+    change_name="_ges_krankenv_beitr_satz_jahresanf",
+)
+def _ges_krankenv_beitr_satz_zusatzbeitrag_nur_arbeitn_jahresanf(
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Select contribution rates of employees for health insurance until 2018.
+
+    The contribution rates consists of a general rate (split equally between employers
+    and employees) and a top-up rate which is fully paid by employees.
+
+    Parameters
+    ----------
+    ges_krankenv_zusatzbeitr_satz
+        See :func:`ges_krankenv_zusatzbeitr_satz`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    params = sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_krankenv"]
+
+    # Contribution rates differ between insurance entities until 2008.
+    # We, hence, rely on average contribution rates "mean_allgemein" for these years.
+    allgemeiner_beitrag = (
+        params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
+    )
+
+    return allgemeiner_beitrag / 2 + ges_krankenv_zusatzbeitr_satz
+
+
+@dates_active(
+    start="2019-01-01",
+    change_name="_ges_krankenv_beitr_satz_jahresanf",
+)
+def _ges_krankenv_beitr_satz_zusatzbeitrag_paritätisch_jahresanf(
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Select contribution rates of employees for health insurance since 2019.
+
+    Zusatzbeitrag is now split equally between employers and employees.
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    params = sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_krankenv"]
+    allgemeiner_beitrag = params["allgemein"]
+    zusatzbeitrag = ges_krankenv_zusatzbeitr_satz
+    return (allgemeiner_beitrag + zusatzbeitrag) / 2
+
+
+@dates_active(
     end="2018-12-31",
     change_name="_ges_krankenv_beitr_satz_arbeitg",
 )
@@ -278,6 +368,56 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch(
 
     """
     return ges_krankenv_beitr_satz
+
+
+@dates_active(
+    end="2018-12-31",
+    change_name="_ges_krankenv_beitr_satz_arbeitg_jahresanf",
+)
+def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_nur_arbeitn_jahresanf(
+    sozialv_beitr_params: dict,
+) -> float:
+    """Select contribution rates of employers for health insurance until 2018.
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    params = sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_krankenv"]
+
+    # Contribution rates differ between insurance entities until 2008.
+    # We, hence, rely on average contribution rates "mean_allgemein".
+    total = params["allgemein"] if "allgemein" in params else params["mean_allgemein"]
+
+    return total / 2
+
+
+@dates_active(
+    start="2019-01-01",
+    change_name="_ges_krankenv_beitr_satz_arbeitg_jahresanf",
+)
+def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch_jahresanf(
+    _ges_krankenv_beitr_satz_jahresanf: float,
+) -> float:
+    """Select contribution rates of employers for health insurance since 2019.
+
+    The full contribution rate is now split equally between employers and employees.
+
+    Parameters
+    ----------
+    ges_krankenv_beitr_satz
+        See :func:`ges_krankenv_beitr_satz`.
+
+    Returns
+    -------
+
+    """
+    return _ges_krankenv_beitr_satz_jahresanf
 
 
 def _ges_krankenv_bruttolohn_m(
