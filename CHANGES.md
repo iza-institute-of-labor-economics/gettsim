@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`602` Correct `midijob_faktor_f` ({ghuser}`paulinaschroeder`).
 - {gh}`600` Extend the `access_different_date` functionality for `jahresanfang`.
   ({ghuser}`paulinaschroeder`).
 - {gh}`589` Fix minor bug in `arbeitsl_geld_2_eink_anr_frei_m`.
