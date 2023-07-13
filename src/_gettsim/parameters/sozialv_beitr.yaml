@@ -275,6 +275,16 @@ beitr_satz:
     reference: >-
       (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+  2023-07-01:
+    deviation_from: previous
+    ges_pflegev:
+      standard: 0.017
+      zusatz_kinderlos: 0.006
+      abschlag_kinder: 0.0025
+    note: >-
+      Pflegeunterstützungs- und -entlastungsgesetz - PUEG
+      Increase of contribution rates for ges_pflegev and  introduction of reduction of
+      contribution rates for people with children.
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
