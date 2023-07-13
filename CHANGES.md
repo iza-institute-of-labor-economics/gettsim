@@ -7,6 +7,8 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
+  as of 2023-07-01 ({ghuser}`paulinaschroeder`).
 - {gh}`602` Correct `midijob_faktor_f` ({ghuser}`paulinaschroeder`).
 - {gh}`600` Extend the `access_different_date` functionality for `jahresanfang`.
   ({ghuser}`paulinaschroeder`).
