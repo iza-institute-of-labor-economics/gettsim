@@ -56,7 +56,7 @@ def kinderzuschl_vermög_freib_hh_bis_2022(
 def kinderzuschl_vermög_freib_hh_ab_2023(
     _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
 ) -> float:
-    """Wealth exemptions for Kinderzuschlag until 2022.
+    """Wealth exemptions for Kinderzuschlag since 2023.
 
     Parameters
     ----------
