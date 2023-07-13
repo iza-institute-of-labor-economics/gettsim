@@ -516,3 +516,9 @@ Type: float
 Tax Bracket (1 to 5) for withholding tax
 
 Type: int
+
+## `anz_eig_kind_bis_24`
+
+Number of own children below the age of 25 (incl. not in hh)
+
+Type: int
