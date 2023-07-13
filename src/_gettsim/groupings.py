@@ -4,20 +4,17 @@ import numpy
 
 
 def create_groupings() -> dict[str, Callable]:
-    return {
-        "bg_id": bg_id_numpy,
-        "st_id": st_id_numpy
-    }
+    return {"bg_id": bg_id_numpy, "st_id": st_id_numpy}
 
 
 def bg_id_numpy(  # noqa: PLR0913
-        p_id: numpy.ndarray,
-        hh_id: numpy.ndarray,
-        alter: numpy.ndarray,
-        p_id_ehepartner: numpy.ndarray,
-        p_id_elternteil_1: numpy.ndarray,
-        p_id_elternteil_2: numpy.ndarray,
-        enough_income: numpy.ndarray[bool],
+    p_id: numpy.ndarray,
+    hh_id: numpy.ndarray,
+    alter: numpy.ndarray,
+    p_id_ehepartner: numpy.ndarray,
+    p_id_elternteil_1: numpy.ndarray,
+    p_id_elternteil_2: numpy.ndarray,
+    enough_income: numpy.ndarray[bool],
 ):
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
@@ -71,10 +68,10 @@ def bg_id_numpy(  # noqa: PLR0913
             child_p_id_children = p_id_to_p_ids_children.get(current_p_id_child, [])
 
             if (
-                    child_hh_id == current_hh_id and
-                    not child_enough_income and
-                    child_alter < 25 and
-                    len(child_p_id_children) == 0
+                child_hh_id == current_hh_id
+                and not child_enough_income
+                and child_alter < 25
+                and len(child_p_id_children) == 0
             ):
                 p_id_to_bg_id[current_p_id_child] = next_bg_id
 
@@ -86,9 +83,9 @@ def bg_id_numpy(  # noqa: PLR0913
 
 
 def st_id_numpy(
-        p_id: numpy.ndarray,
-        p_id_ehepartner: numpy.ndarray,
-        gemeinsam_veranlagt: numpy.ndarray[bool],
+    p_id: numpy.ndarray,
+    p_id_ehepartner: numpy.ndarray,
+    gemeinsam_veranlagt: numpy.ndarray[bool],
 ):
     """
     Compute the Steuersubjekt-ID for each person.
