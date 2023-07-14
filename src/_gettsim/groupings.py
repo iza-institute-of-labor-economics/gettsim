@@ -88,7 +88,7 @@ def st_id_numpy(
     gemeinsam_veranlagt: numpy.ndarray[bool],
 ):
     """
-    Compute the Steuersubjekt-ID for each person.
+    Compute a Steuernummer (ID) for each person / couple.
     """
     p_id_to_st_id = {}
     p_id_to_gemeinsam_veranlagt = {}
