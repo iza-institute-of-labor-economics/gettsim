@@ -58,7 +58,7 @@ inputs:
       - 1
       - 1
       - -1
-    enough_income:
+    eigener_bedarf_gedeckt:
       - false
       - false
       - false

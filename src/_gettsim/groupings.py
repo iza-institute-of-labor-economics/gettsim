@@ -14,7 +14,7 @@ def bg_id_numpy(  # noqa: PLR0913
     p_id_ehepartner: numpy.ndarray,
     p_id_elternteil_1: numpy.ndarray,
     p_id_elternteil_2: numpy.ndarray,
-    enough_income: numpy.ndarray[bool],
+    eigener_bedarf_gedeckt: numpy.ndarray[bool],
 ):
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
@@ -63,7 +63,7 @@ def bg_id_numpy(  # noqa: PLR0913
         for current_p_id_child in current_p_id_children:
             child_index = p_id_to_index[current_p_id_child]
             child_hh_id = hh_id[child_index]
-            child_enough_income = enough_income[child_index]
+            child_enough_income = eigener_bedarf_gedeckt[child_index]
             child_alter = alter[child_index]
             child_p_id_children = p_id_to_p_ids_children.get(current_p_id_child, [])
 
