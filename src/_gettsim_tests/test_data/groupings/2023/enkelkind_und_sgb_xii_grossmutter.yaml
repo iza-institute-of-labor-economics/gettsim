@@ -8,8 +8,14 @@ inputs:
       - 0
       - 1
     geburtstag:
-      - 2002-07-14
-      - 1954-03-01
+      - 14
+      - 1
+    geburtsmonat:
+      - 7
+      - 3
+    geburtsjahr:
+      - 2002
+      - 1954
     hh_id:
       - 0
       - 0

@@ -9,9 +9,17 @@ inputs:
       - 1
       - 2
     geburtstag:
-      - 1984-07-14
-      - 1981-07-14
-      - 2010-03-01
+      - 14
+      - 14
+      - 1
+    geburtsmonat:
+      - 7
+      - 7
+      - 3
+    geburtsjahr:
+      - 1984
+      - 1981
+      - 2010
     p_id_einstandspartner:
       - 1
       - 0

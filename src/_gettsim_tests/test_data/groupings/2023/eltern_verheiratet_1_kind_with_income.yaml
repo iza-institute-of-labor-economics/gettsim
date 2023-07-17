@@ -11,9 +11,17 @@ inputs:
       - 1
       - 2
     geburtstag:
-      - 1974-02-13
-      - 1973-01-02
-      - 2001-07-14
+      - 13
+      - 2
+      - 14
+    geburtsmonat:
+      - 2
+      - 1
+      - 7
+    geburtsjahr:
+      - 1974
+      - 1973
+      - 2001
     p_id_einstandspartner:
       - 1
       - 0

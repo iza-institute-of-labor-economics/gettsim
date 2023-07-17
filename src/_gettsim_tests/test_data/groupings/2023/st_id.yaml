@@ -12,7 +12,7 @@ inputs:
       - 4
       - 5
       - 6
-    p_p_id_ehepartner:
+    p_id_ehepartner:
       - 1
       - 0
       - -1
