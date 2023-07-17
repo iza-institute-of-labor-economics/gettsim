@@ -183,4 +183,5 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
+    "anz_eig_kind_bis_24": int,
 }
