@@ -11,7 +11,7 @@ def bg_id_numpy(  # noqa: PLR0913
     p_id: numpy.ndarray,
     hh_id: numpy.ndarray,
     alter: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
+    p_id_einstandspartner: numpy.ndarray,
     p_id_elternteil_1: numpy.ndarray,
     p_id_elternteil_2: numpy.ndarray,
     eigener_bedarf_gedeckt: numpy.ndarray[bool],
@@ -52,7 +52,7 @@ def bg_id_numpy(  # noqa: PLR0913
         p_id_to_bg_id[current_p_id] = next_bg_id
 
         current_hh_id = hh_id[index]
-        current_p_id_ehepartner = p_id_ehepartner[index]
+        current_p_id_ehepartner = p_id_einstandspartner[index]
         current_p_id_children = p_id_to_p_ids_children.get(current_p_id, [])
 
         # Assign bg to ehepartner
