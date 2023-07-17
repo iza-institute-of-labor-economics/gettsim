@@ -7,7 +7,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OVERRIDE_COLS = []
 
-data = load_policy_test_data("bg_id")
+data = load_policy_test_data("groupings")
 
 
 @pytest.mark.parametrize(
@@ -15,7 +15,7 @@ data = load_policy_test_data("bg_id")
     data.parametrize_args,
     ids=str,
 )
-def test_bg_id(
+def test_groupings(
     test_data: PolicyTestData,
     column: str,
 ):

@@ -1,0 +1,20 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  - id: 0
+    geburtstag: 1984-07-14
+    id_einstandspartner: 1
+    id_ehepartner: 1
+    gemeinsam_veranlagt: true
+    id_haushalt: 0
+  - id: 1
+    geburtstag: 1981-07-14
+    id_einstandspartner: 0
+    id_ehepartner: 0
+    gemeinsam_veranlagt: false
+    id_haushalt: 0
+outputs:
+  - error: >-
+      Informationen zur gemeinsamen Veranlagung widersprechen sich zwischen Ehepartnern

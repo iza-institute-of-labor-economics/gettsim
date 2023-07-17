@@ -1,0 +1,27 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  - id: 0
+    geburtstag: 1984-07-14
+    id_haushalt: 0
+  - id: 1
+    geburtstag: 2010-03-01
+    id_haushalt: 0
+    id_eltern:
+      - 0
+outputs:
+  - id_tax_unit:
+      - 0
+      - 1
+  - id_bedarfsgemeinschaft:
+      - 0
+      - 0
+  - potentielle_kinderfreibeträge:
+      - 1
+      - 0
+  - potentieller_unterhaltsvors:
+      - 0
+      - 0
+      - '> 0'
