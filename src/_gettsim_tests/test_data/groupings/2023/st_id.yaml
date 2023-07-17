@@ -28,7 +28,7 @@ inputs:
       - false
       - false
       - false
-  assumed: { }
+  assumed: {}
 outputs:
   st_id:
     - 0
