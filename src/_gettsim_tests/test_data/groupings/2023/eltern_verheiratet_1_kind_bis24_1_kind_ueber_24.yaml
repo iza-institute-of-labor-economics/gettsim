@@ -3,43 +3,60 @@ info:
   note: One child is in separate Bedarfsgemeinschaft since over 24
   source: ''
 inputs:
-  - id: 0
-    geburtstag: 1974-07-14
-    id_einstandspartner: 1
-    id_ehepartner: 1
-    gemeinsam_veranlagt: true
-    id_haushalt: 0
-  - id: 1
-    geburtstag: 1971-07-14
-    id_einstandspartner: 0
-    id_ehepartner: 0
-    gemeinsam_veranlagt: true
-    id_haushalt: 0
-  - id: 2
-    geburtstag: 1996-03-01
-    id_haushalt: 0
-    id_eltern:
-      - 0
-      - 1
-  - id: 3
-    geburtstag: 2000-10-21
-    id_haushalt: 0
-    id_eltern:
-      - 0
-      - 1
+  provided:
+    p_id:
+        - 0
+        - 1
+        - 2
+        - 3
+    geburtstag:
+        - 1974-07-14
+        - 1971-07-14
+        - 1996-03-01
+        - 2000-10-21
+    p_id_einstandspartner:
+        - 1
+        - 0
+        - -1
+        - -1
+    p_id_ehepartner:
+        - 1
+        - 0
+        - -1
+        - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+    hh_id:
+        - 0
+        - 0
+        - 0
+        - 0
+    p_id_elternteil_1:
+        - -1
+        - -1
+        - 0
+        - 0
+    p_id_elternteil_2:
+        - -1
+        - -1
+        - 1
+        - 1
 outputs:
-  - id_tax_unit:
+  #  - id_tax_unit:
+  #      - 0
+  #      - 0
+  #      - 1
+  #      - 2
+  - bg_id:
       - 0
       - 0
       - 1
-      - 2
-  - id_bedarfsgemeinschaft:
       - 0
-      - 0
-      - 1
-      - 0
-  - potentielle_kinderfreibeträge:
-      - 0.5
-      - 0.5
-      - 0
-      - 0
+#  - potentielle_kinderfreibeträge:
+#      - 0.5
+#      - 0.5
+#      - 0
+#      - 0

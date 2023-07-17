@@ -5,19 +5,19 @@ info:
 inputs:
   - id: 0
     geburtstag: 1984-07-14
-    id_haushalt: 0
+    hh_id: 0
   - id: 1
     geburtstag: 1981-07-14
-    id_haushalt: 0
+    hh_id: 0
   - id: 2
     geburtstag: 2010-03-01
-    id_haushalt: 0
+    hh_id: 0
     id_eltern:
       - 0
       - 1
   - id: 3
     geburtstag: 2013-10-21
-    id_haushalt: 0
+    hh_id: 0
     id_eltern:
       - 0
       - 1

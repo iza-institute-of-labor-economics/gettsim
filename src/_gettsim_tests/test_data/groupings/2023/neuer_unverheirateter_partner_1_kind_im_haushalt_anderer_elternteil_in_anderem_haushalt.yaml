@@ -5,41 +5,55 @@ info:
     request full kinderfreibetrag (Add this as input?)
   source: ''
 inputs:
-  - id: 0
-    geburtstag: 1984-07-14
-    id_einstandspartner: 1
-    id_haushalt: 0
-  - id: 1
-    geburtstag: 1981-07-14
-    id_einstandspartner: 0
-    id_haushalt: 0
-  - id: 2
-    geburtstag: 2010-03-01
-    id_haushalt: 0
-    id_eltern:
-      - 0
-      - 3
-  - id: 3
-    geburtstag: 1971-12-24
-    id_haushalt: 1
-outputs:
-  - id_tax_unit:
+  provided:
+    p_id:
       - 0
       - 1
       - 2
       - 3
-  - id_bedarfsgemeinschaft:
+    geburtstag:
+      - 1984-07-14
+      - 1981-07-14
+      - 2010-03-01
+      - 1971-12-24
+    p_id_einstandspartner:
+      - 1
+      - 0
+      - -1
+      - -1
+    hh_id:
       - 0
       - 0
       - 0
       - 1
-  - potentielle_kinderfreibeträge:
-      - 0.5
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 3
+      - -1
+outputs:
+  #  - id_tax_unit:
+  #      - 0
+  #      - 1
+  #      - 2
+  #      - 3
+  - bg_id:
       - 0
       - 0
-      - 0.5
-  - potentieller_unterhaltsvors:
       - 0
-      - 0
-      - (potentially > 0)
-      - 0
+      - 1
+#  - potentielle_kinderfreibeträge:
+#      - 0.5
+#      - 0
+#      - 0
+#      - 0.5
+#  - potentieller_unterhaltsvors:
+#      - 0
+#      - 0
+#      - (potentially > 0)
+#      - 0

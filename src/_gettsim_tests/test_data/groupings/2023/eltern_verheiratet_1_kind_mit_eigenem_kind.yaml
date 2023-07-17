@@ -5,51 +5,59 @@ info:
     covers more than 2 generations)
   source: ''
 inputs:
-  - id: 0
-    geburtstag: 2004-07-14
-    id_einstandspartner: 1
-    id_haushalt: 0
-  - id: 1
-    geburtstag: 2001-07-14
-    id_einstandspartner: 0
-    id_haushalt: 0
-    id_eltern:
+  provided:
+    p_id:
+      - 0
+      - 1
+      - 2
       - 3
       - 4
-  - id: 2
-    geburtstag: 2022-03-01
-    id_haushalt: 0
-    id_eltern:
-      - 0
+    geburtstag:
+      - 2004-07-14
+      - 2001-07-14
+      - 2022-03-01
+      - 1974-02-13
+      - 1973-01-02
+    p_id_einstandspartner:
       - 1
-  - id: 3
-    geburtstag: 1974-02-13
-    id_einstandspartner: 4
-    id_ehepartner: 4
-    gemeinsam_veranlagt: true
-    id_haushalt: 0
-  - id: 4
-    geburtstag: 1973-01-02
-    id_einstandspartner: 3
-    id_ehepartner: 3
-    gemeinsam_veranlagt: true
-    id_haushalt: 0
+      - 0
+      - -1
+      - 4
+      - 3
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - 4
+      - 3
+    hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - true
+      - true
 outputs:
-  - id_tax_unit:
+  #  - id_tax_unit:
+  #      - 0
+  #      - 0
+  #      - 1
+  #      - 2
+  #      - 2
+  - bg_id:
       - 0
       - 0
-      - 1
-      - 2
-      - 2
-  - id_bedarfsgemeinschaft:
-      - 0
-      - 0
-      - 0
-      - 1
-      - 1
-  - potentielle_kinderfreibeträge:
-      - 1
-      - 1
       - 0
       - 1
       - 1
+#  - potentielle_kinderfreibeträge:
+#      - 1
+#      - 1
+#      - 0
+#      - 1
+#      - 1

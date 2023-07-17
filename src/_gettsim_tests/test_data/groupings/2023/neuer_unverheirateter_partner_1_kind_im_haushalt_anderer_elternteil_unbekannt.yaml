@@ -3,33 +3,45 @@ info:
   note: ''
   source: ''
 inputs:
-  - id: 0
-    geburtstag: 1984-07-14
-    id_einstandspartner: 1
-    id_haushalt: 0
-  - id: 1
-    geburtstag: 1981-07-14
-    id_einstandspartner: 0
-    id_haushalt: 0
-  - id: 2
-    geburtstag: 2010-03-01
-    id_haushalt: 0
-    id_eltern:
-      - 0
-outputs:
-  - id_tax_unit:
+  provided:
+    p_id:
       - 0
       - 1
       - 2
-  - id_bedarfsgemeinschaft:
-      - 0
-      - 0
-      - 0
-  - potentielle_kinderfreibeträge:
+    geburtstag:
+      - 1984-07-14
+      - 1981-07-14
+      - 2010-03-01
+    p_id_einstandspartner:
       - 1
       - 0
+      - -1
+    hh_id:
       - 0
-  - potentieller_unterhaltsvors:
       - 0
       - 0
-      - '> 0'
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 1
+outputs:
+  #  - id_tax_unit:
+  #      - 0
+  #      - 1
+  #      - 2
+  - bg_id:
+      - 0
+      - 0
+      - 0
+#  - potentielle_kinderfreibeträge:
+#      - 1
+#      - 0
+#      - 0
+#  - potentieller_unterhaltsvors:
+#      - 0
+#      - 0
+#      - '> 0'
