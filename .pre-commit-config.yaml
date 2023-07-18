@@ -45,19 +45,19 @@ repos:
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
         # supported by your project here
         language_version: python3.11
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.14.0
+    rev: 1.15.0
     hooks:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.276
+    rev: v0.0.278
     hooks:
       - id: ruff
       #   args:

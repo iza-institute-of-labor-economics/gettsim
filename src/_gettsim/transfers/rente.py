@@ -187,9 +187,6 @@ def entgeltp_update_lohn(
 
     """
 
-    # TODO: Does the scaling bonus really apply to current wages or only to those that
-    # TODO: had been earned during GDR times?
-
     # Scale bruttolohn up if earned in eastern Germany
     if wohnort_ost:
         bruttolohn_scaled_east = (
@@ -280,7 +277,6 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
                 )
             else:
                 # Early retirement although not eligible to do so.
-                # TODO: Implement early retirment for disabled or long-term unemployed
                 out = 0.0
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
@@ -577,9 +573,6 @@ def _ges_rente_besond_langj_altersgrenze(
 ) -> float:
     """Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
-
-    # ToDo: This function should only exist from 2014-07-01 onwards. Add decorator once
-    # ToDo: this functionality is available.
 
     Parameters
     ----------

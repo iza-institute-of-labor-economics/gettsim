@@ -5,9 +5,6 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-# TODO: add "wohngeld_miete_m_hh" "wohngeld_eink_m" to test data and to
-# TODO: OUT_COLS (take care of rounding)
-
 OVERRIDE_COLS = [
     "elterngeld_m",
     "arbeitsl_geld_m",

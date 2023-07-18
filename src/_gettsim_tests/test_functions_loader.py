@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import textwrap
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import pytest
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions_loader import _create_derived_functions, _load_functions
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def func():
@@ -49,7 +52,7 @@ def test_special_attribute_module_is_set(tmp_path):
 
 def test_special_attribute_module_is_set_for_internal_functions():
     out = _load_functions("_gettsim.social_insurance_contributions.eink_grenzen")
-    function = out[list(out)[0]]
+    function = out[next(iter(out))]
 
     assert function.__module__ == "_gettsim.social_insurance_contributions.eink_grenzen"
 
