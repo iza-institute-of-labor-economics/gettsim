@@ -288,6 +288,13 @@ def _load_parameter_group_from_yaml(
             dt = dt.replace(year=dt.year - years, day=dt.day - 1)
         return dt
 
+    def set_date_to_beginning_of_year(dt):
+        """Set date to the beginning of the year."""
+
+        dt = dt.replace(month=1, day=1)
+
+        return dt
+
     raw_group_data = yaml.load(
         (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"),
         Loader=yaml.CLoader,
@@ -376,10 +383,26 @@ def _load_parameter_group_from_yaml(
                     )
                     if param in params_last_year:
                         out_params[f"{param}_vorjahr"] = params_last_year[param]
+                elif raw_group_data[param]["access_different_date"] == "jahresanfang":
+                    date_beginning_of_year = set_date_to_beginning_of_year(date)
+                    if date_beginning_of_year == date:
+                        out_params[f"{param}_jahresanfang"] = out_params[param]
+                    else:
+                        params_beginning_of_year = _load_parameter_group_from_yaml(
+                            date_beginning_of_year,
+                            group,
+                            parameters=[param],
+                            yaml_path=yaml_path,
+                        )
+                        if param in params_beginning_of_year:
+                            out_params[
+                                f"{param}_jahresanfang"
+                            ] = params_beginning_of_year[param]
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "
-                        "'vorjahr' (last year). "
+                        "'vorjahr' (last year) and "
+                        "'jahresanfang' (beginning of the year). "
                         f"For parameter {param} a different string is specified."
                     )
 
