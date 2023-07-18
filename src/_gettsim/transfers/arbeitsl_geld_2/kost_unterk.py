@@ -65,9 +65,6 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
             * _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
         )
     else:
-        # ToDo: only reasonable heating costs are taken into account
-        # these are calculated taking into account the actual size of the apartment
-        # not just the appropriate size
         out = bruttokaltmiete_m_hh + heizkosten_m_hh
 
     return out

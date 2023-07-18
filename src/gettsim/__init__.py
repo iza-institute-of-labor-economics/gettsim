@@ -52,7 +52,8 @@ __all__ = [
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
-    # ToDo: See what can be changed/removed from remainder.
+    # TODO (@hmgaudecker): See what can be changed/removed from remainder.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/378
     "aggregation",
     "config",
     "piecewise_functions",
