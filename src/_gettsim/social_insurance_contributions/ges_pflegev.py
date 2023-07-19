@@ -36,7 +36,7 @@ def ges_pflegev_beitr_satz_ohne_kinder_abschlag(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Care insurance contribution rate before July 2023.
+    """Care insurance contribution rate until June 2023.
 
     Parameters
     ----------
@@ -64,7 +64,7 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Care insurance contribution rate after July 2023.
+    """Care insurance contribution rate since July 2023.
     For individuals with children younger than 25 rates are reduced.
 
     Parameters
