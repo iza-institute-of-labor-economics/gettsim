@@ -1,8 +1,8 @@
 import copy
 import datetime
 import operator
+from collections.abc import Callable
 from functools import reduce
-from typing import Callable
 
 import numpy
 import pandas as pd
@@ -172,7 +172,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-        # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
             thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
