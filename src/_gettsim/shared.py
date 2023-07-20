@@ -1,14 +1,16 @@
 import inspect
 import re
 import textwrap
+from collections.abc import Callable
 from datetime import date
-from typing import Callable, Optional
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
 
 class KeyErrorMessage(str):
     """Subclass str to allow for line breaks in KeyError messages."""
+
+    __slots__ = ()
 
     def __repr__(self):
         return str(self)
@@ -48,7 +50,7 @@ TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 def dates_active(
     start: str = "0001-01-01",
     end: str = "9999-12-31",
-    change_name: Optional[str] = None,
+    change_name: str | None = None,
 ) -> Callable:
     """
     Specifies that a function is only active between two dates, `start` and `end`. By
@@ -112,16 +114,12 @@ _dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def _validate_dashed_iso_date(date_str: str):
     if not _dashed_iso_date.match(date_str):
-        raise ValueError(  # noqa: TRY003
-            f"Date {date_str} does not match the format YYYY-MM-DD."
-        )
+        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
 
 
 def _validate_date_range(start: date, end: date):
     if start > end:
-        raise ValueError(  # noqa: TRY003
-            f"The start date {start} must be before the end date {end}."
-        )
+        raise ValueError(f"The start date {start} must be before the end date {end}.")
 
 
 def _check_for_conflicts_in_time_dependent_functions(
@@ -213,8 +211,8 @@ def format_errors_and_warnings(text, width=79):
     wrapping at the specified width. Mainly required because of messages are written as
     part of indented blocks in our source code.
 
-    Parameter
-    ---------
+    Parameters
+    ----------
     text : str
         The text which can include multiple paragraphs separated by two newlines.
     width : int
@@ -257,10 +255,9 @@ def get_names_of_arguments_without_defaults(function):
     """
     parameters = inspect.signature(function).parameters
 
-    argument_names_without_defaults = []
-    for parameter in parameters:
-        if parameters[parameter].default == parameters[parameter].empty:
-            argument_names_without_defaults.append(parameter)
+    argument_names_without_defaults = [
+        p for p in parameters if parameters[p].default == parameters[p].empty
+    ]
 
     return argument_names_without_defaults
 

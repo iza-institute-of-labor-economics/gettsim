@@ -4,7 +4,7 @@ import functools
 import importlib
 import inspect
 from pathlib import Path
-from typing import Callable
+from typing import TYPE_CHECKING
 
 import numpy
 
@@ -32,6 +32,9 @@ from _gettsim.shared import (
     remove_group_suffix,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def load_and_check_functions(
@@ -288,7 +291,7 @@ def _convert_paths_and_strings_to_dicts_of_functions(
     """
     new_sources = []
     for source in sources:
-        if isinstance(source, (Path, str)):
+        if isinstance(source, Path | str):
             if isinstance(source, Path):
                 spec = importlib.util.spec_from_file_location(source.name, source)
                 out = importlib.util.module_from_spec(spec)
@@ -336,7 +339,7 @@ def _load_aggregation_combined_dict_from_strings(sources):
     """
     new_sources = []
     for source in sources:
-        if isinstance(source, (Path, str)):
+        if isinstance(source, Path | str):
             if isinstance(source, Path):
                 spec = importlib.util.spec_from_file_location(source.name, source)
                 out = importlib.util.module_from_spec(spec)
@@ -526,8 +529,9 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             # Find out return type
             annotations["return"] = _select_return_type(aggr, annotations[source_col])
         else:
-            # ToDo: Think about how type annotations of aggregations of user-provided
-            # ToDo: input variables are handled
+            # TODO(@hmgaudecker): Think about how type annotations of aggregations of
+            #     user-provided input variables are handled
+            # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
 
     # Define aggregation func
