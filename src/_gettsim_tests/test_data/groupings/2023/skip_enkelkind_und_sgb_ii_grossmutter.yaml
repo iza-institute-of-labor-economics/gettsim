@@ -20,12 +20,12 @@ inputs:
       - 0
       - 0
 outputs:
-  #  - id_tax_unit:
-  #      - 0
-  #      - 1
-  - bg_id:
-      - 0
-      - 1
-#  - potentielle_kinderfreibeträge:
-#      - 0
-#      - 0
+  st_id:
+    - 0
+    - 1
+  bg_id:
+    - 0
+    - 1
+#   potentielle_kinderfreibeträge:
+#     - 0
+#     - 0

@@ -22,6 +22,12 @@ inputs:
       - 1974
       - 1973
       - 2001
+    # TODO (@hmgaudecker): Remove again.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
+    alter:
+      - 49
+      - 50
+      - 22
     p_id_einstandspartner:
       - 1
       - 0
@@ -51,15 +57,15 @@ inputs:
       - -1
       - 1
 outputs:
-  #  - id_tax_unit:
-  #      - 0
-  #      - 0
-  #      - 1
-  - bg_id:
-      - 0
-      - 0
-      - 1
-#  - potentielle_kinderfreibeträge:
-#      - 1
-#      - 1
-#      - 0
+  st_id:
+    - 0
+    - 0
+    - 1
+  bg_id:
+    - 0
+    - 0
+    - 1
+#  potentielle_kinderfreibeträge:
+#    - 1
+#    - 1
+#    - 0
