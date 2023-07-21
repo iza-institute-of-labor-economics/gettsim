@@ -70,6 +70,8 @@ def bg_id_numpy(  # noqa: PLR0913
             if (
                 child_hh_id == current_hh_id
                 and not child_enough_income
+                # TODO (@hmgaudecker): Add correct conditions for grown up children
+                # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
                 and child_alter < 25
                 and len(child_p_id_children) == 0
             ):
