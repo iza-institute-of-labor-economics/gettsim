@@ -9,7 +9,15 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
-- {gh}`589` Fix minor bug in `arbeitsl_geld_2_eink_anr_frei_m`.
+- {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
+- {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
+  as of 2023-07-01 ({ghuser}`paulinaschroeder`).
+- {gh}`602` Correct `midijob_faktor_f` ({ghuser}`paulinaschroeder`).
+- {gh}`600` Extend the `access_different_date` functionality for `jahresanfang`.
+  ({ghuser}`paulinaschroeder`).
+- {gh}`591` Fix minor bug in wealth exemptions for Kinderzuschlag in 2023
+  ({ghuser}`ChristianZimpelmann`).
+- {gh}`589` Fix minor bug in `arbeitsl_geld_2_eink_anr_frei_m`
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`583` Automatic conversion between different time units ({ghuser}`lars-reimann`).
 - {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).

@@ -281,8 +281,9 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     -------
 
     """
-    # ToDo: Find out why geburtsdatum need to be cast to datetime64 again. It
-    # ToDo: should already have this type based on the function above
+
+    # TODO(@hmgaudecker): Remove explicit cast when vectorisation is enabled.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/515
     age_in_days = elterngeld_params["datum"] - numpy.datetime64(geburtsdatum)
 
     out = age_in_days / 30.436875
