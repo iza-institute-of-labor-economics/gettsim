@@ -115,7 +115,7 @@ def test_data_types(
                 internal_type = year_functions[column_name].__annotations__["return"]
             else:
                 # TODO (@hmgaudecker): Implement easy way to find out expected type of
-                #     expected type of aggregated functions
+                #     aggregated functions
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
                 if column_name.endswith(("_tu", "_hh")):
                     internal_type = None
