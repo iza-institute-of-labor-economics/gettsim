@@ -165,7 +165,7 @@ beitr_satz:
     ges_rentenv: 0.0995
   2008-01-01:
     ges_krankenv:
-      allgemein: 0.14
+      mean_allgemein: 0.14
       sonderbeitrag: 0.009
     ges_pflegev:
       standard: 0.00975
