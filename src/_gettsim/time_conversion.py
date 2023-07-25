@@ -318,6 +318,7 @@ def _create_time_conversion_functions(
 
     return result
 
+
 def _create_function_for_time_unit(
     function_name: str, info: dict | None, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
