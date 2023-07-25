@@ -24,6 +24,10 @@ inputs:
       - 0.0
       - 0.0
       - 3600.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
     bruttolohn_vorj_m:
       - 900.0
       - 0.0

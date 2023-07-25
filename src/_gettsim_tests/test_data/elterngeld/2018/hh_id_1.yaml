@@ -14,6 +14,8 @@ inputs:
       - false
     bruttolohn_m:
       - 0.0
+    eink_selbst_m:
+      - 0.0
     bruttolohn_vorj_m:
       - 0.0
     wohnort_ost:
