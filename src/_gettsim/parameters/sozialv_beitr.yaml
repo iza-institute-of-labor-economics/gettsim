@@ -67,19 +67,19 @@ beitr_satz:
   1988-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.1288
+      mean_allgemein: 0.1288
   1989-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.129
+      mean_allgemein: 0.129
   1990-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.125
+      mean_allgemein: 0.125
   1991-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: .128
+      mean_allgemein: .128
   1992-01-01:
     deviation_from: previous
     arbeitsl_v: 0.0315
