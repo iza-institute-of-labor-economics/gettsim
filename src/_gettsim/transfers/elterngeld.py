@@ -265,8 +265,9 @@ def _elterngeld_anz_mehrlinge_anspruch(
     return out
 
 
-def elterngeld_nettolohn_m(
+def elterngeld_nettoeink_m(  # noqa: PLR0913
     bruttolohn_m: float,
+    eink_selbst_m: float,
     eink_st_y_tu: float,
     soli_st_y_tu: float,
     anz_erwachsene_tu: int,
@@ -281,6 +282,8 @@ def elterngeld_nettolohn_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    eink_selbst_m
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     eink_st_y_tu
         See :func:`eink_st_y_tu`.
     soli_st_y_tu
@@ -294,8 +297,10 @@ def elterngeld_nettolohn_m(
     -------
 
     """
+
     out = (
         bruttolohn_m
+        + eink_selbst_m
         - (eink_st_y_tu / anz_erwachsene_tu / 12)
         - (soli_st_y_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_m
@@ -306,7 +311,7 @@ def elterngeld_nettolohn_m(
 
 def elterngeld_eink_relev_m(
     _elterngeld_proxy_eink_vorj_elterngeld_m: float,
-    elterngeld_nettolohn_m: float,
+    elterngeld_nettoeink_m: float,
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
@@ -318,14 +323,14 @@ def elterngeld_eink_relev_m(
     ----------
     _elterngeld_proxy_eink_vorj_elterngeld_m
         See :func:`_elterngeld_proxy_eink_vorj_elterngeld_m`.
-    elterngeld_nettolohn_m
-        See :func:`elterngeld_nettolohn_m`.
+    elterngeld_nettoeink_m
+        See :func:`elterngeld_nettoeink_m`.
 
     Returns
     -------
 
     """
-    return _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
+    return _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettoeink_m
 
 
 def elterngeld_anteil_eink_erlass(
