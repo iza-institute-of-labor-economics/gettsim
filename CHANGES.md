@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`624` Don't create functions for other time units if this leads to a loop ({ghuser}`lars-reimann`).
 - {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
 - {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
   as of 2023-07-01 ({ghuser}`paulinaschroeder`).
