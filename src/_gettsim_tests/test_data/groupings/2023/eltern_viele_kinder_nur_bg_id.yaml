@@ -31,6 +31,15 @@ inputs:
       - 24
       - 24
       - 2
+    p_id_ehepartner:
+      - 1
+      - 0
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
     p_id_einstandspartner:
       - 1
       - 0

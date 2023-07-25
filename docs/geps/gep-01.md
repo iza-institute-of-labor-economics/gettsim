@@ -122,6 +122,28 @@ The default unit a column refers to is an individual. In case a household or tax
 the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
 aggregation.
 
+GETTSIM knows about the following units:
+
+- `p_id`: person identifier
+- `sn_id`: Steuernummer (same for spouses to joint taxation, not the same as the
+  Germany-wide Steuer-ID)
+- `vg_id`: Verantwortungs- und Einstehensgemeinschaft, the relevant unit for Wohngeld.
+  Defined in SGB II, encompasses more people than the Bedarfsgemeinschaft (e.g.,
+  possibly more than 2 generations)
+- `pot_bg_id`: Potential Bedarfsgemeinschaft before making checks for whether children
+  have enough income fend for themselves. Subset of `vg`.
+- `bg_id`: Bedarfsgemeinschaft including checks for whether children have enough income
+  to fend for themselves. Subset of `pot_bg_id`.
+
+Households, which may include flat shares etc., are currently not relevant in GETTSIM
+but may be added in the future (e.g., capping rules for costs of dwelling in SGB II
+depend on this).
+
+Open questions:
+
+- Can we use bg_id for both SGB II and SGB XII at the same time or do we need to
+  differentiate once we add serious support for SGB XII?
+
 Time unit identifiers always appear before unit identifiers (e.g.,
 `arbeitsl_geld_2_m_hh`).
 

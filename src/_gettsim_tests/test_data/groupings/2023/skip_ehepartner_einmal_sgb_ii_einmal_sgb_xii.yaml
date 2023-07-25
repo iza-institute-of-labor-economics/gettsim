@@ -1,6 +1,6 @@
 ---
 info:
-  note: Skipping test for now, because data is missing.
+  note: Should be one Bedarfsgemeinschaft.
   source: ''
 inputs:
   provided:
@@ -14,18 +14,21 @@ inputs:
       - 7
       - 3
     geburtsjahr:
-      - 2002
-      - 1954
+      - 1950
+      - 1964
+    alter:
+      - 73
+      - 59
     hh_id:
       - 0
       - 0
 outputs:
   st_id:
     - 0
-    - 1
+    - 0
   bg_id:
     - 0
-    - 1
+    - 0
   # potentielle_kinderfreibeträge:
   #   - 0
   #   - 0
