@@ -44,7 +44,7 @@ def ges_pflegev_beitr_satz_ohne_zusatz_fuer_kinderlose(
 
     """
 
-    return sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    return sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
 
 
 @dates_active(

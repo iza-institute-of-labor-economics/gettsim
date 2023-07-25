@@ -81,21 +81,18 @@ beitr_satz:
     deviation_from: previous
     ges_rentenv: 0.096
   1995-01-01:
-    deviation_from: previous
+    arbeitsl_v: 0.0325
     ges_krankenv:
       mean_allgemein: 0.132
+    ges_pflegev: 0.005
     ges_rentenv: 0.093
-    ges_pflegev:
-      standard: 0.005
   1996-01-01:
     deviation_from: previous
     ges_rentenv: 0.096
   1997-01-01:
     ges_krankenv:
       mean_allgemein: 0.134
-    ges_pflegev:
-      standard: 0.0085
-      zusatz_kinderlos: 0
+    ges_pflegev: 0.0085
     arbeitsl_v: 0.0325
     ges_rentenv: 0.1015
   1998-01-01:
@@ -776,7 +773,6 @@ geringfügige_eink_grenzen_m:
       west: 322
       ost: 271
   2000-01-01:
-    deviation_from: previous
     minijob: 322
   2002-01-01:
     minijob: 325
