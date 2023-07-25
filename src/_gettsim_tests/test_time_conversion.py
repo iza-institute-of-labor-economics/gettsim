@@ -3,7 +3,6 @@ import inspect
 import pytest
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
-    _replace_suffix,
     create_time_conversion_functions,
     d_to_m,
     d_to_w,
@@ -212,19 +211,6 @@ class TestCreateFunctionsForTimeUnits:
 
         assert "test_y" not in time_conversion_functions
         assert "test_d" not in time_conversion_functions
-
-
-@pytest.mark.parametrize(
-    ("name", "old_suffix", "new_suffix", "expected"),
-    [
-        ("test.txt", ".txt", ".csv", "test.csv"),
-        ("test.yml", ".txt", ".csv", "test.yml"),
-    ],
-)
-def test_replace_suffix(
-    name: str, old_suffix: str, new_suffix: str, expected: str
-) -> None:
-    assert _replace_suffix(name, old_suffix, new_suffix) == expected
 
 
 class TestCreateFunctionForTimeUnit:
