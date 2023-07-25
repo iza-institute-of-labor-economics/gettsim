@@ -236,3 +236,12 @@ class TestCreateFunctionForTimeUnit:
         function = _create_function_for_time_unit("test", None, d_to_w)
 
         assert function(1) == 7
+
+
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
+def test_should_not_create_loops():
+    time_conversion_functions = create_time_conversion_functions(
+        {"test_d": lambda test_m: 1}, []
+    )
+
+    assert "test_m" not in time_conversion_functions

@@ -1,3 +1,4 @@
+import inspect
 import re
 from collections.abc import Callable
 
@@ -296,6 +297,7 @@ def _create_time_conversion_functions(
         f"(?P<base_name>.*_)(?P<time_unit>[{units}])(?P<aggregation>{groupings})?"
     )
     match = function_with_time_unit.fullmatch(name)
+    dependencies = set(inspect.signature(func).parameters) if func else set()
 
     if match:
         base_name = match.group("base_name")
@@ -304,9 +306,11 @@ def _create_time_conversion_functions(
 
         missing_time_units = [unit for unit in all_time_units if unit != time_unit]
         for missing_time_unit in missing_time_units:
-            result[
-                f"{base_name}{missing_time_unit}{aggregation}"
-            ] = _create_function_for_time_unit(
+            new_name = f"{base_name}{missing_time_unit}{aggregation}"
+            if new_name in dependencies:
+                continue
+
+            result[new_name] = _create_function_for_time_unit(
                 name,
                 info,
                 _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
