@@ -1,7 +1,7 @@
 from _gettsim.shared import dates_active
 
 
-@dates_active(end="2003-12-31", change_name="ges_krankenv_beitr_m")
+@dates_active(end="2003-03-31", change_name="ges_krankenv_beitr_m")
 def ges_krankenv_beitr_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,
@@ -41,7 +41,7 @@ def ges_krankenv_beitr_m_vor_midijob(
     return out + ges_krankenv_beitr_rente_m
 
 
-@dates_active(start="2004-01-01", change_name="ges_krankenv_beitr_m")
+@dates_active(start="2003-04-01", change_name="ges_krankenv_beitr_m")
 def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,
@@ -89,7 +89,7 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     return out + ges_krankenv_beitr_rente_m
 
 
-@dates_active(end="2003-12-31", change_name="ges_krankenv_beitr_arbeitg_m")
+@dates_active(end="2003-03-31", change_name="ges_krankenv_beitr_arbeitg_m")
 def ges_krankenv_beitr_arbeitg_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     bruttolohn_m: float,
@@ -131,7 +131,7 @@ def ges_krankenv_beitr_arbeitg_m_vor_midijob(
     return out
 
 
-@dates_active(start="2004-01-01", change_name="ges_krankenv_beitr_arbeitg_m")
+@dates_active(start="2003-04-01", change_name="ges_krankenv_beitr_arbeitg_m")
 def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
@@ -798,7 +798,7 @@ def ges_krankenv_beitr_rente_m(
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
 
 
-@dates_active(start="2004-01-01")
+@dates_active(start="2003-04-01")
 def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
@@ -827,7 +827,7 @@ def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 
 
 @dates_active(
-    start="2004-01-01",
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_ges_krankenv_beitr_midijob_arbeitg_m",
 )
@@ -892,7 +892,7 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
 
 
 @dates_active(
-    start="2004-01-01",
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_ges_krankenv_beitr_midijob_arbeitn_m",
 )

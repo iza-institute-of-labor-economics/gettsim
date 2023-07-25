@@ -113,7 +113,7 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
     return out
 
 
-@dates_active(end="2003-12-31", change_name="ges_pflegev_beitr_m")
+@dates_active(end="2003-03-31", change_name="ges_pflegev_beitr_m")
 def ges_pflegev_beitr_m_vor_midijob(
     _ges_pflegev_beitr_reg_beschäftigt_m: float,
     geringfügig_beschäftigt: bool,
@@ -152,7 +152,7 @@ def ges_pflegev_beitr_m_vor_midijob(
     return out + ges_pflegev_beitr_rente_m
 
 
-@dates_active(start="2004-01-01", change_name="ges_pflegev_beitr_m")
+@dates_active(start="2003-04-01", change_name="ges_pflegev_beitr_m")
 def ges_pflegev_beitr_m_mit_midijob(  # noqa: PLR0913
     _ges_pflegev_beitr_reg_beschäftigt_m: float,
     geringfügig_beschäftigt: bool,
@@ -222,7 +222,7 @@ def _ges_pflegev_beitr_reg_beschäftigt_m(
     return beitr_regulär_beschäftigt_m
 
 
-@dates_active(end="2003-12-31", change_name="ges_pflegev_beitr_arbeitg_m")
+@dates_active(end="2003-03-31", change_name="ges_pflegev_beitr_arbeitg_m")
 def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_krankenv_bruttolohn_m: float,
@@ -262,7 +262,7 @@ def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     return out
 
 
-@dates_active(start="2004-01-01", change_name="ges_pflegev_beitr_arbeitg_m")
+@dates_active(start="2003-04-01", change_name="ges_pflegev_beitr_arbeitg_m")
 def ges_pflegev_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
@@ -375,7 +375,7 @@ def ges_pflegev_beitr_rente_m(
     return out
 
 
-@dates_active(start="2004-01-01")
+@dates_active(start="2003-04-01")
 def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     ges_pflegev_beitr_satz: float,

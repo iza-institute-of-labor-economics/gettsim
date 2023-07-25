@@ -86,7 +86,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     return bruttolohn_m <= minijob_grenze
 
 
-@dates_active(start="2004-01-01")
+@dates_active(start="2003-04-01")
 def in_gleitzone(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
@@ -120,7 +120,7 @@ def in_gleitzone(
 
 
 @dates_active(
-    start="2004-01-01",
+    start="2003-04-01",
     end="2022-09-30",
     change_name="midijob_faktor_f",
 )
@@ -241,7 +241,7 @@ def midijob_faktor_f_ohne_minijob_st(
 
 
 @dates_active(
-    start="2004-01-01",
+    start="2003-04-01",
     end="2022-09-30",
     change_name="midijob_bemessungsentgelt_m",
 )
@@ -384,7 +384,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
     return out
 
 
-@dates_active(end="2003-12-31", change_name="regulär_beschäftigt")
+@dates_active(end="2003-03-31", change_name="regulär_beschäftigt")
 def regulär_beschäftigt_ohne_midijob(
     bruttolohn_m: float, minijob_grenze: float
 ) -> bool:
@@ -410,7 +410,7 @@ def regulär_beschäftigt_ohne_midijob(
     return out
 
 
-@dates_active(start="2004-01-01", change_name="regulär_beschäftigt")
+@dates_active(start="2003-04-01", change_name="regulär_beschäftigt")
 def regulär_beschäftigt_mit_midijob(
     bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:

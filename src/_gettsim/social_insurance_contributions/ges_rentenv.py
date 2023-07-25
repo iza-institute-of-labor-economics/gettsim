@@ -1,7 +1,7 @@
 from _gettsim.shared import dates_active
 
 
-@dates_active(end="2003-12-31", change_name="ges_rentenv_beitr_m")
+@dates_active(end="2003-03-31", change_name="ges_rentenv_beitr_m")
 def ges_rentenv_beitr_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -35,7 +35,7 @@ def ges_rentenv_beitr_m_vor_midijob(
     return out
 
 
-@dates_active(start="2004-01-01", change_name="ges_rentenv_beitr_m")
+@dates_active(start="2003-04-01", change_name="ges_rentenv_beitr_m")
 def ges_rentenv_beitr_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_midijob_arbeitn_m: float,
@@ -77,7 +77,7 @@ def ges_rentenv_beitr_m_mit_midijob(
     return out
 
 
-@dates_active(end="2003-12-31", change_name="ges_rentenv_beitr_arbeitg_m")
+@dates_active(end="2003-03-31", change_name="ges_rentenv_beitr_arbeitg_m")
 def ges_rentenv_beitr_arbeitg_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -114,7 +114,7 @@ def ges_rentenv_beitr_arbeitg_m_vor_midijob(
     return out
 
 
-@dates_active(start="2004-01-01", change_name="ges_rentenv_beitr_arbeitg_m")
+@dates_active(start="2003-04-01", change_name="ges_rentenv_beitr_arbeitg_m")
 def ges_rentenv_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_midijob_arbeitg_m: float,
@@ -159,7 +159,7 @@ def ges_rentenv_beitr_arbeitg_m_mit_midijob(
     return out
 
 
-@dates_active(start="2004-01-01")
+@dates_active(start="2003-04-01")
 def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
