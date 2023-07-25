@@ -205,15 +205,15 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     """Calculate share of income, which remains to the individual since 10/2005.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
-    Sozialgesetzbuch (SGB) Zweites Buch (II) - Bürgergeld, Grundsicherung für 
-    Arbeitsuchende, § 11b Absetzbeträge Abs. (2) Satz 1.-3. 
+    Sozialgesetzbuch (SGB) Zweites Buch (II) - Bürgergeld, Grundsicherung für
+    Arbeitsuchende, § 11b Absetzbeträge Abs. (2) Satz 1.-3.
     https://www.gesetze-im-internet.de/sgb_2/BJNR295500003.html
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_selbst_m 
+    eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     anz_kinder_bis_17_hh
         See :func:`anz_kinder_bis_17_hh`.
@@ -227,7 +227,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # Beneficiaries who live with a minor child in a group home or who have a minor
     # child have slightly different thresholds. We currently do not consider the second
     # condition.
-    eink_summe = bruttolohn_m+eink_selbst_m
+    eink_summe = bruttolohn_m + eink_selbst_m
 
     if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
