@@ -248,13 +248,10 @@ def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     """
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_bruttolohn_m
-        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        _ges_krankenv_bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
-    if selbstständig:
-        out = 0.0
-    if geringfügig_beschäftigt:
+    if selbstständig or geringfügig_beschäftigt:
         out = 0.0
     else:
         out = beitr_regulär_beschäftigt_m
@@ -298,9 +295,7 @@ def ges_pflegev_beitr_arbeitg_m_mit_midijob(
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
-    if selbstständig:
-        out = 0.0
-    if geringfügig_beschäftigt:
+    if selbstständig or geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
         out = _ges_pflegev_beitr_midijob_arbeitg_m
@@ -310,16 +305,47 @@ def ges_pflegev_beitr_arbeitg_m_mit_midijob(
     return out
 
 
-def ges_pflegev_beitr_selbst_m(
+@dates_active(
+    start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_selbst_m"
+)
+def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
+    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """Calculate care insurance contributions for self-employed individuals.
+
+    Self-employed pay the full contribution (employer + employee), which is either
+    assessed on their self-employement income or 3/4 of the 'Bezugsgröße'
+
+    Parameters
+    ----------
+
+    _ges_krankenv_bemessungsgrundlage_eink_selbst
+        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
+
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+
+    Returns
+    -------
+    Monthly care insurance contributions for self employed income.
+
+    """
+    out = _ges_krankenv_bemessungsgrundlage_eink_selbst * (ges_pflegev_beitr_satz * 2)
+
+    return out
+
+
+@dates_active(start="2005-01-01", change_name="ges_pflegev_beitr_selbst_m")
+def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Calculate care insurance contributions for self-employed individuals.
 
-    Self-employed pay the full
-    contribution (employer + employee), which is either assessed on their
-    self-employement income or 3/4 of the 'Bezugsgröße'
+    Self-employed pay the full contribution (employer + employee), which is either
+    assessed on their self-employement income or 3/4 of the 'Bezugsgröße'
 
     Parameters
     ----------
@@ -346,12 +372,44 @@ def ges_pflegev_beitr_selbst_m(
     return out
 
 
-def ges_pflegev_beitr_rente_m(
+@dates_active(
+    start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
+)
+def ges_pflegev_beitr_rente_m_ohne_zusatz_fuer_kinderlose(
+    _ges_krankenv_bemessungsgrundlage_rente_m: float,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """Calculating the contribution to health insurance for pension income.
+
+    Pensioners pay twice the contribution of employees.
+
+    Parameters
+    ----------
+    _ges_krankenv_bemessungsgrundlage_rente_m
+        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+
+    Returns
+    -------
+    Monthly health insurance contributions for pension income.
+
+    """
+    out = _ges_krankenv_bemessungsgrundlage_rente_m * (ges_pflegev_beitr_satz * 2)
+
+    return out
+
+
+@dates_active(start="2005-01-01", change_name="ges_pflegev_beitr_rente_m")
+def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Calculating the contribution to health insurance for pension income.
+
+    Pensioners pay twice the contribution of employees, but only once the additional
+    charge for childless individuals.
 
     Parameters
     ----------
