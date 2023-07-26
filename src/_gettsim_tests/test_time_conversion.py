@@ -239,7 +239,7 @@ class TestCreateFunctionForTimeUnit:
 
 
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
-def test_should_not_create_loops():
+def test_should_not_create_cycle():
     time_conversion_functions = create_time_conversion_functions(
         {"test_d": lambda test_m: test_m}, []
     )
