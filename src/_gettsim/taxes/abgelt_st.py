@@ -1,3 +1,7 @@
+from _gettsim.shared import dates_active
+
+
+@dates_active(start="2009-01-01")
 def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
     """Calculate abgeltungssteuer on tax unit level.
 
