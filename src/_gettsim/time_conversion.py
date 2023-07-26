@@ -307,6 +307,16 @@ def _create_time_conversion_functions(
         missing_time_units = [unit for unit in all_time_units if unit != time_unit]
         for missing_time_unit in missing_time_units:
             new_name = f"{base_name}{missing_time_unit}{aggregation}"
+
+            # Without this check, we could create cycles in the DAG: Consider a
+            # hard-coded function `var_y` that takes `var_m` as an input, assuming it
+            # to be provided in the input data. If we create a function `var_m`, which
+            # would take `var_y` as input, we create a cycle. If `var_m` is actually
+            # provided as an input, `var_m` would be overwritten, removing the cycle.
+            # However, if `var_m` is not provided as an input, an error message would
+            # be shown that a cycle between `var_y` and `var_m` was detected. This
+            # hides the actual problem, which is that `var_m` is not provided as an
+            # input.
             if new_name in dependencies:
                 continue
 
