@@ -44,12 +44,23 @@ def test_full_taxes_and_transfers(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
+    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
+    #     for more years.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
+    if test_data.date.year < 2016:
+        columns_overriding_functions = [
+            *OVERRIDE_COLS,
+            "unterhaltsvors_m",
+            "elterngeld_m",
+        ]
+    else:
+        columns_overriding_functions = OVERRIDE_COLS
     compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=OUT_COLS,
-        columns_overriding_functions=OVERRIDE_COLS,
+        columns_overriding_functions=columns_overriding_functions,
     )
 
 
@@ -72,6 +83,17 @@ def test_data_types(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
+    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
+    #     for more years.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
+    if test_data.date.year < 2016:
+        columns_overriding_functions = [
+            *OVERRIDE_COLS,
+            "unterhaltsvors_m",
+            "elterngeld_m",
+        ]
+    else:
+        columns_overriding_functions = OVERRIDE_COLS
 
     result = compute_taxes_and_transfers(
         data=df,
@@ -79,7 +101,7 @@ def test_data_types(
         functions=policy_functions,
         targets=OUT_COLS,
         debug=True,
-        columns_overriding_functions=OVERRIDE_COLS,
+        columns_overriding_functions=columns_overriding_functions,
     )
     for column_name, series in result.items():
         if series.empty:
