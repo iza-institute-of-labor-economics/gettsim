@@ -833,7 +833,7 @@ ag_abgaben_geringf:
     ges_krankenv: 0.1
     ges_rentenv: 0.12
     st: 0
-  2004-01-01:
+  2003-04-01:
     ges_krankenv: 0.11
     ges_rentenv: 0.12
     st: 0.02
