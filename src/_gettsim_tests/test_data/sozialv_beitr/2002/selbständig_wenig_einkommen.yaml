@@ -1,27 +1,27 @@
 ---
 info:
   note: ''
-  source: Pure regression test to increase coverage.
+  source: Regression test. Unclear whether numbers are correct by external standards.
 inputs:
   provided:
     p_id:
-      - 0
+      - 111
     hh_id:
-      - 0
+      - 13
     tu_id:
-      - 0
+      - 13
     bruttolohn_m:
-      - 300.0
+      - 0.0
     wohnort_ost:
       - false
     alter:
-      - 40
+      - 20
     selbstständig:
-      - false
+      - true
     hat_kinder:
       - false
     eink_selbst_m:
-      - 0.0
+      - 500.0
     sum_ges_rente_priv_rente_m:
       - 0.0
     in_priv_krankenv:
@@ -31,24 +31,16 @@ inputs:
   assumed: {}
 outputs:
   sozialv_beitr_m:
-    - 0.0
+    - 122.72
   sozialv_beitr_arbeitg_m:
-    - 66.0
+    - 0.0
   _sozialv_beitr_arbeitn_arbeitg_m:
-    - 66.0
+    - 122.72
   ges_rentenv_beitr_m:
     - 0.0
   arbeitsl_v_beitr_m:
     - 0.0
   ges_krankenv_beitr_m:
-    - 0.0
+    - 109.43
   ges_pflegev_beitr_m:
-    - 0.0
-  ges_rentenv_beitr_arbeitg_m:
-    - 36.0
-  arbeitsl_v_beitr_arbeitg_m:
-    - 0.0
-  ges_krankenv_beitr_arbeitg_m:
-    - 30.0
-  ges_pflegev_beitr_arbeitg_m:
-    - 0.0
+    - 13.29
