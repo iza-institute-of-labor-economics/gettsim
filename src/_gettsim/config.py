@@ -77,6 +77,21 @@ SUPPORTED_GROUPINGS = {
     },
 }
 
+SUPPORTED_TIME_UNITS = {
+    "y": {
+        "name": "year",
+    },
+    "m": {
+        "name": "month",
+    },
+    "w": {
+        "name": "week",
+    },
+    "d": {
+        "name": "day",
+    },
+}
+
 DEFAULT_TARGETS = [
     "eink_st_y_tu",
     "soli_st_y_tu",
@@ -166,4 +181,5 @@ TYPES_INPUT_VARIABLES = {
     "m_gesamtbew": int,
     "erwerbsm_rentner": bool,
     "teilw_erwerbsm_rente": bool,
+    "anz_eig_kind_bis_24": int,
 }

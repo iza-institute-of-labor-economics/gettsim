@@ -31,6 +31,7 @@ beitr_satz:
       arbeitsl_v: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
   unit: Share
+  access_different_date: jahresanfang
   1984-01-01:
     ges_krankenv:
       mean_allgemein: 0.1144
@@ -66,19 +67,19 @@ beitr_satz:
   1988-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.1288
+      mean_allgemein: 0.1288
   1989-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.129
+      mean_allgemein: 0.129
   1990-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: 0.125
+      mean_allgemein: 0.125
   1991-01-01:
     deviation_from: previous
     ges_krankenv:
-      allgemein: .128
+      mean_allgemein: .128
   1992-01-01:
     deviation_from: previous
     arbeitsl_v: 0.0315
@@ -164,7 +165,7 @@ beitr_satz:
     ges_rentenv: 0.0995
   2008-01-01:
     ges_krankenv:
-      allgemein: 0.14
+      mean_allgemein: 0.14
       sonderbeitrag: 0.009
     ges_pflegev:
       standard: 0.00975
@@ -274,6 +275,16 @@ beitr_satz:
     reference: >-
       (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
+  2023-07-01:
+    deviation_from: previous
+    ges_pflegev:
+      standard: 0.017
+      zusatz_kinderlos: 0.006
+      abschlag_kinder: 0.0025
+    note: >-
+      Pflegeunterstützungs- und -entlastungsgesetz - PUEG
+      Increase of contribution rates for ges_pflegev and  introduction of reduction of
+      contribution rates for people with children.
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
@@ -852,6 +863,7 @@ ag_abgaben_geringf:
       EStG)
     en: null
   unit: Share
+  access_different_date: jahresanfang
   1984-01-01:
     ges_krankenv: 0
     ges_rentenv: 0
