@@ -69,7 +69,7 @@ def test_full_taxes_and_transfers(
     data.test_data,
     ids=str,
 )
-def test_data_types(
+def test_data_types(  # noqa: PLR0912
     test_data: PolicyTestData,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
