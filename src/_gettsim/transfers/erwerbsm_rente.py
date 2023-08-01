@@ -1,3 +1,4 @@
+from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
@@ -56,12 +57,19 @@ def entgeltp_erwerbsm_rente(
     Final Entgeltpunkte for Erwerbsminderungsrente
 
     """
+    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"]
+
+    zurechnungszeitsgrenze_in_m = piecewise_polynomial(
+        x=jahr_renteneintr,
+        thresholds=zurechnungszeitsgrenze_params["thresholds"],
+        rates=zurechnungszeitsgrenze_params["rates"],
+        intercepts_at_lower_thresholds=zurechnungszeitsgrenze_params[
+            "intercepts_at_lower_thresholds"
+        ],
+    )
 
     out = entgeltp + (
-        (
-            erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"] / 12
-            - (jahr_renteneintr - geburtsjahr)
-        )
+        (zurechnungszeitsgrenze_in_m / 12 - (jahr_renteneintr - geburtsjahr))
         * durchschnittliche_entgeltp
     )
 
@@ -102,15 +110,20 @@ def entgeltp_erwerbsm_rente_sonderregel(
     date_list = erwerbsm_rente_params["datum"].astype(str).split("-")
     diff_zu_2001_in_m = (int(date_list[0]) - 2001) * 12 + (int(date_list[1]) - 1)
 
+    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"]
+
+    zurechnungszeitsgrenze_in_m = piecewise_polynomial(
+        x=jahr_renteneintr,
+        thresholds=zurechnungszeitsgrenze_params["thresholds"],
+        rates=zurechnungszeitsgrenze_params["rates"],
+        intercepts_at_lower_thresholds=zurechnungszeitsgrenze_params[
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+
     out = entgeltp + (
         (
-            (
-                (
-                    erwerbsm_rente_params["zurechnungszeitsgrenze_in_m"]
-                    - diff_zu_2001_in_m
-                )
-                / 12
-            )
+            ((zurechnungszeitsgrenze_in_m - diff_zu_2001_in_m) / 12)
             - (jahr_renteneintr - geburtsjahr)
         )
         * durchschnittliche_entgeltp

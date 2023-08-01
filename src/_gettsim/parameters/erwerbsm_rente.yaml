@@ -61,24 +61,33 @@ zurechnungszeitsgrenze_in_m:
     tf=xaver.component.Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&s
     tart=%2F%2F*%5B%40node_id%3D%27955873%27%5D&skin=pdf&tlevel=-2&nohist=1&sins
     t=23CF02AC  (Anlage 23 (p.1837))
+  type: piecewise_linear
   2001-01-01:
-    scalar: 755
-  2004-01-01:
-    scalar: 720
-  2014-07-01:
-    scalar: 744
-  2018-01-01:
-    scalar: 746
-  2019-01-01:
-    scalar: 788
-  2020-01-01:
-    scalar: 789
-  2021-01-01:
-    scalar: 790
-  2022-01-01:
-    scalar: 791
-  2023-01-01:
-    scalar: 792
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2004
+      rate_linear: 0
+      intercept_at_lower_threshold: 755.0
+    1:
+      lower_threshold: 2004
+      upper_threshold: 2014
+      rate_linear: 0
+      intercept_at_lower_threshold: 720
+    2:
+      lower_threshold: 2014
+      upper_threshold: 2018
+      rate_linear: 0
+      intercept_at_lower_threshold: 744
+    3:
+      lower_threshold: 2018
+      upper_threshold: 2019
+      rate_linear: 0
+      intercept_at_lower_threshold: 746
+    4:
+      lower_threshold: 2019
+      upper_threshold: inf
+      rate_linear: 1
+      intercept_at_lower_threshold: 788
 min_zugangsfaktor_erwerbsm_rente:
   name:
     de: Kleinster möglicher Zugangsfaktor bei der Erwerbsminderungsrente

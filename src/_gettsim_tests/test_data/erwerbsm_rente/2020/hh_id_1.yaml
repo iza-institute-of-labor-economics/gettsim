@@ -13,7 +13,7 @@ inputs:
     geburtsmonat:
       - 2
     jahr_renteneintr:
-      - 2010
+      - 2018
     m_gesamtbew:
       - 1
     erwerbsm_rentner:
@@ -26,5 +26,7 @@ inputs:
       - false
   assumed: {}
 outputs:
+  entgeltp_erwerbsm_rente:
+    - 20
   erwerbsm_rente_m:
     - 500

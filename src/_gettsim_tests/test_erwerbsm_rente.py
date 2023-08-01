@@ -34,7 +34,6 @@ def test_erwerbsm_rente(
         functions=policy_functions,
         targets=column,
     )
-
     assert_series_equal(
         result[column],
         test_data.output_df[column],
