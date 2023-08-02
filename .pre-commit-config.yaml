@@ -73,7 +73,11 @@ repos:
     rev: 1.7.0
     hooks:
       - id: nbqa-black
+        additional_dependencies:
+          - black==23.7.0
       - id: nbqa-ruff
+        additional_dependencies:
+          - ruff==v0.0.281
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
