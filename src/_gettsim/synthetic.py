@@ -108,7 +108,7 @@ def create_basic_households(
 
     # Identify number of households
     if len(specs_heterogeneous) > 0:
-        n_households = len(list(specs_heterogeneous.values())[0])
+        n_households = len(next(iter(specs_heterogeneous.values())))
     else:
         n_households = 1
 
