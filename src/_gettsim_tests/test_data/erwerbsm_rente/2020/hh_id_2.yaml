@@ -5,19 +5,19 @@ info:
 inputs:
   provided:
     p_id:
-      - 1
+      - 6
     jahr:
       - 2020
     geburtsjahr:
       - 1980
     geburtsmonat:
-      - 2
+      - 1
     jahr_renteneintr:
       - 2018
     m_gesamtbew:
-      - 1
+      - 300
     erwerbsm_rentner:
-      - 1
+      - true
     entgeltp:
       - 1
     wohnort_ost:

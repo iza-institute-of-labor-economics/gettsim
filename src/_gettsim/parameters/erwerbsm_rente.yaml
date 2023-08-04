@@ -1,5 +1,5 @@
 ---
-altersgrenze_abschlagsfrei_in_m:
+m_altersgrenze_abschlagsfrei:
   name:
     de: >-
       Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
@@ -41,7 +41,7 @@ altersgrenze_abschlagsfrei_in_m:
     scalar: 778
   2024-01-01:
     scalar: 780
-zurechnungszeitsgrenze_in_m:
+m_zurechnungszeitsgrenze:
   name:
     de: Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente
     en: null
@@ -67,7 +67,7 @@ zurechnungszeitsgrenze_in_m:
       lower_threshold: -inf
       upper_threshold: 2004
       rate_linear: 0
-      intercept_at_lower_threshold: 755.0
+      intercept_at_lower_threshold: 755
     1:
       lower_threshold: 2004
       upper_threshold: 2014

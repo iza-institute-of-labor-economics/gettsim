@@ -283,6 +283,9 @@ def check_intercepts(
                 "The dictionaries should contain either only the lowest intercept "
                 "or all intercepts."
             )
+        elif count_intercepts_supplied == len(keys):
+            pass
+
         else:
             intercepts = create_intercepts(
                 lower_thresholds, upper_thresholds, rates, intercepts[0]
