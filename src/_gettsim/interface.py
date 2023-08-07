@@ -6,7 +6,7 @@ import warnings
 import dags
 import pandas as pd
 
-from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES, FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
@@ -244,6 +244,7 @@ def _process_and_check_data(data, columns_overriding_functions):
         list(data), columns_overriding_functions
     )
     _fail_if_pid_is_non_unique(data)
+    _fail_if_foreign_keys_are_invalid(data)
 
     return data
 
@@ -471,6 +472,36 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+def _fail_if_foreign_keys_are_invalid(data):
+    """
+    Check that all foreign keys are valid.
+
+    They must point to an existing `p_id` in the input data and may not refer to
+    the `p_id` of the same row.
+    """
+
+    p_ids = set(data["p_id"]) | {-1}
+
+    for foreign_key in FOREIGN_KEYS:
+        if foreign_key not in data:
+            continue
+
+        # Referenced `p_id` must exist in the input data
+        if not data[foreign_key].isin(p_ids).all():
+            message = (
+                f"The following {foreign_key}s are not a valid p_id in the input data:"
+                f" {list(data[foreign_key].loc[~data[foreign_key].isin(p_ids)])}"
+            )
+            raise ValueError(message)
+
+        # Referenced `p_id` must not be the same as the `p_id` of the same row
+        if (data[foreign_key] == data["p_id"]).any():
+            message = (
+                f"The following {foreign_key}s are equal to the p_id in the same row:"
+                f" {list(data[foreign_key].loc[data[foreign_key] == data['p_id']])}"
+            )
+            raise ValueError(message)
 
 
 def _fail_if_root_nodes_are_missing(root_nodes, data, functions):

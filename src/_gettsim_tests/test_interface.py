@@ -3,6 +3,8 @@ from contextlib import ExitStack as does_not_raise  # noqa: N813
 import numpy
 import pandas as pd
 import pytest
+
+from _gettsim.config import FOREIGN_KEYS
 from _gettsim.functions_loader import (
     _fail_if_columns_overriding_functions_are_not_in_functions,
     _fail_if_functions_and_columns_overlap,
@@ -14,7 +16,7 @@ from _gettsim.interface import (
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
-    compute_taxes_and_transfers,
+    compute_taxes_and_transfers, _fail_if_foreign_keys_are_invalid,
 )
 from _gettsim.shared import add_rounding_spec
 
@@ -103,6 +105,51 @@ def test_fail_if_pid_is_non_unique():
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
+
+
+@pytest.mark.parametrize(
+    "foreign_key",
+    FOREIGN_KEYS
+)
+def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [0, 1, 4],
+        }
+    )
+
+    with pytest.raises(ValueError, match="not a valid p_id"):
+        _fail_if_foreign_keys_are_invalid(data)
+
+@pytest.mark.parametrize(
+    "foreign_key",
+    FOREIGN_KEYS
+)
+def test_allow_minus_one_as_foreign_key(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [-1, 1, 2],
+        }
+    )
+
+    _fail_if_foreign_keys_are_invalid(data)
+
+@pytest.mark.parametrize(
+    "foreign_key",
+    FOREIGN_KEYS
+)
+def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [1, 3, 3],
+        }
+    )
+
+    with pytest.raises(ValueError, match="are equal to the p_id in the same row"):
+        _fail_if_foreign_keys_are_invalid(data)
 
 
 def test_fail_if_group_variables_not_constant_within_groups():

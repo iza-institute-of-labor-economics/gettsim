@@ -178,3 +178,10 @@ TYPES_INPUT_VARIABLES = {
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
 }
+
+FOREIGN_KEYS = [
+    "p_id_ehepartner",
+    "p_id_einstandspartner",
+    "p_id_elternteil_1",
+    "p_id_elternteil_2",
+]
