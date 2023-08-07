@@ -14,7 +14,6 @@ def bg_id_numpy(  # noqa: PLR0913
     p_id_einstandspartner: numpy.ndarray,
     p_id_elternteil_1: numpy.ndarray,
     p_id_elternteil_2: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
     eigener_bedarf_gedeckt: numpy.ndarray[bool],
 ):
     """
