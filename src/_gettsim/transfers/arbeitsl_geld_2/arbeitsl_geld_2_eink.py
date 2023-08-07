@@ -206,8 +206,8 @@ def arbeitsl_geld_2_eink_anr_frei_m(
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
     Sozialgesetzbuch (SGB) Zweites Buch (II) - Bürgergeld, Grundsicherung für
-    Arbeitsuchende, § 11b Absetzbeträge Abs. (2) Satz 1.-3.
-    https://www.gesetze-im-internet.de/sgb_2/BJNR295500003.html
+    Arbeitsuchende. SGB II §11b Abs 3
+    https://www.gesetze-im-internet.de/sgb_2/__11b.html
 
     Parameters
     ----------
