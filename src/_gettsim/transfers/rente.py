@@ -210,8 +210,8 @@ def entgeltp_update_lohn(
     return out
 
 
-def ges_rente_zugangsfaktor(  # noqa: PLR0913    
-    rentner: bool,    
+def ges_rente_zugangsfaktor(  # noqa: PLR0913
+    rentner: bool,
     age_of_retirement: float,
     ges_rente_regelaltersgrenze: float,
     referenz_alter_abschlag: float,
@@ -234,14 +234,14 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     It only increases after the NRA for all agents without exeptions.
 
     Since pension payments of the GRV always start at 1st day of month, day of birth
-    within month does not matter. The eligibility always starts in the month after 
+    within month does not matter. The eligibility always starts in the month after
     reaching the required age.
 
     Parameters
     ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    age_of_retirement    
+    age_of_retirement
         See :func:`age_of_retirement`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
@@ -302,21 +302,22 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     return out
 
+
 def age_of_retirement(
-        jahr_renteneintr: int,
-        monat_renteneintr: int,
-        geburtsjahr: int,
-        geburtsmonat: int,        
-        rentner: bool,
+    jahr_renteneintr: int,
+    monat_renteneintr: int,
+    geburtsjahr: int,
+    geburtsmonat: int,
+    rentner: bool,
 ) -> float:
     """
-    Calculates the age of person, when retires in monthly precision.
-    As retirement is only possible at first day of month and as  
-    persons eligible for pension at first of month after reaching the 
-    age threshold (§ 99 SGB VI) persons who retire in same month will 
+    Calculates the age of person's retirement in monthly precision.
+    As retirement is only possible at first day of month and as
+    persons eligible for pension at first of month after reaching the
+    age threshold (§ 99 SGB VI) persons who retire in same month will
     be considered a month too young: Substraction of 1/12.
-    
-    
+
+
     Parameters
     ----------
     geburtsjahr
@@ -325,10 +326,10 @@ def age_of_retirement(
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
-    monat_renteneintr        
+    monat_renteneintr
         See basic input variable :ref:`monat_renteneintr <monat_renteneintr>`.
     rentner
-        See basic input variable :ref:`rentner <rentner>`.    
+        See basic input variable :ref:`rentner <rentner>`.
 
 
     Returns
@@ -337,13 +338,16 @@ def age_of_retirement(
 
     """
     if rentner:
-      #  date_ret_fl=jahr_renteneintr+(monat_renteneintr-1)/12
-      #  date_birth_fl=geburtsjahr+(geburtsmonat-1)/12
-        out = jahr_renteneintr+(monat_renteneintr-1)/12 - geburtsjahr+(geburtsmonat-1)/12 - (1/12)
-    else: 
+        out = (
+            jahr_renteneintr
+            + (monat_renteneintr - 1) / 12
+            - geburtsjahr
+            + (geburtsmonat - 1) / 12
+            - (1 / 12)
+        )
+    else:
         out = float("Nan")
     return out
-
 
 
 @dates_active(end="2011-12-31", change_name="_ges_rente_altersgrenze_abschlagsfrei")
