@@ -139,6 +139,7 @@ TYPES_INPUT_VARIABLES = {
     "bruttokaltmiete_m_hh": float,
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
+    "monat_renteneintr": int,
     "behinderungsgrad": int,
     "wohnfläche_hh": float,
     "m_elterngeld": int,
