@@ -6,7 +6,12 @@ import warnings
 import dags
 import pandas as pd
 
-from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES, FOREIGN_KEYS
+from _gettsim.config import (
+    DEFAULT_TARGETS,
+    FOREIGN_KEYS,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
@@ -472,6 +477,7 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
 
 def _fail_if_foreign_keys_are_invalid(data):
     """
