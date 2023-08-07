@@ -38,7 +38,7 @@ inputs:
       - 0
     p_id_elternteil_2:
       - -1
-      - 2
+      - -1
     eigener_bedarf_gedeckt:
       - false
       - false
