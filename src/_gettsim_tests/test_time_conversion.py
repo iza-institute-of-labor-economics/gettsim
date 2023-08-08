@@ -3,7 +3,6 @@ import inspect
 import pytest
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
-    _replace_suffix,
     create_time_conversion_functions,
     d_to_m,
     d_to_w,
@@ -214,19 +213,6 @@ class TestCreateFunctionsForTimeUnits:
         assert "test_d" not in time_conversion_functions
 
 
-@pytest.mark.parametrize(
-    ("name", "old_suffix", "new_suffix", "expected"),
-    [
-        ("test.txt", ".txt", ".csv", "test.csv"),
-        ("test.yml", ".txt", ".csv", "test.yml"),
-    ],
-)
-def test_replace_suffix(
-    name: str, old_suffix: str, new_suffix: str, expected: str
-) -> None:
-    assert _replace_suffix(name, old_suffix, new_suffix) == expected
-
-
 class TestCreateFunctionForTimeUnit:
     def test_should_rename_parameter(self):
         function = _create_function_for_time_unit("test", None, d_to_m)
@@ -250,3 +236,12 @@ class TestCreateFunctionForTimeUnit:
         function = _create_function_for_time_unit("test", None, d_to_w)
 
         assert function(1) == 7
+
+
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
+def test_should_not_create_cycle():
+    time_conversion_functions = create_time_conversion_functions(
+        {"test_d": lambda test_m: test_m}, []
+    )
+
+    assert "test_m" not in time_conversion_functions
