@@ -8,6 +8,7 @@ versioning](https://semver.org/) and all releases are available on
 ## Unpublished
 
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the graph ({ghuser}`lars-reimann`).
+- {gh}`620` Adds income from self employment to income for Bürgergeld ({ghuser}`amageh`, {ghuser}`lillyfischer`, {ghuser}`TeBackh`)
 - {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
 - {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
   as of 2023-07-01 ({ghuser}`paulinaschroeder`).
