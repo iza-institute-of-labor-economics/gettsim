@@ -455,17 +455,17 @@ Total years of mandat. contributions after age 40
 
 Type: float
 
-(pflichtbeitr_8y_last10)=
+(pflichtbei_8y_last10)=
 
-## `pflichtbeitr_8y_last10`
+## `pflichtbei_8y_last10`
 
 Has at least 8 contribution years in past 10 years
 
 Type: bool
 
-(unemployed_1y_past58_5)=
+(unempl_1y_past58_5)=
 
-## `unemployed_1y_past58_5`
+## `unempl_1y_past58_5`
 
 Has been unemployed at least 1 year after age 58.5
 
