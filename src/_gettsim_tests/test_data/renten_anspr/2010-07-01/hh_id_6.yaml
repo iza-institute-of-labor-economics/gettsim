@@ -44,6 +44,10 @@ inputs:
       - false
     y_pflichtbeitr_ab_40:
       - 0.0
+    pflichtbei_8y_last10:
+      - false
+    unempl_1y_past58_5:
+      - true
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:

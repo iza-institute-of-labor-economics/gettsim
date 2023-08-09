@@ -779,9 +779,9 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
 
 
 def _ges_rente_vorauss_arblos(
-    unemployed_1y_past58_5: bool,
+    unempl_1y_past58_5: bool,
     ges_rente_wartezeit_15: float,
-    pflichtbeitr_8y_last10: bool,
+    pflichtbei_8y_last10: bool,
     # alter: int,
     # geburtsjahr: int,
     # geburtsmonat: int,
@@ -794,12 +794,12 @@ def _ges_rente_vorauss_arblos(
 
     Parameters
     ----------
-    unemployed_1y_past58_5
-        See basic input variable :ref:`unemployed_1y_past58_5 <unemployed_1y_past58_5>`.
+    unempl_1y_past58_5
+        See basic input variable :ref:`unempl_1y_past58_5 <unempl_1y_past58_5>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
-    pflichtbeitr_8y_last10
-        See basic input variable :ref:`pflichtbeitr_8y_last10 <pflichtbeitr_8y_last10>`.
+    pflichtbei_8y_last10
+        See basic input variable :ref:`pflichtbei_8y_last10 <pflichtbei_8y_last10>`.
     birthdate_decimal
         See :func:`birthdate_decimal`
     ges_rente_params
@@ -820,9 +820,9 @@ def _ges_rente_vorauss_arblos(
     )
 
     out = (
-        unemployed_1y_past58_5
+        unempl_1y_past58_5
         and ges_rente_wartezeit_15 >= 15
-        and pflichtbeitr_8y_last10
+        and pflichtbei_8y_last10
         # and alter >= altersgrenze_vorzeitig # would need monthly precision in
         # age here, but age check follows later
     )
