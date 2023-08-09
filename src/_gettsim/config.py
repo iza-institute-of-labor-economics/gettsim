@@ -168,6 +168,8 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
+    "pflichtbeitr_8y_last10": bool,
+    "unemployed_1y_past58_5": bool,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
