@@ -558,6 +558,7 @@ def ges_rente_frauen_altersgrenze(
 def _ges_rente_arblos_altersgrenze(
     birthdate_decimal: float,
     ges_rente_params: dict,
+    ges_rente_regelaltersgrenze: float,
 ) -> float:
     """Calculate the age, at which an unemployed is eligible to claim the full
     pension (without deductions). This pension scheme allows for early retirement
@@ -571,22 +572,26 @@ def _ges_rente_arblos_altersgrenze(
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
-
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     Returns
     -------
     lowest full retirement age for unemployed.
 
     """
-    out = piecewise_polynomial(
-        x=birthdate_decimal,
-        thresholds=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"][
-            "thresholds"
-        ],
-        rates=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_arbeitslose_abschlagsfrei"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    if birthdate_decimal < 1953:
+        out = piecewise_polynomial(
+            x=birthdate_decimal,
+            thresholds=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "altersgrenze_arbeitslose_abschlagsfrei"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = ges_rente_regelaltersgrenze
 
     return out
 
