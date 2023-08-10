@@ -50,6 +50,8 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
+  _ges_rente_arblos_altersgrenze:
+    - 67
   ges_rente_regelaltersgrenze:
     - 66.16666666666667
   ges_rente_frauen_altersgrenze:
