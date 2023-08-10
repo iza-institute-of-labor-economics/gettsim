@@ -579,12 +579,12 @@ def _ges_rente_arblos_altersgrenze(
     """
     out = piecewise_polynomial(
         x=birthdate_decimal,
-        thresholds=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+        thresholds=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"][
             "thresholds"
         ],
-        rates=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]["rates"],
+        rates=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_langj_versicherte_abschlagsfrei"
+            "altersgrenze_arbeitslose_abschlagsfrei"
         ]["intercepts_at_lower_thresholds"],
     )
 
