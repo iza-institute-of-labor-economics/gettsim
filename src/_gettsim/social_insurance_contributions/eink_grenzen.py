@@ -385,9 +385,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
 
 
 @dates_active(end="2003-03-31", change_name="regulär_beschäftigt")
-def regulär_beschäftigt_ohne_midijob(
-    bruttolohn_m: float, minijob_grenze: float
-) -> bool:
+def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
     """Check if person is in regular employment.
 
     Employees earning more than the minijob threshold, are subject to all ordinary
