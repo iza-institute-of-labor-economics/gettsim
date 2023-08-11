@@ -22,8 +22,8 @@ def ges_pflegev_zusatz_kinderlos(
     -------
 
     """
-    altersgrenze = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
-    return (not hat_kinder) and alter >= altersgrenze
+    mindestalter = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
+    return (not hat_kinder) and alter >= mindestalter
 
 
 @dates_active(

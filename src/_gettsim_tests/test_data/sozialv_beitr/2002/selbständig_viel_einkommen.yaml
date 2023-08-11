@@ -11,17 +11,17 @@ inputs:
     tu_id:
       - 13
     bruttolohn_m:
-      - 700.0
+      - 0.0
     wohnort_ost:
       - false
     alter:
       - 20
     selbstständig:
-      - false
+      - true
     hat_kinder:
       - false
     eink_selbst_m:
-      - 0.0
+      - 5000.0
     sum_ges_rente_priv_rente_m:
       - 0.0
     in_priv_krankenv:
@@ -31,16 +31,16 @@ inputs:
   assumed: {}
 outputs:
   sozialv_beitr_m:
-    - 144.55
+    - 529.88
   sozialv_beitr_arbeitg_m:
-    - 144.55
+    - 0.0
   _sozialv_beitr_arbeitn_arbeitg_m:
-    - 289.1
+    - 529.88
   ges_rentenv_beitr_m:
-    - 66.85
+    - 0.0
   arbeitsl_v_beitr_m:
-    - 22.75
+    - 0.0
   ges_krankenv_beitr_m:
-    - 49.0
+    - 472.50
   ges_pflegev_beitr_m:
-    - 5.95
+    - 57.38

@@ -697,7 +697,7 @@ mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   unit: Share
   reference: §240 SGB V Abs. 4
   note: Exact date of introduction of this parameter unclear (was in place in 2006)
-  2006-01-01:
+  1990-01-01:
     scalar: 0.33333333
 geringfügige_eink_grenzen_m:
   name:

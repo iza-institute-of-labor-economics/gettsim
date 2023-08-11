@@ -5,17 +5,17 @@ info:
 inputs:
   provided:
     p_id:
-      - 111
+      - 0
     hh_id:
-      - 13
+      - 0
     tu_id:
-      - 13
+      - 0
     bruttolohn_m:
-      - 700.0
+      - 300.0
     wohnort_ost:
       - false
     alter:
-      - 20
+      - 40
     selbstständig:
       - false
     hat_kinder:
@@ -31,16 +31,24 @@ inputs:
   assumed: {}
 outputs:
   sozialv_beitr_m:
-    - 144.55
+    - 0.0
   sozialv_beitr_arbeitg_m:
-    - 144.55
+    - 66.0
   _sozialv_beitr_arbeitn_arbeitg_m:
-    - 289.1
+    - 66.0
   ges_rentenv_beitr_m:
-    - 66.85
+    - 0.0
   arbeitsl_v_beitr_m:
-    - 22.75
+    - 0.0
   ges_krankenv_beitr_m:
-    - 49.0
+    - 0.0
   ges_pflegev_beitr_m:
-    - 5.95
+    - 0.0
+  ges_rentenv_beitr_arbeitg_m:
+    - 36.0
+  arbeitsl_v_beitr_arbeitg_m:
+    - 0.0
+  ges_krankenv_beitr_arbeitg_m:
+    - 30.0
+  ges_pflegev_beitr_arbeitg_m:
+    - 0.0
