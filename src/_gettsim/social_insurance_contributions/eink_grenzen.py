@@ -125,7 +125,7 @@ def in_gleitzone(
     change_name="midijob_faktor_f",
 )
 @add_rounding_spec(params_key="sozialv_beitr")
-def midijob_faktor_f_mit_minijob_st(
+def midijob_faktor_f_mit_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
@@ -181,7 +181,7 @@ def midijob_faktor_f_mit_minijob_st(
 
 @dates_active(start="2022-10-01", change_name="midijob_faktor_f")
 @add_rounding_spec(params_key="sozialv_beitr")
-def midijob_faktor_f_ohne_minijob_st(
+def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
