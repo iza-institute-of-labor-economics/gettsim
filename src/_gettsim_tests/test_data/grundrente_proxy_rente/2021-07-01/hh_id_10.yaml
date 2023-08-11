@@ -37,7 +37,7 @@ inputs:
     unempl_1y_past58_5:
       - true
     m_pflichtbeitrag:
-      - 400.0
+      - 300.0
     m_freiw_beitrag:
       - 6.0
     m_ersatzzeit:
