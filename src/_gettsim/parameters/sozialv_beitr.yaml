@@ -12,10 +12,10 @@ beitr_satz:
         ermäßigt - ermäßigter Satz (§243 SGB V) zusatz - durchschnittlicher
         Zusatzbeitragssatz.
       ges_pflegev: >-
-        Beitragssätze für gesetzliche Pflegeversicherung. standard - Beitragssatz für
-        Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose Versicherte, die
-        das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer alleine getragen.
-        Eingeführt 2005.
+        Beitragssätze für gesetzliche Pflegeversicherung (seit 1995). standard -
+        Beitragssatz für Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose
+        Versicherte, die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
+        alleine getragen. Eingeführt 2005.
       arbeitsl_v: Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
       ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
     en:
@@ -25,9 +25,9 @@ beitr_satz:
         contribution rate, since 2009 sonderbeitrag - paid by employees, Jul 2005 to
         2014 ermäßigt - reduced rate zusatz - average top-up contribution rate
       ges_pflegev: >-
-        Statury Contribution Rates for mandatory care insurance. standard - employees
-        contribution rate zusatz_kinderlos - contribution rate for insured people
-        without children and at least 23 years old. paid by employees. est. 2005
+        Statury Contribution Rates for mandatory care insurance (since 1995). standard -
+        employees contribution rate zusatz_kinderlos - contribution rate for insured
+        people without children and at least 23 years old. paid by employees. est. 2005
       arbeitsl_v: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
   unit: Share
@@ -35,33 +35,21 @@ beitr_satz:
   1984-01-01:
     ges_krankenv:
       mean_allgemein: 0.1144
-    ges_pflegev:
-      standard: 0
-      zusatz_kinderlos: 0
     arbeitsl_v: 0.023
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
       mean_allgemein: 0.118
-    ges_pflegev:
-      standard: 0
-      zusatz_kinderlos: 0
     arbeitsl_v: 0.022
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
       mean_allgemein: 0.122
-    ges_pflegev:
-      standard: 0
-      zusatz_kinderlos: 0
     arbeitsl_v: 0.0205
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
       mean_allgemein: 0.1248
-    ges_pflegev:
-      standard: 0
-      zusatz_kinderlos: 0
     arbeitsl_v: 0.0215
     ges_rentenv: 0.0935
   1988-01-01:
@@ -87,30 +75,24 @@ beitr_satz:
   1993-01-01:
     ges_krankenv:
       mean_allgemein: 0.134
-    ges_pflegev:
-      standard: 0
-      zusatz_kinderlos: 0
     arbeitsl_v: 0.0325
     ges_rentenv: 0.0875
   1994-01-01:
     deviation_from: previous
     ges_rentenv: 0.096
   1995-01-01:
-    deviation_from: previous
+    arbeitsl_v: 0.0325
     ges_krankenv:
       mean_allgemein: 0.132
+    ges_pflegev: 0.005
     ges_rentenv: 0.093
   1996-01-01:
     deviation_from: previous
     ges_rentenv: 0.096
-    ges_pflegev:
-      standard: 0.005
   1997-01-01:
     ges_krankenv:
       mean_allgemein: 0.134
-    ges_pflegev:
-      standard: 0.0085
-      zusatz_kinderlos: 0
+    ges_pflegev: 0.0085
     arbeitsl_v: 0.0325
     ges_rentenv: 0.1015
   1998-01-01:
@@ -715,7 +697,7 @@ mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   unit: Share
   reference: §240 SGB V Abs. 4
   note: Exact date of introduction of this parameter unclear (was in place in 2006)
-  2006-01-01:
+  1990-01-01:
     scalar: 0.33333333
 geringfügige_eink_grenzen_m:
   name:
@@ -730,7 +712,6 @@ geringfügige_eink_grenzen_m:
   1984-01-01:
     minijob:
       west: 199
-    midijob: 0
   1985-01-01:
     deviation_from: previous
     minijob:
@@ -755,42 +736,34 @@ geringfügige_eink_grenzen_m:
     minijob:
       west: 240
       ost: 102
-    midijob: 0
   1991-01-01:
     minijob:
       west: 245
       ost: 120
-    midijob: 0
   1992-01-01:
     minijob:
       west: 256
       ost: 153
-    midijob: 0
   1993-01-01:
     minijob:
       west: 271
       ost: 199
-    midijob: 0
   1994-01-01:
     minijob:
       west: 286
       ost: 225
-    midijob: 0
   1995-01-01:
     minijob:
       west: 297
       ost: 240
-    midijob: 0
   1996-01-01:
     minijob:
       west: 302
       ost: 256
-    midijob: 0
   1997-01-01:
     minijob:
       west: 312
       ost: 266
-    midijob: 0
   1998-01-01:
     deviation_from: previous
     minijob:
@@ -799,37 +772,25 @@ geringfügige_eink_grenzen_m:
     minijob:
       west: 322
       ost: 271
-    midijob: 0
   2000-01-01:
-    deviation_from: previous
-    minijob:
-      ost: 322
+    minijob: 322
   2002-01-01:
-    minijob:
-      west: 325
-      ost: 325
-    midijob: 0
-  2004-01-01:
-    minijob:
-      west: 400
-      ost: 400
+    minijob: 325
+  2003-04-01:
+    minijob: 400
     midijob: 800
   2013-01-01:
-    minijob:
-      west: 450
-      ost: 450
+    minijob: 450
     midijob: 850
   2019-01-01:
     deviation_from: previous
     reference: Art. 4 G. v. 28.11.2018 BGBl. I S. 2016
     midijob: 1300
   2022-10-01:
-    minijob:
-      west: null
-      ost: null
+    minijob: null
     midijob: 1600
     reference: Art. 7 G. v. 28.06.2022 BGBl. I S. 969
-    note: minijob thresholds depend on the statutory minimum wage since 2022-10-01
+    note: minijob thresholds now calculated based on statutory minimum wage
   2023-01-01:
     deviation_from: previous
     midijob: 2000
@@ -872,7 +833,7 @@ ag_abgaben_geringf:
     ges_krankenv: 0.1
     ges_rentenv: 0.12
     st: 0
-  2004-01-01:
+  2003-04-01:
     ges_krankenv: 0.11
     ges_rentenv: 0.12
     st: 0.02

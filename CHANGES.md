@@ -9,6 +9,10 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`632` Zugangsfaktor calculation with monthly precision ({ghuser}`TeBackh`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the graph ({ghuser}`lars-reimann`).
+- {gh}`618`, {gh}`623` Apply `@dates_active` decorator to Abgeltungssteuer, Midi- and
+  Minijobs, Pflegeversicherung. ({ghuser}`hmgaudecker`).
+- {gh}`624` Don't create functions for other time units if this leads to a cycle in the
+  graph ({ghuser}`lars-reimann`).
 - {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
 - {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
   as of 2023-07-01 ({ghuser}`paulinaschroeder`).
