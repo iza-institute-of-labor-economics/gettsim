@@ -371,9 +371,35 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
 
     return out
 
+@dates_active(
+    start="1995-01-01", end="2004-03-31", change_name="ges_pflegev_beitr_rente_m"
+)
+def ges_pflegev_beitr_rente_m_ohne_zusatz_fuer_kinderlose(
+    _ges_krankenv_bemessungsgrundlage_rente_m: float,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """Calculating the contribution to health insurance for pension income.
+
+    Pensioners pay the same contribution as employees.
+
+    Parameters
+    ----------
+    _ges_krankenv_bemessungsgrundlage_rente_m
+        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+
+    Returns
+    -------
+    Monthly health insurance contributions for pension income.
+
+    """
+    out = _ges_krankenv_bemessungsgrundlage_rente_m * ges_pflegev_beitr_satz
+
+    return out
 
 @dates_active(
-    start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
+    start="2004-04-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
 )
 def ges_pflegev_beitr_rente_m_ohne_zusatz_fuer_kinderlose(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
