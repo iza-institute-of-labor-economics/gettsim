@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care insurance until 2004 ({ghuser}`MImmesberger`).
 - {gh}`618`, {gh}`623` Apply `@dates_active` decorator to Abgeltungssteuer, Midi- and
   Minijobs, Pflegeversicherung. ({ghuser}`hmgaudecker`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
