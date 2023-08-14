@@ -48,7 +48,7 @@ inputs:
       - 15.0
     pflichtbei_8y_last10:
       - false
-    unempl_1y_past58_5:
+    arbeitsl_1y_past_58dot5:
       - false
     m_pflichtbeitrag:
       - 420.0

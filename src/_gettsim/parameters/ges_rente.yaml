@@ -934,6 +934,19 @@ altergrenze_arbeitslose_vorzeitig:
     6:
       upper_threshold: inf
       rate_linear: 0
+abolishment_cohort_rente_für_arbeitslose:
+  name:
+    de: Kohorte Abschaffung Rente für Arbeitslose
+    en: Cohort abolishment pension for unemployed
+  description:
+    de: >-
+      Kohorte, ab der Rente für Arbeitslose abgeschafft.
+    en: >-
+      Cohort from which pension for unemployed abolished
+  reference: § 237 SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
+  1980-01-01:
+    scalar: 1952
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte

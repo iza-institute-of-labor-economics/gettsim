@@ -574,12 +574,15 @@ def _ges_rente_arbeitslos_altersgrenze(
         :ref:`ges_rente_params <ges_rente_params>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
+
     Returns
     -------
     lowest full retirement age for unemployed.
 
     """
-    if birthdate_decimal < 1953:
+    if (
+        birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitslose"]
+    ):  # 1953
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"][
@@ -786,14 +789,9 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
 
 
 def _ges_rente_vorauss_arbeitslos(
-    unempl_1y_past58_5: bool,
+    arbeitsl_1y_past_58dot5: bool,
     ges_rente_wartezeit_15: float,
     pflichtbei_8y_last10: bool,
-    # alter: int,
-    # geburtsjahr: int,
-    # geburtsmonat: int,
-    birthdate_decimal: float,
-    ges_rente_params: dict,
 ) -> bool:
     """Function determining the eligibility for Altersrente für Arbeitslose (pension
     for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
@@ -801,8 +799,9 @@ def _ges_rente_vorauss_arbeitslos(
 
     Parameters
     ----------
-    unempl_1y_past58_5
-        See basic input variable :ref:`unempl_1y_past58_5 <unempl_1y_past58_5>`.
+    arbeitsl_1y_past_58dot5
+        See basic input variable
+        :ref:`arbeitsl_1y_past_58dot5 <arbeitsl_1y_past_58dot5>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
     pflichtbei_8y_last10
@@ -817,17 +816,9 @@ def _ges_rente_vorauss_arbeitslos(
     Eligibility as bool.
 
     """
-    piecewise_polynomial(
-        x=birthdate_decimal,
-        thresholds=ges_rente_params["altergrenze_arbeitslose_vorzeitig"]["thresholds"],
-        rates=ges_rente_params["altergrenze_arbeitslose_vorzeitig"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altergrenze_arbeitslose_vorzeitig"
-        ]["intercepts_at_lower_thresholds"],
-    )
 
     out = (
-        unempl_1y_past58_5
+        arbeitsl_1y_past_58dot5
         and ges_rente_wartezeit_15 >= 15
         and pflichtbei_8y_last10
         # and alter >= altersgrenze_vorzeitig # would need monthly precision in
@@ -860,11 +851,7 @@ def ges_rente_vorauss_langj(
 
     """
     out = (alter >= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]) and (
-        ges_rente_wartezeit_35
-        >= 35
-        # by including age check not pussible to return eligibility of younger people
-        # and hence their predicted retirement age (probably does not matter as
-        # predictions will always also adjust age)
+        ges_rente_wartezeit_35 >= 35
     )
 
     return out

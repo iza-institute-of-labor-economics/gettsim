@@ -71,7 +71,7 @@ INPUT_COLS_INCOME = [
     "weiblich",
     "y_pflichtbeitr_ab_40",
     "pflichtbei_8y_last10",
-    "unempl_1y_past58_5",
+    "arbeitsl_1y_past_58dot5",
     "m_pflichtbeitrag",
     "m_freiw_beitrag",
     "m_ersatzzeit",

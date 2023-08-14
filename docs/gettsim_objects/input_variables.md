@@ -463,9 +463,9 @@ Has at least 8 contribution years in past 10 years
 
 Type: bool
 
-(unempl_1y_past58_5)=
+(arbeitsl_1y_past_58dot5)=
 
-## `unempl_1y_past58_5`
+## `arbeitsl_1y_past_58dot5`
 
 Has been unemployed at least 1 year after age 58.5
 
