@@ -89,6 +89,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)
+    _warn_if_functions_and_columns_overlap(columns_overriding_functions)
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
@@ -357,6 +358,34 @@ def _create_input_data(
     input_data = {k: v for k, v in data.items() if k in root_nodes}
     return input_data
 
+
+def _warn_if_functions_and_columns_overlap(columns_overriding_functions: set[str]) -> None:
+    """Warn if functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    columns_overriding_functions : set[str]
+        Names of columns in the data that override hard-coded functions.
+    """
+    if columns_overriding_functions:
+        n_cols = len(columns_overriding_functions)
+        first_part = format_errors_and_warnings(
+            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
+        )
+        formatted = format_list_linewise(list(columns_overriding_functions))
+        second_part = format_errors_and_warnings(
+            f"""
+            {'This is' if n_cols == 1 else 'These are'} already present among the
+            hard-coded functions of the taxes and transfers system.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM you need not do anything.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
+            by hard-coded functions, remove {'it' if n_cols == 1 else 'them'} from the
+            *data* you pass to GETTSIM. {'' if n_cols == 1 else '''You need to pick one
+            option for each column that appears in the list above.'''}
+            """
+        )
+        warnings.warn(f"{first_part}\n{formatted}\n{second_part}", stacklevel=2)
 
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
