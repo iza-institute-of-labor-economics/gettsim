@@ -359,7 +359,9 @@ def _create_input_data(
     return input_data
 
 
-def _warn_if_functions_and_columns_overlap(columns_overriding_functions: set[str]) -> None:
+def _warn_if_functions_and_columns_overlap(
+    columns_overriding_functions: set[str],
+) -> None:
     """Warn if functions which compute columns overlap with existing columns.
 
     Parameters
@@ -386,6 +388,7 @@ def _warn_if_functions_and_columns_overlap(columns_overriding_functions: set[str
             """
         )
         warnings.warn(f"{first_part}\n{formatted}\n{second_part}", stacklevel=2)
+
 
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
