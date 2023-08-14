@@ -79,7 +79,7 @@ def load_and_check_functions(
 
     """
 
-    # Load user and functions.
+    # Load functions.
     functions_raw = [] if functions_raw is None else functions_raw
     functions = _load_functions(functions_raw)
 
