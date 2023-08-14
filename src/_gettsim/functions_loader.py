@@ -93,9 +93,7 @@ def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation
         **aggregation_functions,
     }
 
-    _fail_if_targets_are_not_in_functions(
-        all_functions, targets
-    )
+    _fail_if_targets_are_not_in_functions(all_functions, targets)
 
     # Separate all functions by whether they will be used or not.
     functions_overridden = {}
@@ -110,10 +108,10 @@ def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation
 
 
 def _create_derived_functions(
-        user_and_internal_functions: dict[str, Callable],
-        targets,
-        data_cols,
-        aggregation_specs,
+    user_and_internal_functions: dict[str, Callable],
+    targets,
+    data_cols,
+    aggregation_specs,
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -213,7 +211,7 @@ def _load_functions(sources, include_imported_functions=False):
             source = {source.__name__: source}  # noqa: PLW2901
 
         if isinstance(source, dict) and all(
-                inspect.isfunction(i) for i in source.values()
+            inspect.isfunction(i) for i in source.values()
         ):
             functions = {**functions, **source}
 
@@ -245,7 +243,7 @@ def _search_directories_recursively_for_python_files(sources):
 
 
 def _convert_paths_and_strings_to_dicts_of_functions(
-        sources, include_imported_functions
+    sources, include_imported_functions
 ):
     """Convert paths and strings to dictionaries of functions.
 
@@ -271,7 +269,7 @@ def _convert_paths_and_strings_to_dicts_of_functions(
                     out, lambda x: inspect.isfunction(x)
                 )
                 if include_imported_functions
-                   or _is_function_defined_in_module(func, out.__name__)
+                or _is_function_defined_in_module(func, out.__name__)
             }
         else:
             functions_defined_in_module = source
@@ -340,7 +338,7 @@ def _load_aggregation_combined_dict_from_strings(sources):
 
 
 def _create_aggregation_functions(
-        user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
+    user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
 ):
     """Create aggregation functions."""
     aggregation_dict = load_aggregation_dict()
@@ -360,8 +358,8 @@ def _create_aggregation_functions(
         col
         for col in potential_agg_cols
         if (col not in user_and_internal_functions)
-           and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
-           and (remove_group_suffix(col) in potential_source_cols)
+        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+        and (remove_group_suffix(col) in potential_source_cols)
     ]
     automated_sum_aggregation_specs = {
         agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
@@ -426,7 +424,7 @@ def rename_arguments(func=None, mapper=None, annotations=None):
 
 
 def _create_one_aggregation_func(  # noqa: PLR0912
-        agg_col, agg_specs, user_and_internal_functions
+    agg_col, agg_specs, user_and_internal_functions
 ):
     """Create an aggregation function based on aggregation specification.
 
@@ -480,8 +478,8 @@ def _create_one_aggregation_func(  # noqa: PLR0912
         annotations["return"] = int
     else:
         if (
-                source_col in user_and_internal_functions
-                and "return" in user_and_internal_functions[source_col].__annotations__
+            source_col in user_and_internal_functions
+            and "return" in user_and_internal_functions[source_col].__annotations__
         ):
             annotations[source_col] = user_and_internal_functions[
                 source_col
@@ -602,9 +600,7 @@ def _vectorize_func(func):
     return wrapper_vectorize_func
 
 
-def _fail_if_targets_are_not_in_functions(
-        functions, targets
-):
+def _fail_if_targets_are_not_in_functions(functions, targets):
     """Fail if targets are not in functions.
 
     Parameters
@@ -621,9 +617,7 @@ def _fail_if_targets_are_not_in_functions(
         Raised if ``targets`` are not in functions.
 
     """
-    targets_not_in_functions = (
-            set(targets) - set(functions)
-    )
+    targets_not_in_functions = set(targets) - set(functions)
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(

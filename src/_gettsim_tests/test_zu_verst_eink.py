@@ -22,7 +22,9 @@ def test_zu_verst_eink(
         date=test_data.date
     )
 
-    result = compute_taxes_and_transfers(data=df, params=policy_params, functions=policy_functions, targets=column)
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
+    )
 
     assert_series_equal(
         result[column],

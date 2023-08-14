@@ -22,8 +22,16 @@ from _gettsim.shared import (
 )
 
 
-def compute_taxes_and_transfers(data, params, functions, aggregation_specs=None, targets=None,
-                                check_minimal_specification="ignore", rounding=True, debug=False):
+def compute_taxes_and_transfers(
+    data,
+    params,
+    functions,
+    aggregation_specs=None,
+    targets=None,
+    check_minimal_specification="ignore",
+    rounding=True,
+    debug=False,
+):
     """Compute taxes and transfers.
 
     Parameters
@@ -72,12 +80,13 @@ def compute_taxes_and_transfers(data, params, functions, aggregation_specs=None,
     aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
     # Process data and load dictionaries with functions.
-    data = _process_and_check_data(
-        data=data
+    data = _process_and_check_data(data=data)
+    functions_not_overridden, functions_overridden = load_and_check_functions(
+        user_functions_raw=functions,
+        targets=targets,
+        data_cols=list(data),
+        aggregation_specs=aggregation_specs,
     )
-    functions_not_overridden, functions_overridden = load_and_check_functions(user_functions_raw=functions,
-                                                                              targets=targets, data_cols=list(data),
-                                                                              aggregation_specs=aggregation_specs)
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)
     print(columns_overriding_functions)
@@ -117,8 +126,8 @@ def compute_taxes_and_transfers(data, params, functions, aggregation_specs=None,
 
     if "unterhalt" in params:
         if (
-                "mindestunterhalt" not in params["unterhalt"]
-                and "unterhaltsvors_m" in processed_functions
+            "mindestunterhalt" not in params["unterhalt"]
+            and "unterhaltsvors_m" in processed_functions
         ):
             raise NotImplementedError(
                 """
@@ -137,10 +146,10 @@ https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
 
 
 def set_up_dag(
-        all_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
+    all_functions,
+    targets,
+    columns_overriding_functions,
+    check_minimal_specification,
 ):
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
@@ -199,7 +208,7 @@ def _process_and_check_data(data):
     elif isinstance(data, pd.Series):
         data = {data.name: data}
     elif isinstance(data, dict) and all(
-            isinstance(i, pd.Series) for i in data.values()
+        isinstance(i, pd.Series) for i in data.values()
     ):
         pass
     else:
@@ -256,8 +265,8 @@ def _convert_data_to_correct_types(data, functions_overridden):
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
         elif (
-                column_name in functions_overridden
-                and "return" in functions_overridden[column_name].__annotations__
+            column_name in functions_overridden
+            and "return" in functions_overridden[column_name].__annotations__
         ):
             internal_type = functions_overridden[column_name].__annotations__["return"]
 
@@ -279,13 +288,13 @@ def _convert_data_to_correct_types(data, functions_overridden):
     if len(collected_errors) > 1:
         raise ValueError(
             "\n".join(collected_errors) + "\n" + "\n" + "Note that conversion"
-                                                        " from floating point to integers or Booleans inherently suffers from"
-                                                        " approximation error. It might well be that your data seemingly obey the"
-                                                        " restrictions when scrolling through them, but in fact they do not"
-                                                        " (for example, because 1e-15 is displayed as 0.0)."
+            " from floating point to integers or Booleans inherently suffers from"
+            " approximation error. It might well be that your data seemingly obey the"
+            " restrictions when scrolling through them, but in fact they do not"
+            " (for example, because 1e-15 is displayed as 0.0)."
             + "\n"
             + "The best solution is to convert all columns"
-              " to the expected data types yourself."
+            " to the expected data types yourself."
         )
 
     # Otherwise raise warning which lists all successful conversions
@@ -298,11 +307,11 @@ def _convert_data_to_correct_types(data, functions_overridden):
 
 
 def _create_input_data(
-        data,
-        processed_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification="ignore",
+    data,
+    processed_functions,
+    targets,
+    columns_overriding_functions,
+    check_minimal_specification="ignore",
 ):
     """Create input data for use in the calculation of taxes and transfers by:
 
@@ -411,7 +420,7 @@ def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
         if len(
             [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
         )
-           == 0
+        == 0
     ]
 
     missing_nodes = [
@@ -511,9 +520,9 @@ def _add_rounding_to_functions(functions, params):
 
             # Check if there are any rounding specifications.
             if not (
-                    params_key in params
-                    and "rounding" in params[params_key]
-                    and func_name in params[params_key]["rounding"]
+                params_key in params
+                and "rounding" in params[params_key]
+                and func_name in params[params_key]["rounding"]
             ):
                 raise KeyError(
                     KeyErrorMessage(
@@ -598,7 +607,7 @@ def _add_rounding_to_one_function(base, direction):
 
 
 def _fail_if_columns_overriding_functions_are_not_in_dag(
-        dag, columns_overriding_functions, check_minimal_specification
+    dag, columns_overriding_functions, check_minimal_specification
 ):
     """Fail if ``columns_overriding_functions`` are not in the DAG.
 

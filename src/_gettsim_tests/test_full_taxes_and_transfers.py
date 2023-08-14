@@ -43,7 +43,9 @@ def test_full_taxes_and_transfers(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
-    compute_taxes_and_transfers(data=df, params=policy_params, functions=policy_functions, targets=OUT_COLS)
+    compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=OUT_COLS
+    )
 
 
 @pytest.mark.parametrize(
@@ -51,7 +53,7 @@ def test_full_taxes_and_transfers(
     data.test_data,
     ids=str,
 )
-def test_data_types(  # noqa: PLR0912
+def test_data_types(
     test_data: PolicyTestData,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
@@ -66,8 +68,13 @@ def test_data_types(  # noqa: PLR0912
         date=test_data.date
     )
 
-    result = compute_taxes_and_transfers(data=df, params=policy_params, functions=policy_functions, targets=OUT_COLS,
-                                         debug=True)
+    result = compute_taxes_and_transfers(
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=OUT_COLS,
+        debug=True,
+    )
     for column_name, series in result.items():
         if series.empty:
             pass

@@ -31,7 +31,9 @@ def test_arbeitsl_geld_2(
         date=test_data.date
     )
 
-    result = compute_taxes_and_transfers(data=df, params=policy_params, functions=policy_functions, targets=column)
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
+    )
 
     if column in [
         "arbeitsl_geld_2_vor_vorrang_m_hh",

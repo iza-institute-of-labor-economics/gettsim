@@ -1,4 +1,3 @@
-from contextlib import ExitStack as does_not_raise  # noqa: N813
 
 import numpy
 import pandas as pd
@@ -78,7 +77,9 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         ValueError,
         match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(minimal_input_data, {}, functions=[b, c], targets="c")
+        compute_taxes_and_transfers(
+            minimal_input_data, {}, functions=[b, c], targets="c"
+        )
 
 
 def test_data_as_series():
@@ -135,7 +136,9 @@ def test_check_minimal_spec_data():
         ValueError,
         match="The following columns in 'data' are unused",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[c], targets="c", check_minimal_specification="raise")
+        compute_taxes_and_transfers(
+            data, {}, functions=[c], targets="c", check_minimal_specification="raise"
+        )
 
 
 def test_check_minimal_spec_data_warn():
@@ -154,7 +157,9 @@ def test_check_minimal_spec_data_warn():
         UserWarning,
         match="The following columns in 'data' are unused",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[c], targets="c", check_minimal_specification="warn")
+        compute_taxes_and_transfers(
+            data, {}, functions=[c], targets="c", check_minimal_specification="warn"
+        )
 
 
 def test_check_minimal_spec_columns_overriding():
@@ -176,7 +181,9 @@ def test_check_minimal_spec_columns_overriding():
         ValueError,
         match="The following 'columns_overriding_functions' are unused",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[b, c], targets="c", check_minimal_specification="raise")
+        compute_taxes_and_transfers(
+            data, {}, functions=[b, c], targets="c", check_minimal_specification="raise"
+        )
 
 
 def test_check_minimal_spec_columns_overriding_warn():
@@ -198,7 +205,9 @@ def test_check_minimal_spec_columns_overriding_warn():
         UserWarning,
         match="The following 'columns_overriding_functions' are unused",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[b, c], targets="c", check_minimal_specification="warn")
+        compute_taxes_and_transfers(
+            data, {}, functions=[b, c], targets="c", check_minimal_specification="warn"
+        )
 
 
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
@@ -218,7 +227,9 @@ def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions
         ValueError,
         match="The following targets have no corresponding function",
     ):
-        compute_taxes_and_transfers(minimal_input_data, {}, functions=[], targets="unknown_target")
+        compute_taxes_and_transfers(
+            minimal_input_data, {}, functions=[], targets="unknown_target"
+        )
 
 
 def test_fail_if_missing_pid(minimal_input_data):
@@ -311,8 +322,13 @@ def test_user_provided_aggregation_specs():
     }
     expected_res = pd.Series([200, 200, 100])
 
-    out = compute_taxes_and_transfers(data, {}, functions=[], aggregation_specs=aggregation_specs,
-                                      targets="arbeitsl_geld_2_m_hh")
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[],
+        aggregation_specs=aggregation_specs,
+        targets="arbeitsl_geld_2_m_hh",
+    )
 
     numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
@@ -336,8 +352,13 @@ def test_user_provided_aggregation_specs_function():
     def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
         return 2 * arbeitsl_geld_2_m
 
-    out = compute_taxes_and_transfers(data, {}, functions=[arbeitsl_geld_2_m_double],
-                                      aggregation_specs=aggregation_specs, targets="arbeitsl_geld_2_m_double_hh")
+    out = compute_taxes_and_transfers(
+        data,
+        {},
+        functions=[arbeitsl_geld_2_m_double],
+        aggregation_specs=aggregation_specs,
+        targets="arbeitsl_geld_2_m_double_hh",
+    )
 
     numpy.testing.assert_array_almost_equal(
         out["arbeitsl_geld_2_m_double_hh"], expected_res
@@ -362,8 +383,13 @@ def test_aggregation_specs_missing_group_sufix():
         ValueError,
         match="Name of aggregated column needs to have a suffix",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[], aggregation_specs=aggregation_specs,
-                                    targets="arbeitsl_geld_2_m_agg")
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[],
+            aggregation_specs=aggregation_specs,
+            targets="arbeitsl_geld_2_m_agg",
+        )
 
 
 def test_aggregation_specs_agg_not_impl():
@@ -384,8 +410,13 @@ def test_aggregation_specs_agg_not_impl():
         ValueError,
         match="Aggr aggr_not_implemented is not implemented, yet.",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[], aggregation_specs=aggregation_specs,
-                                    targets="arbeitsl_geld_2_m_hh")
+        compute_taxes_and_transfers(
+            data,
+            {},
+            functions=[],
+            aggregation_specs=aggregation_specs,
+            targets="arbeitsl_geld_2_m_hh",
+        )
 
 
 @pytest.mark.parametrize(
