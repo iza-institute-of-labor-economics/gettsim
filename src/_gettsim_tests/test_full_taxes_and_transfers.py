@@ -43,8 +43,16 @@ def test_full_taxes_and_transfers(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
+
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
+
     compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=OUT_COLS
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=out,
     )
 
 
@@ -59,6 +67,10 @@ def test_data_types(
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
 
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
+
     # Load all time dependent functions
     for y in range(1990, 2023):
         year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
@@ -72,7 +84,7 @@ def test_data_types(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=OUT_COLS,
+        targets=out,
         debug=True,
     )
     for column_name, series in result.items():

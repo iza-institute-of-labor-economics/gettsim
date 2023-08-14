@@ -35,11 +35,10 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation_specs):
+def load_and_check_functions(functions_raw, targets, data_cols, aggregation_specs):
     """Create the dict with all functions that may become part of the DAG by:
 
-    - merging user and internal functions
-    - vectorize all functions
+    - vectorizing all functions
     - adding time conversion functions, aggregation functions, and combinations
 
     Check that:
@@ -47,8 +46,8 @@ def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation
 
     Parameters
     ----------
-    user_functions_raw : dict
-        A dictionary mapping column names to policy functions by the user.
+    functions_raw : dict
+        A dictionary mapping column names to policy functions.
     targets : list of str
         List of strings with names of functions whose output is actually needed by the
         user.
@@ -69,26 +68,21 @@ def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation
 
     """
 
-    # Load user and internal functions.
-    user_functions_raw = [] if user_functions_raw is None else user_functions_raw
-    user_functions = _load_functions(user_functions_raw)
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = _load_functions(imports)
+    # Load functions.
+    functions_raw = [] if functions_raw is None else functions_raw
+    functions = _load_functions(functions_raw)
 
     # Vectorize functions.
-    user_and_internal_functions = {
-        fn: _vectorize_func(f)
-        for fn, f in {**internal_functions, **user_functions}.items()
-    }
+    vectorized_functions = {fn: _vectorize_func(f) for fn, f in functions.items()}
 
     # Create derived functions
     time_conversion_functions, aggregation_functions = _create_derived_functions(
-        user_and_internal_functions, targets, data_cols, aggregation_specs
+        vectorized_functions, targets, data_cols, aggregation_specs
     )
 
     all_functions = {
         **time_conversion_functions,
-        **user_and_internal_functions,
+        **vectorized_functions,
         **aggregation_functions,
     }
 

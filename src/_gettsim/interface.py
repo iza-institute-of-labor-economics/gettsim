@@ -82,7 +82,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        user_functions_raw=functions,
+        functions_raw=functions,
         targets=targets,
         data_cols=list(data),
         aggregation_specs=aggregation_specs,
