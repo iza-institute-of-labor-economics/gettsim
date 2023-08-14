@@ -7,6 +7,7 @@ versioning](https://semver.org/) and all releases are available on
 
 ## Unpublished
 
+- {gh}`638` Don't use functions in `compute_taxes_and_transfers` that are not active ({ghuser}`lars-reimann`).
 - {gh}`618`, {gh}`623` Apply `@dates_active` decorator to Abgeltungssteuer, Midi- and
   Minijobs, Pflegeversicherung. ({ghuser}`hmgaudecker`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
