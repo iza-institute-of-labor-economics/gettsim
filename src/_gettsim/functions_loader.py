@@ -83,18 +83,16 @@ def load_and_check_functions(
     # Load user and internal functions.
     user_functions_raw = [] if user_functions_raw is None else user_functions_raw
     user_functions = _load_functions(user_functions_raw)
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = _load_functions(imports)
 
     # Vectorize functions.
-    user_and_internal_functions = {
+    vectorized_user_functions_functions = {
         fn: _vectorize_func(f)
-        for fn, f in {**internal_functions, **user_functions}.items()
+        for fn, f in user_functions.items()
     }
 
     # Create derived functions
     time_conversion_functions, aggregation_functions = _create_derived_functions(
-        user_and_internal_functions, targets, data_cols, aggregation_specs
+        vectorized_user_functions_functions, targets, data_cols, aggregation_specs
     )
 
     # Check for implicit overlap of functions and data columns.
@@ -103,18 +101,17 @@ def load_and_check_functions(
     ]
     for funcs, name in zip(
         [
-            internal_functions,
             user_functions,
             aggregation_functions,
             time_conversion_functions,
         ],
-        ["internal", "user", "aggregation", "time_conversion"],
+        ["user", "aggregation", "time_conversion"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
     all_functions = {
         **time_conversion_functions,
-        **user_and_internal_functions,
+        **vectorized_user_functions_functions,
         **aggregation_functions,
     }
 
