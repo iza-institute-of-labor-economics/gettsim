@@ -344,15 +344,5 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sum_eink_ohne_kapital_eink_y:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    abgelt_st_y_tu:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
   assumed: {}
 outputs: {}
