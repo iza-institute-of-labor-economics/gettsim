@@ -44,7 +44,7 @@ def test_full_taxes_and_transfers(
         date=test_data.date
     )
 
-    out = OUT_COLS if test_data.date.year <= 2008 else OUT_COLS + ["abgelt_st_y_tu"]
+    out = OUT_COLS if test_data.date.year <= 2008 else [*OUT_COLS, "abgelt_st_y_tu"]
 
     # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
     #     for more years.
@@ -77,7 +77,7 @@ def test_data_types(  # noqa: PLR0912
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
 
-    out = OUT_COLS if test_data.date.year <= 2008 else OUT_COLS + ["abgelt_st_y_tu"]
+    out = OUT_COLS if test_data.date.year <= 2008 else [*OUT_COLS, "abgelt_st_y_tu"]
 
     # Load all time dependent functions
     for y in range(1990, 2023):

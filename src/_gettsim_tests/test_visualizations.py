@@ -114,7 +114,9 @@ def test_plot_dag():
 
 
 def test_should_fail_if_target_is_missing():
-    with pytest.raises(ValueError, match="The following targets have no corresponding function"):
+    with pytest.raises(
+        ValueError, match="The following targets have no corresponding function"
+    ):
         plot_dag(functions=[], targets=["erwachsene_alle_rentner_hh"])
 
 
