@@ -50,7 +50,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  _ges_rente_arblos_altersgrenze:
+  _ges_rente_arbeitslos_altersgrenze:
     - 60.75
   ges_rente_regelaltersgrenze:
     - 65.0
