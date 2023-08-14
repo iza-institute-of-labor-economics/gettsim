@@ -84,9 +84,7 @@ def load_and_check_functions(
     functions = _load_functions(functions_raw)
 
     # Vectorize functions.
-    vectorized_functions = {
-        fn: _vectorize_func(f) for fn, f in functions.items()
-    }
+    vectorized_functions = {fn: _vectorize_func(f) for fn, f in functions.items()}
 
     # Create derived functions
     time_conversion_functions, aggregation_functions = _create_derived_functions(
