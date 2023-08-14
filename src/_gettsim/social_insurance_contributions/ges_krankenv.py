@@ -1,7 +1,48 @@
 from _gettsim.shared import dates_active
 
 
-def ges_krankenv_beitr_m(  # noqa: PLR0913
+@dates_active(end="2003-03-31", change_name="ges_krankenv_beitr_m")
+def ges_krankenv_beitr_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    ges_krankenv_beitr_rente_m: float,
+    ges_krankenv_beitr_selbst_m: float,
+    _ges_krankenv_beitr_reg_beschäftigt_m: float,
+    selbstständig: bool,
+) -> float:
+    """Contribution for each individual to the public health insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    ges_krankenv_beitr_rente_m
+        See :func:`ges_krankenv_beitr_rente_m`.
+    ges_krankenv_beitr_selbst_m
+        See :func:`ges_krankenv_beitr_selbst_m`.
+    _ges_krankenv_beitr_reg_beschäftigt_m
+        See :func:`_ges_krankenv_beitr_reg_beschäftigt_m`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
+
+
+    Returns
+    -------
+
+    """
+
+    if selbstständig:
+        out = ges_krankenv_beitr_selbst_m
+    elif geringfügig_beschäftigt:
+        out = 0.0
+    else:
+        out = _ges_krankenv_beitr_reg_beschäftigt_m
+
+    # Add the health insurance contribution for pensions
+    return out + ges_krankenv_beitr_rente_m
+
+
+@dates_active(start="2003-04-01", change_name="ges_krankenv_beitr_m")
+def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,
     ges_krankenv_beitr_selbst_m: float,
@@ -48,7 +89,50 @@ def ges_krankenv_beitr_m(  # noqa: PLR0913
     return out + ges_krankenv_beitr_rente_m
 
 
-def ges_krankenv_beitr_arbeitg_m(
+@dates_active(end="2003-03-31", change_name="ges_krankenv_beitr_arbeitg_m")
+def ges_krankenv_beitr_arbeitg_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    bruttolohn_m: float,
+    _ges_krankenv_bruttolohn_m: float,
+    selbstständig: bool,
+    sozialv_beitr_params: dict,
+    _ges_krankenv_beitr_satz_arbeitg: float,
+) -> float:
+    """Contribution of the respective employer to the public health insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_krankenv_bruttolohn_m
+        See :func:`_ges_krankenv_bruttolohn_m`.
+    _ges_krankenv_beitr_satz_arbeitg
+        See :func:`_ges_krankenv_beitr_satz_arbeitg`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    selbstständig
+        See basic input variable :ref:`selbstständig <selbstständig>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+
+    Returns
+    -------
+
+    """
+
+    if selbstständig:
+        out = 0.0
+    elif geringfügig_beschäftigt:
+        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+    else:
+        out = _ges_krankenv_bruttolohn_m * _ges_krankenv_beitr_satz_arbeitg
+
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="ges_krankenv_beitr_arbeitg_m")
+def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
     bruttolohn_m: float,
@@ -714,6 +798,7 @@ def ges_krankenv_beitr_rente_m(
     return ges_krankenv_beitr_satz * _ges_krankenv_bemessungsgrundlage_rente_m
 
 
+@dates_active(start="2003-04-01")
 def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
@@ -742,6 +827,7 @@ def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_ges_krankenv_beitr_midijob_arbeitg_m",
 )
@@ -806,6 +892,7 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_ges_krankenv_beitr_midijob_arbeitn_m",
 )
