@@ -43,8 +43,7 @@ def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation
     - adding time conversion functions, aggregation functions, and combinations
 
     Check that:
-    - all targets are in set of functions or in columns_overriding_functions
-    - columns_overriding_functions are in set of functions
+    - all targets are in set of functions or in data_cols
 
     Parameters
     ----------
