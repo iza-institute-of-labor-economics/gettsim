@@ -44,6 +44,11 @@ def test_full_taxes_and_transfers(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
+
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
+
     # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
     #     for more years.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
@@ -59,7 +64,7 @@ def test_full_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=OUT_COLS,
+        targets=out,
         columns_overriding_functions=columns_overriding_functions,
     )
 
@@ -74,6 +79,10 @@ def test_data_types(  # noqa: PLR0912
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
+
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
 
     # Load all time dependent functions
     for y in range(1990, 2023):
@@ -99,7 +108,7 @@ def test_data_types(  # noqa: PLR0912
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=OUT_COLS,
+        targets=out,
         debug=True,
         columns_overriding_functions=columns_overriding_functions,
     )
