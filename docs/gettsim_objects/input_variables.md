@@ -455,9 +455,9 @@ Total years of mandat. contributions after age 40
 
 Type: float
 
-(pflichtbei_8y_last10)=
+(pflichtbeitr_8y_last10)=
 
-## `pflichtbei_8y_last10`
+## `pflichtbeitr_8y_last10`
 
 Has at least 8 contribution years in past 10 years
 

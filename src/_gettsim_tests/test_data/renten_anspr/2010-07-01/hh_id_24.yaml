@@ -44,7 +44,7 @@ inputs:
       - true
     y_pflichtbeitr_ab_40:
       - 15.0
-    pflichtbei_8y_last10:
+    pflichtbeitr_8y_last10:
       - false
     arbeitsl_1y_past_58dot5:
       - false
