@@ -37,7 +37,7 @@ if TYPE_CHECKING:
 
 
 def load_and_check_functions(
-    user_functions_raw,
+    functions_raw,
     columns_overriding_functions,
     targets,
     data_cols,
@@ -45,8 +45,7 @@ def load_and_check_functions(
 ):
     """Create the dict with all functions that may become part of the DAG by:
 
-    - merging user and internal functions
-    - vectorize all functions
+    - vectorizing all functions
     - adding time conversion functions, aggregation functions, and combinations
 
     Check that:
@@ -55,8 +54,8 @@ def load_and_check_functions(
 
     Parameters
     ----------
-    user_functions_raw : dict
-        A dictionary mapping column names to policy functions by the user.
+    functions_raw : dict
+        A dictionary mapping column names to policy functions.
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
@@ -81,17 +80,17 @@ def load_and_check_functions(
     """
 
     # Load user and functions.
-    user_functions_raw = [] if user_functions_raw is None else user_functions_raw
-    user_functions = _load_functions(user_functions_raw)
+    functions_raw = [] if functions_raw is None else functions_raw
+    functions = _load_functions(functions_raw)
 
     # Vectorize functions.
-    vectorized_user_functions_functions = {
-        fn: _vectorize_func(f) for fn, f in user_functions.items()
+    vectorized_functions = {
+        fn: _vectorize_func(f) for fn, f in functions.items()
     }
 
     # Create derived functions
     time_conversion_functions, aggregation_functions = _create_derived_functions(
-        vectorized_user_functions_functions, targets, data_cols, aggregation_specs
+        vectorized_functions, targets, data_cols, aggregation_specs
     )
 
     # Check for implicit overlap of functions and data columns.
@@ -100,7 +99,7 @@ def load_and_check_functions(
     ]
     for funcs, name in zip(
         [
-            user_functions,
+            functions,
             aggregation_functions,
             time_conversion_functions,
         ],
@@ -110,7 +109,7 @@ def load_and_check_functions(
 
     all_functions = {
         **time_conversion_functions,
-        **vectorized_user_functions_functions,
+        **vectorized_functions,
         **aggregation_functions,
     }
 

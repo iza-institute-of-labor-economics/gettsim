@@ -91,7 +91,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         data=data, columns_overriding_functions=columns_overriding_functions
     )
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        user_functions_raw=functions,
+        functions_raw=functions,
         columns_overriding_functions=columns_overriding_functions,
         targets=targets,
         data_cols=list(data),
