@@ -86,8 +86,7 @@ def load_and_check_functions(
 
     # Vectorize functions.
     vectorized_user_functions_functions = {
-        fn: _vectorize_func(f)
-        for fn, f in user_functions.items()
+        fn: _vectorize_func(f) for fn, f in user_functions.items()
     }
 
     # Create derived functions
