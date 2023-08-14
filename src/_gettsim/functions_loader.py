@@ -101,7 +101,7 @@ def load_and_check_functions(
             aggregation_functions,
             time_conversion_functions,
         ],
-        ["user", "aggregation", "time_conversion"],
+        ["hard-coded", "aggregation", "time_conversion"],
     ):
         _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
 
