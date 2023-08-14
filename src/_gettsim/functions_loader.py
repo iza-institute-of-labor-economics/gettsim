@@ -25,7 +25,6 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.shared import (
-    format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
@@ -36,13 +35,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-def load_and_check_functions(
-    user_functions_raw,
-    columns_overriding_functions,
-    targets,
-    data_cols,
-    aggregation_specs,
-):
+def load_and_check_functions(user_functions_raw, targets, data_cols, aggregation_specs):
     """Create the dict with all functions that may become part of the DAG by:
 
     - merging user and internal functions
@@ -57,9 +50,6 @@ def load_and_check_functions(
     ----------
     user_functions_raw : dict
         A dictionary mapping column names to policy functions by the user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
     targets : list of str
         List of strings with names of functions whose output is actually needed by the
         user.
@@ -97,40 +87,21 @@ def load_and_check_functions(
         user_and_internal_functions, targets, data_cols, aggregation_specs
     )
 
-    # Check for implicit overlap of functions and data columns.
-    data_cols_excl_overriding = [
-        c for c in data_cols if c not in columns_overriding_functions
-    ]
-    for funcs, name in zip(
-        [
-            internal_functions,
-            user_functions,
-            aggregation_functions,
-            time_conversion_functions,
-        ],
-        ["internal", "user", "aggregation", "time_conversion"],
-    ):
-        _fail_if_functions_and_columns_overlap(data_cols_excl_overriding, funcs, name)
-
     all_functions = {
         **time_conversion_functions,
         **user_and_internal_functions,
         **aggregation_functions,
     }
 
-    _fail_if_columns_overriding_functions_are_not_in_functions(
-        columns_overriding_functions, all_functions
-    )
-
-    _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
-        all_functions, targets, columns_overriding_functions
+    _fail_if_targets_are_not_in_functions(
+        all_functions, targets
     )
 
     # Separate all functions by whether they will be used or not.
     functions_overridden = {}
     functions_not_overridden = {}
     for k, v in all_functions.items():
-        if k in columns_overriding_functions:
+        if k in data_cols:
             functions_overridden[k] = v
         else:
             functions_not_overridden[k] = v
@@ -139,10 +110,10 @@ def load_and_check_functions(
 
 
 def _create_derived_functions(
-    user_and_internal_functions: dict[str, Callable],
-    targets,
-    data_cols,
-    aggregation_specs,
+        user_and_internal_functions: dict[str, Callable],
+        targets,
+        data_cols,
+        aggregation_specs,
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -242,7 +213,7 @@ def _load_functions(sources, include_imported_functions=False):
             source = {source.__name__: source}  # noqa: PLW2901
 
         if isinstance(source, dict) and all(
-            inspect.isfunction(i) for i in source.values()
+                inspect.isfunction(i) for i in source.values()
         ):
             functions = {**functions, **source}
 
@@ -274,7 +245,7 @@ def _search_directories_recursively_for_python_files(sources):
 
 
 def _convert_paths_and_strings_to_dicts_of_functions(
-    sources, include_imported_functions
+        sources, include_imported_functions
 ):
     """Convert paths and strings to dictionaries of functions.
 
@@ -300,7 +271,7 @@ def _convert_paths_and_strings_to_dicts_of_functions(
                     out, lambda x: inspect.isfunction(x)
                 )
                 if include_imported_functions
-                or _is_function_defined_in_module(func, out.__name__)
+                   or _is_function_defined_in_module(func, out.__name__)
             }
         else:
             functions_defined_in_module = source
@@ -369,7 +340,7 @@ def _load_aggregation_combined_dict_from_strings(sources):
 
 
 def _create_aggregation_functions(
-    user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
+        user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
 ):
     """Create aggregation functions."""
     aggregation_dict = load_aggregation_dict()
@@ -389,8 +360,8 @@ def _create_aggregation_functions(
         col
         for col in potential_agg_cols
         if (col not in user_and_internal_functions)
-        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
-        and (remove_group_suffix(col) in potential_source_cols)
+           and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+           and (remove_group_suffix(col) in potential_source_cols)
     ]
     automated_sum_aggregation_specs = {
         agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
@@ -455,7 +426,7 @@ def rename_arguments(func=None, mapper=None, annotations=None):
 
 
 def _create_one_aggregation_func(  # noqa: PLR0912
-    agg_col, agg_specs, user_and_internal_functions
+        agg_col, agg_specs, user_and_internal_functions
 ):
     """Create an aggregation function based on aggregation specification.
 
@@ -509,8 +480,8 @@ def _create_one_aggregation_func(  # noqa: PLR0912
         annotations["return"] = int
     else:
         if (
-            source_col in user_and_internal_functions
-            and "return" in user_and_internal_functions[source_col].__annotations__
+                source_col in user_and_internal_functions
+                and "return" in user_and_internal_functions[source_col].__annotations__
         ):
             annotations[source_col] = user_and_internal_functions[
                 source_col
@@ -631,103 +602,8 @@ def _vectorize_func(func):
     return wrapper_vectorize_func
 
 
-def _fail_if_functions_and_columns_overlap(columns, functions, type_):
-    """Fail if functions which compute columns overlap with existing columns.
-
-    Parameters
-    ----------
-    columns : list of str
-        List of strings containing column names.
-    functions : dict
-        Dictionary of functions.
-    type_ : {"internal", "user"}
-        Source of the functions. "user" means functions passed by the user.
-
-    Raises
-    ------
-    ValueError
-        Fail if functions which compute columns overlap with existing columns.
-
-    """
-    if type_ == "internal":
-        type_str = "internal "
-    elif type_ == "aggregation":
-        type_str = "internal aggregation "
-    else:
-        type_str = ""
-
-    overlap = sorted(
-        name
-        for name in columns
-        if (name in functions) or (remove_group_suffix(name) in functions)
-    )
-
-    if overlap:
-        n_cols = len(overlap)
-        first_part = format_errors_and_warnings(
-            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
-        )
-        formatted = format_list_linewise(overlap)
-        second_part = format_errors_and_warnings(
-            f"""
-            {'This is' if n_cols == 1 else 'These are'} already present among the
-            {type_str}functions of the taxes and transfers system.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM, please specify it among the
-            *columns_overriding_functions*{'.' if type_ == 'internal' else ''' or remove
-            the function from *functions*.'''}
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            by {type_str}functions, remove it from the *data* you pass to GETTSIM.
-
-            {'' if n_cols == 1 else '''You need to pick one option for each column that
-            appears in the list above.'''}
-            """
-        )
-        raise ValueError(f"{first_part}\n{formatted}\n{second_part}")
-
-
-def _fail_if_columns_overriding_functions_are_not_in_functions(
-    columns_overriding_functions, functions
-):
-    """Fail if ``columns_overriding_functions`` are not found in functions.
-
-    Parameters
-    ----------
-    columns_overriding_functions : str list of str
-        Names of columns which are preferred over function defined in the tax and
-        transfer system.
-    functions : dict of callable
-        A dictionary of functions.
-
-    Raises
-    ------
-    ValueError
-        Fail if some ``columns_overriding_functions`` are not found in internal or user
-        functions.
-
-    """
-    unnecessary_columns_overriding_functions = [
-        col
-        for col in columns_overriding_functions
-        if (col not in functions) and (remove_group_suffix(col) not in functions)
-    ]
-    if unnecessary_columns_overriding_functions:
-        n_cols = len(unnecessary_columns_overriding_functions)
-        intro = format_errors_and_warnings(
-            f"""
-            You passed the following user column{'' if n_cols == 1 else 's'} which {'is'
-            if n_cols == 1 else 'are'} unnecessary because no functions require them as
-            inputs.
-            """
-        )
-        list_ = format_list_linewise(unnecessary_columns_overriding_functions)
-        raise ValueError(f"{intro}\n{list_}")
-
-
-def _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
-    functions, targets, columns_overriding_functions
+def _fail_if_targets_are_not_in_functions(
+        functions, targets
 ):
     """Fail if targets are not in functions.
 
@@ -738,9 +614,6 @@ def _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
     targets : list of str
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    columns_overriding_functions : list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
 
     Raises
     ------
@@ -749,7 +622,7 @@ def _fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
 
     """
     targets_not_in_functions = (
-        set(targets) - set(functions) - set(columns_overriding_functions)
+            set(targets) - set(functions)
     )
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)

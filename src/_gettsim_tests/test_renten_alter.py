@@ -28,12 +28,8 @@ def test_renten_alter(
         date=f"{year}-07-01"
     )
 
-    calc_result = compute_taxes_and_transfers(
-        data=merged_input_df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=targets,
-    )
+    calc_result = compute_taxes_and_transfers(data=merged_input_df, params=policy_params, functions=policy_functions,
+                                              targets=targets)
     assert_series_equal(
         calc_result[target], merged_output_df[target], atol=1e-1, rtol=0
     )

@@ -22,12 +22,7 @@ def test_arbeitsl_geld(
         date=test_data.date
     )
 
-    result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-    )
+    result = compute_taxes_and_transfers(data=df, params=policy_params, functions=policy_functions, targets=column)
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.
     assert_series_equal(
