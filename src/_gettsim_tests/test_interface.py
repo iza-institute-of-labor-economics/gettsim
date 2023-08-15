@@ -57,7 +57,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
         compute_taxes_and_transfers(
             data=pd.DataFrame({"p_id": [0]}),
             params={},
-            functions={"dupl": lambda x: x},
+            functions={"some_func": lambda x: x},
             targets=[],
         )
 
