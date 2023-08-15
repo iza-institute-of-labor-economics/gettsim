@@ -76,7 +76,6 @@ def plot_dag(
     # Load functions.
     functions_not_overridden, functions_overridden = load_and_check_functions(
         functions_raw=functions,
-        columns_overriding_functions=columns_overriding_functions,
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),
         aggregation_specs={},

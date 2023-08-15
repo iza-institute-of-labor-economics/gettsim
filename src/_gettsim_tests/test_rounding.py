@@ -50,8 +50,8 @@ def test_no_rounding_specs(rounding_specs):
 
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            functions=[test_func],
             params=rounding_specs,
+            functions=[test_func],
             targets=["test_func"],
         )
 
@@ -75,8 +75,8 @@ def test_rounding_specs_wrong_format(base, direction):
 
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            functions=[test_func],
             params=rounding_specs,
+            functions=[test_func],
             targets=["test_func"],
         )
 
@@ -102,10 +102,7 @@ def test_rounding(base, direction, input_values, exp_output):
     }
 
     calc_result = compute_taxes_and_transfers(
-        data=data,
-        functions=[test_func],
-        params=rounding_specs,
-        targets=["test_func"],
+        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(exp_output))
 
@@ -129,10 +126,7 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):
     }
 
     calc_result = compute_taxes_and_transfers(
-        data=data,
-        functions=[test_func],
-        params=rounding_specs,
-        targets=["test_func"],
+        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
 

@@ -5,15 +5,6 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-OVERRIDE_COLS = [
-    "eink_st_ohne_kinderfreib_y_tu",
-    "eink_st_mit_kinderfreib_y_tu",
-    "abgelt_st_y_tu",
-    "kindergeld_m",
-    "_zu_verst_eink_mit_kinderfreib_y_tu",
-    "_zu_verst_eink_ohne_kinderfreib_y_tu",
-]
-
 data = load_policy_test_data("favorability_check")
 
 
@@ -32,11 +23,7 @@ def test_favorability_check(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(
