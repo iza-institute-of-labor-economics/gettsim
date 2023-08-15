@@ -46,9 +46,9 @@ inputs:
       - 0.0
     m_pflichtbeitrag:
       - 60.0
-    pflichtbeitr_8y_last10:
+    pflichtbeitr_8_in_10:
       - false
-    arbeitsl_1y_past_58dot5:
+    arbeitsl_1y_past_585:
       - false
     m_freiw_beitrag:
       - 0.0

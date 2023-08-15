@@ -44,9 +44,9 @@ inputs:
       - true
     y_pflichtbeitr_ab_40:
       - 11.0
-    pflichtbeitr_8y_last10:
+    pflichtbeitr_8_in_10:
       - true
-    arbeitsl_1y_past_58dot5:
+    arbeitsl_1y_past_585:
       - true
     m_pflichtbeitrag:
       - 182.0

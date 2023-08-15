@@ -789,9 +789,9 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
 
 
 def _ges_rente_vorauss_arbeitslos(
-    arbeitsl_1y_past_58dot5: bool,
+    arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: float,
-    pflichtbeitr_8y_last10: bool,
+    pflichtbeitr_8_in_10: bool,
 ) -> bool:
     """Function determining the eligibility for Altersrente für Arbeitslose (pension
     for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
@@ -799,13 +799,13 @@ def _ges_rente_vorauss_arbeitslos(
 
     Parameters
     ----------
-    arbeitsl_1y_past_58dot5
+    arbeitsl_1y_past_585
         See basic input variable
-        :ref:`arbeitsl_1y_past_58dot5 <arbeitsl_1y_past_58dot5>`.
+        :ref:`arbeitsl_1y_past_585 <arbeitsl_1y_past_585>`.
     ges_rente_wartezeit_15
         See :func:`ges_rente_wartezeit_15`
-    pflichtbeitr_8y_last10
-        See basic input variable :ref:`pflichtbeitr_8y_last10 <pflichtbeitr_8y_last10>`.
+    pflichtbeitr_8_in_10
+        See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
     birthdate_decimal
         See :func:`birthdate_decimal`
     ges_rente_params
@@ -818,9 +818,9 @@ def _ges_rente_vorauss_arbeitslos(
     """
 
     out = (
-        arbeitsl_1y_past_58dot5
+        arbeitsl_1y_past_585
         and ges_rente_wartezeit_15 >= 15
-        and pflichtbeitr_8y_last10
+        and pflichtbeitr_8_in_10
         # and alter >= altersgrenze_vorzeitig # would need monthly precision in
         # age here, but age check follows later
     )
