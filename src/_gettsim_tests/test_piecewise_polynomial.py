@@ -8,9 +8,7 @@ from _gettsim.piecewise_functions import (
 
 
 def test_get_piecewise_parameters_all_intercepts_supplied():
-    params = {
-        "type": "piecewise_linear",
-        "progressionsfaktor": True,
+    params_dict = {
         0: {
             "lower_threshold": "-inf",
             "upper_threshold": 2005,
@@ -36,10 +34,13 @@ def test_get_piecewise_parameters_all_intercepts_supplied():
             "intercept_at_lower_threshold": 1,
         },
     }
-    expected = np.array([0.27, 0.5, 0.8, 1])
+    param = "test"
+    func_type = "linear"
     actual = get_piecewise_parameters(
-        params,
-        "eink_st_tarif",
-        "linear",
+        params_dict,
+        param,
+        func_type,
     )["intercepts_at_lower_thresholds"]
+    expected = np.array([0.27, 0.5, 0.8, 1])
+
     np.testing.assert_almost_equal(actual, expected, decimal=10)
