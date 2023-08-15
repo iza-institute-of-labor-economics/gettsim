@@ -361,7 +361,7 @@ def test_user_provided_aggregation_specs_function():
         }
     )
     aggregation_specs = {
-        "arbeitsl_geld_2_m_double_hh": {
+        "arbeitsl_geld_2_double_m_hh": {
             "source_col": "arbeitsl_geld_2_m_double",
             "aggr": "max",
         }
@@ -376,11 +376,11 @@ def test_user_provided_aggregation_specs_function():
         {},
         functions=[arbeitsl_geld_2_m_double],
         aggregation_specs=aggregation_specs,
-        targets="arbeitsl_geld_2_m_double_hh",
+        targets="arbeitsl_geld_2_double_m_hh",
     )
 
     numpy.testing.assert_array_almost_equal(
-        out["arbeitsl_geld_2_m_double_hh"], expected_res
+        out["arbeitsl_geld_2_double_m_hh"], expected_res
     )
 
 
@@ -393,7 +393,7 @@ def test_aggregation_specs_missing_group_sufix():
         }
     )
     aggregation_specs = {
-        "arbeitsl_geld_2_m_agg": {
+        "arbeitsl_geld_2_agg_m": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
         }
@@ -407,7 +407,7 @@ def test_aggregation_specs_missing_group_sufix():
             {},
             functions=[],
             aggregation_specs=aggregation_specs,
-            targets="arbeitsl_geld_2_m_agg",
+            targets="arbeitsl_geld_2_agg_m",
         )
 
 

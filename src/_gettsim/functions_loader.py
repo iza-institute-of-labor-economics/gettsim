@@ -86,7 +86,7 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
         **aggregation_functions,
     }
 
-    _fail_if_targets_are_not_in_functions(all_functions, targets)
+    _fail_if_targets_are_not_among_functions(all_functions, targets)
 
     # Separate all functions by whether they will be used or not.
     functions_overridden = {}
@@ -593,8 +593,8 @@ def _vectorize_func(func):
     return wrapper_vectorize_func
 
 
-def _fail_if_targets_are_not_in_functions(functions, targets):
-    """Fail if targets are not in functions.
+def _fail_if_targets_are_not_among_functions(functions, targets):
+    """Fail if some target is not among functions.
 
     Parameters
     ----------
@@ -607,7 +607,7 @@ def _fail_if_targets_are_not_in_functions(functions, targets):
     Raises
     ------
     ValueError
-        Raised if ``targets`` are not in functions.
+        Raised if any member of `targets` is not among functions.
 
     """
     targets_not_in_functions = set(targets) - set(functions)
