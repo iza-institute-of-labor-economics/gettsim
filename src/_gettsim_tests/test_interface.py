@@ -9,11 +9,9 @@ from _gettsim.interface import (
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
-    _warn_if_functions_and_columns_overlap,
     compute_taxes_and_transfers,
 )
 from _gettsim.shared import add_rounding_spec
-
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -45,13 +43,23 @@ func_after_partial = _round_and_partial_parameters_to_functions(
 
 def test_warn_if_functions_and_columns_overlap():
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
-        _warn_if_functions_and_columns_overlap({"dupl"})
+        compute_taxes_and_transfers(
+            data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
+            params={},
+            functions={"dupl": lambda x: x},
+            targets=[],
+        )
 
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
-        _warn_if_functions_and_columns_overlap(set())
+        compute_taxes_and_transfers(
+            data=pd.DataFrame({"p_id": [0]}),
+            params={},
+            functions={"dupl": lambda x: x},
+            targets=[],
+        )
 
 
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
@@ -59,7 +67,12 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
         category=FunctionsAndColumnsOverlapWarning, record=True
     ) as warning_list:
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
-        _warn_if_functions_and_columns_overlap({"dupl"})
+        compute_taxes_and_transfers(
+            data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
+            params={},
+            functions={"dupl": lambda x: x},
+            targets=[],
+        )
 
     assert len(warning_list) == 0
 

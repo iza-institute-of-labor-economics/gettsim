@@ -89,7 +89,13 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)
-    _warn_if_functions_and_columns_overlap(columns_overriding_functions)
+
+    # Warn if columns override functions.
+    if columns_overriding_functions:
+        warnings.warn(
+            FunctionsAndColumnsOverlapWarning(columns_overriding_functions),
+            stacklevel=2,
+        )
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
@@ -359,17 +365,17 @@ def _create_input_data(
     return input_data
 
 
-def _warn_if_functions_and_columns_overlap(
-    columns_overriding_functions: set[str],
-) -> None:
-    """Warn if functions which compute columns overlap with existing columns.
+class FunctionsAndColumnsOverlapWarning(UserWarning):
+    """
+    Warning that functions which compute columns overlap with existing columns.
 
     Parameters
     ----------
     columns_overriding_functions : set[str]
         Names of columns in the data that override hard-coded functions.
     """
-    if columns_overriding_functions:
+
+    def __init__(self, columns_overriding_functions: set[str]) -> None:
         n_cols = len(columns_overriding_functions)
         first_part = format_errors_and_warnings(
             f"Your data provides the column{'' if n_cols == 1 else 's'}:"
@@ -381,10 +387,11 @@ def _warn_if_functions_and_columns_overlap(
             hard-coded functions of the taxes and transfers system.
             If you want {'this' if n_cols == 1 else 'a'} data column to be used
             instead of calculating it within GETTSIM you need not do anything.
-            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            by hard-coded functions, remove {'it' if n_cols == 1 else 'them'} from the
-            *data* you pass to GETTSIM. {'' if n_cols == 1 else '''You need to pick one
-            option for each column that appears in the list above.'''}
+            If you want {'this' if n_cols == 1 else 'a'} data column to be
+            calculated by hard-coded functions, remove
+            {'it' if n_cols == 1 else 'them'} from the *data* you pass to GETTSIM.
+            {'' if n_cols == 1 else '''You need to pick one option for each column
+            that appears in the list above.'''}
             """
         )
         how_to_ignore = format_errors_and_warnings(
@@ -399,15 +406,7 @@ def _warn_if_functions_and_columns_overlap(
                 )
             """
         )
-        warnings.warn(
-            f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}",
-            category=FunctionsAndColumnsOverlapWarning,
-            stacklevel=2,
-        )
-
-
-class FunctionsAndColumnsOverlapWarning(UserWarning):
-    pass
+        super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
 def _fail_if_duplicates_in_columns(data):
