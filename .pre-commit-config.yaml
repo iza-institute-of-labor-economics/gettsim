@@ -57,7 +57,7 @@ repos:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.281
+    rev: v0.0.284
     hooks:
       - id: ruff
       #   args:
@@ -77,7 +77,7 @@ repos:
           - black==23.7.0
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.0.281
+          - ruff==v0.0.284
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
@@ -101,7 +101,7 @@ repos:
         args:
           - --wrap
           - '88'
-        files: (docs/.)
+        files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.4.1
     hooks:

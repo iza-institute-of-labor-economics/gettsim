@@ -1,7 +1,42 @@
 from _gettsim.shared import dates_active
 
 
-def ges_rentenv_beitr_m(
+@dates_active(end="2003-03-31", change_name="ges_rentenv_beitr_m")
+def ges_rentenv_beitr_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Contribution for each individual to the pension insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_rentenv_beitr_bruttolohn_m
+        See :func:`_ges_rentenv_beitr_bruttolohn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    ges_rentenv_beitr_regular_job_m = (
+        _ges_rentenv_beitr_bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
+    )
+
+    if geringfügig_beschäftigt:
+        out = 0.0
+    else:
+        out = ges_rentenv_beitr_regular_job_m
+
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="ges_rentenv_beitr_m")
+def ges_rentenv_beitr_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_midijob_arbeitn_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -14,7 +49,6 @@ def ges_rentenv_beitr_m(
     ----------
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-
     _ges_rentenv_beitr_midijob_arbeitn_m
         See :func:`_ges_rentenv_beitr_midijob_arbeitn_m`.
     _ges_rentenv_beitr_bruttolohn_m
@@ -43,7 +77,45 @@ def ges_rentenv_beitr_m(
     return out
 
 
-def ges_rentenv_beitr_arbeitg_m(
+@dates_active(end="2003-03-31", change_name="ges_rentenv_beitr_arbeitg_m")
+def ges_rentenv_beitr_arbeitg_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+    bruttolohn_m: float,
+) -> float:
+    """Contribution of the respective employer to the pension insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_rentenv_beitr_bruttolohn_m
+        See :func:`_ges_rentenv_beitr_bruttolohn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+
+    Returns
+    -------
+
+    """
+    ges_rentenv_beitr_regular_job_m = (
+        _ges_rentenv_beitr_bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
+    )
+
+    if geringfügig_beschäftigt:
+        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+    else:
+        out = ges_rentenv_beitr_regular_job_m
+
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="ges_rentenv_beitr_arbeitg_m")
+def ges_rentenv_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_midijob_arbeitg_m: float,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -87,6 +159,7 @@ def ges_rentenv_beitr_arbeitg_m(
     return out
 
 
+@dates_active(start="2003-04-01")
 def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,

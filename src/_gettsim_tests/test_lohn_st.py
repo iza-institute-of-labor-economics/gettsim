@@ -26,11 +26,6 @@ OUT_COLS = [
     # "soli_st_lohnst_m"
 ]
 
-OVERRIDE_COLS = [
-    "ges_krankenv_zusatzbeitr_satz",
-    "ges_pflegev_zusatz_kinderlos",
-]
-
 YEARS = [2022]
 
 data = load_policy_test_data("lohn_st")
@@ -51,11 +46,7 @@ def test_lohnsteuer(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
     assert_series_equal(
         result[column], test_data.output_df[column], check_dtype=False, atol=2

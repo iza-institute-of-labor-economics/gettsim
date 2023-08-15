@@ -29,10 +29,7 @@ def test_renten_anspr(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(result[column], test_data.output_df[column], atol=1e-1, rtol=0)
