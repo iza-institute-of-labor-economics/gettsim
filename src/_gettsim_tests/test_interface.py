@@ -5,6 +5,7 @@ import pandas as pd
 import pytest
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.interface import (
+    FunctionsAndColumnsOverlapWarning,
     _convert_data_to_correct_types,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
@@ -41,21 +42,25 @@ func_after_partial = _round_and_partial_parameters_to_functions(
 )["test_func"]
 
 
-@pytest.mark.parametrize(
-    "columns_overriding_functions",
-    [
-        {"dupl"},
-    ],
-)
-def test_warn_if_functions_and_columns_overlap(columns_overriding_functions: set[str]):
-    with pytest.warns(UserWarning, match="Your data provides the column"):
-        _warn_if_functions_and_columns_overlap(columns_overriding_functions)
+def test_warn_if_functions_and_columns_overlap():
+    with pytest.warns(FunctionsAndColumnsOverlapWarning):
+        _warn_if_functions_and_columns_overlap({"dupl"})
 
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     with warnings.catch_warnings():
-        warnings.simplefilter("error")
+        warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         _warn_if_functions_and_columns_overlap(set())
+
+
+def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
+    with warnings.catch_warnings(
+        category=FunctionsAndColumnsOverlapWarning, record=True
+    ) as warning_list:
+        warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
+        _warn_if_functions_and_columns_overlap({"dupl"})
+
+    assert len(warning_list) == 0
 
 
 def test_fail_if_pid_does_not_exist():

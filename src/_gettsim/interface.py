@@ -387,7 +387,27 @@ def _warn_if_functions_and_columns_overlap(
             option for each column that appears in the list above.'''}
             """
         )
-        warnings.warn(f"{first_part}\n{formatted}\n{second_part}", stacklevel=2)
+        how_to_ignore = format_errors_and_warnings(
+            """
+            If you want to ignore this warning, add the following code to your script
+            before calling GETTSIM:
+
+                import warnings
+                warnings.filterwarnings(
+                    "ignore",
+                    category=FunctionsAndColumnsOverlapWarning
+                )
+            """
+        )
+        warnings.warn(
+            f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}",
+            category=FunctionsAndColumnsOverlapWarning,
+            stacklevel=2,
+        )
+
+
+class FunctionsAndColumnsOverlapWarning(UserWarning):
+    pass
 
 
 def _fail_if_duplicates_in_columns(data):
