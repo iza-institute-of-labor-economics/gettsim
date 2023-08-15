@@ -7,9 +7,9 @@ from _gettsim.piecewise_functions import (
 )
 
 
-def test_get_intercepts_for_piecewise_polynomial():
+def test_get_piecewise_parameters_all_intercepts_supplied():
     params = {
-        "type": "piecewise_quadratic",
+        "type": "piecewise_linear",
         "progressionsfaktor": True,
         0: {
             "lower_threshold": "-inf",
@@ -36,14 +36,10 @@ def test_get_intercepts_for_piecewise_polynomial():
             "intercept_at_lower_threshold": 1,
         },
     }
-
-    piecewise_parameters = get_piecewise_parameters(
+    expected = np.array([0.27, 0.5, 0.8, 1])
+    actual = get_piecewise_parameters(
         params,
         "eink_st_tarif",
         "linear",
-    )
-
-    assert (
-        piecewise_parameters["intercepts_at_lower_thresholds"]
-        == np.array([0.27, 0.5, 0.8, 1])
-    ).all()
+    )["intercepts_at_lower_thresholds"]
+    np.testing.assert_almost_equal(actual, expected, decimal=10)
