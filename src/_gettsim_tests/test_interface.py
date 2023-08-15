@@ -5,7 +5,6 @@ import pandas as pd
 import pytest
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.interface import (
-    FunctionsAndColumnsOverlapWarning,
     _convert_data_to_correct_types,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
@@ -14,6 +13,8 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.shared import add_rounding_spec
+
+from gettsim import FunctionsAndColumnsOverlapWarning
 
 
 @pytest.fixture(scope="module")
