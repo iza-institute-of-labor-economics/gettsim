@@ -34,12 +34,11 @@ def test_get_piecewise_parameters_all_intercepts_supplied():
             "intercept_at_lower_threshold": 1,
         },
     }
-    param = "test"
-    func_type = "linear"
+
     actual = get_piecewise_parameters(
-        params_dict,
-        param,
-        func_type,
+        parameter_dict=params_dict,
+        parameter="test",
+        func_type="linear",
     )["intercepts_at_lower_thresholds"]
     expected = np.array([0.27, 0.5, 0.8, 1])
 
