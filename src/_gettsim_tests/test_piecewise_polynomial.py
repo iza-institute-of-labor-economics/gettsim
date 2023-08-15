@@ -1,16 +1,49 @@
 """
-Test for BUG-fix #629
-https://github.com/iza-institute-of-labor-economics/gettsim/issues/629
+Tests for `piecewise_polynomial`
 """
 import numpy as np
+from _gettsim.piecewise_functions import (
+    get_piecewise_parameters,
+)
 
-from _gettsim_tests._helpers import cached_set_up_policy_environment
 
-policy_params, policy_functions = cached_set_up_policy_environment(date="1.1.2005")
+def test_get_intercepts_for_piecewise_polynomial():
+    params = {
+        "type": "piecewise_quadratic",
+        "progressionsfaktor": True,
+        0: {
+            "lower_threshold": "-inf",
+            "upper_threshold": 2005,
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 0.27,
+        },
+        1: {
+            "lower_threshold": 2005,
+            "upper_threshold": 2021,
+            "rate_linear": 0.02,
+            "intercept_at_lower_threshold": 0.5,
+        },
+        2: {
+            "lower_threshold": 2021,
+            "upper_threshold": 2041,
+            "rate_linear": 0.01,
+            "intercept_at_lower_threshold": 0.8,
+        },
+        3: {
+            "lower_threshold": 2041,
+            "upper_threshold": "inf",
+            "rate_linear": 0,
+            "intercept_at_lower_threshold": 1,
+        },
+    }
 
+    piecewise_parameters = get_piecewise_parameters(
+        params,
+        "eink_st_tarif",
+        "linear",
+    )
 
-def test_check_intercepts():
-    intercepts = policy_params["eink_st"]["rente_ertragsanteil"][
-        "intercepts_at_lower_thresholds"
-    ]
-    assert (intercepts == np.array([0.27, 0.5, 0.8, 1])).all()
+    assert (
+        piecewise_parameters["intercepts_at_lower_thresholds"]
+        == np.array([0.27, 0.5, 0.8, 1])
+    ).all()
