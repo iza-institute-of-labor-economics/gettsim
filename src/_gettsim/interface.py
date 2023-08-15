@@ -400,6 +400,7 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
             before calling GETTSIM:
 
                 import warnings
+                from gettsim import FunctionsAndColumnsOverlapWarning
                 warnings.filterwarnings(
                     "ignore",
                     category=FunctionsAndColumnsOverlapWarning
