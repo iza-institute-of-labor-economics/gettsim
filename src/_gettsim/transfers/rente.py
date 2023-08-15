@@ -340,7 +340,9 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     Returns
     -------
     Lowest possible full retirement age (without deductions). Nan if
-    person not eligigble for a public pension.
+    person not eligigble for a public pension. Includes abolishments
+    of pension for women and unemployed via increase of respective
+    thresholds to regelaltersgrenze after abolishment.
 
     """
 
@@ -430,7 +432,9 @@ def referenz_alter_abschlag(
 ) -> float:
     """Determines reference age for deduction calculation in case of early retirement
     (Zugangsfaktor). Nan if person is not eligible for early retirement. (The regular
-    pension and the pension for very long term insured cannot be claimed early.)
+    pension and the pension for very long term insured cannot be claimed early.
+    Includes abolishement of Rente für Frauen und Arbeitslose via jump of the
+    respective thresholds to regelaltersgrenze.)
 
     Parameters
     ----------
@@ -779,15 +783,20 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
         and ges_rente_wartezeit_15 >= 15
         and y_pflichtbeitr_ab_40 >= 10
         and alter >= altersgrenze_vorzeitig
+        and geburtsjahr < 1952
     )
 
     return out
 
 
-def _ges_rente_vorauss_arbeitslos(
+def _ges_rente_vorauss_arbeitslos(  # noqa: PLR0913
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: float,
     pflichtbeitr_8_in_10: bool,
+    birthdate_decimal: float,
+    ges_rente_params: dict,
+    alter: int,
+    #  @TeBackh: need to fix to monthly precision! change to age_of_retirement
 ) -> bool:
     """Function determining the eligibility for Altersrente für Arbeitslose (pension
     for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
@@ -812,13 +821,21 @@ def _ges_rente_vorauss_arbeitslos(
     Eligibility as bool.
 
     """
+    altersgrenze_vorzeitig = piecewise_polynomial(
+        x=birthdate_decimal,
+        thresholds=ges_rente_params["altergrenze_arbeitslose_vorzeitig"]["thresholds"],
+        rates=ges_rente_params["altergrenze_arbeitslose_vorzeitig"]["rates"],
+        intercepts_at_lower_thresholds=ges_rente_params[
+            "altergrenze_arbeitslose_vorzeitig"
+        ]["intercepts_at_lower_thresholds"],
+    )
 
     out = (
         arbeitsl_1y_past_585
         and ges_rente_wartezeit_15 >= 15
         and pflichtbeitr_8_in_10
-        # and alter >= altersgrenze_vorzeitig # would need monthly precision in
-        # age here, but age check follows later
+        and alter >= altersgrenze_vorzeitig
+        and birthdate_decimal < 1952
     )
 
     return out

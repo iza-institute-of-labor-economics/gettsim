@@ -15,11 +15,11 @@ inputs:
     wohnort_ost:
       - false
     alter:
-      - 63
+      - 62
     jahr:
       - 2015
     geburtsjahr:
-      - 1940
+      - 1948
     entgeltp:
       - 39.3795
     geburtsmonat:
@@ -41,9 +41,9 @@ inputs:
     m_geringf_beschäft:
       - 0.0
     weiblich:
-      - true
+      - false
     y_pflichtbeitr_ab_40:
-      - 11.0
+      - 0.0
     pflichtbeitr_8_in_10:
       - true
     arbeitsl_1y_past_585:
@@ -65,6 +65,6 @@ outputs:
   entgeltp_update_lohn:
     - 0.509006589
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 61.0
+    - 65.16666666
   ges_rente_vorauss_vorzeitig:
-    - true
+    - false
