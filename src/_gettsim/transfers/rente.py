@@ -511,8 +511,8 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
 
 def ges_rente_frauen_altersgrenze(
-    geburtsjahr: int,
-    geburtsmonat: int,
+    birthdate_decimal: float,
+    ges_rente_regelaltersgrenze: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the age, at which a women is eligible to claim the full pension
@@ -522,10 +522,10 @@ def ges_rente_frauen_altersgrenze(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    birthdate_decimal
+        See :func:`birthdate_decimal`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -534,23 +534,19 @@ def ges_rente_frauen_altersgrenze(
     returns the lowest full retirement age for women.
 
     """
-    # From 1945 on, the altersgrenze of women is equal to the Regelaltersgrenze which
-    # is indpendendent of the birth month and only depends on the birth year.
-    if geburtsjahr < 1945:
-        x = geburtsjahr + (geburtsmonat - 1) / 12
+    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_frauen"]:
+        out = piecewise_polynomial(
+            x=birthdate_decimal,
+            thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "altersgrenze_für_frauen_abschlagsfrei"
+            ]["intercepts_at_lower_thresholds"],
+        )
     else:
-        x = geburtsjahr
-
-    out = piecewise_polynomial(
-        x=x,
-        thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
-            "thresholds"
-        ],
-        rates=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_für_frauen_abschlagsfrei"
-        ]["intercepts_at_lower_thresholds"],
-    )
+        out = ges_rente_regelaltersgrenze
 
     return out
 
@@ -582,7 +578,7 @@ def _ges_rente_arbeitslos_altersgrenze(
     """
     if (
         birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitslose"]
-    ):  # 1953
+    ):  # 1952
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitslose_abschlagsfrei"][

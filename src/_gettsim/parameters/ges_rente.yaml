@@ -854,6 +854,19 @@ altersgrenze_für_frauen_vorzeitig:
     2:
       upper_threshold: inf  # constant 67
       rate_linear: 0
+abolishment_cohort_rente_für_frauen:
+  name:
+    de: Kohorte Abschaffung Rente für Frauen
+    en: Cohort abolishment pension for women
+  description:
+    de: >-
+      Kohorte, ab der Rente für Frauen abgeschafft.
+    en: >-
+      Cohort from which pension for women abolished
+  reference: § 237a SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
+  1980-01-01:
+    scalar: 1952
 altersgrenze_arbeitslose_abschlagsfrei:
   name:
     de: Altergrenze für Altersrente wegen Arbeitslosigkeit (abschlagsfrei)
