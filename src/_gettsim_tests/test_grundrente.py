@@ -15,15 +15,6 @@ OUT_COLS_TOL = {
     "grundr_zuschlag_m": 1,
     "ges_rente_m": 1,
 }
-
-OVERRIDE_COLS = [
-    "rente_vorj_vor_grundr_proxy_m",
-    "eink_selbst_y",
-    "eink_vermietung_y",
-    "kapitaleink_y",
-    "ges_rente_zugangsfaktor",
-]
-
 data = load_policy_test_data("grundrente")
 
 
@@ -42,11 +33,7 @@ def test_grundrente(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     tol = OUT_COLS_TOL[column]
@@ -103,10 +90,7 @@ def test_proxy_rente_vorj(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(

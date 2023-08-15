@@ -27,7 +27,6 @@ OUT_COLS = [
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
 ]
-OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
 data = load_policy_test_data("full_taxes_and_transfers")
 
@@ -49,23 +48,11 @@ def test_full_taxes_and_transfers(
     if test_data.date.year <= 2008:
         out.remove("abgelt_st_y_tu")
 
-    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
-    #     for more years.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
-    if test_data.date.year < 2016:
-        columns_overriding_functions = [
-            *OVERRIDE_COLS,
-            "unterhaltsvors_m",
-            "elterngeld_m",
-        ]
-    else:
-        columns_overriding_functions = OVERRIDE_COLS
     compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
         targets=out,
-        columns_overriding_functions=columns_overriding_functions,
     )
 
 
@@ -74,7 +61,7 @@ def test_full_taxes_and_transfers(
     data.test_data,
     ids=str,
 )
-def test_data_types(  # noqa: PLR0912
+def test_data_types(
     test_data: PolicyTestData,
 ):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
@@ -92,17 +79,6 @@ def test_data_types(  # noqa: PLR0912
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
-    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
-    #     for more years.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
-    if test_data.date.year < 2016:
-        columns_overriding_functions = [
-            *OVERRIDE_COLS,
-            "unterhaltsvors_m",
-            "elterngeld_m",
-        ]
-    else:
-        columns_overriding_functions = OVERRIDE_COLS
 
     result = compute_taxes_and_transfers(
         data=df,
@@ -110,7 +86,6 @@ def test_data_types(  # noqa: PLR0912
         functions=policy_functions,
         targets=out,
         debug=True,
-        columns_overriding_functions=columns_overriding_functions,
     )
     for column_name, series in result.items():
         if series.empty:

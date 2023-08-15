@@ -5,9 +5,6 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-OVERRIDE_COLS_UNTIL_2008 = ["eink_st_mit_kinderfreib_y_tu"]
-OVERRIDE_COLS_AFTER_2008 = ["eink_st_mit_kinderfreib_y_tu", "abgelt_st_y_tu"]
-
 data = load_policy_test_data("soli_st")
 
 
@@ -26,13 +23,7 @@ def test_soli_st(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS_UNTIL_2008
-        if test_data.date.year <= 2008
-        else OVERRIDE_COLS_AFTER_2008,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(
