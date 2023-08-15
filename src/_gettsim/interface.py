@@ -401,6 +401,7 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
                 import warnings
                 from gettsim import FunctionsAndColumnsOverlapWarning
+
                 warnings.filterwarnings(
                     "ignore",
                     category=FunctionsAndColumnsOverlapWarning
