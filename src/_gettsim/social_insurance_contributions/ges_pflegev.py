@@ -403,7 +403,7 @@ def ges_pflegev_beitr_rente_m_reduz_beitrag(
 @dates_active(
     start="2004-04-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
 )
-def ges_pflegev_beitr_rente_m_ohne_zusatz_fuer_kinderlose(
+def ges_pflegev_beitr_rente_m_ohne_zusatz_für_kinderlose(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
