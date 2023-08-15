@@ -1,21 +1,27 @@
 # Changes
 
-This is a record of all past `gettsim` releases and what went into them
-in reverse chronological order. We follow [semantic
-versioning](https://semver.org/) and all releases are available on
-[Anaconda.org](https://anaconda.org/gettsim/gettsim).
+This is a record of all past `gettsim` releases and what went into them in reverse
+chronological order. We follow [semantic versioning](https://semver.org/) and all
+releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsim).
 
 ## Unpublished
 
+
 - {gh}`632` Zugangsfaktor calculation with monthly precision ({ghuser}`TeBackh`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the graph ({ghuser}`lars-reimann`).
+- {gh}`630` Fixes bug in `piecewise_polynomial` that ignored jumps in intercepts
+  ({ghuser}`nafetsk`).
+- {gh}`639` Infer `columns_overriding_functions` for `compute_taxes_and_transfers` from
+  functions and data ({ghuser}`lars-reimann`).
+- {gh}`638` Don't use functions in `compute_taxes_and_transfers` that are not active
+  ({ghuser}`lars-reimann`).
 - {gh}`618`, {gh}`623` Apply `@dates_active` decorator to Abgeltungssteuer, Midi- and
   Minijobs, Pflegeversicherung. ({ghuser}`hmgaudecker`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
   graph ({ghuser}`lars-reimann`).
 - {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
-- {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective
-  as of 2023-07-01 ({ghuser}`paulinaschroeder`).
+- {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective as of
+  2023-07-01 ({ghuser}`paulinaschroeder`).
 - {gh}`602` Correct `midijob_faktor_f` ({ghuser}`paulinaschroeder`).
 - {gh}`600` Extend the `access_different_date` functionality for `jahresanfang`.
   ({ghuser}`paulinaschroeder`).
@@ -34,8 +40,8 @@ versioning](https://semver.org/) and all releases are available on
 
 - {gh}`573` Fix bug in age groups of Bürgergeld. ({ghuser}`ChristianZimpelmann`).
 
-- {gh}`150` Implement Lohnsteuer / withholding tax.
-  ({ghuser}`Eric-Sommer`, {ghuser}`JakobWegmann`).
+- {gh}`150` Implement Lohnsteuer / withholding tax. ({ghuser}`Eric-Sommer`,
+  {ghuser}`JakobWegmann`).
 
 - {gh}`557` Apply @dates_active decorator in many cases. ({ghuser}`hmgaudecker`).
 
@@ -53,7 +59,6 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`551` Add rounding to Wohngeld. ({ghuser}`LauraGergeleit`).
 
 - {gh}`425` Add Jax backend ({ghuser}`timmens`).
-
 
 ## v0.6.0 — 2023-01-30
 
@@ -82,8 +87,10 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`470` Execute notebooks as part of the documentation build on readthedocs
   ({ghuser}`hmgaudecker`).
 
-- {gh}`440` Implement Bürgergeld, which reforms <span
-  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023 ({ghuser}`LauraGergeleit`).
+- {gh}`440` Implement Bürgergeld, which reforms
+  <span
+  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023
+  ({ghuser}`LauraGergeleit`).
 
 - {gh}`399` Use dags package to create the DAG ({ghuser}`ChristianZimpelmann`).
 
@@ -104,7 +111,8 @@ versioning](https://semver.org/) and all releases are available on
   cases in <span class="title-ref">test_interface.py</span> ({ghuser}`LauraGergeleit`,
   {ghuser}`ChristianZimpelmann`).
 
-- {gh}`403` Replace <span class="title-ref">Bokeh</span> with <span
+- {gh}`403` Replace <span class="title-ref">Bokeh</span> with
+  <span
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
@@ -117,7 +125,8 @@ versioning](https://semver.org/) and all releases are available on
 - {gh}`385` Make `altersentlastungsbetrag` dependent on age not on current date
   ({ghuser}`m-pannier`, {ghuser}`lillyfischer`).
 
-- {gh}`392` Fix relative tolerance which was set too high for some tests. Rename <span
+- {gh}`392` Fix relative tolerance which was set too high for some tests. Rename
+  <span
   class="title-ref">vorsorge</span> to <span class="title-ref">vorsorgeaufw</span>
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
@@ -142,13 +151,18 @@ versioning](https://semver.org/) and all releases are available on
   when calling <span class="title-ref">set_up_policy_environment</span>
   ({ghuser}`ChristianZimpelmann`).
 
-- {gh}`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove <span
-  class="title-ref">ges_rente_m</span> as input. Rename <span
-  class="title-ref">gettsim.renten_anspr</span> to <span
-  class="title-ref">gettsim.transfers.rente</span>. Rename <span
-  class="title-ref">gettsim.social_insurance</span> to <span
-  class="title-ref">gettsim.social_insurance_contributions</span> ({ghuser}`davpahl`,
-  {ghuser}`ChristianZimpelmann`).
+- {gh}`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
+  <span
+  class="title-ref">ges_rente_m</span> as input. Rename
+  <span
+  class="title-ref">gettsim.renten_anspr</span> to
+  <span
+  class="title-ref">gettsim.transfers.rente</span>. Rename
+  <span
+  class="title-ref">gettsim.social_insurance</span> to
+  <span
+  class="title-ref">gettsim.social_insurance_contributions</span>
+  ({ghuser}`davpahl`, {ghuser}`ChristianZimpelmann`).
 
 - {gh}`307` Allow to specify order up to which ancestors and descendants are shown when
   plotting a dag ({ghuser}`ChristianZimpelmann`).
@@ -169,25 +183,31 @@ versioning](https://semver.org/) and all releases are available on
   adjustments for DAG backend ({ghuser}`hmgaudecker`).
 
 - {gh}`314` Enforce character limits from GEP-01 for all function names and input
-  variables. Make variable names more precise (e.g., <span
-  class="title-ref">ges\_</span> in front of all social insurance parameters that have
-  private counterparts, <span class="title-ref">eink_st</span> everywhere the income tax
-  is meant). Make variables consistent (e.g. <span
-  class="title-ref">kinderfreibetrag</span> had different abbreviations, now <span
+  variables. Make variable names more precise (e.g.,
+  <span
+  class="title-ref">ges\_</span> in front of all social insurance parameters that
+  have private counterparts, <span class="title-ref">eink_st</span> everywhere the
+  income tax is meant). Make variables consistent (e.g.
+  <span
+  class="title-ref">kinderfreibetrag</span> had different abbreviations, now
+  <span
   class="title-ref">kinderfreib</span> everywhere). ({ghuser}`hmgaudecker`,
   {ghuser}`ChristianZimpelmann`)
 
-- {gh}`343` New argument for \`compute_taxes_and_transfers\`: <span
-  class="title-ref">rounding</span>. If set to False, rounding of outputs is disabled.
-  Add rounding for <span class="title-ref">eink_st_tu</span>. Rounding for other
-  functions will be introduced in future PRs. ({ghuser}`ChristianZimpelmann`).
+- {gh}`343` New argument for \`compute_taxes_and_transfers\`:
+  <span
+  class="title-ref">rounding</span>. If set to False, rounding of outputs is
+  disabled. Add rounding for <span class="title-ref">eink_st_tu</span>. Rounding for
+  other functions will be introduced in future PRs. ({ghuser}`ChristianZimpelmann`).
 
 - {gh}`349` Create parameters for several hard coded numbers in code.
   ({ghuser}`LauraGergeleit`).
 
 - {gh}`355` Major renaming based on GEP 01, e.g.: correct use of `_m`-suffix;
-  `alleinerziehend` becomes `alleinerz`; rename <span
-  class="title-ref">ges_rentenv.yaml</span> to <span
+  `alleinerziehend` becomes `alleinerz`; rename
+  <span
+  class="title-ref">ges_rentenv.yaml</span> to
+  <span
   class="title-ref">ges_rente.yaml</span> ({ghuser}`hmgaudecker`,
   {ghuser}`ChristianZimpelmann`)
 
@@ -227,10 +247,14 @@ versioning](https://semver.org/) and all releases are available on
 ## v0.4.0 — 2020-11-11
 
 - {gh}`241` Renaming of directories: <span class="title-ref">gettsim.benefits</span> to
-  <span class="title-ref">gettsim.transfers</span>; <span
-  class="title-ref">gettsim.soz_vers</span> to <span
-  class="title-ref">gettsim.social_insurance</span>; <span
-  class="title-ref">gettsim.data</span> to <span
+  <span class="title-ref">gettsim.transfers</span>;
+  <span
+  class="title-ref">gettsim.soz_vers</span> to
+  <span
+  class="title-ref">gettsim.social_insurance</span>;
+  <span
+  class="title-ref">gettsim.data</span> to
+  <span
   class="title-ref">gettsim.parameters</span> ({ghuser}`MaxBlesch`,
   {ghuser}`ChristianZimpelmann`).
 
@@ -269,9 +293,9 @@ versioning](https://semver.org/) and all releases are available on
 
 ## v0.3.3 — 2020-06-27
 
-- {gh}`212` Improve the error message when reduced series could not be
-  expanded with an id variable and fixes a related error in the
-  internal functions ({ghuser}`hmgaudecker`, {ghuser}`tobiasraabe`).
+- {gh}`212` Improve the error message when reduced series could not be expanded with an
+  id variable and fixes a related error in the internal functions
+  ({ghuser}`hmgaudecker`, {ghuser}`tobiasraabe`).
 - {gh}`214` Add a check for missing root nodes ({ghuser}`tobiasraabe`).
 - {gh}`215` Add a check for duplicate `targets` ({ghuser}`tobiasraabe`).
 - {gh}`216` Fix calculation of kinderzuschlag and wohngeld. Changed check against
@@ -289,8 +313,8 @@ versioning](https://semver.org/) and all releases are available on
   ({ghuser}`tobiasraabe`).
 - {gh}`201` Improve the calculation of `hh_freib` and renames it to
   `alleinerziehend_freib` ({ghuser}`MaxBlesch`, {ghuser}`tobiasraabe`).
-- {gh}`202` Fix bugs that surfaced for negative incomes ({ghuser}`MaxBlesch`).
-  related transfers, calculating them at the appropriate (household) level
+- {gh}`202` Fix bugs that surfaced for negative incomes ({ghuser}`MaxBlesch`). related
+  transfers, calculating them at the appropriate (household) level
 - {gh}`206` Fix several bugs in <span class="title-ref">arbeitsl_geld_2</span> and
   ({ghuser}`MaxBlesch`).
 
