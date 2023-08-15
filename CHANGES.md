@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`639` Infer `columns_overriding_functions` for `compute_taxes_and_transfers` from
+  functions and data ({ghuser}`lars-reimann`).
 - {gh}`638` Don't use functions in `compute_taxes_and_transfers` that are not active
   ({ghuser}`lars-reimann`).
 - {gh}`618`, {gh}`623` Apply `@dates_active` decorator to Abgeltungssteuer, Midi- and
