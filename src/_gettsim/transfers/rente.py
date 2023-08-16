@@ -633,7 +633,7 @@ def _ges_rente_arbeitsl_altersgrenze(
     """
     if (
         birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]
-    ):  # 1952
+    ):
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
