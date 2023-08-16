@@ -1132,7 +1132,7 @@ implementation_cohort_besonders_langj_versicherte:
       Cohort from which pension for very long term insured was fully implemented.
   reference: § 237 SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
-  1980-01-01:
+  2012-01-01:
     scalar: 1952
 rounding:
   ges_rente_m:
@@ -1188,6 +1188,10 @@ thresholds_wartezeiten:
   reference: See paragraphs of respective pensions.
   note: null
   1980-01-01:
+    wartezeit_5: 5
+    wartezeit_15: 15
+    wartezeit_35: 35
+  2012-01-01:
     wartezeit_5: 5
     wartezeit_15: 15
     wartezeit_35: 35

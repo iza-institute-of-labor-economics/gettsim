@@ -859,9 +859,7 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
 
     """
 
-    out = ges_rente_wartezeit_5
-
-    return out
+    return ges_rente_wartezeit_5
 
 
 def ges_rente_vorauss_frauen(
@@ -963,9 +961,7 @@ def ges_rente_vorauss_langj(
 
     """
 
-    out = ges_rente_wartezeit_35
-
-    return out
+    return ges_rente_wartezeit_35
 
 
 @dates_active(start="2012-01-01")
@@ -987,9 +983,7 @@ def ges_rente_vorauss_besond_langj(
 
     """
 
-    out = ges_rente_wartezeit_45
-
-    return out
+    return ges_rente_wartezeit_45
 
 
 def ges_rente_wartezeit_5(
@@ -1017,9 +1011,9 @@ def ges_rente_wartezeit_5(
     Bool of fulfilling Wartezeit von 5 Jahren.
 
     """
-    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12 >= ges_rente_params[
-        "thresholds_wartezeiten"
-    ]["wartezeit_5"]
+    m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+
+    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_5"]
 
     return out
 
@@ -1049,9 +1043,9 @@ def ges_rente_wartezeit_15(
     Bool of fulfilling Wartezeit von 15 Jahren
 
     """
-    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12 >= ges_rente_params[
-        "thresholds_wartezeiten"
-    ]["wartezeit_15"]
+    m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+
+    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_15"]
 
     return out
 
@@ -1091,18 +1085,20 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
     Bool of fulfilling Wartezeit von 35 Jahren
 
     """
-    out = (
+    m_zeiten = (
         m_pflichtbeitrag
         + m_freiw_beitrag
         + ges_rente_anrechnungszeit
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
-    ) / 12 >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_35"]
+    ) / 12
+    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_35"]
 
     return out
 
 
+@dates_active(start="2012-01-01")
 def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
@@ -1146,14 +1142,15 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     else:
         freiwilligbeitr = 0
 
-    out = (
+    m_zeiten = (
         m_pflichtbeitrag
         + freiwilligbeitr
         + ges_rente_anrechnungszeit_45
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
-    ) / 12 >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_45"]
+    ) / 12
+    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_45"]
 
     return out
 
@@ -1203,6 +1200,7 @@ def ges_rente_anrechnungszeit(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2012-01-01")
 def ges_rente_anrechnungszeit_45(
     m_arbeitsunfähig: float,
     m_alg1_übergang: float,
