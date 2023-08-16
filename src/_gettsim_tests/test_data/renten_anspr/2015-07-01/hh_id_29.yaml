@@ -72,3 +72,7 @@ outputs:
     - true
   _ges_rente_altersgrenze_vorzeitig:
     - 60.0
+  ges_rente_vorauss_langj:
+    - true
+  ges_rente_vorauss_frauen:
+    - true
