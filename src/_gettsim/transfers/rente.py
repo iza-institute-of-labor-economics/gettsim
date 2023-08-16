@@ -631,9 +631,7 @@ def _ges_rente_arbeitsl_altersgrenze(
     lowest full retirement age for unemployed.
 
     """
-    if (
-        birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]
-    ):
+    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
