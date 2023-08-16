@@ -390,7 +390,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     Returns
     -------
     Lowest possible full retirement age (without deductions). Nan if
-    person not eligigble for a public pension. Includes abolishments
+    person not eligible for a public pension. Includes abolishments
     of pension for women and unemployed via increase of respective
     thresholds to regelaltersgrenze after abolishment.
 
