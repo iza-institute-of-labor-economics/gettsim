@@ -72,7 +72,6 @@ def entgeltp_erwerbsm_rente(
         (m_zurechnungszeitsgrenze / 12 - (jahr_renteneintr - geburtsjahr))
         * durchschnittliche_entgeltp
     )
-
     return out
 
 
@@ -128,7 +127,6 @@ def entgeltp_erwerbsm_rente_sonderregel(
         )
         * durchschnittliche_entgeltp
     )
-
     return out
 
 
@@ -196,7 +194,6 @@ def erwerbsm_rente_vor_grundr_m(
         )
     else:
         out = 0.0
-
     return out
 
 
@@ -249,7 +246,6 @@ def erwerbsm_rente_altersgrenze(
     """
 
     out = erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"]
-
     return out
 
 

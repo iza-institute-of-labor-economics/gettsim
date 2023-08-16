@@ -1,6 +1,0 @@
-p_id,jahr,jahr_renteneintr,geburtsjahr,geburtsmonat,erwerbsm_rente_zugangsfaktor,,altersgrenze_abschlagsfrei_in_m,zugangsfaktor_ver�nderung_pro_jahr,alter_bei_renteneintritt_in_m,differenz_zu_altersgrenze_abschlagsfrei,zugangsfaktor excell berechnung,min_erwerbsm_rente_zugangsfaktor
-1,2020,2010,1980,2,0.892,,772,0.036,362,410,-0.23,0.892
-2,2020,2010,1960,4,0.892,,772,0.036,604,168,0.496,0.892
-3,2020,2010,1950,6,0.892,,772,0.036,726,46,0.862,0.892
-4,2020,2010,1948,8,0.94,,772,0.036,752,20,0.94,0.892
-5,2020,2010,1947,1,0.955,,772,0.036,757,15,0.955,0.893

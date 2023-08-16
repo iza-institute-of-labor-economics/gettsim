@@ -1,0 +1,98 @@
+---
+info:
+  note: ''
+  source: Own calculations
+inputs:
+  provided:
+    p_id:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+    jahr:
+      - 2001
+      - 2001
+      - 2001
+      - 2001
+      - 2001
+    geburtsjahr:
+      - 1940
+      - 1941
+      - 1970
+      - 1980
+      - 1980
+    geburtsmonat:
+      - 2
+      - 4
+      - 6
+      - 8
+      - 10
+    jahr_renteneintr:
+      - 2001
+      - 2001
+      - 2001
+      - 2001
+      - 2001
+    m_gesamtbew:
+      - 400
+      - 300
+      - 200
+      - 150
+      - 400
+    erwerbsm_rentner:
+      - true
+      - true
+      - true
+      - true
+      - true
+    entgeltp:
+      - 15
+      - 18
+      - 20
+      - 10
+      - 15
+    wohnort_ost:
+      - false
+      - false
+      - false
+      - true
+      - true
+    teilw_erwerbsm_rente:
+      - false
+      - false
+      - false
+      - false
+      - true
+  assumed: {}
+outputs:
+  entgeltp_erwerbsm_rente:
+    - 15.7875
+    - 19.86
+    - 57.7
+    - 43
+    - 33.4875
+  erwerbsm_rente_zugangsfaktor:
+    - 0.934
+    - 0.904
+    - 0.892
+    - 0.892
+    - 0.892
+  erwerbsm_rente_m:
+    - 366.278841
+    - 445.9634496
+    - 1278.475056
+    - 828.87316
+    - 322.7545343
+  durchschnittliche_entgeltp:
+    - 0.45
+    - 0.72
+    - 1.2
+    - 0.8
+    - 0.45
+  erwerbsm_rente_altersgrenze:
+    - 756
+    - 756
+    - 756
+    - 756
+    - 756

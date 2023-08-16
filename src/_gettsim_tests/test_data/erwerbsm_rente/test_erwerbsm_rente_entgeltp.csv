@@ -1,6 +1,0 @@
-p_id,jahr,m_gesamtbew,entgeltp,geburtsjahr,jahr_renteneintr,entgeltp_erwerbsm_rente,,,durchschnittliche_entgeltp,alter_bei_renteneintritt,zurechnungszeitsgrenze_in_m,excell_berechnung_entgeltp_erwerbsm_rente
-1,2010,600,20,1950,2010,20,,,0.4,60,720,20
-2,2010,300,15,1960,2010,21,,,0.6,50,720,21
-3,2010,200,18,1980,2010,50.4,,,1.08,30,720,50.4
-4,2002,300,20,1960,2002,35.93333333,,,0.8,42,743,35.93333333
-5,2003,400,15,1980,2003,32.0625,,,0.45,23,731,32.0625
