@@ -68,3 +68,9 @@ inputs:
 outputs:
   rente_vorj_vor_grundr_proxy_m:
     - 624.31
+  ges_rente_vorauss_langj:
+    - true
+  _ges_rente_altersgrenze_vorzeitig:
+    - 63.0
+  age_of_retirement:
+    - 63.0

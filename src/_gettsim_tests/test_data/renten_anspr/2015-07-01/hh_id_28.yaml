@@ -65,6 +65,10 @@ outputs:
   entgeltp_update_lohn:
     - 0.509006589
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.16666666
+    - 65.0
   ges_rente_vorauss_vorzeitig:
-    - false
+    - true
+  _ges_rente_vorauss_arbeitsl:
+    - true
+  _ges_rente_altersgrenze_vorzeitig:
+    - 63.0
