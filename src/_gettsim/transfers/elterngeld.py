@@ -173,9 +173,8 @@ def elterngeld_kind(
 
     """
     current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
-    out = (
-        current_year - geburtsjahr
-        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
+    out = current_year - geburtsjahr < next(
+        iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())
     )
     return out
 
@@ -234,7 +233,9 @@ def elterngeld_geschw_bonus_anspruch(
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/605
         out = (
             elterngeld_kind_hh
-            == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
+            == next(
+                iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())
+            )
         ) or (
             elterngeld_vorschulkind_hh
             >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
