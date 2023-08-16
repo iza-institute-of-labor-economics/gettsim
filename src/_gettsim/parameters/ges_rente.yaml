@@ -884,7 +884,7 @@ rente_für_frauen_pflichtbeitr_y:
     scalar: 10
 altersgrenze_arbeitsl_abschlagsfrei:
   name:
-    de: Altersgrenze für Altersrente wegen arbeitsligkeit (abschlagsfrei)
+    de: Altersgrenze für Altersrente wegen Arbeitslosigkeit (abschlagsfrei)
     en: Age threshold for pension for unemployed (without deductions)
   description:
     de: >-
@@ -921,7 +921,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       rate_linear: 0
 altersgrenze_arbeitsl_vorzeitig:
   name:
-    de: Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen arbeitsligkeit
+    de: Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen Arbeitslosigkeit
     en: Age threshold early takeup of pension for unemployed
   description:
     de: >-
