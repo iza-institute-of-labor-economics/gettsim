@@ -772,7 +772,7 @@ def ges_rente_vorauss_vorzeitig(
     return out
 
 
-def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
+def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
     """Function determining the eligibility for the Regelaltersrente.
 
     Parameters
@@ -785,14 +785,14 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: float) -> bool:
     Eligibility as bool.
 
     """
-    out = ges_rente_wartezeit_5 >= 5
+    out = ges_rente_wartezeit_5
 
     return out
 
 
 def ges_rente_vorauss_frauen(  # noqa: PLR0913
     weiblich: bool,
-    ges_rente_wartezeit_15: float,
+    ges_rente_wartezeit_15: bool,
     y_pflichtbeitr_ab_40: float,
     alter: int,
     geburtsjahr: int,
@@ -833,7 +833,6 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
     out = (
         weiblich
         and ges_rente_wartezeit_15
-        >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_15"]
         and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
         and alter >= altersgrenze_vorzeitig
         and geburtsjahr < ges_rente_params["abolishment_cohort_rente_für_frauen"]
@@ -844,7 +843,7 @@ def ges_rente_vorauss_frauen(  # noqa: PLR0913
 
 def _ges_rente_vorauss_arbeitsl(  # noqa: PLR0913
     arbeitsl_1y_past_585: bool,
-    ges_rente_wartezeit_15: float,
+    ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
     birthdate_decimal: float,
     ges_rente_params: dict,
@@ -886,7 +885,6 @@ def _ges_rente_vorauss_arbeitsl(  # noqa: PLR0913
     out = (
         arbeitsl_1y_past_585
         and ges_rente_wartezeit_15
-        >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_15"]
         and pflichtbeitr_8_in_10
         and alter >= altersgrenze_vorzeitig
         and birthdate_decimal
@@ -897,7 +895,7 @@ def _ges_rente_vorauss_arbeitsl(  # noqa: PLR0913
 
 
 def ges_rente_vorauss_langj(
-    ges_rente_wartezeit_35: float,
+    ges_rente_wartezeit_35: bool,
     alter: int,
     ges_rente_params: dict,
 ) -> bool:
@@ -918,18 +916,16 @@ def ges_rente_vorauss_langj(
     Eligibility as bool.
 
     """
-    out = (alter >= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]) and (
-        ges_rente_wartezeit_35
-        >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_35"]
-    )
+    out = (
+        alter >= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+    ) and ges_rente_wartezeit_35
 
     return out
 
 
 @dates_active(start="2012-01-01")
 def ges_rente_vorauss_besond_langj(
-    ges_rente_wartezeit_45: float,
-    ges_rente_params: dict,
+    ges_rente_wartezeit_45: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte
     (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
@@ -938,18 +934,13 @@ def ges_rente_vorauss_besond_langj(
     ----------
     ges_rente_wartezeit_45
         See :func:`ges_rente_wartezeit_45`
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
     Eligibility as bool.
 
     """
-    out = (
-        ges_rente_wartezeit_45
-        >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_45"]
-    )
+    out = ges_rente_wartezeit_45
 
     return out
 
@@ -958,7 +949,8 @@ def ges_rente_wartezeit_5(
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     m_ersatzzeit: float,
-) -> float:
+    ges_rente_params: dict,
+) -> bool:
     """Aggregates time periods that are relevant for the general eligibility of the
     regular pension (regelaltersrente). "Allgemeine Wartezeit".
 
@@ -970,20 +962,27 @@ def ges_rente_wartezeit_5(
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
-    Wartezeit in years.
+    Bool of fulfilling Wartezeit von 5 Jahren.
 
     """
-    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12 >= ges_rente_params[
+        "thresholds_wartezeiten"
+    ]["wartezeit_5"]
 
     return out
 
 
 def ges_rente_wartezeit_15(
-    m_pflichtbeitrag: float, m_freiw_beitrag: float, m_ersatzzeit: float
-) -> float:
+    m_pflichtbeitrag: float,
+    m_freiw_beitrag: float,
+    m_ersatzzeit: float,
+    ges_rente_params: dict,
+) -> bool:
     """Aggregates time periods that are relevant for the Altersrente für Frauen and
     Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
 
@@ -995,13 +994,17 @@ def ges_rente_wartezeit_15(
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
-    Wartezeit in years
+    Bool of fulfilling Wartezeit von 15 Jahren
 
     """
-    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+    out = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12 >= ges_rente_params[
+        "thresholds_wartezeiten"
+    ]["wartezeit_15"]
 
     return out
 
@@ -1013,7 +1016,8 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
-) -> float:
+    ges_rente_params: dict,
+) -> bool:
     """Aggregates time periods that are relevant for the eligibility of Altersrente für
     langjährig Versicherte (pension for long-term insured). Wartezeit von 35 Jahren. All
     "rentenrechtliche Zeiten" are considered.
@@ -1032,10 +1036,12 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
     m_pfleg_berücks_zeit
         See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
-    Wartezeit in years
+    Bool of fulfilling Wartezeit von 35 Jahren
 
     """
     out = (
@@ -1045,7 +1051,8 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
-    ) / 12
+    ) / 12 >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_35"]
+
     return out
 
 
@@ -1057,7 +1064,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
     ges_rente_params: dict,
-) -> float:
+) -> bool:
     """Aggregates time periods that are relevant for the eligibility of Altersrente für
     besonders langjährig Versicherte (pension for very long-term insured). Wartezeit von
     45 Jahren. Not all "rentenrechtliche Zeiten" are considered. Years with voluntary
@@ -1079,15 +1086,15 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
     m_pfleg_berücks_zeit
         See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
-    Wartezeit in years
+    Bool of fulfilling Wartezeit von 45 Jahren
 
     """
-    if (
-        m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]
-    ):  # (18 * 12):
+    if m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]:
         freiwilligbeitr = m_freiw_beitrag
     else:
         freiwilligbeitr = 0
@@ -1099,7 +1106,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
-    ) / 12
+    ) / 12 >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_45"]
 
     return out
 
