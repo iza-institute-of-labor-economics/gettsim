@@ -32,7 +32,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 9.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0

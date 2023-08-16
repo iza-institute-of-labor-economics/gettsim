@@ -159,7 +159,7 @@ TYPES_INPUT_VARIABLES = {
     "m_mutterschutz": float,
     "m_arbeitsunfähig": float,
     "m_krank_ab_16_bis_24": float,
-    "m_arbeitslos": float,
+    "m_arbeitsl": float,
     "m_ausbild_suche": float,
     "m_schul_ausbild": float,
     "m_geringf_beschäft": float,

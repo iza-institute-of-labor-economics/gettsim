@@ -867,9 +867,24 @@ abolishment_cohort_rente_für_frauen:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
   1980-01-01:
     scalar: 1952
-altersgrenze_arbeitslose_abschlagsfrei:
+rente_für_frauen_pflichtbeitr_y:
   name:
-    de: Altergrenze für Altersrente wegen Arbeitslosigkeit (abschlagsfrei)
+    de: Mindestpflichbeitragsjahre ab 40 für Rente für Frauen
+    en: Minimum contribution since 40 pension for women.
+  description:
+    de: >-
+      Mindestpflichbeitragsjahre, nach dem 40. Lebensjahr,
+      die für Rente für Frauen berechtigt.
+    en: >-
+      Minimum number of contribution years required to be
+      eligible for pension for women.
+  reference: § 237a SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
+  1950-01-01:
+    scalar: 10
+altersgrenze_arbeitsl_abschlagsfrei:
+  name:
+    de: Altersgrenze für Altersrente wegen arbeitsligkeit (abschlagsfrei)
     en: Age threshold for pension for unemployed (without deductions)
   description:
     de: >-
@@ -896,7 +911,7 @@ altersgrenze_arbeitslose_abschlagsfrei:
       upper_threshold: 1952.0  # since cohort 52 abolished - jump on regelaltersgrenze
       rate_linear: 6
     4:
-      upper_threshold: 1958  # this is adjustment of regelaltergrenze
+      upper_threshold: 1958  # this is adjustment of regelaltersgrenze
       rate_linear: 0.083333333
     5:
       upper_threshold: 1964
@@ -904,9 +919,9 @@ altersgrenze_arbeitslose_abschlagsfrei:
     6:
       upper_threshold: inf
       rate_linear: 0
-altergrenze_arbeitslose_vorzeitig:
+altersgrenze_arbeitsl_vorzeitig:
   name:
-    de: Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen Arbeitslosigkeit
+    de: Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen arbeitsligkeit
     en: Age threshold early takeup of pension for unemployed
   description:
     de: >-
@@ -939,7 +954,7 @@ altergrenze_arbeitslose_vorzeitig:
       upper_threshold: 1952  # since cohort 52 abolished - jump on regelaltersgrenze
       rate_linear: 30
     4:
-      upper_threshold: 1958  # this is adjustment of regelaltergrenze
+      upper_threshold: 1958  # this is adjustment of regelaltersgrenze
       rate_linear: 0.083333333
     5:
       upper_threshold: 1964
@@ -947,7 +962,7 @@ altergrenze_arbeitslose_vorzeitig:
     6:
       upper_threshold: inf
       rate_linear: 0
-abolishment_cohort_rente_für_arbeitslose:
+abolishment_cohort_rente_für_arbeitsl:
   name:
     de: Kohorte Abschaffung Rente für Arbeitslose
     en: Cohort abolishment pension for unemployed
@@ -1028,6 +1043,21 @@ altersgrenze_langj_versicherte_abschlagsfrei:
     7:
       upper_threshold: inf
       rate_linear: 0
+alignment_cohort_langj_versicherte:
+  name:
+    de: Kohorte Angleichung Rente langjährig Versicherte
+    en: Cohort alignment pension for long term insured
+  description:
+    de: >-
+      Kohorte, ab der Altersgrenze für abschlagfreie Rente für langjährig Versicherte an
+      Altersgrenze Regelaltersrente angeglichen wurde.
+    en: >-
+      Cohort from which age threshold for deduction free pensions for long term insured
+      was aligned with threshold of Regelaltersrente.
+  reference: § 237 SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
+  1980-01-01:
+    scalar: 1950
 altersgrenze_besonders_langj_versicherte:
   name:
     de: >-
@@ -1091,6 +1121,19 @@ altersgrenze_besonders_langj_versicherte:
     4:
       upper_threshold: inf
       rate_linear: 0
+implementation_cohort_besonders_langj_versicherte:
+  name:
+    de: Kohorte Implementierung Rente für besonders langjährig Versicherte
+    en: Cohort implementation pension for very long term insured
+  description:
+    de: >-
+      Kohorte, ab der Rente für besonders langjährig Versicherte vollständig eingeführt.
+    en: >-
+      Cohort from which pension for very long term insured was fully implemented.
+  reference: § 237 SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
+  1980-01-01:
+    scalar: 1952
 rounding:
   ges_rente_m:
     1980-01-01:
@@ -1132,3 +1175,35 @@ rounding:
       base: 0.0001
       direction: nearest
       reference: §121 SGB VI Abs. 1
+thresholds_wartezeiten:
+  name:
+    de: Zeitgrenzen für Wartezeiten
+    en: Time thresholds for waiting times
+  description:
+    de: >-
+      Zeitgrenzen, die für Erfüllung einer Wartezeit  notwendig sind (in Jahren).
+    en: >-
+      Time thresholds for accomplishing waiting times
+      (in years).
+  reference: See paragraphs of respective pensions.
+  note: null
+  1980-01-01:
+    wartezeit_5: 5
+    wartezeit_15: 15
+    wartezeit_35: 35
+    wartezeit_45: 45
+wartezeit_45_pflichtbeitragsmonate:
+  name:
+    de: Mindestpflichtbeitragsmonate für Wartezeit 45
+    en: Minimum statutory contribution months for wartezeit 45
+  description:
+    de: >-
+      Anzahl der Mindestpflichtbeitragsminate, die für die
+      Erfüllung der Wartezeit von 45 Jahren notwendig sind.
+    en: >-
+      Number of statutory contribution months required to
+      fullfill the waiting time of 45 years
+  reference: § 51 Abs. 3a SGB VI
+  note: https://www.gesetze-im-internet.de/sgb_6/__51.html
+  1980-01-01:
+    scalar: 216

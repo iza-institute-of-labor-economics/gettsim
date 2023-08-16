@@ -68,7 +68,7 @@ INPUT_COLS_INCOME = [
     "m_arbeitsunfähig",
     "m_krank_ab_16_bis_24",
     "m_mutterschutz",
-    "m_arbeitslos",
+    "m_arbeitsl",
     "m_ausbild_suche",
     "m_alg1_übergang",
     "m_geringf_beschäft",

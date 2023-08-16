@@ -381,9 +381,9 @@ Months of sickness between age 16 and 24
 
 Type: float
 
-(m_arbeitslos)=
+(m_arbeitsl)=
 
-## `m_arbeitslos`
+## `m_arbeitsl`
 
 Total months of unemployment (registered)
 

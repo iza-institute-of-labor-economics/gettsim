@@ -24,7 +24,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
@@ -50,7 +50,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  _ges_rente_arbeitslos_altersgrenze:
+  _ges_rente_arbeitsl_altersgrenze:
     - 63.0
   ges_rente_regelaltersgrenze:
     - 65.0
