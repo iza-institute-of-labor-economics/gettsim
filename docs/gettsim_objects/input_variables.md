@@ -208,7 +208,7 @@ Type: float
 
 ## `geburtstag`
 
-Day of birth
+Day of birth (within month)
 
 Type: int
 
@@ -233,6 +233,14 @@ Type: int
 ## `jahr_renteneintr`
 
 Year of retirement
+
+Type: int
+
+(monat_renteneintr)=
+
+## `monat_renteneintr`
+
+Month of retirement
 
 Type: int
 

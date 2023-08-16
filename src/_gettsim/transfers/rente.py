@@ -211,9 +211,8 @@ def entgeltp_update_lohn(
 
 
 def ges_rente_zugangsfaktor(  # noqa: PLR0913
-    geburtsjahr: int,
     rentner: bool,
-    jahr_renteneintr: int,
+    age_of_retirement: float,
     ges_rente_regelaltersgrenze: float,
     referenz_alter_abschlag: float,
     _ges_rente_altersgrenze_abschlagsfrei: float,
@@ -234,14 +233,16 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     long term insured, disabled). That is the zugangsfaktor is 1 in [FRA, NRA].
     It only increases after the NRA for all agents without exeptions.
 
+    Since pension payments of the GRV always start at 1st day of month, day of birth
+    within month does not matter. The eligibility always starts in the month after
+    reaching the required age.
+
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    jahr_renteneintr
-        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
+    age_of_retirement
+        See :func:`age_of_retirement`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
     referenz_alter_abschlag
@@ -257,20 +258,19 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     Returns
     -------
+    Zugangsfaktor
 
     """
 
     if rentner and ges_rente_vorauss_regelrente:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
-        if (
-            jahr_renteneintr - geburtsjahr
-        ) < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
+        if age_of_retirement < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
             if ges_rente_vorauss_vorzeitig:
                 # Calc difference to FRA of pensions with early retirement options
                 # (Altersgrenze langjährig Versicherte, Altersrente für Frauen).
                 out = (
                     1
-                    + ((jahr_renteneintr - geburtsjahr) - referenz_alter_abschlag)
+                    + (age_of_retirement - referenz_alter_abschlag)
                     * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                         "vorzeitiger_renteneintritt"
                     ]
@@ -281,10 +281,10 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
         # Late retirement (after normal retirement age/Regelaltersgrenze):
         # Zugangsfaktor > 1
-        elif (jahr_renteneintr - geburtsjahr) > ges_rente_regelaltersgrenze:
+        elif age_of_retirement > ges_rente_regelaltersgrenze:
             out = (
                 1
-                + ((jahr_renteneintr - geburtsjahr) - ges_rente_regelaltersgrenze)
+                + (age_of_retirement - ges_rente_regelaltersgrenze)
                 * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                     "späterer_renteneintritt"
                 ]
@@ -300,6 +300,53 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     out = max(out, 0.0)
 
+    return out
+
+
+def age_of_retirement(
+    jahr_renteneintr: int,
+    monat_renteneintr: int,
+    geburtsjahr: int,
+    geburtsmonat: int,
+    rentner: bool,
+) -> float:
+    """
+    Calculates the age of person's retirement in monthly precision.
+    As retirement is only possible at first day of month and as
+    persons eligible for pension at first of month after reaching the
+    age threshold (§ 99 SGB VI) persons who retire in same month will
+    be considered a month too young: Substraction of 1/12.
+
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    jahr_renteneintr
+        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
+    monat_renteneintr
+        See basic input variable :ref:`monat_renteneintr <monat_renteneintr>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+
+    Returns
+    -------
+    Age as float (monthly precision).
+
+    """
+    if rentner:
+        out = (
+            jahr_renteneintr
+            + (monat_renteneintr - 1) / 12
+            - geburtsjahr
+            + (geburtsmonat - 1) / 12
+            - (1 / 12)
+        )
+    else:
+        out = float("Nan")
     return out
 
 
@@ -500,6 +547,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
     Returns
     -------
+    Age as float.
 
     """
     out = piecewise_polynomial(
