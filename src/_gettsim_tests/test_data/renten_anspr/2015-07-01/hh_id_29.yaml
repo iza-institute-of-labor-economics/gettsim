@@ -76,3 +76,5 @@ outputs:
     - true
   ges_rente_vorauss_frauen:
     - true
+  referenz_alter_abschlag:
+    - 65.0
