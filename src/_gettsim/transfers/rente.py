@@ -701,7 +701,7 @@ def _ges_rente_langj_altersgrenze(
 @dates_active(start="2012-01-01")
 def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
-    geburtsmonat: int,
+    birthdate_decimal: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the threshold from which very long term insured people (at least 45
@@ -711,6 +711,8 @@ def _ges_rente_besond_langj_altersgrenze(
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    birthdate_decimal
+        See :func:`birthdate_decimal`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -723,7 +725,7 @@ def _ges_rente_besond_langj_altersgrenze(
         geburtsjahr
         < ges_rente_params["implementation_cohort_besonders_langj_versicherte"]
     ):
-        x = geburtsjahr + (geburtsmonat - 1) / 12
+        x = birthdate_decimal
     else:
         x = geburtsjahr
 
@@ -1008,7 +1010,7 @@ def ges_rente_wartezeit_5(
 
     Returns
     -------
-    Bool of fulfilling Wartezeit von 5 Jahren.
+    Fulfilled Wartezeit von 5 Jahren.
 
     """
     m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
@@ -1040,7 +1042,7 @@ def ges_rente_wartezeit_15(
 
     Returns
     -------
-    Bool of fulfilling Wartezeit von 15 Jahren
+    Fulfilled Wartezeit von 15 Jahren
 
     """
     m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
@@ -1082,7 +1084,7 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
 
     Returns
     -------
-    Bool of fulfilling Wartezeit von 35 Jahren
+    Fulfilled Wartezeit von 35 Jahren
 
     """
     m_zeiten = (
@@ -1134,7 +1136,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
 
     Returns
     -------
-    Bool of fulfilling Wartezeit von 45 Jahren
+    Fulfilled Wartezeit von 45 Jahren
 
     """
     if m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]:
