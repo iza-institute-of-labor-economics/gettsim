@@ -72,6 +72,7 @@ def entgeltp_erwerbsm_rente(
         (m_zurechnungszeitsgrenze / 12 - (jahr_renteneintr - geburtsjahr))
         * durchschnittliche_entgeltp
     )
+    breakpoint()
     return out
 
 
@@ -82,6 +83,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
     erwerbsm_rente_params: dict,
     geburtsjahr: int,
     jahr_renteneintr: int,
+    age_of_retirement: float,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
     (pension for reduced earning capacity) considering a special change in
@@ -123,7 +125,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
     out = entgeltp + (
         (
             ((m_zurechnungszeitsgrenze - diff_zu_2001_in_m) / 12)
-            - (jahr_renteneintr - geburtsjahr)
+            - (age_of_retirement)
         )
         * durchschnittliche_entgeltp
     )
@@ -192,6 +194,7 @@ def erwerbsm_rente_vor_grundr_m(
             * rentenwert
             * rentenfaktor_erwerbsm_rente
         )
+        #breakpoint()
     else:
         out = 0.0
     return out
@@ -256,6 +259,7 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
     erwerbsm_rente_altersgrenze: float,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
+    age_of_retirement: float,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
@@ -280,13 +284,14 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
-    m_alter_renteneintr = (jahr_renteneintr - geburtsjahr) * 12 + geburtsmonat
+    m_alter_renteneintr = (age_of_retirement) * 12
     zugangsfaktor = 1 + (m_alter_renteneintr - erwerbsm_rente_altersgrenze) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]
         / 12
     )
+    #breakpoint()
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
 
     return out

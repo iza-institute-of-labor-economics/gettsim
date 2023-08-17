@@ -34,6 +34,12 @@ inputs:
       - 2001
       - 2001
       - 2001
+    monat_renteneintr:
+      - 10
+      - 8
+      - 6
+      - 4
+      - 2
     m_gesamtbew:
       - 400
       - 300
@@ -64,26 +70,32 @@ inputs:
       - false
       - false
       - true
+    rentner:
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
-    - 15.7875
-    - 19.86
-    - 57.7
-    - 43
-    - 33.4875
+    - 15.525
+    - 19.56
+    - 57.4
+    - 42.93333333
+    - 33.525
   erwerbsm_rente_zugangsfaktor:
-    - 0.934
-    - 0.904
+    - 0.955
+    - 0.919
     - 0.892
     - 0.892
     - 0.892
   erwerbsm_rente_m:
-    - 366.278841
-    - 445.9634496
-    - 1278.475056
-    - 828.87316
-    - 322.7545343
+    - 368.287155
+    - 446.5148976
+    - 1271.827872
+    - 827.5880853
+    - 323.1159615
   durchschnittliche_entgeltp:
     - 0.45
     - 0.72
