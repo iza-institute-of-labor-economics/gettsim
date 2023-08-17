@@ -127,6 +127,7 @@ filterwarnings = [
     "ignore:Repeated execution of the test suite",
     "ignore:Using or importing the ABCs from 'collections'",
     "ignore:'grouped_cumsum' is deprecated.",
+    "ignore::_gettsim.interface.FunctionsAndColumnsOverlapWarning"
 ]
 markers = [
     "wip: Tests that are work-in-progress.",

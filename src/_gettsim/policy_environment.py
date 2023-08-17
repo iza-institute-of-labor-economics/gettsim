@@ -237,11 +237,12 @@ def load_functions_for_date(date):
     """
 
     # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
-    functions = {
-        f.__info__["dates_active_dag_key"]: f
-        for f in load_internal_functions().values()
-        if is_time_dependent(f) and is_active_at_date(f, date)
-    }
+    functions = {}
+    for f in load_internal_functions().values():
+        if not is_time_dependent(f) or is_active_at_date(f, date):
+            info = f.__info__ if hasattr(f, "__info__") else {}
+            name = info.get("dates_active_dag_key", f.__name__)
+            functions[name] = f
 
     return functions
 
