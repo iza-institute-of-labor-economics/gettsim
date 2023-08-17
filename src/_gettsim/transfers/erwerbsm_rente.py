@@ -123,10 +123,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
     )
 
     out = entgeltp + (
-        (
-            ((m_zurechnungszeitsgrenze - diff_zu_2001_in_m) / 12)
-            - (age_of_retirement)
-        )
+        (((m_zurechnungszeitsgrenze - diff_zu_2001_in_m) / 12) - (age_of_retirement))
         * durchschnittliche_entgeltp
     )
     return out
@@ -194,7 +191,6 @@ def erwerbsm_rente_vor_grundr_m(
             * rentenwert
             * rentenfaktor_erwerbsm_rente
         )
-        #breakpoint()
     else:
         out = 0.0
     return out
@@ -291,7 +287,6 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
         ]
         / 12
     )
-    #breakpoint()
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
 
     return out
