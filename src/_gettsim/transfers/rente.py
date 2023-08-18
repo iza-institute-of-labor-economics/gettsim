@@ -457,7 +457,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
 
     """
 
-    out = float("Nan")
+    out = float("inf")
     if ges_rente_vorauss_regelrente:
         out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
