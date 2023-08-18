@@ -8,6 +8,11 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 - {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care
   insurance until 2004 ({ghuser}`MImmesberger`).
+- {gh}`632` Zugangsfaktor calculation with monthly precision ({ghuser}`TeBackh`).
+- {gh}`624` Don't create functions for other time units if this leads to a cycle in the
+  graph ({ghuser}`lars-reimann`).
+- {gh}`630` Fixes bug in `piecewise_polynomial` that ignored jumps in intercepts
+  ({ghuser}`nafetsk`).
 - {gh}`639` Infer `columns_overriding_functions` for `compute_taxes_and_transfers` from
   functions and data ({ghuser}`lars-reimann`).
 - {gh}`638` Don't use functions in `compute_taxes_and_transfers` that are not active

@@ -53,6 +53,7 @@ INPUT_COLS_INCOME = [
     "geburtsmonat",
     "rentner",
     "jahr_renteneintr",
+    "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
     "weiblich",
