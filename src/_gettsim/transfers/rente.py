@@ -767,8 +767,11 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
         See :func:`_ges_rente_vorauss_arbeitsl`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    birthdate_decimal
+        See :func:`birthdate_decimal`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
 
      Returns
     -------
@@ -793,9 +796,7 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
         ]["intercepts_at_lower_thresholds"],
     )
 
-    langjährig_vorzeitig = (
-        63.0  # ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
-    )
+    langjährig_vorzeitig = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
     out = ges_rente_regelaltersgrenze
 
