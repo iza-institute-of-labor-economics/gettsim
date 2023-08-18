@@ -751,7 +751,7 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
     ges_rente_regelaltersgrenze: float,
 ) -> float:
     """Calculates the earliest age, at which a person is eligible to claim the a
-    pension. Early retirement age (ERA) deductions. This age idepends on personal
+    pension. Early retirement age (ERA) deductions. This age depends on personal
     characteristics as gender, insurance duration, health/disability, employment
     status.
 
