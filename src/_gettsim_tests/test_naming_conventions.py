@@ -29,30 +29,18 @@ def all_functions() -> dict[str, callable]:
 
 @pytest.fixture(scope="module")
 def time_indep_function_names(all_functions: dict[str, callable]) -> list[str]:
-    # Create a dictionary mapping function names to the DAG key
-    function_name_to_dag_key = {}
+    time_indep_function_names = set()
 
     for function_name, function in all_functions.items():
         if hasattr(function, "__info__"):
             info = function.__info__
             if "dates_active_dag_key" in info:
-                function_name_to_dag_key[function_name] = info["dates_active_dag_key"]
+                time_indep_function_names.add(info["dates_active_dag_key"])
+                continue
 
-    # Names of all functions
-    all_function_names = sorted(all_functions.keys())
+        time_indep_function_names.add(function_name)
 
-    # Replace functions names with their DAG key if applicable
-    time_indep_function_names = [
-        (
-            function_name_to_dag_key[function_name]
-            if function_name in function_name_to_dag_key
-            else function_name
-        )
-        for function_name in sorted(all_function_names)
-    ]
-
-    # Remove duplicates
-    return list(dict.fromkeys(time_indep_function_names))
+    return sorted(time_indep_function_names)
 
 
 def check_length(column_names, limit):
