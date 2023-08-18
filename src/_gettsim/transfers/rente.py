@@ -772,8 +772,7 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
 
      Returns
     -------
-    Lowest possible early retirement age (without deductions). Nan if
-    person not eligigble for early retirement.
+    Lowest possible early retirement age (potentially with deductions).
 
     """
     frauen_vorzeitig = piecewise_polynomial(
@@ -815,7 +814,7 @@ def ges_rente_vorauss_vorzeitig(
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
 ) -> bool:
-    """Function determining eligibility for early retirement. Can only be claimed if
+    """Determining eligibility for early retirement. Can only be claimed if
     eligible for "Rente für langjährig Versicherte" or "Rente für Frauen" or "Rente
     für Arbeitslose" (or -not yet implemented - for disabled).
 
@@ -846,7 +845,7 @@ def ges_rente_vorauss_vorzeitig(
 
 
 def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
-    """Function determining the eligibility for the Regelaltersrente.
+    """Determining the eligibility for the Regelaltersrente.
 
     Parameters
     ----------
@@ -869,7 +868,7 @@ def ges_rente_vorauss_frauen(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
-    """Function determining the eligibility for Altersrente für Frauen (pension for
+    """Determining the eligibility for Altersrente für Frauen (pension for
     women) Wartezeit 15 years, contributions 10 years after age 40, being a women.
 
     Parameters
@@ -908,7 +907,7 @@ def _ges_rente_vorauss_arbeitsl(
     birthdate_decimal: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Function determining the eligibility for Altersrente für Arbeitslose (pension
+    """Determining the eligibility for Altersrente für Arbeitslose (pension
     for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
     at least 1 year unemployed after age 58 and 6 months.
 
