@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import datetime
-
 import pytest
 from _gettsim.config import (
     DEFAULT_TARGETS,
@@ -11,7 +9,6 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions_loader import _load_functions
-from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
 
 
@@ -26,30 +23,36 @@ def default_input_variables():
 
 
 @pytest.fixture(scope="module")
-def all_function_names():
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-    return sorted(functions.keys())
+def all_functions() -> dict[str, callable]:
+    return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
 
 
 @pytest.fixture(scope="module")
-def time_indep_function_names(all_function_names):
-    time_dependent_functions = {}
-    for year in range(1990, 2030):
-        year_functions = load_functions_for_date(
-            datetime.date(year=year, month=1, day=1)
-        )
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
-        time_dependent_functions = {**time_dependent_functions, **new_dict}
+def time_indep_function_names(all_functions: dict[str, callable]) -> list[str]:
+    # Create a dictionary mapping function names to the DAG key
+    function_name_to_dag_key = {}
 
-    # Only use time dependent function names
+    for function_name, function in all_functions.items():
+        if hasattr(function, "__info__"):
+            info = function.__info__
+            if "dates_active_dag_key" in info:
+                function_name_to_dag_key[function_name] = info["dates_active_dag_key"]
+
+    # Names of all functions
+    all_function_names = sorted(all_functions.keys())
+
+    # Replace functions names with their DAG key if applicable
     time_indep_function_names = [
-        (time_dependent_functions[c] if c in time_dependent_functions else c)
-        for c in sorted(all_function_names)
+        (
+            function_name_to_dag_key[function_name]
+            if function_name in function_name_to_dag_key
+            else function_name
+        )
+        for function_name in sorted(all_function_names)
     ]
 
     # Remove duplicates
-    time_indep_function_names = list(dict.fromkeys(time_indep_function_names))
-    return time_indep_function_names
+    return list(dict.fromkeys(time_indep_function_names))
 
 
 def check_length(column_names, limit):
