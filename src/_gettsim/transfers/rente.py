@@ -992,7 +992,8 @@ def ges_rente_wartezeit_5(
     m_ersatzzeit: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Aggregates time periods that are relevant for the general eligibility of the
+    """Whether Allgemeine Wartezeit has been completed. Aggregates time
+    periods that are relevant for the general eligibility of the
     regular pension (regelaltersrente). "Allgemeine Wartezeit".
 
     Parameters
@@ -1024,8 +1025,9 @@ def ges_rente_wartezeit_15(
     m_ersatzzeit: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Aggregates time periods that are relevant for the Altersrente für Frauen and
-    Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
+    """Whether Wartezeit von 15 Jahren Wartezeit has been completed.
+    Aggregates time periods that are relevant for the Altersrente für Frauen
+    and Leistungen zur Teilhabe. Wartezeit von 15 Jahren.
 
     Parameters
     ----------
@@ -1059,7 +1061,8 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_pfleg_berücks_zeit: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Aggregates time periods that are relevant for the eligibility of Altersrente für
+    """Whether Wartezeit von 35 Jahren Wartezeit has been completed.
+    Aggregates time periods that are relevant for the eligibility of Altersrente für
     langjährig Versicherte (pension for long-term insured). Wartezeit von 35 Jahren. All
     "rentenrechtliche Zeiten" are considered.
 
@@ -1108,7 +1111,8 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pfleg_berücks_zeit: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Aggregates time periods that are relevant for the eligibility of Altersrente für
+    """Whether Wartezeit von 45 Jahren Wartezeit has been completed.
+    Aggregates time periods that are relevant for the eligibility of Altersrente für
     besonders langjährig Versicherte (pension for very long-term insured). Wartezeit von
     45 Jahren. Not all "rentenrechtliche Zeiten" are considered. Years with voluntary
     contributions are only considered if at least 18 years of mandatory contributions
