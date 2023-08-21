@@ -122,10 +122,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
     )
 
     out = entgeltp + (
-        (
-            ((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12)
-            - (age_of_retirement)
-        )
+        (((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12) - (age_of_retirement))
         * durchschnittliche_entgeltp
     )
     return out
@@ -193,10 +190,10 @@ def erwerbsm_rente_vor_grundr_m(
             * rentenwert
             * rentenfaktor_erwerbsm_rente
         )
-    
+
     else:
         out = 0.0
-    
+
     return out
 
 
@@ -231,7 +228,7 @@ def erwerbsm_rente_nach_grundr_m(
     return out
 
 
-def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
+def erwerbsm_rente_zugangsfaktor(
     erwerbsm_rente_params: dict,
     ges_rente_params: dict,
     age_of_retirement: float,
@@ -254,7 +251,9 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
 
     """
 
-    zugangsfaktor = 1 + (age_of_retirement - erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"]/12) * (
+    zugangsfaktor = 1 + (
+        age_of_retirement - erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"] / 12
+    ) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]
