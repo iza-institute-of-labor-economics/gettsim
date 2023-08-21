@@ -72,7 +72,6 @@ def entgeltp_erwerbsm_rente(
         (m_zurechnungszeitsgrenze / 12 - (age_of_retirement))
         * durchschnittliche_entgeltp
     )
-
     return out
 
 
@@ -193,7 +192,6 @@ def erwerbsm_rente_vor_grundr_m(
 
     else:
         out = 0.0
-
     return out
 
 
