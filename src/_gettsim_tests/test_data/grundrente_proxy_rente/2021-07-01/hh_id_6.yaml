@@ -34,6 +34,10 @@ inputs:
       - false
     y_pflichtbeitr_ab_40:
       - 240.0
+    pflichtbeitr_8_in_10:
+      - false
+    arbeitsl_1y_past_585:
+      - false
     m_pflichtbeitrag:
       - 480.0
     m_freiw_beitrag:
@@ -52,7 +56,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
