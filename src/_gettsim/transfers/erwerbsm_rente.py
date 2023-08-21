@@ -8,7 +8,7 @@ def durchschnittliche_entgeltp(
 ) -> float:
     """Calculating average Entgeltpunkte for Erwerbminderungsrente
     (pension for reduced earning capacity)
-    m_beitragszeit = Summe aus vollwertigen Beitragszeiten,
+    m_gesamtbew = Summe aus vollwertigen Beitragszeiten,
     beitragsgeminderten Zeiten, Anrechnungszeiten, Zurechnungszeiten
     und Ersatzzeiten.
 
@@ -16,7 +16,7 @@ def durchschnittliche_entgeltp(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>.
-    m_beitragszeit
+    m_gesamtbew
         See basic input variable :ref:`m_gesamtbew <m_gesamtbew>.
 
     Returns
@@ -33,8 +33,8 @@ def entgeltp_erwerbsm_rente(
     entgeltp: float,
     durchschnittliche_entgeltp: float,
     erwerbsm_rente_params: dict,
-    geburtsjahr: int,
     jahr_renteneintr: int,
+    age_of_retirement: float,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
     (pension for reduced earning capacity)
@@ -47,10 +47,10 @@ def entgeltp_erwerbsm_rente(
         See :func:`durchschnittliche_entgeltp`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
+    age_of_retirement
+        See :func:`age_of_retirement`.
 
     Returns
     -------
@@ -69,10 +69,10 @@ def entgeltp_erwerbsm_rente(
     )
 
     out = entgeltp + (
-        (m_zurechnungszeitsgrenze / 12 - (jahr_renteneintr - geburtsjahr))
+        (m_zurechnungszeitsgrenze / 12 - (age_of_retirement))
         * durchschnittliche_entgeltp
     )
-    breakpoint()
+
     return out
 
 
@@ -81,7 +81,6 @@ def entgeltp_erwerbsm_rente_sonderregel(
     entgeltp: float,
     durchschnittliche_entgeltp: float,
     erwerbsm_rente_params: dict,
-    geburtsjahr: int,
     jahr_renteneintr: int,
     age_of_retirement: float,
 ) -> float:
@@ -98,10 +97,10 @@ def entgeltp_erwerbsm_rente_sonderregel(
         See :func:`durchschnittliche_entgeltp`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
+    age_of_retirement
+        See :func:`age_of_retirement`.
 
     Returns
     -------
@@ -109,7 +108,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     """
     date_list = erwerbsm_rente_params["datum"].astype(str).split("-")
-    diff_zu_2001_in_m = (int(date_list[0]) - 2001) * 12 + (int(date_list[1]) - 1)
+    m_diff_zu_2001 = (int(date_list[0]) - 2001) * 12 + (int(date_list[1]) - 1)
 
     zurechnungszeitsgrenze_params = erwerbsm_rente_params["m_zurechnungszeitsgrenze"]
 
@@ -124,7 +123,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     out = entgeltp + (
         (
-            ((m_zurechnungszeitsgrenze - diff_zu_2001_in_m) / 12)
+            ((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12)
             - (age_of_retirement)
         )
         * durchschnittliche_entgeltp
@@ -155,7 +154,7 @@ def rentenfaktor_erwerbsm_rente(
         out = 0.5
 
     else:
-        out = 1
+        out = 1.0
 
     return out
 
@@ -179,8 +178,8 @@ def erwerbsm_rente_vor_grundr_m(
         See :func:`rentenwert`.
     rentenfaktor_fuer_erwerbsm_rente
         See :func:`rentenfaktor_fuer_erwerbsm_rente`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>.
+    anspruch_erwerbsm_rente
+        See :func:`anspruch_erwerbsm_rente`.
     Returns
     -------
     Erwerbsminderungsrente pension claim
@@ -194,9 +193,10 @@ def erwerbsm_rente_vor_grundr_m(
             * rentenwert
             * rentenfaktor_erwerbsm_rente
         )
-        #breakpoint()
+    
     else:
         out = 0.0
+    
     return out
 
 
@@ -231,34 +231,9 @@ def erwerbsm_rente_nach_grundr_m(
     return out
 
 
-def erwerbsm_rente_altersgrenze(
-    erwerbsm_rente_params: dict,
-) -> float:
-    """Calculating Altersgrenze for Erwerbsminderungsrente
-    (pension for reduced earning capacity)
-
-    Parameters
-    ----------
-    erwerbsm_rente_params
-        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
-
-    Returns
-    -------
-    Altersgrenze for Erwerbsminderungsrente in month
-
-    """
-
-    out = erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"]
-    return out
-
-
 def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
-    jahr_renteneintr: int,
-    geburtsjahr: int,
-    geburtsmonat: int,
-    erwerbsm_rente_altersgrenze: float,
-    ges_rente_params: dict,
     erwerbsm_rente_params: dict,
+    ges_rente_params: dict,
     age_of_retirement: float,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
@@ -266,32 +241,24 @@ def erwerbsm_rente_zugangsfaktor(  # noqa: PLR0913
 
     Parameters
     ----------
-    jahr_renteneintr
-        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>.
-    erwerbsm_rente_altersgrenze
-        See :func:`erwerbsm_rente_altersgrenze`
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
+    age_of_retirement
+        See :func:`age_of_retirement`.
 
     Returns
     -------
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
-    m_alter_renteneintr = (age_of_retirement) * 12
-    zugangsfaktor = 1 + (m_alter_renteneintr - erwerbsm_rente_altersgrenze) * (
+
+    zugangsfaktor = 1 + (age_of_retirement - erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"]/12) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]
-        / 12
     )
-    #breakpoint()
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
 
     return out
