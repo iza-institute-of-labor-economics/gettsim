@@ -389,9 +389,9 @@ Months of sickness between age 16 and 24
 
 Type: float
 
-(m_arbeitslos)=
+(m_arbeitsl)=
 
-## `m_arbeitslos`
+## `m_arbeitsl`
 
 Total months of unemployment (registered)
 
@@ -459,9 +459,25 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions afterage 40
+Total years of mandat. contributions after age 40
 
 Type: float
+
+(pflichtbeitr_8_in_10)=
+
+## `pflichtbeitr_8_in_10`
+
+Has at least 8 contribution years in past 10 years
+
+Type: bool
+
+(arbeitsl_1y_past_585)=
+
+## `arbeitsl_1y_past_585`
+
+Has been unemployed at least 1 year after age 58.5
+
+Type: bool
 
 (bürgerg_bezug_vorj)=
 

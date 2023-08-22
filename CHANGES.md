@@ -8,6 +8,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 - {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care
   insurance until 2004 ({ghuser}`MImmesberger`).
+- {gh}`634` Implement pension for unemployed ({ghuser}`TeBackh`)
 - {gh}`632` Zugangsfaktor calculation with monthly precision ({ghuser}`TeBackh`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
   graph ({ghuser}`lars-reimann`).
