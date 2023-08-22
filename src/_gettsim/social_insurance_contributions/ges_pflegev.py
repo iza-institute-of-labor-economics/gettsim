@@ -455,10 +455,15 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     """
 
-    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
-        ges_pflegev_beitr_satz
-        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-    )
+    if isinstance(sozialv_beitr_params["beitr_satz"]["ges_pflegev"], dict):
+        gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+            ges_pflegev_beitr_satz
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        )
+    else:
+        gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+            ges_pflegev_beitr_satz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+        )
 
     return gesamtbeitrag_midijob_m
 
@@ -485,7 +490,12 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     -------
 
     """
-    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    if isinstance(sozialv_beitr_params["beitr_satz"]["ges_pflegev"], dict):
+        out = (
+            bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        )
+    else:
+        out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     return out
 
 
