@@ -70,7 +70,7 @@ inputs:
       - true
       - true
       - true
-    durchschnittliche_entgeltp_y:
+    durchschn_entgeltp_y:
       - 0.45
       - 0.72
       - 1.2

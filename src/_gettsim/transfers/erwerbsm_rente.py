@@ -5,7 +5,7 @@ from _gettsim.shared import dates_active
 @dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
-    durchschnittliche_entgeltp_y: float,
+    durchschn_entgeltp_y: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -17,8 +17,8 @@ def entgeltp_erwerbsm_rente(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>
-    durchschnittliche_entgeltp
-        See :func:`durchschnittliche_entgeltp`.
+    durchschn_entgeltp_y
+        See basic input variable :ref:`durchschn_entgeltp_y <durchschn_entgeltp_y>
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     jahr_renteneintr
@@ -43,8 +43,7 @@ def entgeltp_erwerbsm_rente(
     )
 
     out = entgeltp + (
-        (m_zurechnungszeitsgrenze / 12 - (age_of_retirement))
-        * durchschnittliche_entgeltp_y
+        (m_zurechnungszeitsgrenze / 12 - (age_of_retirement)) * durchschn_entgeltp_y
     )
     return out
 
@@ -52,7 +51,7 @@ def entgeltp_erwerbsm_rente(
 @dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
 def entgeltp_erwerbsm_rente_sonderregel(
     entgeltp: float,
-    durchschnittliche_entgeltp_y: float,
+    durchschn_entgeltp_y: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -66,8 +65,8 @@ def entgeltp_erwerbsm_rente_sonderregel(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>
-    durchschnittliche_entgeltp
-        See :func:`durchschnittliche_entgeltp`.
+    durchschn_entgeltp_y
+        See basic input variable :ref:`durchschn_entgeltp_y <durchschn_entgeltp_y>
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     jahr_renteneintr
@@ -96,7 +95,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     out = entgeltp + (
         (((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12) - (age_of_retirement))
-        * durchschnittliche_entgeltp_y
+        * durchschn_entgeltp_y
     )
     return out
 
