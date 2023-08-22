@@ -2,36 +2,10 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def durchschnittliche_entgeltp(
-    entgeltp: float,
-    m_gesamtbew: int,
-) -> float:
-    """Calculating average Entgeltpunkte for Erwerbminderungsrente
-    (pension for reduced earning capacity)
-    m_gesamtbew = Summe aus vollwertigen Beitragszeiten,
-    beitragsgeminderten Zeiten, Anrechnungszeiten, Zurechnungszeiten
-    und Ersatzzeiten.
-
-    Parameters
-    ----------
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>.
-    m_gesamtbew
-        See basic input variable :ref:`m_gesamtbew <m_gesamtbew>.
-
-    Returns
-    -------
-    Average Entgeldpunkte per year
-
-    """
-    out = entgeltp / (m_gesamtbew / 12)
-    return out
-
-
 @dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
-    durchschnittliche_entgeltp: float,
+    durchschnittliche_entgeltp_y: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -70,7 +44,7 @@ def entgeltp_erwerbsm_rente(
 
     out = entgeltp + (
         (m_zurechnungszeitsgrenze / 12 - (age_of_retirement))
-        * durchschnittliche_entgeltp
+        * durchschnittliche_entgeltp_y
     )
     return out
 
@@ -78,7 +52,7 @@ def entgeltp_erwerbsm_rente(
 @dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
 def entgeltp_erwerbsm_rente_sonderregel(
     entgeltp: float,
-    durchschnittliche_entgeltp: float,
+    durchschnittliche_entgeltp_y: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -122,7 +96,7 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     out = entgeltp + (
         (((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12) - (age_of_retirement))
-        * durchschnittliche_entgeltp
+        * durchschnittliche_entgeltp_y
     )
     return out
 

@@ -40,12 +40,6 @@ inputs:
       - 6
       - 4
       - 2
-    m_gesamtbew:
-      - 400
-      - 300
-      - 200
-      - 150
-      - 400
     erwerbsm_rentner:
       - true
       - true
@@ -76,6 +70,12 @@ inputs:
       - true
       - true
       - true
+    durchschnittliche_entgeltp_y:
+      - 0.45
+      - 0.72
+      - 1.2
+      - 0.8
+      - 0.45
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
@@ -96,9 +96,3 @@ outputs:
     - 1305.24576
     - 801.8122587
     - 323.0897033
-  durchschnittliche_entgeltp:
-    - 0.45
-    - 0.72
-    - 1.2
-    - 0.8
-    - 0.45
