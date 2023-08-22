@@ -158,9 +158,17 @@ def midijob_faktor_f_mit_minijob_steuerpauschale(
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
         sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_rentenv"]
-        + sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"]["standard"]
         + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
     )
+
+    if isinstance(sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"], dict):
+        allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
+            "ges_pflegev"
+        ]["standard"]
+    else:
+        allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
+            "ges_pflegev"
+        ]
 
     # Then calculate specific shares
     an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
