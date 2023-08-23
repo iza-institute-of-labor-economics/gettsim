@@ -648,6 +648,52 @@ def _ges_rente_arbeitsl_altersgrenze(
     return out
 
 
+@dates_active(start="2005-01-01")
+def _ges_rente_arbeitsl_altersgrenze_vertrauen(
+    birthdate_decimal: float,
+    ges_rente_params: dict,
+    ges_rente_regelaltersgrenze: float,
+) -> float:
+    """Calculate the age, at which an unemployed is eligible to claim the full
+    pension (without deductions) if he is covered by Vertrauensschutz. This
+    pension scheme allows for early retirement with deductions. Hence this
+    threshold is needed as reference for calculating the
+    zugangsfaktor.
+
+    Parameters
+    ----------
+    birthdate_decimal
+        See :func:`birthdate_decimal`.
+    ges_rente_params
+        See params documentation
+        :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+
+    Returns
+    -------
+    lowest full retirement age for unemployed with Vertrauensschutz.
+
+    """
+    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
+        out = piecewise_polynomial(
+            x=birthdate_decimal,
+            thresholds=ges_rente_params[
+                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+            ]["thresholds"],
+            rates=ges_rente_params[
+                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+            ]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = ges_rente_regelaltersgrenze
+
+    return out
+
+
 def _ges_rente_langj_altersgrenze(
     birthdate_decimal: float,
     ges_rente_params: dict,

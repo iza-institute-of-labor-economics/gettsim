@@ -19,11 +19,11 @@ inputs:
     jahr:
       - 2018
     geburtsjahr:
-      - 1949
+      - 1944
     entgeltp:
       - 31.0625
     geburtsmonat:
-      - 4
+      - 2
     m_arbeitsunfähig:
       - 0.0
     m_krank_ab_16_bis_24:
@@ -65,4 +65,6 @@ outputs:
   entgeltp_update_lohn:
     - 0.0
   _ges_rente_langj_altersgrenze:
-    - 65.25
+    - 65.0
+  _ges_rente_arbeitsl_altersgrenze_vertrauen:
+    - 60.83333333
