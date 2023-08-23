@@ -926,9 +926,10 @@ altersgrenze_arbeitsl_vorzeitig:
   description:
     de: >-
       Frühesmögliches Alter ab dem die Altersrente für Arbeitslose
-      bezogen werden kann (mit Abschlägen).
+      bezogen werden kann (mit Abschlägen), einschließlich Vertrauensschutz.
     en: >-
-      Earliest possible age to receive pension for unemployed (with deductions).
+      Earliest possible age to receive pension for unemployed (with deductions),
+      including legitimate expectations.
   reference: § 237 SGB VI
   note:
     de: >-
@@ -975,6 +976,52 @@ abolishment_cohort_rente_für_arbeitsl:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
   1980-01-01:
     scalar: 1952
+altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
+  name:
+    de: >-
+      Altersgrenze für Altersrente wegen Arbeitslosigkeit mit  Vertrauensschutz
+      (abschlagsfrei).
+    en: >-
+      Age threshold for pension for unemployed (without deductions)
+      with Vertrauensschutz
+  description:
+    de: >-
+      Frühesmögliches Alter ab dem die Altersrente für Arbeitslose, für die der
+      Vertrauensschutz gilt abschlagsfrei bezogen werden kann.
+    en: >-
+      Earliest possible age to receive pension for unemployed without  deductions
+      under legitimate expectations.
+  reference: § 237 SGB VI
+  note: >-
+    https://www.gesetze-im-internet.de/sgb_6/__237.html
+  type: piecewise_linear
+  1980-01-01:
+    0:
+      lower_threshold: -inf
+      upper_threshold: 1940.916666666
+      rate_linear: 0
+      intercept_at_lower_threshold: 60
+    1:
+      upper_threshold: 1944.16666666
+      rate_linear: 0.25
+    2:
+      upper_threshold: 1944.25  # jump to 65
+      rate_linear: 50
+    3:
+      upper_threshold: 1951.916666666
+      rate_linear: 0
+    4:
+      upper_threshold: 1952.0  # since cohort 52 abolished - jump on regelaltersgrenze
+      rate_linear: 6
+    5:
+      upper_threshold: 1958  # this is adjustment of regelaltersgrenze
+      rate_linear: 0.083333333
+    6:
+      upper_threshold: 1964
+      rate_linear: 0.16666666
+    7:
+      upper_threshold: inf
+      rate_linear: 0
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
