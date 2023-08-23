@@ -1,0 +1,70 @@
+---
+info:
+  note: ''
+  source: Own calculations
+inputs:
+  provided:
+    p_id:
+      - 31
+    tu_id:
+      - 1
+    hh_id:
+      - 1
+    jahr:
+      - 2021
+    grundr_zeiten:
+      - 420
+    grundr_bew_zeiten:
+      - 420
+    wohnort_ost:
+      - false
+    rente_vorj_vor_grundr_proxy_m:
+      - 0.0
+    bruttolohn_vorj_m:
+      - 0.0
+    eink_selbst_y:
+      - 0.0
+    eink_vermietung_y:
+      - 0.0
+    kapitaleink_y:
+      - 0.0
+    alter:
+      - 70
+    alleinstehend:
+      - true
+    geburtsjahr:
+      - 1951
+    bruttolohn_m:
+      - 0.0
+    entgeltp:
+      - 14.014
+    ges_rente_zugangsfaktor:
+      - 1.0
+    rentner:
+      - true
+    grundr_entgeltp:
+      - 14.014
+    kind:
+      - false
+    geburtsmonat:
+      - 2
+    jahr_renteneintr:
+      - 2012
+    monat_renteneintr:
+      - 10
+    erwerbsm_rentner:
+      - true
+    teilw_erwerbsm_rente:
+      - false
+    durchschn_entgeltp_y:
+      - 0.45
+  assumed: {}
+outputs:
+  entgeltp_erwerbsm_rente:
+    - 13.3015
+  grundr_zuschlag_m:
+    - 419.31
+  erwerbsm_rente_vor_grundr_m:
+    - 431.5845925
+  erwerbsm_rente_m:
+    - 850.89459

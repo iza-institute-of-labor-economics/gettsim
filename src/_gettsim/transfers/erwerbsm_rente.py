@@ -45,6 +45,7 @@ def entgeltp_erwerbsm_rente(
     out = entgeltp + (
         (m_zurechnungszeitsgrenze / 12 - (age_of_retirement)) * durchschn_entgeltp_y
     )
+
     return out
 
 
@@ -165,6 +166,7 @@ def erwerbsm_rente_vor_grundr_m(
 
     else:
         out = 0.0
+
     return out
 
 
@@ -203,6 +205,7 @@ def erwerbsm_rente_zugangsfaktor(
     erwerbsm_rente_params: dict,
     ges_rente_params: dict,
     age_of_retirement: float,
+    jahr_renteneintr: int,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
@@ -221,10 +224,19 @@ def erwerbsm_rente_zugangsfaktor(
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
+    altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
+        "m_altersgrenze_abschlagsfrei"
+    ]
 
-    zugangsfaktor = 1 + (
-        age_of_retirement - erwerbsm_rente_params["m_altersgrenze_abschlagsfrei"] / 12
-    ) * (
+    m_altersgrenze_abschlagsfrei = piecewise_polynomial(
+        x=jahr_renteneintr,
+        thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
+        rates=altersgrenze_abschlagsfrei_params["rates"],
+        intercepts_at_lower_thresholds=altersgrenze_abschlagsfrei_params[
+            "intercepts_at_lower_thresholds"
+        ],
+    )
+    zugangsfaktor = 1 + (age_of_retirement - m_altersgrenze_abschlagsfrei / 12) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]

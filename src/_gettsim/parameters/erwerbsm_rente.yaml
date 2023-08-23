@@ -6,41 +6,30 @@ m_altersgrenze_abschlagsfrei:
       Anspruch nehmen kann
     en: null
   description:
-    de: Bis 2012 immer 63 ab 2012 Anhebung bis zum 65 um 2 Monate pro Jahr
+    de: Bis 2012 immer 63 ab 2012 Anhebung bis 65 um 2 Monate pro Jahr
     en: null
   unit: null
   reference: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads
     /DE/Broschueren/national/erwerbsminderungsrente_das_netz_fuer_alle
     _faelle.html    (S.18)
+  type: piecewise_linear
   2001-01-01:
-    scalar: 756
-  2012-01-01:
-    scalar: 752
-  2013-01-01:
-    scalar: 756
-  2014-01-01:
-    scalar: 758
-  2015-01-01:
-    scalar: 760
-  2016-01-01:
-    scalar: 762
-  2017-01-01:
-    scalar: 764
-  2018-01-01:
-    scalar: 766
-  2019-01-01:
-    scalar: 770
-  2020-01-01:
-    scalar: 772
-  2021-01-01:
-    scalar: 774
-  2022-01-01:
-    scalar: 776
-  2023-01-01:
-    scalar: 778
-  2024-01-01:
-    scalar: 780
+    0:
+      lower_threshold: -inf
+      upper_threshold: 2012
+      rate_linear: 0
+      intercept_at_lower_threshold: 756
+    1:
+      lower_threshold: 2012
+      upper_threshold: 2024
+      rate_linear: 2
+      intercept_at_lower_threshold: 756
+    2:
+      lower_threshold: 2024
+      upper_threshold: inf
+      rate_linear: 0
+      intercept_at_lower_threshold: 780
 m_zurechnungszeitsgrenze:
   name:
     de: Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente
