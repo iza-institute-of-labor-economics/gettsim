@@ -606,7 +606,7 @@ def ges_rente_frauen_altersgrenze(
     return out
 
 
-@dates_active(end="2004-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
+@dates_active(end="1996-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     birthdate_decimal: float,
     ges_rente_params: dict,
@@ -649,7 +649,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     return out
 
 
-@dates_active(start="2005-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
+@dates_active(start="1997-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
     birthdate_decimal: float,
     ges_rente_params: dict,
@@ -703,7 +703,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
     return out
 
 
-@dates_active(start="2005-01-01")
+@dates_active(start="1997-01-01")
 def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
     birthdate_decimal: float,
     ges_rente_params: dict,
