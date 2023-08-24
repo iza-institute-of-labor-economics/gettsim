@@ -171,6 +171,7 @@ TYPES_INPUT_VARIABLES = {
     "y_pflichtbeitr_ab_40": float,
     "pflichtbeitr_8_in_10": bool,
     "arbeitsl_1y_past_585": bool,
+    "vertrauenss_arbeitsl": bool,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,

@@ -479,6 +479,14 @@ Has been unemployed at least 1 year after age 58.5
 
 Type: bool
 
+(vertrauenss_arbeitsl)=
+
+## `vertrauenss_arbeitsl`
+
+Is covered by Vertrauensschutz Altersrente für Arbeitslose
+
+Type: bool
+
 (bürgerg_bezug_vorj)=
 
 ## `bürgerg_bezug_vorj`
