@@ -227,11 +227,11 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # Beneficiaries who live with a minor child in a group home or who have a minor
     # child have slightly different thresholds. We currently do not consider the second
     # condition.
-    eink_summe = bruttolohn_m + eink_selbst_m
+    eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
 
     if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
-            x=eink_summe,
+            x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
             rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
             intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
@@ -240,7 +240,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
         )
     else:
         out = piecewise_polynomial(
-            x=eink_summe,
+            x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
             rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
             intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
