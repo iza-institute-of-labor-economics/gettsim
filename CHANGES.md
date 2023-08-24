@@ -6,7 +6,6 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
   graph ({ghuser}`lars-reimann`).
 - {gh}`620` Adds income from self employment to income for Bürgergeld ({ghuser}`amageh`,
