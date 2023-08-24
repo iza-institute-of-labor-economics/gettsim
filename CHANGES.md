@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`642` Implement Vertrauensschutzt for pension for unemployed ({ghuser}`TeBackh`)
 - {gh}`634` Implement pension for unemployed ({ghuser}`TeBackh`)
 - {gh}`632` Zugangsfaktor calculation with monthly precision ({ghuser}`TeBackh`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
