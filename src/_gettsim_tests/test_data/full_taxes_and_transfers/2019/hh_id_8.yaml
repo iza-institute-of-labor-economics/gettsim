@@ -100,7 +100,7 @@ inputs:
       - 0.0
     m_krank_ab_16_bis_24:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
