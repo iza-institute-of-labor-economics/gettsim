@@ -50,6 +50,8 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertrauenss_arbeitsl:
+      - false
     m_freiw_beitrag:
       - 0.0
     m_ersatzzeit:

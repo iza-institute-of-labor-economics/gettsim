@@ -48,6 +48,8 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertrauenss_arbeitsl:
+      - false
     m_pflichtbeitrag:
       - 420.0
     m_freiw_beitrag:
