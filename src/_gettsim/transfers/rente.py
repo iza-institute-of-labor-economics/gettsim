@@ -606,7 +606,8 @@ def ges_rente_frauen_altersgrenze(
     return out
 
 
-def _ges_rente_arbeitsl_altersgrenze(
+@dates_active(end="2004-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
+def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     birthdate_decimal: float,
     ges_rente_params: dict,
     ges_rente_regelaltersgrenze: float,
@@ -648,8 +649,62 @@ def _ges_rente_arbeitsl_altersgrenze(
     return out
 
 
+@dates_active(start="2005-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
+def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
+    birthdate_decimal: float,
+    ges_rente_params: dict,
+    ges_rente_regelaltersgrenze: float,
+    _ges_rente_arbeitsl_altersgrenze_vertrauenss: float,
+    vertrauenss_arbeitsl: bool,
+) -> float:
+    """Calculate the age, at which an unemployed is eligible to claim the full
+    pension (without deductions) allowing for legitimate expectations. This
+    pension scheme allows for early retirement with deductions. Hence this
+    threshold is needed as reference for calculating the Zugangsfaktor.
+
+    Parameters
+    ----------
+    birthdate_decimal
+        See :func:`birthdate_decimal`.
+    ges_rente_params
+        See params documentation
+        :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    _ges_rente_arbeitsl_altersgrenze_vertrauenss
+        See :func:`_ges_rente_arbeitsl_altersgrenze_vertrauenss`.
+    vertrauenss_arbeitsl
+        See basic input variable :ref:`vertrauenss_arbeitsl <vertrauenss_arbeitsl>`.
+
+    Returns
+    -------
+    lowest full retirement age for unemployed.
+
+    """
+    if (
+        birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]
+        and vertrauenss_arbeitsl
+    ):
+        out = _ges_rente_arbeitsl_altersgrenze_vertrauenss
+    elif birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
+        out = piecewise_polynomial(
+            x=birthdate_decimal,
+            thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+                "thresholds"
+            ],
+            rates=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["rates"],
+            intercepts_at_lower_thresholds=ges_rente_params[
+                "altersgrenze_arbeitsl_abschlagsfrei"
+            ]["intercepts_at_lower_thresholds"],
+        )
+    else:
+        out = ges_rente_regelaltersgrenze
+
+    return out
+
+
 @dates_active(start="2005-01-01")
-def _ges_rente_arbeitsl_altersgrenze_vertrauen(
+def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
     birthdate_decimal: float,
     ges_rente_params: dict,
     ges_rente_regelaltersgrenze: float,
