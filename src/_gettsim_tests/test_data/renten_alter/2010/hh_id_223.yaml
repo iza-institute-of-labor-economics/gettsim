@@ -20,6 +20,8 @@ inputs:
       - 7
     m_arbeitsunfähig:
       - 0.0
+    vertrauenss_arbeitsl:
+      - false
     m_krank_ab_16_bis_24:
       - 0.0
     m_mutterschutz:
