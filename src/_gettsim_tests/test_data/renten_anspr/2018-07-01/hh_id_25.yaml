@@ -49,7 +49,7 @@ inputs:
     arbeitsl_1y_past_585:
       - false
     vertrauenss_arbeitsl:
-      - false
+      - true
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
@@ -71,4 +71,4 @@ outputs:
   _ges_rente_arbeitsl_altersgrenze_vertrauenss:
     - 60.83333333
   _ges_rente_arbeitsl_altersgrenze:
-    - 65.0
+    - 60.83333333
