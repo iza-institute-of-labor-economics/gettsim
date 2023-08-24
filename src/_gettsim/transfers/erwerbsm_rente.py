@@ -129,12 +129,12 @@ def rentenfaktor_erwerbsm_rente(
     return out
 
 
-def erwerbsm_rente_vor_grundr_m(
+def erwerbsm_rente_m(
     erwerbsm_rente_zugangsfaktor: float,
     entgeltp_erwerbsm_rente: float,
     rentenwert: float,
     rentenfaktor_erwerbsm_rente: float,
-    anspruch_erwerbsm_rente: bool,
+    erwerbsm_rentner: bool,
 ) -> float:
     """Calculating the Erwerbsminderungsrente pension claim
 
@@ -148,15 +148,15 @@ def erwerbsm_rente_vor_grundr_m(
         See :func:`rentenwert`.
     rentenfaktor_fuer_erwerbsm_rente
         See :func:`rentenfaktor_fuer_erwerbsm_rente`.
-    anspruch_erwerbsm_rente
-        See :func:`anspruch_erwerbsm_rente`.
+    erwerbsm_rentner
+        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
     Returns
     -------
     Erwerbsminderungsrente pension claim
 
     """
 
-    if anspruch_erwerbsm_rente:
+    if erwerbsm_rentner:
         out = (
             entgeltp_erwerbsm_rente
             * erwerbsm_rente_zugangsfaktor
@@ -166,37 +166,6 @@ def erwerbsm_rente_vor_grundr_m(
 
     else:
         out = 0.0
-
-    return out
-
-
-@dates_active(end="2020-12-31")
-def erwerbsm_rente_m(erwerbsm_rente_vor_grundr_m: float) -> float:
-    return erwerbsm_rente_vor_grundr_m
-
-
-@dates_active(start="2021-01-01", change_name="erwerbsm_rente_m")
-def erwerbsm_rente_nach_grundr_m(
-    erwerbsm_rente_vor_grundr_m: float,
-    grundr_zuschlag_m: float,
-) -> float:
-    """Calculate total individual Erwerbsminderunsrente including
-    Grundrentenzuschlag. Is only active after 2021 when Grundrente
-    is in place.
-
-    Parameters
-    ----------
-    erwerbsm_rente_vor_grundr_m
-        See :func:`erwerbsm_rente_vor_grundr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-
-    Returns
-    -------
-
-    """
-
-    out = erwerbsm_rente_vor_grundr_m + grundr_zuschlag_m
 
     return out
 
@@ -242,32 +211,5 @@ def erwerbsm_rente_zugangsfaktor(
         ]
     )
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
-
-    return out
-
-
-def anspruch_erwerbsm_rente(
-    erwerbsm_rentner: bool,
-) -> bool:
-    """Function determining the elegibility for Erwerbsminderungsrente
-
-
-    Not sure yet if the elegibility should come as an input variable or if it
-    should be determined with other variables
-
-    Parameters
-    ----------
-    erwerbsm_rentner
-        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
-
-    Returns
-    -------
-    Eligibility for Erwerbsminderungsrente as bool.
-
-    """
-    if erwerbsm_rentner is True:
-        out = True
-    else:
-        out = False
 
     return out
