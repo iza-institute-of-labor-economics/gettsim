@@ -7,7 +7,7 @@ def erwerbsm_rente_m(
     entgeltp_erwerbsm_rente: float,
     rentenwert: float,
     rentenartfaktor_erwerbsm_rente: float,
-    erwerbsm_rentner: bool,
+    ges_rente_vorauss_erwerbsm: bool,
 ) -> float:
     """Calculating the Erwerbsminderungsrente pension claim
 
@@ -21,25 +21,53 @@ def erwerbsm_rente_m(
         See :func:`rentenwert`.
     rentenartfaktor_erwerbsm_rente
         See :func:`rentenartfaktor_erwerbsm_rente`.
-    erwerbsm_rentner
-        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
+    ges_rente_vorauss_erwerbsm
+        See :func:`ges_rente_vorauss_erwerbsm`.
     Returns
     -------
     Erwerbsminderungsrente pension claim
 
     """
 
-    if erwerbsm_rentner:
+    if ges_rente_vorauss_erwerbsm:
         out = (
             entgeltp_erwerbsm_rente
             * erwerbsm_rente_zugangsfaktor
             * rentenwert
             * rentenartfaktor_erwerbsm_rente
         )
-
     else:
         out = 0.0
     return out
+
+
+def ges_rente_vorauss_erwerbsm(
+    erwerbsgemindert: bool,
+    m_pflichtbeitrag: float,
+    ges_rente_wartezeit_5: bool,
+) -> bool:
+    """
+    Determine eligibility Erwerbsminderungsrente
+    (pension for reduced earning capacity)
+
+    Parameters
+    ----------
+    erwerbsgemindert
+        See basic input variable :ref:`erwerbsgemindert <erwerbsgemindert>.
+    m_pflichtbeitrag
+        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>.
+    ges_rente_wartezeit_5
+        See :func:`ges_rente_wartezeit_5`.
+    Returns
+    -------
+    Erwerbsminderungsrente pension claim
+    """
+
+    anspruch_erwerbsm_rente = (
+        erwerbsgemindert and ges_rente_wartezeit_5 and m_pflichtbeitrag >= 36
+    )
+
+    return anspruch_erwerbsm_rente
 
 
 @dates_active(start="2004-01-01")

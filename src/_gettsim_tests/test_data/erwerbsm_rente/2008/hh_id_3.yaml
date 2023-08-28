@@ -40,7 +40,7 @@ inputs:
       - 6
       - 4
       - 2
-    erwerbsm_rentner:
+    erwerbsgemindert:
       - true
       - true
       - true
@@ -76,6 +76,24 @@ inputs:
       - 1.2
       - 0.8
       - 0.45
+    m_freiw_beitrag:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    m_ersatzzeit:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    m_pflichtbeitrag:
+      - 60
+      - 60
+      - 60
+      - 60
+      - 60
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
