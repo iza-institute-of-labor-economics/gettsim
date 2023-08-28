@@ -110,4 +110,5 @@ rentenartfaktor_erwerbsm_rente:
     https://sozialversicherung-kompetent.de/rentenversicherung/
     leistungsrecht/1051-rentenartfaktor.html
   2001-01-01:
-    scalar: 0.5
+    teilw: 0.5
+    voll: 1.0

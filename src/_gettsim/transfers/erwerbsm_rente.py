@@ -225,10 +225,10 @@ def rentenartfaktor_erwerbsm_rente(
     """
 
     if teilw_erwerbsm_rente:
-        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]
+        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]["teilw"]
 
     else:
-        out = 1.0
+        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]["voll"]
 
     return out
 
