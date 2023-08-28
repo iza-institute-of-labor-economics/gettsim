@@ -13,14 +13,14 @@ def erwerbsm_rente_m(
 
     Parameters
     ----------
-    ges_rente_zugangsfaktor
-        See :func:`ges_rente_zugangsfaktor`.
-    entgeltp_fuer_erwerbsm_rente
-        See :func:`entgeltp_fuer_erwerbsm_rente`.
+    erwerbsm_rente_zugangsfaktor
+        See :func:`erwerbsm_rente_zugangsfaktor`.
+    entgeltp_erwerbsm_rente
+        See :func:`entgeltp_erwerbsm_rente`.
     rentenwert
         See :func:`rentenwert`.
-    rentenfaktor_fuer_erwerbsm_rente
-        See :func:`rentenfaktor_fuer_erwerbsm_rente`.
+    rentenartfaktor_erwerbsm_rente
+        See :func:`rentenartfaktor_erwerbsm_rente`.
     erwerbsm_rentner
         See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
     Returns
@@ -52,6 +52,10 @@ def entgeltp_erwerbsm_rente(
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
     (pension for reduced earning capacity)
+    In the case of a pension for reduced earning capacity,
+    pensioners are credited with additional earning points.
+    They receive their average earned income points for
+    each year between their age of retirement and the "zurechnungszeitsgrenze".
 
     Parameters
     ----------
@@ -149,7 +153,6 @@ def rentenartfaktor_erwerbsm_rente(
     (pension for reduced earning capacity)
     based on input variable teilw_erwerbsm_rente
 
-    Als Input Variable
     Parameters
     ----------
     teilw_erwerbsm_rente
@@ -180,6 +183,9 @@ def erwerbsm_rente_zugangsfaktor(
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
+    For each month that a pensioner retires before the age limit, 0.3% of
+    the pension is deducted. The maximum deduction is capped at 10.8%.
+    This deduction is the norm for the pension for reduced earning capacity.
 
     Parameters
     ----------
@@ -189,6 +195,8 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
+    jahr_renteneintr
+        See :func:`jahr_renteneintr`.
 
     Returns
     -------
