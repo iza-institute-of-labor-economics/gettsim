@@ -1,51 +1,53 @@
 ---
-m_altersgrenze_abschlagsfrei:
+altersgrenze_abschlagsfrei:
   name:
     de: >-
       Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
       Anspruch nehmen kann
     en: null
   description:
-    de: Bis 2012 immer 63 ab 2012 Anhebung bis 65 um 2 Monate pro Jahr
+    de: Bis 2012 immer 63 ab 2012 Anhebung bis 65
     en: null
-  unit: null
+  unit: years
   reference: >-
-    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads
-    /DE/Broschueren/national/erwerbsminderungsrente_das_netz_fuer_alle
-    _faelle.html    (S.18)
+    § 77 SGB VI Zugangsfaktor:
+    https://sozialversicherung-kompetent.de/rentenversicherung/
+    leistungsrecht/295-erwerbsminderungsrente-und-rentenabschlaege.html
   type: piecewise_linear
   2001-01-01:
     0:
       lower_threshold: -inf
       upper_threshold: 2012
       rate_linear: 0
-      intercept_at_lower_threshold: 756
+      intercept_at_lower_threshold: 63
     1:
       lower_threshold: 2012
-      upper_threshold: 2024
-      rate_linear: 2
-      intercept_at_lower_threshold: 756
+      upper_threshold: 2018
+      rate_linear: 0.083333333
+      intercept_at_lower_threshold: 63.5
     2:
+      lower_threshold: 2018
+      upper_threshold: 2024
+      rate_linear: 0.16666666
+      intercept_at_lower_threshold: 64
+    3:
       lower_threshold: 2024
       upper_threshold: inf
       rate_linear: 0
-      intercept_at_lower_threshold: 780
-m_zurechnungszeitsgrenze:
+      intercept_at_lower_threshold: 65
+zurechnungszeitsgrenze:
   name:
     de: Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente
     en: null
   description:
     de: >-
       Anhebung von 2020 bis 2028 um 1 Monat pro Kalendarjahr und ab 2028
-      jeweils 2 Monate bis 67 erreicht ist. Nicht ganz sicher seit wann
-      60(720)Jahre gilt.
+      jeweils 2 Monate bis 67 erreicht ist.
     en: null
-  unit: month
+  unit: year
   reference: >-
-    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads
-    /DE/Broschueren/national/erwerbsminderungsrente_das_netz_fuer_alle
-    _faelle.html    (S.16)
-    RVaktuell 9/2018 S.213
+    https://sozialversicherung-kompetent.de/rentenversicherung/
+    leistungsrecht/295-erwerbsminderungsrente-und-rentenabschlaege.html
     for the time before 2004 see: https://www.bgbl.de/xaver/bgbl/text.xav?SID=&
     tf=xaver.component.Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&s
     tart=%2F%2F*%5B%40node_id%3D%27955873%27%5D&skin=pdf&tlevel=-2&nohist=1&sins
@@ -56,27 +58,32 @@ m_zurechnungszeitsgrenze:
       lower_threshold: -inf
       upper_threshold: 2004
       rate_linear: 0
-      intercept_at_lower_threshold: 755
+      intercept_at_lower_threshold: 62.916666666
     1:
       lower_threshold: 2004
       upper_threshold: 2014
       rate_linear: 0
-      intercept_at_lower_threshold: 720
+      intercept_at_lower_threshold: 60
     2:
       lower_threshold: 2014
       upper_threshold: 2018
       rate_linear: 0
-      intercept_at_lower_threshold: 744
+      intercept_at_lower_threshold: 62
     3:
       lower_threshold: 2018
       upper_threshold: 2019
       rate_linear: 0
-      intercept_at_lower_threshold: 746
+      intercept_at_lower_threshold: 62.16666666666
     4:
       lower_threshold: 2019
+      upper_threshold: 2031
+      rate_linear: 0.083333333
+      intercept_at_lower_threshold: 65.66666666666
+    5:
+      lower_threshold: 2031
       upper_threshold: inf
-      rate_linear: 1
-      intercept_at_lower_threshold: 788
+      rate_linear: 0
+      intercept_at_lower_threshold: 67
 min_zugangsfaktor_erwerbsm_rente:
   name:
     de: Kleinster möglicher Zugangsfaktor bei der Erwerbsminderungsrente
@@ -90,3 +97,17 @@ min_zugangsfaktor_erwerbsm_rente:
     http://www.portal-sozialpolitik.de/index.php?page=rentenversicherung
   2000-01-01:
     scalar: 0.892
+rentenartfaktor_erwerbsm_rente:
+  name:
+    de: Rentenartfaktor für teilweise Erwerbsminderungsrente
+    en: null
+  description:
+    de: null
+    en: null
+  unit: factor
+  reference: >-
+    § 67 SGB VI Rentenartfaktor
+    https://sozialversicherung-kompetent.de/rentenversicherung/
+    leistungsrecht/1051-rentenartfaktor.html
+  2001-01-01:
+    scalar: 0.5

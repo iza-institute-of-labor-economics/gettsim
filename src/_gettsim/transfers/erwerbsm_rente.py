@@ -2,6 +2,46 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
+def erwerbsm_rente_m(
+    erwerbsm_rente_zugangsfaktor: float,
+    entgeltp_erwerbsm_rente: float,
+    rentenwert: float,
+    rentenartfaktor_erwerbsm_rente: float,
+    erwerbsm_rentner: bool,
+) -> float:
+    """Calculating the Erwerbsminderungsrente pension claim
+
+    Parameters
+    ----------
+    ges_rente_zugangsfaktor
+        See :func:`ges_rente_zugangsfaktor`.
+    entgeltp_fuer_erwerbsm_rente
+        See :func:`entgeltp_fuer_erwerbsm_rente`.
+    rentenwert
+        See :func:`rentenwert`.
+    rentenfaktor_fuer_erwerbsm_rente
+        See :func:`rentenfaktor_fuer_erwerbsm_rente`.
+    erwerbsm_rentner
+        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
+    Returns
+    -------
+    Erwerbsminderungsrente pension claim
+
+    """
+
+    if erwerbsm_rentner:
+        out = (
+            entgeltp_erwerbsm_rente
+            * erwerbsm_rente_zugangsfaktor
+            * rentenwert
+            * rentenartfaktor_erwerbsm_rente
+        )
+
+    else:
+        out = 0.0
+    return out
+
+
 @dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
@@ -31,9 +71,9 @@ def entgeltp_erwerbsm_rente(
     Final Entgeltpunkte for Erwerbsminderungsrente
 
     """
-    zurechnungszeitsgrenze_params = erwerbsm_rente_params["m_zurechnungszeitsgrenze"]
+    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze"]
 
-    m_zurechnungszeitsgrenze = piecewise_polynomial(
+    zurechnungszeitsgrenze = piecewise_polynomial(
         x=jahr_renteneintr,
         thresholds=zurechnungszeitsgrenze_params["thresholds"],
         rates=zurechnungszeitsgrenze_params["rates"],
@@ -43,7 +83,7 @@ def entgeltp_erwerbsm_rente(
     )
 
     out = entgeltp + (
-        (m_zurechnungszeitsgrenze / 12 - (age_of_retirement)) * durchschn_entgeltp_y
+        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp_y
     )
 
     return out
@@ -81,11 +121,11 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     """
     date_list = erwerbsm_rente_params["datum"].astype(str).split("-")
-    m_diff_zu_2001 = (int(date_list[0]) - 2001) * 12 + (int(date_list[1]) - 1)
+    diff_zu_2001 = (int(date_list[0]) - 2001) + (int(date_list[1]) - 1) / 12
 
-    zurechnungszeitsgrenze_params = erwerbsm_rente_params["m_zurechnungszeitsgrenze"]
+    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze"]
 
-    m_zurechnungszeitsgrenze = piecewise_polynomial(
+    zurechnungszeitsgrenze = piecewise_polynomial(
         x=jahr_renteneintr,
         thresholds=zurechnungszeitsgrenze_params["thresholds"],
         rates=zurechnungszeitsgrenze_params["rates"],
@@ -95,16 +135,17 @@ def entgeltp_erwerbsm_rente_sonderregel(
     )
 
     out = entgeltp + (
-        (((m_zurechnungszeitsgrenze - m_diff_zu_2001) / 12) - (age_of_retirement))
+        ((zurechnungszeitsgrenze - diff_zu_2001) - (age_of_retirement))
         * durchschn_entgeltp_y
     )
     return out
 
 
-def rentenfaktor_erwerbsm_rente(
+def rentenartfaktor_erwerbsm_rente(
     teilw_erwerbsm_rente: bool,
+    erwerbsm_rente_params: dict,
 ) -> float:
-    """Checking Rentenfaktor for Erwerbsminderungsrente
+    """Checking Rentenartfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
     based on input variable teilw_erwerbsm_rente
 
@@ -113,6 +154,8 @@ def rentenfaktor_erwerbsm_rente(
     ----------
     teilw_erwerbsm_rente
         See basic input variable :ref:`teilw_erwerbsm_rente <teilw_erwerbsm_rente>.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
     Returns
     -------
@@ -121,51 +164,10 @@ def rentenfaktor_erwerbsm_rente(
     """
 
     if teilw_erwerbsm_rente:
-        out = 0.5
+        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]
 
     else:
         out = 1.0
-
-    return out
-
-
-def erwerbsm_rente_m(
-    erwerbsm_rente_zugangsfaktor: float,
-    entgeltp_erwerbsm_rente: float,
-    rentenwert: float,
-    rentenfaktor_erwerbsm_rente: float,
-    erwerbsm_rentner: bool,
-) -> float:
-    """Calculating the Erwerbsminderungsrente pension claim
-
-    Parameters
-    ----------
-    ges_rente_zugangsfaktor
-        See :func:`ges_rente_zugangsfaktor`.
-    entgeltp_fuer_erwerbsm_rente
-        See :func:`entgeltp_fuer_erwerbsm_rente`.
-    rentenwert
-        See :func:`rentenwert`.
-    rentenfaktor_fuer_erwerbsm_rente
-        See :func:`rentenfaktor_fuer_erwerbsm_rente`.
-    erwerbsm_rentner
-        See basic input variable :ref:`erwerbsm_rentner <erwerbsm_rentner>.
-    Returns
-    -------
-    Erwerbsminderungsrente pension claim
-
-    """
-
-    if erwerbsm_rentner:
-        out = (
-            entgeltp_erwerbsm_rente
-            * erwerbsm_rente_zugangsfaktor
-            * rentenwert
-            * rentenfaktor_erwerbsm_rente
-        )
-
-    else:
-        out = 0.0
 
     return out
 
@@ -194,10 +196,10 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
     altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
-        "m_altersgrenze_abschlagsfrei"
+        "altersgrenze_abschlagsfrei"
     ]
 
-    m_altersgrenze_abschlagsfrei = piecewise_polynomial(
+    altersgrenze_abschlagsfrei = piecewise_polynomial(
         x=jahr_renteneintr,
         thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
         rates=altersgrenze_abschlagsfrei_params["rates"],
@@ -205,7 +207,7 @@ def erwerbsm_rente_zugangsfaktor(
             "intercepts_at_lower_thresholds"
         ],
     )
-    zugangsfaktor = 1 + (age_of_retirement - m_altersgrenze_abschlagsfrei / 12) * (
+    zugangsfaktor = 1 + (age_of_retirement - altersgrenze_abschlagsfrei) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
         ]
