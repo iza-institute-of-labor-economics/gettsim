@@ -50,6 +50,8 @@ def ges_rente_vorauss_erwerbsm(
     Determine eligibility Erwerbsminderungsrente
     (pension for reduced earning capacity)
 
+    Legal reference: § 43 Abs. 1  SGB VI
+
     Parameters
     ----------
     erwerbsgemindert
@@ -73,7 +75,7 @@ def ges_rente_vorauss_erwerbsm(
 @dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
-    durchschn_entgeltp_y: float,
+    durchschn_entgelpt: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -115,7 +117,7 @@ def entgeltp_erwerbsm_rente(
     )
 
     out = entgeltp + (
-        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp_y
+        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgelpt
     )
 
     return out
@@ -124,7 +126,7 @@ def entgeltp_erwerbsm_rente(
 @dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
 def entgeltp_erwerbsm_rente_sonderregel(
     entgeltp: float,
-    durchschn_entgeltp_y: float,
+    durchschn_entgelpt: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
@@ -168,9 +170,37 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     out = entgeltp + (
         ((zurechnungszeitsgrenze - diff_zu_2001) - (age_of_retirement))
-        * durchschn_entgeltp_y
+        * durchschn_entgelpt
     )
     return out
+
+
+def durchschn_entgelpt(
+    entgeltp: float,
+    age_of_retirement: float,
+) -> float:
+    """
+    Grundbewertung
+    https://www.gesetze-im-internet.de/sgb_6/__72.html
+
+    entgeltp / belegungsfähige Gesamtzeitraum
+
+    Parameters
+    ----------
+    entgeltp
+        See basic input variable :ref:`entgeltp <entgeltp>
+    age_of_retirement
+        See :func:`age_of_retirement`.
+
+    Returns
+    -------
+    average entgeltp
+    """
+
+    beleg_gesamtzeitr = age_of_retirement - 16
+    durchschn_entgelpt = entgeltp / beleg_gesamtzeitr
+
+    return durchschn_entgelpt
 
 
 def rentenartfaktor_erwerbsm_rente(
@@ -215,6 +245,8 @@ def erwerbsm_rente_zugangsfaktor(
     the pension is deducted. The maximum deduction is capped at 10.8%.
     This deduction is the norm for the pension for reduced earning capacity.
 
+    Legal reference: § 77 Abs. 2-4  SGB VI
+
     Parameters
     ----------
     ges_rente_params
@@ -243,6 +275,7 @@ def erwerbsm_rente_zugangsfaktor(
             "intercepts_at_lower_thresholds"
         ],
     )
+    # Ausnahme für menschen mit 35 pflichtbeitragsjahren
     zugangsfaktor = 1 + (age_of_retirement - altersgrenze_abschlagsfrei) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"
