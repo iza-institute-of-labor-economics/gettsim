@@ -11,6 +11,9 @@ def erwerbsm_rente_m(
 ) -> float:
     """Calculating the Erwerbsminderungsrente pension claim
 
+    Legal reference: SGB VI § 64: Rentenformel für Monatsbetrag der Rente
+
+
     Parameters
     ----------
     erwerbsm_rente_zugangsfaktor
@@ -49,6 +52,14 @@ def ges_rente_vorauss_erwerbsm(
     """
     Determine eligibility Erwerbsminderungsrente
     (pension for reduced earning capacity)
+
+    Requirements are:
+    1 - not beeing able to work more than 3 hours per day (erwerbsgemindert)
+    2 - beeing insured for at least 5 years (allgemeine Wartezeit)
+    3 - having at least 3 years of mandatory contributions within the
+        last 5 years before retirement (the function below is just checking if
+        the amount of mandatory contribution months is high enough, not
+        if they took place within the last 5 years)
 
     Legal reference: § 43 Abs. 1  SGB VI
 
@@ -140,8 +151,8 @@ def entgeltp_erwerbsm_rente_sonderregel(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>
-    durchschn_entgeltp_y
-        See basic input variable :ref:`durchschn_entgeltp_y <durchschn_entgeltp_y>
+    durchschn_entgelpt
+        See :func:`durchschn_entgelpt`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     jahr_renteneintr
@@ -179,11 +190,11 @@ def durchschn_entgelpt(
     entgeltp: float,
     age_of_retirement: float,
 ) -> float:
-    """
-    Grundbewertung
-    https://www.gesetze-im-internet.de/sgb_6/__72.html
+    """Calculation of average earning points as part of the "Grundbewertung".
+    Earnings points are divided by "belegungsfähige Gesamtzeitraum" which is
+    the period from the age of 17 until the start of the pension.
 
-    entgeltp / belegungsfähige Gesamtzeitraum
+    Legal reference: SGB VI § 72: Grundbewertung
 
     Parameters
     ----------
@@ -209,7 +220,11 @@ def rentenartfaktor_erwerbsm_rente(
 ) -> float:
     """Checking Rentenartfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
-    based on input variable teilw_erwerbsm_rente
+
+    Partial pension - Rentenartfaktor = 0.5
+    Full pension - Rentenartfaktor = 1.0
+
+    Legal reference: SGB VI § 67: Rentenartfaktor
 
     Parameters
     ----------
@@ -234,8 +249,8 @@ def rentenartfaktor_erwerbsm_rente(
 
 
 def erwerbsm_rente_zugangsfaktor(
-    erwerbsm_rente_params: dict,
     ges_rente_params: dict,
+    erwerbsm_rente_params: dict,
     age_of_retirement: float,
     jahr_renteneintr: int,
 ) -> float:
