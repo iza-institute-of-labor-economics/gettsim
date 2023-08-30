@@ -94,6 +94,12 @@ inputs:
       - 60
       - 60
       - 60
+    erwerbsm_rente_mit_63:
+      - false
+      - false
+      - false
+      - false
+      - false
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:

@@ -253,6 +253,7 @@ def erwerbsm_rente_zugangsfaktor(
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
     jahr_renteneintr: int,
+    erwerbsm_rente_mit_63: bool,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
     (pension for reduced earning capacity)
@@ -261,6 +262,11 @@ def erwerbsm_rente_zugangsfaktor(
     This deduction is the norm for the pension for reduced earning capacity.
 
     Legal reference: § 77 Abs. 2-4  SGB VI
+
+    Paragraph 4 regulates an exceptional case in which pensioners can already
+    retire at 63 without deductions if they can prove 35 or 40 years of
+    (Pflichtbeiträge, Berücksichtigungszeiten and
+    certain Anrechnungszeiten or Ersatzzeiten).
 
     Parameters
     ----------
@@ -272,25 +278,33 @@ def erwerbsm_rente_zugangsfaktor(
         See :func:`age_of_retirement`.
     jahr_renteneintr
         See :func:`jahr_renteneintr`.
+    erwerbsm_rente_mit_63
+        See basic input variable :ref:`erwerbsm_rente_mit_63 <erwerbsm_rente_mit_63>.
+
 
     Returns
     -------
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
-    altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
-        "altersgrenze_abschlagsfrei"
-    ]
 
-    altersgrenze_abschlagsfrei = piecewise_polynomial(
-        x=jahr_renteneintr,
-        thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
-        rates=altersgrenze_abschlagsfrei_params["rates"],
-        intercepts_at_lower_thresholds=altersgrenze_abschlagsfrei_params[
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-    # Ausnahme für menschen mit 35 pflichtbeitragsjahren
+    if erwerbsm_rente_mit_63:
+        altersgrenze_abschlagsfrei = erwerbsm_rente_params[
+            "altersgrenze_abschlagsfrei_63"
+        ]
+    else:
+        altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
+            "altersgrenze_abschlagsfrei"
+        ]
+        altersgrenze_abschlagsfrei = piecewise_polynomial(
+            x=jahr_renteneintr,
+            thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
+            rates=altersgrenze_abschlagsfrei_params["rates"],
+            intercepts_at_lower_thresholds=altersgrenze_abschlagsfrei_params[
+                "intercepts_at_lower_thresholds"
+            ],
+        )
+
     zugangsfaktor = 1 + (age_of_retirement - altersgrenze_abschlagsfrei) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
             "vorzeitiger_renteneintritt"

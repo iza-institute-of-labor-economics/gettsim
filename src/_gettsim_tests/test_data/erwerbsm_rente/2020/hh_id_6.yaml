@@ -19,7 +19,7 @@ inputs:
     geburtsjahr:
       - 1970
       - 1970
-      - 1980
+      - 1957
       - 1995
       - 2000
     geburtsmonat:
@@ -88,23 +88,29 @@ inputs:
       - 60
       - 60
       - 60
+    erwerbsm_rente_mit_63:
+      - false
+      - false
+      - true
+      - false
+      - false
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
     - 26.84745763
     - 25.76744186
-    - 30.34181818
+    - 15.14337568
     - 17.38834951
     - 61.23076923
   erwerbsm_rente_zugangsfaktor:
     - 0.892
     - 0.892
-    - 0.892
+    - 0.961
     - 0.892
     - 0.892
   erwerbsm_rente_m:
     - 791.4791593
     - 759.6396465
-    - 894.4950051
+    - 480.9695122
     - 494.6269037
     - 870.8815569

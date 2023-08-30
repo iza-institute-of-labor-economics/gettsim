@@ -8,7 +8,7 @@ altersgrenze_abschlagsfrei:
   description:
     de: Bis 2012 immer 63 ab 2012 Anhebung bis 65
     en: null
-  unit: years
+  unit: year
   reference: >-
     § 77 SGB VI Zugangsfaktor:
     https://sozialversicherung-kompetent.de/rentenversicherung/
@@ -35,6 +35,20 @@ altersgrenze_abschlagsfrei:
       upper_threshold: inf
       rate_linear: 0
       intercept_at_lower_threshold: 65
+altersgrenze_abschlagsfrei_63:
+  name:
+    de: >-
+      Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
+      Anspruch nehmen kann wenn man bestimmte zeitliche Bedingungen erfüllt
+    en: null
+  description:
+    de: null
+    en: null
+  unit: year
+  reference: >-
+    § 77 Abs. 4 SGB VI Zugangsfaktor:
+  2001-01-01:
+    scalar: 63
 zurechnungszeitsgrenze:
   name:
     de: Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente
