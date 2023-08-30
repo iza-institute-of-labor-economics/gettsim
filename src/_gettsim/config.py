@@ -182,7 +182,7 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "erwerbsgemindert": bool,
-    "erwerbsm_rente_mit_63": bool,
+    "erwerbsm_rente_mit63": bool,
     "teilw_erwerbsm_rente": bool,
     "anz_eig_kind_bis_24": int,
 }

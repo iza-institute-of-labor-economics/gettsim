@@ -287,15 +287,15 @@ def erwerbsm_rente_zugangsfaktor(
     Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
 
     """
+    altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
+        "altersgrenze_abschlagsfrei"
+    ]
 
     if erwerbsm_rente_mit_63:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_abschlagsfrei_63"
         ]
     else:
-        altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
-            "altersgrenze_abschlagsfrei"
-        ]
         altersgrenze_abschlagsfrei = piecewise_polynomial(
             x=jahr_renteneintr,
             thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
