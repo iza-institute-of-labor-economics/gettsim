@@ -1,7 +1,10 @@
 ---
 info:
-  note: ''
-  source: https://www.kinderzuschlag.org/rechner/#einkommen
+  note: >-
+    Caution: Regression test for child income.
+    Same as hh_id_14.yaml but with made up child income, so the results are not based on
+    any source.
+  source: https://www.kinderzuschlagrechner24.de/kinderzuschlag/?hp=0&ap0=0&ap1a=0&ap1=1&ap2=0&ap4=0&ap5=0&ww=0&is=0&wgjn=0&kg=0&fuerJ=2023&lS=1&Seite=2#RechnerStart
 inputs:
   provided:
     p_id:
@@ -30,10 +33,10 @@ inputs:
       - 0.0
     in_ausbildung:
       - false
-      - true
+      - false
     bruttokaltmiete_m_hh:
-      - 600.0
-      - 600.0
+      - 700.0
+      - 700.0
     heizkosten_m_hh:
       - 100.0
       - 100.0
@@ -47,17 +50,17 @@ inputs:
       - 0.36
       - 0.36
     kinderzuschl_bruttoeink_eltern_m:
-      - 2000.0
+      - 1660.0
       - 0.0
     kinderzuschl_eink_eltern_m:
-      - 1470.0
+      - 1160.0
       - 0.0
     kindergeld_m_hh:
       - 250.0
       - 250.0
     kind_unterh_erhalt_m:
       - 0.0
-      - 0.0
+      - 160.0
     unterhaltsvors_m:
       - 0.0
       - 0.0
@@ -65,19 +68,19 @@ inputs:
       - 2023
       - 2023
     geburtsjahr:
-      - 1982
-      - 2005
+      - 1980
+      - 2012
     vermögen_bedürft_hh:
-      - 0.0
-      - 0.0
+      - 5000.0
+      - 5000.0
     bürgerg_bezug_vorj:
       - false
       - false
   assumed: {}
 outputs:
   _kinderzuschl_vor_vermög_check_m_tu:
-    - 165.0
-    - 165.0
+    - 160.0
+    - 160.0
   _kinderzuschl_nach_vermög_check_m_tu:
-    - 165.0
-    - 165.0
+    - 160.0
+    - 160.0
