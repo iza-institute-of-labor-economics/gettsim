@@ -5,24 +5,6 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-# ToDo: add "wohngeld_miete_m_hh" "wohngeld_eink_m" to test data and to
-# ToDo: OUT_COLS (take care of rounding)
-
-OVERRIDE_COLS = [
-    "elterngeld_m",
-    "arbeitsl_geld_m",
-    "rente_ertragsanteil",
-    "eink_abhängig_beschäftigt_y",
-    "eink_st_y_tu",
-    "ges_krankenv_beitr_m",
-    "ges_rentenv_beitr_m",
-    "kindergeld_anspruch",
-    "sum_ges_rente_priv_rente_m",
-    "kapitaleink_brutto_y",
-    "haushaltsgröße_hh",
-    "unterhaltsvors_m",
-]
-
 data = load_policy_test_data("wohngeld")
 
 
@@ -41,11 +23,7 @@ def test_wohngeld(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     if column == "wohngeld_eink_m":

@@ -24,7 +24,10 @@ from _gettsim import (
     transfers,
     visualization,
 )
-from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.interface import (
+    FunctionsAndColumnsOverlapWarning,
+    compute_taxes_and_transfers,
+)
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
 from _gettsim.visualization import plot_dag
@@ -49,10 +52,12 @@ def test(*args):
 
 __all__ = [
     "__version__",
+    "FunctionsAndColumnsOverlapWarning",
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
-    # ToDo: See what can be changed/removed from remainder.
+    # TODO (@hmgaudecker): See what can be changed/removed from remainder.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/378
     "aggregation",
     "config",
     "piecewise_functions",

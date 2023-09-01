@@ -86,7 +86,43 @@ def _sozialv_beitr_arbeitn_arbeitg_m(
     return out
 
 
-def arbeitsl_v_beitr_m(
+@dates_active(end="2003-03-31", change_name="arbeitsl_v_beitr_m")
+def arbeitsl_v_beitr_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Contribution for each individual to the unemployment insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_rentenv_beitr_bruttolohn_m
+        See :func:`_ges_rentenv_beitr_bruttolohn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    arbeitsl_v_regulär_beschäftigt_m = (
+        _ges_rentenv_beitr_bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+    )
+
+    # Set to 0 for minijobs
+    if geringfügig_beschäftigt:
+        out = 0.0
+    else:
+        out = arbeitsl_v_regulär_beschäftigt_m
+
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="arbeitsl_v_beitr_m")
+def arbeitsl_v_beitr_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
     _arbeitsl_v_beitr_midijob_arbeitn_m: float,
@@ -128,7 +164,43 @@ def arbeitsl_v_beitr_m(
     return out
 
 
-def arbeitsl_v_beitr_arbeitg_m(
+@dates_active(end="2003-03-31", change_name="arbeitsl_v_beitr_arbeitg_m")
+def arbeitsl_v_beitr_arbeitg_m_vor_midijob(
+    geringfügig_beschäftigt: bool,
+    _ges_rentenv_beitr_bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Contribution of the respective employer to the unemployment insurance.
+
+    Parameters
+    ----------
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
+    _ges_rentenv_beitr_bruttolohn_m
+        See :func:`_ges_rentenv_beitr_bruttolohn_m`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    arbeitsl_v_regulär_beschäftigt_m = (
+        _ges_rentenv_beitr_bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+    )
+
+    # Set to 0 for minijobs
+    if geringfügig_beschäftigt:
+        out = 0.0
+    else:
+        out = arbeitsl_v_regulär_beschäftigt_m
+
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="arbeitsl_v_beitr_arbeitg_m")
+def arbeitsl_v_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
     _arbeitsl_v_beitr_midijob_arbeitg_m: float,
@@ -170,6 +242,7 @@ def arbeitsl_v_beitr_arbeitg_m(
     return out
 
 
+@dates_active(start="2003-04-01")
 def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -197,6 +270,7 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_arbeitsl_v_beitr_midijob_arbeitg_m",
 )
@@ -248,6 +322,7 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_residuum(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="_arbeitsl_v_beitr_midijob_arbeitn_m",
 )

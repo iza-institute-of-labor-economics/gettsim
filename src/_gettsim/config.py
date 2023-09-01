@@ -77,6 +77,21 @@ SUPPORTED_GROUPINGS = {
     },
 }
 
+SUPPORTED_TIME_UNITS = {
+    "y": {
+        "name": "year",
+    },
+    "m": {
+        "name": "month",
+    },
+    "w": {
+        "name": "week",
+    },
+    "d": {
+        "name": "day",
+    },
+}
+
 DEFAULT_TARGETS = [
     "eink_st_y_tu",
     "soli_st_y_tu",
@@ -125,6 +140,7 @@ TYPES_INPUT_VARIABLES = {
     "bruttokaltmiete_m_hh": float,
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
+    "monat_renteneintr": int,
     "behinderungsgrad": int,
     "wohnfläche_hh": float,
     "m_elterngeld": int,
@@ -145,7 +161,7 @@ TYPES_INPUT_VARIABLES = {
     "m_mutterschutz": float,
     "m_arbeitsunfähig": float,
     "m_krank_ab_16_bis_24": float,
-    "m_arbeitslos": float,
+    "m_arbeitsl": float,
     "m_ausbild_suche": float,
     "m_schul_ausbild": float,
     "m_geringf_beschäft": float,
@@ -154,6 +170,8 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
+    "pflichtbeitr_8_in_10": bool,
+    "arbeitsl_1y_past_585": bool,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
@@ -162,4 +180,5 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
+    "anz_eig_kind_bis_24": int,
 }

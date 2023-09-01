@@ -208,7 +208,7 @@ Type: float
 
 ## `geburtstag`
 
-Day of birth
+Day of birth (within month)
 
 Type: int
 
@@ -233,6 +233,14 @@ Type: int
 ## `jahr_renteneintr`
 
 Year of retirement
+
+Type: int
+
+(monat_renteneintr)=
+
+## `monat_renteneintr`
+
+Month of retirement
 
 Type: int
 
@@ -381,9 +389,9 @@ Months of sickness between age 16 and 24
 
 Type: float
 
-(m_arbeitslos)=
+(m_arbeitsl)=
 
-## `m_arbeitslos`
+## `m_arbeitsl`
 
 Total months of unemployment (registered)
 
@@ -451,9 +459,25 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions afterage 40
+Total years of mandat. contributions after age 40
 
 Type: float
+
+(pflichtbeitr_8_in_10)=
+
+## `pflichtbeitr_8_in_10`
+
+Has at least 8 contribution years in past 10 years
+
+Type: bool
+
+(arbeitsl_1y_past_585)=
+
+## `arbeitsl_1y_past_585`
+
+Has been unemployed at least 1 year after age 58.5
+
+Type: bool
 
 (bürgerg_bezug_vorj)=
 
@@ -514,5 +538,11 @@ Type: float
 ## `steuerklasse`
 
 Tax Bracket (1 to 5) for withholding tax
+
+Type: int
+
+## `anz_eig_kind_bis_24`
+
+Number of own children below the age of 25 (incl. not in hh)
 
 Type: int

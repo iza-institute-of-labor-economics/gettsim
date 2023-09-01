@@ -5,8 +5,6 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
-
 data = load_policy_test_data("sozialv_beitr")
 
 
@@ -25,11 +23,7 @@ def test_sozialv_beitr(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     pd.testing.assert_series_equal(

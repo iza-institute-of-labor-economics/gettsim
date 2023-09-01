@@ -4,7 +4,7 @@ from _gettsim.shared import dates_active
 def _kinderzuschl_nach_vermög_check_m_tu(
     _kinderzuschl_vor_vermög_check_m_tu: float,
     vermögen_bedürft_hh: float,
-    arbeitsl_geld_2_vermög_freib_hh: float,
+    kinderzuschl_vermög_freib_hh: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -14,6 +14,33 @@ def _kinderzuschl_nach_vermög_check_m_tu(
         See :func:`_kinderzuschl_vor_vermög_check_m_tu`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
+    kinderzuschl_vermög_freib_hh
+        See :func:`kinderzuschl_vermög_freib_hh`.
+
+    Returns
+    -------
+
+    """
+
+    if vermögen_bedürft_hh > kinderzuschl_vermög_freib_hh:
+        out = max(
+            _kinderzuschl_vor_vermög_check_m_tu
+            - (vermögen_bedürft_hh - kinderzuschl_vermög_freib_hh),
+            0.0,
+        )
+    else:
+        out = _kinderzuschl_vor_vermög_check_m_tu
+    return out
+
+
+@dates_active(end="2022-12-31", change_name="kinderzuschl_vermög_freib_hh")
+def kinderzuschl_vermög_freib_hh_bis_2022(
+    arbeitsl_geld_2_vermög_freib_hh: float,
+) -> float:
+    """Wealth exemptions for Kinderzuschlag until 2022.
+
+    Parameters
+    ----------
     arbeitsl_geld_2_vermög_freib_hh
         See :func:`arbeitsl_geld_2_vermög_freib_hh`.
 
@@ -22,15 +49,26 @@ def _kinderzuschl_nach_vermög_check_m_tu(
 
     """
 
-    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
-        out = max(
-            _kinderzuschl_vor_vermög_check_m_tu
-            - (vermögen_bedürft_hh - arbeitsl_geld_2_vermög_freib_hh),
-            0.0,
-        )
-    else:
-        out = _kinderzuschl_vor_vermög_check_m_tu
-    return out
+    return arbeitsl_geld_2_vermög_freib_hh
+
+
+@dates_active(start="2023-01-01", change_name="kinderzuschl_vermög_freib_hh")
+def kinderzuschl_vermög_freib_hh_ab_2023(
+    _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
+) -> float:
+    """Wealth exemptions for Kinderzuschlag since 2023.
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_vermög_freib_karenzz_hh
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_hh`.
+
+    Returns
+    -------
+
+    """
+
+    return _arbeitsl_geld_2_vermög_freib_karenzz_hh
 
 
 def wohngeld_nach_vermög_check_m_hh(
@@ -102,7 +140,8 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
     if geburtsjahr <= threshold_years[0]:
         out = (
-            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0] * alter
+            next(iter(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values()))
+            * alter
         )
     elif (geburtsjahr >= threshold_years[1]) and (not kind):
         out = (
@@ -194,10 +233,44 @@ def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
     return out
 
 
+@dates_active(start="2023-01-01")
+def _arbeitsl_geld_2_vermög_freib_karenzz_hh(
+    arbeitsl_geld_2_params: dict,
+    haushaltsgröße_hh: int,
+) -> float:
+    """Calculate wealth exemptions since 2023 during Karenzzeit. This variable is also
+    reffered to as 'erhebliches Vermögen'.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params
+        <arbeitsl_geld_2_params>`.
+    haushaltsgröße_hh
+        See :func:`haushaltsgröße_hh`.
+    bürgerg_bezug_vorj
+        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+
+
+    Returns
+    -------
+
+    """
+    params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
+    out = (
+        params["während_karenzzeit"] + (haushaltsgröße_hh - 1) * params["normaler_satz"]
+    )
+
+    return out
+
+
 @dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_hh")
 def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,
+    _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
     bürgerg_bezug_vorj: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
@@ -212,6 +285,8 @@ def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
+    _arbeitsl_geld_2_vermög_freib_karenzz_hh
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_hh`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
 
@@ -224,9 +299,6 @@ def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
     if bürgerg_bezug_vorj:
         out = haushaltsgröße_hh * params["normaler_satz"]
     else:
-        out = (
-            params["während_karenzzeit"]
-            + (haushaltsgröße_hh - 1) * params["normaler_satz"]
-        )
+        out = _arbeitsl_geld_2_vermög_freib_karenzz_hh
 
     return out

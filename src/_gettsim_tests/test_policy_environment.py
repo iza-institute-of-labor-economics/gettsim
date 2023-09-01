@@ -34,12 +34,23 @@ def test_fail_if_invalid_access_different_date():
 def test_access_different_date_vorjahr():
     params = _load_parameter_group_from_yaml(
         date=pd.to_datetime("01-01-2020").date(),
-        group="test_access_diff_date",
+        group="test_access_diff_date_vorjahr",
         parameters=None,
         yaml_path=TEST_DIR / "test_parameters",
     )
     assert params["foo"] == 2020
     assert params["foo_vorjahr"] == 2019
+
+
+def test_access_different_date_jahresanfang():
+    params = _load_parameter_group_from_yaml(
+        date=pd.to_datetime("07-01-2020").date(),
+        group="test_access_diff_date_jahresanfang",
+        parameters=None,
+        yaml_path=TEST_DIR / "test_parameters",
+    )
+    assert params["foo"] == 2021
+    assert params["foo_jahresanfang"] == 2020
 
 
 @pytest.mark.parametrize(
