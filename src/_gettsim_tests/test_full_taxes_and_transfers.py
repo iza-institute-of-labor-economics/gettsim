@@ -27,7 +27,6 @@ OUT_COLS = [
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
 ]
-OVERRIDE_COLS = ["sum_ges_rente_priv_rente_m"]
 
 data = load_policy_test_data("full_taxes_and_transfers")
 
@@ -44,23 +43,16 @@ def test_full_taxes_and_transfers(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
-    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
-    #     for more years.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
-    if test_data.date.year < 2016:
-        columns_overriding_functions = [
-            *OVERRIDE_COLS,
-            "unterhaltsvors_m",
-            "elterngeld_m",
-        ]
-    else:
-        columns_overriding_functions = OVERRIDE_COLS
+
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
+
     compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=OUT_COLS,
-        columns_overriding_functions=columns_overriding_functions,
+        targets=out,
     )
 
 
@@ -75,6 +67,10 @@ def test_data_types(
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)
 
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_tu")
+
     # Load all time dependent functions
     for y in range(1990, 2023):
         year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
@@ -83,25 +79,13 @@ def test_data_types(
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
-    # TODO(@hmgaudecker): Remove again once unterhaltsvors_m is implemented
-    #     for more years.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/479
-    if test_data.date.year < 2016:
-        columns_overriding_functions = [
-            *OVERRIDE_COLS,
-            "unterhaltsvors_m",
-            "elterngeld_m",
-        ]
-    else:
-        columns_overriding_functions = OVERRIDE_COLS
 
     result = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=OUT_COLS,
+        targets=out,
         debug=True,
-        columns_overriding_functions=columns_overriding_functions,
     )
     for column_name, series in result.items():
         if series.empty:
