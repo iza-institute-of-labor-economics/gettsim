@@ -15,7 +15,7 @@ def erziehungsgeld_m(
     erziehungsgeld_anspruch: bool,
     erziehungsgeld_einkommen_relev: float,
     erziehungsgeld_einkommensgrenze: float,
-    alter_monate_jüngstes_mitglied_hh: int,
+    alter_monate_jüngstes_mitglied_hh: float,
 ) -> float:
     """Calculate parental leave benefit (erziehungsgeld).
 
@@ -45,6 +45,10 @@ def erziehungsgeld_m(
     """
     # if the income is higher than the threshold within the first 6 month there
     # is no erziehungsgeld claim at all
+
+    abzug = (erziehungsgeld_einkommen_relev / 12) * erziehungsgeld_params[
+        "reduzierung_erziehungsgeld"
+    ]
     if (
         erziehungsgeld_anspruch
         and alter_monate_jüngstes_mitglied_hh < 7
@@ -64,9 +68,6 @@ def erziehungsgeld_m(
         and alter_monate_jüngstes_mitglied_hh > 7
         and erziehungsgeld_einkommen_relev > erziehungsgeld_einkommensgrenze
     ):
-        abzug = (erziehungsgeld_einkommen_relev / 12) * erziehungsgeld_params[
-            "reduzierung_erziehungsgeld"
-        ]
         out = max(erziehungsgeld_params["erziehungsgeld_regelsatz"] - abzug, 0.0)
     else:
         out = 0.0
@@ -77,7 +78,7 @@ def erziehungsgeld_m(
 def erziehungsgeld_anspruch(
     arbeitsstunden_w: float,
     hat_kinder: bool,
-    alter_monate_jüngstes_mitglied_hh: int,
+    alter_monate_jüngstes_mitglied_hh: float,
 ) -> bool:
     """Determine the eligibility for parental leave benefit (erziehungsgeld).
 
@@ -110,13 +111,15 @@ def erziehungsgeld_einkommen_relev(
     erziehungsgeld_params: dict,
     alleinerz: bool,
     eink_st_abzuege_params: dict,
-) -> bool:
+) -> float:
     """Calculate the relevant wage for (erziehungsgeld)
 
     Parameters
     ----------
     bruttolohn_vorj_m
         See :See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
+    bruttolohn_vorj_m_tu
+        See :func:`bruttolohn_vorj_m_tu`.
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
     alleinerz
@@ -149,8 +152,8 @@ def erziehungsgeld_einkommen_relev(
 def erziehungsgeld_einkommensgrenze(
     erziehungsgeld_params: dict,
     alleinerz: bool,
-    alter_monate_jüngstes_mitglied_hh: int,
-    anz_kinder_mit_kindergeld_tu: int,
+    alter_monate_jüngstes_mitglied_hh: float,
+    anz_kinder_mit_kindergeld_tu: float,
 ) -> float:
     """Calculating the income threshold for (erziehungsgeld)
 
@@ -171,16 +174,15 @@ def erziehungsgeld_einkommensgrenze(
     """
     # There are different income threshold depending on the age of the child
     # and the fact if a person is a single parent
-    if alter_monate_jüngstes_mitglied_hh < 7:
-        if alleinerz:
-            out = erziehungsgeld_params["einkommensgrenze_bis_6m"]["alleinerz"]
-        else:
-            out = erziehungsgeld_params["einkommensgrenze_bis_6m"]["paar"]
-    else:
-        if alleinerz:
-            out = erziehungsgeld_params["einkommensgrenze_ab_7m"]["alleinerz"]
-        else:
-            out = erziehungsgeld_params["einkommensgrenze_ab_7m"]["paar"]
+
+    einkommensgrenze = {
+        (True, True): erziehungsgeld_params["einkommensgrenze_bis_6m"]["alleinerz"],
+        (True, False): erziehungsgeld_params["einkommensgrenze_bis_6m"]["paar"],
+        (False, True): erziehungsgeld_params["einkommensgrenze_ab_7m"]["alleinerz"],
+        (False, False): erziehungsgeld_params["einkommensgrenze_ab_7m"]["paar"],
+    }
+    key = (alter_monate_jüngstes_mitglied_hh < 7, alleinerz)
+    out = einkommensgrenze[key]
 
     # For every additional child the income threshold is increasing by a fixed amount
     out += (anz_kinder_mit_kindergeld_tu - 1) * erziehungsgeld_params[
