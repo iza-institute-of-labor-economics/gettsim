@@ -1,30 +1,33 @@
 ---
 info:
-  note: ''
+  note: >-
+    Caution: Regression test for child income.
+    Same as hh_id_14.yaml but with made up child income, so the results are not based on
+    any source.
   source: https://www.kinderzuschlagrechner24.de/kinderzuschlag/?hp=0&ap0=0&ap1a=0&ap1=1&ap2=0&ap4=0&ap5=0&ww=0&is=0&wgjn=0&kg=0&fuerJ=2023&lS=1&Seite=2#RechnerStart
 inputs:
   provided:
     p_id:
-      - 39
-      - 40
+      - 45
+      - 46
     hh_id:
-      - 14
-      - 14
+      - 17
+      - 17
     tu_id:
-      - 14
-      - 14
+      - 17
+      - 17
     kind:
       - false
       - true
     alter:
-      - 43
-      - 11
+      - 38
+      - 15
     arbeitsstunden_w:
-      - 0.0
-      - 0.0
+      - 40.0
+      - 2.0
     bruttolohn_m:
-      - 1500.0
-      - 0.0
+      - 2000.0
+      - 150.0
     eink_selbst_m:
       - 0.0
       - 0.0
@@ -76,8 +79,8 @@ inputs:
   assumed: {}
 outputs:
   _kinderzuschl_vor_vermög_check_m_tu:
-    - 178.0
-    - 178.0
+    - 160.0
+    - 160.0
   _kinderzuschl_nach_vermög_check_m_tu:
-    - 178.0
-    - 178.0
+    - 160.0
+    - 160.0
