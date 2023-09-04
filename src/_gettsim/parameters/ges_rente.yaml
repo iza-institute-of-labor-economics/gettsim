@@ -987,15 +987,20 @@ altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
   description:
     de: >-
       Frühestmögliches Alter ab dem die Altersrente für Arbeitslose, für die der
-      Vertrauensschutz gilt abschlagsfrei bezogen werden kann.
+      Vertrauensschutz gilt, abschlagsfrei bezogen werden kann. Unter bestimmten
+      Veraussetzungen sind Personen, die die Bedingungen für die Rente für
+      Arbeitslose erfüllen, von der Anhebung der Altersgrenzen zu frühzeitigen
+      Inanspruchnahme nicht betroffen bzw. es erfolgt eine geringere Anhebung.
+      (Z.B. wenn bereits eine Arbeitslosigkeit vorgelegen hat, als das Gesetz
+      beschlossen wurde.)
     en: >-
       Earliest possible age to receive pension for unemployed without deductions
       under legitimate expectations.
-  reference: § 237 SGB VI
+  reference: § 237 SGB VI Abs. 4
   note: >-
     https://www.gesetze-im-internet.de/sgb_6/__237.html
   type: piecewise_linear
-  1980-01-01:
+  2005-12-31:
     0:
       lower_threshold: -inf
       upper_threshold: 1940.916666666
@@ -1062,7 +1067,7 @@ altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
       upper_threshold: 1944.08333333
       rate_linear: 0.0
     21:
-      upper_threshold: 1944.16666667 # 25  #  jump to 65 (normal unemployed)
+      upper_threshold: 1944.16666667  # jump to 65 (normal unemployed w/o Vertrauenss.)
       rate_linear: 50
     22:
       upper_threshold: 1951.916666666
