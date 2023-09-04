@@ -986,7 +986,7 @@ altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
       with Vertrauensschutz
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für Arbeitslose, für die der
+      Frühestmögliches Alter ab dem die Altersrente für Arbeitslose, für die der
       Vertrauensschutz gilt abschlagsfrei bezogen werden kann.
     en: >-
       Earliest possible age to receive pension for unemployed without  deductions
