@@ -228,9 +228,6 @@ def elterngeld_geschw_bonus_anspruch(
 
     """
     if elternzeit_anspruch:
-        # TODO (@ChristianZimpelmann): Should this be >=? Reference (§ 2 (2) BEEG) is
-        #     not completely clear
-        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/605
         out = (
             elterngeld_kind_hh
             == next(

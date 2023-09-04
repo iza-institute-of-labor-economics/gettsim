@@ -216,11 +216,12 @@ def kinderzuschl_eink_min_m_tu(
     return out
 
 
-def kinderzuschl_kindereink_abzug_m(
+def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
     kindergeld_anspruch: bool,
     bruttolohn_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
+    arbeitsl_geld_2_eink_anr_frei_m: float,
     kinderzuschl_params: dict,
 ) -> float:
     """Child benefit after children income for each eligible child is considered.
@@ -237,6 +238,8 @@ def kinderzuschl_kindereink_abzug_m(
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
+    arbeitsl_geld_2_eink_anr_frei_m
+        See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -247,7 +250,12 @@ def kinderzuschl_kindereink_abzug_m(
     out = kindergeld_anspruch * (
         kinderzuschl_params["maximum"]
         - kinderzuschl_params["entzugsrate_kind"]
-        * (bruttolohn_m + kind_unterh_erhalt_m + unterhaltsvors_m)
+        * (
+            bruttolohn_m
+            + kind_unterh_erhalt_m
+            + unterhaltsvors_m
+            - arbeitsl_geld_2_eink_anr_frei_m
+        )
     )
 
     return max(out, 0.0)
