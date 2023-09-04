@@ -12,15 +12,17 @@ einkommensgrenze_bis_6m:
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
-    alleinerz: 23000
-    paar: 30000
+    alleinerz_regelsatz: 23000
+    paar_regelsatz: 30000
+    alleinerz_budgetsatz: 19086
+    paar_budgetsatz: 22086
 einkommensgrenze_ab_7m:
   name:
     de: null
     en: null
   description:
     de: null
-    en: income threshold if the child is older than 7 month
+    en: income threshold if the child is older than 6 month
   unit: Euro
   reference: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
@@ -43,7 +45,7 @@ aufschlag_einkommen:
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
     scalar: 3140
-erziehungsgeld_regelsatz:
+erziehungsgeld_satz:
   name:
     de: Erziehungsgeld Regelsatz
     en: null
@@ -56,7 +58,8 @@ erziehungsgeld_regelsatz:
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
-    scalar: 300
+    regelsatz: 300
+    budgetsatz: 450
 reduzierung_erziehungsgeld:
   name:
     de: null
@@ -64,7 +67,7 @@ reduzierung_erziehungsgeld:
   description:
     de: >-
       Faktor zur Berechnung der Reduzierung des Erziehungsgeld bei einer
-      Überschreitung der Einkommensgrenze ab dem 7 Lebensmonat
+      Überschreitung der Einkommensgrenze ab dem 7 Lebensmonat.
       Der Faktor wird mit dem relevanten Einkommen multipliziert und
       das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
     en: null
@@ -89,3 +92,9 @@ pauschal_abzug_auf_einkommen:
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
     scalar: 0.76
+rounding:
+  erziehungsgeld_m:
+    2004-01-01:
+      base: 0.01
+      direction: nearest
+      reference: null

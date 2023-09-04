@@ -4,20 +4,29 @@ info:
   source: own calculations
 inputs:
   provided:
+    p_id:
+      - 1
+      - 2
     hh_id:
       - 1
       - 1
     tu_id:
       - 1
       - 1
-    p_id:
-      - 1
-      - 2
     jahr:
       - 2005
       - 2005
     alter:
       - 30
+      - 1
+    geburtsjahr:
+      - 1975
+      - 2004
+    geburtstag:
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
       - 1
     arbeitsstunden_w:
       - 20.0
@@ -31,12 +40,6 @@ inputs:
     bruttolohn_vorj_m:
       - 1500.0
       - 0.0
-    geburtstag:
-      - 1
-      - 1
-    geburtsmonat:
-      - 1
-      - 1
     hat_kinder:
       - true
       - false
@@ -46,11 +49,17 @@ inputs:
     alleinerz:
       - true
       - false
-    geburtsjahr:
-      - 1975
-      - 2004
+    budget_erz_geld:
+      - false
+      - false
   assumed: {}
 outputs:
+  erziehungsgeld_einkommen_relev:
+    - 12980.8
+    - 0
+  erziehungsgeld_einkommensgrenze:
+    - 13500
+    - 0
   erziehungsgeld_m:
     - 300.0
     - 0.0
