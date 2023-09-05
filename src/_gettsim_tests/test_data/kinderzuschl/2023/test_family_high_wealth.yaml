@@ -27,6 +27,9 @@ inputs:
     bruttolohn_m:
       - 1500.0
       - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
     in_ausbildung:
       - false
       - true
