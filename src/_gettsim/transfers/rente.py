@@ -682,7 +682,10 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
 
     """
     if (
-        birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]
+        int(birthdate_decimal)
+        <= ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]
+        and birthdate_decimal
+        > ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["first"]
         and vertrauenss_arbeitsl
     ):
         out = _ges_rente_arbeitsl_altersgrenze_vertrauenss
@@ -703,11 +706,12 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
     return out
 
 
-@dates_active(start="1997-01-01")
+@dates_active(start="2005-01-01")
 def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
-    birthdate_decimal: float,
     ges_rente_params: dict,
     ges_rente_regelaltersgrenze: float,
+    geburtsmonat: int,
+    geburtsjahr: int,
 ) -> float:
     """Calculate the age, at which an unemployed is eligible to claim the full
     pension (without deductions) if he is covered by Vertrauensschutz. This
@@ -717,8 +721,10 @@ def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
@@ -730,19 +736,25 @@ def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
     lowest full retirement age for unemployed with Vertrauensschutz.
 
     """
-    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params[
+    third = int((geburtsmonat - 1) / 4) + 1
+
+    if (
+        geburtsjahr < ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]
+        and geburtsjahr
+        >= ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["first"]
+    ):
+        out = ges_rente_params["altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+            geburtsjahr
+        ][third]
+    elif geburtsjahr == ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]:
+        if geburtsmonat < 3:
+            out = ges_rente_params[
                 "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-            ]["thresholds"],
-            rates=ges_rente_params[
+            ][geburtsjahr][1]
+        else:
+            out = ges_rente_params[
                 "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-            ]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-            ]["intercepts_at_lower_thresholds"],
-        )
+            ][geburtsjahr][2]
     else:
         out = ges_rente_regelaltersgrenze
 

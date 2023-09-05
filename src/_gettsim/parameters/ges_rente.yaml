@@ -999,6 +999,60 @@ altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
   reference: § 237 SGB VI Abs. 4
   note: >-
     https://www.gesetze-im-internet.de/sgb_6/__237.html
+  2005-12-31:
+    1941:
+      1: 60.83333333
+      2: 60.16666666
+      3: 60.25
+    1942:
+      1: 60.3333333
+      2: 60.416666666
+      3: 60.5
+    1943:
+      1: 60.583333333
+      2: 60.666666666
+      3: 60.75
+    1944:
+      1: 60.833333
+      2: 65.0
+cohort_range_arbeitsl_vertrauenss:
+  name:
+    de: Kohorte Abschaffung Vertrauenss. Arbeitslose
+    en: Cohort abolishment Vertrauenss. for unemployed
+  description:
+    de: >-
+      Kohorte, in der Vertrauensschutz für Rente für Arbeitslose
+      abgeschafft wurde.
+    en: >-
+      Cohort in which Vertrauenss. for pension for unemployed was abolished.
+  reference: § 237 SGB VI
+  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
+  2005-01-01:
+    first: 1941
+    last: 1944
+altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz_old:
+  name:
+    de: >-
+      Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz
+      (abschlagsfrei).
+    en: >-
+      Age threshold for pension for unemployed (without deductions)
+      with Vertrauensschutz
+  description:
+    de: >-
+      Frühestmögliches Alter ab dem die Altersrente für Arbeitslose, für die der
+      Vertrauensschutz gilt, abschlagsfrei bezogen werden kann. Unter bestimmten
+      Veraussetzungen sind Personen, die die Bedingungen für die Rente für
+      Arbeitslose erfüllen, von der Anhebung der Altersgrenzen zu frühzeitigen
+      Inanspruchnahme nicht betroffen bzw. es erfolgt eine geringere Anhebung.
+      (Z.B. wenn bereits eine Arbeitslosigkeit vorgelegen hat, als das Gesetz
+      beschlossen wurde.)
+    en: >-
+      Earliest possible age to receive pension for unemployed without deductions
+      under legitimate expectations.
+  reference: § 237 SGB VI Abs. 4
+  note: >-
+    https://www.gesetze-im-internet.de/sgb_6/__237.html
   type: piecewise_linear
   2005-12-31:
     0:
