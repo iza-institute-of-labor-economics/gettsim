@@ -9,7 +9,7 @@ def erwerbsm_rente_m(
     rentenartfaktor_erwerbsm_rente: float,
     ges_rente_vorauss_erwerbsm: bool,
 ) -> float:
-    """Calculating the Erwerbsminderungsrente pension claim
+    """Calculating the Erwerbsminderungsrente (disability insurance claim)
 
     Legal reference: SGB VI § 64: Rentenformel für Monatsbetrag der Rente
 
