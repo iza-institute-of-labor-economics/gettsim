@@ -1,18 +1,22 @@
 ---
 altersgrenze_abschlagsfrei:
   name:
+    de: Regelaltersgrenze
+    en: Standard retirement age
+  description:
     de: >-
       Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
-      Anspruch nehmen kann
-    en: null
-  description:
-    de: Bis 2012 immer 63 ab 2012 Anhebung bis 65
-    en: null
-  unit: year
-  reference: >-
-    § 77 SGB VI Zugangsfaktor:
-    https://sozialversicherung-kompetent.de/rentenversicherung/
-    leistungsrecht/295-erwerbsminderungsrente-und-rentenabschlaege.html
+      Anspruch nehmen kann. Bis 2012 lag die Regelaltersgrenze bei 63. Ab dann
+      Schrittweise Anhebung bis 65.
+    en: >-
+      Age limit up to which one can claim the public disability insurance  without
+      deductions.Up to 2012, the standard retirement age was 63.
+      From then on Gradual increase until 65.
+  unit: Year
+  reference: § 77 SGB VI Zugangsfaktor
+  note: >-
+    "https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/
+    295-erwerbsminderungsrente-und-rentenabschlaege.html"
   type: piecewise_linear
   2001-01-01:
     0:
@@ -37,35 +41,44 @@ altersgrenze_abschlagsfrei:
       intercept_at_lower_threshold: 65
 altersgrenze_abschlagsfrei_63:
   name:
+    de: Regelaltersgrenze für langjährige Versicherte
+    en: Standard retirement age for long-term insured persons
+  description:
     de: >-
       Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
-      Anspruch nehmen kann wenn man bestimmte zeitliche Bedingungen erfüllt
-    en: null
-  description:
-    de: null
-    en: null
-  unit: year
-  reference: >-
-    § 77 Abs. 4 SGB VI Zugangsfaktor:
+      Anspruch nehmen kann wenn man bestimmte zeitliche Bedingungen
+      erfüllt. Bediungen werden in § 77 Abs. 4 SGB VI definiert.
+    en: >-
+      age limit up to which one can claim the public disability insurance
+      without deductions if you meet certain time conditions.
+      These conditions are defined in § 77 4 SGB VI.
+  unit: Year
+  reference: § 77 Abs. 4 SGB VI Zugangsfaktor
   2001-01-01:
     scalar: 63
 zurechnungszeitsgrenze:
   name:
-    de: Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente
-    en: null
+    de: Zurechnungszeitsgrenze
+    en: Compensatory time limit
   description:
     de: >-
-      Anhebung von 2020 bis 2028 um 1 Monat pro Kalendarjahr und ab 2028
+      Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente.
+      Anhebung von 2020 bis 2027 um 1 Monat pro Kalendarjahr und ab 2028
       jeweils 2 Monate bis 67 erreicht ist.
-    en: null
-  unit: year
-  reference: >-
-    https://sozialversicherung-kompetent.de/rentenversicherung/
-    leistungsrecht/295-erwerbsminderungsrente-und-rentenabschlaege.html
-    for the time before 2004 see: https://www.bgbl.de/xaver/bgbl/text.xav?SID=&
-    tf=xaver.component.Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&s
-    tart=%2F%2F*%5B%40node_id%3D%27955873%27%5D&skin=pdf&tlevel=-2&nohist=1&sins
-    t=23CF02AC  (Anlage 23 (p.1837))
+    en: >-
+      Age limit for the compensatory period for the public disability insurance.
+      Increase from 2020 to 2027 by 1 month per year, and from 2028
+      2 months each until 67 is reached.
+  unit: Year
+  reference: § 59 SGB VI Zurechnungszeit
+  note: >-
+    "https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/
+    295-erwerbsminderungsrente-und-rentenabschlaege.html"
+    for the time before 2004 see:
+    "https://www.bgbl.de/xaver/bgbl/text.xav?SID=&tf=xaver.component.
+    Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&start=%2F%2F*
+    %5B%40node_id%3D%27955873%27%5D&skin=pdf&tlevel=-2&nohist=1&sinst=23CF02AC"
+    (Anlage 23 (p.1837))
   type: piecewise_linear
   2001-01-01:
     0:
@@ -90,10 +103,15 @@ zurechnungszeitsgrenze:
       intercept_at_lower_threshold: 62.16666666666
     4:
       lower_threshold: 2019
-      upper_threshold: 2031
+      upper_threshold: 2027
       rate_linear: 0.083333333
       intercept_at_lower_threshold: 65.66666666666
     5:
+      lower_threshold: 2027
+      upper_threshold: 2031
+      rate_linear: 0.16666666666
+      intercept_at_lower_threshold: 66.33333333
+    6:
       lower_threshold: 2031
       upper_threshold: inf
       rate_linear: 0
@@ -101,28 +119,32 @@ zurechnungszeitsgrenze:
 min_zugangsfaktor_erwerbsm_rente:
   name:
     de: Kleinster möglicher Zugangsfaktor bei der Erwerbsminderungsrente
-    en: null
+    en: Smallest possible access factor for public disability insurance
   description:
-    de: null
-    en: null
-  unit: factor
-  reference: >-
+    de: >-
+      Abzüge wegen frühzeitigem Eintritt in die Erwerbsminderungsrente
+      sind bei 10.8% gedeckelt.
+    en: Deductions for early retirement are capped at 10.8%.
+  unit: Factor
+  reference: § 77 SGB VI Zugangsfaktor
+  note: >-
     Rentenreformgesetz 1999 (RRG 1999)
-    http://www.portal-sozialpolitik.de/index.php?page=rentenversicherung
+    "http://www.portal-sozialpolitik.de/index.php?page=rentenversicherung"
   2000-01-01:
     scalar: 0.892
 rentenartfaktor_erwerbsm_rente:
   name:
     de: Rentenartfaktor für teilweise Erwerbsminderungsrente
-    en: null
+    en: Pension type factor for partial reduction in public disability insurance
   description:
     de: null
     en: null
-  unit: factor
+  unit: Factor
   reference: >-
-    § 67 SGB VI Rentenartfaktor
-    https://sozialversicherung-kompetent.de/rentenversicherung/
-    leistungsrecht/1051-rentenartfaktor.html
+    § 67 SGB VI Rentenartfaktor:
+  note: >-
+    "https://sozialversicherung-kompetent.de/rentenversicherung/
+    leistungsrecht/1051-rentenartfaktor.html"
   2001-01-01:
     teilw: 0.5
     voll: 1.0

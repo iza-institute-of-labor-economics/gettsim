@@ -50,8 +50,7 @@ def ges_rente_vorauss_erwerbsm(
     ges_rente_wartezeit_5: bool,
 ) -> bool:
     """
-    Determine eligibility Erwerbsminderungsrente
-    (pension for reduced earning capacity)
+    Eligibility for Erwerbsminderungsrente (disability insurance claim).
 
     Requirements are:
     1 - not beeing able to work more than 3 hours per day (erwerbsgemindert)
@@ -73,7 +72,7 @@ def ges_rente_vorauss_erwerbsm(
         See :func:`ges_rente_wartezeit_5`.
     Returns
     -------
-    Erwerbsminderungsrente pension claim
+    Disability insurance claim
     """
 
     anspruch_erwerbsm_rente = (
@@ -86,14 +85,13 @@ def ges_rente_vorauss_erwerbsm(
 @dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
-    durchschn_entgelpt: float,
+    durchschn_entgeltp: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
-    (pension for reduced earning capacity)
-    In the case of a pension for reduced earning capacity,
+    In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
     each year between their age of retirement and the "zurechnungszeitsgrenze".
@@ -128,7 +126,7 @@ def entgeltp_erwerbsm_rente(
     )
 
     out = entgeltp + (
-        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgelpt
+        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp
     )
 
     return out
@@ -137,13 +135,13 @@ def entgeltp_erwerbsm_rente(
 @dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
 def entgeltp_erwerbsm_rente_sonderregel(
     entgeltp: float,
-    durchschn_entgelpt: float,
+    durchschn_entgeltp: float,
     erwerbsm_rente_params: dict,
     jahr_renteneintr: int,
     age_of_retirement: float,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
-    (pension for reduced earning capacity) considering a special change in
+    (public disability insurance) considering a special change in
     Zurechnungszeit from 2001-2003. Zurechnungszeitsgrenze is continually reduced
     by one month each month in this time period.
 
@@ -151,8 +149,8 @@ def entgeltp_erwerbsm_rente_sonderregel(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>
-    durchschn_entgelpt
-        See :func:`durchschn_entgelpt`.
+    durchschn_entgeltp
+        See :func:`durchschn_entgeltp`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     jahr_renteneintr
@@ -181,12 +179,12 @@ def entgeltp_erwerbsm_rente_sonderregel(
 
     out = entgeltp + (
         ((zurechnungszeitsgrenze - diff_zu_2001) - (age_of_retirement))
-        * durchschn_entgelpt
+        * durchschn_entgeltp
     )
     return out
 
 
-def durchschn_entgelpt(
+def durchschn_entgeltp(
     entgeltp: float,
     age_of_retirement: float,
 ) -> float:
@@ -209,9 +207,9 @@ def durchschn_entgelpt(
     """
 
     beleg_gesamtzeitr = age_of_retirement - 16
-    durchschn_entgelpt = entgeltp / beleg_gesamtzeitr
+    durchschn_entgeltp = entgeltp / beleg_gesamtzeitr
 
-    return durchschn_entgelpt
+    return durchschn_entgeltp
 
 
 def rentenartfaktor_erwerbsm_rente(
@@ -219,7 +217,7 @@ def rentenartfaktor_erwerbsm_rente(
     erwerbsm_rente_params: dict,
 ) -> float:
     """Checking Rentenartfaktor for Erwerbsminderungsrente
-    (pension for reduced earning capacity)
+    (public disability insurance)
 
     Partial pension - Rentenartfaktor = 0.5
     Full pension - Rentenartfaktor = 1.0
@@ -256,10 +254,10 @@ def erwerbsm_rente_zugangsfaktor(
     erwerbsm_rente_mit_63: bool,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
-    (pension for reduced earning capacity)
+    (public disability insurance)
     For each month that a pensioner retires before the age limit, 0.3% of
     the pension is deducted. The maximum deduction is capped at 10.8%.
-    This deduction is the norm for the pension for reduced earning capacity.
+    This deduction is the norm for the public disability insurance.
 
     Legal reference: § 77 Abs. 2-4  SGB VI
 
@@ -284,7 +282,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     Returns
     -------
-    Zugangsfaktor for Erwerbsminderungsrente (pension for reduced earning capacity)
+    Zugangsfaktor for Erwerbsminderungsrente (public disability insurance)
 
     """
     altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
