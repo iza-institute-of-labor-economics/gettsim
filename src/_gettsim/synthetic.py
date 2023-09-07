@@ -151,6 +151,9 @@ def create_basic_households(
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
             "hat_kinder": hat_kinder,
             "alleinerz": alleinerziehend,
+            # Assumption: All children are biological children of the adults, children
+            # do not have children themselves
+            "anz_eig_kind_bis_24": [n_children] * n_adults + [0] * n_children,
             **specs_constant_over_households,
             **{v: k[i] for v, k in specs_heterogeneous.items()},
         }
