@@ -2,6 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
+@dates_active(start="2001-01-01")
 def erwerbsm_rente_m(
     erwerbsm_rente_zugangsfaktor: float,
     entgeltp_erwerbsm_rente: float,

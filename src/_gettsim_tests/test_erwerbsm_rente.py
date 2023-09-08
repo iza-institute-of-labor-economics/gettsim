@@ -1,9 +1,3 @@
-"""
-Test the Zugangsfaktor for Erwerbsminderungsrente
-(pension for reduced earning capacity)
-
-"""
-
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
