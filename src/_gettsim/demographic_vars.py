@@ -285,8 +285,9 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     -------
 
     """
-    # ToDo: Find out why geburtsdatum need to be cast to datetime64 again. It
-    # ToDo: should already have this type based on the function above
+
+    # TODO(@hmgaudecker): Remove explicit cast when vectorisation is enabled.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/515
     age_in_days = elterngeld_params["datum"] - numpy.datetime64(geburtsdatum)
 
     out = age_in_days / 30.436875
@@ -341,4 +342,29 @@ def eltern(
     """
 
     out = (erwachsen) and (not kindergeld_anspruch)
+    return out
+
+
+def birthdate_decimal(
+    geburtsjahr: int,
+    geburtsmonat: int,
+) -> float:
+    """Combines birthyear and birth month to decimal number of
+    birthdate with monthly precision, as required for pension
+    benefit calculation
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+
+    Returns
+    -------
+    Birthdate with monthly precision as float.
+
+    """
+    out = geburtsjahr + (geburtsmonat - 1) / 12
+
     return out

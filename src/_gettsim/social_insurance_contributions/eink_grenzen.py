@@ -1,48 +1,10 @@
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-@dates_active(
-    end="2022-09-30",
-)
-def minijob_grenze_west(sozialv_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for West Germany until September 2022.
-
-    Parameters
-    ----------
-    sozialv_beitr_params:
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-
-    Returns
-    -------
-    Marginal Job Threshold
-
-    """
-    return sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
-
-
-@dates_active(
-    end="2022-09-30",
-)
-def minijob_grenze_ost(sozialv_beitr_params: dict) -> float:
-    """Obtains marginal job thresholds for East Germany until September 2022.
-
-    Parameters
-    ----------
-    sozialv_beitr_params:
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-
-    Returns
-    -------
-    Marginal Job Threshold
-
-    """
-    return sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
-
-
-@dates_active(end="2022-09-30", change_name="minijob_grenze")
+@dates_active(end="1999-12-31", change_name="minijob_grenze")
 @add_rounding_spec(params_key="sozialv_beitr")
-def minijob_grenze_unterschied_ost_west(
-    wohnort_ost: bool, minijob_grenze_west: float, minijob_grenze_ost: float
+def minijob_grenze_unterscheidung_ost_west(
+    wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
     """Select the income threshold depending on place of living.
 
@@ -56,13 +18,31 @@ def minijob_grenze_unterschied_ost_west(
     -------
 
     """
-    out = minijob_grenze_ost if wohnort_ost else minijob_grenze_west
+    west = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
+    ost = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
+    out = ost if wohnort_ost else west
     return float(out)
 
 
+@dates_active(start="2000-01-01", end="2022-09-30", change_name="minijob_grenze")
 @add_rounding_spec(params_key="sozialv_beitr")
-@dates_active(start="2022-10-01")
-def minijob_grenze(sozialv_beitr_params: dict) -> float:
+def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
+    """Select the income threshold depending on place of living.
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+    Returns
+    -------
+
+    """
+    return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
+
+
+@add_rounding_spec(params_key="sozialv_beitr")
+@dates_active(start="2022-10-01", change_name="minijob_grenze")
+def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
     the statutory minimum wage.
 
@@ -106,6 +86,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     return bruttolohn_m <= minijob_grenze
 
 
+@dates_active(start="2003-04-01")
 def in_gleitzone(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
@@ -139,14 +120,15 @@ def in_gleitzone(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="midijob_faktor_f",
 )
 @add_rounding_spec(params_key="sozialv_beitr")
-def midijob_faktor_f_mit_minijob_st(
+def midijob_faktor_f_mit_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    _ges_krankenv_beitr_satz_jahresanf: float,
-    _ges_krankenv_beitr_satz_arbeitg_jahresanf: float,
+    _ges_krankenv_beitr_satz_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
     """Faktor F which is needed for the calculation of Bemessungsentgelt
     (beitragspflichtige Einnahme) of midijobs before October 2022. It is calculated as
@@ -162,10 +144,10 @@ def midijob_faktor_f_mit_minijob_st(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_satz_jahresanf
-        See :func:`_ges_krankenv_beitr_satz_jahresanf`.
-    _ges_krankenv_beitr_satz_arbeitg_jahresanf
-        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanf`.
+    _ges_krankenv_beitr_satz_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
 
     Returns
     -------
@@ -181,8 +163,8 @@ def midijob_faktor_f_mit_minijob_st(
     )
 
     # Then calculate specific shares
-    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanf
-    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanf
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
 
     # Sum over the shares which are specific for midijobs.
     pausch_mini = (
@@ -199,10 +181,10 @@ def midijob_faktor_f_mit_minijob_st(
 
 @dates_active(start="2022-10-01", change_name="midijob_faktor_f")
 @add_rounding_spec(params_key="sozialv_beitr")
-def midijob_faktor_f_ohne_minijob_st(
+def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    _ges_krankenv_beitr_satz_jahresanf: float,
-    _ges_krankenv_beitr_satz_arbeitg_jahresanf: float,
+    _ges_krankenv_beitr_satz_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
     """Faktor F which is needed for the calculation of Bemessungsentgelt
     (beitragspflichtige Einnahme) of midijobs since October 2022. It is calculated as
@@ -219,10 +201,10 @@ def midijob_faktor_f_ohne_minijob_st(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_satz_jahresanf
-        See :func:`_ges_krankenv_beitr_satz_jahresanf`.
-    _ges_krankenv_beitr_satz_arbeitg_jahresanf
-        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanf`.
+    _ges_krankenv_beitr_satz_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
 
     Returns
     -------
@@ -241,8 +223,8 @@ def midijob_faktor_f_ohne_minijob_st(
     )
 
     # Then calculate specific shares
-    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanf
-    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanf
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
 
     # Sum over the shares which are specific for midijobs.
     # New formula only inludes the lump-sum contributions to health care
@@ -259,6 +241,7 @@ def midijob_faktor_f_ohne_minijob_st(
 
 
 @dates_active(
+    start="2003-04-01",
     end="2022-09-30",
     change_name="midijob_bemessungsentgelt_m",
 )
@@ -401,7 +384,34 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
     return out
 
 
-def regulär_beschäftigt(bruttolohn_m: float, sozialv_beitr_params: dict) -> bool:
+@dates_active(end="2003-03-31", change_name="regulär_beschäftigt")
+def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
+    """Check if person is in regular employment.
+
+    Employees earning more than the minijob threshold, are subject to all ordinary
+    income and social insurance contribution regulations. In gettsim we call these
+    regular employed.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Whether regular employed persons.
+
+    """
+    out = bruttolohn_m >= minijob_grenze
+    return out
+
+
+@dates_active(start="2003-04-01", change_name="regulär_beschäftigt")
+def regulär_beschäftigt_mit_midijob(
+    bruttolohn_m: float, sozialv_beitr_params: dict
+) -> bool:
     """Check if person is in regular employment.
 
     Employees earning more than the midijob threshold, are subject to all ordinary

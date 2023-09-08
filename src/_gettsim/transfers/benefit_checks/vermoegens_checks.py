@@ -140,7 +140,8 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
     if geburtsjahr <= threshold_years[0]:
         out = (
-            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[0] * alter
+            next(iter(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values()))
+            * alter
         )
     elif (geburtsjahr >= threshold_years[1]) and (not kind):
         out = (

@@ -75,8 +75,7 @@ def plot_dag(
 
     # Load functions.
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        user_functions_raw=functions,
-        columns_overriding_functions=columns_overriding_functions,
+        functions_raw=functions,
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),
         aggregation_specs={},
@@ -113,13 +112,8 @@ def plot_dag(
     names = layout_df.index
     node_x_coord = layout_df[0].values
     node_y_coord = layout_df[1].values
-    url = []
-    for x in names:
-        url.append(dag.nodes[x]["url"])
-    url = np.array(url)
-    codes = []
-    for x in names:
-        codes.append(dag.nodes[x]["source_code"])
+    url = np.array([dag.nodes[x]["url"] for x in names])
+    codes = [dag.nodes[x]["source_code"] for x in names]
 
     combo = pd.DataFrame(
         {"x": node_x_coord, "y": node_y_coord, "url": url, "source_code": codes}
@@ -446,7 +440,7 @@ def _to_list(scalar_or_iter):
     """
     return (
         [scalar_or_iter]
-        if isinstance(scalar_or_iter, (str, dict))
+        if isinstance(scalar_or_iter, str | dict)
         else list(scalar_or_iter)
     )
 

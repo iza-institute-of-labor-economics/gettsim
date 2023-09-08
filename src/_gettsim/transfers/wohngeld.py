@@ -36,7 +36,8 @@ def wohngeld_m_hh(
     else:
         out = wohngeld_nach_vermög_check_m_hh
 
-    # ToDo: Add as parameter. Implement as rounding?
+    # TODO(@ChristianZimpelmann): Add as parameter. Implement as rounding?
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/88
     if out < 10:
         out = 0.0
     return out
@@ -318,10 +319,6 @@ def wohngeld_eink_freib_m_ab_2016(
         wohngeld_params["freib_behinderung"] / 12 if behinderungsgrad > 0 else 0
     )
 
-    # Subtraction for single parents and working children
-    # ToDo:
-    #     Check how to handle subjects that are single parents and also still count
-    #     as arbeitendes Kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
@@ -441,8 +438,6 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
-    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
-    # ToDo: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if anz_personen_hh <= max_definierte_hh_größe:
         max_miete_m_hh = params_max_miete[anz_personen_hh][constr_year][mietstufe]
@@ -504,7 +499,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
             * params_max_miete["jede_weitere_person"][mietstufe]
         )
 
-    # Calc heating allowance. Before 2021, heating allowance was not
+    # Calc heating allowance. Until 2020, heating allowance was not
     # introduced yet. For this time frame, the respective parameter is
     # not part of wohngeld_params and heating allowance is set to 0.
     if "heizkostenentlastung_m" in wohngeld_params:
@@ -525,7 +520,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     else:
         heating_allowance_m = 0
 
-    # Calc heating cost component. Before 2023, heating cost component was not
+    # Calc heating cost component. Until 2022, heating cost component was not
     # introduced yet. For this time frame, the respective parameter is not part
     # of wohngeld_params and heating cost component is set to 0.
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
@@ -550,7 +545,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     else:
         heating_component_m = 0
 
-    # Calc climate component. Before 2023, climate component was not
+    # Calc climate component. Until 2022, climate component was not
     # introduced yet. For this time frame, the respective parameter is not
     # part of wohngeld_params and climate component is set to 0.
     if "klimakomponente_m" in wohngeld_params:

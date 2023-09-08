@@ -55,7 +55,7 @@ def kindergeld_anspruch_nach_lohn(
 ) -> bool:
     """Determine kindergeld eligibility for an individual child depending on kids wage.
 
-    Before 2011, there was an income ceiling for children
+    Until 2011, there was an income ceiling for children
     returns a boolean variable whether a specific person is a child eligible for
     child benefit
 

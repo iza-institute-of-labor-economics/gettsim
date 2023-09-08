@@ -1,8 +1,8 @@
 import copy
 import datetime
 import operator
+from collections.abc import Callable
 from functools import reduce
-from typing import Callable
 
 import numpy
 import pandas as pd
@@ -172,7 +172,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-        # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
             thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
@@ -238,11 +237,12 @@ def load_functions_for_date(date):
     """
 
     # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
-    functions = {
-        f.__info__["dates_active_dag_key"]: f
-        for f in load_internal_functions().values()
-        if is_time_dependent(f) and is_active_at_date(f, date)
-    }
+    functions = {}
+    for f in load_internal_functions().values():
+        if not is_time_dependent(f) or is_active_at_date(f, date):
+            info = f.__info__ if hasattr(f, "__info__") else {}
+            name = info.get("dates_active_dag_key", f.__name__)
+            functions[name] = f
 
     return functions
 

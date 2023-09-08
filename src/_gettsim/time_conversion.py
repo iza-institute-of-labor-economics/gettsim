@@ -1,5 +1,6 @@
+import inspect
 import re
-from typing import Callable
+from collections.abc import Callable
 
 from dags.signature import rename_arguments
 
@@ -296,6 +297,7 @@ def _create_time_conversion_functions(
         f"(?P<base_name>.*_)(?P<time_unit>[{units}])(?P<aggregation>{groupings})?"
     )
     match = function_with_time_unit.fullmatch(name)
+    dependencies = set(inspect.signature(func).parameters) if func else set()
 
     if match:
         base_name = match.group("base_name")
@@ -304,22 +306,27 @@ def _create_time_conversion_functions(
 
         missing_time_units = [unit for unit in all_time_units if unit != time_unit]
         for missing_time_unit in missing_time_units:
-            result[
-                f"{base_name}{missing_time_unit}{aggregation}"
-            ] = _create_function_for_time_unit(
+            new_name = f"{base_name}{missing_time_unit}{aggregation}"
+
+            # Without this check, we could create cycles in the DAG: Consider a
+            # hard-coded function `var_y` that takes `var_m` as an input, assuming it
+            # to be provided in the input data. If we create a function `var_m`, which
+            # would take `var_y` as input, we create a cycle. If `var_m` is actually
+            # provided as an input, `var_m` would be overwritten, removing the cycle.
+            # However, if `var_m` is not provided as an input, an error message would
+            # be shown that a cycle between `var_y` and `var_m` was detected. This
+            # hides the actual problem, which is that `var_m` is not provided as an
+            # input.
+            if new_name in dependencies:
+                continue
+
+            result[new_name] = _create_function_for_time_unit(
                 name,
                 info,
                 _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
             )
 
     return result
-
-
-def _replace_suffix(name: str, old_suffix: str, new_suffix: str) -> str:
-    if not name.endswith(old_suffix):
-        return name
-
-    return name.removesuffix(old_suffix) + new_suffix
 
 
 def _create_function_for_time_unit(

@@ -38,18 +38,16 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
 
     - The Grundrentenzuschlag (in previous years) is not part of the relevant income and
       does not lower the Grundrentenzuschlag (reference: § 97a Abs. 2 S. 7 SGB VI).
-    - The Deutsche Rentenversicherung uses the income of the year two to three years
-      ago to be able to use administrative data on this income for the calculation:
-      "It can be assumed that the tax office regularly has the data two years after
-      the end of the assessment period, which can be retrieved from the pension
-      insurance."
-    - Warning: Currently, earnings of dependent work and pensions are based on the
-      last year, and other income on the current year instead of the year
-      two years ago to avoid the need for several new input variables.
-
-    # ToDo: Freibeträge for income are currently not considered
-    # ToDo: as freibeträge_y_tu depends on pension income through
-    # ToDo: `ges_krankenv_beitr_m` -> `vorsorgeaufw` -> `freibeträge`
+    - The Deutsche Rentenversicherung uses the income of the year two to three years ago
+      to be able to use administrative data on this income for the calculation: "It can
+      be assumed that the tax office regularly has the data two years after the end of
+      the assessment period, which can be retrieved from the pension insurance."
+    - Warning: Currently, earnings of dependent work and pensions are based on the last
+      year, and other income on the current year instead of the year two years ago to
+      avoid the need for several new input variables.
+    - Warning: Freibeträge for income are currently not considered as `freibeträge_y_tu`
+      depends on pension income through `ges_krankenv_beitr_m` -> `vorsorgeaufw` ->
+      `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
 
@@ -118,8 +116,8 @@ def grundr_zuschlag_eink_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    # ToDo: Make sure that income of married partner is also considered if
-    # ToDo: subjects do not fill taxes together.
+    # Note: Make sure that income of married partner is also considered if
+    # subjects do not fill taxes together.
     if gemeinsam_veranlagt_tu:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
@@ -323,7 +321,8 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentenwert_vorjahr
         See :func:`rentenwert_vorjahr`.
     priv_rente_m
-        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
+        See basic input variable :ref:`priv_rente_m <priv_rente_m>`. Assume this did not
+        change from last year.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     geburtsjahr
@@ -340,9 +339,6 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
 
     """
 
-    # Assume priv_rente_m did not change
-    # ToDo: Use current_year as argument of this function once we addressed
-    # ToDo: issue #211
     # Calculate if subect was retired last year
     if rentner:
         rentner_vorjahr = jahr_renteneintr < geburtsjahr + alter

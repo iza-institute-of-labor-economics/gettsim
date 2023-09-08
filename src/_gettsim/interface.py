@@ -28,7 +28,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     functions,
     aggregation_specs=None,
     targets=None,
-    columns_overriding_functions=None,
     check_minimal_specification="ignore",
     rounding=True,
     debug=False,
@@ -56,9 +55,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS` are returned.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
@@ -80,24 +76,26 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
     params = {} if params is None else params
     aggregation_specs = {} if aggregation_specs is None else aggregation_specs
 
     # Process data and load dictionaries with functions.
-    data = _process_and_check_data(
-        data=data, columns_overriding_functions=columns_overriding_functions
-    )
+    data = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        user_functions_raw=functions,
-        columns_overriding_functions=columns_overriding_functions,
+        functions_raw=functions,
         targets=targets,
         data_cols=list(data),
         aggregation_specs=aggregation_specs,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
+    columns_overriding_functions = set(functions_overridden)
+
+    # Warn if columns override functions.
+    if columns_overriding_functions:
+        warnings.warn(
+            FunctionsAndColumnsOverlapWarning(columns_overriding_functions),
+            stacklevel=2,
+        )
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
@@ -197,16 +195,13 @@ def set_up_dag(
     return dag
 
 
-def _process_and_check_data(data, columns_overriding_functions):
+def _process_and_check_data(data):
     """Process data and perform several checks.
 
     Parameters
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
-    columns_overriding_functions : str list of str
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
 
     Returns
     -------
@@ -232,15 +227,14 @@ def _process_and_check_data(data, columns_overriding_functions):
     # Check that bg_id and hh_id are matching. As long as we have not fixed the
     # Günstigerprüfung between Kinderzuschlag (calculated on bg level) and Wohngeld/ALG
     # 2 (calculated on hh level), we do not allow for more than one bedarfsgemeinschaft
-    # within a household. ToDo: Remove check once Günstigerprüfung ist taken care of.
+    # within a household.
+    # TODO (@hmgaudecker): Remove check once groupings allow for it.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601
     if ("bg_id" in data) and ("hh_id" in data):
         assert (
             not data["bg_id"].groupby(data["hh_id"]).std().max() > 0
         ), "We currently allow for only one tax unit within each household"
 
-    _fail_if_columns_overriding_functions_are_not_in_data(
-        list(data), columns_overriding_functions
-    )
     _fail_if_pid_is_non_unique(data)
 
     return data
@@ -371,6 +365,52 @@ def _create_input_data(
     return input_data
 
 
+class FunctionsAndColumnsOverlapWarning(UserWarning):
+    """
+    Warning that functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    columns_overriding_functions : set[str]
+        Names of columns in the data that override hard-coded functions.
+    """
+
+    def __init__(self, columns_overriding_functions: set[str]) -> None:
+        n_cols = len(columns_overriding_functions)
+        first_part = format_errors_and_warnings(
+            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
+        )
+        formatted = format_list_linewise(list(columns_overriding_functions))
+        second_part = format_errors_and_warnings(
+            f"""
+            {'This is' if n_cols == 1 else 'These are'} already present among the
+            hard-coded functions of the taxes and transfers system.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM you need not do anything.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be
+            calculated by hard-coded functions, remove
+            {'it' if n_cols == 1 else 'them'} from the *data* you pass to GETTSIM.
+            {'' if n_cols == 1 else '''You need to pick one option for each column
+            that appears in the list above.'''}
+            """
+        )
+        how_to_ignore = format_errors_and_warnings(
+            """
+            If you want to ignore this warning, add the following code to your script
+            before calling GETTSIM:
+
+                import warnings
+                from gettsim import FunctionsAndColumnsOverlapWarning
+
+                warnings.filterwarnings(
+                    "ignore",
+                    category=FunctionsAndColumnsOverlapWarning
+                )
+            """
+        )
+        super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
+
+
 def _fail_if_duplicates_in_columns(data):
     """Check that all column names are unique."""
     if any(data.columns.duplicated()):
@@ -407,54 +447,6 @@ def _fail_if_group_variables_not_constant_within_groups(data):
                     )
                     raise ValueError(message)
     return data
-
-
-def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
-    """Fail if functions which compute columns overlap with existing columns.
-
-    Parameters
-    ----------
-    data_cols : list
-        Columns of the input data.
-    columns : list of str
-        List of column names.
-
-    Raises
-    ------
-    ValueError
-        Fail if functions which compute columns overlap with existing columns.
-
-    """
-    unused_columns_overriding_functions = sorted(
-        c for c in set(columns) if c not in data_cols
-    )
-    n_cols = len(unused_columns_overriding_functions)
-
-    column_sg_pl = "column" if n_cols == 1 else "columns"
-
-    if unused_columns_overriding_functions:
-        first_part = format_errors_and_warnings(
-            f"You passed the following user {column_sg_pl}:"
-        )
-        list_ = format_list_linewise(unused_columns_overriding_functions)
-
-        second_part = format_errors_and_warnings(
-            f"""
-            {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
-            data.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM, please add it to *data*.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            internally by GETTSIM, remove it from the *columns_overriding_functions* you
-            pass to GETTSIM.
-
-            {'' if n_cols == 1 else '''You need to pick one option for each column that
-            appears in the list above.'''}
-            """
-        )
-        raise ValueError(f"{first_part}\n{list_}\n{second_part}")
 
 
 def _fail_if_pid_is_non_unique(data):

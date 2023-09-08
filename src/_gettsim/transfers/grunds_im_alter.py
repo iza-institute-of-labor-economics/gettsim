@@ -125,8 +125,6 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         + elterngeld_anr_m
     )
 
-    # subtract taxes and social insurance contributions
-    # TODO: Change this to lohnsteuer
     out = (
         total_income
         - (eink_st_y_tu / anz_personen_tu / 12)

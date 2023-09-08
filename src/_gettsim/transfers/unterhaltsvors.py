@@ -65,7 +65,7 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     # Older kids get it only if the single parent has income > mindesteinkommen.
     elif (
-        (altersgrenzen[2] <= alter < altersgrenzen[3])
+        (unterhaltsvors_params["mindesteinkommen"] <= alter < altersgrenzen[3])
         and alleinerz_bg
         and (unterhaltsvorschuss_eink_m_bg > unterhaltsvors_params["mindesteinkommen"])
     ):
