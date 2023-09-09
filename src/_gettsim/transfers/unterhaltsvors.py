@@ -3,9 +3,9 @@
 
 
 def unterhaltsvors_m(  # noqa: PLR0913
-    alleinerz_tu: bool,
+    alleinerz_bg: bool,
     alter: int,
-    unterhaltsvorschuss_eink_m_tu: float,
+    unterhaltsvorschuss_eink_m_bg: float,
     kind_unterh_erhalt_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
@@ -33,12 +33,12 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    alleinerz_tu
-        See basic input variable :ref:`alleinerz_tu <alleinerz_tu>`.
+    alleinerz_bg
+        See basic input variable :ref:`alleinerz_bg <alleinerz_bg>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    unterhaltsvorschuss_eink_m_tu
-        See :func:`unterhaltsvorschuss_eink_m_tu`.
+    unterhaltsvorschuss_eink_m_bg
+        See :func:`unterhaltsvorschuss_eink_m_bg`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`
     unterhalt_params
@@ -53,27 +53,24 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     """
     altersgrenzen = unterhaltsvors_params["altersgrenzen"]
-    if (alter < altersgrenzen[1]) and alleinerz_tu:
-        out = (
-            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
-        )
-    elif (altersgrenzen[1] <= alter < altersgrenzen[2]) and alleinerz_tu:
-        out = (
-            unterhalt_params["mindestunterhalt"][12]
-            - kindergeld_params["kindergeld"][1]
-        )
+    mindestunterhalt = unterhalt_params["mindestunterhalt"]
+    kindergeld_first_child = kindergeld_params["kindergeld"][1]
+    if (alter < altersgrenzen[1]) and alleinerz_bg:
+        out = mindestunterhalt[altersgrenzen[1]] - kindergeld_first_child
+    elif (altersgrenzen[1] <= alter < altersgrenzen[2]) and alleinerz_bg:
+        out = mindestunterhalt[altersgrenzen[2]] - kindergeld_first_child
+
+    elif (altersgrenzen[2] <= alter < altersgrenzen[3]) and alleinerz_bg:
+        out = mindestunterhalt[altersgrenzen[3]] - kindergeld_first_child
+    else:
+        out = 0.0
 
     # Older kids get it only if the single parent has income > mindesteinkommen.
-    elif (
-        (unterhaltsvors_params["mindesteinkommen"] <= alter < altersgrenzen[3])
-        and alleinerz_tu
-        and (unterhaltsvorschuss_eink_m_tu > unterhaltsvors_params["mindesteinkommen"])
+    if (
+        out > 0
+        and (unterhaltsvors_params["altersgrenze_mindesteinkommen"] <= alter)
+        and (unterhaltsvorschuss_eink_m_bg < unterhaltsvors_params["mindesteinkommen"])
     ):
-        out = (
-            unterhalt_params["mindestunterhalt"][18]
-            - kindergeld_params["kindergeld"][1]
-        )
-    else:
         out = 0.0
 
     # Check against the actual child alimony payments given by kindesunterhalt_m
@@ -82,46 +79,46 @@ def unterhaltsvors_m(  # noqa: PLR0913
     return out
 
 
-def unterhaltsvorschuss_eink_m_tu(  # noqa: PLR0913
-    bruttolohn_m_tu: float,
-    sonstig_eink_m_tu: float,
-    eink_selbst_m_tu: float,
-    eink_vermietung_m_tu: float,
-    kapitaleink_brutto_m_tu: float,
-    sum_ges_rente_priv_rente_m_tu: float,
-    arbeitsl_geld_m_tu: float,
+def unterhaltsvorschuss_eink_m_bg(  # noqa: PLR0913
+    bruttolohn_m_bg: float,
+    sonstig_eink_m_bg: float,
+    eink_selbst_m_bg: float,
+    eink_vermietung_m_bg: float,
+    kapitaleink_brutto_m_bg: float,
+    sum_ges_rente_priv_rente_m_bg: float,
+    arbeitsl_geld_m_bg: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment on tax unit level.
 
     Parameters
     ----------
-    bruttolohn_m_tu
-        See :func:`bruttolohn_m_tu`.
-    sonstig_eink_m_tu
-        See :func:`sonstig_eink_m_tu`.
-    eink_selbst_m_tu
-        See :func:`eink_selbst_m_tu`.
-    eink_vermietung_m_tu
-        See :func:`eink_vermietung_m_tu`.
-    kapitaleink_brutto_m_tu
-        See :func:`kapitaleink_brutto_m_tu`.
-    sum_ges_rente_priv_rente_m_tu
-        See :func:`sum_ges_rente_priv_rente_m_tu`.
-    arbeitsl_geld_m_tu
-        See :func:`arbeitsl_geld_m_tu`.
+    bruttolohn_m_bg
+        See :func:`bruttolohn_m_bg`.
+    sonstig_eink_m_bg
+        See :func:`sonstig_eink_m_bg`.
+    eink_selbst_m_bg
+        See :func:`eink_selbst_m_bg`.
+    eink_vermietung_m_bg
+        See :func:`eink_vermietung_m_bg`.
+    kapitaleink_brutto_m_bg
+        See :func:`kapitaleink_brutto_m_bg`.
+    sum_ges_rente_priv_rente_m_bg
+        See :func:`sum_ges_rente_priv_rente_m_bg`.
+    arbeitsl_geld_m_bg
+        See :func:`arbeitsl_geld_m_bg`.
 
     Returns
     -------
 
     """
     out = (
-        bruttolohn_m_tu
-        + sonstig_eink_m_tu
-        + eink_selbst_m_tu
-        + eink_vermietung_m_tu
-        + kapitaleink_brutto_m_tu
-        + sum_ges_rente_priv_rente_m_tu
-        + arbeitsl_geld_m_tu
+        bruttolohn_m_bg
+        + sonstig_eink_m_bg
+        + eink_selbst_m_bg
+        + eink_vermietung_m_bg
+        + kapitaleink_brutto_m_bg
+        + sum_ges_rente_priv_rente_m_bg
+        + arbeitsl_geld_m_bg
     )
 
     return out

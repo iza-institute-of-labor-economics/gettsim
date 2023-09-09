@@ -69,10 +69,16 @@ SUPPORTED_GROUPINGS = {
         "name": "household",
         "description": "all individuals living in the same household.",
     },
+    "bg": {
+        "name": "bedarfsgemeinschaft",
+        "description": "one adult or two adults in a partnership and their "
+        "dependent children.",
+        "nested_by": "hh",
+    },
     "tu": {
         "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
-        "nested_by": "hh",
+        "description": "one person or two persons fileing their taxes together.",
+        "nested_by": "bg",
     },
 }
 
@@ -101,9 +107,9 @@ DEFAULT_TARGETS = [
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m_bg",
     "arbeitsl_geld_2_m_hh",
-    "kinderzuschl_m_hh",
+    "kinderzuschl_m_bg",
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_hh",
@@ -112,6 +118,7 @@ DEFAULT_TARGETS = [
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
+    "bg_id": int,
     "tu_id": int,
     "p_id": int,
     "vermögen_bedürft_hh": float,

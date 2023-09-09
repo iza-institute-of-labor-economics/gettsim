@@ -64,7 +64,7 @@ def eink_st_alleinerz_freib_y_tu_pauschal(
 @dates_active(start="2015-01-01", change_name="alleinerz_freib_y_tu")
 def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     alleinerz: bool,
-    anz_kinder_tu: int,
+    anz_kinder_bg: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate tax deduction allowance for single parents since 2015.
@@ -76,8 +76,8 @@ def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     ----------
     alleinerz_tu
         See :func:`alleinerz_tu`.
-    anz_kinder_tu
-        See :func:`anz_kinder_tu`.
+    anz_kinder_bg
+        See :func:`anz_kinder_bg`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -87,7 +87,7 @@ def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     """
     alleinerz_freib_y_tu = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
-        + (anz_kinder_tu - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
+        + (anz_kinder_bg - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz:
         out = alleinerz_freib_y_tu
@@ -214,7 +214,7 @@ def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
 @dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_y_tu")
 def eink_st_sonderausgaben_y_tu_nur_pauschale(
     eink_st_abzuege_params: dict,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
 ) -> float:
     """Individual Sonderausgaben on tax unit level until 2011.
 
@@ -224,8 +224,8 @@ def eink_st_sonderausgaben_y_tu_nur_pauschale(
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_erwachsene_tu
-        See func `anz_erwachsene_tu <anz_erwachsene_tu>`.
+    anz_personen_tu
+        See func `anz_personen_tu <anz_personen_tu>`.
 
     Returns
     -------
@@ -234,8 +234,7 @@ def eink_st_sonderausgaben_y_tu_nur_pauschale(
     # so far, only the Sonderausgabenpauschale is considered
 
     out = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * anz_erwachsene_tu
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_tu
     )
 
     return float(out)
@@ -245,7 +244,7 @@ def eink_st_sonderausgaben_y_tu_nur_pauschale(
 def eink_st_sonderausgaben_y_tu_mit_betreuung(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_y_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
 ) -> float:
     """Individual sonderausgaben on tax unit level since 2012.
 
@@ -260,8 +259,8 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
         See :func:`sonderausgaben_betreuung_y_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
 
     Returns
     -------
@@ -269,8 +268,7 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
     """
     sonderausgaben_gesamt = sonderausgaben_betreuung_y_tu
     pauschale = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * anz_erwachsene_tu
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_tu
     )
 
     if sonderausgaben_gesamt > pauschale:
@@ -336,16 +334,16 @@ def sonderausgaben_betreuung_y_tu(
 
 
 def eink_st_kinderfreib_y_tu(
-    anz_kinder_mit_kindergeld_tu: float,
-    anz_erwachsene_tu: int,
+    anz_kinder_mit_kindergeld_bg: float,
+    anz_personen_tu: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate child allowances on tax unit level.
 
     Parameters
     ----------
-    anz_kinder_mit_kindergeld_tu
-        See :func:`anz_kinder_mit_kindergeld_tu`.
+    anz_kinder_mit_kindergeld_bg
+        See :func:`anz_kinder_mit_kindergeld_bg`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     eink_st_abzuege_params
@@ -355,7 +353,11 @@ def eink_st_kinderfreib_y_tu(
     -------
 
     """
-    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
-    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
+    kifreib_total = sum(eink_st_abzuege_params["kinderfreib_pro_elternteil"].values())
+
+    if anz_personen_tu > 0:
+        out = kifreib_total * anz_kinder_mit_kindergeld_bg * anz_personen_tu
+    else:
+        out = 0.0
     return float(out)

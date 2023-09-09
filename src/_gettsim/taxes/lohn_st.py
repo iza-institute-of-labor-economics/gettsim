@@ -225,11 +225,11 @@ def kinderfreib_für_soli_st_lohnst_y(
     """
 
     kinderfreib_basis = (
-        eink_st_abzuege_params["kinderfreib"]["sächl_existenzmin"]
-        + eink_st_abzuege_params["kinderfreib"]["beitr_erz_ausb"]
+        eink_st_abzuege_params["kinderfreib_pro_elternteil"]["sächl_existenzmin"]
+        + eink_st_abzuege_params["kinderfreib_pro_elternteil"]["beitr_erz_ausb"]
     )
 
-    # For certain tax brackets, twice the child allowance can be deducted
+    # For certain tax brackets, twice the child allowance can be deductedPde
     if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
         out = kinderfreib_basis * 2 * anz_kinder_mit_kindergeld_tu
     elif steuerklasse == 4:

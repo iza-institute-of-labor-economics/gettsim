@@ -6,7 +6,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_tu: float,
     soli_st_y_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
     kind: bool,
@@ -26,8 +26,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`eink_st_y_tu`.
     soli_st_y_tu
         See :func:`soli_st_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
     kind
@@ -49,8 +49,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     else:
         out = (
             arbeitsl_geld_2_bruttoeink_m
-            - (eink_st_y_tu / anz_erwachsene_tu / 12)
-            - (soli_st_y_tu / anz_erwachsene_tu / 12)
+            - (eink_st_y_tu / anz_personen_tu / 12)
+            - (soli_st_y_tu / anz_personen_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_eink_anr_frei_m
         )
@@ -224,9 +224,9 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     -------
 
     """
-    # Beneficiaries who live with a minor child in a group home or who have a minor
-    # child have slightly different thresholds. We currently do not consider the second
-    # condition.
+    # Beneficiaries who live with a minor child in a Bedarfsgemeinschaft or who have a
+    # minor child have slightly different thresholds. We currently do not consider the
+    # second condition.
     eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
 
     if anz_kinder_bis_17_hh > 0:

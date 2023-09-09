@@ -10,9 +10,10 @@ from _gettsim.policy_environment import _load_parameter_group_from_yaml
 current_year = datetime.datetime.today().year
 
 
-def create_synthetic_data(
-    n_adults=1,
-    n_children=0,
+def create_synthetic_data(  # noqa: PLR0913
+    n_adults=None,
+    n_children=None,
+    adults_married=True,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -23,9 +24,9 @@ def create_synthetic_data(
     Parameters
     ----------
     n_adults : int
-        Number of adults in the household, must be either 1 or 2, default is 1.
+        Number of adults in the household.
     n_children : int
-        Number of children in the household, must be 0, 1, or 2, default is 0.
+        Number of children in the household.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
         households.
@@ -40,15 +41,21 @@ def create_synthetic_data(
     data : pd.DataFrame containing all variables that are needed to run GETTSIM.
 
     """
+    # Set Defaults
+    if n_adults is None:
+        n_adults = 1
+    if n_children is None:
+        n_children = 0
+
     # Check inputs
     if n_adults not in [1, 2]:
-        raise ValueError("'n_adults' must be either 1 or 2")
-    if n_children not in [0, 1, 2]:
-        raise ValueError("'n_children' must be 0, 1, or 2.")
+        raise ValueError("household type must be either 1 or 2")
+    if n_children not in list(range(11)):
+        raise ValueError("'n_children' must be between 0 and 10.")
 
     default_constant_specs = {
         "weiblich": [bool(i % 2 == 1) for i in range(n_children + n_adults)],
-        "alter": [35] * n_adults + [8, 3][:n_children],
+        "alter": [35] * n_adults + [8, 5, 3, 1][:n_children],
         "kind": [False] * n_adults + [True] * n_children,
         "in_ausbildung": [False] * n_adults + [True] * n_children,
     }
@@ -65,8 +72,13 @@ def create_synthetic_data(
 
     if specs_heterogeneous is None:
         specs_heterogeneous = {}
+
     df = create_basic_households(
-        n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+        n_adults,
+        n_children,
+        adults_married,
+        specs_constant_over_households,
+        specs_heterogeneous,
     )
     df = create_constant_across_households_variables(
         df, n_adults, n_children, policy_year
@@ -75,14 +87,17 @@ def create_synthetic_data(
 
 
 def create_basic_households(
-    n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+    n_adults,
+    n_children,
+    adults_married,
+    specs_constant_over_households,
+    specs_heterogeneous,
 ):
     """Create basic variables for all households.
 
-    Basic variables are variables which:
-
-    - are important to differentiate the individual household members
-    - or vary across households (as specified in specs_heterogeneous)
+    Basic variables are variables which: - are important to differentiate the
+    individual household members - or vary across households (as specified in
+    specs_heterogeneous)
 
     Parameters
     ----------
@@ -104,20 +119,16 @@ def create_basic_households(
     data : pd.DataFrame containing all basic variables.
 
     """
-    hh_typ_string = create_hh_typ_string(n_adults, n_children)
+    hh_typ_string = f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"
 
-    # Identify number of households
+    # Identify number of households and individuals per household
     if len(specs_heterogeneous) > 0:
         n_households = len(next(iter(specs_heterogeneous.values())))
     else:
         n_households = 1
 
     for col in specs_heterogeneous:
-        if len(specs_heterogeneous[col]) != n_households:
-            raise ValueError(
-                f"Length of {col} in specs_heterogeneous is not "
-                "the same as all the other columns."
-            )
+        assert len(specs_heterogeneous[col]) == n_households
 
     if n_adults == 1 and n_children > 0:
         alleinerziehend = [True] + [False] * n_children
@@ -128,10 +139,15 @@ def create_basic_households(
     else:
         hat_kinder = [False] * (n_adults)
     # Add specifications and create DataFrame
+
     all_households = [
         {
             "hh_id": [i] * (n_adults + n_children),
-            "tu_id": [i] * (n_adults + n_children),
+            # Build tax unit for married parents. If not married, will be
+            # overwritten below.
+            "tu_id": [i * (n_children + 1)] * n_adults
+            + list(range(i * (n_children + 1) + 1, (i + 1) * (n_children + 1))),
+            "bg_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
             "hat_kinder": hat_kinder,
             "alleinerz": alleinerziehend,
@@ -152,6 +168,10 @@ def create_basic_households(
 
     group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
     df["p_id"] = df.index
+
+    if not adults_married:
+        df["tu_id"] = df["p_id"]
+
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
 
@@ -172,7 +192,15 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         datetime.date(policy_year, 1, 1),
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
     )
-    hh_typ_string = create_hh_typ_string(n_adults, n_children)
+
+    # Use data for 2 children if there are more than 2 children in the household.
+    hh_typ_string = (
+        f"{'single' if n_adults == 1 else 'couple'}_"
+        f"{n_children if n_children <= 2 else 2}_children"
+    )
+
+    if "alter" not in df:
+        df["alter"] = 30
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
@@ -197,8 +225,6 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string]),
         "bruttokaltmiete_m_hh": float(bg_daten["bruttokaltmiete"][hh_typ_string]),
         "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string]),
-        "kind_unterh_anspr_m": 0.0,
-        "kind_unterh_erhalt_m": 0.0,
     }
 
     # Set default values for new columns.
@@ -217,7 +243,3 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
                     raise ValueError(f"Column type {col_type} not yet supported.")
 
     return df
-
-
-def create_hh_typ_string(n_adults, n_children):
-    return f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"

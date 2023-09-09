@@ -23,7 +23,7 @@ OUT_COLS = [
     "arbeitsl_geld_m",
     "kindergeld_m_tu",
     "arbeitsl_geld_2_m_hh",
-    "kinderzuschl_m_hh",
+    "kinderzuschl_m_bg",
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
 ]
@@ -101,7 +101,7 @@ def test_data_types(
                 # TODO (@hmgaudecker): Implement easy way to find out expected type of
                 #     aggregated functions
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
-                if column_name.endswith(("_tu", "_hh")):
+                if column_name.endswith(("_tu", "_bg", "_hh")):
                     internal_type = None
                 else:
                     raise ValueError(f"Column name {column_name} unknown.")

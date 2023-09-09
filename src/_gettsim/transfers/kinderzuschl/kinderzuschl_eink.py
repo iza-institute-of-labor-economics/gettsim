@@ -1,7 +1,7 @@
 from _gettsim.shared import dates_active
 
 aggregation_kinderzuschl_eink = {
-    "_kinderzuschl_anz_kinder_anspruch_tu": {
+    "_kinderzuschl_anz_kinder_anspruch_bg": {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },
@@ -63,9 +63,9 @@ def kinderzuschl_eink_eltern_m(
 
 
 @dates_active(end="2010-12-31", change_name="kinderzuschl_eink_regel_m_tu")
-def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
+def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    alleinerz_tu: bool,
+    alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit until 2010.
@@ -74,8 +74,8 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
     ----------
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    alleinerz_tu
-        See :func:`alleinerz_tu`.
+    alleinerz_bg
+        See :func:`alleinerz_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -83,7 +83,7 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
     -------
 
     """
-    if alleinerz_tu:
+    if alleinerz_bg:
         out = arbeitsl_geld_2_params["regelsatz"] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         )
@@ -98,9 +98,9 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
 
 
 @dates_active(start="2011-01-01")
-def kinderzuschl_eink_regel_m_tu(
+def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    alleinerz_tu: bool,
+    alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit since 2011.
@@ -109,8 +109,8 @@ def kinderzuschl_eink_regel_m_tu(
     ----------
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    alleinerz_tu
-        See :func:`alleinerz_tu`.
+    alleinerz_bg
+        See :func:`alleinerz_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -118,7 +118,7 @@ def kinderzuschl_eink_regel_m_tu(
     -------
 
     """
-    if alleinerz_tu:
+    if alleinerz_bg:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
         )
@@ -128,29 +128,29 @@ def kinderzuschl_eink_regel_m_tu(
     return float(out)
 
 
-def kinderzuschl_eink_relev_m_tu(
-    kinderzuschl_eink_regel_m_tu: float, kinderzuschl_kost_unterk_m_tu: float
+def kinderzuschl_eink_relev_m_bg(
+    kinderzuschl_eink_regel_m_bg: float, kinderzuschl_kost_unterk_m_bg: float
 ) -> float:
     """Aggregate relevant income and rental costs.
 
     Parameters
     ----------
-    kinderzuschl_eink_regel_m_tu
-        See :func:`kinderzuschl_eink_regel_m_tu`.
-    kinderzuschl_kost_unterk_m_tu
-        See :func:`kinderzuschl_kost_unterk_m_tu`.
+    kinderzuschl_eink_regel_m_bg
+        See :func:`kinderzuschl_eink_regel_m_bg`.
+    kinderzuschl_kost_unterk_m_bg
+        See :func:`kinderzuschl_kost_unterk_m_bg`.
 
     Returns
     -------
 
     """
-    return kinderzuschl_eink_regel_m_tu + kinderzuschl_kost_unterk_m_tu
+    return kinderzuschl_eink_regel_m_bg + kinderzuschl_kost_unterk_m_bg
 
 
 @dates_active(end="2019-06-30")
-def kinderzuschl_eink_max_m_tu(
-    kinderzuschl_eink_relev_m_tu: float,
-    _kinderzuschl_anz_kinder_anspruch_tu: int,
+def kinderzuschl_eink_max_m_bg(
+    kinderzuschl_eink_relev_m_bg: float,
+    _kinderzuschl_anz_kinder_anspruch_bg: int,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate maximum income to be eligible for additional child benefit
@@ -161,10 +161,10 @@ def kinderzuschl_eink_max_m_tu(
 
     Parameters
     ----------
-    kinderzuschl_eink_relev_m_tu
-        See :func:`kinderzuschl_eink_relev_m_tu`.
-    _kinderzuschl_anz_kinder_anspruch_tu
-        See :func:`_kinderzuschl_anz_kinder_anspruch_tu`.
+    kinderzuschl_eink_relev_m_bg
+        See :func:`kinderzuschl_eink_relev_m_bg`.
+    _kinderzuschl_anz_kinder_anspruch_bg
+        See :func:`_kinderzuschl_anz_kinder_anspruch_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -173,19 +173,21 @@ def kinderzuschl_eink_max_m_tu(
 
     """
     out = (
-        kinderzuschl_eink_relev_m_tu
-        + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_tu
+        kinderzuschl_eink_relev_m_bg
+        + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_bg
     )
 
-    kindersofortzuschl = kinderzuschl_params.get("kindersofortzuschl", 0.0)
-    out += kindersofortzuschl * _kinderzuschl_anz_kinder_anspruch_tu
+    kindersofortzuschl = kinderzuschl_params.get("kindersofortzuschl", None)
+    if not kindersofortzuschl:
+        kindersofortzuschl = 0
+    out += kindersofortzuschl * _kinderzuschl_anz_kinder_anspruch_bg
 
     return out
 
 
-def kinderzuschl_eink_min_m_tu(
-    anz_kinder_tu: int,
-    alleinerz_tu: bool,
+def kinderzuschl_eink_min_m_bg(
+    anz_kinder_bg: int,
+    alleinerz_bg: bool,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate minimal claim of child benefit (kinderzuschlag).
@@ -206,9 +208,9 @@ def kinderzuschl_eink_min_m_tu(
     -------
 
     """
-    if anz_kinder_tu == 0:
+    if anz_kinder_bg == 0:
         out = 0.0
-    elif alleinerz_tu:
+    elif alleinerz_bg:
         out = kinderzuschl_params["min_eink_alleinerz"]
     else:
         out = kinderzuschl_params["min_eink_paare"]
@@ -225,6 +227,8 @@ def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
     kinderzuschl_params: dict,
 ) -> float:
     """Child benefit after children income for each eligible child is considered.
+
+    # ToDo: consider self-employment income of the child.
 
     (§6a (3) S.3 BKGG)
 
@@ -261,9 +265,9 @@ def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
     return max(out, 0.0)
 
 
-def kinderzuschl_eink_anrechn_m_tu(
-    kinderzuschl_eink_eltern_m_tu: float,
-    kinderzuschl_eink_relev_m_tu: float,
+def kinderzuschl_eink_anrechn_m_bg(
+    kinderzuschl_eink_eltern_m_bg: float,
+    kinderzuschl_eink_relev_m_bg: float,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate parental income subtracted from child benefit.
@@ -272,10 +276,10 @@ def kinderzuschl_eink_anrechn_m_tu(
 
     Parameters
     ----------
-    kinderzuschl_eink_eltern_m_tu
-        See :func:`kinderzuschl_eink_eltern_m_tu`.
-    kinderzuschl_eink_relev_m_tu
-        See :func:`kinderzuschl_eink_relev_m_tu`.
+    kinderzuschl_eink_eltern_m_bg
+        See :func:`kinderzuschl_eink_eltern_m_bg`.
+    kinderzuschl_eink_relev_m_bg
+        See :func:`kinderzuschl_eink_relev_m_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -284,7 +288,7 @@ def kinderzuschl_eink_anrechn_m_tu(
 
     """
     out = kinderzuschl_params["entzugsrate_eltern"] * (
-        kinderzuschl_eink_eltern_m_tu - kinderzuschl_eink_relev_m_tu
+        kinderzuschl_eink_eltern_m_bg - kinderzuschl_eink_relev_m_bg
     )
 
     return max(out, 0.0)

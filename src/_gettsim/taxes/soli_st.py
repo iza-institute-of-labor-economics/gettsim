@@ -43,7 +43,7 @@ def soli_st_y_tu_ohne_abgelt_st(
 @dates_active(start="2009-01-01", change_name="soli_st_y_tu")
 def soli_st_y_tu_mit_abgelt_st(
     eink_st_mit_kinderfreib_y_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     abgelt_st_y_tu: float,
     soli_st_params: dict,
 ) -> float:
@@ -64,8 +64,8 @@ def soli_st_y_tu_mit_abgelt_st(
     ----------
     eink_st_mit_kinderfreib_y_tu
         See :func:`eink_st_mit_kinderfreib_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     abgelt_st_y_tu
         See :func:`abgelt_st_y_tu`.
     soli_st_params
@@ -75,9 +75,9 @@ def soli_st_y_tu_mit_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_personen_tu
     out = (
-        anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
+        anz_personen_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_tu
     )
 

@@ -4,8 +4,8 @@
 from _gettsim.shared import dates_active
 
 
-def kinderzuschl_m_hh(
-    _kinderzuschl_nach_vermög_check_m_tu: float,
+def kinderzuschl_m_bg(
+    _kinderzuschl_nach_vermög_check_m_bg: float,
     kinderzuschl_vorrang_hh: bool,
     wohngeld_kinderzuschl_vorrang_hh: bool,
     anz_rentner_hh: int,
@@ -14,8 +14,8 @@ def kinderzuschl_m_hh(
 
     Parameters
     ----------
-    _kinderzuschl_nach_vermög_check_m_tu
-        See :func:`_kinderzuschl_nach_vermög_check_m_tu`.
+    _kinderzuschl_nach_vermög_check_m_bg
+        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
     kinderzuschl_vorrang_hh
         See :func:`kinderzuschl_vorrang_hh`.
     wohngeld_kinderzuschl_vorrang_hh
@@ -32,22 +32,22 @@ def kinderzuschl_m_hh(
     ):
         out = 0.0
     else:
-        out = _kinderzuschl_nach_vermög_check_m_tu
+        out = _kinderzuschl_nach_vermög_check_m_bg
 
     return out
 
 
 @dates_active(
     end="2019-06-30",
-    change_name="_kinderzuschl_vor_vermög_check_m_tu",
+    change_name="_kinderzuschl_vor_vermög_check_m_bg",
 )
-def _kinderzuschl_vor_vermög_check_m_tu_check_eink_max(  # noqa: PLR0913
-    kinderzuschl_bruttoeink_eltern_m_tu: float,
-    kinderzuschl_eink_eltern_m_tu: float,
-    kinderzuschl_eink_min_m_tu: float,
-    kinderzuschl_eink_max_m_tu: float,
-    kinderzuschl_kindereink_abzug_m_tu: float,
-    kinderzuschl_eink_anrechn_m_tu: float,
+def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
+    kinderzuschl_bruttoeink_eltern_m_bg: float,
+    kinderzuschl_eink_eltern_m_bg: float,
+    kinderzuschl_eink_min_m_bg: float,
+    kinderzuschl_eink_max_m_bg: float,
+    kinderzuschl_kindereink_abzug_m_bg: float,
+    kinderzuschl_eink_anrechn_m_bg: float,
 ) -> float:
     """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -58,18 +58,18 @@ def _kinderzuschl_vor_vermög_check_m_tu_check_eink_max(  # noqa: PLR0913
 
     Parameters
     ----------
-    kinderzuschl_bruttoeink_eltern_m_tu
-        See :func:`kinderzuschl_bruttoeink_eltern_m_tu`.
-    kinderzuschl_eink_eltern_m_tu
-        See :func:`kinderzuschl_eink_eltern_m_tu`.
-    kinderzuschl_eink_min_m_tu
-        See :func:`kinderzuschl_eink_min_m_tu`.
-    kinderzuschl_eink_max_m_tu
-        See :func:`kinderzuschl_eink_max_m_tu`.
-    kinderzuschl_kindereink_abzug_m_tu
-        See :func:`kinderzuschl_kindereink_abzug_m_tu`.
-    kinderzuschl_eink_anrechn_m_tu
-        See :func:`kinderzuschl_eink_anrechn_m_tu`.
+    kinderzuschl_bruttoeink_eltern_m_bg
+        See :func:`kinderzuschl_bruttoeink_eltern_m_bg`.
+    kinderzuschl_eink_eltern_m_bg
+        See :func:`kinderzuschl_eink_eltern_m_bg`.
+    kinderzuschl_eink_min_m_bg
+        See :func:`kinderzuschl_eink_min_m_bg`.
+    kinderzuschl_eink_max_m_bg
+        See :func:`kinderzuschl_eink_max_m_bg`.
+    kinderzuschl_kindereink_abzug_m_bg
+        See :func:`kinderzuschl_kindereink_abzug_m_bg`.
+    kinderzuschl_eink_anrechn_m_bg
+        See :func:`kinderzuschl_eink_anrechn_m_bg`.
 
     Returns
     -------
@@ -77,11 +77,11 @@ def _kinderzuschl_vor_vermög_check_m_tu_check_eink_max(  # noqa: PLR0913
     """
 
     # Check if parental income is in income range for child benefit.
-    if (kinderzuschl_bruttoeink_eltern_m_tu >= kinderzuschl_eink_min_m_tu) and (
-        kinderzuschl_eink_eltern_m_tu <= kinderzuschl_eink_max_m_tu
+    if (kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg) and (
+        kinderzuschl_eink_eltern_m_bg <= kinderzuschl_eink_max_m_bg
     ):
         out = max(
-            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
+            kinderzuschl_kindereink_abzug_m_bg - kinderzuschl_eink_anrechn_m_bg, 0.0
         )
     else:
         out = 0.0
@@ -90,11 +90,11 @@ def _kinderzuschl_vor_vermög_check_m_tu_check_eink_max(  # noqa: PLR0913
 
 
 @dates_active(start="2019-07-01")
-def _kinderzuschl_vor_vermög_check_m_tu(
-    kinderzuschl_bruttoeink_eltern_m_tu: float,
-    kinderzuschl_eink_min_m_tu: float,
-    kinderzuschl_kindereink_abzug_m_tu: float,
-    kinderzuschl_eink_anrechn_m_tu: float,
+def _kinderzuschl_vor_vermög_check_m_bg(
+    kinderzuschl_bruttoeink_eltern_m_bg: float,
+    kinderzuschl_eink_min_m_bg: float,
+    kinderzuschl_kindereink_abzug_m_bg: float,
+    kinderzuschl_eink_anrechn_m_bg: float,
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -106,22 +106,22 @@ def _kinderzuschl_vor_vermög_check_m_tu(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_bruttoeink_eltern_m_tu
-        See :func:`kinderzuschl_bruttoeink_eltern_m_tu`.
-    kinderzuschl_eink_min_m_tu
-        See :func:`kinderzuschl_eink_min_m_tu`.
-    kinderzuschl_kindereink_abzug_m_tu
-        See :func:`kinderzuschl_kindereink_abzug_m_tu`.
-    kinderzuschl_eink_anrechn_m_tu
-        See :func:`kinderzuschl_eink_anrechn_m_tu`.
+    kinderzuschl_bruttoeink_eltern_m_bg
+        See :func:`kinderzuschl_bruttoeink_eltern_m_bg`.
+    kinderzuschl_eink_min_m_bg
+        See :func:`kinderzuschl_eink_min_m_bg`.
+    kinderzuschl_kindereink_abzug_m_bg
+        See :func:`kinderzuschl_kindereink_abzug_m_bg`.
+    kinderzuschl_eink_anrechn_m_bg
+        See :func:`kinderzuschl_eink_anrechn_m_bg`.
 
     Returns
     -------
 
     """
-    if kinderzuschl_bruttoeink_eltern_m_tu >= kinderzuschl_eink_min_m_tu:
+    if kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg:
         out = max(
-            kinderzuschl_kindereink_abzug_m_tu - kinderzuschl_eink_anrechn_m_tu, 0.0
+            kinderzuschl_kindereink_abzug_m_bg - kinderzuschl_eink_anrechn_m_bg, 0.0
         )
     else:
         out = 0.0

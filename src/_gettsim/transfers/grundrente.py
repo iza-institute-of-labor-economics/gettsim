@@ -116,6 +116,8 @@ def grundr_zuschlag_eink_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
+    # Note: Make sure that income of married partner is also considered if
+    # subjects do not fill taxes together.
     if gemeinsam_veranlagt_tu:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:

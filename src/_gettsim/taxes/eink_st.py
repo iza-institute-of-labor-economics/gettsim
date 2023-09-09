@@ -4,7 +4,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 
 def eink_st_ohne_kinderfreib_y_tu(
     _zu_verst_eink_ohne_kinderfreib_y_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes without child allowance on tax unit level. Also referred to as "tarifliche
@@ -14,8 +14,8 @@ def eink_st_ohne_kinderfreib_y_tu(
     ----------
     _zu_verst_eink_ohne_kinderfreib_y_tu
         See :func:`_zu_verst_eink_ohne_kinderfreib_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -23,8 +23,8 @@ def eink_st_ohne_kinderfreib_y_tu(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_tu / anz_erwachsene_tu
-    out = anz_erwachsene_tu * _eink_st_tarif(
+    zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_tu / anz_personen_tu
+    out = anz_personen_tu * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -33,7 +33,7 @@ def eink_st_ohne_kinderfreib_y_tu(
 
 def eink_st_mit_kinderfreib_y_tu(
     _zu_verst_eink_mit_kinderfreib_y_tu: float,
-    anz_erwachsene_tu: int,
+    anz_personen_tu: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes with child allowance on tax unit level. Also referred to as "tarifliche ESt
@@ -43,8 +43,8 @@ def eink_st_mit_kinderfreib_y_tu(
     ----------
     _zu_verst_eink_mit_kinderfreib_y_tu
         See :func:`_zu_verst_eink_mit_kinderfreib_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_personen_tu
+        See :func:`anz_personen_tu`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -52,8 +52,8 @@ def eink_st_mit_kinderfreib_y_tu(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_tu / anz_erwachsene_tu
-    out = anz_erwachsene_tu * _eink_st_tarif(
+    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_tu / anz_personen_tu
+    out = anz_personen_tu * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -164,8 +164,8 @@ def kinderfreib_günstiger_tu(
 
 
 def eink_st_rel_kindergeld_y_tu(
-    kindergeld_m_tu: float,
-    kinderbonus_m_tu: float,
+    kindergeld_m_bg: float,
+    kinderbonus_m_bg: float,
     anz_erwachsene_tu: int,
 ) -> float:
     """Return Kindergeld relevant for income tax of the tax unit. For parents which do
@@ -174,21 +174,24 @@ def eink_st_rel_kindergeld_y_tu(
     Source: § 31 Satz 4 EStG: "Bei nicht zusammenveranlagten Eltern wird der
     Kindergeldanspruch im Umfang des Kinderfreibetrags angesetzt."
 
-    # ToDo: This factor need to be refactored once children are put in separate tax
-    # ToDo: units and are linked to their parents (one or two)
+    # ToDo: This functions needs to be refactored once children are linked to their
+    # ToDo: parents via id variables.
 
 
     Parameters
     ----------
-    kindergeld_m_tu
-        See :func:`kindergeld_m_tu`.
-    kinderbonus_m_tu
-        See :func:`kinderbonus_m_tu`.
+    kindergeld_m_bg
+        See :func:`kindergeld_m_bg`.
+    kinderbonus_m_bg
+        See :func:`kinderbonus_m_bg`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     Returns
     -------
 
     """
-    out = 12 * (kindergeld_m_tu + kinderbonus_m_tu) * (anz_erwachsene_tu / 2)
+    if anz_erwachsene_tu > 0:
+        out = 12 * (kindergeld_m_bg + kinderbonus_m_bg) * (anz_erwachsene_tu / 2)
+    else:
+        out = 0
     return out
