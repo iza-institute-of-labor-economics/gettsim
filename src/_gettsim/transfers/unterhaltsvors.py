@@ -53,27 +53,24 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     """
     altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    mindestunterhalt = unterhalt_params["mindestunterhalt"]
+    kindergeld_first_child = kindergeld_params["kindergeld"][1]
     if (alter < altersgrenzen[1]) and alleinerz_bg:
-        out = (
-            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
-        )
+        out = mindestunterhalt[altersgrenzen[1]] - kindergeld_first_child
     elif (altersgrenzen[1] <= alter < altersgrenzen[2]) and alleinerz_bg:
-        out = (
-            unterhalt_params["mindestunterhalt"][12]
-            - kindergeld_params["kindergeld"][1]
-        )
+        out = mindestunterhalt[altersgrenzen[2]] - kindergeld_first_child
+
+    elif (altersgrenzen[2] <= alter < altersgrenzen[3]) and alleinerz_bg:
+        out = mindestunterhalt[altersgrenzen[3]] - kindergeld_first_child
+    else:
+        out = 0.0
 
     # Older kids get it only if the single parent has income > mindesteinkommen.
-    elif (
-        (unterhaltsvors_params["mindesteinkommen"] <= alter < altersgrenzen[3])
-        and alleinerz_bg
-        and (unterhaltsvorschuss_eink_m_bg > unterhaltsvors_params["mindesteinkommen"])
+    if (
+        out > 0
+        and (unterhaltsvors_params["altersgrenze_mindesteinkommen"] <= alter)
+        and (unterhaltsvorschuss_eink_m_bg < unterhaltsvors_params["mindesteinkommen"])
     ):
-        out = (
-            unterhalt_params["mindestunterhalt"][18]
-            - kindergeld_params["kindergeld"][1]
-        )
-    else:
         out = 0.0
 
     # Check against the actual child alimony payments given by kindesunterhalt_m
