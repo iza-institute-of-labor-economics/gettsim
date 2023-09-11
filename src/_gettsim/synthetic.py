@@ -174,10 +174,8 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     )
 
     # Use data for 2 children if there are more than 2 children in the household.
-    hh_typ_string = (
-        f"{'single' if n_adults == 1 else 'couple'}_"
-        f"{n_children if n_children <= 2 else 2}_children"
-    )
+    n_children_lookup = n_children if n_children <= 2 else 2
+    hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
@@ -199,9 +197,11 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "grundr_entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
         "m_pflichtbeitrag": ((df["alter"] - 25).clip(lower=0) * 12).astype(float),
         "m_pflichtbeitrag_alt": ((df["alter"] - 40).clip(lower=0) * 12).astype(float),
-        "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string]),
-        "bruttokaltmiete_m_hh": float(bg_daten["bruttokaltmiete"][hh_typ_string]),
-        "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string]),
+        "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),
+        "bruttokaltmiete_m_hh": float(
+            bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
+        ),
+        "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string_lookup]),
         "kind_unterh_anspr_m": 0.0,
         "kind_unterh_erhalt_m": 0.0,
     }
