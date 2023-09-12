@@ -5,31 +5,27 @@ info:
 inputs:
   provided:
     hh_id:
-      - 2
-      - 2
-      - 2
-    tu_id:
-      - 2
-      - 2
-      - 2
-    p_id:
-      - 3
       - 4
-      - 5
+      - 4
+      - 4
+    tu_id:
+      - 4
+      - 4
+      - 4
+    p_id:
+      - 8
+      - 9
+      - 10
     jahr:
       - 2005
       - 2005
       - 2005
     alter:
-      - 30
-      - 30
-      - 1
-    kind:
-      - false
-      - false
-      - true
+      - 40
+      - 40
+      - 0
     arbeitsstunden_w:
-      - 20.0
+      - 29.0
       - 40.0
       - 0.0
     in_ausbildung:
@@ -37,12 +33,12 @@ inputs:
       - false
       - false
     bruttolohn_m:
-      - 2500.0
-      - 2500.0
+      - 1400.0
+      - 5000.0
       - 0.0
     bruttolohn_vorj_m:
-      - 2500.0
-      - 2500.0
+      - 1400.0
+      - 5000.0
       - 0.0
     geburtstag:
       - 1
@@ -51,26 +47,30 @@ inputs:
     geburtsmonat:
       - 1
       - 1
-      - 1
+      - 8
     hat_kinder:
       - true
       - true
       - false
+    kind:
+      - false
+      - false
+      - true
     alleinerz:
       - false
       - false
       - false
     geburtsjahr:
-      - 1975
-      - 1975
+      - 1965
+      - 1965
       - 2004
     budget_erz_geld:
-      - false
-      - false
+      - true
+      - true
       - false
   assumed: {}
 outputs:
   erziehungsgeld_m:
-    - 108.4597333
+    - 0.0
     - 0.0
     - 0.0

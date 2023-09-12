@@ -4,7 +4,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 aggregation_erziehungsgeld = {
     "bruttolohn_vorj_m_tu": {
         "source_col": "bruttolohn_vorj_m",
-        "aggr": "cumsum",
+        "aggr": "sum",
     },
 }
 
