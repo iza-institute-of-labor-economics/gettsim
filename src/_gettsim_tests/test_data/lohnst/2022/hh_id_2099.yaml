@@ -1,35 +1,36 @@
+---
 info:
   note: ''
   source: ''
 inputs:
   provided:
     hh_id:
-    - 2099
+      - 2099
     tu_id:
-    - 2099
+      - 2099
     p_id:
-    - 2099
+      - 2099
     wohnort_ost:
-    - false
+      - false
     steuerklasse:
-    - 5
+      - 5
     bruttolohn_m:
-    - 2987.7000000000003
+      - 2987.7000000000003
     alter:
-    - 25
+      - 25
     hat_kinder:
-    - false
+      - false
     arbeitsstunden_w:
-    - 40.0
+      - 40.0
     in_ausbildung:
-    - false
+      - false
     ges_krankenv_zusatzbeitr_satz:
-    - 0.97
+      - 0.97
     ges_pflegev_zusatz_kinderlos:
-    - false
+      - false
   assumed: {}
 outputs:
   lohnst_m:
-  - 700.0
+    - 700.0
   soli_st_lohnst_m:
-  - 0.0
+    - 0.0
