@@ -113,7 +113,7 @@ that case, only the relevant steps apply.
 ### Grouped values and aggregation functions
 
 Often columns refer to groups of individuals. Such columns have a suffix indicating the
-group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_hh` or `_tu`). These columns'
+group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_vg` or `_tu`). These columns'
 values will be repeated for all individuals who form part of a group.
 
 By default, GETTSIM will check consistency on input columns in this respect. Users will
@@ -129,13 +129,13 @@ Aggregation functions will be provided by GETTSIM.
 - As outlined in {ref}`GEP 4 <gep-4-aggregation-functions>` users will need to specify:
 
   - The stringified name of the aggregated variable. This **must** end with a feasible
-    unit of aggregation, i.e., `_hh` or `_tu`
+    unit of aggregation, i.e., `_vg` or `_tu`
   - The stringified name of the original variable.
   - The type of aggregation {math}`\in \{` `sum`, `mean`, `max`, `min`, `any` {math}`\}`
 
   Note that as per {ref}`GEP 4 <gep-4-aggregation-functions>`, sums will be calculated
   implicitly if the graph contains a column `my_col` and an aggregate such as
-  `my_col_hh` is requested somewhere.
+  `my_col_vg` is requested somewhere.
 
 Note that the groups `tu` and `hh` may change in the future. Some might also be
 calculated via relations between household members, see

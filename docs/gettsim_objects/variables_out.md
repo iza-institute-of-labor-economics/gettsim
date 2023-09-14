@@ -34,14 +34,14 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Solidarity surcharge on withholding tax
 * - {func}`unterhaltsvors_m <_gettsim.functions.unterhaltsvors_m>`
   - Alimony advance payment
-* - {func}`arbeitsl_geld_2_m_hh <_gettsim.functions.arbeitsl_geld_2_m_hh>`
+* - {func}`arbeitsl_geld_2_m_vg <_gettsim.functions.arbeitsl_geld_2_m_vg>`
   - Monthly subsistence payment on household level
-* - {func}`kinderzuschl_m_hh <_gettsim.functions.kinderzuschl_m_hh>`
+* - {func}`kinderzuschl_m_vg <_gettsim.functions.kinderzuschl_m_vg>`
   - Monthly additional child benefit, household sum
 * - {func}`elterngeld_m <_gettsim.functions.elterngeld_m>`
   - Monthly parental leave benefit
-* - {func}`wohngeld_m_hh <_gettsim.functions.wohngeld_m_hh>`
+* - {func}`wohngeld_m_vg <_gettsim.functions.wohngeld_m_vg>`
   - Monthly housing benefit on household level
-* - {func}`grunds_im_alter_m_hh <_gettsim.functions.grunds_im_alter_m_hh>`
+* - {func}`grunds_im_alter_m_vg <_gettsim.functions.grunds_im_alter_m_vg>`
   - Monthly subsistence payment for retirees on household level
 ```

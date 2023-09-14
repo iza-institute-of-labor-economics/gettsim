@@ -3,7 +3,7 @@
 # Basic input variables
 
 The table below gives an overview of all variables needed to run GETTSIM completely.
-Note that the variables with \_hh at the end, have to be constant over the whole
+Note that the variables with \_vg at the end, have to be constant over the whole
 household.
 
 (vg_id)=
@@ -159,30 +159,30 @@ Monthly capital income
 
 Type: float
 
-(bruttokaltmiete_m_hh)=
+(bruttokaltmiete_m_vg)=
 
-## `bruttokaltmiete_m_hh`
+## `bruttokaltmiete_m_vg`
 
 Monthly rent expenses for household
 
 Type: float
 
-(heizkosten_m_hh)=
+(heizkosten_m_vg)=
 
-## `heizkosten_m_hh`
+## `heizkosten_m_vg`
 
 Monthly heating expenses for household
 
 Type: float
 
-- - `wohnfläche_hh`
+- - `wohnfläche_vg`
   - Size of household dwelling in square meters
 
 Type: float
 
-(bewohnt_eigentum_hh)=
+(bewohnt_eigentum_vg)=
 
-## `bewohnt_eigentum_hh`
+## `bewohnt_eigentum_vg`
 
 Dummy: Owner-occupied housing
 
@@ -252,17 +252,17 @@ Number of months hh received elterngeld
 
 Type: int
 
-(m_elterngeld_vat_hh)=
+(m_elterngeld_vat_vg)=
 
-## `m_elterngeld_vat_hh`
+## `m_elterngeld_vat_vg`
 
 Number of months father received elterngeld
 
 Type: int
 
-(m_elterngeld_mut_hh)=
+(m_elterngeld_mut_vg)=
 
-## `m_elterngeld_mut_hh`
+## `m_elterngeld_mut_vg`
 
 Number of months mother received elterngeld
 
@@ -292,17 +292,17 @@ Level of rents in city (1: low, 3: average)
 
 Type: int
 
-(immobilie_baujahr_hh)=
+(immobilie_baujahr_vg)=
 
-## `immobilie_baujahr_hh`
+## `immobilie_baujahr_vg`
 
 Construction year of dwelling
 
 Type: int
 
-(vermögen_bedürft_hh)=
+(vermögen_bedürft_vg)=
 
-## `vermögen_bedürft_hh`
+## `vermögen_bedürft_vg`
 
 Assets for means testing of
 household.{ref}`See this page for more details. <means_testing>`

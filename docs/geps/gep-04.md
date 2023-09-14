@@ -225,7 +225,7 @@ For example, in `demographic_vars.py`, we could have:
 ```
 aggregation_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
-    "haushaltsgröße_hh": {"aggr": "count"},
+    "haushaltsgröße_vg": {"aggr": "count"},
 }
 ```
 
@@ -241,35 +241,35 @@ The output type will be the same as the input type. Exceptions:
 
 The most common operation are sums of individual measures. GETTSIM adds the following
 syntactic sugar: In case an individual-level column `my_col` exists, the graph will be
-augmented with a node including a group sum like `my_col_hh` should that be requested.
+augmented with a node including a group sum like `my_col_vg` should that be requested.
 Requests can be either inputs in a downstream function or explicit targets of the
 calculation.
 
-Automatic summation will only happen in case no column `my_col_hh` is explicitly set.
+Automatic summation will only happen in case no column `my_col_vg` is explicitly set.
 Using a different reduction function than the sum is as easy as explicitly specifying
-`my_col_hh`.
+`my_col_vg`.
 
 Consider the following example: the function `kindergeld_m` calculates the
-individual-level child benefit payment. `arbeitsl_geld_2_m_hh` calculates
+individual-level child benefit payment. `arbeitsl_geld_2_m_vg` calculates
 Arbeitslosengeld 2 on the household level (as indicated by the suffix). One necessary
 input of this function is the sum of all child benefits on the household level. There is
-no function or input column `kindergeld_m_hh`.
+no function or input column `kindergeld_m_vg`.
 
-By including `kindergeld_m_hh` as an argument in the definition of
-`arbeitsl_geld_2_m_hh` as follows:
+By including `kindergeld_m_vg` as an argument in the definition of
+`arbeitsl_geld_2_m_vg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
+def arbeitsl_geld_2_m_vg(kindergeld_m_vg, other_arguments):
     ...
 ```
 
-a node `kindergeld_m_hh` containing the household-level sum of `kindergeld_m` will be
+a node `kindergeld_m_vg` containing the household-level sum of `kindergeld_m` will be
 automatically added to the graph. Its parents in the graph will be `kindergeld_m` and
 `vg_id`. This is the same as specifying:
 
 ```
 aggregation_kindergeld =  = {
-    "kindergeld_m_hh": {
+    "kindergeld_m_vg": {
         "source_col": "kindergeld_m",
         "aggr": "sum"
     }
@@ -287,8 +287,8 @@ suffix), months `_m`, weeks `_w`, and days `_d`).
 In case a column with annual values `[column]` exists, the graph will be augmented with
 a node including monthly values like `[column]_m` should that be requested. Requests can
 be either inputs in a downstream function or explicit targets of the calculation. In
-case the column refers to a different level of aggregation, say `[column]_hh`, the same
-applies to `[column]_m_hh`.
+case the column refers to a different level of aggregation, say `[column]_vg`, the same
+applies to `[column]_m_vg`.
 
 Automatic summation will only happen in case no column `[column]_m` is explicitly set.
 Using a different conversion function than the sum is as easy as explicitly specifying
