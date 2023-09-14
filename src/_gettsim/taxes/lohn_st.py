@@ -230,7 +230,7 @@ def kinderfreib_für_soli_st_lohnst_y(
     )
 
     # For certain tax brackets, twice the child allowance can be deducted
-    if steuerklasse == 1 | steuerklasse == 2 | steuerklasse == 3:
+    if steuerklasse == 1 or steuerklasse == 2 or steuerklasse == 3:
         out = kinderfreib_basis * 2 * anz_kinder_mit_kindergeld_tu
     elif steuerklasse == 4:
         out = kinderfreib_basis * anz_kinder_mit_kindergeld_tu
