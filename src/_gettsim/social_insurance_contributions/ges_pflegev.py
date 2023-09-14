@@ -433,8 +433,12 @@ def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
     return out
 
 
-@dates_active(start="2003-04-01")
-def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
+@dates_active(
+    start="2003-04-01",
+    end="2004-12-31",
+    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_2004(
     midijob_bemessungsentgelt_m: float,
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
@@ -455,24 +459,80 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
 
     """
 
-    if isinstance(sozialv_beitr_params["beitr_satz"]["ges_pflegev"], dict):
-        gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
-            ges_pflegev_beitr_satz
-            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-        )
-    else:
-        gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
-            ges_pflegev_beitr_satz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
-        )
+    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+        ges_pflegev_beitr_satz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+    )
 
     return gesamtbeitrag_midijob_m
 
 
 @dates_active(
+    start="2005-01-01",
+    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_2005(
+    midijob_bemessungsentgelt_m: float,
+    ges_pflegev_beitr_satz: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Sum of employee and employer long-term care insurance contributions.
+
+    Parameters
+    ----------
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+
+    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+        ges_pflegev_beitr_satz
+        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    )
+
+    return gesamtbeitrag_midijob_m
+
+
+@dates_active(
+    end="2004-12-31",
+    change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
+    bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Calculating the employer care insurance contribution until September 2022.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+
+    Returns
+    -------
+
+    """
+
+    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+
+    return out
+
+
+@dates_active(
+    start="2005-01-01",
     end="2022-09-30",
     change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
 )
-def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn(
+def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:

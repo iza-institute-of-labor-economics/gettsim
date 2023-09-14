@@ -121,11 +121,11 @@ def in_gleitzone(
 
 @dates_active(
     start="2003-04-01",
-    end="2022-09-30",
+    end="2004-12-31",
     change_name="midijob_faktor_f",
 )
 @add_rounding_spec(params_key="sozialv_beitr")
-def midijob_faktor_f_mit_minijob_steuerpauschale(
+def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
@@ -161,14 +161,70 @@ def midijob_faktor_f_mit_minijob_steuerpauschale(
         + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
     )
 
-    if isinstance(sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"], dict):
-        allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
-            "ges_pflegev"
-        ]["standard"]
-    else:
-        allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
-            "ges_pflegev"
-        ]
+    allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"]
+
+    # Then calculate specific shares
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+
+    # Sum over the shares which are specific for midijobs.
+    pausch_mini = (
+        sozialv_beitr_params["ag_abgaben_geringf_jahresanfang"]["ges_krankenv"]
+        + sozialv_beitr_params["ag_abgaben_geringf_jahresanfang"]["ges_rentenv"]
+        + sozialv_beitr_params["ag_abgaben_geringf_jahresanfang"]["st"]
+    )
+
+    # Now calculate final factor
+    out = pausch_mini / (an_anteil + ag_anteil)
+
+    return out
+
+
+@dates_active(
+    start="2005-01-01",
+    end="2022-09-30",
+    change_name="midijob_faktor_f",
+)
+@add_rounding_spec(params_key="sozialv_beitr")
+def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
+    sozialv_beitr_params: dict,
+    _ges_krankenv_beitr_satz_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
+) -> float:
+    """Faktor F which is needed for the calculation of Bemessungsentgelt
+    (beitragspflichtige Einnahme) of midijobs before October 2022. It is calculated as
+    the ratio of the sum of lump-sum contributions for marginal employment (30 %)
+    divided by the total social security contribution rate
+    (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
+    the year and is valid for the whole year.
+
+    Legal reference: § 163 Abs. 10 SGB VI
+
+
+    Parameters
+    ----------
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+    _ges_krankenv_beitr_satz_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
+
+    Returns
+    -------
+    Income subject to social insurance contributions for midijob.
+
+    """
+    # First calculate the factor F from the formula in § 163 (10) SGB VI
+    # Therefore sum the contributions which are the same for employee and employer
+    allg_sozialv_beitr = (
+        sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_rentenv"]
+        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
+    )
+
+    allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
+        "ges_pflegev"
+    ]["standard"]
 
     # Then calculate specific shares
     an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
