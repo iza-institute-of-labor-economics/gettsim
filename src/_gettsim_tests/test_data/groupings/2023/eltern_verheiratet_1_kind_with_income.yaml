@@ -57,7 +57,7 @@ inputs:
       - -1
       - 1
 outputs:
-  st_id:
+  sn_id:
     - 0
     - 0
     - 1

@@ -81,7 +81,7 @@ inputs:
       - false
       - false
 outputs:
-  st_id:
+  sn_id:
     - 0
     - 1
     - 2

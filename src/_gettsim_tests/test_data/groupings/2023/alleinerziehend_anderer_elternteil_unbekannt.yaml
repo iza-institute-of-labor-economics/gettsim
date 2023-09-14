@@ -43,7 +43,7 @@ inputs:
       - false
       - false
 outputs:
-  st_id:
+  sn_id:
     - 0
     - 1
   bg_id:

@@ -4,7 +4,7 @@ import numpy
 
 
 def create_groupings() -> dict[str, Callable]:
-    return {"bg_id": bg_id_numpy, "st_id": st_id_numpy}
+    return {"bg_id": bg_id_numpy, "sn_id": sn_id_numpy}
 
 
 def bg_id_numpy(  # noqa: PLR0913
@@ -84,7 +84,7 @@ def bg_id_numpy(  # noqa: PLR0913
     return numpy.asarray(result)
 
 
-def st_id_numpy(
+def sn_id_numpy(
     p_id: numpy.ndarray,
     p_id_ehepartner: numpy.ndarray,
     gemeinsam_veranlagt: numpy.ndarray[bool],

@@ -20,7 +20,7 @@ inputs:
       - 0
       - 0
 outputs:
-  st_id:
+  sn_id:
     - 0
     - 1
   bg_id:
