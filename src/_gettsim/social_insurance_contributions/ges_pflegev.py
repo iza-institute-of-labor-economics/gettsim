@@ -443,7 +443,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_2004(
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Sum of employee and employer long-term care insurance contributions.
+    """Sum of employee and employer long-term care insurance contributions until 2004.
 
     Parameters
     ----------
@@ -475,7 +475,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_2005(
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Sum of employee and employer long-term care insurance contributions.
+    """Sum of employee and employer long-term care insurance contributions since 2005.
 
     Parameters
     ----------
@@ -507,7 +507,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer care insurance contribution until September 2022.
+    """Calculating the employer care insurance contribution until December 2004.
 
     Parameters
     ----------
@@ -550,12 +550,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     -------
 
     """
-    if isinstance(sozialv_beitr_params["beitr_satz"]["ges_pflegev"], dict):
-        out = (
-            bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-        )
-    else:
-        out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     return out
 
 
