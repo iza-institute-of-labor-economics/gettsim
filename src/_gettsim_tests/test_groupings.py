@@ -29,7 +29,6 @@ def test_groupings(
         params=policy_params,
         functions=policy_functions,
         targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
     )
 
     assert_series_equal(
