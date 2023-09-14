@@ -6,9 +6,9 @@ The table below gives an overview of all variables needed to run GETTSIM complet
 Note that the variables with \_hh at the end, have to be constant over the whole
 household.
 
-(hh_id)=
+(vg_id)=
 
-## `hh_id`
+## `vg_id`
 
 Household identifier
 

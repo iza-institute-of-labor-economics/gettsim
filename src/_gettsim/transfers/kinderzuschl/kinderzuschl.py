@@ -104,8 +104,8 @@ def _kinderzuschl_vor_vermög_check_m_tu(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    vg_id
+        See basic input variable :ref:`vg_id <vg_id>`.
     kinderzuschl_bruttoeink_eltern_m_tu
         See :func:`kinderzuschl_bruttoeink_eltern_m_tu`.
     kinderzuschl_eink_min_m_tu

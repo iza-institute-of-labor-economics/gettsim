@@ -65,7 +65,7 @@ INTERNAL_PARAMS_GROUPS = [
 ]
 
 SUPPORTED_GROUPINGS = {
-    "hh": {
+    "vg": {
         "name": "household",
         "description": "all individuals living in the same household.",
     },
@@ -111,7 +111,7 @@ DEFAULT_TARGETS = [
 ]
 
 TYPES_INPUT_VARIABLES = {
-    "hh_id": int,
+    "vg_id": int,
     "tu_id": int,
     "p_id": int,
     "vermögen_bedürft_hh": float,

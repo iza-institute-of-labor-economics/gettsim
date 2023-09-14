@@ -6,7 +6,7 @@ inputs:
   provided:
     p_id:
       - 40
-    hh_id:
+    vg_id:
       - 40
     tu_id:
       - 40

@@ -90,9 +90,9 @@ def test_unique_p_id(df, request):
     "df",
     synthetic_data_fixtures_not_heterogeneous,
 )
-def test_constant_hh_id(df, request):
+def test_constant_vg_id(df, request):
     df = request.getfixturevalue(df)
-    assert (df["hh_id"].max() == df["hh_id"]).all()
+    assert (df["vg_id"].max() == df["vg_id"]).all()
 
 
 @pytest.mark.parametrize(

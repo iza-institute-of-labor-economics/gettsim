@@ -6,7 +6,7 @@ inputs:
   provided:
     p_id:
       - 803
-    hh_id:
+    vg_id:
       - 803
     tu_id:
       - 803

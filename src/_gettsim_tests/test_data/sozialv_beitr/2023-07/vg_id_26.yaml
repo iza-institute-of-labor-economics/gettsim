@@ -10,7 +10,7 @@ inputs:
   provided:
     p_id:
       - 26
-    hh_id:
+    vg_id:
       - 26
     tu_id:
       - 26

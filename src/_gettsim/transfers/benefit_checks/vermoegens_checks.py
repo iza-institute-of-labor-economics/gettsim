@@ -164,8 +164,8 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    vg_id
+        See basic input variable :ref:`vg_id <vg_id>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     kind

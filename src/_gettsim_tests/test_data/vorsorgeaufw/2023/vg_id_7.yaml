@@ -8,7 +8,7 @@ inputs:
       - 12
     tu_id:
       - 7
-    hh_id:
+    vg_id:
       - 7
     bruttolohn_m:
       - 3500.0

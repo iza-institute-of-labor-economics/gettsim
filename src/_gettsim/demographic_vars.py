@@ -271,8 +271,8 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    vg_id
+        See basic input variable :ref:`vg_id <vg_id>`.
     geburtsdatum
         See :func:`geburtsdatum`.
     elterngeld_params

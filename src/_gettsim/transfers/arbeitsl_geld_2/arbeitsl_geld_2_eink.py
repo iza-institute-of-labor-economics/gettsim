@@ -75,7 +75,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     Parameters
     ----------
     bruttolohn_m
-        See basic input variable :ref:`hh_id <hh_id>`.
+        See basic input variable :ref:`vg_id <vg_id>`.
     sonstig_eink_m
         See basic input variable :ref:`sonstig_eink_m <sonstig_eink_m>`.
     eink_selbst_m

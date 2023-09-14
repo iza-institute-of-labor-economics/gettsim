@@ -45,7 +45,7 @@ def test_grundrente(
 INPUT_COLS_INCOME = [
     "p_id",
     "tu_id",
-    "hh_id",
+    "vg_id",
     "alter",
     "priv_rente_m",
     "entgeltp",

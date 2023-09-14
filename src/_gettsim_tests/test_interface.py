@@ -22,7 +22,7 @@ def minimal_input_data():
         {
             "p_id": numpy.arange(n_individuals),
             "tu_id": numpy.arange(n_individuals),
-            "hh_id": numpy.arange(n_individuals),
+            "vg_id": numpy.arange(n_individuals),
         },
         index=numpy.arange(n_individuals),
     )
@@ -78,7 +78,7 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
 
 
 def test_fail_if_pid_does_not_exist():
-    data = pd.Series(data=numpy.arange(8), name="hh_id").to_frame()
+    data = pd.Series(data=numpy.arange(8), name="vg_id").to_frame()
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -95,7 +95,7 @@ def test_fail_if_group_variables_not_constant_within_groups():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "arbeitsl_geld_2_m_hh": [100, 200, 300],
         }
     )
@@ -136,7 +136,7 @@ def test_data_as_dict():
 
     data = {
         "p_id": pd.Series([1, 2, 3]),
-        "hh_id": pd.Series([1, 1, 2]),
+        "vg_id": pd.Series([1, 1, 2]),
         "b": pd.Series([100, 200, 300]),
     }
 
@@ -165,7 +165,7 @@ def test_check_minimal_spec_data():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
@@ -186,7 +186,7 @@ def test_check_minimal_spec_data_warn():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
@@ -210,7 +210,7 @@ def test_check_minimal_spec_columns_overriding():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
@@ -234,7 +234,7 @@ def test_check_minimal_spec_columns_overriding_warn():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
@@ -293,8 +293,8 @@ def test_fail_if_non_unique_pid(minimal_input_data):
 
 def test_fail_if_non_unique_cols(minimal_input_data):
     data = minimal_input_data.copy()
-    data["temp"] = data["hh_id"]
-    data = data.rename(columns={"temp": "hh_id"})
+    data["temp"] = data["vg_id"]
+    data = data.rename(columns={"temp": "vg_id"})
     with pytest.raises(
         ValueError,
         match="The following columns are non-unique",
@@ -348,7 +348,7 @@ def test_user_provided_aggregation_specs():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
@@ -375,7 +375,7 @@ def test_user_provided_aggregation_specs_function():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "arbeitsl_geld_2_m": [200, 100, 100],
         }
     )
@@ -407,7 +407,7 @@ def test_aggregation_specs_missing_group_sufix():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
@@ -434,7 +434,7 @@ def test_aggregation_specs_agg_not_impl():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "vg_id": [1, 1, 2],
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
@@ -566,10 +566,10 @@ def test_fail_if_cannot_be_converted_to_internal_type(
     "data, functions_overridden, error_match",
     [
         (
-            pd.DataFrame({"hh_id": [1, 1.1, 2]}),
+            pd.DataFrame({"vg_id": [1, 1.1, 2]}),
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - hh_id: Conversion from input type float64 to int failed."
+            "\n - vg_id: Conversion from input type float64 to int failed."
             " This conversion is only supported if all decimal places of input"
             " data are equal to 0.",
         ),
@@ -582,7 +582,7 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             " the values 1.0 and 0.0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
+            pd.DataFrame({"wohnort_ost": [2, 0, 1], "vg_id": [1.0, 2.0, 3.0]}),
             {},
             "The data types of the following columns are invalid: \n"
             "\n - wohnort_ost: Conversion from input type int64 to bool failed."
@@ -597,10 +597,10 @@ def test_fail_if_cannot_be_converted_to_internal_type(
             " Object type is not supported as input.",
         ),
         (
-            pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
+            pd.DataFrame({"vg_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - hh_id: Conversion from input type object to int failed. "
+            "\n - vg_id: Conversion from input type object to int failed. "
             "Object type is not supported as input."
             "\n - bruttolohn_m: Conversion from input type object to float failed."
             " Object type is not supported as input.",

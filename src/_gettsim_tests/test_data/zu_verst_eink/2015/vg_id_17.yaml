@@ -7,7 +7,7 @@ inputs:
     p_id:
       - 23
       - 24
-    hh_id:
+    vg_id:
       - 17
       - 17
     tu_id:

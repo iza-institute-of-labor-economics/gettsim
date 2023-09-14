@@ -8,7 +8,7 @@ inputs:
   provided:
     p_id:
       - 22
-    hh_id:
+    vg_id:
       - 22
     tu_id:
       - 22

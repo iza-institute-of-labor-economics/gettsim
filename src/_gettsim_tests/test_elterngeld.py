@@ -19,7 +19,7 @@ def test_elterngeld(
 ):
     """Run tests to validate elterngeld.
 
-    hh_id 7 in test cases is for the calculator on
+    vg_id 7 in test cases is for the calculator on
     https://familienportal.de/familienportal/meta/egr. The calculator's result is 10
     Euro off GETTSIM's result. We need to discuss if we should adapt the calculation of
     the proxy wage of last year or anything else.

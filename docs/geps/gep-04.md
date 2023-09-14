@@ -229,7 +229,7 @@ aggregation_demographic_vars = {
 }
 ```
 
-The group identifier (`tu_id`, `hh_id`) will be automatically included as an argument;
+The group identifier (`tu_id`, `vg_id`) will be automatically included as an argument;
 for `count` no other variable is necessary.
 
 The output type will be the same as the input type. Exceptions:
@@ -265,7 +265,7 @@ def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
 
 a node `kindergeld_m_hh` containing the household-level sum of `kindergeld_m` will be
 automatically added to the graph. Its parents in the graph will be `kindergeld_m` and
-`hh_id`. This is the same as specifying:
+`vg_id`. This is the same as specifying:
 
 ```
 aggregation_kindergeld =  = {

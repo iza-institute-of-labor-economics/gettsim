@@ -4,7 +4,7 @@ info:
   source: Lohnsteuer BMBF 2022
 inputs:
   provided:
-    hh_id:
+    vg_id:
       - 565
     tu_id:
       - 565

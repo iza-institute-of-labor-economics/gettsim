@@ -4,7 +4,7 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    vg_id:
       - 6
       - 6
       - 6

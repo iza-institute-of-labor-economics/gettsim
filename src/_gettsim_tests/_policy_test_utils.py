@@ -55,7 +55,7 @@ class PolicyTestSet:
         Examples
         --------
         >>> data = load_policy_test_data("soli_st")
-        >>> filtered_by_name = data.filter_test_data(test_name="hh_id_2")
+        >>> filtered_by_name = data.filter_test_data(test_name="vg_id_2")
 
         >>> filtered_by_date = data.filter_test_data(date="1991")
         """
