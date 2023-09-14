@@ -198,17 +198,23 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
 @dates_active(start="2005-10-01")
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
+    eink_selbst_m: float,
     anz_kinder_bis_17_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+    Sozialgesetzbuch (SGB) Zweites Buch (II) - Bürgergeld, Grundsicherung für
+    Arbeitsuchende. SGB II §11b Abs 3
+    https://www.gesetze-im-internet.de/sgb_2/__11b.html
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    eink_selbst_m
+        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     anz_kinder_bis_17_hh
         See :func:`anz_kinder_bis_17_hh`.
     arbeitsl_geld_2_params
@@ -221,9 +227,11 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # Beneficiaries who live with a minor child in a group home or who have a minor
     # child have slightly different thresholds. We currently do not consider the second
     # condition.
+    eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
+
     if anz_kinder_bis_17_hh > 0:
         out = piecewise_polynomial(
-            x=bruttolohn_m,
+            x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],
             rates=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["rates"],
             intercepts_at_lower_thresholds=arbeitsl_geld_2_params[
@@ -232,7 +240,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
         )
     else:
         out = piecewise_polynomial(
-            x=bruttolohn_m,
+            x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei"]["thresholds"],
             rates=arbeitsl_geld_2_params["eink_anr_frei"]["rates"],
             intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][

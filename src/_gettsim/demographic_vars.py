@@ -339,3 +339,28 @@ def eltern(
 
     out = (erwachsen) and (not kindergeld_anspruch)
     return out
+
+
+def birthdate_decimal(
+    geburtsjahr: int,
+    geburtsmonat: int,
+) -> float:
+    """Combines birthyear and birth month to decimal number of
+    birthdate with monthly precision, as required for pension
+    benefit calculation
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+
+    Returns
+    -------
+    Birthdate with monthly precision as float.
+
+    """
+    out = geburtsjahr + (geburtsmonat - 1) / 12
+
+    return out

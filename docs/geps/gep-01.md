@@ -190,7 +190,7 @@ More meaningful alternatives could be `alo_geld` or `arb_los_geld`. These names 
 abbreviations of the compounds of the term "Arbeitslosengeld", which the group name is
 supposed to reflect, and connect them in a Pythonic manner through underscores. However,
 `alo_geld` still leaves much room for interpretation and `arb_los_geld` separates the
-term "arbeitslosen" in an odd way.
+term "Arbeitslosen" in an odd way.
 
 The final choice `arbeitsl_geld` avoids all the disadvantages of the other options as it
 is an unambivalent, natural, and minimal abbreviation of the original term it is
