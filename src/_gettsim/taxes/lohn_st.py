@@ -16,7 +16,7 @@ def lohnst_eink_y(
     bruttolohn_m:
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     steuerklasse:
-      See :func:`steuerklasse`
+      See :func:`steuerklasse`K
     eink_st_abzuege_params:
       See :func:`eink_st_abzuege_params`
     vorsorgepauschale_y

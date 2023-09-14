@@ -26,7 +26,7 @@ in the data provided by the user (if it comes in the form of a DataFrame) or cal
 by GETTSIM. All these arrays have the same length. This length corresponds to the number
 of individuals. Functions operate on a single row of data.
 
-If a column name is `[x]_id` with `x` {math}`\in \{` `hh`, `tu` {math}`\}`, it will be
+If a column name is `[x]_id` with `x` {math}`\in \{` `vg`, `tu` {math}`\}`, it will be
 the same for all households, tax units, or any other grouping of individuals specified
 in {ref}`GEP 1 <gep-1-column-names>`.
 
@@ -137,7 +137,7 @@ Aggregation functions will be provided by GETTSIM.
   implicitly if the graph contains a column `my_col` and an aggregate such as
   `my_col_vg` is requested somewhere.
 
-Note that the groups `tu` and `hh` may change in the future. Some might also be
+Note that the groups `tu` and `vg` may change in the future. Some might also be
 calculated via relations between household members, see
 [discussion](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/180917151)
 on Zulip in this respect.

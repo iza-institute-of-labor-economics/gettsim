@@ -226,7 +226,7 @@ def _process_and_check_data(data):
 
     # Check that tu_id and vg_id are matching. As long as we have not fixed the
     # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
-    # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
+    # Wohngeld/ALG 2 (calculated on vg level), we do not allow for more than one tax
     # unit within a household.
     # TODO (@hmgaudecker): Remove check once groupings allow for it.
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601

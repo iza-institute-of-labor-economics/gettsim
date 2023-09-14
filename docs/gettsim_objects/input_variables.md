@@ -114,7 +114,7 @@ Type: bool
 
 ## `hat_kinder`
 
-Dummy: Has kids (incl. not in hh)
+Dummy: Has kids (incl. not in vg)
 
 Type: bool
 
@@ -248,7 +248,7 @@ Type: int
 
 ## `m_elterngeld`
 
-Number of months hh received elterngeld
+Number of months vg received elterngeld
 
 Type: int
 
@@ -543,6 +543,6 @@ Type: int
 
 ## `anz_eig_kind_bis_24`
 
-Number of own children below the age of 25 (incl. not in hh)
+Number of own children below the age of 25 (incl. not in vg)
 
 Type: int

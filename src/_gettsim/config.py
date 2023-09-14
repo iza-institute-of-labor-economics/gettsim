@@ -72,7 +72,7 @@ SUPPORTED_GROUPINGS = {
     "tu": {
         "name": "tax unit",
         "description": "one or two persons that file their taxes together.",
-        "nested_by": "hh",
+        "nested_by": "vg",
     },
 }
 

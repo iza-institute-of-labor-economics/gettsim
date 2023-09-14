@@ -119,7 +119,7 @@ If a column has a reference to a time unit (i.e., any flow variable like earning
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
-the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
+the relevant unit, an underscore plus one of {`vg`, `tu`} will indicate the level of
 aggregation.
 
 Time unit identifiers always appear before unit identifiers (e.g.,
@@ -150,7 +150,7 @@ A function that is used in many different places should have a descriptive name.
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
 cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to indicate
-the time unit and one of {`hh`, `tu`} to indicate the unit of aggregation.
+the time unit and one of {`vg`, `tu`} to indicate the unit of aggregation.
 
 ## Examples
 

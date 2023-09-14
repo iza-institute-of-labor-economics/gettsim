@@ -104,7 +104,7 @@ def create_basic_households(
     data : pd.DataFrame containing all basic variables.
 
     """
-    hh_typ_string = create_vg_typ_string(n_adults, n_children)
+    vg_typ_string = create_vg_typ_string(n_adults, n_children)
 
     # Identify number of households
     if len(specs_heterogeneous) > 0:
@@ -132,7 +132,7 @@ def create_basic_households(
         {
             "vg_id": [i] * (n_adults + n_children),
             "tu_id": [i] * (n_adults + n_children),
-            "hh_typ": [hh_typ_string] * (n_adults + n_children),
+            "vg_typ": [vg_typ_string] * (n_adults + n_children),
             "hat_kinder": hat_kinder,
             "alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
@@ -175,7 +175,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
 
     # Use data for 2 children if there are more than 2 children in the household.
     n_children_lookup = n_children if n_children <= 2 else 2
-    hh_typ_string_lookup = create_vg_typ_string(n_adults, n_children_lookup)
+    vg_typ_string_lookup = create_vg_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
@@ -197,11 +197,11 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "grundr_entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
         "m_pflichtbeitrag": ((df["alter"] - 25).clip(lower=0) * 12).astype(float),
         "m_pflichtbeitrag_alt": ((df["alter"] - 40).clip(lower=0) * 12).astype(float),
-        "wohnfläche_vg": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),
+        "wohnfläche_vg": float(bg_daten["wohnfläche"][vg_typ_string_lookup]),
         "bruttokaltmiete_m_vg": float(
-            bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
+            bg_daten["bruttokaltmiete"][vg_typ_string_lookup]
         ),
-        "heizkosten_m_vg": float(bg_daten["heizkosten"][hh_typ_string_lookup]),
+        "heizkosten_m_vg": float(bg_daten["heizkosten"][vg_typ_string_lookup]),
         "kind_unterh_anspr_m": 0.0,
         "kind_unterh_erhalt_m": 0.0,
     }
