@@ -45,19 +45,19 @@ repos:
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 23.9.1
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
         # supported by your project here
         language_version: python3.11
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.15.0
+    rev: 1.16.0
     hooks:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.284
+    rev: v0.0.289
     hooks:
       - id: ruff
       #   args:
@@ -74,14 +74,14 @@ repos:
     hooks:
       - id: nbqa-black
         additional_dependencies:
-          - black==23.7.0
+          - black==23.9.1
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.0.284
+          - ruff==v0.0.289
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -92,7 +92,7 @@ repos:
           - '88'
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -103,7 +103,7 @@ repos:
           - '88'
         files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.4.1
+    rev: v1.5.1
     hooks:
       - id: mypy
         args:

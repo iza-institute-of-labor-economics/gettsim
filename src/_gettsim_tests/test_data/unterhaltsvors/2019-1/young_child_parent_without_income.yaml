@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test
 inputs:
   provided:
     p_id:
@@ -22,8 +22,8 @@ inputs:
       - false
     alter:
       - 45
+      - 4
       - 11
-      - 14
     bruttolohn_m:
       - 0.0
       - 0.0
@@ -68,5 +68,5 @@ inputs:
 outputs:
   unterhaltsvors_m:
     - 0
+    - 160
     - 212
-    - 0
