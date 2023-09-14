@@ -1,7 +1,7 @@
 def kinderzuschl_kost_unterk_m_tu(
     _kinderzuschl_wohnbedarf_eltern_anteil_tu: float,
-    bruttokaltmiete_m_hh: float,
-    heizkosten_m_hh: float,
+    bruttokaltmiete_m_vg: float,
+    heizkosten_m_vg: float,
     _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
@@ -21,8 +21,8 @@ def kinderzuschl_kost_unterk_m_tu(
     -------
 
     """
-    warmmiete_m_hh = bruttokaltmiete_m_hh + heizkosten_m_hh
-    anteil_warmmiete_m_tu = warmmiete_m_hh * _anteil_personen_in_haushalt_tu
+    warmmiete_m_vg = bruttokaltmiete_m_vg + heizkosten_m_vg
+    anteil_warmmiete_m_tu = warmmiete_m_vg * _anteil_personen_in_haushalt_tu
 
     out = _kinderzuschl_wohnbedarf_eltern_anteil_tu * anteil_warmmiete_m_tu
 
@@ -30,15 +30,15 @@ def kinderzuschl_kost_unterk_m_tu(
 
 
 def bruttokaltmiete_m_tu(
-    bruttokaltmiete_m_hh: float,
+    bruttokaltmiete_m_vg: float,
     _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Share of household's monthly rent attributed to the tax unit.
 
     Parameters
     ----------
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
+    bruttokaltmiete_m_vg
+        See basic input variable :ref:`bruttokaltmiete_m_vg <bruttokaltmiete_m_vg>`.
     _anteil_personen_in_haushalt_tu
         See :func:`_anteil_personen_in_haushalt_tu`.
 
@@ -46,19 +46,19 @@ def bruttokaltmiete_m_tu(
     -------
 
     """
-    return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_tu
+    return bruttokaltmiete_m_vg * _anteil_personen_in_haushalt_tu
 
 
 def heizkosten_m_tu(
-    heizkosten_m_hh: float,
+    heizkosten_m_vg: float,
     _anteil_personen_in_haushalt_tu: float,
 ) -> float:
     """Share of household's heating expenses attributed to the tax unit.
 
     Parameters
     ----------
-    heizkosten_m_hh
-        See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
+    heizkosten_m_vg
+        See basic input variable :ref:`heizkosten_m_vg <heizkosten_m_vg>`.
     _anteil_personen_in_haushalt_tu
         See :func:`_anteil_personen_in_haushalt_tu`.
 
@@ -66,11 +66,11 @@ def heizkosten_m_tu(
     -------
 
     """
-    return heizkosten_m_hh * _anteil_personen_in_haushalt_tu
+    return heizkosten_m_vg * _anteil_personen_in_haushalt_tu
 
 
 def _anteil_personen_in_haushalt_tu(
-    tax_unit_größe_tu: int, haushaltsgröße_hh: int
+    tax_unit_größe_tu: int, haushaltsgröße_vg: int
 ) -> float:
     """Calculate the share of tax units in household.
 
@@ -78,14 +78,14 @@ def _anteil_personen_in_haushalt_tu(
     ----------
     tax_unit_größe_tu
         See :func:`tax_unit_größe_tu`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    haushaltsgröße_vg
+        See :func:`haushaltsgröße_vg`.
 
     Returns
     -------
 
     """
-    return tax_unit_größe_tu / haushaltsgröße_hh
+    return tax_unit_größe_tu / haushaltsgröße_vg
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil_tu(

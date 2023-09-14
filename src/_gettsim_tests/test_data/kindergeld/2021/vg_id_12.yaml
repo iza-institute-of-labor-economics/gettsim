@@ -28,7 +28,7 @@ outputs:
     - 0
   kinderbonus_m_tu:
     - 0.0
-  kindergeld_m_hh:
+  kindergeld_m_vg:
     - 0
-  kinderbonus_m_hh:
+  kinderbonus_m_vg:
     - 0.0

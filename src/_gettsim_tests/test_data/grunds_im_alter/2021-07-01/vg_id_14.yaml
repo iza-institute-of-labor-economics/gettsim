@@ -2,7 +2,7 @@
 info:
   note: >-
     Adjusted test case by adding capital income of 50 euros (expected difference in
-    grunds_im_alter_m_hh (50*12 - 26) / 12) = 47.83333333)
+    grunds_im_alter_m_vg (50*12 - 26) / 12) = 47.83333333)
   source: https://pflegebox.de/ratgeber/leben-im-alter/grundsicherung-im-alter/
 inputs:
   provided:
@@ -18,11 +18,11 @@ inputs:
       - false
     alter:
       - 68
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 350.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 35.0
-    wohnfläche_hh:
+    wohnfläche_vg:
       - 40.0
     bruttolohn_m:
       - 0.0
@@ -34,11 +34,11 @@ inputs:
       - true
     schwerbeh_g:
       - false
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 0.0
     alleinerz:
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum_vg:
       - false
     arbeitsl_geld_m:
       - 0.0
@@ -54,7 +54,7 @@ inputs:
       - 0.0
     sozialv_beitr_m:
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
@@ -74,5 +74,5 @@ inputs:
       - 1953
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_vg:
     - 353.17

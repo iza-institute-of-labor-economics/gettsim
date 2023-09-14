@@ -52,13 +52,13 @@ inputs:
       - false
       - false
       - false
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 850.0
       - 850.0
       - 850.0
       - 850.0
       - 850.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 120.0
       - 120.0
       - 120.0
@@ -76,7 +76,7 @@ inputs:
       - true
       - true
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg:
       - 0.0
       - 0.0
       - 0.0
@@ -94,7 +94,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 462.0
       - 462.0
       - 462.0
@@ -124,7 +124,7 @@ inputs:
       - 1994
       - 1996
       - 2004
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 0.0
       - 0.0
       - 0.0

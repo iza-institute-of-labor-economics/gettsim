@@ -22,13 +22,13 @@ inputs:
     alter:
       - 72
       - 67
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 460.0
       - 460.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 60.0
       - 60.0
-    wohnfläche_hh:
+    wohnfläche_vg:
       - 60.0
       - 60.0
     bruttolohn_m:
@@ -46,13 +46,13 @@ inputs:
     schwerbeh_g:
       - false
       - false
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 0.0
       - 0.0
     alleinerz:
       - false
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum_vg:
       - false
       - false
     arbeitsl_geld_m:
@@ -76,7 +76,7 @@ inputs:
     sozialv_beitr_m:
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
@@ -105,6 +105,6 @@ inputs:
       - 1950
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_vg:
     - 322.0
     - 322.0

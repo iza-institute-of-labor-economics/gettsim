@@ -21,16 +21,16 @@ inputs:
     alter:
       - 40
       - 40
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 400.0
       - 400.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 80.0
       - 80.0
-    wohnfläche_hh:
+    wohnfläche_vg:
       - 70.0
       - 70.0
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum_vg:
       - true
       - true
     alleinerz:
@@ -66,7 +66,7 @@ inputs:
     sozialv_beitr_m:
       - 160.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
@@ -81,10 +81,10 @@ inputs:
     jahr:
       - '2013'
       - '2013'
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 14000.0
       - 14000.0
     geburtsjahr:
@@ -110,12 +110,12 @@ outputs:
   arbeitsl_geld_2_eink_m:
     - 500.0
     - 0.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_vg:
     - 690.0
     - 690.0
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_vg:
     - 480.0
     - 480.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_vg:
     - 0.0
     - 0.0

@@ -20,7 +20,7 @@ inputs:
       - false
       - false
       - true
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 700.0
       - 700.0
       - 700.0
@@ -32,7 +32,7 @@ inputs:
       - 45
       - 46
       - 9
-    immobilie_baujahr_hh:
+    immobilie_baujahr_vg:
       - 1995
       - 1995
       - 1995
@@ -112,11 +112,11 @@ inputs:
       - 1000.0
       - 1000.0
       - 1000.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 120000.0
       - 120000.0
       - 120000.0
-    haushaltsgröße_hh:
+    haushaltsgröße_vg:
       - 3
       - 3
       - 3
@@ -134,11 +134,11 @@ inputs:
       - 2007
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 75.0
     - 75.0
     - 75.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 75.0
     - 75.0
     - 75.0

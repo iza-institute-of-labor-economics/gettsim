@@ -28,10 +28,10 @@ inputs:
     in_ausbildung:
       - false
       - false
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 400.0
       - 400.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 80.0
       - 80.0
     alleinerz:
@@ -40,7 +40,7 @@ inputs:
     kindergeld_anspruch:
       - false
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg:
       - 0.36
       - 0.36
     kinderzuschl_bruttoeink_eltern_m:
@@ -49,7 +49,7 @@ inputs:
     kinderzuschl_eink_eltern_m:
       - 719.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 164.0
       - 164.0
     kind_unterh_erhalt_m:
@@ -64,7 +64,7 @@ inputs:
     geburtsjahr:
       - 1981
       - 2008
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:

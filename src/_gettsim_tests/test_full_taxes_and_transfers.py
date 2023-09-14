@@ -22,10 +22,10 @@ OUT_COLS = [
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
     "kindergeld_m_tu",
-    "arbeitsl_geld_2_m_hh",
-    "kinderzuschl_m_hh",
-    "wohngeld_m_hh",
-    "unterhaltsvors_m_hh",
+    "arbeitsl_geld_2_m_vg",
+    "kinderzuschl_m_vg",
+    "wohngeld_m_vg",
+    "unterhaltsvors_m_vg",
 ]
 
 data = load_policy_test_data("full_taxes_and_transfers")
@@ -101,7 +101,7 @@ def test_data_types(
                 # TODO (@hmgaudecker): Implement easy way to find out expected type of
                 #     aggregated functions
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
-                if column_name.endswith(("_tu", "_hh")):
+                if column_name.endswith(("_tu", "_vg")):
                     internal_type = None
                 else:
                     raise ValueError(f"Column name {column_name} unknown.")

@@ -1987,7 +1987,7 @@ klimakomponente_m:
     5: 39.20
     jede_weitere_person: 4.8
 rounding:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     1970-01-01:
       base: 1
       direction: nearest

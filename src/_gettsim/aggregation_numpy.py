@@ -6,11 +6,11 @@ import numpy_groupies as npg
 
 def grouped_count(group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="count")
-    out_on_hh = npg.aggregate(
+    out_on_vg = npg.aggregate(
         group_id, numpy.ones(len(group_id)), func="sum", fill_value=0
     )
 
-    out = out_on_hh[group_id]
+    out = out_on_vg[group_id]
     return out
 
 
@@ -18,10 +18,10 @@ def grouped_sum(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="sum")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
 
-    out_on_hh = npg.aggregate(group_id, column, func="sum", fill_value=0)
+    out_on_vg = npg.aggregate(group_id, column, func="sum", fill_value=0)
 
     # Expand to individual level
-    out = out_on_hh[group_id]
+    out = out_on_vg[group_id]
     return out
 
 
@@ -29,10 +29,10 @@ def grouped_mean(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="mean")
     fail_if_dtype_not_float(column, agg_func="mean")
 
-    out_on_hh = npg.aggregate(group_id, column, func="mean", fill_value=0)
+    out_on_vg = npg.aggregate(group_id, column, func="mean", fill_value=0)
 
     # Expand to individual level
-    out = out_on_hh[group_id]
+    out = out_on_vg[group_id]
     return out
 
 
@@ -46,18 +46,18 @@ def grouped_max(column, group_id):
         dtype = column.dtype
         float_col = column.astype("datetime64[D]").astype(int)
 
-        out_on_hh_float = npg.aggregate(group_id, float_col, func="max")
+        out_on_vg_float = npg.aggregate(group_id, float_col, func="max")
 
-        out_on_hh = out_on_hh_float.astype("datetime64[D]").astype(dtype)
+        out_on_vg = out_on_vg_float.astype("datetime64[D]").astype(dtype)
 
         # Expand to individual level
-        out = out_on_hh[group_id]
+        out = out_on_vg[group_id]
 
     else:
-        out_on_hh = npg.aggregate(group_id, column, func="max")
+        out_on_vg = npg.aggregate(group_id, column, func="max")
 
         # Expand to individual level
-        out = out_on_hh[group_id]
+        out = out_on_vg[group_id]
     return out
 
 
@@ -74,18 +74,18 @@ def grouped_min(column, group_id):
         dtype = column.dtype
         float_col = column.astype("datetime64[D]").astype(int)
 
-        out_on_hh_float = npg.aggregate(group_id, float_col, func="min")
+        out_on_vg_float = npg.aggregate(group_id, float_col, func="min")
 
-        out_on_hh = out_on_hh_float.astype("datetime64[D]").astype(dtype)
+        out_on_vg = out_on_vg_float.astype("datetime64[D]").astype(dtype)
 
         # Expand to individual level
-        out = out_on_hh[group_id]
+        out = out_on_vg[group_id]
 
     else:
-        out_on_hh = npg.aggregate(group_id, column, func="min")
+        out_on_vg = npg.aggregate(group_id, column, func="min")
 
         # Expand to individual level
-        out = out_on_hh[group_id]
+        out = out_on_vg[group_id]
     return out
 
 
@@ -93,10 +93,10 @@ def grouped_any(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="any")
     fail_if_dtype_not_boolean_or_int(column, agg_func="any")
 
-    out_on_hh = npg.aggregate(group_id, column, func="any", fill_value=0)
+    out_on_vg = npg.aggregate(group_id, column, func="any", fill_value=0)
 
     # Expand to individual level
-    out = out_on_hh[group_id]
+    out = out_on_vg[group_id]
     return out
 
 
@@ -104,10 +104,10 @@ def grouped_all(column, group_id):
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="all")
     fail_if_dtype_not_boolean_or_int(column, agg_func="all")
 
-    out_on_hh = npg.aggregate(group_id, column, func="all", fill_value=0)
+    out_on_vg = npg.aggregate(group_id, column, func="all", fill_value=0)
 
     # Expand to individual level
-    out = out_on_hh[group_id]
+    out = out_on_vg[group_id]
     return out
 
 

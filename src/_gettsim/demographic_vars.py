@@ -9,25 +9,25 @@ import numpy
 
 aggregation_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
-    "anz_erwachsene_hh": {"source_col": "erwachsen", "aggr": "sum"},
-    "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
-    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
+    "anz_erwachsene_vg": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_rentner_vg": {"source_col": "rentner", "aggr": "sum"},
+    "anz_kinder_vg": {"source_col": "kind", "aggr": "sum"},
     "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
-    "anz_kinder_bis_5_hh": {"source_col": "kind_bis_5", "aggr": "sum"},
-    "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
-    "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
-    "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_6_bis_13_hh": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_17_hh": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_18_bis_24_hh": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
+    "anz_kinder_bis_5_vg": {"source_col": "kind_bis_5", "aggr": "sum"},
+    "anz_kinder_bis_6_vg": {"source_col": "kind_bis_6", "aggr": "sum"},
+    "anz_kinder_bis_15_vg": {"source_col": "kind_bis_15", "aggr": "sum"},
+    "anz_kinder_bis_17_vg": {"source_col": "kind_bis_17", "aggr": "sum"},
+    "anz_kinder_ab_6_bis_13_vg": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
+    "anz_kinder_ab_14_bis_24_vg": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
+    "anz_kinder_ab_14_bis_17_vg": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
+    "anz_kinder_ab_18_bis_24_vg": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
     "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
     "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
-    "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
-    "haushaltsgröße_hh": {"aggr": "count"},
+    "alleinerz_vg": {"source_col": "alleinerz", "aggr": "any"},
+    "haushaltsgröße_vg": {"aggr": "count"},
     "tax_unit_größe_tu": {"aggr": "count"},
-    "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min"},
-    "anz_mehrlinge_jüngstes_kind_hh": {
+    "alter_monate_jüngstes_mitglied_vg": {"source_col": "alter_monate", "aggr": "min"},
+    "anz_mehrlinge_jüngstes_kind_vg": {
         "source_col": "jüngstes_kind_oder_mehrling",
         "aggr": "sum",
     },
@@ -225,21 +225,21 @@ def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
     return anz_erwachsene_tu == 2
 
 
-def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:
+def erwachsene_alle_rentner_vg(anz_erwachsene_vg: int, anz_rentner_vg: int) -> bool:
     """Calculate if all adults in the household are pensioners.
 
     Parameters
     ----------
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
-    anz_rentner_hh
-        See :func:`anz_rentner_hh`.
+    anz_erwachsene_vg
+        See :func:`anz_erwachsene_vg`.
+    anz_rentner_vg
+        See :func:`anz_rentner_vg`.
 
     Returns
     -------
 
     """
-    return anz_erwachsene_hh == anz_rentner_hh
+    return anz_erwachsene_vg == anz_rentner_vg
 
 
 def geburtsdatum(
@@ -292,7 +292,7 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
 def jüngstes_kind_oder_mehrling(
     alter_monate: float,
-    alter_monate_jüngstes_mitglied_hh: float,
+    alter_monate_jüngstes_mitglied_vg: float,
     kind: bool,
 ) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
@@ -306,8 +306,8 @@ def jüngstes_kind_oder_mehrling(
     ----------
     alter_monate
         See :func:`alter_monate`.
-    alter_monate_jüngstes_mitglied_hh
-        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    alter_monate_jüngstes_mitglied_vg
+        See :func:`alter_monate_jüngstes_mitglied_vg`.
     kind
         See basic input variable :ref:`kind <kind>`.
 
@@ -315,7 +315,7 @@ def jüngstes_kind_oder_mehrling(
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
+    out = (alter_monate - alter_monate_jüngstes_mitglied_vg < 0.1) and kind
     return out
 
 

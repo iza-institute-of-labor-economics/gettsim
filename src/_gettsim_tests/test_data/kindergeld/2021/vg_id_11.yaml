@@ -50,11 +50,11 @@ outputs:
     - 12.5
     - 12.5
     - 12.5
-  kindergeld_m_hh:
+  kindergeld_m_vg:
     - 219
     - 219
     - 219
-  kinderbonus_m_hh:
+  kinderbonus_m_vg:
     - 12.5
     - 12.5
     - 12.5

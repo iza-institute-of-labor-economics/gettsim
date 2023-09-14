@@ -14,13 +14,13 @@ inputs:
       - 10
     kind:
       - false
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 600.0
     alleinerz:
       - false
     alter:
       - 57
-    immobilie_baujahr_hh:
+    immobilie_baujahr_vg:
       - 1980
     kindergeld_anspruch:
       - false
@@ -60,9 +60,9 @@ inputs:
       - 2021
     eink_st_y_tu:
       - 300.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 61000.0
-    haushaltsgröße_hh:
+    haushaltsgröße_vg:
       - 1
     geburtstag:
       - 1
@@ -72,7 +72,7 @@ inputs:
       - 1964
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 249.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 0.0

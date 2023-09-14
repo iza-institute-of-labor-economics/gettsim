@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    Same as vg_id_14.yaml but higher made up vermögen_bedürft_hh
-    to test wealth exemptions (above _arbeitsl_geld_2_vermög_freib_karenzz_hh).
+    Same as vg_id_14.yaml but higher made up vermögen_bedürft_vg
+    to test wealth exemptions (above _arbeitsl_geld_2_vermög_freib_karenzz_vg).
   source: https://www.kinderzuschlagrechner24.de/kinderzuschlag/?hp=0&ap0=0&ap1a=0&ap1=1&ap2=0&ap4=0&ap5=0&ww=0&is=0&wgjn=0&kg=0&fuerJ=2023&lS=1&Seite=2#RechnerStart
 inputs:
   provided:
@@ -33,10 +33,10 @@ inputs:
     in_ausbildung:
       - false
       - true
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 700.0
       - 700.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 100.0
       - 100.0
     alleinerz:
@@ -45,7 +45,7 @@ inputs:
     kindergeld_anspruch:
       - false
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg:
       - 0.36
       - 0.36
     kinderzuschl_bruttoeink_eltern_m:
@@ -54,7 +54,7 @@ inputs:
     kinderzuschl_eink_eltern_m:
       - 1160.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 250.0
       - 250.0
     kind_unterh_erhalt_m:
@@ -69,7 +69,7 @@ inputs:
     geburtsjahr:
       - 1980
       - 2012
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 60000.0
       - 60000.0
     bürgerg_bezug_vorj:

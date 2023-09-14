@@ -43,10 +43,10 @@ inputs:
     geburtstag:
       - 4
       - 12
-    m_elterngeld_mut_hh:
+    m_elterngeld_mut_vg:
       - 1
       - 1
-    m_elterngeld_vat_hh:
+    m_elterngeld_vat_vg:
       - 0
       - 0
     m_elterngeld:

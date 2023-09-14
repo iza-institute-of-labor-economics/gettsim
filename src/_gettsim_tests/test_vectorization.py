@@ -454,17 +454,17 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
 
     # Test original gettsim function on scalar input
     # ==================================================================================
-    alter_monate_juengstes_mitglied_hh = 12.0
-    m_elterngeld_mut_hh = 2
-    m_elterngeld_vat_hh = 3
+    alter_monate_juengstes_mitglied_vg = 12.0
+    m_elterngeld_mut_vg = 2
+    m_elterngeld_vat_vg = 3
     m_elterngeld = 4
     kind = False
     elterngeld_params = {"max_monate_paar": 14.0, "max_monate_ind": 6}
 
     exp = elternzeit_anspruch(
-        alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        alter_monate_jüngstes_mitglied_vg=alter_monate_juengstes_mitglied_vg,
+        m_elterngeld_mut_vg=m_elterngeld_mut_vg,
+        m_elterngeld_vat_vg=m_elterngeld_vat_vg,
         m_elterngeld=m_elterngeld,
         kind=kind,
         elterngeld_params=elterngeld_params,
@@ -475,13 +475,13 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
     shape = (10, 1)
-    alter_monate_juengstes_mitglied_hh = full(shape, alter_monate_juengstes_mitglied_hh)
+    alter_monate_juengstes_mitglied_vg = full(shape, alter_monate_juengstes_mitglied_vg)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         elternzeit_anspruch(
-            alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-            m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-            m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+            alter_monate_jüngstes_mitglied_vg=alter_monate_juengstes_mitglied_vg,
+            m_elterngeld_mut_vg=m_elterngeld_mut_vg,
+            m_elterngeld_vat_vg=m_elterngeld_vat_vg,
             m_elterngeld=m_elterngeld,
             kind=kind,
             elterngeld_params=elterngeld_params,
@@ -491,9 +491,9 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     # ==================================================================================
     converted = make_vectorizable(elternzeit_anspruch, backend=backend)
     got = converted(
-        alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        alter_monate_jüngstes_mitglied_vg=alter_monate_juengstes_mitglied_vg,
+        m_elterngeld_mut_vg=m_elterngeld_mut_vg,
+        m_elterngeld_vat_vg=m_elterngeld_vat_vg,
         m_elterngeld=m_elterngeld,
         kind=kind,
         elterngeld_params=elterngeld_params,

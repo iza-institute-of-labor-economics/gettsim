@@ -61,8 +61,8 @@ def test_special_attribute_module_is_set_for_internal_functions():
 @pytest.mark.parametrize(
     ("functions", "targets"),
     [
-        ({"foo_y": lambda: 1}, ["foo_d_hh"]),
-        ({"foo_y": lambda: 1}, ["foo_d", "foo_d_hh"]),
+        ({"foo_y": lambda: 1}, ["foo_d_vg"]),
+        ({"foo_y": lambda: 1}, ["foo_d", "foo_d_vg"]),
     ],
 )
 def test_create_derived_functions(

@@ -10,7 +10,7 @@ inputs:
       - 10
     p_id:
       - 14
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 5500.0
     bruttolohn_m:
       - 0.0
@@ -54,29 +54,29 @@ inputs:
       - 0.0
     eink_vermietung_m:
       - 13.0
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 400.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 80.0
     jahr_renteneintr:
       - 2074
     behinderungsgrad:
       - 0
-    wohnfläche_hh:
+    wohnfläche_vg:
       - 50.0
     m_elterngeld:
       - 0
-    m_elterngeld_vat_hh:
+    m_elterngeld_vat_vg:
       - 0
-    m_elterngeld_mut_hh:
+    m_elterngeld_mut_vg:
       - 0
     in_ausbildung:
       - false
     alleinerz:
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum_vg:
       - false
-    immobilie_baujahr_hh:
+    immobilie_baujahr_vg:
       - 3
     sonstig_eink_m:
       - 50.0

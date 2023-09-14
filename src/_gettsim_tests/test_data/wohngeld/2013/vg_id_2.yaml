@@ -16,7 +16,7 @@ inputs:
     kind:
       - false
       - false
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 400.0
       - 400.0
     alleinerz:
@@ -25,7 +25,7 @@ inputs:
     alter:
       - 40
       - 55
-    immobilie_baujahr_hh:
+    immobilie_baujahr_vg:
       - 1995
       - 1995
     kindergeld_anspruch:
@@ -85,10 +85,10 @@ inputs:
     eink_st_y_tu:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 30000.0
       - 30000.0
-    haushaltsgröße_hh:
+    haushaltsgröße_vg:
       - 2
       - 2
     geburtstag:
@@ -102,9 +102,9 @@ inputs:
       - 1958
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 202.0
     - 202.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 202.0
     - 202.0

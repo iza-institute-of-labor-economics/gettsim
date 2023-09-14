@@ -199,7 +199,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
-    anz_kinder_bis_17_hh: int,
+    anz_kinder_bis_17_vg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -215,8 +215,8 @@ def arbeitsl_geld_2_eink_anr_frei_m(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    anz_kinder_bis_17_hh
-        See :func:`anz_kinder_bis_17_hh`.
+    anz_kinder_bis_17_vg
+        See :func:`anz_kinder_bis_17_vg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -229,7 +229,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # condition.
     eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
 
-    if anz_kinder_bis_17_hh > 0:
+    if anz_kinder_bis_17_vg > 0:
         out = piecewise_polynomial(
             x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

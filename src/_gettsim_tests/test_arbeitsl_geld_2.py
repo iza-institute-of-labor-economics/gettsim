@@ -1,8 +1,8 @@
 """
 Note:
-- Values for "arbeitsl_geld_2_vor_vorrang_m_hh" and "arbeitsl_geld_2_m_hh" are
+- Values for "arbeitsl_geld_2_vor_vorrang_m_vg" and "arbeitsl_geld_2_m_vg" are
   only regression tests
-- "wohngeld_vor_vermög_check_m_hh" is set to 0 to avoid testing Wohngeld-Vorrang and the
+- "wohngeld_vor_vermög_check_m_vg" is set to 0 to avoid testing Wohngeld-Vorrang and the
   calculation of Wohngeld here.
 
 """
@@ -36,8 +36,8 @@ def test_arbeitsl_geld_2(
     )
 
     if column in [
-        "arbeitsl_geld_2_vor_vorrang_m_hh",
-        "arbeitsl_geld_2_m_hh",
+        "arbeitsl_geld_2_vor_vorrang_m_vg",
+        "arbeitsl_geld_2_m_vg",
     ]:
         result = result[column].round(2)
     else:

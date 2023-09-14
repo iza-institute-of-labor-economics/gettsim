@@ -22,28 +22,28 @@ inputs:
     alter:
       - 75
       - 50
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 78000.0
       - 78000.0
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0
       - 0.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_regelbedarf_m_hh:
+    arbeitsl_geld_2_regelbedarf_m_vg:
       - 1046.0
       - 1046.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_hh:
+    kind_unterh_erhalt_m_vg:
       - 0.0
       - 0.0
-    unterhaltsvors_m_hh:
+    unterhaltsvors_m_vg:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_hh:
+    arbeitsl_geld_2_eink_m_vg:
       - 300.0
       - 300.0
     geburtsjahr:
@@ -54,12 +54,12 @@ inputs:
       - 2014
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_vg:
     - 0
     - 0
-  wohngeld_m_hh:
+  wohngeld_m_vg:
     - 0
     - 0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_vg:
     - 0.0
     - 0.0

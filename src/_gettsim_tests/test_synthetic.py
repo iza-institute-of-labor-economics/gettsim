@@ -65,7 +65,7 @@ synthetic_data_fixtures = [
 )
 def test_positive_rent(df, request):
     df = request.getfixturevalue(df)
-    assert df["bruttokaltmiete_m_hh"].min() > 0
+    assert df["bruttokaltmiete_m_vg"].min() > 0
 
 
 @pytest.mark.parametrize(
@@ -74,7 +74,7 @@ def test_positive_rent(df, request):
 )
 def test_no_nans(df, request):
     df = request.getfixturevalue(df)
-    assert df["bruttokaltmiete_m_hh"].notna().all().all()
+    assert df["bruttokaltmiete_m_vg"].notna().all().all()
 
 
 @pytest.mark.parametrize(

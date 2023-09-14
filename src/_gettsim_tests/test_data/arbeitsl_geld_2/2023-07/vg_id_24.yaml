@@ -15,13 +15,13 @@ inputs:
       - false
     alter:
       - 42
-    bruttokaltmiete_m_hh:
+    bruttokaltmiete_m_vg:
       - 400.0
-    heizkosten_m_hh:
+    heizkosten_m_vg:
       - 50.0
-    wohnfläche_hh:
+    wohnfläche_vg:
       - 60.0
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum_vg:
       - false
     alleinerz:
       - false
@@ -45,7 +45,7 @@ inputs:
       - 0.0
     sozialv_beitr_m:
       - 204.0
-    kindergeld_m_hh:
+    kindergeld_m_vg:
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
@@ -55,9 +55,9 @@ inputs:
       - 0.0
     jahr:
       - 2023-07
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_vg:
       - 40000.0
     geburtsjahr:
       - 1978
@@ -75,9 +75,9 @@ outputs:
     - 348.0
   arbeitsl_geld_2_eink_m:
     - 648.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_vg:
     - 502.0
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_vg:
     - 450.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_vg:
     - 304.0

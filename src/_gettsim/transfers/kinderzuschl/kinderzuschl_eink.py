@@ -64,7 +64,7 @@ def kinderzuschl_eink_eltern_m(
 
 @dates_active(end="2010-12-31", change_name="kinderzuschl_eink_regel_m_tu")
 def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg: float,
     alleinerz_tu: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -72,8 +72,8 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg`.
     alleinerz_tu
         See :func:`alleinerz_tu`.
     arbeitsl_geld_2_params
@@ -85,7 +85,7 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
     """
     if alleinerz_tu:
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg
         )
     else:
         out = (
@@ -99,7 +99,7 @@ def kinderzuschl_eink_regel_m_tu_arbeitsl_geld_2_params_old(
 
 @dates_active(start="2011-01-01")
 def kinderzuschl_eink_regel_m_tu(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg: float,
     alleinerz_tu: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -107,8 +107,8 @@ def kinderzuschl_eink_regel_m_tu(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg`.
     alleinerz_tu
         See :func:`alleinerz_tu`.
     arbeitsl_geld_2_params
@@ -120,7 +120,7 @@ def kinderzuschl_eink_regel_m_tu(
     """
     if alleinerz_tu:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_vg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * 2
@@ -195,10 +195,10 @@ def kinderzuschl_eink_min_m_tu(
 
     Parameters
     ----------
-    anz_kinder_hh
-        See basic input variable :ref:`anz_kinder_hh <anz_kinder_hh>`.
-    alleinerz_hh
-        See basic input variable :ref:`alleinerz_hh <alleinerz_hh>`.
+    anz_kinder_vg
+        See basic input variable :ref:`anz_kinder_vg <anz_kinder_vg>`.
+    alleinerz_vg
+        See basic input variable :ref:`alleinerz_vg <alleinerz_vg>`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 

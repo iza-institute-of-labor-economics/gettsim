@@ -110,14 +110,14 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
 
 def test_plot_dag():
     """Make sure that minimal example doesn't produce an error."""
-    plot_dag(functions=policy_functions, targets=["erwachsene_alle_rentner_hh"])
+    plot_dag(functions=policy_functions, targets=["erwachsene_alle_rentner_vg"])
 
 
 def test_should_fail_if_target_is_missing():
     with pytest.raises(
         ValueError, match="The following targets have no corresponding function"
     ):
-        plot_dag(functions=[], targets=["erwachsene_alle_rentner_hh"])
+        plot_dag(functions=[], targets=["erwachsene_alle_rentner_vg"])
 
 
 def test_one_dot_plot_dag():

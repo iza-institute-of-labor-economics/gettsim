@@ -239,10 +239,10 @@ def create_time_conversion_functions(
      Create functions that convert variables to different time units.
 
     The time unit of a function is determined by a naming convention:
-    * Functions referring to yearly values end with "_y", "_y_hh" or "_y_tu".
-    * Functions referring to monthly values end with "_m", "_m_hh" or "_m_tu".
-    * Functions referring to weekly values end with "_w", "_w_hh" or "_w_tu".
-    * Functions referring to daily values end with "_d", "_d_hh" or "_d_tu".
+    * Functions referring to yearly values end with "_y", "_y_vg" or "_y_tu".
+    * Functions referring to monthly values end with "_m", "_m_vg" or "_m_tu".
+    * Functions referring to weekly values end with "_w", "_w_vg" or "_w_tu".
+    * Functions referring to daily values end with "_d", "_d_vg" or "_d_tu".
 
     Unless the corresponding function already exists, the following functions are
     created:
