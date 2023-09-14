@@ -130,10 +130,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
-    """Faktor F which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of midijobs before December 2004. It is calculated as
-    the ratio of the sum of lump-sum contributions for marginal employment (30 %)
-    divided by the total social security contribution rate
+    """which is needed for the calculation of Bemessungsentgelt
+    (beitragspflichtige Einnahme) of Midijobs. Formula valid from until December 2004.
+    It is calculated as the ratio of the sum of lump-sum contributions for marginal
+    employment (30 %) divided by the total social security contribution rate
     (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
     the year and is valid for the whole year.
 
@@ -192,9 +192,9 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
     """Faktor F which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of midijobs before October 2022. It is calculated as
-    the ratio of the sum of lump-sum contributions for marginal employment (30 %)
-    divided by the total social security contribution rate
+    (beitragspflichtige Einnahme) of Midijobs. Formula valid from 2005 until September
+    2022. It is calculated as the ratio of the sum of lump-sum contributions for
+    marginal employment (30 %) divided by the total social security contribution rate
     (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
     the year and is valid for the whole year.
 

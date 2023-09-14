@@ -536,7 +536,8 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer care insurance contribution until September 2022.
+    """Employers' contribution to long term care insurance between 2005 and September
+    2022.
 
     Parameters
     ----------
@@ -559,7 +560,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_residuum(
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_arbeitn_m: float,
 ) -> float:
-    """Calculating the employer care insurance contribution since October 2022.
+    """Employer's long-term care insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -588,7 +589,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee care insurance contribution until September 2022.
+    """Employee's care insurance contribution for Midijobs until September 2022.
 
     Parameters
     ----------
@@ -620,7 +621,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employee care insurance contribution since October 2022.
+    """Employee's long-term care insurance contribution since between October 2022 and
+    June 2023.
 
     Parameters
     ----------
@@ -661,7 +663,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_mit_kinder_abschlag(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employee care insurance contribution since October 2022.
+    """Employee's long-term care insurance contribution since July 2023.
 
     Parameters
     ----------

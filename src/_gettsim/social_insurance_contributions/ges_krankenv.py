@@ -834,8 +834,7 @@ def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 def _ges_krankenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
-    """Calculating the employer health insurance contribution for midijobs until
-    September 2022.
+    """Employers' health insurance contribution for midijobs until September 2022.
 
     Parameters
     ----------
@@ -900,8 +899,7 @@ def _ges_krankenv_beitr_midijob_arbeitn_m_residuum(
     _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_krankenv_beitr_midijob_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midijobs until
-    September 2022.
+    """Employee's health insurance contribution for midijobs until September 2022.
 
     Parameters
     ----------

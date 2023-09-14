@@ -278,7 +278,7 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution until September
+    """Employers' unemployment insurance contribution for Midijobs until September
     2022.
 
     Parameters
@@ -330,7 +330,7 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _arbeitsl_v_beitr_midijob_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution until September
+    """Employees' unemployment insurance contribution for Midijobs until September
     2022.
 
     Parameters
