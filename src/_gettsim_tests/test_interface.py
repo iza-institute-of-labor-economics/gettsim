@@ -4,10 +4,6 @@ import numpy
 import pandas as pd
 import pytest
 from _gettsim.config import FOREIGN_KEYS
-from _gettsim.functions_loader import (
-    _fail_if_columns_overriding_functions_are_not_in_functions,
-    _fail_if_functions_and_columns_overlap,
-)
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.interface import (
     _convert_data_to_correct_types,
