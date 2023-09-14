@@ -43,12 +43,12 @@ def create_synthetic_data(
     # Check inputs
     if n_adults not in [1, 2]:
         raise ValueError("'n_adults' must be either 1 or 2")
-    if n_children not in [0, 1, 2]:
-        raise ValueError("'n_children' must be 0, 1, or 2.")
+    if n_children not in list(range(11)):
+        raise ValueError("'n_children' must be between 0 and 10.")
 
     default_constant_specs = {
         "weiblich": [bool(i % 2 == 1) for i in range(n_children + n_adults)],
-        "alter": [35] * n_adults + [8, 3][:n_children],
+        "alter": [35] * n_adults + [8, 5, 3, 1, 10, 9, 7, 6, 4, 2][:n_children],
         "kind": [False] * n_adults + [True] * n_children,
         "in_ausbildung": [False] * n_adults + [True] * n_children,
     }
@@ -172,7 +172,10 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         datetime.date(policy_year, 1, 1),
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
     )
-    hh_typ_string = create_hh_typ_string(n_adults, n_children)
+
+    # Use data for 2 children if there are more than 2 children in the household.
+    n_children_lookup = n_children if n_children <= 2 else 2
+    hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj
     if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
@@ -194,9 +197,11 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "grundr_entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
         "m_pflichtbeitrag": ((df["alter"] - 25).clip(lower=0) * 12).astype(float),
         "m_pflichtbeitrag_alt": ((df["alter"] - 40).clip(lower=0) * 12).astype(float),
-        "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string]),
-        "bruttokaltmiete_m_hh": float(bg_daten["bruttokaltmiete"][hh_typ_string]),
-        "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string]),
+        "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),
+        "bruttokaltmiete_m_hh": float(
+            bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
+        ),
+        "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string_lookup]),
         "kind_unterh_anspr_m": 0.0,
         "kind_unterh_erhalt_m": 0.0,
     }
