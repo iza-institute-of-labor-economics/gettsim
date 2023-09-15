@@ -65,6 +65,10 @@ outputs:
     - 0
     - 0
     - 1
+  fg_id:
+    - 0
+    - 0
+    - 0
 #  potentielle_kinderfreibeträge:
 #    - 1
 #    - 1

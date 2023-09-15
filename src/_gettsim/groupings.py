@@ -4,7 +4,7 @@ import numpy
 
 
 def create_groupings() -> dict[str, Callable]:
-    return {"bg_id": bg_id_numpy, "sn_id": sn_id_numpy}
+    return {"bg_id": bg_id_numpy, "fg_id": fg_id_numpy, "sn_id": sn_id_numpy}
 
 
 def bg_id_numpy(  # noqa: PLR0913
@@ -83,6 +83,27 @@ def bg_id_numpy(  # noqa: PLR0913
     result = [p_id_to_bg_id[current_p_id] for current_p_id in p_id]
     return numpy.asarray(result)
 
+
+def fg_id_numpy(  # noqa: PLR0913
+        p_id: numpy.ndarray,
+        hh_id: numpy.ndarray,
+        alter: numpy.ndarray,
+        p_id_einstandspartner: numpy.ndarray,
+        p_id_elternteil_1: numpy.ndarray,
+        p_id_elternteil_2: numpy.ndarray,
+):
+    """
+    Compute the ID of the Familiengemeinschaft for each person.
+    """
+    return bg_id_numpy(
+        p_id=p_id,
+        hh_id=hh_id,
+        alter=alter,
+        p_id_einstandspartner=p_id_einstandspartner,
+        p_id_elternteil_1=p_id_elternteil_1,
+        p_id_elternteil_2=p_id_elternteil_2,
+        eigener_bedarf_gedeckt=numpy.full_like(p_id, False),
+    )
 
 def sn_id_numpy(
     p_id: numpy.ndarray,
