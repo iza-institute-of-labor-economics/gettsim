@@ -85,12 +85,12 @@ def bg_id_numpy(  # noqa: PLR0913
 
 
 def fg_id_numpy(  # noqa: PLR0913
-        p_id: numpy.ndarray,
-        hh_id: numpy.ndarray,
-        alter: numpy.ndarray,
-        p_id_einstandspartner: numpy.ndarray,
-        p_id_elternteil_1: numpy.ndarray,
-        p_id_elternteil_2: numpy.ndarray,
+    p_id: numpy.ndarray,
+    hh_id: numpy.ndarray,
+    alter: numpy.ndarray,
+    p_id_einstandspartner: numpy.ndarray,
+    p_id_elternteil_1: numpy.ndarray,
+    p_id_elternteil_2: numpy.ndarray,
 ):
     """
     Compute the ID of the Familiengemeinschaft for each person.
@@ -104,6 +104,7 @@ def fg_id_numpy(  # noqa: PLR0913
         p_id_elternteil_2=p_id_elternteil_2,
         eigener_bedarf_gedeckt=numpy.full_like(p_id, False),
     )
+
 
 def sn_id_numpy(
     p_id: numpy.ndarray,
