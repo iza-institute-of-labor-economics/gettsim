@@ -38,6 +38,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`583` Automatic conversion between different time units ({ghuser}`lars-reimann`).
 - {gh}`581` Add `_y` suffix to names of yearly variables ({ghuser}`lars-reimann`).
+- {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 
 ## v0.7 — 2023-05-14
 
