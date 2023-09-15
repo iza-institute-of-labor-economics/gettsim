@@ -21,10 +21,7 @@ INPUT_COLS = [
     "ges_pflegev_zusatz_kinderlos",
 ]
 
-OUT_COLS = [
-    "lohnst_m",
-    # "soli_st_lohnst_m"
-]
+OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
 
 YEARS = [2022]
 
