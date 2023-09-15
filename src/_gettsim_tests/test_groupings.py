@@ -1,7 +1,5 @@
 import pandas as pd
 import pytest
-
-from _gettsim.groupings import sn_id_numpy
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
@@ -52,11 +50,11 @@ def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
         }
     )
 
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date="2023"
-    )
+    policy_params, policy_functions = cached_set_up_policy_environment(date="2023")
 
-    with pytest.raises(ValueError, match="have different values for gemeinsam_veranlagt"):
+    with pytest.raises(
+        ValueError, match="have different values for gemeinsam_veranlagt"
+    ):
         compute_taxes_and_transfers(
             data=data,
             params=policy_params,
