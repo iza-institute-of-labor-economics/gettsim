@@ -23,7 +23,7 @@ def _ges_rentenv_beitr_bemess_grenze_m(
 def _ges_krankenv_beitr_bemess_grenze_m(
     wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
-    """Icome threshold up to which health insurance payments apply.
+    """Income threshold up to which health insurance payments apply.
 
     Parameters
     ----------
