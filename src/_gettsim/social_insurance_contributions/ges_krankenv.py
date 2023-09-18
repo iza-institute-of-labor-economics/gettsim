@@ -212,7 +212,7 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
 def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance since January 2015.
+    """Health insurance top-up rate since January 2015.
 
     Parameters
     ----------
