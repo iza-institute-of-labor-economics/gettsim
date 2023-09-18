@@ -130,7 +130,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
-    """Compute midijob factor until December 2004.
+    """Midijob Faktor F until December 2004.
 
     Needed for the calculation of Bemessungsentgelt
     (beitragspflichtige Einnahme) of Midijobs.
