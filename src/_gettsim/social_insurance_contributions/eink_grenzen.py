@@ -132,13 +132,6 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 ) -> float:
     """Midijob Faktor F until December 2004.
 
-    Needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of Midijobs.
-    It is calculated as the ratio of the sum of lump-sum contributions for marginal
-    employment (30 %) divided by the total social security contribution rate
-    (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
-    the year and is valid for the whole year.
-
     Legal reference: § 163 Abs. 10 SGB VI
 
 
@@ -194,11 +187,6 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F between 2005 and September 2025.
-    (beitragspflichtige Einnahme) of Midijobs. Formula valid from 2005 until September
-    2022. It is calculated as the ratio of the sum of lump-sum contributions for
-    marginal employment (30 %) divided by the total social security contribution rate
-    (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
-    the year and is valid for the whole year.
 
     Legal reference: § 163 Abs. 10 SGB VI
 
@@ -252,13 +240,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
-    """Faktor F which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of midijobs since October 2022. It is calculated as
-    the ratio of the sum of lump-sum contributions for marginal employment (28 %)
-    divided by the total social security contribution rate
-    (Gesamtsozialversicherungsbeitragssatz). Since October 2022 the sum of lump-sum
-    contributions for marginal employment does not include the 2% flat-rate tax.
-    It is calculated once at the beginning of the year and is valid for the whole year.
+    """Midijob Faktor F since October 2022.
 
     Legal reference: § 163 Abs. 10 SGB VI
 
