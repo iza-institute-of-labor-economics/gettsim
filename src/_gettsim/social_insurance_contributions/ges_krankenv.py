@@ -189,7 +189,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
 def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance until December 2014.
+    """Health insurance top-up rate until December 2014.
 
     Parameters
     ----------
