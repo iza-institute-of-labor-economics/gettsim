@@ -121,7 +121,7 @@ def ges_pflegev_beitr_m_vor_midijob(
     ges_pflegev_beitr_selbst_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public care insurance.
+    """Employee's long-term care insurance contribution until March 2003.
 
     Parameters
     ----------
@@ -162,7 +162,7 @@ def ges_pflegev_beitr_m_mit_midijob(  # noqa: PLR0913
     in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public care insurance.
+    """Employee's long-term care insurance contribution since April 2003.
 
     Parameters
     ----------
@@ -203,7 +203,7 @@ def _ges_pflegev_beitr_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
-    """Contribution to the public care insurance for people with regular jobs.
+    """Employee's long-term care insurance contribution if regularly employed.
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     sozialv_beitr_params: dict,
     selbstständig: bool,
 ) -> float:
-    """Contribution of the respective employer to the public care insurance.
+    """Employer's long-term care insurance contribution.
 
     Parameters
     ----------
@@ -268,7 +268,7 @@ def ges_pflegev_beitr_arbeitg_m_mit_midijob(
     in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
-    """Contribution of the respective employer to the public care insurance.
+    """Employer's long-term care insurance contribution.
 
     Parameters
     ----------
@@ -461,13 +461,49 @@ def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
     return out
 
 
-@dates_active(start="2003-04-01")
-def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
+@dates_active(
+    start="2003-04-01",
+    end="2004-12-31",
+    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_2004(
     midijob_bemessungsentgelt_m: float,
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Sum of employee and employer long-term care insurance contributions.
+    """Sum of employee and employer long-term care insurance contributions until 2004.
+
+    Parameters
+    ----------
+    midijob_bemessungsentgelt_m
+        See :func:`midijob_bemessungsentgelt_m`.
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+
+    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+        ges_pflegev_beitr_satz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+    )
+
+    return gesamtbeitrag_midijob_m
+
+
+@dates_active(
+    start="2005-01-01",
+    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_2005(
+    midijob_bemessungsentgelt_m: float,
+    ges_pflegev_beitr_satz: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Sum of employee and employer long-term care insurance contributions since 2005.
 
     Parameters
     ----------
@@ -492,14 +528,44 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m(
 
 
 @dates_active(
-    end="2022-09-30",
+    end="2004-12-31",
     change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
 )
-def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn(
+def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer care insurance contribution until September 2022.
+    """Employer's long-term care insurance contribution until December 2004.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+
+    Returns
+    -------
+
+    """
+
+    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+
+    return out
+
+
+@dates_active(
+    start="2005-01-01",
+    end="2022-09-30",
+    change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
+)
+def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
+    bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Employers' contribution to long-term care insurance between 2005 and September
+    2022.
 
     Parameters
     ----------
@@ -522,7 +588,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_residuum(
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_arbeitn_m: float,
 ) -> float:
-    """Calculating the employer care insurance contribution since October 2022.
+    """Employer's long-term care insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -551,7 +617,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee care insurance contribution until September 2022.
+    """Employee's long-term care insurance contribution for Midijobs
+    until September 2022.
 
     Parameters
     ----------
@@ -583,7 +650,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employee care insurance contribution since October 2022.
+    """Employee's long-term care insurance contribution since between October 2022 and
+    June 2023.
 
     Parameters
     ----------
@@ -624,7 +692,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_mit_kinder_abschlag(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employee care insurance contribution since October 2022.
+    """Employee's long-term care insurance contribution since July 2023.
 
     Parameters
     ----------

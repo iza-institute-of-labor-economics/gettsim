@@ -151,7 +151,7 @@ def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous):
     [
         (0, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
         (3, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
-        (2, 3, None, None, pytest.raises(ValueError, match="'n_children' must be")),
+        (2, 11, None, None, pytest.raises(ValueError, match="'n_children' must be")),
         (2, 0, {"alter": [30]}, None, pytest.raises(ValueError, match="Length of")),
         (
             2,
