@@ -121,7 +121,7 @@ def ges_pflegev_beitr_m_vor_midijob(
     ges_pflegev_beitr_selbst_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public care insurance.
+    """Employee's long-term care insurance contribution until March 2003.
 
     Parameters
     ----------
@@ -162,7 +162,7 @@ def ges_pflegev_beitr_m_mit_midijob(  # noqa: PLR0913
     in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public care insurance.
+    """Employee's long-term care insurance contribution since April 2003.
 
     Parameters
     ----------
@@ -203,7 +203,7 @@ def _ges_pflegev_beitr_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
-    """Contribution to the public care insurance for people with regular jobs.
+    """Employee's long-term care insurance contribution if regularly employed.
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     sozialv_beitr_params: dict,
     selbstständig: bool,
 ) -> float:
-    """Contribution of the respective employer to the public care insurance.
+    """Employer's long-term care insurance contribution.
 
     Parameters
     ----------
@@ -268,7 +268,7 @@ def ges_pflegev_beitr_arbeitg_m_mit_midijob(
     in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
-    """Contribution of the respective employer to the public care insurance.
+    """Employer's long-term care insurance contribution.
 
     Parameters
     ----------
@@ -507,7 +507,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer care insurance contribution until December 2004.
+    """Employer's long-term care insurance contribution until December 2004.
 
     Parameters
     ----------
@@ -536,7 +536,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employers' contribution to long term care insurance between 2005 and September
+    """Employers' contribution to long-term care insurance between 2005 and September
     2022.
 
     Parameters
@@ -589,7 +589,8 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
-    """Employee's care insurance contribution for Midijobs until September 2022.
+    """Employee's long-term care insurance contribution for Midijobs
+    until September 2022.
 
     Parameters
     ----------

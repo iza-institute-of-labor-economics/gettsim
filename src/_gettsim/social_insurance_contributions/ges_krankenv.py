@@ -9,7 +9,7 @@ def ges_krankenv_beitr_m_vor_midijob(
     _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public health insurance.
+    """Employee's public health insurance contribution.
 
     Parameters
     ----------
@@ -51,7 +51,7 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public health insurance.
+    """Employee's public health insurance contribution.
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ def ges_krankenv_beitr_arbeitg_m_vor_midijob(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Contribution of the respective employer to the public health insurance.
+    """Employer's public health insurance contribution.
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Contribution of the respective employer to the public health insurance.
+    """Employer's public health insurance contribution.
 
     Parameters
     ----------
@@ -189,7 +189,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
 def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance.
+    """Calculate the top-up rate of the health care insurance until December 2014.
 
     Parameters
     ----------
@@ -212,7 +212,7 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
 def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance.
+    """Calculate the top-up rate of the health care insurance since January 2015.
 
     Parameters
     ----------

@@ -130,8 +130,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     _ges_krankenv_beitr_satz_jahresanfang: float,
     _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
 ) -> float:
-    """which is needed for the calculation of Bemessungsentgelt
-    (beitragspflichtige Einnahme) of Midijobs. Formula valid from until December 2004.
+    """Compute midijob factor until December 2004.
+
+    Needed for the calculation of Bemessungsentgelt
+    (beitragspflichtige Einnahme) of Midijobs.
     It is calculated as the ratio of the sum of lump-sum contributions for marginal
     employment (30 %) divided by the total social security contribution rate
     (Gesamtsozialversicherungsbeitragssatz). It is calculated once at the beginning of
@@ -450,7 +452,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
 
 @dates_active(end="2003-03-31", change_name="regulär_beschäftigt")
 def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
-    """Check if person is in regular employment.
+    """Regular employment check until March 2003.
 
     Employees earning more than the minijob threshold, are subject to all ordinary
     income and social insurance contribution regulations. In gettsim we call these
@@ -476,7 +478,7 @@ def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float
 def regulär_beschäftigt_mit_midijob(
     bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:
-    """Check if person is in regular employment.
+    """Regular employment check since April 2003.
 
     Employees earning more than the midijob threshold, are subject to all ordinary
     income and social insurance contribution regulations. In gettsim we call these
