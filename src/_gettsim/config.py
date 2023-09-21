@@ -61,7 +61,7 @@ INTERNAL_PARAMS_GROUPS = [
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
-    "lohn_st",
+    "lohnst",
     "erziehungsgeld",
 ]
 
