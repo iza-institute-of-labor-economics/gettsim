@@ -70,6 +70,14 @@ inputs:
       - false
   assumed: {}
 outputs:
+  erziehungsgeld_eink_relev_kind:
+    - 0
+    - 0
+    - 44201.6
+  erziehungsgeld_einkgrenze_kind:
+    - 0
+    - 0
+    - 16500
   erziehungsgeld_kind_m:
     - 0.0
     - 0.0

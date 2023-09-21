@@ -54,6 +54,12 @@ inputs:
       - false
   assumed: {}
 outputs:
+  erziehungsgeld_eink_relev_kind:
+    - 0
+    - 14804.8
+  erziehungsgeld_einkgrenze_kind:
+    - 0
+    - 13500
   erziehungsgeld_kind_m:
     - 0.0
     - 235.8
