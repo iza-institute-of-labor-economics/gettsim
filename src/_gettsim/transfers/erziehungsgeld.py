@@ -24,6 +24,8 @@ def erziehungsgeld_m(
 ) -> bool:
     """Calculation of total parental leave benefits (erziehungsgeld).
 
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+
     Parameters
     ----------
     erziehungsgeld_kind_m_tu
@@ -60,6 +62,8 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
 
     For the calculation, the relevant wage, the age of the youngest child,
     the income threshold and the eligibility for erziehungsgeld is needed.
+
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
 
     Parameters
     ----------
@@ -144,6 +148,8 @@ def erziehungsgeld_anspruch_kind(
     """Determine the eligibility for parental leave benefit (erziehungsgeld) on child
     level.
 
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.207)
+
     Parameters
     ----------
     alter_monate
@@ -174,6 +180,8 @@ def erziehungsgeld_anspruch_eltern(
     """Determine the eligibility for parental leave benefit (erziehungsgeld) on
     parental level.
 
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.207)
+
     Parameters
     ----------
     arbeitsstunden_w
@@ -202,6 +210,8 @@ def erziehungsgeld_eink_relev_kind(
 ) -> float:
     """Calculate the relevant wage for parental leave benefit (erziehungsgeld) on child
     level
+
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
 
     Parameters
     ----------
@@ -251,6 +261,8 @@ def erziehungsgeld_einkgrenze_kind(  # noqa: PLR0913
 ) -> float:
     """Calculating the income threshold for parental leave benefit (erziehungsgeld)
     on child level
+
+    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.208)
 
     Parameters
     ----------
