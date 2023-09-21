@@ -93,7 +93,7 @@ pauschal_abzug_auf_einkommen:
   2004-02-09:
     scalar: 0.76
 rounding:
-  erziehungsgeld_m:
+  erziehungsgeld_kind_m:
     2004-01-01:
       base: 0.01
       direction: nearest

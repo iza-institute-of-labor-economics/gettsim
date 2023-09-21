@@ -13,9 +13,6 @@ inputs:
     tu_id:
       - 1
       - 1
-    jahr:
-      - 2005
-      - 2005
     alter:
       - 30
       - 1
@@ -52,14 +49,20 @@ inputs:
     budget_erz_geld:
       - false
       - false
+    inanspruchn_erzgeld:
+      - true
+      - false
   assumed: {}
 outputs:
-  erziehungsgeld_einkommen_relev:
+  erziehungsgeld_eink_relev_kind:
+    - 0
     - 12980.8
+  erziehungsgeld_einkgrenze_kind:
     - 0
-  erziehungsgeld_einkommensgrenze:
     - 13500
-    - 0
+  erziehungsgeld_kind_m:
+    - 0.0
+    - 300.0
   erziehungsgeld_m:
     - 300.0
     - 0.0

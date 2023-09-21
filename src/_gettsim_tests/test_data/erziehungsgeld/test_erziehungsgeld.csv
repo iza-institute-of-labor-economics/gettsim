@@ -1,8 +1,0 @@
-p_id,hh_id,tu_id,bruttolohn_vorj_m,geburtstag,alleinerz,arbeitsstunden_w,in_ausbildung,geburtsjahr,bruttolohn_m,alter,geburtsmonat,hat_kinder,jahr,erziehungsgeld_m,kind
-1,1,1,1500,1,TRUE,20,FALSE,1975,1500,30,1,TRUE,2005,300,FALSE
-2,1,1,0,1,FALSE,0,FALSE,2004,0,1,1,FALSE,2005,0,TRUE
-3,2,2,2500,1,FALSE,20,FALSE,1975,2500,30,1,TRUE,2005,207,FALSE
-4,2,2,2500,1,FALSE,40,FALSE,1975,2500,30,1,TRUE,2005,0,FALSE
-5,2,2,0,1,FALSE,0,FALSE,2004,0,1,1,FALSE,2005,0,TRUE
-6,3,3,1700,1,TRUE,29,FALSE,1980,1400,25,1,TRUE,2005,235,FALSE
-7,3,3,0,1,FALSE,0,FALSE,2004,0,1,1,FALSE,2005,0,TRUE

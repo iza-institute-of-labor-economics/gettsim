@@ -16,10 +16,6 @@ inputs:
       - 8
       - 9
       - 10
-    jahr:
-      - 2005
-      - 2005
-      - 2005
     alter:
       - 40
       - 40
@@ -68,8 +64,16 @@ inputs:
       - true
       - true
       - false
+    inanspruchn_erzgeld:
+      - true
+      - false
+      - false
   assumed: {}
 outputs:
+  erziehungsgeld_kind_m:
+    - 0.0
+    - 0.0
+    - 0.0
   erziehungsgeld_m:
     - 0.0
     - 0.0

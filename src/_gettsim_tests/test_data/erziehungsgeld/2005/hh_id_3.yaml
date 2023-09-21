@@ -13,9 +13,6 @@ inputs:
     p_id:
       - 6
       - 7
-    jahr:
-      - 2005
-      - 2005
     alter:
       - 25
       - 1
@@ -52,8 +49,14 @@ inputs:
     budget_erz_geld:
       - false
       - false
+    inanspruchn_erzgeld:
+      - true
+      - false
   assumed: {}
 outputs:
+  erziehungsgeld_kind_m:
+    - 0.0
+    - 235.8
   erziehungsgeld_m:
     - 235.8
     - 0.0

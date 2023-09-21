@@ -182,4 +182,5 @@ TYPES_INPUT_VARIABLES = {
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
     "budget_erz_geld": bool,
+    "inanspruchn_erzgeld": bool,
 }
