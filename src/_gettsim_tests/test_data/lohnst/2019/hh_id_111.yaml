@@ -1,0 +1,36 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 111
+    tu_id:
+      - 111
+    p_id:
+      - 111
+    wohnort_ost:
+      - true
+    steuerklasse:
+      - 6
+    bruttolohn_m:
+      - 7376.400000000001
+    alter:
+      - 25
+    hat_kinder:
+      - false
+    arbeitsstunden_w:
+      - 40.0
+    in_ausbildung:
+      - false
+    ges_krankenv_zusatzbeitr_satz:
+      - 1.41
+    ges_pflegev_zusatz_kinderlos:
+      - true
+  assumed: {}
+outputs:
+  lohnst_m:
+    - 2452.0
+  soli_st_lohnst_m:
+    - 134.70000000000002

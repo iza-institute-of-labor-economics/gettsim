@@ -94,6 +94,83 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 
 @dates_active(
+    start="2018-01-01",
+    change_name="vorsorg_kv_option_b",
+)
+def vorsorg_kv_option_b_ab_2018(
+    bruttolohn_kv: float,
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+    beitr_satz_pflegev: float,
+    ges_pflegev_zusatz_kinderlos: bool,
+) -> float:
+    """
+    TO CHANGE
+
+    #  b) Take the actual contributions (usually the better option),
+    #   but apply the reduced rate!
+
+    """
+
+    if ges_pflegev_zusatz_kinderlos:
+        beitr_satz_pflegev = (
+            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
+            "standard"
+        ]
+
+    out = bruttolohn_kv * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + ges_krankenv_zusatzbeitr_satz / 2 / 100
+        + beitr_satz_pflegev
+    )
+
+    return out
+
+
+@dates_active(
+    start="2015-01-01",
+    end="2017-12-31",
+    change_name="vorsorg_kv_option_b",
+)
+def vorsorg_kv_option_b_ab_2015(
+    bruttolohn_kv: float,
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+    beitr_satz_pflegev: float,
+    ges_pflegev_zusatz_kinderlos: bool,
+) -> float:
+    """
+    TO CHANGE
+
+    #  b) Take the actual contributions (usually the better option),
+    #   but apply the reduced rate!
+
+    """
+
+    if ges_pflegev_zusatz_kinderlos:
+        beitr_satz_pflegev = (
+            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
+        )
+    else:
+        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
+            "standard"
+        ]
+
+    out = bruttolohn_kv * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + ges_krankenv_zusatzbeitr_satz / 100
+        + beitr_satz_pflegev
+    )
+
+    return out
+
+
+@dates_active(
     start="2010-01-01",
     change_name="vorsorgepauschale_y",
 )
@@ -102,10 +179,9 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
     steuerklasse: int,
     wohnort_ost: bool,
-    ges_krankenv_zusatzbeitr_satz: float,
-    ges_pflegev_zusatz_kinderlos: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
+    vorsorg_kv_option_b: float,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -176,25 +252,6 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
         ]
 
     vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
-
-    # b) Take the actual contributions (usually the better option),
-    #   but apply the reduced rate!
-
-    if ges_pflegev_zusatz_kinderlos:
-        beitr_satz_pflegev = (
-            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-    else:
-        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
-            "standard"
-        ]
-
-    vorsorg_kv_option_b = bruttolohn_kv * (
-        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz / 2 / 100
-        + beitr_satz_pflegev
-    )
 
     # add both RV and KV deductions. For KV, take the larger amount.
     out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b)
