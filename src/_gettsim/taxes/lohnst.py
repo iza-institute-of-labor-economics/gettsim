@@ -94,14 +94,13 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 
 @dates_active(
-    start="2018-01-01",
+    start="2019-01-01",
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2018(
     bruttolohn_kv: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    beitr_satz_pflegev: float,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
     """
@@ -133,14 +132,13 @@ def vorsorg_kv_option_b_ab_2018(
 
 @dates_active(
     start="2015-01-01",
-    end="2017-12-31",
+    end="2018-12-31",
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2015(
     bruttolohn_kv: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    beitr_satz_pflegev: float,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
     """
@@ -170,6 +168,63 @@ def vorsorg_kv_option_b_ab_2015(
     return out
 
 
+def bruttolohn_kv(
+    bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """ADD
+
+    Parameters
+    ----------
+
+
+    Returns
+    -------
+
+    """
+
+    out = min(
+        12 * bruttolohn_m,
+        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
+    )
+
+    return out
+
+
+def vorsorg_kv_option_a(
+    bruttolohn_kv: float,
+    eink_st_abzuege_params: dict,
+    steuerklasse: int,
+) -> float:
+    """ADD
+
+    Parameters
+    ----------
+
+
+    Returns
+    -------
+
+    """
+
+    vorsorg_kv_option_a_basis = (
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
+    )
+
+    if steuerklasse == 3:
+        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
+            "steuerklasse_3"
+        ]
+    else:
+        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
+            "steuerklasse_nicht3"
+        ]
+
+    out = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
+
+    return out
+
+
 @dates_active(
     start="2010-01-01",
     change_name="vorsorgepauschale_y",
@@ -177,11 +232,11 @@ def vorsorg_kv_option_b_ab_2015(
 @add_rounding_spec(params_key="lohnst")
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
-    steuerklasse: int,
     wohnort_ost: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
     vorsorg_kv_option_b: float,
+    vorsorg_kv_option_a: float,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -233,25 +288,6 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     # For health care deductions, there are two ways to calculate.
     # a) at least 12% of earnings of earnings can be deducted,
     #    but only up to a certain threshold
-
-    bruttolohn_kv = min(
-        12 * bruttolohn_m,
-        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-    )
-    vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
-    )
-
-    if steuerklasse == 3:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_3"
-        ]
-    else:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_nicht3"
-        ]
-
-    vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
 
     # add both RV and KV deductions. For KV, take the larger amount.
     out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b)
