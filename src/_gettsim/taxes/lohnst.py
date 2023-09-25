@@ -93,6 +93,35 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     return out
 
 
+def bruttolohn_kv(
+    bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+) -> float:
+    """Appplying assessment limit for the calculation of
+    health care dedutions.
+
+    Parameters
+    ----------
+    bruttolohn_m:
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params`
+
+    Returns
+    -------
+    Considered wage for the calculation of health care
+    dedutions
+
+    """
+
+    out = min(
+        12 * bruttolohn_m,
+        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
+    )
+
+    return out
+
+
 @dates_active(
     start="2019-01-01",
     change_name="vorsorg_kv_option_b",
@@ -103,11 +132,26 @@ def vorsorg_kv_option_b_ab_2018(
     sozialv_beitr_params: dict,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
-    """
-    TO CHANGE
+    """For health care deductions, there are two ways to calculate
+    the deuctions.
+    This function calculates option b where the actual contributions
+    are used.
 
-    #  b) Take the actual contributions (usually the better option),
-    #   but apply the reduced rate!
+    Parameters
+    ----------
+    bruttolohn_kv:
+        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params`
+    ges_pflegev_zusatz_kinderlos:
+      See :func:`ges_pflegev_zusatz_kinderlos`
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option b
 
     """
 
@@ -141,11 +185,26 @@ def vorsorg_kv_option_b_ab_2015(
     sozialv_beitr_params: dict,
     ges_pflegev_zusatz_kinderlos: bool,
 ) -> float:
-    """
-    TO CHANGE
+    """For health care deductions, there are two ways to calculate
+    the deuctions.
+    This function calculates option b where the actual contributions
+    are used.
 
-    #  b) Take the actual contributions (usually the better option),
-    #   but apply the reduced rate!
+    Parameters
+    ----------
+    bruttolohn_kv:
+        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params`
+    ges_pflegev_zusatz_kinderlos:
+      See :func:`ges_pflegev_zusatz_kinderlos`
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option b
 
     """
 
@@ -168,42 +227,29 @@ def vorsorg_kv_option_b_ab_2015(
     return out
 
 
-def bruttolohn_kv(
-    bruttolohn_m: float,
-    sozialv_beitr_params: dict,
-) -> float:
-    """ADD
-
-    Parameters
-    ----------
-
-
-    Returns
-    -------
-
-    """
-
-    out = min(
-        12 * bruttolohn_m,
-        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-    )
-
-    return out
-
-
 def vorsorg_kv_option_a(
     bruttolohn_kv: float,
     eink_st_abzuege_params: dict,
     steuerklasse: int,
 ) -> float:
-    """ADD
+    """For health care deductions, there are two ways to calculate
+    the deuctions.
+    This function calculates option a where at least 12% of earnings
+    of earnings can be deducted, but only up to a certain threshold.
 
     Parameters
     ----------
+    bruttolohn_kv:
+        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    eink_st_abzuege_params:
+        See params documentation :ref:`eink_st_abzuege_params`
+    steuerklasse:
+        See basic input variable :ref:`steuerklasse <steuerklasse>`.
 
 
     Returns
     -------
+    Health care deductions for withholding taxes option a
 
     """
 
@@ -235,8 +281,8 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     wohnort_ost: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
-    vorsorg_kv_option_b: float,
     vorsorg_kv_option_a: float,
+    vorsorg_kv_option_b: float,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -246,10 +292,6 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     ----------
     bruttolohn_m:
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    steuerklasse:
-      See :func:`steuerklasse`
-    ges_pflegev_zusatz_kinderlos:
-      See :func:`ges_pflegev_zusatz_kinderlos`
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     ges_krankenv_zusatzbeitr_satz
@@ -258,6 +300,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
       See params documentation :ref:`eink_st_abzuege_params`
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
+    vorsorg_kv_option_a:
+      See :func:`vorsorg_kv_option_a`
+    vorsorg_kv_option_b:
+      See :func:`vorsorg_kv_option_b`
 
 
     Returns
@@ -285,12 +331,17 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
-    # For health care deductions, there are two ways to calculate.
+    # For health care deductions, there are two ways to calculate
+    # the deuctions.
     # a) at least 12% of earnings of earnings can be deducted,
     #    but only up to a certain threshold
+    #  b) Take the actual contributions (usually the better option),
+    #   but apply the reduced rate
+
+    vorsorg_kv = max(vorsorg_kv_option_a, vorsorg_kv_option_b)
 
     # add both RV and KV deductions. For KV, take the larger amount.
-    out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b)
+    out = vorsorg_rv + vorsorg_kv
     return out
 
 

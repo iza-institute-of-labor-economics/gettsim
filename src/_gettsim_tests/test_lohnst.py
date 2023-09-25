@@ -23,8 +23,6 @@ INPUT_COLS = [
 
 OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
 
-YEARS = [2022]
-
 data = load_policy_test_data("lohnst")
 
 
@@ -40,6 +38,10 @@ def test_lohnsteuer(
     df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
+    )
+
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     result = compute_taxes_and_transfers(
