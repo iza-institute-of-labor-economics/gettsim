@@ -7,7 +7,7 @@ def ges_rentenv_beitr_m_vor_midijob(
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's public pension insurance contribution.
+    """Contribution for each individual to the pension insurance.
 
     Parameters
     ----------
@@ -43,7 +43,7 @@ def ges_rentenv_beitr_m_mit_midijob(
     sozialv_beitr_params: dict,
     in_gleitzone: bool,
 ) -> float:
-    """Employee's public pension insurance contribution.
+    """Contribution for each individual to the pension insurance.
 
     Parameters
     ----------
@@ -84,7 +84,7 @@ def ges_rentenv_beitr_arbeitg_m_vor_midijob(
     sozialv_beitr_params: dict,
     bruttolohn_m: float,
 ) -> float:
-    """Employer's public pension insurance contribution.
+    """Contribution of the respective employer to the pension insurance.
 
     Parameters
     ----------
@@ -123,7 +123,7 @@ def ges_rentenv_beitr_arbeitg_m_mit_midijob(
     in_gleitzone: bool,
     bruttolohn_m: float,
 ) -> float:
-    """Employer's public pension insurance contribution.
+    """Contribution of the respective employer to the pension insurance.
 
     Parameters
     ----------
@@ -164,7 +164,8 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Sum of employer and employee pension insurance contribution for midijobs.
+    """Calculating the sum of employee and employer pension insurance contribution for
+    midijobs.
 
     Parameters
     ----------
@@ -193,7 +194,8 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employer's unemployment insurance contribution until September 2022.
+    """Calculating the employer unemployment insurance contribution until September
+    2022.
 
     Parameters
     ----------
@@ -215,7 +217,7 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_residuum(
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_arbeitn_m: float,
 ) -> float:
-    """Employer's unemployment insurance contribution since October 2022.
+    """Calculating the employer unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -243,7 +245,8 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_residuum(
     _ges_rentenv_beitr_midijob_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
 ) -> float:
-    """Employee's unemployment insurance contribution for midijobs until September 2022.
+    """Calculating the employee unemployment insurance contribution until September
+    2022.
 
     Parameters
     ----------
@@ -268,7 +271,7 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's unemployment insurance contribution for midijobs since October 2022.
+    """Calculating the employee unemployment insurance contribution since October 2022.
 
     Parameters
     ----------

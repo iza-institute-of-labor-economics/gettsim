@@ -7,7 +7,6 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 ## Unpublished
 
 - {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
-- {gh}`643` Fix bug in Midijobfaktor calculation in 2004. ({ghuser}`MImmesberger`).
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
