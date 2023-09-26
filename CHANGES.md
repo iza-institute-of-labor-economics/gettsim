@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`655` Correct calculation of Lohnsteuer for 2015 to 2023 ({ghuser}`JakobWegmann`).
 - {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
