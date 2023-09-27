@@ -47,6 +47,7 @@ def test_lohnsteuer(
     result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column
     )
+
     assert_series_equal(
         result[column], test_data.output_df[column], check_dtype=False, atol=2
     )
