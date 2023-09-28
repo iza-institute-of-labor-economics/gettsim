@@ -109,6 +109,7 @@ DEFAULT_TARGETS = [
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_hh",
     "ges_rente_m",
+    "erziehungsgeld_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
