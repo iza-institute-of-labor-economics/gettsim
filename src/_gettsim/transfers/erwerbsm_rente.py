@@ -1,4 +1,3 @@
-from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
@@ -10,7 +9,7 @@ def erwerbsm_rente_m(
     rentenartfaktor_erwerbsm_rente: float,
     ges_rente_vorauss_erwerbsm: bool,
 ) -> float:
-    """Calculating the Erwerbsminderungsrente (disability insurance claim)
+    """Calculating the Erwerbsminderungsrente (public disability insurance claim)
 
     Legal reference: SGB VI § 64: Rentenformel für Monatsbetrag der Rente
 
@@ -51,15 +50,7 @@ def ges_rente_vorauss_erwerbsm(
     ges_rente_wartezeit_5: bool,
 ) -> bool:
     """
-    Eligibility for Erwerbsminderungsrente (disability insurance claim).
-
-    Requirements are:
-    1 - not beeing able to work more than 3 hours per day (erwerbsgemindert)
-    2 - beeing insured for at least 5 years (allgemeine Wartezeit)
-    3 - having at least 3 years of mandatory contributions within the
-        last 5 years before retirement (the function below is just checking if
-        the amount of mandatory contribution months is high enough, not
-        if they took place within the last 5 years)
+    Eligibility for Erwerbsminderungsrente (public disability insurance claim).
 
     Legal reference: § 43 Abs. 1  SGB VI
 
@@ -83,15 +74,14 @@ def ges_rente_vorauss_erwerbsm(
     return anspruch_erwerbsm_rente
 
 
-@dates_active(start="2004-01-01")
 def entgeltp_erwerbsm_rente(
     entgeltp: float,
     durchschn_entgeltp: float,
     erwerbsm_rente_params: dict,
-    jahr_renteneintr: int,
     age_of_retirement: float,
 ) -> float:
     """Calculating Entgeltpunkte for Erwerbsminderungsrente
+    (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
@@ -105,8 +95,6 @@ def entgeltp_erwerbsm_rente(
         See basic input variable :ref:`durchschn_entgeltp_y <durchschn_entgeltp_y>
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
-    jahr_renteneintr
-        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
     age_of_retirement
         See :func:`age_of_retirement`.
 
@@ -115,73 +103,12 @@ def entgeltp_erwerbsm_rente(
     Final Entgeltpunkte for Erwerbsminderungsrente
 
     """
-    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze"]
-
-    zurechnungszeitsgrenze = piecewise_polynomial(
-        x=jahr_renteneintr,
-        thresholds=zurechnungszeitsgrenze_params["thresholds"],
-        rates=zurechnungszeitsgrenze_params["rates"],
-        intercepts_at_lower_thresholds=zurechnungszeitsgrenze_params[
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+    zurechnungszeitsgrenze = erwerbsm_rente_params["zurechnungszeitsgrenze"]
 
     out = entgeltp + (
         (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp
     )
 
-    return out
-
-
-@dates_active(end="2003-12-01", change_name="entgeltp_erwerbsm_rente")
-def entgeltp_erwerbsm_rente_sonderregel(
-    entgeltp: float,
-    durchschn_entgeltp: float,
-    erwerbsm_rente_params: dict,
-    jahr_renteneintr: int,
-    age_of_retirement: float,
-) -> float:
-    """Calculating Entgeltpunkte for Erwerbsminderungsrente
-    (public disability insurance) considering a special change in
-    Zurechnungszeit from 2001-2003. Zurechnungszeitsgrenze is continually reduced
-    by one month each month in this time period.
-
-    Parameters
-    ----------
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>
-    durchschn_entgeltp
-        See :func:`durchschn_entgeltp`.
-    erwerbsm_rente_params
-        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
-    jahr_renteneintr
-        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>.
-    age_of_retirement
-        See :func:`age_of_retirement`.
-
-    Returns
-    -------
-    Final Entgeltpunkte for Erwerbsminderungsrente
-
-    """
-    date_list = erwerbsm_rente_params["datum"].astype(str).split("-")
-    diff_zu_2001 = (int(date_list[0]) - 2001) + (int(date_list[1]) - 1) / 12
-
-    zurechnungszeitsgrenze_params = erwerbsm_rente_params["zurechnungszeitsgrenze"]
-
-    zurechnungszeitsgrenze = piecewise_polynomial(
-        x=jahr_renteneintr,
-        thresholds=zurechnungszeitsgrenze_params["thresholds"],
-        rates=zurechnungszeitsgrenze_params["rates"],
-        intercepts_at_lower_thresholds=zurechnungszeitsgrenze_params[
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-
-    out = entgeltp + (
-        ((zurechnungszeitsgrenze - diff_zu_2001) - (age_of_retirement))
-        * durchschn_entgeltp
-    )
     return out
 
 
@@ -251,7 +178,6 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
-    jahr_renteneintr: int,
     erwerbsm_rente_mit_63: bool,
 ) -> float:
     """Calculating Zugangsfaktor for Erwerbsminderungsrente
@@ -275,8 +201,6 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
-    jahr_renteneintr
-        See :func:`jahr_renteneintr`.
     erwerbsm_rente_mit_63
         See basic input variable :ref:`erwerbsm_rente_mit_63 <erwerbsm_rente_mit_63>.
 
@@ -286,23 +210,13 @@ def erwerbsm_rente_zugangsfaktor(
     Zugangsfaktor for Erwerbsminderungsrente (public disability insurance)
 
     """
-    altersgrenze_abschlagsfrei_params = erwerbsm_rente_params[
-        "altersgrenze_abschlagsfrei"
-    ]
 
     if erwerbsm_rente_mit_63:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_abschlagsfrei_63"
         ]
     else:
-        altersgrenze_abschlagsfrei = piecewise_polynomial(
-            x=jahr_renteneintr,
-            thresholds=altersgrenze_abschlagsfrei_params["thresholds"],
-            rates=altersgrenze_abschlagsfrei_params["rates"],
-            intercepts_at_lower_thresholds=altersgrenze_abschlagsfrei_params[
-                "intercepts_at_lower_thresholds"
-            ],
-        )
+        altersgrenze_abschlagsfrei = erwerbsm_rente_params["altersgrenze_abschlagsfrei"]
 
     zugangsfaktor = 1 + (age_of_retirement - altersgrenze_abschlagsfrei) * (
         ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][

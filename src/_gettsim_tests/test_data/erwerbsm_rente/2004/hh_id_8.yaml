@@ -46,12 +46,6 @@ inputs:
       - true
       - true
       - true
-    entgeltp:
-      - 15.0
-      - 18.0
-      - 14.0
-      - 3.0
-      - 4.0
     wohnort_ost:
       - false
       - false
@@ -70,12 +64,6 @@ inputs:
       - true
       - true
       - true
-    durchschn_entgeltp_y:
-      - 0.45
-      - 0.72
-      - 1.2
-      - 0.8
-      - 0.45
     m_freiw_beitrag:
       - 0.0
       - 0.0
@@ -100,17 +88,23 @@ inputs:
       - false
       - false
       - false
-  assumed: {}
+  assumed:
+    entgeltp_erwerbsm_rente:
+      - 15.14340344
+      - 17.50276243
+      - 34.38139535
+      - 17.40659341
+      - 24.27586207
+    erwerbsm_rente_zugangsfaktor:
+      - 0.892
+      - 0.937
+      - 0.892
+      - 0.892
+      - 0.892
 outputs:
-  entgeltp_erwerbsm_rente:
-    - 15.14340344
-    - 17.50276243
-    - 34.38139535
-    - 17.40659341
-    - 24.27586207
-  erwerbsm_rente_zugangsfaktor:
-    - 0.892
-    - 0.937
-    - 0.892
-    - 0.892
-    - 0.892
+  erwerbsm_rente_m:
+    - 352.9618417
+    - 428.5343098
+    - 801.3601875
+    - 356.6478699
+    - 248.6969821

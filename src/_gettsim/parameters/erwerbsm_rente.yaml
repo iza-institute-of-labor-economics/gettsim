@@ -10,35 +10,51 @@ altersgrenze_abschlagsfrei:
       Schrittweise Anhebung bis 65.
     en: >-
       Age limit up to which one can claim the public disability insurance  without
-      deductions.Up to 2012, the standard retirement age was 63.
+      deductions. Up to 2012, the standard retirement age was 63.
       From then on Gradual increase until 65.
   unit: Year
   reference: § 77 SGB VI Zugangsfaktor
   note: >-
     "https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/
     295-erwerbsminderungsrente-und-rentenabschlaege.html"
-  type: piecewise_linear
   2001-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 2012
-      rate_linear: 0
-      intercept_at_lower_threshold: 63
-    1:
-      lower_threshold: 2012
-      upper_threshold: 2018
-      rate_linear: 0.083333333
-      intercept_at_lower_threshold: 63.5
-    2:
-      lower_threshold: 2018
-      upper_threshold: 2024
-      rate_linear: 0.16666666
-      intercept_at_lower_threshold: 64
-    3:
-      lower_threshold: 2024
-      upper_threshold: inf
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
+    scalar: 63
+  2012-01-01:
+    scalar: 63.083333
+  2012-02-01:
+    scalar: 63.166666
+  2012-03-01:
+    scalar: 63.25
+  2012-04-01:
+    scalar: 63.333333
+  2012-05-01:
+    scalar: 63.416666
+  2012-06-01:
+    scalar: 63.5
+  2013-01-01:
+    scalar: 63.583333
+  2014-01-01:
+    scalar: 63.666666
+  2015-01-01:
+    scalar: 63.75
+  2016-01-01:
+    scalar: 63.833333
+  2017-01-01:
+    scalar: 63.916666
+  2018-01-01:
+    scalar: 64
+  2019-01-01:
+    scalar: 64.166666
+  2020-01-01:
+    scalar: 64.333333
+  2021-01-01:
+    scalar: 64.5
+  2022-01-01:
+    scalar: 64.666666
+  2023-01-01:
+    scalar: 64.833333
+  2024-01-01:
+    scalar: 65
 altersgrenze_abschlagsfrei_63:
   name:
     de: Regelaltersgrenze für langjährige Versicherte
@@ -79,43 +95,104 @@ zurechnungszeitsgrenze:
     Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&start=%2F%2F*
     %5B%40node_id%3D%27955873%27%5D&skin=pdf&tlevel=-2&nohist=1&sinst=23CF02AC"
     (Anlage 23 (p.1837))
-  type: piecewise_linear
   2001-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 2004
-      rate_linear: 0
-      intercept_at_lower_threshold: 62.916666666
-    1:
-      lower_threshold: 2004
-      upper_threshold: 2014
-      rate_linear: 0
-      intercept_at_lower_threshold: 60
-    2:
-      lower_threshold: 2014
-      upper_threshold: 2018
-      rate_linear: 0
-      intercept_at_lower_threshold: 62
-    3:
-      lower_threshold: 2018
-      upper_threshold: 2019
-      rate_linear: 0
-      intercept_at_lower_threshold: 62.16666666666
-    4:
-      lower_threshold: 2019
-      upper_threshold: 2027
-      rate_linear: 0.083333333
-      intercept_at_lower_threshold: 65.66666666666
-    5:
-      lower_threshold: 2027
-      upper_threshold: 2031
-      rate_linear: 0.16666666666
-      intercept_at_lower_threshold: 66.33333333
-    6:
-      lower_threshold: 2031
-      upper_threshold: inf
-      rate_linear: 0
-      intercept_at_lower_threshold: 67
+    scalar: 62.916666
+  2001-02-01:
+    scalar: 62.833333
+  2001-03-01:
+    scalar: 62.75
+  2001-04-01:
+    scalar: 62.666666
+  2001-05-01:
+    scalar: 62.583333
+  2001-06-01:
+    scalar: 62.5
+  2001-07-01:
+    scalar: 62.416666
+  2001-08-01:
+    scalar: 62.333333
+  2001-09-01:
+    scalar: 62.25
+  2001-10-01:
+    scalar: 62.166666
+  2001-11-01:
+    scalar: 62.083333
+  2001-12-01:
+    scalar: 62
+  2002-01-01:
+    scalar: 61.916666
+  2002-02-01:
+    scalar: 61.833333
+  2002-03-01:
+    scalar: 61.75
+  2002-04-01:
+    scalar: 61.666666
+  2002-05-01:
+    scalar: 61.583333
+  2002-06-01:
+    scalar: 61.5
+  2002-07-01:
+    scalar: 61.416666
+  2002-08-01:
+    scalar: 61.333333
+  2002-09-01:
+    scalar: 61.25
+  2002-10-01:
+    scalar: 61.166666
+  2002-11-01:
+    scalar: 61.083333
+  2002-12-01:
+    scalar: 61
+  2003-01-01:
+    scalar: 60.916666
+  2003-02-01:
+    scalar: 60.833333
+  2003-03-01:
+    scalar: 60.75
+  2003-04-01:
+    scalar: 60.666666
+  2003-05-01:
+    scalar: 60.583333
+  2003-06-01:
+    scalar: 60.5
+  2003-07-01:
+    scalar: 60.416666
+  2003-08-01:
+    scalar: 60.333333
+  2003-09-01:
+    scalar: 60.25
+  2003-10-01:
+    scalar: 60.166666
+  2003-11-01:
+    scalar: 60.083333
+  2003-12-01:
+    scalar: 60
+  2019-01-01:
+    scalar: 65.666666
+  2020-01-01:
+    scalar: 65.75
+  2021-01-01:
+    scalar: 65.833333
+  2022-01-01:
+    scalar: 65.916666
+  2023-01-01:
+    scalar: 66
+  2024-01-01:
+    scalar: 66.083333
+  2025-01-01:
+    scalar: 66.166666
+  2026-01-01:
+    scalar: 66.25
+  2027-01-01:
+    scalar: 66.333333
+  2028-01-01:
+    scalar: 66.5
+  2029-01-01:
+    scalar: 66.666666
+  2030-01-01:
+    scalar: 66.833333
+  2031-01-01:
+    scalar: 67
 min_zugangsfaktor_erwerbsm_rente:
   name:
     de: Kleinster möglicher Zugangsfaktor bei der Erwerbsminderungsrente

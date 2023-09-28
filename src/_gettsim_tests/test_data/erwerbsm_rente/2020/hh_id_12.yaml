@@ -5,40 +5,46 @@ info:
 inputs:
   provided:
     p_id:
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
     jahr:
-      - 2004
-      - 2004
-      - 2004
-      - 2004
-      - 2004
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
     geburtsjahr:
-      - 1945
-      - 1943
       - 1970
-      - 1980
-      - 1980
+      - 1970
+      - 1957
+      - 1995
+      - 2000
+      - 2000
     geburtsmonat:
       - 2
       - 4
       - 6
       - 8
       - 10
+      - 10
     jahr_renteneintr:
-      - 2004
-      - 2004
-      - 2004
-      - 2004
-      - 2004
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
     monat_renteneintr:
       - 10
       - 8
       - 6
       - 4
+      - 2
       - 2
     erwerbsgemindert:
       - true
@@ -46,16 +52,12 @@ inputs:
       - true
       - true
       - true
-    entgeltp:
-      - 15.0
-      - 18.0
-      - 14.0
-      - 3.0
-      - 4.0
+      - true
     wohnort_ost:
       - false
       - false
       - false
+      - true
       - true
       - true
     teilw_erwerbsm_rente:
@@ -64,19 +66,16 @@ inputs:
       - false
       - false
       - true
+      - true
     rentner:
       - true
       - true
       - true
       - true
       - true
-    durchschn_entgeltp_y:
-      - 0.45
-      - 0.72
-      - 1.2
-      - 0.8
-      - 0.45
+      - true
     m_freiw_beitrag:
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -88,29 +87,41 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+      - 0.0
     m_pflichtbeitrag:
       - 60.0
       - 60.0
       - 60.0
       - 60.0
       - 60.0
+      - 20.0
     erwerbsm_rente_mit_63:
       - false
       - false
+      - true
       - false
       - false
       - false
-  assumed: {}
-outputs:
-  entgeltp_erwerbsm_rente:
-    - 15.14340344
-    - 17.50276243
-    - 34.38139535
-    - 17.40659341
-    - 24.27586207
+  assumed:
+    entgeltp_erwerbsm_rente:
+      - 21.57831325
+      - 26.1459854
+      - 14.84547069
+      - 17.38834951
+      - 61.23076923
+      - 61.23076923
   erwerbsm_rente_zugangsfaktor:
     - 0.892
-    - 0.937
+    - 0.892
+    - 0.997
     - 0.892
     - 0.892
     - 0.892
+outputs:
+  erwerbsm_rente_m:
+    - 636.1416217
+    - 770.7993372
+    - 489.170878
+    - 494.6269037
+    - 870.8815569
+    - 0.0
