@@ -10,12 +10,6 @@ inputs:
       - 18
       - 19
       - 20
-    jahr:
-      - 2012
-      - 2012
-      - 2012
-      - 2012
-      - 2012
     geburtsjahr:
       - 1960
       - 1970
@@ -114,3 +108,15 @@ outputs:
     - 0.892
     - 0.892
     - 0.892
+  rentenartfaktor_erwerbsm_rente:
+    - 1.0
+    - 1.0
+    - 1.0
+    - 1.0
+    - 0.5
+  ges_rente_vorauss_erwerbsm:
+    - true
+    - true
+    - true
+    - true
+    - true

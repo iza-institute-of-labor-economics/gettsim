@@ -11,48 +11,6 @@ inputs:
       - 29
       - 30
       - 31
-    jahr:
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-    geburtsjahr:
-      - 1970
-      - 1970
-      - 1957
-      - 1995
-      - 2000
-      - 2000
-    geburtsmonat:
-      - 2
-      - 4
-      - 6
-      - 8
-      - 10
-      - 10
-    jahr_renteneintr:
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-      - 2020
-    monat_renteneintr:
-      - 10
-      - 8
-      - 6
-      - 4
-      - 2
-      - 2
-    erwerbsgemindert:
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
     wohnort_ost:
       - false
       - false
@@ -60,48 +18,6 @@ inputs:
       - true
       - true
       - true
-    teilw_erwerbsm_rente:
-      - false
-      - false
-      - false
-      - false
-      - true
-      - true
-    rentner:
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
-    m_freiw_beitrag:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    m_ersatzzeit:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    m_pflichtbeitrag:
-      - 60.0
-      - 60.0
-      - 60.0
-      - 60.0
-      - 60.0
-      - 20.0
-    erwerbsm_rente_mit_63:
-      - false
-      - false
-      - true
-      - false
-      - false
-      - false
   assumed:
     entgeltp_erwerbsm_rente:
       - 21.57831325
@@ -110,13 +26,27 @@ inputs:
       - 17.38834951
       - 61.23076923
       - 61.23076923
-  erwerbsm_rente_zugangsfaktor:
-    - 0.892
-    - 0.892
-    - 0.997
-    - 0.892
-    - 0.892
-    - 0.892
+    erwerbsm_rente_zugangsfaktor:
+      - 0.892
+      - 0.892
+      - 0.997
+      - 0.892
+      - 0.892
+      - 0.892
+    rentenartfaktor_erwerbsm_rente:
+      - 1.0
+      - 1.0
+      - 1.0
+      - 1.0
+      - 0.5
+      - 0.5
+    ges_rente_vorauss_erwerbsm:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - false
 outputs:
   erwerbsm_rente_m:
     - 636.1416217

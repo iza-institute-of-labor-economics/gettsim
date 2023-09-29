@@ -28,7 +28,7 @@ def erwerbsm_rente_m(
         See :func:`ges_rente_vorauss_erwerbsm`.
     Returns
     -------
-    Erwerbsminderungsrente pension claim
+    Erwerbsminderungsrente (public disability insurance claim)
 
     """
 
@@ -64,7 +64,7 @@ def ges_rente_vorauss_erwerbsm(
         See :func:`ges_rente_wartezeit_5`.
     Returns
     -------
-    Disability insurance claim
+    Eligibility for Erwerbsminderungsrente (public disability insurance claim) as a bool
     """
 
     anspruch_erwerbsm_rente = (
@@ -100,7 +100,7 @@ def entgeltp_erwerbsm_rente(
 
     Returns
     -------
-    Final Entgeltpunkte for Erwerbsminderungsrente
+    Final earning points for Erwerbsminderungsrente (public disability insurance)
 
     """
     zurechnungszeitsgrenze = erwerbsm_rente_params["zurechnungszeitsgrenze"]
@@ -161,7 +161,7 @@ def rentenartfaktor_erwerbsm_rente(
 
     Returns
     -------
-    Rentenfaktor
+    Rentenartfaktor
 
     """
 
