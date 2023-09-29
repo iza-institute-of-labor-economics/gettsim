@@ -17,11 +17,6 @@ aggregation_demographic_vars = {
     "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
     "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
     "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
-    "anz_kinder_bis_6m_hh": {"source_col": "kind_bis_6m", "aggr": "sum"},
-    "anz_kinder_ab_6_bis_12m_hh": {"source_col": "kind_ab_6_bis_12m", "aggr": "sum"},
-    "anz_kinder_ab_6_bis_24m_hh": {"source_col": "kind_ab_6_bis_12m", "aggr": "sum"},
-    "anz_kinder_bis_12m_hh": {"source_col": "kind_bis_12m", "aggr": "sum"},
-    "anz_kinder_bis_24m_hh": {"source_col": "kind_bis_24m", "aggr": "sum"},
     "anz_kinder_ab_6_bis_13_hh": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
     "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
     "anz_kinder_ab_14_bis_17_hh": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
@@ -37,96 +32,6 @@ aggregation_demographic_vars = {
         "aggr": "sum",
     },
 }
-
-
-def kind_bis_6m(alter_monate: float, kind: bool) -> bool:
-    """Calculate if child is younger than 7 month
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (alter_monate <= 6)
-    return out
-
-
-def kind_ab_6_bis_12m(alter_monate: float, kind: bool) -> bool:
-    """Calculate if child is younger than 7 month
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (6 <= alter_monate <= 12)
-    return out
-
-
-def kind_ab_6_bis_24m(alter_monate: float, kind: bool) -> bool:
-    """Calculate if child is younger than 7 month
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (6 <= alter_monate <= 24)
-    return out
-
-
-def kind_bis_12m(alter_monate: float, kind: bool) -> bool:
-    """Calculate if child is younger than 13 month
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (alter_monate <= 12)
-    return out
-
-
-def kind_bis_24m(alter_monate: float, kind: bool) -> bool:
-    """Calculate if child is younger than 25 month
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (alter_monate <= 24)
-    return out
 
 
 def kind_bis_5(alter: int, kind: bool) -> bool:
