@@ -86,13 +86,12 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     monthly claim of parental leave benefit (erziehungsgeld) on child level
 
     """
-    # if the income is higher than the threshold within the first 6 month there
-    # is no erziehungsgeld claim at all
 
     abzug = (erziehungsgeld_eink_relev_kind / 12) * erziehungsgeld_params[
         "reduzierung_erziehungsgeld"
     ]
-
+    # If the child is younger than 7 months and the income is below the income limit,
+    # the full normal rate or budget rate is paid out
     if (
         erziehungsgeld_anspruch_kind
         and alter_monate < 7
@@ -109,7 +108,7 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"]
     # if the income is higher than the threshold and the child is older than
-    # 7 month the Erziehungsgeld is reduced
+    # 7 month the parental leave benefit is reduced
     elif (
         erziehungsgeld_anspruch_kind
         and (7 <= alter_monate <= 12)
@@ -128,6 +127,8 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
         out = max(
             erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"] - abzug, 0.0
         )
+    # If the child is older than 7 months and the income is below the income limit,
+    # the full rule or budget rate is paid out
     elif (
         erziehungsgeld_anspruch_kind
         and (7 <= alter_monate <= 12)
@@ -135,6 +136,15 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
         and (not budget_erz_geld)
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"]
+    elif (
+        erziehungsgeld_anspruch_kind
+        and (7 <= alter_monate <= 12)
+        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkgrenze_kind
+        and budget_erz_geld
+    ):
+        out = erziehungsgeld_params["erziehungsgeld_satz"]["budgetsatz"]
+    # if the income is higher than the threshold within the first 6 month there
+    # is no erziehungsgeld claim at all
     else:
         out = 0.0
 
