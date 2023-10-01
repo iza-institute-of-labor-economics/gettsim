@@ -294,8 +294,6 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_krankenv_zusatzbeitr_satz
-        See :func:ges_krankenv_zusatzbeitr_satz`.
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
     sozialv_beitr_params:
