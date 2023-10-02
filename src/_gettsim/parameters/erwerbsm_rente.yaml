@@ -75,7 +75,7 @@ altersgrenze_abschlagsfrei_63:
 zurechnungszeitsgrenze:
   name:
     de: Zurechnungszeitsgrenze
-    en: Compensatory time limit
+    en: Supplementary time limit
   description:
     de: >-
       Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente.
