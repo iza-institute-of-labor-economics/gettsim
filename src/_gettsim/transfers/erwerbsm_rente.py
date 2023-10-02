@@ -100,7 +100,7 @@ def entgeltp_erwerbsm_rente(
 
     Returns
     -------
-    Final earning points for Erwerbsminderungsrente (public disability insurance)
+    Final pension points for Erwerbsminderungsrente (public disability insurance)
 
     """
     zurechnungszeitsgrenze = erwerbsm_rente_params["zurechnungszeitsgrenze"]

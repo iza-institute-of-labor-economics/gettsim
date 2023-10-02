@@ -9,9 +9,9 @@ altersgrenze_abschlagsfrei:
       Anspruch nehmen kann. Bis 2012 lag die Regelaltersgrenze bei 63. Ab dann
       schrittweise Anhebung bis 65.
     en: >-
-      Age limit up to which one can claim the public disability insurance  without
+      Age limit up to which one can claim the public disability insurance without
       deductions. Up to 2012, the standard retirement age was 63.
-      From then on Gradual increase until 65.
+      From then on gradual increase until 65.
   unit: Year
   reference: § 77 SGB VI Zugangsfaktor
   note: >-
@@ -58,15 +58,15 @@ altersgrenze_abschlagsfrei:
 altersgrenze_abschlagsfrei_63:
   name:
     de: Regelaltersgrenze für langjährige Versicherte
-    en: Standard retirement age for long-term insured persons
+    en: Statutory retirement age for long-term insured persons
   description:
     de: >-
       Altersgrenze bis zu der man die Erwerbsminderungsrente ohne Abzüge in
       Anspruch nehmen kann wenn man bestimmte zeitliche Bedingungen
       erfüllt. Bedingungen werden in § 77 Abs. 4 SGB VI definiert.
     en: >-
-      age limit up to which one can claim the public disability insurance
-      without deductions if you meet certain time conditions.
+      Age limit up to which one can claim the public disability insurance
+      without deductions under certain time conditions.
       These conditions are defined in § 77 4 SGB VI.
   unit: Year
   reference: § 77 Abs. 4 SGB VI Zugangsfaktor
@@ -75,16 +75,16 @@ altersgrenze_abschlagsfrei_63:
 zurechnungszeitsgrenze:
   name:
     de: Zurechnungszeitsgrenze
-    en: Compensatory time limit
+    en: Supplementary time limit
   description:
     de: >-
       Altersgrenze für die Zurechnungszeit der Erwerbsminderungsrente.
       Anhebung von 2020 bis 2027 um 1 Monat pro Kalendarjahr und ab 2028
       jeweils 2 Monate bis 67 erreicht ist.
     en: >-
-      Age limit for the compensatory period for the public disability insurance.
+      Age limit for the supplementary period of the public disability insurance.
       Increase from 2020 to 2027 by 1 month per year, and from 2028
-      2 months each until 67 is reached.
+      by 2 months each year until 67 is reached.
   unit: Year
   reference: § 59 SGB VI Zurechnungszeit
   note: >-
