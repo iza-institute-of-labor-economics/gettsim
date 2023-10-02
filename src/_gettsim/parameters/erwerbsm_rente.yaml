@@ -90,6 +90,9 @@ zurechnungszeitsgrenze:
   note: >-
     "https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/
     295-erwerbsminderungsrente-und-rentenabschlaege.html"
+    for 2014 reform see:
+    Artikel 1 Nr. 4 des RV-Leistungsverbesserungsgesetz vom 23. Juni 2014,
+    BGBl. I, Seite 787
     for the time before 2004 see:
     "https://www.bgbl.de/xaver/bgbl/text.xav?SID=&tf=xaver.component.
     Text_0&tocf=&qmf=&hlf=xaver.component.Hitlist_0&bk=bgbl&start=%2F%2F*
@@ -167,6 +170,8 @@ zurechnungszeitsgrenze:
     scalar: 60.083333
   2003-12-01:
     scalar: 60
+  2014-07-01:
+    scalar: 62
   2019-01-01:
     scalar: 65.666666
   2020-01-01:

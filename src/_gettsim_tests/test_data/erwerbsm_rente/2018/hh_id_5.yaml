@@ -97,11 +97,11 @@ inputs:
   assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
-    - 15.49902153
-    - 24.55813953
-    - 28.10646388
-    - 11.39568345
-    - 28.16
+    - 16.2035225
+    - 25.6744186
+    - 29.38403042
+    - 11.91366906
+    - 29.44
   erwerbsm_rente_zugangsfaktor:
     - 0.892
     - 0.892
