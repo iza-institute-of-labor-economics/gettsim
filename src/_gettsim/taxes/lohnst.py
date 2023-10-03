@@ -127,7 +127,7 @@ def bruttolohn_kv(
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2019(
-    bruttolohn_kv: float,
+    _ges_krankenv_bruttolohn_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz: float,
@@ -139,8 +139,8 @@ def vorsorg_kv_option_b_ab_2019(
 
     Parameters
     ----------
-    bruttolohn_kv:
-        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    _ges_krankenv_bruttolohn_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_m`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
     sozialv_beitr_params:
@@ -155,7 +155,7 @@ def vorsorg_kv_option_b_ab_2019(
 
     """
 
-    out = bruttolohn_kv * (
+    out = _ges_krankenv_bruttolohn_m * 12(
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
         + ges_krankenv_zusatzbeitr_satz / 2 / 100
         + ges_pflegev_beitr_satz
@@ -170,7 +170,7 @@ def vorsorg_kv_option_b_ab_2019(
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2015(
-    bruttolohn_kv: float,
+    _ges_krankenv_bruttolohn_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz: float,
@@ -182,8 +182,8 @@ def vorsorg_kv_option_b_ab_2015(
 
     Parameters
     ----------
-    bruttolohn_kv:
-        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    _ges_krankenv_bruttolohn_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_m`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
     ges_pflegev_beitr_satz:
@@ -196,7 +196,7 @@ def vorsorg_kv_option_b_ab_2015(
 
     """
 
-    out = bruttolohn_kv * (
+    out = _ges_krankenv_bruttolohn_m * 12(
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
         + ges_krankenv_zusatzbeitr_satz / 100
         + ges_pflegev_beitr_satz
@@ -206,7 +206,7 @@ def vorsorg_kv_option_b_ab_2015(
 
 
 def vorsorg_kv_option_a(
-    bruttolohn_kv: float,
+    _ges_krankenv_bruttolohn_m: float,
     eink_st_abzuege_params: dict,
     steuerklasse: int,
 ) -> float:
@@ -217,8 +217,8 @@ def vorsorg_kv_option_a(
 
     Parameters
     ----------
-    bruttolohn_kv:
-        See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
+    _ges_krankenv_bruttolohn_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_m`
     eink_st_abzuege_params:
         See params documentation :ref:`eink_st_abzuege_params`
     steuerklasse:
@@ -232,7 +232,9 @@ def vorsorg_kv_option_a(
     """
 
     vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
+        * _ges_krankenv_bruttolohn_m
+        * 12
     )
 
     if steuerklasse == 3:
