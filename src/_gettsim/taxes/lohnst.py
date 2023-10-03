@@ -126,11 +126,11 @@ def bruttolohn_kv(
     start="2019-01-01",
     change_name="vorsorg_kv_option_b",
 )
-def vorsorg_kv_option_b_ab_2018(
+def vorsorg_kv_option_b_ab_2019(
     bruttolohn_kv: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_zusatz_kinderlos: bool,
+    ges_pflegev_beitr_satz: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deuctions.
@@ -145,8 +145,8 @@ def vorsorg_kv_option_b_ab_2018(
         See :func:ges_krankenv_zusatzbeitr_satz`.
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
-    ges_pflegev_zusatz_kinderlos:
-      See :func:`ges_pflegev_zusatz_kinderlos`
+    ges_pflegev_beitr_satz:
+        See :func:ges_pflegev_beitr_satz`.
 
 
     Returns
@@ -155,20 +155,10 @@ def vorsorg_kv_option_b_ab_2018(
 
     """
 
-    if ges_pflegev_zusatz_kinderlos:
-        beitr_satz_pflegev = (
-            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-    else:
-        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
-            "standard"
-        ]
-
     out = bruttolohn_kv * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
         + ges_krankenv_zusatzbeitr_satz / 2 / 100
-        + beitr_satz_pflegev
+        + ges_pflegev_beitr_satz
     )
 
     return out
@@ -183,7 +173,7 @@ def vorsorg_kv_option_b_ab_2015(
     bruttolohn_kv: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_zusatz_kinderlos: bool,
+    ges_pflegev_beitr_satz: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deuctions.
@@ -196,10 +186,8 @@ def vorsorg_kv_option_b_ab_2015(
         See basic input variable :ref:`bruttolohn_kv <bruttolohn_kv>`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
-    sozialv_beitr_params:
-        See params documentation :ref:`sozialv_beitr_params`
-    ges_pflegev_zusatz_kinderlos:
-      See :func:`ges_pflegev_zusatz_kinderlos`
+    ges_pflegev_beitr_satz:
+        See :func:ges_pflegev_beitr_satz`.
 
 
     Returns
@@ -208,20 +196,10 @@ def vorsorg_kv_option_b_ab_2015(
 
     """
 
-    if ges_pflegev_zusatz_kinderlos:
-        beitr_satz_pflegev = (
-            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-    else:
-        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
-            "standard"
-        ]
-
     out = bruttolohn_kv * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
         + ges_krankenv_zusatzbeitr_satz / 100
-        + beitr_satz_pflegev
+        + ges_pflegev_beitr_satz
     )
 
     return out
