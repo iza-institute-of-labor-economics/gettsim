@@ -28,6 +28,8 @@ inputs:
       - 1.34
     ges_pflegev_zusatz_kinderlos:
       - true
+    regulär_beschäftigt:
+      - true
   assumed: {}
 outputs:
   lohnst_m:

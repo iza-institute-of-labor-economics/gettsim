@@ -155,10 +155,14 @@ def vorsorg_kv_option_b_ab_2019(
 
     """
 
-    out = _ges_krankenv_bruttolohn_m * 12(
-        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz / 2 / 100
-        + ges_pflegev_beitr_satz
+    out = (
+        _ges_krankenv_bruttolohn_m
+        * 12
+        * (
+            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+            + ges_krankenv_zusatzbeitr_satz / 2 / 100
+            + ges_pflegev_beitr_satz
+        )
     )
 
     return out
@@ -196,10 +200,14 @@ def vorsorg_kv_option_b_ab_2015(
 
     """
 
-    out = _ges_krankenv_bruttolohn_m * 12(
-        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz / 100
-        + ges_pflegev_beitr_satz
+    out = (
+        _ges_krankenv_bruttolohn_m
+        * 12
+        * (
+            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+            + ges_krankenv_zusatzbeitr_satz / 100
+            + ges_pflegev_beitr_satz
+        )
     )
 
     return out

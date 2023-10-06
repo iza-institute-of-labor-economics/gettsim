@@ -19,6 +19,7 @@ INPUT_COLS = [
     "in_ausbildung",
     "ges_krankenv_zusatzbeitr_satz",
     "ges_pflegev_zusatz_kinderlos",
+    "regulär_beschäftigt",
 ]
 
 OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
