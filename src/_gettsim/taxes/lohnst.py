@@ -93,38 +93,12 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     return out
 
 
-def bruttolohn_kv_m(
-    bruttolohn_m: float,
-    sozialv_beitr_params: dict,
-) -> float:
-    """Appplying assessment limit for the calculation of
-    health care dedutions.
-    Parameters
-    ----------
-    bruttolohn_m:
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`
-    sozialv_beitr_params:
-        See params documentation :ref:`sozialv_beitr_params`
-    Returns
-    -------
-    Considered wage for the calculation of health care
-    dedutions
-    """
-
-    out = min(
-        bruttolohn_m,
-        sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-    )
-
-    return out
-
-
 @dates_active(
     start="2019-01-01",
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2019(
-    bruttolohn_kv_m: float,
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz: float,
@@ -136,8 +110,8 @@ def vorsorg_kv_option_b_ab_2019(
 
     Parameters
     ----------
-    bruttolohn_kv_m:
-        See basic input variable :ref:`bruttolohn_kv_m`
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
     sozialv_beitr_params:
@@ -153,7 +127,7 @@ def vorsorg_kv_option_b_ab_2019(
     """
 
     out = (
-        bruttolohn_kv_m
+        _ges_krankenv_bruttolohn_reg_beschäftigt_m
         * 12
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
@@ -171,7 +145,7 @@ def vorsorg_kv_option_b_ab_2019(
     change_name="vorsorg_kv_option_b",
 )
 def vorsorg_kv_option_b_ab_2015_bis_2018(
-    bruttolohn_kv_m: float,
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz: float,
@@ -183,8 +157,8 @@ def vorsorg_kv_option_b_ab_2015_bis_2018(
 
     Parameters
     ----------
-    bruttolohn_kv_m:
-        See basic input variable :ref:`bruttolohn_kv_m`
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
     ges_pflegev_beitr_satz:
@@ -198,7 +172,7 @@ def vorsorg_kv_option_b_ab_2015_bis_2018(
     """
 
     out = (
-        bruttolohn_kv_m
+        _ges_krankenv_bruttolohn_reg_beschäftigt_m
         * 12
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
@@ -211,7 +185,7 @@ def vorsorg_kv_option_b_ab_2015_bis_2018(
 
 
 def vorsorg_kv_option_a(
-    bruttolohn_kv_m: float,
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     eink_st_abzuege_params: dict,
     steuerklasse: int,
 ) -> float:
@@ -222,8 +196,8 @@ def vorsorg_kv_option_a(
 
     Parameters
     ----------
-    bruttolohn_kv_m:
-        See basic input variable :ref:`bruttolohn_kv_m`
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
     eink_st_abzuege_params:
         See params documentation :ref:`eink_st_abzuege_params`
     steuerklasse:
@@ -237,7 +211,9 @@ def vorsorg_kv_option_a(
     """
 
     vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv_m * 12
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
+        * _ges_krankenv_bruttolohn_reg_beschäftigt_m
+        * 12
     )
 
     if steuerklasse == 3:
