@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
+  ({ghuser}`MImmesberger`).
 - {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care
   insurance until 2004 ({ghuser}`MImmesberger`).
 - {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
