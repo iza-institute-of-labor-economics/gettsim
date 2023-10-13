@@ -312,7 +312,7 @@ def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
-    """Calculate care insurance contributions for self-employed individuals.
+    """Self-employed individuals' long-term care insurance contribution until 2004.
 
     Self-employed pay the full contribution (employer + employee), which is either
     assessed on their self-employement income or 3/4 of the 'Bezugsgröße'
@@ -342,7 +342,7 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate care insurance contributions for self-employed individuals.
+    """Self-employed individuals' long-term care insurance contribution since 2005.
 
     Self-employed pay the full contribution (employer + employee), which is either
     assessed on their self-employement income or 3/4 of the 'Bezugsgröße'
@@ -373,13 +373,41 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
 
 
 @dates_active(
-    start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
+    start="1995-01-01", end="2004-03-31", change_name="ges_pflegev_beitr_rente_m"
 )
-def ges_pflegev_beitr_rente_m_ohne_zusatz_fuer_kinderlose(
+def ges_pflegev_beitr_rente_m_reduz_beitrag(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
-    """Calculating the contribution to health insurance for pension income.
+    """Long-term care insurance contribution from pension income.
+
+    Pensioners pay the same contribution as employees.
+
+    Parameters
+    ----------
+    _ges_krankenv_bemessungsgrundlage_rente_m
+        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
+    ges_pflegev_beitr_satz
+        See :func:`ges_pflegev_beitr_satz`.
+
+    Returns
+    -------
+    Monthly health insurance contributions for pension income.
+
+    """
+    out = _ges_krankenv_bemessungsgrundlage_rente_m * ges_pflegev_beitr_satz
+
+    return out
+
+
+@dates_active(
+    start="2004-04-01", end="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
+)
+def ges_pflegev_beitr_rente_m_ohne_zusatz_für_kinderlose(
+    _ges_krankenv_bemessungsgrundlage_rente_m: float,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """Health insurance contribution from pension income from April until December 2004.
 
     Pensioners pay twice the contribution of employees.
 
@@ -406,7 +434,7 @@ def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the contribution to health insurance for pension income.
+    """Health insurance contribution from pension income since 2005.
 
     Pensioners pay twice the contribution of employees, but only once the additional
     charge for childless individuals.

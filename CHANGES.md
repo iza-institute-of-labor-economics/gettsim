@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care
+  insurance until 2004 ({ghuser}`MImmesberger`).
 - {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 - {gh}`643` Fix bug in Midijobfaktor calculation in 2004. ({ghuser}`MImmesberger`).
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
