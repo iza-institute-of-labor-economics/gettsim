@@ -49,3 +49,11 @@ altersgrenzen:
     1: 6
     2: 12
     3: 18
+rounding:
+  unterhaltsvors_m:
+    note:
+      en: Starting date unclear
+    1980-01-01:
+      base: 1
+      direction: up
+      reference: § 9 Abs. 3 UhVorschG
