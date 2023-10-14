@@ -34,7 +34,7 @@ aggregation_demographic_vars = {
 }
 
 
-def kind_bis_7m(alter_monate: int, kind: bool) -> bool:
+def kind_bis_7m(alter_monate: float, kind: bool) -> bool:
     """Calculate if child younger than 7 month.
 
     Parameters
@@ -52,7 +52,7 @@ def kind_bis_7m(alter_monate: int, kind: bool) -> bool:
     return out
 
 
-def kind_ab_7m_bis_12m(alter_monate: int, kind: bool) -> bool:
+def kind_ab_7m_bis_12m(alter_monate: float, kind: bool) -> bool:
     """Calculate if child is between 7 and 12 month old.
 
     Parameters
@@ -70,7 +70,7 @@ def kind_ab_7m_bis_12m(alter_monate: int, kind: bool) -> bool:
     return out
 
 
-def kind_bis_12m(alter_monate: int, kind: bool) -> bool:
+def kind_bis_12m(alter_monate: float, kind: bool) -> bool:
     """Calculate if child younger than 12 month.
 
     Parameters
@@ -88,7 +88,7 @@ def kind_bis_12m(alter_monate: int, kind: bool) -> bool:
     return out
 
 
-def kind_bis_24m(alter_monate: int, kind: bool) -> bool:
+def kind_bis_24m(alter_monate: float, kind: bool) -> bool:
     """Calculate if child younger than 24 month.
 
     Parameters

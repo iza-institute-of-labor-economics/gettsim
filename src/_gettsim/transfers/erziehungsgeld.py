@@ -227,7 +227,7 @@ def erziehungsgeld_anspruch_eltern(
 def erziehungsgeld_eink_relev_kind(
     bruttolohn_vorj_m_tu: float,
     erziehungsgeld_params: dict,
-    anz_erwachsene_tu: float,
+    anz_erwachsene_tu: int,
     eink_st_abzuege_params: dict,
     erziehungsgeld_anspruch_kind: bool,
 ) -> float:
