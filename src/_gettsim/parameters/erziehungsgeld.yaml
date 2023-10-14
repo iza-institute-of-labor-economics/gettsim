@@ -1,45 +1,42 @@
 ---
-einkommensgrenze_bis_6m:
+einkommensgrenze:
   name:
-    de: null
-    en: null
+    de: Einkommensgrenze
+    en: Income threshold
   description:
-    de: null
-    en: income threshold if the child is younger than 6 month old
+    de: Einkommensgrenze für abzugsfreies Erziehungsgeld
+    en: Income threshold for deduction-free parental leave benefit
   unit: Euro
-  reference: >-
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
+  note: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
-    alleinerz_regelsatz: 23000
-    paar_regelsatz: 30000
-    alleinerz_budgetsatz: 19086
-    paar_budgetsatz: 22086
-einkommensgrenze_ab_7m:
-  name:
-    de: null
-    en: null
-  description:
-    de: null
-    en: income threshold if the child is older than 6 month
-  unit: Euro
-  reference: >-
-    https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
-    BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
-    bl104s0206.pdf%27%5D__1685621730529
-  2004-02-09:
-    alleinerz: 13500
-    paar: 16500
+    kind_bis_7m:
+      alleinerz:
+        regelsatz: 23000
+        budgetsatz: 19086
+      paar:
+        regelsatz: 30000
+        budgetsatz: 22086
+    kind_ab_7m:
+      alleinerz:
+        regelsatz: 13500
+        budgetsatz: 13500
+      paar:
+        regelsatz: 16500
+        budgetsatz: 16500
 aufschlag_einkommen:
   name:
-    de: null
-    en: null
+    de: Erhöhung der Einkommensgrenze
+    en: Increase in the income threshold
   description:
     de: Erhöhung der Einkommensgrenze pro weiterem Kind
-    en: null
+    en: Increase in the income threshold per additional child
   unit: Euro
-  reference: >-
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
+  note: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
@@ -47,32 +44,38 @@ aufschlag_einkommen:
     scalar: 3140
 erziehungsgeld_satz:
   name:
-    de: Erziehungsgeld Regelsatz
+    de: Erziehungsgeldsatz
     en: null
   description:
-    de: Höhe des Erziehungsgeldes
-    en: null
+    de: Höhe des Erziehungsgeldes abhängig vom beantragtem Satz
+    en: Amount of the parental leave benefit depending on the rate applied for
   unit: Euro
-  reference: >-
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 5 (p.208)
+  note: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
     regelsatz: 300
     budgetsatz: 450
-reduzierung_erziehungsgeld:
+abschlag_faktor:
   name:
-    de: null
-    en: null
+    de: Abschalgsfaktor
+    en: Deduction factor
   description:
     de: >-
-      Faktor zur Berechnung der Reduzierung des Erziehungsgeld bei einer
+      Faktor zur Berechnung des Abschlag des Erziehungsgeld bei einer
       Überschreitung der Einkommensgrenze ab dem 7 Lebensmonat.
       Der Faktor wird mit dem relevanten Einkommen multipliziert und
       das Produkt entsprechend vom Erziehungsgeld Anspruch abgezogen
-    en: null
+    en: >-
+      Factor for calculating the reduction of the parental leave benefit in case of
+      exceeding the income threshold after the 7th month of life.
+      The factor is multiplied by the relevant income and
+      the product is deducted from the parental leave benefit entitlement accordingly.
   unit: faktor
-  reference: >-
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+  note: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
@@ -80,18 +83,40 @@ reduzierung_erziehungsgeld:
     scalar: 0.052
 pauschal_abzug_auf_einkommen:
   name:
-    de: null
+    de: Pauschaler Abzug vom Einkommen
     en: null
   description:
-    de: Faktor zur Berechnung des relevanten Einkommens
-    en: null
+    de: >-
+      Faktor um den das Einkommen pauschal reduziert wird um das das
+      relevanten Einkommen zu berechnen
+    en: >-
+      Factor by which the income is reduced in a lump sum in order to calculate the
+      relevant income
   unit: null
-  reference: >-
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 6 (p.209)
+  note: >-
     https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
     scalar: 0.76
+arbeitsstunden_w_grenze:
+  name:
+    de: Wochenarbeitsstunden Grenze
+    en: Weekly working hours limit
+  description:
+    de: >-
+      Grenze der wöchentlichen Arbeitsstunden bis zu der Erziehungsgeld ausgezahlt wird
+    en: >-
+      Limit of weekly working hours up to which parental leave benefit is paid
+  unit: null
+  reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 § 15 (p.211)
+  note: >-
+    https://www.bgbl.de/xaver/bgbl/start.xav?startbk=Bundesanzeiger_
+    BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
+    bl104s0206.pdf%27%5D__1685621730529
+  2004-02-09:
+    scalar: 30
 rounding:
   erziehungsgeld_kind_m:
     2004-01-01:
