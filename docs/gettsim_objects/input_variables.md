@@ -546,3 +546,21 @@ Type: int
 Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
+
+## `erwerbsgemindert`
+
+Dummy: Beeing able to work less than 3 hours on the general labor market per day
+
+Type: bool
+
+## `teilw_erwerbsm_rente`
+
+Dummy: Beeing able to work between 3 and 6 hours on the general labor market per day
+
+Type: bool
+
+## `erwerbsm_rente_mit_63`
+
+Dummy: Meet all conditions to retire at 63 without deductions
+
+Type: bool

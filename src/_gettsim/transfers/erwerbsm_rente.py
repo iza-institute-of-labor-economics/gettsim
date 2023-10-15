@@ -91,8 +91,8 @@ def entgeltp_erwerbsm_rente(
     ----------
     entgeltp
         See basic input variable :ref:`entgeltp <entgeltp>
-    durchschn_entgeltp_y
-        See basic input variable :ref:`durchschn_entgeltp_y <durchschn_entgeltp_y>
+    durchschn_entgeltp
+        See :func:`durchschn_entgeltp`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
