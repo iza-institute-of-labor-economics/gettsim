@@ -269,7 +269,7 @@ def erziehungsgeld_eink_relev_kind(
 
 
 def erziehungsgeld_einkgrenze_kind(
-    erziehungsgeld_einkgrenze_kind_vor_aufschl: float,
+    erzgeld_einkgrenze_vor_aufschl: float,
     anz_kinder_mit_kindergeld_tu: float,
     erziehungsgeld_params: dict,
     erziehungsgeld_anspruch_kind: bool,
@@ -281,8 +281,8 @@ def erziehungsgeld_einkgrenze_kind(
 
     Parameters
     ----------
-    erziehungsgeld_einkgrenze_kind_vor_aufschl
-        See :func:`erziehungsgeld_einkgrenze_kind_vor_aufschl`.
+    erzgeld_einkgrenze_vor_aufschl
+        See :func:`erzgeld_einkgrenze_vor_aufschl`.
     anz_kinder_mit_kindergeld_tu
         See :func:`anz_kinder_mit_kindergeld_tu`.
     erziehungsgeld_params
@@ -295,7 +295,7 @@ def erziehungsgeld_einkgrenze_kind(
     income threshold for parental leave benefit (erziehungsgeld) on child level
     """
     out = (
-        erziehungsgeld_einkgrenze_kind_vor_aufschl
+        erzgeld_einkgrenze_vor_aufschl
         + (anz_kinder_mit_kindergeld_tu - 1)
         * erziehungsgeld_params["aufschlag_einkommen"]
     )
@@ -304,7 +304,7 @@ def erziehungsgeld_einkgrenze_kind(
     return out
 
 
-def erziehungsgeld_einkgrenze_kind_vor_aufschl(
+def erzgeld_einkgrenze_vor_aufschl(
     erziehungsgeld_params: dict,
     alleinerz_tu: bool,
     kind_bis_7m: bool,
