@@ -23,6 +23,12 @@ rounding_specs_and_exp_results = [
     (0.001, "nearest", [100.24, 100.78], [100.24, 100.78]),
 ]
 
+rounding_specs_and_exp_results_with_additive_part = [
+    (1, "up", 10, [100.24, 100.78], [111.0, 111.0]),
+    (1, "down", 10, [100.24, 100.78], [110.0, 110.0]),
+    (1, "nearest", 10, [100.24, 100.78], [110.0, 111.0]),
+]
+
 
 def test_decorator():
     @add_rounding_spec(params_key="params_key_test")
@@ -129,6 +135,40 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):
         data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
+
+
+@pytest.mark.parametrize(
+    "base, direction, add, input_values, exp_output",
+    rounding_specs_and_exp_results_with_additive_part,
+)
+def test_rounding_with_additive_part(base, direction, add, input_values, exp_output):
+    """Test rounding function with additive part.
+
+    After the rounding step, the specified float is added to the result.
+    """
+
+    # Define function that should be rounded
+    @add_rounding_spec(params_key="params_key_test")
+    def test_func(income):
+        return income
+
+    data = pd.DataFrame([{"p_id": 1}, {"p_id": 2}])
+    data["income"] = input_values
+    rounding_specs = {
+        "params_key_test": {
+            "rounding": {
+                "test_func": {
+                    "base": base,
+                    "direction": direction,
+                    "add": add,
+                }
+            }
+        }
+    }
+    calc_result = compute_taxes_and_transfers(
+        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
+    )
+    np.array_equal(calc_result["test_func"].values, np.array(exp_output))
 
 
 def test_decorator_for_all_functions_with_rounding_spec():

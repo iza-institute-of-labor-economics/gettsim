@@ -276,3 +276,21 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
+  zu_verst_eink_y_tu:
+    1981-01-01:
+      base: 54
+      direction: down
+    2001-01-01:
+      base: 54
+      direction: down
+      add: 27
+      reference: § 32a Abs. 2 EStG
+    2002-01-01:
+      base: 54
+      direction: down
+      add: 18
+      reference: § 32a Abs. 2 EStG
+    2004-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 1 EStG
