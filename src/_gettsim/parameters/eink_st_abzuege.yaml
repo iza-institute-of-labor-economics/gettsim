@@ -747,9 +747,10 @@ rounding:
   vorsorgeaufw_y_tu:
     note:
       en: Starting date unclear
+    reference: § 10 Abs. 3 EStG
     1984-01-01:
-      base: 0.01
-      direction: nearest
+      base: 1
+      direction: up
   sonderausgaben_betreuung_y_tu:
     note:
       en: Starting date unclear
