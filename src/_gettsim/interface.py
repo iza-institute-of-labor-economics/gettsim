@@ -610,7 +610,7 @@ def _add_rounding_to_functions(functions, params):
     return functions_new
 
 
-def _add_rounding_to_one_function(base, direction, add=None):
+def _add_rounding_to_one_function(base, direction, add):
     """Decorator to round the output of a function.
 
     Parameters
