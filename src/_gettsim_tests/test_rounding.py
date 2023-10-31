@@ -63,10 +63,15 @@ def test_no_rounding_specs(rounding_specs):
 
 
 @pytest.mark.parametrize(
-    "base, direction",
-    [(1, "upper"), ("0.1", "down"), (5, "closest")],
+    "base, direction, add",
+    [
+        (1, "upper", None),
+        ("0.1", "down", None),
+        (5, "closest", None),
+        (5, "closest", "10"),
+    ],
 )
-def test_rounding_specs_wrong_format(base, direction):
+def test_rounding_specs_wrong_format(base, direction, add):
     with pytest.raises(ValueError):
 
         @add_rounding_spec(params_key="params_key_test")
@@ -75,7 +80,9 @@ def test_rounding_specs_wrong_format(base, direction):
 
         rounding_specs = {
             "params_key_test": {
-                "rounding": {"test_func": {"base": base, "direction": direction}}
+                "rounding": {
+                    "test_func": {"base": base, "direction": direction, "add": add}
+                }
             }
         }
 
