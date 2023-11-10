@@ -20,6 +20,8 @@ inputs:
       - 552
     wohnort_ost:
       - false
+    anteil_entgeltp_ost:
+      - 0.0
     rente_vorj_vor_grundr_proxy_m:
       - 0.0
     bruttolohn_vorj_m:

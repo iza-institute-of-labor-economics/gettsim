@@ -55,6 +55,7 @@ INPUT_COLS_INCOME = [
     "jahr_renteneintr",
     "monat_renteneintr",
     "wohnort_ost",
+    "anteil_entgeltp_ost",
     "bruttolohn_m",
     "weiblich",
     "y_pflichtbeitr_ab_40",

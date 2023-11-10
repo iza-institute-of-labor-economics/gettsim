@@ -28,6 +28,8 @@ inputs:
       - 2
     wohnort_ost:
       - false
+    anteil_entgeltp_ost:
+      - 0.0
     bruttolohn_m:
       - 0.0
     weiblich:

@@ -26,7 +26,7 @@ def ges_rente_vor_grundr_m(
     entgeltp_update: float,
     ges_rente_params: dict,
     rentner: bool,
-    anteil_entegltp_ost_update: float,
+    anteil_entgeltp_ost: float,
 ) -> float:
     """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
     following equation:
@@ -50,8 +50,9 @@ def ges_rente_vor_grundr_m(
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    anteil_entegltp_ost_update
-        See :func:`anteil_entegltp_ost_update`.
+    anteil_entgeltp_ost_update
+        See basic input variable :ref:`anteil_entgeltp_ost_update
+        <anteil_entgeltp_ost_update>`.
 
     Returns
     -------
@@ -61,11 +62,11 @@ def ges_rente_vor_grundr_m(
     if rentner:
         out = (
             entgeltp_update
-            * (1 - anteil_entegltp_ost_update)
+            * (1 - anteil_entgeltp_ost)
             * ges_rente_zugangsfaktor
             * ges_rente_params["rentenwert"]["west"]
             + entgeltp_update
-            * (anteil_entegltp_ost_update)
+            * (anteil_entgeltp_ost)
             * ges_rente_zugangsfaktor
             * ges_rente_params["rentenwert"]["ost"]
         )
@@ -108,41 +109,25 @@ def ges_rente_m_nach_grundr(
     return out
 
 
-def anteil_entegltp_ost_update(
-    wohnort_ost: bool,
-    anteil_entegltp_ost: float,
-    entgeltp: float,
-    entgeltp_update: float,
-    entgeltp_update_lohn: float,
-) -> float:
-    """Update the share of earnings points from eastern Germany.
-
+def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
+    """Select the rentenwert depending on place of living.
 
     Parameters
     ----------
     wohnort_ost
         See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    anteil_entegltp_ost
-        See basic input variable :ref:`anteil_entegltp_ost <anteil_entegltp_ost>`.
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>`.
-    entgeltp_update
-        See :func:`entgeltp_update`.
-    entgeltp_update_lohn
-        See :func:`entgeltp_update_lohn`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
-    updated anteil_entegltp_ost
-    """
-    if wohnort_ost:
-        entgeltp_ost = (entgeltp * anteil_entegltp_ost) + entgeltp_update_lohn
-        out = entgeltp_ost / entgeltp_update
-    else:
-        entgeltp_ost = entgeltp * anteil_entegltp_ost
-        out = entgeltp_ost / entgeltp_update
 
-    return out
+    """
+    params = ges_rente_params["rentenwert"]
+
+    out = params["ost"] if wohnort_ost else params["west"]
+
+    return float(out)
 
 
 def rentenwert_vorjahr(wohnort_ost: bool, ges_rente_params: dict) -> float:

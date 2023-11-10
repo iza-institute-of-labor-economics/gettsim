@@ -547,7 +547,7 @@ Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
 
-## `anteil_entegltp_ost`
+## `anteil_entgeltp_ost`
 
 Share of eastern earning points in stock
 
