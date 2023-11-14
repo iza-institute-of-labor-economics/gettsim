@@ -549,18 +549,20 @@ Type: int
 
 ## `erwerbsgemindert`
 
-Unable to provide more than 3 hours of market labor per day.
+Dummy: Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
 ## `teilw_erwerbsm_rente`
 
-Dummy: Beeing able to work between 3 and 6 hours on the general labor market per day
+Able to provide at least 3 but no more than 6 hours of market labor per day.
 
 Type: bool
 
-## `erwerbsm_rente_mit_63`
+## `erwerbsm_rente_mit63`
 
-Dummy: Meet all conditions to retire at 63 without deductions
+Exceptional case in which a person can already retire at the age of 63 without
+deductions if they can prove 35 or 40 years of (Pflichtbeiträge,
+Berücksichtigungszeiten and certain Anrechnungszeiten or Ersatzzeiten).
 
 Type: bool
