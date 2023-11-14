@@ -80,7 +80,7 @@ def entgeltp_erwerbsm_rente(
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
 ) -> float:
-    """Entgeltpunkte for Erwerbsminderungsrente
+    """Entgeltpunkte which Erwerbsminderungsrente is based on
     (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
