@@ -116,7 +116,7 @@ def durchschn_entgeltp(
     entgeltp: float,
     age_of_retirement: float,
 ) -> float:
-    """Calculation of average earning points as part of the "Grundbewertung".
+    """Average earning points as part of the "Grundbewertung".
     Earnings points are divided by "belegungsfähige Gesamtzeitraum" which is
     the period from the age of 17 until the start of the pension.
 
