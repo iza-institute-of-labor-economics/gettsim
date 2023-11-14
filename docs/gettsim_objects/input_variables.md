@@ -549,7 +549,7 @@ Type: int
 
 ## `erwerbsgemindert`
 
-Dummy: Beeing able to work less than 3 hours on the general labor market per day
+Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
