@@ -191,7 +191,7 @@ def erwerbsm_rente_zugangsfaktor(
     Legal reference: § 77 Abs. 2-4  SGB VI
 
     Paragraph 4 regulates an exceptional case in which pensioners can already
-    retire at 63 without deductions if they can prove 35 or 40 years of
+    retire at 63 without deductions if they can prove 40 years of
     (Pflichtbeiträge, Berücksichtigungszeiten and
     certain Anrechnungszeiten or Ersatzzeiten).
 

@@ -562,7 +562,7 @@ Type: bool
 ## `erwerbsm_rente_mit63`
 
 Exceptional case in which a person can already retire at the age of 63 without
-deductions if they can prove 35 or 40 years of (Pflichtbeiträge,
-Berücksichtigungszeiten and certain Anrechnungszeiten or Ersatzzeiten).
+deductions if they can prove 40 years of (Pflichtbeiträge, Berücksichtigungszeiten and
+certain Anrechnungszeiten or Ersatzzeiten).
 
 Type: bool
