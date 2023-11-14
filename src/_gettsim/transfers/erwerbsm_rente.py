@@ -6,10 +6,10 @@ def erwerbsm_rente_m(
     erwerbsm_rente_zugangsfaktor: float,
     entgeltp_erwerbsm_rente: float,
     rentenwert: float,
-    rentenartfaktor_erwerbsm_rente: float,
+    rentenartfaktor: float,
     ges_rente_vorauss_erwerbsm: bool,
 ) -> float:
-    """Calculating the Erwerbsminderungsrente (public disability insurance claim)
+    """Erwerbsminderungsrente (public disability insurance claim)
 
     Legal reference: SGB VI § 64: Rentenformel für Monatsbetrag der Rente
 
@@ -22,8 +22,8 @@ def erwerbsm_rente_m(
         See :func:`entgeltp_erwerbsm_rente`.
     rentenwert
         See :func:`rentenwert`.
-    rentenartfaktor_erwerbsm_rente
-        See :func:`rentenartfaktor_erwerbsm_rente`.
+    rentenartfaktor
+        See :func:`rentenartfaktor`.
     ges_rente_vorauss_erwerbsm
         See :func:`ges_rente_vorauss_erwerbsm`.
     Returns
@@ -37,7 +37,7 @@ def erwerbsm_rente_m(
             entgeltp_erwerbsm_rente
             * erwerbsm_rente_zugangsfaktor
             * rentenwert
-            * rentenartfaktor_erwerbsm_rente
+            * rentenartfaktor
         )
     else:
         out = 0.0
@@ -80,7 +80,7 @@ def entgeltp_erwerbsm_rente(
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
 ) -> float:
-    """Calculating Entgeltpunkte for Erwerbsminderungsrente
+    """Entgeltpunkte for Erwerbsminderungsrente
     (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
@@ -115,8 +115,9 @@ def entgeltp_erwerbsm_rente(
 def durchschn_entgeltp(
     entgeltp: float,
     age_of_retirement: float,
+    erwerbsm_rente_params: dict,
 ) -> float:
-    """Calculation of average earning points as part of the "Grundbewertung".
+    """Average earning points as part of the "Grundbewertung".
     Earnings points are divided by "belegungsfähige Gesamtzeitraum" which is
     the period from the age of 17 until the start of the pension.
 
@@ -128,27 +129,28 @@ def durchschn_entgeltp(
         See basic input variable :ref:`entgeltp <entgeltp>
     age_of_retirement
         See :func:`age_of_retirement`.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
     Returns
     -------
     average entgeltp
     """
 
-    beleg_gesamtzeitr = age_of_retirement - 16
+    beleg_gesamtzeitr = (
+        age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbew"]
+    )
     durchschn_entgeltp = entgeltp / beleg_gesamtzeitr
 
     return durchschn_entgeltp
 
 
-def rentenartfaktor_erwerbsm_rente(
+def rentenartfaktor(
     teilw_erwerbsm_rente: bool,
     erwerbsm_rente_params: dict,
 ) -> float:
-    """Checking Rentenartfaktor for Erwerbsminderungsrente
+    """Rentenartfaktor for Erwerbsminderungsrente
     (public disability insurance)
-
-    Partial pension - Rentenartfaktor = 0.5
-    Full pension - Rentenartfaktor = 1.0
 
     Legal reference: SGB VI § 67: Rentenartfaktor
 
@@ -166,10 +168,10 @@ def rentenartfaktor_erwerbsm_rente(
     """
 
     if teilw_erwerbsm_rente:
-        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]["teilw"]
+        out = erwerbsm_rente_params["rentenartfaktor"]["teilw"]
 
     else:
-        out = erwerbsm_rente_params["rentenartfaktor_erwerbsm_rente"]["voll"]
+        out = erwerbsm_rente_params["rentenartfaktor"]["voll"]
 
     return out
 
@@ -180,11 +182,11 @@ def erwerbsm_rente_zugangsfaktor(
     age_of_retirement: float,
     erwerbsm_rente_mit_63: bool,
 ) -> float:
-    """Calculating Zugangsfaktor for Erwerbsminderungsrente
+    """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
-    For each month that a pensioner retires before the age limit, 0.3% of
-    the pension is deducted. The maximum deduction is capped at 10.8%.
-    This deduction is the norm for the public disability insurance.
+    For each month that a pensioner retires before the age limit, a fraction of
+    the pension is deducted. The maximum deduction is capped.
+    This max deduction is the norm for the public disability insurance.
 
     Legal reference: § 77 Abs. 2-4  SGB VI
 
@@ -223,6 +225,6 @@ def erwerbsm_rente_zugangsfaktor(
             "vorzeitiger_renteneintritt"
         ]
     )
-    out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor_erwerbsm_rente"])
+    out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor"])
 
     return out

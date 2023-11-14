@@ -198,7 +198,7 @@ zurechnungszeitsgrenze:
     scalar: 66.833333
   2031-01-01:
     scalar: 67
-min_zugangsfaktor_erwerbsm_rente:
+min_zugangsfaktor:
   name:
     de: Kleinster möglicher Zugangsfaktor bei der Erwerbsminderungsrente
     en: Smallest possible access factor for public disability insurance
@@ -214,13 +214,19 @@ min_zugangsfaktor_erwerbsm_rente:
     "http://www.portal-sozialpolitik.de/index.php?page=rentenversicherung"
   2000-01-01:
     scalar: 0.892
-rentenartfaktor_erwerbsm_rente:
+rentenartfaktor:
   name:
     de: Rentenartfaktor für teilweise Erwerbsminderungsrente
     en: Pension type factor for partial reduction in public disability insurance
   description:
-    de: null
-    en: null
+    de: >-
+      Der Rentenartfaktor ist ein festgelegter Faktor für die
+      Rentenberechnung und  bestimmt
+      das Sicherungsziel der Rentenart im Verhältnis zu einer Altersrente.
+    en: >-
+      The pension type factor is a fixed factor for the pension calculation
+      and  determines
+      the security target of the pension type in relation to an old-age pension.
   unit: Factor
   reference: >-
     § 67 SGB VI Rentenartfaktor:
@@ -230,3 +236,21 @@ rentenartfaktor_erwerbsm_rente:
   2001-01-01:
     teilw: 0.5
     voll: 1.0
+altersgrenze_grundbew:
+  name:
+    de: Altersgrenze des belegungsfähigen Gesamtzeitraum
+    en: Age limit of belegungsfähigen Gesamtzeitraum
+  description:
+    de: >-
+      Als Teil der Grundbewertung wird der belegungsfähige Gesamtzeitraum
+      berechnet. Dieser entspricht dem Zeitraum vom 17.
+      Lebensjahr bis zum   Beginn der Rente
+    en: >-
+      As part of the "Grundbewertung" the "belegungsfähige Gesamtzeitraum" is
+      calculated
+      which is the period from the age of 17 until the start of the pension.
+  unit: Year
+  reference: >-
+    SGB VI § 72: Grundbewertung
+  2001-01-01:
+    scalar: 16

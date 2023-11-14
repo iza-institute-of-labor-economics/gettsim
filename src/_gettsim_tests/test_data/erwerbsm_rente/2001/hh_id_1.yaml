@@ -102,7 +102,7 @@ outputs:
     - 0.892
     - 0.892
     - 0.892
-  rentenartfaktor_erwerbsm_rente:
+  rentenartfaktor:
     - 1.0
     - 1.0
     - 1.0
