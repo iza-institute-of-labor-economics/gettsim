@@ -24,7 +24,7 @@ def prep_paremetrize_data(data):
 
 @pytest.mark.parametrize(
     ("test_data", "column"),
-    prep_paremetrize_data(data.parametrize_args),
+    prep_parametrize_data(data.parametrize_args),
     ids=str,
 )
 def test_arbeitsl_geld(
