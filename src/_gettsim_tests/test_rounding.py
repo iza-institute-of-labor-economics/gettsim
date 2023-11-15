@@ -10,7 +10,11 @@ from _gettsim.config import (
 )
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import _load_functions
-from _gettsim.interface import _add_rounding_to_functions, compute_taxes_and_transfers
+from _gettsim.interface import (
+    _add_rounding_to_functions,
+    _add_rounding_to_one_function,
+    compute_taxes_and_transfers,
+)
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import add_rounding_spec
 
@@ -160,6 +164,30 @@ def test_no_rounding(
         data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
+
+
+@pytest.mark.parametrize(
+    "base, direction, to_add_after_rounding, input_values, exp_output",
+    rounding_specs_and_exp_results,
+)
+def test_rounding_callable(
+    base, direction, to_add_after_rounding, input_values, exp_output
+):
+    """Check if callable is rounded correctly.
+
+    Tests `_add_rounding_to_one_function` directly.
+    """
+
+    def test_func(income):
+        return income
+
+    func_with_rounding = _add_rounding_to_one_function(
+        base=base,
+        direction=direction,
+        to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
+    )(test_func)
+
+    np.array_equal(func_with_rounding(pd.Series(input_values)), np.array(exp_output))
 
 
 def test_decorator_for_all_functions_with_rounding_spec():
