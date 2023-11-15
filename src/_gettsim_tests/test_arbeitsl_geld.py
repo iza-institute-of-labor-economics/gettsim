@@ -8,7 +8,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 data = load_policy_test_data("arbeitsl_geld")
 
 
-def prep_paremetrize_data(data):
+def prep_parametrize_data(data):
     """Mark test data for 2015 with xfail."""
     for i, args in enumerate(data):
         if args[0].date.year == 2015:
