@@ -2,6 +2,7 @@ import copy
 import functools
 import inspect
 import warnings
+from typing import Literal
 
 import dags
 import pandas as pd
@@ -604,13 +605,19 @@ def _add_rounding_to_functions(functions, params):
             functions_new[func_name] = _add_rounding_to_one_function(
                 base=rounding_spec["base"],
                 direction=rounding_spec["direction"],
-                add=rounding_spec["add"] if "add" in rounding_spec else None,
+                to_add_after_rounding=rounding_spec["to_add_after_rounding"]
+                if "to_add_after_rounding" in rounding_spec
+                else 0,
             )(func)
 
     return functions_new
 
 
-def _add_rounding_to_one_function(base, direction, add):
+def _add_rounding_to_one_function(
+    base: float,
+    direction: Literal["up", "down", "nearest"],
+    to_add_after_rounding: float,
+) -> callable:
     """Decorator to round the output of a function.
 
     Parameters
@@ -619,7 +626,7 @@ def _add_rounding_to_one_function(base, direction, add):
         Precision of rounding (e.g. 0.1 to round to the first decimal place)
     direction : str
         Whether the series should be rounded up, down or to the nearest number
-    add : float, optional
+    to_add_after_rounding : float
         Number to be added after the rounding step
 
     Returns
@@ -640,10 +647,10 @@ def _add_rounding_to_one_function(base, direction, add):
                 raise ValueError(
                     f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )
-            if add and type(add) not in [int, float]:
+            if type(to_add_after_rounding) not in [int, float]:
                 raise ValueError(
                     f"Additive part needs to be a number, got"
-                    f" {add!r} for {func.__name__!r}"
+                    f" {to_add_after_rounding!r} for {func.__name__!r}"
                 )
 
             if direction == "up":
@@ -658,8 +665,7 @@ def _add_rounding_to_one_function(base, direction, add):
                     f", got {direction!r} for {func.__name__!r}"
                 )
 
-            if add:
-                rounded_out += add
+            rounded_out += to_add_after_rounding
             return rounded_out
 
         return wrapper
