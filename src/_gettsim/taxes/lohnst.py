@@ -95,16 +95,16 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 @dates_active(
     start="2019-01-01",
-    change_name="vorsorg_kv_option_b",
+    change_name="vorsorge_krankenv_option_b",
 )
-def vorsorg_kv_option_b_ab_2019(
+def vorsorge_krankenv_option_b_ab_2019(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
-    the deuctions.
+    the deductions: "Option a" and "Option b".
     This function calculates option b where the actual contributions
     are used.
 
@@ -142,9 +142,9 @@ def vorsorg_kv_option_b_ab_2019(
 @dates_active(
     start="2015-01-01",
     end="2018-12-31",
-    change_name="vorsorg_kv_option_b",
+    change_name="vorsorge_krankenv_option_b",
 )
-def vorsorg_kv_option_b_ab_2015_bis_2018(
+def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
@@ -184,7 +184,7 @@ def vorsorg_kv_option_b_ab_2015_bis_2018(
     return out
 
 
-def vorsorg_kv_option_a(
+def vorsorge_krankenv_option_a(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     eink_st_abzuege_params: dict,
     steuerklasse: int,
@@ -210,22 +210,22 @@ def vorsorg_kv_option_a(
 
     """
 
-    vorsorg_kv_option_a_basis = (
+    vorsorge_krankenv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
         * _ges_krankenv_bruttolohn_reg_beschäftigt_m
         * 12
     )
 
     if steuerklasse == 3:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_3"
-        ]
+        vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
+            "vorsorgepauschale_kv_max"
+        ]["steuerklasse_3"]
     else:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_nicht3"
-        ]
+        vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
+            "vorsorgepauschale_kv_max"
+        ]["steuerklasse_nicht3"]
 
-    out = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
+    out = min(vorsorge_krankenv_option_a_max, vorsorge_krankenv_option_a_basis)
 
     return out
 
@@ -240,8 +240,8 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     wohnort_ost: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
-    vorsorg_kv_option_a: float,
-    vorsorg_kv_option_b: float,
+    vorsorge_krankenv_option_a: float,
+    vorsorge_krankenv_option_b: float,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -257,10 +257,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
       See params documentation :ref:`eink_st_abzuege_params`
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
-    vorsorg_kv_option_a:
-      See :func:`vorsorg_kv_option_a`
-    vorsorg_kv_option_b:
-      See :func:`vorsorg_kv_option_b`
+    vorsorge_krankenv_option_a:
+      See :func:`vorsorge_krankenv_option_a`
+    vorsorge_krankenv_option_b:
+      See :func:`vorsorge_krankenv_option_b`
 
 
     Returns
@@ -281,10 +281,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 
-    vorsorg_rv = (
+    vorsorg_rentenv = (
         bruttolohn_rente
         * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
-        * eink_st_abzuege_params["vorsorgepauschale_rv_anteil"]
+        * eink_st_abzuege_params["vorsorgepauschale_rentenv_anteil"]
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
@@ -295,10 +295,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     #  b) Take the actual contributions (usually the better option),
     #   but apply the reduced rate
 
-    vorsorg_kv = max(vorsorg_kv_option_a, vorsorg_kv_option_b)
+    vorsorg_krankenv = max(vorsorge_krankenv_option_a, vorsorge_krankenv_option_b)
 
     # add both RV and KV deductions. For KV, take the larger amount.
-    out = vorsorg_rv + vorsorg_kv
+    out = vorsorg_rentenv + vorsorg_krankenv
     return out
 
 
