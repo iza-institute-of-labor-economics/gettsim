@@ -151,7 +151,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     ges_pflegev_beitr_satz: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
-    the deuctions.
+    the deductions: "Option a" and "Option b".
     This function calculates option b where the actual contributions
     are used.
 
@@ -185,7 +185,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
 
 def vorsorge_krankenv_option_a(
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
     eink_st_abzuege_params: dict,
     steuerklasse: int,
 ) -> float:
@@ -212,8 +212,7 @@ def vorsorge_krankenv_option_a(
 
     vorsorge_krankenv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
-        * _ges_krankenv_bruttolohn_reg_beschäftigt_m
-        * 12
+        * _ges_krankenv_bruttolohn_reg_beschäftigt_y
     )
 
     if steuerklasse == 3:
