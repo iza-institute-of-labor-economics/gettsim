@@ -94,18 +94,153 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 
 @dates_active(
+    start="2019-01-01",
+    change_name="vorsorge_krankenv_option_b",
+)
+def vorsorge_krankenv_option_b_ab_2019(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """For health care deductions, there are two ways to calculate
+    the deductions: "Option a" and "Option b".
+    This function calculates option b where the actual contributions
+    are used.
+
+    Parameters
+    ----------
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
+    sozialv_beitr_params:
+        See params documentation :ref:`sozialv_beitr_params`
+    ges_pflegev_beitr_satz:
+        See :func:ges_pflegev_beitr_satz`.
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option b
+
+    """
+
+    out = (
+        _ges_krankenv_bruttolohn_reg_beschäftigt_m
+        * 12
+        * (
+            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+            + ges_krankenv_zusatzbeitr_satz / 2 / 100
+            + ges_pflegev_beitr_satz
+        )
+    )
+
+    return out
+
+
+@dates_active(
+    start="2015-01-01",
+    end="2018-12-31",
+    change_name="vorsorge_krankenv_option_b",
+)
+def vorsorge_krankenv_option_b_ab_2015_bis_2018(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+    ges_pflegev_beitr_satz: float,
+) -> float:
+    """For health care deductions, there are two ways to calculate
+    the deductions: "Option a" and "Option b".
+    This function calculates option b where the actual contributions
+    are used.
+
+    Parameters
+    ----------
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
+    ges_pflegev_beitr_satz:
+        See :func:ges_pflegev_beitr_satz`.
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option b
+
+    """
+
+    out = (
+        _ges_krankenv_bruttolohn_reg_beschäftigt_m
+        * 12
+        * (
+            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+            + ges_krankenv_zusatzbeitr_satz / 100
+            + ges_pflegev_beitr_satz
+        )
+    )
+
+    return out
+
+
+def vorsorge_krankenv_option_a(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
+    eink_st_abzuege_params: dict,
+    steuerklasse: int,
+) -> float:
+    """For health care deductions, there are two ways to calculate
+    the deuctions.
+    This function calculates option a where at least 12% of earnings
+    of earnings can be deducted, but only up to a certain threshold.
+
+    Parameters
+    ----------
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
+        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
+    eink_st_abzuege_params:
+        See params documentation :ref:`eink_st_abzuege_params`
+    steuerklasse:
+        See basic input variable :ref:`steuerklasse <steuerklasse>`.
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option a
+
+    """
+
+    vorsorge_krankenv_option_a_basis = (
+        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
+        * _ges_krankenv_bruttolohn_reg_beschäftigt_y
+    )
+
+    if steuerklasse == 3:
+        vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
+            "vorsorgepauschale_kv_max"
+        ]["steuerklasse_3"]
+    else:
+        vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
+            "vorsorgepauschale_kv_max"
+        ]["steuerklasse_nicht3"]
+
+    out = min(vorsorge_krankenv_option_a_max, vorsorge_krankenv_option_a_basis)
+
+    return out
+
+
+@dates_active(
     start="2010-01-01",
     change_name="vorsorgepauschale_y",
 )
 @add_rounding_spec(params_key="lohnst")
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
-    steuerklasse: int,
     wohnort_ost: bool,
-    ges_krankenv_zusatzbeitr_satz: float,
-    ges_pflegev_zusatz_kinderlos: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
+    vorsorge_krankenv_option_a: float,
+    vorsorge_krankenv_option_b: float,
 ) -> float:
     """Calculate Vorsorgepauschale for Lohnsteuer valid since 2010. Those are deducted
     from gross earnings. Idea is similar, but not identical, to Vorsorgeaufwendungen
@@ -115,18 +250,16 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     ----------
     bruttolohn_m:
       See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    steuerklasse:
-      See :func:`steuerklasse`
-    ges_pflegev_zusatz_kinderlos:
-      See :func:`ges_pflegev_zusatz_kinderlos`
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_krankenv_zusatzbeitr_satz
-        See :func:ges_krankenv_zusatzbeitr_satz`.
     eink_st_abzuege_params:
       See params documentation :ref:`eink_st_abzuege_params`
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
+    vorsorge_krankenv_option_a:
+      See :func:`vorsorge_krankenv_option_a`
+    vorsorge_krankenv_option_b:
+      See :func:`vorsorge_krankenv_option_b`
 
 
     Returns
@@ -147,57 +280,24 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 
-    vorsorg_rv = (
+    vorsorg_rentenv = (
         bruttolohn_rente
         * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
-        * eink_st_abzuege_params["vorsorgepauschale_rv_anteil"]
+        * eink_st_abzuege_params["vorsorgepauschale_rentenv_anteil"]
     )
 
     # 2. Krankenversicherungsbeiträge, §39b (2) Nr. 3b EStG.
-    # For health care deductions, there are two ways to calculate.
+    # For health care deductions, there are two ways to calculate
+    # the deuctions.
     # a) at least 12% of earnings of earnings can be deducted,
     #    but only up to a certain threshold
+    #  b) Take the actual contributions (usually the better option),
+    #   but apply the reduced rate
 
-    bruttolohn_kv = min(
-        12 * bruttolohn_m,
-        12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]["ost"],
-    )
-    vorsorg_kv_option_a_basis = (
-        eink_st_abzuege_params["vorsorgepauschale_mindestanteil"] * bruttolohn_kv
-    )
-
-    if steuerklasse == 3:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_3"
-        ]
-    else:
-        vorsorg_kv_option_a_max = eink_st_abzuege_params["vorsorgepauschale_kv_max"][
-            "steuerklasse_nicht3"
-        ]
-
-    vorsorg_kv_option_a = min(vorsorg_kv_option_a_max, vorsorg_kv_option_a_basis)
-
-    # b) Take the actual contributions (usually the better option),
-    #   but apply the reduced rate!
-
-    if ges_pflegev_zusatz_kinderlos:
-        beitr_satz_pflegev = (
-            sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
-            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
-        )
-    else:
-        beitr_satz_pflegev = sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
-            "standard"
-        ]
-
-    vorsorg_kv_option_b = bruttolohn_kv * (
-        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz / 2 / 100
-        + beitr_satz_pflegev
-    )
+    vorsorg_krankenv = max(vorsorge_krankenv_option_a, vorsorge_krankenv_option_b)
 
     # add both RV and KV deductions. For KV, take the larger amount.
-    out = vorsorg_rv + max(vorsorg_kv_option_a, vorsorg_kv_option_b)
+    out = vorsorg_rentenv + vorsorg_krankenv
     return out
 
 

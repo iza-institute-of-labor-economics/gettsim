@@ -1,0 +1,38 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 1700
+    tu_id:
+      - 1700
+    p_id:
+      - 1700
+    wohnort_ost:
+      - false
+    steuerklasse:
+      - 5
+    bruttolohn_m:
+      - 1596.27
+    alter:
+      - 25
+    hat_kinder:
+      - false
+    arbeitsstunden_w:
+      - 40.0
+    in_ausbildung:
+      - false
+    ges_krankenv_zusatzbeitr_satz:
+      - 1.09
+    ges_pflegev_zusatz_kinderlos:
+      - true
+    regulär_beschäftigt:
+      - true
+  assumed: {}
+outputs:
+  lohnst_m:
+    - 292.0
+  soli_st_lohnst_m:
+    - 16.08
