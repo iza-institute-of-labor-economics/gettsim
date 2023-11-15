@@ -23,8 +23,6 @@ INPUT_COLS = [
 
 OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
 
-YEARS = [2022]
-
 data = load_policy_test_data("lohnst")
 
 
@@ -45,6 +43,7 @@ def test_lohnsteuer(
     result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column
     )
+
     assert_series_equal(
         result[column], test_data.output_df[column], check_dtype=False, atol=2
     )
@@ -53,8 +52,8 @@ def test_lohnsteuer(
 def test_lohnsteuer_rv_anteil():
     policy_params, policy_functions = set_up_policy_environment(2018)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"] == 0.72
+    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 0.72
 
     policy_params, policy_functions = set_up_policy_environment(2023)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"] == 1
+    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1
