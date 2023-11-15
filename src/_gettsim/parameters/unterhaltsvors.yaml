@@ -52,7 +52,7 @@ altersgrenzen:
 rounding:
   unterhaltsvors_m:
     note:
-      en: Starting date unclear
+      en: Rounding rules since implementation in 1980 via BGBl. I 1979 S. 1184.
     1980-01-01:
       base: 1
       direction: up
