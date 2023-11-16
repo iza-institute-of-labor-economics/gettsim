@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
+  ({ghuser}`MImmesberger`).
 - {gh}`655` Correct calculation of Lohnsteuer for 2015 to 2023 ({ghuser}`JakobWegmann`).
 - {gh}`653` Add Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 - {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care

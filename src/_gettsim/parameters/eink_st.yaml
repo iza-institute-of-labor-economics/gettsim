@@ -276,3 +276,23 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
+  zu_verst_eink_y_tu:
+    note:
+      en: before 2002 base and to_add_after_rounding were converted from DM to EUR
+    1981-01-01:
+      base: 27.609762
+      direction: down
+    2001-01-01:
+      base: 27.609762
+      direction: down
+      to_add_after_rounding: 13.804881
+      reference: § 32a Abs. 2 EStG
+    2002-01-01:
+      base: 36
+      direction: down
+      to_add_after_rounding: 18
+      reference: § 32a Abs. 2 EStG
+    2004-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 1 EStG
