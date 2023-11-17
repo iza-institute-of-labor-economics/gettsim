@@ -888,7 +888,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
     en: Age threshold for pension for unemployed (without deductions)
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für Arbeitslose abschlagsfrei
+      Frühestmögliches Alter ab dem die Altersrente für Arbeitslose abschlagsfrei
       bezogen werden kann.
     en: >-
       Earliest possible age to receive pension for unemployed without deductions.
