@@ -976,7 +976,7 @@ abolishment_cohort_rente_für_arbeitsl:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
   1980-01-01:
     scalar: 1952
-altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
+altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
   name:
     de: >-
       Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz

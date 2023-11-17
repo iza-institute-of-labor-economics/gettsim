@@ -743,17 +743,17 @@ def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
         and geburtsjahr
         >= ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["first"]
     ):
-        out = ges_rente_params["altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
             geburtsjahr
         ][third]
     elif geburtsjahr == ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]:
         if geburtsmonat < 3:
             out = ges_rente_params[
-                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+                "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
             ][geburtsjahr][1]
         else:
             out = ges_rente_params[
-                "altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+                "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
             ][geburtsjahr][2]
     else:
         out = ges_rente_regelaltersgrenze
