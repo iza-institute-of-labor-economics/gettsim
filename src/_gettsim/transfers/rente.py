@@ -589,7 +589,7 @@ def ges_rente_frauen_altersgrenze(
     returns the lowest full retirement age for women.
 
     """
-    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_frauen"]:
+    if birthdate_decimal < ges_rente_params["first_birthyear_without_rente_für_frauen"]:
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
@@ -609,8 +609,8 @@ def ges_rente_frauen_altersgrenze(
 @dates_active(end="1996-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     birthdate_decimal: float,
-    ges_rente_params: dict,
     ges_rente_regelaltersgrenze: float,
+    ges_rente_params: dict,
 ) -> float:
     """Calculate the age, at which an unemployed is eligible to claim the full
     pension (without deductions). This pension scheme allows for early retirement
@@ -621,18 +621,21 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     ----------
     birthdate_decimal
         See :func:`birthdate_decimal`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
 
     Returns
     -------
     lowest full retirement age for unemployed.
 
     """
-    if birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
+    if (
+        birthdate_decimal
+        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
+    ):
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
@@ -689,7 +692,10 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
         and vertrauenss_arbeitsl
     ):
         out = _ges_rente_arbeitsl_altersgrenze_vertrauenss
-    elif birthdate_decimal < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]:
+    elif (
+        birthdate_decimal
+        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
+    ):
         out = piecewise_polynomial(
             x=birthdate_decimal,
             thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
@@ -708,10 +714,10 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
 
 @dates_active(start="2005-01-01")
 def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
-    ges_rente_params: dict,
     ges_rente_regelaltersgrenze: float,
     geburtsmonat: int,
     geburtsjahr: int,
+    ges_rente_params: dict,
 ) -> float:
     """Calculate the age, at which an unemployed is eligible to claim the full
     pension (without deductions) if he is covered by Vertrauensschutz. This
@@ -721,6 +727,8 @@ def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
 
     Parameters
     ----------
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     geburtsmonat
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     geburtsjahr
@@ -728,8 +736,6 @@ def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
 
     Returns
     -------
@@ -832,22 +838,19 @@ def _ges_rente_besond_langj_altersgrenze(
     Full retirement age (without deductions) for very long term insured.
 
     """
-    if (
-        geburtsjahr
-        < ges_rente_params["implementation_cohort_besonders_langj_versicherte"]
-    ):
+    if geburtsjahr < ges_rente_params["first_birthyear_besond_langj_versicherte"]:
         x = birthdate_decimal
     else:
         x = geburtsjahr
 
     out = piecewise_polynomial(
         x=x,
-        thresholds=ges_rente_params["altersgrenze_besonders_langj_versicherte"][
+        thresholds=ges_rente_params["altersgrenze_besond_langj_versicherte"][
             "thresholds"
         ],
-        rates=ges_rente_params["altersgrenze_besonders_langj_versicherte"]["rates"],
+        rates=ges_rente_params["altersgrenze_besond_langj_versicherte"]["rates"],
         intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_besonders_langj_versicherte"
+            "altersgrenze_besond_langj_versicherte"
         ]["intercepts_at_lower_thresholds"],
     )
 
@@ -1008,7 +1011,7 @@ def ges_rente_vorauss_frauen(
         weiblich
         and ges_rente_wartezeit_15
         and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
-        and geburtsjahr < ges_rente_params["abolishment_cohort_rente_für_frauen"]
+        and geburtsjahr < ges_rente_params["first_birthyear_without_rente_für_frauen"]
     )
 
     return out
@@ -1050,7 +1053,7 @@ def _ges_rente_vorauss_arbeitsl(
         and ges_rente_wartezeit_15
         and pflichtbeitr_8_in_10
         and birthdate_decimal
-        < ges_rente_params["abolishment_cohort_rente_für_arbeitsl"]
+        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )
 
     return out

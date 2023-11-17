@@ -854,7 +854,7 @@ altersgrenze_für_frauen_vorzeitig:
     2:
       upper_threshold: inf  # constant 67
       rate_linear: 0
-abolishment_cohort_rente_für_frauen:
+first_birthyear_without_rente_für_frauen:
   name:
     de: Kohorte Abschaffung Rente für Frauen
     en: Cohort abolishment pension for women
@@ -963,7 +963,7 @@ altersgrenze_arbeitsl_vorzeitig:
     6:
       upper_threshold: inf
       rate_linear: 0
-abolishment_cohort_rente_für_arbeitsl:
+first_birthyear_without_rente_für_arbeitsl:
   name:
     de: Kohorte Abschaffung Rente für Arbeitslose
     en: Cohort abolishment pension for unemployed
@@ -1113,7 +1113,7 @@ alignment_cohort_langj_versicherte:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
     scalar: 1950
-altersgrenze_besonders_langj_versicherte:
+altersgrenze_besond_langj_versicherte:
   name:
     de: >-
       Eintrittsalter für besonders langjährig Versicherte - abschlagsfrei (Rente mit 63)
@@ -1176,7 +1176,7 @@ altersgrenze_besonders_langj_versicherte:
     4:
       upper_threshold: inf
       rate_linear: 0
-implementation_cohort_besonders_langj_versicherte:
+first_birthyear_besond_langj_versicherte:
   name:
     de: Kohorte Implementierung Rente für besonders langjährig Versicherte
     en: Cohort implementation pension for very long term insured
