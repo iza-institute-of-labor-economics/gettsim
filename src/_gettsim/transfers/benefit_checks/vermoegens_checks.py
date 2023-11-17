@@ -4,7 +4,7 @@ from _gettsim.shared import dates_active
 def _kinderzuschl_nach_vermög_check_m_tu(
     _kinderzuschl_vor_vermög_check_m_tu: float,
     vermögen_bedürft_hh: float,
-    kinderzuschl_vermög_freib_hh: float,
+    kinderzuschl_vermög_freib_bg: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -14,18 +14,18 @@ def _kinderzuschl_nach_vermög_check_m_tu(
         See :func:`_kinderzuschl_vor_vermög_check_m_tu`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
-    kinderzuschl_vermög_freib_hh
-        See :func:`kinderzuschl_vermög_freib_hh`.
+    kinderzuschl_vermög_freib_bg
+        See :func:`kinderzuschl_vermög_freib_bg`.
 
     Returns
     -------
 
     """
 
-    if vermögen_bedürft_hh > kinderzuschl_vermög_freib_hh:
+    if vermögen_bedürft_hh > kinderzuschl_vermög_freib_bg:
         out = max(
             _kinderzuschl_vor_vermög_check_m_tu
-            - (vermögen_bedürft_hh - kinderzuschl_vermög_freib_hh),
+            - (vermögen_bedürft_hh - kinderzuschl_vermög_freib_bg),
             0.0,
         )
     else:
@@ -33,8 +33,8 @@ def _kinderzuschl_nach_vermög_check_m_tu(
     return out
 
 
-@dates_active(end="2022-12-31", change_name="kinderzuschl_vermög_freib_hh")
-def kinderzuschl_vermög_freib_hh_bis_2022(
+@dates_active(end="2022-12-31", change_name="kinderzuschl_vermög_freib_bg")
+def kinderzuschl_vermög_freib_bg_bis_2022(
     arbeitsl_geld_2_vermög_freib_hh: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag until 2022.
@@ -52,8 +52,8 @@ def kinderzuschl_vermög_freib_hh_bis_2022(
     return arbeitsl_geld_2_vermög_freib_hh
 
 
-@dates_active(start="2023-01-01", change_name="kinderzuschl_vermög_freib_hh")
-def kinderzuschl_vermög_freib_hh_ab_2023(
+@dates_active(start="2023-01-01", change_name="kinderzuschl_vermög_freib_bg")
+def kinderzuschl_vermög_freib_bg_ab_2023(
     _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag since 2023.
