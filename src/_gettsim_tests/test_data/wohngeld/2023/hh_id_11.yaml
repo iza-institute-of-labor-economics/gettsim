@@ -72,5 +72,5 @@ inputs:
 outputs:
   wohngeld_vor_vermög_check_m_hh:
     - 425.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 425.0

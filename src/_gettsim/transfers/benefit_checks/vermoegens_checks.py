@@ -71,7 +71,7 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
     return _arbeitsl_geld_2_vermög_freib_karenzz_hh
 
 
-def wohngeld_nach_vermög_check_m_hh(
+def wohngeld_nach_vermög_check_m_vg(
     wohngeld_vor_vermög_check_m_hh: float,
     vermögen_bedürft_hh: float,
     haushaltsgröße_hh: int,

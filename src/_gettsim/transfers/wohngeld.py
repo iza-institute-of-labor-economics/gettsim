@@ -5,7 +5,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 
 
 def wohngeld_m_hh(
-    wohngeld_nach_vermög_check_m_hh: float,
+    wohngeld_nach_vermög_check_m_vg: float,
     wohngeld_vorrang_vg: bool,
     wohngeld_kinderzuschl_vorrang_vg: bool,
     erwachsene_alle_rentner_hh: bool,
@@ -14,8 +14,8 @@ def wohngeld_m_hh(
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
+    wohngeld_nach_vermög_check_m_vg
+        See :func:`wohngeld_nach_vermög_check_m_vg`.
     wohngeld_vorrang_vg
         See :func:`wohngeld_vorrang_vg`.
     wohngeld_kinderzuschl_vorrang_vg
@@ -34,7 +34,7 @@ def wohngeld_m_hh(
     ):
         out = 0.0
     else:
-        out = wohngeld_nach_vermög_check_m_hh
+        out = wohngeld_nach_vermög_check_m_vg
 
     return out
 
