@@ -1,4 +1,4 @@
-def wohngeld_vorrang_hh(
+def wohngeld_vorrang_vg(
     wohngeld_nach_vermög_check_m_hh: float,
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
 ) -> bool:
