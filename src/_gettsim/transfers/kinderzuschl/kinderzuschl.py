@@ -4,7 +4,7 @@
 from _gettsim.shared import dates_active
 
 
-def kinderzuschl_m_hh(
+def kinderzuschl_m_bg(
     _kinderzuschl_nach_vermög_check_m_tu: float,
     kinderzuschl_vorrang_bg: bool,
     wohngeld_kinderzuschl_vorrang_vg: bool,

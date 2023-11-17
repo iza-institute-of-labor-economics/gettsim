@@ -70,7 +70,7 @@ inputs:
       - 2011
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 0
     - 0
     - 0

@@ -38,7 +38,7 @@ inputs:
       - 2019
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 0
   wohngeld_m_hh:
     - 0

@@ -36,7 +36,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Alimony advance payment
 * - {func}`arbeitsl_geld_2_m_bg <_gettsim.functions.arbeitsl_geld_2_m_bg>`
   - Monthly subsistence payment on household level
-* - {func}`kinderzuschl_m_hh <_gettsim.functions.kinderzuschl_m_hh>`
+* - {func}`kinderzuschl_m_bg <_gettsim.functions.kinderzuschl_m_bg>`
   - Monthly additional child benefit, household sum
 * - {func}`elterngeld_m <_gettsim.functions.elterngeld_m>`
   - Monthly parental leave benefit

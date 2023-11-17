@@ -54,7 +54,7 @@ inputs:
       - 2009
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 140
     - 140
   wohngeld_m_hh:
