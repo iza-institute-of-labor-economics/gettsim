@@ -106,7 +106,7 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
       - 0.0
       - 0.0

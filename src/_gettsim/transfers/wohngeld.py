@@ -561,7 +561,7 @@ def wohngeld_miete_m_vg_ab_2009(  # noqa: PLR0912 (see #516)
 
 
 @add_rounding_spec(params_key="wohngeld")
-def wohngeld_vor_vermög_check_m_hh(
+def wohngeld_vor_vermög_check_m_vg(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_vg: float,
     wohngeld_miete_m_vg: float,

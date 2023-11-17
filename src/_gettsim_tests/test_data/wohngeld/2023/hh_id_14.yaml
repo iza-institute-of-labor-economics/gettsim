@@ -232,7 +232,7 @@ inputs:
       - 2020
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 777.0
     - 777.0
     - 777.0

@@ -20,7 +20,7 @@ inputs:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1000.0
