@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def grunds_im_alter_m_hh(  # noqa: PLR0913
+def grunds_im_alter_m_vg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
     kindergeld_m_hh: float,
