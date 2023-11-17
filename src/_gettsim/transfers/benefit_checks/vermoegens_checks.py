@@ -35,21 +35,21 @@ def _kinderzuschl_nach_vermög_check_m_tu(
 
 @dates_active(end="2022-12-31", change_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_bis_2022(
-    arbeitsl_geld_2_vermög_freib_hh: float,
+    arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag until 2022.
 
     Parameters
     ----------
-    arbeitsl_geld_2_vermög_freib_hh
-        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
+    arbeitsl_geld_2_vermög_freib_bg
+        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
 
     Returns
     -------
 
     """
 
-    return arbeitsl_geld_2_vermög_freib_hh
+    return arbeitsl_geld_2_vermög_freib_bg
 
 
 @dates_active(start="2023-01-01", change_name="kinderzuschl_vermög_freib_bg")
@@ -198,8 +198,8 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     return float(out)
 
 
-@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_vermög_freib_hh")
-def arbeitsl_geld_2_vermög_freib_hh_bis_2022(
+@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_vermög_freib_bg")
+def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     _arbeitsl_geld_2_grundfreib_vermög_hh: float,
     anz_kinder_bis_17_hh: int,
     haushaltsgröße_hh: int,
@@ -266,8 +266,8 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_hh(
     return out
 
 
-@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_hh")
-def arbeitsl_geld_2_vermög_freib_hh_ab_2023(
+@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_bg")
+def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,
     _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,

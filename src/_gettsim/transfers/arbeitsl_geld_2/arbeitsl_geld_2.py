@@ -303,7 +303,7 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     unterhaltsvors_m_hh: float,
     arbeitsl_geld_2_eink_m_hh: float,
     vermögen_bedürft_hh: float,
-    arbeitsl_geld_2_vermög_freib_hh: float,
+    arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -322,8 +322,8 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
         See :func:`unterhaltsvors_m_hh`.
     arbeitsl_geld_2_eink_m_hh
         See :func:`arbeitsl_geld_2_eink_m_hh`.
-    arbeitsl_geld_2_vermög_freib_hh
-        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
+    arbeitsl_geld_2_vermög_freib_bg
+        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
 
@@ -333,7 +333,7 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     """
 
     # Check wealth exemption
-    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
+    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_bg:
         out = 0.0
     else:
         # Deduct income from various sources
