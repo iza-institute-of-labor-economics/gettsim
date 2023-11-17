@@ -4,7 +4,7 @@ from _gettsim.shared import dates_active
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_vg: bool,
-    kinderzuschl_vorrang_hh: bool,
+    kinderzuschl_vorrang_bg: bool,
     wohngeld_kinderzuschl_vorrang_vg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
@@ -18,8 +18,8 @@ def arbeitsl_geld_2_m_bg(
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
     wohngeld_vorrang_vg
         See :func:`wohngeld_vorrang_vg`.
-    kinderzuschl_vorrang_hh
-        See :func:`kinderzuschl_vorrang_hh`.
+    kinderzuschl_vorrang_bg
+        See :func:`kinderzuschl_vorrang_bg`.
     wohngeld_kinderzuschl_vorrang_vg
         See :func:`wohngeld_kinderzuschl_vorrang_vg`.
     erwachsene_alle_rentner_hh
@@ -32,7 +32,7 @@ def arbeitsl_geld_2_m_bg(
     """
     if (
         wohngeld_vorrang_vg
-        or kinderzuschl_vorrang_hh
+        or kinderzuschl_vorrang_bg
         or wohngeld_kinderzuschl_vorrang_vg
         or erwachsene_alle_rentner_hh
     ):
