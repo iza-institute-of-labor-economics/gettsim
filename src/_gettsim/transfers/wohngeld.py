@@ -324,7 +324,7 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m_hh(
+def wohngeld_eink_m_vg(
     haushaltsgröße_hh: int,
     wohngeld_eink_freib_m_hh: float,
     wohngeld_eink_vor_freib_m_hh: float,
@@ -563,7 +563,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
 @add_rounding_spec(params_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
-    wohngeld_eink_m_hh: float,
+    wohngeld_eink_m_vg: float,
     wohngeld_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -573,8 +573,8 @@ def wohngeld_vor_vermög_check_m_hh(
     ----------
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_m_hh
-        See :func:`wohngeld_eink_m_hh`.
+    wohngeld_eink_m_vg
+        See :func:`wohngeld_eink_m_vg`.
     wohngeld_miete_m_hh
         See :func:`wohngeld_miete_m_hh`.
     wohngeld_params
@@ -597,9 +597,9 @@ def wohngeld_vor_vermög_check_m_hh(
             (
                 koeffizienten["a"]
                 + (koeffizienten["b"] * wohngeld_miete_m_hh)
-                + (koeffizienten["c"] * wohngeld_eink_m_hh)
+                + (koeffizienten["c"] * wohngeld_eink_m_vg)
             )
-            * wohngeld_eink_m_hh
+            * wohngeld_eink_m_vg
         )
     )
     out = max(out, 0.0)
