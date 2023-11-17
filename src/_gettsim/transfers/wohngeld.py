@@ -360,7 +360,7 @@ def wohngeld_eink_m_vg(
     return float(out)
 
 
-def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
+def wohngeld_min_miete_m_vg(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
     """Calculate minimal monthly rent subject housing benefit calculation on household
     level.
 
@@ -386,7 +386,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     immobilie_baujahr_hh: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    wohngeld_min_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximal rent subject housing benefit calculation on household level until 2008.
@@ -401,8 +401,8 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
         See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    wohngeld_min_miete_m_vg
+        See :func:`wohngeld_min_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -437,7 +437,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
         )
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
-    out = max(out, wohngeld_min_miete_m_hh)
+    out = max(out, wohngeld_min_miete_m_vg)
 
     return out
 
@@ -447,7 +447,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    wohngeld_min_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximum rent considered in housing benefit since 2009.
@@ -460,8 +460,8 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
         See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    wohngeld_min_miete_m_vg
+        See :func:`wohngeld_min_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -555,7 +555,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
         climate_component_m = 0
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh + climate_component_m)
-    out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m + heating_component_m
+    out = max(out, wohngeld_min_miete_m_vg) + heating_allowance_m + heating_component_m
 
     return out
 
