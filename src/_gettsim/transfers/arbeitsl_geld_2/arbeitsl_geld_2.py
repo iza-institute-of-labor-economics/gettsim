@@ -5,7 +5,7 @@ def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_vg: bool,
     kinderzuschl_vorrang_hh: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_vg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -20,8 +20,8 @@ def arbeitsl_geld_2_m_bg(
         See :func:`wohngeld_vorrang_vg`.
     kinderzuschl_vorrang_hh
         See :func:`kinderzuschl_vorrang_hh`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_vg
+        See :func:`wohngeld_kinderzuschl_vorrang_vg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -33,7 +33,7 @@ def arbeitsl_geld_2_m_bg(
     if (
         wohngeld_vorrang_vg
         or kinderzuschl_vorrang_hh
-        or wohngeld_kinderzuschl_vorrang_hh
+        or wohngeld_kinderzuschl_vorrang_vg
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0

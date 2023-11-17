@@ -7,7 +7,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 def wohngeld_m_hh(
     wohngeld_nach_vermög_check_m_hh: float,
     wohngeld_vorrang_vg: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_vg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final housing benefit on household level.
@@ -18,8 +18,8 @@ def wohngeld_m_hh(
         See :func:`wohngeld_nach_vermög_check_m_hh`.
     wohngeld_vorrang_vg
         See :func:`wohngeld_vorrang_vg`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_vg
+        See :func:`wohngeld_kinderzuschl_vorrang_vg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -29,7 +29,7 @@ def wohngeld_m_hh(
     """
     if (
         (not wohngeld_vorrang_vg)
-        and (not wohngeld_kinderzuschl_vorrang_hh)
+        and (not wohngeld_kinderzuschl_vorrang_vg)
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0

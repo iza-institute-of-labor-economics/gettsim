@@ -38,7 +38,7 @@ def kinderzuschl_vorrang_hh(
     return _kinderzuschl_nach_vermög_check_m_tu >= arbeitsl_geld_2_vor_vorrang_m_bg
 
 
-def wohngeld_kinderzuschl_vorrang_hh(
+def wohngeld_kinderzuschl_vorrang_vg(
     wohngeld_nach_vermög_check_m_hh: float,
     _kinderzuschl_nach_vermög_check_m_tu: float,
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
