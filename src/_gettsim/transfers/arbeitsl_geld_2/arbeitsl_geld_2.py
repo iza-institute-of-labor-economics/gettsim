@@ -45,7 +45,7 @@ def arbeitsl_geld_2_m_bg(
 
 def arbeitsl_geld_2_regelbedarf_m_bg(
     arbeitsl_geld_2_regelsatz_m_bg: float,
-    arbeitsl_geld_2_kost_unterk_m_hh: float,
+    arbeitsl_geld_2_kost_unterk_m_bg: float,
 ) -> float:
     """Basic monthly subsistence level on household level.
 
@@ -57,15 +57,15 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
     ----------
     arbeitsl_geld_2_regelsatz_m_bg
         See :func:`arbeitsl_geld_2_regelsatz_m_bg`.
-    arbeitsl_geld_2_kost_unterk_m_hh
-        See :func:`arbeitsl_geld_2_kost_unterk_m_hh`.
+    arbeitsl_geld_2_kost_unterk_m_bg
+        See :func:`arbeitsl_geld_2_kost_unterk_m_bg`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_hh
+    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_bg
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(

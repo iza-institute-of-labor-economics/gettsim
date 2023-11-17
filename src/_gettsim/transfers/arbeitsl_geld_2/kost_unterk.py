@@ -1,8 +1,8 @@
 from _gettsim.shared import dates_active
 
 
-@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
-def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
+@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
+def arbeitsl_geld_2_kost_unterk_m_bg_bis_2022(
     _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_m_hh: float,
 ) -> float:
@@ -27,8 +27,8 @@ def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
     )
 
 
-@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
-def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
+@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
+def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
     bürgerg_bezug_vorj: bool,

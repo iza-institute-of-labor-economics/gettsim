@@ -76,7 +76,7 @@ outputs:
     - 415.466
   arbeitsl_geld_2_regelsatz_m_bg:
     - 338.0
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_bg:
     - 200.0
   arbeitsl_geld_2_m_bg:
     - 122.53
