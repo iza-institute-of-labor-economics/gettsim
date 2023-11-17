@@ -8,7 +8,7 @@ def sozialv_beitr_m(
     ges_rentenv_beitr_m: float,
     arbeitsl_v_beitr_m: float,
 ) -> float:
-    """Sum of all social insurance contributions of an individual.
+    """Sum of employee's social insurance contributions.
 
     Parameters
     ----------
@@ -40,7 +40,7 @@ def sozialv_beitr_arbeitg_m(
     ges_rentenv_beitr_arbeitg_m: float,
     arbeitsl_v_beitr_arbeitg_m: float,
 ) -> float:
-    """Sum of all social insurance contributions of the respective employer.
+    """Sum of employer's social insurance contributions.
 
     Parameters
     ----------
@@ -70,7 +70,7 @@ def _sozialv_beitr_arbeitn_arbeitg_m(
     sozialv_beitr_m: float,
     sozialv_beitr_arbeitg_m: float,
 ) -> float:
-    """Sum of all social insurance contributions of an employer and employee.
+    """Sum of employer's and employee's social insurance contributions.
 
     Parameters
     ----------
@@ -92,7 +92,7 @@ def arbeitsl_v_beitr_m_vor_midijob(
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution for each individual to the unemployment insurance.
+    """Employee's unemployment insurance contribution.
 
     Parameters
     ----------
@@ -129,7 +129,7 @@ def arbeitsl_v_beitr_m_mit_midijob(
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution for each individual to the unemployment insurance.
+    """Employee's unemployment insurance contribution.
 
     Parameters
     ----------
@@ -170,7 +170,7 @@ def arbeitsl_v_beitr_arbeitg_m_vor_midijob(
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution of the respective employer to the unemployment insurance.
+    """Employer's unemployment insurance contribution until March 2003.
 
     Parameters
     ----------
@@ -207,7 +207,7 @@ def arbeitsl_v_beitr_arbeitg_m_mit_midijob(
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution of the respective employer to the unemployment insurance.
+    """Employer's unemployment insurance contribution since April 2003.
 
     Parameters
     ----------
@@ -247,7 +247,7 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the sum of employee and employer unemployment insurance contribution
+    """Sum of employee's and employer's unemployment insurance contribution
     for midijobs.
 
     Parameters
@@ -278,7 +278,7 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution until September
+    """Employers' unemployment insurance contribution for Midijobs until September
     2022.
 
     Parameters
@@ -301,7 +301,7 @@ def _arbeitsl_v_beitr_midijob_arbeitg_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _arbeitsl_v_beitr_midijob_arbeitn_m: float,
 ) -> float:
-    """Calculating the employer unemployment insurance contribution since October 2022.
+    """Employer's unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
@@ -330,7 +330,7 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _arbeitsl_v_beitr_midijob_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution until September
+    """Employees' unemployment insurance contribution for Midijobs until September
     2022.
 
     Parameters
@@ -356,7 +356,7 @@ def _arbeitsl_v_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculating the employee unemployment insurance contribution since October 2022.
+    """Employee's unemployment insurance contribution since October 2022.
 
     Parameters
     ----------

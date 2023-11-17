@@ -1,7 +1,9 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
+from _gettsim.shared import add_rounding_spec
 
 
+@add_rounding_spec(params_key="unterhaltsvors")
 def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_tu: bool,
     alter: int,
@@ -27,10 +29,6 @@ def unterhaltsvors_m(  # noqa: PLR0913
     The amount is specified in §1612a BGB and, ultimately, in
     Mindestunterhaltsverordnung.
 
-
-    # ToDo: Result was rounded up in previous code. Check if this is correct and
-    # ToDo: implement rounding spec accordingly
-
     Parameters
     ----------
     alleinerz_tu
@@ -53,27 +51,24 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     """
     altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    mindestunterhalt = unterhalt_params["mindestunterhalt"]
+    kindergeld_first_child = kindergeld_params["kindergeld"][1]
+
     if (alter < altersgrenzen[1]) and alleinerz_tu:
-        out = (
-            unterhalt_params["mindestunterhalt"][6] - kindergeld_params["kindergeld"][1]
-        )
+        out = mindestunterhalt[altersgrenzen[1]] - kindergeld_first_child
     elif (altersgrenzen[1] <= alter < altersgrenzen[2]) and alleinerz_tu:
-        out = (
-            unterhalt_params["mindestunterhalt"][12]
-            - kindergeld_params["kindergeld"][1]
-        )
+        out = mindestunterhalt[altersgrenzen[2]] - kindergeld_first_child
+    elif (altersgrenzen[2] <= alter < altersgrenzen[3]) and alleinerz_tu:
+        out = mindestunterhalt[altersgrenzen[3]] - kindergeld_first_child
+    else:
+        out = 0.0
 
     # Older kids get it only if the single parent has income > mindesteinkommen.
-    elif (
-        (altersgrenzen[2] <= alter < altersgrenzen[3])
-        and alleinerz_tu
-        and (unterhaltsvorschuss_eink_m_tu > unterhaltsvors_params["mindesteinkommen"])
+    if (
+        out > 0
+        and (alter >= unterhaltsvors_params["altersgrenze_mindesteinkommen"])
+        and (unterhaltsvorschuss_eink_m_tu < unterhaltsvors_params["mindesteinkommen"])
     ):
-        out = (
-            unterhalt_params["mindestunterhalt"][18]
-            - kindergeld_params["kindergeld"][1]
-        )
-    else:
         out = 0.0
 
     # Check against the actual child alimony payments given by kindesunterhalt_m

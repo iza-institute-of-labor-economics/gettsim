@@ -56,12 +56,13 @@ INTERNAL_PARAMS_GROUPS = [
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
+    "kinderzuschl_eink",
     "kindergeld",
     "elterngeld",
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
-    "lohn_st",
+    "lohnst",
 ]
 
 SUPPORTED_GROUPINGS = {

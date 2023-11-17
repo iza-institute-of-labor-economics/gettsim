@@ -9,7 +9,7 @@ def ges_krankenv_beitr_m_vor_midijob(
     _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public health insurance.
+    """Employee's public health insurance contribution.
 
     Parameters
     ----------
@@ -51,7 +51,7 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
-    """Contribution for each individual to the public health insurance.
+    """Employee's public health insurance contribution.
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ def ges_krankenv_beitr_arbeitg_m_vor_midijob(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Contribution of the respective employer to the public health insurance.
+    """Employer's public health insurance contribution.
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_arbeitg: float,
 ) -> float:
-    """Contribution of the respective employer to the public health insurance.
+    """Employer's public health insurance contribution.
 
     Parameters
     ----------
@@ -189,7 +189,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
 def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance.
+    """Health insurance top-up rate until December 2014.
 
     Parameters
     ----------
@@ -212,7 +212,7 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
 def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Calculate the top-up rate of the health care insurance.
+    """Health insurance top-up rate since January 2015.
 
     Parameters
     ----------
@@ -622,9 +622,32 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch_jahresanfang(
     return _ges_krankenv_beitr_satz_jahresanfang
 
 
-def _ges_krankenv_bruttolohn_m(
+def _ges_krankenv_bruttolohn_reg_beschäftigt_m(
     bruttolohn_m: float,
     _ges_krankenv_beitr_bemess_grenze_m: float,
+) -> float:
+    """Calculate income subject to public health insurance contributions. This does not
+    consider reduced contributions for Mini- and Midijobs.
+
+    Relevant for the computation of payroll taxes.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See :func:`bruttolohn_m`.
+    _ges_krankenv_beitr_bemess_grenze_m
+        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+
+    Returns
+    -------
+    Income subject to public health insurance contributions.
+    """
+
+    return min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
+
+
+def _ges_krankenv_bruttolohn_m(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     regulär_beschäftigt: bool,
 ) -> float:
     """Calculate the wage subject to public health insurance contributions. This affects
@@ -645,7 +668,7 @@ def _ges_krankenv_bruttolohn_m(
 
     """
     if regulär_beschäftigt:
-        out = min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
+        out = _ges_krankenv_bruttolohn_reg_beschäftigt_m
     else:
         out = 0.0
     return out
@@ -834,8 +857,7 @@ def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 def _ges_krankenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
-    """Calculating the employer health insurance contribution for midijobs until
-    September 2022.
+    """Employers' health insurance contribution for midijobs until September 2022.
 
     Parameters
     ----------
@@ -900,8 +922,7 @@ def _ges_krankenv_beitr_midijob_arbeitn_m_residuum(
     _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_krankenv_beitr_midijob_arbeitg_m: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midijobs until
-    September 2022.
+    """Employee's health insurance contribution for midijobs until September 2022.
 
     Parameters
     ----------
