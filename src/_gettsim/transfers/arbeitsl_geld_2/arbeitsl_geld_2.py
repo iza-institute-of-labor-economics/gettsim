@@ -2,7 +2,7 @@ from _gettsim.shared import dates_active
 
 
 def arbeitsl_geld_2_m_bg(
-    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+    arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_hh: bool,
     kinderzuschl_vorrang_hh: bool,
     wohngeld_kinderzuschl_vorrang_hh: bool,
@@ -14,8 +14,8 @@ def arbeitsl_geld_2_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_vor_vorrang_m_hh
-        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_bg
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
     kinderzuschl_vorrang_hh
@@ -38,7 +38,7 @@ def arbeitsl_geld_2_m_bg(
     ):
         out = 0.0
     else:
-        out = arbeitsl_geld_2_vor_vorrang_m_hh
+        out = arbeitsl_geld_2_vor_vorrang_m_bg
 
     return out
 
@@ -296,7 +296,7 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
     return out + arbeitsl_geld_2_kindersatz_m_bg
 
 
-def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
+def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
