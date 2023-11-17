@@ -380,8 +380,8 @@ def wohngeld_min_miete_m_vg(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
     return float(out)
 
 
-@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
+@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_vg")
+def wohngeld_miete_m_vg_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     haushaltsgröße_hh: int,
@@ -442,8 +442,8 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
+@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_vg")
+def wohngeld_miete_m_vg_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
@@ -564,7 +564,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
 def wohngeld_vor_vermög_check_m_hh(
     haushaltsgröße_hh: int,
     wohngeld_eink_m_vg: float,
-    wohngeld_miete_m_hh: float,
+    wohngeld_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Calcualte preliminary housing benefit.
@@ -575,8 +575,8 @@ def wohngeld_vor_vermög_check_m_hh(
         See :func:`haushaltsgröße_hh`.
     wohngeld_eink_m_vg
         See :func:`wohngeld_eink_m_vg`.
-    wohngeld_miete_m_hh
-        See :func:`wohngeld_miete_m_hh`.
+    wohngeld_miete_m_vg
+        See :func:`wohngeld_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -592,11 +592,11 @@ def wohngeld_vor_vermög_check_m_hh(
         min(haushaltsgröße_hh, max_berücks_personen)
     ]
     out = wohngeld_params["faktor_berechnungsformel"] * (
-        wohngeld_miete_m_hh
+        wohngeld_miete_m_vg
         - (
             (
                 koeffizienten["a"]
-                + (koeffizienten["b"] * wohngeld_miete_m_hh)
+                + (koeffizienten["b"] * wohngeld_miete_m_vg)
                 + (koeffizienten["c"] * wohngeld_eink_m_vg)
             )
             * wohngeld_eink_m_vg
@@ -606,12 +606,12 @@ def wohngeld_vor_vermög_check_m_hh(
 
     if haushaltsgröße_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
-        # The maximum is still capped at `wohngeld_miete_m_hh`.
+        # The maximum is still capped at `wohngeld_miete_m_vg`.
         out = min(
             out
             + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
             * (haushaltsgröße_hh - max_berücks_personen),
-            wohngeld_miete_m_hh,
+            wohngeld_miete_m_vg,
         )
 
     return out
