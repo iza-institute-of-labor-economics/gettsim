@@ -43,7 +43,7 @@ def arbeitsl_geld_2_m_bg(
     return out
 
 
-def arbeitsl_geld_2_regelbedarf_m_hh(
+def arbeitsl_geld_2_regelbedarf_m_bg(
     arbeitsl_geld_2_regelsatz_m_hh: float,
     arbeitsl_geld_2_kost_unterk_m_hh: float,
 ) -> float:
@@ -297,7 +297,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
 
 
 def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_hh: float,
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
     unterhaltsvors_m_hh: float,
@@ -311,8 +311,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_hh
-        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     kind_unterh_erhalt_m_hh
@@ -339,7 +339,7 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
         # Deduct income from various sources
         out = max(
             0.0,
-            arbeitsl_geld_2_regelbedarf_m_hh
+            arbeitsl_geld_2_regelbedarf_m_bg
             - arbeitsl_geld_2_eink_m_hh
             - kind_unterh_erhalt_m_hh
             - unterhaltsvors_m_hh

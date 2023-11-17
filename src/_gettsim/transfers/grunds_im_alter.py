@@ -3,7 +3,7 @@ from _gettsim.shared import dates_active
 
 
 def grunds_im_alter_m_hh(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_hh: float,
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
@@ -24,8 +24,8 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_hh
-        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
         See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
     kindergeld_m_hh
@@ -57,7 +57,7 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
     else:
         # Subtract income
         out = (
-            arbeitsl_geld_2_regelbedarf_m_hh
+            arbeitsl_geld_2_regelbedarf_m_bg
             + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
             - grunds_im_alter_eink_m_hh
             - kind_unterh_erhalt_m_hh

@@ -31,7 +31,7 @@ inputs:
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_regelbedarf_m_hh:
+    arbeitsl_geld_2_regelbedarf_m_bg:
       - 1046.0
       - 1046.0
     kindergeld_m_hh:
