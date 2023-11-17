@@ -75,7 +75,7 @@ outputs:
     - 348.0
   arbeitsl_geld_2_eink_m:
     - 648.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_bg:
     - 502.0
   arbeitsl_geld_2_kost_unterk_m_hh:
     - 450.0

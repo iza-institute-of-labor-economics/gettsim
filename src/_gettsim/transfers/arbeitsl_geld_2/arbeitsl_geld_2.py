@@ -44,7 +44,7 @@ def arbeitsl_geld_2_m_bg(
 
 
 def arbeitsl_geld_2_regelbedarf_m_bg(
-    arbeitsl_geld_2_regelsatz_m_hh: float,
+    arbeitsl_geld_2_regelsatz_m_bg: float,
     arbeitsl_geld_2_kost_unterk_m_hh: float,
 ) -> float:
     """Basic monthly subsistence level on household level.
@@ -55,8 +55,8 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelsatz_m_hh
-        See :func:`arbeitsl_geld_2_regelsatz_m_hh`.
+    arbeitsl_geld_2_regelsatz_m_bg
+        See :func:`arbeitsl_geld_2_regelsatz_m_bg`.
     arbeitsl_geld_2_kost_unterk_m_hh
         See :func:`arbeitsl_geld_2_kost_unterk_m_hh`.
 
@@ -65,7 +65,7 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
+    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_hh
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
@@ -213,8 +213,8 @@ def arbeitsl_geld_2_kindersatz_m_bg_ab_2011(
     return float(out)
 
 
-@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_hh")
-def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
+@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_bg")
+def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     anz_erwachsene_hh: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     arbeitsl_geld_2_kindersatz_m_bg: float,
@@ -254,8 +254,8 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     return out + arbeitsl_geld_2_kindersatz_m_bg
 
 
-@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_hh")
-def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
+@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_bg")
+def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
     anz_erwachsene_hh: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     arbeitsl_geld_2_kindersatz_m_bg: float,
