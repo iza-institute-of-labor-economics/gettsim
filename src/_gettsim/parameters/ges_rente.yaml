@@ -1017,14 +1017,14 @@ altergrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
       2: 65.0
 cohort_range_arbeitsl_vertrauenss:
   name:
-    de: Kohorte Abschaffung Vertrauenss. Arbeitslose
-    en: Cohort abolishment Vertrauenss. for unemployed
+    de: Kohorte Abschaffung Vertrauensschutz Arbeitslose
+    en: Cohort abolishment Vertrauensschutz for unemployed
   description:
     de: >-
       Kohorte, in der Vertrauensschutz für Rente für Arbeitslose
       abgeschafft wurde.
     en: >-
-      Cohort in which Vertrauenss. for pension for unemployed was abolished.
+      Cohort in which Vertrauensschutz for pension for unemployed was abolished.
   reference: § 237 SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
   2005-01-01:
