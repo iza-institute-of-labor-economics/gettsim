@@ -559,10 +559,10 @@ Able to provide at least 3 but no more than 6 hours of market labor per day.
 
 Type: bool
 
-## `erwerbsm_rente_mit63`
+## `erwerbsm_langj_vers`
 
 Exceptional case in which a person can already retire at the age of 63 without
-deductions if they can prove 40 years of (Pflichtbeiträge, Berücksichtigungszeiten and
-certain Anrechnungszeiten or Ersatzzeiten).
+deductions if they can prove 35/40 years of (Pflichtbeiträge, Berücksichtigungszeiten
+and certain Anrechnungszeiten or Ersatzzeiten).
 
 Type: bool

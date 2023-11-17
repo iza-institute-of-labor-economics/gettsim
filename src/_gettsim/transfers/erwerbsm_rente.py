@@ -180,7 +180,7 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
-    erwerbsm_rente_mit_63: bool,
+    erwerbsm_langj_vers: bool,
 ) -> float:
     """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
@@ -203,8 +203,8 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
-    erwerbsm_rente_mit_63
-        See basic input variable :ref:`erwerbsm_rente_mit_63 <erwerbsm_rente_mit_63>.
+    erwerbsm_langj_vers
+        See basic input variable :ref:`erwerbsm_langj_vers <erwerbsm_langj_vers>.
 
 
     Returns
@@ -213,9 +213,9 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
 
-    if erwerbsm_rente_mit_63:
+    if erwerbsm_langj_vers:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
-            "altersgrenze_abschlagsfrei_63"
+            "altersgrenze_langj_versicherte_abschlagsfrei"
         ]
     else:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params["altersgrenze_abschlagsfrei"]
