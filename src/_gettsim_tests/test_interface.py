@@ -96,7 +96,7 @@ def test_fail_if_group_variables_not_constant_within_groups():
         {
             "p_id": [1, 2, 3],
             "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m_bg": [100, 200, 300],
+            "arbeitsl_geld_2_m_hh": [100, 200, 300],
         }
     )
 
@@ -353,7 +353,7 @@ def test_user_provided_aggregation_specs():
         }
     )
     aggregation_specs = {
-        "arbeitsl_geld_2_m_bg": {
+        "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
         }
@@ -365,10 +365,10 @@ def test_user_provided_aggregation_specs():
         {},
         functions=[],
         aggregation_specs=aggregation_specs,
-        targets="arbeitsl_geld_2_m_bg",
+        targets="arbeitsl_geld_2_m_hh",
     )
 
-    numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_bg"], expected_res)
+    numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
 
 def test_user_provided_aggregation_specs_function():
@@ -439,7 +439,7 @@ def test_aggregation_specs_agg_not_impl():
         }
     )
     aggregation_specs = {
-        "arbeitsl_geld_2_m_bg": {
+        "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "aggr_not_implemented",
         }
@@ -453,7 +453,7 @@ def test_aggregation_specs_agg_not_impl():
             {},
             functions=[],
             aggregation_specs=aggregation_specs,
-            targets="arbeitsl_geld_2_m_bg",
+            targets="arbeitsl_geld_2_m_hh",
         )
 
 
