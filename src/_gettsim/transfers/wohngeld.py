@@ -4,7 +4,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def wohngeld_m_hh(
+def wohngeld_m_vg(
     wohngeld_nach_vermög_check_m_vg: float,
     wohngeld_vorrang_vg: bool,
     wohngeld_kinderzuschl_vorrang_vg: bool,
