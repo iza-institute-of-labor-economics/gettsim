@@ -68,7 +68,7 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
     return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
 
 
-def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
+def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     alleinerz_hh: bool,
     anz_kinder_hh: int,
     anz_kinder_bis_6_hh: int,
@@ -216,7 +216,7 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
 @dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_hh")
 def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     anz_erwachsene_hh: int,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -226,8 +226,8 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
     arbeitsl_geld_2_kindersatz_m_hh
         See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -242,7 +242,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"] * (
@@ -257,7 +257,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
 @dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_hh")
 def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     anz_erwachsene_hh: int,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     arbeitsl_geld_2_kindersatz_m_hh: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -269,8 +269,8 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
     arbeitsl_geld_2_kindersatz_m_hh
         See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
     arbeitsl_geld_2_params
@@ -286,11 +286,11 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * (
-            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
 
     return out + arbeitsl_geld_2_kindersatz_m_hh
