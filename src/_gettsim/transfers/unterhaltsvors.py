@@ -1,7 +1,9 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
+from _gettsim.shared import add_rounding_spec
 
 
+@add_rounding_spec(params_key="unterhaltsvors")
 def unterhaltsvors_m(  # noqa: PLR0913
     alleinerz_tu: bool,
     alter: int,
@@ -26,10 +28,6 @@ def unterhaltsvors_m(  # noqa: PLR0913
 
     The amount is specified in §1612a BGB and, ultimately, in
     Mindestunterhaltsverordnung.
-
-
-    # ToDo: Result was rounded up in previous code. Check if this is correct and
-    # ToDo: implement rounding spec accordingly
 
     Parameters
     ----------

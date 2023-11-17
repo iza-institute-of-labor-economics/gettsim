@@ -6,11 +6,11 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.13.0
+    rev: 1.15.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-added-large-files
         args:
@@ -41,23 +41,23 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: v1.33.0
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 23.11.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
         # supported by your project here
-        language_version: python3.11
+        language_version: python3.12
   - repo: https://github.com/asottile/blacken-docs
     rev: 1.16.0
     hooks:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.289
+    rev: v0.1.5
     hooks:
       - id: ruff
       #   args:
@@ -74,10 +74,10 @@ repos:
     hooks:
       - id: nbqa-black
         additional_dependencies:
-          - black==23.9.1
+          - black==23.11.0
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.0.289
+          - ruff==v0.1.5
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
@@ -103,7 +103,7 @@ repos:
           - '88'
         files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+    rev: v1.7.0
     hooks:
       - id: mypy
         args:
@@ -112,7 +112,7 @@ repos:
           - types-PyYAML
           - types-pytz
   - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.4.0
+    rev: v2.5.0
     hooks:
       - id: setup-cfg-fmt
   - repo: https://github.com/mgedmin/check-manifest
@@ -124,5 +124,6 @@ repos:
         additional_dependencies:
           - setuptools-scm
           - toml
+          - wheel
 ci:
   autoupdate_schedule: monthly

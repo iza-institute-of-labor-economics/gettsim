@@ -56,6 +56,7 @@ INTERNAL_PARAMS_GROUPS = [
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
+    "kinderzuschl_eink",
     "kindergeld",
     "elterngeld",
     "ges_rente",
