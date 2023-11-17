@@ -1,7 +1,7 @@
 from _gettsim.shared import dates_active
 
 
-def arbeitsl_geld_2_m_hh(
+def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_hh: float,
     wohngeld_vorrang_hh: bool,
     kinderzuschl_vorrang_hh: bool,

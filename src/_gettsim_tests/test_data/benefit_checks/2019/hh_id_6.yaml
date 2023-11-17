@@ -60,6 +60,6 @@ outputs:
   wohngeld_m_hh:
     - 0
     - 0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 628.64
     - 628.64

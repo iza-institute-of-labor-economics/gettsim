@@ -78,5 +78,5 @@ outputs:
     - 502.0
   arbeitsl_geld_2_kost_unterk_m_hh:
     - 450.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 256.0

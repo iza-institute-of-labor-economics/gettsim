@@ -123,7 +123,7 @@ the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the leve
 aggregation.
 
 Time unit identifiers always appear before unit identifiers (e.g.,
-`arbeitsl_geld_2_m_hh`).
+`arbeitsl_geld_2_m_bg`).
 
 ## Parameters of the taxes and transfers system
 

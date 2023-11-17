@@ -42,5 +42,5 @@ outputs:
     - 0
   wohngeld_m_hh:
     - 0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 0.0
