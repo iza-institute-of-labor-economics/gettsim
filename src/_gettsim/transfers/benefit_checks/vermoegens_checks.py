@@ -54,21 +54,21 @@ def kinderzuschl_vermög_freib_bg_bis_2022(
 
 @dates_active(start="2023-01-01", change_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_ab_2023(
-    _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
+    _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag since 2023.
 
     Parameters
     ----------
-    _arbeitsl_geld_2_vermög_freib_karenzz_hh
-        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_hh`.
+    _arbeitsl_geld_2_vermög_freib_karenzz_bg
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_bg`.
 
     Returns
     -------
 
     """
 
-    return _arbeitsl_geld_2_vermög_freib_karenzz_hh
+    return _arbeitsl_geld_2_vermög_freib_karenzz_bg
 
 
 def wohngeld_nach_vermög_check_m_vg(
@@ -234,7 +234,7 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 
 
 @dates_active(start="2023-01-01")
-def _arbeitsl_geld_2_vermög_freib_karenzz_hh(
+def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,
 ) -> float:
@@ -270,7 +270,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_hh(
 def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     haushaltsgröße_hh: int,
-    _arbeitsl_geld_2_vermög_freib_karenzz_hh: float,
+    _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
     bürgerg_bezug_vorj: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
@@ -285,8 +285,8 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    _arbeitsl_geld_2_vermög_freib_karenzz_hh
-        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_hh`.
+    _arbeitsl_geld_2_vermög_freib_karenzz_bg
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_bg`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
 
@@ -299,6 +299,6 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     if bürgerg_bezug_vorj:
         out = haushaltsgröße_hh * params["normaler_satz"]
     else:
-        out = _arbeitsl_geld_2_vermög_freib_karenzz_hh
+        out = _arbeitsl_geld_2_vermög_freib_karenzz_bg
 
     return out
