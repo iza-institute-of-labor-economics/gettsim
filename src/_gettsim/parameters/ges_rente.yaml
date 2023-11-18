@@ -835,7 +835,7 @@ altersgrenze_für_frauen_vorzeitig:
     en: Early retirement age for women.
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann
+      Frühestmögliches Alter ab dem die Altersrente für Frauen bezogen werden kann
       (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for women (with deductions).
@@ -1036,7 +1036,7 @@ altersgrenze_langj_versicherte_vorzeitig:
     en: Early retirement age for long term insured
   description:
     de: >-
-      Frühesmögliches Alter ab dem die Altersrente für langjährig Versicherte
+      Frühestmögliches Alter ab dem die Altersrente für langjährig Versicherte
       bezogen werden kann (mit Abschlägen).
     en: >-
       Earliest possible age to receive pension for long term insured (with deductions).
