@@ -607,22 +607,17 @@ def ges_rente_frauen_altersgrenze(
 
 
 @dates_active(end="1996-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
-    birthdate_decimal: float,
-    ges_rente_regelaltersgrenze: float,
+def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the age, at which an unemployed is eligible to claim the full
-    pension (without deductions). This pension scheme allows for early retirement
-    with deductions. Hence this threshold is needed as reference for calculating the
-    zugangsfaktor.
+    """Age at which an unemployed is eligible to claim the full
+    pension (without deductions).
+
+    Before the WFG (Gesetz für Wachstum und Beschäftigung) was implemented in 1997 the
+    full retirement age was the same for every birth cohort.
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
@@ -632,137 +627,57 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauenss(
     lowest full retirement age for unemployed.
 
     """
-    if (
-        birthdate_decimal
-        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
-    ):
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_arbeitsl_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
-    else:
-        out = ges_rente_regelaltersgrenze
 
-    return out
+    return ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]
 
 
 @dates_active(start="1997-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
-def _ges_rente_arbeitsl_altersgrenze_mit_vertrauenss(
-    birthdate_decimal: float,
+def _ges_rente_arbeitsl_altersgrenze_mit_staffelung(
+    geburtsjahr: int,
+    geburtsmonat: int,
     ges_rente_params: dict,
-    ges_rente_regelaltersgrenze: float,
-    _ges_rente_arbeitsl_altersgrenze_vertrauenss: float,
-    vertrauenss_arbeitsl: bool,
+    vertra_arbeitsl_1997: bool,
 ) -> float:
-    """Calculate the age, at which an unemployed is eligible to claim the full
-    pension (without deductions) allowing for legitimate expectations. This
-    pension scheme allows for early retirement with deductions. Hence this
-    threshold is needed as reference for calculating the Zugangsfaktor.
+    """Age at which an unemployed is eligible to claim the full
+    pension (without deductions) allowing for legitimate expectations.
+
+    Full retirement age depends on birth year and month.
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation
         :ref:`ges_rente_params <ges_rente_params>`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
-    _ges_rente_arbeitsl_altersgrenze_vertrauenss
-        See :func:`_ges_rente_arbeitsl_altersgrenze_vertrauenss`.
-    vertrauenss_arbeitsl
-        See basic input variable :ref:`vertrauenss_arbeitsl <vertrauenss_arbeitsl>`.
+    vertra_arbeitsl_1997
+        See basic input variable :ref:`vertra_arbeitsl_1997 <vertra_arbeitsl_1997>`.
 
     Returns
     -------
     lowest full retirement age for unemployed.
 
     """
-    if (
-        int(birthdate_decimal)
-        <= ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]
-        and birthdate_decimal
-        > ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["first"]
-        and vertrauenss_arbeitsl
-    ):
-        out = _ges_rente_arbeitsl_altersgrenze_vertrauenss
-    elif (
-        birthdate_decimal
-        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
-    ):
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_arbeitsl_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
-    else:
-        out = ges_rente_regelaltersgrenze
-
-    return out
-
-
-@dates_active(start="2005-01-01")
-def _ges_rente_arbeitsl_altersgrenze_vertrauenss(
-    ges_rente_regelaltersgrenze: float,
-    geburtsmonat: int,
-    geburtsjahr: int,
-    ges_rente_params: dict,
-) -> float:
-    """Calculate the age, at which an unemployed is eligible to claim the full
-    pension (without deductions) if he is covered by Vertrauensschutz. This
-    pension scheme allows for early retirement with deductions. Hence this
-    threshold is needed as reference for calculating the
-    zugangsfaktor.
-
-    Parameters
-    ----------
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    ges_rente_params
-        See params documentation
-        :ref:`ges_rente_params <ges_rente_params>`.
-
-    Returns
-    -------
-    lowest full retirement age for unemployed with Vertrauensschutz.
-
-    """
-    third = int((geburtsmonat - 1) / 4) + 1
-
-    if (
-        geburtsjahr < ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]
-        and geburtsjahr
-        >= ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["first"]
-    ):
+    if vertra_arbeitsl_1997:
         out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
             geburtsjahr
-        ][third]
-    elif geburtsjahr == ges_rente_params["cohort_range_arbeitsl_vertrauenss"]["last"]:
-        if geburtsmonat < 3:
-            out = ges_rente_params[
-                "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-            ][geburtsjahr][1]
-        else:
-            out = ges_rente_params[
-                "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-            ][geburtsjahr][2]
+        ][geburtsmonat]
+    elif (
+        geburtsjahr
+        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["start_cohort"]
+    ):
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["start_age"]
+    elif (
+        geburtsjahr
+        > ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["end_cohort"]
+    ):
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["end_age"]
     else:
-        out = ges_rente_regelaltersgrenze
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][geburtsjahr][
+            geburtsmonat
+        ]
 
     return out
 
@@ -863,8 +778,8 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
     geburtsjahr: int,
-    birthdate_decimal: float,
     ges_rente_regelaltersgrenze: float,
+    ges_rente_arbeitsl_vorzeitig: float,
 ) -> float:
     """Calculates the earliest age, at which a person is eligible to claim the a
     pension. Early retirement age (ERA) deductions. This age depends on personal
@@ -883,11 +798,10 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
         See :func:`_ges_rente_vorauss_arbeitsl`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
-
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    ges_rente_arbeitsl_vorzeitig
+        See :func:`ges_rente_arbeitsl_vorzeitig`.
 
      Returns
     -------
@@ -903,14 +817,7 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
         ]["intercepts_at_lower_thresholds"],
     )
 
-    arbeitsl_vorzeitig = piecewise_polynomial(
-        x=birthdate_decimal,
-        thresholds=ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["thresholds"],
-        rates=ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_arbeitsl_vorzeitig"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    arbeitsl_vorzeitig = ges_rente_arbeitsl_vorzeitig
 
     langjährig_vorzeitig = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
@@ -924,6 +831,114 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
         out = min([out, arbeitsl_vorzeitig])
 
     return out
+
+
+@dates_active(end="2005-12-31", change_name="ges_rente_arbeitsl_vorzeitig")
+def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
+    ges_rente_params: dict,
+    geburtsjahr: int,
+    geburtsmonat: int,
+) -> float:
+    """Earliest age, at which an unemployed person is eligible to claim
+    the pension for unemployed.
+
+    Parameters
+    ----------
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+
+    Returns
+    -------
+    Lowest possible early retirement age.
+    """
+
+    if (
+        geburtsjahr
+        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["start_cohort"]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "start_age"
+        ]
+    elif (
+        geburtsjahr > ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["end_cohort"]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "end_age"
+        ]
+    else:
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return arbeitsl_vorzeitig
+
+
+@dates_active(start="2006-01-01", change_name="ges_rente_arbeitsl_vorzeitig")
+def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
+    ges_rente_params: dict,
+    geburtsjahr: int,
+    geburtsmonat: int,
+    vertra_arbeitsl_2006: bool,
+) -> float:
+    """Earliest age, at which an unemployed person is eligible to claim
+    the pension for unemployed.
+
+    Includes Vertrauensschutz rules implemented in 2006.
+
+    Parameters
+    ----------
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    vertra_arbeitsl_2006
+        See basic input variable :ref:`vertra_arbeitsl_2006
+        <vertra_arbeitsl_2006>`.
+
+    Returns
+    -------
+    Lowest possible early retirement age.
+    """
+
+    if (
+        vertra_arbeitsl_2006
+        and geburtsjahr
+        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+            "start_cohort"
+        ]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params[
+            "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+        ]["start_age"]
+    elif vertra_arbeitsl_2006:
+        arbeitsl_vorzeitig = ges_rente_params[
+            "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+        ][geburtsjahr][geburtsmonat]
+    elif (
+        geburtsjahr
+        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["start_cohort"]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "start_age"
+        ]
+    elif (
+        geburtsjahr > ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["end_cohort"]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "end_age"
+        ]
+    else:
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return arbeitsl_vorzeitig
 
 
 def ges_rente_vorauss_vorzeitig(
@@ -1017,16 +1032,48 @@ def ges_rente_vorauss_frauen(
     return out
 
 
-def _ges_rente_vorauss_arbeitsl(
+@dates_active(end="2011-12-31", change_name="_ges_rente_vorauss_arbeitsl")
+def _ges_rente_vorauss_arbeitsl_ohne_2012_reform(
+    arbeitsl_1y_past_585: bool,
+    ges_rente_wartezeit_15: bool,
+    pflichtbeitr_8_in_10: bool,
+) -> bool:
+    """Eligibility for Altersrente für Arbeitslose (pension
+    for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
+    at least 1 year unemployed after age 58 and 6 months.
+
+    Parameters
+    ----------
+    arbeitsl_1y_past_585
+        See basic input variable
+        :ref:`arbeitsl_1y_past_585 <arbeitsl_1y_past_585>`.
+    ges_rente_wartezeit_15
+        See :func:`ges_rente_wartezeit_15`
+    pflichtbeitr_8_in_10
+        See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
+    """
+
+    out = arbeitsl_1y_past_585 and ges_rente_wartezeit_15 and pflichtbeitr_8_in_10
+
+    return out
+
+
+@dates_active(start="2012-01-01", change_name="_ges_rente_vorauss_arbeitsl")
+def _ges_rente_vorauss_arbeitsl_mit_2012_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
     birthdate_decimal: float,
     ges_rente_params: dict,
 ) -> bool:
-    """Determining the eligibility for Altersrente für Arbeitslose (pension
+    """Eligibility for Altersrente für Arbeitslose (pension
     for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
-    at least 1 year unemployed after age 58 and 6 months.
+    at least 1 year unemployed after age 58 and 6 months and being born before 1952.
 
     Parameters
     ----------

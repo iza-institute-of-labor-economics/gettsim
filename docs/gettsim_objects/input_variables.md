@@ -479,11 +479,21 @@ Has been unemployed at least 1 year after age 58.5
 
 Type: bool
 
-(vertrauenss_arbeitsl)=
+(vertra_arbeitsl_1997)=
 
-## `vertrauenss_arbeitsl`
+## `vertra_arbeitsl_1997`
 
-Is covered by Vertrauensschutz Altersrente für Arbeitslose
+Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
+implemented in 1997.
+
+Type: bool
+
+(vertra_arbeitsl_2006)=
+
+## `vertra_arbeitsl_2006`
+
+Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
+implemented in 2006.
 
 Type: bool
 

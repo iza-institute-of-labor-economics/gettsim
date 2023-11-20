@@ -48,7 +48,9 @@ inputs:
       - true
     arbeitsl_1y_past_585:
       - true
-    vertrauenss_arbeitsl:
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
       - false
     m_pflichtbeitrag:
       - 430.0

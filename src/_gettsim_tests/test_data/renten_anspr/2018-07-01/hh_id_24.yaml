@@ -48,7 +48,9 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
-    vertrauenss_arbeitsl:
+    vertra_arbeitsl_1997:
+      - true
+    vertra_arbeitsl_2006:
       - false
     m_pflichtbeitrag:
       - 60.0
@@ -68,7 +70,5 @@ outputs:
     - 0.0
   _ges_rente_langj_altersgrenze:
     - 65.0
-  _ges_rente_arbeitsl_altersgrenze_vertrauenss:
-    - 60.83333333
   _ges_rente_arbeitsl_altersgrenze:
-    - 65.0
+    - 60.83333333

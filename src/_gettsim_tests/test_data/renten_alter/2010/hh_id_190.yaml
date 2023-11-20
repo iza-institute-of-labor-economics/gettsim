@@ -20,7 +20,9 @@ inputs:
       - 10
     m_arbeitsunfähig:
       - 0.0
-    vertrauenss_arbeitsl:
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
       - false
     m_krank_ab_16_bis_24:
       - 0.0
