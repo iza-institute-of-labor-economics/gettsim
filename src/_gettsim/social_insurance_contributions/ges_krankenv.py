@@ -622,9 +622,32 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch_jahresanfang(
     return _ges_krankenv_beitr_satz_jahresanfang
 
 
-def _ges_krankenv_bruttolohn_m(
+def _ges_krankenv_bruttolohn_reg_beschäftigt_m(
     bruttolohn_m: float,
     _ges_krankenv_beitr_bemess_grenze_m: float,
+) -> float:
+    """Calculate income subject to public health insurance contributions. This does not
+    consider reduced contributions for Mini- and Midijobs.
+
+    Relevant for the computation of payroll taxes.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See :func:`bruttolohn_m`.
+    _ges_krankenv_beitr_bemess_grenze_m
+        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+
+    Returns
+    -------
+    Income subject to public health insurance contributions.
+    """
+
+    return min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
+
+
+def _ges_krankenv_bruttolohn_m(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     regulär_beschäftigt: bool,
 ) -> float:
     """Calculate the wage subject to public health insurance contributions. This affects
@@ -645,7 +668,7 @@ def _ges_krankenv_bruttolohn_m(
 
     """
     if regulär_beschäftigt:
-        out = min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
+        out = _ges_krankenv_bruttolohn_reg_beschäftigt_m
     else:
         out = 0.0
     return out

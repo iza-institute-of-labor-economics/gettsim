@@ -1,4 +1,4 @@
-from _gettsim.shared import dates_active
+from _gettsim.shared import add_rounding_spec, dates_active
 
 aggregation_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_tu": {
@@ -37,6 +37,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     return out
 
 
+@add_rounding_spec(params_key="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_eink_m: float,
     eltern: bool,
