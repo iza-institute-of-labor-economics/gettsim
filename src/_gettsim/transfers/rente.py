@@ -23,10 +23,10 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 @add_rounding_spec(params_key="ges_rente")
 def ges_rente_vor_grundr_m(
     ges_rente_zugangsfaktor: float,
-    entgeltp_update: float,
+    entgeltp_ost_update: float,
+    entgeltp_west_update: float,
     ges_rente_params: dict,
     rentner: bool,
-    anteil_entgeltp_ost: float,
 ) -> float:
     """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
     following equation:
@@ -44,15 +44,14 @@ def ges_rente_vor_grundr_m(
     ----------
     ges_rente_zugangsfaktor
         See :func:`ges_rente_zugangsfaktor`.
-    entgeltp_update
-        See :func:`entgeltp_update`.
+    entgeltp_ost_update
+        See :func:`entgeltp_ost_update`.
+    entgeltp_west_update
+        See :func:`entgeltp_west_update`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    anteil_entgeltp_ost_update
-        See basic input variable :ref:`anteil_entgeltp_ost_update
-        <anteil_entgeltp_ost_update>`.
 
     Returns
     -------
@@ -61,15 +60,9 @@ def ges_rente_vor_grundr_m(
 
     if rentner:
         out = (
-            entgeltp_update
-            * (1 - anteil_entgeltp_ost)
-            * ges_rente_zugangsfaktor
-            * ges_rente_params["rentenwert"]["west"]
-            + entgeltp_update
-            * (anteil_entgeltp_ost)
-            * ges_rente_zugangsfaktor
-            * ges_rente_params["rentenwert"]["ost"]
-        )
+            entgeltp_west_update * ges_rente_params["rentenwert"]["west"]
+            + entgeltp_ost_update * ges_rente_params["rentenwert"]["ost"]
+        ) * ges_rente_zugangsfaktor
     else:
         out = 0.0
 
@@ -151,8 +144,10 @@ def rentenwert_vorjahr(wohnort_ost: bool, ges_rente_params: dict) -> float:
     return float(out)
 
 
-def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
-    """Update earning points.
+def entgeltp_west_update(
+    wohnort_ost: bool, entgeltp_west: float, entgeltp_update_lohn: float
+) -> float:
+    """Update western earning points.
 
     Given earnings, social insurance rules, average
     earnings in a particular year and potentially other
@@ -161,8 +156,10 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
 
     Parameters
     ----------
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>`.
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    entgeltp_west
+        See basic input variable :ref:`ententgeltp_westgeltp <entgeltp_west>`.
     entgeltp_update_lohn
         See :func:`entgeltp_update_lohn`.
 
@@ -173,7 +170,43 @@ def entgeltp_update(entgeltp: float, entgeltp_update_lohn: float) -> float:
     # Note: We might need some interaction between the two
     # ways to accumulate earnings points (e.g., how to
     # determine what constitutes a 'care period')
-    out = entgeltp + entgeltp_update_lohn
+    if wohnort_ost:
+        out = entgeltp_west
+    else:
+        out = entgeltp_west + entgeltp_update_lohn
+    return out
+
+
+def entgeltp_ost_update(
+    wohnort_ost: bool, entgeltp_ost: float, entgeltp_update_lohn: float
+) -> float:
+    """Update eastern earning points.
+
+    Given earnings, social insurance rules, average
+    earnings in a particular year and potentially other
+    variables (e.g., benefits for raising children,
+    informal care), return the new earnings points.
+
+    Parameters
+    ----------
+    wohnort_ost
+        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
+    entgeltp_update_lohn
+        See :func:`entgeltp_update_lohn`.
+
+    Returns
+    -------
+
+    """
+    # Note: We might need some interaction between the two
+    # ways to accumulate earnings points (e.g., how to
+    # determine what constitutes a 'care period')
+    if wohnort_ost:
+        out = entgeltp_ost + entgeltp_update_lohn
+    else:
+        out = entgeltp_ost
     return out
 
 

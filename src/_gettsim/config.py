@@ -130,7 +130,6 @@ TYPES_INPUT_VARIABLES = {
     "geburtstag": int,
     "geburtsmonat": int,
     "mietstufe": int,
-    "entgeltp": float,
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
@@ -180,5 +179,6 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
-    "anteil_entgeltp_ost": float,
+    "entgeltp_ost": float,
+    "entgeltp_west": float,
 }

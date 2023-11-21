@@ -20,8 +20,10 @@ inputs:
       - 2012
     geburtsjahr:
       - 1985
-    entgeltp:
+    entgeltp_west:
       - 5.9814
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -60,8 +62,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 7.799471632
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 1.818071632
   _ges_rente_altersgrenze_abschlagsfrei:

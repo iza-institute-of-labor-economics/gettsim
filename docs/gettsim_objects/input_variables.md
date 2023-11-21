@@ -309,14 +309,6 @@ household.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
-(entgeltp)=
-
-## `entgeltp`
-
-Earnings points for pension claim
-
-Type: float
-
 (grundr_zeiten)=
 
 ## `grundr_zeiten`
@@ -547,8 +539,18 @@ Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
 
-## `anteil_entgeltp_ost`
+(entgeltp_west)=
 
-Share of eastern earning points in stock
+## `entgeltp_west`
+
+West earnings points for pension claim
+
+Type: float
+
+(entgeltp_ost)=
+
+## `entgeltp_ost`
+
+East earnings points for pension claim
 
 Type: float

@@ -14,8 +14,10 @@ inputs:
       - 90
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 20.0
+    entgeltp_ost:
+      - 0.0
     geburtsjahr:
       - 1931
     geburtsmonat:
@@ -28,8 +30,6 @@ inputs:
       - 2
     wohnort_ost:
       - false
-    anteil_entgeltp_ost:
-      - 0.0
     bruttolohn_m:
       - 0.0
     weiblich:

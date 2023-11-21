@@ -22,7 +22,9 @@ inputs:
       - 2010
     geburtsjahr:
       - 1956
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 35.2067
     geburtsmonat:
       - 1
@@ -62,7 +64,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
+    - 0.0
+  entgeltp_ost_update:
     - 36.99837737
   entgeltp_update_lohn:
     - 1.79167737

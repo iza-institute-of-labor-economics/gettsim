@@ -19,8 +19,6 @@ inputs:
       - 408
     wohnort_ost:
       - true
-    anteil_entgeltp_ost:
-      - 1.0
     rente_vorj_vor_grundr_proxy_m:
       - 0.0
     bruttolohn_vorj_m:
@@ -39,7 +37,9 @@ inputs:
       - 1951
     bruttolohn_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 18.7
     ges_rente_zugangsfaktor:
       - 1.0
