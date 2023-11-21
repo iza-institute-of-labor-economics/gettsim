@@ -899,10 +899,10 @@ altersgrenze_arbeitsl_abschlagsfrei:
   1992-01-01:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of full retirement age from 60 to 65 for birth cohort 1941-1952.
-    start_cohort: 1941
-    end_cohort: 1952
-    start_age: 60
-    end_age: 65
+    max_birthyear_old_regime: 1940
+    min_birthyear_new_regime: 1953
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 65.0
     1941:
       1: 60.083333
       2: 60.083333
@@ -951,10 +951,10 @@ altersgrenze_arbeitsl_abschlagsfrei:
       6: 61.916667
       7: 61.916667
       8: 61.916667
-      9: 61
-      10: 61
-      11: 61
-      12: 61
+      9: 61.0
+      10: 61.0
+      11: 61.0
+      12: 61.0
     1945:
       1: 61.083333
       2: 61.083333
@@ -979,8 +979,8 @@ altersgrenze_arbeitsl_abschlagsfrei:
       8: 61.833333
       9: 61.916667
       10: 61.916667
-      11: 62
-      12: 62
+      11: 62.0
+      12: 62.0
     1947:
       1: 62.083333
       2: 62.083333
@@ -1005,8 +1005,8 @@ altersgrenze_arbeitsl_abschlagsfrei:
       8: 62.833333
       9: 62.916667
       10: 62.916667
-      11: 63
-      12: 63
+      11: 63.0
+      12: 63.0
     1949:
       1: 63.083333
       2: 63.083333
@@ -1031,8 +1031,8 @@ altersgrenze_arbeitsl_abschlagsfrei:
       8: 63.833333
       9: 63.916667
       10: 63.916667
-      11: 64
-      12: 64
+      11: 64.0
+      12: 64.0
     1951:
       1: 64.083333
       2: 64.083333
@@ -1057,15 +1057,15 @@ altersgrenze_arbeitsl_abschlagsfrei:
       8: 64.833333
       9: 64.916667
       10: 64.916667
-      11: 65
-      12: 65
+      11: 65.0
+      12: 65.0
   1997-01-01:
     reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     note: Increase of full retirement age from 60 to 65 for birth cohort 1937-1941.
-    start_cohort: 1937
-    end_cohort: 1941
-    start_age: 60
-    end_age: 65
+    max_birthyear_old_regime: 1936
+    min_birthyear_new_regime: 1942
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 65.0
     1937:
       1: 60.083333
       2: 60.166667
@@ -1078,7 +1078,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       9: 60.75
       10: 60.833333
       11: 60.916667
-      12: 61
+      12: 61.0
     1938:
       1: 61.083333
       2: 61.166667
@@ -1091,7 +1091,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       9: 61.75
       10: 61.833333
       11: 61.916667
-      12: 62
+      12: 62.0
     1939:
       1: 62.083333
       2: 62.166667
@@ -1104,7 +1104,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       9: 62.75
       10: 62.833333
       11: 62.916667
-      12: 63
+      12: 63.0
     1940:
       1: 63.083333
       2: 63.166667
@@ -1117,7 +1117,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       9: 63.75
       10: 63.833333
       11: 63.916667
-      12: 64
+      12: 64.0
     1941:
       1: 64.083333
       2: 64.166667
@@ -1130,7 +1130,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
       9: 64.75
       10: 64.833333
       11: 64.916667
-      12: 65
+      12: 65.0
 altersgrenze_arbeitsl_vorzeitig:
   name:
     de: Altersgrenze für vorzeitige Inanspruchnahme Altersrente wegen Arbeitslosigkeit
@@ -1155,10 +1155,10 @@ altersgrenze_arbeitsl_vorzeitig:
   1992-01-01:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
-    start_cohort: 1937
-    end_cohort: 1941
-    start_age: 60
-    end_age: 65
+    max_birthyear_old_regime: 1936
+    min_birthyear_new_regime: 1942
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 65.0
     1949:
       1: 60.083333
       2: 60.083333
@@ -1183,8 +1183,8 @@ altersgrenze_arbeitsl_vorzeitig:
       8: 60.833333
       9: 60.916667
       10: 60.916667
-      11: 61
-      12: 61
+      11: 61.0
+      12: 61.0
     1951:
       1: 61.083333
       2: 61.083333
@@ -1209,15 +1209,15 @@ altersgrenze_arbeitsl_vorzeitig:
       8: 61.833333
       9: 61.916667
       10: 61.916667
-      11: 62
-      12: 62
+      11: 62.0
+      12: 62.0
   2006-01-01:
     reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791 2004
     note: Increase of the early retirement age from 60 to 63 for birth cohort 1946-1948.
-    start_cohort: 1946
-    end_cohort: 1948
-    start_age: 60
-    end_age: 63
+    max_birthyear_old_regime: 1945
+    min_birthyear_new_regime: 1949
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 63.0
     1946:
       1: 60.083333
       2: 60.166667
@@ -1230,7 +1230,7 @@ altersgrenze_arbeitsl_vorzeitig:
       9: 60.75
       10: 60.833333
       11: 60.916667
-      12: 61
+      12: 61.0
     1947:
       1: 61.083333
       2: 61.166667
@@ -1243,7 +1243,7 @@ altersgrenze_arbeitsl_vorzeitig:
       9: 61.75
       10: 61.833333
       11: 61.916667
-      12: 62
+      12: 62.0
     1948:
       1: 62.083333
       2: 62.166667
@@ -1256,7 +1256,7 @@ altersgrenze_arbeitsl_vorzeitig:
       9: 62.75
       10: 62.833333
       11: 62.916667
-      12: 63
+      12: 63.0
 first_birthyear_without_rente_für_arbeitsl:
   name:
     de: Kohorte Abschaffung Rente für Arbeitslose
@@ -1297,8 +1297,8 @@ altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
   1997-01-01:
     reference: Ruhestandsförderungsgesetz 1996. BGBl. I S. 1078 1996 § 237
     note: Increase of full retirement age according to old law (RRG 1992).
-    start_cohort: 1941
-    start_age: 60
+    max_birthyear_old_regime: 1940
+    entry_age_old_regime: 60.0
     1941:
       1: 60.083333
       2: 60.083333

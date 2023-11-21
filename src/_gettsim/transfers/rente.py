@@ -666,14 +666,22 @@ def _ges_rente_arbeitsl_altersgrenze_mit_staffelung(
         ][geburtsmonat]
     elif (
         geburtsjahr
-        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["start_cohort"]
+        <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
     ):
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["start_age"]
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
     elif (
         geburtsjahr
-        > ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["end_cohort"]
+        >= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
     ):
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["end_age"]
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
     else:
         out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][geburtsjahr][
             geburtsmonat
@@ -858,16 +866,21 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
     if (
         geburtsjahr
-        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["start_cohort"]
+        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
     ):
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "start_age"
+            "entry_age_old_regime"
         ]
     elif (
-        geburtsjahr > ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["end_cohort"]
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
     ):
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "end_age"
+            "entry_age_new_regime"
         ]
     else:
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
@@ -909,29 +922,34 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     if (
         vertra_arbeitsl_2006
         and geburtsjahr
-        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
-            "start_cohort"
+        <= ges_rente_params["altersgrenze_arbeitsl_abschlag_vertrauensschutz"][
+            "max_birthyear_old_regime"
         ]
     ):
         arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
-        ]["start_age"]
+            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
+        ]["entry_age_old_regime"]
     elif vertra_arbeitsl_2006:
         arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"
+            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
         ][geburtsjahr][geburtsmonat]
     elif (
         geburtsjahr
-        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["start_cohort"]
+        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
     ):
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "start_age"
+            "entry_age_old_regime"
         ]
     elif (
-        geburtsjahr > ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]["end_cohort"]
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
     ):
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "end_age"
+            "entry_age_new_regime"
         ]
     else:
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
