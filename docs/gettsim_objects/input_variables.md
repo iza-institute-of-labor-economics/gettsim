@@ -309,6 +309,22 @@ household.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
+(entgeltp_west)=
+
+## `entgeltp_west`
+
+Earnings points for pension claim accumulated in western states
+
+Type: float
+
+(entgeltp_ost)=
+
+## `entgeltp_ost`
+
+Earnings points for pension claim accumulated in eastern states
+
+Type: float
+
 (grundr_zeiten)=
 
 ## `grundr_zeiten`
@@ -538,19 +554,3 @@ Type: int
 Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
-
-(entgeltp_west)=
-
-## `entgeltp_west`
-
-West earnings points for pension claim
-
-Type: float
-
-(entgeltp_ost)=
-
-## `entgeltp_ost`
-
-East earnings points for pension claim
-
-Type: float

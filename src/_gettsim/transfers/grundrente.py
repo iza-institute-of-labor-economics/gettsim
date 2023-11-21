@@ -317,8 +317,6 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    rentenwert_vorjahr
-        See :func:`rentenwert_vorjahr`.
     priv_rente_m
         See basic input variable :ref:`priv_rente_m <priv_rente_m>`. Assume this did not
         change from last year.

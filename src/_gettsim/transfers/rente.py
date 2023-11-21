@@ -25,8 +25,8 @@ def ges_rente_vor_grundr_m(
     ges_rente_zugangsfaktor: float,
     entgeltp_ost_update: float,
     entgeltp_west_update: float,
-    ges_rente_params: dict,
     rentner: bool,
+    ges_rente_params: dict,
 ) -> float:
     """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
     following equation:
@@ -48,10 +48,10 @@ def ges_rente_vor_grundr_m(
         See :func:`entgeltp_ost_update`.
     entgeltp_west_update
         See :func:`entgeltp_west_update`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -117,27 +117,6 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
 
     """
     params = ges_rente_params["rentenwert"]
-
-    out = params["ost"] if wohnort_ost else params["west"]
-
-    return float(out)
-
-
-def rentenwert_vorjahr(wohnort_ost: bool, ges_rente_params: dict) -> float:
-    """Select the rentenwert of the last year depending on place of living.
-
-    Parameters
-    ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
-
-    Returns
-    -------
-
-    """
-    params = ges_rente_params["rentenwert_vorjahr"]
 
     out = params["ost"] if wohnort_ost else params["west"]
 
