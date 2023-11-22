@@ -1028,7 +1028,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
 
 
 @dates_active(start="2010-01-01", change_name="ges_rente_arbeitsl_vorzeitig")
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_nach_2010(
+def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_ab_2010(
     ges_rente_params: dict,
     geburtsjahr: int,
     geburtsmonat: int,
