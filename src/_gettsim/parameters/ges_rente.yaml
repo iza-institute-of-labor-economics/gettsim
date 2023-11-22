@@ -1268,7 +1268,7 @@ first_birthyear_without_rente_für_arbeitsl:
       Cohort from which pension for unemployed abolished
   reference: § 237 SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
-  2012-01-01:
+  2007-01-01:
     note: RV-Altersgrenzenanpassungsgesetz 2007
     scalar: 1952
 altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
