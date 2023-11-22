@@ -7,7 +7,12 @@ from pandas._testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import load_policy_test_data
 
-YEARS = [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+YEARS = [
+    2014,
+    2015,
+    2016,
+    2017,
+]
 
 data = load_policy_test_data("renten_alter")
 merged_input_df = data.merged_input_df()

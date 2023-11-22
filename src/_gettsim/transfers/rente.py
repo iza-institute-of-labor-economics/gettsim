@@ -774,7 +774,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
 
 @dates_active(
-    start="1992-01-01", end="1996-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
+    start="1992-01-01", end="1996-07-28", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
@@ -796,7 +796,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
 
 
 @dates_active(
-    start="1997-01-01", end="2009-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
+    start="1996-07-29", end="2009-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
 def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     geburtsjahr: int,
@@ -1084,8 +1084,8 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@dates_active(end="1991-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
-def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
+@dates_active(end="1991-12-31", change_name="ges_rente_arbeitsl_vorzeitig")
+def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     ges_rente_params: dict,
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
@@ -1106,7 +1106,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
+def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     ges_rente_params: dict,
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1155,25 +1155,110 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
 
 @dates_active(
-    start="1992-01-01", end="2005-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
+    start="1992-01-01", end="1996-07-28", change_name="ges_rente_arbeitsl_vorzeitig"
 )
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_2006(
-    ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
+def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
 
     Parameters
     ----------
-    ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
 
     Returns
     -------
     Lowest possible early retirement age.
     """
 
-    return ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+    return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+
+
+@dates_active(
+    start="1996-07-29", end="1996-09-26", change_name="ges_rente_arbeitsl_vorzeitig"
+)
+def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
+    ges_rente_params: dict,
+    geburtsjahr: int,
+    geburtsmonat: int,
+    vertra_arbeitsl_1997: bool,
+) -> float:
+    """Earliest age, at which an unemployed person is eligible to claim
+    the pension for unemployed.
+
+    Includes Vertrauensschutz rules implemented from July to September 1996.
+
+    Parameters
+    ----------
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    vertra_arbeitsl_2006
+        See basic input variable :ref:`vertra_arbeitsl_2006
+        <vertra_arbeitsl_2006>`.
+
+    Returns
+    -------
+    Lowest possible early retirement age.
+    """
+
+    if vertra_arbeitsl_1997:
+        arbeitsl_vorzeitig = ges_rente_params[
+            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
+        ]
+    elif (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+    else:
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return arbeitsl_vorzeitig
+
+
+@dates_active(
+    start="1996-09-27", end="2005-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
+)
+def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
+    ges_rente_params: dict,
+) -> float:
+    """Earliest age, at which an unemployed person is eligible to claim
+    the pension for unemployed.
+
+    Parameters
+    ----------
+    ges_rente_params
+        See params documentation
+        :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    early retirement age for unemployed.
+
+    """
+
+    return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
 @dates_active(
@@ -1208,20 +1293,10 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     Lowest possible early retirement age.
     """
 
-    if (
-        vertra_arbeitsl_2006
-        and geburtsjahr
-        <= ges_rente_params["altersgrenze_arbeitsl_abschlag_vertrauensschutz"][
-            "max_birthyear_old_regime"
+    if vertra_arbeitsl_2006:
+        arbeitsl_vorzeitig = ges_rente_params[
+            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
         ]
-    ):
-        arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
-        ]["entry_age_old_regime"]
-    elif vertra_arbeitsl_2006:
-        arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
-        ][geburtsjahr][geburtsmonat]
     elif (
         geburtsjahr
         <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
@@ -1252,7 +1327,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     start="2010-01-01", end="2017-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_ab_2010(
-    ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
@@ -1261,15 +1336,15 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_ab_2010(
     reached the normal retirement age.
     Parameters
     ----------
-    ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
 
     Returns
     -------
     Lowest possible early retirement age.
     """
 
-    return ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+    return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
 
 @dates_active(end="2017-12-31", change_name="ges_rente_vorauss_vorzeitig")
