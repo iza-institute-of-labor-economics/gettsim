@@ -1362,7 +1362,7 @@ altersgrenze_arbeitsl_abschlag_vertrauensschutz:
       Earliest possible age to receive pension for unemployed with deductions
       under legitimate expectations.
   reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791. § 237 Abs. 5
-  note: Early retirement age stays at 60 for employees unemplyed at January 1st 2004.
+  note: Early retirement age stays at 60 for group specified in § 237 Abs. 5 SGB VI.
   2006-01-01:
     scalar: 60
 cohort_range_arbeitsl_vertrauenss:

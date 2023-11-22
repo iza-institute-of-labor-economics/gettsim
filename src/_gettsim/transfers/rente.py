@@ -631,8 +631,10 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]
 
 
-@dates_active(start="1997-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
-def _ges_rente_arbeitsl_altersgrenze_mit_staffelung(
+@dates_active(
+    start="1997-01-01", end="2009-31-12", change_name="_ges_rente_arbeitsl_altersgrenze"
+)
+def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -641,7 +643,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_staffelung(
     """Age at which an unemployed is eligible to claim the full
     pension (without deductions) allowing for legitimate expectations.
 
-    Full retirement age depends on birth year and month.
+    Full retirement age depends on birth year and month. Policy becomes inactive in 2010
+    because then all potential beneficiaries have reached the normal retirement age.
 
     Parameters
     ----------
@@ -660,11 +663,73 @@ def _ges_rente_arbeitsl_altersgrenze_mit_staffelung(
     lowest full retirement age for unemployed.
 
     """
-    if vertra_arbeitsl_1997:
+    if (
+        vertra_arbeitsl_1997
+        and geburtsjahr
+        <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+            "entry_age_old_regime"
+        ]
+
+    elif vertra_arbeitsl_1997:
         out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
             geburtsjahr
         ][geburtsmonat]
     elif (
+        geburtsjahr
+        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][geburtsjahr][
+            geburtsmonat
+        ]
+
+    return out
+
+
+@dates_active(start="2006-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
+def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """Age at which an unemployed is eligible to claim the full
+    pension (without deductions) allowing for legitimate expectations.
+
+    Full retirement age depends on birth year and month.
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation
+        :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    lowest full retirement age for unemployed.
+
+    """
+    if (
         geburtsjahr
         <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
             "max_birthyear_old_regime"
@@ -842,7 +907,7 @@ def _ges_rente_altersgrenze_vorzeitig(  # noqa: PLR0913
 
 
 @dates_active(end="2005-12-31", change_name="ges_rente_arbeitsl_vorzeitig")
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
+def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_2006(
     ges_rente_params: dict,
     geburtsjahr: int,
     geburtsmonat: int,
@@ -890,7 +955,9 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     return arbeitsl_vorzeitig
 
 
-@dates_active(start="2006-01-01", change_name="ges_rente_arbeitsl_vorzeitig")
+@dates_active(
+    start="2006-01-01", end="2009-31-12", change_name="ges_rente_arbeitsl_vorzeitig"
+)
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     ges_rente_params: dict,
     geburtsjahr: int,
@@ -900,7 +967,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
 
-    Includes Vertrauensschutz rules implemented in 2006.
+    Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2010
+    because then all potential beneficiaries have reached the normal retirement age.
 
     Parameters
     ----------
@@ -934,6 +1002,55 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
             "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
         ][geburtsjahr][geburtsmonat]
     elif (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+    else:
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return arbeitsl_vorzeitig
+
+
+@dates_active(start="2010-01-01", change_name="ges_rente_arbeitsl_vorzeitig")
+def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_nach_2010(
+    ges_rente_params: dict,
+    geburtsjahr: int,
+    geburtsmonat: int,
+) -> float:
+    """Earliest age, at which an unemployed person is eligible to claim
+    the pension for unemployed.
+
+    Parameters
+    ----------
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+
+    Returns
+    -------
+    Lowest possible early retirement age.
+    """
+
+    if (
         geburtsjahr
         <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
             "max_birthyear_old_regime"
