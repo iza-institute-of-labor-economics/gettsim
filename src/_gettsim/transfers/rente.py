@@ -704,7 +704,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     return out
 
 
-@dates_active(start="2006-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
+@dates_active(start="2010-01-01", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
     geburtsjahr: int,
     geburtsmonat: int,
