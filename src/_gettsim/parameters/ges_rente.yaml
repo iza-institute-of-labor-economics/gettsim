@@ -895,7 +895,7 @@ altersgrenze_arbeitsl_abschlagsfrei:
   reference: § 237 SGB VI
   note: https://www.gesetze-im-internet.de/sgb_6/__237.html
   1980-01-01:
-    scalar: 60
+    scalar: 60.0
   1992-01-01:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of full retirement age from 60 to 65 for birth cohort 1941-1952.
@@ -1366,7 +1366,7 @@ altersgrenze_arbeitsl_vorzeitig:
     en: >-
       https://www.buzer.de/Anlage_19_SGB_VI.htm
   1980-01-01:
-    scalar: 60
+    scalar: 60.0
   1992-01-01:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
@@ -1429,7 +1429,7 @@ altersgrenze_arbeitsl_vorzeitig:
   1996-09-27:
     reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     note: Increase of ERA was taken back.
-    scalar: 60
+    scalar: 60.0
   2006-01-01:
     reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791 2004
     note: Increase of the early retirement age from 60 to 63 for birth cohort 1946-1948.
@@ -1583,7 +1583,7 @@ altersgrenze_arbeitsl_abschlag_vertrauensschutz:
   reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791. § 237 Abs. 5
   note: Early retirement age stays at 60 for group specified in § 237 Abs. 5 SGB VI.
   1996-07-29:
-    scalar: 60
+    scalar: 60.0
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte

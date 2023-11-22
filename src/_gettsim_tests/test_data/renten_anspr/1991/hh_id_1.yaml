@@ -1,0 +1,52 @@
+---
+info:
+  note: Verified or corrected using source.
+  source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
+inputs:
+  provided:
+    p_id:
+      - 1
+    hh_id:
+      - 1
+    tu_id:
+      - 1
+    geburtsjahr:
+      - 1930
+    geburtsmonat:
+      - 1
+    weiblich:
+      - false
+    pflichtbeitr_8_in_10:
+      - true
+    arbeitsl_1y_past_585:
+      - true
+    m_pflichtbeitrag:
+      - 300.0
+    m_freiw_beitrag:
+      - 0.0
+    m_ersatzzeit:
+      - 0.0
+    m_kind_berücks_zeit:
+      - 0.0
+    m_pfleg_berücks_zeit:
+      - 0.0
+    m_krank_ab_16_bis_24:
+      - 0.0
+    m_arbeitsunfähig:
+      - 0.0
+    m_arbeitsl:
+      - 0.0
+    m_schul_ausbild:
+      - 0.0
+    m_ausbild_suche:
+      - 0.0
+    m_mutterschutz:
+      - 0.0
+    y_pflichtbeitr_ab_40:
+      - 0.0
+  assumed: {}
+outputs:
+  _ges_rente_altersgrenze_abschlagsfrei:
+    - 60.0
+  referenz_alter_abschlag:
+    - 60.0
