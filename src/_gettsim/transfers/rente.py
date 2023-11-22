@@ -1310,7 +1310,7 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     return out
 
 
-@dates_active(end="2018-01-01", change_name="ges_rente_vorauss_vorzeitig")
+@dates_active(start="2018-01-01", change_name="ges_rente_vorauss_vorzeitig")
 def ges_rente_vorauss_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
 ) -> bool:
