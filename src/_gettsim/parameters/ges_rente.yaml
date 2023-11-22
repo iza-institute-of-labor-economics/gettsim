@@ -1370,10 +1370,10 @@ altersgrenze_arbeitsl_vorzeitig:
   1992-01-01:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
-    max_birthyear_old_regime: 1936
-    min_birthyear_new_regime: 1942
+    max_birthyear_old_regime: 1948
+    min_birthyear_new_regime: 1953
     entry_age_old_regime: 60.0
-    entry_age_new_regime: 65.0
+    entry_age_new_regime: 62.0
     1949:
       1: 60.083333
       2: 60.083333

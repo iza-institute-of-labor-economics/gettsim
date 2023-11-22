@@ -5,13 +5,13 @@ info:
 inputs:
   provided:
     p_id:
-      - 1
+      - 20
     hh_id:
-      - 1
+      - 20
     tu_id:
-      - 1
+      - 20
     geburtsjahr:
-      - 1930
+      - 1955
     geburtsmonat:
       - 1
     weiblich:
@@ -47,16 +47,22 @@ inputs:
   assumed: {}
 outputs:
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 60.0
+    - 65.0
   referenz_alter_abschlag:
-    - 60.0
+    - 65.0
   _ges_rente_altersgrenze_vorzeitig:
-    - 60.0
-  _ges_rente_arbeitsl_altersgrenze:
-    - 60.0
+    - 62.0
   ges_rente_arbeitsl_vorzeitig:
-    - 60.0
+    - 62.0
+  _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss:
+    - 62.0
+  _ges_rente_arbeitsl_altersgrenze:
+    - 65.0
+  _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung:
+    - 65.0
   ges_rente_vorauss_vorzeitig:
     - true
   _ges_rente_vorauss_arbeitsl:
     - true
+  ges_rente_vorauss_frauen:
+    - false

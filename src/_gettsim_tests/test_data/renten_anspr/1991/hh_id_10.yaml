@@ -5,13 +5,13 @@ info:
 inputs:
   provided:
     p_id:
-      - 1
+      - 10
     hh_id:
-      - 1
+      - 10
     tu_id:
-      - 1
+      - 10
     geburtsjahr:
-      - 1930
+      - 1945
     geburtsmonat:
       - 1
     weiblich:
