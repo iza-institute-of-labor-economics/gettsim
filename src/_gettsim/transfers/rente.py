@@ -704,7 +704,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
     ges_rente_params: dict,
 ) -> float:
     """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) allowing for legitimate expectations.
+    pension (without deductions) without Vertrauensschutz.
 
     Full retirement age depends on birth year and month.
     Parameters
@@ -780,7 +780,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
     """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) allowing for legitimate expectations.
+    pension (without deductions) without Vertrauensschutz.
 
     Parameters
     ----------
@@ -875,7 +875,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_ab_2010(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
     """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) allowing for legitimate expectations.
+    pension (without deductions) without Vertrauensschutz.
 
     Full retirement age depends on birth year and month. Policy becomes inactive in 2017
     because then all potential beneficiaries have reached the normal retirement age.
