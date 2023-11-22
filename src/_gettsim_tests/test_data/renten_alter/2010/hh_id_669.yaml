@@ -55,7 +55,7 @@ inputs:
   assumed: {}
 outputs:
   _ges_rente_arbeitsl_altersgrenze:
-    - 65.75
+    - 65.0
   ges_rente_regelaltersgrenze:
     - 65.75
   ges_rente_frauen_altersgrenze:
