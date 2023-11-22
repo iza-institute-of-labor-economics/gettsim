@@ -632,7 +632,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
 
 @dates_active(
-    start="1997-01-01", end="2009-31-12", change_name="_ges_rente_arbeitsl_altersgrenze"
+    start="1997-01-01", end="2009-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
 def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     geburtsjahr: int,
@@ -956,7 +956,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_2006(
 
 
 @dates_active(
-    start="2006-01-01", end="2009-31-12", change_name="ges_rente_arbeitsl_vorzeitig"
+    start="2006-01-01", end="2009-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     ges_rente_params: dict,

@@ -1365,21 +1365,6 @@ altersgrenze_arbeitsl_abschlag_vertrauensschutz:
   note: Early retirement age stays at 60 for group specified in § 237 Abs. 5 SGB VI.
   2006-01-01:
     scalar: 60
-cohort_range_arbeitsl_vertrauenss:
-  name:
-    de: Kohorte Abschaffung Vertrauensschutz Arbeitslose
-    en: Cohort abolishment Vertrauensschutz for unemployed
-  description:
-    de: >-
-      Kohorte, in der Vertrauensschutz für Rente für Arbeitslose
-      abgeschafft wurde.
-    en: >-
-      Cohort in which Vertrauensschutz for pension for unemployed was abolished.
-  reference: § 237 SGB VI
-  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
-  2005-01-01:
-    first: 1941
-    last: 1944
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
