@@ -1514,7 +1514,7 @@ altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz:
   note: >-
     https://www.gesetze-im-internet.de/sgb_6/__237.html
   1996-07-29:
-    reference: Ruhestandsförderungsgesetz 1996. BGBl. I S. 1078 1996 § 237
+    reference: Ruhestandsförderungsgesetz 1996. BGBl. I S. 1078 1996 § 237 Abs. 4 SGB VI
     note: Increase of full retirement age according to old law (RRG 1992).
     max_birthyear_old_regime: 1940
     entry_age_old_regime: 60.0
@@ -1580,9 +1580,15 @@ altersgrenze_arbeitsl_abschlag_vertrauensschutz:
     en: >-
       Earliest possible age to receive pension for unemployed with deductions
       under legitimate expectations.
-  reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791. § 237 Abs. 5
-  note: Early retirement age stays at 60 for group specified in § 237 Abs. 5 SGB VI.
   1996-07-29:
+    reference: Ruhestandsförderungsgesetz 1996. BGBl. I S. 1078 1996 § 237 Abs. 5 SGB VI
+    note: >-
+      Active only until September 1996, where early retirement age increase was taken
+      back.
+    scalar: 60.0
+  2004-07-26:
+    reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791. § 237 Abs. 5 SGB VI
+    note: Early retirement age stays at 60 for group specified in § 237 Abs. 5 SGB VI.
     scalar: 60.0
 altersgrenze_langj_versicherte_vorzeitig:
   name:

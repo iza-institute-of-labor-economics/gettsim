@@ -1202,7 +1202,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 
 
 @dates_active(
-    start="1996-09-27", end="2005-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
+    start="1996-09-27", end="2004-07-25", change_name="ges_rente_arbeitsl_vorzeitig"
 )
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     ges_rente_params: dict,
@@ -1226,7 +1226,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 
 
 @dates_active(
-    start="2006-01-01", end="2009-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
+    start="2004-07-26", end="2017-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     ges_rente_params: dict,
@@ -1236,7 +1236,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
 
-    Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2010
+    Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2018
     because then all potential beneficiaries have reached the normal retirement age.
 
     Parameters
@@ -1266,30 +1266,6 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
         arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
     return arbeitsl_vorzeitig
-
-
-@dates_active(
-    start="2010-01-01", end="2017-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
-)
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_ab_2010(
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
-) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
-
-    Policy becomes inactive in 2018 because then all potential beneficiaries have
-    reached the normal retirement age.
-    Parameters
-    ----------
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
-
-    Returns
-    -------
-    Lowest possible early retirement age.
-    """
-
-    return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
 
 @dates_active(end="2017-12-31", change_name="ges_rente_vorauss_vorzeitig")
