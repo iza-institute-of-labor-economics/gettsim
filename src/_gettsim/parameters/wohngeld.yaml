@@ -475,23 +475,6 @@ koeffizienten_berechnungsformel:
       a: -0.12
       b: 0.0001152
       c: 0.0000251
-haushaltsgröße_hhn:
-  name:
-    de: Haushaltsgrößen, die beim Wohngeld berücksichtigt werden
-    en: Household sizes taken into account for housing benefit
-  description:
-    de: >-
-      Haushalte mit mehr als 5 Mitgliedern haben einen festgesetzten Höchstbetrag für
-      Miete und Belastung. Das Wohngeld für bis zu 12 Haushaltsmitglieder kann durch die
-      Formel berechnet werden.
-    en: >-
-      Households with more than 5 members have a fixed maximum amount for rent and
-      burden. The housing benefit for up to 12 household members can be calculated using
-      the formula be calculated.
-  reference: § 19 Abs.1 WoGG
-  1984-01-01:
-    1: 5
-    2: 12
 bonus_sehr_große_haushalte:
   name:
     de: Zusätzlicher Betrag für große Haushalte
@@ -1987,7 +1970,7 @@ klimakomponente_m:
     5: 39.20
     jede_weitere_person: 4.8
 rounding:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     1970-01-01:
       base: 1
       direction: nearest

@@ -43,7 +43,7 @@ inputs:
     kindergeld_anspruch:
       - false
       - false
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
       - 0.0
       - 0.0
     kinderzuschl_bruttoeink_eltern_m:
