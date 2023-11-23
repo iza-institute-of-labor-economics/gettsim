@@ -5,13 +5,13 @@ info:
 inputs:
   provided:
     p_id:
-      - 11
+      - 2
     hh_id:
-      - 11
+      - 2
     tu_id:
-      - 11
+      - 2
     geburtsjahr:
-      - 1946
+      - 1958
     geburtsmonat:
       - 1
     weiblich:
@@ -44,25 +44,15 @@ inputs:
       - 0.0
     y_pflichtbeitr_ab_40:
       - 0.0
+    m_alg1_übergang:
+      - 0.0
+    m_geringf_beschäft:
+      - 0.0
   assumed: {}
 outputs:
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 61.583333
-  referenz_alter_abschlag:
-    - 61.583333
+    - 66.0
   _ges_rente_altersgrenze_vorzeitig:
-    - 60.0
-  ges_rente_arbeitsl_vorzeitig:
-    - 60.0
-  _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss:
-    - 60.0
-  _ges_rente_arbeitsl_altersgrenze:
-    - 61.583333
-  _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung:
-    - 61.583333
+    - 66.0
   ges_rente_vorauss_vorzeitig:
-    - true
-  _ges_rente_vorauss_arbeitsl:
-    - true
-  ges_rente_vorauss_frauen:
     - false

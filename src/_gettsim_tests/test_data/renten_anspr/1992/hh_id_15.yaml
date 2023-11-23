@@ -1,7 +1,7 @@
 ---
 info:
-  note: ''
-  source: test
+  note: Made up using the text of the law
+  source: ''
 inputs:
   provided:
     p_id:
