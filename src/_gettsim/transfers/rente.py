@@ -803,6 +803,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     geburtsmonat: int,
     ges_rente_params: dict,
     vertra_arbeitsl_1997: bool,
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
     """Age at which an unemployed is eligible to claim the full
     pension (without deductions) allowing for legitimate expectations.
@@ -821,6 +822,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
         :ref:`ges_rente_params <ges_rente_params>`.
     vertra_arbeitsl_1997
         See basic input variable :ref:`vertra_arbeitsl_1997 <vertra_arbeitsl_1997>`.
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
+        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung`.
 
     Returns
     -------
@@ -842,28 +845,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
         out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
             geburtsjahr
         ][geburtsmonat]
-    elif (
-        geburtsjahr
-        < ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-            "max_birthyear_old_regime"
-        ]
-    ):
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-            "entry_age_old_regime"
-        ]
-    elif (
-        geburtsjahr
-        >= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-            "min_birthyear_new_regime"
-        ]
-    ):
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
-            "entry_age_new_regime"
-        ]
     else:
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][geburtsjahr][
-            geburtsmonat
-        ]
+        out = _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
 
     return out
 
@@ -1181,9 +1164,8 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     ges_rente_params: dict,
-    geburtsjahr: int,
-    geburtsmonat: int,
     vertra_arbeitsl_1997: bool,
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
@@ -1201,6 +1183,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_2006
         See basic input variable :ref:`vertra_arbeitsl_2006
         <vertra_arbeitsl_2006>`.
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
 
     Returns
     -------
@@ -1211,28 +1195,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
         arbeitsl_vorzeitig = ges_rente_params[
             "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
         ]
-    elif (
-        geburtsjahr
-        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "max_birthyear_old_regime"
-        ]
-    ):
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "entry_age_old_regime"
-        ]
-    elif (
-        geburtsjahr
-        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "min_birthyear_new_regime"
-        ]
-    ):
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "entry_age_new_regime"
-        ]
     else:
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            geburtsjahr
-        ][geburtsmonat]
+        arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
     return arbeitsl_vorzeitig
 
@@ -1264,11 +1228,10 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 @dates_active(
     start="2006-01-01", end="2009-12-31", change_name="ges_rente_arbeitsl_vorzeitig"
 )
-def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
+def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     ges_rente_params: dict,
-    geburtsjahr: int,
-    geburtsmonat: int,
     vertra_arbeitsl_2006: bool,
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
@@ -1287,6 +1250,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
     vertra_arbeitsl_2006
         See basic input variable :ref:`vertra_arbeitsl_2006
         <vertra_arbeitsl_2006>`.
+    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
 
     Returns
     -------
@@ -1297,28 +1262,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss(
         arbeitsl_vorzeitig = ges_rente_params[
             "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
         ]
-    elif (
-        geburtsjahr
-        <= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "max_birthyear_old_regime"
-        ]
-    ):
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "entry_age_old_regime"
-        ]
-    elif (
-        geburtsjahr
-        >= ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "min_birthyear_new_regime"
-        ]
-    ):
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "entry_age_new_regime"
-        ]
     else:
-        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            geburtsjahr
-        ][geburtsmonat]
+        arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
     return arbeitsl_vorzeitig
 
@@ -1467,8 +1412,8 @@ def ges_rente_vorauss_frauen(
     return out
 
 
-@dates_active(end="2011-12-31", change_name="_ges_rente_vorauss_arbeitsl")
-def _ges_rente_vorauss_arbeitsl_ohne_2012_reform(
+@dates_active(end="2006-12-31", change_name="_ges_rente_vorauss_arbeitsl")
+def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
@@ -1499,9 +1444,9 @@ def _ges_rente_vorauss_arbeitsl_ohne_2012_reform(
 
 
 @dates_active(
-    start="2012-01-01", end="2017-12-31", change_name="_ges_rente_vorauss_arbeitsl"
+    start="2007-01-01", end="2017-12-31", change_name="_ges_rente_vorauss_arbeitsl"
 )
-def _ges_rente_vorauss_arbeitsl_mit_2012_reform(
+def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
