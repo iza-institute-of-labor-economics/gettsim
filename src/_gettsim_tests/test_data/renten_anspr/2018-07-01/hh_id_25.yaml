@@ -20,7 +20,7 @@ inputs:
       - 2018
     geburtsjahr:
       - 1944
-    entgeltp:
+    entgeltp_west:
       - 31.0625
     geburtsmonat:
       - 2
@@ -64,7 +64,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 31.0625
   entgeltp_update_lohn:
     - 0.0
