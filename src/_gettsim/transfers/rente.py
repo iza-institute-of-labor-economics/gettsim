@@ -751,12 +751,15 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
 @dates_active(end="1991-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     ges_rente_params: dict,
+    geburtsjahr: int,  # noqa: ARG001
 ) -> float:
     """Age at which an unemployed is eligible to claim the full
     pension (without deductions).
 
     Before the WFG (Gesetz für Wachstum und Beschäftigung) was implemented in 1997 the
     full retirement age was the same for every birth cohort.
+
+    ToDo: Remove fake dependency (geburtsjahr).
 
     Parameters
     ----------
@@ -1070,9 +1073,12 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
 @dates_active(end="1991-12-31", change_name="ges_rente_arbeitsl_vorzeitig")
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     ges_rente_params: dict,
+    geburtsjahr: int,  # noqa: ARG001
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
+
+    ToDo: Remove fake dependency (geburtsjahr).
 
     Parameters
     ----------
@@ -1206,9 +1212,12 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 )
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     ges_rente_params: dict,
+    geburtsjahr: int,  # noqa: ARG001
 ) -> float:
     """Earliest age, at which an unemployed person is eligible to claim
     the pension for unemployed.
+
+    ToDo: Remove fake dependency (geburtsjahr).
 
     Parameters
     ----------
