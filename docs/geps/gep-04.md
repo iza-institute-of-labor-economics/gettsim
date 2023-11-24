@@ -250,16 +250,16 @@ Using a different reduction function than the sum is as easy as explicitly speci
 `my_col_hh`.
 
 Consider the following example: the function `kindergeld_m` calculates the
-individual-level child benefit payment. `arbeitsl_geld_2_m_hh` calculates
+individual-level child benefit payment. `arbeitsl_geld_2_m_bg` calculates
 Arbeitslosengeld 2 on the household level (as indicated by the suffix). One necessary
 input of this function is the sum of all child benefits on the household level. There is
 no function or input column `kindergeld_m_hh`.
 
 By including `kindergeld_m_hh` as an argument in the definition of
-`arbeitsl_geld_2_m_hh` as follows:
+`arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
+def arbeitsl_geld_2_m_bg(kindergeld_m_hh, other_arguments):
     ...
 ```
 

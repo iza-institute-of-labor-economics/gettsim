@@ -42,7 +42,7 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
+   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
    (i.e., the tax or transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
@@ -112,7 +112,7 @@ changed, even if it leads to long variable names (e.g., `kinderfreib`,
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
+`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
 (i.e., the tax or transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
@@ -123,7 +123,7 @@ the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the leve
 aggregation.
 
 Time unit identifiers always appear before unit identifiers (e.g.,
-`arbeitsl_geld_2_m_hh`).
+`arbeitsl_geld_2_m_bg`).
 
 ## Parameters of the taxes and transfers system
 
@@ -136,7 +136,7 @@ general naming considerations here.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_nach_vermög_check_m_hh` for a column derived from it).
+  and `wohngeld_nach_vermög_check_m_vg` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 

@@ -106,7 +106,7 @@ inputs:
       - '2022'
       - '2022'
       - '2022'
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
       - 0.0
       - 0.0
@@ -144,15 +144,15 @@ outputs:
     - 424.0
     - 0.0
     - 0.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_bg:
     - 1206.64
     - 1206.64
     - 1206.64
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_bg:
     - 518.0
     - 518.0
     - 518.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 540.64
     - 540.64
     - 540.64
