@@ -332,6 +332,8 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
         See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
     ges_rente_zugangsfaktor
         See :func:`ges_rente_zugangsfaktor`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
