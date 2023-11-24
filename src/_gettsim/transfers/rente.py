@@ -146,9 +146,6 @@ def entgeltp_west_update(
     -------
 
     """
-    # Note: We might need some interaction between the two
-    # ways to accumulate earnings points (e.g., how to
-    # determine what constitutes a 'care period')
     if wohnort_ost:
         out = entgeltp_west
     else:
@@ -179,9 +176,6 @@ def entgeltp_ost_update(
     -------
 
     """
-    # Note: We might need some interaction between the two
-    # ways to accumulate earnings points (e.g., how to
-    # determine what constitutes a 'care period')
     if wohnort_ost:
         out = entgeltp_ost + entgeltp_update_lohn
     else:
