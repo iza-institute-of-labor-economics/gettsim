@@ -20,8 +20,10 @@ inputs:
       - 2010
     geburtsjahr:
       - 1964
-    entgeltp:
+    entgeltp_west:
       - 25.3484
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -60,8 +62,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 25.81076835
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.462368353
   _ges_rente_altersgrenze_abschlagsfrei:

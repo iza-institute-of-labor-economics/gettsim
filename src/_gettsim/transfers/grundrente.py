@@ -302,13 +302,14 @@ def grundr_zuschlag_bonus_entgeltp(
 @add_rounding_spec(params_key="ges_rente")
 def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentner: bool,
-    rentenwert_vorjahr: float,
     priv_rente_m: float,
     jahr_renteneintr: int,
     geburtsjahr: int,
     alter: int,
-    entgeltp: float,
+    entgeltp_west: float,
+    entgeltp_ost: float,
     ges_rente_zugangsfaktor: float,
+    ges_rente_params: dict,
 ) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
 
@@ -316,8 +317,6 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    rentenwert_vorjahr
-        See :func:`rentenwert_vorjahr`.
     priv_rente_m
         See basic input variable :ref:`priv_rente_m <priv_rente_m>`. Assume this did not
         change from last year.
@@ -327,10 +326,14 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>`.
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>`.
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
     ges_rente_zugangsfaktor
         See :func:`ges_rente_zugangsfaktor`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
@@ -344,7 +347,10 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
         rentner_vorjahr = False
 
     if rentner_vorjahr:
-        out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
+        out = (
+            entgeltp_west * ges_rente_params["rentenwert_vorjahr"]["west"]
+            + entgeltp_ost * ges_rente_params["rentenwert_vorjahr"]["ost"]
+        ) * ges_rente_zugangsfaktor + priv_rente_m
     else:
         out = 0.0
 

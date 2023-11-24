@@ -20,8 +20,10 @@ inputs:
       - 2018
     geburtsjahr:
       - 1959
-    entgeltp:
+    entgeltp_west:
       - 31.0625
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -60,8 +62,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 31.0625
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.0
   _ges_rente_altersgrenze_abschlagsfrei:
