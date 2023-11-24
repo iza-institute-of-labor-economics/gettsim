@@ -309,11 +309,19 @@ household.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
-(entgeltp)=
+(entgeltp_west)=
 
-## `entgeltp`
+## `entgeltp_west`
 
-Earnings points for pension claim
+Earnings points for pension claim accumulated in western states
+
+Type: float
+
+(entgeltp_ost)=
+
+## `entgeltp_ost`
+
+Earnings points for pension claim accumulated in eastern states
 
 Type: float
 

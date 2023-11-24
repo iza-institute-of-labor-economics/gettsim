@@ -22,8 +22,10 @@ inputs:
       - 2014
     geburtsjahr:
       - 1948
-    entgeltp:
+    entgeltp_west:
       - 22.42
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 12
     m_arbeitsunfähig:
@@ -66,8 +68,10 @@ inputs:
       - 10.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 22.99796044
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.577960442
   _ges_rente_altersgrenze_abschlagsfrei:
