@@ -102,14 +102,49 @@ inputs:
       - 60.0
       - 60.0
       - 20.0
-    erwerbsm_langj_vers:
+    # m_alg1_übergang:
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    # m_pfleg_berücks_zeit:
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    # m_kind_berücks_zeit:
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    # m_arbeitsunfähig:
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    # m_geringf_beschäft:
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+    #   - 0.0
+  assumed:
+    langj_versicherte_wartezeit:
       - false
       - false
       - true
       - false
       - false
       - false
-  assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
     - 21.57831325

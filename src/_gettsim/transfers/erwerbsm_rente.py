@@ -180,7 +180,7 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
-    erwerbsm_langj_vers: bool,
+    langj_versicherte_wartezeit: bool,
 ) -> float:
     """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
@@ -203,8 +203,8 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
-    erwerbsm_langj_vers
-        See basic input variable :ref:`erwerbsm_langj_vers <erwerbsm_langj_vers>.
+    langj_versicherte_wartezeit
+        See :func:`langj_versicherte_wartezeit`.
 
 
     Returns
@@ -213,7 +213,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
 
-    if erwerbsm_langj_vers:
+    if langj_versicherte_wartezeit:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_langj_versicherte_abschlagsfrei"
         ]
@@ -226,5 +226,58 @@ def erwerbsm_rente_zugangsfaktor(
         ]
     )
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor"])
+
+    return out
+
+
+def langj_versicherte_wartezeit(  # noqa: PLR0913
+    m_pflichtbeitrag: float,
+    m_freiw_beitrag: float,
+    ges_rente_anrechnungszeit_45: float,
+    m_ersatzzeit: float,
+    m_kind_berücks_zeit: float,
+    m_pfleg_berücks_zeit: float,
+    ges_rente_params: dict,
+) -> bool:
+    """Whether Wartezeit von 40 Jahren Wartezeit (Vertrauensschutz) has been completed.
+    Aggregates time periods that are relevant for the eligibility of Altersrente für
+    besonders langjährig Versicherte (pension for very long-term insured).
+
+    Parameters
+    ----------
+    m_pflichtbeitrag
+        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
+    m_freiw_beitrag
+        See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
+    ges_rente_anrechnungszeit_45
+        See :func:`ges_rente_anrechnungszeit_45`.
+    m_ersatzzeit
+        See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    m_kind_berücks_zeit
+        See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
+    m_pfleg_berücks_zeit
+        See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Fulfilled Wartezeit von 40 Jahren
+
+    """
+    if m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]:
+        freiwilligbeitr = m_freiw_beitrag
+    else:
+        freiwilligbeitr = 0
+
+    m_zeiten = (
+        m_pflichtbeitrag
+        + freiwilligbeitr
+        + ges_rente_anrechnungszeit_45
+        + m_ersatzzeit
+        + m_pfleg_berücks_zeit
+        + m_kind_berücks_zeit
+    ) / 12
+    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_40"]
 
     return out

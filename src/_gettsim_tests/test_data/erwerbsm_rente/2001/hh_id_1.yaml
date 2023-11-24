@@ -82,13 +82,13 @@ inputs:
       - 60.0
       - 60.0
       - 60.0
-    erwerbsm_langj_vers:
+  assumed:
+    langj_versicherte_wartezeit:
       - false
       - false
       - false
       - false
       - false
-  assumed: {}
 outputs:
   entgeltp_erwerbsm_rente:
     - 15.43875686
