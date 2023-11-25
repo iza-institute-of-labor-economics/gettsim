@@ -14,7 +14,9 @@ inputs:
       - 70
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 20.0
     geburtsjahr:
       - 1951

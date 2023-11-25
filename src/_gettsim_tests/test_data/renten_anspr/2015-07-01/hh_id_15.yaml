@@ -20,7 +20,9 @@ inputs:
       - 2015
     geburtsjahr:
       - 1982
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 10.6965
     geburtsmonat:
       - 1
@@ -60,7 +62,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
+    - 0.0
+  entgeltp_ost_update:
     - 11.04777563
   entgeltp_update_lohn:
     - 0.351275627
