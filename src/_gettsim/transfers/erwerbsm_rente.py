@@ -2,12 +2,13 @@ from _gettsim.shared import dates_active
 
 
 @dates_active(start="2001-01-01")
-def erwerbsm_rente_m(
+def erwerbsm_rente_m(  # noqa: PLR0913
     erwerbsm_rente_zugangsfaktor: float,
-    entgeltp_erwerbsm_rente: float,
-    rentenwert: float,
+    entgeltp_west_erwerbsm_rente: float,
+    entgeltp_ost_erwerbsm_rente: float,
     rentenartfaktor: float,
     ges_rente_vorauss_erwerbsm: bool,
+    ges_rente_params: dict,
 ) -> float:
     """Erwerbsminderungsrente (public disability insurance claim)
 
@@ -18,8 +19,10 @@ def erwerbsm_rente_m(
     ----------
     erwerbsm_rente_zugangsfaktor
         See :func:`erwerbsm_rente_zugangsfaktor`.
-    entgeltp_erwerbsm_rente
-        See :func:`entgeltp_erwerbsm_rente`.
+    entgeltp_west_erwerbsm_rente
+        See :func:`entgeltp_west_erwerbsm_rente`.
+    entgeltp_ost_erwerbsm_rente
+        See :func:`entgeltp_ost_erwerbsm_rente`.
     rentenwert
         See :func:`rentenwert`.
     rentenartfaktor
@@ -34,9 +37,11 @@ def erwerbsm_rente_m(
 
     if ges_rente_vorauss_erwerbsm:
         out = (
-            entgeltp_erwerbsm_rente
+            (
+                entgeltp_west_erwerbsm_rente * ges_rente_params["rentenwert"]["west"]
+                + entgeltp_ost_erwerbsm_rente * ges_rente_params["rentenwert"]["ost"]
+            )
             * erwerbsm_rente_zugangsfaktor
-            * rentenwert
             * rentenartfaktor
         )
     else:
@@ -74,14 +79,13 @@ def ges_rente_vorauss_erwerbsm(
     return anspruch_erwerbsm_rente
 
 
-def entgeltp_erwerbsm_rente(
-    entgeltp: float,
-    durchschn_entgeltp: float,
-    erwerbsm_rente_params: dict,
-    age_of_retirement: float,
+def entgeltp_west_erwerbsm_rente(
+    entgeltp_west: float,
+    entgeltp_ost: float,
+    entgeltp_zurechnungszeit: float,
 ) -> float:
-    """Entgeltpunkte which Erwerbsminderungsrente is based on
-    (public disability insurance)
+    """Entgeltpunkte accumulated in western germany which Erwerbsminderungsrente
+    is based on (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
@@ -89,14 +93,81 @@ def entgeltp_erwerbsm_rente(
 
     Parameters
     ----------
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+    entgeltp_zurechnungszeit
+        See :func:`entgeltp_zurechnungszeit`.
+
+    Returns
+    -------
+    Final pension points for Erwerbsminderungsrente (public disability insurance)
+
+    """
+
+    anteil_entgeltp_west = entgeltp_west / (entgeltp_west + entgeltp_ost)
+
+    out = entgeltp_west + (entgeltp_zurechnungszeit * anteil_entgeltp_west)
+
+    return out
+
+
+def entgeltp_ost_erwerbsm_rente(
+    entgeltp_west: float,
+    entgeltp_ost: float,
+    entgeltp_zurechnungszeit: float,
+) -> float:
+    """Entgeltpunkte accumulated in eastern germany which Erwerbsminderungsrente
+    is based on (public disability insurance)
+    In the case of the public disability insurance,
+    pensioners are credited with additional earning points.
+    They receive their average earned income points for
+    each year between their age of retirement and the "zurechnungszeitsgrenze".
+
+    Parameters
+    ----------
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+    entgeltp_zurechnungszeit
+        See :func:`entgeltp_zurechnungszeit`.
+
+    Returns
+    -------
+    Final pension points for Erwerbsminderungsrente (public disability insurance)
+
+    """
+
+    anteil_entgeltp_ost = entgeltp_ost / (entgeltp_west + entgeltp_ost)
+
+    out = entgeltp_ost + (entgeltp_zurechnungszeit * anteil_entgeltp_ost)
+
+    return out
+
+
+def entgeltp_zurechnungszeit(
+    durchschn_entgeltp: float,
+    age_of_retirement: float,
+    erwerbsm_rente_params: dict,
+) -> float:
+    """Additional Entgeltpunkte accumulated through "Zurechnungszeit" for
+    Erwerbsminderungsrente (public disability insurance)
+    In the case of the public disability insurance,
+    pensioners are credited with additional earning points.
+    They receive their average earned income points for
+    each year between their age of retirement and the "zurechnungszeitsgrenze".
+
+    Parameters
+    ----------
     durchschn_entgeltp
         See :func:`durchschn_entgeltp`.
-    erwerbsm_rente_params
-        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
+
 
     Returns
     -------
@@ -105,15 +176,14 @@ def entgeltp_erwerbsm_rente(
     """
     zurechnungszeitsgrenze = erwerbsm_rente_params["zurechnungszeitsgrenze"]
 
-    out = entgeltp + (
-        (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp
-    )
+    out = (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp
 
     return out
 
 
 def durchschn_entgeltp(
-    entgeltp: float,
+    entgeltp_west: float,
+    entgeltp_ost: float,
     age_of_retirement: float,
     erwerbsm_rente_params: dict,
 ) -> float:
@@ -125,8 +195,10 @@ def durchschn_entgeltp(
 
     Parameters
     ----------
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
     age_of_retirement
         See :func:`age_of_retirement`.
     erwerbsm_rente_params
@@ -140,7 +212,10 @@ def durchschn_entgeltp(
     beleg_gesamtzeitr = (
         age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbew"]
     )
-    durchschn_entgeltp = entgeltp / beleg_gesamtzeitr
+
+    entgeltp_gesamt = entgeltp_west + entgeltp_ost
+
+    durchschn_entgeltp = entgeltp_gesamt / beleg_gesamtzeitr
 
     return durchschn_entgeltp
 

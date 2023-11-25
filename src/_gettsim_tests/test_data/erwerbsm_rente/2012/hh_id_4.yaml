@@ -40,12 +40,18 @@ inputs:
       - true
       - true
       - true
-    entgeltp:
+    entgeltp_west:
       - 15.0
       - 18.0
       - 14.0
       - 3.0
       - 4.0
+    entgeltp_ost:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     wohnort_ost:
       - false
       - false
@@ -96,12 +102,18 @@ inputs:
       - false
       - false
 outputs:
-  entgeltp_erwerbsm_rente:
+  entgeltp_west_erwerbsm_rente:
     - 18.04100228
     - 30.17142857
     - 38.70157068
     - 23.64179104
     - 33.52380952
+  entgeltp_ost_erwerbsm_rente:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   erwerbsm_rente_zugangsfaktor:
     - 0.892
     - 0.892

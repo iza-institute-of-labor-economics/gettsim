@@ -1205,7 +1205,7 @@ def ges_rente_anrechnungszeit(  # noqa: PLR0913
         See basic input variable :ref:`m_arbeitsl <m_arbeitsl>`.
     m_ausbild_suche
         See basic input variable :ref:`m_ausbild_suche <m_ausbild_suche>`.
-    m_schul_ausbild
+    #
         See basic input variable :ref:`m_schul_ausbild <m_schul_ausbild>`.
 
     Returns

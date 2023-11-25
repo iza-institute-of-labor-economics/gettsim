@@ -17,10 +17,16 @@ inputs:
       - true
       - true
   assumed:
-    entgeltp_erwerbsm_rente:
+    entgeltp_west_erwerbsm_rente:
       - 15.14340344
       - 17.50276243
       - 34.38139535
+      - 0.0
+      - 0.0
+    entgeltp_ost_erwerbsm_rente:
+      - 0.0
+      - 0.0
+      - 0.0
       - 17.40659341
       - 24.27586207
     erwerbsm_rente_zugangsfaktor:
