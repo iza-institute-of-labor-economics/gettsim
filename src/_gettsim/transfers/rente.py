@@ -845,18 +845,18 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     if (
         vertra_arbeitsl_1997
         and geburtsjahr
-        <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
+        <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["vertrauensschutz"][
             "max_birthyear_old_regime"
         ]
     ):
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
-            "entry_age_old_regime"
-        ]
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "vertrauensschutz"
+        ]["entry_age_old_regime"]
 
     elif vertra_arbeitsl_1997:
-        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei_vertrauensschutz"][
-            geburtsjahr
-        ][geburtsmonat]
+        out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
+            "vertrauensschutz"
+        ][geburtsjahr][geburtsmonat]
     else:
         out = _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
 
@@ -1202,8 +1202,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     """
 
     if vertra_arbeitsl_1997:
-        arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "vertrauensschutz"
         ]
     else:
         arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
@@ -1269,8 +1269,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     """
 
     if vertra_arbeitsl_2006:
-        arbeitsl_vorzeitig = ges_rente_params[
-            "altersgrenze_arbeitsl_abschlag_vertrauensschutz"
+        arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "vertrauensschutz"
         ]
     else:
         arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
@@ -1398,7 +1398,7 @@ def ges_rente_vorauss_frauen(
     return out
 
 
-@dates_active(end="2006-12-31", change_name="_ges_rente_vorauss_arbeitsl")
+@dates_active(end="2007-04-29", change_name="_ges_rente_vorauss_arbeitsl")
 def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
@@ -1434,7 +1434,7 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 
 
 @dates_active(
-    start="2007-01-01", end="2017-12-31", change_name="_ges_rente_vorauss_arbeitsl"
+    start="2007-04-30", end="2017-12-31", change_name="_ges_rente_vorauss_arbeitsl"
 )
 def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
@@ -1477,7 +1477,9 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
         and ges_rente_wartezeit_15
         and pflichtbeitr_8_in_10
         and birthdate_decimal
-        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
+        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
+            "first_birthyear_without_rente_für_arbeitsl"
+        ]
     )
 
     return out

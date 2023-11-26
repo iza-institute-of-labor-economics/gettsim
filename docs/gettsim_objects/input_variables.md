@@ -492,7 +492,7 @@ Type: bool
 ## `vertra_arbeitsl_1997`
 
 Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
-implemented in 1997.
+implemented in 1997 (§ 237 SGB VI Abs. 4).
 
 Type: bool
 
@@ -501,7 +501,7 @@ Type: bool
 ## `vertra_arbeitsl_2006`
 
 Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
-implemented in 2006.
+implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 
