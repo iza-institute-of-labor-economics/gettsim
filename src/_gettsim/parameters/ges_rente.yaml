@@ -1715,7 +1715,7 @@ altersgrenze_langj_versicherte_vorzeitig:
   reference: § 236 SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
-    scalar: 63
+    scalar: 63.0
 altersgrenze_langj_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
