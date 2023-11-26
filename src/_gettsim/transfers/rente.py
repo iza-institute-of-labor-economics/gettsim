@@ -240,18 +240,19 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     ges_rente_vorauss_regelrente: bool,
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the zugangsfaktor based on the year the subject retired.
+    """Zugangsfaktor (pension adjustment factor).
 
-    At the regelaltersgrenze - normal retirement age (NRA), the agent is allowed to
-    get pensions with his full claim. In general, if the agent retires earlier or later,
-    the Zugangsfaktor and therefore the pension claim is higher or lower.
+    Factor by which the pension claim is multiplied to calculate the pension payment.
+    The Zugangsfaktor is larger than 1 if the agent retires after the normal retirement
+    age (NRA) and smaller than 1 if the agent retires earlier than the full retirement
+    age (FRA).
+
+    At the regelaltersgrenze - normal retirement age (NRA), the agent is allowed to get
+    pensions with his full claim. In general, if the agent retires earlier or later, the
+    Zugangsfaktor and therefore the pension claim is higher or lower. The Zugangsfaktor
+    is 1.0 in [FRA, NRA].
 
     Legal reference: § 77 Abs. 2 Nr. 2 SGB VI
-
-    However, under certain conditions agents can receive their full pension claim
-    (Zugangsfaktor=1) at an earlier age - full retirement age (FRA) -  (e.g. women,
-    long term insured, disabled). That is the zugangsfaktor is 1 in [FRA, NRA].
-    It only increases after the NRA for all agents without exeptions.
 
     Since pension payments of the GRV always start at 1st day of month, day of birth
     within month does not matter. The eligibility always starts in the month after
@@ -336,7 +337,8 @@ def age_of_retirement(
     geburtsmonat: int,
     rentner: bool,
 ) -> float:
-    """
+    """Age at retirement in monthly precision.
+
     Calculates the age of person's retirement in monthly precision.
     As retirement is only possible at first day of month and as
     persons eligible for pension at first of month after reaching the
@@ -360,7 +362,7 @@ def age_of_retirement(
 
     Returns
     -------
-    Age as float (monthly precision).
+    Age at retirement.
 
     """
     if rentner:
@@ -383,10 +385,11 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Calculates the age, at which a person is eligible to claim the full pension. Full
-    retirement age (FRA) without deductions. This age is smaller or equal to the
-    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
-    insurance duration, health/disability, employment status.
+    """Full retirement age.
+
+    Age at which pension can be claimed without deductions. This age is smaller or equal
+    to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
+    gender, insurance duration, health/disability, employment status.
 
     Parameters
     ----------
@@ -408,10 +411,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
         See :func:`_ges_rente_vorauss_arbeitsl`.
     Returns
     -------
-    Lowest possible full retirement age (without deductions). Nan if
-    person not eligible for a public pension. Includes abolishments
-    of pension for women and unemployed via increase of respective
-    thresholds to regelaltersgrenze after abolishment.
+    Full retirement age.
 
     """
 
@@ -445,10 +445,11 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     ges_rente_vorauss_besond_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Calculate the age, at which a person is eligible to claim the full pension. Full
-    retirement age (FRA) without deductions. This age is smaller or equal to the
-    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
-    insurance duration, health/disability, employment status.
+    """Full retirement age.
+
+    Age at which pension can be claimed without deductions. This age is smaller or equal
+    to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
+    gender, insurance duration, health/disability, employment status.
 
     Starting in 2012, the pension for the very long term insured (Altersrente für
     besonders langjährig Versicherte) is introduced. Policy becomes inactive in 2018
@@ -480,8 +481,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
 
     Returns
     -------
-    Lowest possible full retirement age (without deductions). Nan if
-    person not eligigble for a public pension.
+    Full retirement age.
 
     """
 
@@ -509,10 +509,11 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Calculate the age, at which a person is eligible to claim the full pension. Full
-    retirement age (FRA) without deductions. This age is smaller or equal to the
-    regelaltersgrenze (FRA<=NRA) and depends on personal characteristics as gender,
-    insurance duration, health/disability, employment status.
+    """Full retirement age.
+
+    Age at which pension can be claimed without deductions. This age is smaller or equal
+    to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
+    gender, insurance duration, health/disability, employment status.
 
     Parameters
     ----------
@@ -531,8 +532,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
     Returns
     -------
-    Lowest possible full retirement age (without deductions). Nan if
-    person not eligigble for a public pension.
+    Full retirement age.
 
     """
 
@@ -556,15 +556,12 @@ def _referenz_alter_abschlag_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Determines reference age for deduction calculation in case of early retirement
-    (Zugangsfaktor). Nan if person is not eligible for early retirement. (The regular
-    pension and the pension for very long term insured cannot be claimed early.
-    Includes abolishement of Rente für Frauen und Arbeitslose via jump of the
-    respective thresholds to regelaltersgrenze.)
+    """Reference age for deduction calculation in case of early retirement
+    (Zugangsfaktor).
 
-    Policy becomes inactive in 2018 because then all potential beneficiaries of the
-    Rente wg. Arbeitslosigkeit and Rente für Frauen have reached the normal retirement
-    age.
+    Nan if person is not eligible for early retirement. Policy becomes inactive in 2018
+    because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit and Rente
+    für Frauen have reached the normal retirement age.
 
     Parameters
     ----------
@@ -619,11 +616,10 @@ def _referenz_alter_abschlag_ohne_rente_arbeitsl_frauen(
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,
 ) -> float:
-    """Determines reference age for deduction calculation in case of early retirement
-    (Zugangsfaktor). Nan if person is not eligible for early retirement. (The regular
-    pension and the pension for very long term insured cannot be claimed early.
-    Includes abolishement of Rente für Frauen und Arbeitslose via jump of the
-    respective thresholds to regelaltersgrenze.)
+    """Reference age for deduction calculation in case of early retirement
+    (Zugangsfaktor).
+
+    Nan if person is not eligible for early retirement.
 
     Parameters
     ----------
@@ -646,10 +642,11 @@ def _referenz_alter_abschlag_ohne_rente_arbeitsl_frauen(
 
 
 def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
-    """Calculate the age, at which a person is eligible to claim the regular pension.
-    Normal retirement age (NRA). This pension cannot be claimed earlier than at the NRA,
-    ie it does not serve as reference for calculating deductions. However, it serves as
-    reference for calculating gains in the Zugangsfakor in case of later retirement.
+    """Normal retirement age (NRA).
+
+    The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
+    not serve as reference for calculating deductions. However, it serves as reference
+    for calculating gains in the Zugangsfakor in case of later retirement.
 
     Parameters
     ----------
@@ -661,7 +658,7 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
 
     Returns
     -------
-    Age as float.
+    Normal retirement age (NRA).
 
     """
     out = piecewise_polynomial(
@@ -681,10 +678,7 @@ def ges_rente_frauen_altersgrenze(
     ges_rente_regelaltersgrenze: float,
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the age, at which a women is eligible to claim the full pension
-    (without deductions). This pension scheme allows for early retirement from age 60
-    with deductions. Hence this threshold is needed as reference for calculating the
-    zugangsfaktor.
+    """Full retirement age for women.
 
     Parameters
     ----------
@@ -697,7 +691,7 @@ def ges_rente_frauen_altersgrenze(
 
     Returns
     -------
-    returns the lowest full retirement age for women.
+    Full retirement age for women.
 
     """
     if birthdate_decimal < ges_rente_params["first_birthyear_without_rente_für_frauen"]:
@@ -722,10 +716,10 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
     geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) without Vertrauensschutz.
+    """Full retirement age for unemployed without Vertrauensschutz.
 
     Full retirement age depends on birth year and month.
+
     Parameters
     ----------
     geburtsjahr
@@ -738,7 +732,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
 
     Returns
     -------
-    lowest full retirement age for unemployed.
+    Full retirement age for unemployed.
 
     """
     if (
@@ -772,8 +766,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     ges_rente_params: dict,
     geburtsjahr: int,  # noqa: ARG001
 ) -> float:
-    """Age at which an unemployed is eligible to claim the full
-    pension (without deductions).
+    """Full retirement age for unemployed.
 
     Before the WFG (Gesetz für Wachstum und Beschäftigung) was implemented in 1997 the
     full retirement age was the same for every birth cohort.
@@ -801,8 +794,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
-    """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) without Vertrauensschutz.
+    """Full retirement age for unemployed without Vertrauensschutz.
 
     Parameters
     ----------
@@ -811,7 +803,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
 
     Returns
     -------
-    lowest full retirement age for unemployed.
+    Full retirement age for unemployed.
 
     """
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
@@ -827,8 +819,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
     vertra_arbeitsl_1997: bool,
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
-    """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) allowing for legitimate expectations.
+    """Full retirement age for unemployed with Vertrauensschutz.
 
     Full retirement age depends on birth year and month. Policy becomes inactive in 2010
     because then all potential beneficiaries have reached the normal retirement age.
@@ -849,7 +840,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
 
     Returns
     -------
-    lowest full retirement age for unemployed.
+    Full retirement age for unemployed.
 
     """
     if (
@@ -879,11 +870,11 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_ab_2010(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
 ) -> float:
-    """Age at which an unemployed is eligible to claim the full
-    pension (without deductions) without Vertrauensschutz.
+    """Full retirement age for unemployed without Vertrauensschutz.
 
     Full retirement age depends on birth year and month. Policy becomes inactive in 2017
     because then all potential beneficiaries have reached the normal retirement age.
+
     Parameters
     ----------
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
@@ -891,7 +882,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_ab_2010(
 
     Returns
     -------
-    lowest full retirement age for unemployed.
+    Full retirement age for unemployed.
 
     """
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
@@ -997,14 +988,12 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
     ges_rente_regelaltersgrenze: float,
     ges_rente_arbeitsl_vorzeitig: float,
 ) -> float:
-    """Calculates the earliest age, at which a person is eligible to claim the a
-    pension. Early retirement age (ERA) deductions. This age depends on personal
-    characteristics as gender, insurance duration, health/disability, employment
-    status.
+    """Early retirement age.
 
-    Policy becomes inactive in 2018 because then all potential beneficiaries of the
-    Rente wg. Arbeitslosigkeit and Rente für Frauen have reached the normal retirement
-    age.
+    Early retirement age depends on personal characteristics as gender, insurance
+    duration, health/disability, employment status. Policy becomes inactive in 2018
+    because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit and Rente
+    für Frauen have reached the normal retirement age.
 
     Parameters
     ----------
@@ -1025,7 +1014,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
 
      Returns
     -------
-    Lowest possible early retirement age (potentially with deductions).
+    Early retirement age (potentially with deductions).
 
     """
     frauen_vorzeitig = piecewise_polynomial(
@@ -1059,10 +1048,10 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_regelaltersgrenze: float,
 ) -> float:
-    """Calculates the earliest age, at which a person is eligible to claim the a
-    pension. Early retirement age (ERA) deductions. This age depends on personal
-    characteristics as gender, insurance duration, health/disability, employment
-    status.
+    """Early retirement age.
+
+    Early retirement age depends on personal characteristics as gender, insurance
+    duration, health/disability, employment status.
 
     Parameters
     ----------
@@ -1075,7 +1064,7 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
 
      Returns
     -------
-    Lowest possible early retirement age (potentially with deductions).
+    Early retirement age (potentially with deductions).
 
     """
 
@@ -1094,8 +1083,9 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     ges_rente_params: dict,
     geburtsjahr: int,  # noqa: ARG001
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed.
+
+    Early retirement age does not depend on birth year and month.
 
     ToDo: Remove fake dependency (geburtsjahr).
 
@@ -1107,7 +1097,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
 
     Returns
     -------
-    early retirement age for unemployed.
+    Early retirement age for unemployed.
 
     """
 
@@ -1119,8 +1109,9 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed without Vertrauensschutz.
+
+    Relevant if the early retirement age depends on birth year and month.
 
     Parameters
     ----------
@@ -1133,7 +1124,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
     Returns
     -------
-    Lowest possible early retirement age.
+    Early retirement age for unemployed.
     """
 
     if (
@@ -1168,8 +1159,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed.
 
     Parameters
     ----------
@@ -1178,7 +1168,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 
     Returns
     -------
-    Lowest possible early retirement age.
+    Early retirement age for unemployed.
     """
 
     return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
@@ -1192,8 +1182,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_1997: bool,
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed.
 
     Includes Vertrauensschutz rules implemented from July to September 1996.
 
@@ -1213,7 +1202,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 
     Returns
     -------
-    Lowest possible early retirement age.
+    Early retirement age for unemployed.
     """
 
     if vertra_arbeitsl_1997:
@@ -1233,8 +1222,9 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     ges_rente_params: dict,
     geburtsjahr: int,  # noqa: ARG001
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed.
+
+    Early retirement age does not depend on birth year and month.
 
     ToDo: Remove fake dependency (geburtsjahr).
 
@@ -1246,7 +1236,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 
     Returns
     -------
-    early retirement age for unemployed.
+    Early retirement age for unemployed.
 
     """
 
@@ -1261,8 +1251,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006: bool,
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
-    """Earliest age, at which an unemployed person is eligible to claim
-    the pension for unemployed.
+    """Early retirement age of pension for unemployed.
 
     Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2018
     because then all potential beneficiaries have reached the normal retirement age.
@@ -1283,7 +1272,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 
     Returns
     -------
-    Lowest possible early retirement age.
+    Early retirement age for unemployed.
     """
 
     if vertra_arbeitsl_2006:
@@ -1302,13 +1291,13 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
 ) -> bool:
-    """Determining eligibility for early retirement. Can only be claimed if
-    eligible for "Rente für langjährig Versicherte" or "Rente für Frauen" or "Rente
-    für Arbeitslose" (or -not yet implemented - for disabled).
+    """Eligibility for early retirement.
 
-    Policy becomes inactive in 2018 because then all potential beneficiaries of the
-    Rente wg. Arbeitslosigkeit and Rente für Frauen have reached the normal retirement
-    age.
+    Can only be claimed if eligible for "Rente für langjährig Versicherte" or "Rente für
+    Frauen" or "Rente für Arbeitslose" (or -not yet implemented - for disabled). Policy
+    becomes inactive in 2018 because then all potential beneficiaries of the Rente wg.
+    Arbeitslosigkeit and Rente für Frauen have reached the normal retirement age.
+
     Parameters
     ----------
     ges_rente_vorauss_frauen
@@ -1338,15 +1327,14 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
 def ges_rente_vorauss_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
 ) -> bool:
-    """Determining eligibility for early retirement. Can only be claimed if
-    eligible for "Rente für langjährig Versicherte".
+    """Eligibility for early retirement.
 
+    Can only be claimed if eligible for "Rente für langjährig Versicherte".
 
     Parameters
     ----------
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-
 
     Returns
     -------
@@ -1382,11 +1370,13 @@ def ges_rente_vorauss_frauen(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
-    """Determining the eligibility for Altersrente für Frauen (pension for
-    women) Wartezeit 15 years, contributions 10 years after age 40, being a women.
+    """Eligibility for Altersrente für Frauen (pension for
+    women).
 
-    Policy becomes inactive in 2018 because then all potential beneficiaries have
-    reached the normal retirement age.
+    Wartezeit 15 years, contributions for 10 years after age 40, being a women. Policy
+    becomes inactive in 2018 because then all potential beneficiaries have reached the
+    normal retirement age.
+
     Parameters
     ----------
     weiblich
@@ -1423,8 +1413,10 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     pflichtbeitr_8_in_10: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension
-    for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
-    at least 1 year unemployed after age 58 and 6 months.
+    for unemployed).
+
+    Wartezeit 15 years, 8 contribution years past 10 years, being unemployed for at
+    least 1 year after age 58 and 6 months.
 
     Parameters
     ----------
@@ -1458,11 +1450,13 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension
-    for unemployed. Wartezeit 15 years, 8 contributionyears past 10 years, being
-    at least 1 year unemployed after age 58 and 6 months and being born before 1952.
+    for unemployed).
 
+    Wartezeit 15 years, 8 contributionyears past 10 years, being
+    at least 1 year unemployed after age 58 and 6 months and being born before 1952.
     Policy becomes inactive in 2018 because then all potential beneficiaries have
     reached the normal retirement age.
+
     Parameters
     ----------
     arbeitsl_1y_past_585
