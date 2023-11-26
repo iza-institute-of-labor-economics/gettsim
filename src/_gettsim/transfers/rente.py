@@ -1407,7 +1407,10 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
 
     Wartezeit 15 years, 8 contribution years past 10 years, being unemployed for at
-    least 1 year after age 58 and 6 months.
+    least 1 year after age 58 and 6 months. The person is also required to be
+    unemployed at the time of claiming the pension. As there are no restrictions
+    regarding voluntary unemployment this requirement may be viewed as always satisfied
+    and is therefore not included when checking for eligibility.
 
     Parameters
     ----------
@@ -1443,9 +1446,12 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
 
     Wartezeit 15 years, 8 contributionyears past 10 years, being at least 1 year
-    unemployed after age 58 and 6 months and being born before 1952. Policy becomes
-    inactive in 2018 because then all potential beneficiaries have reached the normal
-    retirement age.
+    unemployed after age 58 and 6 months and being born before 1952. The person is also
+    required to be unemployed at the time of claiming the pension. As there are no
+    restrictions regarding voluntary unemployment this requirement may be viewed as
+    always satisfied and is therefore not included when checking for eligibility. Policy
+    becomes inactive in 2018 because then all potential beneficiaries have reached the
+    normal retirement age.
 
     Parameters
     ----------
