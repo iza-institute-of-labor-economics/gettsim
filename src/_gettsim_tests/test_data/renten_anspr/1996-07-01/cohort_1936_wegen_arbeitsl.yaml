@@ -48,8 +48,6 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
-    vertra_arbeitsl_2006:
-      - true
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
