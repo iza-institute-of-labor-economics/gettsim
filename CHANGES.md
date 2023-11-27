@@ -6,6 +6,9 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
+  {ghuser}`MImmesberger`)
+- {gh}`660` Entgeltpunkte Ost/West ({ghuser}`nafetsk`).
 - {gh}`662` Replace `hh` in function names by `bg`/`fg`/`vg` ({ghuser}`lars-reimann`).
 - {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
   ({ghuser}`MImmesberger`).
@@ -16,8 +19,6 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 - {gh}`643` Fix bug in Midijobfaktor calculation in 2004. ({ghuser}`MImmesberger`).
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
-- {gh}`624` Don't create functions for other time units if this leads to a cycle in the
-  graph ({ghuser}`lars-reimann`).
 - {gh}`620` Adds income from self employment to income for Bürgergeld ({ghuser}`amageh`,
   {ghuser}`lillyfischer`, {ghuser}`TeBackh`)
 - {gh}`634` Implement pension for unemployed ({ghuser}`TeBackh`)

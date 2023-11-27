@@ -52,6 +52,10 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_freiw_beitrag:
       - 0.0
     m_ersatzzeit:
