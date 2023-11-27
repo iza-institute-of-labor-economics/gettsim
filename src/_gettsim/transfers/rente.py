@@ -233,7 +233,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     rentner: bool,
     age_of_retirement: float,
     ges_rente_regelaltersgrenze: float,
-    referenz_alter_abschlag: float,
+    referenzalter_abschlag: float,
     _ges_rente_altersgrenze_abschlagsfrei: float,
     _ges_rente_altersgrenze_vorzeitig: float,
     ges_rente_vorauss_vorzeitig: bool,
@@ -266,8 +266,8 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
         See :func:`age_of_retirement`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    referenz_alter_abschlag
-        See :func:`referenz_alter_abschlag`.
+    referenzalter_abschlag
+        See :func:`referenzalter_abschlag`.
     _ges_rente_altersgrenze_abschlagsfrei
         See :func:`_ges_rente_altersgrenze_abschlagsfrei`.
     _ges_rente_altersgrenze_vorzeitig
@@ -297,7 +297,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
                 # checks whether older than possible era
                 out = (
                     1
-                    + (age_of_retirement - referenz_alter_abschlag)
+                    + (age_of_retirement - referenzalter_abschlag)
                     * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                         "vorzeitiger_renteneintritt"
                     ]
@@ -370,7 +370,7 @@ def age_of_retirement(
             jahr_renteneintr - geburtsjahr + (monat_renteneintr - geburtsmonat - 1) / 12
         )
     else:
-        out = float("Nan")
+        out = float("NaN")
     return out
 
 
@@ -415,7 +415,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
 
     """
 
-    out = float("Nan")
+    out = float("NaN")
     if ges_rente_vorauss_regelrente:
         out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
@@ -547,8 +547,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     return out
 
 
-@dates_active(end="2017-12-31", change_name="referenz_alter_abschlag")
-def _referenz_alter_abschlag_mit_rente_arbeitsl_frauen(
+@dates_active(end="2017-12-31", change_name="referenzalter_abschlag")
+def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
@@ -559,7 +559,7 @@ def _referenz_alter_abschlag_mit_rente_arbeitsl_frauen(
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    Nan if person is not eligible for early retirement. Policy becomes inactive in 2018
+    NaN if person is not eligible for early retirement. Policy becomes inactive in 2018
     because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit and Rente
     für Frauen have reached the normal retirement age.
 
@@ -606,20 +606,20 @@ def _referenz_alter_abschlag_mit_rente_arbeitsl_frauen(
     elif _ges_rente_vorauss_arbeitsl:
         out = _ges_rente_arbeitsl_altersgrenze
     else:
-        out = float("Nan")
+        out = float("NaN")
 
     return out
 
 
-@dates_active(start="2018-01-01", change_name="referenz_alter_abschlag")
-def _referenz_alter_abschlag_ohne_rente_arbeitsl_frauen(
+@dates_active(start="2018-01-01", change_name="referenzalter_abschlag")
+def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    Nan if person is not eligible for early retirement.
+    NaN if person is not eligible for early retirement.
 
     Parameters
     ----------
@@ -636,7 +636,7 @@ def _referenz_alter_abschlag_ohne_rente_arbeitsl_frauen(
     if ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     else:
-        out = float("Nan")
+        out = float("NaN")
 
     return out
 
@@ -711,7 +711,7 @@ def ges_rente_frauen_altersgrenze(
     return out
 
 
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung(
+def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -791,32 +791,32 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 @dates_active(
     start="1992-01-01", end="1996-07-28", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_bis_1996(
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
+def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
 
     Parameters
     ----------
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung`.
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
 
     Returns
     -------
     Full retirement age for unemployed.
 
     """
-    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
+    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
 @dates_active(
     start="1996-07-29", end="2009-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
-def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
+def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
     vertra_arbeitsl_1997: bool,
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
     """Full retirement age for unemployed with Vertrauensschutz.
@@ -832,8 +832,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     vertra_arbeitsl_1997
         See basic input variable :ref:`vertra_arbeitsl_1997 <vertra_arbeitsl_1997>`.
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung`.
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -858,7 +858,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
             "vertrauensschutz"
         ][geburtsjahr][geburtsmonat]
     else:
-        out = _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
+        out = _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
     return out
 
@@ -866,8 +866,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutz_pruefung(
 @dates_active(
     start="2010-01-01", end="2017-12-31", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_ab_2010(
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung: float,
+def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
 
@@ -876,15 +876,15 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung_ab_2010(
 
     Parameters
     ----------
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung`.
+    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
 
     Returns
     -------
     Full retirement age for unemployed.
 
     """
-    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung
+    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
 def _ges_rente_langj_altersgrenze(

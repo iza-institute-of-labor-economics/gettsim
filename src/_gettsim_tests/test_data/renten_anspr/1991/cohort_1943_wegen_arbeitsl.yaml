@@ -48,7 +48,7 @@ inputs:
 outputs:
   _ges_rente_altersgrenze_abschlagsfrei:
     - 60.0
-  referenz_alter_abschlag:
+  referenzalter_abschlag:
     - 60.0
   _ges_rente_altersgrenze_vorzeitig:
     - 60.0

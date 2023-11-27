@@ -50,7 +50,7 @@ inputs:
 outputs:
   _ges_rente_altersgrenze_abschlagsfrei:
     - 63.083333
-  referenz_alter_abschlag:
+  referenzalter_abschlag:
     - 63.083333
   _ges_rente_altersgrenze_vorzeitig:
     - 60.083333
@@ -60,7 +60,7 @@ outputs:
     - 60.083333
   _ges_rente_arbeitsl_altersgrenze:
     - 63.083333
-  _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutz_pruefung:
+  _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung:
     - 63.083333
   ges_rente_vorauss_vorzeitig:
     - true

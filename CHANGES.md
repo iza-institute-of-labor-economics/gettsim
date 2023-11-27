@@ -6,7 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-- {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`)
+- {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
+  {ghuser}`MImmesberger`)
 - {gh}`660` Entgeltpunkte Ost/West ({ghuser}`nafetsk`).
 - {gh}`662` Replace `hh` in function names by `bg`/`fg`/`vg` ({ghuser}`lars-reimann`).
 - {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.

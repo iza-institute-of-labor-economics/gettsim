@@ -1280,8 +1280,8 @@ altersgrenze_arbeitsl_abschlagsfrei:
           Altersgrenze für Altersrente wegen Arbeitslosigkeit mit Vertrauensschutz
           (abschlagsfrei).
         en: >-
-          Age threshold for pension for unemployed (without deductions)
-          with Vertrauensschutz
+          Age threshold for pension for unemployed (without deductions) with
+          Vertrauensschutz
       description: >-
         Increase of full retirement age according to old law (RRG 1992) for individuals
         covered under Vertrauensschutz.
@@ -1474,7 +1474,6 @@ altersgrenze_arbeitsl_vorzeitig:
     de: >-
       https://www.gesetze-im-internet.de/sgb_6/__237.html
       https://www.buzer.de/Anlage_19_SGB_VI.htm
-      Note, need to consider Vertrauensschutz in the long run.
     en: >-
       https://www.buzer.de/Anlage_19_SGB_VI.htm
   1980-01-01:
