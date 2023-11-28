@@ -69,11 +69,33 @@ SUPPORTED_GROUPINGS = {
     "hh": {
         "name": "household",
         "description": "all individuals living in the same household.",
+        "is_endogenous": False,
     },
     "tu": {
         "name": "tax unit",
         "description": "one or two persons that file their taxes together.",
         "nested_by": "hh",
+        "is_endogenous": False,
+    },
+    "bg": {
+        "name": "Bedarfsgemeinschaft",
+        "description": "Familiengemeinschaft plus whether children have enough income"
+                       " to fend for themselves.",
+        "is_endogenous": True,
+    },
+    "fg": {
+        "name": "Familiengemeinschaft",
+        "description": "Maximum of two generations, the relevant unit for Bürgergeld"
+                       " / Arbeitslosengeld 2. Another way to think about this is the"
+                       " potential Bedarfsgemeinschaft before making checks for"
+                       " whether children have enough income fend for themselves.",
+        "is_endogenous": True,
+    },
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Same for spouses filing taxes jointly, not the same as the"
+                       " Germany-wide Steuer-ID.",
+        "is_endogenous": True,
     },
 }
 
