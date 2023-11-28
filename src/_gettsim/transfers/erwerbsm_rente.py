@@ -50,7 +50,8 @@ def erwerbsm_rente_m(  # noqa: PLR0913
 
 
 def ges_rente_vorauss_erwerbsm(
-    erwerbsgemindert: bool,
+    voll_erwerbsgemindert: bool,
+    teilw_erwerbsgemindert: bool,
     m_pflichtbeitrag: float,
     ges_rente_wartezeit_5: bool,
 ) -> bool:
@@ -61,8 +62,10 @@ def ges_rente_vorauss_erwerbsm(
 
     Parameters
     ----------
-    erwerbsgemindert
-        See basic input variable :ref:`erwerbsgemindert <erwerbsgemindert>.
+    voll_erwerbsgemindert
+        See basic input variable :ref:`voll_erwerbsgemindert <voll_erwerbsgemindert>.
+    teilw_erwerbsgemindert
+        See basic input variable :ref:`teilw_erwerbsgemindert <teilw_erwerbsgemindert>.
     m_pflichtbeitrag
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>.
     ges_rente_wartezeit_5
@@ -73,7 +76,9 @@ def ges_rente_vorauss_erwerbsm(
     """
 
     anspruch_erwerbsm_rente = (
-        erwerbsgemindert and ges_rente_wartezeit_5 and m_pflichtbeitrag >= 36
+        (voll_erwerbsgemindert or teilw_erwerbsgemindert)
+        and ges_rente_wartezeit_5
+        and m_pflichtbeitrag >= 36
     )
 
     return anspruch_erwerbsm_rente

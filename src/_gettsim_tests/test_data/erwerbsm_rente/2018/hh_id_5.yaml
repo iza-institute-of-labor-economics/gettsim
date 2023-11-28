@@ -40,12 +40,12 @@ inputs:
       - 6
       - 4
       - 2
-    erwerbsgemindert:
+    voll_erwerbsgemindert:
       - true
       - true
       - true
       - true
-      - true
+      - false
     entgeltp_west:
       - 15.0
       - 18.0
