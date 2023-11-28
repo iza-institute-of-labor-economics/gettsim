@@ -175,8 +175,11 @@ Monthly heating expenses for household
 
 Type: float
 
-- - `wohnfläche_hh`
-  - Size of household dwelling in square meters
+(wohnfläche_hh)=
+
+## `wohnfläche_hh`
+
+Size of household dwelling in square meters
 
 Type: float
 
@@ -434,8 +437,7 @@ Type: float
 
 ## `m_geringf_beschäft`
 
-Total month of marginal employment (w/omandatory contributions) (computed after§ 244a
-SGB VI - earningspoints/0,0313)
+Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
@@ -443,7 +445,7 @@ Type: float
 
 ## `m_ersatzzeit`
 
-Months during military, persecution/escape,internment and consecutive sickness
+Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
@@ -459,7 +461,7 @@ Type: float
 
 ## `m_pfleg_berücks_zeit`
 
-Total months of home care(01.01.1992-31.03.1995)
+Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
@@ -467,7 +469,7 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions after age 40
+Total years of mandatory contributions after age 40
 
 Type: float
 
@@ -484,6 +486,24 @@ Type: bool
 ## `arbeitsl_1y_past_585`
 
 Has been unemployed at least 1 year after age 58.5
+
+Type: bool
+
+(vertra_arbeitsl_1997)=
+
+## `vertra_arbeitsl_1997`
+
+Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
+implemented in 1997 (§ 237 SGB VI Abs. 4).
+
+Type: bool
+
+(vertra_arbeitsl_2006)=
+
+## `vertra_arbeitsl_2006`
+
+Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
+implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 

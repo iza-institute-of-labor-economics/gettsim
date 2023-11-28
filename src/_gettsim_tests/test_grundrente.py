@@ -61,6 +61,8 @@ INPUT_COLS_INCOME = [
     "y_pflichtbeitr_ab_40",
     "pflichtbeitr_8_in_10",
     "arbeitsl_1y_past_585",
+    "vertra_arbeitsl_2006",
+    "vertra_arbeitsl_1997",
     "m_pflichtbeitrag",
     "m_freiw_beitrag",
     "m_ersatzzeit",

@@ -40,6 +40,10 @@ inputs:
       - true
     arbeitsl_1y_past_585:
       - true
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 300.0
     m_freiw_beitrag:
@@ -69,4 +73,4 @@ inputs:
   assumed: {}
 outputs:
   rente_vorj_vor_grundr_proxy_m:
-    - 1025.7
+    - 0.0
