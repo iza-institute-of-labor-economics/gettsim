@@ -1,0 +1,68 @@
+---
+info:
+  note: test for erwerbsm_rente_langj_versicherte_wartezeit
+  source: Own calculations
+inputs:
+  provided:
+    p_id:
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+    m_freiw_beitrag:
+      - 0.0
+      - 0.0
+      - 100.0
+      - 0.0
+      - 0.0
+    m_ersatzzeit:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    m_pflichtbeitrag:
+      - 380.0
+      - 200.0
+      - 250.0
+      - 60.0
+      - 60.0
+    m_alg1_übergang:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    m_pfleg_berücks_zeit:
+      - 0.0
+      - 0.0
+      - 100.0
+      - 0.0
+      - 0.0
+    m_kind_berücks_zeit:
+      - 108.0
+      - 120.0
+      - 0.0
+      - 0.0
+      - 0.0
+    m_arbeitsunfähig:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    m_geringf_beschäft:
+      - 0.0
+      - 100.0
+      - 0.0
+      - 0.0
+      - 0.0
+  assumed: {}
+outputs:
+  erwerbsm_rente_langj_versicherte_wartezeit:
+    - true
+    - true
+    - true
+    - false
+    - false

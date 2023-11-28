@@ -284,7 +284,7 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
-    langj_versicherte_wartezeit: bool,
+    erwerbsm_rente_langj_versicherte_wartezeit: bool,
 ) -> float:
     """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
@@ -307,8 +307,8 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
-    langj_versicherte_wartezeit
-        See :func:`langj_versicherte_wartezeit`.
+    erwerbsm_rente_langj_versicherte_wartezeit
+        See :func:`erwerbsm_rente_langj_versicherte_wartezeit`.
 
 
     Returns
@@ -317,7 +317,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
 
-    if langj_versicherte_wartezeit:
+    if erwerbsm_rente_langj_versicherte_wartezeit:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_langj_versicherte_abschlagsfrei"
         ]
@@ -335,7 +335,7 @@ def erwerbsm_rente_zugangsfaktor(
 
 
 @dates_active(start="2001-01-01")
-def langj_versicherte_wartezeit(  # noqa: PLR0913
+def erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,
@@ -343,10 +343,9 @@ def langj_versicherte_wartezeit(  # noqa: PLR0913
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
     ges_rente_params: dict,
+    erwerbsm_rente_params: dict,
 ) -> bool:
-    """Whether Wartezeit von 40 Jahren Wartezeit (Vertrauensschutz) has been completed.
-    Aggregates time periods that are relevant for the eligibility of Altersrente für
-    besonders langjährig Versicherte (pension for very long-term insured).
+    """Whether Wartezeit of 35 or 40 years according to § 51 Abs. 3a SGB VI is fulfilled
 
     Parameters
     ----------
@@ -364,10 +363,12 @@ def langj_versicherte_wartezeit(  # noqa: PLR0913
         See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>`.
 
     Returns
     -------
-    Fulfilled Wartezeit von 40 Jahren
+    Wartezeit of 35 or 40 years according to § 51 Abs. 3a SGB VI is fulfilled
 
     """
     if m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]:
@@ -383,6 +384,10 @@ def langj_versicherte_wartezeit(  # noqa: PLR0913
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
     ) / 12
-    out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_40"]
+
+    out = (
+        m_zeiten
+        >= erwerbsm_rente_params["wartezeitgrenze_langj_versicherte_abschlagsfrei"]
+    )
 
     return out

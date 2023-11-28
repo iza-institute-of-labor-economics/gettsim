@@ -72,6 +72,23 @@ altersgrenze_langj_versicherte_abschlagsfrei:
   reference: § 77 Abs. 4 SGB VI Zugangsfaktor
   2001-01-01:
     scalar: 63
+wartezeitgrenze_langj_versicherte_abschlagsfrei:
+  name:
+    de: Wartezeitgrenze für abschlagsfreie Erwerbsminderungsrente
+    en: Waiting time limit for public disability pension without deductions
+  description:
+    de: >-
+      Anzahl an Wartezeitjahren nach § 51 Absatz 3a SGB VI, die für eine abschlagsfreie
+      Erwerbsminderungsrente mit 63 nachgewiesen werden müssen.
+    en: >-
+      Number of waiting time years in accordance with § 51 Absatz 3a SGB VI,
+      which must be proven for a public disability pension at 63 without deductions.
+  unit: Year
+  reference: § 264d SGB VI Zugangsfaktor
+  2001-01-01:
+    scalar: 35
+  2024-01-01:
+    scalar: 40
 zurechnungszeitgrenze:
   name:
     de: zurechnungszeitgrenze

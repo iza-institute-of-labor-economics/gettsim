@@ -1921,7 +1921,6 @@ thresholds_wartezeiten:
     wartezeit_5: 5
     wartezeit_15: 15
     wartezeit_35: 35
-    wartezeit_40: 40
     wartezeit_45: 45
 wartezeit_45_pflichtbeitragsmonate:
   name:

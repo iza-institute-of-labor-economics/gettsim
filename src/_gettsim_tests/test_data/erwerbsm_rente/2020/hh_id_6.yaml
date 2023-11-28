@@ -145,7 +145,7 @@ inputs:
     #   - 0.0
     #   - 0.0
   assumed:
-    langj_versicherte_wartezeit:
+    erwerbsm_rente_langj_versicherte_wartezeit:
       - false
       - false
       - true
