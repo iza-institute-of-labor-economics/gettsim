@@ -436,7 +436,11 @@ def _fail_if_group_variables_not_constant_within_groups(data):
         Dictionary containing a series for each column.
 
     """
-    hard_coded_groupings = [key for key, value in SUPPORTED_GROUPINGS.items() if not value.get("is_endogenous", True)]
+    hard_coded_groupings = [
+        key
+        for key, value in SUPPORTED_GROUPINGS.items()
+        if not value.get("is_endogenous", True)
+    ]
     for name, col in data.items():
         for level in hard_coded_groupings:
             if name.endswith(f"_{level}"):
