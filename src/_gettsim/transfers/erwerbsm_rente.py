@@ -49,6 +49,7 @@ def erwerbsm_rente_m(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="2001-01-01")
 def ges_rente_vorauss_erwerbsm(
     voll_erwerbsgemindert: bool,
     teilw_erwerbsgemindert: bool,
@@ -84,6 +85,7 @@ def ges_rente_vorauss_erwerbsm(
     return anspruch_erwerbsm_rente
 
 
+@dates_active(start="2001-01-01")
 def entgeltp_west_erwerbsm_rente(
     entgeltp_west: float,
     entgeltp_zurechnungszeit: float,
@@ -116,6 +118,7 @@ def entgeltp_west_erwerbsm_rente(
     return out
 
 
+@dates_active(start="2001-01-01")
 def entgeltp_ost_erwerbsm_rente(
     entgeltp_ost: float,
     entgeltp_zurechnungszeit: float,
@@ -172,6 +175,7 @@ def anteil_entgeltp_ost(
     return out
 
 
+@dates_active(start="2001-01-01")
 def entgeltp_zurechnungszeit(
     durchschn_entgeltp: float,
     age_of_retirement: float,
@@ -243,6 +247,7 @@ def durchschn_entgeltp(
     return durchschn_entgeltp
 
 
+@dates_active(start="2001-01-01")
 def rentenartfaktor(
     teilw_erwerbsgemindert: bool,
     erwerbsm_rente_params: dict,
@@ -274,6 +279,7 @@ def rentenartfaktor(
     return out
 
 
+@dates_active(start="2001-01-01")
 def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
@@ -328,6 +334,7 @@ def erwerbsm_rente_zugangsfaktor(
     return out
 
 
+@dates_active(start="2001-01-01")
 def langj_versicherte_wartezeit(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
