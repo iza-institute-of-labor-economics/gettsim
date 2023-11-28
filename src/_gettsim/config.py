@@ -67,34 +67,35 @@ INTERNAL_PARAMS_GROUPS = [
 
 SUPPORTED_GROUPINGS = {
     "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
+        "name": "Haushalt",
+        "description": "The relevant unit for Wohngeld. Encompasses more people than"
+        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
+        " unit for Wohngeld. `vg` derives from Verantwortungs- und"
+        " Einstehensgemeinschaft, though this might be a misnomer.",
         "is_endogenous": False,
     },
     "tu": {
         "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
+        "description": "Obsolete. `sn` plus children.",
         "nested_by": "hh",
         "is_endogenous": False,
     },
-    "bg": {
-        "name": "Bedarfsgemeinschaft",
-        "description": "Familiengemeinschaft plus whether children have enough income"
-        " to fend for themselves.",
-        "is_endogenous": True,
-    },
     "fg": {
         "name": "Familiengemeinschaft",
-        "description": "Maximum of two generations, the relevant unit for Bürgergeld"
-        " / Arbeitslosengeld 2. Another way to think about this is the"
-        " potential Bedarfsgemeinschaft before making checks for"
-        " whether children have enough income fend for themselves.",
+        "description": "Maximum of two generations, the relevant base unit for"
+        " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
+        " income fend for themselves.",
+        "is_endogenous": True,
+    },
+    "bg": {
+        "name": "Bedarfsgemeinschaft",
+        "description": "Familiengemeinschaft except for children who have enough income"
+        " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "is_endogenous": True,
     },
     "sn": {
         "name": "Steuernummer",
-        "description": "Same for spouses filing taxes jointly, not the same as the"
-        " Germany-wide Steuer-ID.",
+        "description": "Spouses filing taxes jointly or individuals.",
         "is_endogenous": True,
     },
 }
