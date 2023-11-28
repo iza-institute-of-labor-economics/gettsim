@@ -72,9 +72,9 @@ altersgrenze_langj_versicherte_abschlagsfrei:
   reference: § 77 Abs. 4 SGB VI Zugangsfaktor
   2001-01-01:
     scalar: 63
-zurechnungszeitsgrenze:
+zurechnungszeitgrenze:
   name:
-    de: Zurechnungszeitsgrenze
+    de: zurechnungszeitgrenze
     en: Supplementary time limit
   description:
     de: >-
@@ -236,7 +236,7 @@ rentenartfaktor:
   2001-01-01:
     teilw: 0.5
     voll: 1.0
-altersgrenze_grundbew:
+altersgrenze_grundbewertung:
   name:
     de: Altersgrenze des belegungsfähigen Gesamtzeitraum
     en: Age limit of belegungsfähigen Gesamtzeitraum

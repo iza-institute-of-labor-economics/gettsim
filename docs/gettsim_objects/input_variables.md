@@ -581,7 +581,7 @@ Dummy: Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
-## `teilw_erwerbsm_rente`
+## `teilw_erwerbsgemindert`
 
 Able to provide at least 3 but no more than 6 hours of market labor per day.
 

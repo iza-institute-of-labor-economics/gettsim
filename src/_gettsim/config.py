@@ -185,8 +185,7 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
-    "erwerbsgemindert": bool,
-    "erwerbsm_langj_vers": bool,
-    "teilw_erwerbsm_rente": bool,
     "anz_eig_kind_bis_24": int,
+    "erwerbsgemindert": bool,
+    "teilw_erwerbsgemindert": bool,
 }

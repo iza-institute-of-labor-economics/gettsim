@@ -60,7 +60,7 @@ inputs:
       - true
       - true
       - true
-    teilw_erwerbsm_rente:
+    teilw_erwerbsgemindert:
       - false
       - false
       - false

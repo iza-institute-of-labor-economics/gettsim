@@ -10,7 +10,7 @@ def erwerbsm_rente_m(  # noqa: PLR0913
     ges_rente_vorauss_erwerbsm: bool,
     ges_rente_params: dict,
 ) -> float:
-    """Erwerbsminderungsrente (public disability insurance claim)
+    """Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
 
     Legal reference: SGB VI § 64: Rentenformel für Monatsbetrag der Rente
 
@@ -31,7 +31,7 @@ def erwerbsm_rente_m(  # noqa: PLR0913
         See :func:`ges_rente_vorauss_erwerbsm`.
     Returns
     -------
-    Erwerbsminderungsrente (public disability insurance claim)
+    Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
 
     """
 
@@ -81,24 +81,24 @@ def ges_rente_vorauss_erwerbsm(
 
 def entgeltp_west_erwerbsm_rente(
     entgeltp_west: float,
-    entgeltp_ost: float,
     entgeltp_zurechnungszeit: float,
+    anteil_entgeltp_ost: float,
 ) -> float:
-    """Entgeltpunkte accumulated in western germany which Erwerbsminderungsrente
+    """Entgeltpunkte accumulated in Western Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
-    each year between their age of retirement and the "zurechnungszeitsgrenze".
+    each year between their age of retirement and the "zurechnungszeitgrenze".
 
     Parameters
     ----------
     entgeltp_west
         See basic input variable :ref:`entgeltp_west <entgeltp_west>
-    entgeltp_ost
-        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
     entgeltp_zurechnungszeit
         See :func:`entgeltp_zurechnungszeit`.
+    anteil_entgeltp_ost
+        See :func:`anteil_entgeltp_ost`.
 
     Returns
     -------
@@ -106,33 +106,31 @@ def entgeltp_west_erwerbsm_rente(
 
     """
 
-    anteil_entgeltp_west = entgeltp_west / (entgeltp_west + entgeltp_ost)
-
-    out = entgeltp_west + (entgeltp_zurechnungszeit * anteil_entgeltp_west)
+    out = entgeltp_west + (entgeltp_zurechnungszeit * (1 - anteil_entgeltp_ost))
 
     return out
 
 
 def entgeltp_ost_erwerbsm_rente(
-    entgeltp_west: float,
     entgeltp_ost: float,
     entgeltp_zurechnungszeit: float,
+    anteil_entgeltp_ost: float,
 ) -> float:
-    """Entgeltpunkte accumulated in eastern germany which Erwerbsminderungsrente
+    """Entgeltpunkte accumulated in Eastern Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
-    each year between their age of retirement and the "zurechnungszeitsgrenze".
+    each year between their age of retirement and the "zurechnungszeitgrenze".
 
     Parameters
     ----------
-    entgeltp_west
-        See basic input variable :ref:`entgeltp_west <entgeltp_west>
     entgeltp_ost
         See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
     entgeltp_zurechnungszeit
         See :func:`entgeltp_zurechnungszeit`.
+    anteil_entgeltp_ost
+        See :func:`anteil_entgeltp_ost`.
 
     Returns
     -------
@@ -140,9 +138,31 @@ def entgeltp_ost_erwerbsm_rente(
 
     """
 
-    anteil_entgeltp_ost = entgeltp_ost / (entgeltp_west + entgeltp_ost)
-
     out = entgeltp_ost + (entgeltp_zurechnungszeit * anteil_entgeltp_ost)
+
+    return out
+
+
+def anteil_entgeltp_ost(
+    entgeltp_west: float,
+    entgeltp_ost: float,
+) -> float:
+    """Proportion of Entgeltpunkte accumulated in East Germany
+
+    Parameters
+    ----------
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+
+    Returns
+    -------
+    Proportion of Entgeltpunkte accumulated in East Germany
+
+    """
+
+    out = entgeltp_ost / (entgeltp_west + entgeltp_ost)
 
     return out
 
@@ -157,7 +177,7 @@ def entgeltp_zurechnungszeit(
     In the case of the public disability insurance,
     pensioners are credited with additional earning points.
     They receive their average earned income points for
-    each year between their age of retirement and the "zurechnungszeitsgrenze".
+    each year between their age of retirement and the "zurechnungszeitgrenze".
 
     Parameters
     ----------
@@ -174,9 +194,9 @@ def entgeltp_zurechnungszeit(
     Final pension points for Erwerbsminderungsrente (public disability insurance)
 
     """
-    zurechnungszeitsgrenze = erwerbsm_rente_params["zurechnungszeitsgrenze"]
+    zurechnungszeitgrenze = erwerbsm_rente_params["zurechnungszeitgrenze"]
 
-    out = (zurechnungszeitsgrenze - (age_of_retirement)) * durchschn_entgeltp
+    out = (zurechnungszeitgrenze - (age_of_retirement)) * durchschn_entgeltp
 
     return out
 
@@ -210,18 +230,16 @@ def durchschn_entgeltp(
     """
 
     beleg_gesamtzeitr = (
-        age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbew"]
+        age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbewertung"]
     )
 
-    entgeltp_gesamt = entgeltp_west + entgeltp_ost
-
-    durchschn_entgeltp = entgeltp_gesamt / beleg_gesamtzeitr
+    durchschn_entgeltp = (entgeltp_west + entgeltp_ost) / beleg_gesamtzeitr
 
     return durchschn_entgeltp
 
 
 def rentenartfaktor(
-    teilw_erwerbsm_rente: bool,
+    teilw_erwerbsgemindert: bool,
     erwerbsm_rente_params: dict,
 ) -> float:
     """Rentenartfaktor for Erwerbsminderungsrente
@@ -231,8 +249,8 @@ def rentenartfaktor(
 
     Parameters
     ----------
-    teilw_erwerbsm_rente
-        See basic input variable :ref:`teilw_erwerbsm_rente <teilw_erwerbsm_rente>.
+    teilw_erwerbsgemindert
+        See basic input variable :ref:`teilw_erwerbsgemindert <teilw_erwerbsgemindert>.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
@@ -242,7 +260,7 @@ def rentenartfaktor(
 
     """
 
-    if teilw_erwerbsm_rente:
+    if teilw_erwerbsgemindert:
         out = erwerbsm_rente_params["rentenartfaktor"]["teilw"]
 
     else:
