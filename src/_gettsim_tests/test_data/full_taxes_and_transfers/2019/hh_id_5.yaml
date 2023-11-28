@@ -42,8 +42,10 @@ inputs:
       - 1
     mietstufe:
       - 3
-    entgeltp:
+    entgeltp_west:
       - 1.7936
+    entgeltp_ost:
+      - 0.0
     kind:
       - false
     rentner:

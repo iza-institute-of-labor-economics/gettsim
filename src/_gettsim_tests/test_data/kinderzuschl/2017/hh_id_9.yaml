@@ -69,7 +69,7 @@ inputs:
       - false
       - true
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
       - 0.0
       - 0.0
       - 0.0

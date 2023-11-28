@@ -20,8 +20,10 @@ inputs:
       - 2015
     geburtsjahr:
       - 1970
-    entgeltp:
+    entgeltp_west:
       - 23.6979
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -50,6 +52,10 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_freiw_beitrag:
       - 0.0
     m_ersatzzeit:
@@ -60,8 +66,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 24.10510527
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.407205271
   _ges_rente_altersgrenze_abschlagsfrei:

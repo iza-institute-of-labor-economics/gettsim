@@ -23,7 +23,9 @@ inputs:
       - 2010
     geburtsjahr:
       - 1968
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 21.3696
     geburtsmonat:
       - 1
@@ -51,6 +53,10 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
@@ -63,7 +69,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
+    - 0.0
+  entgeltp_ost_update:
     - 21.77622985
   entgeltp_update_lohn:
     - 0.406629848
