@@ -117,9 +117,9 @@ def sn_id_numpy(
     """
     Compute a Steuernummer (ID) for each person / couple.
     """
-    p_id_to_st_id = {}
+    p_id_to_sn_id = {}
     p_id_to_gemeinsam_veranlagt = {}
-    next_st_id = 0
+    next_sn_id = 0
     result = []
 
     for index, current_p_id in enumerate(p_id):
@@ -128,7 +128,7 @@ def sn_id_numpy(
 
         if (
             current_p_id_einstandspartner >= 0
-            and current_p_id_einstandspartner in p_id_to_st_id
+            and current_p_id_einstandspartner in p_id_to_sn_id
         ):
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
                 current_p_id_einstandspartner
@@ -143,13 +143,13 @@ def sn_id_numpy(
                 raise ValueError(message)
 
             if current_gemeinsam_veranlagt:
-                result.append(p_id_to_st_id[current_p_id_einstandspartner])
+                result.append(p_id_to_sn_id[current_p_id_einstandspartner])
                 continue
 
         # New Steuersubjekt
-        result.append(next_st_id)
-        p_id_to_st_id[current_p_id] = next_st_id
+        result.append(next_sn_id)
+        p_id_to_sn_id[current_p_id] = next_sn_id
         p_id_to_gemeinsam_veranlagt[current_p_id] = current_gemeinsam_veranlagt
-        next_st_id += 1
+        next_sn_id += 1
 
     return numpy.asarray(result)
