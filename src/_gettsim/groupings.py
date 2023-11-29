@@ -31,12 +31,12 @@ def bg_id_numpy(  # noqa: PLR0913
         current_p_id_elternteil_1 = p_id_elternteil_1[index]
         current_p_id_elternteil_2 = p_id_elternteil_2[index]
 
-        if current_p_id_elternteil_1 != -1:
+        if current_p_id_elternteil_1 >= 0:
             if current_p_id_elternteil_1 not in p_id_to_p_ids_children:
                 p_id_to_p_ids_children[current_p_id_elternteil_1] = []
             p_id_to_p_ids_children[current_p_id_elternteil_1].append(current_p_id)
 
-        if current_p_id_elternteil_2 != -1:
+        if current_p_id_elternteil_2 >= 0:
             if current_p_id_elternteil_2 not in p_id_to_p_ids_children:
                 p_id_to_p_ids_children[current_p_id_elternteil_2] = []
             p_id_to_p_ids_children[current_p_id_elternteil_2].append(current_p_id)
@@ -56,7 +56,7 @@ def bg_id_numpy(  # noqa: PLR0913
         current_p_id_children = p_id_to_p_ids_children.get(current_p_id, [])
 
         # Assign bg to einstandspartner
-        if current_p_id_einstandspartner != -1:
+        if current_p_id_einstandspartner >= 0:
             p_id_to_bg_id[current_p_id_einstandspartner] = next_bg_id
 
         # Assign bg to children
@@ -124,7 +124,7 @@ def sn_id_numpy(
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
         if (
-            current_p_id_einstandspartner != -1
+            current_p_id_einstandspartner >= 0
             and current_p_id_einstandspartner in p_id_to_st_id
         ):
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
