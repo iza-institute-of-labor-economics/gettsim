@@ -22,6 +22,8 @@ def bg_id_numpy(
     for index, current_fg_id in enumerate(fg_id):
         current_alter = alter[index]
         current_eigener_bedarf_gedeckt = eigener_bedarf_gedeckt[index]
+        # TODO(@MImmesberger): Remove hard-coded number
+        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
         if current_alter < 25 and current_eigener_bedarf_gedeckt:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
@@ -93,6 +95,8 @@ def fg_id_numpy(  # noqa: PLR0913
                 child_vg_id == current_vg_id
                 # TODO (@hmgaudecker): Add correct conditions for grown up children
                 # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
+                # TODO(@MImmesberger): Remove hard-coded number
+                # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
                 and child_alter < 25
                 and len(child_p_id_children) == 0
             ):
