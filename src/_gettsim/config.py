@@ -72,31 +72,31 @@ SUPPORTED_GROUPINGS = {
         " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
         " unit for Wohngeld. `vg` derives from Verantwortungs- und"
         " Einstehensgemeinschaft, though this might be a misnomer.",
-        "is_endogenous": False,
+        "potentially_endogenous": False,
     },
     "tu": {
         "name": "tax unit",
         "description": "Obsolete. `sn` plus children.",
         "nested_by": "hh",
-        "is_endogenous": False,
+        "potentially_endogenous": False,
     },
     "fg": {
         "name": "Familiengemeinschaft",
         "description": "Maximum of two generations, the relevant base unit for"
         " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
         " income fend for themselves.",
-        "is_endogenous": True,
+        "potentially_endogenous": True,
     },
     "bg": {
         "name": "Bedarfsgemeinschaft",
         "description": "Familiengemeinschaft except for children who have enough income"
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
-        "is_endogenous": True,
+        "potentially_endogenous": True,
     },
     "sn": {
         "name": "Steuernummer",
         "description": "Spouses filing taxes jointly or individuals.",
-        "is_endogenous": True,
+        "potentially_endogenous": True,
     },
 }
 

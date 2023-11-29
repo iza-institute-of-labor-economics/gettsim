@@ -439,7 +439,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
     hard_coded_groupings = [
         key
         for key, value in SUPPORTED_GROUPINGS.items()
-        if not value.get("is_endogenous", True)
+        if not value.get("potentially_endogenous", True)
     ]
     for name, col in data.items():
         for level in hard_coded_groupings:

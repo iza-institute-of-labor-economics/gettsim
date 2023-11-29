@@ -153,7 +153,7 @@ def create_basic_households(
     hard_coded_groupings = [
         key
         for key, value in SUPPORTED_GROUPINGS.items()
-        if not value.get("is_endogenous", True)
+        if not value.get("potentially_endogenous", True)
     ]
     group_ids = [f"{g}_id" for g in hard_coded_groupings]
     df["p_id"] = df.index
