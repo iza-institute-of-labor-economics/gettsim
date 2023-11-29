@@ -70,7 +70,7 @@ def fg_id_numpy(  # noqa: PLR0913
     next_fg_id = 0
 
     for index, current_p_id in enumerate(p_id):
-        # Already assigned a fg
+        # Already assigned a fg_id to this p_id via einstandspartner / parent
         if current_p_id in p_id_to_fg_id:
             continue
 
