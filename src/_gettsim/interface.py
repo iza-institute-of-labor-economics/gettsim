@@ -437,9 +437,7 @@ def _fail_if_group_variables_not_constant_within_groups(data):
 
     """
     exogenous_groupings = [
-        level
-        for level in SUPPORTED_GROUPINGS
-        if f"{level}_id" in data
+        level for level in SUPPORTED_GROUPINGS if f"{level}_id" in data
     ]
     for name, col in data.items():
         for level in exogenous_groupings:

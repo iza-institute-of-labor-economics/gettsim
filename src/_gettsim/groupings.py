@@ -90,11 +90,11 @@ def fg_id_numpy(  # noqa: PLR0913
             child_p_id_children = p_id_to_p_ids_children.get(current_p_id_child, [])
 
             if (
-                    child_vg_id == current_vg_id
-                    # TODO (@hmgaudecker): Add correct conditions for grown up children
-                    # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
-                    and child_alter < 25
-                    and len(child_p_id_children) == 0
+                child_vg_id == current_vg_id
+                # TODO (@hmgaudecker): Add correct conditions for grown up children
+                # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
+                and child_alter < 25
+                and len(child_p_id_children) == 0
             ):
                 p_id_to_fg_id[current_p_id_child] = next_fg_id
 
@@ -103,6 +103,7 @@ def fg_id_numpy(  # noqa: PLR0913
     # Compute result vector
     result = [p_id_to_fg_id[current_p_id] for current_p_id in p_id]
     return numpy.asarray(result)
+
 
 def sn_id_numpy(
     p_id: numpy.ndarray,
