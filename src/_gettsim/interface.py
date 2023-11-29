@@ -436,13 +436,13 @@ def _fail_if_group_variables_not_constant_within_groups(data):
         Dictionary containing a series for each column.
 
     """
-    hard_coded_groupings = [
+    exogenous_groupings = [
         key
         for key, value in SUPPORTED_GROUPINGS.items()
         if not value.get("potentially_endogenous", True)
     ]
     for name, col in data.items():
-        for level in hard_coded_groupings:
+        for level in exogenous_groupings:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():

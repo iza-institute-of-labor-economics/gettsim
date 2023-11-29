@@ -150,12 +150,12 @@ def create_basic_households(
         }
     )
 
-    hard_coded_groupings = [
+    exogenous_groupings = [
         key
         for key, value in SUPPORTED_GROUPINGS.items()
         if not value.get("potentially_endogenous", True)
     ]
-    group_ids = [f"{g}_id" for g in hard_coded_groupings]
+    group_ids = [f"{g}_id" for g in exogenous_groupings]
     df["p_id"] = df.index
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
