@@ -145,6 +145,7 @@ of `wohngeld` over `bürgergeld` (example 1.) is correctly encoded in
    def midijob_bemessungsentgelt_m_some_spec():
        pass
 
+
    @dates_active(start="2022-10-01", removesuffix="_another_spec")
    def midijob_bemessungsentgelt_m_another_spec():
        pass
