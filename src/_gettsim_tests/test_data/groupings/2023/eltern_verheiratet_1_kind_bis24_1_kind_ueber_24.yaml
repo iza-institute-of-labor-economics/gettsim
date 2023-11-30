@@ -72,15 +72,15 @@ outputs:
     - 0
     - 1
     - 2
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 0
   fg_id:
     - 0
     - 0
     - 1
+    - 0
+  bg_id:
+    - 0
+    - 0
+    - 100
     - 0
 #  potentielle_kinderfreibeträge:
 #    - 1

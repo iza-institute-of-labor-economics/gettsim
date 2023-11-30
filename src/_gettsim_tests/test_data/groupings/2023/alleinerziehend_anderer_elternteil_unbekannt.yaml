@@ -46,10 +46,10 @@ outputs:
   sn_id:
     - 0
     - 1
-  bg_id:
-    - 0
-    - 0
   fg_id:
+    - 0
+    - 0
+  bg_id:
     - 0
     - 0
 #  - potentielle_kinderfreibeträge:

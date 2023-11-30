@@ -98,13 +98,6 @@ outputs:
     - 3
     - 4
     - 5
-  bg_id:
-    - 0
-    - 100
-    - 0
-    - 200
-    - 200
-    - 100
   fg_id:
     - 0
     - 1
@@ -112,6 +105,13 @@ outputs:
     - 2
     - 2
     - 1
+  bg_id:
+    - 0
+    - 100
+    - 0
+    - 200
+    - 200
+    - 100
 #  - potentielle_kinderfreibeträge:
 #      - 2
 #      - 0
