@@ -1,6 +1,6 @@
 ---
 info:
-  note: Should be one Bedarfsgemeinschaft.
+  note: Skipping test for now, because input columns are missing.
   source: ''
 inputs:
   provided:

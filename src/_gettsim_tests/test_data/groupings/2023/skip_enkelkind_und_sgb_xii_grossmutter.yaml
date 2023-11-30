@@ -1,6 +1,6 @@
 ---
 info:
-  note: Skipping test for now, because data is missing.
+  note: Skipping test for now, because input columns are missing.
   source: ''
 inputs:
   provided:

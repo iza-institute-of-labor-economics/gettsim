@@ -1,6 +1,6 @@
 ---
 info:
-  note: ''
+  note: Skipping test for now, because error assertion is not supported yet.
   source: ''
 inputs:
   - id: 0
