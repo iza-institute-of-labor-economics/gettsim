@@ -42,7 +42,7 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
+   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
    (i.e., the tax or transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
@@ -108,27 +108,27 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_tu`). This makes searching for identifiers easier and
+`_zu_verst_eink_ohne_kinderfreib_y_tu`). This makes searching for identifiers easier and
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_hh` vs. `grunds_im_alter_vermög_freib_hh`), the group
+`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
 (i.e., the tax or transfer) that a variable refers to appears first.
 
-The default time unit is a year. If a column refers to a different time unit, an
-underscore plus one of {`m`, `w`, `d`} will indicate the time unit.
+If a column has a reference to a time unit (i.e., any flow variable like earnings or
+transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
 the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
 aggregation.
 
 Time unit identifiers always appear before unit identifiers (e.g.,
-`arbeitsl_geld_2_m_hh`).
+`arbeitsl_geld_2_m_bg`).
 
 ## Parameters of the taxes and transfers system
 
-The structure of these parameters will be laid out in gep-3; we just note some general
-naming considerations here.
+The structure of these parameters are laid out in \<GEP-3 `gep-3`>; we just note some
+general naming considerations here.
 
 - There is a hierarchical structure to these parameters in that each of them is
   associated with a group (e.g., `arbeitsl_geld`, `kinderzuschlag`). These groups or
@@ -136,7 +136,7 @@ naming considerations here.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_nach_vermög_check_m_hh` for a column derived from it).
+  and `wohngeld_nach_vermög_check_m_vg` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 
@@ -165,7 +165,7 @@ More meaningful alternatives could be `alo_geld` or `arb_los_geld`. These names 
 abbreviations of the compounds of the term "Arbeitslosengeld", which the group name is
 supposed to reflect, and connect them in a Pythonic manner through underscores. However,
 `alo_geld` still leaves much room for interpretation and `arb_los_geld` separates the
-term "arbeitslosen" in an odd way.
+term "Arbeitslosen" in an odd way.
 
 The final choice `arbeitsl_geld` avoids all the disadvantages of the other options as it
 is an unambivalent, natural, and minimal abbreviation of the original term it is

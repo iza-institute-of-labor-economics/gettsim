@@ -21,8 +21,8 @@ def set_array_backend(backend: str):
 
     if backend == "jax":
         assert importlib.util.find_spec("jax") is not None, "JAX is not installed."
-        global USE_JAX
-        global numpy_or_jax
+        global USE_JAX  # noqa: PLW0603
+        global numpy_or_jax  # noqa: PLW0603
         import jax
 
         USE_JAX = True
@@ -56,12 +56,13 @@ INTERNAL_PARAMS_GROUPS = [
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
+    "kinderzuschl_eink",
     "kindergeld",
     "elterngeld",
     "ges_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
-    "lohn_st",
+    "lohnst",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -76,10 +77,25 @@ SUPPORTED_GROUPINGS = {
     },
 }
 
+SUPPORTED_TIME_UNITS = {
+    "y": {
+        "name": "year",
+    },
+    "m": {
+        "name": "month",
+    },
+    "w": {
+        "name": "week",
+    },
+    "d": {
+        "name": "day",
+    },
+}
+
 DEFAULT_TARGETS = [
-    "eink_st_tu",
-    "soli_st_tu",
-    "abgelt_st_tu",
+    "eink_st_y_tu",
+    "soli_st_y_tu",
+    "abgelt_st_y_tu",
     "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
@@ -87,11 +103,11 @@ DEFAULT_TARGETS = [
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
     "kindergeld_m_tu",
-    "arbeitsl_geld_2_m_hh",
-    "kinderzuschl_m_hh",
-    "wohngeld_m_hh",
+    "arbeitsl_geld_2_m_bg",
+    "kinderzuschl_m_bg",
+    "wohngeld_m_vg",
     "unterhaltsvors_m_hh",
-    "grunds_im_alter_m_hh",
+    "grunds_im_alter_m_vg",
     "ges_rente_m",
 ]
 
@@ -115,7 +131,8 @@ TYPES_INPUT_VARIABLES = {
     "geburtstag": int,
     "geburtsmonat": int,
     "mietstufe": int,
-    "entgeltp": float,
+    "entgeltp_ost": float,
+    "entgeltp_west": float,
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
@@ -124,6 +141,7 @@ TYPES_INPUT_VARIABLES = {
     "bruttokaltmiete_m_hh": float,
     "heizkosten_m_hh": float,
     "jahr_renteneintr": int,
+    "monat_renteneintr": int,
     "behinderungsgrad": int,
     "wohnfläche_hh": float,
     "m_elterngeld": int,
@@ -144,7 +162,7 @@ TYPES_INPUT_VARIABLES = {
     "m_mutterschutz": float,
     "m_arbeitsunfähig": float,
     "m_krank_ab_16_bis_24": float,
-    "m_arbeitslos": float,
+    "m_arbeitsl": float,
     "m_ausbild_suche": float,
     "m_schul_ausbild": float,
     "m_geringf_beschäft": float,
@@ -153,6 +171,10 @@ TYPES_INPUT_VARIABLES = {
     "m_kind_berücks_zeit": float,
     "m_pfleg_berücks_zeit": float,
     "y_pflichtbeitr_ab_40": float,
+    "pflichtbeitr_8_in_10": bool,
+    "arbeitsl_1y_past_585": bool,
+    "vertra_arbeitsl_1997": bool,
+    "vertra_arbeitsl_2006": bool,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
@@ -161,4 +183,5 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
+    "anz_eig_kind_bis_24": int,
 }

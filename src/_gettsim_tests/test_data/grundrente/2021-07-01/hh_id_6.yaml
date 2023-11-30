@@ -21,11 +21,11 @@ inputs:
       - 0.0
     bruttolohn_vorj_m:
       - 0.0
-    eink_selbst:
+    eink_selbst_y:
       - 0.0
-    eink_vermietung:
+    eink_vermietung_y:
       - 0.0
-    kapitaleink:
+    kapitaleink_y:
       - 0.0
     alter:
       - 70
@@ -35,8 +35,10 @@ inputs:
       - 1951
     bruttolohn_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 19.2
+    entgeltp_ost:
+      - 0.0
     ges_rente_zugangsfaktor:
       - 1.0
     rentner:

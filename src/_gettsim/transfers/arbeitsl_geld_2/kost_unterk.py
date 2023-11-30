@@ -1,20 +1,20 @@
 from _gettsim.shared import dates_active
 
 
-@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
-def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
-    _arbeitsl_geld_2_warmmiete_pro_qm_m_hh: float,
+@dates_active(end="2022-12-31", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
+def arbeitsl_geld_2_kost_unterk_m_bg_bis_2022(
+    _arbeitsl_geld_2_berechtigte_wohnfläche_bg: float,
+    _arbeitsl_geld_2_warmmiete_pro_qm_m_bg: float,
 ) -> float:
     """Calculate costs of living eligible to claim until 2022.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
     Parameters
     ----------
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh
-        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche_hh`.
-    _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
-        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m_hh`.
+    _arbeitsl_geld_2_berechtigte_wohnfläche_bg
+        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche_bg`.
+    _arbeitsl_geld_2_warmmiete_pro_qm_m_bg
+        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m_bg`.
 
     Returns
     -------
@@ -22,18 +22,18 @@ def arbeitsl_geld_2_kost_unterk_m_hh_bis_2022(
 
     """
     return (
-        _arbeitsl_geld_2_berechtigte_wohnfläche_hh
-        * _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
+        _arbeitsl_geld_2_berechtigte_wohnfläche_bg
+        * _arbeitsl_geld_2_warmmiete_pro_qm_m_bg
     )
 
 
-@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_hh")
-def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
+@dates_active(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
+def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
     bürgerg_bezug_vorj: bool,
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh: float,
-    _arbeitsl_geld_2_warmmiete_pro_qm_m_hh: float,
+    _arbeitsl_geld_2_berechtigte_wohnfläche_bg: float,
+    _arbeitsl_geld_2_warmmiete_pro_qm_m_bg: float,
 ) -> float:
     """Calculate costs of living eligible to claim since 2023. During the first year,
     the waiting period (Karenzzeit), only the appropriateness of the heating costs is
@@ -49,10 +49,10 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
-    _arbeitsl_geld_2_berechtigte_wohnfläche_hh
-        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche_hh`.
-    _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
-        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m_hh`.
+    _arbeitsl_geld_2_berechtigte_wohnfläche_bg
+        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche_bg`.
+    _arbeitsl_geld_2_warmmiete_pro_qm_m_bg
+        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m_bg`.
 
     Returns
     -------
@@ -61,19 +61,16 @@ def arbeitsl_geld_2_kost_unterk_m_hh_ab_2023(
     """
     if bürgerg_bezug_vorj:
         out = (
-            _arbeitsl_geld_2_berechtigte_wohnfläche_hh
-            * _arbeitsl_geld_2_warmmiete_pro_qm_m_hh
+            _arbeitsl_geld_2_berechtigte_wohnfläche_bg
+            * _arbeitsl_geld_2_warmmiete_pro_qm_m_bg
         )
     else:
-        # ToDo: only reasonable heating costs are taken into account
-        # these are calculated taking into account the actual size of the apartment
-        # not just the appropriate size
         out = bruttokaltmiete_m_hh + heizkosten_m_hh
 
     return out
 
 
-def _arbeitsl_geld_2_warmmiete_pro_qm_m_hh(
+def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,
     wohnfläche_hh: float,
@@ -105,7 +102,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_hh(
     return out
 
 
-def _arbeitsl_geld_2_berechtigte_wohnfläche_hh(
+def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     wohnfläche_hh: float,
     bewohnt_eigentum_hh: bool,
     haushaltsgröße_hh: int,

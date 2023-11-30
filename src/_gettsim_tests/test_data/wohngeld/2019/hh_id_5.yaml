@@ -42,9 +42,9 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
     eink_vermietung_m:
       - 0.0
@@ -56,7 +56,7 @@ inputs:
       - 0
     jahr:
       - 2019
-    eink_st_tu:
+    eink_st_y_tu:
       - 0.0
     vermögen_bedürft_hh:
       - 55000.0
@@ -70,7 +70,7 @@ inputs:
       - 1967
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 451.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 451.0

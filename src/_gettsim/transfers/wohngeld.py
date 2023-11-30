@@ -4,22 +4,22 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
-def wohngeld_m_hh(
-    wohngeld_nach_vermög_check_m_hh: float,
-    wohngeld_vorrang_hh: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+def wohngeld_m_vg(
+    wohngeld_nach_vermög_check_m_vg: float,
+    wohngeld_vorrang_vg: bool,
+    wohngeld_kinderzuschl_vorrang_vg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final housing benefit on household level.
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
-    wohngeld_vorrang_hh
-        See :func:`wohngeld_vorrang_hh`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_nach_vermög_check_m_vg
+        See :func:`wohngeld_nach_vermög_check_m_vg`.
+    wohngeld_vorrang_vg
+        See :func:`wohngeld_vorrang_vg`.
+    wohngeld_kinderzuschl_vorrang_vg
+        See :func:`wohngeld_kinderzuschl_vorrang_vg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -28,19 +28,19 @@ def wohngeld_m_hh(
 
     """
     if (
-        (not wohngeld_vorrang_hh)
-        and (not wohngeld_kinderzuschl_vorrang_hh)
+        (not wohngeld_vorrang_vg)
+        and (not wohngeld_kinderzuschl_vorrang_vg)
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0
     else:
-        out = wohngeld_nach_vermög_check_m_hh
+        out = wohngeld_nach_vermög_check_m_vg
 
     return out
 
 
 def wohngeld_abzüge_st_sozialv_m(
-    eink_st_tu: float,
+    eink_st_y_tu: float,
     ges_rentenv_beitr_m: float,
     ges_krankenv_beitr_m: float,
     kind: bool,
@@ -48,13 +48,13 @@ def wohngeld_abzüge_st_sozialv_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that eink_st_tu is used as an approximation for taxes on income (as mentioned
+    Note that eink_st_y_tu is used as an approximation for taxes on income (as mentioned
     in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    eink_st_tu
-        See :func:`eink_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
     ges_rentenv_beitr_m
         See :func:`ges_rentenv_beitr_m`.
     ges_krankenv_beitr_m
@@ -69,7 +69,7 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
+        (eink_st_y_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
     )
     if kind:
         out = 0.0
@@ -80,10 +80,10 @@ def wohngeld_abzüge_st_sozialv_m(
 
 @dates_active(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
-    eink_selbst: float,
-    eink_abhängig_beschäftigt: float,
-    kapitaleink_brutto: float,
-    eink_vermietung: float,
+    eink_selbst_y: float,
+    eink_abhängig_beschäftigt_y: float,
+    kapitaleink_brutto_y: float,
+    eink_vermietung_y: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
@@ -97,14 +97,14 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    eink_selbst
+    eink_selbst_y
         See :func:`_eink_selbst`.
-    eink_abhängig_beschäftigt
-        See :func:`eink_abhängig_beschäftigt`.
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
+    eink_abhängig_beschäftigt_y
+        See :func:`eink_abhängig_beschäftigt_y`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
+    eink_vermietung_y
+        See :func:`eink_vermietung_y`.
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     sonstig_eink_m
@@ -121,7 +121,10 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y
+        + eink_abhängig_beschäftigt_y
+        + kapitaleink_brutto_y
+        + eink_vermietung_y
     ) / 12
 
     transfers = (
@@ -138,10 +141,10 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
 @dates_active(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
-    eink_selbst: float,
-    eink_abhängig_beschäftigt: float,
-    kapitaleink_brutto: float,
-    eink_vermietung: float,
+    eink_selbst_y: float,
+    eink_abhängig_beschäftigt_y: float,
+    kapitaleink_brutto_y: float,
+    eink_vermietung_y: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
@@ -156,14 +159,14 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    eink_selbst
+    eink_selbst_y
         See :func:`_eink_selbst`.
-    eink_abhängig_beschäftigt
-        See :func:`eink_abhängig_beschäftigt`.
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
+    eink_abhängig_beschäftigt_y
+        See :func:`eink_abhängig_beschäftigt_y`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
+    eink_vermietung_y
+        See :func:`eink_vermietung_y`.
     arbeitsl_geld_m
         See :func:`arbeitsl_geld_m`.
     sonstig_eink_m
@@ -182,7 +185,10 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        eink_selbst + eink_abhängig_beschäftigt + kapitaleink_brutto + eink_vermietung
+        eink_selbst_y
+        + eink_abhängig_beschäftigt_y
+        + kapitaleink_brutto_y
+        + eink_vermietung_y
     ) / 12
 
     transfers = (
@@ -306,10 +312,6 @@ def wohngeld_eink_freib_m_ab_2016(
         wohngeld_params["freib_behinderung"] / 12 if behinderungsgrad > 0 else 0
     )
 
-    # Subtraction for single parents and working children
-    # ToDo:
-    #     Check how to handle subjects that are single parents and also still count
-    #     as arbeitendes Kind (are eligible for Kindergeld)
     if wohngeld_arbeitendes_kind:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
@@ -322,7 +324,7 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m_hh(
+def wohngeld_eink_m_vg(
     haushaltsgröße_hh: int,
     wohngeld_eink_freib_m_hh: float,
     wohngeld_eink_vor_freib_m_hh: float,
@@ -358,7 +360,7 @@ def wohngeld_eink_m_hh(
     return float(out)
 
 
-def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
+def wohngeld_min_miete_m_vg(haushaltsgröße_hh: int, wohngeld_params: dict) -> float:
     """Calculate minimal monthly rent subject housing benefit calculation on household
     level.
 
@@ -378,13 +380,13 @@ def wohngeld_min_miete_m_hh(haushaltsgröße_hh: int, wohngeld_params: dict) -> 
     return float(out)
 
 
-@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
+@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_vg")
+def wohngeld_miete_m_vg_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    wohngeld_min_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximal rent subject housing benefit calculation on household level until 2008.
@@ -399,8 +401,8 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
         See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    wohngeld_min_miete_m_vg
+        See :func:`wohngeld_min_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -424,8 +426,6 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     constr_year = list(params_max_miete[1])[selected_bin_index]
 
     # Calc maximal considered rent
-    # ToDo: Think about calculating max_definierte_hh_größe already in parameter
-    # ToDo: pre-processing and add it to wohngeld_params
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if haushaltsgröße_hh <= max_definierte_hh_größe:
         max_miete_m_hh = params_max_miete[haushaltsgröße_hh][constr_year][mietstufe]
@@ -437,17 +437,17 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
         )
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
-    out = max(out, wohngeld_min_miete_m_hh)
+    out = max(out, wohngeld_min_miete_m_vg)
 
     return out
 
 
-@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
+@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_vg")
+def wohngeld_miete_m_vg_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     haushaltsgröße_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    wohngeld_min_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximum rent considered in housing benefit since 2009.
@@ -460,8 +460,8 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
         See :func:`haushaltsgröße_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    wohngeld_min_miete_m_vg
+        See :func:`wohngeld_min_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -487,7 +487,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
             * params_max_miete["jede_weitere_person"][mietstufe]
         )
 
-    # Calc heating allowance. Before 2021, heating allowance was not
+    # Calc heating allowance. Until 2020, heating allowance was not
     # introduced yet. For this time frame, the respective parameter is
     # not part of wohngeld_params and heating allowance is set to 0.
     if "heizkostenentlastung_m" in wohngeld_params:
@@ -508,7 +508,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     else:
         heating_allowance_m = 0
 
-    # Calc heating cost component. Before 2023, heating cost component was not
+    # Calc heating cost component. Until 2022, heating cost component was not
     # introduced yet. For this time frame, the respective parameter is not part
     # of wohngeld_params and heating cost component is set to 0.
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
@@ -533,7 +533,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     else:
         heating_component_m = 0
 
-    # Calc climate component. Before 2023, climate component was not
+    # Calc climate component. Until 2022, climate component was not
     # introduced yet. For this time frame, the respective parameter is not
     # part of wohngeld_params and climate component is set to 0.
     if "klimakomponente_m" in wohngeld_params:
@@ -555,16 +555,16 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
         climate_component_m = 0
 
     out = min(bruttokaltmiete_m_hh, max_miete_m_hh + climate_component_m)
-    out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m + heating_component_m
+    out = max(out, wohngeld_min_miete_m_vg) + heating_allowance_m + heating_component_m
 
     return out
 
 
 @add_rounding_spec(params_key="wohngeld")
-def wohngeld_vor_vermög_check_m_hh(
+def wohngeld_vor_vermög_check_m_vg(
     haushaltsgröße_hh: int,
-    wohngeld_eink_m_hh: float,
-    wohngeld_miete_m_hh: float,
+    wohngeld_eink_m_vg: float,
+    wohngeld_miete_m_vg: float,
     wohngeld_params: dict,
 ) -> float:
     """Calcualte preliminary housing benefit.
@@ -573,10 +573,10 @@ def wohngeld_vor_vermög_check_m_hh(
     ----------
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
-    wohngeld_eink_m_hh
-        See :func:`wohngeld_eink_m_hh`.
-    wohngeld_miete_m_hh
-        See :func:`wohngeld_miete_m_hh`.
+    wohngeld_eink_m_vg
+        See :func:`wohngeld_eink_m_vg`.
+    wohngeld_miete_m_vg
+        See :func:`wohngeld_miete_m_vg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -592,47 +592,26 @@ def wohngeld_vor_vermög_check_m_hh(
         min(haushaltsgröße_hh, max_berücks_personen)
     ]
     out = wohngeld_params["faktor_berechnungsformel"] * (
-        wohngeld_miete_m_hh
+        wohngeld_miete_m_vg
         - (
             (
                 koeffizienten["a"]
-                + (koeffizienten["b"] * wohngeld_miete_m_hh)
-                + (koeffizienten["c"] * wohngeld_eink_m_hh)
+                + (koeffizienten["b"] * wohngeld_miete_m_vg)
+                + (koeffizienten["c"] * wohngeld_eink_m_vg)
             )
-            * wohngeld_eink_m_hh
+            * wohngeld_eink_m_vg
         )
     )
     out = max(out, 0.0)
 
     if haushaltsgröße_hh > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
-        # The maximum is still capped at `wohngeld_miete_m_hh`.
+        # The maximum is still capped at `wohngeld_miete_m_vg`.
         out = min(
             out
             + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
             * (haushaltsgröße_hh - max_berücks_personen),
-            wohngeld_miete_m_hh,
+            wohngeld_miete_m_vg,
         )
 
     return out
-
-
-def _anteil_personen_in_haushalt_tu(
-    tax_unit_größe_tu: int, haushaltsgröße_hh: int
-) -> float:
-    """Calculate the share of tax units in household.
-
-    ToDo: Change to tax_unit_größe / haushaltsgröße_hh
-
-    Parameters
-    ----------
-    tax_unit_größe_tu
-        See :func:`tax_unit_größe_tu`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
-
-    Returns
-    -------
-
-    """
-    return tax_unit_größe_tu / haushaltsgröße_hh

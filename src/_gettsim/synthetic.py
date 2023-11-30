@@ -1,436 +1,228 @@
 from __future__ import annotations
 
 import datetime
-import itertools
 
 import pandas as pd
 
-from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS
-from _gettsim.config import numpy_or_jax as np
+from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
 
 current_year = datetime.datetime.today().year
 
 
-def append_other_hh_members(
-    df, hh_typ, n_children, age_adults, gen_female, age_children, double_earner
-):
-    """duplicates information from the one person already created as often as needed and
-    adjusts columns that differ."""
-    # create empty dataframe with correct columns and datatypes
-    new_df = df.iloc[0:0].copy()
-    if hh_typ == "single" and n_children == 0:
-        return None
-
-    # If couple, create an additional adult
-    if hh_typ == "couple":
-        adult = df.copy()
-        adult["alter"] = age_adults[1]
-        adult["weiblich"] = gen_female[1]
-        if not double_earner:
-            adult["bruttolohn_m"] = 0
-
-        new_df = pd.concat(objs=[new_df, adult], ignore_index=True)
-
-    if n_children > 0:
-        child = df.copy()
-        child["kind"] = True
-        child["in_ausbildung"] = True
-        child["bruttolohn_m"] = 0
-        if n_children == 1:
-            children = child.copy()
-            children["alter"] = age_children[0]
-        elif n_children == 2:
-            children = pd.concat(objs=[child, child], ignore_index=True)
-            children["alter"] = age_children
-        else:
-            raise ValueError(n_children)
-        # append children
-        new_df = pd.concat(objs=[new_df, children])
-    else:
-        pass
-
-    new_df["tu_vorstand"] = False
-
-    return new_df
-
-
 def create_synthetic_data(
-    hh_typen=None,
-    n_children=None,
-    age_adults=None,
-    gen_female=None,
-    age_children=None,
-    baujahr=1980,
-    double_earner=False,
+    n_adults=1,
+    n_children=0,
+    specs_constant_over_households=None,
+    specs_heterogeneous=None,
     policy_year=current_year,
-    heterogeneous_vars=(),
-    **kwargs,
 ):
-    """Creates a dataset with hypothetical household types, which can be used as input
+    """Create a dataset with hypothetical household types, which can be used as input
     for GETTSIM.
 
-    hh_typen (list of str):
-        Allowed Household Types: 'single', 'couple'
+    Parameters
+    ----------
+    n_adults : int
+        Number of adults in the household, must be either 1 or 2, default is 1.
+    n_children : int
+        Number of children in the household, must be 0, 1, or 2, default is 0.
+    specs_constant_over_households : dict of lists
+        Values for variables that might vary within households, but are constant across
+        households.
+    specs_heterogeneous : dict of lists of lists
+        Values for variables that vary over households.
+    policy_year : int
+        Year for which the data set should be created. This is relevant for the
+        calculation of birthyear based on age.
 
-    n_children (list of int):
-        number of children
-
-    age_adults (list of int):
-        Assumed age of adult(s)
-
-    gen_female (list of bool):
-        Assumend gender of adult(s), 'False' male 'True' female
-
-    age_children (list of int):
-        Assumed age of children (first and second child, respectively)
-
-    baujahr (int):
-        Construction year of building
-
-    double_earner (bool):
-        whether or not both adults should be assigned the same value for 'bruttolohn_m'
-
-    heterogenous_vars (dict):
-        if specified, contains the variable name as key and a list of values
-
-    policy_year (int):
-        the year from which the reference data on housing are drawn.
-
-    kwargs:
-
-    bruttolohn_m, kapitaleink_brutto_m, eink_selbst_m, vermögen_bedürft_hh (int):
-        values for income and wealth, respectively.
-        only valid if heterogenous_vars is empty
+    Returns
+    -------
+    data : pd.DataFrame containing all variables that are needed to run GETTSIM.
 
     """
-    # Set Defaults
-    if hh_typen is None:
-        hh_typen = ["single", "couple"]
-    if n_children is None:
-        n_children = [0, 1, 2]
-    if age_adults is None:
-        age_adults = [35, 35]
-    if gen_female is None:
-        gen_female = [False, True]
-    if age_children is None:
-        age_children = [3, 8]
-
     # Check inputs
-    for t in hh_typen:
-        if t not in ["single", "couple"]:
-            raise ValueError("household type must be either 'single'  or 'couple'")
+    if n_adults not in [1, 2]:
+        raise ValueError("'n_adults' must be either 1 or 2")
+    if n_children not in list(range(11)):
+        raise ValueError("'n_children' must be between 0 and 10.")
 
-    if type(hh_typen) is not list:
-        raise ValueError("'hh_typen' must be a list")
+    default_constant_specs = {
+        "weiblich": [bool(i % 2 == 1) for i in range(n_children + n_adults)],
+        "alter": [35] * n_adults + [8, 5, 3, 1, 10, 9, 7, 6, 4, 2][:n_children],
+        "kind": [False] * n_adults + [True] * n_children,
+        "in_ausbildung": [False] * n_adults + [True] * n_children,
+    }
+    if specs_constant_over_households:
+        default_constant_specs.update(specs_constant_over_households)
+    specs_constant_over_households = default_constant_specs
 
-    if type(n_children) is not list:
-        if n_children not in [0, 1, 2]:
-            raise ValueError("'n_children' must be 0, 1, or 2.")
-        else:
-            n_children = [n_children]
+    # Make sure length of lists in specs_constant_over_households is correct
+    for var in specs_constant_over_households:
+        if len(specs_constant_over_households[var]) != n_adults + n_children:
+            raise ValueError(
+                f"Length of {var} in specs_constant_over_households is not correct."
+            )
 
-    for a in age_adults + age_children:
-        if (a < 0) or (type(a) != int):
-            raise ValueError(f"illegal value for age: {a}")
-
-    for g in gen_female:
-        if g not in [False, True]:
-            raise ValueError("gender weiblich must be bool.")
-
-    p_id_min = 0
-    group_mins = {}
-    for g in SUPPORTED_GROUPINGS:
-        group_mins[g] = 0
-
-    if len(heterogeneous_vars) == 0:
-        # If no heterogeneity specified,
-        # just create the household types with default incomes.
-        synth = create_one_set_of_households(
-            p_id_min,
-            group_mins,
-            hh_typen,
-            n_children,
-            age_adults,
-            gen_female,
-            age_children,
-            baujahr,
-            double_earner,
-            policy_year,
-            bruttolohn_m=kwargs.get("bruttolohn_m", 2000.0),
-        )
-    else:
-        synth = pd.DataFrame()
-        dimensions = range(len(np.hstack(list(heterogeneous_vars.values()))))
-        dim_counter = 0
-        # find out how many dimensions there are in order to set household id.
-        # loop over variables to vary
-        for hetvar in heterogeneous_vars:
-            # allow only certain variables to vary
-            if hetvar not in [
-                "bruttolohn_m",
-                "kapitaleink_brutto_m",
-                "eink_selbst_m",
-                "vermögen_bedürft_hh",
-            ]:
-                raise ValueError(
-                    f"Illegal value for variable to vary across households: {hetvar}"
-                )
-            for value in heterogeneous_vars[hetvar]:
-                synth = pd.concat(
-                    objs=[
-                        synth,
-                        create_one_set_of_households(
-                            p_id_min,
-                            group_mins,
-                            hh_typen,
-                            n_children,
-                            age_adults,
-                            gen_female,
-                            age_children,
-                            baujahr,
-                            double_earner,
-                            policy_year,
-                            dimension=dimensions[dim_counter],
-                            **{hetvar: value},
-                        ),
-                    ]
-                )
-                p_id_min = synth["p_id"].max() + 1
-                for g in SUPPORTED_GROUPINGS:
-                    group_mins[g] = synth[f"{g}_id"].max() + 1
-                dim_counter += 1
-        synth = synth.reset_index(drop=True)
-    return synth
+    if specs_heterogeneous is None:
+        specs_heterogeneous = {}
+    df = create_basic_households(
+        n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+    )
+    df = create_constant_across_households_variables(
+        df, n_adults, n_children, policy_year
+    )
+    return df
 
 
-def create_one_set_of_households(
-    p_id_min,
-    group_mins,
-    hh_typen,
-    n_children,
-    age_adults,
-    gen_female,
-    age_children,
-    baujahr,
-    double_earner,
-    policy_year,
-    **kwargs,
+def create_basic_households(
+    n_adults, n_children, specs_constant_over_households, specs_heterogeneous
 ):
-    """Create one set of households.
+    """Create basic variables for all households.
 
-    If hetereogeneity in a dimension is considered (e.g. income) this creates all
-    households with the same value.
+    Basic variables are variables which:
+
+    - are important to differentiate the individual household members
+    - or vary across households (as specified in specs_heterogeneous)
+
+    Parameters
+    ----------
+    n_adults : int
+        Number of adults in the household.
+    n_children : int
+        Number of children in the household.
+    specs_constant_over_households : dict of lists
+        Values for variables that might vary within households, but are constant across
+        households. The length of the lists must be equal to n_adults + n_children.
+    specs_heterogeneous : dict of lists of lists
+        Values for variables that vary over households. The length of the outer lists
+        equal the number of generated households and must be the same over all entries
+        in specs_heterogeneous. The inner lists must be of length n_adults +
+        n_children.
+
+    Returns
+    -------
+    data : pd.DataFrame containing all basic variables.
 
     """
-    # Initiate empty dataframe.
-    # Same order as 'Basic Input Variables' in the documentation
-    output_columns = [
-        "kind",
-        "bruttolohn_m",
-        "alter",
-        "weiblich",
-        "rentner",
-        "alleinerz",
-        "wohnort_ost",
-        "in_priv_krankenv",
-        "priv_rentenv_beitr_m",
-        "in_ausbildung",
-        "selbstständig",
-        "hat_kinder",
-        "betreuungskost_m",
-        "sonstig_eink_m",
-        "eink_selbst_m",
-        "eink_vermietung_m",
-        "kapitaleink_brutto_m",
-        "bruttokaltmiete_m_hh",
-        "heizkosten_m_hh",
-        "wohnfläche_hh",
-        "bewohnt_eigentum_hh",
-        "arbeitsstunden_w",
-        "bruttolohn_vorj_m",
-        "geburtstag",
-        "geburtsmonat",
-        "geburtsjahr",
-        "jahr_renteneintr",
-        "m_elterngeld",
-        "m_elterngeld_mut_hh",
-        "m_elterngeld_vat_hh",
-        "behinderungsgrad",
-        "mietstufe",
-        "immobilie_baujahr",
-        "vermögen_bedürft_hh",
-        "entgeltp",
-        "grundr_bew_zeiten",
-        "grundr_entgeltp",
-        "grundr_zeiten",
-        "priv_rente_m",
-        "schwerbeh_g",
-        "m_pflichtbeitrag",
-        "m_freiw_beitrag",
-        "m_mutterschutz",
-        "m_arbeitsunfähig",
-        "m_krank_ab_16_bis_24",
-        "m_arbeitslos",
-        "m_ausbild_suche",
-        "m_schul_ausbild",
-        "m_geringf_beschäft",
-        "m_alg1_übergang",
-        "m_ersatzzeit",
-        "m_kind_berücks_zeit",
-        "m_pfleg_berücks_zeit",
-        "y_pflichtbeitr_ab_40",
-        "anwartschaftszeit",
-        "arbeitssuchend",
-        "m_durchg_alg1_bezug",
-        "sozialv_pflicht_5j",
-        "bürgerg_bezug_vorj",
-        "kind_unterh_anspr_m",
-        "kind_unterh_erhalt_m",
+    hh_typ_string = create_hh_typ_string(n_adults, n_children)
+
+    # Identify number of households
+    if len(specs_heterogeneous) > 0:
+        n_households = len(next(iter(specs_heterogeneous.values())))
+    else:
+        n_households = 1
+
+    for col in specs_heterogeneous:
+        if len(specs_heterogeneous[col]) != n_households:
+            raise ValueError(
+                f"Length of {col} in specs_heterogeneous is not "
+                "the same as all the other columns."
+            )
+
+    if n_adults == 1 and n_children > 0:
+        alleinerziehend = [True] + [False] * n_children
+    else:
+        alleinerziehend = [False] * (n_children + n_adults)
+    if n_children > 0:
+        hat_kinder = [True] * n_adults + [False] * n_children
+    else:
+        hat_kinder = [False] * (n_adults)
+    # Add specifications and create DataFrame
+    all_households = [
+        {
+            "hh_id": [i] * (n_adults + n_children),
+            "tu_id": [i] * (n_adults + n_children),
+            "hh_typ": [hh_typ_string] * (n_adults + n_children),
+            "hat_kinder": hat_kinder,
+            "alleinerz": alleinerziehend,
+            # Assumption: All children are biological children of the adults, children
+            # do not have children themselves
+            "anz_eig_kind_bis_24": [n_children] * n_adults + [0] * n_children,
+            **specs_constant_over_households,
+            **{v: k[i] for v, k in specs_heterogeneous.items()},
+        }
+        for i in range(n_households)
     ]
-    # Create one row per desired household
-    n_rows = len(hh_typen) * len(n_children)
     df = pd.DataFrame(
-        columns=output_columns,
-        data=np.zeros((n_rows, len(output_columns))),
-    )
-    for g in group_mins:
-        df[f"{g}_id"] = pd.RangeIndex(n_rows) + group_mins[g]
-
-    # Some columns require boolean type. initiate them with False
-    for bool_col in [
-        "selbstständig",
-        "wohnort_ost",
-        "hat_kinder",
-        "kind",
-        "rentner",
-        "gem_veranlagt",
-        "in_ausbildung",
-        "alleinerz",
-        "bewohnt_eigentum_hh",
-        "in_priv_krankenv",
-        "schwerbeh_g",
-        "anwartschaftszeit",
-        "arbeitssuchend",
-    ]:
-        df[bool_col] = False
-
-    # Take care of bürgerg_bezug_vorj
-    if policy_year >= 2023:
-        df["bürgerg_bezug_vorj"] = True
-
-    # Other columns require int type
-    for int_col in [
-        "behinderungsgrad",
-        "m_elterngeld",
-        "m_elterngeld_mut_hh",
-        "m_elterngeld_vat_hh",
-    ]:
-        df[int_col] = df[int_col].astype(int)
-
-    # 'Custom' initializations
-    df["alter"] = age_adults[0]
-    df["weiblich"] = gen_female[0]
-    df["immobilie_baujahr"] = baujahr
-
-    # Household Types
-    all_types = pd.DataFrame(
-        columns=["hht", "nch"], data=itertools.product(hh_typen, n_children)
+        {
+            k: [v for i in range(len(all_households)) for v in all_households[i][k]]
+            for k in all_households[0]
+        }
     )
 
-    df["hh_typ"] = all_types["hht"] + "_" + all_types["nch"].astype(str) + "_children"
+    group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
+    df["p_id"] = df.index
+    df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
+    df = df.sort_values(by=[*group_ids, "p_id"])
 
-    # wohnfläche_hh, Kaltmiete, Heizkosten are taken from official data
+    return df
+
+
+def create_constant_across_households_variables(df, n_adults, n_children, policy_year):
+    """Add variables to household that do not vary over households.
+
+    This module could at some point be reused to impute default values for missing
+    variables when GETTSIM is run.
+
+    """
+    df = df.copy()
+
+    # Defaults for Wohnfläche, Kaltmiete, Heizkosten are taken from official data
     bg_daten = _load_parameter_group_from_yaml(
         datetime.date(policy_year, 1, 1),
         RESOURCE_DIR / "synthetic_data" / "bedarfsgemeinschaften",
     )
-    df["wohnfläche_hh"] = df["hh_typ"].map(bg_daten["wohnfläche"]).astype(float)
-    df["bruttokaltmiete_m_hh"] = (
-        df["hh_typ"].map(bg_daten["bruttokaltmiete"]).astype(float)
-    )
-    df["heizkosten_m_hh"] = df["hh_typ"].map(bg_daten["heizkosten"]).astype(float)
-    df["mietstufe"] = 3
 
-    # Income and wealth
-    df["bruttolohn_m"] = kwargs.get("bruttolohn_m", 0.0)
-    df["kapitaleink_brutto_m"] = kwargs.get("kapitaleink_brutto_m", 0.0)
-    df["eink_selbst_m"] = kwargs.get("eink_selbst_m", 0.0)
-    df["vermögen_bedürft_hh"] = kwargs.get("vermögen_bedürft_hh", 0.0)
+    # Use data for 2 children if there are more than 2 children in the household.
+    n_children_lookup = n_children if n_children <= 2 else 2
+    hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
-    # append entries for children and partner
-    for hht in hh_typen:
-        for nch in n_children:
-            df = pd.concat(
-                objs=[
-                    df,
-                    append_other_hh_members(
-                        df[
-                            (df["hh_typ"].str[:6] == hht)
-                            & (df["hh_typ"].str[7:8].astype(int) == nch)
-                        ],
-                        hht,
-                        nch,
-                        age_adults,
-                        gen_female,
-                        age_children,
-                        double_earner,
-                    ),
-                ]
-            )
-    df = df.reset_index(drop=True)
-    df["geburtsjahr"] = policy_year - df["alter"]
-    df["geburtsmonat"] = 1
-    df["geburtstag"] = 1
-    df["jahr_renteneintr"] = df["geburtsjahr"] + 67
+    # Take care of bürgerg_bezug_vorj
+    if policy_year >= 2023 and "bürgerg_bezug_vorj" not in df:
+        df["bürgerg_bezug_vorj"] = True
 
-    df.loc[~df["kind"], "hat_kinder"] = (
-        df.groupby("hh_typ")["kind"].transform("sum") > 0
-    )
-    df.loc[df["bruttolohn_m"] > 0, "arbeitsstunden_w"] = 38
+    default_values = {
+        "mietstufe": 3,
+        "geburtsmonat": 1,
+        "geburtstag": 1,
+        "m_freiw_beitrag": 5.0,
+        "m_schul_ausbild": 10.0,
+        "m_kind_berücks_zeit": 24.0,
+        "m_pfleg_berücks_zeit": 1.0,
+        "geburtsjahr": policy_year - df["alter"],
+        "jahr_renteneintr": policy_year - df["alter"] + 67,
+        "grundr_zeiten": (df["alter"] - 20).clip(lower=0) * 12,
+        "grundr_bew_zeiten": (df["alter"] - 20).clip(lower=0) * 12,
+        "entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
+        "grundr_entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
+        "m_pflichtbeitrag": ((df["alter"] - 25).clip(lower=0) * 12).astype(float),
+        "m_pflichtbeitrag_alt": ((df["alter"] - 40).clip(lower=0) * 12).astype(float),
+        "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),
+        "bruttokaltmiete_m_hh": float(
+            bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
+        ),
+        "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string_lookup]),
+        "kind_unterh_anspr_m": 0.0,
+        "kind_unterh_erhalt_m": 0.0,
+    }
 
-    # All adults in couples are assumed to be married
-    df["gem_veranlagt"] = False
-    df.loc[
-        (df["hh_typ"].str.contains("couple")) & (~df["kind"]), "gem_veranlagt"
-    ] = True
+    # Set default values for new columns.
+    for input_col, col_type in TYPES_INPUT_VARIABLES.items():
+        if input_col not in df:
+            if input_col in default_values:
+                df[input_col] = default_values[input_col]
+            else:
+                if col_type == bool:
+                    df[input_col] = False
+                elif col_type == int:
+                    df[input_col] = 0
+                elif col_type == float:
+                    df[input_col] = 0.0
+                else:
+                    raise ValueError(f"Column type {col_type} not yet supported.")
 
-    # Single Parent Dummy
-    df.loc[
-        (df["hh_typ"].str.contains("single"))
-        & (df["hh_typ"].str[7:8].astype(int) > 0)
-        & (~df["kind"]),
-        "alleinerz",
-    ] = True
+    return df
 
-    # Retirement variables
-    df["grundr_zeiten"] = (df["alter"] - 20).clip(lower=0) * 12
-    df["grundr_bew_zeiten"] = df["grundr_zeiten"]
-    df["entgeltp"] = df["grundr_zeiten"] / 12
-    df["grundr_entgeltp"] = df["entgeltp"]
 
-    # Rente Wartezeiten
-    df["m_pflichtbeitrag"] = ((df["alter"] - 25).clip(lower=0) * 12).astype(float)
-    df["y_pflichtbeitr_ab_40"] = ((df["alter"] - 40).clip(lower=0) * 12).astype(float)
-    df["m_freiw_beitrag"] = 5.0
-    df["m_ersatzzeit"] = 0.0
-    df["m_schul_ausbild"] = 10.0
-    df["m_arbeitsunfähig"] = 0.0
-    df["m_krank_ab_16_bis_24"] = 0.0
-    df["m_mutterschutz"] = 0.0
-    df["m_arbeitslos"] = 0.0
-    df["m_ausbild_suche"] = 0.0
-    df["m_alg1_übergang"] = 0.0
-    df["m_geringf_beschäft"] = 0.0
-    df["m_kind_berücks_zeit"] = 24.0
-    df["m_pfleg_berücks_zeit"] = 1.0
-
-    group_ids = [f"{g}_id" for g in SUPPORTED_GROUPINGS]
-    df = df.reset_index()
-    df = df.sort_values(by=[*group_ids, "index"])
-    df = df.drop(columns=["index"]).reset_index(drop=True)
-    df["p_id"] = df.index + p_id_min
-
-    df = df.sort_values(by=[*group_ids, "p_id"])
-
-    return df[["p_id", *group_ids] + ["hh_typ"] + output_columns]
+def create_hh_typ_string(n_adults, n_children):
+    return f"{'single' if n_adults == 1 else 'couple'}_{n_children}_children"

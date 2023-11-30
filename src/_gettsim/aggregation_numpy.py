@@ -1,4 +1,4 @@
-from warnings import warn
+import warnings
 
 import numpy
 import numpy_groupies as npg
@@ -112,7 +112,7 @@ def grouped_all(column, group_id):
 
 
 def grouped_cumsum(column, group_id):
-    warn(
+    warnings.warn(
         "'grouped_cumsum' is deprecated. It won't be supported anymore in a future "
         "version",
         DeprecationWarning,

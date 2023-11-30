@@ -50,21 +50,21 @@ inputs:
       - false
     geburtsjahr:
       - 1978
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 5917.6
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_tu:
     - 53046.4
-  zu_verst_eink_mit_kinderfreib_tu:
+  _zu_verst_eink_mit_kinderfreib_y_tu:
     - 53046.4
-  eink_st_kinderfreib_tu:
+  eink_st_kinderfreib_y_tu:
     - 0
-  eink_st_altersfreib:
+  eink_st_altersfreib_y:
     - 0
-  alleinerz_freib_tu:
+  alleinerz_freib_y_tu:
     - 0
-  sum_eink:
+  sum_eink_y:
     - 59000
-  _eink_st_behinderungsgrad_pauschbetrag:
+  _eink_st_behinderungsgrad_pauschbetrag_y:
     - 0

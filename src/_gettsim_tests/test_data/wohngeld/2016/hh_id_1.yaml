@@ -80,11 +80,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 25000.0
       - 0.0
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 1000.0
       - 0.0
       - 0.0
@@ -108,7 +108,7 @@ inputs:
       - 2016
       - 2016
       - 2016
-    eink_st_tu:
+    eink_st_y_tu:
       - 1000.0
       - 1000.0
       - 1000.0
@@ -134,11 +134,11 @@ inputs:
       - 2007
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_vg:
     - 75.0
     - 75.0
     - 75.0
-  wohngeld_nach_vermög_check_m_hh:
+  wohngeld_nach_vermög_check_m_vg:
     - 75.0
     - 75.0
     - 75.0

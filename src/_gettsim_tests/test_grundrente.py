@@ -15,15 +15,6 @@ OUT_COLS_TOL = {
     "grundr_zuschlag_m": 1,
     "ges_rente_m": 1,
 }
-
-OVERRIDE_COLS = [
-    "rente_vorj_vor_grundr_proxy_m",
-    "eink_selbst",
-    "eink_vermietung",
-    "kapitaleink",
-    "ges_rente_zugangsfaktor",
-]
-
 data = load_policy_test_data("grundrente")
 
 
@@ -42,11 +33,7 @@ def test_grundrente(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     tol = OUT_COLS_TOL[column]
@@ -61,15 +48,21 @@ INPUT_COLS_INCOME = [
     "hh_id",
     "alter",
     "priv_rente_m",
-    "entgeltp",
+    "entgeltp_west",
+    "entgeltp_ost",
     "geburtsjahr",
     "geburtsmonat",
     "rentner",
     "jahr_renteneintr",
+    "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
     "weiblich",
     "y_pflichtbeitr_ab_40",
+    "pflichtbeitr_8_in_10",
+    "arbeitsl_1y_past_585",
+    "vertra_arbeitsl_2006",
+    "vertra_arbeitsl_1997",
     "m_pflichtbeitrag",
     "m_freiw_beitrag",
     "m_ersatzzeit",
@@ -79,7 +72,7 @@ INPUT_COLS_INCOME = [
     "m_arbeitsunfähig",
     "m_krank_ab_16_bis_24",
     "m_mutterschutz",
-    "m_arbeitslos",
+    "m_arbeitsl",
     "m_ausbild_suche",
     "m_alg1_übergang",
     "m_geringf_beschäft",
@@ -103,10 +96,7 @@ def test_proxy_rente_vorj(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(

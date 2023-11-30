@@ -1,8 +1,8 @@
 import copy
 import datetime
 import operator
+from collections.abc import Callable
 from functools import reduce
-from typing import Callable
 
 import numpy
 import pandas as pd
@@ -50,7 +50,7 @@ def set_up_policy_environment(date):
     # extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-    params = _parse_vorsorgepauschale_rv_anteil(date, params)
+    params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
     functions = load_functions_for_date(date)
 
     return params, functions
@@ -172,7 +172,6 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     """
     jahr = float(date.year)
     if jahr >= 2005:
-        # ToDo: remove conversion to Series after moving to scalar
         out = piecewise_polynomial(
             pd.Series(jahr),
             thresholds=params["eink_st_abzuege"]["einführungsfaktor"]["thresholds"],
@@ -187,7 +186,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
     return params
 
 
-def _parse_vorsorgepauschale_rv_anteil(date, params):
+def _parse_vorsorgepauschale_rentenv_anteil(date, params):
     """Calculate the share of pension contributions to be deducted for Lohnsteuer
     increases by year.
 
@@ -208,15 +207,17 @@ def _parse_vorsorgepauschale_rv_anteil(date, params):
     if jahr >= 2005:
         out = piecewise_polynomial(
             pd.Series(jahr),
-            thresholds=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"][
+            thresholds=params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"][
                 "thresholds"
             ],
-            rates=params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"]["rates"],
+            rates=params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"][
+                "rates"
+            ],
             intercepts_at_lower_thresholds=params["eink_st_abzuege"][
-                "vorsorgepauschale_rv_anteil"
+                "vorsorgepauschale_rentenv_anteil"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"]["vorsorgepauschale_rv_anteil"] = out.loc[0]
+        params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] = out.loc[0]
 
     return params
 
@@ -238,11 +239,12 @@ def load_functions_for_date(date):
     """
 
     # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
-    functions = {
-        f.__info__["dates_active_dag_key"]: f
-        for f in load_internal_functions().values()
-        if is_time_dependent(f) and is_active_at_date(f, date)
-    }
+    functions = {}
+    for f in load_internal_functions().values():
+        if not is_time_dependent(f) or is_active_at_date(f, date):
+            info = f.__info__ if hasattr(f, "__info__") else {}
+            name = info.get("dates_active_dag_key", f.__name__)
+            functions[name] = f
 
     return functions
 
@@ -287,6 +289,13 @@ def _load_parameter_group_from_yaml(
         # Take care of leap years
         except ValueError:
             dt = dt.replace(year=dt.year - years, day=dt.day - 1)
+        return dt
+
+    def set_date_to_beginning_of_year(dt):
+        """Set date to the beginning of the year."""
+
+        dt = dt.replace(month=1, day=1)
+
         return dt
 
     raw_group_data = yaml.load(
@@ -377,10 +386,26 @@ def _load_parameter_group_from_yaml(
                     )
                     if param in params_last_year:
                         out_params[f"{param}_vorjahr"] = params_last_year[param]
+                elif raw_group_data[param]["access_different_date"] == "jahresanfang":
+                    date_beginning_of_year = set_date_to_beginning_of_year(date)
+                    if date_beginning_of_year == date:
+                        out_params[f"{param}_jahresanfang"] = out_params[param]
+                    else:
+                        params_beginning_of_year = _load_parameter_group_from_yaml(
+                            date_beginning_of_year,
+                            group,
+                            parameters=[param],
+                            yaml_path=yaml_path,
+                        )
+                        if param in params_beginning_of_year:
+                            out_params[
+                                f"{param}_jahresanfang"
+                            ] = params_beginning_of_year[param]
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "
-                        "'vorjahr' (last year). "
+                        "'vorjahr' (last year) and "
+                        "'jahresanfang' (beginning of the year). "
                         f"For parameter {param} a different string is specified."
                     )
 

@@ -99,7 +99,12 @@ inputs:
       - 3
       - 3
       - 3
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    entgeltp_ost:
       - 6.2776
       - 6.2776
       - 1.7936
@@ -244,7 +249,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
       - 0.0
       - 0.0

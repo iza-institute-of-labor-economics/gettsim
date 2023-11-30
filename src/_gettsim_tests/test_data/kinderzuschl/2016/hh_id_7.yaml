@@ -31,7 +31,11 @@ inputs:
     bruttolohn_m:
       - 2000.0
       - 2000.0
-      - 100.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
     in_ausbildung:
       - false
       - false
@@ -52,7 +56,7 @@ inputs:
       - false
       - false
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh:
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -95,10 +99,10 @@ inputs:
   assumed: {}
 outputs:
   _kinderzuschl_vor_vermög_check_m_tu:
-    - 40.0
-    - 40.0
-    - 40.0
+    - 140.0
+    - 140.0
+    - 140.0
   _kinderzuschl_nach_vermög_check_m_tu:
-    - 40.0
-    - 40.0
-    - 40.0
+    - 140.0
+    - 140.0
+    - 140.0

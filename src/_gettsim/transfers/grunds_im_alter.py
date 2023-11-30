@@ -2,8 +2,8 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def grunds_im_alter_m_hh(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_hh: float,
+def grunds_im_alter_m_vg(  # noqa: PLR0913
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
@@ -11,7 +11,7 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
     grunds_im_alter_eink_m_hh: float,
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_hh: float,
-    grunds_im_alter_vermög_freib_hh: float,
+    grunds_im_alter_vermög_freib_vg: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
@@ -24,8 +24,8 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_hh
-        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
         See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
     kindergeld_m_hh
@@ -41,8 +41,8 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
         See :func:`erwachsene_alle_rentner_hh`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh`.
-    grunds_im_alter_vermög_freib_hh
-        See :func:`grunds_im_alter_vermög_freib_hh`.
+    grunds_im_alter_vermög_freib_vg
+        See :func:`grunds_im_alter_vermög_freib_vg`.
     Returns
     -------
 
@@ -50,14 +50,14 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_hh) or (
+    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_vg) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
     else:
         # Subtract income
         out = (
-            arbeitsl_geld_2_regelbedarf_m_hh
+            arbeitsl_geld_2_regelbedarf_m_bg
             + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
             - grunds_im_alter_eink_m_hh
             - kind_unterh_erhalt_m_hh
@@ -75,8 +75,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
-    eink_st_tu: float,
-    soli_st_tu: float,
+    eink_st_y_tu: float,
+    soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     elterngeld_anr_m: float,
@@ -98,10 +98,10 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
-    soli_st_tu
-        See :func:`soli_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
+    soli_st_y_tu
+        See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_m
@@ -125,12 +125,10 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         + elterngeld_anr_m
     )
 
-    # subtract taxes and social insurance contributions
-    # TODO: Change this to lohnsteuer
     out = (
         total_income
-        - (eink_st_tu / anz_erwachsene_tu / 12)
-        - (soli_st_tu / anz_erwachsene_tu / 12)
+        - (eink_st_y_tu / anz_erwachsene_tu / 12)
+        - (soli_st_y_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_m
     )
 
@@ -179,7 +177,7 @@ def grunds_im_alter_erwerbseink_m(
 
 
 def _grunds_im_alter_kapitaleink_brutto_m(
-    kapitaleink_brutto: float,
+    kapitaleink_brutto_y: float,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate individual capital income considered in the calculation of
@@ -190,8 +188,8 @@ def _grunds_im_alter_kapitaleink_brutto_m(
 
     Parameters
     ----------
-    kapitaleink_brutto
-        See :func:`kapitaleink_brutto`.
+    kapitaleink_brutto_y
+        See :func:`kapitaleink_brutto_y`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params
         <grunds_im_alter_params>`.
@@ -202,7 +200,7 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        kapitaleink_brutto - grunds_im_alter_params["kapitaleink_anr_frei"]
+        kapitaleink_brutto_y - grunds_im_alter_params["kapitaleink_anr_frei"]
     )
 
     # Calculate and return monthly capital income (after deduction)
@@ -359,7 +357,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     return ges_rente_m - angerechnete_rente
 
 
-def grunds_im_alter_vermög_freib_hh(
+def grunds_im_alter_vermög_freib_vg(
     anz_erwachsene_hh: int,
     anz_kinder_hh: int,
     grunds_im_alter_params: dict,

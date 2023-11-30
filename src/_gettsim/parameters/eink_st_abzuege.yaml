@@ -656,7 +656,7 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-vorsorgepauschale_rv_anteil:
+vorsorgepauschale_rentenv_anteil:
   name:
     de: Anteil abgezogene Rentenversicherungsbeiträge
     en: Share of deducted pension insurance contributions
@@ -744,13 +744,14 @@ vorsorgepauschale_kv_max:
     steuerklasse_nicht3: 1900
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rounding:
-  vorsorgeaufw_tu:
+  vorsorgeaufw_y_tu:
     note:
       en: Starting date unclear
+    reference: § 10 Abs. 3 EStG
     1984-01-01:
-      base: 0.01
-      direction: nearest
-  sonderausgaben_betreuung_tu:
+      base: 1
+      direction: up
+  sonderausgaben_betreuung_y_tu:
     note:
       en: Starting date unclear
     1984-01-01:

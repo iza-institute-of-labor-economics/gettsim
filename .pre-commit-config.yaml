@@ -6,11 +6,11 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.8.0
+    rev: 1.15.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-added-large-files
         args:
@@ -41,23 +41,23 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.29.0
+    rev: v1.33.0
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.11.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
         # supported by your project here
-        language_version: python3.11
+        language_version: python3.12
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.13.0
+    rev: 1.16.0
     hooks:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.244
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.5
     hooks:
       - id: ruff
       #   args:
@@ -70,17 +70,18 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.6.1
+    rev: 1.7.0
     hooks:
       - id: nbqa-black
+        additional_dependencies:
+          - black==23.11.0
       - id: nbqa-ruff
-  # - repo: https://github.com/econchick/interrogate
-  #   rev: 1.5.0
-  #   hooks:
-  #     - id: interrogate
-  #       args: [-v, --fail-under=50]
+        additional_dependencies:
+          - ruff==v0.1.5
+        args:
+          - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -91,7 +92,7 @@ repos:
           - '88'
         files: (README\.md)
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -100,9 +101,9 @@ repos:
         args:
           - --wrap
           - '88'
-        files: (docs/.)
+        files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v0.991
+    rev: v1.7.0
     hooks:
       - id: mypy
         args:
@@ -111,7 +112,7 @@ repos:
           - types-PyYAML
           - types-pytz
   - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.2.0
+    rev: v2.5.0
     hooks:
       - id: setup-cfg-fmt
   - repo: https://github.com/mgedmin/check-manifest
@@ -123,5 +124,6 @@ repos:
         additional_dependencies:
           - setuptools-scm
           - toml
+          - wheel
 ci:
   autoupdate_schedule: monthly

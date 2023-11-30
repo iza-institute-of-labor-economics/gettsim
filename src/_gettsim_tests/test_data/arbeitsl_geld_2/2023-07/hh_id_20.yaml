@@ -39,9 +39,9 @@ inputs:
       - 0.0
     eink_vermietung_m:
       - 0.0
-    eink_st_tu:
+    eink_st_y_tu:
       - 0.0
-    soli_st_tu:
+    soli_st_y_tu:
       - 0.0
     sozialv_beitr_m:
       - 204.0
@@ -55,7 +55,7 @@ inputs:
       - 0.0
     jahr:
       - 2023-07
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
     vermögen_bedürft_hh:
       - 40000.0
@@ -75,9 +75,9 @@ outputs:
     - 348.0
   arbeitsl_geld_2_eink_m:
     - 648.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_bg:
     - 502.0
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_bg:
     - 450.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 304.0

@@ -42,8 +42,10 @@ inputs:
       - 1
     mietstufe:
       - 3
-    entgeltp:
+    entgeltp_west:
       - 1.7936
+    entgeltp_ost:
+      - 0.0
     kind:
       - false
     rentner:
@@ -100,7 +102,7 @@ inputs:
       - 0.0
     m_krank_ab_16_bis_24:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0

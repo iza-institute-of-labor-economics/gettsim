@@ -60,6 +60,10 @@ def time_indep_function_names(all_function_names):
     return time_indep_function_names
 
 
+@pytest.mark.xfail(
+    reason="Uses an internal function to load functions,"
+    " which does not include derived functions."
+)
 def test_all_input_vars_documented(
     default_input_variables,
     time_indep_function_names,
@@ -117,7 +121,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     assert set(documented_functions) == set(internal_functions)
 
 
-def test_type_hints():
+def test_type_hints():  # noqa: PLR0912
     """Check if output and input types of all functions coincide."""
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     functions = _load_functions(imports)

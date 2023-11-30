@@ -22,7 +22,9 @@ inputs:
       - 2018
     geburtsjahr:
       - 1952
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 35.2067
     geburtsmonat:
       - 1
@@ -32,7 +34,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
@@ -46,6 +48,14 @@ inputs:
       - false
     y_pflichtbeitr_ab_40:
       - 0.0
+    pflichtbeitr_8_in_10:
+      - false
+    arbeitsl_1y_past_585:
+      - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
@@ -58,7 +68,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
+    - 0.0
+  entgeltp_ost_update:
     - 36.99837737
   entgeltp_update_lohn:
     - 1.79167737
