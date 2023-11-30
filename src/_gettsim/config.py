@@ -67,13 +67,36 @@ INTERNAL_PARAMS_GROUPS = [
 
 SUPPORTED_GROUPINGS = {
     "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
+        "name": "Haushalt",
+        "description": "The relevant unit for Wohngeld. Encompasses more people than"
+        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
+        " unit for Wohngeld. `vg` derives from Verantwortungs- und"
+        " Einstehensgemeinschaft, though this might be a misnomer.",
+        "potentially_endogenous": False,
     },
     "tu": {
         "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
+        "description": "Obsolete. `sn` plus children.",
         "nested_by": "hh",
+        "potentially_endogenous": False,
+    },
+    "fg": {
+        "name": "Familiengemeinschaft",
+        "description": "Maximum of two generations, the relevant base unit for"
+        " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
+        " income fend for themselves.",
+        "potentially_endogenous": True,
+    },
+    "bg": {
+        "name": "Bedarfsgemeinschaft",
+        "description": "Familiengemeinschaft except for children who have enough income"
+        " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
+        "potentially_endogenous": True,
+    },
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 
@@ -185,3 +208,10 @@ TYPES_INPUT_VARIABLES = {
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
 }
+
+FOREIGN_KEYS = [
+    "p_id_ehepartner",
+    "p_id_einstandspartner",
+    "p_id_elternteil_1",
+    "p_id_elternteil_2",
+]
