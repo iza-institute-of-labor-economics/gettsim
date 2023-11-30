@@ -108,7 +108,7 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_y_tu`). This makes searching for identifiers easier and
+`_zu_verst_eink_ohne_kinderfreib_y_sn`). This makes searching for identifiers easier and
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
@@ -119,8 +119,33 @@ If a column has a reference to a time unit (i.e., any flow variable like earning
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
-the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
-aggregation.
+the relevant unit, an underscore plus one of {`sn`, `vg`, `fg`, `bg`} will indicate the
+level of aggregation.
+
+GETTSIM knows about the following units:
+
+- `p_id`: person identifier
+- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
+  Germany-wide Steuer-ID)
+- `vg_id`: Haushalt, the relevant unit for Wohngeld. `vg` derives from Verantwortungs-
+  und Einstehensgemeinschaft. Encompasses more people than the Bedarfsgemeinschaft
+  (e.g., possibly more than 2 generations). *(might be misnomer)* Currently also used in
+  SGB XII.
+- `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
+  Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
+  Bedarfsgemeinschaft before making checks for whether children have enough income fend
+  for themselves. Subset of `vg`.
+- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft plus for whether children
+  have enough income to fend for themselves. Subset of `fg_id`.
+
+Note that households do not include flat shares etc.. Such broader definition are
+currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
+for costs of dwelling in SGB II depend on this).
+
+Open questions:
+
+- Can we use bg_id for both SGB II and SGB XII at the same time or do we need to
+  differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
 `arbeitsl_geld_2_m_bg`).
@@ -148,9 +173,10 @@ comprehension or a short loop, `i` might be an acceptable name for the running v
 A function that is used in many different places should have a descriptive name.
 
 The name of variables should reflect the content or meaning of the variable and not the
-type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to indicate
-the time unit and one of {`hh`, `tu`} to indicate the unit of aggregation.
+type (i.e., float, int, dict, list, df, array ...). As for column names and parameters,
+in some cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to
+indicate the time unit and one of {`sn`, `vg`, `fg`, `bg`} to indicate the unit of
+aggregation.
 
 ## Examples
 
