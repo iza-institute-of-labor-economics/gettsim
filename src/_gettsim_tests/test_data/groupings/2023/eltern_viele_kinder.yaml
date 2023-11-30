@@ -67,6 +67,15 @@ inputs:
       - 1
       - 1
       - -1
+    eigener_bedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - true
+      - false
 outputs:
   fg_id:
     - 0
@@ -77,3 +86,12 @@ outputs:
     - 3
     - 0
     - 3
+  bg_id:
+    - 0
+    - 0
+    - 100
+    - 0
+    - 200
+    - 300
+    - 1
+    - 300
