@@ -4,7 +4,7 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    erwerbsm_rente_langj_versicherte_wartezeit:
+    _erwerbsm_rente_langj_versicherte_wartezeit:
       - false
   provided:
     entgeltp_ost:
@@ -31,9 +31,9 @@ inputs:
       - 24
     rentner:
       - true
-    teilw_erwerbsgemindert:
+    teilw_erwerbsgemind:
       - false
-    voll_erwerbsgemindert:
+    voll_erwerbsgemind:
       - true
     wohnort_ost:
       - true

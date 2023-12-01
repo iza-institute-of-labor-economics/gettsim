@@ -209,8 +209,8 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
-    "voll_erwerbsgemindert": bool,
-    "teilw_erwerbsgemindert": bool,
+    "voll_erwerbsgemind": bool,
+    "teilw_erwerbsgemind": bool,
 }
 
 FOREIGN_KEYS = [

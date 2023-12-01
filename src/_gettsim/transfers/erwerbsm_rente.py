@@ -51,8 +51,8 @@ def erwerbsm_rente_m(  # noqa: PLR0913
 
 @dates_active(start="2001-01-01")
 def ges_rente_vorauss_erwerbsm(
-    voll_erwerbsgemindert: bool,
-    teilw_erwerbsgemindert: bool,
+    voll_erwerbsgemind: bool,
+    teilw_erwerbsgemind: bool,
     m_pflichtbeitrag: float,
     ges_rente_wartezeit_5: bool,
 ) -> bool:
@@ -63,10 +63,10 @@ def ges_rente_vorauss_erwerbsm(
 
     Parameters
     ----------
-    voll_erwerbsgemindert
-        See basic input variable :ref:`voll_erwerbsgemindert <voll_erwerbsgemindert>.
-    teilw_erwerbsgemindert
-        See basic input variable :ref:`teilw_erwerbsgemindert <teilw_erwerbsgemindert>.
+    voll_erwerbsgemind
+        See basic input variable :ref:`voll_erwerbsgemind <voll_erwerbsgemind>.
+    teilw_erwerbsgemind
+        See basic input variable :ref:`teilw_erwerbsgemind <teilw_erwerbsgemind>.
     m_pflichtbeitrag
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>.
     ges_rente_wartezeit_5
@@ -77,7 +77,7 @@ def ges_rente_vorauss_erwerbsm(
     """
 
     anspruch_erwerbsm_rente = (
-        (voll_erwerbsgemindert or teilw_erwerbsgemindert)
+        (voll_erwerbsgemind or teilw_erwerbsgemind)
         and ges_rente_wartezeit_5
         and m_pflichtbeitrag >= 36
     )
@@ -249,7 +249,7 @@ def durchschn_entgeltp(
 
 @dates_active(start="2001-01-01")
 def rentenartfaktor(
-    teilw_erwerbsgemindert: bool,
+    teilw_erwerbsgemind: bool,
     erwerbsm_rente_params: dict,
 ) -> float:
     """Rentenartfaktor for Erwerbsminderungsrente
@@ -259,8 +259,8 @@ def rentenartfaktor(
 
     Parameters
     ----------
-    teilw_erwerbsgemindert
-        See basic input variable :ref:`teilw_erwerbsgemindert <teilw_erwerbsgemindert>.
+    teilw_erwerbsgemind
+        See basic input variable :ref:`teilw_erwerbsgemind <teilw_erwerbsgemind>.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
@@ -270,7 +270,7 @@ def rentenartfaktor(
 
     """
 
-    if teilw_erwerbsgemindert:
+    if teilw_erwerbsgemind:
         out = erwerbsm_rente_params["rentenartfaktor"]["teilw"]
 
     else:
@@ -284,7 +284,7 @@ def erwerbsm_rente_zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
     age_of_retirement: float,
-    erwerbsm_rente_langj_versicherte_wartezeit: bool,
+    _erwerbsm_rente_langj_versicherte_wartezeit: bool,
 ) -> float:
     """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
@@ -307,8 +307,8 @@ def erwerbsm_rente_zugangsfaktor(
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
-    erwerbsm_rente_langj_versicherte_wartezeit
-        See :func:`erwerbsm_rente_langj_versicherte_wartezeit`.
+    _erwerbsm_rente_langj_versicherte_wartezeit
+        See :func:`_erwerbsm_rente_langj_versicherte_wartezeit`.
 
 
     Returns
@@ -317,7 +317,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
 
-    if erwerbsm_rente_langj_versicherte_wartezeit:
+    if _erwerbsm_rente_langj_versicherte_wartezeit:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_langj_versicherte_abschlagsfrei"
         ]
@@ -335,7 +335,7 @@ def erwerbsm_rente_zugangsfaktor(
 
 
 @dates_active(start="2001-01-01")
-def erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
+def _erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,

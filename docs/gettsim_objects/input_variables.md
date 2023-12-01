@@ -575,13 +575,13 @@ Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
 
-## `voll_erwerbsgemindert`
+## `voll_erwerbsgemind`
 
 Dummy: Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
-## `teilw_erwerbsgemindert`
+## `teilw_erwerbsgemind`
 
 Able to provide at least 3 but no more than 6 hours of market labor per day.
 
