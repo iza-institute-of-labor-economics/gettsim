@@ -24,6 +24,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
+from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -80,10 +81,14 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
         vectorized_functions, targets, data_cols, aggregation_specs
     )
 
+    # Create groupings
+    groupings = create_groupings()
+
     all_functions = {
         **time_conversion_functions,
         **vectorized_functions,
         **aggregation_functions,
+        **groupings,
     }
 
     _fail_if_targets_are_not_among_functions(all_functions, targets)
@@ -113,7 +118,6 @@ def _create_derived_functions(
     - functions for converting to different time units
     - aggregation functions
     - combinations of these
-
     """
 
     # Create functions for different time units

@@ -20,8 +20,10 @@ inputs:
       - 2012
     geburtsjahr:
       - 1959
-    entgeltp:
+    entgeltp_west:
       - 31.0625
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -48,6 +50,10 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
@@ -60,8 +66,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 31.0625
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.0
   _ges_rente_altersgrenze_abschlagsfrei:

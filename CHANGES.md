@@ -6,14 +6,20 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`601` Add groupings `sn_id`, `fg_id`, and `bg_id` ({ghuser}`lars-reimann`).
+- {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
+  {ghuser}`MImmesberger`)
+- {gh}`660` Entgeltpunkte Ost/West ({ghuser}`nafetsk`).
+- {gh}`662` Replace `hh` in function names by `bg`/`fg`/`vg` ({ghuser}`lars-reimann`).
+- {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
+  ({ghuser}`MImmesberger`).
+- {gh}`655` Correct calculation of Lohnsteuer for 2015 to 2023 ({ghuser}`JakobWegmann`).
+- {gh}`653` Add Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 - {gh}`636`, {gh}`637` Reduced contribution rate for retirees for long-term care
   insurance until 2004 ({ghuser}`MImmesberger`).
-- {gh}`653` Adding Soli to Lohnsteuer test cases ({ghuser}`JakobWegmann`).
 - {gh}`643` Fix bug in Midijobfaktor calculation in 2004. ({ghuser}`MImmesberger`).
 - {gh}`590` Add allowance for child income for Kinderzuschlag.
   ({ghuser}`ChristianZimpelmann`).
-- {gh}`624` Don't create functions for other time units if this leads to a cycle in the
-  graph ({ghuser}`lars-reimann`).
 - {gh}`620` Adds income from self employment to income for Bürgergeld ({ghuser}`amageh`,
   {ghuser}`lillyfischer`, {ghuser}`TeBackh`)
 - {gh}`634` Implement pension for unemployed ({ghuser}`TeBackh`)

@@ -37,8 +37,10 @@ inputs:
       - 1951
     bruttolohn_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 28.8
+    entgeltp_ost:
+      - 0.0
     ges_rente_zugangsfaktor:
       - 1.0
     rentner:

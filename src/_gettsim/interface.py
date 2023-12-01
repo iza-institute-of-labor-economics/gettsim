@@ -2,11 +2,17 @@ import copy
 import functools
 import inspect
 import warnings
+from typing import Literal
 
 import dags
 import pandas as pd
 
-from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import (
+    DEFAULT_TARGETS,
+    FOREIGN_KEYS,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
@@ -236,6 +242,7 @@ def _process_and_check_data(data):
         ), "We currently allow for only one tax unit within each household"
 
     _fail_if_pid_is_non_unique(data)
+    _fail_if_foreign_keys_are_invalid(data)
 
     return data
 
@@ -429,8 +436,11 @@ def _fail_if_group_variables_not_constant_within_groups(data):
         Dictionary containing a series for each column.
 
     """
+    exogenous_groupings = [
+        level for level in SUPPORTED_GROUPINGS if f"{level}_id" in data
+    ]
     for name, col in data.items():
-        for level in SUPPORTED_GROUPINGS:
+        for level in exogenous_groupings:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
@@ -461,6 +471,37 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+
+def _fail_if_foreign_keys_are_invalid(data):
+    """
+    Check that all foreign keys are valid.
+
+    They must point to an existing `p_id` in the input data and may not refer to
+    the `p_id` of the same row.
+    """
+
+    p_ids = set(data["p_id"]) | {-1}
+
+    for foreign_key in FOREIGN_KEYS:
+        if foreign_key not in data:
+            continue
+
+        # Referenced `p_id` must exist in the input data
+        if not data[foreign_key].isin(p_ids).all():
+            message = (
+                f"The following {foreign_key}s are not a valid p_id in the input data:"
+                f" {list(data[foreign_key].loc[~data[foreign_key].isin(p_ids)])}"
+            )
+            raise ValueError(message)
+
+        # Referenced `p_id` must not be the same as the `p_id` of the same row
+        if (data[foreign_key] == data["p_id"]).any():
+            message = (
+                f"The following {foreign_key}s are equal to the p_id in the same row:"
+                f" {list(data[foreign_key].loc[data[foreign_key] == data['p_id']])}"
+            )
+            raise ValueError(message)
 
 
 def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
@@ -604,22 +645,29 @@ def _add_rounding_to_functions(functions, params):
             functions_new[func_name] = _add_rounding_to_one_function(
                 base=rounding_spec["base"],
                 direction=rounding_spec["direction"],
+                to_add_after_rounding=rounding_spec["to_add_after_rounding"]
+                if "to_add_after_rounding" in rounding_spec
+                else 0,
             )(func)
 
     return functions_new
 
 
-def _add_rounding_to_one_function(base, direction):
+def _add_rounding_to_one_function(
+    base: float,
+    direction: Literal["up", "down", "nearest"],
+    to_add_after_rounding: float,
+) -> callable:
     """Decorator to round the output of a function.
 
     Parameters
     ----------
     base : float
         Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    round_d : bool
-        Whether rounding should be applied
     direction : str
         Whether the series should be rounded up, down or to the nearest number
+    to_add_after_rounding : float
+        Number to be added after the rounding step
 
     Returns
     -------
@@ -639,6 +687,11 @@ def _add_rounding_to_one_function(base, direction):
                 raise ValueError(
                     f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )
+            if type(to_add_after_rounding) not in [int, float]:
+                raise ValueError(
+                    f"Additive part needs to be a number, got"
+                    f" {to_add_after_rounding!r} for {func.__name__!r}"
+                )
 
             if direction == "up":
                 rounded_out = base * np.ceil(out / base)
@@ -651,6 +704,8 @@ def _add_rounding_to_one_function(base, direction):
                     "direction must be one of 'up', 'down', or 'nearest'"
                     f", got {direction!r} for {func.__name__!r}"
                 )
+
+            rounded_out += to_add_after_rounding
             return rounded_out
 
         return wrapper

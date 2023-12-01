@@ -56,6 +56,7 @@ INTERNAL_PARAMS_GROUPS = [
     "abgelt_st",
     "wohngeld",
     "kinderzuschl",
+    "kinderzuschl_eink",
     "kindergeld",
     "elterngeld",
     "ges_rente",
@@ -67,13 +68,36 @@ INTERNAL_PARAMS_GROUPS = [
 
 SUPPORTED_GROUPINGS = {
     "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
+        "name": "Haushalt",
+        "description": "The relevant unit for Wohngeld. Encompasses more people than"
+        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
+        " unit for Wohngeld. `vg` derives from Verantwortungs- und"
+        " Einstehensgemeinschaft, though this might be a misnomer.",
+        "potentially_endogenous": False,
     },
     "tu": {
         "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
+        "description": "Obsolete. `sn` plus children.",
         "nested_by": "hh",
+        "potentially_endogenous": False,
+    },
+    "fg": {
+        "name": "Familiengemeinschaft",
+        "description": "Maximum of two generations, the relevant base unit for"
+        " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
+        " income fend for themselves.",
+        "potentially_endogenous": True,
+    },
+    "bg": {
+        "name": "Bedarfsgemeinschaft",
+        "description": "Familiengemeinschaft except for children who have enough income"
+        " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
+        "potentially_endogenous": True,
+    },
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 
@@ -103,11 +127,11 @@ DEFAULT_TARGETS = [
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
     "kindergeld_m_tu",
-    "arbeitsl_geld_2_m_hh",
-    "kinderzuschl_m_hh",
-    "wohngeld_m_hh",
+    "arbeitsl_geld_2_m_bg",
+    "kinderzuschl_m_bg",
+    "wohngeld_m_vg",
     "unterhaltsvors_m_hh",
-    "grunds_im_alter_m_hh",
+    "grunds_im_alter_m_vg",
     "ges_rente_m",
     "erziehungsgeld_m",
 ]
@@ -132,7 +156,8 @@ TYPES_INPUT_VARIABLES = {
     "geburtstag": int,
     "geburtsmonat": int,
     "mietstufe": int,
-    "entgeltp": float,
+    "entgeltp_ost": float,
+    "entgeltp_west": float,
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
@@ -173,6 +198,8 @@ TYPES_INPUT_VARIABLES = {
     "y_pflichtbeitr_ab_40": float,
     "pflichtbeitr_8_in_10": bool,
     "arbeitsl_1y_past_585": bool,
+    "vertra_arbeitsl_1997": bool,
+    "vertra_arbeitsl_2006": bool,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
@@ -185,3 +212,10 @@ TYPES_INPUT_VARIABLES = {
     "budget_erz_geld": bool,
     "inanspruchn_erzgeld": bool,
 }
+
+FOREIGN_KEYS = [
+    "p_id_ehepartner",
+    "p_id_einstandspartner",
+    "p_id_elternteil_1",
+    "p_id_elternteil_2",
+]

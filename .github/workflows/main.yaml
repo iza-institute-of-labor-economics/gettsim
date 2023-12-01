@@ -24,6 +24,12 @@ jobs:
           - windows-latest
         python-version:
           - '3.11'
+          - '3.12'
+        exclude:
+          - os: macos-latest
+            python-version: 3.11
+          - os: windows-latest
+            python-version: 3.11
     steps:
       - uses: actions/checkout@v3
       - name: Install conda environment on Windows
@@ -53,7 +59,7 @@ jobs:
         run: pytest --cov=./ --cov-report=xml
         shell: bash -el {0}
       - name: Run tests with NumPy backend on Windows
-        # Ignore MacOS for being slow -- no reason that would break if Jax works.
+        # No JAX on Windows.
         if: runner.os == 'Windows'
         run: pytest src/_gettsim_tests
         shell: pwsh
@@ -66,7 +72,7 @@ jobs:
         # --use-jax
         shell: bash -el {0}
       - name: Upload coverage reports
-        if: runner.os == 'Linux' && matrix.python-version == '3.11'
+        if: runner.os == 'Linux' && matrix.python-version == '3.12'
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

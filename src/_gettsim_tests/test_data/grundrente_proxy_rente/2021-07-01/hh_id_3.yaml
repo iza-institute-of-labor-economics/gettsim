@@ -14,7 +14,9 @@ inputs:
       - 70
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
+      - 0.0
+    entgeltp_ost:
       - 20.0
     geburtsjahr:
       - 1951
@@ -38,6 +40,10 @@ inputs:
       - false
     arbeitsl_1y_past_585:
       - true
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 480.0
     m_freiw_beitrag:

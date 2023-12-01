@@ -14,8 +14,10 @@ inputs:
       - 70
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 30.0
+    entgeltp_ost:
+      - 0.0
     geburtsjahr:
       - 1951
     geburtsmonat:
@@ -25,7 +27,7 @@ inputs:
     jahr_renteneintr:
       - 2016
     monat_renteneintr:
-      - 2
+      - 7
     wohnort_ost:
       - false
     bruttolohn_m:
@@ -38,6 +40,10 @@ inputs:
       - true
     arbeitsl_1y_past_585:
       - true
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 480.0
     m_freiw_beitrag:

@@ -14,8 +14,10 @@ inputs:
       - 50
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 20.0
+    entgeltp_ost:
+      - 0.0
     geburtsjahr:
       - 1971
     geburtsmonat:
@@ -37,6 +39,10 @@ inputs:
     pflichtbeitr_8_in_10:
       - false
     arbeitsl_1y_past_585:
+      - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
       - false
     m_pflichtbeitrag:
       - 300.0

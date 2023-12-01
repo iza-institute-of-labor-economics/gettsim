@@ -20,9 +20,9 @@ inputs:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_tu:
       - 0.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_vg:
       - 0.0
-    arbeitsl_geld_2_regelbedarf_m_hh:
+    arbeitsl_geld_2_regelbedarf_m_bg:
       - 1000.0
     kindergeld_m_hh:
       - 0.0
@@ -38,9 +38,9 @@ inputs:
       - 2019
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 0
-  wohngeld_m_hh:
+  wohngeld_m_vg:
     - 0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 0.0
