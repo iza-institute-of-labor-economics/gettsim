@@ -22,7 +22,7 @@ def erziehungsgeld_m(
     erziehungsgeld_anspruch_eltern: bool,
     inanspruchn_erzgeld: bool,
 ) -> bool:
-    """Calculation of total parental leave benefits (erziehungsgeld).
+    """Total parental leave benefits (erziehungsgeld).
 
     legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
 
@@ -51,15 +51,15 @@ def erziehungsgeld_m(
 @add_rounding_spec(params_key="erziehungsgeld")
 @dates_active(end="2006-12-31")
 def erziehungsgeld_kind_m(  # noqa: PLR0913
-    erziehungsgeld_params: dict,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_eink_relev_kind: float,
     erziehungsgeld_einkgrenze_kind: float,
     budget_erz_geld: bool,
     kind_bis_7m: bool,
     kind_ab_7m_bis_12m: bool,
+    erziehungsgeld_params: dict,
 ) -> float:
-    """Calculate parental leave benefit (erziehungsgeld) on child level.
+    """Parental leave benefit (erziehungsgeld) on child level.
 
     For the calculation, the relevant wage, the age of the youngest child,
     the income threshold and the eligibility for erziehungsgeld is needed.
@@ -68,8 +68,6 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    erziehungsgeld_params
-        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
     erziehungsgeld_eink_relev_kind
@@ -82,6 +80,8 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
         See :func:`kind_bis_7m`.
     kind_ab_7m_bis_12m
         See :func:`kind_ab_7m_bis_12m`.
+    erziehungsgeld_params
+        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
 
     Returns
@@ -131,7 +131,7 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
             erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"] - abzug, 0.0
         )
     # If the child is older than 7 months and the income is below the income limit,
-    # the full rule or budget rate is paid out
+    # the full normal or budget rate is paid out
     elif (
         erziehungsgeld_anspruch_kind
         and kind_ab_7m_bis_12m
@@ -226,36 +226,35 @@ def erziehungsgeld_anspruch_eltern(
 
 def erziehungsgeld_eink_relev_kind(
     bruttolohn_vorj_m_tu: float,
-    erziehungsgeld_params: dict,
     anz_erwachsene_tu: int,
-    eink_st_abzuege_params: dict,
     erziehungsgeld_anspruch_kind: bool,
+    erziehungsgeld_params: dict,
+    eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate the relevant wage for parental leave benefit (erziehungsgeld) on child
+    """Relevant wage for parental leave benefit (erziehungsgeld) on child
     level
 
     legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
+
+    There is special rule for "Beamte, Soldaten und Richter" which is not
+    implemented yet
 
     Parameters
     ----------
     bruttolohn_vorj_m_tu
         See :func:`bruttolohn_vorj_m_tu`.
-    erziehungsgeld_params
-        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
+    erziehungsgeld_params
+        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
     Returns
     -------
     relevant wage for calculation parental leave benefit (erziehungsgeld)
-
-
-    Todo: There is special rule for "Beamte, Soldaten und Richter" which is not
-          implemented yet
     """
 
     if erziehungsgeld_anspruch_kind:
@@ -271,10 +270,10 @@ def erziehungsgeld_eink_relev_kind(
 def erziehungsgeld_einkgrenze_kind(
     erzgeld_einkgrenze_vor_aufschl: float,
     anz_kinder_mit_kindergeld_tu: float,
-    erziehungsgeld_params: dict,
     erziehungsgeld_anspruch_kind: bool,
+    erziehungsgeld_params: dict,
 ) -> float:
-    """Calculate the income threshold for parental leave benefit (erziehungsgeld)
+    """Income threshold for parental leave benefit (erziehungsgeld)
     on child level
 
     legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.208)
@@ -285,10 +284,10 @@ def erziehungsgeld_einkgrenze_kind(
         See :func:`erzgeld_einkgrenze_vor_aufschl`.
     anz_kinder_mit_kindergeld_tu
         See :func:`anz_kinder_mit_kindergeld_tu`.
-    erziehungsgeld_params
-        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
+    erziehungsgeld_params
+        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
     Returns
     -------
@@ -310,7 +309,7 @@ def erzgeld_einkgrenze_vor_aufschl(
     kind_bis_7m: bool,
     budget_erz_geld: bool,
 ) -> float:
-    """Calculating the income threshold for parental leave benefit (erziehungsgeld)
+    """Income threshold for parental leave benefit (erziehungsgeld)
     on child level before adding the bonus for additional children
 
     legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.208)
@@ -330,7 +329,7 @@ def erzgeld_einkgrenze_vor_aufschl(
     -------
     income threshold for parental leave benefit (erziehungsgeld) before child bonus
     """
-    # There are different income threshold depending on the age of the child,
+    # There are different income thresholds depending on the age of the child,
     # the fact if a person is a single parent, and if regelsatz or budgetsatz is applied
 
     if kind_bis_7m:
