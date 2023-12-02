@@ -577,20 +577,12 @@ Type: int
 
 ## `voll_erwerbsgemind`
 
-Dummy: Unable to provide more than 3 hours of market labor per day.
+Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
 ## `teilw_erwerbsgemind`
 
 Able to provide at least 3 but no more than 6 hours of market labor per day.
-
-Type: bool
-
-## `erwerbsm_langj_vers`
-
-Exceptional case in which a person can already retire at the age of 63 without
-deductions if they can prove 35/40 years of (Pflichtbeiträge, Berücksichtigungszeiten
-and certain Anrechnungszeiten or Ersatzzeiten).
 
 Type: bool
