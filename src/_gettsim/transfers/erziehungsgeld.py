@@ -10,6 +10,8 @@ def erziehungsgeld_m(
 ) -> bool:
     """Total parental leave benefits (Erziehungsgeld).
 
+    Parental leave benefits for the parent that claims the benefit.
+
     Legal reference: BErzGG (BGBl. I 1985 S. 2154; BGBl. I 2004 S. 206)
 
     Parameters
@@ -24,7 +26,7 @@ def erziehungsgeld_m(
 
     Returns
     -------
-    Sum of parental leave benefits (Erziehungsgeld) on TU level
+    Parental leave benefits (Erziehungsgeld).
 
     """
     if erziehungsgeld_anspruch_eltern and inanspruchn_erziehungsgeld:
@@ -44,8 +46,8 @@ def erziehungsgeld_kind_m(
 ) -> float:
     """Parental leave benefit (Erziehungsgeld) on child level.
 
-    For the calculation, the relevant income, the age of the youngest child,
-    the income threshold and the eligibility for erziehungsgeld is needed.
+    For the calculation, the relevant income, the age of the youngest child, the income
+    threshold and the eligibility for erziehungsgeld is needed.
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
 
@@ -82,7 +84,7 @@ def erziehungsgeld_ohne_abzug_m(
     alter_monate: int,
     erziehungsgeld_params: dict,
 ) -> float:
-    """Parental leave benefit (Erziehungsgeld) without means-test.
+    """Parental leave benefit (Erziehungsgeld) without means-test on child level.
 
     Parameters
     ----------
@@ -102,12 +104,11 @@ def erziehungsgeld_ohne_abzug_m(
     -------
     Parental leave benefit (Erziehungsgeld) without means-test
     """
+    # no benefit if income is above threshold and child is younger than threshold
     if (
         erziehungsgeld_eink_relev_kind_y > erziehungsgeld_einkommensgrenze_kind_y
         and alter_monate
-        < erziehungsgeld_params["einkommensgrenze"][
-            "start_age_m_teilw_anrechnung_einkommen"
-        ]
+        < erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         out = 0.0
     elif budget_erziehungsgeld:
@@ -125,7 +126,7 @@ def erziehungsgeld_abzug_transfer(
     alter_monate: int,
     erziehungsgeld_params: dict,
 ) -> float:
-    """Determine the income reduction for parental leave benefit (Erziehungsgeld).
+    """Reduction of parental leave benefits (means-test).
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.209)
 
@@ -147,9 +148,7 @@ def erziehungsgeld_abzug_transfer(
     if (
         erziehungsgeld_eink_relev_kind_m > erziehungsgeld_einkommensgrenze_kind_m
         and alter_monate
-        >= erziehungsgeld_params["einkommensgrenze"][
-            "start_age_m_teilw_anrechnung_einkommen"
-        ]
+        >= erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         out = (
             erziehungsgeld_eink_relev_kind_m * erziehungsgeld_params["abschlag_faktor"]
@@ -166,8 +165,7 @@ def erziehungsgeld_anspruch_kind(
     budget_erziehungsgeld: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
-    """Determine the eligibility for parental leave benefit (Erziehungsgeld) on child
-    level.
+    """Eligibility for parental leave benefit (Erziehungsgeld) on child level.
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.207)
 
@@ -189,10 +187,10 @@ def erziehungsgeld_anspruch_kind(
 
     """
     if budget_erziehungsgeld:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_budgetsatz"]
+        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_budgetsatz"]
 
     else:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_regelsatz"]
+        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_regelsatz"]
 
     return out
 
@@ -204,8 +202,7 @@ def erziehungsgeld_anspruch_eltern(
     erziehungsgeld_anspruch_kind_tu: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
-    """Determine the eligibility for parental leave benefit (Erziehungsgeld) on
-    parental level.
+    """Eligibility for parental leave benefit (Erziehungsgeld) on parental level.
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (p.207)
 
@@ -320,8 +317,8 @@ def erziehungsgeld_einkommensgrenze_vor_aufschl(
     budget_erziehungsgeld: bool,
     erziehungsgeld_params: dict,
 ) -> float:
-    """Income threshold for parental leave benefit (Erziehungsgeld)
-    on child level before adding the bonus for additional children
+    """Income threshold for parental leave benefit (Erziehungsgeld) on child level
+    before adding the bonus for additional children
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.208)
 

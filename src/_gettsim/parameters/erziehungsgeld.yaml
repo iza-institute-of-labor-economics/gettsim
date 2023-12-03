@@ -15,7 +15,6 @@ einkommensgrenze:
   2004-02-09:
     note: Reduced income limit for children older than 6 months.
     start_age_m_reduced_income_limit: 7
-    start_age_m_teilw_anrechnung_einkommen: 7
     limit:
       alleinerz:
         regelsatz: 23000
@@ -59,12 +58,6 @@ erziehungsgeld_satz:
     BGBl&jumpTo=bgbl104s0206.pdf#__bgbl__%2F%2F*%5B%40attr_id%3D%27bg
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
-    end_age_regelsatz:
-      note: Child age in months until which the Regelsatz can be claimed.
-      scalar: 24
-    end_age_budgetsatz:
-      note: Child age in months until which the Budgetsatz can be claimed.
-      scalar: 12
     regelsatz: 300
     budgetsatz: 450
 abschlag_faktor:
@@ -126,14 +119,14 @@ arbeitsstunden_w_grenze:
     bl104s0206.pdf%27%5D__1685621730529
   2004-02-09:
     scalar: 30
-end_age_regelsatz:
+end_age_m_regelsatz:
   name:
     de: Alter des Kindes in Monaten bis zu dem der Regelsatz bezogen werden kann.
     en: Age of the child in months up to which the Regelsatz can be claimed.
   reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
   2004-01-01:
     scalar: 24
-end_age_budgetsatz:
+end_age_m_budgetsatz:
   name:
     de: Alter des Kindes in Monaten bis zu dem der Budgetsatz bezogen werden kann.
     en: Age of the child in months up to which the Budgetsatz can be claimed.
