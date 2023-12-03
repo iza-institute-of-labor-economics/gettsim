@@ -209,8 +209,8 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
-    "budget_erz_geld": bool,
-    "inanspruchn_erzgeld": bool,
+    "budget_erziehungsgeld": bool,
+    "inanspruchn_erziehungsgeld": bool,
 }
 
 FOREIGN_KEYS = [

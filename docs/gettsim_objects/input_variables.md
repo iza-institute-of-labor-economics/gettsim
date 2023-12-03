@@ -573,13 +573,13 @@ Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
 
-## `budget_erz_geld`
+## `budget_erziehungsgeld`
 
 Dummy: applied for "Budgetsatz" of parental leave benefit
 
 Type: bool
 
-## `inanspruchn_erzgeld`
+## `inanspruchn_erziehungsgeld`
 
 Dummy: recieving parental leave benift
 

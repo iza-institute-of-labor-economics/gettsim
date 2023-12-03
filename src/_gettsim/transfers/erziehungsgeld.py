@@ -2,14 +2,15 @@
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
+@dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_m(
     erziehungsgeld_kind_m_tu: int,
     erziehungsgeld_anspruch_eltern: bool,
-    inanspruchn_erzgeld: bool,
+    inanspruchn_erziehungsgeld: bool,
 ) -> bool:
-    """Total parental leave benefits (erziehungsgeld).
+    """Total parental leave benefits (Erziehungsgeld).
 
-    legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6
+    Legal reference: BErzGG (BGBl. I 1985 S. 2154; BGBl. I 2004 S. 206)
 
     Parameters
     ----------
@@ -17,15 +18,16 @@ def erziehungsgeld_m(
         See :func:`erziehungsgeld_kind_m_tu`.
     erziehungsgeld_anspruch_eltern
         See :func:`erziehungsgeld_anspruch_eltern`.
-    inanspruchn_erzgeld
-        See :See basic input variable :ref:`inanspruchn_erzgeld <inanspruchn_erzgeld>`.
+    inanspruchn_erziehungsgeld
+        See :See basic input variable :ref:`inanspruchn_erziehungsgeld
+        <inanspruchn_erziehungsgeld>`.
 
     Returns
     -------
     Sum of parental leave benefits (erziehungsgeld) on TU level
 
     """
-    if erziehungsgeld_anspruch_eltern and inanspruchn_erzgeld:
+    if erziehungsgeld_anspruch_eltern and inanspruchn_erziehungsgeld:
         out = erziehungsgeld_kind_m_tu
     else:
         out = 0.0
@@ -34,12 +36,12 @@ def erziehungsgeld_m(
 
 
 @add_rounding_spec(params_key="erziehungsgeld")
-@dates_active(end="2006-12-31")
+@dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_kind_m(  # noqa: PLR0913
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_eink_relev_kind: float,
-    erziehungsgeld_einkgrenze_kind: float,
-    budget_erz_geld: bool,
+    erziehungsgeld_einkommensgrenze_kind: float,
+    budget_erziehungsgeld: bool,
     kind_bis_7m: bool,
     kind_ab_7m_bis_12m: bool,
     erziehungsgeld_params: dict,
@@ -57,10 +59,11 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
         See :func:`erziehungsgeld_anspruch_kind`.
     erziehungsgeld_eink_relev_kind
         See :func:`erziehungsgeld_eink_relev_kind`.
-    erziehungsgeld_einkgrenze_kind
-        See :func:`erziehungsgeld_einkgrenze_kind`.
-    budget_erz_geld
-        See :See basic input variable :ref:`budget_erz_geld <budget_erz_geld>`.
+    erziehungsgeld_einkommensgrenze_kind
+        See :func:`erziehungsgeld_einkommensgrenze_kind`.
+    budget_erziehungsgeld
+        See :See basic input variable :ref:`budget_erziehungsgeld
+        <budget_erziehungsgeld>`.
     kind_bis_7m
         See :func:`kind_bis_7m`.
     kind_ab_7m_bis_12m
@@ -83,16 +86,16 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     if (
         erziehungsgeld_anspruch_kind
         and kind_bis_7m
-        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkgrenze_kind
-        and budget_erz_geld
+        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkommensgrenze_kind
+        and budget_erziehungsgeld
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["budgetsatz"]
 
     elif (
         erziehungsgeld_anspruch_kind
         and kind_bis_7m
-        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkgrenze_kind
-        and (not budget_erz_geld)
+        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkommensgrenze_kind
+        and (not budget_erziehungsgeld)
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"]
     # if the income is higher than the threshold and the child is older than
@@ -100,8 +103,8 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     elif (
         erziehungsgeld_anspruch_kind
         and kind_ab_7m_bis_12m
-        and erziehungsgeld_eink_relev_kind > erziehungsgeld_einkgrenze_kind
-        and budget_erz_geld
+        and erziehungsgeld_eink_relev_kind > erziehungsgeld_einkommensgrenze_kind
+        and budget_erziehungsgeld
     ):
         out = max(
             erziehungsgeld_params["erziehungsgeld_satz"]["budgetsatz"] - abzug, 0.0
@@ -109,8 +112,8 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     elif (
         erziehungsgeld_anspruch_kind
         and kind_ab_7m_bis_12m
-        and erziehungsgeld_eink_relev_kind > erziehungsgeld_einkgrenze_kind
-        and (not budget_erz_geld)
+        and erziehungsgeld_eink_relev_kind > erziehungsgeld_einkommensgrenze_kind
+        and (not budget_erziehungsgeld)
     ):
         out = max(
             erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"] - abzug, 0.0
@@ -120,15 +123,15 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     elif (
         erziehungsgeld_anspruch_kind
         and kind_ab_7m_bis_12m
-        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkgrenze_kind
-        and (not budget_erz_geld)
+        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkommensgrenze_kind
+        and (not budget_erziehungsgeld)
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"]
     elif (
         erziehungsgeld_anspruch_kind
         and kind_ab_7m_bis_12m
-        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkgrenze_kind
-        and budget_erz_geld
+        and erziehungsgeld_eink_relev_kind < erziehungsgeld_einkommensgrenze_kind
+        and budget_erziehungsgeld
     ):
         out = erziehungsgeld_params["erziehungsgeld_satz"]["budgetsatz"]
     # if the income is higher than the threshold within the first 6 month there
@@ -139,10 +142,11 @@ def erziehungsgeld_kind_m(  # noqa: PLR0913
     return out
 
 
+@dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_anspruch_kind(
     kind_bis_12m: bool,
     kind_bis_24m: bool,
-    budget_erz_geld: bool,
+    budget_erziehungsgeld: bool,
 ) -> bool:
     """Determine the eligibility for parental leave benefit (erziehungsgeld) on child
     level.
@@ -155,8 +159,9 @@ def erziehungsgeld_anspruch_kind(
         See :func:`kind_bis_12m`.
     kind_bis_24m
         See :func:`kind_bis_24m`.
-    budget_erz_geld
-        See :See basic input variable :ref:`budget_erz_geld <budget_erz_geld>`.
+    budget_erziehungsgeld
+        See :See basic input variable :ref:`budget_erziehungsgeld
+        <budget_erziehungsgeld>`.
 
 
     Returns
@@ -164,7 +169,7 @@ def erziehungsgeld_anspruch_kind(
     eligibility of (erziehungsgeld) as a bool
 
     """
-    if budget_erz_geld:
+    if budget_erziehungsgeld:
         out = kind_bis_12m
 
     else:
@@ -173,6 +178,7 @@ def erziehungsgeld_anspruch_kind(
     return out
 
 
+@dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_anspruch_eltern(
     arbeitsstunden_w: float,
     hat_kinder: bool,
@@ -209,6 +215,7 @@ def erziehungsgeld_anspruch_eltern(
     return out
 
 
+@dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_eink_relev_kind(
     bruttolohn_vorj_m_tu: float,
     anz_erwachsene_tu: int,
@@ -252,8 +259,9 @@ def erziehungsgeld_eink_relev_kind(
     return out
 
 
-def erziehungsgeld_einkgrenze_kind(
-    erzgeld_einkgrenze_vor_aufschl: float,
+@dates_active(start="1985-01-01", end="2008-12-31")
+def erziehungsgeld_einkommensgrenze_kind(
+    erziehungsgeld_einkommensgrenze_vor_aufschl: float,
     anz_kinder_mit_kindergeld_tu: float,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_params: dict,
@@ -265,8 +273,8 @@ def erziehungsgeld_einkgrenze_kind(
 
     Parameters
     ----------
-    erzgeld_einkgrenze_vor_aufschl
-        See :func:`erzgeld_einkgrenze_vor_aufschl`.
+    erziehungsgeld_einkommensgrenze_vor_aufschl
+        See :func:`erziehungsgeld_einkommensgrenze_vor_aufschl`.
     anz_kinder_mit_kindergeld_tu
         See :func:`anz_kinder_mit_kindergeld_tu`.
     erziehungsgeld_anspruch_kind
@@ -279,7 +287,7 @@ def erziehungsgeld_einkgrenze_kind(
     income threshold for parental leave benefit (erziehungsgeld) on child level
     """
     out = (
-        erzgeld_einkgrenze_vor_aufschl
+        erziehungsgeld_einkommensgrenze_vor_aufschl
         + (anz_kinder_mit_kindergeld_tu - 1)
         * erziehungsgeld_params["aufschlag_einkommen"]
     )
@@ -288,11 +296,12 @@ def erziehungsgeld_einkgrenze_kind(
     return out
 
 
-def erzgeld_einkgrenze_vor_aufschl(
-    erziehungsgeld_params: dict,
+@dates_active(start="1985-01-01", end="2008-12-31")
+def erziehungsgeld_einkommensgrenze_vor_aufschl(
     alleinerz_tu: bool,
     kind_bis_7m: bool,
-    budget_erz_geld: bool,
+    budget_erziehungsgeld: bool,
+    erziehungsgeld_params: dict,
 ) -> float:
     """Income threshold for parental leave benefit (erziehungsgeld)
     on child level before adding the bonus for additional children
@@ -307,8 +316,9 @@ def erzgeld_einkgrenze_vor_aufschl(
         See :func:`alleinerz_tu`.
     kind_bis_7m
         See :func:`kind_bis_7m`.
-    budget_erz_geld
-        See :See basic input variable :ref:`budget_erz_geld <budget_erz_geld>`.
+    budget_erziehungsgeld
+        See :See basic input variable :ref:`budget_erziehungsgeld
+        <budget_erziehungsgeld>`.
 
     Returns
     -------
@@ -327,7 +337,7 @@ def erzgeld_einkgrenze_vor_aufschl(
     else:
         status_eltern = "paar"
 
-    if budget_erz_geld:
+    if budget_erziehungsgeld:
         satz = "budgetsatz"
     else:
         satz = "regelsatz"

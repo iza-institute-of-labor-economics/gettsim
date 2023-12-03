@@ -74,12 +74,12 @@ inputs:
       - 1965
       - 2004
       - 2004
-    budget_erz_geld:
+    budget_erziehungsgeld:
       - false
       - false
       - true
       - false
-    inanspruchn_erzgeld:
+    inanspruchn_erziehungsgeld:
       - true
       - false
       - false
@@ -91,7 +91,7 @@ outputs:
     - 0
     - 26873.6
     - 26873.6
-  erziehungsgeld_einkgrenze_kind:
+  erziehungsgeld_einkommensgrenze_kind:
     - 0
     - 0
     - 19640
