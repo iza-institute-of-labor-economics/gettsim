@@ -699,7 +699,7 @@ mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   note: Exact date of introduction of this parameter unclear (was in place in 2006)
   1990-01-01:
     scalar: 0.33333333
-geringfügige_einkommensgrenzen_m:
+geringfügige_eink_grenzen_m:
   name:
     de: >-
       Gleitzone (Midijob Grenze) und Minijob Grenze (bis 1999 unterschiedliche Grenzen)
