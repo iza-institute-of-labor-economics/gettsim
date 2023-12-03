@@ -18,8 +18,8 @@ def minijob_grenze_unterscheidung_ost_west(
     -------
 
     """
-    west = sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["minijob"]["west"]
-    ost = sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["minijob"]["ost"]
+    west = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
+    ost = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
     out = ost if wohnort_ost else west
     return float(out)
 
@@ -37,7 +37,7 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     -------
 
     """
-    return float(sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["minijob"])
+    return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
 
 
 @add_rounding_spec(params_key="sozialv_beitr")
@@ -114,8 +114,7 @@ def in_gleitzone(
 
     """
     out = (
-        bruttolohn_m
-        <= sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+        bruttolohn_m <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     ) and (not geringfügig_beschäftigt)
     return out
 
@@ -330,15 +329,15 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     minijob_anteil = midijob_faktor_f * minijob_grenze
     lohn_über_mini = bruttolohn_m - minijob_grenze
     gewichtete_midijob_rate = (
-        sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+        sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
         / (
-            sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+            sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
             - minijob_grenze
         )
     ) - (
         minijob_grenze
         / (
-            sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+            sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
             - minijob_grenze
         )
         * midijob_faktor_f
@@ -381,7 +380,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     Income subject to social insurance contributions for midijob.
 
     """
-    midijob_grenze = sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze)
     quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze)
@@ -423,7 +422,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
     Income subject to employee social insurance contributions for midijob.
 
     """
-    midijob_grenze = sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
+    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
     einkommen_diff = bruttolohn_m - minijob_grenze
@@ -479,8 +478,5 @@ def regulär_beschäftigt_mit_midijob(
     Whether regular employed persons.
 
     """
-    out = (
-        bruttolohn_m
-        >= sozialv_beitr_params["geringfügige_einkommensgrenzen_m"]["midijob"]
-    )
+    out = bruttolohn_m >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     return out

@@ -52,13 +52,10 @@ def test_special_attribute_module_is_set(tmp_path):
 
 def test_special_attribute_module_is_set_for_internal_functions():
     a_few_functions = _load_functions(
-        "_gettsim.social_insurance_contributions.einkommensgrenzen"
+        "_gettsim.social_insurance_contributions.eink_grenzen"
     )
     function = next(iter(a_few_functions.values()))
-    assert (
-        function.__module__
-        == "_gettsim.social_insurance_contributions.einkommensgrenzen"
-    )
+    assert function.__module__ == "_gettsim.social_insurance_contributions.eink_grenzen"
 
 
 @pytest.mark.parametrize(
