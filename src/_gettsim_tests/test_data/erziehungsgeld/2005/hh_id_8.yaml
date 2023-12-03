@@ -86,12 +86,12 @@ inputs:
       - false
   assumed: {}
 outputs:
-  erziehungsgeld_eink_relev_kind:
+  erziehungsgeld_eink_relev_kind_y:
     - 0
     - 0
     - 26873.6
     - 26873.6
-  erziehungsgeld_einkommensgrenze_kind:
+  erziehungsgeld_einkommensgrenze_kind_y:
     - 0
     - 0
     - 19640
