@@ -1,21 +1,6 @@
 #!/usr/bin/python3
 from _gettsim.shared import add_rounding_spec, dates_active
 
-aggregation_erziehungsgeld = {
-    "bruttolohn_vorj_m_tu": {
-        "source_col": "bruttolohn_vorj_m",
-        "aggr": "sum",
-    },
-    "erziehungsgeld_kind_m_tu": {
-        "source_col": "erziehungsgeld_kind_m",
-        "aggr": "sum",
-    },
-    "erziehungsgeld_anspruch_kind_tu": {
-        "source_col": "erziehungsgeld_anspruch_kind",
-        "aggr": "any",
-    },
-}
-
 
 def erziehungsgeld_m(
     erziehungsgeld_kind_m_tu: int,
