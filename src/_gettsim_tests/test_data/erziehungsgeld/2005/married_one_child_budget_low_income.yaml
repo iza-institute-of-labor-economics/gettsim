@@ -3,7 +3,7 @@ info:
   note: ''
   source: own calculations
 inputs:
-  provided:
+  assumed:
     hh_id:
       - 4
       - 4
@@ -80,7 +80,6 @@ inputs:
       - true
       - false
       - false
-  assumed: {}
 outputs:
   erziehungsgeld_eink_relev_kind_y:
     - 0
