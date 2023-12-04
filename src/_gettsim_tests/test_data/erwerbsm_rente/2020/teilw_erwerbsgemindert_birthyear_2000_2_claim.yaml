@@ -14,7 +14,6 @@ inputs:
       - false
     rentenartfaktor:
       - 0.5
-  provided:
     p_id:
       - 31
     wohnort_ost:

@@ -220,10 +220,10 @@ def rentenartfaktor(
 
 @dates_active(start="2001-01-01")
 def erwerbsm_rente_zugangsfaktor(
-    ges_rente_params: dict,
-    erwerbsm_rente_params: dict,
     age_of_retirement: float,
     _erwerbsm_rente_langj_versicherte_wartezeit: bool,
+    ges_rente_params: dict,
+    erwerbsm_rente_params: dict,
 ) -> float:
     """Zugangsfaktor for Erwerbsminderungsrente
     (public disability insurance)
@@ -240,14 +240,14 @@ def erwerbsm_rente_zugangsfaktor(
 
     Parameters
     ----------
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>.
-    erwerbsm_rente_params
-        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
     age_of_retirement
         See :func:`age_of_retirement`.
     _erwerbsm_rente_langj_versicherte_wartezeit
         See :func:`_erwerbsm_rente_langj_versicherte_wartezeit`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
 
     Returns

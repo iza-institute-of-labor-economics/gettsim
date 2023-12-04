@@ -6,7 +6,6 @@ inputs:
   assumed:
     _erwerbsm_rente_langj_versicherte_wartezeit:
       - false
-  provided:
     durchschn_entgeltp_y:
       - 0.8
     entgeltp_ost:

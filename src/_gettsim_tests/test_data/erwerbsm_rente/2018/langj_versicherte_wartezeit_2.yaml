@@ -3,8 +3,7 @@ info:
   note: test for _erwerbsm_rente_langj_versicherte_wartezeit
   source: Own calculations
 inputs:
-  assumed: {}
-  provided:
+  assumed:
     m_alg1_übergang:
       - 0.0
     m_arbeitsunfähig:
