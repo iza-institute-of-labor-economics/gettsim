@@ -16,6 +16,18 @@ inputs:
       - 8
       - 9
       - 10
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 8
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 9
+    p_id_einstandspartner:
+      - 9
+      - 8
+      - -1
     alter:
       - 40
       - 40

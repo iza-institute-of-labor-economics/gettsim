@@ -6,7 +6,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 
 @dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_m(
-    erziehungsgeld_kind_m_tu: int,
+    erziehungsgeld_kind_m_fg: int,
     erziehungsgeld_anspruch_eltern: bool,
     inanspruchn_erziehungsgeld: bool,
 ) -> bool:
@@ -18,8 +18,8 @@ def erziehungsgeld_m(
 
     Parameters
     ----------
-    erziehungsgeld_kind_m_tu
-        See :func:`erziehungsgeld_kind_m_tu`.
+    erziehungsgeld_kind_m_fg
+        See :func:`erziehungsgeld_kind_m_fg`.
     erziehungsgeld_anspruch_eltern
         See :func:`erziehungsgeld_anspruch_eltern`.
     inanspruchn_erziehungsgeld
@@ -32,7 +32,7 @@ def erziehungsgeld_m(
 
     """
     if erziehungsgeld_anspruch_eltern and inanspruchn_erziehungsgeld:
-        out = erziehungsgeld_kind_m_tu
+        out = erziehungsgeld_kind_m_fg
     else:
         out = 0.0
 
@@ -201,7 +201,7 @@ def erziehungsgeld_anspruch_kind(
 def erziehungsgeld_anspruch_eltern(
     arbeitsstunden_w: float,
     hat_kinder: bool,
-    erziehungsgeld_anspruch_kind_tu: bool,
+    erziehungsgeld_anspruch_kind_fg: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
     """Eligibility for parental leave benefit (Erziehungsgeld) on parental level.
@@ -214,8 +214,8 @@ def erziehungsgeld_anspruch_eltern(
         See :See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     hat_kinder
         See :See basic input variable :ref:`hat_kinder <hat_kinder>`.
-    erziehungsgeld_anspruch_kind_tu
-        See :func:`erziehungsgeld_anspruch_kind_tu`.
+    erziehungsgeld_anspruch_kind_fg
+        See :func:`erziehungsgeld_anspruch_kind_fg`.
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
@@ -225,7 +225,7 @@ def erziehungsgeld_anspruch_eltern(
 
     """
     out = (
-        erziehungsgeld_anspruch_kind_tu
+        erziehungsgeld_anspruch_kind_fg
         and (arbeitsstunden_w <= erziehungsgeld_params["arbeitsstunden_w_grenze"])
         and hat_kinder
     )
@@ -235,7 +235,7 @@ def erziehungsgeld_anspruch_eltern(
 
 @dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_eink_relev_kind_y(
-    bruttolohn_vorj_y_tu: float,
+    bruttolohn_vorj_y_fg: float,
     anz_erwachsene_tu: int,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_params: dict,
@@ -250,8 +250,8 @@ def erziehungsgeld_eink_relev_kind_y(
 
     Parameters
     ----------
-    bruttolohn_vorj_y_tu
-        See :func:`bruttolohn_vorj_y_tu`.
+    bruttolohn_vorj_y_fg
+        See :func:`bruttolohn_vorj_y_fg`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     erziehungsgeld_anspruch_kind
@@ -268,7 +268,7 @@ def erziehungsgeld_eink_relev_kind_y(
 
     if erziehungsgeld_anspruch_kind:
         out = (
-            bruttolohn_vorj_y_tu
+            bruttolohn_vorj_y_fg
             - eink_st_abzuege_params["werbungskostenpauschale"] * anz_erwachsene_tu
         ) * erziehungsgeld_params["pauschal_abzug_auf_einkommen"]
     else:
@@ -314,7 +314,7 @@ def erziehungsgeld_einkommensgrenze_kind_y(
 
 @dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_einkommensgrenze_vor_aufschl(
-    alleinerz_tu: bool,
+    alleinerz_fg: bool,
     alter_monate: int,
     budget_erziehungsgeld: bool,
     erziehungsgeld_params: dict,
@@ -328,8 +328,8 @@ def erziehungsgeld_einkommensgrenze_vor_aufschl(
     ----------
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
-    alleinerz_tu
-        See :func:`alleinerz_tu`.
+    alleinerz_fg
+        See :func:`alleinerz_fg`.
     alter_monate
         See :func:`alter_monate`.
     budget_erziehungsgeld
@@ -351,7 +351,7 @@ def erziehungsgeld_einkommensgrenze_vor_aufschl(
     else:
         limit = "reduced_limit"
 
-    if alleinerz_tu:
+    if alleinerz_fg:
         status_eltern = "alleinerz"
     else:
         status_eltern = "paar"

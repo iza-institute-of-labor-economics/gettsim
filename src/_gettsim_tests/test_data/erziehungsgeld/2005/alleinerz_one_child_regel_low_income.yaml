@@ -7,6 +7,15 @@ inputs:
     p_id:
       - 1
       - 2
+    p_id_elternteil_1:
+      - -1
+      - 1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
     hh_id:
       - 1
       - 1
