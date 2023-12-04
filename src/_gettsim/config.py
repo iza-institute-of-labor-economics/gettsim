@@ -133,7 +133,6 @@ DEFAULT_TARGETS = [
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_vg",
     "ges_rente_m",
-    "erziehungsgeld_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
@@ -209,8 +208,8 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
-    "budget_erziehungsgeld": bool,
-    "inanspruchn_erziehungsgeld": bool,
+    "budget_erzgeld": bool,
+    "inanspruchn_erzgeld": bool,
 }
 
 FOREIGN_KEYS = [

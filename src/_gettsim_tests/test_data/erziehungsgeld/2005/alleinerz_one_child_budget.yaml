@@ -55,10 +55,10 @@ inputs:
     alleinerz:
       - true
       - false
-    budget_erziehungsgeld:
+    budget_erzgeld:
       - false
       - true
-    inanspruchn_erziehungsgeld:
+    inanspruchn_erzgeld:
       - true
       - false
   assumed: {}
@@ -66,7 +66,7 @@ outputs:
   erziehungsgeld_eink_relev_kind_y:
     - 0
     - 12980.8
-  erziehungsgeld_einkommensgrenze_kind_y:
+  _erziehungsgeld_einkommensgrenze_kind_y:
     - 0
     - 13500
   erziehungsgeld_kind_m:
