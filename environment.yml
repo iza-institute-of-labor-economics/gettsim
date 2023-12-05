@@ -6,6 +6,7 @@ channels:
 dependencies:
   - astor
   - dags
+  - flatten-dict
   - ipywidgets
   - jupyterlab
   - myst-parser
