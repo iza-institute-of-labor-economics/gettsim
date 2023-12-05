@@ -20,6 +20,7 @@ dependencies:
   - pip
   - plotly
   - pre-commit
+  - pybaum
   - pydata-sphinx-theme
   - pygments
   - pygraphviz
