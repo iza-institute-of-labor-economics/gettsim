@@ -5,11 +5,11 @@ info:
 inputs:
   assumed:
     p_id:
-      - 26
-      - 27
+      - 1
+      - 2
     p_id_elternteil_1:
       - -1
-      - 26
+      - 1
     p_id_elternteil_2:
       - -1
       - -1
@@ -17,11 +17,11 @@ inputs:
       - -1
       - -1
     hh_id:
-      - 9
-      - 9
+      - 1
+      - 1
     tu_id:
-      - 9
-      - 9
+      - 1
+      - 1
     alter:
       - 30
       - 1
@@ -55,10 +55,10 @@ inputs:
     alleinerz:
       - true
       - false
-    budget_erzgeld:
+    budgetsatz_erzieh:
       - false
-      - true
-    inanspruchn_erzgeld:
+      - false
+    inanspruchn_erzieh:
       - true
       - false
 outputs:
@@ -70,7 +70,7 @@ outputs:
     - 13500
   erziehungsgeld_kind_m:
     - 0.0
-    - 450.0
+    - 300.0
   erziehungsgeld_m:
-    - 450.0
+    - 300.0
     - 0.0

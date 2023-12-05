@@ -4,73 +4,96 @@ info:
   source: own calculations
 inputs:
   assumed:
+    hh_id:
+      - 4
+      - 4
+      - 4
+    tu_id:
+      - 4
+      - 4
+      - 4
     p_id:
-      - 1
-      - 2
+      - 8
+      - 9
+      - 10
     p_id_elternteil_1:
       - -1
-      - 1
+      - -1
+      - 8
     p_id_elternteil_2:
       - -1
       - -1
+      - 9
     p_id_einstandspartner:
+      - 9
+      - 8
       - -1
-      - -1
-    hh_id:
-      - 1
-      - 1
-    tu_id:
-      - 1
-      - 1
     alter:
-      - 30
-      - 1
-    geburtsjahr:
-      - 1975
-      - 2004
+      - 40
+      - 40
+      - 0
+    arbeitsstunden_w:
+      - 29.0
+      - 40.0
+      - 0.0
+    in_ausbildung:
+      - false
+      - false
+      - false
+    bruttolohn_m:
+      - 1400.0
+      - 3000.0
+      - 0.0
+    bruttolohn_vorj_m:
+      - 1400.0
+      - 3000.0
+      - 0.0
     geburtstag:
+      - 1
       - 1
       - 1
     geburtsmonat:
       - 1
       - 1
-    arbeitsstunden_w:
-      - 20.0
-      - 0.0
-    in_ausbildung:
-      - false
-      - false
-    bruttolohn_m:
-      - 1500.0
-      - 0.0
-    bruttolohn_vorj_m:
-      - 1500.0
-      - 0.0
+      - 8
     hat_kinder:
+      - true
       - true
       - false
     kind:
       - false
+      - false
       - true
     alleinerz:
+      - false
+      - false
+      - false
+    geburtsjahr:
+      - 1965
+      - 1965
+      - 2004
+    budgetsatz_erzieh:
+      - false
+      - false
+      - true
+    inanspruchn_erzieh:
       - true
       - false
-    budget_erzgeld:
-      - false
-      - false
-    inanspruchn_erzgeld:
-      - true
       - false
 outputs:
   erziehungsgeld_eink_relev_kind_y:
     - 0
-    - 12980.8
+    - 0
+    - 38729.6
   _erziehungsgeld_einkommensgrenze_kind_y:
     - 0
-    - 13500
+    - 0
+    - 22086
   erziehungsgeld_kind_m:
     - 0.0
-    - 300.0
+    - 0.0
+    - 0.0
   erziehungsgeld_m:
-    - 300.0
+    - 0.0
+    - 0.0
     - 0.0

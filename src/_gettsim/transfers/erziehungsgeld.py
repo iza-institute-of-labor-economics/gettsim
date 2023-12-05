@@ -8,7 +8,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 def erziehungsgeld_m(
     erziehungsgeld_kind_m_fg: int,
     erziehungsgeld_anspruch_eltern: bool,
-    inanspruchn_erzgeld: bool,
+    inanspruchn_erzieh: bool,
 ) -> bool:
     """Total parental leave benefits (Erziehungsgeld).
 
@@ -22,16 +22,16 @@ def erziehungsgeld_m(
         See :func:`erziehungsgeld_kind_m_fg`.
     erziehungsgeld_anspruch_eltern
         See :func:`erziehungsgeld_anspruch_eltern`.
-    inanspruchn_erzgeld
-        See :See basic input variable :ref:`inanspruchn_erzgeld
-        <inanspruchn_erzgeld>`.
+    inanspruchn_erzieh
+        See :See basic input variable :ref:`inanspruchn_erzieh
+        <inanspruchn_erzieh>`.
 
     Returns
     -------
     Parental leave benefits (Erziehungsgeld).
 
     """
-    if erziehungsgeld_anspruch_eltern and inanspruchn_erzgeld:
+    if erziehungsgeld_anspruch_eltern and inanspruchn_erzieh:
         out = erziehungsgeld_kind_m_fg
     else:
         out = 0.0
@@ -80,7 +80,7 @@ def erziehungsgeld_kind_m(
 
 @dates_active(start="1985-01-01", end="2008-12-31")
 def erziehungsgeld_ohne_abzug_m(
-    budget_erzgeld: bool,
+    budgetsatz_erzieh: bool,
     erziehungsgeld_eink_relev_kind_y: float,
     _erziehungsgeld_einkommensgrenze_kind_y: float,
     alter_monate: float,
@@ -90,9 +90,9 @@ def erziehungsgeld_ohne_abzug_m(
 
     Parameters
     ----------
-    budget_erzgeld
-        See :See basic input variable :ref:`budget_erzgeld
-        <budget_erzgeld>`.
+    budgetsatz_erzieh
+        See :See basic input variable :ref:`budgetsatz_erzieh
+        <budgetsatz_erzieh>`.
     erziehungsgeld_eink_relev_kind_y
         See :func:`erziehungsgeld_eink_relev_kind_y`.
     _erziehungsgeld_einkommensgrenze_kind_y
@@ -113,7 +113,7 @@ def erziehungsgeld_ohne_abzug_m(
         < erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         out = 0.0
-    elif budget_erzgeld:
+    elif budgetsatz_erzieh:
         out = erziehungsgeld_params["erziehungsgeld_satz"]["budgetsatz"]
     else:
         out = erziehungsgeld_params["erziehungsgeld_satz"]["regelsatz"]
@@ -164,7 +164,7 @@ def erziehungsgeld_abzug_transfer(
 def erziehungsgeld_anspruch_kind(
     kind: bool,
     alter_monate: float,
-    budget_erzgeld: bool,
+    budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
     """Eligibility for parental leave benefit (Erziehungsgeld) on child level.
@@ -177,9 +177,9 @@ def erziehungsgeld_anspruch_kind(
         See :See basic input variable :ref:`kind <kind>`.
     alter_monate
         See :func:`alter_monate`.
-    budget_erzgeld
-        See :See basic input variable :ref:`budget_erzgeld
-        <budget_erzgeld>`.
+    budgetsatz_erzieh
+        See :See basic input variable :ref:`budgetsatz_erzieh
+        <budgetsatz_erzieh>`.
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
@@ -188,7 +188,7 @@ def erziehungsgeld_anspruch_kind(
     eligibility of (Erziehungsgeld) as a bool
 
     """
-    if budget_erzgeld:
+    if budgetsatz_erzieh:
         out = kind and alter_monate <= erziehungsgeld_params["end_age_m_budgetsatz"]
 
     else:
@@ -322,7 +322,7 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
 def _erziehungsgeld_einkommensgrenze_vor_aufschl(
     alleinerz_fg: bool,
     alter_monate: float,
-    budget_erzgeld: bool,
+    budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> float:
     """Income threshold for parental leave benefit (Erziehungsgeld) on child level
@@ -338,9 +338,9 @@ def _erziehungsgeld_einkommensgrenze_vor_aufschl(
         See :func:`alleinerz_fg`.
     alter_monate
         See :func:`alter_monate`.
-    budget_erzgeld
-        See :See basic input variable :ref:`budget_erzgeld
-        <budget_erzgeld>`.
+    budgetsatz_erzieh
+        See :See basic input variable :ref:`budgetsatz_erzieh
+        <budgetsatz_erzieh>`.
 
     Returns
     -------
@@ -362,7 +362,7 @@ def _erziehungsgeld_einkommensgrenze_vor_aufschl(
     else:
         status_eltern = "paar"
 
-    if budget_erzgeld:
+    if budgetsatz_erzieh:
         satz = "budgetsatz"
     else:
         satz = "regelsatz"

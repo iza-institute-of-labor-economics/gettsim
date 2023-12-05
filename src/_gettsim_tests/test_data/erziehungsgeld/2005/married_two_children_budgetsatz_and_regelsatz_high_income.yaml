@@ -89,12 +89,12 @@ inputs:
       - 1965
       - 2004
       - 2004
-    budget_erzgeld:
+    budgetsatz_erzieh:
       - false
       - false
       - true
       - false
-    inanspruchn_erzgeld:
+    inanspruchn_erzieh:
       - true
       - false
       - false

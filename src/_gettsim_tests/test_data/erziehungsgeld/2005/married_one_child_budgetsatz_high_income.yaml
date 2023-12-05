@@ -5,28 +5,28 @@ info:
 inputs:
   assumed:
     hh_id:
-      - 4
-      - 4
-      - 4
+      - 5
+      - 5
+      - 5
     tu_id:
-      - 4
-      - 4
-      - 4
+      - 5
+      - 5
+      - 5
     p_id:
-      - 8
-      - 9
-      - 10
+      - 11
+      - 12
+      - 13
     p_id_elternteil_1:
       - -1
       - -1
-      - 8
+      - 11
     p_id_elternteil_2:
       - -1
       - -1
-      - 9
+      - 12
     p_id_einstandspartner:
-      - 9
-      - 8
+      - 12
+      - 11
       - -1
     alter:
       - 40
@@ -42,11 +42,11 @@ inputs:
       - false
     bruttolohn_m:
       - 1400.0
-      - 3000.0
+      - 5000.0
       - 0.0
     bruttolohn_vorj_m:
       - 1400.0
-      - 3000.0
+      - 5000.0
       - 0.0
     geburtstag:
       - 1
@@ -72,11 +72,11 @@ inputs:
       - 1965
       - 1965
       - 2004
-    budget_erzgeld:
+    budgetsatz_erzieh:
       - false
       - false
       - true
-    inanspruchn_erzgeld:
+    inanspruchn_erzieh:
       - true
       - false
       - false
@@ -84,7 +84,7 @@ outputs:
   erziehungsgeld_eink_relev_kind_y:
     - 0
     - 0
-    - 38729.6
+    - 56969.6
   _erziehungsgeld_einkommensgrenze_kind_y:
     - 0
     - 0
