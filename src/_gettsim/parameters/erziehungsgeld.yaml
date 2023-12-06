@@ -139,3 +139,15 @@ rounding:
       base: 0.01
       direction: nearest
       reference: null
+abolishment_cohort:
+  name:
+    de: Letzte Geburtskohorte für die Erziehungsgeld ausgezahlt wird
+    en: Abolishment cohort
+  description:
+    de: >-
+      Erziehungsgeld wird durch das Elterngeld ersetzt.
+    en: >-
+      Erziehungsgeld is replaced by Elterngeld.
+  reference: Bundesgesetzblatt Jahrgang 2006 Teil I Nr. 56 Art. 3
+  2006-12-11:
+    scalar: 2006
