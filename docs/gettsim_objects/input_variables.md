@@ -26,7 +26,7 @@ Type: int
 
 ## `kind`
 
-Dummy: Dependent child living with parents
+Dependent child living with parents
 
 Type: bool
 
@@ -50,7 +50,7 @@ Type: int
 
 ## `weiblich`
 
-Dummy: female
+Female
 
 Type: bool
 
@@ -58,7 +58,7 @@ Type: bool
 
 ## `rentner`
 
-Dummy: Pensioner employment status
+Pensioner employment status
 
 Type: bool
 
@@ -66,7 +66,7 @@ Type: bool
 
 ## `alleinerz`
 
-Dummy: Single parent
+Single parent
 
 Type: bool
 
@@ -74,7 +74,7 @@ Type: bool
 
 ## `wohnort_ost`
 
-Dummy: Living in former East Germany
+Living in former East Germany
 
 Type: bool
 
@@ -82,7 +82,7 @@ Type: bool
 
 ## `in_priv_krankenv`
 
-Dummy: In private health insurance
+In private health insurance
 
 Type: bool
 
@@ -98,7 +98,7 @@ Type: float
 
 ## `in_ausbildung`
 
-Dummy: Employment status “in education”
+Employment status “in education”
 
 Type: bool
 
@@ -106,7 +106,7 @@ Type: bool
 
 ## `selbstständig`
 
-Dummy: Self-employed (main profession)
+Self-employed (main profession)
 
 Type: bool
 
@@ -114,7 +114,7 @@ Type: bool
 
 ## `hat_kinder`
 
-Dummy: Has kids (incl. not in hh)
+Has kids (incl. not in hh)
 
 Type: bool
 
@@ -187,7 +187,7 @@ Type: float
 
 ## `bewohnt_eigentum_hh`
 
-Dummy: Owner-occupied housing
+Owner-occupied housing
 
 Type: bool
 
@@ -519,7 +519,7 @@ Type: bool
 
 ## `anwartschaftszeit`
 
-Dummy: at least 12 months of unemployment contributions in the 30 months before claiming
+At least 12 months of unemployment contributions in the 30 months before claiming
 unemployment insurance
 
 Type: bool
@@ -528,7 +528,7 @@ Type: bool
 
 ## `arbeitssuchend`
 
-Dummy: looking for employment
+Looking for employment
 
 Type: bool
 
@@ -574,6 +574,18 @@ Type: int
 Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
+
+## `budgetsatz_erzieh`
+
+Applied for "Budgetsatz" of parental leave benefit
+
+Type: bool
+
+## `inanspruchn_erzieh`
+
+Receiving parental leave benefit
+
+Type: bool
 
 ## `voll_erwerbsgemind`
 
