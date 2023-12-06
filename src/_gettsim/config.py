@@ -60,6 +60,7 @@ INTERNAL_PARAMS_GROUPS = [
     "kindergeld",
     "elterngeld",
     "ges_rente",
+    "erwerbsm_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
     "lohnst",
@@ -133,6 +134,7 @@ DEFAULT_TARGETS = [
     "unterhaltsvors_m_hh",
     "grunds_im_alter_m_vg",
     "ges_rente_m",
+    "erwerbsm_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
@@ -210,6 +212,8 @@ TYPES_INPUT_VARIABLES = {
     "anz_eig_kind_bis_24": int,
     "budgetsatz_erzieh": bool,
     "inanspruchn_erzieh": bool,
+    "voll_erwerbsgemind": bool,
+    "teilw_erwerbsgemind": bool,
 }
 
 FOREIGN_KEYS = [
