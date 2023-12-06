@@ -79,7 +79,7 @@ inputs:
     jahr:
       - '2009'
       - '2009'
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
     vermögen_bedürft_hh:

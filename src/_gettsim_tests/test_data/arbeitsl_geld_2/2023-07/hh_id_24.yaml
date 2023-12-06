@@ -55,7 +55,7 @@ inputs:
       - 0.0
     jahr:
       - 2023-07
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_vor_vermög_check_m_hh:
       - 0.0
     vermögen_bedürft_hh:
       - 40000.0

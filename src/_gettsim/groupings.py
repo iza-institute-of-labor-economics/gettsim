@@ -76,7 +76,7 @@ def fg_id_numpy(  # noqa: PLR0913
 
         p_id_to_fg_id[current_p_id] = next_fg_id
 
-        current_vg_id = hh_id[index]
+        current_hh_id = hh_id[index]
         current_p_id_einstandspartner = p_id_einstandspartner[index]
         current_p_id_children = p_id_to_p_ids_children.get(current_p_id, [])
 
@@ -87,12 +87,12 @@ def fg_id_numpy(  # noqa: PLR0913
         # Assign fg to children
         for current_p_id_child in current_p_id_children:
             child_index = p_id_to_index[current_p_id_child]
-            child_vg_id = hh_id[child_index]
+            child_hh_id = hh_id[child_index]
             child_alter = alter[child_index]
             child_p_id_children = p_id_to_p_ids_children.get(current_p_id_child, [])
 
             if (
-                child_vg_id == current_vg_id
+                child_hh_id == current_hh_id
                 # TODO (@hmgaudecker): Add correct conditions for grown up children
                 # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
                 # TODO(@MImmesberger): Remove hard-coded number

@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def grunds_im_alter_m_vg(  # noqa: PLR0913
+def grunds_im_alter_m_hh(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
     kindergeld_m_hh: float,
@@ -11,7 +11,7 @@ def grunds_im_alter_m_vg(  # noqa: PLR0913
     grunds_im_alter_eink_m_hh: float,
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_hh: float,
-    grunds_im_alter_vermög_freib_vg: float,
+    grunds_im_alter_vermög_freib_hh: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
@@ -41,8 +41,8 @@ def grunds_im_alter_m_vg(  # noqa: PLR0913
         See :func:`erwachsene_alle_rentner_hh`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh`.
-    grunds_im_alter_vermög_freib_vg
-        See :func:`grunds_im_alter_vermög_freib_vg`.
+    grunds_im_alter_vermög_freib_hh
+        See :func:`grunds_im_alter_vermög_freib_hh`.
     Returns
     -------
 
@@ -50,7 +50,7 @@ def grunds_im_alter_m_vg(  # noqa: PLR0913
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_vg) or (
+    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_hh) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -357,7 +357,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     return ges_rente_m - angerechnete_rente
 
 
-def grunds_im_alter_vermög_freib_vg(
+def grunds_im_alter_vermög_freib_hh(
     anz_erwachsene_hh: int,
     anz_kinder_hh: int,
     grunds_im_alter_params: dict,

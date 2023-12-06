@@ -198,13 +198,13 @@ inputs:
       - 2015
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
+  wohngeld_vor_vermög_check_m_hh:
     - 631.0
     - 631.0
     - 631.0
     - 631.0
     - 631.0
-  wohngeld_nach_vermög_check_m_vg:
+  wohngeld_nach_vermög_check_m_hh:
     - 631.0
     - 631.0
     - 631.0
