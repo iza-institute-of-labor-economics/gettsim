@@ -26,7 +26,7 @@ Type: int
 
 ## `kind`
 
-Dummy: Dependent child living with parents
+Dependent child living with parents
 
 Type: bool
 
@@ -50,7 +50,7 @@ Type: int
 
 ## `weiblich`
 
-Dummy: female
+Female
 
 Type: bool
 
@@ -58,7 +58,7 @@ Type: bool
 
 ## `rentner`
 
-Dummy: Pensioner employment status
+Pensioner employment status
 
 Type: bool
 
@@ -66,7 +66,7 @@ Type: bool
 
 ## `alleinerz`
 
-Dummy: Single parent
+Single parent
 
 Type: bool
 
@@ -74,7 +74,7 @@ Type: bool
 
 ## `wohnort_ost`
 
-Dummy: Living in former East Germany
+Living in former East Germany
 
 Type: bool
 
@@ -82,7 +82,7 @@ Type: bool
 
 ## `in_priv_krankenv`
 
-Dummy: In private health insurance
+In private health insurance
 
 Type: bool
 
@@ -98,7 +98,7 @@ Type: float
 
 ## `in_ausbildung`
 
-Dummy: Employment status “in education”
+Employment status “in education”
 
 Type: bool
 
@@ -106,7 +106,7 @@ Type: bool
 
 ## `selbstständig`
 
-Dummy: Self-employed (main profession)
+Self-employed (main profession)
 
 Type: bool
 
@@ -114,7 +114,7 @@ Type: bool
 
 ## `hat_kinder`
 
-Dummy: Has kids (incl. not in hh)
+Has kids (incl. not in hh)
 
 Type: bool
 
@@ -175,8 +175,11 @@ Monthly heating expenses for household
 
 Type: float
 
-- - `wohnfläche_hh`
-  - Size of household dwelling in square meters
+(wohnfläche_hh)=
+
+## `wohnfläche_hh`
+
+Size of household dwelling in square meters
 
 Type: float
 
@@ -184,7 +187,7 @@ Type: float
 
 ## `bewohnt_eigentum_hh`
 
-Dummy: Owner-occupied housing
+Owner-occupied housing
 
 Type: bool
 
@@ -434,8 +437,7 @@ Type: float
 
 ## `m_geringf_beschäft`
 
-Total month of marginal employment (w/omandatory contributions) (computed after§ 244a
-SGB VI - earningspoints/0,0313)
+Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
@@ -443,7 +445,7 @@ Type: float
 
 ## `m_ersatzzeit`
 
-Months during military, persecution/escape,internment and consecutive sickness
+Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
@@ -459,7 +461,7 @@ Type: float
 
 ## `m_pfleg_berücks_zeit`
 
-Total months of home care(01.01.1992-31.03.1995)
+Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
@@ -467,7 +469,7 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions after age 40
+Total years of mandatory contributions after age 40
 
 Type: float
 
@@ -517,7 +519,7 @@ Type: bool
 
 ## `anwartschaftszeit`
 
-Dummy: at least 12 months of unemployment contributions in the 30 months before claiming
+At least 12 months of unemployment contributions in the 30 months before claiming
 unemployment insurance
 
 Type: bool
@@ -526,7 +528,7 @@ Type: bool
 
 ## `arbeitssuchend`
 
-Dummy: looking for employment
+Looking for employment
 
 Type: bool
 
@@ -575,12 +577,24 @@ Type: int
 
 ## `budgetsatz_erzieh`
 
-Dummy: applied for "Budgetsatz" of parental leave benefit
+Applied for "Budgetsatz" of parental leave benefit
 
 Type: bool
 
 ## `inanspruchn_erzieh`
 
-Dummy: recieving parental leave benift
+Receiving parental leave benefit
+
+Type: bool
+
+## `voll_erwerbsgemind`
+
+Unable to provide more than 3 hours of market labor per day.
+
+Type: bool
+
+## `teilw_erwerbsgemind`
+
+Able to provide at least 3 but no more than 6 hours of market labor per day.
 
 Type: bool
