@@ -175,8 +175,11 @@ Monthly heating expenses for household
 
 Type: float
 
-- - `wohnfläche_hh`
-  - Size of household dwelling in square meters
+(wohnfläche_hh)=
+
+## `wohnfläche_hh`
+
+Size of household dwelling in square meters
 
 Type: float
 
@@ -434,8 +437,7 @@ Type: float
 
 ## `m_geringf_beschäft`
 
-Total month of marginal employment (w/omandatory contributions) (computed after§ 244a
-SGB VI - earningspoints/0,0313)
+Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
@@ -443,7 +445,7 @@ Type: float
 
 ## `m_ersatzzeit`
 
-Months during military, persecution/escape,internment and consecutive sickness
+Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
@@ -459,7 +461,7 @@ Type: float
 
 ## `m_pfleg_berücks_zeit`
 
-Total months of home care(01.01.1992-31.03.1995)
+Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
@@ -467,7 +469,7 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions after age 40
+Total years of mandatory contributions after age 40
 
 Type: float
 
@@ -572,3 +574,15 @@ Type: int
 Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
+
+## `voll_erwerbsgemind`
+
+Unable to provide more than 3 hours of market labor per day.
+
+Type: bool
+
+## `teilw_erwerbsgemind`
+
+Able to provide at least 3 but no more than 6 hours of market labor per day.
+
+Type: bool

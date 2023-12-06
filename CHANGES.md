@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`577` Implement Erwerbsminderungsrente (public disability insurance)
+  ({ghuser}`nafetsk`)
 - {gh}`601` Add groupings `sn_id`, `fg_id`, and `bg_id` ({ghuser}`lars-reimann`).
 - {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
   {ghuser}`MImmesberger`)

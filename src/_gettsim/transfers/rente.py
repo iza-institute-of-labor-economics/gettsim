@@ -1776,3 +1776,64 @@ def ges_rente_anrechnungszeit_45(
     out = m_arbeitsunfähig + m_alg1_übergang + m_geringf_beschäft
 
     return out
+
+
+def anteil_entgeltp_ost(
+    entgeltp_west: float,
+    entgeltp_ost: float,
+) -> float:
+    """Proportion of Entgeltpunkte accumulated in East Germany
+
+    Parameters
+    ----------
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+
+    Returns
+    -------
+    Proportion of Entgeltpunkte accumulated in East Germany
+
+    """
+
+    out = entgeltp_ost / (entgeltp_west + entgeltp_ost)
+
+    return out
+
+
+def durchschn_entgeltp(
+    entgeltp_west: float,
+    entgeltp_ost: float,
+    age_of_retirement: float,
+    erwerbsm_rente_params: dict,
+) -> float:
+    """Average earning points as part of the "Grundbewertung".
+    Earnings points are divided by "belegungsfähige Gesamtzeitraum" which is
+    the period from the age of 17 until the start of the pension.
+
+    Legal reference: SGB VI § 72: Grundbewertung
+
+    Parameters
+    ----------
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+    age_of_retirement
+        See :func:`age_of_retirement`.
+    erwerbsm_rente_params
+        See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
+
+    Returns
+    -------
+    average entgeltp
+    """
+
+    beleg_gesamtzeitr = (
+        age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbewertung"]
+    )
+
+    durchschn_entgeltp = (entgeltp_west + entgeltp_ost) / beleg_gesamtzeitr
+
+    return durchschn_entgeltp
