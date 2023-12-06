@@ -71,8 +71,7 @@ SUPPORTED_GROUPINGS = {
         "name": "Haushalt",
         "description": "The relevant unit for Wohngeld. Encompasses more people than"
         " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
-        " unit for Wohngeld. `vg` derives from Verantwortungs- und"
-        " Einstehensgemeinschaft, though this might be a misnomer.",
+        " unit for Wohngeld.",
         "potentially_endogenous": False,
     },
     "tu": {

@@ -6,13 +6,14 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`662`, {gh}`675` Replace `hh` in function names by `bg`/`fg`
+  ({ghuser}`lars-reimann`, {ghuser}`MImmesberger`).
 - {gh}`577` Implement Erwerbsminderungsrente (public disability insurance)
   ({ghuser}`nafetsk`)
 - {gh}`601` Add groupings `sn_id`, `fg_id`, and `bg_id` ({ghuser}`lars-reimann`).
 - {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
   {ghuser}`MImmesberger`)
 - {gh}`660` Entgeltpunkte Ost/West ({ghuser}`nafetsk`).
-- {gh}`662` Replace `hh` in function names by `bg`/`fg`/`vg` ({ghuser}`lars-reimann`).
 - {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
   ({ghuser}`MImmesberger`).
 - {gh}`655` Correct calculation of Lohnsteuer for 2015 to 2023 ({ghuser}`JakobWegmann`).
