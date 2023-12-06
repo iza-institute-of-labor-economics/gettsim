@@ -119,7 +119,7 @@ If a column has a reference to a time unit (i.e., any flow variable like earning
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
 The default unit a column refers to is an individual. In case a household or tax unit is
-the relevant unit, an underscore plus one of {`sn`, `vg`, `fg`, `bg`} will indicate the
+the relevant unit, an underscore plus one of {`sn`, `hh`, `fg`, `bg`} will indicate the
 level of aggregation.
 
 GETTSIM knows about the following units:
@@ -127,14 +127,12 @@ GETTSIM knows about the following units:
 - `p_id`: person identifier
 - `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
   Germany-wide Steuer-ID)
-- `vg_id`: Haushalt, the relevant unit for Wohngeld. `vg` derives from Verantwortungs-
-  und Einstehensgemeinschaft. Encompasses more people than the Bedarfsgemeinschaft
-  (e.g., possibly more than 2 generations). *(might be misnomer)* Currently also used in
-  SGB XII.
+- `hh_id`: Haushalt, the relevant unit for Wohngeld. Encompasses more people than the
+  Bedarfsgemeinschaft (e.g., possibly more than 2 generations).
 - `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
   Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
   Bedarfsgemeinschaft before making checks for whether children have enough income fend
-  for themselves. Subset of `vg`.
+  for themselves. Subset of `hh`.
 - `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft plus for whether children
   have enough income to fend for themselves. Subset of `fg_id`.
 
@@ -175,7 +173,7 @@ A function that is used in many different places should have a descriptive name.
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., float, int, dict, list, df, array ...). As for column names and parameters,
 in some cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to
-indicate the time unit and one of {`sn`, `vg`, `fg`, `bg`} to indicate the unit of
+indicate the time unit and one of {`sn`, `hh`, `fg`, `bg`} to indicate the unit of
 aggregation.
 
 ## Examples
