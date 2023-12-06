@@ -44,7 +44,7 @@ def erziehungsgeld_m(
 def erziehungsgeld_kind_ohne_budgetsatz_m():
     raise NotImplementedError(
         """
-    Erziehungsgeld is not implemented yet prior to 2003, see
+    Erziehungsgeld is not implemented yet prior to 2004, see
     https://github.com/iza-institute-of-labor-economics/gettsim/issues/673
         """
     )
