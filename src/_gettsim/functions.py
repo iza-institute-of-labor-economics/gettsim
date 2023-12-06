@@ -23,6 +23,7 @@ from _gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F403
 from _gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F403
 from _gettsim.transfers.elterngeld import *  # noqa: F403
 from _gettsim.transfers.erwerbsm_rente import *  # noqa: F403
+from _gettsim.transfers.erziehungsgeld import *  # noqa: F403
 from _gettsim.transfers.grundrente import *  # noqa: F403
 from _gettsim.transfers.grunds_im_alter import *  # noqa: F403
 from _gettsim.transfers.kinderbonus import *  # noqa: F403

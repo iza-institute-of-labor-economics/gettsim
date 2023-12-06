@@ -64,6 +64,7 @@ INTERNAL_PARAMS_GROUPS = [
     "arbeitsl_geld_2",
     "grunds_im_alter",
     "lohnst",
+    "erziehungsgeld",
 ]
 
 SUPPORTED_GROUPINGS = {
@@ -208,6 +209,8 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
+    "budgetsatz_erzieh": bool,
+    "inanspruchn_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,
 }
