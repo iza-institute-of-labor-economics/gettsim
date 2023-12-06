@@ -171,15 +171,57 @@ def erziehungsgeld_abzug_transfer(
     return out
 
 
-@dates_active(start="2004-01-01", end="2008-12-31")
-def erziehungsgeld_anspruch_kind(
+@dates_active(
+    start="2004-01-01", end="2006-12-10", change_name="erziehungsgeld_anspruch_kind"
+)
+def _erziehungsgeld_anspruch_kind_vor_abschaffung(
+    kind: bool,
+    alter_monate: float,
+    budgetsatz_erzieh: bool,
+    erziehungsgeld_params: dict,
+) -> bool:
+    """Eligibility for parental leave benefit (Erziehungsgeld) on child level.
+
+    Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.207)
+
+    Parameters
+    ----------
+    kind
+        See :See basic input variable :ref:`kind <kind>`.
+    alter_monate
+        See :func:`alter_monate`.
+    budgetsatz_erzieh
+        See :See basic input variable :ref:`budgetsatz_erzieh
+        <budgetsatz_erzieh>`.
+    erziehungsgeld_params
+        See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
+
+    Returns
+    -------
+    eligibility of (Erziehungsgeld) as a bool
+
+    """
+    if budgetsatz_erzieh:
+        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_budgetsatz"]
+
+    else:
+        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_regelsatz"]
+
+    return out
+
+
+@dates_active(
+    start="2006-12-11", end="2008-12-31", change_name="erziehungsgeld_anspruch_kind"
+)
+def _erziehungsgeld_anspruch_kind_nach_abschaffung(
     kind: bool,
     geburtsjahr: int,
     alter_monate: float,
     budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
-    """Eligibility for parental leave benefit (Erziehungsgeld) on child level.
+    """Eligibility for parental leave benefit (Erziehungsgeld) on child level. Abolished
+    for children born after the cut-off date.
 
     Legal reference: Bundesgesetzblatt Jahrgang 2004 Teil I Nr. 6 (pp.207)
 
