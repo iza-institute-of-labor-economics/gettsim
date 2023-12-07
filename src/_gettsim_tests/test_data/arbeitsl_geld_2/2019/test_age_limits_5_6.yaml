@@ -104,7 +104,7 @@ inputs:
       - '2019'
       - '2019'
       - '2019'
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
       - 0.0

@@ -72,8 +72,7 @@ SUPPORTED_GROUPINGS = {
         "name": "Haushalt",
         "description": "The relevant unit for Wohngeld. Encompasses more people than"
         " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
-        " unit for Wohngeld. `vg` derives from Verantwortungs- und"
-        " Einstehensgemeinschaft, though this might be a misnomer.",
+        " unit for Wohngeld.",
         "potentially_endogenous": False,
     },
     "tu": {
@@ -130,9 +129,9 @@ DEFAULT_TARGETS = [
     "kindergeld_m_tu",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_vg",
+    "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
-    "grunds_im_alter_m_vg",
+    "grunds_im_alter_m_hh",
     "ges_rente_m",
     "erwerbsm_rente_m",
 ]

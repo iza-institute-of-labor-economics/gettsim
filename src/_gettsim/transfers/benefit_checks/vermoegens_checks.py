@@ -71,8 +71,8 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
     return _arbeitsl_geld_2_vermög_freib_karenzz_bg
 
 
-def wohngeld_nach_vermög_check_m_vg(
-    wohngeld_vor_vermög_check_m_vg: float,
+def wohngeld_nach_vermög_check_m_hh(
+    wohngeld_vor_vermög_check_m_hh: float,
     vermögen_bedürft_hh: float,
     haushaltsgröße_hh: int,
     wohngeld_params: dict,
@@ -84,8 +84,8 @@ def wohngeld_nach_vermög_check_m_vg(
 
     Parameters
     ----------
-    wohngeld_vor_vermög_check_m_vg
-        See :func:`wohngeld_vor_vermög_check_m_vg`.
+    wohngeld_vor_vermög_check_m_hh
+        See :func:`wohngeld_vor_vermög_check_m_hh`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
     haushaltsgröße_hh
@@ -102,7 +102,7 @@ def wohngeld_nach_vermög_check_m_vg(
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     ):
-        out = wohngeld_vor_vermög_check_m_vg
+        out = wohngeld_vor_vermög_check_m_hh
     else:
         out = 0.0
 

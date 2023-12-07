@@ -72,5 +72,5 @@ inputs:
       - 1967
   assumed: {}
 outputs:
-  grunds_im_alter_m_vg:
+  grunds_im_alter_m_hh:
     - 356.03

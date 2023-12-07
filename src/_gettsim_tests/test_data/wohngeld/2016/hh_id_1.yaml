@@ -134,11 +134,11 @@ inputs:
       - 2007
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
+  wohngeld_vor_vermög_check_m_hh:
     - 75.0
     - 75.0
     - 75.0
-  wohngeld_nach_vermög_check_m_vg:
+  wohngeld_nach_vermög_check_m_hh:
     - 75.0
     - 75.0
     - 75.0

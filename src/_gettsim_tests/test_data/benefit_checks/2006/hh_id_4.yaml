@@ -52,7 +52,7 @@ inputs:
       - 280.0
       - 280.0
       - 280.0
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_vor_vermög_check_m_hh:
       - 650.0
       - 650.0
       - 650.0
@@ -108,7 +108,7 @@ outputs:
     - 0
     - 0
     - 0
-  wohngeld_m_vg:
+  wohngeld_m_hh:
     - 0
     - 0
     - 0

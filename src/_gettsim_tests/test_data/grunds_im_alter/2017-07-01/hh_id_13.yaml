@@ -2,7 +2,7 @@
 info:
   note: >-
     Added capital income of 10 euros for household (expected difference in
-    grunds_im_alter_m_vg ((10*12)-26)/12)=7.83333333)
+    grunds_im_alter_m_hh ((10*12)-26)/12)=7.83333333)
   source: >-
     Adjusted test case based on
     https://www.bpb.de/politik/innenpolitik/rentenpolitik/289395/leistungshoehe-und-fallbeispiele
@@ -109,6 +109,6 @@ inputs:
       - 1950
   assumed: {}
 outputs:
-  grunds_im_alter_m_vg:
+  grunds_im_alter_m_hh:
     - 314.1666667
     - 314.1666667
