@@ -335,27 +335,25 @@ def sonderausgaben_betreuung_y_tu(
     return float(out)
 
 
-def eink_st_kinderfreib_y_tu(
-    anz_kinder_mit_kindergeld_tu: float,
-    anz_erwachsene_tu: int,
+def eink_st_kinderfreib_y(
+    eink_st_kinderfreib_parent_level_y: float,
+    alleinerz: bool,
+):
+    if alleinerz:
+        out = eink_st_kinderfreib_parent_level_y * 2
+        # other parent should not get kinderfreibetrag; how?
+    else:
+        out = eink_st_kinderfreib_parent_level_y
+    return out
+
+
+def eink_st_kinderfreib_child_level_y(
+    kindergeld_anspruch: bool,
     eink_st_abzuege_params: dict,
-) -> float:
-    """Aggregate child allowances on tax unit level.
-
-    Parameters
-    ----------
-    anz_kinder_mit_kindergeld_tu
-        See :func:`anz_kinder_mit_kindergeld_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-
-    Returns
-    -------
-
-    """
-    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
-    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
+):
+    if kindergeld_anspruch:
+        out = sum(eink_st_abzuege_params["kinderfreib"].values())
+    else:
+        out = 0.0
 
     return float(out)

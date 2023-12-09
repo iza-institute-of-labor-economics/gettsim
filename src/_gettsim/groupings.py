@@ -45,26 +45,11 @@ def fg_id_numpy(  # noqa: PLR0913
     Compute the ID of the Familiengemeinschaft for each person.
     """
     # Build indexes
-    p_id_to_index = {}
-    p_id_to_p_ids_children = {}
+    p_id_to_index = {current_p_id: index for index, current_p_id in enumerate(p_id)}
 
-    for index, current_p_id in enumerate(p_id):
-        # Fast access from p_id to index
-        p_id_to_index[current_p_id] = index
-
-        # Fast access from p_id to p_ids of children
-        current_p_id_elternteil_1 = p_id_elternteil_1[index]
-        current_p_id_elternteil_2 = p_id_elternteil_2[index]
-
-        if current_p_id_elternteil_1 >= 0:
-            if current_p_id_elternteil_1 not in p_id_to_p_ids_children:
-                p_id_to_p_ids_children[current_p_id_elternteil_1] = []
-            p_id_to_p_ids_children[current_p_id_elternteil_1].append(current_p_id)
-
-        if current_p_id_elternteil_2 >= 0:
-            if current_p_id_elternteil_2 not in p_id_to_p_ids_children:
-                p_id_to_p_ids_children[current_p_id_elternteil_2] = []
-            p_id_to_p_ids_children[current_p_id_elternteil_2].append(current_p_id)
+    p_id_to_p_ids_children = determine_children_ids(
+        p_id, p_id_elternteil_1, p_id_elternteil_2
+    )
 
     p_id_to_fg_id = {}
     next_fg_id = 0
@@ -107,6 +92,34 @@ def fg_id_numpy(  # noqa: PLR0913
     # Compute result vector
     result = [p_id_to_fg_id[current_p_id] for current_p_id in p_id]
     return numpy.asarray(result)
+
+
+def determine_children_ids(
+    p_id: numpy.ndarray,
+    p_id_elternteil_1: numpy.ndarray,
+    p_id_elternteil_2: numpy.ndarray,
+) -> dict[int, list[int]]:
+    """
+    Compute a dictionary mapping parent p_id to a list of child p_ids.
+    """
+    p_id_to_p_ids_children = {}
+
+    for index, current_p_id in enumerate(p_id):
+        # Fast access from p_id to p_ids of children
+        current_p_id_elternteil_1 = p_id_elternteil_1[index]
+        current_p_id_elternteil_2 = p_id_elternteil_2[index]
+
+        if current_p_id_elternteil_1 >= 0:
+            if current_p_id_elternteil_1 not in p_id_to_p_ids_children:
+                p_id_to_p_ids_children[current_p_id_elternteil_1] = []
+            p_id_to_p_ids_children[current_p_id_elternteil_1].append(current_p_id)
+
+        if current_p_id_elternteil_2 >= 0:
+            if current_p_id_elternteil_2 not in p_id_to_p_ids_children:
+                p_id_to_p_ids_children[current_p_id_elternteil_2] = []
+            p_id_to_p_ids_children[current_p_id_elternteil_2].append(current_p_id)
+
+    return p_id_to_p_ids_children
 
 
 def sn_id_numpy(
