@@ -552,6 +552,14 @@ beitr_bemess_grenze_m:
       west: 7300
       ost: 7100
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+  2024-01-01:
+    ges_krankv:
+      west: 5175
+      ost: 5175
+    ges_rentenv:
+      west: 7550
+      ost: 7450
+    reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
 bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
@@ -881,6 +889,12 @@ mindestlohn:
     scalar: 10.45
   2022-10-01:
     scalar: 12
+  2024-01-01:
+    scalar: 12.41
+    reference: https://www.bundesregierung.de/breg-de/themen/arbeit-und-soziales/mindestlohn-steigt-2223632
+  2025-01-01:
+    scalar: 12.82
+    reference: https://www.bundesregierung.de/breg-de/themen/arbeit-und-soziales/mindestlohn-steigt-2223632
 rounding:
   midijob_faktor_f:
     1990-01-01:
