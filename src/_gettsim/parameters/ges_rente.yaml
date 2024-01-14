@@ -1832,7 +1832,7 @@ altersgrenze_besond_langj_versicherte:
   2014-07-01:
     0:
       lower_threshold: -inf
-      upper_threshold: 1949.5
+      upper_threshold: 1952
       rate_linear: 0
       intercept_at_lower_threshold: 63
     1:
