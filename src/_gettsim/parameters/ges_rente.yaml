@@ -258,13 +258,17 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 39167
     reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
   2021-01-01:
-    scalar: 41541
-    reference: V. v. 30.11.2020 BGBl. I S. 2612.
-    note: Das vorläufige Durchschnittsentgelt.
+    scalar: 40463
   2022-01-01:
-    scalar: 38901
-    reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
-    note: Das vorläufige Durchschnittsentgelt.
+    scalar: 42053
+    reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+  2023-01-01:
+    scalar: 43142
+    note: Vorläufiges Durchschnittsentgelt
+  2024:
+    scalar: 45358
+    reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    note: Vorläufiges Durchschnittsentgelt
 umrechnung_entgeltp_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
