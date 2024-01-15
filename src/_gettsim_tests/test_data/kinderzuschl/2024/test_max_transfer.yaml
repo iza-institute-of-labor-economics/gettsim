@@ -1,0 +1,80 @@
+---
+info:
+  note: ''
+  source: https://www.kinderzuschlagrechner24.de/kinderzuschlag/?hp=0&ap0=0&ap1a=0&ap1=1&ap2=0&ap4=0&ap5=0&ww=0&is=0&wgjn=0&kg=0&fuerJ=2023&lS=1&Seite=2#RechnerStart
+inputs:
+  provided:
+    p_id:
+      - 47
+      - 48
+    hh_id:
+      - 18
+      - 18
+    tu_id:
+      - 18
+      - 18
+    p_id_elternteil_1:
+      - -1
+      - 47
+    p_id_elternteil_2:
+      - -1
+      - -1
+    alter:
+      - 40
+      - 10
+    kind:
+      - false
+      - true
+    in_ausbildung:
+      - false
+      - false
+    rentner:
+      - false
+      - false
+    alleinerz:
+      - true
+      - false
+    arbeitsstunden_w:
+      - 40.0
+      - 0.0
+    vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+    bruttolohn_m:
+      - 1000.0
+      - 0.0
+    bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+    heizkosten_m_hh:
+      - 100.0
+      - 100.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_eink_anr_frei_m:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_bruttoeink_m:
+      - 1000.0
+      - 0.0
+    arbeitsl_geld_2_eink_m:
+      - 1000.0
+      - 0.0
+    ges_rente_m:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_vor_vorrang_m_bg:
+      - 0.0
+      - 0.0
+    wohngeld_kinderzuschl_vorrang_hh:
+      - true
+      - true
+  assumed: {}
+outputs:
+  kinderzuschl_m_bg:
+    - 292.0
+    - 292.0
