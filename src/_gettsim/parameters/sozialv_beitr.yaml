@@ -891,10 +891,10 @@ mindestlohn:
     scalar: 12
   2024-01-01:
     scalar: 12.41
-    reference: https://www.bundesregierung.de/breg-de/themen/arbeit-und-soziales/mindestlohn-steigt-2223632
+    reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
   2025-01-01:
     scalar: 12.82
-    reference: https://www.bundesregierung.de/breg-de/themen/arbeit-und-soziales/mindestlohn-steigt-2223632
+    reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
 rounding:
   midijob_faktor_f:
     1990-01-01:
