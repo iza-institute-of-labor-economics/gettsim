@@ -91,7 +91,7 @@ kinderfreib:
   2024-01-01:
     deviation_from: previous
     sächl_existenzmin: 3306
-    reference: 
+    reference: null
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.

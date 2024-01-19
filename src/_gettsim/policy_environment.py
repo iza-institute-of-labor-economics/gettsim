@@ -135,7 +135,7 @@ def _parse_kinderzuschl_max(date, params):
 
     """
 
-    if (2023 > date.year >= 2021):
+    if 2023 > date.year >= 2021:
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
             params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
