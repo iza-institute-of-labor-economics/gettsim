@@ -27,9 +27,11 @@ maximum:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Regelung für das Kalenderjahr 2023, abweichend von § 6a Absatz 2.
   2024-01-01:
-    scalar: null
-    reference: § 6a (2) BKGG
-    note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
+    scalar: 292
+    reference: 
+    note: >-
+      Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet. 
+      Diese sind aber noch nicht bekannt. 
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
