@@ -30,8 +30,8 @@ maximum:
     scalar: 292
     reference: null
     note: >-
-      Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.  Diese sind aber noch
-      nicht bekannt.
+      Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.  
+      Diese sind aber noch nicht bekannt.
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
