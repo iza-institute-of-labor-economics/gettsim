@@ -30,8 +30,9 @@ maximum:
     scalar: 292
     reference: null
     note: >-
-      Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.   Diese sind aber noch
-      nicht bekannt.
+      Calculated form other parameters (as 2021/2022). Parameters not yet known.
+    # TODO(@MImmesberger): Add reference or parameters to calculate the max kinderzuschl
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/682
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
