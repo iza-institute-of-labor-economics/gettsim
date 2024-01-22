@@ -376,3 +376,9 @@ def eink_st_kinderfreib_kind_y(
         out = 0.0
 
     return out
+
+
+def eink_st_kinderfreib_y(
+    eink_st_kinderfreib_eltern_y: float,
+):
+    return eink_st_kinderfreib_eltern_y
