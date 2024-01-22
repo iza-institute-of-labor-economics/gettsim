@@ -5,8 +5,8 @@ from _gettsim.shared import add_rounding_spec, dates_active
 
 
 @dates_active(start="2004-01-01", end="2008-12-31")
-def erziehungsgeld_m(
-    erziehungsgeld_auszahlung_m: int,
+def erziehungsgeld_auszahlung_m(
+    erziehungsgeld_m: int,
     erziehungsgeld_anspruch_eltern: bool,
 ) -> bool:
     """Total parental leave benefits (Erziehungsgeld).
@@ -28,7 +28,7 @@ def erziehungsgeld_m(
 
     """
     if erziehungsgeld_anspruch_eltern:
-        out = erziehungsgeld_auszahlung_m
+        out = erziehungsgeld_m
     else:
         out = 0.0
 

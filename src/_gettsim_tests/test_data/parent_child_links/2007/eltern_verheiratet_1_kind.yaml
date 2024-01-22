@@ -103,7 +103,7 @@ outputs:
     - 1824.0
     - 1824.0
     - 0.0
-  erziehungsgeld_m:
+  erziehungsgeld_auszahlung_m:
     - 150.0
     - 0.0
     - 0.0

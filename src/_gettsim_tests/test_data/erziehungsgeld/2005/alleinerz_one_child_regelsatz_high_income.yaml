@@ -71,6 +71,6 @@ outputs:
   erziehungsgeld_kind_m:
     - 0.0
     - 235.8
-  erziehungsgeld_m:
+  erziehungsgeld_auszahlung_m:
     - 235.8
     - 0.0
