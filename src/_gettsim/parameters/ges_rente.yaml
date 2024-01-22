@@ -620,6 +620,12 @@ rentenwert:
   2021-07-01:
     deviation_from: previous
     ost: 33.47
+  2022-07-01:
+    west: 36.02
+    ost: 35.52
+  2023-07-01:
+    west: 37.60
+    ost: 37.60
 grundr_höchstwert:
   name:
     de: Höchstwert der Entgeltpunkte für Grundrente

@@ -691,6 +691,10 @@ bezugsgröße_selbst_m:
     west: 3395
     ost: 3290
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
+  2024-01-01:
+    west: 3535
+    ost: 3465
+    reference: V. v.  29.11.2023 BGBl. 2023 I Nr. 322.
 mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   name:
     de: Mindestberechungsbeitrag für Selbstständige als Anteil der Bezugsgröße
