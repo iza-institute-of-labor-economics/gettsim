@@ -12,7 +12,7 @@ aggregation_kindergeld = {
 }
 
 
-def kindergeld_m(
+def kindergeld_kind_m(
     kindergeld_anspruch: bool,
     kumulativer_kindergeld_anspruch_tu: int,
     kindergeld_params: dict,
