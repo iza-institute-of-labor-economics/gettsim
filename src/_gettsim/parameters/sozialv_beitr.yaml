@@ -267,6 +267,11 @@ beitr_satz:
       Pflegeunterstützungs- und -entlastungsgesetz - PUEG
       Increase of contribution rates for ges_pflegev and  introduction of reduction of
       contribution rates for people with children.
+  2024-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      mean_zusatzbeitrag: 0.017
+    reference: BAnz AT 31.10.2023 B3
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
@@ -553,7 +558,7 @@ beitr_bemess_grenze_m:
       ost: 7100
     reference: V. v. 28.11.2022 BGBl. I. S. 2128.
   2024-01-01:
-    ges_krankv:
+    ges_krankenv:
       west: 5175
       ost: 5175
     ges_rentenv:
