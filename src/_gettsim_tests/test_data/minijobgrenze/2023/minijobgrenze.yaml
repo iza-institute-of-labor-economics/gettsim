@@ -1,0 +1,15 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 0
+    p_id:
+      - 0
+    geburtsjahr:
+      - 1990
+outputs:
+  minijob_grenze:
+    - 520.0
