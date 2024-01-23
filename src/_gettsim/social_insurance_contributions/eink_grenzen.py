@@ -27,7 +27,7 @@ def minijob_grenze_unterscheidung_ost_west(
 @dates_active(start="2000-01-01", end="2022-09-30", change_name="minijob_grenze")
 @add_rounding_spec(params_key="sozialv_beitr")
 def minijob_grenze_einheitlich(
-    geburtsjahr: int, sozialv_beitr_params: dict  # noqa: ARG001
+    hat_kinder: bool, sozialv_beitr_params: dict  # noqa: ARG001
 ) -> float:
     """Select the income threshold depending on place of living.
 
@@ -47,7 +47,7 @@ def minijob_grenze_einheitlich(
 @add_rounding_spec(params_key="sozialv_beitr")
 @dates_active(start="2022-10-01", change_name="minijob_grenze")
 def minijob_grenze_from_minimum_wage(
-    geburtsjahr: int, sozialv_beitr_params: dict  # noqa: ARG001
+    hat_kinder: bool, sozialv_beitr_params: dict  # noqa: ARG001
 ) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
     the statutory minimum wage.

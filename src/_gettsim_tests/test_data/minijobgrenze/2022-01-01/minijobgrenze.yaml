@@ -8,8 +8,8 @@ inputs:
       - 0
     p_id:
       - 0
-    geburtsjahr:
-      - 1990
+    hat_kinder:
+      - false
 outputs:
   minijob_grenze:
     - 450.0
