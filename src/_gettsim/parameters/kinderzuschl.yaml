@@ -50,8 +50,7 @@ kindersofortzuschl:
     scalar: 20
   2023-01-01:
     scalar: null
-  2024-01-01:
-    scalar: 20
+    note: Included in maximum Kinderzuschlag since 2023.
 min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
