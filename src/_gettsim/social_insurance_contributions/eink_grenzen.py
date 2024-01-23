@@ -26,9 +26,7 @@ def minijob_grenze_unterscheidung_ost_west(
 
 @dates_active(start="2000-01-01", end="2022-09-30", change_name="minijob_grenze")
 @add_rounding_spec(params_key="sozialv_beitr")
-def minijob_grenze_einheitlich(
-    hat_kinder: bool, sozialv_beitr_params: dict  # noqa: ARG001
-) -> float:
+def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     """Select the income threshold depending on place of living.
 
     Parameters
@@ -39,16 +37,12 @@ def minijob_grenze_einheitlich(
     -------
 
     """
-    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
 
 
 @add_rounding_spec(params_key="sozialv_beitr")
 @dates_active(start="2022-10-01", change_name="minijob_grenze")
-def minijob_grenze_from_minimum_wage(
-    hat_kinder: bool, sozialv_beitr_params: dict  # noqa: ARG001
-) -> float:
+def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
     the statutory minimum wage.
 
@@ -62,8 +56,6 @@ def minijob_grenze_from_minimum_wage(
     Marginal Job Threshold
 
     """
-    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     return (
         sozialv_beitr_params["mindestlohn"]
         * sozialv_beitr_params["geringf_eink_faktor"]
