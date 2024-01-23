@@ -30,7 +30,7 @@ maximum:
     scalar: 292
     reference: null
     note: >-
-      Calculated form other parameters (as 2021/2022). Parameters not yet known.
+      No law, should be calculated from other parameters (as 2021/2022), but parameters are not known yet.
     # TODO(@MImmesberger): Add reference or parameters to calculate the max kinderzuschl
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/682
 kindersofortzuschl:
