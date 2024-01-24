@@ -71,22 +71,22 @@ inputs:
       - -1
       - 6
       - 6
-    p_id_kinderfreibetrag_empfänger_1:
-      - -1
-      - -1
-      - 6
-      - 6
-    p_id_kinderfreibetrag_empfänger_2:
-      - -1
-      - -1
-      - 7
-      - 7
     kindergeld_anspruch:
       - false
       - false
       - true
       - true
 outputs:
+  p_id_kinderfreibetrag_empfänger_1:
+    - -1
+    - -1
+    - 6
+    - 6
+  p_id_kinderfreibetrag_empfänger_2:
+    - -1
+    - -1
+    - 7
+    - 7
   kindergeld_kind_m:
     - 0.0
     - 0.0

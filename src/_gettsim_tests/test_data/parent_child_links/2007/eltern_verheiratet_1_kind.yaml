@@ -58,14 +58,6 @@ inputs:
       - -1
       - -1
       - 0
-    p_id_kinderfreibetrag_empfänger_1:
-      - -1
-      - -1
-      - 0
-    p_id_kinderfreibetrag_empfänger_2:
-      - -1
-      - -1
-      - 1
     p_id_erziehungsgeld_empfänger:
       - -1
       - -1
@@ -83,6 +75,14 @@ inputs:
       - 0.0
       - 150.0
 outputs:
+  p_id_kinderfreibetrag_empfänger_1:
+    - -1
+    - -1
+    - 0
+  p_id_kinderfreibetrag_empfänger_2:
+    - -1
+    - -1
+    - 1
   kindergeld_kind_m:
     - 0.0
     - 0.0
