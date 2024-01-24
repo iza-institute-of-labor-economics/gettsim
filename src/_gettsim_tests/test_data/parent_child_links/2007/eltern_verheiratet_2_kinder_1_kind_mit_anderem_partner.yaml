@@ -61,6 +61,11 @@ inputs:
       - -1
       - 11
       - -1
+    alleinerz:
+      - false
+      - false
+      - false
+      - false
     eigener_bedarf_gedeckt:
       - false
       - false
