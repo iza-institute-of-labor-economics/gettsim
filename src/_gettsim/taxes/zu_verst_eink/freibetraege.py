@@ -1,6 +1,13 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
+aggregation_freibetraege = {
+    "eink_st_kinderfreib_anspruch_kind": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "any",
+    }
+}
+
 
 def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict
@@ -333,23 +340,6 @@ def sonderausgaben_betreuung_y_tu(
     )
 
     return float(out)
-
-
-def eink_st_kinderfreib_anspruch_kind(
-    kindergeld_anspruch: bool,
-) -> bool:
-    """Check if child is eligible for child allowance.
-
-    Parameters
-    ----------
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-    return kindergeld_anspruch
 
 
 def eink_st_kinderfreib_y(
