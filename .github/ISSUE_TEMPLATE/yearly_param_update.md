@@ -8,7 +8,7 @@ assignees: ''
 
 ---
 
-#### A (not exhaustive) list of parameters that typically need to be updated
+#### Typical parameters to be updated
 
 - [ ] Mindestlohn
 - [ ] Kinderfreibetrag
