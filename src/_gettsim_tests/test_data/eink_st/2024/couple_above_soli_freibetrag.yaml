@@ -1,0 +1,44 @@
+---
+info:
+  note: ''
+  source: https://www.smart-rechner.de/einkommensteuer/rechner.php
+inputs:
+  provided:
+    p_id:
+      - 3
+      - 4
+    hh_id:
+      - 3
+      - 3
+    tu_id:
+      - 3
+      - 3
+    kind:
+      - false
+      - false
+    zu_verst_eink_kein_kinderfreib:
+      - 100000.0
+      - 100000.0
+    zu_verst_eink_kinderfreib:
+      - 100000.0
+      - 100000.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+    zusammen_veranlagt:
+      - true
+      - true
+  assumed: {}
+outputs:
+  eink_st_ohne_kinderfreib_y_tu:
+    - 62794.0
+    - 62794.0
+  eink_st_mit_kinderfreib_y_tu:
+    - 62794.0
+    - 62794.0
+  abgelt_st_y_tu:
+    - 0.0
+    - 0.0
+  soli_st_y_tu:
+    - 3157.55
+    - 3157.55
