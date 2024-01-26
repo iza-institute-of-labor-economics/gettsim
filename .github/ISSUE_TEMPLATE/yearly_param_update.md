@@ -22,4 +22,4 @@ assignees: ''
 - [ ] Aktueller Rentenwert
 - [ ] Bezugsgröße Rentenversicherung
 
-#### Additional parameters that are missing above
+#### Additional parameters for this year
