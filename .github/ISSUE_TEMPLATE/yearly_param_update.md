@@ -16,7 +16,8 @@ assignees: ''
 - [ ] Kindersofortzuschlag
 - [ ] Mindestunterhalt
 - [ ] Bürgergeld Regelsatz
-- [ ] Changes of Beitragsbemessungsgrenze for KV and RV
+- [ ] Beitragsbemessungsgrenze Krankenversicherung
+- [ ] Beitragsbemessungsgrenze Rentenversicherung
 - [ ] Mean Zusatzbeitrag KV
 - [ ] Vorläufiges Durschnittsentgelt of gesetzliche Rente
 - [ ] Aktueller Rentenwert
