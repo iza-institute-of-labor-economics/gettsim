@@ -18,7 +18,7 @@ assignees: ''
 - [ ] Beitragsbemessungsgrenze Krankenversicherung
 - [ ] Beitragsbemessungsgrenze Rentenversicherung
 - [ ] Mean Zusatzbeitrag KV
-- [ ] Vorläufiges Durschnittsentgelt of gesetzliche Rente
+- [ ] Vorläufiges Durschnittsentgelt Rentenversicherung
 - [ ] Aktueller Rentenwert
 - [ ] Bezugsgröße Rentenversicherung
 
