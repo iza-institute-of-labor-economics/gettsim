@@ -13,7 +13,6 @@ assignees: ''
 - [ ] Mindestlohn
 - [ ] Kinderfreibetrag
 - [ ] Kinderzuschlag
-- [ ] Kindersofortzuschlag
 - [ ] Mindestunterhalt
 - [ ] Bürgergeld Regelsatz
 - [ ] Beitragsbemessungsgrenze Krankenversicherung
