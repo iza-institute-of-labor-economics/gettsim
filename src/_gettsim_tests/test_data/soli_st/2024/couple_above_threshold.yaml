@@ -1,0 +1,35 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 0
+      - 1
+    hh_id:
+      - 0
+      - 0
+    tu_id:
+      - 0
+      - 0
+    kind:
+      - false
+      - false
+    anz_erwachsene_tu:
+      - 2
+      - 2
+    zusammen_veranlagt:
+      - true
+      - true
+    eink_st_mit_kinderfreib_y_tu:
+      - 62794.0
+      - 62794.0
+    abgelt_st_y_tu:
+      - 0.0
+      - 0.0
+  assumed: {}
+outputs:
+  soli_st_y_tu:
+    - 3157.55
+    - 3157.55
