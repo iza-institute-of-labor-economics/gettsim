@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """Functions to compute parental leave benefits (Erziehungsgeld) that preceeded
 Elterngeld."""
 from _gettsim.shared import add_rounding_spec, dates_active

@@ -8,18 +8,18 @@ assignees: ''
 
 ---
 
-#### A (not exhaustive) list of parameters that typically need to be updated
+#### Typical parameters to be updated
 
 - [ ] Mindestlohn
 - [ ] Kinderfreibetrag
 - [ ] Kinderzuschlag
-- [ ] Kindersofortzuschlag
 - [ ] Mindestunterhalt
 - [ ] Bürgergeld Regelsatz
-- [ ] Changes of Beitragsbemessungsgrenze for KV and RV
+- [ ] Beitragsbemessungsgrenze Krankenversicherung
+- [ ] Beitragsbemessungsgrenze Rentenversicherung
 - [ ] Mean Zusatzbeitrag KV
-- [ ] Vorläufiges Durschnittsentgelt of gesetzliche Rente
+- [ ] Vorläufiges Durschnittsentgelt Rentenversicherung
 - [ ] Aktueller Rentenwert
 - [ ] Bezugsgröße Rentenversicherung
 
-#### Additional parameters that are missing above
+#### Additional parameters for this year
