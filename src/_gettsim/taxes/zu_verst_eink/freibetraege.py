@@ -4,7 +4,6 @@ from _gettsim.shared import add_rounding_spec, dates_active
 aggregation_freibetraege = {
     "eink_st_kinderfreib_anspruch_kind": {
         "source_col": "kindergeld_anspruch",
-        "aggr": "any",
     }
 }
 
@@ -365,3 +364,37 @@ def eink_st_kinderfreib_y(
         * eink_st_kinderfreib_anspruch_eltern
     )
     return out
+
+
+def p_id_kinderfreib_1(
+    p_id_elternteil_1: int,
+) -> int:
+    """Assigns child allowance to parent 1.
+
+    Parameters
+    ----------
+    p_id_elternteil_1
+        See :func:`p_id_elternteil_1`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_1
+
+
+def p_id_kinderfreib_2(
+    p_id_elternteil_2: int,
+) -> int:
+    """Assigns child allowance to parent 2.
+
+    Parameters
+    ----------
+    p_id_elternteil_2
+        See :func:`p_id_elternteil_2`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_2
