@@ -84,3 +84,10 @@ def grouped_all(column, group_id):
     out_on_hh = segment_min(column, group_id)
     out = out_on_hh[group_id]
     return out
+
+
+def sum_values_by_index(column, id_col):
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
+    out = jnp.zeros(jnp.max(id_col) + 1)
+    jnp.add.at(out, id_col, column)
+    return out

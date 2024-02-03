@@ -63,11 +63,11 @@ inputs:
       - false
       - true
 outputs:
-  p_id_kinderfreibetrag_empfänger_1:
+  p_id_kinderfreib_empfänger_1:
     - -1
     - -1
     - 0
-  p_id_kinderfreibetrag_empfänger_2:
+  p_id_kinderfreib_empfänger_2:
     - -1
     - -1
     - 1

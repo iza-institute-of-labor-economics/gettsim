@@ -17,8 +17,10 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
+    sum_values_by_index,
 )
 from _gettsim.config import (
+    PARENT_CHILD_LINKED_TARGETS,
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
@@ -77,7 +79,11 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
     vectorized_functions = {fn: _vectorize_func(f) for fn, f in functions.items()}
 
     # Create derived functions
-    time_conversion_functions, aggregation_functions = _create_derived_functions(
+    (
+        time_conversion_functions,
+        aggregation_functions,
+        parent_child_link_functions,
+    ) = _create_derived_functions(
         vectorized_functions, targets, data_cols, aggregation_specs
     )
 
@@ -85,6 +91,7 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
     groupings = create_groupings()
 
     all_functions = {
+        **parent_child_link_functions,
         **time_conversion_functions,
         **vectorized_functions,
         **aggregation_functions,
@@ -120,20 +127,29 @@ def _create_derived_functions(
     - combinations of these
     """
 
+    # Create parent-child relationships
+    parent_child_link_functions = _create_parent_child_link_functions(
+        user_and_internal_functions
+    )
+
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        user_and_internal_functions, data_cols
+        {**user_and_internal_functions, **parent_child_link_functions}, data_cols
     )
 
     # Create aggregation functions
     aggregation_functions = _create_aggregation_functions(
-        {**time_conversion_functions, **user_and_internal_functions},
+        {
+            **time_conversion_functions,
+            **user_and_internal_functions,
+            **parent_child_link_functions,
+        },
         targets,
         data_cols,
         aggregation_specs,
     )
 
-    return time_conversion_functions, aggregation_functions
+    return time_conversion_functions, aggregation_functions, parent_child_link_functions
 
 
 def load_user_and_internal_functions(user_functions_raw):
@@ -569,6 +585,81 @@ def _create_one_aggregation_func(  # noqa: PLR0912
         raise ValueError(f"Aggr {aggr} is not implemented, yet.")
 
     return aggregation_func
+
+
+def _create_parent_child_link_functions(user_and_internal_functions):
+    """
+    Create functions that link parent and child variables.
+    """
+
+    link_functions = {
+        link_col: _create_one_link_func(
+            link_spec,
+            user_and_internal_functions,
+        )
+        for link_col, link_spec in PARENT_CHILD_LINKED_TARGETS.items()
+    }
+
+    return link_functions
+
+
+def _create_one_link_func(link_spec, user_and_internal_functions):
+    # TODO Error Handling
+    # TODO Type annotations
+    annotations = {
+        "source_col": user_and_internal_functions[
+            link_spec["source_col"]
+        ].__annotations__["return"],
+    }
+    annotations["returns"] = int if annotations["source_col"] in (int, bool) else float
+
+    if type(link_spec["id_col"]) is str:
+        # Single target
+        # Create id annotations
+        annotations["id_col"] = int
+        # Create function
+        mapper_args = {
+            "id_col": link_spec["id_col"],
+            "source_col": link_spec["source_col"],
+        }
+
+        @rename_arguments(mapper=mapper_args, annotations=annotations)
+        def link_func(source_col, id_col):
+            return sum_by_parent(source_col, id_col)
+
+    elif len(link_spec["id_col"]) == 2:
+        # Multiple targets
+        # Create id annotations
+        annotations.update({"id_col_1": int, "id_col_2": int})
+        # Create function
+        mapper_args = {
+            "id_col_1": link_spec["id_col"][0],
+            "id_col_2": link_spec["id_col"][1],
+            "source_col": link_spec["source_col"],
+        }
+
+        @rename_arguments(mapper=mapper_args, annotations=annotations)
+        def link_func(source_col, id_col_1, id_col_2):
+            source_col = source_col.astype(annotations["returns"])
+            return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2)
+
+    else:
+        raise NotImplementedError(
+            """Parent-child links based on more
+                                  than two ID columns currently not supported."""
+        )
+
+    return link_func
+
+
+def sum_by_parent(source_col, id_col):
+    return sum_values_by_index(source_col, id_col)
+
+
+def sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2):
+    return sum_values_by_index(source_col, id_col_1) + sum_values_by_index(
+        source_col, id_col_2
+    )
 
 
 def _select_return_type(aggr, source_col_type):

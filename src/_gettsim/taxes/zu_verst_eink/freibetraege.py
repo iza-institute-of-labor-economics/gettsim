@@ -1,12 +1,6 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
-aggregation_freibetraege = {
-    "eink_st_kinderfreib_anspruch_kind": {
-        "source_col": "kindergeld_anspruch",
-    }
-}
-
 
 def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict
@@ -366,7 +360,8 @@ def eink_st_kinderfreib_y(
     return out
 
 
-def p_id_kinderfreib_1(
+# TODO Maybe move this somewhere else
+def p_id_kinderfreib_empfänger_1(
     p_id_elternteil_1: int,
 ) -> int:
     """Assigns child allowance to parent 1.
@@ -383,7 +378,7 @@ def p_id_kinderfreib_1(
     return p_id_elternteil_1
 
 
-def p_id_kinderfreib_2(
+def p_id_kinderfreib_empfänger_2(
     p_id_elternteil_2: int,
 ) -> int:
     """Assigns child allowance to parent 2.

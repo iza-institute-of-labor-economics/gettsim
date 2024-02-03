@@ -75,11 +75,11 @@ inputs:
       - 0.0
       - 150.0
 outputs:
-  p_id_kinderfreibetrag_empfänger_1:
+  p_id_kinderfreib_empfänger_1:
     - -1
     - -1
     - 0
-  p_id_kinderfreibetrag_empfänger_2:
+  p_id_kinderfreib_empfänger_2:
     - -1
     - -1
     - 1
@@ -103,7 +103,7 @@ outputs:
     - 1824.0
     - 1824.0
     - 0.0
-  erziehungsgeld_auszahlung_m:
+  erziehungsgeld_m:
     - 150.0
     - 0.0
     - 0.0

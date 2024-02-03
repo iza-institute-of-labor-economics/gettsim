@@ -127,6 +127,13 @@ def grouped_cumsum(column, group_id):
     return out
 
 
+def sum_values_by_index(column, id_col):
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
+    out = numpy.zeros_like(id_col, dtype=column.dtype)
+    numpy.add.at(out, id_col, column)
+    return out
+
+
 def fail_if_dtype_not_numeric(column, agg_func):
     if not numpy.issubdtype(column.dtype, numpy.number):
         raise TypeError(
