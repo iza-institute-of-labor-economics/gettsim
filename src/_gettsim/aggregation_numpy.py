@@ -127,10 +127,11 @@ def grouped_cumsum(column, group_id):
     return out
 
 
-def sum_values_by_index(column, id_col):
+def sum_values_by_index(column, id_col, p_id):
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    out = numpy.zeros_like(id_col, dtype=column.dtype)
-    numpy.add.at(out, id_col, column)
+    out = numpy.zeros_like(p_id, dtype=column.dtype)
+    id_mask = id_col >= 0
+    numpy.add.at(out, p_id[id_col[id_mask]], column[id_mask])
     return out
 
 

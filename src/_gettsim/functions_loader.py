@@ -129,7 +129,7 @@ def _create_derived_functions(
 
     # Create parent-child relationships
     parent_child_link_functions = _create_parent_child_link_functions(
-        user_and_internal_functions
+        user_and_internal_functions, data_cols
     )
 
     # Create functions for different time units
@@ -587,25 +587,40 @@ def _create_one_aggregation_func(  # noqa: PLR0912
     return aggregation_func
 
 
-def _create_parent_child_link_functions(user_and_internal_functions):
+def _create_parent_child_link_functions(
+    user_and_internal_functions: dict[str, Callable],
+    data_cols: list[str],
+) -> dict[str, Callable]:
     """
-    Create functions that link parent and child variables.
+    Create function dict with functions that link parent and child variables.
     """
+
+    _fail_if_not_dict_of_dicts(PARENT_CHILD_LINKED_TARGETS)
 
     link_functions = {
         link_col: _create_one_link_func(
             link_spec,
             user_and_internal_functions,
+            data_cols,
         )
         for link_col, link_spec in PARENT_CHILD_LINKED_TARGETS.items()
+        if link_spec["source_col"] in user_and_internal_functions
     }
 
     return link_functions
 
 
-def _create_one_link_func(link_spec, user_and_internal_functions):
-    # TODO Error Handling
-    # TODO Type annotations
+def _create_one_link_func(
+    link_spec: dict[str, str],
+    user_and_internal_functions: dict[str, Callable],
+    data_cols: list[str],
+) -> Callable:
+    """Create a function that links parent and child variables."""
+
+    _fail_if_source_col_not_in_functions(
+        link_spec, user_and_internal_functions, data_cols
+    )
+
     annotations = {
         "source_col": user_and_internal_functions[
             link_spec["source_col"]
@@ -613,35 +628,37 @@ def _create_one_link_func(link_spec, user_and_internal_functions):
     }
     annotations["returns"] = int if annotations["source_col"] in (int, bool) else float
 
-    if type(link_spec["id_col"]) is str:
-        # Single target
+    # Single target
+    if isinstance(link_spec["id_col"], str):
         # Create id annotations
         annotations["id_col"] = int
         # Create function
         mapper_args = {
             "id_col": link_spec["id_col"],
+            "p_id": "p_id",
             "source_col": link_spec["source_col"],
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(source_col, id_col):
-            return sum_by_parent(source_col, id_col)
+        def link_func(source_col, id_col, p_id):
+            return sum_by_parent(source_col, id_col, p_id)
 
+    # Multiple targets
     elif len(link_spec["id_col"]) == 2:
-        # Multiple targets
         # Create id annotations
         annotations.update({"id_col_1": int, "id_col_2": int})
         # Create function
         mapper_args = {
             "id_col_1": link_spec["id_col"][0],
             "id_col_2": link_spec["id_col"][1],
+            "p_id": "p_id",
             "source_col": link_spec["source_col"],
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(source_col, id_col_1, id_col_2):
+        def link_func(source_col, id_col_1, id_col_2, p_id):
             source_col = source_col.astype(annotations["returns"])
-            return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2)
+            return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2, p_id)
 
     else:
         raise NotImplementedError(
@@ -652,13 +669,22 @@ def _create_one_link_func(link_spec, user_and_internal_functions):
     return link_func
 
 
-def sum_by_parent(source_col, id_col):
-    return sum_values_by_index(source_col, id_col)
+def sum_by_parent(
+    source_col: numpy.ndarray,
+    id_col: numpy.ndarray,
+    p_id: numpy.ndarray,
+) -> numpy.ndarray:
+    return sum_values_by_index(source_col, id_col, p_id)
 
 
-def sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2):
-    return sum_values_by_index(source_col, id_col_1) + sum_values_by_index(
-        source_col, id_col_2
+def sum_by_parent_multiple_targets(
+    source_col: numpy.ndarray,
+    id_col_1: numpy.ndarray,
+    id_col_2: numpy.ndarray,
+    p_id: numpy.ndarray,
+) -> numpy.ndarray:
+    return sum_values_by_index(source_col, id_col_1, p_id) + sum_values_by_index(
+        source_col, id_col_2, p_id
     )
 
 
@@ -710,4 +736,25 @@ def _fail_if_targets_are_not_among_functions(functions, targets):
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
             f"The following targets have no corresponding function:\n{formatted}"
+        )
+
+
+def _fail_if_not_dict_of_dicts(dict_to_check):
+    if not isinstance(dict_to_check, dict) or not all(
+        isinstance(v, dict) for v in dict_to_check.values()
+    ):
+        raise ValueError(
+            "Parent-child links must be specified as a dictionary of dictionaries."
+        )
+
+
+def _fail_if_source_col_not_in_functions(link_spec, functions, data_cols):
+    if (
+        link_spec["source_col"] not in functions
+        and link_spec["source_col"] not in data_cols
+    ):
+        raise ValueError(
+            f"""Source column specified in PARENT_CHILD_LINKED_TARGETS
+            ({link_spec['source_col']}) not found. Either choose an existing target
+            or provide it yourself."""
         )

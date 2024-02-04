@@ -72,8 +72,8 @@ def grouped_cumsum(column, group_id):
     return grouped_cumsum_numpy(column, group_id)
 
 
-def sum_values_by_index(column, id_col):
+def sum_values_by_index(column, id_col, p_id):
     if USE_JAX:
-        return sum_values_by_index_jax(column, id_col)
+        return sum_values_by_index_jax(column, id_col, p_id)
     else:
-        return sum_values_by_index_numpy(column, id_col)
+        return sum_values_by_index_numpy(column, id_col, p_id)

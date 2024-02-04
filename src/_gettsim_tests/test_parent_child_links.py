@@ -15,7 +15,7 @@ data = load_policy_test_data("parent_child_links")
     data.parametrize_args,
     ids=str,
 )
-def test_groupings(
+def test_parent_child_links(
     test_data: PolicyTestData,
     column: str,
 ):

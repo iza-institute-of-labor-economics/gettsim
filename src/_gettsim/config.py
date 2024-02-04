@@ -117,18 +117,18 @@ SUPPORTED_TIME_UNITS = {
 }
 
 PARENT_CHILD_LINKED_TARGETS = {
-    "eink_st_kinderfreib_anspruch_eltern": {
+    "eink_st_kinderfreib_anspruch": {
         "id_col": [
             "p_id_kinderfreib_empfänger_1",
             "p_id_kinderfreib_empfänger_2",
         ],
         "source_col": "kindergeld_anspruch",
     },
-    # "erziehungsgeld_eltern_m": { # TODO Policy env handling
-    #    "id_cols": "p_id_erziehungsgeld_empfänger",
-    #    "source_col": "erziehungsgeld_kind_m",
-    # },
-    "kindergeld_eltern_m": {
+    "erziehungsgeld_eltern_m": {
+        "id_col": "p_id_erziehungsgeld_empfänger",
+        "source_col": "erziehungsgeld_kind_m",
+    },
+    "kindergeld_m": {
         "id_col": "p_id_kindergeld_empfänger",
         "source_col": "kindergeld_kind_m",
     },

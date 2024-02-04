@@ -336,15 +336,15 @@ def sonderausgaben_betreuung_y_tu(
 
 
 def eink_st_kinderfreib_y(
-    eink_st_kinderfreib_anspruch_eltern: int,
+    eink_st_kinderfreib_anspruch: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Individual child allowance.
 
     Parameters
     ----------
-    eink_st_kinderfreib_anspruch_eltern
-        See :func:`eink_st_kinderfreib_anspruch_eltern`.
+    eink_st_kinderfreib_anspruch
+        See :func:`eink_st_kinderfreib_anspruch`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -355,12 +355,11 @@ def eink_st_kinderfreib_y(
 
     out = (
         sum(eink_st_abzuege_params["kinderfreib"].values())
-        * eink_st_kinderfreib_anspruch_eltern
+        * eink_st_kinderfreib_anspruch
     )
     return out
 
 
-# TODO Maybe move this somewhere else
 def p_id_kinderfreib_empfänger_1(
     p_id_elternteil_1: int,
 ) -> int:

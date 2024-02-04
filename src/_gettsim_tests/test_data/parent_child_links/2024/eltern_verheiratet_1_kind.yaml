@@ -71,23 +71,19 @@ outputs:
     - -1
     - -1
     - 1
-  kindergeld_kind_m:
-    - 0.0
-    - 0.0
-    - 250.0
-  kindergeld_m:
-    - 250.0
-    - 0.0
-    - 0.0
+  # kindergeld_kind_m:
+  #  - 0.0
+  #  - 0.0
+  #  - 250.0
+  # kindergeld_m:
+  #  - 250.0
+  #  - 0.0
+  #  - 0.0
   eink_st_kinderfreib_anspruch:
-    - false
-    - false
-    - true
-  eink_st_kinderfreib_kind_y:
+    - 1
+    - 1
     - 0
-    - 0
-    - 3306.0
   eink_st_kinderfreib_y:
-    - 3306.0
-    - 3306.0
+    - 4656.0
+    - 4656.0
     - 0.0

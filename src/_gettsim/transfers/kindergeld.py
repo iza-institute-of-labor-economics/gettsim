@@ -12,12 +12,6 @@ aggregation_kindergeld = {
 }
 
 
-def kindergeld_m(
-    kindergeld_eltern_m: float,
-):
-    return kindergeld_eltern_m
-
-
 def kindergeld_kind_m(
     kindergeld_anspruch: bool,
     kumulativer_kindergeld_anspruch_tu: int,

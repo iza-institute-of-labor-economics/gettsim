@@ -5,10 +5,10 @@ info:
 inputs:
   provided:
     p_id:
-      - 10
-      - 11
-      - 12
-      - 13
+      - 0
+      - 1
+      - 2
+      - 3
     geburtstag:
       - 1
       - 1
@@ -32,18 +32,18 @@ inputs:
       - 10
       - 10
     hh_id:
-      - 3
-      - 3
-      - 3
-      - 3
+      - 0
+      - 0
+      - 0
+      - 0
     p_id_einstandspartner:
-      - 11
-      - 10
+      - 1
+      - 0
       - -1
       - -1
     p_id_ehepartner:
-      - 11
-      - 10
+      - 1
+      - 0
       - -1
       - -1
     gemeinsam_veranlagt:
@@ -54,12 +54,12 @@ inputs:
     p_id_elternteil_1:
       - -1
       - -1
-      - 10
-      - 10
+      - 0
+      - 0
     p_id_elternteil_2:
       - -1
       - -1
-      - 11
+      - 1
       - -1
     eigener_bedarf_gedeckt:
       - false
@@ -69,8 +69,8 @@ inputs:
     p_id_kindergeld_empfänger:
       - -1
       - -1
-      - 10
-      - 11
+      - 0
+      - 1
     kindergeld_anspruch:
       - false
       - false
@@ -80,35 +80,30 @@ outputs:
   p_id_kinderfreib_empfänger_1:
     - -1
     - -1
-    - 10
-    - 11
+    - 0
+    - 0
   p_id_kinderfreib_empfänger_2:
     - -1
     - -1
-    - 11
-    - 11
-  kindergeld_kind_m:
-    - 0.0
-    - 0.0
-    - 250.0
-    - 250.0
-  kindergeld_m:
-    - 250.0
-    - 250.0
-    - 0.0
-    - 0.0
+    - 1
+    - -1
+  # kindergeld_kind_m:
+  #  - 0.0
+  #  - 0.0
+  #  - 250.0
+  #  - 250.0
+  # kindergeld_m:
+  #  - 250.0
+  #  - 250.0
+  #  - 0.0
+  #  - 0.0
   eink_st_kinderfreib_anspruch:
-    - false
-    - false
-    - true
-    - true
-  eink_st_kinderfreib_kind_y:
+    - 2
+    - 1
     - 0
     - 0
-    - 3306.0
-    - 3306.0
   eink_st_kinderfreib_y:
-    - 3306.0
-    - 9918.0
+    - 9312.0
+    - 4656.0
     - 0.0
     - 0.0
