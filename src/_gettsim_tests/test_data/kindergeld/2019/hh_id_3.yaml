@@ -10,6 +10,8 @@ inputs:
       - 3
     p_id:
       - 18
+    p_id_kindergeld_empf:
+      - 18
     alter:
       - 21
     kind:

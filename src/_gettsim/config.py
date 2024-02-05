@@ -125,11 +125,11 @@ PARENT_CHILD_LINKED_TARGETS = {
         "source_col": "kindergeld_anspruch",
     },
     "erziehungsgeld_eltern_m": {
-        "id_col": "p_id_erziehungsgeld_empfänger",
+        "id_col": "p_id_erziehgeld_empf",
         "source_col": "erziehungsgeld_kind_m",
     },
     "kindergeld_anz_anprüche": {
-        "id_col": "p_id_kindergeld_empfänger",
+        "id_col": "p_id_kindergeld_empf",
         "source_col": "kindergeld_anspruch",
     },
 }
@@ -158,6 +158,10 @@ TYPES_INPUT_VARIABLES = {
     "hh_id": int,
     "tu_id": int,
     "p_id": int,
+    "p_id_elternteil_1": int,
+    "p_id_elternteil_2": int,
+    "p_id_kindergeld_empf": int,
+    "p_id_erziehgeld_empf": int,
     "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,

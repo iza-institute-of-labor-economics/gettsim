@@ -22,7 +22,7 @@ inputs:
     p_id_einstandspartner:
       - -1
       - -1
-    p_id_erziehungsgeld_empfänger:
+    p_id_erziehgeld_empf:
       - -1
       - 6
     alter:

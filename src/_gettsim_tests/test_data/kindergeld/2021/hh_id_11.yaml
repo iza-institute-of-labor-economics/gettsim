@@ -16,6 +16,10 @@ inputs:
       - 36
       - 37
       - 38
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 36
     alter:
       - 35
       - 35

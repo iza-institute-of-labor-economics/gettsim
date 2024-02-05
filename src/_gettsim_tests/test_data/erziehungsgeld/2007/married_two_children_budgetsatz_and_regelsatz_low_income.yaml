@@ -34,7 +34,7 @@ inputs:
       - 14
       - -1
       - -1
-    p_id_erziehungsgeld_empfänger:
+    p_id_erziehgeld_empf:
       - -1
       - -1
       - 14

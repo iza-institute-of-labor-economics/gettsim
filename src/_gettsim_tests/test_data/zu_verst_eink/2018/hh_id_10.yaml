@@ -10,6 +10,10 @@ inputs:
       - 10
     tu_id:
       - 10
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
     bruttolohn_m:
       - 1200.0
     betreuungskost_m:

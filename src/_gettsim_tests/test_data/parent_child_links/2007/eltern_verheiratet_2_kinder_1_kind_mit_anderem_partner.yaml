@@ -71,12 +71,12 @@ inputs:
       - false
       - false
       - false
-    p_id_kindergeld_empfänger:
+    p_id_kindergeld_empf:
       - -1
       - -1
       - 0
       - 1
-    p_id_erziehungsgeld_empfänger:
+    p_id_erziehgeld_empf:
       - -1
       - -1
       - 0

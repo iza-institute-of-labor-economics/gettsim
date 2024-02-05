@@ -13,6 +13,12 @@ inputs:
     tu_id:
       - 17
       - 17
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
     bruttolohn_m:
       - 3000.0
       - 2000.0

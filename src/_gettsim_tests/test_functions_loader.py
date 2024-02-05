@@ -68,10 +68,16 @@ def test_special_attribute_module_is_set_for_internal_functions():
 def test_create_derived_functions(
     functions: dict[str, Callable], targets: list[str]
 ) -> None:
-    time_conversion_functions, aggregation_functions = _create_derived_functions(
-        functions, targets, [], {}
-    )
-    derived_functions = {**time_conversion_functions, **aggregation_functions}
+    (
+        time_conversion_functions,
+        aggregation_functions,
+        parent_child_link_functions,
+    ) = _create_derived_functions(functions, targets, [], {})
+    derived_functions = {
+        **time_conversion_functions,
+        **aggregation_functions,
+        **parent_child_link_functions,
+    }
 
     for name in targets:
         assert name in derived_functions
