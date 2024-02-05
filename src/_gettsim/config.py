@@ -228,7 +228,6 @@ TYPES_INPUT_VARIABLES = {
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
     "budgetsatz_erzieh": bool,
-    "inanspruchn_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,
 }

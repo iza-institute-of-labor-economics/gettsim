@@ -34,6 +34,11 @@ inputs:
       - 14
       - -1
       - -1
+    p_id_erziehungsgeld_empfänger:
+      - -1
+      - -1
+      - 14
+      - 14
     alter:
       - 40
       - 40
@@ -94,11 +99,6 @@ inputs:
       - false
       - false
       - true
-    inanspruchn_erzieh:
-      - true
-      - false
-      - false
-      - false
 outputs:
   erziehungsgeld_eink_relev_kind_y:
     - 0

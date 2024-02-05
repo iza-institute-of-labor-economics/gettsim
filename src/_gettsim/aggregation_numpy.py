@@ -132,8 +132,10 @@ def sum_values_by_index(column, id_col, p_id):
     if column.dtype in ["bool"]:
         column = column.astype(int)
     out = numpy.zeros_like(p_id, dtype=column.dtype)
-    id_mask = id_col >= 0
-    numpy.add.at(out, p_id[id_col[id_mask]], column[id_mask])
+
+    for position, id_receiver in enumerate(id_col):
+        if id_receiver >= 0:
+            out[numpy.where(p_id == id_receiver)] += column[position]
     return out
 
 
