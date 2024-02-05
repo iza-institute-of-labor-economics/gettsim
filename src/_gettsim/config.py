@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy
 
 # Defaults
-USE_JAX = False
+USE_JAX = True
 numpy_or_jax = numpy
 
 

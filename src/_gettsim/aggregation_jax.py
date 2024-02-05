@@ -94,5 +94,5 @@ def sum_values_by_index(column, id_col, p_id):
 
     for position, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
-            out[jnp.where(p_id == id_receiver)] += column[position]
+            out = out.at[jnp.where(p_id == id_receiver)].add(column[position])
     return out
