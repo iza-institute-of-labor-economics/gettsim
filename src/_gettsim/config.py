@@ -117,7 +117,7 @@ SUPPORTED_TIME_UNITS = {
 }
 
 PARENT_CHILD_LINKED_TARGETS = {
-    "eink_st_kinderfreib_anspruch": {
+    "eink_st_kinderfreib_anz_ansprüche": {
         "id_col": [
             "p_id_kinderfreib_empfänger_1",
             "p_id_kinderfreib_empfänger_2",
@@ -128,9 +128,9 @@ PARENT_CHILD_LINKED_TARGETS = {
         "id_col": "p_id_erziehungsgeld_empfänger",
         "source_col": "erziehungsgeld_kind_m",
     },
-    "kindergeld_m": {
+    "kindergeld_anz_anprüche": {
         "id_col": "p_id_kindergeld_empfänger",
-        "source_col": "kindergeld_kind_m",
+        "source_col": "kindergeld_anspruch",
     },
 }
 

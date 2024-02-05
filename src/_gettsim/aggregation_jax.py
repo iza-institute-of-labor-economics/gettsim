@@ -88,6 +88,8 @@ def grouped_all(column, group_id):
 
 def sum_values_by_index(column, id_col, p_id):
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
+    if column.dtype in ["bool"]:
+        column = column.astype(int)
     out = jnp.zeros(jnp.max(p_id) + 1)
     id_mask = id_col >= 0
     jnp.add.at(out, p_id[id_col[id_mask]], column[id_mask])

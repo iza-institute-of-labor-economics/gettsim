@@ -37,7 +37,7 @@ def erziehungsgeld_m(
 
 @add_rounding_spec(params_key="erziehungsgeld")
 @dates_active(end="2003-12-31", change_name="erziehungsgeld_kind_m")
-def erziehungsgeld_kind_ohne_budgetsatz_m():
+def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
         """
     Erziehungsgeld is not implemented yet prior to 2004, see

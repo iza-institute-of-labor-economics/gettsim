@@ -12,19 +12,16 @@ aggregation_kindergeld = {
 }
 
 
-def kindergeld_kind_m(
-    kindergeld_anspruch: bool,
-    kumulativer_kindergeld_anspruch_tu: int,
+def kindergeld_m(
+    kindergeld_anz_anprüche: bool,
     kindergeld_params: dict,
 ) -> float:
-    """Calculate kindergeld for an individual child.
+    """Kindergeld given number of Kindergeld claims.
 
     Parameters
     ----------
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-    kumulativer_kindergeld_anspruch_tu
-        See :func:`kumulativer_kindergeld_anspruch_tu`.
+    kindergeld_anz_anprüche
+        See :func:`kindergeld_anz_anprüche`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -33,17 +30,21 @@ def kindergeld_kind_m(
 
     """
 
-    # Make sure that only eligible children get assigned kindergeld
-    if not kindergeld_anspruch:
-        out = 0.0
+    if kindergeld_anz_anprüche == 0:
+        sum_kindergeld = 0.0
     else:
-        # Kindergeld_Anspruch is the cumulative sum of eligible children.
-        out = kindergeld_params["kindergeld"][
-            min(
-                kumulativer_kindergeld_anspruch_tu, max(kindergeld_params["kindergeld"])
-            )
-        ]
-    return out
+        sum_kindergeld = sum(
+            [
+                kindergeld_params["kindergeld"][
+                    i
+                    if i <= max(kindergeld_params["kindergeld"])
+                    else max(kindergeld_params["kindergeld"])
+                ]
+                for i in range(1, kindergeld_anz_anprüche + 1)
+            ]
+        )
+
+    return sum_kindergeld
 
 
 @dates_active(end="2011-12-31", change_name="kindergeld_anspruch")
