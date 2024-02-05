@@ -273,10 +273,7 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
         * anz_erwachsene_tu
     )
 
-    if sonderausgaben_gesamt > pauschale:
-        out = sonderausgaben_gesamt
-    else:
-        out = pauschale
+    out = max(sonderausgaben_gesamt, pauschale)
 
     return float(out)
 
