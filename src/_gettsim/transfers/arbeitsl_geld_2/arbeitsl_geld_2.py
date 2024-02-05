@@ -112,9 +112,13 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
                 * anz_kinder_hh,
                 # Special case if 1 kid below 6 or 2,3 below 15.
-                arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
-                if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
-                else 0.0,
+                (
+                    arbeitsl_geld_2_params["mehrbedarf_anteil"][
+                        "kind_unter_7_oder_mehr"
+                    ]
+                    if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
+                    else 0.0
+                ),
             ),
             arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"],
         )

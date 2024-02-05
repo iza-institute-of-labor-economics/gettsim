@@ -1,5 +1,6 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
+
 from _gettsim.shared import add_rounding_spec
 
 

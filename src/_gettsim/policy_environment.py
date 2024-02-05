@@ -180,9 +180,9 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"][
-            "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
-        ] = out.loc[0]
+        params["eink_st_abzuege"]["einführungsfaktor_vorsorgeaufw_alter_ab_2005"] = (
+            out.loc[0]
+        )
     return params
 
 
@@ -398,9 +398,9 @@ def _load_parameter_group_from_yaml(
                             yaml_path=yaml_path,
                         )
                         if param in params_beginning_of_year:
-                            out_params[
-                                f"{param}_jahresanfang"
-                            ] = params_beginning_of_year[param]
+                            out_params[f"{param}_jahresanfang"] = (
+                                params_beginning_of_year[param]
+                            )
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "

@@ -1,4 +1,5 @@
 """Functions for modeling unemployment and pension insurance."""
+
 from _gettsim.shared import dates_active
 
 

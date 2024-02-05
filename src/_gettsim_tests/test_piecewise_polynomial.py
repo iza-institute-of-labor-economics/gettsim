@@ -1,6 +1,7 @@
 """
 Tests for `piecewise_polynomial`
 """
+
 import numpy as np
 from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
