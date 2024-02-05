@@ -89,7 +89,9 @@ def grouped_all(column, group_id):
 def sum_values_by_index(column, id_col, p_id):
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
     if column.dtype in ["bool"]:
-        column = column.astype(int)
+        column = column.astype(jnp.int64)
+    else:
+        column = column.astype(jnp.float64)
     out = jnp.zeros_like(p_id, dtype=column.dtype)
 
     for position, id_receiver in enumerate(id_col):
