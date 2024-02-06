@@ -12,85 +12,85 @@ kinderfreib:
   unit: Euro
   reference_period: Year
   1983-01-01:
-    sächl_existenzmin: 110.0
+    sächl_existenzmin: 110
     reference: Art. 1 G. v. 23.12.1982 BGBl. I S. 1857.
     note: Der Betrag laut Gesetz ist 216 DM.
   1986-01-01:
-    sächl_existenzmin: 635.0
+    sächl_existenzmin: 635
     reference: Art. 1 G. v. 26.06.1985 BGBl. I S. 1153.
     note: Der Betrag im Gesetz lautet 1242 DM.
   1990-01-01:
-    sächl_existenzmin: 773.0
+    sächl_existenzmin: 773
     reference: Artikel 1 G. v. 25.07.1988 BGBl. I S. 1093.
     note: Der Betrag im Gesetz lautet 1512 DM.
   1992-01-01:
-    sächl_existenzmin: 1049.0
+    sächl_existenzmin: 1049
     reference: Art. 1 G. v. 25.02.1992 BGBl. I S. 297.
     note: Wert laut Gesetz 2052 DM.
   1996-01-01:
-    sächl_existenzmin: 1601.0
+    sächl_existenzmin: 1601
     reference: Art. 1. G. v. 11.10.1995 BGBl. I S. 1250.
     note: Laut Gesetz 261 DM pro Monat.
   1997-01-01:
-    sächl_existenzmin: 1767.0
+    sächl_existenzmin: 1767
     reference: null
     note: Laut Gesetz 288 DM pro Monat (ab 2000 3456 DM pro Jahr)
   2000-01-01:
-    beitr_erz_ausb: 774.0
-    sächl_existenzmin: 1767.0
+    beitr_erz_ausb: 774
+    sächl_existenzmin: 1767
     reference: Art. 1 G. v. 28.12.1999 BGBl. I. S. 2552.
     note: Wert für beitr_erz_ausb laut Gesetz 1512 DM.
   2002-01-01:
-    beitr_erz_ausb: 1080.0
-    sächl_existenzmin: 1824.0
+    beitr_erz_ausb: 1080
+    sächl_existenzmin: 1824
     reference: Art. 1 G. v. 16.08.2001 BGBl. I S. 2074
   2009-01-01:
     deviation_from: previous
-    sächl_existenzmin: 1932.0
+    sächl_existenzmin: 1932
     reference: Art. 1 G. v. 22.12.2008 BGBl. I S. 2955
   2010-01-01:
-    beitr_erz_ausb: 1320.0
-    sächl_existenzmin: 2184.0
+    beitr_erz_ausb: 1320
+    sächl_existenzmin: 2184
     reference: Art. 1 G. v. 22.12.2009 BGBl. I S. 3950
   2015-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2256.0
+    sächl_existenzmin: 2256
     reference: Art. 1 G. v. 16.07.2015 BGBl. I S. 1202
   2016-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2304.0
+    sächl_existenzmin: 2304
     reference: Art. 2 G. v. 16.07.2015 BGBl. I S. 1202
   2017-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2358.0
+    sächl_existenzmin: 2358
     reference: Art. 8 G. v. 20.12.2016 BGBl. I. S. 3000
   2018-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2394.0
+    sächl_existenzmin: 2394
     reference: Art. 9 G. v. 20.12.2016 BGBl. I. S. 3000
   2019-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2490.0
+    sächl_existenzmin: 2490
     reference: Art. 1 G. v. 29.11.2018 BGBl. I S. 2210
   2020-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2586.0
+    sächl_existenzmin: 2586
     reference: Art. 3 G. v. 29.11.2018 BGBl. I S. 2210
   2021-01-01:
-    sächl_existenzmin: 2730.0
-    beitr_erz_ausb: 1464.0
+    sächl_existenzmin: 2730
+    beitr_erz_ausb: 1464
     reference: Art. 1 G. v. 01.12.2020 BGBl. I S. 2616
   2022-01-01:
     deviation_from: previous
-    sächl_existenzmin: 2810.0
+    sächl_existenzmin: 2810
     reference: Art. 1 G. v. 08.12.2022 BGBl. I S. 2230.
   2023-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3012.0
+    sächl_existenzmin: 3012
     reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
   2024-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3306.0
+    sächl_existenzmin: 3306
     reference: >-
       Not implemented in law yet, but announced.
       https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
