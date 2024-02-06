@@ -121,7 +121,7 @@ def grouped_cumsum(column, group_id):
     )
     fail_if_dtype_of_group_id_not_int(group_id, agg_func="sum")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
-    if column.dtype in ["bool"]:
+    if column.dtype == bool:
         column = column.astype(int)
     out = npg.aggregate(group_id, column, func="cumsum", fill_value=0)
 

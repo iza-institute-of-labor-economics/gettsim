@@ -92,7 +92,7 @@ def sum_values_by_index(
     p_id_col: jnp.ndarray[jnp.int64],
 ) -> jnp.ndarray:
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    if column.dtype in ["bool"]:
+    if column.dtype == bool:
         column = column.astype(jnp.int64)
     else:
         column = column.astype(jnp.float64)
