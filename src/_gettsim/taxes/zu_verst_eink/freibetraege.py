@@ -353,11 +353,10 @@ def eink_st_kinderfreib_y(
 
     """
 
-    out = (
+    return (
         sum(eink_st_abzuege_params["kinderfreib"].values())
         * eink_st_kinderfreib_anz_ansprüche
     )
-    return out
 
 
 def p_id_kinderfreib_empfänger_1(

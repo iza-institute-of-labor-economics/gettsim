@@ -640,7 +640,11 @@ def _create_one_link_func(
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(source_col, id_col, p_id):
+        def link_func(
+            source_col: numpy.ndarray,
+            id_col: numpy.ndarray,
+            p_id: numpy.ndarray,
+        ) -> numpy.ndarray:
             return sum_by_parent(source_col, id_col, p_id)
 
     # Multiple targets
@@ -656,7 +660,12 @@ def _create_one_link_func(
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(source_col, id_col_1, id_col_2, p_id):
+        def link_func(
+            source_col: numpy.ndarray,
+            id_col_1: numpy.ndarray,
+            id_col_2: numpy.ndarray,
+            p_id: numpy.ndarray,
+        ) -> numpy.ndarray:
             source_col = source_col.astype(annotations["returns"])
             return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2, p_id)
 
@@ -739,7 +748,7 @@ def _fail_if_targets_are_not_among_functions(functions, targets):
         )
 
 
-def _fail_if_not_dict_of_dicts(dict_to_check):
+def _fail_if_not_dict_of_dicts(dict_to_check: dict) -> None:
     if not isinstance(dict_to_check, dict) or not all(
         isinstance(v, dict) for v in dict_to_check.values()
     ):
@@ -748,7 +757,11 @@ def _fail_if_not_dict_of_dicts(dict_to_check):
         )
 
 
-def _fail_if_source_col_not_in_functions(link_spec, functions, data_cols):
+def _fail_if_source_col_not_in_functions(
+    link_spec: dict[str, str],
+    functions: dict[str, Callable],
+    data_cols: list[str],
+) -> None:
     if (
         link_spec["source_col"] not in functions
         and link_spec["source_col"] not in data_cols

@@ -86,15 +86,21 @@ def grouped_all(column, group_id):
     return out
 
 
-def sum_values_by_index(column, id_col, p_id):
+def sum_values_by_index(
+    column: jnp.ndarray,
+    id_col: jnp.ndarray[jnp.int64],
+    p_id_col: jnp.ndarray[jnp.int64],
+) -> jnp.ndarray:
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
     if column.dtype in ["bool"]:
         column = column.astype(jnp.int64)
     else:
         column = column.astype(jnp.float64)
-    out = jnp.zeros_like(p_id, dtype=column.dtype)
+    out = jnp.zeros_like(p_id_col, dtype=column.dtype)
+
+    map_p_id_to_position = {p_id: position for position, p_id in enumerate(p_id_col)}
 
     for position, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
-            out = out.at[jnp.where(p_id == id_receiver)].add(column[position])
+            out = out.at[map_p_id_to_position[id_receiver]].add(column[position])
     return out

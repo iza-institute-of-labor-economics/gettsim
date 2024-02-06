@@ -1,6 +1,7 @@
 import warnings
 
 import numpy
+import numpy.typing as npt
 import numpy_groupies as npg
 
 
@@ -127,15 +128,22 @@ def grouped_cumsum(column, group_id):
     return out
 
 
-def sum_values_by_index(column, id_col, p_id):
+def sum_values_by_index(
+    column: numpy.ndarray,
+    id_col: npt.NDArray[numpy.int64],
+    p_id_col: npt.NDArray[numpy.int64],
+) -> numpy.ndarray:
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    if column.dtype in ["bool"]:
+    if column.dtype == bool:
         column = column.astype(int)
-    out = numpy.zeros_like(p_id, dtype=column.dtype)
+    out = numpy.zeros_like(p_id_col, dtype=column.dtype)
+
+    map_p_id_to_position = {p_id: position for position, p_id in enumerate(p_id_col)}
 
     for position, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
-            out[numpy.where(p_id == id_receiver)] += column[position]
+            out[map_p_id_to_position[id_receiver]] += column[position]
+
     return out
 
 
