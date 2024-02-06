@@ -34,14 +34,12 @@ def kindergeld_m(
         sum_kindergeld = 0.0
     else:
         sum_kindergeld = sum(
-            [
-                kindergeld_params["kindergeld"][
-                    i
-                    if i <= max(kindergeld_params["kindergeld"])
-                    else max(kindergeld_params["kindergeld"])
-                ]
-                for i in range(1, kindergeld_anz_anprüche + 1)
+            kindergeld_params["kindergeld"][
+                i
+                if i <= max(kindergeld_params["kindergeld"])
+                else max(kindergeld_params["kindergeld"])
             ]
+            for i in range(1, kindergeld_anz_anprüche + 1)
         )
 
     return sum_kindergeld
