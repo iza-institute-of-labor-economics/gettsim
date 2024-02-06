@@ -62,7 +62,7 @@ erziehungsgeld_satz:
     budgetsatz: 450
 abschlag_faktor:
   name:
-    de: Abschalgsfaktor
+    de: Abschlagsfaktor
     en: Deduction factor
   description:
     de: >-

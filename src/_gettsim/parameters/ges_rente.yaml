@@ -258,13 +258,19 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 39167
     reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
   2021-01-01:
-    scalar: 41541
-    reference: V. v. 30.11.2020 BGBl. I S. 2612.
-    note: Das vorläufige Durchschnittsentgelt.
+    scalar: 40463
+    reference: §3 V. v. 28.11.2022 BGBl. I S. 2128 (Nr. 47).
   2022-01-01:
-    scalar: 38901
-    reference: §1 V. v. 30.11.2021, BGBl. I S. 5044.
-    note: Das vorläufige Durchschnittsentgelt.
+    scalar: 42053
+    reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+  2023-01-01:
+    scalar: 43142
+    reference: §3 V. v. 28.11.2022 BGBl. 2022 I Nr. 2128
+    note: Vorläufiges Durchschnittsentgelt
+  2024-01-01:
+    scalar: 45358
+    reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+    note: Vorläufiges Durchschnittsentgelt
 umrechnung_entgeltp_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
@@ -614,6 +620,12 @@ rentenwert:
   2021-07-01:
     deviation_from: previous
     ost: 33.47
+  2022-07-01:
+    west: 36.02
+    ost: 35.52
+  2023-07-01:
+    west: 37.60
+    ost: 37.60
 grundr_höchstwert:
   name:
     de: Höchstwert der Entgeltpunkte für Grundrente

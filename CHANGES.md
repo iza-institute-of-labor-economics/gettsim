@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`684` New Issue template for yearly parameter updates. ({ghuser}`MImmesberger`).
+- {gh}`680` 2024 Parameter Update ({ghuser}`Eric-Sommer`, {ghuser}`MImmesberger`)
 - {gh}`662`, {gh}`675` Replace `hh` in function names by `bg`/`fg`
   ({ghuser}`lars-reimann`, {ghuser}`MImmesberger`).
 - {gh}`577` Implement Erwerbsminderungsrente (public disability insurance)
