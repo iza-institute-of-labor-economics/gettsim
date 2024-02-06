@@ -90,8 +90,11 @@ kinderfreib:
     reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
   2024-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3192
-    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+    sächl_existenzmin: 3306
+    reference: >-
+      Not implemented in law yet, but announced.
+      https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
+      spuerbare-verbesserungen-fuer-familien--234802
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.

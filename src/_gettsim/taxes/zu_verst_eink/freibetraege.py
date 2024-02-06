@@ -249,7 +249,7 @@ def eink_st_sonderausgaben_y_tu_mit_betreuung(
 ) -> float:
     """Individual sonderausgaben on tax unit level since 2012.
 
-    We follow 10 Abs.1 Nr. 5 EStG. You can
+    We follow 10 Abs.1 Nr. 5 EStG. You can find
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
 
     Parameters
