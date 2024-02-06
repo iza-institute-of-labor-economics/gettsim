@@ -157,10 +157,39 @@ def create_basic_households(
     ]
     group_ids = [f"{g}_id" for g in exogenous_groupings]
     df["p_id"] = df.index
+
+    # Create Elternteil IDs
+    if n_children > 0:
+        df = find_p_id_elternteil(data=df, n_adults=n_adults)
+    else:
+        df["p_id_elternteil_1"] = -1
+        df["p_id_elternteil_2"] = -1
+    df["p_id_kindergeld_empf"] = df["p_id_elternteil_1"]
+    df["p_id_erziehgeld_empf"] = df["p_id_elternteil_1"]
+
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
 
     return df
+
+
+def find_p_id_elternteil(data, n_adults):
+    """Find the p_id_elternteil_1 and p_id_elternteil_2 in the household."""
+    # p_id_elternteil_1 is the first adult in the household
+    elternteil_1_candidate = {
+        hh_id: group["p_id"].iloc[0] for hh_id, group in data.groupby("hh_id")
+    }
+    # Apply candidate id if kind, else -1
+    data["p_id_elternteil_1"] = data.apply(
+        lambda x: elternteil_1_candidate[x["hh_id"]] if x["kind"] else -1, axis=1
+    )
+    if n_adults == 2:
+        data["p_id_elternteil_2"] = data.apply(
+            lambda x: x["p_id_elternteil_1"] + 1 if x["kind"] else -1, axis=1
+        )
+    else:
+        data["p_id_elternteil_2"] = -1
+    return data
 
 
 def create_constant_across_households_variables(df, n_adults, n_children, policy_year):
