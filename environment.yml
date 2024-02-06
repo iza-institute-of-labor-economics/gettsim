@@ -25,7 +25,7 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-xdist
-  - python>=3.12
+  - python>=3.11
   - pyyaml
   - setuptools_scm
   - sphinx
