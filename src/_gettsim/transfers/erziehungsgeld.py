@@ -2,6 +2,13 @@
 Elterngeld."""
 from _gettsim.shared import add_rounding_spec, dates_active
 
+interpersonal_links_erziehungsgeld = {
+    "erziehungsgeld_eltern_m": {
+        "id_col": "p_id_erziehgeld_empf",
+        "source_col": "erziehungsgeld_kind_m",
+    },
+}
+
 
 @dates_active(start="2004-01-01", end="2008-12-31")
 def erziehungsgeld_m(

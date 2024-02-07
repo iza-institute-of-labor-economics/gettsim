@@ -1,6 +1,16 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
+interpersonal_links_freibeträge = {
+    "eink_st_kinderfreib_anz_ansprüche": {
+        "id_col": [
+            "p_id_kinderfreib_empfänger_1",
+            "p_id_kinderfreib_empfänger_2",
+        ],
+        "source_col": "kindergeld_anspruch",
+    },
+}
+
 
 def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict

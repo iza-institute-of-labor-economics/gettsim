@@ -11,6 +11,13 @@ aggregation_kindergeld = {
     },
 }
 
+interpersonal_links_kindergeld = {
+    "kindergeld_anz_anprüche": {
+        "id_col": "p_id_kindergeld_empf",
+        "source_col": "kindergeld_anspruch",
+    },
+}
+
 
 def kindergeld_m(
     kindergeld_anz_anprüche: bool,

@@ -116,24 +116,6 @@ SUPPORTED_TIME_UNITS = {
     },
 }
 
-PARENT_CHILD_LINKED_TARGETS = {
-    "eink_st_kinderfreib_anz_ansprüche": {
-        "id_col": [
-            "p_id_kinderfreib_empfänger_1",
-            "p_id_kinderfreib_empfänger_2",
-        ],
-        "source_col": "kindergeld_anspruch",
-    },
-    "erziehungsgeld_eltern_m": {
-        "id_col": "p_id_erziehgeld_empf",
-        "source_col": "erziehungsgeld_kind_m",
-    },
-    "kindergeld_anz_anprüche": {
-        "id_col": "p_id_kindergeld_empf",
-        "source_col": "kindergeld_anspruch",
-    },
-}
-
 DEFAULT_TARGETS = [
     "eink_st_y_tu",
     "soli_st_y_tu",

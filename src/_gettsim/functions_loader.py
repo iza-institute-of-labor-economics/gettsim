@@ -20,7 +20,6 @@ from _gettsim.aggregation import (
     sum_values_by_index,
 )
 from _gettsim.config import (
-    PARENT_CHILD_LINKED_TARGETS,
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
@@ -172,11 +171,13 @@ def load_internal_functions():
     return internal_functions
 
 
-def load_aggregation_dict():
+def load_aggregation_and_link_dict():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
-    aggregation_dict = _load_aggregation_combined_dict_from_strings(sources)
-    return aggregation_dict
+    aggregation_dict, link_dict = _load_aggregation_and_link_combined_dict_from_strings(
+        sources
+    )
+    return aggregation_dict, link_dict
 
 
 def _convert_paths_to_import_strings(paths):
@@ -310,7 +311,7 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     return "\n".join(lines)
 
 
-def _load_aggregation_combined_dict_from_strings(sources):
+def _load_aggregation_and_link_combined_dict_from_strings(sources):
     """Load aggregation dictionaries from paths and strings and combine them.
 
     1. Paths point to modules which are loaded.
@@ -329,7 +330,8 @@ def _load_aggregation_combined_dict_from_strings(sources):
             aggregation_dicts_defined_in_module = [
                 obj
                 for name, obj in inspect.getmembers(out)
-                if isinstance(obj, dict) and name.startswith("aggregation_")
+                if isinstance(obj, dict)
+                and name.startswith(("aggregation_", "interpersonal_links_"))
                 # if _is_function_defined_in_module(func, out.__name__)
             ]
 
@@ -350,14 +352,18 @@ def _load_aggregation_combined_dict_from_strings(sources):
             for inner_dict in list_of_aggregation_dics
             for k, v in inner_dict.items()
         }
-    return combined_dict
+        aggregation_dict = dict(
+            filter(lambda k: "id_col" not in k[1], combined_dict.items())
+        )
+        link_dict = dict(filter(lambda k: "id_col" in k[1], combined_dict.items()))
+    return aggregation_dict, link_dict
 
 
 def _create_aggregation_functions(
     user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
 ):
     """Create aggregation functions."""
-    aggregation_dict = load_aggregation_dict()
+    aggregation_dict, _ = load_aggregation_and_link_dict()
 
     # Make specs for automated sum aggregation
     potential_source_cols = list(user_and_internal_functions) + data_cols
@@ -598,7 +604,9 @@ def _create_parent_child_link_functions(
     Create function dict with functions that link parent and child variables.
     """
 
-    _fail_if_not_dict_of_dicts(PARENT_CHILD_LINKED_TARGETS)
+    _, link_dict = load_aggregation_and_link_dict()
+
+    _fail_if_not_dict_of_dicts(link_dict)
 
     link_functions = {
         link_col: _create_one_link_func(
@@ -606,7 +614,7 @@ def _create_parent_child_link_functions(
             user_and_internal_functions,
             data_cols,
         )
-        for link_col, link_spec in PARENT_CHILD_LINKED_TARGETS.items()
+        for link_col, link_spec in link_dict.items()
         if link_spec["source_col"] in user_and_internal_functions
     }
 
@@ -770,7 +778,7 @@ def _fail_if_source_col_not_in_functions(
         and link_spec["source_col"] not in data_cols
     ):
         raise ValueError(
-            f"""Source column specified in PARENT_CHILD_LINKED_TARGETS
+            f"""Source column specified in parent-child link specification
             ({link_spec['source_col']}) not found. Either choose an existing target
             or provide it yourself."""
         )
