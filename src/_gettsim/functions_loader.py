@@ -84,7 +84,10 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
         aggregation_functions,
         parent_child_link_functions,
     ) = _create_derived_functions(
-        vectorized_functions, targets, data_cols, aggregation_specs
+        vectorized_functions,
+        targets,
+        data_cols,
+        aggregation_specs,
     )
 
     # Create groupings
@@ -114,9 +117,9 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
 
 def _create_derived_functions(
     user_and_internal_functions: dict[str, Callable],
-    targets,
-    data_cols,
-    aggregation_specs,
+    targets: list[str],
+    data_cols: list[str],
+    aggregation_specs: dict[str, dict[str, str]],
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.

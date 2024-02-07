@@ -11,6 +11,7 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
+    sum_values_by_index,
 )
 from _gettsim.config import USE_JAX
 from _gettsim.config import numpy_or_jax as np
@@ -124,6 +125,12 @@ test_grouped_specs = {
         "expected_res_sum": np.array([1, 1, 0, 0, 0]),
         "expected_res_cumsum": np.array([1, 1, 0, 0, 0]),
     },
+    "sum_values_by_index": {
+        "column_to_aggregate": np.array([10, 20, 30, 40, 50]),
+        "id_col": np.array([-1, -1, 8, 8, 10]),
+        "p_id_col": np.array([7, 8, 9, 10, 11]),
+        "expected_res": np.array([0, 70, 0, 50, 0]),
+    },
 }
 if not USE_JAX:
     test_grouped_specs["datetime"] = {
@@ -170,11 +177,13 @@ test_grouped_raises_specs = {
     "float_group_id": {
         "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
         "group_id": np.array([0, 0, 3.5, 3.5, 3.5]),
+        "p_id_col": np.array([0, 1, 2, 3, 4]),
         "error_sum": TypeError,
         "error_mean": TypeError,
         "error_max": TypeError,
         "error_min": TypeError,
         "error_cumsum": TypeError,
+        "error_sum_values_by_index": TypeError,
         "exception_match": "The dtype of group_id must be integer.",
     },
     "dtype_float": {
@@ -454,3 +463,41 @@ def test_grouped_cumsum_raises(
         match=exception_match,
     ):
         grouped_cumsum(column_to_aggregate, group_id)
+
+
+@parameterize_based_on_dict(
+    test_grouped_specs,
+    keys_of_test_cases=[
+        "column_to_aggregate",
+        "id_col",
+        "p_id_col",
+        "expected_res",
+    ],
+)
+def test_sum_values_by_index(column_to_aggregate, id_col, p_id_col, expected_res):
+    result = sum_values_by_index(
+        column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col
+    )
+    numpy.testing.assert_array_almost_equal(result, expected_res)
+
+
+@parameterize_based_on_dict(
+    test_grouped_raises_specs,
+    keys_of_test_cases=[
+        "column_to_aggregate",
+        "group_id",
+        "p_id_col",
+        "error_sum_values_by_index",
+        "exception_match",
+    ],
+)
+def test_sum_values_by_index_raises(
+    column_to_aggregate, group_id, p_id_col, error_sum_values_by_index, exception_match
+):
+    with pytest.raises(
+        error_sum_values_by_index,
+        match=exception_match,
+    ):
+        sum_values_by_index(
+            column=column_to_aggregate, id_col=group_id, p_id_col=p_id_col
+        )

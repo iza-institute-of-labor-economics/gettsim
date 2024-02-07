@@ -134,6 +134,7 @@ def sum_values_by_index(
     p_id_col: npt.NDArray[numpy.int64],
 ) -> numpy.ndarray:
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
+    fail_if_dtype_of_group_id_not_int(id_col, agg_func="sum_values_by_index")
     if column.dtype == bool:
         column = column.astype(int)
     out = numpy.zeros_like(p_id_col, dtype=column.dtype)
