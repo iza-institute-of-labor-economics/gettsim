@@ -72,7 +72,7 @@ def test_create_derived_functions(
         time_conversion_functions,
         aggregation_functions,
         parent_child_link_functions,
-    ) = _create_derived_functions(functions, targets, [], {})
+    ) = _create_derived_functions(functions, targets, [], {}, {})
     derived_functions = {
         **time_conversion_functions,
         **aggregation_functions,

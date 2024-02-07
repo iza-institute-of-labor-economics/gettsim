@@ -79,6 +79,7 @@ def plot_dag(
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),
         aggregation_specs={},
+        interpersonal_links_specs={},
     )
 
     # Select necessary nodes by creating a preliminary DAG.

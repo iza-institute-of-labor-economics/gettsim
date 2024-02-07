@@ -37,7 +37,9 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-def load_and_check_functions(functions_raw, targets, data_cols, aggregation_specs):
+def load_and_check_functions(
+    functions_raw, targets, data_cols, aggregation_specs, interpersonal_links_specs
+):
     """Create the dict with all functions that may become part of the DAG by:
 
     - vectorizing all functions
@@ -60,6 +62,10 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
         the tax unit or household level. The syntax is the same as for aggregation
         specs in the code base and as specified in
         [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+    interpersonal_links_specs : dict
+        A dictionary which contains specs for linking (and aggregating) taxes and
+        transfers across individuals. The syntax is the same as for interpersonal links
+        in the code base.
 
     Returns
     -------
@@ -87,6 +93,7 @@ def load_and_check_functions(functions_raw, targets, data_cols, aggregation_spec
         targets,
         data_cols,
         aggregation_specs,
+        interpersonal_links_specs,
     )
 
     # Create groupings
@@ -119,6 +126,7 @@ def _create_derived_functions(
     targets: list[str],
     data_cols: list[str],
     aggregation_specs: dict[str, dict[str, str]],
+    interpersonal_links_specs: dict[str, dict[str, str]],
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -131,7 +139,9 @@ def _create_derived_functions(
 
     # Create parent-child relationships
     parent_child_link_functions = _create_parent_child_link_functions(
-        user_and_internal_functions, data_cols
+        user_and_internal_functions,
+        data_cols,
+        interpersonal_links_specs,
     )
 
     # Create functions for different time units
@@ -599,12 +609,15 @@ def _create_one_aggregation_func(  # noqa: PLR0912
 def _create_parent_child_link_functions(
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
+    user_provided_interpersonal_links_specs: dict[str, dict[str, str]],
 ) -> dict[str, Callable]:
     """
     Create function dict with functions that link parent and child variables.
     """
 
     _, link_dict = load_aggregation_and_link_dict()
+
+    link_dict = {**link_dict, **user_provided_interpersonal_links_specs}
 
     _fail_if_not_dict_of_dicts(link_dict)
 
@@ -632,12 +645,21 @@ def _create_one_link_func(
         link_spec, user_and_internal_functions, data_cols
     )
 
-    annotations = {
-        "source_col": user_and_internal_functions[
+    annotations = {}
+
+    if (
+        link_spec["source_col"] in user_and_internal_functions
+        and "return"
+        in user_and_internal_functions[link_spec["source_col"]].__annotations__
+    ):
+        annotations["source_col"] = user_and_internal_functions[
             link_spec["source_col"]
-        ].__annotations__["return"],
-    }
-    annotations["returns"] = int if annotations["source_col"] in (int, bool) else float
+        ].__annotations__["return"]
+        annotations["return"] = (
+            int if annotations["source_col"] in (int, bool) else float
+        )
+    else:
+        pass
 
     # Single target
     if isinstance(link_spec["id_col"], str):
@@ -677,7 +699,6 @@ def _create_one_link_func(
             id_col_2: numpy.ndarray,
             p_id: numpy.ndarray,
         ) -> numpy.ndarray:
-            source_col = source_col.astype(annotations["returns"])
             return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2, p_id)
 
     else:

@@ -31,6 +31,16 @@ def minimal_input_data():
     return out
 
 
+@pytest.fixture()
+def input_data_interpersonal_links():
+    return pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+        }
+    )
+
+
 # Create a partial function which is used by some tests below
 def func_before_partial(arg_1, arbeitsl_geld_2_params):
     return arg_1 + arbeitsl_geld_2_params["test_param_1"]
@@ -495,6 +505,68 @@ def test_aggregation_specs_agg_not_impl():
             aggregation_specs=aggregation_specs,
             targets="arbeitsl_geld_2_m_hh",
         )
+
+
+@pytest.mark.parametrize(
+    ("df, link_spec, target, expected"),
+    [
+        (
+            "input_data_interpersonal_links",
+            {
+                "target_func": {
+                    "id_col": "hh_id",
+                    "source_col": "source_func",
+                    "func_return": 100,
+                }
+            },
+            "target_func",
+            pd.Series([200, 100, 0]),
+        ),
+        (
+            "input_data_interpersonal_links",
+            {
+                "target_func_m": {
+                    "id_col": "hh_id",
+                    "source_col": "source_func_m",
+                    "func_return": 100,
+                }
+            },
+            "target_func_y",
+            pd.Series([2400, 1200, 0]),
+        ),
+        (
+            "input_data_interpersonal_links",
+            {
+                "target_func_m": {
+                    "id_col": "hh_id",
+                    "source_col": "source_func_m",
+                    "func_return": 100,
+                }
+            },
+            "target_func_y_hh",
+            pd.Series([3600, 3600, 0]),
+        ),
+    ],
+)
+def test_user_provided_interpersonal_links_specs(
+    df, link_spec, target, expected, request
+):
+    df = request.getfixturevalue(df)
+
+    target_link_spec = next(iter(link_spec.keys()))
+
+    def source_func():
+        return numpy.array([link_spec[target_link_spec]["func_return"]] * len(df))
+
+    out = compute_taxes_and_transfers(
+        df,
+        {},
+        functions=[{link_spec[target_link_spec]["source_col"]: source_func}],
+        interpersonal_links_specs=link_spec,
+        targets=target,
+    )
+
+    numpy.testing.assert_array_almost_equal(out[target], expected)
 
 
 @pytest.mark.parametrize(
