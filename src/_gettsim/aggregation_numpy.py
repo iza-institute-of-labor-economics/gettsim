@@ -129,7 +129,7 @@ def grouped_cumsum(column, group_id):
 
 
 def sum_values_by_index(
-    column: numpy.ndarray,
+    column: npt.NDArray[numpy.int64 | numpy.float64 | numpy.bool_],
     id_col: npt.NDArray[numpy.int64],
     p_id_col: npt.NDArray[numpy.int64],
 ) -> numpy.ndarray:
