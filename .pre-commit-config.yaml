@@ -41,11 +41,11 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.33.0
+    rev: v1.34.0
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 24.1.1
+    rev: 24.2.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
@@ -57,7 +57,7 @@ repos:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.0
+    rev: v0.2.1
     hooks:
       - id: ruff
       #   args:
@@ -74,10 +74,10 @@ repos:
     hooks:
       - id: nbqa-black
         additional_dependencies:
-          - black==23.11.0
+          - black==24.2.0
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.1.6
+          - ruff==v0.2.1
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
