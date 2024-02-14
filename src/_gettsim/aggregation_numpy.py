@@ -139,11 +139,11 @@ def sum_values_by_index(
         column = column.astype(int)
     out = numpy.zeros_like(p_id_col, dtype=column.dtype)
 
-    map_p_id_to_position = {p_id: position for position, p_id in enumerate(p_id_col)}
+    map_p_id_to_position = {p_id: iloc for iloc, p_id in enumerate(p_id_col)}
 
-    for position, id_receiver in enumerate(id_col):
+    for iloc, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
-            out[map_p_id_to_position[id_receiver]] += column[position]
+            out[map_p_id_to_position[id_receiver]] += column[iloc]
 
     return out
 
