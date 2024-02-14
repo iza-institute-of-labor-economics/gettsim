@@ -23,7 +23,7 @@ def kindergeld_m(
     kindergeld_anz_anprüche: bool,
     kindergeld_params: dict,
 ) -> float:
-    """Kindergeld given number of Kindergeld claims.
+    """Sum of Kindergeld for eligible children.
 
     Parameters
     ----------
