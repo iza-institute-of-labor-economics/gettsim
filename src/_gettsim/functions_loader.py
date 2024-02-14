@@ -87,7 +87,7 @@ def load_and_check_functions(
     (
         time_conversion_functions,
         aggregation_functions,
-        parent_child_link_functions,
+        interpersonal_link_functions,
     ) = _create_derived_functions(
         vectorized_functions,
         targets,
@@ -100,7 +100,7 @@ def load_and_check_functions(
     groupings = create_groupings()
 
     all_functions = {
-        **parent_child_link_functions,
+        **interpersonal_link_functions,
         **time_conversion_functions,
         **vectorized_functions,
         **aggregation_functions,
@@ -138,7 +138,7 @@ def _create_derived_functions(
     """
 
     # Create parent-child relationships
-    parent_child_link_functions = _create_parent_child_link_functions(
+    interpersonal_link_functions = _create_interpersonal_link_functions(
         user_and_internal_functions,
         data_cols,
         interpersonal_links_specs,
@@ -146,7 +146,7 @@ def _create_derived_functions(
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**user_and_internal_functions, **parent_child_link_functions}, data_cols
+        {**user_and_internal_functions, **interpersonal_link_functions}, data_cols
     )
 
     # Create aggregation functions
@@ -154,14 +154,18 @@ def _create_derived_functions(
         {
             **time_conversion_functions,
             **user_and_internal_functions,
-            **parent_child_link_functions,
+            **interpersonal_link_functions,
         },
         targets,
         data_cols,
         aggregation_specs,
     )
 
-    return time_conversion_functions, aggregation_functions, parent_child_link_functions
+    return (
+        time_conversion_functions,
+        aggregation_functions,
+        interpersonal_link_functions,
+    )
 
 
 def load_user_and_internal_functions(user_functions_raw):
@@ -606,7 +610,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
     return aggregation_func
 
 
-def _create_parent_child_link_functions(
+def _create_interpersonal_link_functions(
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
     user_provided_interpersonal_links_specs: dict[str, dict[str, str]],
