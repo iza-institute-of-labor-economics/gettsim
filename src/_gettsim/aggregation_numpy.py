@@ -128,13 +128,13 @@ def grouped_cumsum(column, group_id):
     return out
 
 
-def sum_values_by_index(
+def sum_values_by_id(
     column: npt.NDArray[numpy.int64 | numpy.float64 | numpy.bool_],
     id_col: npt.NDArray[numpy.int64],
     p_id_col: npt.NDArray[numpy.int64],
 ) -> numpy.ndarray:
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_index")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_id")
+    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_id")
     if column.dtype == bool:
         column = column.astype(int)
     out = numpy.zeros_like(p_id_col, dtype=column.dtype)

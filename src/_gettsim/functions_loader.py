@@ -17,7 +17,7 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
-    sum_values_by_index,
+    sum_values_by_id,
 )
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
@@ -715,7 +715,7 @@ def sum_by_parent(
     id_col: numpy.ndarray,
     p_id: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_values_by_index(source_col, id_col, p_id)
+    return sum_values_by_id(source_col, id_col, p_id)
 
 
 def sum_by_parent_multiple_targets(
@@ -724,7 +724,7 @@ def sum_by_parent_multiple_targets(
     id_col_2: numpy.ndarray,
     p_id: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_values_by_index(source_col, id_col_1, p_id) + sum_values_by_index(
+    return sum_values_by_id(source_col, id_col_1, p_id) + sum_values_by_id(
         source_col, id_col_2, p_id
     )
 

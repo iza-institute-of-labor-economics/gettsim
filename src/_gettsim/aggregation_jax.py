@@ -86,13 +86,13 @@ def grouped_all(column, group_id):
     return out
 
 
-def sum_values_by_index(
+def sum_values_by_id(
     column,
     id_col,
     p_id_col,
 ):
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_index")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_id")
+    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_id")
     if column.dtype in [bool, int]:
         tmp = column.astype(jnp.int32)
     else:
