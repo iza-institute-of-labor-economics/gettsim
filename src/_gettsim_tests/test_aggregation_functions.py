@@ -125,11 +125,19 @@ test_grouped_specs = {
         "expected_res_sum": np.array([1, 1, 0, 0, 0]),
         "expected_res_cumsum": np.array([1, 1, 0, 0, 0]),
     },
-    "sum_values_by_index": {
+    "sum_values_by_index_float": {
+        "column_to_aggregate": np.array([10.0, 20.0, 30.0, 40.0, 50.0]),
+        "id_col": np.array([-1, -1, 8, 8, 10]),
+        "p_id_col": np.array([7, 8, 9, 10, 11]),
+        "expected_res": np.array([0.0, 70.0, 0.0, 50.0, 0.0]),
+        "expected_type": numpy.floating,
+    },
+    "sum_values_by_index_int": {
         "column_to_aggregate": np.array([10, 20, 30, 40, 50]),
         "id_col": np.array([-1, -1, 8, 8, 10]),
         "p_id_col": np.array([7, 8, 9, 10, 11]),
         "expected_res": np.array([0, 70, 0, 50, 0]),
+        "expected_type": numpy.integer,
     },
 }
 if not USE_JAX:
@@ -472,13 +480,21 @@ def test_grouped_cumsum_raises(
         "id_col",
         "p_id_col",
         "expected_res",
+        "expected_type",
     ],
 )
-def test_sum_values_by_index(column_to_aggregate, id_col, p_id_col, expected_res):
-    result = sum_values_by_index(
-        column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col
+def test_sum_values_by_index(
+    column_to_aggregate, id_col, p_id_col, expected_res, expected_type
+):
+    result = numpy.array(
+        sum_values_by_index(
+            column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col
+        )
     )
     numpy.testing.assert_array_almost_equal(result, expected_res)
+    assert numpy.issubdtype(
+        result.dtype.type, expected_type
+    ), "The dtype of the result is not as expected."
 
 
 @parameterize_based_on_dict(

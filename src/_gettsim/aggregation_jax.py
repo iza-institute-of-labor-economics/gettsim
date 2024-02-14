@@ -92,10 +92,10 @@ def sum_values_by_index(
     p_id_col,
 ):
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    if column.dtype == bool:
-        column = column.astype(jnp.int64)
+    if column.dtype in [bool, int]:
+        column = column.astype(jnp.int32)
     else:
-        column = column.astype(jnp.float64)
+        column = column.astype(jnp.float32)
     out = jnp.zeros_like(p_id_col, dtype=column.dtype)
 
     map_p_id_to_position = {p_id: position for position, p_id in enumerate(p_id_col)}
