@@ -6,7 +6,7 @@ import numpy_groupies as npg
 
 
 def grouped_count(group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="count")
+    fail_if_dtype_not_int(group_id, agg_func="count")
     out_on_hh = npg.aggregate(
         group_id, numpy.ones(len(group_id)), func="sum", fill_value=0
     )
@@ -16,7 +16,7 @@ def grouped_count(group_id):
 
 
 def grouped_sum(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="sum")
+    fail_if_dtype_not_int(group_id, agg_func="sum")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
 
     out_on_hh = npg.aggregate(group_id, column, func="sum", fill_value=0)
@@ -27,7 +27,7 @@ def grouped_sum(column, group_id):
 
 
 def grouped_mean(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="mean")
+    fail_if_dtype_not_int(group_id, agg_func="mean")
     fail_if_dtype_not_float(column, agg_func="mean")
 
     out_on_hh = npg.aggregate(group_id, column, func="mean", fill_value=0)
@@ -38,7 +38,7 @@ def grouped_mean(column, group_id):
 
 
 def grouped_max(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="max")
+    fail_if_dtype_not_int(group_id, agg_func="max")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
 
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
@@ -63,7 +63,7 @@ def grouped_max(column, group_id):
 
 
 def grouped_min(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="min")
+    fail_if_dtype_not_int(group_id, agg_func="min")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
 
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
@@ -91,7 +91,7 @@ def grouped_min(column, group_id):
 
 
 def grouped_any(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="any")
+    fail_if_dtype_not_int(group_id, agg_func="any")
     fail_if_dtype_not_boolean_or_int(column, agg_func="any")
 
     out_on_hh = npg.aggregate(group_id, column, func="any", fill_value=0)
@@ -102,7 +102,7 @@ def grouped_any(column, group_id):
 
 
 def grouped_all(column, group_id):
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="all")
+    fail_if_dtype_not_int(group_id, agg_func="all")
     fail_if_dtype_not_boolean_or_int(column, agg_func="all")
 
     out_on_hh = npg.aggregate(group_id, column, func="all", fill_value=0)
@@ -119,7 +119,7 @@ def grouped_cumsum(column, group_id):
         DeprecationWarning,
         stacklevel=2,
     )
-    fail_if_dtype_of_group_id_not_int(group_id, agg_func="sum")
+    fail_if_dtype_not_int(group_id, agg_func="sum")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
     if column.dtype == bool:
         column = column.astype(int)
@@ -134,7 +134,7 @@ def sum_values_by_index(
     p_id_col: npt.NDArray[numpy.int64],
 ) -> numpy.ndarray:
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
-    fail_if_dtype_of_group_id_not_int(id_col, agg_func="sum_values_by_index")
+    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_index")
     if column.dtype == bool:
         column = column.astype(int)
     out = numpy.zeros_like(p_id_col, dtype=column.dtype)
@@ -164,11 +164,11 @@ def fail_if_dtype_not_float(column, agg_func):
         )
 
 
-def fail_if_dtype_of_group_id_not_int(group_id, agg_func):
-    if not numpy.issubdtype(group_id.dtype, numpy.integer):
+def fail_if_dtype_not_int(id_col, agg_func):
+    if not numpy.issubdtype(id_col.dtype, numpy.integer):
         raise TypeError(
             f"The dtype of group_id must be integer. Grouped_{agg_func} was applied "
-            f"to a group_id that has dtype {group_id.dtype}."
+            f"to a group_id that has dtype {id_col.dtype}."
         )
 
 
