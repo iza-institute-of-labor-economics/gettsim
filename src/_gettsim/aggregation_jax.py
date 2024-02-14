@@ -93,14 +93,14 @@ def sum_values_by_index(
 ):
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_index")
     if column.dtype in [bool, int]:
-        column = column.astype(jnp.int32)
+        tmp = column.astype(jnp.int32)
     else:
-        column = column.astype(jnp.float32)
-    out = jnp.zeros_like(p_id_col, dtype=column.dtype)
+        tmp = column.astype(jnp.float32)
+    out = jnp.zeros_like(p_id_col, dtype=tmp.dtype)
 
     map_p_id_to_position = {p_id: position for position, p_id in enumerate(p_id_col)}
 
     for position, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
-            out = out.at[map_p_id_to_position[id_receiver]].add(column[position])
+            out = out.at[map_p_id_to_position[id_receiver]].add(tmp[position])
     return out
