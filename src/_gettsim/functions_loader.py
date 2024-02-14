@@ -188,9 +188,7 @@ def load_internal_functions():
 def load_aggregation_and_link_dict():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
-    aggregation_dict, link_dict = _load_aggregation_and_link_combined_dict_from_strings(
-        sources
-    )
+    aggregation_dict, link_dict = _load_aggregation_and_link_dicts_from_modules(sources)
     return aggregation_dict, link_dict
 
 
@@ -325,7 +323,7 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     return "\n".join(lines)
 
 
-def _load_aggregation_and_link_combined_dict_from_strings(sources):
+def _load_aggregation_and_link_dicts_from_modules(sources):
     """Load aggregation dictionaries from paths and strings and combine them.
 
     1. Paths point to modules which are loaded.
