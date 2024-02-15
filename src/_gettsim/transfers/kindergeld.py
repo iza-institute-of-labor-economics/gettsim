@@ -15,6 +15,7 @@ aggregate_by_p_id_kindergeld = {
     "kindergeld_anz_ansprüche": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
         "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
     },
 }
 

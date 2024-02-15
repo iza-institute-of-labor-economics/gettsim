@@ -496,7 +496,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
     }
     with pytest.raises(
         ValueError,
-        match="Aggr aggr_not_implemented is not implemented, yet.",
+        match="Aggr aggr_not_implemented is not implemented.",
     ):
         compute_taxes_and_transfers(
             data,
@@ -516,6 +516,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
                 "target_func": {
                     "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func",
+                    "aggr": "sum",
                     "func_return": 100,
                 }
             },
@@ -528,6 +529,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
                 "target_func_m": {
                     "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func_m",
+                    "aggr": "sum",
                     "func_return": 100,
                 }
             },
@@ -540,6 +542,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
                 "target_func_m": {
                     "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func_m",
+                    "aggr": "sum",
                     "func_return": 100,
                 }
             },

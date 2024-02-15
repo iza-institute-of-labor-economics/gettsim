@@ -2,14 +2,38 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
 aggregate_by_p_id_freibeträge = {
-    "eink_st_kinderfreib_anz_ansprüche": {
-        "p_id_to_aggregate_by": [
-            "p_id_kinderfreib_empfänger_1",
-            "p_id_kinderfreib_empfänger_2",
-        ],
+    "_eink_st_kinderfreib_anz_anspruch_1": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
         "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+    "_eink_st_kinderfreib_anz_anspruch_2": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
     },
 }
+
+
+def _eink_st_kinderfreib_anz_ansprüche(
+    _eink_st_kinderfreib_anz_anspruch_1: int,
+    _eink_st_kinderfreib_anz_anspruch_2: int,
+) -> int:
+    """Return the number of Kinderfreibeträge a person is entitled to.
+
+    The person could be a parent or legal custodian.
+
+    Parameters
+    ----------
+    _eink_st_kinderfreib_anz_anspruch_1
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_1 <p_id_kinderfreibetr_empfänger_1>`.
+    _eink_st_kinderfreib_anz_anspruch_2
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_2 <p_id_kinderfreibetr_empfänger_2>`.
+
+    """
+    return _eink_st_kinderfreib_anz_anspruch_1 + _eink_st_kinderfreib_anz_anspruch_2
 
 
 def _eink_st_behinderungsgrad_pauschbetrag_y(
@@ -343,15 +367,15 @@ def sonderausgaben_betreuung_y_tu(
 
 
 def eink_st_kinderfreib_y(
-    eink_st_kinderfreib_anz_ansprüche: int,
+    _eink_st_kinderfreib_anz_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Individual child allowance.
 
     Parameters
     ----------
-    eink_st_kinderfreib_anz_ansprüche
-        See :func:`eink_st_kinderfreib_anz_ansprüche`.
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -362,7 +386,7 @@ def eink_st_kinderfreib_y(
 
     return (
         sum(eink_st_abzuege_params["kinderfreib"].values())
-        * eink_st_kinderfreib_anz_ansprüche
+        * _eink_st_kinderfreib_anz_ansprüche
     )
 
 

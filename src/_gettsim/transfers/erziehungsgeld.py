@@ -5,6 +5,7 @@ aggregate_by_p_id_erziehungsgeld = {
     "erziehungsgeld_eltern_m": {
         "p_id_to_aggregate_by": "p_id_erziehgeld_empf",
         "source_col": "erziehungsgeld_kind_m",
+        "aggr": "sum",
     },
 }
 

@@ -9,6 +9,9 @@ from typing import TYPE_CHECKING, Literal
 import numpy
 
 from _gettsim.aggregation import (
+    all_by_p_id,
+    any_by_p_id,
+    count_by_p_id,
     grouped_all,
     grouped_any,
     grouped_count,
@@ -17,6 +20,9 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
+    max_by_p_id,
+    mean_by_p_id,
+    min_by_p_id,
     sum_by_p_id,
 )
 from _gettsim.config import (
@@ -141,7 +147,6 @@ def _create_derived_functions(
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         user_and_internal_functions,
-        data_cols,
         aggregate_by_p_id_specs,
     )
 
@@ -458,6 +463,64 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
+def _check_agg_specs_validity(agg_specs, agg_col):
+    if "aggr" not in agg_specs:
+        raise KeyError(
+            f"No aggr keyword is specified for aggregation column {agg_col}."
+        )
+
+    if agg_specs["aggr"] != "count":
+        if "source_col" not in agg_specs:
+            raise KeyError(
+                f"Source_col is not specified for aggregation column {agg_col}."
+            )
+
+
+def _annotations_for_aggregation(agg_specs, user_and_internal_functions):
+    annotations = {}
+    if agg_specs["aggr"] == "count":
+        annotations["return"] = int
+    else:
+        source_col = agg_specs["source_col"]
+        if (
+            source_col in user_and_internal_functions
+            and "return" in user_and_internal_functions[source_col].__annotations__
+        ):
+            annotations[source_col] = user_and_internal_functions[
+                source_col
+            ].__annotations__["return"]
+
+            # Find out return type
+            annotations["return"] = _select_return_type(
+                agg_specs["aggr"], annotations[source_col]
+            )
+        elif source_col in TYPES_INPUT_VARIABLES:
+            annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
+
+            # Find out return type
+            annotations["return"] = _select_return_type(
+                agg_specs["aggr"], annotations[source_col]
+            )
+        else:
+            # TODO(@hmgaudecker): Think about how type annotations of aggregations of
+            #     user-provided input variables are handled
+            # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
+            pass
+    return annotations
+
+
+def _select_return_type(aggr, source_col_type):
+    # Find out return type
+    if (source_col_type == int) and (aggr in ["any", "all"]):
+        return_type = bool
+    elif (source_col_type == bool) and (aggr in ["sum"]):
+        return_type = int
+    else:
+        return_type = source_col_type
+
+    return return_type
+
+
 def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     agg_col, agg_specs, user_and_internal_functions
 ):
@@ -469,7 +532,9 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
         Name of the aggregated column.
     agg_specs : dict
         Dictionary of aggregation specifications. Can contain the source column
-        ("source_col") and the group ids ("group_id")
+        ("source_col") and the group ids ("group_id") Dictionary of aggregation
+        specifications. Must contain the aggregation type ("aggr"). Unless
+        `aggr == "count"`, it must contain the column to aggregate ("source_col").
     user_and_internal_functions: dict
         Dictionary of functions.
 
@@ -479,21 +544,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     aggregate_by_group_func : The aggregation func with the expected signature
 
     """
-    # Read individual specification parameters and make sure nothing is missing
-    try:
-        aggr = agg_specs["aggr"]
-    except KeyError as e:
-        raise KeyError(
-            f"No aggr keyword is specified for aggregation column {agg_col}."
-        ) from e
 
-    if aggr != "count":
-        try:
-            source_col = agg_specs["source_col"]
-        except KeyError as e:
-            raise KeyError(
-                f"Source_col is not specified for aggregation column {agg_col}."
-            ) from e
+    _check_agg_specs_validity(agg_specs, agg_col)
 
     # Identify grouping level
     group_id = None
@@ -507,111 +559,90 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             f"The name {agg_col} does not do so."
         )
 
-    # Build annotations
-    annotations = {group_id: int}
-    if aggr == "count":
-        annotations["return"] = int
-    else:
-        if (
-            source_col in user_and_internal_functions
-            and "return" in user_and_internal_functions[source_col].__annotations__
-        ):
-            annotations[source_col] = user_and_internal_functions[
-                source_col
-            ].__annotations__["return"]
+    annotations = _annotations_for_aggregation(
+        agg_specs=agg_specs,
+        user_and_internal_functions=user_and_internal_functions,
+    )
 
-            # Find out return type
-            annotations["return"] = _select_return_type(aggr, annotations[source_col])
-        elif source_col in TYPES_INPUT_VARIABLES:
-            annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
-
-            # Find out return type
-            annotations["return"] = _select_return_type(aggr, annotations[source_col])
-        else:
-            # TODO(@hmgaudecker): Think about how type annotations of aggregations of
-            #     user-provided input variables are handled
-            # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
-            pass
-
-    # Define aggregation func
-    if aggr == "count":
+    if agg_specs["aggr"] == "count":
 
         @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
         def aggregate_by_group_func(group_id):
             return grouped_count(group_id)
 
-    elif aggr == "sum":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_sum(source_col, group_id)
-
-    elif aggr == "mean":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_mean(source_col, group_id)
-
-    elif aggr == "max":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_max(source_col, group_id)
-
-    elif aggr == "min":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_min(source_col, group_id)
-
-    elif aggr == "any":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_any(source_col, group_id)
-
-    elif aggr == "all":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_all(source_col, group_id)
-
-    elif aggr == "cumsum":
-
-        @rename_arguments(
-            mapper={"source_col": source_col, "group_id": group_id},
-            annotations=annotations,
-        )
-        def aggregate_by_group_func(source_col, group_id):
-            return grouped_cumsum(source_col, group_id)
-
     else:
-        raise ValueError(f"Aggr {aggr} is not implemented, yet.")
+        mapper = {"source_col": agg_specs["source_col"], "group_id": group_id}
+        if agg_specs["aggr"] == "sum":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_sum(source_col, group_id)
+
+        elif agg_specs["aggr"] == "mean":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_mean(source_col, group_id)
+
+        elif agg_specs["aggr"] == "max":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_max(source_col, group_id)
+
+        elif agg_specs["aggr"] == "min":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_min(source_col, group_id)
+
+        elif agg_specs["aggr"] == "any":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_any(source_col, group_id)
+
+        elif agg_specs["aggr"] == "all":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_all(source_col, group_id)
+
+        elif agg_specs["aggr"] == "cumsum":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_group_func(source_col, group_id):
+                return grouped_cumsum(source_col, group_id)
+
+        else:
+            raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
     return aggregate_by_group_func
 
 
 def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Callable],
-    data_cols: list[str],
     user_provided_aggregate_by_p_id_specs: dict[str, dict[str, str]],
 ) -> dict[str, Callable]:
     """Create function dict with functions that link variables across persons."""
@@ -624,12 +655,12 @@ def _create_aggregate_by_p_id_functions(
     }
 
     _fail_if_not_dict_of_dicts(aggregate_by_p_id_dict)
+    # TODO: Make validity check for dictionary here. Can use output column name then.
 
     aggregate_by_p_id_functions = {
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
-            agg_by_p_id_spec,
-            user_and_internal_functions,
-            data_cols,
+            agg_specs=agg_by_p_id_spec,
+            user_and_internal_functions=user_and_internal_functions,
         )
         for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
         if agg_by_p_id_spec["source_col"] in user_and_internal_functions
@@ -639,118 +670,112 @@ def _create_aggregate_by_p_id_functions(
 
 
 def _create_one_aggregate_by_p_id_func(
-    link_spec: dict[str, str],
+    agg_specs: dict[str, str],
     user_and_internal_functions: dict[str, Callable],
-    data_cols: list[str],
 ) -> Callable:
-    """Create one function that links variables across persons."""
+    """Create one function that links variables across persons.
 
-    _fail_if_source_col_not_in_functions(
-        link_spec, user_and_internal_functions, data_cols
+    Parameters
+    ----------
+    agg_specs : dict
+        Dictionary of aggregation specifications. Must contain the p_id by which to
+        aggregate ("p_id_to_aggregate_by") and the aggregation type ("aggr"). Unless
+        `aggr == "count"`, it must contain the column to aggregate ("source_col").
+    user_and_internal_functions: dict
+        Dictionary of functions.
+
+
+    Returns
+    -------
+    aggregate_by_p_id_func : The aggregation func with the expected signature
+
+    """
+
+    _check_agg_specs_validity(agg_specs, "whatever")
+
+    annotations = _annotations_for_aggregation(
+        agg_specs=agg_specs,
+        user_and_internal_functions=user_and_internal_functions,
     )
 
-    annotations = {}
+    # Define aggregation func
+    if agg_specs["aggr"] == "count":
 
-    if (
-        link_spec["source_col"] in user_and_internal_functions
-        and "return"
-        in user_and_internal_functions[link_spec["source_col"]].__annotations__
-    ):
-        annotations["source_col"] = user_and_internal_functions[
-            link_spec["source_col"]
-        ].__annotations__["return"]
-        annotations["return"] = (
-            int if annotations["source_col"] in (int, bool) else float
+        @rename_arguments(
+            mapper={
+                "p_id_to_aggregate_by": agg_specs["p_id_to_aggregate_by"],
+                "p_id_to_store_by": "p_id",
+            },
+            annotations=annotations,
         )
-    else:
-        pass
+        def aggregate_by_p_id_func(p_id_to_aggregate_by, p_id_to_store_by):
+            return count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by)
 
-    # Single targets.
-    if isinstance(link_spec["p_id_to_aggregate_by"], str):
-        # Create id annotations
-        annotations["p_id_to_aggregate_by"] = int
-        # Create function
-        mapper_args = {
-            "p_id_to_aggregate_by": link_spec["p_id_to_aggregate_by"],
+    else:
+        mapper = {
+            "p_id_to_aggregate_by": agg_specs["p_id_to_aggregate_by"],
             "p_id_to_store_by": "p_id",
-            "source_col": link_spec["source_col"],
+            "column": agg_specs["source_col"],
         }
 
-        @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(
-            source_col: numpy.ndarray,
-            p_id_to_aggregate_by: numpy.ndarray,
-            p_id_to_store_by: numpy.ndarray,
-        ) -> numpy.ndarray:
-            return sum_by_other_person(
-                source_col, p_id_to_aggregate_by, p_id_to_store_by
+        if agg_specs["aggr"] == "sum":
+
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
             )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-    # Two targets.
-    elif len(link_spec["p_id_to_aggregate_by"]) == 2:
-        # Create id annotations
-        annotations.update({"p_id_to_aggregate_by1": int, "p_id_to_aggregate_by2": int})
-        # Create function
-        mapper_args = {
-            "p_id_to_aggregate_by1": link_spec["p_id_to_aggregate_by"][0],
-            "p_id_to_aggregate_by2": link_spec["p_id_to_aggregate_by"][1],
-            "p_id_to_store_by": "p_id",
-            "source_col": link_spec["source_col"],
-        }
+        elif agg_specs["aggr"] == "mean":
 
-        @rename_arguments(mapper=mapper_args, annotations=annotations)
-        def link_func(
-            source_col: numpy.ndarray,
-            p_id_to_aggregate_by1: numpy.ndarray,
-            p_id_to_aggregate_by2: numpy.ndarray,
-            p_id_to_store_by: numpy.ndarray,
-        ) -> numpy.ndarray:
-            return sum_by_other_person_two_targets(
-                source_col,
-                p_id_to_aggregate_by1,
-                p_id_to_aggregate_by2,
-                p_id_to_store_by,
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
             )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-    # Maximum is two at this point.
-    else:
-        raise NotImplementedError(
-            "Interpersonal links based on more "
-            "than two ID columns are not supported."
-        )
+        elif agg_specs["aggr"] == "max":
 
-    return link_func
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
+        elif agg_specs["aggr"] == "min":
 
-def sum_by_other_person(
-    source_col: numpy.ndarray,
-    p_id_to_aggregate_by: numpy.ndarray,
-    p_id_to_store_by: numpy.ndarray,
-) -> numpy.ndarray:
-    return sum_by_p_id(source_col, p_id_to_aggregate_by, p_id_to_store_by)
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
+        elif agg_specs["aggr"] == "any":
 
-def sum_by_other_person_two_targets(
-    source_col: numpy.ndarray,
-    p_id_to_aggregate_by1: numpy.ndarray,
-    p_id_to_aggregate_by2: numpy.ndarray,
-    p_id_to_store_by: numpy.ndarray,
-) -> numpy.ndarray:
-    return sum_by_p_id(
-        source_col, p_id_to_aggregate_by1, p_id_to_store_by
-    ) + sum_by_p_id(source_col, p_id_to_aggregate_by2, p_id_to_store_by)
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
+        elif agg_specs["aggr"] == "all":
 
-def _select_return_type(aggr, source_col_type):
-    # Find out return type
-    if (source_col_type == int) and (aggr in ["any", "all"]):
-        return_type = bool
-    elif (source_col_type == bool) and (aggr in ["sum"]):
-        return_type = int
-    else:
-        return_type = source_col_type
+            @rename_arguments(
+                mapper=mapper,
+                annotations=annotations,
+            )
+            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+                return all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-    return return_type
+        else:
+            raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
+
+    return aggregate_by_p_id_func
 
 
 def _vectorize_func(func):
@@ -798,20 +823,4 @@ def _fail_if_not_dict_of_dicts(dict_to_check: dict) -> None:
     ):
         raise ValueError(
             "Parent-child links must be specified as a dictionary of dictionaries."
-        )
-
-
-def _fail_if_source_col_not_in_functions(
-    link_spec: dict[str, str],
-    functions: dict[str, Callable],
-    data_cols: list[str],
-) -> None:
-    if (
-        link_spec["source_col"] not in functions
-        and link_spec["source_col"] not in data_cols
-    ):
-        raise ValueError(
-            f"""Source column specified in parent-child link specification
-            ({link_spec['source_col']}) not found. Either choose an existing target
-            or provide it yourself."""
         )
