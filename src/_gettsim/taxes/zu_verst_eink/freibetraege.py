@@ -384,7 +384,7 @@ def eink_st_kinderfreib_y(
 
     """
 
-    return (
+    return float(
         sum(eink_st_abzuege_params["kinderfreib"].values())
         * _eink_st_kinderfreib_anz_ansprüche
     )
