@@ -70,13 +70,13 @@ def test_create_derived_functions(
 ) -> None:
     (
         time_conversion_functions,
-        aggregation_functions,
-        interpersonal_link_functions,
+        aggregate_by_group_functions,
+        aggregate_by_p_id_functions,
     ) = _create_derived_functions(functions, targets, [], {}, {})
     derived_functions = {
         **time_conversion_functions,
-        **aggregation_functions,
-        **interpersonal_link_functions,
+        **aggregate_by_group_functions,
+        **aggregate_by_p_id_functions,
     }
 
     for name in targets:

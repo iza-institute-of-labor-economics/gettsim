@@ -1,6 +1,6 @@
 from _gettsim.shared import add_rounding_spec, dates_active
 
-aggregation_kinderzuschl_eink = {
+aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_tu": {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",

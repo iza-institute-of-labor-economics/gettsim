@@ -38,7 +38,7 @@ if TYPE_CHECKING:
 
 
 def load_and_check_functions(
-    functions_raw, targets, data_cols, aggregation_specs, interpersonal_links_specs
+    functions_raw, targets, data_cols, aggregate_by_group_specs, aggregate_by_p_id_specs
 ):
     """Create the dict with all functions that may become part of the DAG by:
 
@@ -57,15 +57,16 @@ def load_and_check_functions(
         user.
     data_cols : list
         Data columns provided by the user.
-    aggregation_specs : dict
+    aggregate_by_group_specs : dict
         A dictionary which contains specs for functions which aggregate variables on
         the tax unit or household level. The syntax is the same as for aggregation
         specs in the code base and as specified in
         [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
-    interpersonal_links_specs : dict
-        A dictionary which contains specs for linking (and aggregating) taxes and
-        transfers across individuals. The syntax is the same as for interpersonal links
-        in the code base.
+    aggregate_by_p_id_specs : dict
+        A dictionary which contains specs for linking aggregating taxes and by another
+        individual (for example, a parent). The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -86,24 +87,24 @@ def load_and_check_functions(
     # Create derived functions
     (
         time_conversion_functions,
-        aggregation_functions,
-        interpersonal_link_functions,
+        aggregate_by_group_functions,
+        aggregate_by_p_id_functions,
     ) = _create_derived_functions(
         vectorized_functions,
         targets,
         data_cols,
-        aggregation_specs,
-        interpersonal_links_specs,
+        aggregate_by_group_specs,
+        aggregate_by_p_id_specs,
     )
 
     # Create groupings
     groupings = create_groupings()
 
     all_functions = {
-        **interpersonal_link_functions,
+        **aggregate_by_p_id_functions,
         **time_conversion_functions,
         **vectorized_functions,
-        **aggregation_functions,
+        **aggregate_by_group_functions,
         **groupings,
     }
 
@@ -125,8 +126,8 @@ def _create_derived_functions(
     user_and_internal_functions: dict[str, Callable],
     targets: list[str],
     data_cols: list[str],
-    aggregation_specs: dict[str, dict[str, str]],
-    interpersonal_links_specs: dict[str, dict[str, str]],
+    aggregate_by_group_specs: dict[str, dict[str, str]],
+    aggregate_by_p_id_specs: dict[str, dict[str, str]],
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -138,33 +139,33 @@ def _create_derived_functions(
     """
 
     # Create parent-child relationships
-    interpersonal_link_functions = _create_interpersonal_link_functions(
+    aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         user_and_internal_functions,
         data_cols,
-        interpersonal_links_specs,
+        aggregate_by_p_id_specs,
     )
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**user_and_internal_functions, **interpersonal_link_functions}, data_cols
+        {**user_and_internal_functions, **aggregate_by_p_id_functions}, data_cols
     )
 
     # Create aggregation functions
-    aggregation_functions = _create_aggregation_functions(
+    aggregate_by_group_functions = _create_aggregate_by_group_functions(
         {
             **time_conversion_functions,
             **user_and_internal_functions,
-            **interpersonal_link_functions,
+            **aggregate_by_p_id_functions,
         },
         targets,
         data_cols,
-        aggregation_specs,
+        aggregate_by_group_specs,
     )
 
     return (
         time_conversion_functions,
-        aggregation_functions,
-        interpersonal_link_functions,
+        aggregate_by_group_functions,
+        aggregate_by_p_id_functions,
     )
 
 
@@ -185,12 +186,10 @@ def load_internal_functions():
     return internal_functions
 
 
-def load_aggregation_or_interpersonal_links_dict(
-    typ: Literal["aggregation", "interpersonal_links"]
-):
+def load_aggregation_dict(typ: Literal["aggregate_by_group", "aggregate_by_p_id"]):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
-    return _load_aggregation_or_links_dicts_from_modules(sources, typ)
+    return _load_aggregation_dicts_from_modules(sources, typ)
 
 
 def _convert_paths_to_import_strings(paths):
@@ -324,10 +323,10 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     return "\n".join(lines)
 
 
-def _load_aggregation_or_links_dicts_from_modules(
-    sources: list[Path | str], typ: Literal["aggregation", "interpersonal_links"]
+def _load_aggregation_dicts_from_modules(
+    sources: list[Path | str], typ: Literal["aggregate_by_group", "aggregate_by_p_id"]
 ):
-    """Return a dictionary with all aggregations or interpersonal links.
+    """Return a dictionary with all aggregations by group or person.
 
     Dictionaries are imported from *sources*, which point to modules:
 
@@ -364,11 +363,14 @@ def _load_aggregation_or_links_dicts_from_modules(
     return {k: v for inner_dict in list_of_dicts for k, v in inner_dict.items()}
 
 
-def _create_aggregation_functions(
-    user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
+def _create_aggregate_by_group_functions(
+    user_and_internal_functions,
+    targets,
+    data_cols,
+    user_provided_aggregate_by_group_specs,
 ):
     """Create aggregation functions."""
-    aggregation_dict = load_aggregation_or_interpersonal_links_dict(typ="aggregation")
+    aggregate_by_group_dict = load_aggregation_dict(typ="aggregate_by_group")
 
     # Make specs for automated sum aggregation
     potential_source_cols = list(user_and_internal_functions) + data_cols
@@ -381,35 +383,41 @@ def _create_aggregation_functions(
         + targets
     )
 
-    automated_sum_aggregation_cols = [
+    automated_sum_aggregate_by_group_cols = [
         col
         for col in potential_agg_cols
         if (col not in user_and_internal_functions)
         and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
         and (remove_group_suffix(col) in potential_source_cols)
     ]
-    automated_sum_aggregation_specs = {
+    automated_sum_aggregate_by_group_specs = {
         agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
-        for agg_col in automated_sum_aggregation_cols
+        for agg_col in automated_sum_aggregate_by_group_cols
     }
 
     # Add automated aggregation specs.
     # Note: For duplicate keys, explicitly set specs are treated with higher priority
     # than automated specs.
-    aggregation_dict = {**automated_sum_aggregation_specs, **aggregation_dict}
+    aggregate_by_group_dict = {
+        **automated_sum_aggregate_by_group_specs,
+        **aggregate_by_group_dict,
+    }
 
     # Add user provided aggregation specs.
     # Note: For duplicate keys, user provided specs are treated with higher priority.
-    aggregation_dict = {**aggregation_dict, **user_provided_aggregation_specs}
+    aggregate_by_group_dict = {
+        **aggregate_by_group_dict,
+        **user_provided_aggregate_by_group_specs,
+    }
 
     # Create functions from specs
-    aggregation_functions = {
-        agg_col: _create_one_aggregation_func(
+    aggregate_by_group_functions = {
+        agg_col: _create_one_aggregate_by_group_func(
             agg_col, agg_spec, user_and_internal_functions
         )
-        for agg_col, agg_spec in aggregation_dict.items()
+        for agg_col, agg_spec in aggregate_by_group_dict.items()
     }
-    return aggregation_functions
+    return aggregate_by_group_functions
 
 
 def rename_arguments(func=None, mapper=None, annotations=None):
@@ -450,7 +458,7 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _create_one_aggregation_func(  # noqa: PLR0912
+def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     agg_col, agg_specs, user_and_internal_functions
 ):
     """Create an aggregation function based on aggregation specification.
@@ -468,7 +476,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
 
     Returns
     -------
-    aggregation_func : The aggregation func with the expected signature
+    aggregate_by_group_func : The aggregation func with the expected signature
 
     """
     # Read individual specification parameters and make sure nothing is missing
@@ -529,7 +537,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
     if aggr == "count":
 
         @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
-        def aggregation_func(group_id):
+        def aggregate_by_group_func(group_id):
             return grouped_count(group_id)
 
     elif aggr == "sum":
@@ -538,7 +546,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_sum(source_col, group_id)
 
     elif aggr == "mean":
@@ -547,7 +555,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_mean(source_col, group_id)
 
     elif aggr == "max":
@@ -556,7 +564,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_max(source_col, group_id)
 
     elif aggr == "min":
@@ -565,7 +573,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_min(source_col, group_id)
 
     elif aggr == "any":
@@ -574,7 +582,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_any(source_col, group_id)
 
     elif aggr == "all":
@@ -583,7 +591,7 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_all(source_col, group_id)
 
     elif aggr == "cumsum":
@@ -592,42 +600,45 @@ def _create_one_aggregation_func(  # noqa: PLR0912
             mapper={"source_col": source_col, "group_id": group_id},
             annotations=annotations,
         )
-        def aggregation_func(source_col, group_id):
+        def aggregate_by_group_func(source_col, group_id):
             return grouped_cumsum(source_col, group_id)
 
     else:
         raise ValueError(f"Aggr {aggr} is not implemented, yet.")
 
-    return aggregation_func
+    return aggregate_by_group_func
 
 
-def _create_interpersonal_link_functions(
+def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
-    user_provided_interpersonal_links_specs: dict[str, dict[str, str]],
+    user_provided_aggregate_by_p_id_specs: dict[str, dict[str, str]],
 ) -> dict[str, Callable]:
     """Create function dict with functions that link variables across persons."""
 
-    links_dict = load_aggregation_or_interpersonal_links_dict(typ="interpersonal_links")
+    aggregate_by_p_id_dict = load_aggregation_dict(typ="aggregate_by_p_id")
 
-    links_dict = {**links_dict, **user_provided_interpersonal_links_specs}
+    aggregate_by_p_id_dict = {
+        **aggregate_by_p_id_dict,
+        **user_provided_aggregate_by_p_id_specs,
+    }
 
-    _fail_if_not_dict_of_dicts(links_dict)
+    _fail_if_not_dict_of_dicts(aggregate_by_p_id_dict)
 
-    link_functions = {
-        link_col: _create_one_interpersonal_link_func(
-            link_spec,
+    aggregate_by_p_id_functions = {
+        agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
+            agg_by_p_id_spec,
             user_and_internal_functions,
             data_cols,
         )
-        for link_col, link_spec in links_dict.items()
-        if link_spec["source_col"] in user_and_internal_functions
+        for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
+        if agg_by_p_id_spec["source_col"] in user_and_internal_functions
     }
 
-    return link_functions
+    return aggregate_by_p_id_functions
 
 
-def _create_one_interpersonal_link_func(
+def _create_one_aggregate_by_p_id_func(
     link_spec: dict[str, str],
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
@@ -655,44 +666,51 @@ def _create_one_interpersonal_link_func(
         pass
 
     # Single targets.
-    if isinstance(link_spec["id_col"], str):
+    if isinstance(link_spec["p_id_to_aggregate_by"], str):
         # Create id annotations
-        annotations["id_col"] = int
+        annotations["p_id_to_aggregate_by"] = int
         # Create function
         mapper_args = {
-            "id_col": link_spec["id_col"],
-            "p_id": "p_id",
+            "p_id_to_aggregate_by": link_spec["p_id_to_aggregate_by"],
+            "p_id_to_store_by": "p_id",
             "source_col": link_spec["source_col"],
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
         def link_func(
             source_col: numpy.ndarray,
-            id_col: numpy.ndarray,
-            p_id: numpy.ndarray,
+            p_id_to_aggregate_by: numpy.ndarray,
+            p_id_to_store_by: numpy.ndarray,
         ) -> numpy.ndarray:
-            return sum_by_other_person(source_col, id_col, p_id)
+            return sum_by_other_person(
+                source_col, p_id_to_aggregate_by, p_id_to_store_by
+            )
 
     # Two targets.
-    elif len(link_spec["id_col"]) == 2:
+    elif len(link_spec["p_id_to_aggregate_by"]) == 2:
         # Create id annotations
-        annotations.update({"id_col_1": int, "id_col_2": int})
+        annotations.update({"p_id_to_aggregate_by1": int, "p_id_to_aggregate_by2": int})
         # Create function
         mapper_args = {
-            "id_col_1": link_spec["id_col"][0],
-            "id_col_2": link_spec["id_col"][1],
-            "p_id": "p_id",
+            "p_id_to_aggregate_by1": link_spec["p_id_to_aggregate_by"][0],
+            "p_id_to_aggregate_by2": link_spec["p_id_to_aggregate_by"][1],
+            "p_id_to_store_by": "p_id",
             "source_col": link_spec["source_col"],
         }
 
         @rename_arguments(mapper=mapper_args, annotations=annotations)
         def link_func(
             source_col: numpy.ndarray,
-            id_col_1: numpy.ndarray,
-            id_col_2: numpy.ndarray,
-            p_id: numpy.ndarray,
+            p_id_to_aggregate_by1: numpy.ndarray,
+            p_id_to_aggregate_by2: numpy.ndarray,
+            p_id_to_store_by: numpy.ndarray,
         ) -> numpy.ndarray:
-            return sum_by_other_person_two_targets(source_col, id_col_1, id_col_2, p_id)
+            return sum_by_other_person_two_targets(
+                source_col,
+                p_id_to_aggregate_by1,
+                p_id_to_aggregate_by2,
+                p_id_to_store_by,
+            )
 
     # Maximum is two at this point.
     else:
@@ -706,21 +724,21 @@ def _create_one_interpersonal_link_func(
 
 def sum_by_other_person(
     source_col: numpy.ndarray,
-    id_col: numpy.ndarray,
-    p_id: numpy.ndarray,
+    p_id_to_aggregate_by: numpy.ndarray,
+    p_id_to_store_by: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_by_p_id(source_col, id_col, p_id)
+    return sum_by_p_id(source_col, p_id_to_aggregate_by, p_id_to_store_by)
 
 
 def sum_by_other_person_two_targets(
     source_col: numpy.ndarray,
-    id_col_1: numpy.ndarray,
-    id_col_2: numpy.ndarray,
-    p_id: numpy.ndarray,
+    p_id_to_aggregate_by1: numpy.ndarray,
+    p_id_to_aggregate_by2: numpy.ndarray,
+    p_id_to_store_by: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_by_p_id(source_col, id_col_1, p_id) + sum_by_p_id(
-        source_col, id_col_2, p_id
-    )
+    return sum_by_p_id(
+        source_col, p_id_to_aggregate_by1, p_id_to_store_by
+    ) + sum_by_p_id(source_col, p_id_to_aggregate_by2, p_id_to_store_by)
 
 
 def _select_return_type(aggr, source_col_type):

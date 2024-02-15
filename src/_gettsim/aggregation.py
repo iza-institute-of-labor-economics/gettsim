@@ -84,50 +84,50 @@ def grouped_cumsum(column, group_id):
     return grouped_cumsum_numpy(column, group_id)
 
 
-def count_by_p_id(id_col, p_id_col):
+def count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return count_by_p_id_jax(id_col, p_id_col)
+        return count_by_p_id_jax(p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return count_by_p_id_numpy(id_col, p_id_col)
+        return count_by_p_id_numpy(p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def sum_by_p_id(column, id_col, p_id_col):
+def sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return sum_by_p_id_jax(column, id_col, p_id_col)
+        return sum_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return sum_by_p_id_numpy(column, id_col, p_id_col)
+        return sum_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def mean_by_p_id(column, id_col, p_id_col):
+def mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return mean_by_p_id_jax(column, id_col, p_id_col)
+        return mean_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return mean_by_p_id_numpy(column, id_col, p_id_col)
+        return mean_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def max_by_p_id(column, id_col, p_id_col):
+def max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return max_by_p_id_jax(column, id_col, p_id_col)
+        return max_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return max_by_p_id_numpy(column, id_col, p_id_col)
+        return max_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def min_by_p_id(column, id_col, p_id_col):
+def min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return min_by_p_id_jax(column, id_col, p_id_col)
+        return min_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return min_by_p_id_numpy(column, id_col, p_id_col)
+        return min_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def any_by_p_id(column, id_col, p_id_col):
+def any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return any_by_p_id_jax(column, id_col, p_id_col)
+        return any_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return any_by_p_id_numpy(column, id_col, p_id_col)
+        return any_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)
 
 
-def all_by_p_id(column, id_col, p_id_col):
+def all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
     if USE_JAX:
-        return all_by_p_id_jax(column, id_col, p_id_col)
+        return all_by_p_id_jax(column, p_id_to_aggregate_by, p_id_to_store_by)
     else:
-        return all_by_p_id_numpy(column, id_col, p_id_col)
+        return all_by_p_id_numpy(column, p_id_to_aggregate_by, p_id_to_store_by)

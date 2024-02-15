@@ -127,15 +127,15 @@ test_grouped_specs = {
     },
     "sum_by_p_id_float": {
         "column_to_aggregate": np.array([10.0, 20.0, 30.0, 40.0, 50.0]),
-        "id_col": np.array([-1, -1, 8, 8, 10]),
-        "p_id_col": np.array([7, 8, 9, 10, 11]),
+        "p_id_to_aggregate_by": np.array([-1, -1, 8, 8, 10]),
+        "p_id_to_store_by": np.array([7, 8, 9, 10, 11]),
         "expected_res": np.array([0.0, 70.0, 0.0, 50.0, 0.0]),
         "expected_type": numpy.floating,
     },
     "sum_by_p_id_int": {
         "column_to_aggregate": np.array([10, 20, 30, 40, 50]),
-        "id_col": np.array([-1, -1, 8, 8, 10]),
-        "p_id_col": np.array([7, 8, 9, 10, 11]),
+        "p_id_to_aggregate_by": np.array([-1, -1, 8, 8, 10]),
+        "p_id_to_store_by": np.array([7, 8, 9, 10, 11]),
         "expected_res": np.array([0, 70, 0, 50, 0]),
         "expected_type": numpy.integer,
     },
@@ -185,7 +185,7 @@ test_grouped_raises_specs = {
     "float_group_id": {
         "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
         "group_id": np.array([0, 0, 3.5, 3.5, 3.5]),
-        "p_id_col": np.array([0, 1, 2, 3, 4]),
+        "p_id_to_store_by": np.array([0, 1, 2, 3, 4]),
         "error_sum": TypeError,
         "error_mean": TypeError,
         "error_max": TypeError,
@@ -477,17 +477,25 @@ def test_grouped_cumsum_raises(
     test_grouped_specs,
     keys_of_test_cases=[
         "column_to_aggregate",
-        "id_col",
-        "p_id_col",
+        "p_id_to_aggregate_by",
+        "p_id_to_store_by",
         "expected_res",
         "expected_type",
     ],
 )
 def test_sum_by_p_id(
-    column_to_aggregate, id_col, p_id_col, expected_res, expected_type
+    column_to_aggregate,
+    p_id_to_aggregate_by,
+    p_id_to_store_by,
+    expected_res,
+    expected_type,
 ):
     result = numpy.array(
-        sum_by_p_id(column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col)
+        sum_by_p_id(
+            column=column_to_aggregate,
+            p_id_to_aggregate_by=p_id_to_aggregate_by,
+            p_id_to_store_by=p_id_to_store_by,
+        )
     )
     numpy.testing.assert_array_almost_equal(result, expected_res)
     assert numpy.issubdtype(
@@ -500,16 +508,20 @@ def test_sum_by_p_id(
     keys_of_test_cases=[
         "column_to_aggregate",
         "group_id",
-        "p_id_col",
+        "p_id_to_store_by",
         "error_sum_by_p_id",
         "exception_match",
     ],
 )
 def test_sum_by_p_id_raises(
-    column_to_aggregate, group_id, p_id_col, error_sum_by_p_id, exception_match
+    column_to_aggregate, group_id, p_id_to_store_by, error_sum_by_p_id, exception_match
 ):
     with pytest.raises(
         error_sum_by_p_id,
         match=exception_match,
     ):
-        sum_by_p_id(column=column_to_aggregate, id_col=group_id, p_id_col=p_id_col)
+        sum_by_p_id(
+            column=column_to_aggregate,
+            p_id_to_aggregate_by=group_id,
+            p_id_to_store_by=p_id_to_store_by,
+        )

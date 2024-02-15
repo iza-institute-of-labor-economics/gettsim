@@ -32,8 +32,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
     params,
     functions,
-    aggregation_specs=None,
-    interpersonal_links_specs=None,
+    aggregate_by_group_specs=None,
+    aggregate_by_p_id_specs=None,
     targets=None,
     check_minimal_specification="ignore",
     rounding=True,
@@ -53,15 +53,16 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         specified types and a list of the same objects. If the object is a dictionary,
         the keys of the dictionary are used as a name instead of the function name. For
         all other objects, the name is inferred from the function name.
-    aggregation_specs : dict, default None
+    aggregate_by_group_specs : dict, default None
         A dictionary which contains specs for functions which aggregate variables on
         the tax unit or household level. The syntax is the same as for aggregation
         specs in the code base and as specified in
         [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
-    interpersonal_links_specs : dict, default None
-        A dictionary which contains specs for linking (and aggregating) taxes and
-        transfers across individuals. The syntax is the same as for interpersonal links
-        in the code base.
+    aggregate_by_p_id_specs : dict, default None
+        A dictionary which contains specs for linking aggregating taxes and by another
+        individual (for example, a parent). The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -88,9 +89,11 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     params = {} if params is None else params
-    aggregation_specs = {} if aggregation_specs is None else aggregation_specs
-    interpersonal_links_specs = (
-        {} if interpersonal_links_specs is None else interpersonal_links_specs
+    aggregate_by_group_specs = (
+        {} if aggregate_by_group_specs is None else aggregate_by_group_specs
+    )
+    aggregate_by_p_id_specs = (
+        {} if aggregate_by_p_id_specs is None else aggregate_by_p_id_specs
     )
 
     # Process data and load dictionaries with functions.
@@ -99,8 +102,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         functions_raw=functions,
         targets=targets,
         data_cols=list(data),
-        aggregation_specs=aggregation_specs,
-        interpersonal_links_specs=interpersonal_links_specs,
+        aggregate_by_group_specs=aggregate_by_group_specs,
+        aggregate_by_p_id_specs=aggregate_by_p_id_specs,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)

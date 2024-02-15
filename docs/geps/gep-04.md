@@ -213,16 +213,16 @@ Many taxes or transfers require group-level variables. \<GEP-2 describes
 `gep-2-aggregation-functions`> how reductions are handled in terms of the underlying
 data. This section describes how to specify them.
 
-In order to inject aggregation functions into the graph, scripts with functions of the
-taxes and transfer system should define a dictionary `aggregation_[script_name]` at the
-module level. This dictionary must specify the aggregated columns as keys and a
-dictionary with keys `source_col` and `aggr` as values. If `aggr` is `count`,
-`source_col` is not needed.
+In order to inject aggregation functions at the group level into the graph, scripts with
+functions of the taxes and transfer system should define a dictionary
+`aggregate_by_group_[script_name]` at the module level. This dictionary must specify the
+aggregated columns as keys and a dictionary with keys `source_col` and `aggr` as values.
+If `aggr` is `count`, `source_col` is not needed.
 
 For example, in `demographic_vars.py`, we could have:
 
 ```
-aggregation_demographic_vars = {
+aggregate_by_group_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
     "haushaltsgröße_hh": {"aggr": "count"},
 }
@@ -266,7 +266,7 @@ automatically added to the graph. Its parents in the graph will be `kindergeld_m
 `hh_id`. This is the same as specifying:
 
 ```
-aggregation_kindergeld =  = {
+aggregate_by_group_kindergeld =  = {
     "kindergeld_m_hh": {
         "source_col": "kindergeld_m",
         "aggr": "sum"

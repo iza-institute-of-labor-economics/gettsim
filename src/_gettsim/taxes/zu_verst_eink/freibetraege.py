@@ -1,9 +1,9 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
-interpersonal_links_freibeträge = {
+aggregate_by_p_id_freibeträge = {
     "eink_st_kinderfreib_anz_ansprüche": {
-        "id_col": [
+        "p_id_to_aggregate_by": [
             "p_id_kinderfreib_empfänger_1",
             "p_id_kinderfreib_empfänger_2",
         ],

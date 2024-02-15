@@ -7,7 +7,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OVERRIDE_COLS = []
 
-data = load_policy_test_data("interpersonal_links")
+data = load_policy_test_data("aggregate_by_p_id")
 
 
 @pytest.mark.parametrize(
@@ -15,7 +15,7 @@ data = load_policy_test_data("interpersonal_links")
     data.parametrize_args,
     ids=str,
 )
-def test_interpersonal_links(
+def test_aggregate_by_p_id(
     test_data: PolicyTestData,
     column: str,
 ):

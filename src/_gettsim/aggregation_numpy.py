@@ -127,61 +127,61 @@ def grouped_cumsum(column, group_id):
     return out
 
 
-def count_by_p_id(id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="count_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="count_by_p_id")
+def count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="count_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="count_by_p_id")
 
     raise NotImplementedError
 
 
-def sum_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="sum_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="sum_by_p_id")
+def sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="sum_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="sum_by_p_id")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_by_p_id")
 
     if column.dtype in ["bool"]:
         column = column.astype(int)
-    out = numpy.zeros_like(p_id_col, dtype=column.dtype)
+    out = numpy.zeros_like(p_id_to_store_by, dtype=column.dtype)
 
-    map_p_id_to_position = {p_id: iloc for iloc, p_id in enumerate(p_id_col)}
+    map_p_id_to_position = {p_id: iloc for iloc, p_id in enumerate(p_id_to_store_by)}
 
-    for iloc, id_receiver in enumerate(id_col):
+    for iloc, id_receiver in enumerate(p_id_to_aggregate_by):
         if id_receiver >= 0:
             out[map_p_id_to_position[id_receiver]] += column[iloc]
     return out
 
 
-def mean_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="mean_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="mean_by_p_id")
+def mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="mean_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="mean_by_p_id")
     fail_if_dtype_not_float(column, agg_func="mean_by_p_id")
     raise NotImplementedError
 
 
-def max_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="max_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="max_by_p_id")
+def max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="max_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="max_by_p_id")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="max_by_p_id")
     raise NotImplementedError
 
 
-def min_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="min_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="min_by_p_id")
+def min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="min_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="min_by_p_id")
     fail_if_dtype_not_numeric_or_datetime(column, agg_func="min_by_p_id")
     raise NotImplementedError
 
 
-def any_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(id_col, agg_func="any_by_p_id")
-    fail_if_dtype_not_int(p_id_col, agg_func="any_by_p_id")
+def any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="any_by_p_id")
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="any_by_p_id")
     fail_if_dtype_not_boolean_or_int(column, agg_func="any_by_p_id")
     raise NotImplementedError
 
 
-def all_by_p_id(column, id_col, p_id_col):
-    fail_if_dtype_not_int(p_id_col, agg_func="all_by_p_id")
-    fail_if_dtype_not_int(id_col, agg_func="all_by_p_id")
+def all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by):
+    fail_if_dtype_not_int(p_id_to_store_by, agg_func="all_by_p_id")
+    fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func="all_by_p_id")
     fail_if_dtype_not_boolean_or_int(column, agg_func="all_by_p_id")
     raise NotImplementedError
 
@@ -202,11 +202,11 @@ def fail_if_dtype_not_float(column, agg_func):
         )
 
 
-def fail_if_dtype_not_int(id_col, agg_func):
-    if not numpy.issubdtype(id_col.dtype, numpy.integer):
+def fail_if_dtype_not_int(p_id_to_aggregate_by, agg_func):
+    if not numpy.issubdtype(p_id_to_aggregate_by.dtype, numpy.integer):
         raise TypeError(
             f"The dtype of id columns must be integer. Aggregation function {agg_func} "
-            f"was applied to a id columns that has dtype {id_col.dtype}."
+            f"was applied to a id columns that has dtype {p_id_to_aggregate_by.dtype}."
         )
 
 

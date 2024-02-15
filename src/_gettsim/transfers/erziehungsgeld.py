@@ -1,10 +1,9 @@
-"""Functions to compute parental leave benefits (Erziehungsgeld) that preceeded
-Elterngeld."""
+"""Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 from _gettsim.shared import add_rounding_spec, dates_active
 
-interpersonal_links_erziehungsgeld = {
+aggregate_by_p_id_erziehungsgeld = {
     "erziehungsgeld_eltern_m": {
-        "id_col": "p_id_erziehgeld_empf",
+        "p_id_to_aggregate_by": "p_id_erziehgeld_empf",
         "source_col": "erziehungsgeld_kind_m",
     },
 }

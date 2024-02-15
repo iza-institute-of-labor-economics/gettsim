@@ -32,7 +32,7 @@ def minimal_input_data():
 
 
 @pytest.fixture()
-def input_data_interpersonal_links():
+def input_data_aggregate_by_p_id():
     return pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -394,7 +394,7 @@ def test_partial_parameters_to_functions_keep_decorator():
     assert partial_func.__info__["rounding_params_key"] == "params_key_test"
 
 
-def test_user_provided_aggregation_specs():
+def test_user_provided_aggregate_by_group_specs():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -402,7 +402,7 @@ def test_user_provided_aggregation_specs():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
@@ -414,14 +414,14 @@ def test_user_provided_aggregation_specs():
         data,
         {},
         functions=[],
-        aggregation_specs=aggregation_specs,
+        aggregate_by_group_specs=aggregate_by_group_specs,
         targets="arbeitsl_geld_2_m_hh",
     )
 
     numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
 
-def test_user_provided_aggregation_specs_function():
+def test_user_provided_aggregate_by_group_specs_function():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -429,7 +429,7 @@ def test_user_provided_aggregation_specs_function():
             "arbeitsl_geld_2_m": [200, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_double_m_hh": {
             "source_col": "arbeitsl_geld_2_m_double",
             "aggr": "max",
@@ -444,7 +444,7 @@ def test_user_provided_aggregation_specs_function():
         data,
         {},
         functions=[arbeitsl_geld_2_m_double],
-        aggregation_specs=aggregation_specs,
+        aggregate_by_group_specs=aggregate_by_group_specs,
         targets="arbeitsl_geld_2_double_m_hh",
     )
 
@@ -453,7 +453,7 @@ def test_user_provided_aggregation_specs_function():
     )
 
 
-def test_aggregation_specs_missing_group_sufix():
+def test_aggregate_by_group_specs_missing_group_sufix():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -461,7 +461,7 @@ def test_aggregation_specs_missing_group_sufix():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_agg_m": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
@@ -475,12 +475,12 @@ def test_aggregation_specs_missing_group_sufix():
             data,
             {},
             functions=[],
-            aggregation_specs=aggregation_specs,
+            aggregate_by_group_specs=aggregate_by_group_specs,
             targets="arbeitsl_geld_2_agg_m",
         )
 
 
-def test_aggregation_specs_agg_not_impl():
+def test_aggregate_by_group_specs_agg_not_impl():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -488,7 +488,7 @@ def test_aggregation_specs_agg_not_impl():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "aggr_not_implemented",
@@ -502,19 +502,19 @@ def test_aggregation_specs_agg_not_impl():
             data,
             {},
             functions=[],
-            aggregation_specs=aggregation_specs,
+            aggregate_by_group_specs=aggregate_by_group_specs,
             targets="arbeitsl_geld_2_m_hh",
         )
 
 
 @pytest.mark.parametrize(
-    ("df, link_spec, target, expected"),
+    ("df, aggregate_by_p_id_spec, target, expected"),
     [
         (
-            "input_data_interpersonal_links",
+            "input_data_aggregate_by_p_id",
             {
                 "target_func": {
-                    "id_col": "hh_id",
+                    "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func",
                     "func_return": 100,
                 }
@@ -523,10 +523,10 @@ def test_aggregation_specs_agg_not_impl():
             pd.Series([200, 100, 0]),
         ),
         (
-            "input_data_interpersonal_links",
+            "input_data_aggregate_by_p_id",
             {
                 "target_func_m": {
-                    "id_col": "hh_id",
+                    "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func_m",
                     "func_return": 100,
                 }
@@ -535,10 +535,10 @@ def test_aggregation_specs_agg_not_impl():
             pd.Series([2400, 1200, 0]),
         ),
         (
-            "input_data_interpersonal_links",
+            "input_data_aggregate_by_p_id",
             {
                 "target_func_m": {
-                    "id_col": "hh_id",
+                    "p_id_to_aggregate_by": "hh_id",
                     "source_col": "source_func_m",
                     "func_return": 100,
                 }
@@ -548,21 +548,30 @@ def test_aggregation_specs_agg_not_impl():
         ),
     ],
 )
-def test_user_provided_interpersonal_links_specs(
-    df, link_spec, target, expected, request
+def test_user_provided_aggregate_by_p_id_specs(
+    df, aggregate_by_p_id_spec, target, expected, request
 ):
     df = request.getfixturevalue(df)
 
-    target_link_spec = next(iter(link_spec.keys()))
+    target_aggregate_by_p_id_spec = next(iter(aggregate_by_p_id_spec.keys()))
 
     def source_func():
-        return numpy.array([link_spec[target_link_spec]["func_return"]] * len(df))
+        return numpy.array(
+            [aggregate_by_p_id_spec[target_aggregate_by_p_id_spec]["func_return"]]
+            * len(df)
+        )
 
     out = compute_taxes_and_transfers(
         df,
         {},
-        functions=[{link_spec[target_link_spec]["source_col"]: source_func}],
-        interpersonal_links_specs=link_spec,
+        functions=[
+            {
+                aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
+                    "source_col"
+                ]: source_func
+            }
+        ],
+        aggregate_by_p_id_specs=aggregate_by_p_id_spec,
         targets=target,
     )
 
