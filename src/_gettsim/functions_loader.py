@@ -17,7 +17,7 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
-    sum_values_by_id,
+    sum_by_p_id,
 )
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
@@ -671,7 +671,7 @@ def _create_one_interpersonal_link_func(
             id_col: numpy.ndarray,
             p_id: numpy.ndarray,
         ) -> numpy.ndarray:
-            return sum_by_parent(source_col, id_col, p_id)
+            return sum_by_other_person(source_col, id_col, p_id)
 
     # Two targets.
     elif len(link_spec["id_col"]) == 2:
@@ -692,7 +692,7 @@ def _create_one_interpersonal_link_func(
             id_col_2: numpy.ndarray,
             p_id: numpy.ndarray,
         ) -> numpy.ndarray:
-            return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2, p_id)
+            return sum_by_other_person_two_targets(source_col, id_col_1, id_col_2, p_id)
 
     # Maximum is two at this point.
     else:
@@ -704,21 +704,21 @@ def _create_one_interpersonal_link_func(
     return link_func
 
 
-def sum_by_parent(
+def sum_by_other_person(
     source_col: numpy.ndarray,
     id_col: numpy.ndarray,
     p_id: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_values_by_id(source_col, id_col, p_id)
+    return sum_by_p_id(source_col, id_col, p_id)
 
 
-def sum_by_parent_multiple_targets(
+def sum_by_other_person_two_targets(
     source_col: numpy.ndarray,
     id_col_1: numpy.ndarray,
     id_col_2: numpy.ndarray,
     p_id: numpy.ndarray,
 ) -> numpy.ndarray:
-    return sum_values_by_id(source_col, id_col_1, p_id) + sum_values_by_id(
+    return sum_by_p_id(source_col, id_col_1, p_id) + sum_by_p_id(
         source_col, id_col_2, p_id
     )
 

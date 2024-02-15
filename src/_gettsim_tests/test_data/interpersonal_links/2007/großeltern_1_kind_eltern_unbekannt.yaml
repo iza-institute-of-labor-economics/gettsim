@@ -71,7 +71,7 @@ inputs:
       - false
       - true
 outputs:
-  kindergeld_anz_anprüche:
+  kindergeld_anz_ansprüche:
     - 1
     - 0
     - 0

@@ -75,7 +75,7 @@ outputs:
     - -1
     - -1
     - 1
-  kindergeld_anz_anprüche:
+  kindergeld_anz_ansprüche:
     - 1
     - 0
     - 0

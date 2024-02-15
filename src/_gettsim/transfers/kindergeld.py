@@ -12,7 +12,7 @@ aggregation_kindergeld = {
 }
 
 interpersonal_links_kindergeld = {
-    "kindergeld_anz_anprüche": {
+    "kindergeld_anz_ansprüche": {
         "id_col": "p_id_kindergeld_empf",
         "source_col": "kindergeld_anspruch",
     },
@@ -20,15 +20,15 @@ interpersonal_links_kindergeld = {
 
 
 def kindergeld_m(
-    kindergeld_anz_anprüche: bool,
+    kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
 
     Parameters
     ----------
-    kindergeld_anz_anprüche
-        See :func:`kindergeld_anz_anprüche`.
+    kindergeld_anz_ansprüche
+        See :func:`kindergeld_anz_ansprüche`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -37,7 +37,7 @@ def kindergeld_m(
 
     """
 
-    if kindergeld_anz_anprüche == 0:
+    if kindergeld_anz_ansprüche == 0:
         sum_kindergeld = 0.0
     else:
         sum_kindergeld = sum(
@@ -46,7 +46,7 @@ def kindergeld_m(
                 if i <= max(kindergeld_params["kindergeld"])
                 else max(kindergeld_params["kindergeld"])
             ]
-            for i in range(1, kindergeld_anz_anprüche + 1)
+            for i in range(1, kindergeld_anz_ansprüche + 1)
         )
 
     return sum_kindergeld

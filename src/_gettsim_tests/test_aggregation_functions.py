@@ -11,7 +11,7 @@ from _gettsim.aggregation import (
     grouped_mean,
     grouped_min,
     grouped_sum,
-    sum_values_by_id,
+    sum_by_p_id,
 )
 from _gettsim.config import USE_JAX
 from _gettsim.config import numpy_or_jax as np
@@ -125,14 +125,14 @@ test_grouped_specs = {
         "expected_res_sum": np.array([1, 1, 0, 0, 0]),
         "expected_res_cumsum": np.array([1, 1, 0, 0, 0]),
     },
-    "sum_values_by_id_float": {
+    "sum_by_p_id_float": {
         "column_to_aggregate": np.array([10.0, 20.0, 30.0, 40.0, 50.0]),
         "id_col": np.array([-1, -1, 8, 8, 10]),
         "p_id_col": np.array([7, 8, 9, 10, 11]),
         "expected_res": np.array([0.0, 70.0, 0.0, 50.0, 0.0]),
         "expected_type": numpy.floating,
     },
-    "sum_values_by_id_int": {
+    "sum_by_p_id_int": {
         "column_to_aggregate": np.array([10, 20, 30, 40, 50]),
         "id_col": np.array([-1, -1, 8, 8, 10]),
         "p_id_col": np.array([7, 8, 9, 10, 11]),
@@ -191,8 +191,8 @@ test_grouped_raises_specs = {
         "error_max": TypeError,
         "error_min": TypeError,
         "error_cumsum": TypeError,
-        "error_sum_values_by_id": TypeError,
-        "exception_match": "The dtype of group_id must be integer.",
+        "error_sum_by_p_id": TypeError,
+        "exception_match": "The dtype of id columns must be integer.",
     },
     "dtype_float": {
         "column_to_aggregate": np.array([1.5, 2, 3.5, 4, 5]),
@@ -212,7 +212,7 @@ test_grouped_raises_specs = {
         "group_id": np.array([0, 0, 3.5, 3.5, 3.5]),
         "error_any": TypeError,
         "error_all": TypeError,
-        "exception_match": "The dtype of group_id must be integer.",
+        "exception_match": "The dtype of id columns must be integer.",
     },
 }
 if not USE_JAX:
@@ -483,11 +483,11 @@ def test_grouped_cumsum_raises(
         "expected_type",
     ],
 )
-def test_sum_values_by_id(
+def test_sum_by_p_id(
     column_to_aggregate, id_col, p_id_col, expected_res, expected_type
 ):
     result = numpy.array(
-        sum_values_by_id(column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col)
+        sum_by_p_id(column=column_to_aggregate, id_col=id_col, p_id_col=p_id_col)
     )
     numpy.testing.assert_array_almost_equal(result, expected_res)
     assert numpy.issubdtype(
@@ -501,15 +501,15 @@ def test_sum_values_by_id(
         "column_to_aggregate",
         "group_id",
         "p_id_col",
-        "error_sum_values_by_id",
+        "error_sum_by_p_id",
         "exception_match",
     ],
 )
-def test_sum_values_by_id_raises(
-    column_to_aggregate, group_id, p_id_col, error_sum_values_by_id, exception_match
+def test_sum_by_p_id_raises(
+    column_to_aggregate, group_id, p_id_col, error_sum_by_p_id, exception_match
 ):
     with pytest.raises(
-        error_sum_values_by_id,
+        error_sum_by_p_id,
         match=exception_match,
     ):
-        sum_values_by_id(column=column_to_aggregate, id_col=group_id, p_id_col=p_id_col)
+        sum_by_p_id(column=column_to_aggregate, id_col=group_id, p_id_col=p_id_col)

@@ -1,12 +1,11 @@
 import warnings
 
 import numpy
-import numpy.typing as npt
 import numpy_groupies as npg
 
 
 def grouped_count(group_id):
-    fail_if_dtype_not_int(group_id, agg_func="count")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_count")
     out_on_hh = npg.aggregate(
         group_id, numpy.ones(len(group_id)), func="sum", fill_value=0
     )
@@ -16,8 +15,8 @@ def grouped_count(group_id):
 
 
 def grouped_sum(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="sum")
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_sum")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="grouped_sum")
 
     out_on_hh = npg.aggregate(group_id, column, func="sum", fill_value=0)
 
@@ -27,8 +26,8 @@ def grouped_sum(column, group_id):
 
 
 def grouped_mean(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="mean")
-    fail_if_dtype_not_float(column, agg_func="mean")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_mean")
+    fail_if_dtype_not_float(column, agg_func="grouped_mean")
 
     out_on_hh = npg.aggregate(group_id, column, func="mean", fill_value=0)
 
@@ -38,8 +37,8 @@ def grouped_mean(column, group_id):
 
 
 def grouped_max(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="max")
-    fail_if_dtype_not_numeric_or_datetime(column, agg_func="max")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_max")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="grouped_max")
 
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
@@ -63,8 +62,8 @@ def grouped_max(column, group_id):
 
 
 def grouped_min(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="min")
-    fail_if_dtype_not_numeric_or_datetime(column, agg_func="min")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_min")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="grouped_min")
 
     # For datetime, convert to integer (as numpy_groupies can handle datetime only if
     # numba is installed)
@@ -91,8 +90,8 @@ def grouped_min(column, group_id):
 
 
 def grouped_any(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="any")
-    fail_if_dtype_not_boolean_or_int(column, agg_func="any")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_any")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="grouped_any")
 
     out_on_hh = npg.aggregate(group_id, column, func="any", fill_value=0)
 
@@ -102,8 +101,8 @@ def grouped_any(column, group_id):
 
 
 def grouped_all(column, group_id):
-    fail_if_dtype_not_int(group_id, agg_func="all")
-    fail_if_dtype_not_boolean_or_int(column, agg_func="all")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_all")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="grouped_all")
 
     out_on_hh = npg.aggregate(group_id, column, func="all", fill_value=0)
 
@@ -119,8 +118,8 @@ def grouped_cumsum(column, group_id):
         DeprecationWarning,
         stacklevel=2,
     )
-    fail_if_dtype_not_int(group_id, agg_func="sum")
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum")
+    fail_if_dtype_not_int(group_id, agg_func="grouped_sum")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="grouped_sum")
     if column.dtype == bool:
         column = column.astype(int)
     out = npg.aggregate(group_id, column, func="cumsum", fill_value=0)
@@ -128,14 +127,19 @@ def grouped_cumsum(column, group_id):
     return out
 
 
-def sum_values_by_id(
-    column: npt.NDArray[numpy.int64 | numpy.float64 | numpy.bool_],
-    id_col: npt.NDArray[numpy.int64],
-    p_id_col: npt.NDArray[numpy.int64],
-) -> numpy.ndarray:
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_values_by_id")
-    fail_if_dtype_not_int(id_col, agg_func="sum_values_by_id")
-    if column.dtype == bool:
+def count_by_p_id(id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="count_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="count_by_p_id")
+
+    raise NotImplementedError
+
+
+def sum_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="sum_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="sum_by_p_id")
+    fail_if_dtype_not_numeric_or_boolean(column, agg_func="sum_by_p_id")
+
+    if column.dtype in ["bool"]:
         column = column.astype(int)
     out = numpy.zeros_like(p_id_col, dtype=column.dtype)
 
@@ -144,40 +148,73 @@ def sum_values_by_id(
     for iloc, id_receiver in enumerate(id_col):
         if id_receiver >= 0:
             out[map_p_id_to_position[id_receiver]] += column[iloc]
-
     return out
+
+
+def mean_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="mean_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="mean_by_p_id")
+    fail_if_dtype_not_float(column, agg_func="mean_by_p_id")
+    raise NotImplementedError
+
+
+def max_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="max_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="max_by_p_id")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="max_by_p_id")
+    raise NotImplementedError
+
+
+def min_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="min_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="min_by_p_id")
+    fail_if_dtype_not_numeric_or_datetime(column, agg_func="min_by_p_id")
+    raise NotImplementedError
+
+
+def any_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(id_col, agg_func="any_by_p_id")
+    fail_if_dtype_not_int(p_id_col, agg_func="any_by_p_id")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="any_by_p_id")
+    raise NotImplementedError
+
+
+def all_by_p_id(column, id_col, p_id_col):
+    fail_if_dtype_not_int(p_id_col, agg_func="all_by_p_id")
+    fail_if_dtype_not_int(id_col, agg_func="all_by_p_id")
+    fail_if_dtype_not_boolean_or_int(column, agg_func="all_by_p_id")
+    raise NotImplementedError
 
 
 def fail_if_dtype_not_numeric(column, agg_func):
     if not numpy.issubdtype(column.dtype, numpy.number):
         raise TypeError(
-            f"grouped_{agg_func} was applied to a column "
-            f"that has dtype {column.dtype}. Allowed are only numerical dtypes."
+            f"Aggregation function {agg_func} was applied to a column "
+            f"with dtype {column.dtype}. Allowed are only numerical dtypes."
         )
 
 
 def fail_if_dtype_not_float(column, agg_func):
     if not numpy.issubdtype(column.dtype, numpy.floating):
         raise TypeError(
-            f"grouped_{agg_func} was applied to a column "
-            f"that has dtype {column.dtype}. Allowed is only float."
+            f"Aggregation function {agg_func} was applied to a column "
+            f"with dtype {column.dtype}. Allowed is only float."
         )
 
 
 def fail_if_dtype_not_int(id_col, agg_func):
     if not numpy.issubdtype(id_col.dtype, numpy.integer):
         raise TypeError(
-            f"The dtype of group_id must be integer. Grouped_{agg_func} was applied "
-            f"to a group_id that has dtype {id_col.dtype}."
+            f"The dtype of id columns must be integer. Aggregation function {agg_func} "
+            f"was applied to a id columns that has dtype {id_col.dtype}."
         )
 
 
 def fail_if_dtype_not_numeric_or_boolean(column, agg_func):
     if not (numpy.issubdtype(column.dtype, numpy.number) or column.dtype == "bool"):
         raise TypeError(
-            f"grouped_{agg_func} was applied to a column "
-            f"that has dtype {column.dtype}. "
-            "Allowed are only numerical or Boolean dtypes."
+            f"Aggregation function {agg_func} was applied to a column with dtype "
+            f"{column.dtype}. Allowed are only numerical or Boolean dtypes."
         )
 
 
@@ -187,9 +224,8 @@ def fail_if_dtype_not_numeric_or_datetime(column, agg_func):
         or numpy.issubdtype(column.dtype, numpy.datetime64)
     ):
         raise TypeError(
-            f"grouped_{agg_func} was applied to a column "
-            f"that has dtype {column.dtype}. "
-            "Allowed are only numerical or datetime dtypes."
+            f"Aggregation function {agg_func} was applied to a column with dtype "
+            f"{column.dtype}. Allowed are only numerical or datetime dtypes."
         )
 
 
@@ -199,6 +235,6 @@ def fail_if_dtype_not_boolean_or_int(column, agg_func):
         or numpy.issubdtype(column.dtype, numpy.bool_)
     ):
         raise TypeError(
-            f"grouped_{agg_func} was applied to a column "
-            f"that has dtype {column.dtype}. Allowed are only Boolean and int dtypes."
+            f"Aggregation function {agg_func} was applied to a column with dtype "
+            f"{column.dtype}. Allowed are only Boolean and int dtypes."
         )
