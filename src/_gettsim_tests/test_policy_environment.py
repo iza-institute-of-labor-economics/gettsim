@@ -1,4 +1,5 @@
 """Some tests for the policy_environment module."""
+
 from datetime import date, timedelta
 
 import pandas as pd

@@ -417,7 +417,7 @@ def _node_to_formatted_source(node: ast.AST):
 
 
 def _module_from_backend(backend: str):
-    module = BACKEND_TO_MODULE.get(backend, None)
+    module = BACKEND_TO_MODULE.get(backend)
     if module is None:
         msg = (
             f"Argument 'backend' is {backend} but must be in "

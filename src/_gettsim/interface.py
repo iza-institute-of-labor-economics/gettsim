@@ -645,9 +645,7 @@ def _add_rounding_to_functions(functions, params):
             functions_new[func_name] = _add_rounding_to_one_function(
                 base=rounding_spec["base"],
                 direction=rounding_spec["direction"],
-                to_add_after_rounding=rounding_spec["to_add_after_rounding"]
-                if "to_add_after_rounding" in rounding_spec
-                else 0,
+                to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
             )(func)
 
     return functions_new

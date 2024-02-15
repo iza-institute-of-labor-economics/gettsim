@@ -1,4 +1,5 @@
 """This module contains the main namespace of gettsim."""
+
 from __future__ import annotations
 
 try:

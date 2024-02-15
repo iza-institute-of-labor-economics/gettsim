@@ -51,8 +51,7 @@ def time_indep_function_names(all_function_names):
 
     # Only use time dependent function names
     time_indep_function_names = [
-        (time_dependent_functions[c] if c in time_dependent_functions else c)
-        for c in sorted(all_function_names)
+        (time_dependent_functions.get(c, c)) for c in sorted(all_function_names)
     ]
 
     # Remove duplicates
