@@ -1,14 +1,8 @@
 # Reference: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#static-vs-dynamic-metadata
 
-[build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
-build-backend = "setuptools.build_meta"
-
-
 [project]
 # Basic information
 name = "gettsim"
-version = "0.5.1"
 # About the project
 authors = [
     { name = "The GETTSIM team", email = "gaudecker@iza.org" },
@@ -58,6 +52,11 @@ Changelog = "https://gettsim.readthedocs.io/en/stable/changes.html"
 Documentation = "https://gettsim.readthedocs.io"
 Github = "https://github.com/iza-institute-of-labor-economics/gettsim"
 Tracker = "https://github.com/iza-institute-of-labor-economics/gettsim/issues"
+
+
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
+build-backend = "setuptools.build_meta"
 
 
 [tool.setuptools_scm]

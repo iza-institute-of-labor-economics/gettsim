@@ -111,10 +111,6 @@ repos:
         additional_dependencies:
           - types-PyYAML
           - types-pytz
-  - repo: https://github.com/asottile/setup-cfg-fmt
-    rev: v2.5.0
-    hooks:
-      - id: setup-cfg-fmt
   - repo: https://github.com/mgedmin/check-manifest
     rev: '0.49'
     hooks:
