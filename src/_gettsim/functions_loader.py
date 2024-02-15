@@ -4,7 +4,7 @@ import functools
 import importlib
 import inspect
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 import numpy
 
@@ -185,11 +185,12 @@ def load_internal_functions():
     return internal_functions
 
 
-def load_aggregation_and_link_dict():
+def load_aggregation_or_interpersonal_links_dict(
+    typ: Literal["aggregation", "interpersonal_links"]
+):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
-    aggregation_dict, link_dict = _load_aggregation_and_link_dicts_from_modules(sources)
-    return aggregation_dict, link_dict
+    return _load_aggregation_or_links_dicts_from_modules(sources, typ)
 
 
 def _convert_paths_to_import_strings(paths):
@@ -323,8 +324,12 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     return "\n".join(lines)
 
 
-def _load_aggregation_and_link_dicts_from_modules(sources):
-    """Load aggregation dictionaries from paths and strings and combine them.
+def _load_aggregation_or_links_dicts_from_modules(
+    sources: list[Path | str], typ: Literal["aggregation", "interpersonal_links"]
+):
+    """Return a dictionary with all aggregations or interpersonal links.
+
+    Dictionaries are imported from *sources*, which point to modules:
 
     1. Paths point to modules which are loaded.
     2. Strings are import statements which can be imported as module.
@@ -339,43 +344,31 @@ def _load_aggregation_and_link_dicts_from_modules(sources):
                 spec.loader.exec_module(out)
             elif isinstance(source, str):
                 out = importlib.import_module(source)
-            aggregation_dicts_defined_in_module = [
+            dicts_defined_in_module = [
                 obj
                 for name, obj in inspect.getmembers(out)
-                if isinstance(obj, dict)
-                and name.startswith(("aggregation_", "interpersonal_links_"))
-                # if _is_function_defined_in_module(func, out.__name__)
+                if isinstance(obj, dict) and name.startswith(f"{typ}_")
             ]
 
-        new_sources.append(aggregation_dicts_defined_in_module)
+        new_sources.append(dicts_defined_in_module)
 
     # Combine dictionaries
-    list_of_aggregation_dics = [c for inner_list in new_sources for c in inner_list]
-    all_keys = [c for inner_dict in list_of_aggregation_dics for c in inner_dict]
+    list_of_dicts = [c for inner_list in new_sources for c in inner_list]
+    all_keys = [c for inner_dict in list_of_dicts for c in inner_dict]
     if len(all_keys) != len(set(all_keys)):
         duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
         raise ValueError(
             "The following column names are used more "
-            f"than once in the aggregation_ dictionarys: {duplicate_keys}"
+            f"than once in the {typ} dictionaries: {duplicate_keys}"
         )
-    else:
-        combined_dict = {
-            k: v
-            for inner_dict in list_of_aggregation_dics
-            for k, v in inner_dict.items()
-        }
-        aggregation_dict = dict(
-            filter(lambda k: "id_col" not in k[1], combined_dict.items())
-        )
-        link_dict = dict(filter(lambda k: "id_col" in k[1], combined_dict.items()))
-    return aggregation_dict, link_dict
+    return {k: v for inner_dict in list_of_dicts for k, v in inner_dict.items()}
 
 
 def _create_aggregation_functions(
     user_and_internal_functions, targets, data_cols, user_provided_aggregation_specs
 ):
     """Create aggregation functions."""
-    aggregation_dict, _ = load_aggregation_and_link_dict()
+    aggregation_dict = load_aggregation_or_interpersonal_links_dict(typ="aggregation")
 
     # Make specs for automated sum aggregation
     potential_source_cols = list(user_and_internal_functions) + data_cols
@@ -617,26 +610,26 @@ def _create_interpersonal_link_functions(
     Create function dict with functions that link parent and child variables.
     """
 
-    _, link_dict = load_aggregation_and_link_dict()
+    links_dict = load_aggregation_or_interpersonal_links_dict(typ="interpersonal_links")
 
-    link_dict = {**link_dict, **user_provided_interpersonal_links_specs}
+    links_dict = {**links_dict, **user_provided_interpersonal_links_specs}
 
-    _fail_if_not_dict_of_dicts(link_dict)
+    _fail_if_not_dict_of_dicts(links_dict)
 
     link_functions = {
-        link_col: _create_one_link_func(
+        link_col: _create_one_interpersonal_link_func(
             link_spec,
             user_and_internal_functions,
             data_cols,
         )
-        for link_col, link_spec in link_dict.items()
+        for link_col, link_spec in links_dict.items()
         if link_spec["source_col"] in user_and_internal_functions
     }
 
     return link_functions
 
 
-def _create_one_link_func(
+def _create_one_interpersonal_link_func(
     link_spec: dict[str, str],
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
