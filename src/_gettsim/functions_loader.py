@@ -606,9 +606,7 @@ def _create_interpersonal_link_functions(
     data_cols: list[str],
     user_provided_interpersonal_links_specs: dict[str, dict[str, str]],
 ) -> dict[str, Callable]:
-    """
-    Create function dict with functions that link parent and child variables.
-    """
+    """Create function dict with functions that link variables across persons."""
 
     links_dict = load_aggregation_or_interpersonal_links_dict(typ="interpersonal_links")
 
@@ -634,7 +632,7 @@ def _create_one_interpersonal_link_func(
     user_and_internal_functions: dict[str, Callable],
     data_cols: list[str],
 ) -> Callable:
-    """Create a function that links parent and child variables."""
+    """Create one function that links variables across persons."""
 
     _fail_if_source_col_not_in_functions(
         link_spec, user_and_internal_functions, data_cols
@@ -656,7 +654,7 @@ def _create_one_interpersonal_link_func(
     else:
         pass
 
-    # Single target
+    # Single targets.
     if isinstance(link_spec["id_col"], str):
         # Create id annotations
         annotations["id_col"] = int
@@ -675,7 +673,7 @@ def _create_one_interpersonal_link_func(
         ) -> numpy.ndarray:
             return sum_by_parent(source_col, id_col, p_id)
 
-    # Multiple targets
+    # Two targets.
     elif len(link_spec["id_col"]) == 2:
         # Create id annotations
         annotations.update({"id_col_1": int, "id_col_2": int})
@@ -696,10 +694,11 @@ def _create_one_interpersonal_link_func(
         ) -> numpy.ndarray:
             return sum_by_parent_multiple_targets(source_col, id_col_1, id_col_2, p_id)
 
+    # Maximum is two at this point.
     else:
         raise NotImplementedError(
-            """Parent-child links based on more
-                                  than two ID columns currently not supported."""
+            "Interpersonal links based on more "
+            "than two ID columns are not supported."
         )
 
     return link_func
