@@ -654,8 +654,10 @@ def _create_aggregate_by_p_id_functions(
         **user_provided_aggregate_by_p_id_specs,
     }
 
-    _fail_if_not_dict_of_dicts(aggregate_by_p_id_dict)
-    # TODO: Make validity check for dictionary here. Can use output column name then.
+    map(  # noqa: C417
+        lambda item: _check_agg_specs_validity(agg_specs=item[1], agg_col=item[0]),
+        aggregate_by_p_id_dict.items(),
+    )
 
     aggregate_by_p_id_functions = {
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
@@ -690,8 +692,6 @@ def _create_one_aggregate_by_p_id_func(
     aggregate_by_p_id_func : The aggregation func with the expected signature
 
     """
-
-    _check_agg_specs_validity(agg_specs, "whatever")
 
     annotations = _annotations_for_aggregation(
         agg_specs=agg_specs,
@@ -814,13 +814,4 @@ def _fail_if_targets_are_not_among_functions(functions, targets):
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
             f"The following targets have no corresponding function:\n{formatted}"
-        )
-
-
-def _fail_if_not_dict_of_dicts(dict_to_check: dict) -> None:
-    if not isinstance(dict_to_check, dict) or not all(
-        isinstance(v, dict) for v in dict_to_check.values()
-    ):
-        raise ValueError(
-            "Parent-child links must be specified as a dictionary of dictionaries."
         )
