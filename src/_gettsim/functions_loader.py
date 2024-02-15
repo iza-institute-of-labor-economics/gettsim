@@ -654,10 +654,10 @@ def _create_aggregate_by_p_id_functions(
         **user_provided_aggregate_by_p_id_specs,
     }
 
-    map(  # noqa: C417
-        lambda item: _check_agg_specs_validity(agg_specs=item[1], agg_col=item[0]),
-        aggregate_by_p_id_dict.items(),
-    )
+    [
+        _check_agg_specs_validity(agg_specs=v, agg_col=k)
+        for k, v in aggregate_by_p_id_dict.items()
+    ]
 
     aggregate_by_p_id_functions = {
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
