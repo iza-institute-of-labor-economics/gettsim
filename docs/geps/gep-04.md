@@ -63,7 +63,7 @@ GETTSIM; this is irrelevant for the DAG.
 Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `bruttolohn_m`).
-- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_tu`).
+- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_tu`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 
@@ -80,13 +80,13 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
     """Calculate Abgeltungssteuer on tax unit level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_tu
-        See :func:`zu_verst_kapitaleink_tu`.
+    zu_verst_kapitaleink_y_tu
+        See :func:`zu_verst_kapitaleink_y_tu`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -94,30 +94,29 @@ def abgelt_st_tu(zu_verst_kapitaleink_tu: float, abgelt_st_params: dict) -> floa
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_tu
+    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
 ```
 
-The function {func}`abgelt_st_tu` requires the variable `zu_verst_kapital_eink_tu` which
-is the amount of taxable capital income on tax unit level (the latter is implied by the
-`_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_tu` must be provided by the user
-as a column of the input data or it has to be the name of another function.
+The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_y_tu`,
+which is the amount of taxable capital income on tax unit level (the latter is implied
+by the `_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_tu` must be provided by
+the user as a column of the input data or it has to be the name of another function.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of
-`abgelt_st_tu`.
+`abgelt_st_y_tu`.
 
 Another function, say
 
 ```python
-def soli_st_tu(
-    eink_st_mit_kinderfreib_tu: float,
+def soli_st_y_tu(
+    eink_st_mit_kinderfreib_y_tu: float,
     anz_erwachsene_tu: int,
-    abgelt_st_tu: float,
+    abgelt_st_y_tu: float,
     soli_st_params: dict,
-) -> float:
-    ...
+) -> float: ...
 ```
 
-may use `abgelt_st_tu` as an input argument. The DAG backend ensures that the function
-`abgelt_st_tu` will be executed first.
+may use `abgelt_st_y_tu` as an input argument. The DAG backend ensures that the function
+`abgelt_st_y_tu` will be executed first.
 
 Note that the type annotations (e.g. `float`) indicate the expected type of each input
 and the output of a function, see {ref}`gep-2`.
@@ -206,7 +205,7 @@ same function.
 We implemented a small set of additional features that simplify the specification of
 certain types of functions of the taxes and transfers system.
 
-(gep-4-aggregation-functions)=
+(gep-4-aggregation-by-group-functions)=
 
 ### Group summation and other aggregation functions
 
@@ -214,16 +213,16 @@ Many taxes or transfers require group-level variables. \<GEP-2 describes
 `gep-2-aggregation-functions`> how reductions are handled in terms of the underlying
 data. This section describes how to specify them.
 
-In order to inject aggregation functions into the graph, scripts with functions of the
-taxes and transfer system should define a dictionary `aggregation_[script_name]` at the
-module level. This dictionary must specify the aggregated columns as keys and a
-dictionary with keys `source_col` and `aggr` as values. If `aggr` is `count`,
-`source_col` is not needed.
+In order to inject aggregation functions at the group level into the graph, scripts with
+functions of the taxes and transfer system should define a dictionary
+`aggregate_by_group_[script_name]` at the module level. This dictionary must specify the
+aggregated columns as keys and a dictionary with keys `source_col` and `aggr` as values.
+If `aggr` is `count`, `source_col` is not needed.
 
 For example, in `demographic_vars.py`, we could have:
 
 ```
-aggregation_demographic_vars = {
+aggregate_by_group_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
     "haushaltsgröße_hh": {"aggr": "count"},
 }
@@ -250,31 +249,75 @@ Using a different reduction function than the sum is as easy as explicitly speci
 `my_col_hh`.
 
 Consider the following example: the function `kindergeld_m` calculates the
-individual-level child benefit payment. `arbeitsl_geld_2_m_hh` calculates
-Arbeitslosengeld 2 on the household level (as indicated by the suffix). One necessary
-input of this function is the sum of all child benefits on the household level. There is
-no function or input column `kindergeld_m_hh`.
+individual-level child benefit payment. `arbeitsl_geld_2_m_bg` calculates
+Arbeitslosengeld 2 on the Bedarfsgemeinschaft (bg) level (as indicated by the suffix).
+One necessary input of this function is the sum of all child benefits on the
+Bedarfsgemeinschaft level. There is no function or input column `kindergeld_m_bg`.
 
-By including `kindergeld_m_hh` as an argument in the definition of
-`arbeitsl_geld_2_m_hh` as follows:
+By including `kindergeld_m_bg` as an argument in the definition of
+`arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_hh(kindergeld_m_hh, other_arguments):
-    ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
 ```
 
-a node `kindergeld_m_hh` containing the household-level sum of `kindergeld_m` will be
-automatically added to the graph. Its parents in the graph will be `kindergeld_m` and
-`hh_id`. This is the same as specifying:
+a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`
+will be automatically added to the graph. Its parents in the graph will be
+`kindergeld_m` and `bg_id`. This is the same as specifying:
 
 ```
-aggregation_kindergeld =  = {
-    "kindergeld_m_hh": {
+aggregate_by_group_kindergeld =  = {
+    "kindergeld_m_bg": {
         "source_col": "kindergeld_m",
         "aggr": "sum"
     }
 }
 ```
+
+(gep-4-aggregation-by-p-id-functions)=
+
+### Aggregation based on person-to-person pointers
+
+For some taxes and transfers, one person may establish a claim for another person. A
+parent, for example, has a claim on the basic child allowance (Kindergeld) because their
+child is eligible for it. Similarly, parents receive a tax allowance because their child
+satisfies the criteria for it. These aggregation operations are based on the `p_id`
+column. This section describes how to specify such taxes and transfers.
+
+The implementation is similar to aggregations to the level of groupings: In order to
+specify new aggregation functions, scripts with functions of the taxes and transfer
+system should define a dictionary `aggregate_by_p_id_[script_name]` at the module level.
+This dictionary must specify the aggregated columns as keys and a dictionary with keys
+`source_col`, `p_id_to_aggregate_by` and `aggr` as values. If `aggr` is `count`,
+`source_col` is not needed.
+
+The key `source_col` specifies which column is the source of the aggregation operation.
+The key `p_id_to_aggregate_by` specifies the column that indicates to which `p_id` the
+values in `source_col` should be ascribed to. The key `aggr` gives the aggregation
+method.
+
+For example, in `kindergeld.py`, we could have:
+
+```
+aggregate_by_p_id_kindergeld = {
+    "kindergeld_anz_ansprüche": {
+        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
+```
+
+This dict creates a target function `kindergeld_anz_ansprüche` which gives the amount of
+claims that a person has on Kindergeld, based on the `kindergeld_anspruch` function
+which returns Booleans, which show whether a child is a reason for a Kindergeld claim.
+
+The output type will be the same as the input type. Exceptions:
+
+- Input type `bool` and aggregation `sum` leads to output type `int`.
+- Input type `int` or `float` and aggregation {math}`\in \{` `any`, `all` {math}`\}`
+  leads to output type `bool`
+- Aggregation `count` will always result in an `int`.
 
 (gep-4-time-unit-conversion)=
 

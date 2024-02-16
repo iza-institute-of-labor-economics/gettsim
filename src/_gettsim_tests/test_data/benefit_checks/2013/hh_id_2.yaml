@@ -31,7 +31,7 @@ inputs:
     wohngeld_vor_vermög_check_m_hh:
       - 400.0
       - 400.0
-    arbeitsl_geld_2_regelbedarf_m_hh:
+    arbeitsl_geld_2_regelbedarf_m_bg:
       - 1170.0
       - 1170.0
     kindergeld_m_hh:
@@ -54,12 +54,12 @@ inputs:
       - 2013
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 0
     - 0
   wohngeld_m_hh:
     - 0
     - 0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 470.0
     - 470.0

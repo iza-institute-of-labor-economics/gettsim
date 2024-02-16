@@ -52,6 +52,11 @@ mindestunterhalt:
     12: 502
     18: 588
     reference: Artikel 1 V. v. 30.11.2022 BGBl. I S. 2130.
+  2024-01-01:
+    6: 480
+    12: 551
+    18: 645
+    reference: Artikel 1 V. v. 29.11.2023 BGBl. I Nr. 330.
 abzugsrate_kindergeld:
   name:
     de: Verringerung des Kindesunterhalts durch Kindergeld

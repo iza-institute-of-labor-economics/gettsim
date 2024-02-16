@@ -1,0 +1,13 @@
+---
+foo:
+  description:
+    de: null
+    en: null
+  unit: null
+  access_different_date: vorjahr
+  2018-01-01:
+    scalar: 2018
+  2019-01-01:
+    scalar: 2019
+  2020-01-01:
+    scalar: 2020

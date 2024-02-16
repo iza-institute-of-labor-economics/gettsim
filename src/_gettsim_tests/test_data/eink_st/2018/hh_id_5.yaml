@@ -16,15 +16,15 @@ inputs:
       - 200000.0
     zu_verst_eink_kinderfreib:
       - 180000.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_tu:
+  eink_st_ohne_kinderfreib_y_tu:
     - 75378
-  eink_st_mit_kinderfreib_tu:
+  eink_st_mit_kinderfreib_y_tu:
     - 66978
-  abgelt_st_tu:
+  abgelt_st_y_tu:
     - 0.0
-  soli_st_tu:
+  soli_st_y_tu:
     - 3683.79

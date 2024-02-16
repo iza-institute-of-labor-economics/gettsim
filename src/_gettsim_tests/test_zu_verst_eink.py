@@ -5,11 +5,6 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-OVERRIDE_COLS = [
-    "sum_ges_rente_priv_rente_m",
-    "vorsorgeaufw_tu",
-]
-
 data = load_policy_test_data("zu_verst_eink")
 
 
@@ -28,11 +23,7 @@ def test_zu_verst_eink(
     )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(

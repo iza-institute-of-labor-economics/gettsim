@@ -10,6 +10,12 @@ inputs:
       - 6
     p_id:
       - 10
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_kindergeld_empf:
+      - -1
     vermögen_bedürft_hh:
       - 5500.0
     bruttolohn_m:
@@ -42,8 +48,10 @@ inputs:
       - 1
     mietstufe:
       - 3
-    entgeltp:
+    entgeltp_west:
       - 1.7936
+    entgeltp_ost:
+      - 0.0
     kind:
       - false
     rentner:
@@ -100,7 +108,7 @@ inputs:
       - 0.0
     m_krank_ab_16_bis_24:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0

@@ -19,6 +19,21 @@ inputs:
       - 2
       - 3
       - 4
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - -1
+      - -1
     vermögen_bedürft_hh:
       - 5500.0
       - 5500.0
@@ -99,11 +114,16 @@ inputs:
       - 3
       - 3
       - 3
-    entgeltp:
+    entgeltp_west:
       - 6.2776
       - 6.2776
       - 6.2776
       - 6.2776
+    entgeltp_ost:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     kind:
       - false
       - false
@@ -244,7 +264,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
       - 0.0
       - 0.0

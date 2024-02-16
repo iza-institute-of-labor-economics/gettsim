@@ -10,6 +10,10 @@ inputs:
       - 2
     tu_id:
       - 2
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
     bruttolohn_m:
       - 600.0
     betreuungskost_m:
@@ -50,21 +54,21 @@ inputs:
       - false
     geburtsjahr:
       - 1970
-    vorsorgeaufw_tu:
+    vorsorgeaufw_y_tu:
       - 1916.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_tu:
     - 4328.0
-  zu_verst_eink_mit_kinderfreib_tu:
+  _zu_verst_eink_mit_kinderfreib_y_tu:
     - 4328.0
-  eink_st_kinderfreib_tu:
+  eink_st_kinderfreib_y_tu:
     - 0
-  eink_st_altersfreib:
+  eink_st_altersfreib_y:
     - 0
-  alleinerz_freib_tu:
+  alleinerz_freib_y_tu:
     - 0
-  sum_eink:
+  sum_eink_y:
     - 6280
-  _eink_st_behinderungsgrad_pauschbetrag:
+  _eink_st_behinderungsgrad_pauschbetrag_y:
     - 0

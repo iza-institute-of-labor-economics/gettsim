@@ -20,8 +20,10 @@ inputs:
       - 2015
     geburtsjahr:
       - 1944
-    entgeltp:
+    entgeltp_west:
       - 39.3795
+    entgeltp_ost:
+      - 0.0
     geburtsmonat:
       - 1
     m_arbeitsunfähig:
@@ -30,7 +32,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
@@ -44,6 +46,14 @@ inputs:
       - false
     y_pflichtbeitr_ab_40:
       - 0.0
+    pflichtbeitr_8_in_10:
+      - false
+    arbeitsl_1y_past_585:
+      - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 60.0
     m_freiw_beitrag:
@@ -56,8 +66,10 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_update:
+  entgeltp_west_update:
     - 39.88850659
+  entgeltp_ost_update:
+    - 0.0
   entgeltp_update_lohn:
     - 0.509006589
   _ges_rente_altersgrenze_abschlagsfrei:

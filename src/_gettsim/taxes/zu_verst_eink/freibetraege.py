@@ -1,8 +1,42 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
+aggregate_by_p_id_freibeträge = {
+    "_eink_st_kinderfreib_anz_anspruch_1": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+    "_eink_st_kinderfreib_anz_anspruch_2": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
 
-def _eink_st_behinderungsgrad_pauschbetrag(
+
+def _eink_st_kinderfreib_anz_ansprüche(
+    _eink_st_kinderfreib_anz_anspruch_1: int,
+    _eink_st_kinderfreib_anz_anspruch_2: int,
+) -> int:
+    """Return the number of Kinderfreibeträge a person is entitled to.
+
+    The person could be a parent or legal custodian.
+
+    Parameters
+    ----------
+    _eink_st_kinderfreib_anz_anspruch_1
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_1 <p_id_kinderfreibetr_empfänger_1>`.
+    _eink_st_kinderfreib_anz_anspruch_2
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_2 <p_id_kinderfreibetr_empfänger_2>`.
+
+    """
+    return _eink_st_kinderfreib_anz_anspruch_1 + _eink_st_kinderfreib_anz_anspruch_2
+
+
+def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict
 ) -> float:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
@@ -34,8 +68,8 @@ def _eink_st_behinderungsgrad_pauschbetrag(
     return float(out)
 
 
-@dates_active(end="2014-12-31", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_pauschal(
+@dates_active(end="2014-12-31", change_name="alleinerz_freib_y_tu")
+def eink_st_alleinerz_freib_y_tu_pauschal(
     alleinerz_tu: bool, eink_st_abzuege_params: dict
 ) -> float:
     """Calculate tax deduction allowance for single parents until 2014.
@@ -61,8 +95,8 @@ def eink_st_alleinerz_freib_tu_pauschal(
     return out
 
 
-@dates_active(start="2015-01-01", change_name="alleinerz_freib_tu")
-def eink_st_alleinerz_freib_tu_nach_kinderzahl(
+@dates_active(start="2015-01-01", change_name="alleinerz_freib_y_tu")
+def eink_st_alleinerz_freib_y_tu_nach_kinderzahl(
     alleinerz: bool,
     anz_kinder_tu: int,
     eink_st_abzuege_params: dict,
@@ -85,20 +119,20 @@ def eink_st_alleinerz_freib_tu_nach_kinderzahl(
     -------
 
     """
-    alleinerz_freib_tu = (
+    alleinerz_freib_y_tu = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
         + (anz_kinder_tu - 1) * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz:
-        out = alleinerz_freib_tu
+        out = alleinerz_freib_y_tu
     else:
         out = 0.0
 
     return out
 
 
-@dates_active(end="2004-12-31", change_name="eink_st_altersfreib")
-def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
+@dates_active(end="2004-12-31", change_name="eink_st_altersfreib_y")
+def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -144,8 +178,8 @@ def eink_st_altersfreib_bis_2004(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2005-01-01", change_name="eink_st_altersfreib")
-def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
+@dates_active(start="2005-01-01", change_name="eink_st_altersfreib_y")
+def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     alter: int,
@@ -211,8 +245,8 @@ def eink_st_altersfreib_ab_2005(  # noqa: PLR0913
     return out
 
 
-@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_tu")
-def eink_st_sonderausgaben_tu_nur_pauschale(
+@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_y_tu")
+def eink_st_sonderausgaben_y_tu_nur_pauschale(
     eink_st_abzuege_params: dict,
     anz_erwachsene_tu: int,
 ) -> float:
@@ -241,23 +275,23 @@ def eink_st_sonderausgaben_tu_nur_pauschale(
     return float(out)
 
 
-@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_tu")
-def eink_st_sonderausgaben_tu_mit_betreuung(
+@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_y_tu")
+def eink_st_sonderausgaben_y_tu_mit_betreuung(
     eink_st_abzuege_params: dict,
-    sonderausgaben_betreuung_tu: float,
+    sonderausgaben_betreuung_y_tu: float,
     anz_erwachsene_tu: int,
 ) -> float:
     """Individual sonderausgaben on tax unit level since 2012.
 
-    We follow 10 Abs.1 Nr. 5 EStG. You can
+    We follow 10 Abs.1 Nr. 5 EStG. You can find
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
 
     Parameters
     ----------
     kind
         See basic input variable :ref:`kind <kind>`.
-    sonderausgaben_betreuung_tu
-        See :func:`sonderausgaben_betreuung_tu`.
+    sonderausgaben_betreuung_y_tu
+        See :func:`sonderausgaben_betreuung_y_tu`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     anz_erwachsene_tu
@@ -267,21 +301,18 @@ def eink_st_sonderausgaben_tu_mit_betreuung(
     -------
 
     """
-    sonderausgaben_gesamt = sonderausgaben_betreuung_tu
+    sonderausgaben_gesamt = sonderausgaben_betreuung_y_tu
     pauschale = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
         * anz_erwachsene_tu
     )
 
-    if sonderausgaben_gesamt > pauschale:
-        out = sonderausgaben_gesamt
-    else:
-        out = pauschale
+    out = max(sonderausgaben_gesamt, pauschale)
 
     return float(out)
 
 
-def eink_st_abz_betreuungskost(
+def eink_st_abz_betreuungskost_y(
     eink_st_abzuege_params: dict,
     betreuungskost_m: float,
 ) -> float:
@@ -306,9 +337,9 @@ def eink_st_abz_betreuungskost(
 
 
 @add_rounding_spec(params_key="eink_st_abzuege")
-def sonderausgaben_betreuung_tu(
+def sonderausgaben_betreuung_y_tu(
     eink_st_abzuege_params: dict,
-    eink_st_abz_betreuungskost_tu: float,
+    eink_st_abz_betreuungskost_y_tu: float,
 ) -> float:
     """Sonderausgaben for childcare on tax unit level.
 
@@ -319,8 +350,8 @@ def sonderausgaben_betreuung_tu(
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    eink_st_abz_betreuungskost_tu
-        See :func:`eink_st_abz_betreuungskost_tu`.
+    eink_st_abz_betreuungskost_y_tu
+        See :func:`eink_st_abz_betreuungskost_y_tu`.
 
     Returns
     -------
@@ -328,26 +359,23 @@ def sonderausgaben_betreuung_tu(
     """
 
     out = (
-        eink_st_abz_betreuungskost_tu
+        eink_st_abz_betreuungskost_y_tu
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     )
 
     return float(out)
 
 
-def eink_st_kinderfreib_tu(
-    anz_kinder_mit_kindergeld_tu: float,
-    anz_erwachsene_tu: int,
+def eink_st_kinderfreib_y(
+    _eink_st_kinderfreib_anz_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Aggregate child allowances on tax unit level.
+    """Individual child allowance.
 
     Parameters
     ----------
-    anz_kinder_mit_kindergeld_tu
-        See :func:`anz_kinder_mit_kindergeld_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -355,7 +383,42 @@ def eink_st_kinderfreib_tu(
     -------
 
     """
-    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
-    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
-    return float(out)
+    return float(
+        sum(eink_st_abzuege_params["kinderfreib"].values())
+        * _eink_st_kinderfreib_anz_ansprüche
+    )
+
+
+def p_id_kinderfreib_empfänger_1(
+    p_id_elternteil_1: int,
+) -> int:
+    """Assigns child allowance to parent 1.
+
+    Parameters
+    ----------
+    p_id_elternteil_1
+        See :func:`p_id_elternteil_1`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_1
+
+
+def p_id_kinderfreib_empfänger_2(
+    p_id_elternteil_2: int,
+) -> int:
+    """Assigns child allowance to parent 2.
+
+    Parameters
+    ----------
+    p_id_elternteil_2
+        See :func:`p_id_elternteil_2`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_2

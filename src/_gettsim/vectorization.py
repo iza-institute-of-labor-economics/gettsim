@@ -139,7 +139,7 @@ class Transformer(ast.NodeTransformer):
         call = _if_to_call(node, module=self.module, func_loc=self.func_loc)
         if isinstance(node.body[0], ast.Return):
             out = ast.Return(call)
-        elif isinstance(node.body[0], (ast.Assign, ast.AugAssign)):
+        elif isinstance(node.body[0], ast.Assign | ast.AugAssign):
             out = node.body[0]
             out.value = call
         return out
@@ -211,7 +211,7 @@ def _if_to_call(node: ast.If, module: str, func_loc: str):
     elif isinstance(node.orelse[0], ast.If):
         call = _if_to_call(node.orelse[0], module=module)
         args.append(call)
-    elif isinstance(node.orelse[0], (ast.Assign, ast.AugAssign)):
+    elif isinstance(node.orelse[0], ast.Assign | ast.AugAssign):
         if isinstance(node.orelse[0].value, ast.IfExp):
             call = _ifexp_to_call(node.orelse[0].value, module=module)
             args.append(call)
@@ -417,7 +417,7 @@ def _node_to_formatted_source(node: ast.AST):
 
 
 def _module_from_backend(backend: str):
-    module = BACKEND_TO_MODULE.get(backend, None)
+    module = BACKEND_TO_MODULE.get(backend)
     if module is None:
         msg = (
             f"Argument 'backend' is {backend} but must be in "

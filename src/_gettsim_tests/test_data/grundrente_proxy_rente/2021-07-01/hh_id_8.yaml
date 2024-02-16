@@ -14,8 +14,10 @@ inputs:
       - 50
     priv_rente_m:
       - 0.0
-    entgeltp:
+    entgeltp_west:
       - 20.0
+    entgeltp_ost:
+      - 0.0
     geburtsjahr:
       - 1971
     geburtsmonat:
@@ -24,6 +26,8 @@ inputs:
       - false
     jahr_renteneintr:
       - 2033
+    monat_renteneintr:
+      - 2
     wohnort_ost:
       - false
     bruttolohn_m:
@@ -32,6 +36,14 @@ inputs:
       - false
     y_pflichtbeitr_ab_40:
       - 120.0
+    pflichtbeitr_8_in_10:
+      - false
+    arbeitsl_1y_past_585:
+      - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_pflichtbeitrag:
       - 300.0
     m_freiw_beitrag:
@@ -50,7 +62,7 @@ inputs:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0

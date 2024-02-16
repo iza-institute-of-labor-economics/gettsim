@@ -1,0 +1,46 @@
+---
+info:
+  note: ''
+  source: Regression test. Unclear whether numbers are correct by external standards.
+inputs:
+  provided:
+    p_id:
+      - 111
+    hh_id:
+      - 13
+    tu_id:
+      - 13
+    bruttolohn_m:
+      - 0.0
+    wohnort_ost:
+      - false
+    alter:
+      - 20
+    selbstständig:
+      - true
+    hat_kinder:
+      - false
+    eink_selbst_m:
+      - 500.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+    in_priv_krankenv:
+      - false
+    jahr:
+      - '2002'
+  assumed: {}
+outputs:
+  sozialv_beitr_m:
+    - 122.72
+  sozialv_beitr_arbeitg_m:
+    - 0.0
+  _sozialv_beitr_arbeitn_arbeitg_m:
+    - 122.72
+  ges_rentenv_beitr_m:
+    - 0.0
+  arbeitsl_v_beitr_m:
+    - 0.0
+  ges_krankenv_beitr_m:
+    - 109.43
+  ges_pflegev_beitr_m:
+    - 13.29

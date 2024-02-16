@@ -1,10 +1,10 @@
 from _gettsim.shared import dates_active
 
 
-def arbeitsl_geld_2_m_hh(
-    arbeitsl_geld_2_vor_vorrang_m_hh: float,
+def arbeitsl_geld_2_m_bg(
+    arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_hh: bool,
-    kinderzuschl_vorrang_hh: bool,
+    kinderzuschl_vorrang_bg: bool,
     wohngeld_kinderzuschl_vorrang_hh: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
@@ -14,12 +14,12 @@ def arbeitsl_geld_2_m_hh(
 
     Parameters
     ----------
-    arbeitsl_geld_2_vor_vorrang_m_hh
-        See :func:`arbeitsl_geld_2_vor_vorrang_m_hh`.
+    arbeitsl_geld_2_vor_vorrang_m_bg
+        See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
     wohngeld_vorrang_hh
         See :func:`wohngeld_vorrang_hh`.
-    kinderzuschl_vorrang_hh
-        See :func:`kinderzuschl_vorrang_hh`.
+    kinderzuschl_vorrang_bg
+        See :func:`kinderzuschl_vorrang_bg`.
     wohngeld_kinderzuschl_vorrang_hh
         See :func:`wohngeld_kinderzuschl_vorrang_hh`.
     erwachsene_alle_rentner_hh
@@ -32,20 +32,20 @@ def arbeitsl_geld_2_m_hh(
     """
     if (
         wohngeld_vorrang_hh
-        or kinderzuschl_vorrang_hh
+        or kinderzuschl_vorrang_bg
         or wohngeld_kinderzuschl_vorrang_hh
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0
     else:
-        out = arbeitsl_geld_2_vor_vorrang_m_hh
+        out = arbeitsl_geld_2_vor_vorrang_m_bg
 
     return out
 
 
-def arbeitsl_geld_2_regelbedarf_m_hh(
-    arbeitsl_geld_2_regelsatz_m_hh: float,
-    arbeitsl_geld_2_kost_unterk_m_hh: float,
+def arbeitsl_geld_2_regelbedarf_m_bg(
+    arbeitsl_geld_2_regelsatz_m_bg: float,
+    arbeitsl_geld_2_kost_unterk_m_bg: float,
 ) -> float:
     """Basic monthly subsistence level on household level.
 
@@ -55,20 +55,20 @@ def arbeitsl_geld_2_regelbedarf_m_hh(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelsatz_m_hh
-        See :func:`arbeitsl_geld_2_regelsatz_m_hh`.
-    arbeitsl_geld_2_kost_unterk_m_hh
-        See :func:`arbeitsl_geld_2_kost_unterk_m_hh`.
+    arbeitsl_geld_2_regelsatz_m_bg
+        See :func:`arbeitsl_geld_2_regelsatz_m_bg`.
+    arbeitsl_geld_2_kost_unterk_m_bg
+        See :func:`arbeitsl_geld_2_kost_unterk_m_bg`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m_hh + arbeitsl_geld_2_kost_unterk_m_hh
+    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_bg
 
 
-def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
+def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     alleinerz_hh: bool,
     anz_kinder_hh: int,
     anz_kinder_bis_6_hh: int,
@@ -112,9 +112,13 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
                 * anz_kinder_hh,
                 # Special case if 1 kid below 6 or 2,3 below 15.
-                arbeitsl_geld_2_params["mehrbedarf_anteil"]["kind_unter_7_oder_mehr"]
-                if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
-                else 0.0,
+                (
+                    arbeitsl_geld_2_params["mehrbedarf_anteil"][
+                        "kind_unter_7_oder_mehr"
+                    ]
+                    if (anz_kinder_bis_6_hh >= 1) or (2 <= anz_kinder_bis_15_hh <= 3)
+                    else 0.0
+                ),
             ),
             arbeitsl_geld_2_params["mehrbedarf_anteil"]["max"],
         )
@@ -123,8 +127,8 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh(
     return out
 
 
-@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_hh")
-def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
+@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_bg")
+def arbeitsl_geld_2_kindersatz_m_bg_bis_2010(
     anz_kinder_bis_5_hh: int,
     anz_kinder_ab_6_bis_13_hh: int,
     anz_kinder_ab_14_bis_24_hh: int,
@@ -162,8 +166,8 @@ def arbeitsl_geld_2_kindersatz_m_hh_bis_2010(
     return float(out)
 
 
-@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_kindersatz_m_hh")
-def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
+@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_kindersatz_m_bg")
+def arbeitsl_geld_2_kindersatz_m_bg_ab_2011(
     anz_kinder_bis_5_hh: int,
     anz_kinder_ab_6_bis_13_hh: int,
     anz_kinder_ab_14_bis_17_hh: int,
@@ -213,11 +217,11 @@ def arbeitsl_geld_2_kindersatz_m_hh_ab_2011(
     return float(out)
 
 
-@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_hh")
-def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
+@dates_active(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_bg")
+def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     anz_erwachsene_hh: int,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    arbeitsl_geld_2_kindersatz_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
+    arbeitsl_geld_2_kindersatz_m_bg: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate basic monthly subsistence without dwelling until 2010.
@@ -226,10 +230,10 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    arbeitsl_geld_2_kindersatz_m_hh
-        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
+    arbeitsl_geld_2_kindersatz_m_bg
+        See :func:`arbeitsl_geld_2_kindersatz_m_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -242,7 +246,7 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"] * (
@@ -251,14 +255,14 @@ def arbeitsl_geld_2_regelsatz_m_hh_bis_2010(
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         )
 
-    return out + arbeitsl_geld_2_kindersatz_m_hh
+    return out + arbeitsl_geld_2_kindersatz_m_bg
 
 
-@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_hh")
-def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
+@dates_active(start="2011-01-01", change_name="arbeitsl_geld_2_regelsatz_m_bg")
+def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
     anz_erwachsene_hh: int,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh: float,
-    arbeitsl_geld_2_kindersatz_m_hh: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
+    arbeitsl_geld_2_kindersatz_m_bg: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate basic monthly subsistence without dwelling since 2011.
@@ -269,10 +273,10 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     ----------
     anz_erwachsene_hh
         See :func:`anz_erwachsene_hh`.
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh`.
-    arbeitsl_geld_2_kindersatz_m_hh
-        See :func:`arbeitsl_geld_2_kindersatz_m_hh`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
+    arbeitsl_geld_2_kindersatz_m_bg
+        See :func:`arbeitsl_geld_2_kindersatz_m_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -286,24 +290,24 @@ def arbeitsl_geld_2_regelsatz_m_hh_ab_2011(
     weitere_erwachsene = max(anz_erwachsene_hh - 2, 0)
     if anz_erwachsene_hh == 1:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * (
-            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_hh
+            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
 
-    return out + arbeitsl_geld_2_kindersatz_m_hh
+    return out + arbeitsl_geld_2_kindersatz_m_bg
 
 
-def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_hh: float,
+def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
     unterhaltsvors_m_hh: float,
     arbeitsl_geld_2_eink_m_hh: float,
     vermögen_bedürft_hh: float,
-    arbeitsl_geld_2_vermög_freib_hh: float,
+    arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -311,8 +315,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_hh
-        See :func:`arbeitsl_geld_2_regelbedarf_m_hh`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     kindergeld_m_hh
         See :func:`kindergeld_m_hh`.
     kind_unterh_erhalt_m_hh
@@ -322,8 +326,8 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
         See :func:`unterhaltsvors_m_hh`.
     arbeitsl_geld_2_eink_m_hh
         See :func:`arbeitsl_geld_2_eink_m_hh`.
-    arbeitsl_geld_2_vermög_freib_hh
-        See :func:`arbeitsl_geld_2_vermög_freib_hh`.
+    arbeitsl_geld_2_vermög_freib_bg
+        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
     vermögen_bedürft_hh
         See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
 
@@ -333,13 +337,13 @@ def arbeitsl_geld_2_vor_vorrang_m_hh(  # noqa: PLR0913
     """
 
     # Check wealth exemption
-    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_hh:
+    if vermögen_bedürft_hh > arbeitsl_geld_2_vermög_freib_bg:
         out = 0.0
     else:
         # Deduct income from various sources
         out = max(
             0.0,
-            arbeitsl_geld_2_regelbedarf_m_hh
+            arbeitsl_geld_2_regelbedarf_m_bg
             - arbeitsl_geld_2_eink_m_hh
             - kind_unterh_erhalt_m_hh
             - unterhaltsvors_m_hh

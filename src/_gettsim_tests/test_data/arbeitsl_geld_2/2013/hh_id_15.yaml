@@ -57,10 +57,10 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    eink_st_tu:
+    eink_st_y_tu:
       - 0.0
       - 0.0
-    soli_st_tu:
+    soli_st_y_tu:
       - 0.0
       - 0.0
     sozialv_beitr_m:
@@ -110,12 +110,12 @@ outputs:
   arbeitsl_geld_2_eink_m:
     - 500.0
     - 0.0
-  arbeitsl_geld_2_regelsatz_m_hh:
+  arbeitsl_geld_2_regelsatz_m_bg:
     - 690.0
     - 690.0
-  arbeitsl_geld_2_kost_unterk_m_hh:
+  arbeitsl_geld_2_kost_unterk_m_bg:
     - 480.0
     - 480.0
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 0.0
     - 0.0

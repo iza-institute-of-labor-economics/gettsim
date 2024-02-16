@@ -22,6 +22,12 @@ inputs:
       - 3
       - 4
       - 5
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 1
+      - 1
+      - 1
     alter:
       - 45
       - 40
@@ -52,7 +58,7 @@ inputs:
       - 700.0
       - 200.0
       - 200.0
-    _zu_verst_eink_ohne_kinderfreib_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_tu:
       - 3000.0
       - 3000.0
       - 3000.0

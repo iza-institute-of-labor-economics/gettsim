@@ -22,6 +22,11 @@ def synthetic_data_alleinerziehend():
 
 
 @pytest.fixture()
+def synthetic_data_no_children():
+    return create_synthetic_data(n_adults=2, n_children=0)
+
+
+@pytest.fixture()
 def synthetic_data_spec_variables():
     df = create_synthetic_data(
         n_adults=2,
@@ -151,7 +156,7 @@ def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous):
     [
         (0, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
         (3, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
-        (2, 3, None, None, pytest.raises(ValueError, match="'n_children' must be")),
+        (2, 11, None, None, pytest.raises(ValueError, match="'n_children' must be")),
         (2, 0, {"alter": [30]}, None, pytest.raises(ValueError, match="Length of")),
         (
             2,
@@ -176,3 +181,48 @@ def test_fail_if_functions_and_columns_overlap(
             specs_constant_over_households=specs_constant_over_households,
             specs_heterogeneous=specs_heterogeneous,
         )
+
+
+@pytest.mark.parametrize(
+    "fixture, expected",
+    [
+        (
+            "synthetic_data_spec_heterogeneous",
+            {
+                "p_id": list(range(33)),
+                "p_id_elternteil_1": [-1 if i % 3 != 2 else i - 2 for i in range(33)],
+                "p_id_elternteil_2": [-1 if i % 3 != 2 else i - 1 for i in range(33)],
+                "p_id_kindergeld_empf": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
+                "p_id_erziehgeld_empf": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
+            },
+        ),
+        (
+            "synthetic_data_alleinerziehend",
+            {
+                "p_id": [0, 1],
+                "p_id_elternteil_1": [-1, 0],
+                "p_id_elternteil_2": [-1, -1],
+                "p_id_kindergeld_empf": [-1, 0],
+                "p_id_erziehgeld_empf": [-1, 0],
+            },
+        ),
+        (
+            "synthetic_data_no_children",
+            {
+                "p_id": [0, 1],
+                "p_id_elternteil_1": [-1, -1],
+                "p_id_elternteil_2": [-1, -1],
+                "p_id_kindergeld_empf": [-1, -1],
+                "p_id_erziehgeld_empf": [-1, -1],
+            },
+        ),
+    ],
+)
+def test_p_id_elternteil(fixture, expected, request):
+    df = request.getfixturevalue(fixture)
+    for col, values in expected.items():
+        pd.testing.assert_series_equal(df[col], pd.Series(values, name=col))

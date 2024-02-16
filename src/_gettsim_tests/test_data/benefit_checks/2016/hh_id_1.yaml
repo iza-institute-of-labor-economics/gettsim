@@ -40,7 +40,7 @@ inputs:
       - 350.0
       - 350.0
       - 350.0
-    arbeitsl_geld_2_regelbedarf_m_hh:
+    arbeitsl_geld_2_regelbedarf_m_bg:
       - 1765.0
       - 1765.0
       - 1765.0
@@ -70,7 +70,7 @@ inputs:
       - 2016
   assumed: {}
 outputs:
-  kinderzuschl_m_hh:
+  kinderzuschl_m_bg:
     - 140
     - 140
     - 140
@@ -78,7 +78,7 @@ outputs:
     - 350
     - 350
     - 350
-  arbeitsl_geld_2_m_hh:
+  arbeitsl_geld_2_m_bg:
     - 0.0
     - 0.0
     - 0.0

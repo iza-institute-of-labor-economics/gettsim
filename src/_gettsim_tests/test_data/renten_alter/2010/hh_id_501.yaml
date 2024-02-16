@@ -20,11 +20,15 @@ inputs:
       - 9
     m_arbeitsunfähig:
       - 0.0
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
     m_krank_ab_16_bis_24:
       - 0.0
     m_mutterschutz:
       - 0.0
-    m_arbeitslos:
+    m_arbeitsl:
       - 0.0
     m_ausbild_suche:
       - 0.0
@@ -50,6 +54,8 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
+  _ges_rente_arbeitsl_altersgrenze:
+    - 64.75
   ges_rente_regelaltersgrenze:
     - 65.0
   ges_rente_frauen_altersgrenze:

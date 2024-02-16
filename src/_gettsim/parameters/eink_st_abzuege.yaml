@@ -90,8 +90,11 @@ kinderfreib:
     reference: Art. 2 G. v. 08.12.2022 BGBl. I S. 2230.
   2024-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3192
-    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+    sächl_existenzmin: 3306
+    reference: >-
+      Not implemented in law yet, but announced.
+      https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
+      spuerbare-verbesserungen-fuer-familien--234802
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
@@ -656,7 +659,7 @@ kinderbetreuungskosten_abz_maximum:
   2012-01-01:
     scalar: 4000
     reference: Art. 1 G. v. 01.11.2011 BGBl. I S.2131
-vorsorgepauschale_rv_anteil:
+vorsorgepauschale_rentenv_anteil:
   name:
     de: Anteil abgezogene Rentenversicherungsbeiträge
     en: Share of deducted pension insurance contributions
@@ -744,13 +747,14 @@ vorsorgepauschale_kv_max:
     steuerklasse_nicht3: 1900
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rounding:
-  vorsorgeaufw_tu:
+  vorsorgeaufw_y_tu:
     note:
       en: Starting date unclear
+    reference: § 10 Abs. 3 EStG
     1984-01-01:
-      base: 0.01
-      direction: nearest
-  sonderausgaben_betreuung_tu:
+      base: 1
+      direction: up
+  sonderausgaben_betreuung_y_tu:
     note:
       en: Starting date unclear
     1984-01-01:

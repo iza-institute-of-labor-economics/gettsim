@@ -99,12 +99,12 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt:
+    eink_abhängig_beschäftigt_y:
       - 10770.0
       - 4770.0
       - 0.0
       - 0.0
-    kapitaleink_brutto:
+    kapitaleink_brutto_y:
       - 0.0
       - 0.0
       - 0.0
@@ -134,7 +134,7 @@ inputs:
       - 2023
       - 2023
       - 2023
-    eink_st_tu:
+    eink_st_y_tu:
       - 0.0
       - 0.0
       - 0.0
