@@ -170,10 +170,7 @@ kindergeld:
   2023-01-01:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Inflationsausgleichsgesetz
-    1: 250
-    2: 250
-    3: 250
-    4: 250
+    scalar: 250
 einkommensgrenze:
   name:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch

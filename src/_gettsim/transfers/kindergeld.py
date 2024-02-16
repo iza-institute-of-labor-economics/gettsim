@@ -20,11 +20,40 @@ aggregate_by_p_id_kindergeld = {
 }
 
 
-def kindergeld_m(
+@dates_active(start="2023-01-01", change_name="kindergeld_m")
+def kindergeld_ohne_staffelung_m(
     kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
+
+    Kindergeld claim is the same for each child, i.e. increases linearly with the number
+    of children.
+
+    Parameters
+    ----------
+    kindergeld_anz_ansprüche
+        See :func:`kindergeld_anz_ansprüche`.
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+
+    return kindergeld_params["kindergeld"] * kindergeld_anz_ansprüche
+
+
+@dates_active(end="2022-12-31", change_name="kindergeld_m")
+def kindergeld_gestaffelt_m(
+    kindergeld_anz_ansprüche: bool,
+    kindergeld_params: dict,
+) -> float:
+    """Sum of Kindergeld for eligible children.
+
+    Kindergeld claim for each child depends on the number of children Kindergeld is
+    being claimed for.
 
     Parameters
     ----------
