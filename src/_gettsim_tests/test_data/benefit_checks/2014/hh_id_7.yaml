@@ -1,0 +1,65 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 18
+      - 19
+    hh_id:
+      - 7
+      - 7
+    tu_id:
+      - 7
+      - 7
+    kind:
+      - false
+      - false
+    rentner:
+      - false
+      - false
+    alter:
+      - 75
+      - 50
+    vermögen_bedürft_hh:
+      - 78000.0
+      - 78000.0
+    _kinderzuschl_vor_vermög_check_m_tu:
+      - 0.0
+      - 0.0
+    wohngeld_vor_vermög_check_m_hh:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_regelbedarf_m_bg:
+      - 1046.0
+      - 1046.0
+    kindergeld_m_hh:
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m_hh:
+      - 0.0
+      - 0.0
+    unterhaltsvors_m_hh:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_eink_m_hh:
+      - 300.0
+      - 300.0
+    geburtsjahr:
+      - 1939
+      - 1964
+    jahr:
+      - 2014
+      - 2014
+  assumed: {}
+outputs:
+  kinderzuschl_m_bg:
+    - 0
+    - 0
+  wohngeld_m_hh:
+    - 0
+    - 0
+  arbeitsl_geld_2_m_bg:
+    - 0.0
+    - 0.0

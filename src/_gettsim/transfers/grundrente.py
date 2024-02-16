@@ -27,9 +27,9 @@ def grundr_zuschlag_m(
 def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: float,
     bruttolohn_vorj_m: float,
-    eink_selbst: float,
-    eink_vermietung: float,
-    kapitaleink: float,
+    eink_selbst_y: float,
+    eink_vermietung_y: float,
+    kapitaleink_y: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
@@ -38,18 +38,16 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
 
     - The Grundrentenzuschlag (in previous years) is not part of the relevant income and
       does not lower the Grundrentenzuschlag (reference: § 97a Abs. 2 S. 7 SGB VI).
-    - The Deutsche Rentenversicherung uses the income of the year two to three years
-      ago to be able to use administrative data on this income for the calculation:
-      "It can be assumed that the tax office regularly has the data two years after
-      the end of the assessment period, which can be retrieved from the pension
-      insurance."
-    - Warning: Currently, earnings of dependent work and pensions are based on the
-      last year, and other income on the current year instead of the year
-      two years ago to avoid the need for several new input variables.
-
-    # ToDo: Freibeträge for income are currently not considered
-    # ToDo: as freibeträge_tu depends on pension income through
-    # ToDo: `ges_krankenv_beitr_m` -> `vorsorgeaufw` -> `freibeträge`
+    - The Deutsche Rentenversicherung uses the income of the year two to three years ago
+      to be able to use administrative data on this income for the calculation: "It can
+      be assumed that the tax office regularly has the data two years after the end of
+      the assessment period, which can be retrieved from the pension insurance."
+    - Warning: Currently, earnings of dependent work and pensions are based on the last
+      year, and other income on the current year instead of the year two years ago to
+      avoid the need for several new input variables.
+    - Warning: Freibeträge for income are currently not considered as `freibeträge_y_tu`
+      depends on pension income through `ges_krankenv_beitr_m` -> `vorsorgeaufw` ->
+      `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
 
@@ -59,12 +57,12 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`rente_vorj_vor_grundr_proxy_m`.
     bruttolohn_vorj_m
         See :func:`bruttolohn_vorj_m`.
-    eink_selbst
-        See :func:`eink_selbst`.
-    eink_vermietung
-        See :func:`eink_vermietung`.
-    kapitaleink
-        See :func:`kapitaleink`.
+    eink_selbst_y
+        See :func:`eink_selbst_y`.
+    eink_vermietung_y
+        See :func:`eink_vermietung_y`.
+    kapitaleink_y
+        See :func:`kapitaleink_y`.
 
     Returns
     -------
@@ -75,9 +73,9 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     out = (
         rente_vorj_vor_grundr_proxy_m
         + bruttolohn_vorj_m
-        + eink_selbst / 12  # income from self-employment
-        + eink_vermietung / 12  # rental income
-        + kapitaleink / 12
+        + eink_selbst_y / 12  # income from self-employment
+        + eink_vermietung_y / 12  # rental income
+        + kapitaleink_y / 12
     )
 
     return out
@@ -304,13 +302,14 @@ def grundr_zuschlag_bonus_entgeltp(
 @add_rounding_spec(params_key="ges_rente")
 def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentner: bool,
-    rentenwert_vorjahr: float,
     priv_rente_m: float,
     jahr_renteneintr: int,
     geburtsjahr: int,
     alter: int,
-    entgeltp: float,
+    entgeltp_west: float,
+    entgeltp_ost: float,
     ges_rente_zugangsfaktor: float,
+    ges_rente_params: dict,
 ) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
 
@@ -318,29 +317,29 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     ----------
     rentner
         See basic input variable :ref:`rentner <rentner>`.
-    rentenwert_vorjahr
-        See :func:`rentenwert_vorjahr`.
     priv_rente_m
-        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
+        See basic input variable :ref:`priv_rente_m <priv_rente_m>`. Assume this did not
+        change from last year.
     jahr_renteneintr
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     alter
         See basic input variable :ref:`alter <alter>`.
-    entgeltp
-        See basic input variable :ref:`entgeltp <entgeltp>`.
+    entgeltp_west
+        See basic input variable :ref:`entgeltp_west <entgeltp_west>`.
+    entgeltp_ost
+        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
     ges_rente_zugangsfaktor
         See :func:`ges_rente_zugangsfaktor`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
 
     """
 
-    # Assume priv_rente_m did not change
-    # ToDo: Use current_year as argument of this function once we addressed
-    # ToDo: issue #211
     # Calculate if subect was retired last year
     if rentner:
         rentner_vorjahr = jahr_renteneintr < geburtsjahr + alter
@@ -348,7 +347,10 @@ def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
         rentner_vorjahr = False
 
     if rentner_vorjahr:
-        out = entgeltp * ges_rente_zugangsfaktor * rentenwert_vorjahr + priv_rente_m
+        out = (
+            entgeltp_west * ges_rente_params["rentenwert_vorjahr"]["west"]
+            + entgeltp_ost * ges_rente_params["rentenwert_vorjahr"]["ost"]
+        ) * ges_rente_zugangsfaktor + priv_rente_m
     else:
         out = 0.0
 

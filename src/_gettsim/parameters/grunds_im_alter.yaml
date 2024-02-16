@@ -65,7 +65,7 @@ kapitaleink_anr_frei:
     en: Amount of capital income not subject to transfer withdrawal
   description:
     de: >-
-      Nur das Kapitaleinkommen, das über diesem Freibetrag liegt, wird auf die
+      Nur das Kapitaleinkommens, das über diesem Freibetrag liegt, wird auf die
       Grundsicherung im Alter angerechnet. The reference is § 82 SGB XII Abs. 2.
     en: >-
       Only the capital income above the threshold is considered for the calculation of

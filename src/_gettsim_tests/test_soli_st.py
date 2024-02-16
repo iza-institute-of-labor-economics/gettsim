@@ -1,51 +1,34 @@
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-INPUT_COLS = [
-    "p_id",
-    "hh_id",
-    "tu_id",
-    "kind",
-    "eink_st_mit_kinderfreib_tu",
-    "abgelt_st_tu",
-]
-
-YEARS = [1991, 1993, 1996, 1999, 2003, 2022, 2023]
+data = load_policy_test_data("soli_st")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "soli_st.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    return out
-
-
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data.parametrize_args,
+    ids=str,
+)
 def test_soli_st(
-    input_data,
-    year,
+    test_data: PolicyTestData,
+    column: str,
 ):
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
-
-    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
-
-    user_cols = ["eink_st_mit_kinderfreib_tu", "abgelt_st_tu"]
-    results = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets="soli_st_tu",
-        columns_overriding_functions=user_cols,
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
     )
+
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
+    )
+
     assert_series_equal(
-        results["soli_st_tu"],
-        year_data["soli_st_tu"],
+        result[column],
+        test_data.output_df[column],
         check_dtype=False,
         atol=1e-2,
         rtol=0,

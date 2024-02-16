@@ -1,0 +1,73 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 4
+      - 4
+      - 4
+      - 4
+    tu_id:
+      - 4
+      - 4
+      - 4
+      - 4
+    p_id:
+      - 5
+      - 6
+      - 7
+      - 8
+    kind:
+      - false
+      - false
+      - true
+      - true
+    eink_st_ohne_kinderfreib_y_tu:
+      - 20000.0
+      - 20000.0
+      - 20000.0
+      - 20000.0
+    eink_st_mit_kinderfreib_y_tu:
+      - 18000.0
+      - 18000.0
+      - 18000.0
+      - 18000.0
+    _zu_verst_eink_mit_kinderfreib_y_tu:
+      - 142992.0
+      - 142992.0
+      - 142992.0
+      - 142992.0
+    _zu_verst_eink_ohne_kinderfreib_y_tu:
+      - 150000.0
+      - 150000.0
+      - 150000.0
+      - 150000.0
+    abgelt_st_y_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kindergeld_m:
+      - 0.0
+      - 0.0
+      - 194.0
+      - 194.0
+    jahr:
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+  assumed: {}
+outputs:
+  eink_st_y_tu:
+    - 20000
+    - 20000
+    - 20000
+    - 20000
+  zu_verst_eink_y_tu:
+    - 150000
+    - 150000
+    - 150000
+    - 150000

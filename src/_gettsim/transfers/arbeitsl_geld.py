@@ -1,4 +1,5 @@
 """Functions to compute unemployment benefits (Arbeitslosengeld)."""
+
 import numpy as np
 
 from _gettsim.piecewise_functions import piecewise_polynomial

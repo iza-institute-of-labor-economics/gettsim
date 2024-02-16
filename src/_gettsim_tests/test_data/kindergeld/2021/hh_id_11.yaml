@@ -1,0 +1,64 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 11
+      - 11
+      - 11
+    tu_id:
+      - 11
+      - 11
+      - 11
+    p_id:
+      - 36
+      - 37
+      - 38
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 36
+    alter:
+      - 35
+      - 35
+      - 12
+    kind:
+      - false
+      - false
+      - true
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+    in_ausbildung:
+      - false
+      - false
+      - true
+    bruttolohn_m:
+      - 20000.0
+      - 20000.0
+      - 0.0
+    _zu_verst_eink_ohne_kinderfreib_y_tu:
+      - 200000.0
+      - 200000.0
+      - 200000.0
+  assumed: {}
+outputs:
+  kindergeld_m_tu:
+    - 219
+    - 219
+    - 219
+  kinderbonus_m_tu:
+    - 12.5
+    - 12.5
+    - 12.5
+  kindergeld_m_hh:
+    - 219
+    - 219
+    - 219
+  kinderbonus_m_hh:
+    - 12.5
+    - 12.5
+    - 12.5

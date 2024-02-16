@@ -27,9 +27,13 @@ maximum:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Regelung für das Kalenderjahr 2023, abweichend von § 6a Absatz 2.
   2024-01-01:
-    scalar: null
-    reference: § 6a (2) BKGG
-    note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
+    scalar: 292
+    reference: null
+    note: >-
+      No law, should be calculated from other parameters (as 2021/2022),
+      but parameters are not known yet.
+    # TODO(@MImmesberger): Add reference or parameters to calculate the max kinderzuschl
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/682
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
@@ -47,8 +51,7 @@ kindersofortzuschl:
     scalar: 20
   2023-01-01:
     scalar: null
-  2024-01-01:
-    scalar: 20
+    note: Included in maximum Kinderzuschlag since 2023.
 min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
@@ -377,7 +380,7 @@ existenzminimum:
     bildung_und_teilhabe:
       kinder: 336
     kosten_der_unterkunft:
-      single: 3684
+      single: 3924
       paare: 5892
       kinder: 1188
     heizkosten:

@@ -1,0 +1,144 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 15
+      - 16
+      - 17
+    hh_id:
+      - 1
+      - 1
+      - 1
+    tu_id:
+      - 1
+      - 1
+      - 1
+    kind:
+      - false
+      - false
+      - true
+    bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+      - 700.0
+    alleinerz:
+      - false
+      - false
+      - false
+    alter:
+      - 45
+      - 46
+      - 9
+    immobilie_baujahr_hh:
+      - 1995
+      - 1995
+      - 1995
+    kindergeld_anspruch:
+      - false
+      - false
+      - true
+    mietstufe:
+      - 3
+      - 3
+      - 3
+    bruttolohn_m:
+      - 2000.0
+      - 0.0
+      - 200.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_abhängig_beschäftigt_y:
+      - 25000.0
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 1000.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 100.0
+      - 0.0
+      - 0.0
+    ges_krankenv_beitr_m:
+      - 80.0
+      - 0.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+    jahr:
+      - 2016
+      - 2016
+      - 2016
+    eink_st_y_tu:
+      - 1000.0
+      - 1000.0
+      - 1000.0
+    vermögen_bedürft_hh:
+      - 120000.0
+      - 120000.0
+      - 120000.0
+    haushaltsgröße_hh:
+      - 3
+      - 3
+      - 3
+    geburtstag:
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+    geburtsjahr:
+      - 1971
+      - 1970
+      - 2007
+  assumed: {}
+outputs:
+  wohngeld_vor_vermög_check_m_hh:
+    - 75.0
+    - 75.0
+    - 75.0
+  wohngeld_nach_vermög_check_m_hh:
+    - 75.0
+    - 75.0
+    - 75.0

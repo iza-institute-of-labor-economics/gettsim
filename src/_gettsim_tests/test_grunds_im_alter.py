@@ -1,91 +1,35 @@
-import itertools
-
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-INPUT_COLS = [
-    "p_id",
-    "tu_id",
-    "hh_id",
-    "jahr",
-    "kind",
-    "alter",
-    "bruttokaltmiete_m_hh",
-    "heizkosten_m_hh",
-    "wohnfläche_hh",
-    "bruttolohn_m",
-    "kapitaleink_brutto_m",
-    "grundr_zeiten",
-    "rentner",
-    "schwerbeh_g",
-    "vermögen_bedürft_hh",
-    "alleinerz",
-    "bewohnt_eigentum_hh",
-    "arbeitsl_geld_m",
-    "sonstig_eink_m",
-    "eink_selbst_m",
-    "eink_vermietung_m",
-    "eink_st_tu",
-    "soli_st_tu",
-    "sozialv_beitr_m",
-    "kindergeld_m_hh",
-    "kind_unterh_erhalt_m",
-    "unterhaltsvors_m",
-    "elterngeld_m",
-    "priv_rente_m",
-    "ges_rente_m",
-    "geburtstag",
-    "geburtsmonat",
-    "geburtsjahr",
-]
-
-OVERRIDE_COLS = [
-    "eink_st_tu",
-    "soli_st_tu",
-    "sozialv_beitr_m",
-    "kindergeld_m_hh",
-    "unterhaltsvors_m",
-    "elterngeld_m",
-    "ges_rente_m",
-    "arbeitsl_geld_m",
-]
-
-YEARS = [2017, 2018, 2020, 2021, 2022]
-
-OUT_COLS = [
-    "grunds_im_alter_m_hh",
-]
+data = load_policy_test_data("grunds_im_alter")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "grunds_im_alter.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    out["p_id"] = out["p_id"].astype(int)
-    return out
-
-
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_grunds_im_alter(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data.parametrize_args,
+    ids=str,
+)
+def test_grunds_im_alter(
+    test_data: PolicyTestData,
+    column: str,
+):
+    df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
+        date=test_data.date
     )
 
-    calc_result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=OUT_COLS,
-        columns_overriding_functions=OVERRIDE_COLS,
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
-    # Retype outcols to float (from int)
-    expected = year_data[column].astype(float)
-    assert_series_equal(calc_result[column], expected, atol=1e-1, rtol=0)
+    assert_series_equal(
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=1e-1,
+        rtol=0,
+    )

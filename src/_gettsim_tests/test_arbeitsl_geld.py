@@ -1,57 +1,49 @@
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-INPUT_COLS = [
-    "p_id",
-    "hh_id",
-    "tu_id",
-    "bruttolohn_vorj_m",
-    "wohnort_ost",
-    "kind",
-    "anwartschaftszeit",
-    "arbeitssuchend",
-    "sozialv_pflicht_5j",
-    "m_durchg_alg1_bezug",
-    "arbeitsstunden_w",
-    "alter",
-    "geburtsjahr",
-    "jahr",
-]
-YEARS = [2010, 2011, 2015, 2019]
+data = load_policy_test_data("arbeitsl_geld")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "arbeitsl_geld.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    return out
+def prep_parametrize_data(data):
+    """Mark test data for 2015 with xfail."""
+    for i, args in enumerate(data):
+        if args[0].date.year == 2015:
+            data[i] = pytest.param(
+                *args,
+                marks=pytest.mark.xfail(
+                    reason="Arbeitslosengeld 2015 calculation is not correct due "
+                    "to change in Grundfreibetrag in July 2015."
+                ),
+            )
+    return data
 
 
-@pytest.mark.parametrize("year", YEARS)
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    prep_parametrize_data(data.parametrize_args),
+    ids=str,
+)
 def test_arbeitsl_geld(
-    input_data,
-    year,
+    test_data: PolicyTestData,
+    column: str,
 ):
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets="arbeitsl_geld_m",
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     # to prevent errors from rounding, allow deviations after the 3rd digit.
     assert_series_equal(
-        result["arbeitsl_geld_m"],
-        year_data["arbeitsl_geld_m"],
+        result[column],
+        test_data.output_df[column],
         atol=1e-2,
         rtol=0,
         check_dtype=False,

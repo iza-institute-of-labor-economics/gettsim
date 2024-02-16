@@ -1,4 +1,5 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
+
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
@@ -173,9 +174,8 @@ def elterngeld_kind(
 
     """
     current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
-    out = (
-        current_year - geburtsjahr
-        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[0]
+    out = current_year - geburtsjahr < next(
+        iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())
     )
     return out
 
@@ -229,10 +229,11 @@ def elterngeld_geschw_bonus_anspruch(
 
     """
     if elternzeit_anspruch:
-        # ToDo: Should this be >=? Reference (§ 2 (2) BEEG) is not completely clear
         out = (
             elterngeld_kind_hh
-            == list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[0]
+            == next(
+                iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())
+            )
         ) or (
             elterngeld_vorschulkind_hh
             >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
@@ -265,8 +266,8 @@ def _elterngeld_anz_mehrlinge_anspruch(
 
 def elterngeld_nettolohn_m(
     bruttolohn_m: float,
-    eink_st_tu: float,
-    soli_st_tu: float,
+    eink_st_y_tu: float,
+    soli_st_y_tu: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
 ) -> float:
@@ -279,10 +280,10 @@ def elterngeld_nettolohn_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_tu
-        See :func:`eink_st_tu`.
-    soli_st_tu
-        See :func:`soli_st_tu`.
+    eink_st_y_tu
+        See :func:`eink_st_y_tu`.
+    soli_st_y_tu
+        See :func:`soli_st_y_tu`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_m
@@ -294,8 +295,8 @@ def elterngeld_nettolohn_m(
     """
     out = (
         bruttolohn_m
-        - (eink_st_tu / anz_erwachsene_tu / 12)
-        - (soli_st_tu / anz_erwachsene_tu / 12)
+        - (eink_st_y_tu / anz_erwachsene_tu / 12)
+        - (soli_st_y_tu / anz_erwachsene_tu / 12)
         - sozialv_beitr_m
     )
 

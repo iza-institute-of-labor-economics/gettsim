@@ -1,0 +1,246 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+    hh_id:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+    tu_id:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+    kind:
+      - false
+      - false
+      - true
+      - true
+      - true
+      - true
+    bruttokaltmiete_m_hh:
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+    alleinerz:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    alter:
+      - 43
+      - 48
+      - 14
+      - 15
+      - 6
+      - 5
+    immobilie_baujahr_hh:
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+    kindergeld_anspruch:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    mietstufe:
+      - 4
+      - 4
+      - 4
+      - 4
+      - 4
+      - 4
+    bruttolohn_m:
+      - 3000.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 800.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_abhängig_beschäftigt_y:
+      - 35000.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 300.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_krankenv_beitr_m:
+      - 255.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    jahr:
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+    eink_st_y_tu:
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
+    vermögen_bedürft_hh:
+      - 220000.0
+      - 220000.0
+      - 220000.0
+      - 220000.0
+      - 220000.0
+      - 220000.0
+    haushaltsgröße_hh:
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+    geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsjahr:
+      - 1975
+      - 1970
+      - 2004
+      - 2003
+      - 2012
+      - 2013
+  assumed: {}
+outputs:
+  wohngeld_vor_vermög_check_m_hh:
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0
+  wohngeld_nach_vermög_check_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0

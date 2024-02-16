@@ -1,0 +1,52 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 2
+      - 32
+      - 123
+    hh_id:
+      - 2
+      - 2
+      - 2
+    tu_id:
+      - 2
+      - 2
+      - 2
+    kind:
+      - false
+      - false
+      - true
+    zu_verst_eink_kein_kinderfreib:
+      - 5000.0
+      - 5000.0
+      - 0.0
+    zu_verst_eink_kinderfreib:
+      - 5000.0
+      - 5000.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 1300.0
+      - 500.0
+      - 0.0
+  assumed: {}
+outputs:
+  eink_st_ohne_kinderfreib_y_tu:
+    - 0
+    - 0
+    - 0
+  eink_st_mit_kinderfreib_y_tu:
+    - 0
+    - 0
+    - 0
+  abgelt_st_y_tu:
+    - 49.5
+    - 49.5
+    - 49.5
+  soli_st_y_tu:
+    - 2.72
+    - 2.72
+    - 2.72

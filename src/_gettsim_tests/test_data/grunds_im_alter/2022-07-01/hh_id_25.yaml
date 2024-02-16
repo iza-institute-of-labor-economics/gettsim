@@ -1,0 +1,112 @@
+---
+info:
+  note: >-
+    Test with child and positive wealth below wealth allowance (website did not add
+    general amount for child)
+  source: https://www.smart-rechner.de/grundsicherung/rechner.php
+inputs:
+  provided:
+    p_id:
+      - 34
+      - 35
+    tu_id:
+      - 25
+      - 25
+    hh_id:
+      - 25
+      - 25
+    jahr:
+      - 2022
+      - 2022
+    kind:
+      - false
+      - true
+    alter:
+      - 50
+      - 16
+    bruttokaltmiete_m_hh:
+      - 252.5
+      - 252.5
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 35.0
+      - 35.0
+    bruttolohn_m:
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+    grundr_zeiten:
+      - 120
+      - 0
+    rentner:
+      - true
+      - false
+    schwerbeh_g:
+      - true
+      - false
+    vermögen_bedürft_hh:
+      - 5400.0
+      - 5400.0
+    alleinerz:
+      - true
+      - false
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+    eink_st_y_tu:
+      - 0.0
+      - 0.0
+    soli_st_y_tu:
+      - 0.0
+      - 0.0
+    sozialv_beitr_m:
+      - 0.0
+      - 0.0
+    kindergeld_m_hh:
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+    priv_rente_m:
+      - 0.0
+      - 0.0
+    ges_rente_m:
+      - 425.0
+      - 0.0
+    geburtstag:
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+    geburtsjahr:
+      - 1972
+      - 2006
+  assumed: {}
+outputs:
+  grunds_im_alter_m_hh:
+    - 852.71
+    - 852.71

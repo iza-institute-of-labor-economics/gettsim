@@ -2,9 +2,11 @@
 mindesteinkommen:
   name:
     de: >-
-      Monatliches Mindesteinkommen, um UHV für Kinder ab 13 Jahren zu erhalten
+      Monatliches Mindesteinkommen, um UHV für Kinder ab
+      `altersgrenze_mindesteinkommen` Jahren zu erhalten.
     en: >-
-      Minimal income necessary to get child alimony advance for children 13 to 17 years.
+      Minimal income necessary to get Unterhaltsvorschuss for children of age at least
+      `altersgrenze_mindesteinkommen`.
   description:
     de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
     en: null
@@ -12,6 +14,21 @@ mindesteinkommen:
   reference_period: Month
   2017-01-01:
     scalar: 600
+    reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
+altersgrenze_mindesteinkommen:
+  name:
+    de: >-
+      Altersgrenze, ab der UHV nur mit einem Mindesteinkommen in Höhe von
+      `mindesteinkommen` bezogen werden kann.
+    en: >-
+      Age threshold from which on Unterhaltsvorschuss is only paied if earnings are
+      above `mindesteinkommen`.
+  description:
+    de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
+    en: null
+  unit: Years
+  2017-01-01:
+    scalar: 12
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
 altersgrenzen:
   name:
@@ -32,3 +49,11 @@ altersgrenzen:
     1: 6
     2: 12
     3: 18
+rounding:
+  unterhaltsvors_m:
+    note:
+      en: Rounding rules since implementation in 1980 via BGBl. I 1979 S. 1184.
+    1980-01-01:
+      base: 1
+      direction: up
+      reference: § 9 Abs. 3 UhVorschG

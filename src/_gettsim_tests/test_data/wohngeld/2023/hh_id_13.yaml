@@ -1,0 +1,144 @@
+---
+info:
+  note: ''
+  source: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
+inputs:
+  provided:
+    p_id:
+      - 57
+      - 58
+      - 59
+    hh_id:
+      - 13
+      - 13
+      - 13
+    tu_id:
+      - 13
+      - 13
+      - 13
+    kind:
+      - false
+      - false
+      - true
+    bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+      - 700.0
+    alleinerz:
+      - false
+      - false
+      - false
+    alter:
+      - 39
+      - 35
+      - 10
+    immobilie_baujahr_hh:
+      - 1970
+      - 1970
+      - 1970
+    kindergeld_anspruch:
+      - false
+      - false
+      - true
+    mietstufe:
+      - 3
+      - 3
+      - 3
+    bruttolohn_m:
+      - 900.0
+      - 1050.0
+      - 0.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_abhängig_beschäftigt_y:
+      - 10800.0
+      - 12600.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 85.71
+      - 100.0
+      - 0.0
+    ges_krankenv_beitr_m:
+      - 68.57
+      - 80.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+    jahr:
+      - 2023
+      - 2023
+      - 2023
+    eink_st_y_tu:
+      - 585.0
+      - 585.0
+      - 585.0
+    vermögen_bedürft_hh:
+      - 45000.0
+      - 45000.0
+      - 45000.0
+    haushaltsgröße_hh:
+      - 3
+      - 3
+      - 3
+    geburtstag:
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+    geburtsjahr:
+      - 1984
+      - 1988
+      - 2013
+  assumed: {}
+outputs:
+  wohngeld_vor_vermög_check_m_hh:
+    - 469.0
+    - 469.0
+    - 469.0
+  wohngeld_nach_vermög_check_m_hh:
+    - 469.0
+    - 469.0
+    - 469.0

@@ -1,0 +1,22 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 4
+    hh_id:
+      - 4
+    tu_id:
+      - 4
+    kind:
+      - false
+    eink_st_mit_kinderfreib_y_tu:
+      - 3000.0
+    abgelt_st_y_tu:
+      - 0.0
+  assumed: {}
+outputs:
+  soli_st_y_tu:
+    - 165.0

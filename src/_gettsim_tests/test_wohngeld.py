@@ -1,93 +1,36 @@
-import itertools
-
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
+from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-# Variables for the standard wohngeld test.
-INPUT_COLS = [
-    "p_id",
-    "hh_id",
-    "tu_id",
-    "kind",
-    "bruttokaltmiete_m_hh",
-    "alleinerz",
-    "alter",
-    "immobilie_baujahr_hh",
-    "kindergeld_anspruch",
-    "mietstufe",
-    "bruttolohn_m",
-    "sum_ges_rente_priv_rente_m",
-    "rente_ertragsanteil",
-    "elterngeld_m",
-    "arbeitsl_geld_m",
-    "sonstig_eink_m",
-    "kind_unterh_erhalt_m",
-    "unterhaltsvors_m",
-    "eink_selbst_m",
-    "eink_abhängig_beschäftigt",
-    "kapitaleink_brutto",
-    "eink_vermietung_m",
-    "ges_rentenv_beitr_m",
-    "ges_krankenv_beitr_m",
-    "behinderungsgrad",
-    "jahr",
-    "eink_st_tu",
-    "vermögen_bedürft_hh",
-    "haushaltsgröße_hh",
-    "geburtstag",
-    "geburtsmonat",
-    "geburtsjahr",
-]
-YEARS_TEST = [2006, 2009, 2013, 2016, 2018, 2019, 2021, 2023]
-
-# ToDo: add "wohngeld_miete_m_hh" "wohngeld_eink_m" to test data and to
-# ToDo: OUT_COLS (take care of rounding)
-
-OUT_COLS = ["wohngeld_vor_vermög_check_m_hh", "wohngeld_nach_vermög_check_m_hh"]
-
-OVERRIDE_COLS = [
-    "elterngeld_m",
-    "arbeitsl_geld_m",
-    "rente_ertragsanteil",
-    "eink_abhängig_beschäftigt",
-    "eink_st_tu",
-    "ges_krankenv_beitr_m",
-    "ges_rentenv_beitr_m",
-    "kindergeld_anspruch",
-    "sum_ges_rente_priv_rente_m",
-    "kapitaleink_brutto",
-    "haushaltsgröße_hh",
-    "unterhaltsvors_m",
-]
+data = load_policy_test_data("wohngeld")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    return pd.read_csv(TEST_DATA_DIR / "wohngeld.csv")
-
-
-@pytest.mark.xfail()
-@pytest.mark.parametrize("year, column", itertools.product(YEARS_TEST, OUT_COLS))
-def test_wohngeld(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = set_up_policy_environment(date=year)
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data.parametrize_args,
+    ids=str,
+)
+def test_wohngeld(
+    test_data: PolicyTestData,
+    column: str,
+):
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
+
     if column == "wohngeld_eink_m":
         result[column] = result[column].round(1)
     else:
         result[column] = result[column].round(2)
 
-    assert_series_equal(result[column].astype(float), year_data[column], atol=0, rtol=0)
+    assert_series_equal(
+        result[column], test_data.output_df[column], check_dtype=False, atol=0, rtol=0
+    )

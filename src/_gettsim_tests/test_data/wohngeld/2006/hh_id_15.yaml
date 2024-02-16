@@ -1,0 +1,316 @@
+---
+info:
+  note: >-
+    Expanded test case to include additional household members so that more than seven
+    people are eligible for housing subsidies
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 66
+      - 67
+      - 68
+      - 69
+      - 70
+      - 71
+      - 72
+      - 73
+    hh_id:
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+    tu_id:
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+      - 15
+    kind:
+      - false
+      - false
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+    bruttokaltmiete_m_hh:
+      - 850.0
+      - 850.0
+      - 850.0
+      - 850.0
+      - 850.0
+      - 850.0
+      - 850.0
+      - 850.0
+    alleinerz:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    alter:
+      - 42
+      - 53
+      - 7
+      - 8
+      - 12
+      - 2
+      - 2
+      - 5
+    immobilie_baujahr_hh:
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+    kindergeld_anspruch:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    mietstufe:
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+      - 3
+    bruttolohn_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_abhängig_beschäftigt_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 50.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_krankenv_beitr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    jahr:
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+    eink_st_y_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    vermögen_bedürft_hh:
+      - 200000.0
+      - 200000.0
+      - 200000.0
+      - 200000.0
+      - 200000.0
+      - 200000.0
+      - 200000.0
+      - 200000.0
+    haushaltsgröße_hh:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+    geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsjahr:
+      - 1964
+      - 1953
+      - 1999
+      - 1998
+      - 1994
+      - 2004
+      - 2004
+      - 2001
+  assumed: {}
+outputs:
+  wohngeld_vor_vermög_check_m_hh:
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+  wohngeld_nach_vermög_check_m_hh:
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0
+    - 690.0

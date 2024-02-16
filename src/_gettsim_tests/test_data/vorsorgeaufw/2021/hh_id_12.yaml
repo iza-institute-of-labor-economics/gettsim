@@ -1,0 +1,32 @@
+---
+info:
+  note: ''
+  source: https://www.finanztip.de/vorsorgeaufwendungen/
+inputs:
+  provided:
+    p_id:
+      - 13
+    tu_id:
+      - 12
+    hh_id:
+      - 12
+    bruttolohn_m:
+      - 4305.56
+    kind:
+      - false
+    priv_rentenv_beitr_m:
+      - 250.0
+    ges_rentenv_beitr_m:
+      - 387.5
+    arbeitsl_v_beitr_m:
+      - 0.0
+    ges_pflegev_beitr_m:
+      - 0.0
+    jahr:
+      - 2021
+    ges_krankenv_beitr_m:
+      - 0.0
+  assumed: {}
+outputs:
+  vorsorgeaufw_y_tu:
+    - 6666

@@ -1,0 +1,61 @@
+---
+info:
+  note: ''
+  source: >-
+    Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das
+    Grundrentengesetz",
+    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
+inputs:
+  provided:
+    p_id:
+      - 2
+    tu_id:
+      - 2
+    hh_id:
+      - 2
+    grundr_zeiten:
+      - 420
+    grundr_bew_zeiten:
+      - 420
+    wohnort_ost:
+      - false
+    rente_vorj_vor_grundr_proxy_m:
+      - 0.0
+    bruttolohn_vorj_m:
+      - 0.0
+    eink_selbst_y:
+      - 0.0
+    eink_vermietung_y:
+      - 0.0
+    kapitaleink_y:
+      - 0.0
+    alter:
+      - 70
+    alleinstehend:
+      - true
+    geburtsjahr:
+      - 1951
+    bruttolohn_m:
+      - 0.0
+    entgeltp_west:
+      - 17.5
+    entgeltp_ost:
+      - 0.0
+    ges_rente_zugangsfaktor:
+      - 1.0
+    rentner:
+      - true
+    grundr_entgeltp:
+      - 17.5
+    kind:
+      - false
+  assumed: {}
+outputs:
+  grundr_zuschlag_bonus_entgeltp:
+    - 0.021908333
+  grundr_zuschlag_vor_eink_anr_m:
+    - 314.6
+  grundr_zuschlag_m:
+    - 314.6
+  ges_rente_m:
+    - 912.93

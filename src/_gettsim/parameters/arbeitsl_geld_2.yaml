@@ -94,11 +94,12 @@ eink_anr_frei_kinder:
     en: null
   description:
     de: >-
-      Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3,
-      Haushalt mit Kindern. Gilt statt die Parameter in eink_anr_frei für
-      Leistungsbezieher mit minderjährigem Kind. § 30 SGB II. Seit 01.04.2011 §
-      11b SGB II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2
-      G. v. 24.03.2011 BGBl. I S. 453).
+      Obere Einkommensgrenze bei anzurechnendem Einkommen, Intervall 3, Haushalt mit
+      Kindern. Gilt statt der Parameter in eink_anr_frei für Leistungsbezieher, die mit
+      minderjährigem Kind in BG leben oder die ein minderjähriges Kind haben (zweiteres
+      wird aktuell noch nicht im Code beachtet). § 30 SGB II. Seit 01.04.2011 § 11b SGB
+      II (neugefasst durch B. v. 13.05.2011 BGBl. I S. 850. Artikel 2 G. v. 24.03.2011
+      BGBl. I S. 453).
     en: null
   note: Ersetzt Parameter in eink_anr_frei, falls nicht vorhanden
   type: piecewise_linear
@@ -127,13 +128,17 @@ regelsatz:
     en: null
   note:
     de: >-
-      Regelbedafstufen (1 bis 6): 1: Alleinstehender Erwachsener;
-      2: Erwachsene in Partnerschaft; 3: Erwachsene nicht in Partnerschaft;
-      4: Kinder 14 bis 18; 5: Kinder 6 bis 13; 6: Kinder 0 bis 5
+      Regelbedafstufen (1 bis 6):
+      1: Alleinstehender Erwachsener;
+      2: Erwachsene in Partnerschaft;
+      3: Erwachsene nicht in Partnerschaft;
+      4: Kinder 14 bis 17;
+      5: Kinder 6 bis 13;
+      6: Kinder 0 bis 5
     en: >-
       Regelbedarfsstufe (1 to 6); 1: Single Adult;
       2: Adults in a partner relationship; 3: Adults not in a partner relationship;
-      4: Children 14 to 18 years; 5: Children 6 to 13 years; 6: Children 0 to 5 years.
+      4: Children 14 to 17 years; 5: Children 6 to 13 years; 6: Children 0 to 5 years.
   unit: Euro
   reference_period: Month
   2005-01-01:
@@ -272,6 +277,14 @@ regelsatz:
     6: 318
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
+  2024-01-01:
+    1: 563
+    2: 506
+    3: 451
+    4: 471
+    5: 390
+    6: 357
+    reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Arbeitslosengeld II
@@ -307,14 +320,14 @@ anteil_regelsatz:
   2005-01-01:
     zwei_erwachsene: 0.9
     weitere_erwachsene: 0.8
-    kinder_0_6: 0.6
-    kinder_7_13: 0.6
-    kinder_14_24: 0.8
+    kinder_bis_5: 0.6
+    kinder_ab_6_bis_13: 0.6
+    kinder_ab_14_bis_24: 0.8
     reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
-    kinder_7_13: 0.7
+    kinder_ab_6_bis_13: 0.7
 mehrbedarf_anteil:
   name:
     de: >-

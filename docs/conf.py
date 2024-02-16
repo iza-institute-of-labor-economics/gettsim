@@ -83,7 +83,8 @@ autodoc2_output_dir = "gettsim_objects/apidocs"
 autodoc2_index_template = """Policy functions in GETTSIM
 ===============================
 
-This section documents the internal functions provided by GETTSIM to model the tax and transfer system [#f1]_.
+This section documents the internal functions provided by GETTSIM to model the tax and
+transfer system [#f1]_.
 
 .. toctree::
    :titlesonly:
@@ -92,7 +93,8 @@ This section documents the internal functions provided by GETTSIM to model the t
    {{ package }}
 {%- endfor %}
 
-.. [#f1] Created with `sphinx-autodoc2 <https://github.com/chrisjsewell/sphinx-autodoc2>`_'"""
+.. [#f1] Created with `sphinx-autodoc2
+    <https://github.com/chrisjsewell/sphinx-autodoc2>`_'"""
 
 autodoc_default_options = {
     "members": True,
@@ -123,7 +125,7 @@ extlinks = {
 intersphinx_mapping = {
     "numpy": ("https://docs.scipy.org/doc/numpy", None),
     "pandas": ("https://pandas.pydata.org/pandas-docs/stable", None),
-    "python": ("https://docs.python.org/3.11", None),
+    "python": ("https://docs.python.org/", None),
 }
 
 myst_heading_anchors = 3

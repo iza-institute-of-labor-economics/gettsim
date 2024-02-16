@@ -1,0 +1,78 @@
+---
+info:
+  note: >-
+    (unrounded value is displayed when you click on the question mark next to the
+    housing allowance calculation)
+  source: https://www.smart-rechner.de/wohngeld/rechner.php
+inputs:
+  provided:
+    p_id:
+      - 55
+    hh_id:
+      - 10
+    tu_id:
+      - 10
+    kind:
+      - false
+    bruttokaltmiete_m_hh:
+      - 600.0
+    alleinerz:
+      - false
+    alter:
+      - 57
+    immobilie_baujahr_hh:
+      - 1980
+    kindergeld_anspruch:
+      - false
+    mietstufe:
+      - 5
+    bruttolohn_m:
+      - 1050.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+    elterngeld_m:
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+    eink_abhängig_beschäftigt_y:
+      - 12600.0
+    kapitaleink_brutto_y:
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 100.0
+    ges_krankenv_beitr_m:
+      - 80.0
+    behinderungsgrad:
+      - 0
+    jahr:
+      - 2021
+    eink_st_y_tu:
+      - 300.0
+    vermögen_bedürft_hh:
+      - 61000.0
+    haushaltsgröße_hh:
+      - 1
+    geburtstag:
+      - 1
+    geburtsmonat:
+      - 1
+    geburtsjahr:
+      - 1964
+  assumed: {}
+outputs:
+  wohngeld_vor_vermög_check_m_hh:
+    - 249.0
+  wohngeld_nach_vermög_check_m_hh:
+    - 0.0

@@ -1,0 +1,60 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  provided:
+    hh_id:
+      - 5
+      - 5
+      - 5
+    tu_id:
+      - 5
+      - 5
+      - 5
+    p_id:
+      - 9
+      - 10
+      - 11
+    kind:
+      - false
+      - false
+      - true
+    eink_st_ohne_kinderfreib_y_tu:
+      - 12000.0
+      - 12000.0
+      - 12000.0
+    eink_st_mit_kinderfreib_y_tu:
+      - 10000.0
+      - 10000.0
+      - 10000.0
+    _zu_verst_eink_mit_kinderfreib_y_tu:
+      - 109740.0
+      - 109740.0
+      - 109740.0
+    _zu_verst_eink_ohne_kinderfreib_y_tu:
+      - 120000.0
+      - 120000.0
+      - 120000.0
+    abgelt_st_y_tu:
+      - 0.0
+      - 0.0
+      - 0.0
+    kindergeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2019
+      - 2019
+      - 2019
+  assumed: {}
+outputs:
+  eink_st_y_tu:
+    - 19344
+    - 19344
+    - 19344
+  zu_verst_eink_y_tu:
+    - 109740
+    - 109740
+    - 109740

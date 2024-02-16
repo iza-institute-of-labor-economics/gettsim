@@ -1,36 +1,11 @@
-import itertools
+from datetime import timedelta
 
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-
-INPUT_COLS = [
-    "p_id",
-    "tu_id",
-    "hh_id",
-    "grundr_zeiten",
-    "grundr_bew_zeiten",
-    "wohnort_ost",
-    "rente_vorj_vor_grundr_proxy_m",
-    "bruttolohn_vorj_m",
-    "eink_selbst",
-    "eink_vermietung",
-    "kapitaleink",
-    "alter",
-    "alleinstehend",
-    "geburtsjahr",
-    "bruttolohn_m",
-    "entgeltp",
-    "ges_rente_zugangsfaktor",
-    "rentner",
-    "grundr_entgeltp",
-    "kind",
-]
-
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 YEARS = [2021]
 
@@ -40,40 +15,31 @@ OUT_COLS_TOL = {
     "grundr_zuschlag_m": 1,
     "ges_rente_m": 1,
 }
-OUT_COLS = OUT_COLS_TOL.keys()
+data = load_policy_test_data("grundrente")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "grundrente.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    out["p_id"] = out["p_id"].astype(int)
-    return out
-
-
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
-def test_grundrente(input_data, year, column):
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data.parametrize_args,
+    ids=str,
+)
+def test_grundrente(
+    test_data: PolicyTestData,
+    column: str,
+):
+    df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
+        date=test_data.date
     )
 
-    calc_result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=[
-            "rente_vorj_vor_grundr_proxy_m",
-            "eink_selbst",
-            "eink_vermietung",
-            "kapitaleink",
-            "ges_rente_zugangsfaktor",
-        ],
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
+
     tol = OUT_COLS_TOL[column]
-    assert_series_equal(calc_result[column], year_data[column], atol=tol, rtol=0)
+    assert_series_equal(
+        result[column], test_data.output_df[column], check_dtype=False, atol=tol, rtol=0
+    )
 
 
 INPUT_COLS_INCOME = [
@@ -82,15 +48,21 @@ INPUT_COLS_INCOME = [
     "hh_id",
     "alter",
     "priv_rente_m",
-    "entgeltp",
+    "entgeltp_west",
+    "entgeltp_ost",
     "geburtsjahr",
     "geburtsmonat",
     "rentner",
     "jahr_renteneintr",
+    "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
     "weiblich",
     "y_pflichtbeitr_ab_40",
+    "pflichtbeitr_8_in_10",
+    "arbeitsl_1y_past_585",
+    "vertra_arbeitsl_2006",
+    "vertra_arbeitsl_1997",
     "m_pflichtbeitrag",
     "m_freiw_beitrag",
     "m_ersatzzeit",
@@ -100,49 +72,51 @@ INPUT_COLS_INCOME = [
     "m_arbeitsunfähig",
     "m_krank_ab_16_bis_24",
     "m_mutterschutz",
-    "m_arbeitslos",
+    "m_arbeitsl",
     "m_ausbild_suche",
     "m_alg1_übergang",
     "m_geringf_beschäft",
 ]
 
-
-@pytest.fixture(scope="module")
-def input_data_proxy_rente():
-    file_name = "grundrente_proxy_rente.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    out["p_id"] = out["p_id"].astype(int)
-    out["jahr_renteneintr"] = out["jahr_renteneintr"].astype("Int64")
-
-    return out
+data_proxy = load_policy_test_data("grundrente_proxy_rente")
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_proxy_rente_vorj(input_data_proxy_rente, year):
-    year_data = input_data_proxy_rente[input_data_proxy_rente["jahr"] == year]
-    df = year_data[INPUT_COLS_INCOME].copy()
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data_proxy.parametrize_args,
+    ids=str,
+)
+def test_proxy_rente_vorj(
+    test_data: PolicyTestData,
+    column: str,
+):
+    df = test_data.input_df[INPUT_COLS_INCOME]
     policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
+        date=test_data.date
     )
-    target = "rente_vorj_vor_grundr_proxy_m"
-    calc_result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=target,
+
+    result = compute_taxes_and_transfers(
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
+
     assert_series_equal(
-        calc_result[target].astype(float), year_data[target], rtol=0, atol=0.01
+        result[column].astype(float),
+        test_data.output_df[column],
+        check_dtype=False,
+        rtol=0,
+        atol=0.01,
     )
 
 
-@pytest.mark.parametrize("year", YEARS)
-def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
-    year_data = input_data_proxy_rente[input_data_proxy_rente["jahr"] == year]
-    df = year_data[INPUT_COLS_INCOME].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year}-07-01"
-    )
+@pytest.mark.parametrize(
+    "test_data",
+    data_proxy.test_data,
+    ids=str,
+)
+def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
+    df = test_data.input_df[INPUT_COLS_INCOME].copy()
+    date = test_data.date
+    policy_params, policy_functions = cached_set_up_policy_environment(date)
 
     calc_result = compute_taxes_and_transfers(
         data=df,
@@ -153,18 +127,18 @@ def test_proxy_rente_vorj_comparison_last_year(input_data_proxy_rente, year):
 
     # Calculate pension of last year
     policy_params, policy_functions = cached_set_up_policy_environment(
-        date=f"{year - 1}-07-01"
+        date - timedelta(days=365)
     )
     df["alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         params=policy_params,
-        functions=[policy_functions],
+        functions=policy_functions,
         targets=["ges_rente_vor_grundr_m"],
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["ges_rente_vor_grundr_m"] + year_data["priv_rente_m"],
+        calc_result_last_year["ges_rente_vor_grundr_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

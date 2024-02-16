@@ -10,17 +10,24 @@ from _gettsim.config import (
 )
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import _load_functions
-from _gettsim.interface import _add_rounding_to_functions, compute_taxes_and_transfers
+from _gettsim.interface import (
+    _add_rounding_to_functions,
+    _add_rounding_to_one_function,
+    compute_taxes_and_transfers,
+)
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import add_rounding_spec
 
 rounding_specs_and_exp_results = [
-    (1, "up", [100.24, 100.78], [101.0, 101.0]),
-    (1, "down", [100.24, 100.78], [100.0, 100.0]),
-    (1, "nearest", [100.24, 100.78], [100.0, 101.0]),
-    (5, "up", [100.24, 100.78], [105.0, 105.0]),
-    (0.1, "down", [100.24, 100.78], [100.2, 100.7]),
-    (0.001, "nearest", [100.24, 100.78], [100.24, 100.78]),
+    (1, "up", None, [100.24, 100.78], [101.0, 101.0]),
+    (1, "down", None, [100.24, 100.78], [100.0, 100.0]),
+    (1, "nearest", None, [100.24, 100.78], [100.0, 101.0]),
+    (5, "up", None, [100.24, 100.78], [105.0, 105.0]),
+    (0.1, "down", None, [100.24, 100.78], [100.2, 100.7]),
+    (0.001, "nearest", None, [100.24, 100.78], [100.24, 100.78]),
+    (1, "up", 10, [100.24, 100.78], [111.0, 111.0]),
+    (1, "down", 10, [100.24, 100.78], [110.0, 110.0]),
+    (1, "nearest", 10, [100.24, 100.78], [110.0, 111.0]),
 ]
 
 
@@ -50,17 +57,22 @@ def test_no_rounding_specs(rounding_specs):
 
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            functions=[test_func],
             params=rounding_specs,
+            functions=[test_func],
             targets=["test_func"],
         )
 
 
 @pytest.mark.parametrize(
-    "base, direction",
-    [(1, "upper"), ("0.1", "down"), (5, "closest")],
+    "base, direction, to_add_after_rounding",
+    [
+        (1, "upper", 0),
+        ("0.1", "down", 0),
+        (5, "closest", 0),
+        (5, "up", "0"),
+    ],
 )
-def test_rounding_specs_wrong_format(base, direction):
+def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
     with pytest.raises(ValueError):
 
         @add_rounding_spec(params_key="params_key_test")
@@ -69,23 +81,29 @@ def test_rounding_specs_wrong_format(base, direction):
 
         rounding_specs = {
             "params_key_test": {
-                "rounding": {"test_func": {"base": base, "direction": direction}}
+                "rounding": {
+                    "test_func": {
+                        "base": base,
+                        "direction": direction,
+                        "to_add_after_rounding": to_add_after_rounding,
+                    }
+                }
             }
         }
 
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            functions=[test_func],
             params=rounding_specs,
+            functions=[test_func],
             targets=["test_func"],
         )
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values, exp_output",
+    "base, direction, to_add_after_rounding, input_values, exp_output",
     rounding_specs_and_exp_results,
 )
-def test_rounding(base, direction, input_values, exp_output):
+def test_rounding(base, direction, to_add_after_rounding, input_values, exp_output):
     """Check if rounding is correct."""
 
     # Define function that should be rounded
@@ -97,24 +115,33 @@ def test_rounding(base, direction, input_values, exp_output):
     data["income"] = input_values
     rounding_specs = {
         "params_key_test": {
-            "rounding": {"test_func": {"base": base, "direction": direction}}
+            "rounding": {
+                "test_func": {
+                    "base": base,
+                    "direction": direction,
+                }
+            }
         }
     }
 
+    if to_add_after_rounding:
+        rounding_specs["params_key_test"]["rounding"]["test_func"][
+            "to_add_after_rounding"
+        ] = to_add_after_rounding
+
     calc_result = compute_taxes_and_transfers(
-        data=data,
-        functions=[test_func],
-        params=rounding_specs,
-        targets=["test_func"],
+        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(exp_output))
 
 
 @pytest.mark.parametrize(
-    "base, direction, input_values_exp_output, _ignore",
+    "base, direction, to_add_after_rounding, input_values_exp_output, _ignore",
     rounding_specs_and_exp_results,
 )
-def test_no_rounding(base, direction, input_values_exp_output, _ignore):
+def test_no_rounding(
+    base, direction, to_add_after_rounding, input_values_exp_output, _ignore
+):
     # Define function that should be rounded
     @add_rounding_spec(params_key="params_key_test")
     def test_func(income):
@@ -128,13 +155,39 @@ def test_no_rounding(base, direction, input_values_exp_output, _ignore):
         }
     }
 
+    if to_add_after_rounding:
+        rounding_specs["params_key_test"]["rounding"]["test_func"][
+            "to_add_after_rounding"
+        ] = to_add_after_rounding
+
     calc_result = compute_taxes_and_transfers(
-        data=data,
-        functions=[test_func],
-        params=rounding_specs,
-        targets=["test_func"],
+        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
     np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
+
+
+@pytest.mark.parametrize(
+    "base, direction, to_add_after_rounding, input_values, exp_output",
+    rounding_specs_and_exp_results,
+)
+def test_rounding_callable(
+    base, direction, to_add_after_rounding, input_values, exp_output
+):
+    """Check if callable is rounded correctly.
+
+    Tests `_add_rounding_to_one_function` directly.
+    """
+
+    def test_func(income):
+        return income
+
+    func_with_rounding = _add_rounding_to_one_function(
+        base=base,
+        direction=direction,
+        to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
+    )(test_func)
+
+    np.array_equal(func_with_rounding(pd.Series(input_values)), np.array(exp_output))
 
 
 def test_decorator_for_all_functions_with_rounding_spec():

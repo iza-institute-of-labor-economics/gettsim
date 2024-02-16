@@ -1,60 +1,21 @@
-import itertools
-
-import pandas as pd
 import pytest
 from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
-from _gettsim_tests import TEST_DATA_DIR
 from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-INPUT_COLS = [
-    "hh_id",
-    "tu_id",
-    "p_id",
-    "kind",
-    "bruttolohn_m",
-    "bruttolohn_vorj_m",
-    "wohnort_ost",
-    "eink_st_m",
-    "soli_st_m",
-    "sozialv_beitr_m",
-    "geburtsjahr",
-    "geburtsmonat",
-    "geburtstag",
-    "m_elterngeld_mut_hh",
-    "m_elterngeld_vat_hh",
-    "m_elterngeld",
-    "jahr",
-]
-
-OUT_COLS = [
-    "elterngeld_m",
-    "elterngeld_geschw_bonus_anspruch",
-    "_elterngeld_anz_mehrlinge_anspruch",
-    "elternzeit_anspruch",
-]
-YEARS = [2017, 2018, 2019]
-
-OVERRIDE_COLS = [
-    "soli_st_tu",
-    "sozialv_beitr_m",
-    "eink_st_tu",
-]
+data = load_policy_test_data("elterngeld")
 
 
-@pytest.fixture(scope="module")
-def input_data():
-    file_name = "elterngeld.csv"
-    out = pd.read_csv(TEST_DATA_DIR / file_name)
-    return out
-
-
-@pytest.mark.parametrize("year, column", itertools.product(YEARS, OUT_COLS))
+@pytest.mark.parametrize(
+    ("test_data", "column"),
+    data.parametrize_args,
+    ids=str,
+)
 def test_elterngeld(
-    year,
-    column,
-    input_data,
+    test_data: PolicyTestData,
+    column: str,
 ):
     """Run tests to validate elterngeld.
 
@@ -64,20 +25,22 @@ def test_elterngeld(
     the proxy wage of last year or anything else.
 
     """
-    year_data = input_data[input_data["jahr"] == year].reset_index(drop=True)
-    df = year_data[INPUT_COLS].copy()
-    policy_params, policy_functions = cached_set_up_policy_environment(date=year)
-    df["soli_st_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
-    df["eink_st_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df = test_data.input_df
+    policy_params, policy_functions = cached_set_up_policy_environment(
+        date=test_data.date
+    )
+
+    df["soli_st_y_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
+    df["eink_st_y_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
 
     result = compute_taxes_and_transfers(
-        data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
-        columns_overriding_functions=OVERRIDE_COLS,
+        data=df, params=policy_params, functions=policy_functions, targets=column
     )
 
     assert_series_equal(
-        result[column], year_data[column], check_dtype=False, atol=1e-1, rtol=0
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=1e-1,
+        rtol=0,
     )

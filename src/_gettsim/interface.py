@@ -2,11 +2,17 @@ import copy
 import functools
 import inspect
 import warnings
+from typing import Literal
 
 import dags
 import pandas as pd
 
-from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import (
+    DEFAULT_TARGETS,
+    FOREIGN_KEYS,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
@@ -26,73 +32,88 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
     params,
     functions,
-    aggregation_specs=None,
+    aggregate_by_group_specs=None,
+    aggregate_by_p_id_specs=None,
     targets=None,
-    columns_overriding_functions=None,
     check_minimal_specification="ignore",
     rounding=True,
     debug=False,
 ):
     """Compute taxes and transfers.
 
-    :param #:
-    :type #: PLR0913data
-    :param params: A dictionary with parameters from the policy environment. For more information
+    Parameters
+    ----------
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
+    params : dict
+        A dictionary with parameters from the policy environment. For more information
         see the documentation of the :ref:`params_files`.
-    :type params: dict
-    :param functions: Functions from the policy environment. Functions can be anything of the
+    functions : str, pathlib.Path, callable, module, imports statements, dict
+        Functions from the policy environment. Functions can be anything of the
         specified types and a list of the same objects. If the object is a dictionary,
         the keys of the dictionary are used as a name instead of the function name. For
         all other objects, the name is inferred from the function name.
-    :type functions: str, pathlib.Path, callable, module, imports statements, dict
-    :param aggregation_specs: A dictionary which contains specs for functions which aggregate variables on
+    aggregate_by_group_specs : dict, default None
+        A dictionary which contains specs for functions which aggregate variables on
         the tax unit or household level. The syntax is the same as for aggregation
         specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html). (Default value = None)
-    :type aggregation_specs: dict, default None
-    :param targets: String or list of strings with names of functions whose output is actually
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
+    aggregate_by_p_id_specs : dict, default None
+        A dictionary which contains specs for linking aggregating taxes and by another
+        individual (for example, a parent). The syntax is the same as for aggregation
+        specs in the code base and as specified in
+        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+    targets : str, list of str, default None
+        String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS` are returned.
-    :type targets: str, list of str, default None
-    :param columns_overriding_functions: Names of columns in the data which are preferred over function defined in the
-        tax and transfer system. (Default value = None)
-    :type columns_overriding_functions: str list of str
-    :param check_minimal_specification: Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors. (Default value = "ignore")
-    :type check_minimal_specification: {"ignore", "warn", "raise"}, default "ignore"
-    :param rounding: Indicator for whether rounding should be applied as specified in the law. (Default value = True)
-    :type rounding: bool, default True
-    :param debug: The debug mode does the following:
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
+    rounding : bool, default True
+        Indicator for whether rounding should be applied as specified in the law.
+    debug : bool
+        The debug mode does the following:
+
         1. All necessary inputs and all computed variables are returned.
         2. If an exception occurs while computing one variable, the exception is
-           skipped. (Default value = False)
-    :type debug: bool
-    :returns: results ->     DataFrame containing computed variables.
-    :rtype: pandas.DataFrame
+           skipped.
 
+    Returns
+    -------
+    results : pandas.DataFrame
+        DataFrame containing computed variables.
 
     """
 
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
     params = {} if params is None else params
-    aggregation_specs = {} if aggregation_specs is None else aggregation_specs
+    aggregate_by_group_specs = (
+        {} if aggregate_by_group_specs is None else aggregate_by_group_specs
+    )
+    aggregate_by_p_id_specs = (
+        {} if aggregate_by_p_id_specs is None else aggregate_by_p_id_specs
+    )
 
     # Process data and load dictionaries with functions.
-    data = _process_and_check_data(
-        data=data, columns_overriding_functions=columns_overriding_functions
-    )
+    data = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        user_functions_raw=functions,
-        columns_overriding_functions=columns_overriding_functions,
+        functions_raw=functions,
         targets=targets,
         data_cols=list(data),
-        aggregation_specs=aggregation_specs,
+        aggregate_by_group_specs=aggregate_by_group_specs,
+        aggregate_by_p_id_specs=aggregate_by_p_id_specs,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
+    columns_overriding_functions = set(functions_overridden)
+
+    # Warn if columns override functions.
+    if columns_overriding_functions:
+        warnings.warn(
+            FunctionsAndColumnsOverlapWarning(columns_overriding_functions),
+            stacklevel=2,
+        )
 
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
@@ -156,22 +177,26 @@ def set_up_dag(
 ):
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
-    :param all_functions: All internal and user functions except the ones that are overridden by an input
+    Parameters
+    ----------
+    all_functions : dict
+        All internal and user functions except the ones that are overridden by an input
         column.
-    :type all_functions: dict
-    :param targets: List of strings with names of functions whose output is actually
+    targets : list of str
+        List of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` contains all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS`.
-    :type targets: list of str
-    :param columns_overriding_functions: Names of columns in the data which are preferred over function defined in the
+    columns_overriding_functions : list of str
+        Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
-    :type columns_overriding_functions: list of str
-    :param check_minimal_specification: Indicator for whether checks which ensure the most minimal configuration should
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
-    :type check_minimal_specification: {"ignore", "warn", "raise"}, default "ignore"
-    :returns: dag->     The DAG of the tax and transfer system.
-    :rtype: networkx.DiGraph
 
+    Returns
+    -------
+    dag : networkx.DiGraph
+        The DAG of the tax and transfer system.
 
     """
     # Create DAG and perform checks which depend on data which is not part of the DAG
@@ -188,17 +213,17 @@ def set_up_dag(
     return dag
 
 
-def _process_and_check_data(data, columns_overriding_functions):
+def _process_and_check_data(data):
     """Process data and perform several checks.
 
-    :param data: Data provided by the user.
-    :type data: pandas.Series or pandas.DataFrame or dict of pandas.Series
-    :param columns_overriding_functions: Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
-    :type columns_overriding_functions: str list of str
-    :returns: data->
-    :rtype: dict of pandas.Series
+    Parameters
+    ----------
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
 
+    Returns
+    -------
+    data : dict of pandas.Series
 
     """
     if isinstance(data, pd.DataFrame):
@@ -221,16 +246,15 @@ def _process_and_check_data(data, columns_overriding_functions):
     # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
     # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
     # unit within a household.
-    # ToDo: Remove check once Günstigerprüfung ist taken care of.
+    # TODO (@hmgaudecker): Remove check once groupings allow for it.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601
     if ("tu_id" in data) and ("hh_id" in data):
         assert (
             not data["tu_id"].groupby(data["hh_id"]).std().max() > 0
         ), "We currently allow for only one tax unit within each household"
 
-    _fail_if_columns_overriding_functions_are_not_in_data(
-        list(data), columns_overriding_functions
-    )
     _fail_if_pid_is_non_unique(data)
+    _fail_if_foreign_keys_are_invalid(data)
 
     return data
 
@@ -238,13 +262,16 @@ def _process_and_check_data(data, columns_overriding_functions):
 def _convert_data_to_correct_types(data, functions_overridden):
     """Convert all series of data to the type that is expected by GETTSIM.
 
-    :param data: Data provided by the user.
-    :type data: pandas.Series or pandas.DataFrame or dict of pandas.Series
-    :param functions_overridden: Functions to be overridden.
-    :type functions_overridden: dict of callable
-    :returns: data->
-    :rtype: dict of pandas.Series with correct type
+    Parameters
+    ----------
+    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+        Data provided by the user.
+    functions_overridden : dict of callable
+        Functions to be overridden.
 
+    Returns
+    -------
+    data : dict of pandas.Series with correct type
 
     """
     collected_errors = ["The data types of the following columns are invalid: \n"]
@@ -295,9 +322,12 @@ def _convert_data_to_correct_types(data, functions_overridden):
             " to the expected data types yourself."
         )
 
-    # Otherwise raise warning which lists all sucessful conversions
+    # Otherwise raise warning which lists all successful conversions
     elif len(collected_conversions) > 1:
-        warnings.warn("\n".join(collected_conversions) + "\n" + "\n" + general_warning)
+        warnings.warn(
+            "\n".join(collected_conversions) + "\n" + "\n" + general_warning,
+            stacklevel=2,
+        )
     return data
 
 
@@ -313,22 +343,26 @@ def _create_input_data(
     - reducing to necessary data
     - convert pandas.Series to numpy.array
 
-    :param data: Data provided by the user.
-    :type data: Dict of pandas.Series
-    :param processed_functions: Dictionary mapping function names to callables.
-    :type processed_functions: dict of callable
-    :param targets: List of strings with names of functions whose output is actually needed by the
+    Parameters
+    ----------
+    data : Dict of pandas.Series
+        Data provided by the user.
+    processed_functions : dict of callable
+        Dictionary mapping function names to callables.
+    targets : list of str
+        List of strings with names of functions whose output is actually needed by the
         user.
-    :type targets: list of str
-    :param columns_overriding_functions: Names of columns in the data which are preferred over function defined in the
+    columns_overriding_functions : str list of str
+        Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
-    :type columns_overriding_functions: str list of str
-    :param check_minimal_specification: Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors. (Default value = "ignore")
-    :type check_minimal_specification: {"ignore", "warn", "raise"}, default "ignore"
-    :returns: input_data->     Data which can be used to calculate taxes and transfers.
-    :rtype: Dict of numpy.array
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimal configuration should
+        be silenced, emitted as warnings or errors.
 
+    Returns
+    -------
+    input_data : Dict of numpy.array
+        Data which can be used to calculate taxes and transfers.
 
     """
     # Create dag using processed functions
@@ -350,12 +384,54 @@ def _create_input_data(
     return input_data
 
 
-def _fail_if_duplicates_in_columns(data):
-    """Check that all column names are unique.
-
-    :param data:
-
+class FunctionsAndColumnsOverlapWarning(UserWarning):
     """
+    Warning that functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    columns_overriding_functions : set[str]
+        Names of columns in the data that override hard-coded functions.
+    """
+
+    def __init__(self, columns_overriding_functions: set[str]) -> None:
+        n_cols = len(columns_overriding_functions)
+        first_part = format_errors_and_warnings(
+            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
+        )
+        formatted = format_list_linewise(list(columns_overriding_functions))
+        second_part = format_errors_and_warnings(
+            f"""
+            {'This is' if n_cols == 1 else 'These are'} already present among the
+            hard-coded functions of the taxes and transfers system.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be used
+            instead of calculating it within GETTSIM you need not do anything.
+            If you want {'this' if n_cols == 1 else 'a'} data column to be
+            calculated by hard-coded functions, remove
+            {'it' if n_cols == 1 else 'them'} from the *data* you pass to GETTSIM.
+            {'' if n_cols == 1 else '''You need to pick one option for each column
+            that appears in the list above.'''}
+            """
+        )
+        how_to_ignore = format_errors_and_warnings(
+            """
+            If you want to ignore this warning, add the following code to your script
+            before calling GETTSIM:
+
+                import warnings
+                from gettsim import FunctionsAndColumnsOverlapWarning
+
+                warnings.filterwarnings(
+                    "ignore",
+                    category=FunctionsAndColumnsOverlapWarning
+                )
+            """
+        )
+        super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
+
+
+def _fail_if_duplicates_in_columns(data):
+    """Check that all column names are unique."""
     if any(data.columns.duplicated()):
         raise ValueError(
             "The following columns are non-unique in the input data:\n\n"
@@ -366,13 +442,17 @@ def _fail_if_duplicates_in_columns(data):
 def _fail_if_group_variables_not_constant_within_groups(data):
     """Check whether group variables have the same value within each group.
 
-    :param data: Dictionary containing a series for each column.
-    :type data: dict of pandas.Series
-
+    Parameters
+    ----------
+    data : dict of pandas.Series
+        Dictionary containing a series for each column.
 
     """
+    exogenous_groupings = [
+        level for level in SUPPORTED_GROUPINGS if f"{level}_id" in data
+    ]
     for name, col in data.items():
-        for level in SUPPORTED_GROUPINGS:
+        for level in exogenous_groupings:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
@@ -391,55 +471,8 @@ def _fail_if_group_variables_not_constant_within_groups(data):
     return data
 
 
-def _fail_if_columns_overriding_functions_are_not_in_data(data_cols, columns):
-    """Fail if functions which compute columns overlap with existing columns.
-
-    :param data_cols: Columns of the input data.
-    :type data_cols: list
-    :param columns: List of column names.
-    :type columns: list of str
-    :raises ValueError: Fail if functions which compute columns overlap with existing columns.
-
-
-    """
-    unused_columns_overriding_functions = sorted(
-        c for c in set(columns) if c not in data_cols
-    )
-    n_cols = len(unused_columns_overriding_functions)
-
-    column_sg_pl = "column" if n_cols == 1 else "columns"
-
-    if unused_columns_overriding_functions:
-        first_part = format_errors_and_warnings(
-            f"You passed the following user {column_sg_pl}:"
-        )
-        list_ = format_list_linewise(unused_columns_overriding_functions)
-
-        second_part = format_errors_and_warnings(
-            f"""
-            {'This' if n_cols == 1 else 'These'} {column_sg_pl} cannot be found in the
-            data.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM, please add it to *data*.
-
-            If you want {'this' if n_cols == 1 else 'a'} data column to be calculated
-            internally by GETTSIM, remove it from the *columns_overriding_functions* you
-            pass to GETTSIM.
-
-            {'' if n_cols == 1 else '''You need to pick one option for each column that
-            appears in the list above.'''}
-            """
-        )
-        raise ValueError("\n".join([first_part, list_, second_part]))
-
-
 def _fail_if_pid_is_non_unique(data):
-    """Check that pid is unique.
-
-    :param data:
-
-    """
+    """Check that pid is unique."""
     if "p_id" not in data:
         message = "The input data must contain the column p_id"
         raise ValueError(message)
@@ -450,6 +483,37 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+
+def _fail_if_foreign_keys_are_invalid(data):
+    """
+    Check that all foreign keys are valid.
+
+    They must point to an existing `p_id` in the input data and may not refer to
+    the `p_id` of the same row.
+    """
+
+    p_ids = set(data["p_id"]) | {-1}
+
+    for foreign_key in FOREIGN_KEYS:
+        if foreign_key not in data:
+            continue
+
+        # Referenced `p_id` must exist in the input data
+        if not data[foreign_key].isin(p_ids).all():
+            message = (
+                f"The following {foreign_key}s are not a valid p_id in the input data:"
+                f" {list(data[foreign_key].loc[~data[foreign_key].isin(p_ids)])}"
+            )
+            raise ValueError(message)
+
+        # Referenced `p_id` must not be the same as the `p_id` of the same row
+        if (data[foreign_key] == data["p_id"]).any():
+            message = (
+                f"The following {foreign_key}s are equal to the p_id in the same row:"
+                f" {list(data[foreign_key].loc[data[foreign_key] == data['p_id']])}"
+            )
+            raise ValueError(message)
 
 
 def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
@@ -478,7 +542,7 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
     formatted = format_list_linewise(unnecessary_data)
     message = f"The following columns in 'data' are unused.\n\n{formatted}"
     if unnecessary_data and check_minimal_specification == "warn":
-        warnings.warn(message)
+        warnings.warn(message, stacklevel=2)
     elif unnecessary_data and check_minimal_specification == "raise":
         raise ValueError(message)
 
@@ -488,17 +552,21 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
 def _round_and_partial_parameters_to_functions(functions, params, rounding):
     """Create a dictionary of all functions that are available.
 
-    :param functions: Dictionary of functions which are either internal or user provided functions.
-    :type functions: dict of callable
-    :param params: Dictionary of parameters which is partialed to the function such that `params`
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters which is partialed to the function such that `params`
         are invisible to the DAG.
-    :type params: dict
-    :param rounding: Indicator for whether rounding should be applied as specified in the law.
-    :type rounding: bool
-    :returns: processed_functions->     Dictionary mapping function names to rounded callables with partialed
-        parameters.
-    :rtype: dict of callable
+    rounding : bool
+        Indicator for whether rounding should be applied as specified in the law.
 
+    Returns
+    -------
+    processed_functions : dict of callable
+        Dictionary mapping function names to rounded callables with partialed
+        parameters.
 
     """
     # Add rounding to functions.
@@ -534,13 +602,17 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
 def _add_rounding_to_functions(functions, params):
     """Add appropriate rounding of outputs to functions.
 
-    :param functions: Dictionary of functions which are either internal or user provided functions.
-    :type functions: dict of callable
-    :param params: Dictionary of parameters
-    :type params: dict
-    :returns: functions_new->     Dictionary of rounded functions.
-    :rtype: dict of callable
+    Parameters
+    ----------
+    functions : dict of callable
+        Dictionary of functions which are either internal or user provided functions.
+    params : dict
+        Dictionary of parameters
 
+    Returns
+    -------
+    functions_new : dict of callable
+        Dictionary of rounded functions.
 
     """
     functions_new = copy.deepcopy(functions)
@@ -585,21 +657,32 @@ def _add_rounding_to_functions(functions, params):
             functions_new[func_name] = _add_rounding_to_one_function(
                 base=rounding_spec["base"],
                 direction=rounding_spec["direction"],
+                to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
             )(func)
 
     return functions_new
 
 
-def _add_rounding_to_one_function(base, direction):
+def _add_rounding_to_one_function(
+    base: float,
+    direction: Literal["up", "down", "nearest"],
+    to_add_after_rounding: float,
+) -> callable:
     """Decorator to round the output of a function.
 
-    :param base: Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    :type base: float
-    :param direction: Whether the series should be rounded up, down or to the nearest number
-    :type direction: str
-    :returns: results->     Series with (potentially) rounded numbers
-    :rtype: pandas.Series
+    Parameters
+    ----------
+    base : float
+        Precision of rounding (e.g. 0.1 to round to the first decimal place)
+    direction : str
+        Whether the series should be rounded up, down or to the nearest number
+    to_add_after_rounding : float
+        Number to be added after the rounding step
 
+    Returns
+    -------
+    results : pandas.Series
+        Series with (potentially) rounded numbers
 
     """
 
@@ -614,6 +697,11 @@ def _add_rounding_to_one_function(base, direction):
                 raise ValueError(
                     f"base needs to be a number, got {base!r} for {func.__name__!r}"
                 )
+            if type(to_add_after_rounding) not in [int, float]:
+                raise ValueError(
+                    f"Additive part needs to be a number, got"
+                    f" {to_add_after_rounding!r} for {func.__name__!r}"
+                )
 
             if direction == "up":
                 rounded_out = base * np.ceil(out / base)
@@ -626,6 +714,8 @@ def _add_rounding_to_one_function(base, direction):
                     "direction must be one of 'up', 'down', or 'nearest'"
                     f", got {direction!r} for {func.__name__!r}"
                 )
+
+            rounded_out += to_add_after_rounding
             return rounded_out
 
         return wrapper
@@ -638,24 +728,35 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
 ):
     """Fail if ``columns_overriding_functions`` are not in the DAG.
 
-    :param dag: The DAG which is limited to targets and their ancestors.
-    :type dag: networkx.DiGraph
-    :param columns_overriding_functions: The nodes which are provided by columns in the data and do not need to be
+    Parameters
+    ----------
+    dag : networkx.DiGraph
+        The DAG which is limited to targets and their ancestors.
+    columns_overriding_functions : list of str
+        The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
-    :type columns_overriding_functions: list of str
-    :param check_minimal_specification: Indicator for whether checks which ensure the most minimalistic configuration
+    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+        Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.
-    :type check_minimal_specification: {"ignore", "warn", "raise"}, default "ignore"
-    :raises ValueError: Raised if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``check_minimal_specification`` is set to "raise".
 
+    Warnings
+    --------
+    UserWarning
+        Warns if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "warn".
+    Raises
+    ------
+    ValueError
+        Raised if there are columns in 'columns_overriding_functions' which are not
+        necessary and ``check_minimal_specification`` is set to "raise".
 
     """
     unused_columns = set(columns_overriding_functions) - set(dag.nodes)
     formatted = format_list_linewise(unused_columns)
     if unused_columns and check_minimal_specification == "warn":
         warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
+            stacklevel=2,
         )
     elif unused_columns and check_minimal_specification == "raise":
         raise ValueError(
@@ -666,15 +767,19 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
 def _prepare_results(results, data, debug):
     """Prepare results after DAG was executed.
 
-    :param results: Dictionary of pd.Series with the results.
-    :type results: dict
-    :param data: Dictionary of pd.Series based on the input data provided by the user.
-    :type data: dict
-    :param debug: Indicates debug mode.
-    :type debug: bool
-    :returns: results->     Nicely formatted DataFrame of the results.
-    :rtype: pandas.DataFrame
+    Parameters
+    ----------
+    results : dict
+        Dictionary of pd.Series with the results.
+    data : dict
+        Dictionary of pd.Series based on the input data provided by the user.
+    debug : bool
+        Indicates debug mode.
 
+    Returns
+    -------
+    results : pandas.DataFrame
+        Nicely formatted DataFrame of the results.
 
     """
     if debug:

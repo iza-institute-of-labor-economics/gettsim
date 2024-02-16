@@ -1,8 +1,0 @@
-hh_id,tu_id,p_id,alleinerz,alter,bruttolohn_m,kind_unterh_erhalt_m,eink_selbst_m,sonstig_eink_m,arbeitsl_geld_m,sum_ges_rente_priv_rente_m,kapitaleink_brutto_m,eink_vermietung_m,jahr,monat,Column1,_1,unterhaltsvors_m,_2,_3,_4,_5,These test cases wer just to check that we return a Series of nans. We exclude this test case for now.,_6,_7,_8,_9,_10,_11,_12,_13,_14,_15,_16,_17,_18
-5,5,6,TRUE,45,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2018,1,,,0,,,,,1,1,23,FALSE,40,0,0,0,0,0,0,0,FALSE,2017
-5,5,7,FALSE,10,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2018,1,,,205,,,,,1,1,25,FALSE,35,0,0,0,0,0,0,0,FALSE,2017
-4,4,39,TRUE,45,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2019,1,,,0,,,,,1,1,27,FALSE,8,0,0,0,0,0,0,0,FALSE,2017
-4,4,41,FALSE,11,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2019,1,,,212,,,,,2,2,29,TRUE,28,0,0,0,0,0,0,0,FALSE,2017
-4,4,43,FALSE,14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2019,1,,,0,,,,,2,2,31,TRUE,3,0,0,0,0,0,0,0,FALSE,2017
-1,1,23,TRUE,40,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2019,8,,,0,,,,,3,3,33,TRUE,35,700,0,0,0,0,0,0,FALSE,2017
-1,1,25,FALSE,8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2019,8,,,202,,,,,3,3,35,TRUE,21,0,0,0,0,0,0,0,FALSE,2017
