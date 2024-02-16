@@ -310,7 +310,7 @@ aggregate_by_p_id_kindergeld = {
 
 This dict creates a target function `kindergeld_anz_ansprüche` which gives the amount of
 claims that a person has on Kindergeld, based on the `kindergeld_anspruch` function
-which returns bools that show whether a person is a reason for a Kindergeld claim.
+which returns Booleans, which show whether a child is a reason for a Kindergeld claim.
 
 The output type will be the same as the input type. Exceptions:
 
