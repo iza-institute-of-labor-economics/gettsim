@@ -112,7 +112,8 @@ def soli_st_y_tu(
     anz_erwachsene_tu: int,
     abgelt_st_y_tu: float,
     soli_st_params: dict,
-) -> float: ...
+) -> float:
+    ...
 ```
 
 may use `abgelt_st_y_tu` as an input argument. The DAG backend ensures that the function
@@ -258,7 +259,8 @@ By including `kindergeld_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments):
+    ...
 ```
 
 a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`
@@ -315,8 +317,8 @@ which returns bools that show whether a person is a reason for a Kindergeld clai
 The output type will be the same as the input type. Exceptions:
 
 - Input type `bool` and aggregation `sum` leads to output type `int`.
-- Input type `int` and aggregation {math}`\in \{` `any`, `all` {math}`\}` leads to
-  output type `bool`
+- Input type `int` or `float` and aggregation {math}`\in \{` `any`, `all` {math}`\}`
+  leads to output type `bool`
 - Aggregation `count` will always result in an `int`.
 
 (gep-4-time-unit-conversion)=
