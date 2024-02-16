@@ -284,12 +284,12 @@ child is eligible for it. Similarly, parents receive a tax allowance because the
 satisfies the criteria for it. These aggregation operations are based on the `p_id`
 column. This section describes how to specify such taxes and transfers.
 
-The implementation is similar to aggregations to the level of groupings: In order to specify new aggregation
-functions, scripts with functions of the taxes and transfer system should define a
-dictionary `aggregate_by_p_id_[script_name]` at the module level. This dictionary must
-specify the aggregated columns as keys and a dictionary with keys `source_col`,
-`p_id_to_aggregate_by` and `aggr` as values. If `aggr` is `count`, `source_col` is not
-needed.
+The implementation is similar to aggregations to the level of groupings: In order to
+specify new aggregation functions, scripts with functions of the taxes and transfer
+system should define a dictionary `aggregate_by_p_id_[script_name]` at the module level.
+This dictionary must specify the aggregated columns as keys and a dictionary with keys
+`source_col`, `p_id_to_aggregate_by` and `aggr` as values. If `aggr` is `count`,
+`source_col` is not needed.
 
 The key `source_col` specifies which column is the source of the aggregation operation.
 The key `p_id_to_aggregate_by` specifies the column that indicates to which `p_id` the
