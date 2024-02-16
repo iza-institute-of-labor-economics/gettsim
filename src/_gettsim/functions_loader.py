@@ -466,7 +466,7 @@ def rename_arguments(func=None, mapper=None, annotations=None):
 def _check_agg_specs_validity(agg_specs, agg_col):
     if "aggr" not in agg_specs:
         raise KeyError(
-            f"No aggr keyword is specified for aggregation column {agg_col}."
+            f"`aggr` key is missing for aggregation column {agg_col}."
         )
 
     if agg_specs["aggr"] != "count":
