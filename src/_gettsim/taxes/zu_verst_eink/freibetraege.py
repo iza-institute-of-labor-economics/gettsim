@@ -1,6 +1,40 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import add_rounding_spec, dates_active
 
+aggregate_by_p_id_freibeträge = {
+    "_eink_st_kinderfreib_anz_anspruch_1": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+    "_eink_st_kinderfreib_anz_anspruch_2": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
+
+
+def _eink_st_kinderfreib_anz_ansprüche(
+    _eink_st_kinderfreib_anz_anspruch_1: int,
+    _eink_st_kinderfreib_anz_anspruch_2: int,
+) -> int:
+    """Return the number of Kinderfreibeträge a person is entitled to.
+
+    The person could be a parent or legal custodian.
+
+    Parameters
+    ----------
+    _eink_st_kinderfreib_anz_anspruch_1
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_1 <p_id_kinderfreibetr_empfänger_1>`.
+    _eink_st_kinderfreib_anz_anspruch_2
+        Helper function based on aggregating
+        :ref:`p_id_kinderfreibetr_empfänger_2 <p_id_kinderfreibetr_empfänger_2>`.
+
+    """
+    return _eink_st_kinderfreib_anz_anspruch_1 + _eink_st_kinderfreib_anz_anspruch_2
+
 
 def _eink_st_behinderungsgrad_pauschbetrag_y(
     behinderungsgrad: int, eink_st_abzuege_params: dict
@@ -332,19 +366,16 @@ def sonderausgaben_betreuung_y_tu(
     return float(out)
 
 
-def eink_st_kinderfreib_y_tu(
-    anz_kinder_mit_kindergeld_tu: float,
-    anz_erwachsene_tu: int,
+def eink_st_kinderfreib_y(
+    _eink_st_kinderfreib_anz_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Aggregate child allowances on tax unit level.
+    """Individual child allowance.
 
     Parameters
     ----------
-    anz_kinder_mit_kindergeld_tu
-        See :func:`anz_kinder_mit_kindergeld_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -352,7 +383,42 @@ def eink_st_kinderfreib_y_tu(
     -------
 
     """
-    kinderfreib_total = sum(eink_st_abzuege_params["kinderfreib"].values())
-    out = kinderfreib_total * anz_kinder_mit_kindergeld_tu * anz_erwachsene_tu
 
-    return float(out)
+    return float(
+        sum(eink_st_abzuege_params["kinderfreib"].values())
+        * _eink_st_kinderfreib_anz_ansprüche
+    )
+
+
+def p_id_kinderfreib_empfänger_1(
+    p_id_elternteil_1: int,
+) -> int:
+    """Assigns child allowance to parent 1.
+
+    Parameters
+    ----------
+    p_id_elternteil_1
+        See :func:`p_id_elternteil_1`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_1
+
+
+def p_id_kinderfreib_empfänger_2(
+    p_id_elternteil_2: int,
+) -> int:
+    """Assigns child allowance to parent 2.
+
+    Parameters
+    ----------
+    p_id_elternteil_2
+        See :func:`p_id_elternteil_2`.
+
+    Returns
+    -------
+
+    """
+    return p_id_elternteil_2

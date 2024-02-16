@@ -78,7 +78,8 @@ def plot_dag(
         functions_raw=functions,
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),
-        aggregation_specs={},
+        aggregate_by_group_specs={},
+        aggregate_by_p_id_specs={},
     )
 
     # Select necessary nodes by creating a preliminary DAG.

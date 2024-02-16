@@ -1,14 +1,20 @@
-"""Functions to compute parental leave benefits (Erziehungsgeld) that preceeded
-Elterngeld."""
+"""Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 
 from _gettsim.shared import add_rounding_spec, dates_active
+
+aggregate_by_p_id_erziehungsgeld = {
+    "erziehungsgeld_eltern_m": {
+        "p_id_to_aggregate_by": "p_id_erziehgeld_empf",
+        "source_col": "erziehungsgeld_kind_m",
+        "aggr": "sum",
+    },
+}
 
 
 @dates_active(start="2004-01-01", end="2008-12-31")
 def erziehungsgeld_m(
-    erziehungsgeld_kind_m_fg: int,
+    erziehungsgeld_eltern_m: int,
     erziehungsgeld_anspruch_eltern: bool,
-    inanspruchn_erzieh: bool,
 ) -> bool:
     """Total parental leave benefits (Erziehungsgeld).
 
@@ -18,21 +24,18 @@ def erziehungsgeld_m(
 
     Parameters
     ----------
-    erziehungsgeld_kind_m_fg
-        See :func:`erziehungsgeld_kind_m_fg`.
+    erziehungsgeld_eltern_m
+        See :func:`erziehungsgeld_eltern_m`.
     erziehungsgeld_anspruch_eltern
         See :func:`erziehungsgeld_anspruch_eltern`.
-    inanspruchn_erzieh
-        See :See basic input variable :ref:`inanspruchn_erzieh
-        <inanspruchn_erzieh>`.
 
     Returns
     -------
     Parental leave benefits (Erziehungsgeld).
 
     """
-    if erziehungsgeld_anspruch_eltern and inanspruchn_erzieh:
-        out = erziehungsgeld_kind_m_fg
+    if erziehungsgeld_anspruch_eltern:
+        out = erziehungsgeld_eltern_m
     else:
         out = 0.0
 
@@ -41,7 +44,7 @@ def erziehungsgeld_m(
 
 @add_rounding_spec(params_key="erziehungsgeld")
 @dates_active(end="2003-12-31", change_name="erziehungsgeld_kind_m")
-def erziehungsgeld_kind_ohne_budgetsatz_m():
+def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
         """
     Erziehungsgeld is not implemented yet prior to 2004, see

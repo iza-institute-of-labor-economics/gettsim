@@ -10,6 +10,12 @@ inputs:
       - 10
     p_id:
       - 14
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_kindergeld_empf:
+      - -1
     vermögen_bedürft_hh:
       - 5500.0
     bruttolohn_m:

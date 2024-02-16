@@ -140,6 +140,10 @@ TYPES_INPUT_VARIABLES = {
     "hh_id": int,
     "tu_id": int,
     "p_id": int,
+    "p_id_elternteil_1": int,
+    "p_id_elternteil_2": int,
+    "p_id_kindergeld_empf": int,
+    "p_id_erziehgeld_empf": int,
     "vermögen_bedürft_hh": float,
     "bruttolohn_m": float,
     "alter": int,
@@ -210,7 +214,6 @@ TYPES_INPUT_VARIABLES = {
     "steuerklasse": int,
     "anz_eig_kind_bis_24": int,
     "budgetsatz_erzieh": bool,
-    "inanspruchn_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,
 }

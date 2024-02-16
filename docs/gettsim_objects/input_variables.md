@@ -581,12 +581,6 @@ Applied for "Budgetsatz" of parental leave benefit
 
 Type: bool
 
-## `inanspruchn_erzieh`
-
-Receiving parental leave benefit
-
-Type: bool
-
 ## `voll_erwerbsgemind`
 
 Unable to provide more than 3 hours of market labor per day.

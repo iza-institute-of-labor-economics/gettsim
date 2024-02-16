@@ -22,6 +22,9 @@ inputs:
     p_id_einstandspartner:
       - -1
       - -1
+    p_id_erziehgeld_empf:
+      - -1
+      - 6
     alter:
       - 25
       - 1
@@ -57,9 +60,6 @@ inputs:
       - 2004
     budgetsatz_erzieh:
       - false
-      - false
-    inanspruchn_erzieh:
-      - true
       - false
 outputs:
   erziehungsgeld_eink_relev_kind_y:

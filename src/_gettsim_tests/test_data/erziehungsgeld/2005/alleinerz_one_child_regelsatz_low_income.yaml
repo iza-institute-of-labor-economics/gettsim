@@ -16,6 +16,9 @@ inputs:
     p_id_einstandspartner:
       - -1
       - -1
+    p_id_erziehgeld_empf:
+      - -1
+      - 1
     hh_id:
       - 1
       - 1
@@ -57,9 +60,6 @@ inputs:
       - false
     budgetsatz_erzieh:
       - false
-      - false
-    inanspruchn_erzieh:
-      - true
       - false
 outputs:
   erziehungsgeld_eink_relev_kind_y:

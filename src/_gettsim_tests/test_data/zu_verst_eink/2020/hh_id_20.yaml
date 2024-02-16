@@ -19,6 +19,16 @@ inputs:
       - 20
       - 20
       - 20
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 31
+      - 31
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 32
+      - 32
     bruttolohn_m:
       - 3500.0
       - 2000.0

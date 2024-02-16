@@ -22,6 +22,12 @@ inputs:
       - 3
       - 4
       - 5
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 1
+      - 1
+      - 1
     alter:
       - 45
       - 40
