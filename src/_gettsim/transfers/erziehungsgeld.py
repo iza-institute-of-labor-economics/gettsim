@@ -1,4 +1,5 @@
 """Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
+
 from _gettsim.shared import add_rounding_spec, dates_active
 
 aggregate_by_p_id_erziehungsgeld = {

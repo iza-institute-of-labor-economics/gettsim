@@ -17,7 +17,7 @@ def prep_parametrize_data(data):
                 marks=pytest.mark.xfail(
                     reason="Arbeitslosengeld 2015 calculation is not correct due "
                     "to change in Grundfreibetrag in July 2015."
-                )
+                ),
             )
     return data
 

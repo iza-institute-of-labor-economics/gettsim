@@ -309,7 +309,7 @@ def _add_url_to_dag(dag):
             try:
                 name = dag.nodes[node]["function"].__name__
             except AttributeError:
-                name = name = dag.nodes[node]["function"].func.__name__
+                name = dag.nodes[node]["function"].func.__name__
         else:
             name = node
         dag.nodes[node]["url"] = _create_url(name)
