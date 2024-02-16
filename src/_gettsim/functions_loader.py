@@ -415,6 +415,12 @@ def _create_aggregate_by_group_functions(
         **user_provided_aggregate_by_group_specs,
     }
 
+    # Check validity of aggregation specs
+    [
+        _check_agg_specs_validity(agg_specs=v, agg_col=k)
+        for k, v in aggregate_by_group_dict.items()
+    ]
+
     # Create functions from specs
     aggregate_by_group_functions = {
         agg_col: _create_one_aggregate_by_group_func(
@@ -544,8 +550,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     aggregate_by_group_func : The aggregation func with the expected signature
 
     """
-
-    _check_agg_specs_validity(agg_specs, agg_col)
 
     # Identify grouping level
     group_id = None
