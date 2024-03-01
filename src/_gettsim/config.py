@@ -118,15 +118,15 @@ SUPPORTED_TIME_UNITS = {
 
 DEFAULT_TARGETS = [
     "eink_st_y_tu",
-    "soli_st_y_tu",
-    "abgelt_st_y_tu",
+    "soli_st_y_sn",
+    "abgelt_st_y_sn",
     "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",

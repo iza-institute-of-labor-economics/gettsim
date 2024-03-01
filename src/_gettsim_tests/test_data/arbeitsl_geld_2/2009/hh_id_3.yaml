@@ -58,7 +58,7 @@ inputs:
     eink_st_y_tu:
       - 1200.0
       - 1200.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 66.0
       - 66.0
     sozialv_beitr_m:

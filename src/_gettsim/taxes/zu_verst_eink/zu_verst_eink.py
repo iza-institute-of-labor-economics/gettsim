@@ -20,7 +20,7 @@ from _gettsim.shared import add_rounding_spec
 def freibeträge_ind_y(
     _eink_st_behinderungsgrad_pauschbetrag_y: float,
     eink_st_altersfreib_y: float,
-    alleinerz_freib_y_tu: float,
+    alleinerz_freib_y_sn: float,
 ) -> float:
     """Sum up all tax-deductible allowances applicable at the individual level.
 
@@ -32,8 +32,8 @@ def freibeträge_ind_y(
         See :func:`_eink_st_behinderungsgrad_pauschbetrag_y`.
     eink_st_altersfreib_y
         See :func:`eink_st_altersfreib_y`.
-    alleinerz_freib_y_tu
-        See :func:`alleinerz_freib_y_tu`.
+    alleinerz_freib_y_sn
+        See :func:`alleinerz_freib_y_sn`.
 
     Returns
     -------
@@ -42,105 +42,105 @@ def freibeträge_ind_y(
     out = (
         _eink_st_behinderungsgrad_pauschbetrag_y
         + eink_st_altersfreib_y
-        + alleinerz_freib_y_tu
+        + alleinerz_freib_y_sn
     )
     return out
 
 
-def freibeträge_y_tu(
-    eink_st_sonderausgaben_y_tu: float,
-    vorsorgeaufw_y_tu: float,
-    freibeträge_ind_y_tu: float,
+def freibeträge_y_sn(
+    eink_st_sonderausgaben_y_sn: float,
+    vorsorgeaufw_y_sn: float,
+    freibeträge_ind_y_sn: float,
 ) -> float:
     """Calculate total allowances on tax unit level.
 
     Parameters
     ----------
 
-    eink_st_sonderausgaben_y_tu
-        See :func:`eink_st_sonderausgaben_y_tu`.
-    vorsorgeaufw_y_tu
-        See :func:`vorsorgeaufw_y_tu`.
-    freibeträge_ind_y_tu
-        See :func:`freibeträge_ind_y_tu`.
+    eink_st_sonderausgaben_y_sn
+        See :func:`eink_st_sonderausgaben_y_sn`.
+    vorsorgeaufw_y_sn
+        See :func:`vorsorgeaufw_y_sn`.
+    freibeträge_ind_y_sn
+        See :func:`freibeträge_ind_y_sn`.
 
     Returns
     -------
 
     """
-    out = eink_st_sonderausgaben_y_tu + vorsorgeaufw_y_tu + freibeträge_ind_y_tu
+    out = eink_st_sonderausgaben_y_sn + vorsorgeaufw_y_sn + freibeträge_ind_y_sn
 
     return out
 
 
-def _zu_verst_eink_ohne_kinderfreib_y_tu(
-    sum_eink_y_tu: float,
-    freibeträge_y_tu: float,
+def _zu_verst_eink_ohne_kinderfreib_y_sn(
+    sum_eink_y_sn: float,
+    freibeträge_y_sn: float,
 ) -> float:
     """Calculate taxable income without child allowance on tax unit level.
 
     Parameters
     ----------
-    sum_eink_y_tu
-        See :func:`sum_eink_y_tu`.
-    freibeträge_y_tu
-        See :func:`freibeträge_y_tu`.
+    sum_eink_y_sn
+        See :func:`sum_eink_y_sn`.
+    freibeträge_y_sn
+        See :func:`freibeträge_y_sn`.
 
 
     Returns
     -------
 
     """
-    out = sum_eink_y_tu - freibeträge_y_tu
+    out = sum_eink_y_sn - freibeträge_y_sn
 
     return max(out, 0.0)
 
 
-def _zu_verst_eink_mit_kinderfreib_y_tu(
-    _zu_verst_eink_ohne_kinderfreib_y_tu: float, eink_st_kinderfreib_y_tu: float
+def _zu_verst_eink_mit_kinderfreib_y_sn(
+    _zu_verst_eink_ohne_kinderfreib_y_sn: float, eink_st_kinderfreib_y_sn: float
 ) -> float:
     """Calculate taxable income with child allowance on tax unit level.
 
     Parameters
     ----------
-    _zu_verst_eink_ohne_kinderfreib_y_tu
-        See :func:`_zu_verst_eink_ohne_kinderfreib_y_tu`.
-    eink_st_kinderfreib_y_tu
-        See :func:`eink_st_kinderfreib_y_tu`.
+    _zu_verst_eink_ohne_kinderfreib_y_sn
+        See :func:`_zu_verst_eink_ohne_kinderfreib_y_sn`.
+    eink_st_kinderfreib_y_sn
+        See :func:`eink_st_kinderfreib_y_sn`.
 
     Returns
     -------
 
     """
 
-    out = _zu_verst_eink_ohne_kinderfreib_y_tu - eink_st_kinderfreib_y_tu
+    out = _zu_verst_eink_ohne_kinderfreib_y_sn - eink_st_kinderfreib_y_sn
     return max(out, 0.0)
 
 
 @add_rounding_spec(params_key="eink_st")
-def zu_verst_eink_y_tu(
-    _zu_verst_eink_mit_kinderfreib_y_tu: float,
-    _zu_verst_eink_ohne_kinderfreib_y_tu: float,
-    kinderfreib_günstiger_tu: bool,
+def zu_verst_eink_y_sn(
+    _zu_verst_eink_mit_kinderfreib_y_sn: float,
+    _zu_verst_eink_ohne_kinderfreib_y_sn: float,
+    kinderfreib_günstiger_sn: bool,
 ) -> float:
     """Calculate taxable income on tax unit level.
 
     Parameters
     ----------
-    _zu_verst_eink_mit_kinderfreib_y_tu
-        See :func:`_zu_verst_eink_mit_kinderfreib_y_tu`.
-    _zu_verst_eink_ohne_kinderfreib_y_tu
-        See :func:`_zu_verst_eink_ohne_kinderfreib_y_tu`.
-    kinderfreib_günstiger_tu
-        See :func:`kinderfreib_günstiger_tu`.
+    _zu_verst_eink_mit_kinderfreib_y_sn
+        See :func:`_zu_verst_eink_mit_kinderfreib_y_sn`.
+    _zu_verst_eink_ohne_kinderfreib_y_sn
+        See :func:`_zu_verst_eink_ohne_kinderfreib_y_sn`.
+    kinderfreib_günstiger_sn
+        See :func:`kinderfreib_günstiger_sn`.
 
     Returns
     -------
 
     """
-    if kinderfreib_günstiger_tu:
-        out = _zu_verst_eink_mit_kinderfreib_y_tu
+    if kinderfreib_günstiger_sn:
+        out = _zu_verst_eink_mit_kinderfreib_y_sn
     else:
-        out = _zu_verst_eink_ohne_kinderfreib_y_tu
+        out = _zu_verst_eink_ohne_kinderfreib_y_sn
 
     return out

@@ -20,11 +20,19 @@ inputs:
       - false
       - false
       - true
-    eink_st_ohne_kinderfreib_y_tu:
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+    p_id_ehepartner:
+      - 2
+      - 1
+      - -1
+    eink_st_ohne_kinderfreib_y_sn:
       - 10000.0
       - 10000.0
       - 10000.0
-    eink_st_mit_kinderfreib_y_tu:
+    eink_st_mit_kinderfreib_y_sn:
       - 7000.0
       - 7000.0
       - 7000.0
@@ -36,14 +44,14 @@ inputs:
       - 10000.0
       - 10000.0
       - 10000.0
-    abgelt_st_y_tu:
+    abgelt_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m:
+    eink_st_rel_kindergeld_m:
+      - 97.0
+      - 97.0
       - 0.0
-      - 0.0
-      - 194.0
     jahr:
       - 2016
       - 2016

@@ -5,7 +5,7 @@ from _gettsim.shared import dates_active
 def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_tu: float,
-    soli_st_y_tu: float,
+    soli_st_y_sn: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
@@ -24,8 +24,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`sozialv_beitr_m`.
     eink_st_y_tu
         See :func:`eink_st_y_tu`.
-    soli_st_y_tu
-        See :func:`soli_st_y_tu`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     arbeitsl_geld_2_eink_anr_frei_m
@@ -50,7 +50,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         out = (
             arbeitsl_geld_2_bruttoeink_m
             - (eink_st_y_tu / anz_erwachsene_tu / 12)
-            - (soli_st_y_tu / anz_erwachsene_tu / 12)
+            - (soli_st_y_sn / anz_erwachsene_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_eink_anr_frei_m
         )
@@ -115,7 +115,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
     eink_st_y_tu: float,
-    soli_st_y_tu: float,
+    soli_st_y_sn: float,
     anz_erwachsene_tu: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_params: dict,
@@ -130,8 +130,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     eink_st_y_tu
         See :func:`eink_st_y_tu`.
-    soli_st_y_tu
-        See :func:`soli_st_y_tu`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     sozialv_beitr_m
@@ -148,7 +148,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
         (
             bruttolohn_m
             - (eink_st_y_tu / anz_erwachsene_tu / 12)
-            - (soli_st_y_tu / anz_erwachsene_tu / 12)
+            - (soli_st_y_sn / anz_erwachsene_tu / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]

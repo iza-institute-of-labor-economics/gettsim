@@ -29,6 +29,16 @@ inputs:
       - -1
       - -1
       - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
     p_id_kindergeld_empf:
       - -1
       - -1

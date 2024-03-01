@@ -2,9 +2,9 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-@dates_active(end="2008-12-31", change_name="soli_st_y_tu")
-def soli_st_y_tu_ohne_abgelt_st(
-    eink_st_mit_kinderfreib_y_tu: float,
+@dates_active(end="2008-12-31", change_name="soli_st_y_sn")
+def soli_st_y_sn_ohne_abgelt_st(
+    eink_st_mit_kinderfreib_y_sn: float,
     anz_erwachsene_tu: int,
     soli_st_params: dict,
 ) -> float:
@@ -23,8 +23,8 @@ def soli_st_y_tu_ohne_abgelt_st(
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_y_tu
-        See :func:`eink_st_mit_kinderfreib_y_tu`.
+    eink_st_mit_kinderfreib_y_sn
+        See :func:`eink_st_mit_kinderfreib_y_sn`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
     soli_st_params
@@ -34,17 +34,17 @@ def soli_st_y_tu_ohne_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_sn / anz_erwachsene_tu
     out = anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
 
     return out
 
 
-@dates_active(start="2009-01-01", change_name="soli_st_y_tu")
-def soli_st_y_tu_mit_abgelt_st(
-    eink_st_mit_kinderfreib_y_tu: float,
+@dates_active(start="2009-01-01", change_name="soli_st_y_sn")
+def soli_st_y_sn_mit_abgelt_st(
+    eink_st_mit_kinderfreib_y_sn: float,
     anz_erwachsene_tu: int,
-    abgelt_st_y_tu: float,
+    abgelt_st_y_sn: float,
     soli_st_params: dict,
 ) -> float:
     """Calculate the Solidarity Surcharge on tax unit level.
@@ -62,12 +62,12 @@ def soli_st_y_tu_mit_abgelt_st(
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_y_tu
-        See :func:`eink_st_mit_kinderfreib_y_tu`.
+    eink_st_mit_kinderfreib_y_sn
+        See :func:`eink_st_mit_kinderfreib_y_sn`.
     anz_erwachsene_tu
         See :func:`anz_erwachsene_tu`.
-    abgelt_st_y_tu
-        See :func:`abgelt_st_y_tu`.
+    abgelt_st_y_sn
+        See :func:`abgelt_st_y_sn`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -75,10 +75,10 @@ def soli_st_y_tu_mit_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_sn / anz_erwachsene_tu
     out = (
         anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
-        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_tu
+        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_sn
     )
 
     return out

@@ -22,14 +22,14 @@ inputs:
     zusammen_veranlagt:
       - true
       - true
-    eink_st_mit_kinderfreib_y_tu:
+    eink_st_mit_kinderfreib_y_sn:
       - 62794.0
       - 62794.0
-    abgelt_st_y_tu:
+    abgelt_st_y_sn:
       - 0.0
       - 0.0
   assumed: {}
 outputs:
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 3157.55
     - 3157.55

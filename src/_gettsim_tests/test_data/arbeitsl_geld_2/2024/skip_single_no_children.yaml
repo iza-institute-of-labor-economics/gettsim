@@ -41,7 +41,7 @@ inputs:
       - 0.0
     eink_st_y_tu:
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
     kindergeld_m_hh:
       - 0.0

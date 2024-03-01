@@ -34,19 +34,19 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_tu:
+  eink_st_ohne_kinderfreib_y_sn:
     - 0
     - 0
     - 0
-  eink_st_mit_kinderfreib_y_tu:
+  eink_st_mit_kinderfreib_y_sn:
     - 0
     - 0
     - 0
-  abgelt_st_y_tu:
+  abgelt_st_y_sn:
     - 49.5
     - 49.5
     - 49.5
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 2.72
     - 2.72
     - 2.72

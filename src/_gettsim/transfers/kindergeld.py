@@ -1,11 +1,11 @@
 from _gettsim.shared import dates_active
 
 aggregate_by_group_kindergeld = {
-    "kumulativer_kindergeld_anspruch_tu": {
-        "source_col": "kindergeld_anspruch",
-        "aggr": "cumsum",
-    },
     "anz_kinder_mit_kindergeld_tu": {
+        "source_col": "kindergeld_anspruch",
+        "aggr": "sum",
+    },
+    "anz_kinder_mit_kindergeld_fg": {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },

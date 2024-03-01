@@ -366,9 +366,6 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
     -------
     income threshold for parental leave benefit (Erziehungsgeld) on child level
     """
-    # TODO(@MImmesberger): Replace `anz_kinder_mit_kindergeld_tu` with
-    # `anz_kinder_mit_kindergeld_fg`
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/670
 
     out = (
         _erziehungsgeld_einkommensgrenze_vor_aufschl

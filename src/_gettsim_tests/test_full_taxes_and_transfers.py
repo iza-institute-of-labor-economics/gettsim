@@ -14,8 +14,8 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OUT_COLS = [
     "eink_st_y_tu",
-    "soli_st_y_tu",
-    "abgelt_st_y_tu",
+    "soli_st_y_sn",
+    "abgelt_st_y_sn",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
@@ -46,7 +46,7 @@ def test_full_taxes_and_transfers(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_tu")
+        out.remove("abgelt_st_y_sn")
 
     compute_taxes_and_transfers(
         data=df,
@@ -69,7 +69,7 @@ def test_data_types(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_tu")
+        out.remove("abgelt_st_y_sn")
 
     # Load all time dependent functions
     for y in range(1990, 2023):

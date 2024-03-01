@@ -80,7 +80,7 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
+def abgelt_st_y_sn(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
     """Calculate Abgeltungssteuer on tax unit level.
 
     Parameters
@@ -97,26 +97,27 @@ def abgelt_st_y_tu(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> 
     return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
 ```
 
-The function {func}`abgelt_st_y_tu` requires the variable `zu_verst_kapital_eink_y_tu`,
+The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink_y_tu`,
 which is the amount of taxable capital income on tax unit level (the latter is implied
 by the `_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_tu` must be provided by
 the user as a column of the input data or it has to be the name of another function.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of
-`abgelt_st_y_tu`.
+`abgelt_st_y_sn`.
 
 Another function, say
 
 ```python
-def soli_st_y_tu(
-    eink_st_mit_kinderfreib_y_tu: float,
+def soli_st_y_sn(
+    eink_st_mit_kinderfreib_y_sn: float,
     anz_erwachsene_tu: int,
-    abgelt_st_y_tu: float,
+    abgelt_st_y_sn: float,
     soli_st_params: dict,
-) -> float: ...
+) -> float:
+    ...
 ```
 
-may use `abgelt_st_y_tu` as an input argument. The DAG backend ensures that the function
-`abgelt_st_y_tu` will be executed first.
+may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
+`abgelt_st_y_sn` will be executed first.
 
 Note that the type annotations (e.g. `float`) indicate the expected type of each input
 and the output of a function, see {ref}`gep-2`.
@@ -258,7 +259,8 @@ By including `kindergeld_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments):
+    ...
 ```
 
 a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`

@@ -20,11 +20,11 @@ inputs:
       - 1000.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_tu:
+  eink_st_ohne_kinderfreib_y_sn:
     - 2700
-  eink_st_mit_kinderfreib_y_tu:
+  eink_st_mit_kinderfreib_y_sn:
     - 2700
-  abgelt_st_y_tu:
+  abgelt_st_y_sn:
     - 49.75
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 151.24

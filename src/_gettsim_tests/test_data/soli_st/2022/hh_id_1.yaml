@@ -12,11 +12,11 @@ inputs:
       - 1
     kind:
       - false
-    eink_st_mit_kinderfreib_y_tu:
+    eink_st_mit_kinderfreib_y_sn:
       - 2000.0
-    abgelt_st_y_tu:
+    abgelt_st_y_sn:
       - 0.0
   assumed: {}
 outputs:
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 0.0

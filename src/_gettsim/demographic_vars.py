@@ -10,6 +10,7 @@ import numpy
 
 aggregate_by_group_demographic_vars = {
     "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_erwachsene_sn": {"source_col": "erwachsen", "aggr": "sum"},
     "anz_erwachsene_hh": {"source_col": "erwachsen", "aggr": "sum"},
     "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
     "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
