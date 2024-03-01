@@ -29,7 +29,7 @@ dependencies:
   - pyyaml
   - setuptools_scm
   - sphinx
-  - sphinx-automodapi
+  - sphinx-automodapi<0.17.0
   - sphinx-copybutton
   - toml
   - pip:
