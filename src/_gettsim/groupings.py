@@ -5,7 +5,12 @@ import numpy
 
 
 def create_groupings() -> dict[str, Callable]:
-    return {"bg_id": bg_id_numpy, "fg_id": fg_id_numpy, "sn_id": sn_id_numpy}
+    return {
+        "bg_id": bg_id_numpy,
+        "eg_id": eg_id_numpy,
+        "fg_id": fg_id_numpy,
+        "sn_id": sn_id_numpy
+    }
 
 
 def bg_id_numpy(
@@ -29,6 +34,35 @@ def bg_id_numpy(
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:
             result.append(current_fg_id * 100)
+
+    return numpy.asarray(result)
+
+
+def eg_id_numpy(
+        p_id: numpy.ndarray,
+        p_id_einstandspartner: numpy.ndarray,
+) -> numpy.ndarray:
+    """
+    Compute the ID of the Einstandsgemeinschaft for each person.
+    """
+    p_id_to_eg_id = {}
+    next_eg_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(p_id):
+        current_p_id_einstandspartner = p_id_einstandspartner[index]
+
+        if (
+                current_p_id_einstandspartner >= 0
+                and current_p_id_einstandspartner in p_id_to_eg_id
+        ):
+            result.append(p_id_to_eg_id[current_p_id_einstandspartner])
+            continue
+
+        # New Einstandsgemeinschaft
+        result.append(next_eg_id)
+        p_id_to_eg_id[current_p_id] = next_eg_id
+        next_eg_id += 1
 
     return numpy.asarray(result)
 
