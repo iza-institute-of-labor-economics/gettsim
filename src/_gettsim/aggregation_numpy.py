@@ -17,7 +17,8 @@ def grouped_count(group_id):
 def grouped_sum(column, group_id):
     fail_if_dtype_not_int(group_id, agg_func="grouped_sum")
     fail_if_dtype_not_numeric_or_boolean(column, agg_func="grouped_sum")
-
+    if column.dtype == bool:
+        column = column.astype(int)
     out_on_hh = npg.aggregate(group_id, column, func="sum", fill_value=0)
 
     # Expand to individual level
