@@ -123,27 +123,27 @@ def sn_id_numpy(
     result = []
 
     for index, current_p_id in enumerate(p_id):
-        current_p_id_einstandspartner = p_id_ehepartner[index]
+        current_p_id_ehepartner = p_id_ehepartner[index]
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
         if (
-            current_p_id_einstandspartner >= 0
-            and current_p_id_einstandspartner in p_id_to_sn_id
+            current_p_id_ehepartner >= 0
+            and current_p_id_ehepartner in p_id_to_sn_id
         ):
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
-                current_p_id_einstandspartner
+                current_p_id_ehepartner
             ]
 
             if current_gemeinsam_veranlagt != gemeinsam_veranlagt_ehepartner:
                 message = (
-                    f"{current_p_id_einstandspartner} and {current_p_id} are "
+                    f"{current_p_id_ehepartner} and {current_p_id} are "
                     "married, but have different values for "
                     "gemeinsam_veranlagt."
                 )
                 raise ValueError(message)
 
             if current_gemeinsam_veranlagt:
-                result.append(p_id_to_sn_id[current_p_id_einstandspartner])
+                result.append(p_id_to_sn_id[current_p_id_ehepartner])
                 continue
 
         # New Steuersubjekt
