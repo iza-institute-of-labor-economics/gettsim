@@ -32,7 +32,7 @@ def eink_st_ohne_kinderfreib_y_sn(
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
-    Rturns
+    Returns
     -------
 
     """
