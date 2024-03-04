@@ -11,7 +11,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     grunds_im_alter_eink_m_eg: float,
     erwachsene_alle_rentner_eg: bool,
     vermögen_bedürft_eg: float,
-    grunds_im_alter_vermög_freib_fg: float,
+    grunds_im_alter_vermög_freib_eg: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
@@ -41,8 +41,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         See :func:`erwachsene_alle_rentner_eg`.
     vermögen_bedürft_eg
         See basic input variable :ref:`vermögen_bedürft_eg`.
-    grunds_im_alter_vermög_freib_fg
-        See :func:`grunds_im_alter_vermög_freib_fg`.
+    grunds_im_alter_vermög_freib_eg
+        See :func:`grunds_im_alter_vermög_freib_eg`.
     Returns
     -------
 
@@ -50,7 +50,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_fg) or (
+    if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg) or (
         not erwachsene_alle_rentner_eg
     ):
         out = 0.0
@@ -357,7 +357,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     return ges_rente_m - angerechnete_rente
 
 
-def grunds_im_alter_vermög_freib_fg(
+def grunds_im_alter_vermög_freib_eg(
     anz_erwachsene_fg: int,
     anz_kinder_fg: int,
     grunds_im_alter_params: dict,
