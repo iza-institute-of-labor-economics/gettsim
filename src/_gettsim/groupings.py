@@ -9,7 +9,8 @@ def create_groupings() -> dict[str, Callable]:
         "bg_id": bg_id_numpy,
         "eg_id": eg_id_numpy,
         "fg_id": fg_id_numpy,
-        "sn_id": sn_id_numpy
+        "sn_id": sn_id_numpy,
+        "ehe_id": ehe_id_numpy
     }
 
 
@@ -63,6 +64,35 @@ def eg_id_numpy(
         result.append(next_eg_id)
         p_id_to_eg_id[current_p_id] = next_eg_id
         next_eg_id += 1
+
+    return numpy.asarray(result)
+
+
+def ehe_id_numpy(
+        p_id: numpy.ndarray,
+        p_id_ehepartner: numpy.ndarray,
+):
+    """
+    Compute the ID of the Ehe for each person.
+    """
+    p_id_to_ehe_id = {}
+    next_ehe_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(p_id):
+        current_p_id_ehepartner = p_id_ehepartner[index]
+
+        if (
+                current_p_id_ehepartner >= 0
+                and current_p_id_ehepartner in p_id_to_ehe_id
+        ):
+            result.append(p_id_to_ehe_id[current_p_id_ehepartner])
+            continue
+
+        # New Steuersubjekt
+        result.append(next_ehe_id)
+        p_id_to_ehe_id[current_p_id] = next_ehe_id
+        next_ehe_id += 1
 
     return numpy.asarray(result)
 
