@@ -4,6 +4,14 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import add_rounding_spec, dates_active
 
+aggregate_by_p_id_wohngeld = {
+    "_wohngeld_eink_freib_alleinerz_bonus": {
+        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
+        "source_col": "kind_bis_12_mit_kindergeld",
+        "aggr": "sum",
+    },
+}
+
 
 def wohngeld_m_hh(
     wohngeld_nach_vermög_check_m_hh: float,
@@ -230,7 +238,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     behinderungsgrad: int,
     alleinerz: bool,
     kind: bool,
-    anz_kinder_bis_10_tu: int,
+    _wohngeld_eink_freib_alleinerz_bonus: int,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions for one individual until 2015.
@@ -247,8 +255,8 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
         See basic input variable :ref:`alleinerz <alleinerz>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    anz_kinder_bis_10_tu
-        See :func:`anz_kinder_bis_10_tu`.
+    _wohngeld_eink_freib_alleinerz_bonus
+        See :func:`_wohngeld_eink_freib_alleinerz_bonus`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -273,7 +281,8 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
 
     elif alleinerz and (not kind):
         freib_kinder_m = (
-            anz_kinder_bis_10_tu * wohngeld_params["freib_kinder_m"]["alleinerz"]
+            _wohngeld_eink_freib_alleinerz_bonus
+            * wohngeld_params["freib_kinder_m"]["alleinerz"]
         )
     else:
         freib_kinder_m = 0.0

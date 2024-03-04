@@ -46,7 +46,6 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_kinder_ab_14_bis_24": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
         "anz_kinder_ab_14_bis_17": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
         "anz_kinder_ab_18_bis_24": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
-        "anz_kinder_bis_10": {"source_col": "kind_bis_10", "aggr": "sum"},
         "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
         "haushaltsgröße": {"aggr": "count"},
         "tax_unit_größe": {"aggr": "count"},
@@ -95,7 +94,7 @@ def kind_bis_6(alter: int, kind: bool) -> bool:
     return out
 
 
-def kind_bis_10(alter: int, kind: bool) -> bool:
+def kind_bis_12(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 11.
 
     Parameters
