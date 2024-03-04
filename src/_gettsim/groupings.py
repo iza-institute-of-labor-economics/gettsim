@@ -10,7 +10,7 @@ def create_groupings() -> dict[str, Callable]:
         "eg_id": eg_id_numpy,
         "fg_id": fg_id_numpy,
         "sn_id": sn_id_numpy,
-        "ehe_id": ehe_id_numpy
+        "ehe_id": ehe_id_numpy,
     }
 
 
@@ -40,8 +40,8 @@ def bg_id_numpy(
 
 
 def eg_id_numpy(
-        p_id: numpy.ndarray,
-        p_id_einstandspartner: numpy.ndarray,
+    p_id: numpy.ndarray,
+    p_id_einstandspartner: numpy.ndarray,
 ) -> numpy.ndarray:
     """
     Compute the ID of the Einstandsgemeinschaft for each person.
@@ -54,8 +54,8 @@ def eg_id_numpy(
         current_p_id_einstandspartner = p_id_einstandspartner[index]
 
         if (
-                current_p_id_einstandspartner >= 0
-                and current_p_id_einstandspartner in p_id_to_eg_id
+            current_p_id_einstandspartner >= 0
+            and current_p_id_einstandspartner in p_id_to_eg_id
         ):
             result.append(p_id_to_eg_id[current_p_id_einstandspartner])
             continue
@@ -69,8 +69,8 @@ def eg_id_numpy(
 
 
 def ehe_id_numpy(
-        p_id: numpy.ndarray,
-        p_id_ehepartner: numpy.ndarray,
+    p_id: numpy.ndarray,
+    p_id_ehepartner: numpy.ndarray,
 ):
     """
     Compute the ID of the Ehe for each person.
@@ -82,10 +82,7 @@ def ehe_id_numpy(
     for index, current_p_id in enumerate(p_id):
         current_p_id_ehepartner = p_id_ehepartner[index]
 
-        if (
-                current_p_id_ehepartner >= 0
-                and current_p_id_ehepartner in p_id_to_ehe_id
-        ):
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_ehe_id:
             result.append(p_id_to_ehe_id[current_p_id_ehepartner])
             continue
 
@@ -190,10 +187,7 @@ def sn_id_numpy(
         current_p_id_ehepartner = p_id_ehepartner[index]
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
-        if (
-            current_p_id_ehepartner >= 0
-            and current_p_id_ehepartner in p_id_to_sn_id
-        ):
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_sn_id:
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
                 current_p_id_ehepartner
             ]

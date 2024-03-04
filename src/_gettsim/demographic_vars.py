@@ -10,6 +10,7 @@ import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
+
 def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
     """Add grouping suffixes to keys of a dictionary.
 
@@ -32,28 +33,30 @@ def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dic
     return out
 
 
-aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys({
-    "anz_erwachsene": {"source_col": "erwachsen", "aggr": "sum"},
-    "anz_rentner": {"source_col": "rentner", "aggr": "sum"},
-    "anz_kinder": {"source_col": "kind", "aggr": "sum"},
-    "anz_kinder_bis_5": {"source_col": "kind_bis_5", "aggr": "sum"},
-    "anz_kinder_bis_6": {"source_col": "kind_bis_6", "aggr": "sum"},
-    "anz_kinder_bis_15": {"source_col": "kind_bis_15", "aggr": "sum"},
-    "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_6_bis_13": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_24": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_17": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_18_bis_24": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
-    "anz_kinder_bis_10": {"source_col": "kind_bis_10", "aggr": "sum"},
-    "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
-    "haushaltsgröße": {"aggr": "count"},
-    "tax_unit_größe": {"aggr": "count"},
-    "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
-    "anz_mehrlinge_jüngstes_kind": {
-        "source_col": "jüngstes_kind_oder_mehrling",
-        "aggr": "sum",
-    },
-})
+aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
+    {
+        "anz_erwachsene": {"source_col": "erwachsen", "aggr": "sum"},
+        "anz_rentner": {"source_col": "rentner", "aggr": "sum"},
+        "anz_kinder": {"source_col": "kind", "aggr": "sum"},
+        "anz_kinder_bis_5": {"source_col": "kind_bis_5", "aggr": "sum"},
+        "anz_kinder_bis_6": {"source_col": "kind_bis_6", "aggr": "sum"},
+        "anz_kinder_bis_15": {"source_col": "kind_bis_15", "aggr": "sum"},
+        "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
+        "anz_kinder_ab_6_bis_13": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
+        "anz_kinder_ab_14_bis_24": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
+        "anz_kinder_ab_14_bis_17": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
+        "anz_kinder_ab_18_bis_24": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
+        "anz_kinder_bis_10": {"source_col": "kind_bis_10", "aggr": "sum"},
+        "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
+        "haushaltsgröße": {"aggr": "count"},
+        "tax_unit_größe": {"aggr": "count"},
+        "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
+        "anz_mehrlinge_jüngstes_kind": {
+            "source_col": "jüngstes_kind_oder_mehrling",
+            "aggr": "sum",
+        },
+    }
+)
 
 
 def kind_bis_5(alter: int, kind: bool) -> bool:
