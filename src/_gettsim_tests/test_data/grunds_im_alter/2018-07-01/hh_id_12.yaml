@@ -76,5 +76,5 @@ inputs:
       - 1950
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_eg:
     - 202.0

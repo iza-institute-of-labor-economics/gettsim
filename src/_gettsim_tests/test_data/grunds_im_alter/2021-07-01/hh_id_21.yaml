@@ -107,6 +107,6 @@ inputs:
       - 1954
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_eg:
     - 0.0
     - 0.0

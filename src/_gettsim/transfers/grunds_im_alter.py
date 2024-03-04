@@ -2,15 +2,15 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import dates_active
 
 
-def grunds_im_alter_m_hh(  # noqa: PLR0913
+def grunds_im_alter_m_eg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
-    kindergeld_m_hh: float,
-    kind_unterh_erhalt_m_hh: float,
-    unterhaltsvors_m_hh: float,
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg: float,
+    kindergeld_m_eg: float,
+    kind_unterh_erhalt_m_eg: float,
+    unterhaltsvors_m_eg: float,
     grunds_im_alter_eink_m_eg: float,
-    erwachsene_alle_rentner_hh: bool,
-    vermögen_bedürft_hh: float,
+    erwachsene_alle_rentner_eg: bool,
+    vermögen_bedürft_eg: float,
     grunds_im_alter_vermög_freib_fg: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
@@ -26,21 +26,21 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
-        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
-    kindergeld_m_hh
-        See :func:`kindergeld_m_hh`.
-    kind_unterh_erhalt_m_hh
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
+        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg`.
+    kindergeld_m_eg
+        See :func:`kindergeld_m_eg`.
+    kind_unterh_erhalt_m_eg
         See basic input variable
-        :ref:`kind_unterh_erhalt_m_hh <kind_unterh_erhalt_m_hh>`.
-    unterhaltsvors_m_hh
-        See :func:`unterhaltsvors_m_hh`.
+        :ref:`kind_unterh_erhalt_m_eg <kind_unterh_erhalt_m_eg>`.
+    unterhaltsvors_m_eg
+        See :func:`unterhaltsvors_m_eg`.
     grunds_im_alter_eink_m_eg
         See :func:`grunds_im_alter_eink_m_eg`.
-    erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh`.
-    vermögen_bedürft_hh
-        See basic input variable :ref:`vermögen_bedürft_hh`.
+    erwachsene_alle_rentner_eg
+        See :func:`erwachsene_alle_rentner_eg`.
+    vermögen_bedürft_eg
+        See basic input variable :ref:`vermögen_bedürft_eg`.
     grunds_im_alter_vermög_freib_fg
         See :func:`grunds_im_alter_vermög_freib_fg`.
     Returns
@@ -50,19 +50,19 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_fg) or (
-        not erwachsene_alle_rentner_hh
+    if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_fg) or (
+        not erwachsene_alle_rentner_eg
     ):
         out = 0.0
     else:
         # Subtract income
         out = (
             arbeitsl_geld_2_regelbedarf_m_bg
-            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
+            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
             - grunds_im_alter_eink_m_eg
-            - kind_unterh_erhalt_m_hh
-            - unterhaltsvors_m_hh
-            - kindergeld_m_hh
+            - kind_unterh_erhalt_m_eg
+            - unterhaltsvors_m_eg
+            - kindergeld_m_eg
         )
 
     return max(out, 0.0)
@@ -250,7 +250,7 @@ def grunds_im_alter_priv_rente_m(
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     schwerbeh_g: bool,
-    anz_erwachsene_hh: int,
+    anz_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -260,8 +260,8 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     ----------
     schwerbeh_g
         See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
+    anz_erwachsene_eg
+        See :func:`anz_erwachsene_eg`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
@@ -278,9 +278,9 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]
     )
 
-    if (schwerbeh_g) and (anz_erwachsene_hh == 1):
+    if (schwerbeh_g) and (anz_erwachsene_eg == 1):
         out = mehrbedarf_single
-    elif (schwerbeh_g) and (anz_erwachsene_hh > 1):
+    elif (schwerbeh_g) and (anz_erwachsene_eg > 1):
         out = mehrbedarf_in_couple
     else:
         out = 0.0
