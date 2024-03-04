@@ -41,7 +41,7 @@ def wohngeld_m_hh(
 
 
 def wohngeld_abzüge_st_sozialv_m(
-    eink_st_y_tu: float,
+    eink_st_y_sn: float,
     ges_rentenv_beitr_m: float,
     ges_krankenv_beitr_m: float,
     kind: bool,
@@ -49,13 +49,13 @@ def wohngeld_abzüge_st_sozialv_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that eink_st_y_tu is used as an approximation for taxes on income (as mentioned
+    Note that eink_st_y_sn is used as an approximation for taxes on income (as mentioned
     in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    eink_st_y_tu
-        See :func:`eink_st_y_tu`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
     ges_rentenv_beitr_m
         See :func:`ges_rentenv_beitr_m`.
     ges_krankenv_beitr_m
@@ -70,7 +70,7 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_y_tu > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
+        (eink_st_y_sn > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
     )
     if kind:
         out = 0.0
@@ -90,7 +90,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    wohngeld_abzüge_st_sozialv_m: float,
+    wohngeld_abzüge_st_sozialv_m_hh: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -136,7 +136,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    out = (1 - wohngeld_abzüge_st_sozialv_m_hh) * eink_ind
     return out
 
 
@@ -152,7 +152,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     elterngeld_anr_m: float,
-    wohngeld_abzüge_st_sozialv_m: float,
+    wohngeld_abzüge_st_sozialv_m_hh: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -201,7 +201,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    out = (1 - wohngeld_abzüge_st_sozialv_m_hh) * eink_ind
     return out
 
 
