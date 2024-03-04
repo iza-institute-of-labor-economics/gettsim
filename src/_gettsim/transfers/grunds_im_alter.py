@@ -8,7 +8,7 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
     kindergeld_m_hh: float,
     kind_unterh_erhalt_m_hh: float,
     unterhaltsvors_m_hh: float,
-    grunds_im_alter_eink_m_hh: float,
+    grunds_im_alter_eink_m_eg: float,
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_hh: float,
     grunds_im_alter_vermög_freib_fg: float,
@@ -35,8 +35,8 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
         :ref:`kind_unterh_erhalt_m_hh <kind_unterh_erhalt_m_hh>`.
     unterhaltsvors_m_hh
         See :func:`unterhaltsvors_m_hh`.
-    grunds_im_alter_eink_m_hh
-        See :func:`grunds_im_alter_eink_m_hh`.
+    grunds_im_alter_eink_m_eg
+        See :func:`grunds_im_alter_eink_m_eg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
     vermögen_bedürft_hh
@@ -59,7 +59,7 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
         out = (
             arbeitsl_geld_2_regelbedarf_m_bg
             + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
-            - grunds_im_alter_eink_m_hh
+            - grunds_im_alter_eink_m_eg
             - kind_unterh_erhalt_m_hh
             - unterhaltsvors_m_hh
             - kindergeld_m_hh
@@ -75,9 +75,9 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
-    eink_st_y_tu: float,
+    eink_st_y_sn: float,
     soli_st_y_sn: float,
-    anz_erwachsene_tu: int,
+    anz_erwachsene_sn: int,
     sozialv_beitr_m: float,
     elterngeld_anr_m: float,
 ) -> float:
@@ -98,12 +98,12 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
-    eink_st_y_tu
-        See :func:`eink_st_y_tu`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
     soli_st_y_sn
         See :func:`soli_st_y_sn`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_erwachsene_sn
+        See :func:`anz_erwachsene_sn`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
     elterngeld_anr_m
@@ -127,8 +127,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
 
     out = (
         total_income
-        - (eink_st_y_tu / anz_erwachsene_tu / 12)
-        - (soli_st_y_sn / anz_erwachsene_tu / 12)
+        - (eink_st_y_sn / anz_erwachsene_sn / 12)
+        - (soli_st_y_sn / anz_erwachsene_sn / 12)
         - sozialv_beitr_m
     )
 
