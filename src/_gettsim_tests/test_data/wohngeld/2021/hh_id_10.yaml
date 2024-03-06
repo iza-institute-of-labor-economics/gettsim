@@ -58,7 +58,7 @@ inputs:
       - 2021
     eink_st_y_sn:
       - 300.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 61000.0
     haushaltsgröße_hh:
       - 1

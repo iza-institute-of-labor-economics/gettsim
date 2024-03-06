@@ -14,7 +14,7 @@ inputs:
       - true
     alter:
       - 80
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0

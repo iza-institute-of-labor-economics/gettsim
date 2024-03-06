@@ -61,7 +61,7 @@ inputs:
     geburtsjahr:
       - 1981
       - 2008
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:

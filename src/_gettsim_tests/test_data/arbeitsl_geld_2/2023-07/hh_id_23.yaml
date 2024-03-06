@@ -14,6 +14,34 @@ inputs:
       - 23
       - 23
       - 23
+    p_id_ehepartner:
+      - 58
+      - -1
+      - 56
+    p_id_elternteil_1:
+      - -1
+      - 56
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - 58
+      - -1
+    p_id_einstandspartner:
+      - 57
+      - -1
+      - 56
+    p_id_kindergeld_empf:
+      - -1
+      - 56
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    eigener_bedarf_gedeckt:
+      - false
+      - false
+      - false
     kind:
       - false
       - true
@@ -82,7 +110,7 @@ inputs:
       - 204.0
       - 0.0
       - 140.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -106,7 +134,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
       - 0.0

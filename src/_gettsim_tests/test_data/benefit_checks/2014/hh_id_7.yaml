@@ -19,7 +19,7 @@ inputs:
     alter:
       - 75
       - 50
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 78000.0
       - 78000.0
     _kinderzuschl_vor_vermög_check_m_bg:

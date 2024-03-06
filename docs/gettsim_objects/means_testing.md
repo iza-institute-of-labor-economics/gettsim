@@ -10,7 +10,7 @@ This documentation shall help to understand the composition of the
 
 {ref}`basic input variable <input_variables>`
 
-'vermögen_bedürft_hh'. Despite small differences over the transfers, we decided, for
+'vermögen_bedürft_bg'. Despite small differences over the transfers, we decided, for
 now, to require only one wealth variable as input and use it for all transfers.
 
 ```{note}

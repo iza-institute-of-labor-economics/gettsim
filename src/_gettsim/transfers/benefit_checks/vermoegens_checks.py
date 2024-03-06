@@ -3,7 +3,7 @@ from _gettsim.shared import dates_active
 
 def _kinderzuschl_nach_vermög_check_m_bg(
     _kinderzuschl_vor_vermög_check_m_bg: float,
-    vermögen_bedürft_hh: float,
+    vermögen_bedürft_bg: float,
     kinderzuschl_vermög_freib_bg: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
@@ -12,8 +12,8 @@ def _kinderzuschl_nach_vermög_check_m_bg(
     ----------
     _kinderzuschl_vor_vermög_check_m_bg
         See :func:`_kinderzuschl_vor_vermög_check_m_bg`.
-    vermögen_bedürft_hh
-        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
+    vermögen_bedürft_bg
+        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
     kinderzuschl_vermög_freib_bg
         See :func:`kinderzuschl_vermög_freib_bg`.
 
@@ -22,10 +22,10 @@ def _kinderzuschl_nach_vermög_check_m_bg(
 
     """
 
-    if vermögen_bedürft_hh > kinderzuschl_vermög_freib_bg:
+    if vermögen_bedürft_bg > kinderzuschl_vermög_freib_bg:
         out = max(
             _kinderzuschl_vor_vermög_check_m_bg
-            - (vermögen_bedürft_hh - kinderzuschl_vermög_freib_bg),
+            - (vermögen_bedürft_bg - kinderzuschl_vermög_freib_bg),
             0.0,
         )
     else:
@@ -73,7 +73,7 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
 
 def wohngeld_nach_vermög_check_m_hh(
     wohngeld_vor_vermög_check_m_hh: float,
-    vermögen_bedürft_hh: float,
+    vermögen_bedürft_bg: float,
     haushaltsgröße_hh: int,
     wohngeld_params: dict,
 ) -> float:
@@ -86,8 +86,8 @@ def wohngeld_nach_vermög_check_m_hh(
     ----------
     wohngeld_vor_vermög_check_m_hh
         See :func:`wohngeld_vor_vermög_check_m_hh`.
-    vermögen_bedürft_hh
-        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
+    vermögen_bedürft_bg
+        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
     wohngeld_params
@@ -98,7 +98,7 @@ def wohngeld_nach_vermög_check_m_hh(
 
     """
 
-    if vermögen_bedürft_hh <= (
+    if vermögen_bedürft_bg <= (
         wohngeld_params["vermögensgrundfreibetrag"]
         + (wohngeld_params["vermögensfreibetrag_pers"] * (haushaltsgröße_hh - 1))
     ):

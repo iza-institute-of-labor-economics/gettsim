@@ -295,9 +295,9 @@ Construction year of dwelling
 
 Type: int
 
-(vermögen_bedürft_hh)=
+(vermögen_bedürft_bg)=
 
-## `vermögen_bedürft_hh`
+## `vermögen_bedürft_bg`
 
 Assets for means testing of
 household.{ref}`See this page for more details. <means_testing>`

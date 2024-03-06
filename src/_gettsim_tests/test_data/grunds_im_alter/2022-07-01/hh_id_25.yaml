@@ -45,7 +45,7 @@ inputs:
     schwerbeh_g:
       - true
       - false
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 5400.0
       - 5400.0
     alleinerz:

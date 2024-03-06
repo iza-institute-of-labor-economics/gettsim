@@ -186,7 +186,7 @@ inputs:
       - 7000.0
       - 7000.0
       - 7000.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 200000.0
       - 200000.0
       - 200000.0

@@ -82,7 +82,7 @@ inputs:
     eink_st_y_sn:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 90000.0
       - 90000.0
     haushaltsgröße_hh:

@@ -10,6 +10,27 @@ inputs:
     hh_id:
       - 3
       - 3
+    p_id_ehepartner:
+      - 11
+      - 10
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - 11
+      - 10
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
+    eigener_bedarf_gedeckt:
+      - false
+      - false
     kind:
       - false
       - true
@@ -61,7 +82,7 @@ inputs:
     sozialv_beitr_m:
       - 200.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 164.0
       - 164.0
     kind_unterh_erhalt_m:
@@ -79,7 +100,7 @@ inputs:
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
     geburtsjahr:

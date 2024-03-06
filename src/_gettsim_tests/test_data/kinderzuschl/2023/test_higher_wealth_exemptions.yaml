@@ -1,7 +1,7 @@
 ---
 info:
   note: >-
-    Same as hh_id_14.yaml but higher made up vermögen_bedürft_hh
+    Same as hh_id_14.yaml but higher made up vermögen_bedürft_bg
     to test wealth exemptions (still below _arbeitsl_geld_2_vermög_freib_karenzz_bg).
   source: https://www.kinderzuschlagrechner24.de/kinderzuschlag/?hp=0&ap0=0&ap1a=0&ap1=1&ap2=0&ap4=0&ap5=0&ww=0&is=0&wgjn=0&kg=0&fuerJ=2023&lS=1&Seite=2#RechnerStart
 inputs:
@@ -66,7 +66,7 @@ inputs:
     geburtsjahr:
       - 1980
       - 2012
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 30000.0
       - 30000.0
     bürgerg_bezug_vorj:

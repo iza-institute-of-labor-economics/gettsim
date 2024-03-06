@@ -154,7 +154,7 @@ TYPES_INPUT_VARIABLES = {
     "p_id_elternteil_2": int,
     "p_id_kindergeld_empf": int,
     "p_id_erziehgeld_empf": int,
-    "vermögen_bedürft_hh": float,
+    "vermögen_bedürft_bg": float,
     "bruttolohn_m": float,
     "alter": int,
     "weiblich": bool,

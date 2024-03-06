@@ -39,7 +39,7 @@ inputs:
       - -1
       - -1
       - -1
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 5500.0
       - 5500.0
       - 5500.0
