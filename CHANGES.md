@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`694` Replace `tu` groupings with correct groupings. ({ghuser}`MImmesberger`,
+  \{ghuser} `lars-reimann`).
 - {gh}`676` Add explicit parent-child links. ({ghuser}`MImmesberger`).
 - {gh}`684` New Issue template for yearly parameter updates. ({ghuser}`MImmesberger`).
 - {gh}`680` 2024 Parameter Update ({ghuser}`Eric-Sommer`, {ghuser}`MImmesberger`)
