@@ -106,7 +106,8 @@ SUPPORTED_GROUPINGS = {
     },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
-        "description": "A couple whose members are deemed to be responsible for each other.",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
     },
 }
 
@@ -126,7 +127,7 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_y_tu",
+    "eink_st_y_sn",
     "soli_st_y_sn",
     "abgelt_st_y_sn",
     "sozialv_beitr_m",

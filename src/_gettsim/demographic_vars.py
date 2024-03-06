@@ -232,23 +232,6 @@ def erwachsen(kind: bool) -> bool:
     return out
 
 
-def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
-    """Check if the tax unit consists of two wage earners.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    Returns
-    -------
-    Boolean indicating two wage earners in tax unit.
-
-    """
-    return anz_erwachsene_tu == 2
-
-
 def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:
     """Calculate if all adults in the household are pensioners.
 

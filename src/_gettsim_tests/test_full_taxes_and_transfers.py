@@ -13,7 +13,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
-    "eink_st_y_tu",
+    "eink_st_y_sn",
     "soli_st_y_sn",
     "abgelt_st_y_sn",
     "ges_rentenv_beitr_m",
@@ -21,7 +21,7 @@ OUT_COLS = [
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",
@@ -101,7 +101,7 @@ def test_data_types(
                 # TODO (@hmgaudecker): Implement easy way to find out expected type of
                 #     aggregated functions
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
-                if column_name.endswith(("_tu", "_hh")):
+                if column_name.endswith(("_sn", "_hh", "_fg", "_bg", "_eg", "_ehe")):
                     internal_type = None
                 else:
                     raise ValueError(f"Column name {column_name} unknown.")
