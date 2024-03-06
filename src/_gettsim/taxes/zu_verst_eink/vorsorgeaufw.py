@@ -305,7 +305,7 @@ def vorsorgeaufw_y_sn_bis_2004(
 @dates_active(end="2019-12-31")
 def _vorsorgeaufw_vom_lohn_y_sn_bis_2004(
     bruttolohn_m_sn: float,
-    anz_personen_sn: bool,
+    anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate precautionary expenditures until 2019 for singles.

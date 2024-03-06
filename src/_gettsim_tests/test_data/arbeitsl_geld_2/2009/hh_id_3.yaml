@@ -11,23 +11,23 @@ inputs:
       - 3
       - 3
     p_id_ehepartner:
-      - 11
-      - 10
+      - -1
+      - -1
     p_id_elternteil_1:
       - -1
-      - -1
+      - 10
     p_id_elternteil_2:
       - -1
       - -1
     p_id_einstandspartner:
-      - 11
-      - 10
+      - -1
+      - -1
     p_id_kindergeld_empf:
       - -1
       - -1
     gemeinsam_veranlagt:
-      - true
-      - true
+      - false
+      - false
     eigener_bedarf_gedeckt:
       - false
       - false

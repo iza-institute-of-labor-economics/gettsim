@@ -314,7 +314,7 @@ def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
 
 def kinderfreib_für_soli_st_lohnst_y(
     steuerklasse: int,
-    _eink_st_kinderfreib_anz_ansprüche: float,
+    _eink_st_kinderfreib_anz_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate Child Allowance for Lohnsteuer-Soli.
