@@ -112,8 +112,7 @@ def soli_st_y_sn(
     anz_personen_sn: int,
     abgelt_st_y_sn: float,
     soli_st_params: dict,
-) -> float:
-    ...
+) -> float: ...
 ```
 
 may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
@@ -259,8 +258,7 @@ By including `kindergeld_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments):
-    ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
 ```
 
 a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`
