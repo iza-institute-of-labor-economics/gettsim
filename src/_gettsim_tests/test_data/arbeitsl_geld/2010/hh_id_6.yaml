@@ -12,6 +12,12 @@ inputs:
     hh_id:
       - 6
       - 6
+    p_id_elternteil_1:
+      - -1
+      - 9
+    p_id_elternteil_2:
+      - -1
+      - -1
     bruttolohn_vorj_m:
       - 2500.0
       - 0.0

@@ -20,8 +20,8 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@add_rounding_spec(params_key="unterhaltsvors")
-def unterhaltsvors(
+@add_rounding_spec(params_key="unterhaltsvors_m")
+def unterhaltsvors_m(
     alleinerz_sn: bool,
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_eltern_m: float,
