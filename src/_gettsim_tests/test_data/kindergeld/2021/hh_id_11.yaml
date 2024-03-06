@@ -40,17 +40,17 @@ inputs:
       - 20000.0
       - 20000.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 200000.0
       - 200000.0
       - 200000.0
   assumed: {}
 outputs:
-  kindergeld_m_tu:
+  kindergeld_m:
     - 219
     - 219
     - 219
-  kinderbonus_m_tu:
+  kinderbonus_m:
     - 12.5
     - 12.5
     - 12.5

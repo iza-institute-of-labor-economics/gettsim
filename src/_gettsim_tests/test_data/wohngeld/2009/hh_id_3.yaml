@@ -82,7 +82,7 @@ inputs:
     jahr:
       - 2009
       - 2009
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 1000.0
       - 1000.0
     vermögen_bedürft_hh:

@@ -36,11 +36,11 @@ inputs:
       - 7000.0
       - 7000.0
       - 7000.0
-    _zu_verst_eink_mit_kinderfreib_y_tu:
+    _zu_verst_eink_mit_kinderfreib_y_sn:
       - 92752.0
       - 92752.0
       - 92752.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 10000.0
       - 10000.0
       - 10000.0
@@ -58,11 +58,11 @@ inputs:
       - 2016
   assumed: {}
 outputs:
-  eink_st_y_tu:
+  eink_st_y_sn:
     - 9328
     - 9328
     - 9328
-  zu_verst_eink_y_tu:
+  zu_verst_eink_y_sn:
     - 92752
     - 92752
     - 92752

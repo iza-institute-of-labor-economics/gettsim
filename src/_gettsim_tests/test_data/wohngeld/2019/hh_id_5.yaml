@@ -56,7 +56,7 @@ inputs:
       - 0
     jahr:
       - 2019
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
     vermögen_bedürft_hh:
       - 55000.0

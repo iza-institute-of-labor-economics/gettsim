@@ -129,24 +129,24 @@ inputs:
       - 1976
       - 2007
       - 2005
-    vorsorgeaufw_y_tu:
+    vorsorgeaufw_y_sn:
       - 10901.0
       - 10901.0
       - 10901.0
       - 10901.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_sn:
     - 52599.0
     - 52599.0
     - 52599.0
     - 52599.0
-  _zu_verst_eink_mit_kinderfreib_y_tu:
+  _zu_verst_eink_mit_kinderfreib_y_sn:
     - 36975.0
     - 36975.0
     - 36975.0
     - 36975.0
-  eink_st_kinderfreib_y_tu:
+  eink_st_kinderfreib_y_sn:
     - 15624
     - 15624
     - 15624
@@ -156,7 +156,7 @@ outputs:
     - 0
     - 0
     - 0
-  alleinerz_freib_y_tu:
+  alleinerz_freib_y_sn:
     - 0
     - 0
     - 0

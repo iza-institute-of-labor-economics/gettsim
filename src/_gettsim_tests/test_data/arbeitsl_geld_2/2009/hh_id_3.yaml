@@ -55,7 +55,7 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 1200.0
       - 1200.0
     soli_st_y_sn:

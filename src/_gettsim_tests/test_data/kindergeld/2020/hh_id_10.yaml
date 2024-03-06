@@ -31,15 +31,15 @@ inputs:
     bruttolohn_m:
       - 0.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 0.0
       - 0.0
   assumed: {}
 outputs:
-  kindergeld_m_tu:
+  kindergeld_m:
     - 204
     - 204
-  kinderbonus_m_tu:
+  kinderbonus_m:
     - 25.0
     - 25.0
   kindergeld_m_hh:

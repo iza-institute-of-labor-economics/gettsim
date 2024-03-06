@@ -39,6 +39,6 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  vorsorgeaufw_y_tu:
+  vorsorgeaufw_y_sn:
     - 11674
     - 11674

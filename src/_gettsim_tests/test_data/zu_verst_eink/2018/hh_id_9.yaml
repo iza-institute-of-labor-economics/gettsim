@@ -54,19 +54,19 @@ inputs:
       - false
     geburtsjahr:
       - 1978
-    vorsorgeaufw_y_tu:
+    vorsorgeaufw_y_sn:
       - 1910.41
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_sn:
     - 7853.59
-  _zu_verst_eink_mit_kinderfreib_y_tu:
+  _zu_verst_eink_mit_kinderfreib_y_sn:
     - 7853.59
-  eink_st_kinderfreib_y_tu:
+  eink_st_kinderfreib_y_sn:
     - 0
   eink_st_altersfreib_y:
     - 0
-  alleinerz_freib_y_tu:
+  alleinerz_freib_y_sn:
     - 0
   sum_eink_y:
     - 9800

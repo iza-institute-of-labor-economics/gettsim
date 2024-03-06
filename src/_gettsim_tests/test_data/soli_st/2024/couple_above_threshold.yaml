@@ -16,7 +16,7 @@ inputs:
     kind:
       - false
       - false
-    anz_erwachsene_tu:
+    anz_erwachsene_sn:
       - 2
       - 2
     zusammen_veranlagt:

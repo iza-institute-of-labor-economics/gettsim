@@ -58,7 +58,7 @@ inputs:
       - 0
     jahr:
       - 2021
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 300.0
     vermögen_bedürft_hh:
       - 61000.0

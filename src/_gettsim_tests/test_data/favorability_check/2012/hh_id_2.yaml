@@ -20,9 +20,9 @@ inputs:
       - 5000.0
     eink_st_mit_kinderfreib_y_sn:
       - 5000.0
-    _zu_verst_eink_mit_kinderfreib_y_tu:
+    _zu_verst_eink_mit_kinderfreib_y_sn:
       - 5000.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 5000.0
     abgelt_st_y_sn:
       - 3000.0
@@ -32,7 +32,7 @@ inputs:
       - 2012
   assumed: {}
 outputs:
-  eink_st_y_tu:
+  eink_st_y_sn:
     - 5000
-  zu_verst_eink_y_tu:
+  zu_verst_eink_y_sn:
     - 5000
