@@ -97,7 +97,7 @@ def eink_st_alleinerz_freib_y_sn_pauschal(
 
 @dates_active(start="2015-01-01", change_name="alleinerz_freib_y_sn")
 def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
-    alleinerz: bool,
+    alleinerz_sn: bool,
     kindergeld_anz_ansprüche_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -124,7 +124,7 @@ def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
         + (kindergeld_anz_ansprüche_sn - 1)
         * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
-    if alleinerz:
+    if alleinerz_sn:
         out = alleinerz_freib_y_sn
     else:
         out = 0.0
