@@ -63,7 +63,7 @@ GETTSIM; this is irrelevant for the DAG.
 Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `bruttolohn_m`).
-- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_tu`).
+- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 
@@ -80,13 +80,13 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_y_sn(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> float:
-    """Calculate Abgeltungssteuer on tax unit level.
+def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
+    """Calculate Abgeltungssteuer on Steuernummer-level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_y_tu
-        See :func:`zu_verst_kapitaleink_y_tu`.
+    zu_verst_kapitaleink_y_sn
+        See :func:`zu_verst_kapitaleink_y_sn`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -94,14 +94,14 @@ def abgelt_st_y_sn(zu_verst_kapitaleink_y_tu: float, abgelt_st_params: dict) -> 
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_tu
+    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_sn
 ```
 
-The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink_y_tu`,
-which is the amount of taxable capital income on tax unit level (the latter is implied
-by the `_tu` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_tu` must be provided by
-the user as a column of the input data or it has to be the name of another function.
-`abgelt_st_params` is a dictionary of parameters related to the calculation of
+The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink_y_sn`,
+which is the amount of taxable capital income on the Steuernummer-level (the latter is
+implied by the `_sn` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_sn` must be
+provided by the user as a column of the input data or it has to be the name of another
+function. `abgelt_st_params` is a dictionary of parameters related to the calculation of
 `abgelt_st_y_sn`.
 
 Another function, say
@@ -109,10 +109,11 @@ Another function, say
 ```python
 def soli_st_y_sn(
     eink_st_mit_kinderfreib_y_sn: float,
-    anz_erwachsene_tu: int,
+    anz_erwachsene_sn: int,
     abgelt_st_y_sn: float,
     soli_st_params: dict,
-) -> float: ...
+) -> float:
+    ...
 ```
 
 may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
@@ -223,7 +224,7 @@ For example, in `demographic_vars.py`, we could have:
 
 ```
 aggregate_by_group_demographic_vars = {
-    "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
+    "anz_erwachsene_sn": {"source_col": "erwachsen", "aggr": "sum"},
     "haushaltsgröße_hh": {"aggr": "count"},
 }
 ```
@@ -258,7 +259,8 @@ By including `kindergeld_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments):
+    ...
 ```
 
 a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`

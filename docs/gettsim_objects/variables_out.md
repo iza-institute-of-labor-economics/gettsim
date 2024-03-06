@@ -26,7 +26,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Solidarity surcharge on tax unit level
 * - {func}`kindergeld_m <_gettsim.functions.kindergeld_m>`
   - Monthly child benefit
-* - {func}`eink_st_y_tu <_gettsim.functions.eink_st_y_tu>`
+* - {func}`eink_st_y_sn <_gettsim.functions.eink_st_y_sn>`
   - Income Tax on tax unit level
 * - {func}`lohnst_m` <_gettsim.functions.lohnst_m>`
   - Withholding tax
