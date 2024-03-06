@@ -31,16 +31,16 @@ inputs:
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1046.0
       - 1046.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_hh:
+    kind_unterh_erhalt_m_bg:
       - 0.0
       - 0.0
-    unterhaltsvors_m_hh:
+    unterhaltsvors_m_bg:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_hh:
+    arbeitsl_geld_2_eink_m_bg:
       - 300.0
       - 300.0
     geburtsjahr:
