@@ -99,6 +99,15 @@ SUPPORTED_GROUPINGS = {
         "description": "Spouses filing taxes jointly or individuals.",
         "potentially_endogenous": True,
     },
+    "ehe": {
+        "name": "Ehepartner",
+        "description": "Couples that are either married or in a civil union.",
+        "potentially_endogenous": False,
+    },
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "Couples that live together but are not necessarily married.",
+    },
 }
 
 SUPPORTED_TIME_UNITS = {
