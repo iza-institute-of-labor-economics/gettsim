@@ -10,9 +10,6 @@ inputs:
     hh_id:
       - 8
       - 8
-    tu_id:
-      - 8
-      - 8
     kind:
       - false
       - true

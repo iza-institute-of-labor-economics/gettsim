@@ -6,8 +6,6 @@ inputs:
   provided:
     p_id:
       - 5
-    tu_id:
-      - 5
     hh_id:
       - 5
     alter:

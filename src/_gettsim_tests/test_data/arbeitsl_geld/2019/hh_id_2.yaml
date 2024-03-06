@@ -10,8 +10,6 @@ inputs:
       - 2
     hh_id:
       - 2
-    tu_id:
-      - 2
     bruttolohn_vorj_m:
       - 2000.0
     wohnort_ost:

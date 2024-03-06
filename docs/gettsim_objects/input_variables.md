@@ -14,14 +14,6 @@ Household identifier
 
 Type: int
 
-(tu_id)=
-
-## `tu_id`
-
-Tax Unit identifier (married couples + kids)
-
-Type: int
-
 (kind)=
 
 ## `kind`

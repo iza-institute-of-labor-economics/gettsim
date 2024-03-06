@@ -131,7 +131,6 @@ def create_basic_households(
     all_households = [
         {
             "hh_id": [i] * (n_adults + n_children),
-            "tu_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
             "hat_kinder": hat_kinder,
             "alleinerz": alleinerziehend,

@@ -18,13 +18,6 @@ inputs:
       - 6
       - 6
       - 6
-    tu_id:
-      - 6
-      - 6
-      - 6
-      - 6
-      - 6
-      - 6
     kind:
       - false
       - false

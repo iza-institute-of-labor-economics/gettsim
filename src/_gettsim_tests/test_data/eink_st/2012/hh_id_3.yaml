@@ -8,8 +8,6 @@ inputs:
       - 3
     hh_id:
       - 3
-    tu_id:
-      - 3
     kind:
       - false
     zu_verst_eink_kein_kinderfreib:

@@ -12,8 +12,6 @@ inputs:
       - 24
     hh_id:
       - 24
-    tu_id:
-      - 24
     bruttolohn_m:
       - 1000.0
     wohnort_ost:

@@ -6,8 +6,6 @@ inputs:
   provided:
     hh_id:
       - 4
-    tu_id:
-      - 6
     p_id:
       - 10
     p_id_elternteil_1:

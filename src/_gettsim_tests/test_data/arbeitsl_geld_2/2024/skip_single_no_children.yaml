@@ -9,8 +9,6 @@ inputs:
       - 0
     hh_id:
       - 0
-    tu_id:
-      - 0
     kind:
       - false
     alter:

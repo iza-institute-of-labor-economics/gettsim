@@ -12,9 +12,6 @@ inputs:
     hh_id:
       - 15
       - 15
-    tu_id:
-      - 15
-      - 15
     kind:
       - false
       - true

@@ -10,8 +10,6 @@ inputs:
       - 55
     hh_id:
       - 10
-    tu_id:
-      - 10
     kind:
       - false
     bruttokaltmiete_m_hh:

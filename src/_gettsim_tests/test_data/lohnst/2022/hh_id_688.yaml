@@ -6,8 +6,6 @@ inputs:
   provided:
     hh_id:
       - 688
-    tu_id:
-      - 688
     p_id:
       - 688
     wohnort_ost:

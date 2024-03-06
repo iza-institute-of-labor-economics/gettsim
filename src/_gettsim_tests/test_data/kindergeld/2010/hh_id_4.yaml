@@ -6,8 +6,6 @@ inputs:
   provided:
     hh_id:
       - 4
-    tu_id:
-      - 4
     p_id:
       - 19
     p_id_kindergeld_empf:

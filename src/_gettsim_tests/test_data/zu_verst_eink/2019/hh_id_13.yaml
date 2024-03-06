@@ -10,9 +10,6 @@ inputs:
     hh_id:
       - 13
       - 13
-    tu_id:
-      - 13
-      - 13
     p_id_elternteil_1:
       - -1
       - 13

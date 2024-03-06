@@ -6,8 +6,6 @@ inputs:
   provided:
     hh_id:
       - 2
-    tu_id:
-      - 2
     p_id:
       - 42
     kind:

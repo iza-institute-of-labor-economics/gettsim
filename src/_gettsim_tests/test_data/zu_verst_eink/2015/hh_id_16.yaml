@@ -8,8 +8,6 @@ inputs:
       - 22
     hh_id:
       - 16
-    tu_id:
-      - 16
     p_id_elternteil_1:
       - -1
     p_id_elternteil_2:

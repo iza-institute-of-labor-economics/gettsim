@@ -23,7 +23,6 @@ def minimal_input_data():
     out = pd.DataFrame(
         {
             "p_id": numpy.arange(n_individuals),
-            "tu_id": numpy.arange(n_individuals),
             "hh_id": numpy.arange(n_individuals),
         },
         index=numpy.arange(n_individuals),

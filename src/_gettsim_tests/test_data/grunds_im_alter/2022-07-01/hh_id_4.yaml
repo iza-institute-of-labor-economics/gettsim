@@ -7,9 +7,6 @@ inputs:
     p_id:
       - 5
       - 6
-    tu_id:
-      - 4
-      - 4
     hh_id:
       - 4
       - 4

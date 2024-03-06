@@ -8,8 +8,6 @@ inputs:
       - 4
     hh_id:
       - 2
-    tu_id:
-      - 2
     kind:
       - false
     eink_st_mit_kinderfreib_y_sn:

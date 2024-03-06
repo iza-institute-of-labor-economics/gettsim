@@ -8,8 +8,6 @@ inputs:
   provided:
     p_id:
       - 14
-    tu_id:
-      - 10
     hh_id:
       - 10
     jahr:

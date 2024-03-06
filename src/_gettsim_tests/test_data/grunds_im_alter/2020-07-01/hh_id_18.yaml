@@ -6,8 +6,6 @@ inputs:
   provided:
     p_id:
       - 23
-    tu_id:
-      - 18
     hh_id:
       - 18
     jahr:

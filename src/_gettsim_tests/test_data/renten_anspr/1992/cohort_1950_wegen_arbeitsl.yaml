@@ -8,8 +8,6 @@ inputs:
       - 15
     hh_id:
       - 15
-    tu_id:
-      - 15
     geburtsjahr:
       - 1950
     geburtsmonat:

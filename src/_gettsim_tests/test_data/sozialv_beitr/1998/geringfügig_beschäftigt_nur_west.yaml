@@ -10,9 +10,6 @@ inputs:
     hh_id:
       - 0
       - 1
-    tu_id:
-      - 0
-      - 1
     bruttolohn_m:
       - 300.0
       - 300.0

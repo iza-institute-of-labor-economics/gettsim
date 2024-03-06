@@ -9,9 +9,6 @@ inputs:
     p_id:
       - 12
       - 13
-    tu_id:
-      - 9
-      - 9
     hh_id:
       - 9
       - 9

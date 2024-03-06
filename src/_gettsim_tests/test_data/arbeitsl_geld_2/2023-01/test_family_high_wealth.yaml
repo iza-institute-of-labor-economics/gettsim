@@ -14,10 +14,6 @@ inputs:
       - 17
       - 17
       - 17
-    tu_id:
-      - 17
-      - 17
-      - 17
     kind:
       - false
       - false

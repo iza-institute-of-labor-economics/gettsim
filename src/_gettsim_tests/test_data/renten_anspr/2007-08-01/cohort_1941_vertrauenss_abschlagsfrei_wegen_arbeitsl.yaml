@@ -8,8 +8,6 @@ inputs:
       - 8
     hh_id:
       - 8
-    tu_id:
-      - 8
     geburtsjahr:
       - 1941
     geburtsmonat:

@@ -8,8 +8,6 @@ inputs:
       - 24
     hh_id:
       - 24
-    tu_id:
-      - 24
     geburtsjahr:
       - 1944
     geburtsmonat:

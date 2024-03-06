@@ -12,10 +12,6 @@ inputs:
       - 4
       - 4
       - 4
-    tu_id:
-      - 4
-      - 4
-      - 4
     alleinerz:
       - true
       - false

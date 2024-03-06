@@ -9,8 +9,6 @@ inputs:
       - 49
     hh_id:
       - 20
-    tu_id:
-      - 20
     kind:
       - false
     alter:

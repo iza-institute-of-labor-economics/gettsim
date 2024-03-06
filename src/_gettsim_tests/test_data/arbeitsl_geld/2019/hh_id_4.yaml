@@ -12,9 +12,6 @@ inputs:
     hh_id:
       - 4
       - 4
-    tu_id:
-      - 4
-      - 4
     bruttolohn_vorj_m:
       - 4000.0
       - 0.0

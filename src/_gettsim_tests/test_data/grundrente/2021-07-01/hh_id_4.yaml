@@ -9,8 +9,6 @@ inputs:
   provided:
     p_id:
       - 4
-    tu_id:
-      - 4
     hh_id:
       - 4
     grundr_zeiten:

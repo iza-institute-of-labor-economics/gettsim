@@ -6,8 +6,6 @@ inputs:
   provided:
     p_id:
       - 5
-    tu_id:
-      - 8
     hh_id:
       - 8
     bruttolohn_m:
