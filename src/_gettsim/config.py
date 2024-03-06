@@ -106,7 +106,7 @@ SUPPORTED_GROUPINGS = {
     },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
-        "description": "Couples that live together but are not necessarily married.",
+        "description": "A couple whose members are deemed to be responsible for each other.",
     },
 }
 
