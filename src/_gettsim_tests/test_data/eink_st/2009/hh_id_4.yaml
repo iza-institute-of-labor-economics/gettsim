@@ -8,11 +8,15 @@ inputs:
       - 4
     hh_id:
       - 4
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
-    zu_verst_eink_kein_kinderfreib:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 50000.0
-    zu_verst_eink_kinderfreib:
+    _zu_verst_eink_mit_kinderfreib_y_sn:
       - 42000.0
     kapitaleink_brutto_y:
       - 2500.0

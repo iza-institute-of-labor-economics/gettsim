@@ -17,7 +17,7 @@ aggregate_by_p_id_eink_st = {
 
 def eink_st_ohne_kinderfreib_y_sn(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,
-    anz_erwachsene_sn: int,
+    anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes without child allowance on tax unit level. Also referred to as "tarifliche
@@ -27,8 +27,8 @@ def eink_st_ohne_kinderfreib_y_sn(
     ----------
     _zu_verst_eink_ohne_kinderfreib_y_sn
         See :func:`_zu_verst_eink_ohne_kinderfreib_y_sn`.
-    anz_erwachsene_sn
-        See :func:`anz_erwachsene_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -36,8 +36,8 @@ def eink_st_ohne_kinderfreib_y_sn(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_sn / anz_erwachsene_sn
-    out = anz_erwachsene_sn * _eink_st_tarif(
+    zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_sn / anz_personen_sn
+    out = anz_personen_sn * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -46,7 +46,7 @@ def eink_st_ohne_kinderfreib_y_sn(
 
 def eink_st_mit_kinderfreib_y_sn(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
-    anz_erwachsene_sn: int,
+    anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes with child allowance on tax unit level. Also referred to as "tarifliche ESt
@@ -56,8 +56,8 @@ def eink_st_mit_kinderfreib_y_sn(
     ----------
     _zu_verst_eink_mit_kinderfreib_y_sn
         See :func:`_zu_verst_eink_mit_kinderfreib_y_sn`.
-    anz_erwachsene_sn
-        See :func:`anz_erwachsene_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -65,8 +65,8 @@ def eink_st_mit_kinderfreib_y_sn(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_sn / anz_erwachsene_sn
-    out = anz_erwachsene_sn * _eink_st_tarif(
+    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_sn / anz_personen_sn
+    out = anz_personen_sn * _eink_st_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 

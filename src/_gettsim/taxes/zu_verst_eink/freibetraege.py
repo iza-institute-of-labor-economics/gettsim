@@ -249,7 +249,7 @@ def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
 @dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_y_sn")
 def eink_st_sonderausgaben_y_sn_nur_pauschale(
     eink_st_abzuege_params: dict,
-    anz_erwachsene_sn: int,
+    anz_personen_sn: int,
 ) -> float:
     """Individual Sonderausgaben on tax unit level until 2011.
 
@@ -259,8 +259,8 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_erwachsene_sn
-        See func `anz_erwachsene_sn <anz_erwachsene_sn>`.
+    anz_personen_sn
+        See func `anz_personen_sn <anz_personen_sn>`.
 
     Returns
     -------
@@ -269,8 +269,7 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     # so far, only the Sonderausgabenpauschale is considered
 
     out = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * anz_erwachsene_sn
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_sn
     )
 
     return float(out)
@@ -280,7 +279,7 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
 def eink_st_sonderausgaben_y_sn_mit_betreuung(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_y_sn: float,
-    anz_erwachsene_sn: int,
+    anz_personen_sn: int,
 ) -> float:
     """Individual sonderausgaben on tax unit level since 2012.
 
@@ -295,8 +294,8 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
         See :func:`sonderausgaben_betreuung_y_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_erwachsene_sn
-        See :func:`anz_erwachsene_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
 
     Returns
     -------
@@ -304,8 +303,7 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
     """
     sonderausgaben_gesamt = sonderausgaben_betreuung_y_sn
     pauschale = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * anz_erwachsene_sn
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_sn
     )
 
     out = max(sonderausgaben_gesamt, pauschale)

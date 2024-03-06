@@ -38,6 +38,7 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_erwachsene": {"source_col": "erwachsen", "aggr": "sum"},
         "anz_rentner": {"source_col": "rentner", "aggr": "sum"},
         "anz_kinder": {"source_col": "kind", "aggr": "sum"},
+        "anz_personen": {"aggr": "count"},
         "anz_kinder_bis_5": {"source_col": "kind_bis_5", "aggr": "sum"},
         "anz_kinder_bis_6": {"source_col": "kind_bis_6", "aggr": "sum"},
         "anz_kinder_bis_15": {"source_col": "kind_bis_15", "aggr": "sum"},

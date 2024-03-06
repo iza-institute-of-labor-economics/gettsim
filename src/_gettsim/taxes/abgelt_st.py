@@ -21,7 +21,7 @@ def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> 
 
 def zu_verst_kapitaleink_y_sn(
     kapitaleink_brutto_y_sn: float,
-    anz_erwachsene_sn: int,
+    anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate taxable income on tax unit level.
@@ -30,8 +30,8 @@ def zu_verst_kapitaleink_y_sn(
     ----------
     kapitaleink_brutto_y_sn
         See :func:`kapitaleink_brutto_y_sn`.
-    anz_erwachsene_sn
-        See :func:`anz_erwachsene_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -39,7 +39,7 @@ def zu_verst_kapitaleink_y_sn(
     -------
 
     """
-    out = kapitaleink_brutto_y_sn - anz_erwachsene_sn * (
+    out = kapitaleink_brutto_y_sn - anz_personen_sn * (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )
