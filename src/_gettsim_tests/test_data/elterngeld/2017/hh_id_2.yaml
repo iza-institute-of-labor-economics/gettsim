@@ -8,6 +8,10 @@ inputs:
       - 2
     p_id:
       - 42
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
     bruttolohn_m:
@@ -16,9 +20,9 @@ inputs:
       - 1800.0
     wohnort_ost:
       - false
-    eink_st_m:
+    eink_st_y_sn:
       - 218.96
-    soli_st_m:
+    soli_st_y_sn:
       - 12.04
     sozialv_beitr_m:
       - 378.0

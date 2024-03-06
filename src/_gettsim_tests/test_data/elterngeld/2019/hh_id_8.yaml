@@ -14,6 +14,16 @@ inputs:
       - 27
       - 26
       - 28
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
     kind:
       - true
       - true
@@ -34,12 +44,12 @@ inputs:
       - false
       - false
       - false
-    eink_st_m:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    soli_st_m:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
