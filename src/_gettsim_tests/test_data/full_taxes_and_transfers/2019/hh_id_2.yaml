@@ -154,6 +154,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    p_id_betreuungsk_trä:
+      - -1
+      - -1
+      - -1
+      - -1
     kapitaleink_brutto_m:
       - 200.0
       - 201.0

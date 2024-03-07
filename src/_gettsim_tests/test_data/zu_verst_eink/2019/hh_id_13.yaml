@@ -31,6 +31,9 @@ inputs:
     betreuungskost_m:
       - 0.0
       - 0.0
+    p_id_betreuungsk_trä:
+      - -1
+      - -1
     eink_selbst_m:
       - 0.0
       - 0.0

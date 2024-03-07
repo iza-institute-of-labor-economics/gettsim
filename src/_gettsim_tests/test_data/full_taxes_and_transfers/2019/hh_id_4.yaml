@@ -64,6 +64,8 @@ inputs:
       - false
     betreuungskost_m:
       - 0.0
+    p_id_betreuungsk_trä:
+      - -1
     kapitaleink_brutto_m:
       - 205.0
     eink_vermietung_m:

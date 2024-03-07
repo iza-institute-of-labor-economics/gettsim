@@ -49,6 +49,11 @@ inputs:
       - 0.0
       - 80.0
       - 45.0
+    p_id_betreuungsk_trä:
+      - -1
+      - -1
+      - 27
+      - 27
     eink_selbst_m:
       - 0.0
       - 0.0

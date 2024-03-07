@@ -62,6 +62,54 @@ Single parent
 
 Type: bool
 
+(gemeinsam_veranlagt)=
+
+## `gemeinsam_veranlagt`
+
+Taxes are filed jointly
+
+Type: bool
+
+(p_id_elternteil_1)=
+
+## `p_id_elternteil_1`
+
+Identifier of the first parent
+
+Type: int
+
+(p_id_elternteil_2)=
+
+## `p_id_elternteil_2`
+
+Identifier of the second parent
+
+Type: int
+
+(p_id_ehepartner)=
+
+## `p_id_ehepartner`
+
+Identifier of married partner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_einstandspartner`
+
+Identifier of Einstandspartner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_kindergeld_empf`
+
+Identifier of person that claims Kindergeld for the particular child
+
+Type: int
+
 (wohnort_ost)=
 
 ## `wohnort_ost`
@@ -115,6 +163,14 @@ Type: bool
 ## `betreuungskost_m`
 
 Monthly childcare expenses for a particular child under the age of 14
+
+Type: float
+
+(p_id_betreuungsk_trä)=
+
+## `p_id_betreuungsk_trä`
+
+Identifier of the person that payed for the childcare expenses.
 
 Type: float
 
