@@ -69,15 +69,13 @@ def heizkosten_m_bg(
     return heizkosten_m_hh * _anteil_personen_in_haushalt_bg
 
 
-def _anteil_personen_in_haushalt_bg(
-    tax_unit_größe_bg: int, haushaltsgröße_hh: int
-) -> float:
+def _anteil_personen_in_haushalt_bg(größe_bg: int, haushaltsgröße_hh: int) -> float:
     """Calculate the share of tax units in household.
 
     Parameters
     ----------
-    tax_unit_größe_bg
-        See :func:`tax_unit_größe_bg`.
+    größe_bg
+        See :func:`größe_bg`.
     haushaltsgröße_hh
         See :func:`haushaltsgröße_hh`.
 
@@ -85,7 +83,7 @@ def _anteil_personen_in_haushalt_bg(
     -------
 
     """
-    return tax_unit_größe_bg / haushaltsgröße_hh
+    return größe_bg / haushaltsgröße_hh
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
