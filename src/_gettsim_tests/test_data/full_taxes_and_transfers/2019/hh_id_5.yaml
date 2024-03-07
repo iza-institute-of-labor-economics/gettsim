@@ -64,7 +64,7 @@ inputs:
       - false
     betreuungskost_m:
       - 0.0
-    p_id_betreuungsk_trä:
+    p_id_betreuungsk_träger:
       - -1
     kapitaleink_brutto_m:
       - 206.0

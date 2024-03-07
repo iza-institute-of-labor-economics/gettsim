@@ -22,7 +22,7 @@ inputs:
       - 900.0
     betreuungskost_m:
       - 0.0
-    p_id_betreuungsk_trä:
+    p_id_betreuungsk_träger:
       - -1
     eink_selbst_m:
       - 0.0

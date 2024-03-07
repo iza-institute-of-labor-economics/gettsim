@@ -173,7 +173,7 @@ TYPES_INPUT_VARIABLES = {
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
-    "p_id_betreuungsk_trä": int,
+    "p_id_betreuungsk_träger": int,
     "kapitaleink_brutto_m": float,
     "eink_vermietung_m": float,
     "bruttokaltmiete_m_hh": float,

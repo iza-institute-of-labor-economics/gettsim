@@ -166,9 +166,9 @@ Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 
-(p_id_betreuungsk_trä)=
+(p_id_betreuungsk_träger)=
 
-## `p_id_betreuungsk_trä`
+## `p_id_betreuungsk_träger`
 
 Identifier of the person that payed for the childcare expenses.
 

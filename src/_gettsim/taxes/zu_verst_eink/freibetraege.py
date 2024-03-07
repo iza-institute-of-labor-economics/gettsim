@@ -13,7 +13,7 @@ aggregate_by_p_id_freibeträge = {
         "aggr": "sum",
     },
     "betreuungskost_eltern_m": {
-        "p_id_to_aggregate_by": "p_id_betreuungsk_trä",
+        "p_id_to_aggregate_by": "p_id_betreuungsk_träger",
         "source_col": "betreuungskost_m",
         "aggr": "sum",
     },
