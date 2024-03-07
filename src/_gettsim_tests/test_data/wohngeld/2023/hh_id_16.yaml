@@ -144,7 +144,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    haushaltsgröße_hh:
+    größe_hh:
       - 4
       - 4
       - 4

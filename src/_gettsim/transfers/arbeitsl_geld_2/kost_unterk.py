@@ -105,7 +105,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
 def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     wohnfläche_hh: float,
     bewohnt_eigentum_hh: bool,
-    haushaltsgröße_hh: int,
+    größe_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate size of dwelling eligible to claim.
@@ -118,8 +118,8 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
         See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
     bewohnt_eigentum_hh
         See basic input variable :ref:`bewohnt_eigentum_hh <bewohnt_eigentum_hh>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    größe_hh
+        See :func:`größe_hh`.
 
     Returns
     -------
@@ -128,21 +128,21 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     """
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
     if bewohnt_eigentum_hh:
-        if haushaltsgröße_hh <= 4:
-            maximum = params[haushaltsgröße_hh]
+        if größe_hh <= 4:
+            maximum = params[größe_hh]
         else:
-            maximum = params[4] + (haushaltsgröße_hh - 4) * params["je_weitere_person"]
+            maximum = params[4] + (größe_hh - 4) * params["je_weitere_person"]
     else:
         maximum = (
             arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-            + max(haushaltsgröße_hh - 1, 0)
+            + max(größe_hh - 1, 0)
             * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
                 "je_weitere_person"
             ]
         )
     return min(wohnfläche_hh, maximum)
 
-    # if bewohnt_eigentum_hh and haushaltsgröße_hh < 5:
+    # if bewohnt_eigentum_hh and größe_hh < 5:
 
     # if not bewohnt_eigentum_hh:
     #         * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][

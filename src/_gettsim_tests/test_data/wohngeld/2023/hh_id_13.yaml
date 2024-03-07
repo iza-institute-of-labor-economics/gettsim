@@ -116,7 +116,7 @@ inputs:
       - 45000.0
       - 45000.0
       - 45000.0
-    haushaltsgröße_hh:
+    größe_hh:
       - 3
       - 3
       - 3

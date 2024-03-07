@@ -60,7 +60,7 @@ inputs:
       - 0.0
     vermögen_bedürft_bg:
       - 55000.0
-    haushaltsgröße_hh:
+    größe_hh:
       - 1
     geburtstag:
       - 1

@@ -48,8 +48,7 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_kinder_ab_14_bis_17": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
         "anz_kinder_ab_18_bis_24": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
         "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
-        "haushaltsgröße": {"aggr": "count"},
-        "tax_unit_größe": {"aggr": "count"},
+        "größe": {"aggr": "count"},
         "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
         "anz_mehrlinge_jüngstes_kind": {
             "source_col": "jüngstes_kind_oder_mehrling",
