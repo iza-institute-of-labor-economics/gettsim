@@ -13,7 +13,7 @@ aggregate_by_group_id_unterhaltsvors = {
 
 aggregate_by_p_id_unterhaltsvors = {
     "_unterhaltsvors_anspruch_eltern_m": {
-        "p_id_to_aggregate_by": "p_id_unterhaltsvors_empf",
+        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
         "source_col": "_unterhaltsvors_anspruch_pro_kind_m",
         "aggr": "sum",
     },
