@@ -22,6 +22,10 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     # ToDo: are retired. Other households get ALG 2 (This is a simplification by
     # ToDo: GETTSIM)
 
+    # TODO(@MImmesberger): Check whether `bg` is the correct grouping for
+    # arbeitsl_geld_2_regelbedarf_m_bg
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
+
     Parameters
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
