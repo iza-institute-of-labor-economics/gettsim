@@ -8,6 +8,10 @@ inputs:
       - 13
     hh_id:
       - 12
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     bruttolohn_m:
       - 4305.56
     kind:

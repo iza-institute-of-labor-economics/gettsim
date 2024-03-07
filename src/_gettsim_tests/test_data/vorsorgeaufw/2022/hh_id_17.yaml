@@ -10,6 +10,12 @@ inputs:
     hh_id:
       - 17
       - 17
+    p_id_ehepartner:
+      - 19
+      - 18
+    gemeinsam_veranlagt:
+      - true
+      - true
     bruttolohn_m:
       - 8333.333333
       - 1250.0
