@@ -212,7 +212,9 @@ class TestCreateFunctionsForTimeUnits:
         assert "test1_d" not in time_conversion_functions
         assert "test2_y" not in time_conversion_functions
 
-    def test_should_overwrite_functions_with_data_cols_that_only_differ_in_time_period(self) -> None:
+    def test_should_overwrite_functions_with_data_cols_that_only_differ_in_time_period(
+        self,
+    ) -> None:
         time_conversion_functions = create_time_conversion_functions(
             {"test_d": lambda: 1}, ["test_y"]
         )
