@@ -71,11 +71,11 @@ inputs:
 outputs:
   kindergeld_m:
     - 462
-    - 462
-    - 462
-    - 462
-    - 462
-    - 462
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
   kinderbonus_m:
     - 0.0
     - 0.0

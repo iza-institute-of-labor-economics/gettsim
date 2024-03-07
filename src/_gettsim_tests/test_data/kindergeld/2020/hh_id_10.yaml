@@ -35,10 +35,10 @@ inputs:
 outputs:
   kindergeld_m:
     - 204
-    - 204
+    - 0
   kinderbonus_m:
     - 25.0
-    - 25.0
+    - 0
   kindergeld_m_hh:
     - 204
     - 204
