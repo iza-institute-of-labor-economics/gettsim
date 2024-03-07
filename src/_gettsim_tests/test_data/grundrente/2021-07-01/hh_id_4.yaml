@@ -11,6 +11,8 @@ inputs:
       - 4
     hh_id:
       - 4
+    p_id_ehepartner:
+      - -1
     grundr_zeiten:
       - 480
     grundr_bew_zeiten:

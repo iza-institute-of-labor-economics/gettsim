@@ -8,6 +8,8 @@ inputs:
       - 12
     hh_id:
       - 12
+    p_id_ehepartner:
+      - -1
     grundr_zeiten:
       - 0
     grundr_bew_zeiten:
