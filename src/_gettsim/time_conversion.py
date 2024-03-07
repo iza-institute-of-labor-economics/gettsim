@@ -272,19 +272,23 @@ def create_time_conversion_functions(
 
     # Create time-conversions for existing functions
     for name, func in functions.items():
-        result.update({
-            name: func
-            for name, func in _create_time_conversion_functions(name, func).items()
-            if name not in functions and name not in data_cols
-        })
+        result.update(
+            {
+                name: func
+                for name, func in _create_time_conversion_functions(name, func).items()
+                if name not in functions and name not in data_cols
+            }
+        )
 
     # Create time-conversions for data columns and overwrite existing functions
     for name in data_cols:
-        result.update({
-            name: func
-            for name, func in _create_time_conversion_functions(name).items()
-            if name not in data_cols
-        })
+        result.update(
+            {
+                name: func
+                for name, func in _create_time_conversion_functions(name).items()
+                if name not in data_cols
+            }
+        )
 
     return result
 
