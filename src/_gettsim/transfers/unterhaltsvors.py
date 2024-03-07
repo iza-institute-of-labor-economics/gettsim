@@ -22,7 +22,7 @@ aggregate_by_p_id_unterhaltsvors = {
 
 @add_rounding_spec(params_key="unterhaltsvors")
 def unterhaltsvors_m(
-    alleinerz_sn: bool,
+    alleinerz: bool,
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_eltern_m: float,
 ) -> float:
@@ -44,6 +44,10 @@ def unterhaltsvors_m(
 
     Parameters
     ----------
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
     _unterhaltsvors_anspruch_eltern_m
         See :func:`_unterhaltsvors_anspruch_eltern_m`.
 
@@ -52,7 +56,7 @@ def unterhaltsvors_m(
 
     """
 
-    if alleinerz_sn:
+    if alleinerz:
         out = max(_unterhaltsvors_anspruch_eltern_m - kind_unterh_erhalt_m, 0.0)
     else:
         out = 0.0

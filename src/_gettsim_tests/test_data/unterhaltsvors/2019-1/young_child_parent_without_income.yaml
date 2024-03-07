@@ -12,6 +12,22 @@ inputs:
       - 4
       - 4
       - 4
+    p_id_elternteil_1:
+      - -1
+      - 39
+      - 39
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 39
+      - 39
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
     alleinerz:
       - true
       - false
@@ -63,6 +79,6 @@ inputs:
   assumed: {}
 outputs:
   unterhaltsvors_m:
+    - 372
     - 0
-    - 160
-    - 212
+    - 0
