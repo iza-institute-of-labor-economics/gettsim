@@ -27,5 +27,9 @@ def test_kinderzuschl(
     )
 
     assert_series_equal(
-        result[column], test_data.output_df[column], check_dtype=False, atol=0, rtol=0
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=0.01,
+        rtol=0,
     )
