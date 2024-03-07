@@ -15,6 +15,9 @@ def wohngeld_vorrang_hh(
     -------
 
     """
+    # TODO(@MImmesberger): Allow for some individuals to receive Wohngeld and some
+    # individuals to receive ALG2 in the same household.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/690
     return wohngeld_nach_vermög_check_m_hh >= arbeitsl_geld_2_vor_vorrang_m_bg
 
 
