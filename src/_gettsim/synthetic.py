@@ -205,7 +205,6 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children):
         data["p_id_einstandspartner"] = data["p_id_ehepartner"]
     else:
         data_adults = data.query("kind == False")
-        data_adults["p_id_ehepartner"] = -1
         for hh_id, group in data_adults.groupby("hh_id"):
             relevant_rows = data_adults["hh_id"] == hh_id
             data_adults.loc[relevant_rows, "p_id_ehepartner"] = group["p_id"].tolist()[
