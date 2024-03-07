@@ -204,13 +204,22 @@ class TestCreateFunctionsForTimeUnits:
         for expected_name in expected:
             assert expected_name in time_conversion_functions
 
-    def test_should_not_create_functions_that_exist_already(self) -> None:
+    def test_should_not_create_functions_automatically_that_exist_already(self) -> None:
+        time_conversion_functions = create_time_conversion_functions(
+            {"test1_d": lambda: 1}, ["test2_y"]
+        )
+
+        assert "test1_d" not in time_conversion_functions
+        assert "test2_y" not in time_conversion_functions
+
+    def test_should_overwrite_functions_with_data_cols_that_only_differ_in_time_period(
+        self,
+    ) -> None:
         time_conversion_functions = create_time_conversion_functions(
             {"test_d": lambda: 1}, ["test_y"]
         )
 
-        assert "test_y" not in time_conversion_functions
-        assert "test_d" not in time_conversion_functions
+        assert "test_d" in time_conversion_functions
 
 
 class TestCreateFunctionForTimeUnit:
