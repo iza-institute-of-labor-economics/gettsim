@@ -142,7 +142,6 @@ DEFAULT_TARGETS = [
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
-    "tu_id": int,
     "p_id": int,
     "p_id_elternteil_1": int,
     "p_id_elternteil_2": int,

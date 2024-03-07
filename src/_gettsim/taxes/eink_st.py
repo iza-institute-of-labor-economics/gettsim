@@ -20,8 +20,8 @@ def eink_st_ohne_kinderfreib_y_sn(
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes without child allowance on tax unit level. Also referred to as "tarifliche
-    ESt II".
+    """Taxes without child allowance on Steuernummer level. Also referred to as
+    "tarifliche ESt II".
 
     Parameters
     ----------
@@ -49,8 +49,8 @@ def eink_st_mit_kinderfreib_y_sn(
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
-    """Taxes with child allowance on tax unit level. Also referred to as "tarifliche ESt
-    I".
+    """Taxes with child allowance on Steuernummer level. Also referred to as "tarifliche
+    ESt I".
 
     Parameters
     ----------
@@ -103,8 +103,8 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_y_sn: float,
 ) -> float:
-    """Income tax calculation on tax unit level allowing for claiming Kinderfreibetrag
-    and receiving Kindergeld at the same time.
+    """Income tax calculation on Steuernummer level allowing for claiming
+    Kinderfreibetrag and receiving Kindergeld at the same time.
 
     Parameters
     ----------
@@ -126,7 +126,7 @@ def eink_st_y_sn_kindergeld_oder_kinderfreib(
     kinderfreib_günstiger_sn: bool,
     eink_st_rel_kindergeld_y_sn: float,
 ) -> float:
-    """Income tax calculation on tax unit level since 1997.
+    """Income tax calculation on Steuernummer level since 1997.
 
     Parameters
     ----------

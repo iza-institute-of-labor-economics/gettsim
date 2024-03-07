@@ -3,7 +3,7 @@ from _gettsim.shared import dates_active
 
 @dates_active(start="2009-01-01")
 def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
-    """Calculate abgeltungssteuer on tax unit level.
+    """Calculate abgeltungssteuer on Steuernummer level.
 
     Parameters
     ----------
@@ -24,7 +24,7 @@ def zu_verst_kapitaleink_y_sn(
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate taxable income on tax unit level.
+    """Calculate taxable income on Steuernummer level.
 
     Parameters
     ----------

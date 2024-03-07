@@ -10,7 +10,8 @@ aggregate_by_group_kinderzuschl_eink = {
 
 def kinderzuschl_bruttoeink_eltern_m(
     arbeitsl_geld_2_bruttoeink_m: float,
-    eltern: bool,
+    kindergeld_anspruch: bool,
+    erwachsen: bool,
 ) -> float:
     """Calculate parental gross income for calculation of child benefit.
 
@@ -21,15 +22,18 @@ def kinderzuschl_bruttoeink_eltern_m(
     ----------
     arbeitsl_geld_2_bruttoeink_m
         See :func:`arbeitsl_geld_2_bruttoeink_m`.
-    eltern
-        See :func:`eltern`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
+    erwachsen
+        See basic input variable :ref:`erwachsen <erwachsen>`.
+
 
     Returns
     -------
 
     """
 
-    if eltern:
+    if erwachsen and (not kindergeld_anspruch):
         out = arbeitsl_geld_2_bruttoeink_m
     else:
         out = 0.0
@@ -40,7 +44,8 @@ def kinderzuschl_bruttoeink_eltern_m(
 @add_rounding_spec(params_key="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_eink_m: float,
-    eltern: bool,
+    kindergeld_anspruch: bool,
+    erwachsen: bool,
 ) -> float:
     """Parental income (after deduction of taxes, social insurance contributions, and
     other deductions) for calculation of child benefit.
@@ -49,14 +54,16 @@ def kinderzuschl_eink_eltern_m(
     ----------
     arbeitsl_geld_2_eink_m
         See :func:`arbeitsl_geld_2_eink_m`.
-    eltern
-        See basic input variable :ref:`eltern <eltern>`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch`.
+    erwachsen
+        See basic input variable :ref:`erwachsen <erwachsen>`.
 
     Returns
     -------
 
     """
-    if eltern:
+    if erwachsen and (not kindergeld_anspruch):
         out = arbeitsl_geld_2_eink_m
     else:
         out = 0.0

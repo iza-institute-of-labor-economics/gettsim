@@ -52,7 +52,7 @@ def freibeträge_y_sn(
     vorsorgeaufw_y_sn: float,
     freibeträge_ind_y_sn: float,
 ) -> float:
-    """Calculate total allowances on tax unit level.
+    """Calculate total allowances on Steuernummer level.
 
     Parameters
     ----------
@@ -77,7 +77,7 @@ def _zu_verst_eink_ohne_kinderfreib_y_sn(
     sum_eink_y_sn: float,
     freibeträge_y_sn: float,
 ) -> float:
-    """Calculate taxable income without child allowance on tax unit level.
+    """Calculate taxable income without child allowance on Steuernummer level.
 
     Parameters
     ----------
@@ -99,7 +99,7 @@ def _zu_verst_eink_ohne_kinderfreib_y_sn(
 def _zu_verst_eink_mit_kinderfreib_y_sn(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float, eink_st_kinderfreib_y_sn: float
 ) -> float:
-    """Calculate taxable income with child allowance on tax unit level.
+    """Calculate taxable income with child allowance on Steuernummer level.
 
     Parameters
     ----------
@@ -123,7 +123,7 @@ def zu_verst_eink_y_sn(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,
     kinderfreib_günstiger_sn: bool,
 ) -> float:
-    """Calculate taxable income on tax unit level.
+    """Calculate taxable income on Steuernummer level.
 
     Parameters
     ----------

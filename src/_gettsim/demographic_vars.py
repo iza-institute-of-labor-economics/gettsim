@@ -326,28 +326,6 @@ def jüngstes_kind_oder_mehrling(
     return out
 
 
-def eltern(
-    erwachsen: bool,
-    kindergeld_anspruch: bool,
-) -> bool:
-    """Check if person in the tax unit is considered a parent or the parent's spouse.
-
-    Parameters
-    ----------
-    erwachsen
-        See :func:`erwachsen`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-
-    out = (erwachsen) and (not kindergeld_anspruch)
-    return out
-
-
 def birthdate_decimal(
     geburtsjahr: int,
     geburtsmonat: int,

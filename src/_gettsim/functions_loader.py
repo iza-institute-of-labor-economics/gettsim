@@ -51,8 +51,7 @@ def load_and_check_functions(
     - vectorizing all functions
     - adding time conversion functions, aggregation functions, and combinations
 
-    Check that:
-    - all targets are in set of functions or in data_cols
+    Check that: - all targets are in set of functions or in data_cols
 
     Parameters
     ----------
@@ -64,15 +63,15 @@ def load_and_check_functions(
     data_cols : list
         Data columns provided by the user.
     aggregate_by_group_specs : dict
-        A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        A dictionary which contains specs for functions which aggregate variables on the
+        the aggregation levels specified in config.py. The syntax is the same as for
+        aggregation specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     aggregate_by_p_id_specs : dict
         A dictionary which contains specs for linking aggregating taxes and by another
         individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------

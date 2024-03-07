@@ -21,13 +21,13 @@ You can find their individual calculation in the documentation of all {ref}`func
 * - {func}`entgeltp_update <_gettsim.functions.entgeltp_update>`
   - Updated earning points for pension claim
 * - {func}`abgelt_st_y_sn <_gettsim.functions.abgelt_st_y_sn>`
-  - Capital income tax on tax unit level
+  - Capital income tax on Steuernummer level
 * - {func}`soli_st_y_sn <_gettsim.functions.soli_st_y_sn>`
-  - Solidarity surcharge on tax unit level
+  - Solidarity surcharge on Steuernummer level
 * - {func}`kindergeld_m <_gettsim.functions.kindergeld_m>`
   - Monthly child benefit
 * - {func}`eink_st_y_sn <_gettsim.functions.eink_st_y_sn>`
-  - Income Tax on tax unit level
+  - Income Tax on Steuernummer level
 * - {func}`lohnst_m` <_gettsim.functions.lohnst_m>`
   - Withholding tax
 * - {func}`soli_st_lohnst_m <_gettsim.functions.soli_st_lohnst_m>`

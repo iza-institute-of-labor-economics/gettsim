@@ -33,7 +33,7 @@ def bruttokaltmiete_m_bg(
     bruttokaltmiete_m_hh: float,
     _anteil_personen_in_haushalt_bg: float,
 ) -> float:
-    """Share of household's monthly rent attributed to the tax unit.
+    """Share of household's monthly rent attributed to the Bedarfsgemeinschaft.
 
     Parameters
     ----------
@@ -53,7 +53,7 @@ def heizkosten_m_bg(
     heizkosten_m_hh: float,
     _anteil_personen_in_haushalt_bg: float,
 ) -> float:
-    """Share of household's heating expenses attributed to the tax unit.
+    """Share of household's heating expenses attributed to the Bedarfsgemeinschaft.
 
     Parameters
     ----------
@@ -70,7 +70,7 @@ def heizkosten_m_bg(
 
 
 def _anteil_personen_in_haushalt_bg(größe_bg: int, größe_hh: int) -> float:
-    """Calculate the share of tax units in household.
+    """Calculate the share of Bedarfsgemeinschaften in household.
 
     Parameters
     ----------

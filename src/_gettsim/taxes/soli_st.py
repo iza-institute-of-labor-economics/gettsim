@@ -8,7 +8,7 @@ def soli_st_y_sn_ohne_abgelt_st(
     anz_personen_sn: int,
     soli_st_params: dict,
 ) -> float:
-    """Calculate the Solidarity Surcharge on tax unit level.
+    """Calculate the Solidarity Surcharge on Steuernummer level.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
@@ -47,7 +47,7 @@ def soli_st_y_sn_mit_abgelt_st(
     abgelt_st_y_sn: float,
     soli_st_params: dict,
 ) -> float:
-    """Calculate the Solidarity Surcharge on tax unit level.
+    """Calculate the Solidarity Surcharge on Steuernummer level.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
