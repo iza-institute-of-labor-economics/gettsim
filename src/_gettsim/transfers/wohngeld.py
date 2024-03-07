@@ -7,7 +7,7 @@ from _gettsim.shared import add_rounding_spec, dates_active
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kind_bis_12_mit_kindergeld",
+        "source_col": "kind_bis_10_mit_kindergeld",
         "aggr": "sum",
     },
 }
@@ -98,7 +98,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    wohngeld_abzüge_st_sozialv_m_hh: float,
+    wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -124,6 +124,8 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
+    wohngeld_abzüge_st_sozialv_m
+        See :func:`wohngeld_abzüge_st_sozialv_m`.
 
     Returns
     -------
@@ -144,7 +146,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m_hh) * eink_ind
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
     return out
 
 
@@ -160,7 +162,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     elterngeld_anr_m: float,
-    wohngeld_abzüge_st_sozialv_m_hh: float,
+    wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -188,6 +190,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`unterhaltsvors_m`.
     elterngeld_anr_m
         See :func:`elterngeld_anr_m`.
+    wohngeld_abzüge_st_sozialv_m
+        See :func:`wohngeld_abzüge_st_sozialv_m`.
 
     Returns
     -------
@@ -209,7 +213,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m_hh) * eink_ind
+    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
     return out
 
 
@@ -286,7 +290,6 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
         )
     else:
         freib_kinder_m = 0.0
-
     return freib_behinderung_m + freib_kinder_m
 
 

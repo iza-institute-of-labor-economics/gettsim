@@ -10,6 +10,9 @@ inputs:
     hh_id:
       - 3
       - 3
+    p_id_kindergeld_empf:
+      - -1
+      - 20
     kind:
       - false
       - true
@@ -27,7 +30,7 @@ inputs:
       - 1995
     kindergeld_anspruch:
       - false
-      - false
+      - true
     mietstufe:
       - 3
       - 3

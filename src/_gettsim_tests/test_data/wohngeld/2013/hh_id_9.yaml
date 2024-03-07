@@ -10,6 +10,9 @@ inputs:
     hh_id:
       - 9
       - 9
+    p_id_kindergeld_empf:
+      - -1
+      - -1
     kind:
       - false
       - false

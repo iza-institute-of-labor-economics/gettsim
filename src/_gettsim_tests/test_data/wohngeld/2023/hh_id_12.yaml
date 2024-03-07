@@ -8,6 +8,8 @@ inputs:
       - 56
     hh_id:
       - 12
+    p_id_kindergeld_empf:
+      - -1
     kind:
       - false
     bruttokaltmiete_m_hh:

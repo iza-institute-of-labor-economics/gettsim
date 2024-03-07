@@ -16,6 +16,12 @@ inputs:
       - 4
       - 4
       - 4
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 22
+      - 22
+      - 22
     kind:
       - false
       - false

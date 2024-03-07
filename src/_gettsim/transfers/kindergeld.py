@@ -155,11 +155,11 @@ def kindergeld_anspruch_nach_stunden(
     return out
 
 
-def kind_bis_12_mit_kindergeld(
+def kind_bis_10_mit_kindergeld(
     alter: int,
     kindergeld_anspruch: bool,
 ) -> bool:
-    """Child under the age of 13 and eligible for Kindergeld.
+    """Child under the age of 11 and eligible for Kindergeld.
 
     Parameters
     ----------
@@ -172,5 +172,5 @@ def kind_bis_12_mit_kindergeld(
     -------
 
     """
-    out = kindergeld_anspruch and (alter <= 12)
+    out = kindergeld_anspruch and (alter <= 10)
     return out
