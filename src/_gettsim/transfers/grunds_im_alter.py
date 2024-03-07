@@ -9,7 +9,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     kind_unterh_erhalt_m_eg: float,
     unterhaltsvors_m_eg: float,
     grunds_im_alter_eink_m_eg: float,
-    erwachsene_alle_rentner_eg: bool,
+    erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_eg: float,
     grunds_im_alter_vermög_freib_eg: float,
 ) -> float:
@@ -37,8 +37,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         See :func:`unterhaltsvors_m_eg`.
     grunds_im_alter_eink_m_eg
         See :func:`grunds_im_alter_eink_m_eg`.
-    erwachsene_alle_rentner_eg
-        See :func:`erwachsene_alle_rentner_eg`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh`.
     vermögen_bedürft_eg
         See basic input variable :ref:`vermögen_bedürft_eg`.
     grunds_im_alter_vermög_freib_eg
@@ -51,7 +51,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
     if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg) or (
-        not erwachsene_alle_rentner_eg
+        not erwachsene_alle_rentner_hh
     ):
         out = 0.0
     else:

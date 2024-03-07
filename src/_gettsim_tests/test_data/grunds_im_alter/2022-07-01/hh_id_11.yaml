@@ -10,6 +10,18 @@ inputs:
       - 15
     hh_id:
       - 11
+    p_id_einstandspartner:
+      - -1
+    p_id_ehepartner:
+      - -1
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    gemeinsam_veranlagt:
+      - false
+    eigener_bedarf_gedeckt:
+      - false
     jahr:
       - 2022
     kind:
@@ -32,7 +44,7 @@ inputs:
       - true
     schwerbeh_g:
       - false
-    vermögen_bedürft_bg:
+    vermögen_bedürft_eg:
       - 0.0
     alleinerz:
       - false
@@ -52,11 +64,11 @@ inputs:
       - 0.0
     sozialv_beitr_m:
       - 50.0
-    kindergeld_m_hh:
+    kindergeld_m_eg:
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvors_m_eg:
       - 0.0
     elterngeld_m:
       - 0.0
