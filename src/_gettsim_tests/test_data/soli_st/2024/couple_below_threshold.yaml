@@ -10,6 +10,12 @@ inputs:
     hh_id:
       - 1
       - 1
+    p_id_ehepartner:
+      - 3
+      - 2
+    gemeinsam_veranlagt:
+      - true
+      - true
     kind:
       - false
       - false

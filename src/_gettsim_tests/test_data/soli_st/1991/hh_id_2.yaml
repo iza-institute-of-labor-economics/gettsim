@@ -8,6 +8,10 @@ inputs:
       - 2
     hh_id:
       - 2
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
     eink_st_mit_kinderfreib_y_sn:
