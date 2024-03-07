@@ -12,6 +12,26 @@ inputs:
       - 13
       - 13
       - 13
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 36
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 37
+    p_id_einstandspartner:
+      - 37
+      - 36
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 36
+    eigener_bedarf_gedeckt:
+      - false
+      - false
+      - false
     kind:
       - false
       - false
