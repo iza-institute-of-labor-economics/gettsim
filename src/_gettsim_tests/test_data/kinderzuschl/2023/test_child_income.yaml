@@ -25,7 +25,7 @@ inputs:
     p_id_kindergeld_empf:
       - -1
       - 45
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
     kind:

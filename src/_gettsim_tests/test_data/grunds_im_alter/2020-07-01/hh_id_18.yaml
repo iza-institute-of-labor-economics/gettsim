@@ -18,7 +18,7 @@ inputs:
       - -1
     gemeinsam_veranlagt:
       - false
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
     jahr:
       - 2020

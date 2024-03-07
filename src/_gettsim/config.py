@@ -75,12 +75,6 @@ SUPPORTED_GROUPINGS = {
         " unit for Wohngeld.",
         "potentially_endogenous": False,
     },
-    "tu": {
-        "name": "tax unit",
-        "description": "Obsolete. `sn` plus children.",
-        "nested_by": "hh",
-        "potentially_endogenous": False,
-    },
     "fg": {
         "name": "Familiengemeinschaft",
         "description": "Maximum of two generations, the relevant base unit for"
@@ -102,7 +96,7 @@ SUPPORTED_GROUPINGS = {
     "ehe": {
         "name": "Ehepartner",
         "description": "Couples that are either married or in a civil union.",
-        "potentially_endogenous": False,
+        "potentially_endogenous": True,
     },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
@@ -157,7 +151,7 @@ TYPES_INPUT_VARIABLES = {
     "p_id_ehepartner": int,
     "p_id_einstandspartner": int,
     "vermögen_bedürft_bg": float,
-    "eigener_bedarf_gedeckt": bool,
+    "eigenbedarf_gedeckt": bool,
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,

@@ -29,7 +29,7 @@ inputs:
     gemeinsam_veranlagt:
       - true
       - true
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
     jahr:

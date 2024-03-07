@@ -157,14 +157,7 @@ def create_basic_households(
     group_ids = [f"{g}_id" for g in exogenous_groupings]
     df["p_id"] = df.index
 
-    # Create Elternteil IDs
-    if n_children > 0:
-        df = find_p_id_elternteil(data=df, n_adults=n_adults)
-    else:
-        df["p_id_elternteil_1"] = -1
-        df["p_id_elternteil_2"] = -1
-    df["p_id_kindergeld_empf"] = df["p_id_elternteil_1"]
-    df["p_id_erziehgeld_empf"] = df["p_id_elternteil_1"]
+    df = return_df_with_ids_for_aggregation(df, n_adults, n_children)
 
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
@@ -172,8 +165,63 @@ def create_basic_households(
     return df
 
 
-def find_p_id_elternteil(data, n_adults):
-    """Find the p_id_elternteil_1 and p_id_elternteil_2 in the household."""
+def return_df_with_ids_for_aggregation(data, n_adults, n_children):
+    """Create IDs for different groupings.
+
+    Creates the following IDs:
+    - p_id_elternteil_1
+    - p_id_elternteil_2
+    - p_id_kindergeld_empf
+    - p_id_erziehgeld_empf
+    - p_id_ehepartner
+    - p_id_einstandspartner
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        DataFrame containing all basic variables.
+    n_adults : int
+        Number of adults in the household.
+    n_children : int
+        Number of children in the household.
+
+    Returns
+    -------
+    data : pd.DataFrame
+        DataFrame containing all basic variables and the new IDs.
+    """
+    # Create Elternteil IDs
+    if n_children > 0:
+        data = return_p_id_elternteil(data=data, n_adults=n_adults)
+    else:
+        data["p_id_elternteil_1"] = -1
+        data["p_id_elternteil_2"] = -1
+    data["p_id_kindergeld_empf"] = data["p_id_elternteil_1"]
+    data["p_id_erziehgeld_empf"] = data["p_id_elternteil_1"]
+
+    # Create other IDs
+    if n_adults == 1:
+        data["p_id_ehepartner"] = -1
+        data["p_id_einstandspartner"] = data["p_id_ehepartner"]
+    else:
+        data_adults = data.query("kind == False")
+        data_adults["p_id_ehepartner"] = -1
+        for hh_id, group in data_adults.groupby("hh_id"):
+            relevant_rows = data_adults["hh_id"] == hh_id
+            data_adults.loc[relevant_rows, "p_id_ehepartner"] = group["p_id"].tolist()[
+                ::-1
+            ]
+        data = pd.merge(
+            data, data_adults[["p_id", "p_id_ehepartner"]], on="p_id", how="left"
+        ).fillna(-1)
+        data["p_id_ehepartner"] = data["p_id_ehepartner"].astype(int)
+        data["p_id_einstandspartner"] = data["p_id_ehepartner"]
+
+    return data
+
+
+def return_p_id_elternteil(data, n_adults):
+    """Find the p_id_elternteil_1 and p_id_elternteil_2."""
     # p_id_elternteil_1 is the first adult in the household
     elternteil_1_candidate = {
         hh_id: group["p_id"].iloc[0] for hh_id, group in data.groupby("hh_id")
@@ -215,6 +263,10 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         df["bürgerg_bezug_vorj"] = True
 
     default_values = {
+        "gemeinsam_veranlagt": (
+            df["kind"] == False if n_adults == 2 else False  # noqa: E712
+        ),
+        "eigenbedarf_gedeckt": False,
         "mietstufe": 3,
         "geburtsmonat": 1,
         "geburtstag": 1,

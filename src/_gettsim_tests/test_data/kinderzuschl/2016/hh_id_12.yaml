@@ -30,7 +30,7 @@ inputs:
       - -1
       - -1
       - 33
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
       - false

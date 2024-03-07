@@ -28,7 +28,7 @@ inputs:
     gemeinsam_veranlagt:
       - false
       - false
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
     kind:

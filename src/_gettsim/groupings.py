@@ -17,7 +17,7 @@ def create_groupings() -> dict[str, Callable]:
 def bg_id_numpy(
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
-    eigener_bedarf_gedeckt: numpy.ndarray[bool],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
 ):
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
@@ -27,10 +27,10 @@ def bg_id_numpy(
 
     for index, current_fg_id in enumerate(fg_id):
         current_alter = alter[index]
-        current_eigener_bedarf_gedeckt = eigener_bedarf_gedeckt[index]
+        current_eigenbedarf_gedeckt = eigenbedarf_gedeckt[index]
         # TODO(@MImmesberger): Remove hard-coded number
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
-        if current_alter < 25 and current_eigener_bedarf_gedeckt:
+        if current_alter < 25 and current_eigenbedarf_gedeckt:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:

@@ -16,7 +16,7 @@ inputs:
       - -1
     p_id_einstandspartner:
       - -1
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
     gemeinsam_veranlagt:
       - false
