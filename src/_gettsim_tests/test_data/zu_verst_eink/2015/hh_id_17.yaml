@@ -10,6 +10,15 @@ inputs:
     hh_id:
       - 17
       - 17
+    p_id_ehepartner:
+      - 24
+      - 23
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
     p_id_elternteil_1:
       - -1
       - -1
