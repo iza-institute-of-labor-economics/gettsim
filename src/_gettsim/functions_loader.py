@@ -148,6 +148,7 @@ def _create_derived_functions(
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         user_and_internal_functions,
         aggregate_by_p_id_specs,
+        data_cols,
     )
 
     # Create functions for different time units
@@ -646,6 +647,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Callable],
     user_provided_aggregate_by_p_id_specs: dict[str, dict[str, str]],
+    data_cols: list[str],
 ) -> dict[str, Callable]:
     """Create function dict with functions that link variables across persons."""
 
@@ -667,7 +669,10 @@ def _create_aggregate_by_p_id_functions(
             user_and_internal_functions=user_and_internal_functions,
         )
         for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
-        if agg_by_p_id_spec["source_col"] in user_and_internal_functions
+        if (
+            agg_by_p_id_spec["source_col"] in user_and_internal_functions
+            or agg_by_p_id_spec["source_col"] in data_cols
+        )
     }
 
     return aggregate_by_p_id_functions

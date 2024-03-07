@@ -325,8 +325,7 @@ def eink_st_abz_betreuungskost_y(
     Parameters
     ----------
     betreuungskost_eltern_m
-        See basic input variable :ref:`betreuungskost_eltern_m
-            <betreuungskost_eltern_m>`.
+        See :func:`betreuungskost_eltern_m`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
