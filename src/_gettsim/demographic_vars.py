@@ -94,24 +94,6 @@ def kind_bis_6(alter: int, kind: bool) -> bool:
     return out
 
 
-def kind_bis_12(alter: int, kind: bool) -> bool:
-    """Calculate if child under the age of 11.
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (alter <= 10)
-    return out
-
-
 def kind_bis_15(alter: int, kind: bool) -> bool:
     """Calculate if child under the age of 16.
 
