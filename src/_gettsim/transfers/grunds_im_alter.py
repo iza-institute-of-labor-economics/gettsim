@@ -18,9 +18,9 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     # ToDo: There is no check for Wohngeld included as Wohngeld is
     # ToDo: currently not implemented for retirees.
 
-    # ToDo: Grundsicherung im Alter is only paid if all adults in the household
-    # ToDo: are retired. Other households get ALG 2 (This is a simplification by
-    # ToDo: GETTSIM)
+    # TODO(@ChristianZimpelmann): Treatment of Bedarfsgemeinschaften with both retirees
+    # and unemployed job seekers probably incorrect
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
     # TODO(@MImmesberger): Check whether `bg` is the correct grouping for
     # arbeitsl_geld_2_regelbedarf_m_bg
