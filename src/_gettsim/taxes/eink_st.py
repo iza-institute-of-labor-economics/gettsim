@@ -45,7 +45,7 @@ def eink_st_ohne_kinderfreib_y_sn(
 
 
 @dates_active(end="2001-12-31", change_name="eink_st_mit_kinderfreib_y_sn")
-def eink_st_mit_kinderfreib_y_sn_bis_2001() -> None:
+def eink_st_mit_kinderfreib_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
