@@ -154,8 +154,8 @@ def fg_id_numpy(  # noqa: PLR0913
 
             if (
                 child_hh_id == current_hh_id
-                # TODO (@hmgaudecker): Add correct conditions for grown up children
-                # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
+                # TODO (@MImmesberger): Check correct conditions for grown up children
+                # https://github.com/iza-institute-of-labor-economics/gettsim/pull/509
                 # TODO(@MImmesberger): Remove hard-coded number
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
                 and child_alter < 25
