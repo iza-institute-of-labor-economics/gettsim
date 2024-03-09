@@ -60,7 +60,7 @@ inputs:
       - 300.0
     vermögen_bedürft_bg:
       - 61000.0
-    größe_hh:
+    anz_personen_hh:
       - 1
     geburtstag:
       - 1

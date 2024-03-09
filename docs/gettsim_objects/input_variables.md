@@ -170,7 +170,7 @@ Type: float
 
 ## `p_id_betreuungsk_träger`
 
-Identifier of the person that payed for the childcare expenses.
+Identifier of the person who paid childcare expenses.
 
 Type: float
 

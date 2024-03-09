@@ -15,7 +15,6 @@ from _gettsim.aggregation import (
     grouped_all,
     grouped_any,
     grouped_count,
-    grouped_cumsum,
     grouped_max,
     grouped_mean,
     grouped_min,
@@ -525,7 +524,7 @@ def _select_return_type(aggr, source_col_type):
     return return_type
 
 
-def _create_one_aggregate_by_group_func(  # noqa: PLR0912
+def _create_one_aggregate_by_group_func(
     agg_col, agg_specs, user_and_internal_functions
 ):
     """Create an aggregation function based on aggregation specification.
@@ -627,15 +626,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             )
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_all(source_col, group_id)
-
-        elif agg_specs["aggr"] == "cumsum":
-
-            @rename_arguments(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_cumsum(source_col, group_id)
 
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")

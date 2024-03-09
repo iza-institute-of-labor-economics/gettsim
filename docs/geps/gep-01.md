@@ -118,7 +118,7 @@ If names need to be concatenated for making clear what a column name refers to (
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
-The default unit a column refers to is an individual. In case of aggregation across
+The default unit a column refers to is an individual. In case of groupings of
 individuals, an underscore plus one of {`sn`, `hh`, `fg`, `bg`} will indicate the level
 of aggregation.
 

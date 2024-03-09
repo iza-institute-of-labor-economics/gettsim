@@ -1,5 +1,3 @@
-import warnings
-
 import numpy
 import numpy_groupies as npg
 
@@ -109,22 +107,6 @@ def grouped_all(column, group_id):
 
     # Expand to individual level
     out = out_on_hh[group_id]
-    return out
-
-
-def grouped_cumsum(column, group_id):
-    warnings.warn(
-        "'grouped_cumsum' is deprecated. It won't be supported anymore in a future "
-        "version",
-        DeprecationWarning,
-        stacklevel=2,
-    )
-    fail_if_dtype_not_int(group_id, agg_func="grouped_sum")
-    fail_if_dtype_not_numeric_or_boolean(column, agg_func="grouped_sum")
-    if column.dtype == bool:
-        column = column.astype(int)
-    out = npg.aggregate(group_id, column, func="cumsum", fill_value=0)
-
     return out
 
 

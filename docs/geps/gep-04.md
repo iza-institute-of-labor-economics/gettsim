@@ -101,8 +101,9 @@ The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink
 which is the amount of taxable capital income on the Steuernummer-level (the latter is
 implied by the `_sn` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_sn` must be
 provided by the user as a column of the input data or it has to be the name of another
-function. `abgelt_st_params` is a dictionary of parameters related to the calculation of
-`abgelt_st_y_sn`.
+function. It is also possible to specify `zu_verst_kapital_eink_y` and aggregation to
+the `sn`-level will happen automatically. `abgelt_st_params` is a dictionary of
+parameters related to the calculation of `abgelt_st_y_sn`.
 
 Another function, say
 
@@ -112,7 +113,8 @@ def soli_st_y_sn(
     anz_personen_sn: int,
     abgelt_st_y_sn: float,
     soli_st_params: dict,
-) -> float: ...
+) -> float:
+    ...
 ```
 
 may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
@@ -224,12 +226,12 @@ For example, in `demographic_vars.py`, we could have:
 ```
 aggregate_by_group_demographic_vars = {
     "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
-    "größe_hh": {"aggr": "count"},
+    "anz_personen_hh": {"aggr": "count"},
 }
 ```
 
-The group identifier (`sn_id`, `hh_id`, `fg_id`, `bg_id`, `eg_id`, `ehe:id`) will be
-automatically included as an argument; for `count` no other variable is necessary.
+The group identifier (`hh_id`, `sn_id`, `fg_id`, `bg_id`, `eg_id`, `ehe_id`) will be
+automatically included as an argument; for `count` nothing else is necessary.
 
 The output type will be the same as the input type. Exceptions:
 
@@ -258,7 +260,8 @@ By including `kindergeld_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments):
+    ...
 ```
 
 a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`

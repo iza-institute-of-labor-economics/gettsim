@@ -12,7 +12,7 @@ aggregate_by_p_id_freibeträge = {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },
-    "betreuungskost_eltern_m": {
+    "betreuungskost_elternteil_m": {
         "p_id_to_aggregate_by": "p_id_betreuungsk_träger",
         "source_col": "betreuungskost_m",
         "aggr": "sum",
@@ -318,14 +318,14 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
 
 def eink_st_abz_betreuungskost_y(
     eink_st_abzuege_params: dict,
-    betreuungskost_eltern_m: float,
+    betreuungskost_elternteil_y: float,
 ) -> float:
     """Individual deductable childcare cost for each individual child under 14.
 
     Parameters
     ----------
-    betreuungskost_eltern_m
-        See :func:`betreuungskost_eltern_m`.
+    betreuungskost_elternteil_y
+        See :func:`betreuungskost_elternteil_y`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -334,7 +334,7 @@ def eink_st_abz_betreuungskost_y(
 
     """
     out = min(
-        12 * betreuungskost_eltern_m,
+        betreuungskost_elternteil_y,
         eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
     return out

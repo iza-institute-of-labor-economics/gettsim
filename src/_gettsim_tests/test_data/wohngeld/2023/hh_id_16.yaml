@@ -144,7 +144,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    größe_hh:
+    anz_personen_hh:
       - 4
       - 4
       - 4
