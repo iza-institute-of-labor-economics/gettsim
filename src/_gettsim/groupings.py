@@ -9,8 +9,8 @@ def create_groupings() -> dict[str, Callable]:
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
         "eg_id": eg_id_numpy,
-        "sn_id": sn_id_numpy,
         "ehe_id": ehe_id_numpy,
+        "sn_id": sn_id_numpy,
     }
 
 

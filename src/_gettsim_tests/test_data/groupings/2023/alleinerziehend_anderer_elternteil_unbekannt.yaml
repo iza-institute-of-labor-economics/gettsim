@@ -43,15 +43,21 @@ inputs:
       - false
       - false
 outputs:
-  sn_id:
-    - 0
-    - 1
   fg_id:
     - 0
     - 0
   bg_id:
     - 0
     - 0
+  eg_id:
+    - 0
+    - 1
+  ehe_id:
+    - 0
+    - 1
+  sn_id:
+    - 0
+    - 1
 #  - potentielle_kinderfreibeträge:
 #      - 2
 #      - 0

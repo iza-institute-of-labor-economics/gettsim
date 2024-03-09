@@ -81,12 +81,6 @@ inputs:
       - false
       - false
 outputs:
-  sn_id:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 3
   fg_id:
     - 0
     - 0
@@ -99,6 +93,24 @@ outputs:
     - 0
     - 100
     - 100
+  eg_id:
+    - 0
+    - 0
+    - 1
+    - 2
+    - 2
+  ehe_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 3
+  sn_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 3
 #  potentielle_kinderfreibeträge:
 #    - 1
 #    - 1
