@@ -256,7 +256,7 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     eink_st_abzuege_params: dict,
     anz_personen_sn: int,
 ) -> float:
-    """Individual Sonderausgaben on Steuernummer level until 2011.
+    """Sonderausgaben on Steuernummer level until 2011.
 
     Only a lump sum payment is implemented.
 
@@ -286,15 +286,13 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
     sonderausgaben_betreuung_y_sn: float,
     anz_personen_sn: int,
 ) -> float:
-    """Individual sonderausgaben on Steuernummer level since 2012.
+    """Sonderausgaben on Steuernummer level since 2012.
 
     We follow 10 Abs.1 Nr. 5 EStG. You can find
     details here https://www.buzer.de/s1.htm?a=10&g=estg.
 
     Parameters
     ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
     sonderausgaben_betreuung_y_sn
         See :func:`sonderausgaben_betreuung_y_sn`.
     eink_st_abzuege_params
