@@ -242,7 +242,6 @@ def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     float with the sum in Euro.
 
     """
-    # Note that we, currently, do not support households with more than 2 adults.
     weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
         out = arbeitsl_geld_2_params["regelsatz"] * (
