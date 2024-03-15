@@ -323,19 +323,15 @@ def _vorsorgeaufw_vom_lohn_y_sn_bis_2004(
     -------
 
     """
-    if anz_personen_sn > 1:
-        out = 0.5 * (
+    out = (
+        1
+        / anz_personen_sn
+        * (
             2 * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
             - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
             * 12
             * bruttolohn_m_sn
         )
-    else:
-        out = (
-            eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
-            - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
-            * 12
-            * bruttolohn_m_sn
-        )
+    )
 
     return max(out, 0.0)
