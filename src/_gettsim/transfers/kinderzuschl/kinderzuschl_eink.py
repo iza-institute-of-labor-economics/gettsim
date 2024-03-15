@@ -204,7 +204,7 @@ def kinderzuschl_eink_min_m_bg(
     Parameters
     ----------
     _kinderzuschl_anz_kinder_anspruch_bg
-        See basic input variable :ref:`_kinderzuschl_anz_kinder_anspruch_bg
+        See :func:`_kinderzuschl_anz_kinder_anspruch_bg
         <_kinderzuschl_anz_kinder_anspruch_bg>`.
     alleinerz_hh
         See basic input variable :ref:`alleinerz_hh <alleinerz_hh>`.
