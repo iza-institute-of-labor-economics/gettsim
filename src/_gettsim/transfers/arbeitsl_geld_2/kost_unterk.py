@@ -141,9 +141,3 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
             ]
         )
     return min(wohnfläche_hh, maximum)
-
-    # if bewohnt_eigentum_hh and anz_personen_hh < 5:
-
-    # if not bewohnt_eigentum_hh:
-    #         * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
-    #             "je_weitere_person"
