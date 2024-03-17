@@ -9,7 +9,6 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     anz_personen_sn: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
-    kind: bool,
 ) -> float:
     """Income (after deduction of taxes, social insurance contributions, and other
     deductions) for calculation of basic subsistence.
@@ -30,32 +29,19 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`anz_personen_sn`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
     Income of a person by unemployment insurance.
 
     """
-    if kind:
-        # TODO (@hmgaudecker): Rewrite once groupings are implemented.
-        # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601
-        out = (
-            arbeitsl_geld_2_bruttoeink_m
-            - sozialv_beitr_m
-            - arbeitsl_geld_2_eink_anr_frei_m
-        )
-    else:
-        out = (
-            arbeitsl_geld_2_bruttoeink_m
-            - (eink_st_m_sn / anz_personen_sn)
-            - (soli_st_m_sn / anz_personen_sn)
-            - sozialv_beitr_m
-            - arbeitsl_geld_2_eink_anr_frei_m
-        )
-
-    return out
+    return (
+        arbeitsl_geld_2_bruttoeink_m
+        - (eink_st_m_sn / anz_personen_sn)
+        - (soli_st_m_sn / anz_personen_sn)
+        - sozialv_beitr_m
+        - arbeitsl_geld_2_eink_anr_frei_m
+    )
 
 
 def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
