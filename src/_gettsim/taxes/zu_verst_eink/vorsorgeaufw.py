@@ -304,7 +304,7 @@ def vorsorgeaufw_y_sn_bis_2004(
 
 @dates_active(end="2019-12-31")
 def _vorsorgeaufw_vom_lohn_y_sn_bis_2004(
-    bruttolohn_m_sn: float,
+    bruttolohn_y_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -323,15 +323,9 @@ def _vorsorgeaufw_vom_lohn_y_sn_bis_2004(
     -------
 
     """
-    out = (
-        1
-        / anz_personen_sn
-        * (
-            2 * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
-            - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
-            * 12
-            * bruttolohn_m_sn
-        )
+    out = (1 / anz_personen_sn) * (
+        anz_personen_sn * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
+        - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"] * bruttolohn_y_sn
     )
 
     return max(out, 0.0)
