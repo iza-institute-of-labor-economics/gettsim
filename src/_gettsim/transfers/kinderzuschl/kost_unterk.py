@@ -72,7 +72,7 @@ def heizkosten_m_bg(
 def _anteil_personen_in_haushalt_bg(
     anz_personen_bg: int, anz_personen_hh: int
 ) -> float:
-    """Calculate the share of persons in this Bedarfsgemeinschaft among all persons in the household.
+    """Share of persons in this Bedarfsgemeinschaft among all persons in the household.
 
     Parameters
     ----------
