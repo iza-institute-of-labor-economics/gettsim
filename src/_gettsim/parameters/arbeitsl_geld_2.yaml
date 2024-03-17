@@ -554,11 +554,12 @@ berechtigte_wohnfläche_eigentum:
     3: 100
     4: 120
     je_weitere_person: 20
+    max_anzahl_direkt: 4
   2023-01-01:
+    reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
+    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.
+    deviation_from: previous
     1: 140
     2: 140
     3: 140
     4: 140
-    je_weitere_person: 20
-    reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
-    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.
