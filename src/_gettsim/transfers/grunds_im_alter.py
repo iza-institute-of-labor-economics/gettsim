@@ -22,8 +22,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     # and unemployed job seekers probably incorrect
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
-    # TODO(@MImmesberger): Check whether `bg` is the correct grouping for
-    # arbeitsl_geld_2_regelbedarf_m_bg
+    # TODO(@MImmesberger): Check which variable is the correct Regelbedarf in place of
+    # `arbeitsl_geld_2_regelbedarf_m_bg`
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
 
     Parameters
