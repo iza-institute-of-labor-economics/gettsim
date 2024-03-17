@@ -143,7 +143,7 @@ def unterhaltsvorschuss_eink_m(  # noqa: PLR0913
     sum_ges_rente_priv_rente_m: float,
     arbeitsl_geld_m: float,
 ) -> float:
-    """Calculate relevant income for advance on alimony payment on Steuernummer level.
+    """Calculate relevant income for advance on alimony payment.
 
     Parameters
     ----------
