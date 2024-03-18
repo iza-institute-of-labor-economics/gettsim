@@ -1,11 +1,7 @@
 from _gettsim.shared import dates_active
 
 aggregate_by_group_kindergeld = {
-    "kumulativer_kindergeld_anspruch_tu": {
-        "source_col": "kindergeld_anspruch",
-        "aggr": "cumsum",
-    },
-    "anz_kinder_mit_kindergeld_tu": {
+    "anz_kinder_mit_kindergeld_fg": {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },
@@ -156,4 +152,25 @@ def kindergeld_anspruch_nach_stunden(
         and (arbeitsstunden_w <= kindergeld_params["stundengrenze"])
     )
 
+    return out
+
+
+def kind_bis_10_mit_kindergeld(
+    alter: int,
+    kindergeld_anspruch: bool,
+) -> bool:
+    """Child under the age of 11 and eligible for Kindergeld.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kindergeld_anspruch
+        See :func:`kindergeld_anspruch_nach_stunden`.
+
+    Returns
+    -------
+
+    """
+    out = kindergeld_anspruch and (alter <= 10)
     return out

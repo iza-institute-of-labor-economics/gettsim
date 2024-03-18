@@ -5,13 +5,19 @@ import numpy
 
 
 def create_groupings() -> dict[str, Callable]:
-    return {"bg_id": bg_id_numpy, "fg_id": fg_id_numpy, "sn_id": sn_id_numpy}
+    return {
+        "fg_id": fg_id_numpy,
+        "bg_id": bg_id_numpy,
+        "eg_id": eg_id_numpy,
+        "ehe_id": ehe_id_numpy,
+        "sn_id": sn_id_numpy,
+    }
 
 
 def bg_id_numpy(
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
-    eigener_bedarf_gedeckt: numpy.ndarray[bool],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
 ):
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
@@ -21,14 +27,69 @@ def bg_id_numpy(
 
     for index, current_fg_id in enumerate(fg_id):
         current_alter = alter[index]
-        current_eigener_bedarf_gedeckt = eigener_bedarf_gedeckt[index]
+        current_eigenbedarf_gedeckt = eigenbedarf_gedeckt[index]
         # TODO(@MImmesberger): Remove hard-coded number
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
-        if current_alter < 25 and current_eigener_bedarf_gedeckt:
+        if current_alter < 25 and current_eigenbedarf_gedeckt:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:
             result.append(current_fg_id * 100)
+
+    return numpy.asarray(result)
+
+
+def eg_id_numpy(
+    p_id: numpy.ndarray,
+    p_id_einstandspartner: numpy.ndarray,
+) -> numpy.ndarray:
+    """
+    Compute the ID of the Einstandsgemeinschaft for each person.
+    """
+    p_id_to_eg_id = {}
+    next_eg_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(p_id):
+        current_p_id_einstandspartner = p_id_einstandspartner[index]
+
+        if (
+            current_p_id_einstandspartner >= 0
+            and current_p_id_einstandspartner in p_id_to_eg_id
+        ):
+            result.append(p_id_to_eg_id[current_p_id_einstandspartner])
+            continue
+
+        # New Einstandsgemeinschaft
+        result.append(next_eg_id)
+        p_id_to_eg_id[current_p_id] = next_eg_id
+        next_eg_id += 1
+
+    return numpy.asarray(result)
+
+
+def ehe_id_numpy(
+    p_id: numpy.ndarray,
+    p_id_ehepartner: numpy.ndarray,
+):
+    """
+    Compute the ID of the Ehe for each person.
+    """
+    p_id_to_ehe_id = {}
+    next_ehe_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(p_id):
+        current_p_id_ehepartner = p_id_ehepartner[index]
+
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_ehe_id:
+            result.append(p_id_to_ehe_id[current_p_id_ehepartner])
+            continue
+
+        # New Steuersubjekt
+        result.append(next_ehe_id)
+        p_id_to_ehe_id[current_p_id] = next_ehe_id
+        next_ehe_id += 1
 
     return numpy.asarray(result)
 
@@ -93,8 +154,8 @@ def fg_id_numpy(  # noqa: PLR0913
 
             if (
                 child_hh_id == current_hh_id
-                # TODO (@hmgaudecker): Add correct conditions for grown up children
-                # https://github.com/iza-institute-of-labor-economics/gettsim/pulls/509
+                # TODO (@MImmesberger): Check correct conditions for grown up children
+                # https://github.com/iza-institute-of-labor-economics/gettsim/pull/509
                 # TODO(@MImmesberger): Remove hard-coded number
                 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
                 and child_alter < 25
@@ -123,27 +184,24 @@ def sn_id_numpy(
     result = []
 
     for index, current_p_id in enumerate(p_id):
-        current_p_id_einstandspartner = p_id_ehepartner[index]
+        current_p_id_ehepartner = p_id_ehepartner[index]
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
-        if (
-            current_p_id_einstandspartner >= 0
-            and current_p_id_einstandspartner in p_id_to_sn_id
-        ):
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_sn_id:
             gemeinsam_veranlagt_ehepartner = p_id_to_gemeinsam_veranlagt[
-                current_p_id_einstandspartner
+                current_p_id_ehepartner
             ]
 
             if current_gemeinsam_veranlagt != gemeinsam_veranlagt_ehepartner:
                 message = (
-                    f"{current_p_id_einstandspartner} and {current_p_id} are "
+                    f"{current_p_id_ehepartner} and {current_p_id} are "
                     "married, but have different values for "
                     "gemeinsam_veranlagt."
                 )
                 raise ValueError(message)
 
             if current_gemeinsam_veranlagt:
-                result.append(p_id_to_sn_id[current_p_id_einstandspartner])
+                result.append(p_id_to_sn_id[current_p_id_ehepartner])
                 continue
 
         # New Steuersubjekt

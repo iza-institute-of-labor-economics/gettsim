@@ -8,8 +8,6 @@ inputs:
       - 20
     hh_id:
       - 20
-    tu_id:
-      - 20
     bruttolohn_m:
       - 800.0
     wohnort_ost:

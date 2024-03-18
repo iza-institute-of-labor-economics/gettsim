@@ -10,35 +10,38 @@ inputs:
     hh_id:
       - 3
       - 3
-    tu_id:
-      - 3
+    p_id_ehepartner:
+      - 4
       - 3
     kind:
       - false
       - false
-    zu_verst_eink_kein_kinderfreib:
-      - 100000.0
-      - 100000.0
-    zu_verst_eink_kinderfreib:
-      - 100000.0
-      - 100000.0
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
+      - 200000.0
+      - 200000.0
+    _zu_verst_eink_mit_kinderfreib_y_sn:
+      - 200000.0
+      - 200000.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
-    zusammen_veranlagt:
+    gemeinsam_veranlagt:
       - true
       - true
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_tu:
+  anz_personen_sn:
+    - 2
+    - 2
+  eink_st_ohne_kinderfreib_y_sn:
     - 62794.0
     - 62794.0
-  eink_st_mit_kinderfreib_y_tu:
+  eink_st_mit_kinderfreib_y_sn:
     - 62794.0
     - 62794.0
-  abgelt_st_y_tu:
+  abgelt_st_y_sn:
     - 0.0
     - 0.0
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 3157.55
     - 3157.55

@@ -7,12 +7,27 @@ inputs:
     p_id:
       - 24
       - 25
-    tu_id:
-      - 19
-      - 19
     hh_id:
       - 19
       - 19
+    p_id_einstandspartner:
+      - 25
+      - 24
+    p_id_ehepartner:
+      - 25
+      - 24
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
+    eigenbedarf_gedeckt:
+      - false
+      - false
     jahr:
       - 2020
       - 2020
@@ -46,7 +61,7 @@ inputs:
     schwerbeh_g:
       - false
       - true
-    vermögen_bedürft_hh:
+    vermögen_bedürft_eg:
       - 0.0
       - 0.0
     alleinerz:
@@ -67,22 +82,22 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
     sozialv_beitr_m:
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_eg:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvors_m_eg:
       - 0.0
       - 0.0
     elterngeld_m:
@@ -105,6 +120,6 @@ inputs:
       - 1950
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_eg:
     - 210.13
     - 210.13

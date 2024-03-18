@@ -6,10 +6,12 @@ inputs:
   provided:
     hh_id:
       - 6
-    tu_id:
-      - 19
     p_id:
       - 19
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
     bruttolohn_m:
@@ -18,9 +20,9 @@ inputs:
       - 900.0
     wohnort_ost:
       - false
-    eink_st_m:
+    eink_st_y_sn:
       - 7.68
-    soli_st_m:
+    soli_st_y_sn:
       - 0.0
     sozialv_beitr_m:
       - 180.0

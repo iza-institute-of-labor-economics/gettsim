@@ -6,7 +6,6 @@ from _gettsim.aggregation import (
     grouped_all,
     grouped_any,
     grouped_count,
-    grouped_cumsum,
     grouped_max,
     grouped_mean,
     grouped_min,
@@ -50,7 +49,6 @@ test_grouped_specs = {
         "expected_res_count": np.array([2, 2, 3, 3, 3]),
         "expected_res_any": np.array([True, True, True, True, True]),
         "expected_res_all": np.array([True, True, True, True, True]),
-        "expected_res_cumsum": np.array([1, 2, 1, 2, 3]),
     },
     "constant_column_group_id_unsorted": {
         "column_to_aggregate": np.array([1.0, 1.0, 1.0, 1.0, 1.0]),
@@ -60,7 +58,6 @@ test_grouped_specs = {
         "expected_res_max": np.array([1, 1, 1, 1, 1]),
         "expected_res_min": np.array([1, 1, 1, 1, 1]),
         "expected_res_count": np.array([3, 2, 3, 2, 3]),
-        "expected_res_cumsum": np.array([1, 1, 2, 2, 3]),
     },
     "basic_case": {
         "column_to_aggregate": np.array([0, 1, 2, 3, 4]),
@@ -70,7 +67,6 @@ test_grouped_specs = {
         "expected_res_min": np.array([0, 0, 2, 2, 2]),
         "expected_res_any": np.array([True, True, True, True, True]),
         "expected_res_all": np.array([False, False, True, True, True]),
-        "expected_res_cumsum": np.array([0, 1, 2, 5, 9]),
     },
     "unique_group_ids_with_gaps": {
         "column_to_aggregate": np.array([0.0, 1.0, 2.0, 3.0, 4.0]),
@@ -80,7 +76,6 @@ test_grouped_specs = {
         "expected_res_max": np.array([1, 1, 4, 4, 4]),
         "expected_res_min": np.array([0, 0, 2, 2, 2]),
         "expected_res_count": np.array([2, 2, 3, 3, 3]),
-        "expected_res_cumsum": np.array([0, 1, 2, 5, 9]),
     },
     "float_column": {
         "column_to_aggregate": np.array([0, 1.5, 2, 3, 4]),
@@ -89,7 +84,6 @@ test_grouped_specs = {
         "expected_res_mean": np.array([0.75, 0.75, 3, 3, 3]),
         "expected_res_max": np.array([1.5, 1.5, 4, 4, 4]),
         "expected_res_min": np.array([0, 0, 2, 2, 2]),
-        "expected_res_cumsum": np.array([0, 1.5, 2, 5, 9]),
     },
     "more_than_two_groups": {
         "column_to_aggregate": np.array([0.0, 1.0, 2.0, 3.0, 4.0]),
@@ -99,7 +93,6 @@ test_grouped_specs = {
         "expected_res_max": np.array([3, 1, 3, 3, 4]),
         "expected_res_min": np.array([0, 1, 0, 0, 4]),
         "expected_res_count": np.array([3, 1, 3, 3, 1]),
-        "expected_res_cumsum": np.array([0, 1, 2, 5, 4]),
     },
     "basic_case_bool": {
         "column_to_aggregate": np.array([True, False, True, False, False]),
@@ -107,7 +100,6 @@ test_grouped_specs = {
         "expected_res_any": np.array([True, True, True, True, True]),
         "expected_res_all": np.array([False, False, False, False, False]),
         "expected_res_sum": np.array([1, 1, 1, 1, 1]),
-        "expected_res_cumsum": np.array([1, 1, 1, 1, 1]),
     },
     "group_id_unsorted_bool": {
         "column_to_aggregate": np.array([True, False, True, True, True]),
@@ -115,7 +107,6 @@ test_grouped_specs = {
         "expected_res_any": np.array([True, True, True, True, True]),
         "expected_res_all": np.array([True, False, True, False, True]),
         "expected_res_sum": np.array([3, 1, 3, 1, 3]),
-        "expected_res_cumsum": np.array([1, 0, 2, 1, 3]),
     },
     "unique_group_ids_with_gaps_bool": {
         "column_to_aggregate": np.array([True, False, False, False, False]),
@@ -123,7 +114,6 @@ test_grouped_specs = {
         "expected_res_any": np.array([True, True, False, False, False]),
         "expected_res_all": np.array([False, False, False, False, False]),
         "expected_res_sum": np.array([1, 1, 0, 0, 0]),
-        "expected_res_cumsum": np.array([1, 1, 0, 0, 0]),
     },
     "sum_by_p_id_float": {
         "column_to_aggregate": np.array([10.0, 20.0, 30.0, 40.0, 50.0]),
@@ -190,7 +180,6 @@ test_grouped_raises_specs = {
         "error_mean": TypeError,
         "error_max": TypeError,
         "error_min": TypeError,
-        "error_cumsum": TypeError,
         "error_sum_by_p_id": TypeError,
         "exception_match": "The dtype of id columns must be integer.",
     },
@@ -225,7 +214,6 @@ if not USE_JAX:
         "error_min": TypeError,
         "error_any": TypeError,
         "error_all": TypeError,
-        "error_cumsum": TypeError,
         "exception_match": "grouped_",
     }
     test_grouped_raises_specs["datetime"] = {
@@ -298,20 +286,6 @@ def test_grouped_max(column_to_aggregate, group_id, expected_res_max):
 def test_grouped_min(column_to_aggregate, group_id, expected_res_min):
     result = grouped_min(column_to_aggregate, group_id)
     numpy.testing.assert_array_equal(result, expected_res_min)
-
-
-@pytest.mark.xfail()
-@parameterize_based_on_dict(
-    test_grouped_specs,
-    keys_of_test_cases=[
-        "column_to_aggregate",
-        "group_id",
-        "expected_res_cumsum",
-    ],
-)
-def test_grouped_cumsum(column_to_aggregate, group_id, expected_res_cumsum):
-    result = grouped_cumsum(column_to_aggregate, group_id)
-    numpy.testing.assert_array_almost_equal(result, expected_res_cumsum)
 
 
 @parameterize_based_on_dict(
@@ -451,26 +425,6 @@ def test_grouped_all_raises(column_to_aggregate, group_id, error_all, exception_
         match=exception_match,
     ):
         grouped_all(column_to_aggregate, group_id)
-
-
-@pytest.mark.xfail()
-@parameterize_based_on_dict(
-    test_grouped_raises_specs,
-    keys_of_test_cases=[
-        "column_to_aggregate",
-        "group_id",
-        "error_cumsum",
-        "exception_match",
-    ],
-)
-def test_grouped_cumsum_raises(
-    column_to_aggregate, group_id, error_cumsum, exception_match
-):
-    with pytest.raises(
-        error_cumsum,
-        match=exception_match,
-    ):
-        grouped_cumsum(column_to_aggregate, group_id)
 
 
 @parameterize_based_on_dict(

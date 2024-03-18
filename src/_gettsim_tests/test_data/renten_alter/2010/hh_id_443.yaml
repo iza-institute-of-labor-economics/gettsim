@@ -8,8 +8,6 @@ inputs:
       - 443
     hh_id:
       - 443
-    tu_id:
-      - 443
     alter:
       - 60
     jahr:

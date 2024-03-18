@@ -298,7 +298,7 @@ def erziehungsgeld_anspruch_eltern(
 @dates_active(start="2004-01-01", end="2008-12-31")
 def erziehungsgeld_eink_relev_kind_y(
     bruttolohn_vorj_y_fg: float,
-    anz_erwachsene_tu: int,
+    anz_erwachsene_fg: int,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_params: dict,
     eink_st_abzuege_params: dict,
@@ -314,8 +314,8 @@ def erziehungsgeld_eink_relev_kind_y(
     ----------
     bruttolohn_vorj_y_fg
         See :func:`bruttolohn_vorj_y_fg`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    anz_erwachsene_fg
+        See :func:`anz_erwachsene_fg`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
     erziehungsgeld_params
@@ -327,13 +327,11 @@ def erziehungsgeld_eink_relev_kind_y(
     -------
     Relevant income
     """
-    # TODO(@MImmesberger): Replace `anz_erwachsene_tu` with `anz_erwachsene_fg`
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/670
 
     if erziehungsgeld_anspruch_kind:
         out = (
             bruttolohn_vorj_y_fg
-            - eink_st_abzuege_params["werbungskostenpauschale"] * anz_erwachsene_tu
+            - eink_st_abzuege_params["werbungskostenpauschale"] * anz_erwachsene_fg
         ) * erziehungsgeld_params["pauschal_abzug_auf_einkommen"]
     else:
         out = 0.0
@@ -343,7 +341,7 @@ def erziehungsgeld_eink_relev_kind_y(
 @dates_active(start="2004-01-01", end="2008-12-31")
 def _erziehungsgeld_einkommensgrenze_kind_y(
     _erziehungsgeld_einkommensgrenze_vor_aufschl: float,
-    anz_kinder_mit_kindergeld_tu: float,
+    anz_kinder_mit_kindergeld_fg: float,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_params: dict,
 ) -> float:
@@ -355,8 +353,8 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
     ----------
     _erziehungsgeld_einkommensgrenze_vor_aufschl
         See :func:`_erziehungsgeld_einkommensgrenze_vor_aufschl`.
-    anz_kinder_mit_kindergeld_tu
-        See :func:`anz_kinder_mit_kindergeld_tu`.
+    anz_kinder_mit_kindergeld_fg
+        See :func:`anz_kinder_mit_kindergeld_fg`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
     erziehungsgeld_params
@@ -366,13 +364,10 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
     -------
     income threshold for parental leave benefit (Erziehungsgeld) on child level
     """
-    # TODO(@MImmesberger): Replace `anz_kinder_mit_kindergeld_tu` with
-    # `anz_kinder_mit_kindergeld_fg`
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/670
 
     out = (
         _erziehungsgeld_einkommensgrenze_vor_aufschl
-        + (anz_kinder_mit_kindergeld_tu - 1)
+        + (anz_kinder_mit_kindergeld_fg - 1)
         * erziehungsgeld_params["aufschlag_einkommen"]
     )
     if not erziehungsgeld_anspruch_kind:

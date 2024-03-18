@@ -8,8 +8,6 @@ inputs:
       - 737
     hh_id:
       - 737
-    tu_id:
-      - 737
     alter:
       - 60
     jahr:

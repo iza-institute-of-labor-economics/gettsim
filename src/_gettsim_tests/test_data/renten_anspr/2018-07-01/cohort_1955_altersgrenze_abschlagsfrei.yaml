@@ -8,8 +8,6 @@ inputs:
       - 6
     hh_id:
       - 6
-    tu_id:
-      - 6
     geburtsjahr:
       - 1955
     geburtsmonat:

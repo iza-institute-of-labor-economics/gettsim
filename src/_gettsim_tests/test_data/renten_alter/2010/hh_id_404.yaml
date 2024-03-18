@@ -8,8 +8,6 @@ inputs:
       - 404
     hh_id:
       - 404
-    tu_id:
-      - 404
     alter:
       - 60
     jahr:

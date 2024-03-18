@@ -157,16 +157,16 @@ class TestCreateFunctionsForTimeUnits:
         [
             ("test_y", ["test_m", "test_w", "test_d"]),
             ("test_y_hh", ["test_m_hh", "test_w_hh", "test_d_hh"]),
-            ("test_y_tu", ["test_m_tu", "test_w_tu", "test_d_tu"]),
+            ("test_y_sn", ["test_m_sn", "test_w_sn", "test_d_sn"]),
             ("test_m", ["test_y", "test_w", "test_d"]),
             ("test_m_hh", ["test_y_hh", "test_w_hh", "test_d_hh"]),
-            ("test_m_tu", ["test_y_tu", "test_w_tu", "test_d_tu"]),
+            ("test_m_sn", ["test_y_sn", "test_w_sn", "test_d_sn"]),
             ("test_w", ["test_y", "test_m", "test_d"]),
             ("test_w_hh", ["test_y_hh", "test_m_hh", "test_d_hh"]),
-            ("test_w_tu", ["test_y_tu", "test_m_tu", "test_d_tu"]),
+            ("test_w_sn", ["test_y_sn", "test_m_sn", "test_d_sn"]),
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
-            ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
+            ("test_d_sn", ["test_y_sn", "test_m_sn", "test_w_sn"]),
         ],
     )
     def test_should_create_functions_for_other_time_units_for_functions(
@@ -184,16 +184,16 @@ class TestCreateFunctionsForTimeUnits:
         [
             ("test_y", ["test_m", "test_w", "test_d"]),
             ("test_y_hh", ["test_m_hh", "test_w_hh", "test_d_hh"]),
-            ("test_y_tu", ["test_m_tu", "test_w_tu", "test_d_tu"]),
+            ("test_y_sn", ["test_m_sn", "test_w_sn", "test_d_sn"]),
             ("test_m", ["test_y", "test_w", "test_d"]),
             ("test_m_hh", ["test_y_hh", "test_w_hh", "test_d_hh"]),
-            ("test_m_tu", ["test_y_tu", "test_w_tu", "test_d_tu"]),
+            ("test_m_sn", ["test_y_sn", "test_w_sn", "test_d_sn"]),
             ("test_w", ["test_y", "test_m", "test_d"]),
             ("test_w_hh", ["test_y_hh", "test_m_hh", "test_d_hh"]),
-            ("test_w_tu", ["test_y_tu", "test_m_tu", "test_d_tu"]),
+            ("test_w_sn", ["test_y_sn", "test_m_sn", "test_d_sn"]),
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
-            ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
+            ("test_d_sn", ["test_y_sn", "test_m_sn", "test_w_sn"]),
         ],
     )
     def test_should_create_functions_for_other_time_units_for_data_cols(

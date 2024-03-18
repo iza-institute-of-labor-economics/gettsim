@@ -8,14 +8,18 @@ inputs:
       - 7
       - 7
       - 7
-    tu_id:
-      - 7
-      - 7
-      - 7
     p_id:
       - 71
       - 72
       - 73
+    p_id_ehepartner:
+      - 72
+      - 71
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -32,11 +36,11 @@ inputs:
       - false
       - false
       - false
-    eink_st_m:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    soli_st_m:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0

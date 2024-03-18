@@ -54,15 +54,15 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         the keys of the dictionary are used as a name instead of the function name. For
         all other objects, the name is inferred from the function name.
     aggregate_by_group_specs : dict, default None
-        A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
+        A dictionary which contains specs for functions which aggregate variables on the
+        aggregation levels specified in config.py. The syntax is the same as for
+        aggregation specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
     aggregate_by_p_id_specs : dict, default None
         A dictionary which contains specs for linking aggregating taxes and by another
         individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -241,18 +241,6 @@ def _process_and_check_data(data):
         )
     # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
-
-    # Check that tu_id and hh_id are matching. As long as we have not fixed the
-    # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
-    # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
-    # unit within a household.
-    # TODO (@hmgaudecker): Remove check once groupings allow for it.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601
-    if ("tu_id" in data) and ("hh_id" in data):
-        assert (
-            not data["tu_id"].groupby(data["hh_id"]).std().max() > 0
-        ), "We currently allow for only one tax unit within each household"
-
     _fail_if_pid_is_non_unique(data)
     _fail_if_foreign_keys_are_invalid(data)
 

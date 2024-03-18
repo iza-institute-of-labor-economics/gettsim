@@ -12,14 +12,6 @@ inputs:
       - 7
       - 7
       - 7
-    tu_id:
-      - 7
-      - 7
-      - 7
-      - 7
-      - 7
-      - 7
-      - 7
     p_id:
       - 22
       - 23
@@ -76,7 +68,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -86,15 +78,15 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  kindergeld_m_tu:
+  kindergeld_m:
     - 1203
-    - 1203
-    - 1203
-    - 1203
-    - 1203
-    - 1203
-    - 1203
-  kinderbonus_m_tu:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  kinderbonus_m:
     - 0.0
     - 0.0
     - 0.0

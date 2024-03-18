@@ -67,7 +67,7 @@ inputs:
       - 1
       - 1
       - -1
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -95,3 +95,21 @@ outputs:
     - 300
     - 1
     - 300
+  eg_id:
+    - 0
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  ehe_id:
+    - 0
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6

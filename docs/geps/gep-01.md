@@ -42,7 +42,7 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_hh`), the group
+   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
    (i.e., the tax or transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
@@ -112,15 +112,15 @@ changed, even if it leads to long variable names (e.g., `kinderfreib`,
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_hh`), the group
+`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
 (i.e., the tax or transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
-The default unit a column refers to is an individual. In case a household or tax unit is
-the relevant unit, an underscore plus one of {`sn`, `hh`, `fg`, `bg`} will indicate the
-level of aggregation.
+The default unit a column refers to is an individual. In case of groupings of
+individuals, an underscore plus one of {`sn`, `hh`, `fg`, `bg`} will indicate the level
+of aggregation.
 
 GETTSIM knows about the following units:
 

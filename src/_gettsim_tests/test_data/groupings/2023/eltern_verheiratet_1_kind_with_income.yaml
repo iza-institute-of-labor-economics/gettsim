@@ -40,7 +40,7 @@ inputs:
       - true
       - true
       - false
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - true
       - true
       - true
@@ -57,15 +57,23 @@ inputs:
       - -1
       - 1
 outputs:
-  sn_id:
-    - 0
-    - 0
-    - 1
   fg_id:
     - 0
     - 0
     - 0
   bg_id:
+    - 0
+    - 0
+    - 1
+  eg_id:
+    - 0
+    - 0
+    - 1
+  ehe_id:
+    - 0
+    - 0
+    - 1
+  sn_id:
     - 0
     - 0
     - 1

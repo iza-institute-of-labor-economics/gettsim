@@ -8,15 +8,17 @@ inputs:
       - 7
     hh_id:
       - 7
-    tu_id:
-      - 7
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
-    eink_st_mit_kinderfreib_y_tu:
+    eink_st_mit_kinderfreib_y_sn:
       - 32027.0
-    abgelt_st_y_tu:
+    abgelt_st_y_sn:
       - 0.0
   assumed: {}
 outputs:
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 1723.6

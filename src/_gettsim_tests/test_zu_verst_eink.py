@@ -35,10 +35,10 @@ def test_zu_verst_eink(
     )
 
 
-def sum_test_data_tu(column, year_data):
+def sum_test_data_sn(column, year_data):
     return (
         year_data[column]
-        .groupby(year_data["tu_id"])
+        .groupby(year_data["sn_id"])
         .transform("sum")
-        .rename(column + "_tu")
+        .rename(column + "_sn")
     )

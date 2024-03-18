@@ -8,7 +8,6 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 INPUT_COLS = [
     "hh_id",
-    "tu_id",
     "p_id",
     "wohnort_ost",
     "steuerklasse",

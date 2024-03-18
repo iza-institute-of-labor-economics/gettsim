@@ -6,10 +6,20 @@ inputs:
   provided:
     p_id:
       - 7
-    tu_id:
-      - 5
     hh_id:
       - 5
+    p_id_einstandspartner:
+      - -1
+    p_id_ehepartner:
+      - -1
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    gemeinsam_veranlagt:
+      - false
+    eigenbedarf_gedeckt:
+      - false
     jahr:
       - 2021
     kind:
@@ -32,7 +42,7 @@ inputs:
       - true
     schwerbeh_g:
       - false
-    vermögen_bedürft_hh:
+    vermögen_bedürft_eg:
       - 0.0
     alleinerz:
       - false
@@ -46,17 +56,17 @@ inputs:
       - 0.0
     eink_vermietung_m:
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
     sozialv_beitr_m:
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_eg:
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvors_m_eg:
       - 0.0
     elterngeld_m:
       - 0.0
@@ -72,5 +82,5 @@ inputs:
       - 1953
   assumed: {}
 outputs:
-  grunds_im_alter_m_hh:
+  grunds_im_alter_m_eg:
     - 401.0

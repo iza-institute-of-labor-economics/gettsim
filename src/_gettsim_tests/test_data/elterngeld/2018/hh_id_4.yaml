@@ -7,12 +7,15 @@ inputs:
     hh_id:
       - 4
       - 4
-    tu_id:
-      - 4
-      - 4
     p_id:
       - 59
       - 57
+    p_id_ehepartner:
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
     kind:
       - true
       - false
@@ -25,10 +28,10 @@ inputs:
     wohnort_ost:
       - false
       - false
-    eink_st_m:
+    eink_st_y_sn:
       - 0.0
       - 779.33
-    soli_st_m:
+    soli_st_y_sn:
       - 0.0
       - 42.86
     sozialv_beitr_m:

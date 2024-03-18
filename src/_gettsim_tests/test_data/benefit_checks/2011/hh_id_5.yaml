@@ -12,10 +12,6 @@ inputs:
       - 5
       - 5
       - 5
-    tu_id:
-      - 5
-      - 5
-      - 5
     kind:
       - false
       - false
@@ -28,11 +24,11 @@ inputs:
       - 30
       - 40
       - 35
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
       - 0.0
-    _kinderzuschl_vor_vermög_check_m_tu:
+    _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -44,19 +40,19 @@ inputs:
       - 1703.0
       - 1703.0
       - 1703.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_hh:
+    kind_unterh_erhalt_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    unterhaltsvors_m_hh:
+    unterhaltsvors_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_hh:
+    arbeitsl_geld_2_eink_m_bg:
       - 1578.0
       - 1578.0
       - 1578.0

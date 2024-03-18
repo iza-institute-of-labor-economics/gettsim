@@ -45,7 +45,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     - Warning: Currently, earnings of dependent work and pensions are based on the last
       year, and other income on the current year instead of the year two years ago to
       avoid the need for several new input variables.
-    - Warning: Freibeträge for income are currently not considered as `freibeträge_y_tu`
+    - Warning: Freibeträge for income are currently not considered as `freibeträge_y`
       depends on pension income through `ges_krankenv_beitr_m` -> `vorsorgeaufw` ->
       `freibeträge`
 
@@ -83,8 +83,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
 
 @add_rounding_spec(params_key="ges_rente")
 def grundr_zuschlag_eink_m(
-    _grundr_zuschlag_eink_vor_freibetrag_m_tu: float,
-    gemeinsam_veranlagt_tu: bool,
+    _grundr_zuschlag_eink_vor_freibetrag_m_ehe: float,
+    p_id_ehepartner: int,
     rentenwert: float,
     ges_rente_params: dict,
 ) -> float:
@@ -99,10 +99,10 @@ def grundr_zuschlag_eink_m(
 
     Parameters
     ----------
-    _grundr_zuschlag_eink_vor_freibetrag_m_tu
-        See :func:`_grundr_zuschlag_eink_vor_freibetrag_m_tu`.
-    gemeinsam_veranlagt_tu
-        See :func:`gemeinsam_veranlagt_tu`.
+    _grundr_zuschlag_eink_vor_freibetrag_m_ehe
+        See :func:`_grundr_zuschlag_eink_vor_freibetrag_m_ehe`.
+    p_id_ehepartner
+        See :func:`p_id_ehepartner`.
     rentenwert
         See :func:`rentenwert`.
     ges_rente_params
@@ -116,14 +116,14 @@ def grundr_zuschlag_eink_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    if gemeinsam_veranlagt_tu:
+    if p_id_ehepartner >= 0:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_single"]
 
     out = (
         piecewise_polynomial(
-            x=_grundr_zuschlag_eink_vor_freibetrag_m_tu / rentenwert,
+            x=_grundr_zuschlag_eink_vor_freibetrag_m_ehe / rentenwert,
             thresholds=einkommensanr_params["thresholds"],
             rates=einkommensanr_params["rates"],
             intercepts_at_lower_thresholds=einkommensanr_params[

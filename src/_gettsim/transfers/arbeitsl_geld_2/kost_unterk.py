@@ -105,7 +105,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
 def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     wohnfläche_hh: float,
     bewohnt_eigentum_hh: bool,
-    haushaltsgröße_hh: int,
+    anz_personen_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate size of dwelling eligible to claim.
@@ -118,32 +118,33 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
         See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
     bewohnt_eigentum_hh
         See basic input variable :ref:`bewohnt_eigentum_hh <bewohnt_eigentum_hh>`.
-    haushaltsgröße_hh
-        See :func:`haushaltsgröße_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
 
     Returns
     -------
     Integer with the number of squaremeters.
 
     """
+
+    # TODO(@MImmesberger): Use variables on the bg level instead of hh level here.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/710
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
+    max_anzahl_direkt = params["max_anzahl_direkt"]
     if bewohnt_eigentum_hh:
-        if haushaltsgröße_hh <= 4:
-            maximum = params[haushaltsgröße_hh]
+        if anz_personen_hh <= max_anzahl_direkt:
+            maximum = params[anz_personen_hh]
         else:
-            maximum = params[4] + (haushaltsgröße_hh - 4) * params["je_weitere_person"]
+            maximum = (
+                params[max_anzahl_direkt]
+                + (anz_personen_hh - max_anzahl_direkt) * params["je_weitere_person"]
+            )
     else:
         maximum = (
             arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-            + max(haushaltsgröße_hh - 1, 0)
+            + max(anz_personen_hh - 1, 0)
             * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
                 "je_weitere_person"
             ]
         )
     return min(wohnfläche_hh, maximum)
-
-    # if bewohnt_eigentum_hh and haushaltsgröße_hh < 5:
-
-    # if not bewohnt_eigentum_hh:
-    #         * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
-    #             "je_weitere_person"

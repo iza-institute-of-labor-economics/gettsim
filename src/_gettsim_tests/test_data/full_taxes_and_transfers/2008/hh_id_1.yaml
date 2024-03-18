@@ -9,11 +9,6 @@ inputs:
       - 1
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
-      - 1
-      - 1
     p_id:
       - 1
       - 2
@@ -29,12 +24,32 @@ inputs:
       - -1
       - -1
       - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
     p_id_kindergeld_empf:
       - -1
       - -1
       - -1
       - -1
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 5500.0
       - 5500.0
       - 5500.0
@@ -139,6 +154,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    p_id_betreuungsk_träger:
+      - -1
+      - -1
+      - -1
+      - -1
     kapitaleink_brutto_m:
       - 200.0
       - 200.0

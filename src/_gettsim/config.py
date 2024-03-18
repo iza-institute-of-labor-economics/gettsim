@@ -75,12 +75,6 @@ SUPPORTED_GROUPINGS = {
         " unit for Wohngeld.",
         "potentially_endogenous": False,
     },
-    "tu": {
-        "name": "tax unit",
-        "description": "Obsolete. `sn` plus children.",
-        "nested_by": "hh",
-        "potentially_endogenous": False,
-    },
     "fg": {
         "name": "Familiengemeinschaft",
         "description": "Maximum of two generations, the relevant base unit for"
@@ -98,6 +92,16 @@ SUPPORTED_GROUPINGS = {
         "name": "Steuernummer",
         "description": "Spouses filing taxes jointly or individuals.",
         "potentially_endogenous": True,
+    },
+    "ehe": {
+        "name": "Ehepartner",
+        "description": "Couples that are either married or in a civil union.",
+        "potentially_endogenous": True,
+    },
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
     },
 }
 
@@ -117,34 +121,37 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_y_tu",
-    "soli_st_y_tu",
-    "abgelt_st_y_tu",
+    "eink_st_y_sn",
+    "soli_st_y_sn",
+    "abgelt_st_y_sn",
     "sozialv_beitr_m",
     "ges_rentenv_beitr_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
-    "grunds_im_alter_m_hh",
+    "grunds_im_alter_m_eg",
     "ges_rente_m",
     "erwerbsm_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
-    "tu_id": int,
     "p_id": int,
     "p_id_elternteil_1": int,
     "p_id_elternteil_2": int,
     "p_id_kindergeld_empf": int,
     "p_id_erziehgeld_empf": int,
-    "vermögen_bedürft_hh": float,
+    "p_id_ehepartner": int,
+    "p_id_einstandspartner": int,
+    "vermögen_bedürft_bg": float,
+    "eigenbedarf_gedeckt": bool,
+    "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
     "weiblich": bool,
@@ -165,6 +172,7 @@ TYPES_INPUT_VARIABLES = {
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
+    "p_id_betreuungsk_träger": int,
     "kapitaleink_brutto_m": float,
     "eink_vermietung_m": float,
     "bruttokaltmiete_m_hh": float,

@@ -8,7 +8,7 @@ from _gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 
 def arbeitsl_geld_m(
-    anz_kinder_tu: int,
+    _eink_st_kinderfreib_anz_ansprüche: int,
     arbeitsl_geld_berechtigt: bool,
     arbeitsl_geld_eink_vorj_proxy_m: float,
     arbeitsl_geld_params: dict,
@@ -17,8 +17,8 @@ def arbeitsl_geld_m(
 
     Parameters
     ----------
-    anz_kinder_tu
-        See :func:`anz_kinder_tu`.
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
     arbeitsl_geld_berechtigt
         See :func:`arbeitsl_geld_berechtigt`.
     arbeitsl_geld_eink_vorj_proxy_m
@@ -31,9 +31,9 @@ def arbeitsl_geld_m(
 
     """
 
-    if anz_kinder_tu == 0:
+    if _eink_st_kinderfreib_anz_ansprüche == 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-    elif anz_kinder_tu > 0:
+    elif _eink_st_kinderfreib_anz_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
     if arbeitsl_geld_berechtigt:

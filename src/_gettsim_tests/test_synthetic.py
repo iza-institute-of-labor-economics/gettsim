@@ -119,6 +119,10 @@ def test_alleinerziehend(synthetic_data_alleinerziehend):
         synthetic_data_alleinerziehend["alleinerz"],
         pd.Series([True, False], name="alleinerz"),
     )
+    pd.testing.assert_series_equal(
+        synthetic_data_alleinerziehend["gemeinsam_veranlagt"],
+        pd.Series([False, False], name="gemeinsam_veranlagt"),
+    )
 
 
 @pytest.mark.parametrize(
@@ -142,6 +146,7 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
             "bruttolohn_m",
             np.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
         ),
+        ("gemeinsam_veranlagt", [True, True, False] * 11),
     ],
 )
 def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous):
@@ -198,6 +203,14 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_erziehgeld_empf": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
+                "p_id_ehepartner": [
+                    i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
+                    for i in range(33)
+                ],
+                "p_id_einstandspartner": [
+                    i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
+                    for i in range(33)
+                ],
             },
         ),
         (
@@ -208,6 +221,8 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_elternteil_2": [-1, -1],
                 "p_id_kindergeld_empf": [-1, 0],
                 "p_id_erziehgeld_empf": [-1, 0],
+                "p_id_ehepartner": [-1, -1],
+                "p_id_einstandspartner": [-1, -1],
             },
         ),
         (
@@ -218,11 +233,13 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_elternteil_2": [-1, -1],
                 "p_id_kindergeld_empf": [-1, -1],
                 "p_id_erziehgeld_empf": [-1, -1],
+                "p_id_ehepartner": [1, 0],
+                "p_id_einstandspartner": [1, 0],
             },
         ),
     ],
 )
-def test_p_id_elternteil(fixture, expected, request):
+def test_p_id_groups(fixture, expected, request):
     df = request.getfixturevalue(fixture)
     for col, values in expected.items():
         pd.testing.assert_series_equal(df[col], pd.Series(values, name=col))

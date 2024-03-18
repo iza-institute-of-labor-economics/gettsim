@@ -12,9 +12,27 @@ inputs:
     hh_id:
       - 14
       - 14
-    tu_id:
-      - 14
-      - 14
+    p_id_ehepartner:
+      - 36
+      - 35
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - 36
+      - 35
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
+    eigenbedarf_gedeckt:
+      - false
+      - false
     kind:
       - false
       - false
@@ -57,16 +75,16 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
     sozialv_beitr_m:
       - 160.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
@@ -84,7 +102,7 @@ inputs:
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 12900.0
       - 12900.0
     geburtsjahr:

@@ -83,7 +83,7 @@ inputs:
       - -1
       - -1
       - -1
-    eigener_bedarf_gedeckt:
+    eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -91,13 +91,6 @@ inputs:
       - false
       - false
 outputs:
-  sn_id:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
   fg_id:
     - 0
     - 1
@@ -112,6 +105,27 @@ outputs:
     - 200
     - 200
     - 100
+  eg_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  ehe_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  sn_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
 #  - potentielle_kinderfreibeträge:
 #      - 2
 #      - 0

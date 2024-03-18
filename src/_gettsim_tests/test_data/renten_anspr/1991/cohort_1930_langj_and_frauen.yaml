@@ -8,8 +8,6 @@ inputs:
       - 23
     hh_id:
       - 23
-    tu_id:
-      - 23
     geburtsjahr:
       - 1930
     geburtsmonat:
