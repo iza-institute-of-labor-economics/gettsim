@@ -3,6 +3,8 @@ import datetime
 import pandas as pd
 import pytest
 import yaml
+from pandas._testing import assert_series_equal
+
 from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     PATHS_TO_INTERNAL_FUNCTIONS,
@@ -132,7 +134,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     calc_result = compute_taxes_and_transfers(
         data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
-    np.array_equal(calc_result["test_func"].values, np.array(exp_output))
+    assert_series_equal(calc_result["test_func"], pd.Series(exp_output), check_names=False)
 
 
 @pytest.mark.parametrize(
@@ -161,9 +163,13 @@ def test_no_rounding(
         ] = to_add_after_rounding
 
     calc_result = compute_taxes_and_transfers(
-        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
+        data=data,
+        params=rounding_specs,
+        functions=[test_func],
+        targets=["test_func"],
+        rounding=False
     )
-    np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
+    assert_series_equal(calc_result["test_func"], pd.Series(input_values_exp_output), check_names=False)
 
 
 @pytest.mark.parametrize(
@@ -187,7 +193,7 @@ def test_rounding_callable(
         to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
     )(test_func)
 
-    np.array_equal(func_with_rounding(pd.Series(input_values)), np.array(exp_output))
+    assert_series_equal(func_with_rounding(pd.Series(input_values)), pd.Series(exp_output), check_names=False)
 
 
 def test_decorator_for_all_functions_with_rounding_spec():
