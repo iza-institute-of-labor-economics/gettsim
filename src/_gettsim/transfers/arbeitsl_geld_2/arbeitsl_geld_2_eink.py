@@ -35,16 +35,13 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     Income of a person by unemployment insurance.
 
     """
-
-    out = (
+    return (
         arbeitsl_geld_2_bruttoeink_m
         - (eink_st_y_sn / 12 / anz_personen_sn)
         - (soli_st_y_sn / 12 / anz_personen_sn)
         - sozialv_beitr_m
         - arbeitsl_geld_2_eink_anr_frei_m
     )
-
-    return max(out, 0.0)
 
 
 def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
