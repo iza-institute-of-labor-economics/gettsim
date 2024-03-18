@@ -6,6 +6,7 @@ channels:
 dependencies:
   - astor
   - dags
+  - flatten-dict
   - ipywidgets
   - jupyterlab
   - myst-parser
@@ -19,6 +20,7 @@ dependencies:
   - pip
   - plotly
   - pre-commit
+  - pybaum
   - pydata-sphinx-theme
   - pygments
   - pygraphviz
