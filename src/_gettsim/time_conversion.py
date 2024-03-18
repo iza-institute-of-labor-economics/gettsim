@@ -353,9 +353,7 @@ def _create_function_for_time_unit(
     if info is not None:
         # The derived function should not be rounded (see #712)
         func.__info__ = {
-            key: value
-            for key, value in info.items()
-            if key != "rounding_params_key"
+            key: value for key, value in info.items() if key != "rounding_params_key"
         }
 
     return func
