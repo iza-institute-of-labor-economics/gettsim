@@ -32,7 +32,9 @@ def kinderzuschl_bruttoeink_eltern_m(
     -------
 
     """
-
+    # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
+    # who do not have Kindergeld claims.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
     if erwachsen and (not kindergeld_anspruch):
         out = arbeitsl_geld_2_bruttoeink_m
     else:
@@ -63,6 +65,9 @@ def kinderzuschl_eink_eltern_m(
     -------
 
     """
+    # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
+    # who do not have Kindergeld claims.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
     if erwachsen and (not kindergeld_anspruch):
         out = arbeitsl_geld_2_eink_m
     else:
