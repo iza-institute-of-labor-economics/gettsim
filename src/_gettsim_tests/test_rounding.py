@@ -137,6 +137,35 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     assert_series_equal(calc_result["test_func"], pd.Series(exp_output), check_names=False)
 
 
+def test_rounding_with_time_conversion():
+    """Check if rounding is correct for time-converted functions."""
+
+    # Define function that should be rounded
+    @add_rounding_spec(params_key="params_key_test")
+    def test_func_m(income):
+        return income
+
+    data = pd.DataFrame({
+        "p_id": [1, 2],
+        "income": [1.2, 1.5]
+    })
+    rounding_specs = {
+        "params_key_test": {
+            "rounding": {
+                "test_func_m": {
+                    "base": 1,
+                    "direction": "down",
+                }
+            }
+        }
+    }
+
+    calc_result = compute_taxes_and_transfers(
+        data=data, params=rounding_specs, functions=[test_func_m], targets=["test_func_y"]
+    )
+    assert_series_equal(calc_result["test_func_y"], pd.Series([12.0, 12.0]), check_names=False)
+
+
 @pytest.mark.parametrize(
     "base, direction, to_add_after_rounding, input_values_exp_output, _ignore",
     rounding_specs_and_exp_results,
