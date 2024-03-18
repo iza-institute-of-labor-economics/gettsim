@@ -4,8 +4,8 @@ from _gettsim.shared import dates_active
 
 def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
     anz_personen_sn: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
@@ -21,10 +21,10 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_eink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     arbeitsl_geld_2_eink_anr_frei_m
@@ -38,8 +38,8 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
 
     out = (
         arbeitsl_geld_2_bruttoeink_m
-        - (eink_st_m_sn / anz_personen_sn)
-        - (soli_st_m_sn / anz_personen_sn)
+        - (eink_st_y_sn / 12 / anz_personen_sn)
+        - (soli_st_y_sn / 12 / anz_personen_sn)
         - sozialv_beitr_m
         - arbeitsl_geld_2_eink_anr_frei_m
     )
@@ -103,8 +103,8 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 @dates_active(end="2005-09-30")
 def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
     anz_personen_sn: int,
     sozialv_beitr_m: float,
     arbeitsl_geld_2_params: dict,
@@ -117,10 +117,10 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     sozialv_beitr_m
@@ -136,8 +136,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             bruttolohn_m
-            - (eink_st_m_sn / anz_personen_sn)
-            - (soli_st_m_sn / anz_personen_sn)
+            - (eink_st_y_sn / anz_personen_sn / 12)
+            - (soli_st_y_sn / anz_personen_sn / 12)
             - sozialv_beitr_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]

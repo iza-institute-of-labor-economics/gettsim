@@ -266,8 +266,8 @@ def _elterngeld_anz_mehrlinge_anspruch(
 
 def elterngeld_nettolohn_m(
     bruttolohn_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
     anz_personen_sn: int,
     sozialv_beitr_m: float,
 ) -> float:
@@ -280,10 +280,10 @@ def elterngeld_nettolohn_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     sozialv_beitr_m
@@ -295,8 +295,8 @@ def elterngeld_nettolohn_m(
     """
     out = (
         bruttolohn_m
-        - (eink_st_m_sn / anz_personen_sn)
-        - (soli_st_m_sn / anz_personen_sn)
+        - (eink_st_y_sn / anz_personen_sn / 12)
+        - (soli_st_y_sn / anz_personen_sn / 12)
         - sozialv_beitr_m
     )
 
