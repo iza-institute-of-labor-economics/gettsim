@@ -8,7 +8,6 @@ from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions_loader import _load_functions
 from _gettsim.interface import (
     _add_rounding_to_functions,
@@ -17,6 +16,7 @@ from _gettsim.interface import (
 )
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import add_rounding_spec
+from pandas._testing import assert_series_equal
 
 rounding_specs_and_exp_results = [
     (1, "up", None, [100.24, 100.78], [101.0, 101.0]),
@@ -132,7 +132,40 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     calc_result = compute_taxes_and_transfers(
         data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
     )
-    np.array_equal(calc_result["test_func"].values, np.array(exp_output))
+    assert_series_equal(
+        calc_result["test_func"], pd.Series(exp_output), check_names=False
+    )
+
+
+def test_rounding_with_time_conversion():
+    """Check if rounding is correct for time-converted functions."""
+
+    # Define function that should be rounded
+    @add_rounding_spec(params_key="params_key_test")
+    def test_func_m(income):
+        return income
+
+    data = pd.DataFrame({"p_id": [1, 2], "income": [1.2, 1.5]})
+    rounding_specs = {
+        "params_key_test": {
+            "rounding": {
+                "test_func_m": {
+                    "base": 1,
+                    "direction": "down",
+                }
+            }
+        }
+    }
+
+    calc_result = compute_taxes_and_transfers(
+        data=data,
+        params=rounding_specs,
+        functions=[test_func_m],
+        targets=["test_func_y"],
+    )
+    assert_series_equal(
+        calc_result["test_func_y"], pd.Series([12.0, 12.0]), check_names=False
+    )
 
 
 @pytest.mark.parametrize(
@@ -161,9 +194,15 @@ def test_no_rounding(
         ] = to_add_after_rounding
 
     calc_result = compute_taxes_and_transfers(
-        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
+        data=data,
+        params=rounding_specs,
+        functions=[test_func],
+        targets=["test_func"],
+        rounding=False,
     )
-    np.array_equal(calc_result["test_func"].values, np.array(input_values_exp_output))
+    assert_series_equal(
+        calc_result["test_func"], pd.Series(input_values_exp_output), check_names=False
+    )
 
 
 @pytest.mark.parametrize(
@@ -187,7 +226,11 @@ def test_rounding_callable(
         to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
     )(test_func)
 
-    np.array_equal(func_with_rounding(pd.Series(input_values)), np.array(exp_output))
+    assert_series_equal(
+        func_with_rounding(pd.Series(input_values)),
+        pd.Series(exp_output),
+        check_names=False,
+    )
 
 
 def test_decorator_for_all_functions_with_rounding_spec():
