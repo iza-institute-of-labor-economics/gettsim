@@ -14,4 +14,5 @@ code-of-conduct
 how-to-contribute
 code-restrictions
 how-to-maintain
+hh_concepts
 ```
