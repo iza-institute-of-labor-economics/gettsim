@@ -756,37 +756,58 @@ regelaltersgrenze:
     en: Entry age for receiving regelaltersrente - normal retirement age (NRA)
   description:
     de: >-
-      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das
-      Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
-      früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
-      höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
+      Regelaltersgrenze ab der Renteneintritt möglich ist. Wenn früher oder später in
+      Rente gegangen wird, wird der Zugangsfaktor und damit der Rentenanspruch höher
+      oder niedriger, sofern keine Sonderregelungen gelten.
     en: >-
-      Piecewise linear function returning the statutory normal retirement age
-      ("regelaltersgrenze") at which the agent is allowed to get pensions without
-      deductions. If the agent retires earlier or later, the Zugangsfaktor and therefore
-      the pension claim is higher or lower, unless special conditions apply.
+      Normal retirement age from which pension can be received. If retirement benefits
+      are claimed earlier or later, the Zugangsfaktor and thus the pension entitlement
+      is higher or lower unless special regulations apply.
   reference: § 35 Satz 2 SGB VI
-  note:
-    de: >-
-      Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
-      Ab einschließlich Jahrgang 1964 gilt NRA 67.
-    en: null
-  type: piecewise_linear
-  1984-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1946
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
-    1:
-      upper_threshold: 1958
-      rate_linear: 0.083333333
-    2:
-      upper_threshold: 1964
-      rate_linear: 0.16666666
-    3:
-      upper_threshold: inf
-      rate_linear: 0
+  1957-02-26:
+    reference: Rentenreformgesetz 1957 BGBl. I S. 88
+    scalar: 65.0
+  2007-04-20:
+    reference: RV-Altersgrenzenanpassungsgesetz 20.04.2007. BGBl. I S. 554
+    note: Increase of the early retirement age from 60 to 63 for birth cohort 1946-1948.
+    max_birthyear_old_regime: 1946
+    min_birthyear_new_regime: 1964
+    normal_retirement_age_old_regime: 65.0
+    normal_retirement_age_new_regime: 67.0
+    1947:
+      scalar: 65.083333
+    1948:
+      scalar: 65.166667
+    1949:
+      scalar: 65.25
+    1950:
+      scalar: 65.333333
+    1951:
+      scalar: 65.416667
+    1952:
+      scalar: 65.5
+    1953:
+      scalar: 65.583333
+    1954:
+      scalar: 65.666667
+    1955:
+      scalar: 65.75
+    1956:
+      scalar: 65.833333
+    1957:
+      scalar: 65.916667
+    1958:
+      scalar: 66
+    1959:
+      scalar: 66.166667
+    1960:
+      scalar: 66.333333
+    1961:
+      scalar: 66.5
+    1962:
+      scalar: 66.666667
+    1963:
+      scalar: 66.833333
 altersgrenze_für_frauen_abschlagsfrei:
   name:
     de: Eintrittsalter für Altersrente für Frauen
