@@ -761,7 +761,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     return out
 
 
-@dates_active(end="1991-12-31", change_name="_ges_rente_arbeitsl_altersgrenze")
+@dates_active(end="1989-12-17", change_name="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -789,7 +789,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
 
 @dates_active(
-    start="1992-01-01", end="1996-07-28", change_name="_ges_rente_arbeitsl_altersgrenze"
+    start="1989-12-18", end="1996-07-28", change_name="_ges_rente_arbeitsl_altersgrenze"
 )
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
@@ -1077,7 +1077,7 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@dates_active(end="1991-12-31", change_name="ges_rente_arbeitsl_vorzeitig")
+@dates_active(end="1989-12-17", change_name="ges_rente_arbeitsl_vorzeitig")
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -1104,6 +1104,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
+@dates_active(end="2017-12-31")
 def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1154,7 +1155,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
 
 @dates_active(
-    start="1992-01-01", end="1996-07-28", change_name="ges_rente_arbeitsl_vorzeitig"
+    start="1989-12-18", end="1996-07-28", change_name="ges_rente_arbeitsl_vorzeitig"
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
