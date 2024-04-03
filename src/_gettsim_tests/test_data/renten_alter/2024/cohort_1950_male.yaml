@@ -1,0 +1,28 @@
+---
+info:
+  note: ''
+  source: Made up from the law
+inputs:
+  provided:
+    p_id:
+      - 0
+    hh_id:
+      - 0
+    geburtsjahr:
+      - 1950
+    geburtsmonat:
+      - 1
+    weiblich:
+      - false
+    vertra_arbeitsl_1997:
+      - false
+    vertra_arbeitsl_2006:
+      - false
+  assumed: {}
+outputs:
+  ges_rente_regelaltersgrenze:
+    - 65.333333
+  _ges_rente_langj_altersgrenze:
+    - 65.333333
+  _ges_rente_besond_langj_altersgrenze:
+    - 65.0
