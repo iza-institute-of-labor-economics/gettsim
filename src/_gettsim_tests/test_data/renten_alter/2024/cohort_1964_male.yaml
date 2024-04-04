@@ -13,9 +13,9 @@ inputs:
       - 1
       - 2
     geburtsjahr:
-      - 1950
-      - 1950
-      - 1950
+      - 1964
+      - 1964
+      - 1964
     geburtsmonat:
       - 1
       - 1
@@ -35,30 +35,30 @@ inputs:
   assumed: {}
 outputs:
   ges_rente_regelaltersgrenze:
-    - 65.333333
-    - 65.333333
-    - 65.333333
+    - 67.0
+    - 67.0
+    - 67.0
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 65.333333
-    - 63.0
-    - 65.333333
+    - 67.0
+    - 65.0
+    - 67.0
   _ges_rente_altersgrenze_vorzeitig:
     - 63.0
     - 63.0
-    - 65.333333
+    - 67.0
   _ges_rente_langj_altersgrenze:
-    - 65.333333
-    - 65.333333
-    - 65.333333
+    - 67.0
+    - 67.0
+    - 67.0
   _ges_rente_langj_vorzeitig:
     - 63.0
     - 63.0
     - 63.0
   _ges_rente_besond_langj_altersgrenze:
-    - 63.0
-    - 63.0
-    - 63.0
+    - 65.0
+    - 65.0
+    - 65.0
   referenzalter_abschlag:
-    - 65.333333
-    - 65.333333
-    - 65.333333
+    - 67.0
+    - 67.0
+    - 67.0

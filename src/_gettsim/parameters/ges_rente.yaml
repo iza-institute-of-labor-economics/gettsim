@@ -801,7 +801,7 @@ regelaltersgrenze:
     1957:
       scalar: 65.916667
     1958:
-      scalar: 66
+      scalar: 66.0
     1959:
       scalar: 66.166667
     1960:
@@ -1990,7 +1990,6 @@ altersgrenze_langj_versicherte_abschlagsfrei:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/242-altersrente-fuer-langjaehrig-versicherte-altersgrenzen.html
     en: null
-  type: piecewise_linear
   1980-01-01:
     scalar: 63.0
   1989-12-18:
@@ -2197,7 +2196,6 @@ altersgrenze_besond_langj_versicherte:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
     en: null
-  type: piecewise_linear
   2012-01-01:
     reference: RV-Altersgrenzenanpassungsgesetz 2007. BGBl. I S. 554 2007
     scalar: 65.0
