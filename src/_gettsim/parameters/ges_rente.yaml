@@ -1946,7 +1946,7 @@ altersgrenze_arbeitsl_vorzeitig:
 first_birthyear_without_rente_für_arbeitsl:
   reference: Rentenreformgesetz 1999. BGBl. I S. 2998 1997
   note: Abolishment starting from birth cohort 1952.
-  2007-04-20:
+  1997-12-16:
     scalar: 1952
 altersgrenze_langj_versicherte_vorzeitig:
   name:
