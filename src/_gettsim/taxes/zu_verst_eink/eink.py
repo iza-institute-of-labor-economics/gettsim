@@ -198,7 +198,7 @@ def kapitaleink_y(
     return max(out, 0.0)
 
 
-@policy_info(end="2008-12-31", change_name="sum_eink_y")
+@policy_info(end_date="2008-12-31", change_name="sum_eink_y")
 def sum_eink_mit_kapital_eink_y(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,

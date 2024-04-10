@@ -39,7 +39,7 @@ def kinderzuschl_m_bg(
 
 
 @policy_info(
-    end="2019-06-30",
+    end_date="2019-06-30",
     change_name="_kinderzuschl_vor_vermög_check_m_bg",
 )
 def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913

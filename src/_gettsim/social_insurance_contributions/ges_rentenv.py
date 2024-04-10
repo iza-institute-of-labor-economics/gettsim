@@ -1,7 +1,7 @@
 from _gettsim.shared import policy_info
 
 
-@policy_info(end="2003-03-31", change_name="ges_rentenv_beitr_m")
+@policy_info(end_date="2003-03-31", change_name="ges_rentenv_beitr_m")
 def ges_rentenv_beitr_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -77,7 +77,7 @@ def ges_rentenv_beitr_m_mit_midijob(
     return out
 
 
-@policy_info(end="2003-03-31", change_name="ges_rentenv_beitr_arbeitg_m")
+@policy_info(end_date="2003-03-31", change_name="ges_rentenv_beitr_arbeitg_m")
 def ges_rentenv_beitr_arbeitg_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -186,7 +186,7 @@ def _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 
 
 @policy_info(
-    end="2022-09-30",
+    end_date="2022-09-30",
     change_name="_ges_rentenv_beitr_midijob_arbeitg_m",
 )
 def _ges_rentenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
@@ -236,7 +236,7 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_residuum(
 
 
 @policy_info(
-    end="2022-09-30",
+    end_date="2022-09-30",
     change_name="_ges_rentenv_beitr_midijob_arbeitn_m",
 )
 def _ges_rentenv_beitr_midijob_arbeitn_m_residuum(

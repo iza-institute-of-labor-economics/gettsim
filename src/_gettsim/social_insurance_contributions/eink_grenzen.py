@@ -2,7 +2,7 @@ from _gettsim.shared import policy_info
 
 
 @policy_info(
-    end="1999-12-31", change_name="minijob_grenze", rounding_key="sozialv_beitr"
+    end_date="1999-12-31", change_name="minijob_grenze", rounding_key="sozialv_beitr"
 )
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
@@ -27,7 +27,7 @@ def minijob_grenze_unterscheidung_ost_west(
 
 @policy_info(
     start_date="2000-01-01",
-    end="2022-09-30",
+    end_date="2022-09-30",
     change_name="minijob_grenze",
     rounding_key="sozialv_beitr",
 )
@@ -127,7 +127,7 @@ def in_gleitzone(
 
 @policy_info(
     start_date="2003-04-01",
-    end="2004-12-31",
+    end_date="2004-12-31",
     change_name="midijob_faktor_f",
     rounding_key="sozialv_beitr",
 )
@@ -183,7 +183,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 
 @policy_info(
     start_date="2005-01-01",
-    end="2022-09-30",
+    end_date="2022-09-30",
     change_name="midijob_faktor_f",
     rounding_key="sozialv_beitr",
 )
@@ -297,7 +297,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
 
 @policy_info(
     start_date="2003-04-01",
-    end="2022-09-30",
+    end_date="2022-09-30",
     change_name="midijob_bemessungsentgelt_m",
 )
 def midijob_bemessungsentgelt_m_bis_09_2022(
@@ -439,7 +439,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
     return out
 
 
-@policy_info(end="2003-03-31", change_name="regulär_beschäftigt")
+@policy_info(end_date="2003-03-31", change_name="regulär_beschäftigt")
 def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
     """Regular employment check until March 2003.
 

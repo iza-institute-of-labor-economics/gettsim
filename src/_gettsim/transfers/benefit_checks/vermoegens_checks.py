@@ -33,7 +33,7 @@ def _kinderzuschl_nach_vermög_check_m_bg(
     return out
 
 
-@policy_info(end="2022-12-31", change_name="kinderzuschl_vermög_freib_bg")
+@policy_info(end_date="2022-12-31", change_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_bis_2022(
     arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
@@ -198,7 +198,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     return float(out)
 
 
-@policy_info(end="2022-12-31", change_name="arbeitsl_geld_2_vermög_freib_bg")
+@policy_info(end_date="2022-12-31", change_name="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     _arbeitsl_geld_2_grundfreib_vermög_hh: float,
     anz_kinder_bis_17_hh: int,

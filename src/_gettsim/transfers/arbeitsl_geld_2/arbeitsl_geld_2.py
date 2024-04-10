@@ -127,7 +127,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     return out
 
 
-@policy_info(end="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_bg")
+@policy_info(end_date="2010-12-31", change_name="arbeitsl_geld_2_kindersatz_m_bg")
 def arbeitsl_geld_2_kindersatz_m_bg_bis_2010(
     anz_kinder_bis_5_bg: int,
     anz_kinder_ab_6_bis_13_bg: int,
@@ -217,7 +217,7 @@ def arbeitsl_geld_2_kindersatz_m_bg_ab_2011(
     return float(out)
 
 
-@policy_info(end="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_bg")
+@policy_info(end_date="2010-12-31", change_name="arbeitsl_geld_2_regelsatz_m_bg")
 def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     anz_erwachsene_bg: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,

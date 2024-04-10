@@ -22,7 +22,7 @@ TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 def policy_info(
     *,
     start_date: str = "0001-01-01",
-    end: str = "9999-12-31",
+    end_date: str = "9999-12-31",
     change_name: str | None = None,
     rounding_key: str | None = None,
 ) -> Callable:
@@ -47,7 +47,7 @@ def policy_info(
     ----------
     start_date
         The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    end
+    end_date
         The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     change_name
         The name that should be used as the key for the function in the DAG.
@@ -65,10 +65,10 @@ def policy_info(
     """
 
     _validate_dashed_iso_date(start_date)
-    _validate_dashed_iso_date(end)
+    _validate_dashed_iso_date(end_date)
 
     start_date = date.fromisoformat(start_date)
-    end_date = date.fromisoformat(end)
+    end_date = date.fromisoformat(end_date)
 
     _validate_date_range(start_date, end_date)
 

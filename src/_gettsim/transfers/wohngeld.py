@@ -87,7 +87,7 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-@policy_info(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
+@policy_info(end_date="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt_y: float,
@@ -235,7 +235,7 @@ def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) ->
     return out
 
 
-@policy_info(end="2015-12-31", change_name="wohngeld_eink_freib_m")
+@policy_info(end_date="2015-12-31", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -393,7 +393,7 @@ def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> floa
     return float(out)
 
 
-@policy_info(end="2008-12-31", change_name="wohngeld_miete_m_hh")
+@policy_info(end_date="2008-12-31", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,

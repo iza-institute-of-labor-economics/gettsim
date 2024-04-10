@@ -41,7 +41,7 @@ def kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_anz_ansprüche
 
 
-@policy_info(end="2022-12-31", change_name="kindergeld_m")
+@policy_info(end_date="2022-12-31", change_name="kindergeld_m")
 def kindergeld_gestaffelt_m(
     kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
@@ -80,7 +80,7 @@ def kindergeld_gestaffelt_m(
     return sum_kindergeld
 
 
-@policy_info(end="2011-12-31", change_name="kindergeld_anspruch")
+@policy_info(end_date="2011-12-31", change_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_lohn(
     alter: int,
     in_ausbildung: bool,

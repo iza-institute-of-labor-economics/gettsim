@@ -44,7 +44,7 @@ def eink_st_ohne_kinderfreib_y_sn(
     return out
 
 
-@policy_info(end="2001-12-31", change_name="eink_st_mit_kinderfreib_y_sn")
+@policy_info(end_date="2001-12-31", change_name="eink_st_mit_kinderfreib_y_sn")
 def eink_st_mit_kinderfreib_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
@@ -104,7 +104,7 @@ def _eink_st_tarif(x: float, params: dict) -> float:
     return out
 
 
-@policy_info(end="1996-12-31", change_name="eink_st_y_sn", rounding_key="eink_st")
+@policy_info(end_date="1996-12-31", change_name="eink_st_y_sn", rounding_key="eink_st")
 def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_y_sn: float,
 ) -> float:
@@ -210,7 +210,7 @@ def eink_st_rel_kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * eink_st_rel_kindergeld_anz_ansprüche / 2
 
 
-@policy_info(end="2022-12-31", change_name="eink_st_rel_kindergeld_m")
+@policy_info(end_date="2022-12-31", change_name="eink_st_rel_kindergeld_m")
 def eink_st_rel_kindergeld_mit_staffelung_m(
     eink_st_rel_kindergeld_anz_ansprüche_1: int,
     eink_st_rel_kindergeld_anz_ansprüche_2: int,

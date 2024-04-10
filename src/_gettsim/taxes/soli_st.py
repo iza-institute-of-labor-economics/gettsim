@@ -2,7 +2,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 
-@policy_info(end="2008-12-31", change_name="soli_st_y_sn")
+@policy_info(end_date="2008-12-31", change_name="soli_st_y_sn")
 def soli_st_y_sn_ohne_abgelt_st(
     eink_st_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,

@@ -141,7 +141,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 
 @policy_info(
     start_date="2015-01-01",
-    end="2018-12-31",
+    end_date="2018-12-31",
     change_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
@@ -301,7 +301,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 
 @policy_info(
     start_date="2005-01-01",
-    end="2009-12-31",
+    end_date="2009-12-31",
     change_name="vorsorgepauschale_y",
     rounding_key="lohnst",
 )
