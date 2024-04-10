@@ -59,7 +59,7 @@ def policy_info(
 
     Returns
     -------
-        The function with attributes __info__["dates_active_start"],
+        The function with attributes __info__["start_date"],
         __info__["dates_active_end"], __info__["dates_active_dag_key"], and
         __info__["rounding_params_key"].
     """
@@ -82,7 +82,7 @@ def policy_info(
         # Remember data from decorator
         if not hasattr(func, "__info__"):
             func.__info__ = {}
-        func.__info__["dates_active_start"] = start_date
+        func.__info__["start_date"] = start_date
         func.__info__["dates_active_end"] = end_date
         func.__info__["dates_active_dag_key"] = dag_key
         if rounding_key is not None:
@@ -127,8 +127,8 @@ def _check_for_conflicts_in_time_dependent_functions(
         # identities since functions might get wrapped, which would change their
         # identity but not their name.
         if f.__name__ != function_name and (
-            start <= f.__info__["dates_active_start"] <= end
-            or f.__info__["dates_active_start"]
+            start <= f.__info__["start_date"] <= end
+            or f.__info__["start_date"]
             <= start
             <= f.__info__["dates_active_end"]
         ):
@@ -138,7 +138,7 @@ def _check_for_conflicts_in_time_dependent_functions(
                 start,
                 end,
                 f.__name__,
-                f.__info__["dates_active_start"],
+                f.__info__["start_date"],
                 f.__info__["dates_active_end"],
             )
 
