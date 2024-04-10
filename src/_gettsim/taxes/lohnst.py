@@ -1,8 +1,8 @@
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-@add_rounding_spec(rounding_key="lohnst")
+@policy_info(rounding_key="lohnst")
 def lohnst_eink_y(
     bruttolohn_m: float,
     steuerklasse: int,
@@ -230,10 +230,8 @@ def vorsorge_krankenv_option_a(
 
 
 @policy_info(
-    start="2010-01-01",
-    change_name="vorsorgepauschale_y",
+    start="2010-01-01", change_name="vorsorgepauschale_y", rounding_key="lohnst"
 )
-@add_rounding_spec(rounding_key="lohnst")
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
     wohnort_ost: bool,
@@ -305,8 +303,8 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     start="2005-01-01",
     end="2009-12-31",
     change_name="vorsorgepauschale_y",
+    rounding_key="lohnst",
 )
-@add_rounding_spec(rounding_key="lohnst")
 def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
     out = 0.0
     return out

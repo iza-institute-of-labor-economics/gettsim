@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_eink_st = {
     "eink_st_rel_kindergeld_anz_ansprüche_1": {
@@ -104,8 +104,7 @@ def _eink_st_tarif(x: float, params: dict) -> float:
     return out
 
 
-@policy_info(end="1996-12-31", change_name="eink_st_y_sn")
-@add_rounding_spec(rounding_key="eink_st")
+@policy_info(end="1996-12-31", change_name="eink_st_y_sn", rounding_key="eink_st")
 def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_y_sn: float,
 ) -> float:
@@ -124,8 +123,7 @@ def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     return eink_st_mit_kinderfreib_y_sn
 
 
-@policy_info(start="1997-01-01", change_name="eink_st_y_sn")
-@add_rounding_spec(rounding_key="eink_st")
+@policy_info(start="1997-01-01", change_name="eink_st_y_sn", rounding_key="eink_st")
 def eink_st_y_sn_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_y_sn: float,
     eink_st_mit_kinderfreib_y_sn: float,

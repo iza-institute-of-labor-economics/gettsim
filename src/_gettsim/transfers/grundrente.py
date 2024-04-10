@@ -1,8 +1,8 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import policy_info
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def grundr_zuschlag_m(
     grundr_zuschlag_vor_eink_anr_m: float, grundr_zuschlag_eink_m: float
 ) -> float:
@@ -81,7 +81,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     return out
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def grundr_zuschlag_eink_m(
     _grundr_zuschlag_eink_vor_freibetrag_m_ehe: float,
     p_id_ehepartner: int,
@@ -136,7 +136,7 @@ def grundr_zuschlag_eink_m(
     return out
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def grundr_zuschlag_vor_eink_anr_m(
     grundr_zuschlag_bonus_entgeltp: float,
     grundr_bew_zeiten: int,
@@ -215,7 +215,7 @@ def grundr_bew_zeiten_avg_entgeltp(
     return out
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
     """Calculate the maximum allowed number of average Entgeltpunkte (per month) after
     adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
@@ -246,7 +246,7 @@ def grundr_zuschlag_höchstwert_m(grundr_zeiten: int, ges_rente_params: dict) ->
     return out
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def grundr_zuschlag_bonus_entgeltp(
     grundr_bew_zeiten_avg_entgeltp: float,
     grundr_zuschlag_höchstwert_m: float,
@@ -299,7 +299,7 @@ def grundr_zuschlag_bonus_entgeltp(
     return out
 
 
-@add_rounding_spec(rounding_key="ges_rente")
+@policy_info(rounding_key="ges_rente")
 def rente_vorj_vor_grundr_proxy_m(  # noqa: PLR0913
     rentner: bool,
     priv_rente_m: float,

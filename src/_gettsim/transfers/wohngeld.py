@@ -2,7 +2,7 @@
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
@@ -573,7 +573,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
-@add_rounding_spec(rounding_key="wohngeld")
+@policy_info(rounding_key="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     anz_personen_hh: int,
     wohngeld_eink_m_hh: float,

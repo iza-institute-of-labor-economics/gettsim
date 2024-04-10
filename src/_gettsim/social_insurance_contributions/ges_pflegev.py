@@ -26,9 +26,7 @@ def ges_pflegev_zusatz_kinderlos(
     return (not hat_kinder) and alter >= mindestalter
 
 
-@policy_info(
-    start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_satz"
-)
+@policy_info(start="1995-01-01", end="2004-12-31", change_name="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_ohne_zusatz_fuer_kinderlose(
     sozialv_beitr_params: dict,
 ) -> float:
@@ -47,9 +45,7 @@ def ges_pflegev_beitr_satz_ohne_zusatz_fuer_kinderlose(
     return sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
 
 
-@policy_info(
-    start="2005-01-01", end="2023-06-30", change_name="ges_pflegev_beitr_satz"
-)
+@policy_info(start="2005-01-01", end="2023-06-30", change_name="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_zusatz_kinderlos_dummy(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,

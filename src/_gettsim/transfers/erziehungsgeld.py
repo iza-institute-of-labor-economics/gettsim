@@ -1,6 +1,6 @@
 """Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_erziehungsgeld = {
     "erziehungsgeld_eltern_m": {
@@ -42,8 +42,9 @@ def erziehungsgeld_m(
     return out
 
 
-@add_rounding_spec(rounding_key="erziehungsgeld")
-@policy_info(end="2003-12-31", change_name="erziehungsgeld_kind_m")
+@policy_info(
+    end="2003-12-31", change_name="erziehungsgeld_kind_m", rounding_key="erziehungsgeld"
+)
 def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
         """
@@ -53,8 +54,12 @@ def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     )
 
 
-@add_rounding_spec(rounding_key="erziehungsgeld")
-@policy_info(start="2004-01-01", end="2008-12-31", change_name="erziehungsgeld_kind_m")
+@policy_info(
+    start="2004-01-01",
+    end="2008-12-31",
+    change_name="erziehungsgeld_kind_m",
+    rounding_key="erziehungsgeld",
+)
 def erziehungsgeld_kind_mit_budgetsatz_m(
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_abzug_transfer: float,

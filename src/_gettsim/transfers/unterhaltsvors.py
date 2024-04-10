@@ -1,7 +1,7 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
 
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import policy_info
 
 aggregate_by_group_id_unterhaltsvors = {
     "_unterhaltsvorschuss_eink_above_income_threshold_fg": {
@@ -20,7 +20,7 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@add_rounding_spec(rounding_key="unterhaltsvors")
+@policy_info(rounding_key="unterhaltsvors")
 def unterhaltsvors_m(
     alleinerz: bool,
     kind_unterh_erhalt_m: float,

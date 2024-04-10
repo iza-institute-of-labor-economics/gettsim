@@ -16,34 +16,6 @@ class KeyErrorMessage(str):
         return str(self)
 
 
-def add_rounding_spec(*, rounding_key):
-    """Decorator adding the location of the rounding specification to a function.
-
-    Parameters
-    ----------
-    rounding_key : str
-        Key of the parameters dictionary where rounding specifications are found. For
-        functions that are not user-written this is just the name of the respective
-        .yaml file.
-
-    Returns
-    -------
-    func : function
-        Function with __info__["rounding_params_key"] attribute
-
-    """
-
-    def inner(func):
-        # Remember data from decorator
-        if not hasattr(func, "__info__"):
-            func.__info__ = {}
-        func.__info__["rounding_params_key"] = rounding_key
-
-        return func
-
-    return inner
-
-
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
@@ -52,8 +24,13 @@ def policy_info(
     start: str = "0001-01-01",
     end: str = "9999-12-31",
     change_name: str | None = None,
+    rounding_key: str | None = None,
 ) -> Callable:
     """
+    A decorator to attach additional information to a policy function.
+
+    **Dates active (start, end, change_name):**
+
     Specifies that a function is only active between two dates, `start` and `end`. By
     using the `change_name` argument, you can specify a different name for the function
     in the DAG.
@@ -61,6 +38,10 @@ def policy_info(
     Note that even if you use this decorator with the `change_name` argument, you must
     ensure that the function name is unique in the file where it is defined. Otherwise,
     the function will be overwritten by the last function with the same name.
+
+    **Rounding spec (rounding_key):**
+
+    Adds the location of the rounding specification to a function.
 
     Parameters
     ----------
@@ -71,11 +52,16 @@ def policy_info(
     change_name
         The name that should be used as the key for the function in the DAG.
         If omitted, we use the name of the function as defined.
+    rounding_key
+        Key of the parameters dictionary where rounding specifications are found. For
+        functions that are not user-written this is just the name of the respective
+        .yaml file.
 
     Returns
     -------
         The function with attributes __info__["dates_active_start"],
-        __info__["dates_active_end"], and __info__["dates_active_dag_key"].
+        __info__["dates_active_end"], __info__["dates_active_dag_key"], and
+        __info__["rounding_params_key"].
     """
 
     _validate_dashed_iso_date(start)
@@ -99,6 +85,8 @@ def policy_info(
         func.__info__["dates_active_start"] = start_date
         func.__info__["dates_active_end"] = end_date
         func.__info__["dates_active_dag_key"] = dag_key
+        if rounding_key is not None:
+            func.__info__["rounding_params_key"] = rounding_key
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:

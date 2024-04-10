@@ -1,4 +1,4 @@
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
@@ -43,7 +43,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     return out
 
 
-@add_rounding_spec(rounding_key="kinderzuschl_eink")
+@policy_info(rounding_key="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_eink_m: float,
     kindergeld_anspruch: bool,

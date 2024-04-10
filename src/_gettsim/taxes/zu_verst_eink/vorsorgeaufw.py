@@ -1,4 +1,4 @@
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 
 @policy_info(
@@ -116,8 +116,12 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
     return out
 
 
-@policy_info(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn")
-@add_rounding_spec(rounding_key="eink_st_abzuege")
+@policy_info(
+    start="2005-01-01",
+    end="2019-12-31",
+    change_name="vorsorgeaufw_y_sn",
+    rounding_key="eink_st_abzuege",
+)
 def vorsorgeaufw_y_sn_guenstiger(
     vorsorgeaufw_y_sn_bis_2004: float,
     einführung_vorsorgeaufw_y_sn: float,
@@ -161,8 +165,9 @@ def einführung_vorsorgeaufw_y_sn_ab_2010_bis_2019(
     return vorsorgeaufw_y_sn_ab_2020
 
 
-@policy_info(start="2020-01-01", change_name="vorsorgeaufw_y_sn")
-@add_rounding_spec(rounding_key="eink_st_abzuege")
+@policy_info(
+    start="2020-01-01", change_name="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
+)
 def _vorsorgeaufw_y_sn_ab_2020(vorsorgeaufw_y_sn_ab_2020: float) -> float:
     return vorsorgeaufw_y_sn_ab_2020
 
@@ -241,10 +246,8 @@ def _vorsorgeaufw_y_sn_bis_2004(
 
 
 @policy_info(
-    end="2004-12-31",
-    change_name="vorsorgeaufw_y_sn",
+    end="2004-12-31", change_name="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
 )
-@add_rounding_spec(rounding_key="eink_st_abzuege")
 def vorsorgeaufw_y_sn_bis_2004(
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004: float,
     ges_krankenv_beitr_m_sn: float,

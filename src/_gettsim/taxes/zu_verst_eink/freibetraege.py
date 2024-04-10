@@ -1,5 +1,5 @@
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import add_rounding_spec, policy_info
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_freibeträge = {
     "_eink_st_kinderfreib_anz_anspruch_1": {
@@ -338,7 +338,7 @@ def eink_st_abz_betreuungskost_y(
     return out
 
 
-@add_rounding_spec(rounding_key="eink_st_abzuege")
+@policy_info(rounding_key="eink_st_abzuege")
 def sonderausgaben_betreuung_y_sn(
     eink_st_abzuege_params: dict,
     eink_st_abz_betreuungskost_y_sn: float,
