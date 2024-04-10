@@ -242,8 +242,7 @@ def load_functions_for_date(date):
     functions = {}
     for f in load_internal_functions().values():
         if not is_time_dependent(f) or is_active_at_date(f, date):
-            info = f.__info__ if hasattr(f, "__info__") else {}
-            name = info.get("name_in_dag", f.__name__)
+            name = f.__info__["name_in_dag"] if hasattr(f, "__info__") else f.__name__
             functions[name] = f
 
     return functions
