@@ -60,7 +60,7 @@ def policy_info(
     Returns
     -------
         The function with attributes __info__["start_date"],
-        __info__["dates_active_end"], __info__["dates_active_dag_key"], and
+        __info__["end_date"], __info__["dates_active_dag_key"], and
         __info__["rounding_params_key"].
     """
 
@@ -83,7 +83,7 @@ def policy_info(
         if not hasattr(func, "__info__"):
             func.__info__ = {}
         func.__info__["start_date"] = start_date
-        func.__info__["dates_active_end"] = end_date
+        func.__info__["end_date"] = end_date
         func.__info__["dates_active_dag_key"] = dag_key
         if rounding_key is not None:
             func.__info__["rounding_params_key"] = rounding_key
@@ -130,7 +130,7 @@ def _check_for_conflicts_in_time_dependent_functions(
             start <= f.__info__["start_date"] <= end
             or f.__info__["start_date"]
             <= start
-            <= f.__info__["dates_active_end"]
+            <= f.__info__["end_date"]
         ):
             raise ConflictingTimeDependentFunctionsError(
                 dag_key,
@@ -139,7 +139,7 @@ def _check_for_conflicts_in_time_dependent_functions(
                 end,
                 f.__name__,
                 f.__info__["start_date"],
-                f.__info__["dates_active_end"],
+                f.__info__["end_date"],
             )
 
 

@@ -254,7 +254,7 @@ def is_time_dependent(f: Callable) -> bool:
 
 
 def is_active_at_date(f: Callable, date: datetime.date) -> bool:
-    return f.__info__["start_date"] <= date <= f.__info__["dates_active_end"]
+    return f.__info__["start_date"] <= date <= f.__info__["end_date"]
 
 
 def _load_parameter_group_from_yaml(

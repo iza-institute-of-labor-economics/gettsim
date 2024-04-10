@@ -67,12 +67,12 @@ def test_start_date_missing():
         ("2023-01-20", datetime.date(2023, 1, 20)),
     ],
 )
-def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
+def test_end_date_valid(date_string: str, expected: datetime.date):
     @policy_info(end_date=date_string)
     def test_func():
         pass
 
-    assert test_func.__info__["dates_active_end"] == expected
+    assert test_func.__info__["end_date"] == expected
 
 
 @pytest.mark.parametrize(
@@ -83,7 +83,7 @@ def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
         "20th January 2023",
     ],
 )
-def test_dates_active_end_date_invalid(date_string: str):
+def test_end_date_invalid(date_string: str):
     with pytest.raises(ValueError):
 
         @policy_info(end_date=date_string)
@@ -91,12 +91,12 @@ def test_dates_active_end_date_invalid(date_string: str):
             pass
 
 
-def test_dates_active_end_date_missing():
+def test_end_date_missing():
     @policy_info()
     def test_func():
         pass
 
-    assert test_func.__info__["dates_active_end"] == datetime.date(9999, 12, 31)
+    assert test_func.__info__["end_date"] == datetime.date(9999, 12, 31)
 
 
 # Change name ----------------------------------------------
