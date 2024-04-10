@@ -34,8 +34,8 @@ def time_indep_function_names(all_functions: dict[str, callable]) -> list[str]:
     for function_name, function in all_functions.items():
         if hasattr(function, "__info__"):
             info = function.__info__
-            if "dates_active_dag_key" in info:
-                time_indep_function_names.add(info["dates_active_dag_key"])
+            if "name_in_dag" in info:
+                time_indep_function_names.add(info["name_in_dag"])
                 continue
 
         time_indep_function_names.add(function_name)

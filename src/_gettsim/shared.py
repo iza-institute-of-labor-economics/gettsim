@@ -60,7 +60,7 @@ def policy_info(
     Returns
     -------
         The function with attributes __info__["start_date"],
-        __info__["end_date"], __info__["dates_active_dag_key"], and
+        __info__["end_date"], __info__["name_in_dag"], and
         __info__["rounding_params_key"].
     """
 
@@ -84,7 +84,7 @@ def policy_info(
             func.__info__ = {}
         func.__info__["start_date"] = start_date
         func.__info__["end_date"] = end_date
-        func.__info__["dates_active_dag_key"] = dag_key
+        func.__info__["name_in_dag"] = dag_key
         if rounding_key is not None:
             func.__info__["rounding_params_key"] = rounding_key
 

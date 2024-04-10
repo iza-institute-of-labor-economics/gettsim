@@ -107,7 +107,7 @@ def test_dates_active_change_name_given():
     def test_func():
         pass
 
-    assert test_func.__info__["dates_active_dag_key"] == "renamed_func"
+    assert test_func.__info__["name_in_dag"] == "renamed_func"
 
 
 def test_dates_active_change_name_missing():
@@ -115,7 +115,7 @@ def test_dates_active_change_name_missing():
     def test_func():
         pass
 
-    assert test_func.__info__["dates_active_dag_key"] == "test_func"
+    assert test_func.__info__["name_in_dag"] == "test_func"
 
 
 # Empty interval -------------------------------------------

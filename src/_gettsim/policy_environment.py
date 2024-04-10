@@ -243,14 +243,14 @@ def load_functions_for_date(date):
     for f in load_internal_functions().values():
         if not is_time_dependent(f) or is_active_at_date(f, date):
             info = f.__info__ if hasattr(f, "__info__") else {}
-            name = info.get("dates_active_dag_key", f.__name__)
+            name = info.get("name_in_dag", f.__name__)
             functions[name] = f
 
     return functions
 
 
 def is_time_dependent(f: Callable) -> bool:
-    return hasattr(f, "__info__") and "dates_active_dag_key" in f.__info__
+    return hasattr(f, "__info__") and "name_in_dag" in f.__info__
 
 
 def is_active_at_date(f: Callable, date: datetime.date) -> bool:
