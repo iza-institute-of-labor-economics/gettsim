@@ -37,7 +37,7 @@ def policy_info(
 
     Note that even if you use this decorator with the `change_name` argument, you must
     ensure that the function name is unique in the file where it is defined. Otherwise,
-    the function will be overwritten by the last function with the same name.
+    the function would be overwritten by the last function with the same name.
 
     **Rounding spec (rounding_key):**
 
