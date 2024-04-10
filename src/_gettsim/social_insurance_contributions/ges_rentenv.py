@@ -210,7 +210,9 @@ def _ges_rentenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
     return out
 
 
-@policy_info(start_date="2022-10-01", name_in_dag="_ges_rentenv_beitr_midijob_arbeitg_m")
+@policy_info(
+    start_date="2022-10-01", name_in_dag="_ges_rentenv_beitr_midijob_arbeitg_m"
+)
 def _ges_rentenv_beitr_midijob_arbeitg_m_residuum(
     _ges_rentenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_rentenv_beitr_midijob_arbeitn_m: float,
@@ -263,7 +265,9 @@ def _ges_rentenv_beitr_midijob_arbeitn_m_residuum(
     return an_beitr_midijob
 
 
-@policy_info(start_date="2022-10-01", name_in_dag="_ges_rentenv_beitr_midijob_arbeitn_m")
+@policy_info(
+    start_date="2022-10-01", name_in_dag="_ges_rentenv_beitr_midijob_arbeitn_m"
+)
 def _ges_rentenv_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitn_m: float,
     sozialv_beitr_params: dict,

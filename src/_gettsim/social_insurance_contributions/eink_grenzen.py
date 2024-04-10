@@ -2,7 +2,9 @@ from _gettsim.shared import policy_info
 
 
 @policy_info(
-    end_date="1999-12-31", name_in_dag="minijob_grenze", params_key_for_rounding="sozialv_beitr"
+    end_date="1999-12-31",
+    name_in_dag="minijob_grenze",
+    params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
@@ -46,7 +48,9 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
 
 
 @policy_info(
-    start_date="2022-10-01", name_in_dag="minijob_grenze", params_key_for_rounding="sozialv_beitr"
+    start_date="2022-10-01",
+    name_in_dag="minijob_grenze",
+    params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
@@ -240,7 +244,9 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 
 
 @policy_info(
-    start_date="2022-10-01", name_in_dag="midijob_faktor_f", params_key_for_rounding="sozialv_beitr"
+    start_date="2022-10-01",
+    name_in_dag="midijob_faktor_f",
+    params_key_for_rounding="sozialv_beitr",
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,

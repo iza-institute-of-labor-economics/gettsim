@@ -128,9 +128,7 @@ def _check_for_conflicts_in_time_dependent_functions(
         # identity but not their name.
         if f.__name__ != function_name and (
             start <= f.__info__["start_date"] <= end
-            or f.__info__["start_date"]
-            <= start
-            <= f.__info__["end_date"]
+            or f.__info__["start_date"] <= start <= f.__info__["end_date"]
         ):
             raise ConflictingTimeDependentFunctionsError(
                 dag_key,

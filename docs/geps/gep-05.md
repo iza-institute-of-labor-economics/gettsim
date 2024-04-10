@@ -71,13 +71,14 @@ following elements:
 In the same way as other policy parameters, the rounding parameters become part of the
 dictionary `policy_params`.
 
-A function to be rounded must be decorated with `policy_info`. Set the `params_key_for_rounding`
-parameter to point to the key of the policy parameters dictionary containing the
-rounding parameters relating to the function that is decorated. In the above example,
-the rounding specification for `grundr_zuschlag_höchstwert_m` will be found in
-`policy_params["ges_rente"]` after {func}`set_up_policy_environment()` has been called
-(since it was specified in `ges_rente.yaml`). Hence, the `params_key_for_rounding` argument of
-`policy_info` has to be `"ges_rente"`:
+A function to be rounded must be decorated with `policy_info`. Set the
+`params_key_for_rounding` parameter to point to the key of the policy parameters
+dictionary containing the rounding parameters relating to the function that is
+decorated. In the above example, the rounding specification for
+`grundr_zuschlag_höchstwert_m` will be found in `policy_params["ges_rente"]` after
+{func}`set_up_policy_environment()` has been called (since it was specified in
+`ges_rente.yaml`). Hence, the `params_key_for_rounding` argument of `policy_info` has to
+be `"ges_rente"`:
 
 ```python
 @policy_info(params_key_for_rounding="ges_rente")
@@ -106,8 +107,8 @@ function should be split up so that another function returns the quantity to be 
 
 ### Error handling
 
-In case a function has a `__params_key_for_rounding__`, but the respective parameters are
-missing in `policy_params`, an error is raised.
+In case a function has a `__params_key_for_rounding__`, but the respective parameters
+are missing in `policy_params`, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g. after
 a policy reform) the rounding parameters (both `"base"` and `"direction"`) must be set

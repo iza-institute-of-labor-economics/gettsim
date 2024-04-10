@@ -230,7 +230,9 @@ def vorsorge_krankenv_option_a(
 
 
 @policy_info(
-    start_date="2010-01-01", name_in_dag="vorsorgepauschale_y", params_key_for_rounding="lohnst"
+    start_date="2010-01-01",
+    name_in_dag="vorsorgepauschale_y",
+    params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,

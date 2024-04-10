@@ -74,7 +74,11 @@ def ges_rente_m(ges_rente_vor_grundr_m: float) -> float:
     return ges_rente_vor_grundr_m
 
 
-@policy_info(start_date="2021-01-01", name_in_dag="ges_rente_m", params_key_for_rounding="ges_rente")
+@policy_info(
+    start_date="2021-01-01",
+    name_in_dag="ges_rente_m",
+    params_key_for_rounding="ges_rente",
+)
 def ges_rente_m_nach_grundr(
     ges_rente_vor_grundr_m: float,
     grundr_zuschlag_m: float,
@@ -499,7 +503,9 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2018-01-01", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei")
+@policy_info(
+    start_date="2018-01-01", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei"
+)
 def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -788,7 +794,9 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
 
 @policy_info(
-    start_date="1992-01-01", end_date="1996-07-28", name_in_dag="_ges_rente_arbeitsl_altersgrenze"
+    start_date="1992-01-01",
+    end_date="1996-07-28",
+    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
 )
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
@@ -809,7 +817,9 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
 
 
 @policy_info(
-    start_date="1996-07-29", end_date="2009-12-31", name_in_dag="_ges_rente_arbeitsl_altersgrenze"
+    start_date="1996-07-29",
+    end_date="2009-12-31",
+    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
 )
 def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
     geburtsjahr: int,
@@ -863,7 +873,9 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
 
 
 @policy_info(
-    start_date="2010-01-01", end_date="2017-12-31", name_in_dag="_ges_rente_arbeitsl_altersgrenze"
+    start_date="2010-01-01",
+    end_date="2017-12-31",
+    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
 )
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
@@ -1153,7 +1165,9 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
 
 @policy_info(
-    start_date="1992-01-01", end_date="1996-07-28", name_in_dag="ges_rente_arbeitsl_vorzeitig"
+    start_date="1992-01-01",
+    end_date="1996-07-28",
+    name_in_dag="ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
@@ -1174,7 +1188,9 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 
 
 @policy_info(
-    start_date="1996-07-29", end_date="1996-09-26", name_in_dag="ges_rente_arbeitsl_vorzeitig"
+    start_date="1996-07-29",
+    end_date="1996-09-26",
+    name_in_dag="ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_1997: bool,
@@ -1211,7 +1227,9 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 
 
 @policy_info(
-    start_date="1996-09-27", end_date="2004-07-25", name_in_dag="ges_rente_arbeitsl_vorzeitig"
+    start_date="1996-09-27",
+    end_date="2004-07-25",
+    name_in_dag="ges_rente_arbeitsl_vorzeitig",
 )
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     geburtsjahr: int,  # noqa: ARG001
@@ -1240,7 +1258,9 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 
 
 @policy_info(
-    start_date="2004-07-26", end_date="2017-12-31", name_in_dag="ges_rente_arbeitsl_vorzeitig"
+    start_date="2004-07-26",
+    end_date="2017-12-31",
+    name_in_dag="ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006: bool,
@@ -1433,7 +1453,9 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 
 
 @policy_info(
-    start_date="2007-04-30", end_date="2017-12-31", name_in_dag="_ges_rente_vorauss_arbeitsl"
+    start_date="2007-04-30",
+    end_date="2017-12-31",
+    name_in_dag="_ges_rente_vorauss_arbeitsl",
 )
 def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
