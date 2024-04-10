@@ -1,8 +1,11 @@
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import policy_info
 
 
-@dates_active(end="1999-12-31", change_name="minijob_grenze")
-@add_rounding_spec(params_key="sozialv_beitr")
+@policy_info(
+    end_date="1999-12-31",
+    name_in_dag="minijob_grenze",
+    params_key_for_rounding="sozialv_beitr",
+)
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
@@ -24,8 +27,12 @@ def minijob_grenze_unterscheidung_ost_west(
     return float(out)
 
 
-@dates_active(start="2000-01-01", end="2022-09-30", change_name="minijob_grenze")
-@add_rounding_spec(params_key="sozialv_beitr")
+@policy_info(
+    start_date="2000-01-01",
+    end_date="2022-09-30",
+    name_in_dag="minijob_grenze",
+    params_key_for_rounding="sozialv_beitr",
+)
 def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     """Select the income threshold depending on place of living.
 
@@ -40,8 +47,11 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
 
 
-@add_rounding_spec(params_key="sozialv_beitr")
-@dates_active(start="2022-10-01", change_name="minijob_grenze")
+@policy_info(
+    start_date="2022-10-01",
+    name_in_dag="minijob_grenze",
+    params_key_for_rounding="sozialv_beitr",
+)
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
     the statutory minimum wage.
@@ -86,7 +96,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     return bruttolohn_m <= minijob_grenze
 
 
-@dates_active(start="2003-04-01")
+@policy_info(start_date="2003-04-01")
 def in_gleitzone(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
@@ -119,12 +129,12 @@ def in_gleitzone(
     return out
 
 
-@dates_active(
-    start="2003-04-01",
-    end="2004-12-31",
-    change_name="midijob_faktor_f",
+@policy_info(
+    start_date="2003-04-01",
+    end_date="2004-12-31",
+    name_in_dag="midijob_faktor_f",
+    params_key_for_rounding="sozialv_beitr",
 )
-@add_rounding_spec(params_key="sozialv_beitr")
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
@@ -175,12 +185,12 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     return out
 
 
-@dates_active(
-    start="2005-01-01",
-    end="2022-09-30",
-    change_name="midijob_faktor_f",
+@policy_info(
+    start_date="2005-01-01",
+    end_date="2022-09-30",
+    name_in_dag="midijob_faktor_f",
+    params_key_for_rounding="sozialv_beitr",
 )
-@add_rounding_spec(params_key="sozialv_beitr")
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
@@ -233,8 +243,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     return out
 
 
-@dates_active(start="2022-10-01", change_name="midijob_faktor_f")
-@add_rounding_spec(params_key="sozialv_beitr")
+@policy_info(
+    start_date="2022-10-01",
+    name_in_dag="midijob_faktor_f",
+    params_key_for_rounding="sozialv_beitr",
+)
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
@@ -288,10 +301,10 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     return out
 
 
-@dates_active(
-    start="2003-04-01",
-    end="2022-09-30",
-    change_name="midijob_bemessungsentgelt_m",
+@policy_info(
+    start_date="2003-04-01",
+    end_date="2022-09-30",
+    name_in_dag="midijob_bemessungsentgelt_m",
 )
 def midijob_bemessungsentgelt_m_bis_09_2022(
     bruttolohn_m: float,
@@ -346,7 +359,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
 
 
-@dates_active(start="2022-10-01", change_name="midijob_bemessungsentgelt_m")
+@policy_info(start_date="2022-10-01", name_in_dag="midijob_bemessungsentgelt_m")
 def midijob_bemessungsentgelt_m_ab_10_2022(
     bruttolohn_m: float,
     midijob_faktor_f: float,
@@ -432,7 +445,7 @@ def _midijob_beitragspfl_einnahme_arbeitn_m(
     return out
 
 
-@dates_active(end="2003-03-31", change_name="regulär_beschäftigt")
+@policy_info(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
 def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
     """Regular employment check until March 2003.
 
@@ -456,7 +469,7 @@ def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float
     return out
 
 
-@dates_active(start="2003-04-01", change_name="regulär_beschäftigt")
+@policy_info(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
 def regulär_beschäftigt_mit_midijob(
     bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:

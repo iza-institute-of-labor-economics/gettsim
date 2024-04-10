@@ -2,7 +2,7 @@
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
@@ -87,7 +87,7 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-@dates_active(end="2006-12-31", change_name="wohngeld_eink_vor_freib_m")
+@policy_info(end_date="2006-12-31", name_in_dag="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt_y: float,
@@ -150,7 +150,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
+@policy_info(start_date="2007-01-01", name_in_dag="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt_y: float,
@@ -235,7 +235,7 @@ def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) ->
     return out
 
 
-@dates_active(end="2015-12-31", change_name="wohngeld_eink_freib_m")
+@policy_info(end_date="2015-12-31", name_in_dag="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -293,7 +293,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-@dates_active(start="2016-01-01", change_name="wohngeld_eink_freib_m")
+@policy_info(start_date="2016-01-01", name_in_dag="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -393,7 +393,7 @@ def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> floa
     return float(out)
 
 
-@dates_active(end="2008-12-31", change_name="wohngeld_miete_m_hh")
+@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
@@ -455,7 +455,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2009-01-01", change_name="wohngeld_miete_m_hh")
+@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen_hh: int,
@@ -573,7 +573,7 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
-@add_rounding_spec(params_key="wohngeld")
+@policy_info(params_key_for_rounding="wohngeld")
 def wohngeld_vor_vermög_check_m_hh(
     anz_personen_hh: int,
     wohngeld_eink_m_hh: float,

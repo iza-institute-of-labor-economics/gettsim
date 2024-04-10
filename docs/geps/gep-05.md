@@ -71,23 +71,23 @@ following elements:
 In the same way as other policy parameters, the rounding parameters become part of the
 dictionary `policy_params`.
 
-A function to be rounded must be decorated with `add_rounding_spec`. This decorator
-indicates that the output should potentially be rounded. `add_rounding_spec` takes one
-required argument: `params_key` points to the key of the policy parameters dictionary
-containing the rounding parameters relating to the function that is decorated. In the
-above example, the rounding specification for `grundr_zuschlag_höchstwert_m` will be
-found in `policy_params["ges_rente"]` after {func}`set_up_policy_environment()` has been
-called (since it was specified in `ges_rente.yaml`). Hence, the `params_key` argument of
-`add_rounding_spec` has to be `"ges_rente"`:
+A function to be rounded must be decorated with `policy_info`. Set the
+`params_key_for_rounding` parameter to point to the key of the policy parameters
+dictionary containing the rounding parameters relating to the function that is
+decorated. In the above example, the rounding specification for
+`grundr_zuschlag_höchstwert_m` will be found in `policy_params["ges_rente"]` after
+{func}`set_up_policy_environment()` has been called (since it was specified in
+`ges_rente.yaml`). Hence, the `params_key_for_rounding` argument of `policy_info` has to
+be `"ges_rente"`:
 
 ```python
-@add_rounding_spec(params_key="ges_rente")
+@policy_info(params_key_for_rounding="ges_rente")
 def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
     ...
     return out
 ```
 
-The decorator adds the attribute `__rounding_params_key__` to the function. When calling
+When calling
 {func}`compute_taxes_and_transfers <_gettsim.interface.compute_taxes_and_transfers>`
 with `rounding=True`, GETTSIM will look for a key `"rounding"` in
 `policy_params["params_key"]` and within that, for another key containing the decorated
@@ -107,8 +107,8 @@ function should be split up so that another function returns the quantity to be 
 
 ### Error handling
 
-In case a function has a `__rounding_params_key__`, but the respective parameters are
-missing in `policy_params`, an error is raised.
+In case a function has a `__params_key_for_rounding__`, but the respective parameters
+are missing in `policy_params`, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g. after
 a policy reform) the rounding parameters (both `"base"` and `"direction"`) must be set
@@ -116,7 +116,7 @@ to `None`. This allows that the rounding parameters are found and no error is ra
 but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have a
-`__rounding_params_key__` attribute, execution will not lead to an error. This will
+`__params_key_for_rounding__` attribute, execution will not lead to an error. This will
 never happen in the GETTSIM codebase, however, due to a suitable test.
 
 ### User-specified rounding
@@ -138,8 +138,8 @@ This will be done after the policy environment has been set up and it is exactly
 same as for other parameters of the taxes and transfers system, see {ref}`gep-3`.
 
 If a user would like to add user-written functions which should be rounded, she will
-need to decorate the respective functions with `add_rounding_spec` and adjust
-`policy_params` accordingly.
+need to decorate the respective functions with `policy_info` and adjust `policy_params`
+accordingly.
 
 ## Advantages of this implementation
 

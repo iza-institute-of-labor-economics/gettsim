@@ -15,7 +15,7 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import load_functions_for_date
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import policy_info
 from pandas._testing import assert_series_equal
 
 rounding_specs_and_exp_results = [
@@ -32,11 +32,11 @@ rounding_specs_and_exp_results = [
 
 
 def test_decorator():
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func():
         return 0
 
-    assert test_func.__info__["rounding_params_key"] == "params_key_test"
+    assert test_func.__info__["params_key_for_rounding"] == "params_key_test"
 
 
 @pytest.mark.parametrize(
@@ -51,7 +51,7 @@ def test_decorator():
 def test_no_rounding_specs(rounding_specs):
     with pytest.raises(KeyError):
 
-        @add_rounding_spec(params_key="params_key_test")
+        @policy_info(params_key_for_rounding="params_key_test")
         def test_func():
             return 0
 
@@ -75,7 +75,7 @@ def test_no_rounding_specs(rounding_specs):
 def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
     with pytest.raises(ValueError):
 
-        @add_rounding_spec(params_key="params_key_test")
+        @policy_info(params_key_for_rounding="params_key_test")
         def test_func():
             return 0
 
@@ -107,7 +107,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     """Check if rounding is correct."""
 
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func(income):
         return income
 
@@ -141,7 +141,7 @@ def test_rounding_with_time_conversion():
     """Check if rounding is correct for time-converted functions."""
 
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func_m(income):
         return income
 
@@ -176,7 +176,7 @@ def test_no_rounding(
     base, direction, to_add_after_rounding, input_values_exp_output, _ignore
 ):
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func(income):
         return income
 
@@ -275,18 +275,19 @@ def test_decorator_for_all_functions_with_rounding_spec():
     ]
 
     # Loop over these functions and check if attribute
-    # __info__["rounding_params_key"] exists
+    # __info__["params_key_for_rounding"] exists
     all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     for fn in function_names_to_check:
         assert hasattr(all_functions[fn], "__info__"), (
             f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the add_rounding_spec decorator. The attribute "
+            "function is missing the policy_info decorator. The attribute "
             "__info__ is not found."
         )
-        assert "rounding_params_key" in all_functions[fn].__info__, (
+        assert "params_key_for_rounding" in all_functions[fn].__info__, (
             f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the add_rounding_spec decorator. The key "
-            "'rounding_params_key' is not found in the __info__ dict."
+            "function is missing the params_key_for_rounding parameter in the "
+            "policy_info decorator. The key 'params_key_for_rounding' is not found in "
+            "the __info__ dict."
         )
 
 
@@ -303,7 +304,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     ],
 )
 def test_raise_if_missing_rounding_spec(params, match):
-    @add_rounding_spec(params_key="eink_st")
+    @policy_info(params_key_for_rounding="eink_st")
     def eink_st_func(arg_1: float) -> float:
         return arg_1
 

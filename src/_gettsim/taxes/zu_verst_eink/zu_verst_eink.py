@@ -14,7 +14,7 @@ It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
 
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import policy_info
 
 
 def freibeträge_ind_y(
@@ -117,7 +117,7 @@ def _zu_verst_eink_mit_kinderfreib_y_sn(
     return max(out, 0.0)
 
 
-@add_rounding_spec(params_key="eink_st")
+@policy_info(params_key_for_rounding="eink_st")
 def zu_verst_eink_y_sn(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,

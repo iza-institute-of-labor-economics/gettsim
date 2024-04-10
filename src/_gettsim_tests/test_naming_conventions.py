@@ -32,13 +32,12 @@ def time_indep_function_names(all_functions: dict[str, callable]) -> list[str]:
     time_indep_function_names = set()
 
     for function_name, function in all_functions.items():
-        if hasattr(function, "__info__"):
-            info = function.__info__
-            if "dates_active_dag_key" in info:
-                time_indep_function_names.add(info["dates_active_dag_key"])
-                continue
-
-        time_indep_function_names.add(function_name)
+        name = (
+            function.__info__["name_in_dag"]
+            if hasattr(function, "__info__")
+            else function_name
+        )
+        time_indep_function_names.add(name)
 
     return sorted(time_indep_function_names)
 
