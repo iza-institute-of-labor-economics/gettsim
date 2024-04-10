@@ -390,7 +390,7 @@ def test_partial_parameters_to_functions_keep_decorator():
         rounding=False,
     )["test_func"]
 
-    assert partial_func.__info__["rounding_params_key"] == "params_key_test"
+    assert partial_func.__info__["params_key_for_rounding"] == "params_key_test"
 
 
 def test_user_provided_aggregate_by_group_specs():

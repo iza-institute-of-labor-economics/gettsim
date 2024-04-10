@@ -36,7 +36,7 @@ def test_decorator():
     def test_func():
         return 0
 
-    assert test_func.__info__["rounding_params_key"] == "params_key_test"
+    assert test_func.__info__["params_key_for_rounding"] == "params_key_test"
 
 
 @pytest.mark.parametrize(
@@ -275,7 +275,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     ]
 
     # Loop over these functions and check if attribute
-    # __info__["rounding_params_key"] exists
+    # __info__["params_key_for_rounding"] exists
     all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
     for fn in function_names_to_check:
         assert hasattr(all_functions[fn], "__info__"), (
@@ -283,10 +283,10 @@ def test_decorator_for_all_functions_with_rounding_spec():
             "function is missing the policy_info decorator. The attribute "
             "__info__ is not found."
         )
-        assert "rounding_params_key" in all_functions[fn].__info__, (
+        assert "params_key_for_rounding" in all_functions[fn].__info__, (
             f"For the function {fn}, rounding parameters are specified. But the "
             "function is missing the rounding_key parameter in the policy_info "
-            "decorator. The key 'rounding_params_key' is not found in the __info__ "
+            "decorator. The key 'params_key_for_rounding' is not found in the __info__ "
             "dict."
         )
 

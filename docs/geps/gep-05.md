@@ -86,7 +86,7 @@ def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
     return out
 ```
 
-The decorator adds the attribute `__rounding_params_key__` to the function. When calling
+When calling
 {func}`compute_taxes_and_transfers <_gettsim.interface.compute_taxes_and_transfers>`
 with `rounding=True`, GETTSIM will look for a key `"rounding"` in
 `policy_params["params_key"]` and within that, for another key containing the decorated
@@ -106,7 +106,7 @@ function should be split up so that another function returns the quantity to be 
 
 ### Error handling
 
-In case a function has a `__rounding_params_key__`, but the respective parameters are
+In case a function has a `__params_key_for_rounding__`, but the respective parameters are
 missing in `policy_params`, an error is raised.
 
 Note that if the results have to be rounded in some years, but not in others (e.g. after
@@ -115,7 +115,7 @@ to `None`. This allows that the rounding parameters are found and no error is ra
 but still no rounding is applied.
 
 In case rounding parameters are specified and the function does not have a
-`__rounding_params_key__` attribute, execution will not lead to an error. This will
+`__params_key_for_rounding__` attribute, execution will not lead to an error. This will
 never happen in the GETTSIM codebase, however, due to a suitable test.
 
 ### User-specified rounding

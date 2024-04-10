@@ -608,8 +608,8 @@ def _add_rounding_to_functions(functions, params):
     for func_name, func in functions.items():
         # If function has rounding params attribute, look for rounding specs in
         # params dict.
-        if hasattr(func, "__info__") and "rounding_params_key" in func.__info__:
-            params_key = func.__info__["rounding_params_key"]
+        if hasattr(func, "__info__") and "params_key_for_rounding" in func.__info__:
+            params_key = func.__info__["params_key_for_rounding"]
 
             # Check if there are any rounding specifications.
             if not (

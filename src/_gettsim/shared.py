@@ -61,7 +61,7 @@ def policy_info(
     -------
         The function with attributes __info__["start_date"],
         __info__["end_date"], __info__["name_in_dag"], and
-        __info__["rounding_params_key"].
+        __info__["params_key_for_rounding"].
     """
 
     _validate_dashed_iso_date(start_date)
@@ -86,7 +86,7 @@ def policy_info(
         func.__info__["end_date"] = end_date
         func.__info__["name_in_dag"] = dag_key
         if rounding_key is not None:
-            func.__info__["rounding_params_key"] = rounding_key
+            func.__info__["params_key_for_rounding"] = rounding_key
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:
