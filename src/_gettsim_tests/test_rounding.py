@@ -280,13 +280,14 @@ def test_decorator_for_all_functions_with_rounding_spec():
     for fn in function_names_to_check:
         assert hasattr(all_functions[fn], "__info__"), (
             f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the add_rounding_spec decorator. The attribute "
+            "function is missing the policy_info decorator. The attribute "
             "__info__ is not found."
         )
         assert "rounding_params_key" in all_functions[fn].__info__, (
             f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the add_rounding_spec decorator. The key "
-            "'rounding_params_key' is not found in the __info__ dict."
+            "function is missing the rounding_key parameter in the policy_info "
+            "decorator. The key 'rounding_params_key' is not found in the __info__ "
+            "dict."
         )
 
 
