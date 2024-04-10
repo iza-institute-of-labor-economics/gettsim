@@ -52,7 +52,7 @@ def kinderzuschl_vermög_freib_bg_bis_2022(
     return arbeitsl_geld_2_vermög_freib_bg
 
 
-@policy_info(start="2023-01-01", change_name="kinderzuschl_vermög_freib_bg")
+@policy_info(start_date="2023-01-01", change_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_ab_2023(
     _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
 ) -> float:
@@ -233,7 +233,7 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     return out
 
 
-@policy_info(start="2023-01-01")
+@policy_info(start_date="2023-01-01")
 def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params: dict,
     anz_personen_hh: int,
@@ -264,7 +264,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     return out
 
 
-@policy_info(start="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_bg")
+@policy_info(start_date="2023-01-01", change_name="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     anz_personen_hh: int,

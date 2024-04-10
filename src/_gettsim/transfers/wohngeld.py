@@ -150,7 +150,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     return out
 
 
-@policy_info(start="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
+@policy_info(start_date="2007-01-01", change_name="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst_y: float,
     eink_abhängig_beschäftigt_y: float,
@@ -293,7 +293,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-@policy_info(start="2016-01-01", change_name="wohngeld_eink_freib_m")
+@policy_info(start_date="2016-01-01", change_name="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -455,7 +455,7 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     return out
 
 
-@policy_info(start="2009-01-01", change_name="wohngeld_miete_m_hh")
+@policy_info(start_date="2009-01-01", change_name="wohngeld_miete_m_hh")
 def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen_hh: int,

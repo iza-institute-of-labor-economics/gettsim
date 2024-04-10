@@ -100,7 +100,7 @@ def eink_st_alleinerz_freib_y_sn_pauschal(
     return out
 
 
-@policy_info(start="2015-01-01", change_name="alleinerz_freib_y_sn")
+@policy_info(start_date="2015-01-01", change_name="alleinerz_freib_y_sn")
 def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
     alleinerz_sn: bool,
     kindergeld_anz_ansprüche_sn: int,
@@ -184,7 +184,7 @@ def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     return out
 
 
-@policy_info(start="2005-01-01", change_name="eink_st_altersfreib_y")
+@policy_info(start_date="2005-01-01", change_name="eink_st_altersfreib_y")
 def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
@@ -280,7 +280,7 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     return float(out)
 
 
-@policy_info(start="2012-01-01", change_name="eink_st_sonderausgaben_y_sn")
+@policy_info(start_date="2012-01-01", change_name="eink_st_sonderausgaben_y_sn")
 def eink_st_sonderausgaben_y_sn_mit_betreuung(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_y_sn: float,

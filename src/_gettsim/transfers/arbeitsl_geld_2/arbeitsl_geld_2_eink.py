@@ -181,7 +181,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
     return out
 
 
-@policy_info(start="2005-10-01")
+@policy_info(start_date="2005-10-01")
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     eink_selbst_m: float,

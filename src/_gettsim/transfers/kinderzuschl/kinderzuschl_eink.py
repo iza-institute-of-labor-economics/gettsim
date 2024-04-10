@@ -110,7 +110,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     return float(out)
 
 
-@policy_info(start="2011-01-01")
+@policy_info(start_date="2011-01-01")
 def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,

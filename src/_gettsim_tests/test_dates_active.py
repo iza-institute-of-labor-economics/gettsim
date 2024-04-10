@@ -27,7 +27,7 @@ def _setup_and_teardown():
     ],
 )
 def test_dates_active_start_date_valid(date_string: str, expected: datetime.date):
-    @policy_info(start=date_string)
+    @policy_info(start_date=date_string)
     def test_func():
         pass
 
@@ -45,7 +45,7 @@ def test_dates_active_start_date_valid(date_string: str, expected: datetime.date
 def test_dates_active_start_date_invalid(date_string: str):
     with pytest.raises(ValueError):
 
-        @policy_info(start=date_string)
+        @policy_info(start_date=date_string)
         def test_func():
             pass
 
@@ -124,7 +124,7 @@ def test_dates_active_change_name_missing():
 def test_dates_active_empty_interval():
     with pytest.raises(ValueError):
 
-        @policy_info(start="2023-01-20", end="2023-01-19")
+        @policy_info(start_date="2023-01-20", end="2023-01-19")
         def test_func():
             pass
 
@@ -148,12 +148,12 @@ def test_dates_active_no_conflict(  # noqa: PLR0913
     start_2: str,
     end_2: str,
 ):
-    @policy_info(change_name=dag_key_1, start=start_1, end=end_1)
+    @policy_info(change_name=dag_key_1, start_date=start_1, end=end_1)
     def func_1():
         pass
 
     # Using the decorator again should not raise an error
-    @policy_info(change_name=dag_key_2, start=start_2, end=end_2)
+    @policy_info(change_name=dag_key_2, start_date=start_2, end=end_2)
     def func_2():
         pass
 
@@ -174,13 +174,13 @@ def test_dates_active_conflict(
     start_2: str,
     end_2: str,
 ):
-    @policy_info(change_name="func_1", start=start_1, end=end_1)
+    @policy_info(change_name="func_1", start_date=start_1, end=end_1)
     def func_1():
         pass
 
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
 
-        @policy_info(change_name="func_1", start=start_2, end=end_2)
+        @policy_info(change_name="func_1", start_date=start_2, end=end_2)
         def func_2():
             pass

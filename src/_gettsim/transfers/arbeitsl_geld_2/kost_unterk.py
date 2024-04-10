@@ -27,7 +27,7 @@ def arbeitsl_geld_2_kost_unterk_m_bg_bis_2022(
     )
 
 
-@policy_info(start="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
+@policy_info(start_date="2023-01-01", change_name="arbeitsl_geld_2_kost_unterk_m_bg")
 def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
     bruttokaltmiete_m_hh: float,
     heizkosten_m_hh: float,

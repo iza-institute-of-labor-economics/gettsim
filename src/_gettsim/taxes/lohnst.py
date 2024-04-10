@@ -94,7 +94,7 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
 
 
 @policy_info(
-    start="2019-01-01",
+    start_date="2019-01-01",
     change_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2019(
@@ -140,7 +140,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 
 
 @policy_info(
-    start="2015-01-01",
+    start_date="2015-01-01",
     end="2018-12-31",
     change_name="vorsorge_krankenv_option_b",
 )
@@ -230,7 +230,7 @@ def vorsorge_krankenv_option_a(
 
 
 @policy_info(
-    start="2010-01-01", change_name="vorsorgepauschale_y", rounding_key="lohnst"
+    start_date="2010-01-01", change_name="vorsorgepauschale_y", rounding_key="lohnst"
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     bruttolohn_m: float,
@@ -300,7 +300,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 
 
 @policy_info(
-    start="2005-01-01",
+    start_date="2005-01-01",
     end="2009-12-31",
     change_name="vorsorgepauschale_y",
     rounding_key="lohnst",

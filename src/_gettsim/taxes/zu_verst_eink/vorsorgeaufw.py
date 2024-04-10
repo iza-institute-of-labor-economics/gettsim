@@ -2,7 +2,7 @@ from _gettsim.shared import policy_info
 
 
 @policy_info(
-    start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_sn"
+    start_date="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_sn"
 )
 def vorsorgeaufw_alter_y_sn_einfuehrung(
     ges_rentenv_beitr_m_sn: float,
@@ -41,7 +41,7 @@ def vorsorgeaufw_alter_y_sn_einfuehrung(
     return out
 
 
-@policy_info(start="2023-01-01")
+@policy_info(start_date="2023-01-01")
 def vorsorgeaufw_alter_y_sn(
     ges_rentenv_beitr_m_sn: float,
     priv_rentenv_beitr_m_sn: float,
@@ -72,7 +72,7 @@ def vorsorgeaufw_alter_y_sn(
 
 
 @policy_info(
-    start="2005-01-01",
+    start_date="2005-01-01",
     end="2009-12-31",
     change_name="einführung_vorsorgeaufw_y_sn",
 )
@@ -117,7 +117,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
 
 
 @policy_info(
-    start="2005-01-01",
+    start_date="2005-01-01",
     end="2019-12-31",
     change_name="vorsorgeaufw_y_sn",
     rounding_key="eink_st_abzuege",
@@ -155,7 +155,7 @@ def vorsorgeaufw_y_sn_guenstiger(
 
 
 @policy_info(
-    start="2010-01-01",
+    start_date="2010-01-01",
     end="2019-12-31",
     change_name="einführung_vorsorgeaufw_y_sn",
 )
@@ -166,7 +166,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2010_bis_2019(
 
 
 @policy_info(
-    start="2020-01-01", change_name="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
+    start_date="2020-01-01", change_name="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
 )
 def _vorsorgeaufw_y_sn_ab_2020(vorsorgeaufw_y_sn_ab_2020: float) -> float:
     return vorsorgeaufw_y_sn_ab_2020
@@ -227,7 +227,7 @@ def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
 
 
 @policy_info(
-    start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn_bis_2004"
+    start_date="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn_bis_2004"
 )
 def _vorsorgeaufw_y_sn_bis_2004(
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004: float,

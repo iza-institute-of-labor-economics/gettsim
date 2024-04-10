@@ -90,7 +90,7 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
     return out
 
 
-@policy_info(start="2019-07-01")
+@policy_info(start_date="2019-07-01")
 def _kinderzuschl_vor_vermög_check_m_bg(
     kinderzuschl_bruttoeink_eltern_m_bg: float,
     kinderzuschl_eink_min_m_bg: float,

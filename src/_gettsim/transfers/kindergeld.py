@@ -16,7 +16,7 @@ aggregate_by_p_id_kindergeld = {
 }
 
 
-@policy_info(start="2023-01-01", change_name="kindergeld_m")
+@policy_info(start_date="2023-01-01", change_name="kindergeld_m")
 def kindergeld_ohne_staffelung_m(
     kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
@@ -117,7 +117,7 @@ def kindergeld_anspruch_nach_lohn(
     return out
 
 
-@policy_info(start="2012-01-01", change_name="kindergeld_anspruch")
+@policy_info(start_date="2012-01-01", change_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_stunden(
     alter: int,
     in_ausbildung: bool,

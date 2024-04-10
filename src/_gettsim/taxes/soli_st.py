@@ -40,7 +40,7 @@ def soli_st_y_sn_ohne_abgelt_st(
     return out
 
 
-@policy_info(start="2009-01-01", change_name="soli_st_y_sn")
+@policy_info(start_date="2009-01-01", change_name="soli_st_y_sn")
 def soli_st_y_sn_mit_abgelt_st(
     eink_st_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,

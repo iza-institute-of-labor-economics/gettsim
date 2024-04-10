@@ -138,7 +138,7 @@ def eink_rente_zu_verst_y(
     return eink_rente_zu_verst_m * 12
 
 
-@policy_info(start="2009-01-01", change_name="sum_eink_y")
+@policy_info(start_date="2009-01-01", change_name="sum_eink_y")
 def sum_eink_ohne_kapital_eink_y(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,

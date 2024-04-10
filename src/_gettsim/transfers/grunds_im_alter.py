@@ -313,7 +313,7 @@ def grunds_im_alter_ges_rente_m_bis_2020(
     return ges_rente_m
 
 
-@policy_info(start="2021-01-01", change_name="grunds_im_alter_ges_rente_m")
+@policy_info(start_date="2021-01-01", change_name="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_ab_2021(
     ges_rente_m: float,
     grundr_berechtigt: bool,
