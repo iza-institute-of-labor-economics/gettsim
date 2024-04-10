@@ -120,7 +120,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
     start_date="2005-01-01",
     end_date="2019-12-31",
     name_in_dag="vorsorgeaufw_y_sn",
-    rounding_key="eink_st_abzuege",
+    params_key_for_rounding="eink_st_abzuege",
 )
 def vorsorgeaufw_y_sn_guenstiger(
     vorsorgeaufw_y_sn_bis_2004: float,
@@ -166,7 +166,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2010_bis_2019(
 
 
 @policy_info(
-    start_date="2020-01-01", name_in_dag="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
+    start_date="2020-01-01", name_in_dag="vorsorgeaufw_y_sn", params_key_for_rounding="eink_st_abzuege"
 )
 def _vorsorgeaufw_y_sn_ab_2020(vorsorgeaufw_y_sn_ab_2020: float) -> float:
     return vorsorgeaufw_y_sn_ab_2020
@@ -246,7 +246,7 @@ def _vorsorgeaufw_y_sn_bis_2004(
 
 
 @policy_info(
-    end_date="2004-12-31", name_in_dag="vorsorgeaufw_y_sn", rounding_key="eink_st_abzuege"
+    end_date="2004-12-31", name_in_dag="vorsorgeaufw_y_sn", params_key_for_rounding="eink_st_abzuege"
 )
 def vorsorgeaufw_y_sn_bis_2004(
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004: float,

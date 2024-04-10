@@ -20,7 +20,7 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@policy_info(rounding_key="unterhaltsvors")
+@policy_info(params_key_for_rounding="unterhaltsvors")
 def unterhaltsvors_m(
     alleinerz: bool,
     kind_unterh_erhalt_m: float,

@@ -24,12 +24,12 @@ def policy_info(
     start_date: str = "0001-01-01",
     end_date: str = "9999-12-31",
     name_in_dag: str | None = None,
-    rounding_key: str | None = None,
+    params_key_for_rounding: str | None = None,
 ) -> Callable:
     """
     A decorator to attach additional information to a policy function.
 
-    **Dates active (start, end, change_name):**
+    **Dates active (start_date, end_date, name_in_dag):**
 
     Specifies that a function is only active between two dates, `start` and `end`. By
     using the `change_name` argument, you can specify a different name for the function
@@ -39,7 +39,7 @@ def policy_info(
     ensure that the function name is unique in the file where it is defined. Otherwise,
     the function would be overwritten by the last function with the same name.
 
-    **Rounding spec (rounding_key):**
+    **Rounding spec (params_key_for_rounding):**
 
     Adds the location of the rounding specification to a function.
 
@@ -52,7 +52,7 @@ def policy_info(
     name_in_dag
         The name that should be used as the key for the function in the DAG.
         If omitted, we use the name of the function as defined.
-    rounding_key
+    params_key_for_rounding
         Key of the parameters dictionary where rounding specifications are found. For
         functions that are not user-written this is just the name of the respective
         .yaml file.
@@ -85,8 +85,8 @@ def policy_info(
         func.__info__["start_date"] = start_date
         func.__info__["end_date"] = end_date
         func.__info__["name_in_dag"] = dag_key
-        if rounding_key is not None:
-            func.__info__["params_key_for_rounding"] = rounding_key
+        if params_key_for_rounding is not None:
+            func.__info__["params_key_for_rounding"] = params_key_for_rounding
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:

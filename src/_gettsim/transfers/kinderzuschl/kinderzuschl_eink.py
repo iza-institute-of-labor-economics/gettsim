@@ -43,7 +43,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     return out
 
 
-@policy_info(rounding_key="kinderzuschl_eink")
+@policy_info(params_key_for_rounding="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_eink_m: float,
     kindergeld_anspruch: bool,

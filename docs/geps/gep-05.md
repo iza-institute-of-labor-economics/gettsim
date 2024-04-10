@@ -71,16 +71,16 @@ following elements:
 In the same way as other policy parameters, the rounding parameters become part of the
 dictionary `policy_params`.
 
-A function to be rounded must be decorated with `policy_info`. Set the `rounding_key`
+A function to be rounded must be decorated with `policy_info`. Set the `params_key_for_rounding`
 parameter to point to the key of the policy parameters dictionary containing the
 rounding parameters relating to the function that is decorated. In the above example,
 the rounding specification for `grundr_zuschlag_höchstwert_m` will be found in
 `policy_params["ges_rente"]` after {func}`set_up_policy_environment()` has been called
-(since it was specified in `ges_rente.yaml`). Hence, the `rounding_key` argument of
+(since it was specified in `ges_rente.yaml`). Hence, the `params_key_for_rounding` argument of
 `policy_info` has to be `"ges_rente"`:
 
 ```python
-@policy_info(rounding_key="ges_rente")
+@policy_info(params_key_for_rounding="ges_rente")
 def grundr_zuschlag_höchstwert_m(grundr_zeiten: int) -> float:
     ...
     return out

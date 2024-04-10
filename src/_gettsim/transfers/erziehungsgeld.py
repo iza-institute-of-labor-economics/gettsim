@@ -43,7 +43,7 @@ def erziehungsgeld_m(
 
 
 @policy_info(
-    end_date="2003-12-31", name_in_dag="erziehungsgeld_kind_m", rounding_key="erziehungsgeld"
+    end_date="2003-12-31", name_in_dag="erziehungsgeld_kind_m", params_key_for_rounding="erziehungsgeld"
 )
 def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
@@ -58,7 +58,7 @@ def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     start_date="2004-01-01",
     end_date="2008-12-31",
     name_in_dag="erziehungsgeld_kind_m",
-    rounding_key="erziehungsgeld",
+    params_key_for_rounding="erziehungsgeld",
 )
 def erziehungsgeld_kind_mit_budgetsatz_m(
     erziehungsgeld_anspruch_kind: bool,
