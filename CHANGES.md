@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`720` Combined decorator for policy information ({ghuser}`lars-reimann`).
 - {gh}`700` Data columns overwrite functions regardless of time unit
   ({ghuser}`lars-reimann`).
 - {gh}`694` Replace `tu` groupings with correct groupings. ({ghuser}`MImmesberger`,
