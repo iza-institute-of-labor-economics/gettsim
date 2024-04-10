@@ -16,7 +16,7 @@ class KeyErrorMessage(str):
         return str(self)
 
 
-def add_rounding_spec(params_key):
+def add_rounding_spec(*, params_key):
     """Decorator adding the location of the rounding specification to a function.
 
     Parameters
@@ -48,6 +48,7 @@ TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
 def dates_active(
+    *,
     start: str = "0001-01-01",
     end: str = "9999-12-31",
     change_name: str | None = None,
