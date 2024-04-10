@@ -2,7 +2,7 @@ from _gettsim.shared import add_rounding_spec, policy_info
 
 
 @policy_info(end="1999-12-31", change_name="minijob_grenze")
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
@@ -25,7 +25,7 @@ def minijob_grenze_unterscheidung_ost_west(
 
 
 @policy_info(start="2000-01-01", end="2022-09-30", change_name="minijob_grenze")
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     """Select the income threshold depending on place of living.
 
@@ -40,7 +40,7 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
 
 
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 @policy_info(start="2022-10-01", change_name="minijob_grenze")
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
@@ -124,7 +124,7 @@ def in_gleitzone(
     end="2004-12-31",
     change_name="midijob_faktor_f",
 )
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
@@ -180,7 +180,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     end="2022-09-30",
     change_name="midijob_faktor_f",
 )
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,
@@ -234,7 +234,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 
 
 @policy_info(start="2022-10-01", change_name="midijob_faktor_f")
-@add_rounding_spec(params_key="sozialv_beitr")
+@add_rounding_spec(rounding_key="sozialv_beitr")
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
     _ges_krankenv_beitr_satz_jahresanfang: float,

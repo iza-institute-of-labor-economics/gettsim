@@ -42,7 +42,7 @@ def erziehungsgeld_m(
     return out
 
 
-@add_rounding_spec(params_key="erziehungsgeld")
+@add_rounding_spec(rounding_key="erziehungsgeld")
 @policy_info(end="2003-12-31", change_name="erziehungsgeld_kind_m")
 def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
@@ -53,7 +53,7 @@ def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     )
 
 
-@add_rounding_spec(params_key="erziehungsgeld")
+@add_rounding_spec(rounding_key="erziehungsgeld")
 @policy_info(start="2004-01-01", end="2008-12-31", change_name="erziehungsgeld_kind_m")
 def erziehungsgeld_kind_mit_budgetsatz_m(
     erziehungsgeld_anspruch_kind: bool,

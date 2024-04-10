@@ -32,7 +32,7 @@ rounding_specs_and_exp_results = [
 
 
 def test_decorator():
-    @add_rounding_spec(params_key="params_key_test")
+    @add_rounding_spec(rounding_key="params_key_test")
     def test_func():
         return 0
 
@@ -51,7 +51,7 @@ def test_decorator():
 def test_no_rounding_specs(rounding_specs):
     with pytest.raises(KeyError):
 
-        @add_rounding_spec(params_key="params_key_test")
+        @add_rounding_spec(rounding_key="params_key_test")
         def test_func():
             return 0
 
@@ -75,7 +75,7 @@ def test_no_rounding_specs(rounding_specs):
 def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
     with pytest.raises(ValueError):
 
-        @add_rounding_spec(params_key="params_key_test")
+        @add_rounding_spec(rounding_key="params_key_test")
         def test_func():
             return 0
 
@@ -107,7 +107,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     """Check if rounding is correct."""
 
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @add_rounding_spec(rounding_key="params_key_test")
     def test_func(income):
         return income
 
@@ -141,7 +141,7 @@ def test_rounding_with_time_conversion():
     """Check if rounding is correct for time-converted functions."""
 
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @add_rounding_spec(rounding_key="params_key_test")
     def test_func_m(income):
         return income
 
@@ -176,7 +176,7 @@ def test_no_rounding(
     base, direction, to_add_after_rounding, input_values_exp_output, _ignore
 ):
     # Define function that should be rounded
-    @add_rounding_spec(params_key="params_key_test")
+    @add_rounding_spec(rounding_key="params_key_test")
     def test_func(income):
         return income
 
@@ -303,7 +303,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     ],
 )
 def test_raise_if_missing_rounding_spec(params, match):
-    @add_rounding_spec(params_key="eink_st")
+    @add_rounding_spec(rounding_key="eink_st")
     def eink_st_func(arg_1: float) -> float:
         return arg_1
 

@@ -338,7 +338,7 @@ def eink_st_abz_betreuungskost_y(
     return out
 
 
-@add_rounding_spec(params_key="eink_st_abzuege")
+@add_rounding_spec(rounding_key="eink_st_abzuege")
 def sonderausgaben_betreuung_y_sn(
     eink_st_abzuege_params: dict,
     eink_st_abz_betreuungskost_y_sn: float,

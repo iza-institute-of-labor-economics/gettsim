@@ -117,7 +117,7 @@ def _zu_verst_eink_mit_kinderfreib_y_sn(
     return max(out, 0.0)
 
 
-@add_rounding_spec(params_key="eink_st")
+@add_rounding_spec(rounding_key="eink_st")
 def zu_verst_eink_y_sn(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,

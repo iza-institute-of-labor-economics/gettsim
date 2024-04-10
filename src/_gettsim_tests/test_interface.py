@@ -380,7 +380,7 @@ def test_partial_parameters_to_functions_removes_argument():
 def test_partial_parameters_to_functions_keep_decorator():
     """Make sure that rounding decorator is kept for partial function."""
 
-    @add_rounding_spec(params_key="params_key_test")
+    @add_rounding_spec(rounding_key="params_key_test")
     def test_func(arg_1, arbeitsl_geld_2_params):
         return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 

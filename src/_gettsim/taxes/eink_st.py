@@ -105,7 +105,7 @@ def _eink_st_tarif(x: float, params: dict) -> float:
 
 
 @policy_info(end="1996-12-31", change_name="eink_st_y_sn")
-@add_rounding_spec(params_key="eink_st")
+@add_rounding_spec(rounding_key="eink_st")
 def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_y_sn: float,
 ) -> float:
@@ -125,7 +125,7 @@ def eink_st_y_sn_kindergeld_kinderfreib_parallel(
 
 
 @policy_info(start="1997-01-01", change_name="eink_st_y_sn")
-@add_rounding_spec(params_key="eink_st")
+@add_rounding_spec(rounding_key="eink_st")
 def eink_st_y_sn_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_y_sn: float,
     eink_st_mit_kinderfreib_y_sn: float,

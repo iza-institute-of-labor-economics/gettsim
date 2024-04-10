@@ -16,12 +16,12 @@ class KeyErrorMessage(str):
         return str(self)
 
 
-def add_rounding_spec(*, params_key):
+def add_rounding_spec(*, rounding_key):
     """Decorator adding the location of the rounding specification to a function.
 
     Parameters
     ----------
-    params_key : str
+    rounding_key : str
         Key of the parameters dictionary where rounding specifications are found. For
         functions that are not user-written this is just the name of the respective
         .yaml file.
@@ -37,7 +37,7 @@ def add_rounding_spec(*, params_key):
         # Remember data from decorator
         if not hasattr(func, "__info__"):
             func.__info__ = {}
-        func.__info__["rounding_params_key"] = params_key
+        func.__info__["rounding_params_key"] = rounding_key
 
         return func
 

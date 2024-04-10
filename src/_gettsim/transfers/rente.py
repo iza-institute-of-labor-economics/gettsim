@@ -20,7 +20,7 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
     return out
 
 
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(rounding_key="ges_rente")
 def ges_rente_vor_grundr_m(
     ges_rente_zugangsfaktor: float,
     entgeltp_ost_update: float,
@@ -75,7 +75,7 @@ def ges_rente_m(ges_rente_vor_grundr_m: float) -> float:
 
 
 @policy_info(start="2021-01-01", change_name="ges_rente_m")
-@add_rounding_spec(params_key="ges_rente")
+@add_rounding_spec(rounding_key="ges_rente")
 def ges_rente_m_nach_grundr(
     ges_rente_vor_grundr_m: float,
     grundr_zuschlag_m: float,
