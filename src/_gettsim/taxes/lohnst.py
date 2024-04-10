@@ -1,4 +1,4 @@
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import add_rounding_spec, policy_info
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
@@ -93,7 +93,7 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     return out
 
 
-@dates_active(
+@policy_info(
     start="2019-01-01",
     change_name="vorsorge_krankenv_option_b",
 )
@@ -139,7 +139,7 @@ def vorsorge_krankenv_option_b_ab_2019(
     return out
 
 
-@dates_active(
+@policy_info(
     start="2015-01-01",
     end="2018-12-31",
     change_name="vorsorge_krankenv_option_b",
@@ -229,7 +229,7 @@ def vorsorge_krankenv_option_a(
     return out
 
 
-@dates_active(
+@policy_info(
     start="2010-01-01",
     change_name="vorsorgepauschale_y",
 )
@@ -301,7 +301,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     return out
 
 
-@dates_active(
+@policy_info(
     start="2005-01-01",
     end="2009-12-31",
     change_name="vorsorgepauschale_y",

@@ -1,5 +1,5 @@
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import add_rounding_spec, policy_info
 
 aggregate_by_p_id_freibeträge = {
     "_eink_st_kinderfreib_anz_anspruch_1": {
@@ -73,7 +73,7 @@ def _eink_st_behinderungsgrad_pauschbetrag_y(
     return float(out)
 
 
-@dates_active(end="2014-12-31", change_name="alleinerz_freib_y_sn")
+@policy_info(end="2014-12-31", change_name="alleinerz_freib_y_sn")
 def eink_st_alleinerz_freib_y_sn_pauschal(
     alleinerz_sn: bool, eink_st_abzuege_params: dict
 ) -> float:
@@ -100,7 +100,7 @@ def eink_st_alleinerz_freib_y_sn_pauschal(
     return out
 
 
-@dates_active(start="2015-01-01", change_name="alleinerz_freib_y_sn")
+@policy_info(start="2015-01-01", change_name="alleinerz_freib_y_sn")
 def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
     alleinerz_sn: bool,
     kindergeld_anz_ansprüche_sn: int,
@@ -137,7 +137,7 @@ def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
     return out
 
 
-@dates_active(end="2004-12-31", change_name="eink_st_altersfreib_y")
+@policy_info(end="2004-12-31", change_name="eink_st_altersfreib_y")
 def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
@@ -184,7 +184,7 @@ def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2005-01-01", change_name="eink_st_altersfreib_y")
+@policy_info(start="2005-01-01", change_name="eink_st_altersfreib_y")
 def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
@@ -251,7 +251,7 @@ def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     return out
 
 
-@dates_active(end="2011-12-31", change_name="eink_st_sonderausgaben_y_sn")
+@policy_info(end="2011-12-31", change_name="eink_st_sonderausgaben_y_sn")
 def eink_st_sonderausgaben_y_sn_nur_pauschale(
     eink_st_abzuege_params: dict,
     anz_personen_sn: int,
@@ -280,7 +280,7 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     return float(out)
 
 
-@dates_active(start="2012-01-01", change_name="eink_st_sonderausgaben_y_sn")
+@policy_info(start="2012-01-01", change_name="eink_st_sonderausgaben_y_sn")
 def eink_st_sonderausgaben_y_sn_mit_betreuung(
     eink_st_abzuege_params: dict,
     sonderausgaben_betreuung_y_sn: float,

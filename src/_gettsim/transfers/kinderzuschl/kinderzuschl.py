@@ -2,7 +2,7 @@
 
 """
 
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
 def kinderzuschl_m_bg(
@@ -38,7 +38,7 @@ def kinderzuschl_m_bg(
     return out
 
 
-@dates_active(
+@policy_info(
     end="2019-06-30",
     change_name="_kinderzuschl_vor_vermög_check_m_bg",
 )
@@ -90,7 +90,7 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2019-07-01")
+@policy_info(start="2019-07-01")
 def _kinderzuschl_vor_vermög_check_m_bg(
     kinderzuschl_bruttoeink_eltern_m_bg: float,
     kinderzuschl_eink_min_m_bg: float,

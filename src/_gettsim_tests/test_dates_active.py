@@ -4,7 +4,7 @@ import pytest
 from _gettsim.shared import (
     TIME_DEPENDENT_FUNCTIONS,
     ConflictingTimeDependentFunctionsError,
-    dates_active,
+    policy_info,
 )
 
 
@@ -27,7 +27,7 @@ def _setup_and_teardown():
     ],
 )
 def test_dates_active_start_date_valid(date_string: str, expected: datetime.date):
-    @dates_active(start=date_string)
+    @policy_info(start=date_string)
     def test_func():
         pass
 
@@ -45,13 +45,13 @@ def test_dates_active_start_date_valid(date_string: str, expected: datetime.date
 def test_dates_active_start_date_invalid(date_string: str):
     with pytest.raises(ValueError):
 
-        @dates_active(start=date_string)
+        @policy_info(start=date_string)
         def test_func():
             pass
 
 
 def test_dates_active_start_date_missing():
-    @dates_active()
+    @policy_info()
     def test_func():
         pass
 
@@ -68,7 +68,7 @@ def test_dates_active_start_date_missing():
     ],
 )
 def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
-    @dates_active(end=date_string)
+    @policy_info(end=date_string)
     def test_func():
         pass
 
@@ -86,13 +86,13 @@ def test_dates_active_end_date_valid(date_string: str, expected: datetime.date):
 def test_dates_active_end_date_invalid(date_string: str):
     with pytest.raises(ValueError):
 
-        @dates_active(end=date_string)
+        @policy_info(end=date_string)
         def test_func():
             pass
 
 
 def test_dates_active_end_date_missing():
-    @dates_active()
+    @policy_info()
     def test_func():
         pass
 
@@ -103,7 +103,7 @@ def test_dates_active_end_date_missing():
 
 
 def test_dates_active_change_name_given():
-    @dates_active(change_name="renamed_func")
+    @policy_info(change_name="renamed_func")
     def test_func():
         pass
 
@@ -111,7 +111,7 @@ def test_dates_active_change_name_given():
 
 
 def test_dates_active_change_name_missing():
-    @dates_active()
+    @policy_info()
     def test_func():
         pass
 
@@ -124,7 +124,7 @@ def test_dates_active_change_name_missing():
 def test_dates_active_empty_interval():
     with pytest.raises(ValueError):
 
-        @dates_active(start="2023-01-20", end="2023-01-19")
+        @policy_info(start="2023-01-20", end="2023-01-19")
         def test_func():
             pass
 
@@ -148,12 +148,12 @@ def test_dates_active_no_conflict(  # noqa: PLR0913
     start_2: str,
     end_2: str,
 ):
-    @dates_active(change_name=dag_key_1, start=start_1, end=end_1)
+    @policy_info(change_name=dag_key_1, start=start_1, end=end_1)
     def func_1():
         pass
 
     # Using the decorator again should not raise an error
-    @dates_active(change_name=dag_key_2, start=start_2, end=end_2)
+    @policy_info(change_name=dag_key_2, start=start_2, end=end_2)
     def func_2():
         pass
 
@@ -174,13 +174,13 @@ def test_dates_active_conflict(
     start_2: str,
     end_2: str,
 ):
-    @dates_active(change_name="func_1", start=start_1, end=end_1)
+    @policy_info(change_name="func_1", start=start_1, end=end_1)
     def func_1():
         pass
 
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
 
-        @dates_active(change_name="func_1", start=start_2, end=end_2)
+        @policy_info(change_name="func_1", start=start_2, end=end_2)
         def func_2():
             pass

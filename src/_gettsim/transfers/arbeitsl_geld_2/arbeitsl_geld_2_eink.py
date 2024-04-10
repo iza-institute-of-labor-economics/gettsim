@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
@@ -97,7 +97,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     return out
 
 
-@dates_active(end="2005-09-30")
+@policy_info(end="2005-09-30")
 def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     bruttolohn_m: float,
     eink_st_y_sn: float,
@@ -145,7 +145,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     return alg2_2005_bne / bruttolohn_m
 
 
-@dates_active(
+@policy_info(
     end="2005-09-30",
     change_name="arbeitsl_geld_2_eink_anr_frei_m",
 )
@@ -181,7 +181,7 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
     return out
 
 
-@dates_active(start="2005-10-01")
+@policy_info(start="2005-10-01")
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     eink_selbst_m: float,

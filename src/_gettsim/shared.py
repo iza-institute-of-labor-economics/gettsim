@@ -47,7 +47,7 @@ def add_rounding_spec(*, params_key):
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
-def dates_active(
+def policy_info(
     *,
     start: str = "0001-01-01",
     end: str = "9999-12-31",

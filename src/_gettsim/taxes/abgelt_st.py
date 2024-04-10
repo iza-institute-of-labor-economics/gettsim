@@ -1,7 +1,7 @@
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
-@dates_active(start="2009-01-01")
+@policy_info(start="2009-01-01")
 def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
     """Calculate abgeltungssteuer on Steuernummer level.
 

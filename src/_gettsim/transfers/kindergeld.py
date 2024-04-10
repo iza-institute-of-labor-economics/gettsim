@@ -1,4 +1,4 @@
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 aggregate_by_group_kindergeld = {
     "anz_kinder_mit_kindergeld_fg": {
@@ -16,7 +16,7 @@ aggregate_by_p_id_kindergeld = {
 }
 
 
-@dates_active(start="2023-01-01", change_name="kindergeld_m")
+@policy_info(start="2023-01-01", change_name="kindergeld_m")
 def kindergeld_ohne_staffelung_m(
     kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
@@ -41,7 +41,7 @@ def kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_anz_ansprüche
 
 
-@dates_active(end="2022-12-31", change_name="kindergeld_m")
+@policy_info(end="2022-12-31", change_name="kindergeld_m")
 def kindergeld_gestaffelt_m(
     kindergeld_anz_ansprüche: bool,
     kindergeld_params: dict,
@@ -80,7 +80,7 @@ def kindergeld_gestaffelt_m(
     return sum_kindergeld
 
 
-@dates_active(end="2011-12-31", change_name="kindergeld_anspruch")
+@policy_info(end="2011-12-31", change_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_lohn(
     alter: int,
     in_ausbildung: bool,
@@ -117,7 +117,7 @@ def kindergeld_anspruch_nach_lohn(
     return out
 
 
-@dates_active(start="2012-01-01", change_name="kindergeld_anspruch")
+@policy_info(start="2012-01-01", change_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_stunden(
     alter: int,
     in_ausbildung: bool,

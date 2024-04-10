@@ -1,4 +1,4 @@
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import add_rounding_spec, policy_info
 
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
@@ -75,7 +75,7 @@ def kinderzuschl_eink_eltern_m(
     return out
 
 
-@dates_active(end="2010-12-31", change_name="kinderzuschl_eink_regel_m_bg")
+@policy_info(end="2010-12-31", change_name="kinderzuschl_eink_regel_m_bg")
 def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
@@ -110,7 +110,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     return float(out)
 
 
-@dates_active(start="2011-01-01")
+@policy_info(start="2011-01-01")
 def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
@@ -160,7 +160,7 @@ def kinderzuschl_eink_relev_m_bg(
     return kinderzuschl_eink_regel_m_bg + kinderzuschl_kost_unterk_m_bg
 
 
-@dates_active(end="2019-06-30")
+@policy_info(end="2019-06-30")
 def kinderzuschl_eink_max_m_bg(
     kinderzuschl_eink_relev_m_bg: float,
     _kinderzuschl_anz_kinder_anspruch_bg: int,

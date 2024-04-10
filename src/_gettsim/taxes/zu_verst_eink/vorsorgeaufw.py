@@ -1,7 +1,7 @@
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import add_rounding_spec, policy_info
 
 
-@dates_active(
+@policy_info(
     start="2005-01-01", end="2022-12-31", change_name="vorsorgeaufw_alter_y_sn"
 )
 def vorsorgeaufw_alter_y_sn_einfuehrung(
@@ -41,7 +41,7 @@ def vorsorgeaufw_alter_y_sn_einfuehrung(
     return out
 
 
-@dates_active(start="2023-01-01")
+@policy_info(start="2023-01-01")
 def vorsorgeaufw_alter_y_sn(
     ges_rentenv_beitr_m_sn: float,
     priv_rentenv_beitr_m_sn: float,
@@ -71,7 +71,7 @@ def vorsorgeaufw_alter_y_sn(
     return min(out, max_value)
 
 
-@dates_active(
+@policy_info(
     start="2005-01-01",
     end="2009-12-31",
     change_name="einführung_vorsorgeaufw_y_sn",
@@ -116,7 +116,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
     return out
 
 
-@dates_active(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn")
+@policy_info(start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn")
 @add_rounding_spec(params_key="eink_st_abzuege")
 def vorsorgeaufw_y_sn_guenstiger(
     vorsorgeaufw_y_sn_bis_2004: float,
@@ -150,7 +150,7 @@ def vorsorgeaufw_y_sn_guenstiger(
     return max(vorsorgeaufw_y_sn_bis_2004, einführung_vorsorgeaufw_y_sn)
 
 
-@dates_active(
+@policy_info(
     start="2010-01-01",
     end="2019-12-31",
     change_name="einführung_vorsorgeaufw_y_sn",
@@ -161,7 +161,7 @@ def einführung_vorsorgeaufw_y_sn_ab_2010_bis_2019(
     return vorsorgeaufw_y_sn_ab_2020
 
 
-@dates_active(start="2020-01-01", change_name="vorsorgeaufw_y_sn")
+@policy_info(start="2020-01-01", change_name="vorsorgeaufw_y_sn")
 @add_rounding_spec(params_key="eink_st_abzuege")
 def _vorsorgeaufw_y_sn_ab_2020(vorsorgeaufw_y_sn_ab_2020: float) -> float:
     return vorsorgeaufw_y_sn_ab_2020
@@ -221,7 +221,7 @@ def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
     return out
 
 
-@dates_active(
+@policy_info(
     start="2005-01-01", end="2019-12-31", change_name="vorsorgeaufw_y_sn_bis_2004"
 )
 def _vorsorgeaufw_y_sn_bis_2004(
@@ -240,7 +240,7 @@ def _vorsorgeaufw_y_sn_bis_2004(
     )
 
 
-@dates_active(
+@policy_info(
     end="2004-12-31",
     change_name="vorsorgeaufw_y_sn",
 )
@@ -302,7 +302,7 @@ def vorsorgeaufw_y_sn_bis_2004(
     return out
 
 
-@dates_active(end="2019-12-31")
+@policy_info(end="2019-12-31")
 def _vorsorgeaufw_vom_lohn_y_sn_bis_2004(
     bruttolohn_y_sn: float,
     anz_personen_sn: int,
