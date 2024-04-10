@@ -26,7 +26,7 @@ def ges_pflegev_zusatz_kinderlos(
     return (not hat_kinder) and alter >= mindestalter
 
 
-@policy_info(start_date="1995-01-01", end_date="2004-12-31", change_name="ges_pflegev_beitr_satz")
+@policy_info(start_date="1995-01-01", end_date="2004-12-31", name_in_dag="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_ohne_zusatz_fuer_kinderlose(
     sozialv_beitr_params: dict,
 ) -> float:
@@ -45,7 +45,7 @@ def ges_pflegev_beitr_satz_ohne_zusatz_fuer_kinderlose(
     return sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
 
 
-@policy_info(start_date="2005-01-01", end_date="2023-06-30", change_name="ges_pflegev_beitr_satz")
+@policy_info(start_date="2005-01-01", end_date="2023-06-30", name_in_dag="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_zusatz_kinderlos_dummy(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
@@ -72,7 +72,7 @@ def ges_pflegev_beitr_satz_zusatz_kinderlos_dummy(
     return out
 
 
-@policy_info(start_date="2023-07-01", change_name="ges_pflegev_beitr_satz")
+@policy_info(start_date="2023-07-01", name_in_dag="ges_pflegev_beitr_satz")
 def ges_pflegev_beitr_satz_mit_kinder_abschlag(
     anz_eig_kind_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
@@ -109,7 +109,7 @@ def ges_pflegev_beitr_satz_mit_kinder_abschlag(
     return out
 
 
-@policy_info(end_date="2003-03-31", change_name="ges_pflegev_beitr_m")
+@policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_m")
 def ges_pflegev_beitr_m_vor_midijob(
     _ges_pflegev_beitr_reg_beschäftigt_m: float,
     geringfügig_beschäftigt: bool,
@@ -148,7 +148,7 @@ def ges_pflegev_beitr_m_vor_midijob(
     return out + ges_pflegev_beitr_rente_m
 
 
-@policy_info(start_date="2003-04-01", change_name="ges_pflegev_beitr_m")
+@policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_m")
 def ges_pflegev_beitr_m_mit_midijob(  # noqa: PLR0913
     _ges_pflegev_beitr_reg_beschäftigt_m: float,
     geringfügig_beschäftigt: bool,
@@ -218,7 +218,7 @@ def _ges_pflegev_beitr_reg_beschäftigt_m(
     return beitr_regulär_beschäftigt_m
 
 
-@policy_info(end_date="2003-03-31", change_name="ges_pflegev_beitr_arbeitg_m")
+@policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_arbeitg_m")
 def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_krankenv_bruttolohn_m: float,
@@ -255,7 +255,7 @@ def ges_pflegev_beitr_arbeitg_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", change_name="ges_pflegev_beitr_arbeitg_m")
+@policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_arbeitg_m")
 def ges_pflegev_beitr_arbeitg_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
@@ -302,7 +302,7 @@ def ges_pflegev_beitr_arbeitg_m_mit_midijob(
 
 
 @policy_info(
-    start_date="1995-01-01", end_date="2004-12-31", change_name="ges_pflegev_beitr_selbst_m"
+    start_date="1995-01-01", end_date="2004-12-31", name_in_dag="ges_pflegev_beitr_selbst_m"
 )
 def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
@@ -332,7 +332,7 @@ def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
     return out
 
 
-@policy_info(start_date="2005-01-01", change_name="ges_pflegev_beitr_selbst_m")
+@policy_info(start_date="2005-01-01", name_in_dag="ges_pflegev_beitr_selbst_m")
 def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
     _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
     ges_pflegev_beitr_satz: float,
@@ -369,7 +369,7 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
 
 
 @policy_info(
-    start_date="1995-01-01", end_date="2004-03-31", change_name="ges_pflegev_beitr_rente_m"
+    start_date="1995-01-01", end_date="2004-03-31", name_in_dag="ges_pflegev_beitr_rente_m"
 )
 def ges_pflegev_beitr_rente_m_reduz_beitrag(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
@@ -397,7 +397,7 @@ def ges_pflegev_beitr_rente_m_reduz_beitrag(
 
 
 @policy_info(
-    start_date="2004-04-01", end_date="2004-12-31", change_name="ges_pflegev_beitr_rente_m"
+    start_date="2004-04-01", end_date="2004-12-31", name_in_dag="ges_pflegev_beitr_rente_m"
 )
 def ges_pflegev_beitr_rente_m_ohne_zusatz_für_kinderlose(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
@@ -424,7 +424,7 @@ def ges_pflegev_beitr_rente_m_ohne_zusatz_für_kinderlose(
     return out
 
 
-@policy_info(start_date="2005-01-01", change_name="ges_pflegev_beitr_rente_m")
+@policy_info(start_date="2005-01-01", name_in_dag="ges_pflegev_beitr_rente_m")
 def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_pflegev_beitr_satz: float,
@@ -460,7 +460,7 @@ def ges_pflegev_beitr_rente_m_zusatz_kinderlos_dummy(
 @policy_info(
     start_date="2003-04-01",
     end_date="2004-12-31",
-    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
 )
 def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_2004(
     midijob_bemessungsentgelt_m: float,
@@ -492,7 +492,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_bis_2004(
 
 @policy_info(
     start_date="2005-01-01",
-    change_name="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m",
 )
 def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_2005(
     midijob_bemessungsentgelt_m: float,
@@ -525,7 +525,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m_ab_2005(
 
 @policy_info(
     end_date="2004-12-31",
-    change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_arbeitg_m",
 )
 def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
     bruttolohn_m: float,
@@ -554,7 +554,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_bis_2004(
 @policy_info(
     start_date="2005-01-01",
     end_date="2022-09-30",
-    change_name="_ges_pflegev_beitr_midijob_arbeitg_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_arbeitg_m",
 )
 def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     bruttolohn_m: float,
@@ -579,7 +579,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_anteil_bruttolohn_ab_2005(
     return out
 
 
-@policy_info(start_date="2022-10-01", change_name="_ges_pflegev_beitr_midijob_arbeitg_m")
+@policy_info(start_date="2022-10-01", name_in_dag="_ges_pflegev_beitr_midijob_arbeitg_m")
 def _ges_pflegev_beitr_midijob_arbeitg_m_residuum(
     _ges_pflegev_beitr_midijob_sum_arbeitn_arbeitg_m: float,
     _ges_pflegev_beitr_midijob_arbeitn_m: float,
@@ -607,7 +607,7 @@ def _ges_pflegev_beitr_midijob_arbeitg_m_residuum(
 
 @policy_info(
     end_date="2022-09-30",
-    change_name="_ges_pflegev_beitr_midijob_arbeitn_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_arbeitn_m",
 )
 def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
     _ges_pflegev_beitr_midijob_arbeitg_m: float,
@@ -638,7 +638,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_residuum(
 @policy_info(
     start_date="2022-10-01",
     end_date="2023-06-30",
-    change_name="_ges_pflegev_beitr_midijob_arbeitn_m",
+    name_in_dag="_ges_pflegev_beitr_midijob_arbeitn_m",
 )
 def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     ges_pflegev_zusatz_kinderlos: bool,
@@ -680,7 +680,7 @@ def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
     return an_beitr_midijob_m
 
 
-@policy_info(start_date="2023-07-01", change_name="_ges_pflegev_beitr_midijob_arbeitn_m")
+@policy_info(start_date="2023-07-01", name_in_dag="_ges_pflegev_beitr_midijob_arbeitn_m")
 def _ges_pflegev_beitr_midijob_arbeitn_m_anteil_mit_kinder_abschlag(
     anz_eig_kind_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,

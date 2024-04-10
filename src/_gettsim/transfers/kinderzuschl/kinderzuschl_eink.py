@@ -75,7 +75,7 @@ def kinderzuschl_eink_eltern_m(
     return out
 
 
-@policy_info(end_date="2010-12-31", change_name="kinderzuschl_eink_regel_m_bg")
+@policy_info(end_date="2010-12-31", name_in_dag="kinderzuschl_eink_regel_m_bg")
 def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,

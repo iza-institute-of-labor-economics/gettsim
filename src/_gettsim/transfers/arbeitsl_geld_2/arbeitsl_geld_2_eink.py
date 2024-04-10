@@ -147,7 +147,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
 
 @policy_info(
     end_date="2005-09-30",
-    change_name="arbeitsl_geld_2_eink_anr_frei_m",
+    name_in_dag="arbeitsl_geld_2_eink_anr_frei_m",
 )
 def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
     bruttolohn_m: float,

@@ -43,7 +43,7 @@ def erziehungsgeld_m(
 
 
 @policy_info(
-    end_date="2003-12-31", change_name="erziehungsgeld_kind_m", rounding_key="erziehungsgeld"
+    end_date="2003-12-31", name_in_dag="erziehungsgeld_kind_m", rounding_key="erziehungsgeld"
 )
 def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
     raise NotImplementedError(
@@ -57,7 +57,7 @@ def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
 @policy_info(
     start_date="2004-01-01",
     end_date="2008-12-31",
-    change_name="erziehungsgeld_kind_m",
+    name_in_dag="erziehungsgeld_kind_m",
     rounding_key="erziehungsgeld",
 )
 def erziehungsgeld_kind_mit_budgetsatz_m(
@@ -180,7 +180,7 @@ def erziehungsgeld_abzug_transfer(
 
 
 @policy_info(
-    start_date="2004-01-01", end_date="2006-12-10", change_name="erziehungsgeld_anspruch_kind"
+    start_date="2004-01-01", end_date="2006-12-10", name_in_dag="erziehungsgeld_anspruch_kind"
 )
 def _erziehungsgeld_anspruch_kind_vor_abschaffung(
     kind: bool,
@@ -219,7 +219,7 @@ def _erziehungsgeld_anspruch_kind_vor_abschaffung(
 
 
 @policy_info(
-    start_date="2006-12-11", end_date="2008-12-31", change_name="erziehungsgeld_anspruch_kind"
+    start_date="2006-12-11", end_date="2008-12-31", name_in_dag="erziehungsgeld_anspruch_kind"
 )
 def _erziehungsgeld_anspruch_kind_nach_abschaffung(
     kind: bool,

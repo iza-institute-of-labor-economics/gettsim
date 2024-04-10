@@ -23,7 +23,7 @@ def policy_info(
     *,
     start_date: str = "0001-01-01",
     end_date: str = "9999-12-31",
-    change_name: str | None = None,
+    name_in_dag: str | None = None,
     rounding_key: str | None = None,
 ) -> Callable:
     """
@@ -49,7 +49,7 @@ def policy_info(
         The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     end_date
         The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    change_name
+    name_in_dag
         The name that should be used as the key for the function in the DAG.
         If omitted, we use the name of the function as defined.
     rounding_key
@@ -73,7 +73,7 @@ def policy_info(
     _validate_date_range(start_date, end_date)
 
     def inner(func: Callable) -> Callable:
-        dag_key = change_name if change_name else func.__name__
+        dag_key = name_in_dag if name_in_dag else func.__name__
 
         _check_for_conflicts_in_time_dependent_functions(
             dag_key, func.__name__, start_date, end_date

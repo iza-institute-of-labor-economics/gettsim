@@ -103,7 +103,7 @@ def test_dates_active_end_date_missing():
 
 
 def test_dates_active_change_name_given():
-    @policy_info(change_name="renamed_func")
+    @policy_info(name_in_dag="renamed_func")
     def test_func():
         pass
 
@@ -148,12 +148,12 @@ def test_dates_active_no_conflict(  # noqa: PLR0913
     start_2: str,
     end_2: str,
 ):
-    @policy_info(change_name=dag_key_1, start_date=start_1, end_date=end_1)
+    @policy_info(name_in_dag=dag_key_1, start_date=start_1, end_date=end_1)
     def func_1():
         pass
 
     # Using the decorator again should not raise an error
-    @policy_info(change_name=dag_key_2, start_date=start_2, end_date=end_2)
+    @policy_info(name_in_dag=dag_key_2, start_date=start_2, end_date=end_2)
     def func_2():
         pass
 
@@ -174,13 +174,13 @@ def test_dates_active_conflict(
     start_2: str,
     end_2: str,
 ):
-    @policy_info(change_name="func_1", start_date=start_1, end_date=end_1)
+    @policy_info(name_in_dag="func_1", start_date=start_1, end_date=end_1)
     def func_1():
         pass
 
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
 
-        @policy_info(change_name="func_1", start_date=start_2, end_date=end_2)
+        @policy_info(name_in_dag="func_1", start_date=start_2, end_date=end_2)
         def func_2():
             pass
