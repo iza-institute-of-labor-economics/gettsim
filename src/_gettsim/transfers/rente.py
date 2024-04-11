@@ -1,4 +1,3 @@
-from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import add_rounding_spec, dates_active
 
 
@@ -641,8 +640,47 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     return out
 
 
-def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
+@dates_active(end="2007-04-19", change_name="ges_rente_regelaltersgrenze")
+def ges_rente_regelaltersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
     """Normal retirement age (NRA).
+
+    NRA is the same for every birth cohort.
+
+    The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
+    not serve as reference for calculating deductions. However, it serves as reference
+    for calculating gains in the Zugangsfakor in case of later retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+
+    Returns
+    -------
+    Normal retirement age (NRA).
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["regelaltersgrenze"]
+
+
+@dates_active(start="2007-04-20", change_name="ges_rente_regelaltersgrenze")
+def ges_rente_regelaltersgrenze_mit_staffelung(
+    geburtsjahr: int, ges_rente_params: dict
+) -> float:
+    """Normal retirement age (NRA).
+
+    NRA differs by birth cohort.
 
     The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
     not serve as reference for calculating deductions. However, it serves as reference
@@ -661,31 +699,31 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     Normal retirement age (NRA).
 
     """
-    out = piecewise_polynomial(
-        x=geburtsjahr,
-        thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
-        rates=ges_rente_params["regelaltersgrenze"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params["regelaltersgrenze"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+    if geburtsjahr <= ges_rente_params["regelaltersgrenze"]["max_birthyear_old_regime"]:
+        out = ges_rente_params["regelaltersgrenze"]["entry_age_old_regime"]
+    elif (
+        geburtsjahr >= ges_rente_params["regelaltersgrenze"]["min_birthyear_new_regime"]
+    ):
+        out = ges_rente_params["regelaltersgrenze"]["entry_age_new_regime"]
+    else:
+        out = ges_rente_params["regelaltersgrenze"][geburtsjahr]
 
     return out
 
 
-def ges_rente_frauen_altersgrenze(
-    birthdate_decimal: float,
-    ges_rente_regelaltersgrenze: float,
+@dates_active(end="1989-12-17", change_name="ges_rente_frauen_altersgrenze")
+def ges_rente_frauen_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
-    """Full retirement age for women.
+    """Full retirement age (FRA) for women.
+
+    FRA is the same for each birth cohort.
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -694,19 +732,58 @@ def ges_rente_frauen_altersgrenze(
     Full retirement age for women.
 
     """
-    if birthdate_decimal < ges_rente_params["first_birthyear_without_rente_für_frauen"]:
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_für_frauen_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
+
+
+@dates_active(start="1989-12-18", change_name="ges_rente_frauen_altersgrenze")
+def ges_rente_frauen_altersgrenze_mit_staffelung(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """Full retirement age (FRA) for women.
+
+    FRA differs by birth cohort.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age for women.
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
     else:
-        out = ges_rente_regelaltersgrenze
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][geburtsjahr][
+            geburtsmonat
+        ]
 
     return out
 
@@ -888,8 +965,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
 
 
 def _ges_rente_langj_altersgrenze(
-    birthdate_decimal: float,
-    ges_rente_regelaltersgrenze: float,
+    geburtsjahr: int,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the age, at which a long term insured person (at least 35 years) is
@@ -899,38 +976,39 @@ def _ges_rente_langj_altersgrenze(
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
     Full retirement age (without deductions) for long term insured.
-
     """
-
-    # From 1950 on, the altersgrenze of langjährig Versicherte is equal to the
-    # Regelaltersgrenze which is indpendendent of the birth month and only depends on
-    # the birth year.
-
-    if birthdate_decimal < ges_rente_params["alignment_cohort_langj_versicherte"]:
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-                "rates"
-            ],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_langj_versicherte_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
     else:
-        out = ges_rente_regelaltersgrenze
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            geburtsjahr
+        ][geburtsmonat]
 
     return out
 
@@ -938,7 +1016,7 @@ def _ges_rente_langj_altersgrenze(
 @dates_active(start="2012-01-01")
 def _ges_rente_besond_langj_altersgrenze(
     geburtsjahr: int,
-    birthdate_decimal: float,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """Calculate the threshold from which very long term insured people (at least 45
@@ -948,8 +1026,8 @@ def _ges_rente_besond_langj_altersgrenze(
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -958,34 +1036,41 @@ def _ges_rente_besond_langj_altersgrenze(
     Full retirement age (without deductions) for very long term insured.
 
     """
-    if geburtsjahr < ges_rente_params["first_birthyear_besond_langj_versicherte"]:
-        x = birthdate_decimal
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "entry_age_new_regime"
+        ]
     else:
-        x = geburtsjahr
-
-    out = piecewise_polynomial(
-        x=x,
-        thresholds=ges_rente_params["altersgrenze_besond_langj_versicherte"][
-            "thresholds"
-        ],
-        rates=ges_rente_params["altersgrenze_besond_langj_versicherte"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_besond_langj_versicherte"
-        ]["intercepts_at_lower_thresholds"],
-    )
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][geburtsjahr][
+            geburtsmonat
+        ]
 
     return out
 
 
 @dates_active(end="2017-12-31", change_name="_ges_rente_altersgrenze_vorzeitig")
-def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
+def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
-    geburtsjahr: int,
     ges_rente_regelaltersgrenze: float,
+    _ges_rente_frauen_altersgrenze_vorzeitig: float,
     ges_rente_arbeitsl_vorzeitig: float,
-    ges_rente_params: dict,
+    _ges_rente_langj_altersgrenze_vorzeitig: float,
 ) -> float:
     """Early retirement age.
 
@@ -1002,32 +1087,25 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
         See :func:`ges_rente_vorauss_langj`.
     _ges_rente_vorauss_arbeitsl:
         See :func:`_ges_rente_vorauss_arbeitsl`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
+    _ges_rente_frauen_altersgrenze_vorzeitig
+        See :func:`_ges_rente_frauen_altersgrenze_vorzeitig`.
     ges_rente_arbeitsl_vorzeitig
         See :func:`ges_rente_arbeitsl_vorzeitig`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    _ges_rente_langj_altersgrenze_vorzeitig
+        See :func:`_ges_rente_langj_altersgrenze_vorzeitig`.
 
      Returns
     -------
     Early retirement age (potentially with deductions).
 
     """
-    frauen_vorzeitig = piecewise_polynomial(
-        x=geburtsjahr,
-        thresholds=ges_rente_params["altersgrenze_für_frauen_vorzeitig"]["thresholds"],
-        rates=ges_rente_params["altersgrenze_für_frauen_vorzeitig"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_für_frauen_vorzeitig"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    frauen_vorzeitig = _ges_rente_frauen_altersgrenze_vorzeitig
 
     arbeitsl_vorzeitig = ges_rente_arbeitsl_vorzeitig
 
-    langjährig_vorzeitig = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+    langjährig_vorzeitig = _ges_rente_langj_altersgrenze_vorzeitig
 
     out = ges_rente_regelaltersgrenze
 
@@ -1045,7 +1123,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
 def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_regelaltersgrenze: float,
-    ges_rente_params: dict,
+    _ges_rente_langj_altersgrenze_vorzeitig: float,
 ) -> float:
     """Early retirement age.
 
@@ -1058,8 +1136,8 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    _ges_rente_langj_altersgrenze_vorzeitig
+        See :func:`_ges_rente_langj_altersgrenze_vorzeitig`.
 
      Returns
     -------
@@ -1070,11 +1148,191 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     out = ges_rente_regelaltersgrenze
 
     if ges_rente_vorauss_langj:
-        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+        out = _ges_rente_langj_altersgrenze_vorzeitig
     else:
         out = ges_rente_regelaltersgrenze
 
     return out
+
+
+@dates_active(end="1989-12-17", change_name="_ges_rente_frauen_altersgrenze_vorzeitig")
+def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA does not depend on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
+
+
+@dates_active(
+    start="1989-12-18",
+    end="2017-12-31",
+    change_name="_ges_rente_frauen_altersgrenze_vorzeitig",
+)
+def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA depends on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][geburtsjahr][
+            geburtsmonat
+        ]
+
+    return out
+
+
+@dates_active(end="1989-12-17", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
+def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+
+
+@dates_active(
+    start="1989-12-18",
+    end="1996-09-26",
+    change_name="_ges_rente_langj_altersgrenze_vorzeitig",
+)
+def _ges_rente_langj_altersgrenze_vorzeitig_mit_staffelung(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA depends on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+
+    return out
+
+
+@dates_active(end="1996-09-27", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
+def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
 @dates_active(end="1989-12-17", change_name="ges_rente_arbeitsl_vorzeitig")
