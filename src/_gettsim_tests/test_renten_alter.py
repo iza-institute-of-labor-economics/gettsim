@@ -13,7 +13,7 @@ data = load_policy_test_data("renten_alter")
     data.parametrize_args,
     ids=str,
 )
-def test_kindergeld(
+def test_renten_alter(
     test_data: PolicyTestData,
     column: str,
 ):
