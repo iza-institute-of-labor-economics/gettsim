@@ -1307,7 +1307,7 @@ def _ges_rente_langj_altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@dates_active(end="1996-09-27", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
+@dates_active(start="1996-09-27", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
 def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
