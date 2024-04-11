@@ -379,7 +379,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
@@ -400,8 +399,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
          See :func:`_ges_rente_arbeitsl_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_frauen
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
@@ -414,9 +411,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
 
     """
 
-    out = float("NaN")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
         out = min([out, ges_rente_frauen_altersgrenze])
     if _ges_rente_vorauss_arbeitsl:
@@ -432,13 +427,12 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     end="2017-12-31",
     change_name="_ges_rente_altersgrenze_abschlagsfrei",
 )
-def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
+def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
@@ -467,8 +461,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
         See :func:`_ges_rente_besond_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
         See :func:`_ges_rente_arbeitsl_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_frauen
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
@@ -484,9 +476,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
 
     """
 
-    out = float("inf")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
         out = min([out, ges_rente_frauen_altersgrenze])
     if _ges_rente_vorauss_arbeitsl:
@@ -504,7 +494,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
@@ -522,8 +511,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_besond_langj_altersgrenze
         See :func:`_ges_rente_besond_langj_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_vorauss_besond_langj
@@ -535,9 +522,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
     """
 
-    out = float("inf")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
     if ges_rente_vorauss_besond_langj:
