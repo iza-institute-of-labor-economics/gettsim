@@ -1307,7 +1307,7 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
 
 @dates_active(
     start="1989-12-18",
-    end="2017-12-31",
+    end="1996-09-26",
     change_name="_ges_rente_frauen_altersgrenze_vorzeitig",
 )
 def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
@@ -1357,6 +1357,34 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
         ]
 
     return out
+
+
+@dates_active(end="1996-09-27", change_name="_ges_rente_frauen_altersgrenze_vorzeitig")
+def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA does not depend on birth year and month.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
 @dates_active(end="1989-12-17", change_name="_ges_rente_langj_vorzeitig")
