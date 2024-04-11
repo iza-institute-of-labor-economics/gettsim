@@ -1091,21 +1091,58 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     return out
 
 
-@dates_active(start="2012-01-01")
-def _ges_rente_besond_langj_altersgrenze(
-    geburtsjahr: int,
-    geburtsmonat: int,
+@dates_active(
+    start="2012-01-01",
+    end="2014-06-22",
+    change_name="_ges_rente_besond_langj_altersgrenze",
+)
+def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the threshold from which very long term insured people (at least 45
+    """
+    Full retirement age (FRA) for very long term insured.
+
+    FRA is the same for each birth year.
+
+    Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
     Parameters
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for very long term insured.
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_besond_langj_versicherte"]
+
+
+@dates_active(start="2014-06-23", change_name="_ges_rente_besond_langj_altersgrenze")
+def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for very long term insured.
+
+    FRA depends on birth year and month.
+
+    Calculate the threshold from which very long term insured people (at least 45
+    years) can claim their full pension without deductions.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -1133,9 +1170,7 @@ def _ges_rente_besond_langj_altersgrenze(
             "entry_age_new_regime"
         ]
     else:
-        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][geburtsjahr][
-            geburtsmonat
-        ]
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][geburtsjahr]
 
     return out
 
