@@ -600,6 +600,7 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
 
 @dates_active(start="2018-01-01", change_name="referenzalter_abschlag")
 def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
+    _ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,
 ) -> float:
@@ -610,6 +611,8 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
 
     Parameters
     ----------
+    _ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     ges_rente_vorauss_langj
@@ -623,7 +626,7 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     if ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     else:
-        out = float("NaN")
+        out = _ges_rente_regelaltersgrenze
 
     return out
 
