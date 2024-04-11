@@ -1048,6 +1048,7 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
 @dates_active(start="2007-04-20", change_name="_ges_rente_langj_altersgrenze")
 def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     geburtsjahr: int,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """
@@ -1064,6 +1065,8 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -1092,7 +1095,7 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     else:
         out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
             geburtsjahr
-        ]
+        ][geburtsmonat]
 
     return out
 
