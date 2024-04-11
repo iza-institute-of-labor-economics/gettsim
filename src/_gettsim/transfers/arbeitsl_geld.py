@@ -4,7 +4,6 @@ import numpy as np
 
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
-from _gettsim.transfers.rente import ges_rente_regelaltersgrenze
 
 
 def arbeitsl_geld_m(
@@ -127,8 +126,7 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
     arbeitsl_geld_restl_anspruchsd: int,
     arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
-    geburtsjahr: int,
-    ges_rente_params: dict,
+    ges_rente_regelaltersgrenze: float,
 ) -> bool:
     """Check eligibility for unemployment benefit.
 
@@ -144,16 +142,15 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    ges_rente_regelaltersgrenze
+        See basic input variable :ref:`ges_rente_regelaltersgrenze
+            <ges_rente_regelaltersgrenze>`.
 
     Returns
     -------
 
     """
-    regelaltersgrenze = ges_rente_regelaltersgrenze(geburtsjahr, ges_rente_params)
+    regelaltersgrenze = ges_rente_regelaltersgrenze
 
     out = (
         arbeitssuchend
