@@ -1183,7 +1183,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_frauen_altersgrenze_vorzeitig: float,
     ges_rente_arbeitsl_vorzeitig: float,
-    _ges_rente_langj_altersgrenze_vorzeitig: float,
+    _ges_rente_langj_vorzeitig: float,
 ) -> float:
     """Early retirement age.
 
@@ -1206,8 +1206,8 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
         See :func:`_ges_rente_frauen_altersgrenze_vorzeitig`.
     ges_rente_arbeitsl_vorzeitig
         See :func:`ges_rente_arbeitsl_vorzeitig`.
-    _ges_rente_langj_altersgrenze_vorzeitig
-        See :func:`_ges_rente_langj_altersgrenze_vorzeitig`.
+    _ges_rente_langj_vorzeitig
+        See :func:`_ges_rente_langj_vorzeitig`.
 
      Returns
     -------
@@ -1218,7 +1218,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
 
     arbeitsl_vorzeitig = ges_rente_arbeitsl_vorzeitig
 
-    langjährig_vorzeitig = _ges_rente_langj_altersgrenze_vorzeitig
+    langjährig_vorzeitig = _ges_rente_langj_vorzeitig
 
     out = ges_rente_regelaltersgrenze
 
@@ -1236,7 +1236,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
 def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_regelaltersgrenze: float,
-    _ges_rente_langj_altersgrenze_vorzeitig: float,
+    _ges_rente_langj_vorzeitig: float,
 ) -> float:
     """Early retirement age.
 
@@ -1249,8 +1249,8 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    _ges_rente_langj_altersgrenze_vorzeitig
-        See :func:`_ges_rente_langj_altersgrenze_vorzeitig`.
+    _ges_rente_langj_vorzeitig
+        See :func:`_ges_rente_langj_vorzeitig`.
 
      Returns
     -------
@@ -1261,7 +1261,7 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     out = ges_rente_regelaltersgrenze
 
     if ges_rente_vorauss_langj:
-        out = _ges_rente_langj_altersgrenze_vorzeitig
+        out = _ges_rente_langj_vorzeitig
     else:
         out = ges_rente_regelaltersgrenze
 
@@ -1350,8 +1350,8 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@dates_active(end="1989-12-17", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
-def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung(
+@dates_active(end="1989-12-17", change_name="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -1381,9 +1381,9 @@ def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung(
 @dates_active(
     start="1989-12-18",
     end="1996-09-26",
-    change_name="_ges_rente_langj_altersgrenze_vorzeitig",
+    change_name="_ges_rente_langj_vorzeitig",
 )
-def _ges_rente_langj_altersgrenze_vorzeitig_mit_staffelung(
+def _ges_rente_langj_vorzeitig_mit_staffelung(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
@@ -1420,8 +1420,8 @@ def _ges_rente_langj_altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@dates_active(start="1996-09-27", change_name="_ges_rente_langj_altersgrenze_vorzeitig")
-def _ges_rente_langj_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+@dates_active(start="1996-09-27", change_name="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
