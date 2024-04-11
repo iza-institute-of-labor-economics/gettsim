@@ -34,7 +34,7 @@ inputs:
       - true
       - false
       - true
-    ges_rente_vorauss_arbeitsl:
+    _ges_rente_vorauss_arbeitsl:
       - false
       - false
       - true

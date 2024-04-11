@@ -95,7 +95,7 @@ inputs:
       - false
       - true
       - false
-    ges_rente_vorauss_arbeitsl:
+    _ges_rente_vorauss_arbeitsl:
       - false
       - false
       - false
