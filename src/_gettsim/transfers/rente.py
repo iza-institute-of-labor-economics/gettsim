@@ -533,7 +533,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
 @dates_active(end="2017-12-31", change_name="referenzalter_abschlag")
 def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
-    _ges_rente_regelaltersgrenze: float,
+    ges_rente_regelaltersgrenze: float,
     ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
@@ -550,7 +550,7 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
 
     Parameters
     ----------
-    _ges_rente_regelaltersgrenze
+    ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
     ges_rente_frauen_altersgrenze
         See :func:`ges_rente_frauen_altersgrenze`.
@@ -593,14 +593,14 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     elif _ges_rente_vorauss_arbeitsl:
         out = _ges_rente_arbeitsl_altersgrenze
     else:
-        out = _ges_rente_regelaltersgrenze
+        out = ges_rente_regelaltersgrenze
 
     return out
 
 
 @dates_active(start="2018-01-01", change_name="referenzalter_abschlag")
 def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
-    _ges_rente_regelaltersgrenze: float,
+    ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,
 ) -> float:
@@ -611,7 +611,7 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
 
     Parameters
     ----------
-    _ges_rente_regelaltersgrenze
+    ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
@@ -626,7 +626,7 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     if ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     else:
-        out = _ges_rente_regelaltersgrenze
+        out = ges_rente_regelaltersgrenze
 
     return out
 
