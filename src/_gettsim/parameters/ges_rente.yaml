@@ -776,8 +776,8 @@ regelaltersgrenze:
       entlassense Arbeitnehmer des Bergbaus".
     max_birthyear_old_regime: 1946
     min_birthyear_new_regime: 1964
-    normal_retirement_age_old_regime: 65.0
-    normal_retirement_age_new_regime: 67.0
+    entry_age_old_regime: 65.0
+    entry_age_new_regime: 67.0
     1947:
       scalar: 65.083333
     1948:
