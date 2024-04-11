@@ -123,15 +123,6 @@ outputs:
     - 65.0
     - 65.0
     - 65.0
-  ges_rente_frauen_vorzeitig:
-    - 60.0
-    - 60.0
-    - 60.0
-    - 60.0
-    - 60.0
-    - 60.0
-    - 60.0
-    - 60.0
   _ges_rente_arbeitsl_altersgrenze:
     - 63.083333
     - 63.083333
