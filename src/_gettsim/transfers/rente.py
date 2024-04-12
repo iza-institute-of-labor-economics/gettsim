@@ -1766,8 +1766,51 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
     return ges_rente_wartezeit_5
 
 
-@dates_active(end="2017-12-31")
-def ges_rente_vorauss_frauen(
+@dates_active(end="1997-12-15", change_name="ges_rente_vorauss_frauen")
+def ges_rente_vorauss_frauen_ohne_geburtsjahr_prüfung(
+    weiblich: bool,
+    ges_rente_wartezeit_15: bool,
+    y_pflichtbeitr_ab_40: float,
+    ges_rente_params: dict,
+) -> bool:
+    """Eligibility for Altersrente für Frauen (pension for women).
+
+    Eligibility does not depend on birth year.
+
+    Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
+    becomes inactive in 2018 because then all potential beneficiaries have reached the
+    normal retirement age.
+
+    Parameters
+    ----------
+    weiblich
+        See basic input variable :ref:`weiblich <weiblich>`.
+    ges_rente_wartezeit_15
+        See :func:`ges_rente_wartezeit_15`
+    y_pflichtbeitr_ab_40
+        See basic input variable :ref:`y_pflichtbeitr_ab_40 <y_pflichtbeitr_ab_40>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
+    """
+
+    out = (
+        weiblich
+        and ges_rente_wartezeit_15
+        and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
+    )
+
+    return out
+
+
+@dates_active(
+    start="1997-12-16", end="2017-12-31", change_name="ges_rente_vorauss_frauen"
+)
+def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
     weiblich: bool,
     ges_rente_wartezeit_15: bool,
     y_pflichtbeitr_ab_40: float,
@@ -1775,6 +1818,8 @@ def ges_rente_vorauss_frauen(
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Frauen (pension for women).
+
+    Only individuals below a certain birth year are eligible.
 
     Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
     becomes inactive in 2018 because then all potential beneficiaries have reached the

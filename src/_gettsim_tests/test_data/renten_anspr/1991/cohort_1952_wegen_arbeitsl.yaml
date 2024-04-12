@@ -45,15 +45,15 @@ inputs:
   assumed: {}
 outputs:
   _ges_rente_altersgrenze_abschlagsfrei:
-    - 60.0
+    - 64.583333
   referenzalter_abschlag:
-    - 60.0
+    - 64.583333
   _ges_rente_altersgrenze_vorzeitig:
-    - 60.0
+    - 61.583333
   _ges_rente_arbeitsl_altersgrenze:
-    - 60.0
+    - 64.583333
   ges_rente_arbeitsl_vorzeitig:
-    - 60.0
+    - 61.583333
   ges_rente_vorauss_vorzeitig:
     - true
   _ges_rente_vorauss_arbeitsl:
