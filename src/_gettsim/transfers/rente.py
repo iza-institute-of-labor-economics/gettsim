@@ -1924,7 +1924,7 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
-    birthdate_decimal: float,
+    geburtsjahr: float,
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
@@ -1945,8 +1945,8 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
         See :func:`ges_rente_wartezeit_15`
     pflichtbeitr_8_in_10
         See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
-    birthdate_decimal
-        See :func:`birthdate_decimal`
+    geburtsjahr
+        See :func:`geburtsjahr`
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -1960,8 +1960,7 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
         arbeitsl_1y_past_585
         and ges_rente_wartezeit_15
         and pflichtbeitr_8_in_10
-        and birthdate_decimal
-        < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
+        and geburtsjahr < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )
 
     return out
