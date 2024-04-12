@@ -636,7 +636,7 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@dates_active(end="2007-04-19", change_name="ges_rente_regelaltersgrenze")
+@policy_info(end_date="2007-04-19", name_in_dag="ges_rente_regelaltersgrenze")
 def ges_rente_regelaltersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -670,7 +670,7 @@ def ges_rente_regelaltersgrenze_ohne_staffelung(
     return ges_rente_params["regelaltersgrenze"]
 
 
-@dates_active(start="2007-04-20", change_name="ges_rente_regelaltersgrenze")
+@policy_info(start_date="2007-04-20", name_in_dag="ges_rente_regelaltersgrenze")
 def ges_rente_regelaltersgrenze_mit_staffelung(
     geburtsjahr: int, ges_rente_params: dict
 ) -> float:
@@ -707,7 +707,7 @@ def ges_rente_regelaltersgrenze_mit_staffelung(
     return out
 
 
-@dates_active(end="1989-12-17", change_name="ges_rente_frauen_altersgrenze")
+@policy_info(end_date="1989-12-17", name_in_dag="ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -734,7 +734,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
 
 
-@dates_active(start="1989-12-18", change_name="ges_rente_frauen_altersgrenze")
+@policy_info(start_date="1989-12-18", name_in_dag="ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_mit_staffelung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -860,7 +860,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
     return ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]
 
-  
+
 @policy_info(
     start_date="1989-12-18",
     end_date="1996-07-28",
@@ -966,7 +966,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
-@dates_active(end="1989-12-17", change_name="_ges_rente_langj_altersgrenze")
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
 def _ges_rente_langj_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -999,8 +999,10 @@ def _ges_rente_langj_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]
 
 
-@dates_active(
-    start="1989-12-18", end="2007-04-19", change_name="_ges_rente_langj_altersgrenze"
+@policy_info(
+    start_date="1989-12-18",
+    end_date="2007-04-19",
+    name_in_dag="_ges_rente_langj_altersgrenze",
 )
 def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
     geburtsjahr: int,
@@ -1056,7 +1058,7 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
     return out
 
 
-@dates_active(start="2007-04-20", change_name="_ges_rente_langj_altersgrenze")
+@policy_info(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
 def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1146,7 +1148,9 @@ def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_besond_langj_versicherte"]
 
 
-@policy_info(start_date="2014-06-23", name_in_dag="_ges_rente_besond_langj_altersgrenze")
+@policy_info(
+    start_date="2014-06-23", name_in_dag="_ges_rente_besond_langj_altersgrenze"
+)
 def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
     geburtsjahr: int,
     ges_rente_params: dict,
@@ -1196,7 +1200,7 @@ def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
 
 
 @policy_info(end_date="2017-12-31", name_in_dag="_ges_rente_altersgrenze_vorzeitig")
-def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
+def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     _ges_rente_vorauss_arbeitsl: bool,
@@ -1288,7 +1292,9 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig")
+@policy_info(
+    end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
+)
 def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -1525,7 +1531,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
-@dates_active(end="2017-12-31")
+@policy_info(end_date="2017-12-31")
 def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1826,7 +1832,11 @@ def ges_rente_vorauss_frauen_ohne_geburtsjahr_prüfung(
     return out
 
 
-@policy_info(start_date="1997-12-16", end_date="2017-12-31", name_in_dag="ges_rente_vorauss_frauen")
+@policy_info(
+    start_date="1997-12-16",
+    end_date="2017-12-31",
+    name_in_dag="ges_rente_vorauss_frauen",
+)
 def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
     weiblich: bool,
     ges_rente_wartezeit_15: bool,
