@@ -39,6 +39,11 @@ inputs:
       - false
       - true
       - true
+    ges_rente_vorauss_frauen:
+      - false
+      - false
+      - false
+      - false
     vertra_arbeitsl_1997:
       - false
       - false
