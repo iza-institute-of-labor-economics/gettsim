@@ -13,7 +13,7 @@ from _gettsim.interface import (
     _round_and_partial_parameters_to_functions,
     compute_taxes_and_transfers,
 )
-from _gettsim.shared import add_rounding_spec
+from _gettsim.shared import policy_info
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -380,7 +380,7 @@ def test_partial_parameters_to_functions_removes_argument():
 def test_partial_parameters_to_functions_keep_decorator():
     """Make sure that rounding decorator is kept for partial function."""
 
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func(arg_1, arbeitsl_geld_2_params):
         return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
@@ -390,7 +390,7 @@ def test_partial_parameters_to_functions_keep_decorator():
         rounding=False,
     )["test_func"]
 
-    assert partial_func.__info__["rounding_params_key"] == "params_key_test"
+    assert partial_func.__info__["params_key_for_rounding"] == "params_key_test"
 
 
 def test_user_provided_aggregate_by_group_specs():

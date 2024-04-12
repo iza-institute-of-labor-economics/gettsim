@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import add_rounding_spec, dates_active
+from _gettsim.shared import policy_info
 
 aggregate_by_p_id_eink_st = {
     "eink_st_rel_kindergeld_anz_ansprüche_1": {
@@ -44,12 +44,12 @@ def eink_st_ohne_kinderfreib_y_sn(
     return out
 
 
-@dates_active(end="2001-12-31", change_name="eink_st_mit_kinderfreib_y_sn")
+@policy_info(end_date="2001-12-31", name_in_dag="eink_st_mit_kinderfreib_y_sn")
 def eink_st_mit_kinderfreib_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@dates_active(start="2002-01-01", change_name="eink_st_mit_kinderfreib_y_sn")
+@policy_info(start_date="2002-01-01", name_in_dag="eink_st_mit_kinderfreib_y_sn")
 def eink_st_mit_kinderfreib_y_sn_ab_2002(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
@@ -104,8 +104,9 @@ def _eink_st_tarif(x: float, params: dict) -> float:
     return out
 
 
-@dates_active(end="1996-12-31", change_name="eink_st_y_sn")
-@add_rounding_spec(params_key="eink_st")
+@policy_info(
+    end_date="1996-12-31", name_in_dag="eink_st_y_sn", params_key_for_rounding="eink_st"
+)
 def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     eink_st_mit_kinderfreib_y_sn: float,
 ) -> float:
@@ -124,8 +125,11 @@ def eink_st_y_sn_kindergeld_kinderfreib_parallel(
     return eink_st_mit_kinderfreib_y_sn
 
 
-@dates_active(start="1997-01-01", change_name="eink_st_y_sn")
-@add_rounding_spec(params_key="eink_st")
+@policy_info(
+    start_date="1997-01-01",
+    name_in_dag="eink_st_y_sn",
+    params_key_for_rounding="eink_st",
+)
 def eink_st_y_sn_kindergeld_oder_kinderfreib(
     eink_st_ohne_kinderfreib_y_sn: float,
     eink_st_mit_kinderfreib_y_sn: float,
@@ -182,7 +186,7 @@ def kinderfreib_günstiger_sn(
     return out
 
 
-@dates_active(start="2023-01-01", change_name="eink_st_rel_kindergeld_m")
+@policy_info(start_date="2023-01-01", name_in_dag="eink_st_rel_kindergeld_m")
 def eink_st_rel_kindergeld_ohne_staffelung_m(
     eink_st_rel_kindergeld_anz_ansprüche_1: int,
     eink_st_rel_kindergeld_anz_ansprüche_2: int,
@@ -212,7 +216,7 @@ def eink_st_rel_kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * eink_st_rel_kindergeld_anz_ansprüche / 2
 
 
-@dates_active(end="2022-12-31", change_name="eink_st_rel_kindergeld_m")
+@policy_info(end_date="2022-12-31", name_in_dag="eink_st_rel_kindergeld_m")
 def eink_st_rel_kindergeld_mit_staffelung_m(
     eink_st_rel_kindergeld_anz_ansprüche_1: int,
     eink_st_rel_kindergeld_anz_ansprüche_2: int,
