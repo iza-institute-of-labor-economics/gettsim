@@ -63,7 +63,7 @@ outputs:
     - 60.083333
   _ges_rente_altersgrenze_vorzeitig:
     - 65.0
-    - 62.0
+    - 63.0
     - 60.0
     - 60.0
   _ges_rente_arbeitsl_altersgrenze:
@@ -82,10 +82,10 @@ outputs:
     - 63.0
     - 63.0
   _ges_rente_langj_vorzeitig:
-    - 62.0
-    - 62.0
-    - 62.0
-    - 62.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
   referenzalter_abschlag:
     - 65.0
     - 63.0
