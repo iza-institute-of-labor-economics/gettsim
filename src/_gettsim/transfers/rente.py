@@ -1483,19 +1483,18 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
 ) -> float:
     """Early retirement age (ERA) for Rente für langjährig Versicherte.
 
-        ERA does not depend on birth year and month.
+    ERA does not depend on birth year and month.
 
-        Parameters
-        ----------
-        geburtsjahr
-            See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-        ges_rente_params
-            See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
-        Returns
-        -------
-        Early retirement age
-    te
+    Returns
+    -------
+    Early retirement age
     """
 
     # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
