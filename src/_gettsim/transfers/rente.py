@@ -1924,7 +1924,7 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
-    geburtsjahr: float,
+    geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
