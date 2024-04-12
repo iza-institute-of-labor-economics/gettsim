@@ -5,7 +5,7 @@ from pandas.testing import assert_series_equal
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-data = load_policy_test_data("renten_alter")
+data = load_policy_test_data("ges_rentenalter")
 
 
 @pytest.mark.parametrize(
