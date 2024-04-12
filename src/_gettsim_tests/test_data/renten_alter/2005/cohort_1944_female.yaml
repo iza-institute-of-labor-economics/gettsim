@@ -85,15 +85,6 @@ inputs:
       - false
       - false
       - false
-    vertra_arbeitsl_2006:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
   assumed: {}
 outputs:
   ges_rente_regelaltersgrenze:
