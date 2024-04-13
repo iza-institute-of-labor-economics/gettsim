@@ -232,7 +232,6 @@ def entgeltp_update_lohn(
 
 
 def ges_rente_zugangsfaktor(  # noqa: PLR0913
-    rentner: bool,
     age_of_retirement: float,
     ges_rente_regelaltersgrenze: float,
     referenzalter_abschlag: float,
@@ -262,8 +261,6 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     Parameters
     ----------
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
     age_of_retirement
         See :func:`age_of_retirement`.
     ges_rente_regelaltersgrenze
@@ -287,7 +284,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     """
 
-    if rentner and ges_rente_vorauss_regelrente:
+    if ges_rente_vorauss_regelrente:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
         if age_of_retirement < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
             if ges_rente_vorauss_vorzeitig and (
@@ -323,7 +320,8 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
         else:  # [FRA,NRA]
             out = 1.0
 
-    # Return 0 if person not yet retired or retired before working at least 5 years
+    # Claiming pension is not possible if ges_rente_vorauss_regelrente is 'False'.
+    # Return 0 in this case. Then, the pension payment is 0 as well.
     else:
         out = 0.0
 
@@ -337,7 +335,6 @@ def age_of_retirement(
     monat_renteneintr: int,
     geburtsjahr: int,
     geburtsmonat: int,
-    rentner: bool,
 ) -> float:
     """Age at retirement in monthly precision.
 
@@ -358,22 +355,13 @@ def age_of_retirement(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     monat_renteneintr
         See basic input variable :ref:`monat_renteneintr <monat_renteneintr>`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
 
     Returns
     -------
     Age at retirement.
 
     """
-    if rentner:
-        out = (
-            jahr_renteneintr - geburtsjahr + (monat_renteneintr - geburtsmonat - 1) / 12
-        )
-    else:
-        out = float("NaN")
-    return out
+    return jahr_renteneintr - geburtsjahr + (monat_renteneintr - geburtsmonat - 1) / 12
 
 
 @policy_info(end_date="2011-12-31", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei")
@@ -549,9 +537,9 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    NaN if person is not eligible for early retirement. Policy becomes inactive in 2018
-    because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit and Rente
-    für Frauen have reached the normal retirement age.
+    Normal retirement age if not eligible for early retirement. Policy becomes inactive
+    in 2018 because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit
+    and Rente für Frauen have reached the normal retirement age.
 
     Parameters
     ----------
@@ -612,7 +600,7 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    NaN if person is not eligible for early retirement.
+    Normal retirement age if not eligible for early retirement.
 
     Parameters
     ----------
@@ -784,6 +772,7 @@ def ges_rente_frauen_altersgrenze_mit_staffelung(
     return out
 
 
+@policy_info(end_date="2017-12-31")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
