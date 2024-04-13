@@ -53,7 +53,7 @@ inputs:
       - false
       - true
       - false
-    _ges_rente_vorauss_arbeitsl:
+    ges_rente_vorauss_arbeitsl:
       - false
       - false
       - false
@@ -125,7 +125,7 @@ outputs:
     - 60.0
     - 60.0
     - 60.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 60.0
     - 60.0
     - 60.0

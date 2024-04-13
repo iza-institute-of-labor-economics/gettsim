@@ -95,7 +95,7 @@ inputs:
       - false
       - true
       - false
-    _ges_rente_vorauss_arbeitsl:
+    ges_rente_vorauss_arbeitsl:
       - false
       - false
       - false
@@ -214,7 +214,7 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
-  ges_rente_frauen_altersgrenze:
+  _ges_rente_frauen_altersgrenze:
     - 65.0
     - 65.0
     - 65.0
@@ -240,7 +240,7 @@ outputs:
     - 65.0
     - 65.0
     - 65.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 61.083333
     - 61.083333
     - 61.083333

@@ -367,12 +367,12 @@ def age_of_retirement(
 @policy_info(end_date="2011-12-31", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei")
 def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_regelaltersgrenze: float,
-    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
     """Full retirement age.
 
@@ -384,8 +384,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ----------
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
@@ -394,8 +394,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl:
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl:
+        See :func:`ges_rente_vorauss_arbeitsl`.
     Returns
     -------
     Full retirement age.
@@ -404,8 +404,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
 
     out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
-        out = min([out, ges_rente_frauen_altersgrenze])
-    if _ges_rente_vorauss_arbeitsl:
+        out = min([out, _ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, _ges_rente_arbeitsl_altersgrenze])
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
@@ -420,14 +420,14 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
 )
 def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     ges_rente_regelaltersgrenze: float,
-    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
     """Full retirement age.
 
@@ -444,8 +444,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     ----------
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_besond_langj_altersgrenze
@@ -458,8 +458,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_vorauss_besond_langj
         See :func:`ges_rente_vorauss_besond_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
     Returns
     -------
@@ -469,8 +469,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
 
     out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
-        out = min([out, ges_rente_frauen_altersgrenze])
-    if _ges_rente_vorauss_arbeitsl:
+        out = min([out, _ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, _ges_rente_arbeitsl_altersgrenze])
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
@@ -527,12 +527,12 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 @policy_info(end_date="2017-12-31", name_in_dag="referenzalter_abschlag")
 def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
-    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
@@ -545,8 +545,8 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     ----------
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
@@ -555,8 +555,8 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
      Returns
     -------
@@ -566,24 +566,24 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     if (
         ges_rente_vorauss_langj
         and ges_rente_vorauss_frauen
-        and _ges_rente_vorauss_arbeitsl
+        and ges_rente_vorauss_arbeitsl
     ):
         out = min(
             [
-                ges_rente_frauen_altersgrenze,
+                _ges_rente_frauen_altersgrenze,
                 _ges_rente_langj_altersgrenze,
                 _ges_rente_arbeitsl_altersgrenze,
             ]
         )
     elif ges_rente_vorauss_langj and ges_rente_vorauss_frauen:
-        out = min([ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
-    elif ges_rente_vorauss_langj and _ges_rente_vorauss_arbeitsl:
+        out = min([_ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
+    elif ges_rente_vorauss_langj and ges_rente_vorauss_arbeitsl:
         out = min([_ges_rente_langj_altersgrenze, _ges_rente_arbeitsl_altersgrenze])
     elif ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     elif ges_rente_vorauss_frauen:
-        out = ges_rente_frauen_altersgrenze
-    elif _ges_rente_vorauss_arbeitsl:
+        out = _ges_rente_frauen_altersgrenze
+    elif ges_rente_vorauss_arbeitsl:
         out = _ges_rente_arbeitsl_altersgrenze
     else:
         out = ges_rente_regelaltersgrenze
@@ -695,7 +695,7 @@ def ges_rente_regelaltersgrenze_mit_staffelung(
     return out
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="ges_rente_frauen_altersgrenze")
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -722,7 +722,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
 
 
-@policy_info(start_date="1989-12-18", name_in_dag="ges_rente_frauen_altersgrenze")
+@policy_info(start_date="1989-12-18", name_in_dag="_ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_mit_staffelung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1192,10 +1192,10 @@ def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
 def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
     ges_rente_regelaltersgrenze: float,
     _ges_rente_frauen_altersgrenze_vorzeitig: float,
-    ges_rente_arbeitsl_vorzeitig: float,
+    _ges_rente_arbeitsl_vorzeitig: float,
     _ges_rente_langj_vorzeitig: float,
 ) -> float:
     """Early retirement age.
@@ -1211,14 +1211,14 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl:
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl:
+        See :func:`ges_rente_vorauss_arbeitsl`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
     _ges_rente_frauen_altersgrenze_vorzeitig
         See :func:`_ges_rente_frauen_altersgrenze_vorzeitig`.
-    ges_rente_arbeitsl_vorzeitig
-        See :func:`ges_rente_arbeitsl_vorzeitig`.
+    _ges_rente_arbeitsl_vorzeitig
+        See :func:`_ges_rente_arbeitsl_vorzeitig`.
     _ges_rente_langj_vorzeitig
         See :func:`_ges_rente_langj_vorzeitig`.
 
@@ -1229,7 +1229,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     """
     frauen_vorzeitig = _ges_rente_frauen_altersgrenze_vorzeitig
 
-    arbeitsl_vorzeitig = ges_rente_arbeitsl_vorzeitig
+    arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig
 
     langjährig_vorzeitig = _ges_rente_langj_vorzeitig
 
@@ -1239,7 +1239,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
         out = langjährig_vorzeitig
     if ges_rente_vorauss_frauen:
         out = min([out, frauen_vorzeitig])
-    if _ges_rente_vorauss_arbeitsl:
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, arbeitsl_vorzeitig])
 
     return out
@@ -1492,7 +1492,7 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="ges_rente_arbeitsl_vorzeitig")
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_vorzeitig")
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -1572,7 +1572,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 @policy_info(
     start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
@@ -1595,7 +1595,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 @policy_info(
     start_date="1996-07-29",
     end_date="1996-09-26",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_1997: bool,
@@ -1634,7 +1634,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 @policy_info(
     start_date="1996-09-27",
     end_date="2004-07-25",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     geburtsjahr: int,  # noqa: ARG001
@@ -1665,7 +1665,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 @policy_info(
     start_date="2004-07-26",
     end_date="2017-12-31",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006: bool,
@@ -1706,7 +1706,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> bool:
     """Eligibility for early retirement.
 
@@ -1721,8 +1721,8 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
 
     Returns
@@ -1734,7 +1734,7 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     out = (
         ges_rente_vorauss_frauen
         or ges_rente_vorauss_langj
-        or _ges_rente_vorauss_arbeitsl
+        or ges_rente_vorauss_arbeitsl
     )
 
     return out
@@ -1869,7 +1869,7 @@ def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
     return out
 
 
-@policy_info(end_date="2007-04-29", name_in_dag="_ges_rente_vorauss_arbeitsl")
+@policy_info(end_date="2007-04-29", name_in_dag="ges_rente_vorauss_arbeitsl")
 def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
@@ -1907,7 +1907,7 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 @policy_info(
     start_date="2007-04-30",
     end_date="2017-12-31",
-    name_in_dag="_ges_rente_vorauss_arbeitsl",
+    name_in_dag="ges_rente_vorauss_arbeitsl",
 )
 def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,

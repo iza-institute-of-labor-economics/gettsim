@@ -261,7 +261,7 @@ outputs:
     - true
     - true
     - true
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - false
     - false
     - false
