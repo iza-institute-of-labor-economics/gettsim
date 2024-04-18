@@ -3,6 +3,9 @@ import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
+from typing import TypeVar
+
+import numpy as np
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -260,3 +263,42 @@ def remove_group_suffix(col):
         out = out.removesuffix(f"_{g}")
 
     return out
+
+
+Key: TypeVar = TypeVar("Key")
+Out: TypeVar = TypeVar("Out")
+
+
+def join_numpy(
+    foreign_key: np.ndarray[Key], primary_key: np.ndarray[Key], target: np.ndarray[Out]
+) -> np.ndarray[Out]:
+    """
+    Given a foreign key, find the corresponding primary key, and return the target at
+    the same index as the primary key.
+
+    Parameters
+    ----------
+    foreign_key : np.ndarray[Key]
+        The foreign keys.
+    primary_key : np.ndarray[Key]
+        The primary keys.
+    target : np.ndarray[Out]
+        The targets in the same order as the primary keys.
+
+    Returns
+    -------
+    np.ndarray[Out]
+        The joined array.
+    """
+    if len(np.unique(primary_key)) != len(primary_key):
+        keys, counts = np.unique(primary_key, return_counts=True)
+        duplicate_foreign_keys = keys[counts > 1]
+        raise ValueError(f"Duplicate primary keys: {duplicate_foreign_keys}")
+
+    try:
+        sorter = np.argsort(primary_key)
+        idx = np.searchsorted(primary_key, foreign_key, sorter=sorter)
+        return target[idx]
+    except IndexError as e:
+        invalid_foreign_keys = foreign_key[~np.isin(foreign_key, primary_key)]
+        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}") from e
