@@ -3,9 +3,15 @@ from __future__ import annotations
 import textwrap
 from typing import TYPE_CHECKING
 
+import numpy as np
 import pytest
 from _gettsim.config import RESOURCE_DIR
-from _gettsim.functions_loader import _create_derived_functions, _load_functions
+from _gettsim.functions_loader import (
+    _create_derived_functions,
+    _load_functions,
+    _vectorize_func,
+)
+from _gettsim.shared import policy_info
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -81,3 +87,28 @@ def test_create_derived_functions(
 
     for name in targets:
         assert name in derived_functions
+
+
+# vectorize_func --------------------------------------------------------------
+
+
+def scalar_func(x: int) -> int:
+    return x * 2
+
+
+@policy_info(skip_vectorization=True)
+def already_vectorized_func(x: np.ndarray) -> np.ndarray:
+    return np.asarray([xi * 2 for xi in x])
+
+
+@pytest.mark.parametrize(
+    "function",
+    [
+        scalar_func,
+        already_vectorized_func,
+    ],
+)
+def test_vectorize_func(function: Callable) -> None:
+    vectorized_func = _vectorize_func(function)
+
+    assert np.array_equal(vectorized_func(np.array([1, 2, 3])), np.array([2, 4, 6]))

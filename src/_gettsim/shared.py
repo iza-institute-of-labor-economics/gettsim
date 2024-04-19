@@ -25,6 +25,7 @@ def policy_info(
     end_date: str = "9999-12-31",
     name_in_dag: str | None = None,
     params_key_for_rounding: str | None = None,
+    skip_vectorization: bool = False,
 ) -> Callable:
     """
     A decorator to attach additional information to a policy function.
@@ -56,6 +57,9 @@ def policy_info(
         Key of the parameters dictionary where rounding specifications are found. For
         functions that are not user-written this is just the name of the respective
         .yaml file.
+    skip_vectorization
+        Whether the function is already vectorized and, thus, should not be vectorized
+        again.
 
     Returns
     -------
@@ -87,6 +91,7 @@ def policy_info(
         func.__info__["name_in_dag"] = dag_key
         if params_key_for_rounding is not None:
             func.__info__["params_key_for_rounding"] = params_key_for_rounding
+        func.__info__["is_vectorized"] = skip_vectorization
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:
