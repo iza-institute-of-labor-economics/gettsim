@@ -96,7 +96,7 @@ def scalar_func(x: int) -> int:
     return x * 2
 
 
-@policy_info(is_vectorized=True)
+@policy_info(skip_vectorization=True)
 def already_vectorized_func(x: np.ndarray) -> np.ndarray:
     return np.asarray([xi * 2 for xi in x])
 
