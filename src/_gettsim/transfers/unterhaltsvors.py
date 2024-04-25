@@ -64,12 +64,50 @@ def unterhaltsvors_m(
     return out
 
 
+@policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
+def _kindergeld_erstes_kind_ohne_staffelung_m(
+    kindergeld_params: dict,
+) -> float:
+    """Kindergeld for first child with no heterogeneity by number of children.
+
+    Parameters
+    ----------
+
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_params["kindergeld"]
+
+
+@policy_info(end_date="2022-12-31", name_in_dag="_kindergeld_erstes_kind_m")
+def _kindergeld_erstes_kind_gestaffelt_m(
+    kindergeld_params: dict,
+) -> float:
+    """Kindergeld for first child with heterogeneity by number of children.
+
+    Parameters
+    ----------
+
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return kindergeld_params["kindergeld"][1]
+
+
 def _unterhaltsvors_anspruch_pro_kind_m(
     alter: int,
     _unterhaltsvorschuss_eink_above_income_threshold_fg: bool,
+    _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
-    kindergeld_params: dict,
 ) -> float:
     """Claim for advance on alimony payment (Unterhaltsvorschuss) per child.
 
@@ -79,12 +117,12 @@ def _unterhaltsvors_anspruch_pro_kind_m(
         See basic input variable :ref:`alter <alter>`.
     _unterhaltsvorschuss_eink_above_income_threshold_fg
         See :func:`_unterhaltsvorschuss_eink_above_income_threshold_fg`.
+    _kindergeld_erstes_kind_m
+        See :func:`_kindergeld_erstes_kind_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     unterhaltsvors_params
         See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
-    kindergeld_params
-        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
     Returns
     -------
@@ -92,14 +130,13 @@ def _unterhaltsvors_anspruch_pro_kind_m(
     """
     altersgrenzen = unterhaltsvors_params["altersgrenzen"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
-    kindergeld_first_child = kindergeld_params["kindergeld"][1]
 
     if alter < altersgrenzen[1]:
-        out = mindestunterhalt[altersgrenzen[1]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[1]] - _kindergeld_erstes_kind_m
     elif altersgrenzen[1] <= alter < altersgrenzen[2]:
-        out = mindestunterhalt[altersgrenzen[2]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[2]] - _kindergeld_erstes_kind_m
     elif altersgrenzen[2] <= alter < altersgrenzen[3]:
-        out = mindestunterhalt[altersgrenzen[3]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[3]] - _kindergeld_erstes_kind_m
     else:
         out = 0.0
 
