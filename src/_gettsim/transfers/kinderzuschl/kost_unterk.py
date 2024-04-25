@@ -27,46 +27,6 @@ def kinderzuschl_kost_unterk_m_bg(
     return out
 
 
-def bruttokaltmiete_m_bg(
-    bruttokaltmiete_m_hh: float,
-    _anteil_personen_in_haushalt_bg: float,
-) -> float:
-    """Share of household's monthly rent attributed to the Bedarfsgemeinschaft.
-
-    Parameters
-    ----------
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    _anteil_personen_in_haushalt_bg
-        See :func:`_anteil_personen_in_haushalt_bg`.
-
-    Returns
-    -------
-
-    """
-    return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_bg
-
-
-def heizkosten_m_bg(
-    heizkosten_m_hh: float,
-    _anteil_personen_in_haushalt_bg: float,
-) -> float:
-    """Share of household's heating expenses attributed to the Bedarfsgemeinschaft.
-
-    Parameters
-    ----------
-    heizkosten_m_hh
-        See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
-    _anteil_personen_in_haushalt_bg
-        See :func:`_anteil_personen_in_haushalt_bg`.
-
-    Returns
-    -------
-
-    """
-    return heizkosten_m_hh * _anteil_personen_in_haushalt_bg
-
-
 def _anteil_personen_in_haushalt_bg(
     anz_personen_bg: int, anz_personen_hh: int
 ) -> float:
