@@ -29,7 +29,7 @@ def create_synthetic_data(  # noqa: PLR0913
     n_children : int
         Number of children in the household, must be 0, 1, or 2, default is 0.
     adults_married : bool
-        Whether the adults are married or not. Only relevant if n_adults is 2, defaulut
+        Whether the adults are married or not. Only relevant if n_adults is 2, default
         is True.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
