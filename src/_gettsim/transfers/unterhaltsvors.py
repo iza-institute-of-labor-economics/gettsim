@@ -67,6 +67,7 @@ def unterhaltsvors_m(
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
 def _kindergeld_erstes_kind_ohne_staffelung_m(
     kindergeld_params: dict,
+    geburtsjahr: int,  # noqa: ARG001
 ) -> float:
     """Kindergeld for first child with no heterogeneity by number of children.
 
@@ -80,12 +81,15 @@ def _kindergeld_erstes_kind_ohne_staffelung_m(
     -------
 
     """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     return kindergeld_params["kindergeld"]
 
 
 @policy_info(end_date="2022-12-31", name_in_dag="_kindergeld_erstes_kind_m")
 def _kindergeld_erstes_kind_gestaffelt_m(
     kindergeld_params: dict,
+    geburtsjahr: int,  # noqa: ARG001
 ) -> float:
     """Kindergeld for first child with heterogeneity by number of children.
 
@@ -99,6 +103,8 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     -------
 
     """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     return kindergeld_params["kindergeld"][1]
 
 
