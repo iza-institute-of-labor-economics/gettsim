@@ -6,190 +6,258 @@ originally resulting from a call on 27 Jan 2023. This may become a GEP.
 Also see
 [discussion on Zulip](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/322500145)
 
-## Steuern
+## Taxes
 
-### Veranlagung
+### Joint taxation
 
-- gemeinsam veranlagt (max 2, muss verheiratet sein / eingetragene Partnerschaft) oder
-  nicht
+#### Description
+
+- Must be married or in a civil union
+
+#### Relevant aggregation unit
+
+- `sn_id` (endogenous)
 
 ### Kinderfreibeträge
 
-- Elternteil(e) (max 2) / Kind
-- Keine Referenz zu gemeinsamen Haushalt
-- ggf. endogener Anspruch wegen
-  - fehlender Unterhaltszahlung
-  - unbekanntem Elternteil
+#### Description
+
+- Parents (max 2) and their children
+- Don't have to be part of the same household
+- Possibly claim on more than one Freibetrag for one child due to
+  - no child support payed by other parent
+  - other parent now known
+  - Needs to be specified by the user currently
+
+#### Relevant aggregation unit
+
+- `sn_id` (endogenous)
 
 ## Kindergeld
 
-- Elternteil(e) (max 2) / Kind
-- Keine Referenz zu gemeinsamen Haushalt
-- Auszahlung nur an 1 Person, aber betrifft anderen Elternteil bzgl. Unterhalt
+#### Description
+
+- Only one parent receives child allowances (specified via `p_id_kindergeld_empf`)
+- Relevant for Unterhaltzahlung of the other parent
+
+#### Relevant aggregation unit
+
+- `p_id` (exogenous)
 
 ## Kinderzuschlag
 
-- Eine Bedarfsgemeinschaft + Eltern-/Kindbeziehung
-- Elternteil(e) außerhalb des Haushalts spielen keine Rolle außer über
-  Unterhalts(vorschuss)zahlungen
+#### Description
+
+- Payed out on Bedarfsgemeinschaft level
+- Parents outside of Bedarfsgemeinschaft (e.g. not in the same household) are not
+  considered (besides of Unterhalts(vorschuss)zahlungen)
+
+#### Relevant aggregation unit
+
+- `bg_id` (endogenous)
 
 ## Elterngeld
 
-- Eltern-/Kindbeziehung
+#### Description
+
+- Parents and their children
+- Sum of months (across parents) parents can claim Elterngeld is capped.
+
+#### Relevant aggregation unit
+
+- `p_id` (exogenous)
 
 ## Unterhalt / Unterhaltsvorschuss
 
-- Eltern-/Kindbeziehung
-  - Eltern zwangsläufig nicht Teil einer Haushaltsgemeinschaft
+#### Description
+
+- Parents and their children
+- Parents necessarily in different households
+
+#### Relevant aggregation unit
+
+- `p_id` (exogenous)
 
 ## Pflegeversicherung
 
-- Eltern-/Kindbeziehung
-  - Keine Referenz zu gemeinsamen Haushalt
-  - Keine Referenz zu Alterskategorien der Kinder
+#### Description
+
+- Contribution depends on the number of children
+- Parents and their children
+  - Can be in different households
+  - No reference to age categories of children
+
+#### Relevant aggregation unit
+
+- `p_id` (exogenous)
 
 ## Rente
 
 ### Grundrente
 
-- Ehepartner
+#### Description
+
+- Couples that are married or in a civil union
+
+#### Relevant aggregation unit
+
+- `ehe_id` (endogenous)
 
 ### Verwitwetenrente
 
-- (ehem.) Ehepartner
+#### Description
+
+- Couples that were married or in a civil union
+
+#### Relevant aggregation unit
+
+- `ehe_id` (endogenous)
 
 ## Bürgergeld und Sozialhilfe
 
 ### SGB II (Bürgergeld)
 
-- Eine Bedarfsgemeinschaft
-  - Einstandsgemeinschaft (max 2 Erwachsene, eheähnliche Verhältnisse)
-  - Kinder unter 18/25
-- Eine Haushaltsgemeinschaft kann aus mehreren Bedarfsgemeinschaften bestehen
-  - Eltern + erwachsene Kinder ab 18/25
-  - Es kann sein, dass Einkommen/Vermögen von verwandten/verschwägerten Mitgliedern der
-    Haushaltsgemeinschaft berücksichtigt wird (Einstandsvermutung)
+#### Description
+
+- Bedarfsgemeinschaft (Familiengemeinschaft after taking out children with income above
+  a threshold)
+  - Einstandsgemeinschaft (max 2 adults, marriage-like relationships)
+  - Children under 18/25
+- Note: A household may exist of several Bedarfsgemeinschaften
+  - e.g. parents and adult children aged above 18/25
+  - Income/wealth of related members of the household may be considered
+    (Einstandsvermutung)
+
+#### Relevant aggregation unit
+
+- `bg_id` (endogenous)
 
 ### SGB XII (Hilfe zum Lebensunterhalt)
 
-(1,5 Mrd €)
+#### Description
 
-- Relevant sind
-  - vertikale Beziehungen (Eltern / Kinder)
-    - Keine Referenz zu gemeinsamen Haushalt
-    - Keine Referenz zu Alterskategorien
+Government expenditures: 1.5 Mrd €
+
+- Relevant are
+  - vertical relationships (parents/children)
+    - No reference to shared household
+    - No reference to age categories
   - Haushaltsgemeinschaft
-  - Nicht zwangsläufig auf Verwandte beschränkt
-  - _wenn Personen, die zusammen wohnen, auch gemeinsam wirtschaften. Der Begriff der_
-    _Haushaltsgemeinschaft wird gegenüber der Wohngemeinschaft gerade dadurch_
-    _gekennzeichnet, dass ihre Mitglieder nicht nur vorübergehend in einer Wohnung_
-    _zusammenleben, sondern einen gemeinsamen Haushalt in der Weise führen, dass sie_
-    _„aus einem Topf“ wirtschaften. Das gemeinsame Wirtschaften geht über die_
-    _gemeinsame Nutzung von Bad, Küche und ggf. Gemeinschaftsräumen sowie über einen_
-    _gemeinsam organisierten Einkauf über eine Gemeinschaftskasse, wie dies regelmäßig_
-    _in Wohngemeinschaften organisiert ist, hinaus._
-    https://www.berlin.de/sen/soziales/service/berliner-sozialrecht/kategorie/rundschreiben/2014_04-572017.php
+  - Not necessarily limited to relatives
+
+Regarding the household definition:
+
+> wenn Personen, die zusammen wohnen, auch gemeinsam wirtschaften. Der Begriff der
+> Haushaltsgemeinschaft wird gegenüber der Wohngemeinschaft gerade dadurch
+> gekennzeichnet, dass ihre Mitglieder nicht nur vorübergehend in einer Wohnung
+> zusammenleben, sondern einen gemeinsamen Haushalt in der Weise führen, dass sie „aus
+> einem Topf“ wirtschaften. Das gemeinsame Wirtschaften geht über die gemeinsame Nutzung
+> von Bad, Küche und ggf. Gemeinschaftsräumen sowie über einen gemeinsam organisierten
+> Einkauf über eine Gemeinschaftskasse, wie dies regelmäßig in Wohngemeinschaften
+> organisiert ist, hinaus.
+> https://www.berlin.de/sen/soziales/service/berliner-sozialrecht/kategorie/rundschreiben/2014_04-572017.php
+
+#### Relevant aggregation unit
+
+- `hh_id` (endogenous)
 
 ### SGB XII (Grundsicherung im Alter / bei Erwerbsminderung)
 
-- Relevant sind vertikale Beziehungen (Eltern / Kinder)
-  - Keine Referenz zu gemeinsamen Haushalt
-  - Keine Referenz zu Alterskategorien
+#### Description
 
-(7 Mrd €)
+Government expenditures: 7 Mrd €
+
+Relevant are vertical relationships (parents/children) - No reference to shared
+household - No reference to age categories
 
 ### SGB XII (Eingliederungshilfe für Menschen mit Behinderung)
 
-(20 Mrd €)
+#### Description
+
+Government expenditures: 20 Mrd €
 
 ### SGB XII (Hilfe zur Pflege)
 
-(4 Mrd €)
+#### Description
 
-### Interaktion SGB II / SGB XII
+Government expenditures: 4 Mrd €
 
-- Partnerschaften, in denen ein Partner unter SGB II und einer unter SGB XII fällt →
-  ganze Gemeinschaft fällt unter SGB II
-- Bedarfsgemeinschaft mit Kind unter 25, welches unter SGB II fällt → ?
+### Interactions between SGB II / SGB XII
+
+- Partnerships where one partner falls under SGB II and one under SGB XII -> Whole
+  household falls under SGB II
+- Bedarfsgemeinschaft with child under 25 falling under SGB II -> ?
 
 ## Wohngeld
 
-- Haushaltsgemeinschaft
-  - Antragsteller selbst
+#### Description
 
-  - Ehegatte/ eingetragener Lebenspartner/ Lebensgefährte
-
-  - Eltern (auch Stief-, Pflege- und Schwiegereltern)
-
-  - Kinder (auch Pflege- und Adoptivkinder)
-
-  - "Einstandspartner": nicht Verwandte, die aber mit dem Antragsteller in
-    Verantwortungs- und Einstehensgemeinschaft leben
-
-    _Eine Verantwortungs- bzw. Einstehensgemeinschaft ist im § 7 Abs. 3a SGB II_
-    _geregelt, demnach muss mindestens eine der folgenden Bedingungen erfüllt sein:_
-
-    - _wenn Partner länger als 1 Jahr zusammenleben_
-    - _wenn Partner mit einem gemeinsamen Kind zusammenleben_
-    - _wenn Kinder oder Angehörige im Haushalt versorgt oder betreut werden (nicht nur_
-      _gelegentlich)_
-    - _wenn Partner gegenseitig befugt sind, über Einkommen und Vermögen zu verfügen_
-
-    _Voraussetzung für alle Haushaltsmitglieder ist, dass sie mit dem dem Antragsteller_
-    _in einer gemeinsamen Wohnung oder Haus leben und auch dort gemeldet sind._
-
-  - sonstige Verwandte
+- Household
+  - Applicant
+  - Spouse / registered partner / life partner (as long as in same household)
+  - Parents (incl. step-, foster- and in-laws) (as long as in same household)
+  - Children (incl. step-, foster- and adopted children) (as long as in same household)
+  - "Einstandspartner": non-relatives living in the same household and sharing
+    responsibility for each other (e.g. couples that are not married or in a civil
+    union) (as long as in same household)
+    - A community of responsibility or joint liability is regulated in § 7 Abs. 3a SGB
+      II according to which at least one of the following conditions must be met
+      - if partners live together for longer than 1 year
+      - if partners live together with a child
+      - if children or relatives are cared for or looked after in the household (not
+        only occasionally)
+      - if partners are mutually authorized to dispose of income and assets
+    - The prerequisite for all household members is that they live with the applicant
+      live in a shared apartment or house and are also registered there.
+  - Other relatives
 
 ### Kinderwohngeld
 
-Bsp:
+#### Description
 
-- Alleinerziehend, ein Kind
-- Kind kann eigenen Bedarf decken mit Unterhaltsleistungen, Kindergeld, Kinderzuschlag,
+- E.g. single parent with one child
+- Child cannot cover own needs with Unterhaltsleistungen, Kindergeld, Kinderzuschlag,
   Wohngeld
-- Kind fällt aus Bedarfsgemeinschaft heraus
+- Child drops out of Bedarfsgemeinschaft
 
-## Modellierung
+## Modelling groupings
 
-### Vollerhebung
+### Complete data
 
-#### Ansatz
-
-- Eltern-Kind-Beziehungen über `id_eltern`
-- Haushaltskonzept aus Wohngeld bestimmt `id_haushalt`
-  - Eine Studierenden-WG hätte unterschiedliche Werte für `id_haushalt`
-- Bedarfsgemeinschaft aus:
-  - Einstandspartner `id_einstandspartner`
-  - Kinder bis 17/24 von mir und meinem Einstandspartner. Es sei denn herausgelöst
-    - über eigenes Einkommen
+- Parent-child relationships via `p_id_elternteil_1` and `p_id_elternteil_2`
+- Household concept of Wohngeld determines `hh_id`
+  - A student flatshare would have different values for `hh_id`
+- Bedarfsgemeinschaft from:
+  - Einstandspartner `p_id_einstandspartner`
+  - Children under 17/24, unless resolved
+    - via own income
     - Kinderwohngeld
 
-#### Limitierung
+#### Limitations
 
-- Innerhalb eines Wohngeldhaushalts kann nicht unterschieden werden zwischen Personen
-  ohne Einstandsverpflichtung nach SGB II bzw. SGB XII und mit einer solchen
+- Within a Wohngeldhaushalt, no distinction can be made between persons without
+  Einstandsverpflichtung according to SGB II or SGB XII and those with
+  Einstandsverpflichtung
 
-- Kann nur die beiden Extremfälle abbilden
+- Can only show the two extreme cases
 
-  1. alle nicht-vertikalen bzw. Partnerbeziehungen kein Kandidat für
-     Haushaltsgemeinschaft nach SGB II / SGB XII
-  1. alle nicht-vertikalen bzw. Partnerbeziehungen sind Kandidat für
-     Haushaltsgemeinschaft nach SGB II / SGB XII
+  1. all non-vertical or partner relationships not a candidate for Haushaltsgemeinschaft
+     according to SGB II / SGB XII
+  1. all non-vertical or partner relationships are candidates for Haushaltsgemeinschaft
+     according to SGB II / SGB XII
 
-  Typischerweise wird 1. die Lösung sein (Hürden für gemeinsames Wirtschaften sind
-  hoch).
+  Typically, 1. will be the solution (hurdles for joint economic activity are high).
 
-- Alternative wäre eine weitere ID-Variable, die Haushaltsgemeinschaften nach SGB II und
-  SGB XII spezifiziert.
+- An alternative would be another ID variable that specifies Haushaltsgemeinschaft
+  according to SGB II and SGB XII.
 
-### Teile der Daten nicht vorhanden
+### Parts of the data not available
 
-- Erwachsene Kinder da, aber nicht im Datensatz
-- Unterhaltspflichtiger Ehepartner da, aber nicht im Datensatz
+- Adult children exist, but not in the dataset
+- Spouse that should pay child support is not in the dataset
 - ...
 
-Optionen:
+Solution:
 
-- Datenzeilen hinzufügen (seitens Nutzer:in, ggf. Hilfsfunktionen zum Auffüllen von
-  Datensätzen), diese müssten aber wohl wieder aus Berechnung herausfallen
-- Personen-ID mit negativem Wert (o.Ä.) zu Datensatz hinzugeben.
+Add support for missing IDs in the data. Missing IDs are represented by negative IDs
+(exact value doesn't matter for now).
