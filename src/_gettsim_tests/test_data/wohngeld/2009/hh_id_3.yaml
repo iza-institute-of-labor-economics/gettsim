@@ -85,9 +85,9 @@ inputs:
     eink_st_y_sn:
       - 1000.0
       - 1000.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 95000.0
-      - 95000.0
+      - 0.0
     anz_personen_hh:
       - 2
       - 2

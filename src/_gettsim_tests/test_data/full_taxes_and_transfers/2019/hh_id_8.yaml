@@ -22,8 +22,8 @@ inputs:
       - false
     p_id_kindergeld_empf:
       - -1
-    vermögen_bedürft_bg:
-      - 5500.0
+    vermögen_bedürft:
+      - 0.0
     bruttolohn_m:
       - 0.0
     alter:

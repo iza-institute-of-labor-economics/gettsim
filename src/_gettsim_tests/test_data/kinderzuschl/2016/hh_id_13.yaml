@@ -104,10 +104,10 @@ inputs:
       - 1976
       - 1976
       - 2005
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 25000.0
-      - 25000.0
-      - 25000.0
+      - 0.0
+      - 0.0
     bürgerg_bezug_vorj:
       - false
       - false

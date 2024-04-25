@@ -129,7 +129,7 @@ inputs:
       - 1979
       - 2002
       - 2004
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
       - 0.0
       - 0.0
