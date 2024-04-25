@@ -69,7 +69,7 @@ def _kindergeld_erstes_kind_ohne_staffelung_m(
     kindergeld_params: dict,
     geburtsjahr: int,  # noqa: ARG001
 ) -> float:
-    """Kindergeld for first child with no heterogeneity by number of children.
+    """Kindergeld for first child when Kindergeld does not depend on number of children.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     kindergeld_params: dict,
     geburtsjahr: int,  # noqa: ARG001
 ) -> float:
-    """Kindergeld for first child with heterogeneity by number of children.
+    """Kindergeld for first child when Kindergeld does depend on number of children.
 
     Parameters
     ----------
