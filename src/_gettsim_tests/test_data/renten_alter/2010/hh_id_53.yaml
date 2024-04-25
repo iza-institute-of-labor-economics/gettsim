@@ -8,8 +8,6 @@ inputs:
       - 53
     hh_id:
       - 53
-    tu_id:
-      - 53
     alter:
       - 60
     jahr:

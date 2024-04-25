@@ -239,10 +239,14 @@ def create_time_conversion_functions(
      Create functions that convert variables to different time units.
 
     The time unit of a function is determined by a naming convention:
-    * Functions referring to yearly values end with "_y", "_y_hh" or "_y_tu".
-    * Functions referring to monthly values end with "_m", "_m_hh" or "_m_tu".
-    * Functions referring to weekly values end with "_w", "_w_hh" or "_w_tu".
-    * Functions referring to daily values end with "_d", "_d_hh" or "_d_tu".
+    * Functions referring to yearly values end with "_y", or "_y_x" where "x" is a
+        grouping level.
+    * Functions referring to monthly values end with "_m", or "_m_x" where "x" is a
+        grouping level.
+    * Functions referring to weekly values end with "_w", or "_w_x" where "x" is a
+        grouping level.
+    * Functions referring to daily values end with "_d", or "_d_x" where "x" is a
+        grouping level.
 
     Unless the corresponding function already exists, the following functions are
     created:
@@ -347,6 +351,11 @@ def _create_function_for_time_unit(
         return converter(x)
 
     if info is not None:
-        func.__info__ = info
+        # The derived function should not be rounded (see #712)
+        func.__info__ = {
+            key: value
+            for key, value in info.items()
+            if key != "params_key_for_rounding"
+        }
 
     return func

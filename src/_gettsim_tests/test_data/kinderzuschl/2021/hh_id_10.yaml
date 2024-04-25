@@ -12,10 +12,26 @@ inputs:
       - 10
       - 10
       - 10
-    tu_id:
-      - 10
-      - 10
-      - 10
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 27
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 28
+    p_id_einstandspartner:
+      - 28
+      - 27
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 27
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -88,7 +104,7 @@ inputs:
       - 1986
       - 1988
       - 2009
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -98,11 +114,11 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_vor_vermög_check_m_tu:
+  _kinderzuschl_vor_vermög_check_m_bg:
     - 205.0
     - 205.0
     - 205.0
-  _kinderzuschl_nach_vermög_check_m_tu:
+  _kinderzuschl_nach_vermög_check_m_bg:
     - 205.0
     - 205.0
     - 205.0

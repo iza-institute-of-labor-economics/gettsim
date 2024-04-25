@@ -14,11 +14,21 @@ inputs:
       - 19
       - 19
       - 19
-    tu_id:
-      - 19
-      - 19
-      - 19
-      - 19
+    p_id_ehepartner:
+      - 28
+      - 27
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 27
+      - 27
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
     p_id_elternteil_1:
       - -1
       - -1
@@ -37,8 +47,13 @@ inputs:
     betreuungskost_m:
       - 0.0
       - 0.0
-      - 45.0
       - 80.0
+      - 45.0
+    p_id_betreuungsk_träger:
+      - -1
+      - -1
+      - 27
+      - 27
     eink_selbst_m:
       - 0.0
       - 0.0
@@ -129,34 +144,34 @@ inputs:
       - 1976
       - 2007
       - 2005
-    vorsorgeaufw_y_tu:
+    vorsorgeaufw_y_sn:
       - 10901.0
       - 10901.0
       - 10901.0
       - 10901.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_sn:
     - 52099.0
     - 52099.0
-    - 52099.0
-    - 52099.0
-  _zu_verst_eink_mit_kinderfreib_y_tu:
+    - 0.0
+    - 0.0
+  _zu_verst_eink_mit_kinderfreib_y_sn:
     - 36475.0
     - 36475.0
-    - 36475.0
-    - 36475.0
-  eink_st_kinderfreib_y_tu:
+    - 0.0
+    - 0.0
+  eink_st_kinderfreib_y_sn:
     - 15624
     - 15624
-    - 15624
-    - 15624
+    - 0
+    - 0
   eink_st_altersfreib_y:
     - 0
     - 0
     - 0
     - 0
-  alleinerz_freib_y_tu:
+  alleinerz_freib_y_sn:
     - 0
     - 0
     - 0

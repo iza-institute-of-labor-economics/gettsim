@@ -8,8 +8,12 @@ inputs:
       - 7
     hh_id:
       - 7
-    tu_id:
-      - 7
+    p_id_ehepartner:
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     p_id_elternteil_1:
       - -1
     p_id_elternteil_2:
@@ -18,6 +22,8 @@ inputs:
       - 300.0
     betreuungskost_m:
       - 0.0
+    p_id_betreuungsk_träger:
+      - -1
     eink_selbst_m:
       - 0.0
     kapitaleink_brutto_m:
@@ -54,19 +60,19 @@ inputs:
       - false
     geburtsjahr:
       - 1978
-    vorsorgeaufw_y_tu:
+    vorsorgeaufw_y_sn:
       - 0.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_tu:
+  _zu_verst_eink_ohne_kinderfreib_y_sn:
     - 0.0
-  _zu_verst_eink_mit_kinderfreib_y_tu:
+  _zu_verst_eink_mit_kinderfreib_y_sn:
     - 0.0
-  eink_st_kinderfreib_y_tu:
+  eink_st_kinderfreib_y_sn:
     - 0
   eink_st_altersfreib_y:
     - 0
-  alleinerz_freib_y_tu:
+  alleinerz_freib_y_sn:
     - 0
   sum_eink_y:
     - 0

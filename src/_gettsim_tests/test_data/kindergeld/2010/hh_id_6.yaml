@@ -6,8 +6,6 @@ inputs:
   provided:
     hh_id:
       - 6
-    tu_id:
-      - 6
     p_id:
       - 21
     p_id_kindergeld_empf:
@@ -22,13 +20,13 @@ inputs:
       - false
     bruttolohn_m:
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 0.0
   assumed: {}
 outputs:
-  kindergeld_m_tu:
+  kindergeld_m:
     - 0
-  kinderbonus_m_tu:
+  kinderbonus_m:
     - 0.0
   kindergeld_m_hh:
     - 0

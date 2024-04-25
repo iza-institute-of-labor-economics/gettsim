@@ -1,14 +1,14 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
-@dates_active(end="2008-12-31", change_name="soli_st_y_tu")
-def soli_st_y_tu_ohne_abgelt_st(
-    eink_st_mit_kinderfreib_y_tu: float,
-    anz_erwachsene_tu: int,
+@policy_info(end_date="2008-12-31", name_in_dag="soli_st_y_sn")
+def soli_st_y_sn_ohne_abgelt_st(
+    eink_st_mit_kinderfreib_y_sn: float,
+    anz_personen_sn: int,
     soli_st_params: dict,
 ) -> float:
-    """Calculate the Solidarity Surcharge on tax unit level.
+    """Calculate the Solidarity Surcharge on Steuernummer level.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
@@ -23,10 +23,10 @@ def soli_st_y_tu_ohne_abgelt_st(
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_y_tu
-        See :func:`eink_st_mit_kinderfreib_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    eink_st_mit_kinderfreib_y_sn
+        See :func:`eink_st_mit_kinderfreib_y_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -34,20 +34,20 @@ def soli_st_y_tu_ohne_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
-    out = anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_sn / anz_personen_sn
+    out = anz_personen_sn * _soli_st_tarif(eink_st_per_individual, soli_st_params)
 
     return out
 
 
-@dates_active(start="2009-01-01", change_name="soli_st_y_tu")
-def soli_st_y_tu_mit_abgelt_st(
-    eink_st_mit_kinderfreib_y_tu: float,
-    anz_erwachsene_tu: int,
-    abgelt_st_y_tu: float,
+@policy_info(start_date="2009-01-01", name_in_dag="soli_st_y_sn")
+def soli_st_y_sn_mit_abgelt_st(
+    eink_st_mit_kinderfreib_y_sn: float,
+    anz_personen_sn: int,
+    abgelt_st_y_sn: float,
     soli_st_params: dict,
 ) -> float:
-    """Calculate the Solidarity Surcharge on tax unit level.
+    """Calculate the Solidarity Surcharge on Steuernummer level.
 
     Solidaritätszuschlaggesetz (SolZG) in 1991 and 1992.
     Solidaritätszuschlaggesetz 1995 (SolZG 1995) since 1995.
@@ -62,12 +62,12 @@ def soli_st_y_tu_mit_abgelt_st(
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_y_tu
-        See :func:`eink_st_mit_kinderfreib_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    abgelt_st_y_tu
-        See :func:`abgelt_st_y_tu`.
+    eink_st_mit_kinderfreib_y_sn
+        See :func:`eink_st_mit_kinderfreib_y_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
+    abgelt_st_y_sn
+        See :func:`abgelt_st_y_sn`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -75,10 +75,10 @@ def soli_st_y_tu_mit_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = eink_st_mit_kinderfreib_y_tu / anz_erwachsene_tu
+    eink_st_per_individual = eink_st_mit_kinderfreib_y_sn / anz_personen_sn
     out = (
-        anz_erwachsene_tu * _soli_st_tarif(eink_st_per_individual, soli_st_params)
-        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_tu
+        anz_personen_sn * _soli_st_tarif(eink_st_per_individual, soli_st_params)
+        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_sn
     )
 
     return out

@@ -10,23 +10,26 @@ inputs:
     hh_id:
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
+    p_id_ehepartner:
+      - 3
+      - 2
+    gemeinsam_veranlagt:
+      - true
+      - true
     kind:
       - false
       - false
     zusammen_veranlagt:
       - true
       - true
-    eink_st_mit_kinderfreib_y_tu:
+    eink_st_mit_kinderfreib_y_sn:
       - 36000.0
       - 36000.0
-    abgelt_st_y_tu:
+    abgelt_st_y_sn:
       - 0.0
       - 0.0
   assumed: {}
 outputs:
-  soli_st_y_tu:
+  soli_st_y_sn:
     - 0.0
     - 0.0

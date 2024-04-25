@@ -8,8 +8,6 @@ inputs:
       - 911
     hh_id:
       - 911
-    tu_id:
-      - 911
     alter:
       - 60
     jahr:

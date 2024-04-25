@@ -12,9 +12,12 @@ inputs:
     hh_id:
       - 5
       - 5
-    tu_id:
-      - 5
-      - 5
+    p_id_elternteil_1:
+      - -1
+      - 7
+    p_id_elternteil_2:
+      - -1
+      - -1
     bruttolohn_vorj_m:
       - 7000.0
       - 0.0
@@ -43,6 +46,9 @@ inputs:
     arbeitssuchend:
       - true
       - false
+    kindergeld_anspruch:
+      - false
+      - true
     m_durchg_alg1_bezug:
       - 0.0
       - 0.0

@@ -8,8 +8,6 @@ inputs:
       - 16
     hh_id:
       - 16
-    tu_id:
-      - 16
     geburtsjahr:
       - 1951
     geburtsmonat:

@@ -24,15 +24,15 @@ inputs:
       - 15
       - 15
       - 15
-    tu_id:
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 66
+      - 66
+      - 66
+      - 66
+      - 66
+      - 66
     kind:
       - false
       - false
@@ -240,7 +240,7 @@ inputs:
       - 2006
       - 2006
       - 2006
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -249,7 +249,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 200000.0
       - 200000.0
       - 200000.0
@@ -258,7 +258,7 @@ inputs:
       - 200000.0
       - 200000.0
       - 200000.0
-    haushaltsgröße_hh:
+    anz_personen_hh:
       - 8
       - 8
       - 8

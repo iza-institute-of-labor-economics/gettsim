@@ -22,9 +22,6 @@ inputs:
     hh_id:
       - 11
       - 11
-    tu_id:
-      - 11
-      - 11
     alter:
       - 30
       - 1

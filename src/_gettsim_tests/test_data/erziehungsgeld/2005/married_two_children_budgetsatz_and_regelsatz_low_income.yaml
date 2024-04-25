@@ -9,11 +9,6 @@ inputs:
       - 6
       - 6
       - 6
-    tu_id:
-      - 6
-      - 6
-      - 6
-      - 6
     p_id:
       - 14
       - 15
@@ -120,3 +115,8 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
+  anz_kinder_mit_kindergeld_fg:
+    - 2
+    - 2
+    - 2
+    - 2

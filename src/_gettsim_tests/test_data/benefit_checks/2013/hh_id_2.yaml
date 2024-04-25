@@ -10,9 +10,6 @@ inputs:
     hh_id:
       - 2
       - 2
-    tu_id:
-      - 2
-      - 2
     kind:
       - false
       - false
@@ -22,10 +19,10 @@ inputs:
     alter:
       - 40
       - 40
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
-    _kinderzuschl_vor_vermög_check_m_tu:
+    _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
     wohngeld_vor_vermög_check_m_hh:
@@ -34,16 +31,16 @@ inputs:
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1170.0
       - 1170.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_hh:
+    kind_unterh_erhalt_m_bg:
       - 0.0
       - 0.0
-    unterhaltsvors_m_hh:
+    unterhaltsvors_m_bg:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_hh:
+    arbeitsl_geld_2_eink_m_bg:
       - 700.0
       - 700.0
     geburtsjahr:

@@ -323,7 +323,7 @@ anteil_regelsatz:
     kinder_bis_5: 0.6
     kinder_ab_6_bis_13: 0.6
     kinder_ab_14_bis_24: 0.8
-    reference: Artikel 1 G. v. 24.12.2003 BGBl. I S. 2954.
+    reference: Artikel 1 § 20 G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous
     reference: Artikel 1 G. v. 02.03.2009 BGBl. I S. 416.
@@ -554,11 +554,12 @@ berechtigte_wohnfläche_eigentum:
     3: 100
     4: 120
     je_weitere_person: 20
+    max_anzahl_direkt: 4
   2023-01-01:
+    reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
+    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.
+    deviation_from: previous
     1: 140
     2: 140
     3: 140
     4: 140
-    je_weitere_person: 20
-    reference: Art. 1 Nr.12 Abschnitt 5, G. v. 20.12.2022 BGBl. I S. 2328
-    note: Gilt für Eigenheime. Eigentumswohnungen dürfen nur bis zu 130qm groß sein.

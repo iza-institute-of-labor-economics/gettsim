@@ -18,13 +18,13 @@ inputs:
       - 8
       - 8
       - 8
-    tu_id:
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 47
+      - 47
+      - 47
+      - 47
     kind:
       - false
       - false
@@ -186,21 +186,21 @@ inputs:
       - 2018
       - 2018
       - 2018
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 7000.0
       - 7000.0
       - 7000.0
       - 7000.0
       - 7000.0
       - 7000.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 220000.0
       - 220000.0
       - 220000.0
       - 220000.0
       - 220000.0
       - 220000.0
-    haushaltsgröße_hh:
+    anz_personen_hh:
       - 6
       - 6
       - 6

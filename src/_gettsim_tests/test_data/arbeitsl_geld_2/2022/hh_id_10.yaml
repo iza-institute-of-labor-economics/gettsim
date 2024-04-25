@@ -14,10 +14,34 @@ inputs:
       - 10
       - 10
       - 10
-    tu_id:
-      - 10
-      - 10
-      - 10
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - 29
+      - 29
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 29
+      - 29
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
     kind:
       - false
       - true
@@ -74,11 +98,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -86,7 +110,7 @@ inputs:
       - 136.0
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 388.0
       - 388.0
       - 388.0
@@ -110,7 +134,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 10000.0
       - 10000.0
       - 10000.0

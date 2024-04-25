@@ -26,9 +26,9 @@ in the data provided by the user (if it comes in the form of a DataFrame) or cal
 by GETTSIM. All these arrays have the same length. This length corresponds to the number
 of individuals. Functions operate on a single row of data.
 
-If a column name is `[x]_id` with `x` {math}`\in \{` `hh`, `tu` {math}`\}`, it will be
-the same for all households, tax units, or any other grouping of individuals specified
-in {ref}`GEP 1 <gep-1-column-names>`.
+If a column name is `[x]_id` with `x` {math}`\in \{` `_hh`, `_bg`, `_fg`, `_ehe`, `_eg`,
+`_sn` {math}`\}`, it will be the same for all households, Bedarfsgemeinschaften, or any
+other grouping of individuals specified in {ref}`GEP 1 <gep-1-column-names>`.
 
 Any other column name ending in `_id` indicates a link to a different individual (e.g.,
 child-parent relations could be `parent_0_ind_id`, `parent_1_ind_id`; receiver of child
@@ -57,8 +57,9 @@ N-dimensional arrays, etc.. As usual, everything involves trade-offs, for exampl
 - Modern tools for vectorization (e.g., Jax) scale best when working with single rows of
   data.
 
-  Aggregation to groups of individuals (households, tax units) or referencing data from
-  other rows (parents, receiver of child benefits) is not trivial with these tools.
+  Aggregation to groups of individuals (households, Bedarfsgemeinschaften,...) or
+  referencing data from other rows (parents, receiver of child benefits) is not trivial
+  with these tools.
 
 ## Usage and Impact
 
@@ -113,24 +114,26 @@ that case, only the relevant steps apply.
 ### Grouped values and aggregation functions
 
 Often columns refer to groups of individuals. Such columns have a suffix indicating the
-group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_hh` or `_tu`). These columns'
-values will be repeated for all individuals who form part of a group.
+group (see {ref}`GEP 1 <gep-1-column-names>`, currently `_hh`, `_bg`, `_fg`, `_ehe`,
+`_eg`, and `_sn`). These columns' values will be repeated for all individuals who form
+part of a group.
 
 By default, GETTSIM will check consistency on input columns in this respect. Users will
 be able to turn this check off.
 
 Aggregation functions will be provided by GETTSIM.
 
-- Aggregation will always start from the individual level. If aggregation from, say, tax
-  unit to household is required (and possible), users will first need to provide an
-  appropriate individual-level column (e.g., by dividing some tax unit-level aggregate
-  by the number of members in the tax unit)
+- Aggregation will always start from the individual level. If aggregation at the, say,
+  Bedarfsgemeinschaft-level to the household-level is required (and possible), users
+  will first need to provide an appropriate individual-level column (e.g., by dividing
+  some Bedarfsgemeinschaft-level aggregate by the number of indviduals within the same
+  Bedarfsgemeinschaft)
 
 - As outlined in {ref}`GEP 4 <gep-4-aggregation-by-group-functions>` users will need to
   specify:
 
   - The stringified name of the aggregated variable. This **must** end with a feasible
-    unit of aggregation, i.e., `_hh` or `_tu`
+    unit of aggregation, i.e., `_hh`, `_bg`, `_fg`, `_ehe`, `_eg`, or `_sn`
   - The stringified name of the original variable.
   - The type of aggregation {math}`\in \{` `sum`, `mean`, `max`, `min`, `any` {math}`\}`
 

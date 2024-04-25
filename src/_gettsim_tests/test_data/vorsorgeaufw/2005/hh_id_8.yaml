@@ -6,10 +6,12 @@ inputs:
   provided:
     p_id:
       - 5
-    tu_id:
-      - 8
     hh_id:
       - 8
+    p_id_ehepartner:
+      - -1
+    gemeinsam_veranlagt:
+      - false
     bruttolohn_m:
       - 4166.666667
     kind:
@@ -28,5 +30,5 @@ inputs:
       - 133.33
   assumed: {}
 outputs:
-  vorsorgeaufw_y_tu:
+  vorsorgeaufw_y_sn:
     - 2475

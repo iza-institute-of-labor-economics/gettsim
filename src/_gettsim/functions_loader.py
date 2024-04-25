@@ -15,7 +15,6 @@ from _gettsim.aggregation import (
     grouped_all,
     grouped_any,
     grouped_count,
-    grouped_cumsum,
     grouped_max,
     grouped_mean,
     grouped_min,
@@ -51,8 +50,7 @@ def load_and_check_functions(
     - vectorizing all functions
     - adding time conversion functions, aggregation functions, and combinations
 
-    Check that:
-    - all targets are in set of functions or in data_cols
+    Check that: - all targets are in set of functions or in data_cols
 
     Parameters
     ----------
@@ -64,15 +62,15 @@ def load_and_check_functions(
     data_cols : list
         Data columns provided by the user.
     aggregate_by_group_specs : dict
-        A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        A dictionary which contains specs for functions which aggregate variables on the
+        the aggregation levels specified in config.py. The syntax is the same as for
+        aggregation specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     aggregate_by_p_id_specs : dict
         A dictionary which contains specs for linking aggregating taxes and by another
         individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -148,6 +146,7 @@ def _create_derived_functions(
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         user_and_internal_functions,
         aggregate_by_p_id_specs,
+        data_cols,
     )
 
     # Create functions for different time units
@@ -525,7 +524,7 @@ def _select_return_type(aggr, source_col_type):
     return return_type
 
 
-def _create_one_aggregate_by_group_func(  # noqa: PLR0912
+def _create_one_aggregate_by_group_func(
     agg_col, agg_specs, user_and_internal_functions
 ):
     """Create an aggregation function based on aggregation specification.
@@ -628,15 +627,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_all(source_col, group_id)
 
-        elif agg_specs["aggr"] == "cumsum":
-
-            @rename_arguments(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_cumsum(source_col, group_id)
-
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
@@ -646,6 +636,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Callable],
     user_provided_aggregate_by_p_id_specs: dict[str, dict[str, str]],
+    data_cols: list[str],
 ) -> dict[str, Callable]:
     """Create function dict with functions that link variables across persons."""
 
@@ -667,7 +658,10 @@ def _create_aggregate_by_p_id_functions(
             user_and_internal_functions=user_and_internal_functions,
         )
         for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
-        if agg_by_p_id_spec["source_col"] in user_and_internal_functions
+        if (
+            agg_by_p_id_spec["source_col"] in user_and_internal_functions
+            or agg_by_p_id_spec["source_col"] in data_cols
+        )
     }
 
     return aggregate_by_p_id_functions
@@ -781,6 +775,10 @@ def _create_one_aggregate_by_p_id_func(
 
 
 def _vectorize_func(func):
+    # If the function is already vectorized, return it as is
+    if hasattr(func, "__info__") and func.__info__.get("is_vectorized", False):
+        return func
+
     # What should work once that Jax backend is fully supported
     signature = inspect.signature(func)
     func_vec = numpy.vectorize(func)

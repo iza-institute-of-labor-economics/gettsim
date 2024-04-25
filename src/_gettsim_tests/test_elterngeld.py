@@ -30,9 +30,6 @@ def test_elterngeld(
         date=test_data.date
     )
 
-    df["soli_st_y_tu"] = df["soli_st_m"].groupby(df["tu_id"]).transform("sum") * 12
-    df["eink_st_y_tu"] = df["eink_st_m"].groupby(df["tu_id"]).transform("sum") * 12
-
     result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column
     )

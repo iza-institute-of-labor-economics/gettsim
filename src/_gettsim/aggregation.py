@@ -18,7 +18,6 @@ from _gettsim.aggregation_numpy import count_by_p_id as count_by_p_id_numpy
 from _gettsim.aggregation_numpy import grouped_all as grouped_all_numpy
 from _gettsim.aggregation_numpy import grouped_any as grouped_any_numpy
 from _gettsim.aggregation_numpy import grouped_count as grouped_count_numpy
-from _gettsim.aggregation_numpy import grouped_cumsum as grouped_cumsum_numpy
 from _gettsim.aggregation_numpy import grouped_max as grouped_max_numpy
 from _gettsim.aggregation_numpy import grouped_mean as grouped_mean_numpy
 from _gettsim.aggregation_numpy import grouped_min as grouped_min_numpy
@@ -77,11 +76,6 @@ def grouped_all(column, group_id):
         return grouped_all_jax(column, group_id)
     else:
         return grouped_all_numpy(column, group_id)
-
-
-def grouped_cumsum(column, group_id):
-    # Not yet implemented for jax
-    return grouped_cumsum_numpy(column, group_id)
 
 
 def count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by):

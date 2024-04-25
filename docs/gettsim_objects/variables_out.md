@@ -20,14 +20,14 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly amount of unemployment assistance
 * - {func}`entgeltp_update <_gettsim.functions.entgeltp_update>`
   - Updated earning points for pension claim
-* - {func}`abgelt_st_y_tu <_gettsim.functions.abgelt_st_y_tu>`
-  - Capital income tax on tax unit level
-* - {func}`soli_st_y_tu <_gettsim.functions.soli_st_y_tu>`
-  - Solidarity surcharge on tax unit level
+* - {func}`abgelt_st_y_sn <_gettsim.functions.abgelt_st_y_sn>`
+  - Capital income tax on Steuernummer level
+* - {func}`soli_st_y_sn <_gettsim.functions.soli_st_y_sn>`
+  - Solidarity surcharge on Steuernummer level
 * - {func}`kindergeld_m <_gettsim.functions.kindergeld_m>`
   - Monthly child benefit
-* - {func}`eink_st_y_tu <_gettsim.functions.eink_st_y_tu>`
-  - Income Tax on tax unit level
+* - {func}`eink_st_y_sn <_gettsim.functions.eink_st_y_sn>`
+  - Income Tax on Steuernummer level
 * - {func}`lohnst_m` <_gettsim.functions.lohnst_m>`
   - Withholding tax
 * - {func}`soli_st_lohnst_m <_gettsim.functions.soli_st_lohnst_m>`
@@ -42,6 +42,6 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly parental leave benefit
 * - {func}`wohngeld_m_hh <_gettsim.functions.wohngeld_m_hh>`
   - Monthly housing benefit on household level
-* - {func}`grunds_im_alter_m_hh <_gettsim.functions.grunds_im_alter_m_hh>`
+* - {func}`grunds_im_alter_m_eg <_gettsim.functions.grunds_im_alter_m_eg>`
   - Monthly subsistence payment for retirees on household level
 ```

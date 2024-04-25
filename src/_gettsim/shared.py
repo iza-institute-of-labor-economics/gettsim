@@ -16,77 +16,68 @@ class KeyErrorMessage(str):
         return str(self)
 
 
-def add_rounding_spec(params_key):
-    """Decorator adding the location of the rounding specification to a function.
-
-    Parameters
-    ----------
-    params_key : str
-        Key of the parameters dictionary where rounding specifications are found. For
-        functions that are not user-written this is just the name of the respective
-        .yaml file.
-
-    Returns
-    -------
-    func : function
-        Function with __info__["rounding_params_key"] attribute
-
-    """
-
-    def inner(func):
-        # Remember data from decorator
-        if not hasattr(func, "__info__"):
-            func.__info__ = {}
-        func.__info__["rounding_params_key"] = params_key
-
-        return func
-
-    return inner
-
-
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
-def dates_active(
-    start: str = "0001-01-01",
-    end: str = "9999-12-31",
-    change_name: str | None = None,
+def policy_info(
+    *,
+    start_date: str = "0001-01-01",
+    end_date: str = "9999-12-31",
+    name_in_dag: str | None = None,
+    params_key_for_rounding: str | None = None,
+    skip_vectorization: bool = False,
 ) -> Callable:
     """
+    A decorator to attach additional information to a policy function.
+
+    **Dates active (start_date, end_date, name_in_dag):**
+
     Specifies that a function is only active between two dates, `start` and `end`. By
     using the `change_name` argument, you can specify a different name for the function
     in the DAG.
 
     Note that even if you use this decorator with the `change_name` argument, you must
     ensure that the function name is unique in the file where it is defined. Otherwise,
-    the function will be overwritten by the last function with the same name.
+    the function would be overwritten by the last function with the same name.
+
+    **Rounding spec (params_key_for_rounding):**
+
+    Adds the location of the rounding specification to a function.
 
     Parameters
     ----------
-    start
+    start_date
         The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    end
+    end_date
         The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    change_name
+    name_in_dag
         The name that should be used as the key for the function in the DAG.
         If omitted, we use the name of the function as defined.
+    params_key_for_rounding
+        Key of the parameters dictionary where rounding specifications are found. For
+        functions that are not user-written this is just the name of the respective
+        .yaml file.
+    skip_vectorization
+        Whether the function is already vectorized and, thus, should not be vectorized
+        again.
 
     Returns
     -------
-        The function with attributes __info__["dates_active_start"],
-        __info__["dates_active_end"], and __info__["dates_active_dag_key"].
+        The function with attributes __info__["start_date"],
+        __info__["end_date"], __info__["name_in_dag"], and
+        __info__["params_key_for_rounding"].
     """
 
-    _validate_dashed_iso_date(start)
-    _validate_dashed_iso_date(end)
+    _validate_dashed_iso_date(start_date)
+    _validate_dashed_iso_date(end_date)
 
-    start_date = date.fromisoformat(start)
-    end_date = date.fromisoformat(end)
+    start_date = date.fromisoformat(start_date)
+    end_date = date.fromisoformat(end_date)
 
     _validate_date_range(start_date, end_date)
 
     def inner(func: Callable) -> Callable:
-        dag_key = change_name if change_name else func.__name__
+        dag_key = name_in_dag if name_in_dag else func.__name__
 
         _check_for_conflicts_in_time_dependent_functions(
             dag_key, func.__name__, start_date, end_date
@@ -95,9 +86,12 @@ def dates_active(
         # Remember data from decorator
         if not hasattr(func, "__info__"):
             func.__info__ = {}
-        func.__info__["dates_active_start"] = start_date
-        func.__info__["dates_active_end"] = end_date
-        func.__info__["dates_active_dag_key"] = dag_key
+        func.__info__["start_date"] = start_date
+        func.__info__["end_date"] = end_date
+        func.__info__["name_in_dag"] = dag_key
+        if params_key_for_rounding is not None:
+            func.__info__["params_key_for_rounding"] = params_key_for_rounding
+        func.__info__["is_vectorized"] = skip_vectorization
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:
@@ -138,10 +132,8 @@ def _check_for_conflicts_in_time_dependent_functions(
         # identities since functions might get wrapped, which would change their
         # identity but not their name.
         if f.__name__ != function_name and (
-            start <= f.__info__["dates_active_start"] <= end
-            or f.__info__["dates_active_start"]
-            <= start
-            <= f.__info__["dates_active_end"]
+            start <= f.__info__["start_date"] <= end
+            or f.__info__["start_date"] <= start <= f.__info__["end_date"]
         ):
             raise ConflictingTimeDependentFunctionsError(
                 dag_key,
@@ -149,8 +141,8 @@ def _check_for_conflicts_in_time_dependent_functions(
                 start,
                 end,
                 f.__name__,
-                f.__info__["dates_active_start"],
-                f.__info__["dates_active_end"],
+                f.__info__["start_date"],
+                f.__info__["end_date"],
             )
 
 

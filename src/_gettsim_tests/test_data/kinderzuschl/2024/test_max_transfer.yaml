@@ -10,15 +10,21 @@ inputs:
     hh_id:
       - 18
       - 18
-    tu_id:
-      - 18
-      - 18
     p_id_elternteil_1:
       - -1
       - 47
     p_id_elternteil_2:
       - -1
       - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 47
+    eigenbedarf_gedeckt:
+      - false
+      - false
     alter:
       - 40
       - 10
@@ -37,7 +43,7 @@ inputs:
     arbeitsstunden_w:
       - 40.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 0.0
       - 0.0
     bruttolohn_m:
@@ -78,3 +84,6 @@ outputs:
   kinderzuschl_m_bg:
     - 292.0
     - 292.0
+  bruttokaltmiete_m_bg:
+    - 700.0
+    - 700.0

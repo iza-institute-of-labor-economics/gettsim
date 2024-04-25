@@ -8,8 +8,6 @@ inputs:
       - 1
     hh_id:
       - 1
-    tu_id:
-      - 1
     kind_unterh_anspr_m:
       - 528.0
     kindergeld_m:

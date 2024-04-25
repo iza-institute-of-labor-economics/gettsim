@@ -12,10 +12,10 @@ inputs:
       - 1
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
-      - 1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 15
     kind:
       - false
       - false
@@ -108,15 +108,15 @@ inputs:
       - 2016
       - 2016
       - 2016
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 1000.0
       - 1000.0
       - 1000.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 120000.0
       - 120000.0
       - 120000.0
-    haushaltsgröße_hh:
+    anz_personen_hh:
       - 3
       - 3
       - 3

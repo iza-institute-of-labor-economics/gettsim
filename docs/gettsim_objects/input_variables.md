@@ -14,14 +14,6 @@ Household identifier
 
 Type: int
 
-(tu_id)=
-
-## `tu_id`
-
-Tax Unit identifier (married couples + kids)
-
-Type: int
-
 (kind)=
 
 ## `kind`
@@ -69,6 +61,54 @@ Type: bool
 Single parent
 
 Type: bool
+
+(gemeinsam_veranlagt)=
+
+## `gemeinsam_veranlagt`
+
+Taxes are filed jointly
+
+Type: bool
+
+(p_id_elternteil_1)=
+
+## `p_id_elternteil_1`
+
+Identifier of the first parent
+
+Type: int
+
+(p_id_elternteil_2)=
+
+## `p_id_elternteil_2`
+
+Identifier of the second parent
+
+Type: int
+
+(p_id_ehepartner)=
+
+## `p_id_ehepartner`
+
+Identifier of married partner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_einstandspartner`
+
+Identifier of Einstandspartner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_kindergeld_empf`
+
+Identifier of person that claims Kindergeld for the particular child
+
+Type: int
 
 (wohnort_ost)=
 
@@ -123,6 +163,14 @@ Type: bool
 ## `betreuungskost_m`
 
 Monthly childcare expenses for a particular child under the age of 14
+
+Type: float
+
+(p_id_betreuungsk_träger)=
+
+## `p_id_betreuungsk_träger`
+
+Identifier of the person who paid childcare expenses.
 
 Type: float
 
@@ -303,9 +351,9 @@ Construction year of dwelling
 
 Type: int
 
-(vermögen_bedürft_hh)=
+(vermögen_bedürft_bg)=
 
-## `vermögen_bedürft_hh`
+## `vermögen_bedürft_bg`
 
 Assets for means testing of
 household.{ref}`See this page for more details. <means_testing>`

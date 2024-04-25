@@ -1,48 +1,52 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
-def grunds_im_alter_m_hh(  # noqa: PLR0913
+def grunds_im_alter_m_eg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh: float,
-    kindergeld_m_hh: float,
-    kind_unterh_erhalt_m_hh: float,
-    unterhaltsvors_m_hh: float,
-    grunds_im_alter_eink_m_hh: float,
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg: float,
+    kindergeld_m_eg: float,
+    kind_unterh_erhalt_m_eg: float,
+    unterhaltsvors_m_eg: float,
+    grunds_im_alter_eink_m_eg: float,
     erwachsene_alle_rentner_hh: bool,
-    vermögen_bedürft_hh: float,
-    grunds_im_alter_vermög_freib_hh: float,
+    vermögen_bedürft_eg: float,
+    grunds_im_alter_vermög_freib_eg: float,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
     # ToDo: There is no check for Wohngeld included as Wohngeld is
     # ToDo: currently not implemented for retirees.
 
-    # ToDo: Grundsicherung im Alter is only paid if all adults in the household
-    # ToDo: are retired. Other households get ALG 2 (This is a simplification by
-    # ToDo: GETTSIM)
+    # TODO(@ChristianZimpelmann): Treatment of Bedarfsgemeinschaften with both retirees
+    # and unemployed job seekers probably incorrect
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
+
+    # TODO(@MImmesberger): Check which variable is the correct Regelbedarf in place of
+    # `arbeitsl_geld_2_regelbedarf_m_bg`
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
 
     Parameters
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
-        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh`.
-    kindergeld_m_hh
-        See :func:`kindergeld_m_hh`.
-    kind_unterh_erhalt_m_hh
+    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
+        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg`.
+    kindergeld_m_eg
+        See :func:`kindergeld_m_eg`.
+    kind_unterh_erhalt_m_eg
         See basic input variable
-        :ref:`kind_unterh_erhalt_m_hh <kind_unterh_erhalt_m_hh>`.
-    unterhaltsvors_m_hh
-        See :func:`unterhaltsvors_m_hh`.
-    grunds_im_alter_eink_m_hh
-        See :func:`grunds_im_alter_eink_m_hh`.
+        :ref:`kind_unterh_erhalt_m_eg <kind_unterh_erhalt_m_eg>`.
+    unterhaltsvors_m_eg
+        See :func:`unterhaltsvors_m_eg`.
+    grunds_im_alter_eink_m_eg
+        See :func:`grunds_im_alter_eink_m_eg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
-    vermögen_bedürft_hh
-        See basic input variable :ref:`vermögen_bedürft_hh`.
-    grunds_im_alter_vermög_freib_hh
-        See :func:`grunds_im_alter_vermög_freib_hh`.
+    vermögen_bedürft_eg
+        See basic input variable :ref:`vermögen_bedürft_eg`.
+    grunds_im_alter_vermög_freib_eg
+        See :func:`grunds_im_alter_vermög_freib_eg`.
     Returns
     -------
 
@@ -50,7 +54,7 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
 
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_hh >= grunds_im_alter_vermög_freib_hh) or (
+    if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg) or (
         not erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -58,11 +62,11 @@ def grunds_im_alter_m_hh(  # noqa: PLR0913
         # Subtract income
         out = (
             arbeitsl_geld_2_regelbedarf_m_bg
-            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_hh
-            - grunds_im_alter_eink_m_hh
-            - kind_unterh_erhalt_m_hh
-            - unterhaltsvors_m_hh
-            - kindergeld_m_hh
+            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
+            - grunds_im_alter_eink_m_eg
+            - kind_unterh_erhalt_m_eg
+            - unterhaltsvors_m_eg
+            - kindergeld_m_eg
         )
 
     return max(out, 0.0)
@@ -75,9 +79,9 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
-    eink_st_y_tu: float,
-    soli_st_y_tu: float,
-    anz_erwachsene_tu: int,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
+    anz_personen_sn: int,
     sozialv_beitr_m: float,
     elterngeld_anr_m: float,
 ) -> float:
@@ -98,12 +102,12 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`eink_vermietung_m`.
     _grunds_im_alter_kapitaleink_brutto_m
         See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
-    eink_st_y_tu
-        See :func:`eink_st_y_tu`.
-    soli_st_y_tu
-        See :func:`soli_st_y_tu`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
     elterngeld_anr_m
@@ -127,8 +131,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
 
     out = (
         total_income
-        - (eink_st_y_tu / anz_erwachsene_tu / 12)
-        - (soli_st_y_tu / anz_erwachsene_tu / 12)
+        - (eink_st_y_sn / anz_personen_sn / 12)
+        - (soli_st_y_sn / anz_personen_sn / 12)
         - sozialv_beitr_m
     )
 
@@ -250,7 +254,7 @@ def grunds_im_alter_priv_rente_m(
 
 def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     schwerbeh_g: bool,
-    anz_erwachsene_hh: int,
+    anz_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -260,8 +264,8 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     ----------
     schwerbeh_g
         See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
+    anz_erwachsene_eg
+        See :func:`anz_erwachsene_eg`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
@@ -278,9 +282,9 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
         grunds_im_alter_params["mehrbedarf_schwerbeh_g"]
     )
 
-    if (schwerbeh_g) and (anz_erwachsene_hh == 1):
+    if (schwerbeh_g) and (anz_erwachsene_eg == 1):
         out = mehrbedarf_single
-    elif (schwerbeh_g) and (anz_erwachsene_hh > 1):
+    elif (schwerbeh_g) and (anz_erwachsene_eg > 1):
         out = mehrbedarf_in_couple
     else:
         out = 0.0
@@ -288,7 +292,7 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-@dates_active(end="2020-12-31", change_name="grunds_im_alter_ges_rente_m")
+@policy_info(end_date="2020-12-31", name_in_dag="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_bis_2020(
     ges_rente_m: float,
 ) -> float:
@@ -309,7 +313,7 @@ def grunds_im_alter_ges_rente_m_bis_2020(
     return ges_rente_m
 
 
-@dates_active(start="2021-01-01", change_name="grunds_im_alter_ges_rente_m")
+@policy_info(start_date="2021-01-01", name_in_dag="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_ab_2021(
     ges_rente_m: float,
     grundr_berechtigt: bool,
@@ -357,19 +361,19 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     return ges_rente_m - angerechnete_rente
 
 
-def grunds_im_alter_vermög_freib_hh(
-    anz_erwachsene_hh: int,
-    anz_kinder_hh: int,
+def grunds_im_alter_vermög_freib_eg(
+    anz_erwachsene_fg: int,
+    anz_kinder_fg: int,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate wealth not considered for Grundsicherung im Alter on household level.
 
     Parameters
     ----------
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
-    anz_kinder_hh
-        See :func:`anz_kinder_hh`.
+    anz_erwachsene_fg
+        See :func:`anz_erwachsene_fg`.
+    anz_kinder_fg
+        See :func:`anz_kinder_fg`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
 
@@ -378,7 +382,7 @@ def grunds_im_alter_vermög_freib_hh(
 
     """
     out = (
-        grunds_im_alter_params["vermögensfreibetrag"]["adult"] * anz_erwachsene_hh
-        + grunds_im_alter_params["vermögensfreibetrag"]["child"] * anz_kinder_hh
+        grunds_im_alter_params["vermögensfreibetrag"]["adult"] * anz_erwachsene_fg
+        + grunds_im_alter_params["vermögensfreibetrag"]["child"] * anz_kinder_fg
     )
     return out

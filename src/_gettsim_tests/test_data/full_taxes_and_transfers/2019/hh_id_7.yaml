@@ -6,17 +6,23 @@ inputs:
   provided:
     hh_id:
       - 7
-    tu_id:
-      - 9
     p_id:
       - 13
     p_id_elternteil_1:
       - -1
     p_id_elternteil_2:
       - -1
+    p_id_ehepartner:
+      - -1
+    p_id_einstandspartner:
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+    gemeinsam_veranlagt:
+      - false
     p_id_kindergeld_empf:
       - -1
-    vermögen_bedürft_hh:
+    vermögen_bedürft_bg:
       - 5500.0
     bruttolohn_m:
       - 700.0
@@ -58,6 +64,8 @@ inputs:
       - false
     betreuungskost_m:
       - 0.0
+    p_id_betreuungsk_träger:
+      - -1
     kapitaleink_brutto_m:
       - 208.0
     eink_vermietung_m:

@@ -19,14 +19,6 @@ def test_eink_st(
 ):
     df = test_data.input_df
 
-    df["_zu_verst_eink_ohne_kinderfreib_y_tu"] = (
-        df["zu_verst_eink_kein_kinderfreib"].groupby(df["tu_id"]).transform("sum")
-    )
-
-    df["_zu_verst_eink_mit_kinderfreib_y_tu"] = (
-        df["zu_verst_eink_kinderfreib"].groupby(df["tu_id"]).transform("sum")
-    )
-
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date
     )
