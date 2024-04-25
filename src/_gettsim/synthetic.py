@@ -11,9 +11,10 @@ from _gettsim.policy_environment import _load_parameter_group_from_yaml
 current_year = datetime.datetime.today().year
 
 
-def create_synthetic_data(
+def create_synthetic_data(  # noqa: PLR0913
     n_adults=1,
     n_children=0,
+    adults_married=True,
     specs_constant_over_households=None,
     specs_heterogeneous=None,
     policy_year=current_year,
@@ -27,6 +28,8 @@ def create_synthetic_data(
         Number of adults in the household, must be either 1 or 2, default is 1.
     n_children : int
         Number of children in the household, must be 0, 1, or 2, default is 0.
+    adults_married : bool
+        Whether the adults are married or not. Only relevant if n_adults is 2.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
         households.
@@ -67,7 +70,11 @@ def create_synthetic_data(
     if specs_heterogeneous is None:
         specs_heterogeneous = {}
     df = create_basic_households(
-        n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+        n_adults,
+        n_children,
+        adults_married,
+        specs_constant_over_households,
+        specs_heterogeneous,
     )
     df = create_constant_across_households_variables(
         df, n_adults, n_children, policy_year
@@ -76,7 +83,11 @@ def create_synthetic_data(
 
 
 def create_basic_households(
-    n_adults, n_children, specs_constant_over_households, specs_heterogeneous
+    n_adults,
+    n_children,
+    adults_married,
+    specs_constant_over_households,
+    specs_heterogeneous,
 ):
     """Create basic variables for all households.
 
@@ -91,6 +102,8 @@ def create_basic_households(
         Number of adults in the household.
     n_children : int
         Number of children in the household.
+    adults_married : bool
+        Whether the adults are married or not. Only relevant if n_adults is 2.
     specs_constant_over_households : dict of lists
         Values for variables that might vary within households, but are constant across
         households. The length of the lists must be equal to n_adults + n_children.
@@ -158,7 +171,7 @@ def create_basic_households(
     group_ids = [f"{g}_id" for g in exogenous_groupings]
     df["p_id"] = df.index
 
-    df = return_df_with_ids_for_aggregation(df, n_adults, n_children)
+    df = return_df_with_ids_for_aggregation(df, n_adults, n_children, adults_married)
 
     df = df[["p_id", *group_ids] + [c for c in df if c not in [*group_ids, "p_id"]]]
     df = df.sort_values(by=[*group_ids, "p_id"])
@@ -166,7 +179,7 @@ def create_basic_households(
     return df
 
 
-def return_df_with_ids_for_aggregation(data, n_adults, n_children):
+def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_married):
     """Create IDs for different groupings.
 
     Creates the following IDs:
@@ -174,8 +187,8 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children):
     - p_id_elternteil_2
     - p_id_kindergeld_empf
     - p_id_erziehgeld_empf
-    - p_id_ehepartner
     - p_id_einstandspartner
+    - p_id_ehepartner
 
     Parameters
     ----------
@@ -185,6 +198,8 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children):
         Number of adults in the household.
     n_children : int
         Number of children in the household.
+    adults_married : bool
+        Whether the adults are married or not. Only relevant if n_adults is 2.
 
     Returns
     -------
@@ -208,14 +223,17 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children):
         data_adults = data.query("kind == False").copy()
         for hh_id, group in data_adults.groupby("hh_id"):
             relevant_rows = (data_adults["hh_id"] == hh_id).values
-            data_adults.loc[relevant_rows, "p_id_ehepartner"] = group["p_id"].tolist()[
-                ::-1
-            ]
+            data_adults.loc[relevant_rows, "p_id_einstandspartner"] = group[
+                "p_id"
+            ].tolist()[::-1]
         data = pd.merge(
-            data, data_adults[["p_id", "p_id_ehepartner"]], on="p_id", how="left"
+            data, data_adults[["p_id", "p_id_einstandspartner"]], on="p_id", how="left"
         ).fillna(-1)
-        data["p_id_ehepartner"] = data["p_id_ehepartner"].astype(np.int64)
-        data["p_id_einstandspartner"] = data["p_id_ehepartner"]
+        data["p_id_einstandspartner"] = data["p_id_einstandspartner"].astype(np.int64)
+        if adults_married:
+            data["p_id_ehepartner"] = data["p_id_einstandspartner"]
+        else:
+            data["p_id_ehepartner"] = -1
 
     return data
 
@@ -287,8 +305,6 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
             bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
         ),
         "heizkosten_m_hh": float(bg_daten["heizkosten"][hh_typ_string_lookup]),
-        "kind_unterh_anspr_m": 0.0,
-        "kind_unterh_erhalt_m": 0.0,
     }
 
     # Set default values for new columns.
