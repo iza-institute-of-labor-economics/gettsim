@@ -14,9 +14,12 @@ This documentation shall help to understand the composition of the
 to require only one wealth variable as input and use it for all transfers.
 
 Note that GETTSIM requests wealth on the individual level as input. This variable is
-then aggregated on the respective grouping level for each transfer. In most data sets
-wealth is only measured on the household level and, hence, needs to be split up on the
-individual level before feeding it into GETTSIM.
+then aggregated on the respective grouping level for each transfer (some transfers are
+calculated at the sub-household level (Bedarfsgemeinschaften), which is endogenous). In
+most data sets wealth is only measured on the household level and, hence, needs to be
+split up on the individual level before feeding it into GETTSIM. If in doubt, robustness
+checks regarding different distributions of wealth across household members might be in
+order.
 
 ```{note}
 ALGII = Grundsicherung für Arbeitslose
