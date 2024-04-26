@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`730` Add argument to create_synthetic_data on whether adults are married.
+  ({ghuser}`ChristianZimpelmann`).
 - {gh}`721` Optionally skip vectorization of a policy function ({ghuser}`lars-reimann`).
 - {gh}`720` Combined decorator for policy information ({ghuser}`lars-reimann`).
 - {gh}`700` Data columns overwrite functions regardless of time unit
