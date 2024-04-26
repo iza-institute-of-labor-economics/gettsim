@@ -63,7 +63,7 @@ inputs:
     schwerbeh_g:
       - false
       - false
-    vermögen_bedürft_bg:
+    vermögen_bedürft_eg:
       - 8250.0
       - 8250.0
     alleinerz:
