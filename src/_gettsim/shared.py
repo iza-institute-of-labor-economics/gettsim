@@ -292,8 +292,8 @@ def join_numpy(
     """
     if len(np.unique(primary_key)) != len(primary_key):
         keys, counts = np.unique(primary_key, return_counts=True)
-        duplicate_foreign_keys = keys[counts > 1]
-        raise ValueError(f"Duplicate primary keys: {duplicate_foreign_keys}")
+        duplicate_primary_keys = keys[counts > 1]
+        raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
 
     try:
         sorter = np.argsort(primary_key)
