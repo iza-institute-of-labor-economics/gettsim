@@ -10,6 +10,18 @@ inputs:
     hh_id:
       - 3
       - 3
+    p_id_elternteil_1:
+      - -1
+      - 6
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
     kind:
       - false
       - true
@@ -19,7 +31,7 @@ inputs:
     alter:
       - 28
       - 1
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
       - 0.0
     _kinderzuschl_vor_vermög_check_m_bg:

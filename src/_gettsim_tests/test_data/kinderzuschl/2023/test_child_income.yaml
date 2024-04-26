@@ -82,9 +82,9 @@ inputs:
     geburtsjahr:
       - 1980
       - 2012
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 5000.0
-      - 5000.0
+      - 0.0
     bürgerg_bezug_vorj:
       - false
       - false

@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`732` Change wealth input variable to individual-level (`vermögen_bedürft`).
 - {gh}`730` Add argument to create_synthetic_data on whether adults are married.
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`721` Optionally skip vectorization of a policy function ({ghuser}`lars-reimann`).

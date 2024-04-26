@@ -60,7 +60,7 @@ inputs:
       - 2021
     eink_st_y_sn:
       - 300.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 61000.0
     anz_personen_hh:
       - 1
