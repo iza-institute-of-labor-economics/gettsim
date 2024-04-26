@@ -16,6 +16,30 @@ inputs:
       - 4
       - 4
       - 4
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 8
+      - 8
+      - 8
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 9
+      - 9
+      - 9
+    p_id_einstandspartner:
+      - 9
+      - 8
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -34,7 +58,7 @@ inputs:
       - 12
       - 10
       - 2
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
       - 0.0
       - 0.0

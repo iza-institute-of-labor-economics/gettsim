@@ -58,7 +58,7 @@ inputs:
       - 2023
     eink_st_y_sn:
       - 300.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 5000.0
     anz_personen_hh:
       - 1

@@ -149,7 +149,7 @@ TYPES_INPUT_VARIABLES = {
     "p_id_erziehgeld_empf": int,
     "p_id_ehepartner": int,
     "p_id_einstandspartner": int,
-    "vermögen_bedürft_bg": float,
+    "vermögen_bedürft": float,
     "eigenbedarf_gedeckt": bool,
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
