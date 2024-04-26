@@ -1,5 +1,6 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
+
 import numpy as np
 
 from _gettsim.shared import join_numpy, policy_info
@@ -162,12 +163,10 @@ def _unterhaltsvors_anspruch_pro_kind_m(
 def _unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg(
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
-    _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool]
+    _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
 ) -> np.ndarray[bool]:
     return join_numpy(
-        p_id_kindergeld_empf,
-        p_id,
-        _unterhaltsvorschuss_eink_above_income_threshold
+        p_id_kindergeld_empf, p_id, _unterhaltsvorschuss_eink_above_income_threshold
     )
 
 
