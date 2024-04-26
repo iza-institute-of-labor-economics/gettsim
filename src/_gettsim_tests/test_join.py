@@ -36,10 +36,10 @@ def test_join_numpy(
 
 
 def test_join_numpy_raises_duplicate_primary_key():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Duplicate primary keys:"):
         join_numpy(np.array([1, 1, 1]), np.array([1, 1, 1]), np.array(["a", "b", "c"]))
 
 
 def test_join_numpy_raises_invalid_foreign_key():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Invalid foreign keys:"):
         join_numpy(np.array([2]), np.array([1]), np.array(["a"]))
