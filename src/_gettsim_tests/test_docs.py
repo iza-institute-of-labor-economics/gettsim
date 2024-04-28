@@ -136,6 +136,9 @@ def test_type_hints():  # noqa: PLR0912
 
     return_types = {}
     for name, func in functions.items():
+        if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
+            continue
+
         for var, internal_type in func.__annotations__.items():
             if var == "return":
                 output_name = time_dependent_functions.get(name, name)

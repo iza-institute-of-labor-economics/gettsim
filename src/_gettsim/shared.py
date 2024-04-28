@@ -94,7 +94,7 @@ def policy_info(
         func.__info__["name_in_dag"] = dag_key
         if params_key_for_rounding is not None:
             func.__info__["params_key_for_rounding"] = params_key_for_rounding
-        func.__info__["is_vectorized"] = skip_vectorization
+        func.__info__["skip_vectorization"] = skip_vectorization
 
         # Register time-dependent function
         if dag_key not in TIME_DEPENDENT_FUNCTIONS:
