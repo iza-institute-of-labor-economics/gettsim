@@ -5,14 +5,6 @@ import numpy as np
 
 from _gettsim.shared import join_numpy, policy_info
 
-aggregate_by_group_id_unterhaltsvors = {
-    "_unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg": {
-        "group_id_to_aggregate_by": "fg_id",
-        "source_col": "_unterhaltsvorschuss_eink_above_income_threshold",
-        "aggr": "any",
-    },
-}
-
 aggregate_by_p_id_unterhaltsvors = {
     "_unterhaltsvors_anspruch_eltern_m": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
@@ -112,7 +104,7 @@ def _kindergeld_erstes_kind_gestaffelt_m(
 
 def _unterhaltsvors_anspruch_pro_kind_m(
     alter: int,
-    _unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg: bool,
+    _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
@@ -123,8 +115,8 @@ def _unterhaltsvors_anspruch_pro_kind_m(
     ----------
     alter
         See basic input variable :ref:`alter <alter>`.
-    _unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg
-        See :func:`_unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg`.
+    _unterhaltsvorschuss_empf_eink_above_income_threshold
+        See :func:`_unterhaltsvorschuss_empf_eink_above_income_threshold`.
     _kindergeld_erstes_kind_m
         See :func:`_kindergeld_erstes_kind_m`.
     unterhalt_params
@@ -152,7 +144,7 @@ def _unterhaltsvors_anspruch_pro_kind_m(
     if (
         out > 0
         and (alter >= unterhaltsvors_params["altersgrenze_mindesteinkommen"])
-        and (not _unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg)
+        and (not _unterhaltsvorschuss_empf_eink_above_income_threshold)
     ):
         out = 0.0
 
@@ -160,11 +152,25 @@ def _unterhaltsvors_anspruch_pro_kind_m(
 
 
 @policy_info(skip_vectorization=True)
-def _unterhaltsvorschuss_kindergeld_empf_eink_above_income_threshold_fg(
+def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
     _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
 ) -> np.ndarray[bool]:
+    """Income of Unterhaltsvorschuss recipient above threshold.
+
+    Parameters
+    ----------
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf`.
+    p_id
+        See basic input variable :ref:`p_id`.
+    _unterhaltsvorschuss_eink_above_income_threshold
+        See :func:`_unterhaltsvorschuss_eink_above_income_threshold`.
+
+    Returns
+    -------
+    """
     return join_numpy(
         p_id_kindergeld_empf, p_id, _unterhaltsvorschuss_eink_above_income_threshold
     )
