@@ -119,7 +119,7 @@ If a column has a reference to a time unit (i.e., any flow variable like earning
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
 The default unit a column refers to is an individual. In case of groupings of
-individuals, an underscore plus one of {`sn`, `hh`, `fg`, `bg`, `ehe`, `eg`} will
+individuals, an underscore plus one of {`sn`, `hh`, `fg`, `bg`, `eg`, `ehe`} will
 indicate the level of aggregation.
 
 GETTSIM knows about the following units:
@@ -177,7 +177,7 @@ A function that is used in many different places should have a descriptive name.
 The name of variables should reflect the content or meaning of the variable and not the
 type (i.e., float, int, dict, list, df, array ...). As for column names and parameters,
 in some cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to
-indicate the time unit and one of {`sn`, `hh`, `fg`, `bg`, `ehe`, `eg`} to indicate the
+indicate the time unit and one of {`sn`, `hh`, `fg`, `bg`, `eg`, `ehe`} to indicate the
 unit of aggregation.
 
 ## Examples
