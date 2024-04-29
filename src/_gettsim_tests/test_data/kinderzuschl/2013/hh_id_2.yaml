@@ -79,7 +79,7 @@ inputs:
     geburtsjahr:
       - 1973
       - 1973
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:

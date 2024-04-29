@@ -102,9 +102,9 @@ inputs:
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 14000.0
-      - 14000.0
+      - 0.0
     geburtsjahr:
       - 1973
       - 1973

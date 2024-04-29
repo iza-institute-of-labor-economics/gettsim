@@ -79,7 +79,7 @@ inputs:
     geburtsjahr:
       - 1991
       - 2018
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:

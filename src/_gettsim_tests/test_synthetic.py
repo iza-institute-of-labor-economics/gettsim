@@ -40,10 +40,25 @@ def synthetic_data_spec_variables():
 
 
 @pytest.fixture()
-def synthetic_data_spec_heterogeneous():
+def synthetic_data_spec_heterogeneous_married():
     df = create_synthetic_data(
         n_adults=2,
         n_children=1,
+        adults_married=True,
+        specs_constant_over_households={"alter": [50, 30, 5]},
+        specs_heterogeneous={
+            "bruttolohn_m": [[i / 2, i / 2, 0] for i in range(0, 1001, 100)]
+        },
+    )
+    return df
+
+
+@pytest.fixture()
+def synthetic_data_spec_heterogeneous_not_married():
+    df = create_synthetic_data(
+        n_adults=2,
+        n_children=1,
+        adults_married=False,
         specs_constant_over_households={"alter": [50, 30, 5]},
         specs_heterogeneous={
             "bruttolohn_m": [[i / 2, i / 2, 0] for i in range(0, 1001, 100)]
@@ -60,7 +75,8 @@ synthetic_data_fixtures_not_heterogeneous = [
 
 synthetic_data_fixtures = [
     *synthetic_data_fixtures_not_heterogeneous,
-    "synthetic_data_spec_heterogeneous",
+    "synthetic_data_spec_heterogeneous_married",
+    "synthetic_data_spec_heterogeneous_not_married",
 ]
 
 
@@ -106,7 +122,7 @@ def test_constant_hh_id(df, request):
         ("synthetic_data_with_defaults", 1),
         ("synthetic_data_couple_with_children", 4),
         ("synthetic_data_spec_variables", 3),
-        ("synthetic_data_spec_heterogeneous", 33),
+        ("synthetic_data_spec_heterogeneous_married", 33),
     ],
 )
 def test_correct_size(df, exp_n_rows, request):
@@ -149,9 +165,9 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
         ("gemeinsam_veranlagt", [True, True, False] * 11),
     ],
 )
-def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous):
+def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous_married):
     pd.testing.assert_series_equal(
-        synthetic_data_spec_heterogeneous[col], pd.Series(expected, name=col)
+        synthetic_data_spec_heterogeneous_married[col], pd.Series(expected, name=col)
     )
 
 
@@ -192,7 +208,26 @@ def test_fail_if_functions_and_columns_overlap(
     "fixture, expected",
     [
         (
-            "synthetic_data_spec_heterogeneous",
+            "synthetic_data_spec_heterogeneous_not_married",
+            {
+                "p_id": list(range(33)),
+                "p_id_elternteil_1": [-1 if i % 3 != 2 else i - 2 for i in range(33)],
+                "p_id_elternteil_2": [-1 if i % 3 != 2 else i - 1 for i in range(33)],
+                "p_id_kindergeld_empf": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
+                "p_id_erziehgeld_empf": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
+                "p_id_ehepartner": [-1 for i in range(33)],
+                "p_id_einstandspartner": [
+                    i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
+                    for i in range(33)
+                ],
+            },
+        ),
+        (
+            "synthetic_data_spec_heterogeneous_married",
             {
                 "p_id": list(range(33)),
                 "p_id_elternteil_1": [-1 if i % 3 != 2 else i - 2 for i in range(33)],

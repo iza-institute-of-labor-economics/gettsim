@@ -2266,8 +2266,10 @@ def anteil_entgeltp_ost(
     Proportion of Entgeltpunkte accumulated in East Germany
 
     """
-
-    out = entgeltp_ost / (entgeltp_west + entgeltp_ost)
+    if entgeltp_west == entgeltp_ost == 0.0:
+        out = 0.0
+    else:
+        out = entgeltp_ost / (entgeltp_west + entgeltp_ost)
 
     return out
 

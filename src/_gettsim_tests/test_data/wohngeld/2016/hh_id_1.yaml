@@ -112,10 +112,10 @@ inputs:
       - 1000.0
       - 1000.0
       - 1000.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 120000.0
-      - 120000.0
-      - 120000.0
+      - 0.0
+      - 0.0
     anz_personen_hh:
       - 3
       - 3

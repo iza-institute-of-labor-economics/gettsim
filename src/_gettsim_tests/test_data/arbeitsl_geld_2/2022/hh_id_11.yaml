@@ -134,10 +134,10 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 13000.0
-      - 13000.0
-      - 13000.0
+      - 0.0
+      - 0.0
     geburtsjahr:
       - 1992
       - 2014
