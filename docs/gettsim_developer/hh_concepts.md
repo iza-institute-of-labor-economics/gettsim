@@ -1,10 +1,27 @@
 # Relevant concepts of units of individuals
 
-This is a collection of which units of individuals are relevant in which context,
-originally resulting from a call on 27 Jan 2023. This may become a GEP.
+This document describes the concepts of units and intra-personal relationships that are
+present in GETTSIM for the specific taxes and transfers. While some transfers are
+calculated on the unit level (e.g. Bürgergeld), others arise from relationships between
+individuals (e.g. Kindergeld).
 
-Also see
-[discussion on Zulip](https://gettsim.zulipchat.com/#narrow/stream/224837-High-Level-Architecture/topic/Update.20Data.20Structures/near/322500145)
+If transfers are calculated on the unit level, the unit is specified under "Aggregation
+unit". Under "Pointers", we describe the pointer columns (columns that contain the
+`p_id` of another individual) that are used to i) determine endogenous units (like
+`bg_id`, `sn_id`,...) and/or ii) connect individuals because their relationship makes
+them eligible for some transfer (i.e. parent-child relationships create eligibility for
+child allowances).
+
+The units are:
+
+| Unit                  | ID     | Description                                                                                                                                                   | Endogenous |
+| --------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Haushalt              | hh_id  | The relevant unit for Wohngeld. Encompasses more people than the Bedarfsgemeinschaft (e.g., possibly more than 2 generations)                                 | no         |
+| Familiengemeinschaft  | fg_id  | Maximum of two generations, the relevant base unit for Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough income fend for themselves. | yes        |
+| Bedarfsgemeinschaft   | bg_id  | Familiengemeinschaft except for children who have enough income to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2.                    | yes        |
+| Steuernummer          | sn_id  | Spouses filing taxes jointly or individuals.                                                                                                                  | yes        |
+| Ehepartner            | ehe_id | Couples that are either married or in a civil union.                                                                                                          | yes        |
+| Einstandsgemeinschaft | eg_id  | A couple whose members are deemed to be responsible for each other.                                                                                           | yes        |
 
 ## Taxes
 
@@ -14,9 +31,13 @@ Also see
 
 - Must be married or in a civil union
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
 - `sn_id` (endogenous)
+
+#### Pointers
+
+- `p_id_ehepartner`
 
 ### Kinderfreibeträge
 
@@ -29,67 +50,73 @@ Also see
   - other parent now known
   - Needs to be specified by the user currently
 
-#### Relevant aggregation unit
+#### Pointers
 
-- `sn_id` (endogenous)
+- `p_id_kinderfreib_empfänger_1` and `p_id_kinderfreib_empfänger_2` (either set by the
+  user or calculated endogenously via `p_id_elternteil_1` and `p_id_elternteil_2`)
 
 ## Kindergeld
 
 #### Description
 
 - Only one parent receives child allowances (specified via `p_id_kindergeld_empf`)
-- Relevant for Unterhaltzahlung of the other parent
+- Relevant for alimony payment of the other parent, if separate
 
-#### Relevant aggregation unit
+#### Pointers
 
-- `p_id` (exogenous)
+- `p_id_kindergeld_empf` (exogenous)
 
 ## Kinderzuschlag
 
 #### Description
 
-- Payed out on Bedarfsgemeinschaft level
+- Paid out on Bedarfsgemeinschaft level
 - Parents outside of Bedarfsgemeinschaft (e.g. not in the same household) are not
   considered (besides of Unterhalts(vorschuss)zahlungen)
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
 - `bg_id` (endogenous)
+
+#### Pointers
+
+- `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ## Elterngeld
 
 #### Description
 
 - Parents and their children
-- Sum of months (across parents) parents can claim Elterngeld is capped.
+- Number of months parents can claim Elterngeld is capped (both individually and sum
+  over parents).
 
-#### Relevant aggregation unit
+#### Pointers
 
-- `p_id` (exogenous)
+- `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ## Unterhalt / Unterhaltsvorschuss
 
 #### Description
 
 - Parents and their children
-- Parents necessarily in different households
+- Parents necessarily in different households (different `hh_id`)
 
-#### Relevant aggregation unit
+#### Pointers
 
-- `p_id` (exogenous)
+- `p_id_kindergeld_empf` (exogenous)
 
 ## Pflegeversicherung
 
 #### Description
 
-- Contribution depends on the number of children
+- Contribution depends on the number of children and their ages (since July 2023)
 - Parents and their children
   - Can be in different households
   - No reference to age categories of children
 
-#### Relevant aggregation unit
+#### Pointers
 
-- `p_id` (exogenous)
+- `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ## Rente
 
@@ -99,9 +126,13 @@ Also see
 
 - Couples that are married or in a civil union
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
 - `ehe_id` (endogenous)
+
+#### Pointers
+
+- `p_id_ehepartner` (exogenous)
 
 ### Verwitwetenrente
 
@@ -109,9 +140,13 @@ Also see
 
 - Couples that were married or in a civil union
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
 - `ehe_id` (endogenous)
+
+#### Pointers
+
+- `p_id_ehepartner` (exogenous)
 
 ## Bürgergeld und Sozialhilfe
 
@@ -119,18 +154,21 @@ Also see
 
 #### Description
 
-- Bedarfsgemeinschaft (Familiengemeinschaft after taking out children with income above
-  a threshold)
-  - Einstandsgemeinschaft (max 2 adults, marriage-like relationships)
-  - Children under 18/25
+- Bedarfsgemeinschaft comprised of:
+  - Einstandsgemeinschaft (SGB II - max 2 adults, marriage-like relationships)
+  - Children under 18/25 whose income does not exceed their own needs.
 - Note: A household may exist of several Bedarfsgemeinschaften
   - e.g. parents and adult children aged above 18/25
   - Income/wealth of related members of the household may be considered
     (Einstandsvermutung)
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
 - `bg_id` (endogenous)
+
+#### Pointers
+
+- `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Hilfe zum Lebensunterhalt)
 
@@ -138,12 +176,13 @@ Also see
 
 Government expenditures: 1.5 Mrd €
 
-- Relevant are
-  - vertical relationships (parents/children)
-    - No reference to shared household
-    - No reference to age categories
+- Entitled to benefits: Einstandsgemeinschaft (SGB XII) - §27 SGB XII
+  - max 2 adults, marriage-like relationships
+  - Their children under 18 living in the same household whose income does not exceed
+    their own needs
+- For income and wealth checks (§39 SGB XII):
   - Haushaltsgemeinschaft
-  - Not necessarily limited to relatives
+  - Children with income above some threshold
 
 Regarding the household definition:
 
@@ -157,9 +196,14 @@ Regarding the household definition:
 > organisiert ist, hinaus.
 > https://www.berlin.de/sen/soziales/service/berliner-sozialrecht/kategorie/rundschreiben/2014_04-572017.php
 
-#### Relevant aggregation unit
+#### Aggregation unit
 
-- `hh_id` (endogenous)
+- `eg_id` (endogenous)
+- if `bg_id` and `eg_id` are the same, take `bg_id`
+
+#### Pointers
+
+- `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Grundsicherung im Alter / bei Erwerbsminderung)
 
@@ -167,8 +211,22 @@ Regarding the household definition:
 
 Government expenditures: 7 Mrd €
 
-Relevant are vertical relationships (parents/children) - No reference to shared
-household - No reference to age categories
+- Entitled to benefits: Einstandsgemeinschaft (SGB XII) - §27 SGB XII
+  - max 2 adults, marriage-like relationships
+  - Their children under 18 living in the same household whose income does not exceed
+    their own needs
+- For income and wealth checks (§39 SGB XII):
+  - Haushaltsgemeinschaft
+  - Children with income above some threshold
+
+#### Aggregation unit
+
+- `eg_id` (endogenous)
+- if `bg_id` and `eg_id` are the same, take `bg_id`
+
+#### Pointers
+
+- `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Eingliederungshilfe für Menschen mit Behinderung)
 
@@ -210,6 +268,10 @@ Government expenditures: 4 Mrd €
     - The prerequisite for all household members is that they live with the applicant
       live in a shared apartment or house and are also registered there.
   - Other relatives
+
+#### Aggregation unit
+
+- `hh_id` (exogenous)
 
 ### Kinderwohngeld
 
@@ -255,7 +317,6 @@ Government expenditures: 4 Mrd €
 
 - Adult children exist, but not in the dataset
 - Spouse that should pay child support is not in the dataset
-- ...
 
 Solution:
 
