@@ -65,7 +65,7 @@ inputs:
       - 0.0
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
     geburtsjahr:
       - 1978

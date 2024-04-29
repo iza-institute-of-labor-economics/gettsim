@@ -8,13 +8,21 @@ inputs:
       - 20
     hh_id:
       - 8
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_einstandspartner:
+      - -1
+    eigenbedarf_gedeckt:
+      - false
     kind:
       - false
     rentner:
       - true
     alter:
       - 80
-    vermögen_bedürft_bg:
+    vermögen_bedürft:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0

@@ -1,15 +1,9 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
 
-from _gettsim.shared import policy_info
+import numpy as np
 
-aggregate_by_group_id_unterhaltsvors = {
-    "_unterhaltsvorschuss_eink_above_income_threshold_fg": {
-        "group_id_to_aggregate_by": "fg_id",
-        "source_col": "_unterhaltsvorschuss_eink_above_income_threshold",
-        "aggr": "any",
-    },
-}
+from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_unterhaltsvors = {
     "_unterhaltsvors_anspruch_eltern_m": {
@@ -64,25 +58,16 @@ def unterhaltsvors_m(
     return out
 
 
-def _unterhaltsvors_anspruch_pro_kind_m(
-    alter: int,
-    _unterhaltsvorschuss_eink_above_income_threshold_fg: bool,
-    unterhalt_params: dict,
-    unterhaltsvors_params: dict,
+@policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
+def _kindergeld_erstes_kind_ohne_staffelung_m(
     kindergeld_params: dict,
+    alter: int,  # noqa: ARG001
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) per child.
+    """Kindergeld for first child when Kindergeld does not depend on number of children.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    _unterhaltsvorschuss_eink_above_income_threshold_fg
-        See :func:`_unterhaltsvorschuss_eink_above_income_threshold_fg`.
-    unterhalt_params
-        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
-    unterhaltsvors_params
-        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -90,16 +75,68 @@ def _unterhaltsvors_anspruch_pro_kind_m(
     -------
 
     """
+    # TODO(@MImmesberger): Remove fake dependency (alter).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+    return kindergeld_params["kindergeld"]
+
+
+@policy_info(end_date="2022-12-31", name_in_dag="_kindergeld_erstes_kind_m")
+def _kindergeld_erstes_kind_gestaffelt_m(
+    kindergeld_params: dict,
+    alter: int,  # noqa: ARG001
+) -> float:
+    """Kindergeld for first child when Kindergeld does depend on number of children.
+
+    Parameters
+    ----------
+
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+
+    Returns
+    -------
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (alter).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+    return kindergeld_params["kindergeld"][1]
+
+
+def _unterhaltsvors_anspruch_pro_kind_m(
+    alter: int,
+    _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
+    _kindergeld_erstes_kind_m: float,
+    unterhalt_params: dict,
+    unterhaltsvors_params: dict,
+) -> float:
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) per child.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    _unterhaltsvorschuss_empf_eink_above_income_threshold
+        See :func:`_unterhaltsvorschuss_empf_eink_above_income_threshold`.
+    _kindergeld_erstes_kind_m
+        See :func:`_kindergeld_erstes_kind_m`.
+    unterhalt_params
+        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+
+    Returns
+    -------
+
+    """
     altersgrenzen = unterhaltsvors_params["altersgrenzen"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
-    kindergeld_first_child = kindergeld_params["kindergeld"][1]
 
     if alter < altersgrenzen[1]:
-        out = mindestunterhalt[altersgrenzen[1]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[1]] - _kindergeld_erstes_kind_m
     elif altersgrenzen[1] <= alter < altersgrenzen[2]:
-        out = mindestunterhalt[altersgrenzen[2]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[2]] - _kindergeld_erstes_kind_m
     elif altersgrenzen[2] <= alter < altersgrenzen[3]:
-        out = mindestunterhalt[altersgrenzen[3]] - kindergeld_first_child
+        out = mindestunterhalt[altersgrenzen[3]] - _kindergeld_erstes_kind_m
     else:
         out = 0.0
 
@@ -107,11 +144,36 @@ def _unterhaltsvors_anspruch_pro_kind_m(
     if (
         out > 0
         and (alter >= unterhaltsvors_params["altersgrenze_mindesteinkommen"])
-        and (not _unterhaltsvorschuss_eink_above_income_threshold_fg)
+        and (not _unterhaltsvorschuss_empf_eink_above_income_threshold)
     ):
         out = 0.0
 
     return out
+
+
+@policy_info(skip_vectorization=True)
+def _unterhaltsvorschuss_empf_eink_above_income_threshold(
+    p_id_kindergeld_empf: np.ndarray[int],
+    p_id: np.ndarray[int],
+    _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
+) -> np.ndarray[bool]:
+    """Income of Unterhaltsvorschuss recipient above threshold.
+
+    Parameters
+    ----------
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf`.
+    p_id
+        See basic input variable :ref:`p_id`.
+    _unterhaltsvorschuss_eink_above_income_threshold
+        See :func:`_unterhaltsvorschuss_eink_above_income_threshold`.
+
+    Returns
+    -------
+    """
+    return join_numpy(
+        p_id_kindergeld_empf, p_id, _unterhaltsvorschuss_eink_above_income_threshold
+    )
 
 
 def _unterhaltsvorschuss_eink_above_income_threshold(

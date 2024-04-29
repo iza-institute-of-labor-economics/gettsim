@@ -32,3 +32,5 @@ outputs:
     - 0
   kinderbonus_m_hh:
     - 0.0
+  _kindergeld_erstes_kind_m:
+    - 219
