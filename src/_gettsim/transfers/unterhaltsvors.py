@@ -44,7 +44,7 @@ def unterhaltsvors_m(
     _unterhaltsvors_anspruch_kind_m
         See :func:`_unterhaltsvors_anspruch_kind_m`.
     parent_alleinerz
-        See :fung:`parent_alleinerz`.
+        See :func:`parent_alleinerz`.
 
     Returns
     -------
@@ -81,7 +81,9 @@ def parent_alleinerz(
     -------
 
     """
-    return join_numpy(p_id_kindergeld_empf, p_id, alleinerz)
+    return join_numpy(
+        p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
+    )
 
 
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
