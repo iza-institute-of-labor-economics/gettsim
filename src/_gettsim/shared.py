@@ -300,6 +300,13 @@ def join_numpy(
         duplicate_primary_keys = keys[counts > 1]
         raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
 
+    invalid_foreign_keys = foreign_key[
+        (foreign_key >= 0) & (~np.isin(foreign_key, primary_key))
+    ]
+    print(invalid_foreign_keys)
+    if len(invalid_foreign_keys) > 0:
+        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}")
+
     # For each foreign key and for each primary key, check if they match
     matches_foreign_key = foreign_key[:, None] == primary_key
 

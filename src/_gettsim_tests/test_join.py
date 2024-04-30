@@ -34,13 +34,6 @@ from _gettsim.shared import join_numpy
             "d",
             np.array(["d"]),
         ),
-        (
-            np.array([2]),
-            np.array([1]),
-            np.array(["a"]),
-            "d",
-            np.array(["d"]),
-        ),
     ],
 )
 def test_join_numpy(
@@ -64,3 +57,8 @@ def test_join_numpy_raises_duplicate_primary_key():
             np.array(["a", "b", "c"]),
             "default",
         )
+
+
+def test_join_numpy_raises_invalid_foreign_key():
+    with pytest.raises(ValueError, match="Invalid foreign keys:"):
+        join_numpy(np.array([2]), np.array([1]), np.array(["a"]), "d")
