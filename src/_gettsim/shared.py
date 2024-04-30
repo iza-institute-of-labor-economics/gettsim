@@ -303,7 +303,7 @@ def join_numpy(
     invalid_foreign_keys = foreign_key[
         (foreign_key >= 0) & (~np.isin(foreign_key, primary_key))
     ]
-    print(invalid_foreign_keys)
+
     if len(invalid_foreign_keys) > 0:
         raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}")
 
