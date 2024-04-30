@@ -199,7 +199,10 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     -------
     """
     return join_numpy(
-        p_id_kindergeld_empf, p_id, _unterhaltsvorschuss_eink_above_income_threshold
+        p_id_kindergeld_empf,
+        p_id,
+        _unterhaltsvorschuss_eink_above_income_threshold,
+        value_if_foreign_key_is_missing=False,
     )
 
 
