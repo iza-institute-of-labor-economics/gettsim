@@ -19,8 +19,8 @@ def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
     parent_alleinerz: bool,
-) -> float:
-    """Advance alimony payments (Unterhaltsvorschuss) for a child after deducting
+):
+    """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
     alimonies.
 
     Single Parents get alimony payments for themselves and for their child from the ex
@@ -135,7 +135,7 @@ def _unterhaltsvors_anspruch_kind_m(
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) per child.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
     Parameters
     ----------
@@ -183,7 +183,8 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     p_id: np.ndarray[int],
     _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
 ) -> np.ndarray[bool]:
-    """Income of Unterhaltsvorschuss recipient above threshold.
+    """Income of Unterhaltsvorschuss recipient above threshold (this variable is
+    defined on child level).
 
     Parameters
     ----------
