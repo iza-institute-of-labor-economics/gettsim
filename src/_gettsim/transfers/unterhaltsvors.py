@@ -19,7 +19,7 @@ def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
     parent_alleinerz: bool,
-):
+) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
     alimonies.
 
@@ -63,7 +63,7 @@ def parent_alleinerz(
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
     alleinerz: np.ndarray[bool],
-):
+) -> np.ndarray[bool]:
     """Check if parent that receives Unterhaltsvorschuss is a single parent.
 
     Only single parents receive Unterhaltsvorschuss.
