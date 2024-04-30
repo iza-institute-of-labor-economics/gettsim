@@ -273,7 +273,7 @@ def join_numpy(
     foreign_key: np.ndarray[Key],
     primary_key: np.ndarray[Key],
     target: np.ndarray[Out],
-    value_for_unresolved_foreign_key: Out,
+    value_if_foreign_key_is_missing: Out,
 ) -> np.ndarray[Out]:
     """
     Given a foreign key, find the corresponding primary key, and return the target at
@@ -287,7 +287,7 @@ def join_numpy(
         The primary keys.
     target : np.ndarray[Out]
         The targets in the same order as the primary keys.
-    value_for_unresolved_foreign_key : Out
+    value_if_foreign_key_is_missing : Out
         The value to return if no matching primary key is found.
 
     Returns
@@ -321,7 +321,7 @@ def join_numpy(
 
     # Add the value for unresolved foreign keys at the end of the target array
     padded_targets = np.pad(
-        target, (0, 1), "constant", constant_values=value_for_unresolved_foreign_key
+        target, (0, 1), "constant", constant_values=value_if_foreign_key_is_missing
     )
 
     # Return the target at the index of the first matching primary key
