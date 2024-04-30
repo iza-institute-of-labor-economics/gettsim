@@ -19,7 +19,7 @@ def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
     parent_alleinerz: bool,
-):
+) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) for a child after deducting
     alimonies.
 
@@ -50,7 +50,6 @@ def unterhaltsvors_m(
     -------
 
     """
-
     if parent_alleinerz:
         out = max(_unterhaltsvors_anspruch_kind_m - kind_unterh_erhalt_m, 0.0)
     else:
@@ -82,7 +81,7 @@ def parent_alleinerz(
     -------
 
     """
-    join_numpy(p_id_kindergeld_empf, p_id, alleinerz)
+    return join_numpy(p_id_kindergeld_empf, p_id, alleinerz)
 
 
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
