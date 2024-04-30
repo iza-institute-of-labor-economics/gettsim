@@ -4,7 +4,7 @@ from _gettsim.shared import join_numpy
 
 
 @pytest.mark.parametrize(
-    "foreign_key, primary_key, target, default, expected",
+    "foreign_key, primary_key, target, value_for_unresolved_foreign_key, expected",
     [
         (
             np.array([1, 2, 3]),
@@ -40,11 +40,11 @@ def test_join_numpy(
     foreign_key: np.ndarray[int],
     primary_key: np.ndarray[int],
     target: np.ndarray[str],
-    default: str,
+    value_for_unresolved_foreign_key: str,
     expected: np.ndarray[str],
 ):
     assert np.array_equal(
-        join_numpy(foreign_key, primary_key, target, default),
+        join_numpy(foreign_key, primary_key, target, value_for_unresolved_foreign_key),
         expected,
     )
 
