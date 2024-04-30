@@ -6,6 +6,9 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`739` Unterhaltsvorschuss calculation on child level ({ghuser}`MImmesberger`).
+- {gh}`722` Join columns to make target columns available at source level
+  ({ghuser}`lars-reimann`).
 - {gh}`732` Change wealth input variable to individual-level (`vermögen_bedürft`)
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`730` Add argument to create_synthetic_data on whether adults are married.

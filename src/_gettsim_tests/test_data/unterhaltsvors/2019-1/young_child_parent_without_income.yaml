@@ -78,7 +78,11 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
+  parent_alleinerz:
+    - false
+    - true
+    - true
   unterhaltsvors_m:
-    - 372
-    - 0
-    - 0
+    - 0.0
+    - 160.0
+    - 212.0

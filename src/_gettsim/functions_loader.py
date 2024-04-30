@@ -776,7 +776,7 @@ def _create_one_aggregate_by_p_id_func(
 
 def _vectorize_func(func):
     # If the function is already vectorized, return it as is
-    if hasattr(func, "__info__") and func.__info__.get("is_vectorized", False):
+    if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
         return func
 
     # What should work once that Jax backend is fully supported
