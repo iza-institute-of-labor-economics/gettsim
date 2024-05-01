@@ -301,7 +301,8 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
 
 def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    kindergeld_m_bg: float,
+    kindergeld_zur_bedarfdeckung_m_bg: float,
+    kindergeld_übertrag_m_bg: float,
     kind_unterh_erhalt_m_bg: float,
     unterhaltsvors_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
@@ -316,8 +317,10 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    kindergeld_m_bg
-        See :func:`kindergeld_m_bg`.
+    kindergeld_zur_bedarfdeckung_m_bg
+        See :func:`kindergeld_zur_bedarfdeckung_m_bg`.
+    kindergeld_übertrag_m_bg
+        See :func:`kindergeld_übertrag_m_bg`.
     kind_unterh_erhalt_m_bg
         See basic input variable
         :ref:`kind_unterh_erhalt_m_bg <kind_unterh_erhalt_m_bg>`.
@@ -346,7 +349,8 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
             - arbeitsl_geld_2_eink_m_bg
             - kind_unterh_erhalt_m_bg
             - unterhaltsvors_m_bg
-            - kindergeld_m_bg,
+            - kindergeld_zur_bedarfdeckung_m_bg
+            - kindergeld_übertrag_m_bg,
         )
 
     return out

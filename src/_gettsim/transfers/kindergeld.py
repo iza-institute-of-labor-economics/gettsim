@@ -20,7 +20,7 @@ aggregate_by_p_id_kindergeld = {
 
 @policy_info(start_date="2023-01-01", name_in_dag="kindergeld_m")
 def kindergeld_ohne_staffelung_m(
-    kindergeld_anz_ansprüche: bool,
+    kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
@@ -45,7 +45,7 @@ def kindergeld_ohne_staffelung_m(
 
 @policy_info(end_date="2022-12-31", name_in_dag="kindergeld_m")
 def kindergeld_gestaffelt_m(
-    kindergeld_anz_ansprüche: bool,
+    kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
@@ -210,7 +210,7 @@ def kindergeld_zur_bedarfdeckung_m(
     _kindergeld_per_child_m: float,
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
-) -> np.ndarray[float]:
+) -> float:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
     Even though the Kindergeld is paid to the parent (see function
@@ -241,3 +241,19 @@ def kindergeld_zur_bedarfdeckung_m(
         _kindergeld_per_child_m,
         value_if_foreign_key_is_missing=0.0,
     )
+
+
+def kindergeld_übertrag_m(
+    kindergeld_m: float,
+) -> float:
+    """Kindergeld that is used to cover the needs (SGB II) of the parent.
+
+    If a child does not need all of the Kindergeld to cover its own needs (SGB II), the
+    remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
+    SGB II).ç
+
+    Returns
+    -------
+
+    """
+    return kindergeld_m * 0

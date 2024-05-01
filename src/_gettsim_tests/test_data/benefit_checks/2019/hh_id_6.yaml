@@ -46,6 +46,12 @@ inputs:
     kindergeld_m_bg:
       - 0.0
       - 0.0
+    kindergeld_zur_bedarfdeckung_m_bg:
+      - 0.0
+      - 0.0
+    kindergeld_übertrag_m_bg:
+      - 0.0
+      - 0.0
     kind_unterh_erhalt_m_bg:
       - 0.0
       - 0.0
