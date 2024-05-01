@@ -85,6 +85,7 @@ def parent_alleinerz(
         p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
     )
 
+
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
 def _kindergeld_erstes_kind_ohne_staffelung_m(
     kindergeld_params: dict,
