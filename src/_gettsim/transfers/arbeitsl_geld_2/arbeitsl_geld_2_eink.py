@@ -44,6 +44,38 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     )
 
 
+def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
+    arbeitsl_geld_2_eink_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_zur_bedarfdeckung_m: float,
+) -> float:
+    """Income without child benefit transfer.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_eink_m
+        See :func:`arbeitsl_geld_2_eink_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_zur_bedarfdeckung_m
+        See :func:`kindergeld_zur_bedarfdeckung_m`.
+
+    Returns
+    -------
+    Income without child benefit transfer.
+
+    """
+    return (
+        arbeitsl_geld_2_eink_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_zur_bedarfdeckung_m
+    )
+
+
 def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,

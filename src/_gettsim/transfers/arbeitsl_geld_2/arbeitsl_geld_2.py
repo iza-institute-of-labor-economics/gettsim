@@ -47,7 +47,7 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
     arbeitsl_geld_2_regelsatz_m_bg: float,
     arbeitsl_geld_2_kost_unterk_m_bg: float,
 ) -> float:
-    """Basic monthly subsistence level on household level.
+    """Basic monthly subsistence level on Bedarfsgemeinschaft level.
 
     This includes cost of dwelling.
 
@@ -302,13 +302,10 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
     return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
 
 
-def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
+def arbeitsl_geld_2_vor_vorrang_m_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    kindergeld_zur_bedarfdeckung_m_bg: float,
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
     kindergeld_übertrag_m_bg: float,
-    kind_unterh_erhalt_m_bg: float,
-    unterhaltsvors_m_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
     vermögen_bedürft_bg: float,
     arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
@@ -320,17 +317,10 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    kindergeld_zur_bedarfdeckung_m_bg
-        See :func:`kindergeld_zur_bedarfdeckung_m_bg`.
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
+        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
     kindergeld_übertrag_m_bg
         See :func:`kindergeld_übertrag_m_bg`.
-    kind_unterh_erhalt_m_bg
-        See basic input variable
-        :ref:`kind_unterh_erhalt_m_bg <kind_unterh_erhalt_m_bg>`.
-    unterhaltsvors_m_bg
-        See :func:`unterhaltsvors_m_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
     arbeitsl_geld_2_vermög_freib_bg
         See :func:`arbeitsl_geld_2_vermög_freib_bg`.
     vermögen_bedürft_bg
@@ -349,10 +339,7 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
         out = max(
             0.0,
             arbeitsl_geld_2_regelbedarf_m_bg
-            - arbeitsl_geld_2_eink_m_bg
-            - kind_unterh_erhalt_m_bg
-            - unterhaltsvors_m_bg
-            - kindergeld_zur_bedarfdeckung_m_bg
+            - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
             - kindergeld_übertrag_m_bg,
         )
 

@@ -15,6 +15,11 @@ aggregate_by_p_id_kindergeld = {
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },
+    "kindergeld_übertrag_m": {
+        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
+        "source_col": "_kindergeld_kindbedarf_differenz_m",
+        "aggr": "sum",
+    },
 }
 
 
@@ -243,17 +248,26 @@ def kindergeld_zur_bedarfdeckung_m(
     )
 
 
-def kindergeld_übertrag_m(
-    kindergeld_m: float,
+def _kindergeld_kindbedarf_differenz_m(
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    kindergeld_zur_bedarfdeckung_m: float,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
     If a child does not need all of the Kindergeld to cover its own needs (SGB II), the
     remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
-    SGB II).ç
+    SGB II).
 
-    Returns
-    -------
 
     """
-    return kindergeld_m * 0
+    fehlbetrag = max(
+        arbeitsl_geld_2_regelbedarf_m_bg
+        - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
+        0.0,
+    )
+    if fehlbetrag > kindergeld_zur_bedarfdeckung_m:
+        out = 0.0
+    else:
+        out = kindergeld_zur_bedarfdeckung_m - fehlbetrag
+    return out
