@@ -30,15 +30,15 @@ inputs:
       - 0.0
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1000.0
-    kindergeld_zur_bedarfdeckung_m_bg:
+    kindergeld_zur_bedarfdeckung_m:
       - 0.0
-    kindergeld_übertrag_m_bg:
+    kindergeld_übertrag_m:
       - 0.0
-    kind_unterh_erhalt_m_bg:
+    kind_unterh_erhalt_m:
       - 0.0
-    unterhaltsvors_m_bg:
+    unterhaltsvors_m:
       - 0.0
-    arbeitsl_geld_2_eink_m_bg:
+    arbeitsl_geld_2_eink_m:
       - 0.0
     geburtsjahr:
       - 1939
