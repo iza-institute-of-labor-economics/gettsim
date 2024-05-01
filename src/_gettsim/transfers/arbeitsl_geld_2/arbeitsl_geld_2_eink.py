@@ -18,7 +18,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     Parameters
     ----------
     arbeitsl_geld_2_bruttoeink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
+        See :func:`arbeitsl_geld_2_bruttoeink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
     eink_st_y_sn
