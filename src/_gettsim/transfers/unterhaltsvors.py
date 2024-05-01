@@ -6,9 +6,9 @@ import numpy as np
 from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_unterhaltsvors = {
-    "_unterhaltsvors_anspruch_eltern_m": {
+    "unterhaltsvors_zahlbetrag_eltern_m": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "_unterhaltsvors_anspruch_pro_kind_m",
+        "source_col": "unterhaltsvors_m",
         "aggr": "sum",
     },
 }
@@ -16,11 +16,12 @@ aggregate_by_p_id_unterhaltsvors = {
 
 @policy_info(params_key_for_rounding="unterhaltsvors")
 def unterhaltsvors_m(
-    alleinerz: bool,
     kind_unterh_erhalt_m: float,
-    _unterhaltsvors_anspruch_eltern_m: float,
+    _unterhaltsvors_anspruch_kind_m: float,
+    parent_alleinerz: bool,
 ) -> float:
-    """Advance alimony payments (Unterhaltsvorschuss).
+    """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
+    alimonies.
 
     Single Parents get alimony payments for themselves and for their child from the ex
     partner. If the ex partner is not able to pay the child alimony, the government pays
@@ -38,24 +39,51 @@ def unterhaltsvors_m(
 
     Parameters
     ----------
-    alleinerz
-        See basic input variable :ref:`alleinerz <alleinerz>`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
-    _unterhaltsvors_anspruch_eltern_m
-        See :func:`_unterhaltsvors_anspruch_eltern_m`.
+    _unterhaltsvors_anspruch_kind_m
+        See :func:`_unterhaltsvors_anspruch_kind_m`.
+    parent_alleinerz
+        See :func:`parent_alleinerz`.
 
     Returns
     -------
 
     """
-
-    if alleinerz:
-        out = max(_unterhaltsvors_anspruch_eltern_m - kind_unterh_erhalt_m, 0.0)
+    if parent_alleinerz:
+        out = max(_unterhaltsvors_anspruch_kind_m - kind_unterh_erhalt_m, 0.0)
     else:
         out = 0.0
 
     return out
+
+
+@policy_info(skip_vectorization=True)
+def parent_alleinerz(
+    p_id_kindergeld_empf: np.ndarray[int],
+    p_id: np.ndarray[int],
+    alleinerz: np.ndarray[bool],
+) -> np.ndarray[bool]:
+    """Check if parent that receives Unterhaltsvorschuss is a single parent.
+
+    Only single parents receive Unterhaltsvorschuss.
+
+    Parameters
+    ----------
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf`.
+    p_id
+        See basic input variable :ref:`p_id`.
+    alleinerz
+        See basic input variable :ref:`alleinerz`.
+
+    Returns
+    -------
+
+    """
+    return join_numpy(
+        p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
+    )
 
 
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
@@ -102,14 +130,14 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     return kindergeld_params["kindergeld"][1]
 
 
-def _unterhaltsvors_anspruch_pro_kind_m(
+def _unterhaltsvors_anspruch_kind_m(
     alter: int,
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) per child.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
     Parameters
     ----------
@@ -157,7 +185,8 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     p_id: np.ndarray[int],
     _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
 ) -> np.ndarray[bool]:
-    """Income of Unterhaltsvorschuss recipient above threshold.
+    """Income of Unterhaltsvorschuss recipient above threshold (this variable is
+    defined on child level).
 
     Parameters
     ----------
