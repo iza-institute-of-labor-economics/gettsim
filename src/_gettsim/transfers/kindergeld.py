@@ -1,4 +1,6 @@
-from _gettsim.shared import policy_info
+import numpy as np
+
+from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_group_kindergeld = {
     "anz_kinder_mit_kindergeld_fg": {
@@ -174,3 +176,68 @@ def kind_bis_10_mit_kindergeld(
     """
     out = kindergeld_anspruch and (alter <= 10)
     return out
+
+
+def _kindergeld_per_child_m(
+    kindergeld_m: float,
+    kindergeld_anz_ansprüche: int,
+) -> float:
+    """Kindergeld per child.
+
+    Helper function for `kindergeld_zur_bedarfdeckung_m`. Returns the average Kindergeld
+    per child. If there are no children, the function returns 0.
+
+    Parameters
+    ----------
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    kindergeld_anz_ansprüche
+        See :func:`kindergeld_anz_ansprüche`.
+
+    Returns
+    -------
+
+    """
+    if kindergeld_anz_ansprüche == 0:
+        out = 0.0
+    else:
+        out = kindergeld_m / kindergeld_anz_ansprüche
+    return out
+
+
+@policy_info(skip_vectorization=True)
+def kindergeld_zur_bedarfdeckung_m(
+    _kindergeld_per_child_m: float,
+    p_id_kindergeld_empf: np.ndarray[int],
+    p_id: np.ndarray[int],
+) -> np.ndarray[float]:
+    """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
+
+    Even though the Kindergeld is paid to the parent (see function
+    :func:`kindergeld_m`), the child that gives rise to the Kindergeld claim is entitled
+    to it to cover its needs (§ 11 Abs. 1 Satz 5 SGB II). The amount of Kindergeld for
+    which the child is entitled to is the sum of the Kindergeld for all children divided
+    by the amount of children. Hence, the age of the child (in comparison to siblings)
+    does not matter.
+
+    Parameters
+    ----------
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    kindergeld_anz_ansprüche
+        See :func:`kindergeld_anz_ansprüche`.
+    p_id_kindergeld_empf
+        See :func:`p_id_kindergeld_empf`.
+    p_id
+        See :func:`p_id`.
+
+    Returns
+    -------
+
+    """
+    return join_numpy(
+        p_id_kindergeld_empf,
+        p_id,
+        _kindergeld_per_child_m,
+        value_if_foreign_key_is_missing=0.0,
+    )
