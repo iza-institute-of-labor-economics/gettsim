@@ -62,7 +62,7 @@ inputs:
       - 105.0
       - 105.0
       - 105.0
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
       - false
       - false

@@ -69,7 +69,7 @@ inputs:
     alleinerz:
       - true
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
       - false
     arbeitsl_geld_m:
@@ -122,6 +122,12 @@ inputs:
       - 2006
   assumed: {}
 outputs:
+  bruttokaltmiete_m_bg:
+    - 252.5
+    - 252.5
+  heizkosten_m_bg:
+    - 50.0
+    - 50.0
   grunds_im_alter_m_eg:
     - 852.71
     - 852.71

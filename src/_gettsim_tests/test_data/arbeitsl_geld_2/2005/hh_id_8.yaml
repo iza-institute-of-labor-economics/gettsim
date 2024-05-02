@@ -32,7 +32,7 @@ inputs:
       - 100.0
     wohnfläche_hh:
       - 20.0
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
     alleinerz:
       - false

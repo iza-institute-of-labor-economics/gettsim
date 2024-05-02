@@ -90,7 +90,7 @@ inputs:
       - false
     alleinerz:
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
     immobilie_baujahr_hh:
       - 3

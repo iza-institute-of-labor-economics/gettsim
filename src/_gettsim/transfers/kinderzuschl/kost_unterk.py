@@ -147,6 +147,29 @@ def heizkosten_m_bg(  # noqa: PLR0913
     return heizkosten_m_hh * (bedarf_bg / bedarf_hh)
 
 
+def wohnfläche_bg(
+    wohnfläche_hh: float,
+    anz_personen_bg: int,
+    anz_personen_hh: int,
+) -> float:
+    """Apartment size attributed to the Bedarfsgemeinschaft.
+
+    Parameters
+    ----------
+    wohnfläche_hh
+        See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
+
+    Returns
+    -------
+
+    """
+    return wohnfläche_hh * (anz_personen_bg / anz_personen_hh)
+
+
 def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     _kinderzuschl_anz_kinder_anspruch_bg: int,
     anz_erwachsene_bg: int,

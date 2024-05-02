@@ -186,7 +186,7 @@ TYPES_INPUT_VARIABLES = {
     "m_elterngeld_mut_hh": int,
     "in_ausbildung": bool,
     "alleinerz": bool,
-    "bewohnt_eigentum_hh": bool,
+    "bewohnt_eigentum": bool,
     "immobilie_baujahr_hh": int,
     "sonstig_eink_m": float,
     "grundr_entgeltp": float,

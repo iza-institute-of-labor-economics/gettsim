@@ -231,9 +231,9 @@ Size of household dwelling in square meters
 
 Type: float
 
-(bewohnt_eigentum_hh)=
+(bewohnt_eigentum)=
 
-## `bewohnt_eigentum_hh`
+## `bewohnt_eigentum`
 
 Owner-occupied housing
 

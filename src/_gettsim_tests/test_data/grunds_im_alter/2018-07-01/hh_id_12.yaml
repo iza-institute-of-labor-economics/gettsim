@@ -50,7 +50,7 @@ inputs:
       - 0.0
     alleinerz:
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
     arbeitsl_geld_m:
       - 0.0

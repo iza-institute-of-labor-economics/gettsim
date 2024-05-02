@@ -219,7 +219,7 @@ inputs:
       - false
       - false
       - false
-    bewohnt_eigentum_hh:
+    bewohnt_eigentum:
       - false
       - false
       - false
