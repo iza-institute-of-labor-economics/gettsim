@@ -252,6 +252,7 @@ def _kindergeld_kindbedarf_differenz_m(
     _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfdeckung_m: float,
+    eigenbedarf_gedeckt: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
@@ -261,13 +262,21 @@ def _kindergeld_kindbedarf_differenz_m(
 
 
     """
+    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
+    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix. Without it,
+    # Kindergeld would be counted twice as income of the Bedarfsgemeinschaft (one time
+    # the full amount for the child and one time the Kindergeldübertrag for the parent -
+    # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
         - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
         0.0,
     )
-    if fehlbetrag > kindergeld_zur_bedarfdeckung_m:
+    if (
+        not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfdeckung_m
+    ):  # Same Bedarfsgemeinschaft as parents or Bedarf is not covered
         out = 0.0
-    else:
+    else:  # Bedarf is covered
         out = kindergeld_zur_bedarfdeckung_m - fehlbetrag
     return out
