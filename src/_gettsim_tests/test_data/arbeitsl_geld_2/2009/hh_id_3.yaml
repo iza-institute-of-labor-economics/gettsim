@@ -24,7 +24,7 @@ inputs:
       - -1
     p_id_kindergeld_empf:
       - -1
-      - -1
+      - 10
     gemeinsam_veranlagt:
       - false
       - false
@@ -82,9 +82,9 @@ inputs:
     sozialv_beitr_m:
       - 200.0
       - 0.0
-    kindergeld_m_bg:
+    kindergeld_m:
       - 164.0
-      - 164.0
+      - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
