@@ -274,8 +274,10 @@ def _kindergeld_kindbedarf_differenz_m(
         0.0,
     )
     if (
-        not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfdeckung_m
+        not eigenbedarf_gedeckt
     ):  # Same Bedarfsgemeinschaft as parents or Bedarf is not covered
+        out = 0.0
+    elif fehlbetrag > kindergeld_zur_bedarfdeckung_m:
         out = 0.0
     else:  # Bedarf is covered
         out = kindergeld_zur_bedarfdeckung_m - fehlbetrag

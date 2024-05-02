@@ -32,16 +32,17 @@ def test_arbeitsl_geld_2(
     )
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df,
+        params=policy_params,
+        functions=policy_functions,
+        targets=column,
+        rounding=True,
     )
 
-    if column in [
-        "arbeitsl_geld_2_vor_vorrang_m_bg",
-        "arbeitsl_geld_2_m_bg",
-    ]:
-        result = result[column].round(2)
-    else:
-        result = result[column]
     assert_series_equal(
-        result, test_data.output_df[column], check_dtype=False, atol=1e-1, rtol=0
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=1e-1,
+        rtol=0,
     )
