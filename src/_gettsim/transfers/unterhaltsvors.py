@@ -19,7 +19,7 @@ def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
     parent_alleinerz: bool,
-):
+) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
     alimonies.
 
@@ -44,7 +44,7 @@ def unterhaltsvors_m(
     _unterhaltsvors_anspruch_kind_m
         See :func:`_unterhaltsvors_anspruch_kind_m`.
     parent_alleinerz
-        See :fung:`parent_alleinerz`.
+        See :func:`parent_alleinerz`.
 
     Returns
     -------
@@ -63,7 +63,7 @@ def parent_alleinerz(
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
     alleinerz: np.ndarray[bool],
-):
+) -> np.ndarray[bool]:
     """Check if parent that receives Unterhaltsvorschuss is a single parent.
 
     Only single parents receive Unterhaltsvorschuss.
@@ -81,7 +81,9 @@ def parent_alleinerz(
     -------
 
     """
-    return join_numpy(p_id_kindergeld_empf, p_id, alleinerz)
+    return join_numpy(
+        p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
+    )
 
 
 @policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
@@ -199,7 +201,10 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     -------
     """
     return join_numpy(
-        p_id_kindergeld_empf, p_id, _unterhaltsvorschuss_eink_above_income_threshold
+        p_id_kindergeld_empf,
+        p_id,
+        _unterhaltsvorschuss_eink_above_income_threshold,
+        value_if_foreign_key_is_missing=False,
     )
 
 

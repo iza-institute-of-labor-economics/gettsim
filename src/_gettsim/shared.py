@@ -270,7 +270,10 @@ Out: TypeVar = TypeVar("Out")
 
 
 def join_numpy(
-    foreign_key: np.ndarray[Key], primary_key: np.ndarray[Key], target: np.ndarray[Out]
+    foreign_key: np.ndarray[Key],
+    primary_key: np.ndarray[Key],
+    target: np.ndarray[Out],
+    value_if_foreign_key_is_missing: Out,
 ) -> np.ndarray[Out]:
     """
     Given a foreign key, find the corresponding primary key, and return the target at
@@ -284,6 +287,8 @@ def join_numpy(
         The primary keys.
     target : np.ndarray[Out]
         The targets in the same order as the primary keys.
+    value_if_foreign_key_is_missing : Out
+        The value to return if no matching primary key is found.
 
     Returns
     -------
@@ -295,10 +300,29 @@ def join_numpy(
         duplicate_primary_keys = keys[counts > 1]
         raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
 
-    try:
-        sorter = np.argsort(primary_key)
-        idx = np.searchsorted(primary_key, foreign_key, sorter=sorter)
-        return target[idx]
-    except IndexError as e:
-        invalid_foreign_keys = foreign_key[~np.isin(foreign_key, primary_key)]
-        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}") from e
+    invalid_foreign_keys = foreign_key[
+        (foreign_key >= 0) & (~np.isin(foreign_key, primary_key))
+    ]
+
+    if len(invalid_foreign_keys) > 0:
+        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}")
+
+    # For each foreign key and for each primary key, check if they match
+    matches_foreign_key = foreign_key[:, None] == primary_key
+
+    # For each foreign key, add a column with True at the end, to later fall back to
+    # the value for unresolved foreign keys
+    padded_matches_foreign_key = np.pad(
+        matches_foreign_key, ((0, 0), (0, 1)), "constant", constant_values=True
+    )
+
+    # For each foreign key, compute the index of the first matching primary key
+    indices = np.argmax(padded_matches_foreign_key, axis=1)
+
+    # Add the value for unresolved foreign keys at the end of the target array
+    padded_targets = np.pad(
+        target, (0, 1), "constant", constant_values=value_if_foreign_key_is_missing
+    )
+
+    # Return the target at the index of the first matching primary key
+    return padded_targets.take(indices)
