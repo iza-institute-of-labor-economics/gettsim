@@ -288,15 +288,17 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
 
     weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
-        out = arbeitsl_geld_2_params["regelsatz"][1] * (
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
-    else:
-        out = arbeitsl_geld_2_params["regelsatz"][2] * (
+    elif anz_erwachsene_bg >= 2:
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
+    elif anz_erwachsene_bg == 0:
+        satz_erwachsene = 0
 
-    return out + arbeitsl_geld_2_kindersatz_m_bg
+    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
 
 
 def arbeitsl_geld_2_vor_vorrang_m_bg(

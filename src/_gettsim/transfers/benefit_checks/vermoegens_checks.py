@@ -200,9 +200,9 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
 @policy_info(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
-    _arbeitsl_geld_2_grundfreib_vermög_hh: float,
-    anz_kinder_bis_17_hh: int,
-    anz_personen_hh: int,
+    _arbeitsl_geld_2_grundfreib_vermög_bg: float,
+    anz_kinder_bis_17_bg: int,
+    anz_personen_bg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate actual exemptions until 2022.
@@ -211,12 +211,12 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_grundfreib_vermög_hh
-        See :func:`_arbeitsl_geld_2_grundfreib_vermög_hh`.
-    anz_kinder_bis_17_hh
-        See basic input variable :ref:`anz_kinder_bis_17_hh <anz_kinder_bis_17_hh>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
+    _arbeitsl_geld_2_grundfreib_vermög_bg
+        See :func:`_arbeitsl_geld_2_grundfreib_vermög_bg`.
+    anz_kinder_bis_17_bg
+        See :func:`anz_kinder_bis_17_bg`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
 
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
@@ -226,9 +226,9 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 
     """
     out = (
-        _arbeitsl_geld_2_grundfreib_vermög_hh
-        + anz_kinder_bis_17_hh * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
-        + anz_personen_hh * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
+        _arbeitsl_geld_2_grundfreib_vermög_bg
+        + anz_kinder_bis_17_bg * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
+        + anz_personen_bg * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     )
     return out
 
@@ -236,7 +236,7 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 @policy_info(start_date="2023-01-01")
 def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params: dict,
-    anz_personen_hh: int,
+    anz_personen_bg: int,
 ) -> float:
     """Calculate wealth exemptions since 2023 during Karenzzeit. This variable is also
     reffered to as 'erhebliches Vermögen'.
@@ -248,8 +248,8 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
 
@@ -259,7 +259,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    out = params["während_karenzzeit"] + (anz_personen_hh - 1) * params["normaler_satz"]
+    out = params["während_karenzzeit"] + (anz_personen_bg - 1) * params["normaler_satz"]
 
     return out
 
@@ -267,7 +267,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
 @policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
-    anz_personen_hh: int,
+    anz_personen_bg: int,
     _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
     bürgerg_bezug_vorj: bool,
 ) -> float:
@@ -281,8 +281,8 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     ----------
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
     _arbeitsl_geld_2_vermög_freib_karenzz_bg
         See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_bg`.
     bürgerg_bezug_vorj
@@ -295,7 +295,7 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
     if bürgerg_bezug_vorj:
-        out = anz_personen_hh * params["normaler_satz"]
+        out = anz_personen_bg * params["normaler_satz"]
     else:
         out = _arbeitsl_geld_2_vermög_freib_karenzz_bg
 
