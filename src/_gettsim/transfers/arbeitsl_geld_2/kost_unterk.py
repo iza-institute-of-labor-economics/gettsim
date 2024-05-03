@@ -87,7 +87,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
     heizkosten_m_bg
         See :func:`heizkosten_m_bg`.
     wohnfläche_bg
-        See basic input variable :ref:`wohnfläche_bg <wohnfläche_bg>`.
+        See function :func:`wohnfläche_bg`.
 
     Returns
     -------
@@ -115,7 +115,7 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     Parameters
     ----------
     wohnfläche_bg
-        See basic input variable :ref:`wohnfläche_bg <wohnfläche_bg>`.
+        See function :func:`wohnfläche_bg`.
     bewohnt_eigentum_hh
         See basic input variable :ref:`bewohnt_eigentum_hh <bewohnt_eigentum_hh>`.
     anz_personen_bg
