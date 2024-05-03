@@ -134,7 +134,7 @@ DEFAULT_TARGETS = [
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",
-    "unterhaltsvors_m",
+    "unterhaltsvors_m_hh",
     "grunds_im_alter_m_eg",
     "ges_rente_m",
     "erwerbsm_rente_m",
