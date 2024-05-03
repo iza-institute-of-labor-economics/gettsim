@@ -98,6 +98,8 @@ def _kindergeld_kindbedarf_differenz_m(
     # the full amount for the child and one time the Kindergeldübertrag for the parent -
     # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
+    # TODO (@MImmesberger): Consider Kinderwohngeld in the Fehlbetrag calculation.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/750
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
         0.0,
