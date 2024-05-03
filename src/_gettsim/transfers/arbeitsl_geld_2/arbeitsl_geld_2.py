@@ -286,16 +286,16 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
     """
     zuschlag = arbeitsl_geld_2_params.get("kindersofortzuschl", 0)
 
+    weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
         satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
     elif anz_erwachsene_bg >= 2:
-        weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
         satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
-    else:
+    elif anz_erwachsene_bg == 0:
         satz_erwachsene = 0
 
     return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
