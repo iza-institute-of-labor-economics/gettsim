@@ -197,9 +197,6 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     -------
 
     """
-    # TODO(@MImmesberger): Find out whether kind_unterh_erhalt_m and unterhaltsvors_m
-    # are counted as income for Wohngeld income check.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/357
     einkommen = (
         eink_selbst_y
         + eink_abhängig_beschäftigt_y

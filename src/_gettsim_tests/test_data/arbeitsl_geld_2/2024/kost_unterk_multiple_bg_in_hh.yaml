@@ -146,16 +146,6 @@ inputs:
       - 100.0
   provided: {}
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 100
-    - 0
-    - 0
-    - 0
-    - 200
-    - 200
   bruttokaltmiete_m_bg:
     - 555.56
     - 555.56

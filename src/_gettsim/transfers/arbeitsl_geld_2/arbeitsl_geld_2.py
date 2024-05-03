@@ -244,18 +244,17 @@ def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     """
     weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
+        out = arbeitsl_geld_2_params["regelsatz"] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
-    elif anz_erwachsene_bg >= 2:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
+    else:
+        out = arbeitsl_geld_2_params["regelsatz"] * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
             + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         )
-    else:
-        satz_erwachsene = 0
-    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
+
+    return out + arbeitsl_geld_2_kindersatz_m_bg
 
 
 @policy_info(start_date="2011-01-01", name_in_dag="arbeitsl_geld_2_regelsatz_m_bg")
