@@ -117,7 +117,7 @@ inputs:
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-      - 800.0
+      - 280.0
     unterhaltsvors_m:
       - 0.0
       - 0.0
@@ -161,13 +161,13 @@ inputs:
   assumed: {}
 outputs:
   kindergeld_übertrag_m:
-    - 250.0
+    - 153.33
     - 0.0
     - 0.0
   _kindergeld_kindbedarf_differenz_m:
     - 0.0
     - 0.0
-    - 250.0
+    - 153.33
   arbeitsl_geld_2_kindersatz_m_bg:
     - 410.0
     - 410.0
@@ -187,8 +187,8 @@ outputs:
   _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg:
     - 530.0
     - 530.0
-    - 1050.0
+    - 530.0
   arbeitsl_geld_2_m_bg:
-    - 693.89
-    - 693.89
+    - 790.56
+    - 790.56
     - 0.0
