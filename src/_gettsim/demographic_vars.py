@@ -5,12 +5,10 @@ These information are used throughout modules of gettsim.
 """
 
 import datetime
-from collections import Counter
 
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.shared import join_numpy, policy_info
 
 
 def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
@@ -332,30 +330,3 @@ def birthdate_decimal(
     out = geburtsjahr + (geburtsmonat - 1) / 12
 
     return out
-
-
-@policy_info(skip_vectorization=True)
-def anz_paare_hh(
-    p_id_einstandspartner: int,
-    hh_id: int,
-    p_id: int,
-):
-    """Calculate the number of couples in a household."""
-    hh_id_einstandspartner = join_numpy(
-        p_id_einstandspartner, p_id, hh_id, value_if_foreign_key_is_missing=-1
-    )
-
-    # Create bools for whether the hh_id and the einstandspartner's hh_id match
-    matching_hh_id = [
-        foreign_id == primary_id
-        for foreign_id, primary_id in zip(hh_id_einstandspartner, hh_id)
-    ]
-
-    # Zip the ids and values together
-    zipped_data = zip(hh_id, matching_hh_id)
-
-    # Create a Counter object to count occurrences of each ID with a True value
-    counter = Counter(id_ for id_, value in zipped_data if value)
-
-    # Generate the output list by looking up counts for each id
-    return [counter[id_] // 2 for id_ in hh_id]

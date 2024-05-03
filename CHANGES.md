@@ -6,7 +6,6 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-- {gh}`745` Split Mietkosten up by Bedarfsgemeinschaft ({ghuser}`MImmesberger`).
 - {gh}`739` Unterhaltsvorschuss calculation on child level ({ghuser}`MImmesberger`).
 - {gh}`722` Join columns to make target columns available at source level
   ({ghuser}`lars-reimann`).
