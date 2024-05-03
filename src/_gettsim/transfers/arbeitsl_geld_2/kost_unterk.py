@@ -127,8 +127,6 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
 
     """
 
-    # TODO(@MImmesberger): Use variables on the bg level instead of hh level here.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/710
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
     max_anzahl_direkt = params["max_anzahl_direkt"]
     if bewohnt_eigentum_hh:
