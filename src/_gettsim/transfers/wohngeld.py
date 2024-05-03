@@ -159,8 +159,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
     eink_rente_zu_verst_m: float,
-    # kind_unterh_erhalt_m: float,
-    # unterhaltsvors_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
     elterngeld_anr_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
@@ -210,8 +210,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     transfers = (
         arbeitsl_geld_m
         + eink_rente_zu_verst_m
-        # + kind_unterh_erhalt_m
-        # + unterhaltsvors_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
         + elterngeld_anr_m
     )
 
@@ -340,12 +340,10 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m_hh(  # noqa: PLR0913
+def wohngeld_eink_m_hh(
     anz_personen_hh: int,
     wohngeld_eink_freib_m_hh: float,
     wohngeld_eink_vor_freib_m_hh: float,
-    unterhaltsvors_m_hh: float,
-    kind_unterh_erhalt_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
@@ -368,10 +366,7 @@ def wohngeld_eink_m_hh(  # noqa: PLR0913
 
     """
     wohngeld_eink_nach_abzug_m_hh = (
-        wohngeld_eink_vor_freib_m_hh
-        + unterhaltsvors_m_hh
-        + kind_unterh_erhalt_m_hh
-        - wohngeld_eink_freib_m_hh
+        wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
     )
     unteres_eink = wohngeld_params["min_eink"][
         min(anz_personen_hh, max(wohngeld_params["min_eink"]))
