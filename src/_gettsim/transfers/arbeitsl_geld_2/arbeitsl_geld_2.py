@@ -295,7 +295,7 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
         satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
-    elif anz_erwachsene_bg == 0:
+    else:
         satz_erwachsene = 0
 
     return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
