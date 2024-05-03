@@ -85,7 +85,7 @@ inputs:
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 348.0
-  arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 648.0
   arbeitsl_geld_2_regelsatz_m_bg:
     - 502.0
