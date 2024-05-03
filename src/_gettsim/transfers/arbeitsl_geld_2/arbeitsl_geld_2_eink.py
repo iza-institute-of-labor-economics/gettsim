@@ -3,7 +3,7 @@ from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(
-    arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfdeckung_m: float,
@@ -15,8 +15,8 @@ def arbeitsl_geld_2_eink_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_ohne_transfers_m
-        See :func:`arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
@@ -30,14 +30,14 @@ def arbeitsl_geld_2_eink_m(
 
     """
     return (
-        arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_zur_bedarfdeckung_m
     )
 
 
-def arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
+def _arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
     soli_st_y_sn: float,
