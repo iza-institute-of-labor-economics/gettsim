@@ -160,6 +160,10 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
+  _kindergeld_kindbedarf_differenz_m:
+    - 0.0
+    - 0.0
+    - 0.0
   arbeitsl_geld_2_kindersatz_m_bg:
     - 820.0
     - 820.0
