@@ -1,7 +1,8 @@
 def kinderzuschl_kost_unterk_m_bg(
     _kinderzuschl_wohnbedarf_eltern_anteil_bg: float,
-    bruttokaltmiete_m_bg: float,
-    heizkosten_m_bg: float,
+    bruttokaltmiete_m_hh: float,
+    heizkosten_m_hh: float,
+    _anteil_personen_in_haushalt_bg: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
 
@@ -20,131 +21,71 @@ def kinderzuschl_kost_unterk_m_bg(
     -------
 
     """
+    warmmiete_m_hh = bruttokaltmiete_m_hh + heizkosten_m_hh
+    anteil_warmmiete_m_bg = warmmiete_m_hh * _anteil_personen_in_haushalt_bg
 
-    return (
-        bruttokaltmiete_m_bg + heizkosten_m_bg
-    ) * _kinderzuschl_wohnbedarf_eltern_anteil_bg
+    out = _kinderzuschl_wohnbedarf_eltern_anteil_bg * anteil_warmmiete_m_bg
+
+    return out
 
 
-def bruttokaltmiete_m_bg(  # noqa: PLR0913
-    anz_paare_hh: int,
+def bruttokaltmiete_m_bg(
     bruttokaltmiete_m_hh: float,
-    anz_kinder_bis_17_bg: int,
-    anz_kinder_bis_17_hh: int,
-    anz_erwachsene_bg: int,
-    anz_erwachsene_hh: int,
-    kinderzuschl_params: dict,
+    _anteil_personen_in_haushalt_bg: float,
 ) -> float:
-    """Monthly rent attributed to the Bedarfsgemeinschaft.
-
-    The rent is split among a household's Bedarfsgemeinschaften according to their needs
-    specified in the Existenzminimumsbericht.
+    """Share of household's monthly rent attributed to the Bedarfsgemeinschaft.
 
     Parameters
     ----------
-    anz_paare_hh
-        See :func:`anz_paare_hh`.
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    anz_kinder_bis_17_bg
-        See :func:`anz_kinder_bis_17_bg`.
-    anz_kinder_bis_17_hh
-        See :func:`anz_kinder_bis_17_hh`.
-    anz_erwachsene_bg
-        See :func:`anz_erwachsene_bg`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
-    kinderzuschl_params
-        See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
+    _anteil_personen_in_haushalt_bg
+        See :func:`_anteil_personen_in_haushalt_bg`.
 
     Returns
     -------
 
     """
-    bedarf_hh = (
-        anz_paare_hh
-        * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["paare"]
-        + (anz_erwachsene_hh - anz_paare_hh * 2)
-        * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["single"]
-        + anz_kinder_bis_17_hh
-        * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["kinder"]
-    )
-
-    if anz_erwachsene_bg == 1:
-        bedarf_bg = (
-            anz_erwachsene_bg
-            * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["single"]
-            + anz_kinder_bis_17_bg
-            * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["kinder"]
-        )
-    else:
-        bedarf_bg = (
-            kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["paare"]
-            + anz_kinder_bis_17_bg
-            * kinderzuschl_params["existenzminimum"]["kosten_der_unterkunft"]["kinder"]
-        )
-
-    return bruttokaltmiete_m_hh * (bedarf_bg / bedarf_hh)
+    return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_bg
 
 
-def heizkosten_m_bg(  # noqa: PLR0913
-    anz_paare_hh: int,
+def heizkosten_m_bg(
     heizkosten_m_hh: float,
-    anz_kinder_bis_17_bg: int,
-    anz_kinder_bis_17_hh: int,
-    anz_erwachsene_bg: int,
-    anz_erwachsene_hh: int,
-    kinderzuschl_params: dict,
+    _anteil_personen_in_haushalt_bg: float,
 ) -> float:
-    """Monthly heating expenses attributed to the Bedarfsgemeinschaft.
-
-    Heating expenses is split among a household's Bedarfsgemeinschaften according to
-    their needs specified in the Existenzminimumsbericht.
+    """Share of household's heating expenses attributed to the Bedarfsgemeinschaft.
 
     Parameters
     ----------
-    anz_paare_hh
-        See :func:`anz_paare_hh`.
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
-    anz_kinder_bis_17_bg
-        See :func:`anz_kinder_bis_17_bg`.
-    anz_kinder_bis_17_hh
-        See :func:`anz_kinder_bis_17_hh`.
-    anz_erwachsene_bg
-        See :func:`anz_erwachsene_bg`.
-    anz_erwachsene_hh
-        See :func:`anz_erwachsene_hh`.
-    kinderzuschl_params
-        See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
+    _anteil_personen_in_haushalt_bg
+        See :func:`_anteil_personen_in_haushalt_bg`.
 
     Returns
     -------
 
     """
-    bedarf_hh = (
-        anz_paare_hh * kinderzuschl_params["existenzminimum"]["heizkosten"]["paare"]
-        + (anz_erwachsene_hh - anz_paare_hh * 2)
-        * kinderzuschl_params["existenzminimum"]["heizkosten"]["single"]
-        + anz_kinder_bis_17_hh
-        * kinderzuschl_params["existenzminimum"]["heizkosten"]["kinder"]
-    )
+    return heizkosten_m_hh * _anteil_personen_in_haushalt_bg
 
-    if anz_erwachsene_bg == 1:
-        bedarf_bg = (
-            anz_erwachsene_bg
-            * kinderzuschl_params["existenzminimum"]["heizkosten"]["single"]
-            + anz_kinder_bis_17_bg
-            * kinderzuschl_params["existenzminimum"]["heizkosten"]["kinder"]
-        )
-    else:
-        bedarf_bg = (
-            kinderzuschl_params["existenzminimum"]["heizkosten"]["paare"]
-            + anz_kinder_bis_17_bg
-            * kinderzuschl_params["existenzminimum"]["heizkosten"]["kinder"]
-        )
 
-    return heizkosten_m_hh * (bedarf_bg / bedarf_hh)
+def _anteil_personen_in_haushalt_bg(
+    anz_personen_bg: int, anz_personen_hh: int
+) -> float:
+    """Share of persons in this Bedarfsgemeinschaft among all persons in the household.
+
+    Parameters
+    ----------
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
+
+    Returns
+    -------
+
+    """
+    return anz_personen_bg / anz_personen_hh
 
 
 def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
