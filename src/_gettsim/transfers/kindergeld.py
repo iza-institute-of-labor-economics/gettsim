@@ -189,8 +189,8 @@ def _kindergeld_per_child_m(
 ) -> float:
     """Kindergeld per child.
 
-    Helper function for `kindergeld_zur_bedarfdeckung_m`. Returns the average Kindergeld
-    per child. If there are no children, the function returns 0.
+    Returns the average Kindergeld per child. If there are no children, the function
+    returns 0. Helper function for `kindergeld_zur_bedarfdeckung_m`.
 
     Parameters
     ----------
@@ -249,7 +249,7 @@ def kindergeld_zur_bedarfdeckung_m(
 
 
 def _kindergeld_kindbedarf_differenz_m(
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
+    arbeitsl_geld_2_eink_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfdeckung_m: float,
     eigenbedarf_gedeckt: bool,
@@ -269,16 +269,13 @@ def _kindergeld_kindbedarf_differenz_m(
     # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     fehlbetrag = max(
-        arbeitsl_geld_2_regelbedarf_m_bg
-        - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
+        arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
         0.0,
     )
-    if (
-        not eigenbedarf_gedeckt
-    ):  # Same Bedarfsgemeinschaft as parents or Bedarf is not covered
+    # Bedarf not covered or same Bedarfsgemeinschaft as parents
+    if not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfdeckung_m:
         out = 0.0
-    elif fehlbetrag > kindergeld_zur_bedarfdeckung_m:
-        out = 0.0
-    else:  # Bedarf is covered
+    # Bedarf is covered
+    else:
         out = kindergeld_zur_bedarfdeckung_m - fehlbetrag
     return out

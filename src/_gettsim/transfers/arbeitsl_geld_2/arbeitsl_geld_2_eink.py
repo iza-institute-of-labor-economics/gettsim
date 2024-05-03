@@ -2,7 +2,42 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 
-def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
+def arbeitsl_geld_2_eink_m(
+    arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_zur_bedarfdeckung_m: float,
+) -> float:
+    """SGB II income.
+
+    Relevant income according to SGB II. Does not include child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_zur_bedarfdeckung_m
+        See :func:`kindergeld_zur_bedarfdeckung_m`.
+
+    Returns
+    -------
+    Income without child benefit transfer.
+
+    """
+    return (
+        arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_zur_bedarfdeckung_m
+    )
+
+
+def arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
     soli_st_y_sn: float,
@@ -32,7 +67,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
 
     Returns
     -------
-    Income of a person by unemployment insurance.
+    Income after taxes, social insurance contributions, and other deductions.
 
     """
     return (
@@ -41,38 +76,6 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
         - (soli_st_y_sn / 12 / anz_personen_sn)
         - sozialv_beitr_m
         - arbeitsl_geld_2_eink_anr_frei_m
-    )
-
-
-def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
-    arbeitsl_geld_2_eink_m: float,
-    kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
-    kindergeld_zur_bedarfdeckung_m: float,
-) -> float:
-    """Income without child benefit transfer.
-
-    Parameters
-    ----------
-    arbeitsl_geld_2_eink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
-    kind_unterh_erhalt_m
-        See :func:`kind_unterh_erhalt_m`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    kindergeld_zur_bedarfdeckung_m
-        See :func:`kindergeld_zur_bedarfdeckung_m`.
-
-    Returns
-    -------
-    Income without child benefit transfer.
-
-    """
-    return (
-        arbeitsl_geld_2_eink_m
-        + kind_unterh_erhalt_m
-        + unterhaltsvors_m
-        + kindergeld_zur_bedarfdeckung_m
     )
 
 
