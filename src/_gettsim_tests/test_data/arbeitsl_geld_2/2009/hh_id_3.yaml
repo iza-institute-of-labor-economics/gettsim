@@ -123,7 +123,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 260.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 684.5
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:

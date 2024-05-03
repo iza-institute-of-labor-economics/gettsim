@@ -304,7 +304,7 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
 
 def arbeitsl_geld_2_vor_vorrang_m_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
+    arbeitsl_geld_2_eink_m_bg: float,
     kindergeld_übertrag_m_bg: float,
     vermögen_bedürft_bg: float,
     arbeitsl_geld_2_vermög_freib_bg: float,
@@ -317,8 +317,8 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
-        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
+    arbeitsl_geld_2_eink_m_bg
+        See :func:`arbeitsl_geld_2_eink_m_bg`.
     kindergeld_übertrag_m_bg
         See :func:`kindergeld_übertrag_m_bg`.
     arbeitsl_geld_2_vermög_freib_bg
@@ -339,7 +339,7 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
         out = max(
             0.0,
             arbeitsl_geld_2_regelbedarf_m_bg
-            - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
+            - arbeitsl_geld_2_eink_m_bg
             - kindergeld_übertrag_m_bg,
         )
 
