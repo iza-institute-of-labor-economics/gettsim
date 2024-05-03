@@ -40,7 +40,7 @@ def unterhaltsvors_m(
     Parameters
     ----------
     kind_unterh_erhalt_m
-        See :func:`kind_unterh_erhalt_m`.
+        See basic input variable `kind_unterh_erhalt_m`.
     _unterhaltsvors_anspruch_kind_m
         See :func:`_unterhaltsvors_anspruch_kind_m`.
     parent_alleinerz
