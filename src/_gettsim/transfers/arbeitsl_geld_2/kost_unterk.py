@@ -156,6 +156,8 @@ def bruttokaltmiete_m_bg(
 ) -> float:
     """Share of household's monthly rent attributed to the Bedarfsgemeinschaft.
 
+    Reference: BSG Urteil v. 09.03.2016 - B 14 KG 1/15 R.
+
     Parameters
     ----------
     bruttokaltmiete_m_hh
@@ -175,6 +177,8 @@ def heizkosten_m_bg(
     _anteil_personen_in_haushalt_bg: float,
 ) -> float:
     """Share of household's heating expenses attributed to the Bedarfsgemeinschaft.
+
+    Reference: BSG Urteil v. 09.03.2016 - B 14 KG 1/15 R.
 
     Parameters
     ----------
