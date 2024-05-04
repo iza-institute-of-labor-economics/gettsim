@@ -34,10 +34,10 @@ def _mean_kindergeld_per_child_gestaffelt_m(
     -------
 
     """
-    if kindergeld_anz_ansprüche == 0:
-        out = 0.0
-    else:
+    if kindergeld_anz_ansprüche > 0:
         out = kindergeld_m / kindergeld_anz_ansprüche
+    else:
+        out = 0.0
     return out
 
 
@@ -86,8 +86,6 @@ def kindergeld_zur_bedarfsdeckung_m(
     ----------
     kindergeld_m
         See :func:`kindergeld_m`.
-    kindergeld_anz_ansprüche
-        See :func:`kindergeld_anz_ansprüche`.
     p_id_kindergeld_empf
         See :func:`p_id_kindergeld_empf`.
     p_id
