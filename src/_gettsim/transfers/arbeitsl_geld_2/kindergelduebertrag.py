@@ -44,7 +44,7 @@ def _mean_kindergeld_per_child_gestaffelt_m(
 @policy_info(start_date="2023-01-01", name_in_dag="_mean_kindergeld_per_child_m")
 def _mean_kindergeld_per_child_ohne_staffelung_m(
     kindergeld_params: dict,
-    alter: int,  # noqa: ARG001
+    kindergeld_anz_ansprüche: int,
 ) -> float:
     """Kindergeld per child.
 
@@ -62,9 +62,7 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
     -------
 
     """
-    # TODO(@MImmesberger): Remove fake dependency (alter).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
-    return kindergeld_params["kindergeld"]
+    return kindergeld_params["kindergeld"] if kindergeld_anz_ansprüche > 0 else 0.0
 
 
 @policy_info(skip_vectorization=True)
