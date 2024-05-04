@@ -7,13 +7,13 @@ from _gettsim.shared import join_numpy, policy_info
 aggregate_by_p_id_kindergeldübertrag = {
     "kindergeldübertrag_m": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "_kindergeld_kindbedarf_differenz_m",
+        "source_col": "_diff_kindergeld_kindbedarf_m",
         "aggr": "sum",
     },
 }
 
 
-def _kindergeld_per_child_m(
+def _mean_kindergeld_per_child_m(
     kindergeld_m: float,
     kindergeld_anz_ansprüche: int,
 ) -> float:
@@ -42,7 +42,7 @@ def _kindergeld_per_child_m(
 
 @policy_info(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
-    _kindergeld_per_child_m: float,
+    _mean_kindergeld_per_child_m: float,
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
 ) -> float:
@@ -73,12 +73,12 @@ def kindergeld_zur_bedarfsdeckung_m(
     return join_numpy(
         p_id_kindergeld_empf,
         p_id,
-        _kindergeld_per_child_m,
+        _mean_kindergeld_per_child_m,
         value_if_foreign_key_is_missing=0.0,
     )
 
 
-def _kindergeld_kindbedarf_differenz_m(
+def _diff_kindergeld_kindbedarf_m(
     arbeitsl_geld_2_eink_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,

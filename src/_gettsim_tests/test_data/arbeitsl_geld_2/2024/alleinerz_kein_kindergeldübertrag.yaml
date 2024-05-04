@@ -167,7 +167,7 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  _kindergeld_kindbedarf_differenz_m:
+  _diff_kindergeld_kindbedarf_m:
     - 0.0
     - 0.0
     - 0.0
