@@ -52,12 +52,12 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+    _zu_verst_eink_ohne_kinderfreib_y:
       - 200000.0
       - 200000.0
-      - 200000.0
-      - 200000.0
-      - 200000.0
+      - 0.0
+      - 0.0
+      - 0.0
   assumed: {}
 outputs:
   kindergeld_m:
