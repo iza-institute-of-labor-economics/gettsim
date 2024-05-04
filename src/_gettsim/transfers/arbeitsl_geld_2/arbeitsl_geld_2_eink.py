@@ -6,7 +6,7 @@ def arbeitsl_geld_2_eink_m(
     _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    kindergeld_zur_bedarfdeckung_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
 ) -> float:
     """SGB II income.
 
@@ -21,8 +21,8 @@ def arbeitsl_geld_2_eink_m(
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    kindergeld_zur_bedarfdeckung_m
-        See :func:`kindergeld_zur_bedarfdeckung_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
 
     Returns
     -------
@@ -33,7 +33,7 @@ def arbeitsl_geld_2_eink_m(
         _arbeitsl_geld_2_nettoeink_ohne_transfers_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
-        + kindergeld_zur_bedarfdeckung_m
+        + kindergeld_zur_bedarfsdeckung_m
     )
 
 

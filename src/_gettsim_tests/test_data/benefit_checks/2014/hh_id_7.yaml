@@ -43,10 +43,10 @@ inputs:
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1046.0
       - 1046.0
-    kindergeld_zur_bedarfdeckung_m:
+    kindergeld_zur_bedarfsdeckung_m:
       - 0.0
       - 0.0
-    kindergeld_übertrag_m:
+    kindergeldübertrag_m:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:

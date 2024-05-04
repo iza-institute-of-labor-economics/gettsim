@@ -5,7 +5,7 @@ import numpy as np
 from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_kindergeldübertrag = {
-    "kindergeld_übertrag_m": {
+    "kindergeldübertrag_m": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
         "source_col": "_kindergeld_kindbedarf_differenz_m",
         "aggr": "sum",
@@ -20,7 +20,7 @@ def _kindergeld_per_child_m(
     """Kindergeld per child.
 
     Returns the average Kindergeld per child. If there are no children, the function
-    returns 0. Helper function for `kindergeld_zur_bedarfdeckung_m`.
+    returns 0. Helper function for `kindergeld_zur_bedarfsdeckung_m`.
 
     Parameters
     ----------
@@ -41,7 +41,7 @@ def _kindergeld_per_child_m(
 
 
 @policy_info(skip_vectorization=True)
-def kindergeld_zur_bedarfdeckung_m(
+def kindergeld_zur_bedarfsdeckung_m(
     _kindergeld_per_child_m: float,
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
@@ -81,7 +81,7 @@ def kindergeld_zur_bedarfdeckung_m(
 def _kindergeld_kindbedarf_differenz_m(
     arbeitsl_geld_2_eink_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    kindergeld_zur_bedarfdeckung_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
     eigenbedarf_gedeckt: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
@@ -105,9 +105,9 @@ def _kindergeld_kindbedarf_differenz_m(
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
-    if not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfdeckung_m:
+    if not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfsdeckung_m:
         out = 0.0
     # Bedarf is covered
     else:
-        out = kindergeld_zur_bedarfdeckung_m - fehlbetrag
+        out = kindergeld_zur_bedarfsdeckung_m - fehlbetrag
     return out

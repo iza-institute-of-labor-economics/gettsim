@@ -56,11 +56,11 @@ inputs:
       - 1765.0
       - 1765.0
       - 1765.0
-    kindergeld_zur_bedarfdeckung_m:
+    kindergeld_zur_bedarfsdeckung_m:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_übertrag_m:
+    kindergeldübertrag_m:
       - 0.0
       - 0.0
       - 0.0

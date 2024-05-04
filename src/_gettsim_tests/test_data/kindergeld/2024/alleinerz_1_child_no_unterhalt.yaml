@@ -30,6 +30,6 @@ outputs:
   kindergeld_m:
     - 250.0
     - 0.0
-  kindergeld_zur_bedarfdeckung_m:
+  kindergeld_zur_bedarfsdeckung_m:
     - 0.0
     - 250.0
