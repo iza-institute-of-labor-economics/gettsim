@@ -115,6 +115,9 @@ def _diff_kindergeld_kindbedarf_m(
     remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
     SGB II).
 
+    Kindergeldübertrag (`kindergeldübertrag_m`) is obtained by aggregating this function
+    to the parental level.
+
     Parameters
     ----------
     arbeitsl_geld_2_eink_m_bg
