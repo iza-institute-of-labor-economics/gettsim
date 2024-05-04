@@ -102,7 +102,7 @@ def kindergeld_zur_bedarfsdeckung_m(
 
 
 def _diff_kindergeld_kindbedarf_m(
-    arbeitsl_geld_2_eink_m_bg: float,
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     eigenbedarf_gedeckt: bool,
@@ -118,8 +118,8 @@ def _diff_kindergeld_kindbedarf_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
+        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     kindergeld_zur_bedarfsdeckung_m
@@ -140,7 +140,8 @@ def _diff_kindergeld_kindbedarf_m(
     # TODO (@MImmesberger): Consider Kinderwohngeld in the Fehlbetrag calculation.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/750
     fehlbetrag = max(
-        arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
+        arbeitsl_geld_2_regelbedarf_m_bg
+        - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents

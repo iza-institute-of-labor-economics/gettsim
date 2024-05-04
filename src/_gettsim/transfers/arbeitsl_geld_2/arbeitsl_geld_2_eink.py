@@ -3,12 +3,36 @@ from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m: float,
+    kindergeldübertrag_m: float,
+) -> float:
+    """SGB II income.
+
+    Relevant income according to SGB II. Includes child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m
+        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m`.
+    kindergeldübertrag_m
+        See :func:`kindergeldübertrag_m`.
+
+    Returns
+    -------
+    Income according to SGB II.
+
+    """
+    return _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m + kindergeldübertrag_m
+
+
+def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
     _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
 ) -> float:
-    """SGB II income.
+    """SGB II income without Kindergeldübertrag.
 
     Relevant income according to SGB II. Does not include child benefit transfer
     (Kindergeldübertrag).
