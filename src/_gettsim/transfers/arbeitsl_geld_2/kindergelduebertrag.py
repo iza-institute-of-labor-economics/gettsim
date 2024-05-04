@@ -90,6 +90,19 @@ def _kindergeld_kindbedarf_differenz_m(
     remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
     SGB II).
 
+    Parameters
+    ----------
+    arbeitsl_geld_2_eink_m_bg
+        See :func:`arbeitsl_geld_2_eink_m_bg`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+    eigenbedarf_gedeckt
+        See :func:`eigenbedarf_gedeckt`.
+
+    Returns
+    -------
 
     """
     # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
