@@ -66,12 +66,6 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  _kindergeld_erstes_kind_m:
-    - 219.0
-    - 219.0
-    - 219.0
-    - 219.0
-    - 219.0
   kindergeld_zur_bedarfsdeckung_m:
     - 0.0
     - 0.0
