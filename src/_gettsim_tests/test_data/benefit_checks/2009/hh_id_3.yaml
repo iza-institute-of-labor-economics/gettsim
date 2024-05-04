@@ -19,6 +19,9 @@ inputs:
     p_id_einstandspartner:
       - -1
       - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 6
     eigenbedarf_gedeckt:
       - false
       - false
