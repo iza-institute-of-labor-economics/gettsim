@@ -114,6 +114,10 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    _mean_kindergeld_per_child_m:
+      - 0.0
+      - 0.0
+      - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -160,6 +164,10 @@ inputs:
       - true
   assumed: {}
 outputs:
+  _mean_kindergeld_per_child_m:
+    - 0.0
+    - 0.0
+    - 0.0
   arbeitsl_geld_2_eink_anr_frei_m:
     - 300.0
     - 0.0

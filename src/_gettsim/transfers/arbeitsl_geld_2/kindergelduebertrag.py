@@ -13,7 +13,8 @@ aggregate_by_p_id_kindergeldübertrag = {
 }
 
 
-def _mean_kindergeld_per_child_m(
+@policy_info(end_date="2022-12-31", name_in_dag="_mean_kindergeld_per_child_m")
+def _mean_kindergeld_per_child_gestaffelt_m(
     kindergeld_m: float,
     kindergeld_anz_ansprüche: int,
 ) -> float:
@@ -38,6 +39,32 @@ def _mean_kindergeld_per_child_m(
     else:
         out = kindergeld_m / kindergeld_anz_ansprüche
     return out
+
+
+@policy_info(start_date="2023-01-01", name_in_dag="_mean_kindergeld_per_child_m")
+def _mean_kindergeld_per_child_ohne_staffelung_m(
+    kindergeld_params: dict,
+    alter: int,  # noqa: ARG001
+) -> float:
+    """Kindergeld per child.
+
+    Returns the (average) Kindergeld per child. Helper function for
+    `kindergeld_zur_bedarfsdeckung_m`.
+
+    Parameters
+    ----------
+    kindergeld_params
+        See params documentation :ref:`kindergeld_params <kindergeld_params>`.
+    alter
+        See basic input variable :ref:`alter`.
+
+    Returns
+    -------
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (alter).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+    return kindergeld_params["kindergeld"]
 
 
 @policy_info(skip_vectorization=True)
