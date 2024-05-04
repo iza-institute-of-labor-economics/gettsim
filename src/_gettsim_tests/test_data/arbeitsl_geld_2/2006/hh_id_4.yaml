@@ -246,6 +246,12 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
+  _mean_kindergeld_per_child_m:
+    - 154.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:
     - 1216.8
     - 1216.8
