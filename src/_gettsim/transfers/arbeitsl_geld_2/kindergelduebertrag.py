@@ -70,7 +70,7 @@ def kindergeld_zur_bedarfsdeckung_m(
     _mean_kindergeld_per_child_m: float,
     p_id_kindergeld_empf: np.ndarray[int],
     p_id: np.ndarray[int],
-) -> np.ndarray[float]:
+) -> float:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
     Even though the Kindergeld is paid to the parent (see function
