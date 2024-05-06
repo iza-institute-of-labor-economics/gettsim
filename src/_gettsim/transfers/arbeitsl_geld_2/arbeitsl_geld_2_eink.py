@@ -2,7 +2,66 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 
-def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
+def arbeitsl_geld_2_eink_m(
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m: float,
+    kindergeldübertrag_m: float,
+) -> float:
+    """SGB II income.
+
+    Relevant income according to SGB II. Includes child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m
+        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m`.
+    kindergeldübertrag_m
+        See :func:`kindergeldübertrag_m`.
+
+    Returns
+    -------
+    Income according to SGB II.
+
+    """
+    return _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m + kindergeldübertrag_m
+
+
+def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
+) -> float:
+    """SGB II income without Kindergeldübertrag.
+
+    Relevant income according to SGB II. Does not include child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+
+    Returns
+    -------
+    Income without child benefit transfer.
+
+    """
+    return (
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_zur_bedarfsdeckung_m
+    )
+
+
+def _arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
     soli_st_y_sn: float,
@@ -18,7 +77,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     Parameters
     ----------
     arbeitsl_geld_2_bruttoeink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
+        See :func:`arbeitsl_geld_2_bruttoeink_m`.
     sozialv_beitr_m
         See :func:`sozialv_beitr_m`.
     eink_st_y_sn
@@ -32,7 +91,7 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
 
     Returns
     -------
-    Income of a person by unemployment insurance.
+    Income after taxes, social insurance contributions, and other deductions.
 
     """
     return (

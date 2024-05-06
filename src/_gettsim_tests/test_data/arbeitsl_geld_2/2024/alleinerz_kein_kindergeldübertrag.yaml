@@ -1,25 +1,27 @@
 ---
 info:
-  note: ''
-  source: ''
+  note: >-
+    Household with 2 children, where child income does not exceed needs. Hence, child
+    stays in Bedarfsgemeinschaft and Kindergeldübertrag is zero.
+  source: https://www.das-steht-dir-zu.de/arbeit/buergergeld/der-buergergeld-rechner/index.html
 inputs:
   provided:
     p_id:
-      - 22
-      - 23
-      - 24
+      - 0
+      - 1
+      - 2
     hh_id:
-      - 6
-      - 6
-      - 6
+      - 0
+      - 0
+      - 0
     p_id_ehepartner:
       - -1
       - -1
       - -1
     p_id_elternteil_1:
       - -1
-      - 22
-      - 22
+      - 0
+      - 0
     p_id_elternteil_2:
       - -1
       - -1
@@ -30,8 +32,8 @@ inputs:
       - -1
     p_id_kindergeld_empf:
       - -1
-      - 22
-      - 22
+      - 0
+      - 0
     gemeinsam_veranlagt:
       - false
       - false
@@ -40,22 +42,25 @@ inputs:
       - false
       - false
       - false
+    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
+    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     kind:
       - false
       - true
       - true
     alter:
-      - 30
+      - 40
+      - 10
       - 8
-      - 3
     bruttokaltmiete_m_hh:
-      - 438.0
-      - 438.0
-      - 438.0
+      - 600.0
+      - 600.0
+      - 600.0
     heizkosten_m_hh:
-      - 80.0
-      - 80.0
-      - 80.0
+      - 50.0
+      - 50.0
+      - 50.0
     wohnfläche_hh:
       - 60.0
       - 60.0
@@ -69,7 +74,7 @@ inputs:
       - false
       - false
     bruttolohn_m:
-      - 800.0
+      - 450.0
       - 0.0
       - 0.0
     sum_ges_rente_priv_rente_m:
@@ -105,17 +110,13 @@ inputs:
       - 0.0
       - 0.0
     sozialv_beitr_m:
-      - 136.0
       - 0.0
       - 0.0
-    kindergeld_m_bg:
-      - 388.0
-      - 388.0
-      - 388.0
+      - 0.0
     kind_unterh_erhalt_m:
       - 0.0
-      - 212.0
-      - 160.0
+      - 0.0
+      - 0.0
     unterhaltsvors_m:
       - 0.0
       - 0.0
@@ -125,9 +126,9 @@ inputs:
       - 0.0
       - 0.0
     jahr:
-      - '2019'
-      - '2019'
-      - '2019'
+      - 2024
+      - 2024
+      - 2024
     wohngeld_vor_vermög_check_m_hh:
       - 0.0
       - 0.0
@@ -137,8 +138,8 @@ inputs:
       - 0.0
       - 0.0
     geburtsjahr:
-      - 1989
-      - 2011
+      - 1983
+      - 2014
       - 2016
     rentner:
       - false
@@ -146,10 +147,10 @@ inputs:
       - false
     in_ausbildung:
       - false
-      - true
-      - true
+      - false
+      - false
     arbeitsstunden_w:
-      - 20.0
+      - 0.0
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:
@@ -158,23 +159,35 @@ inputs:
       - false
   assumed: {}
 outputs:
-  arbeitsl_geld_2_eink_anr_frei_m:
-    - 240.0
+  bg_id:
+    - 0
+    - 0
+    - 0
+  kindergeldübertrag_m:
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
-    - 424.0
+    - 0.0
+  _diff_kindergeld_kindbedarf_m:
     - 0.0
     - 0.0
+    - 0.0
+  arbeitsl_geld_2_kindersatz_m_bg:
+    - 820.0
+    - 820.0
+    - 820.0
   arbeitsl_geld_2_regelsatz_m_bg:
-    - 1123.64
-    - 1123.64
-    - 1123.64
+    - 1585.68
+    - 1585.68
+    - 1585.68
   arbeitsl_geld_2_kost_unterk_m_bg:
-    - 518.0
-    - 518.0
-    - 518.0
+    - 650.0
+    - 650.0
+    - 650.0
+  _mean_kindergeld_per_child_m:
+    - 250.0
+    - 0.0
+    - 0.0
   arbeitsl_geld_2_m_bg:
-    - 457.64
-    - 457.64
-    - 457.64
+    - 1455.68
+    - 1455.68
+    - 1455.68

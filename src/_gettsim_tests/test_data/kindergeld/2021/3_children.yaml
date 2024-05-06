@@ -5,26 +5,38 @@ info:
 inputs:
   provided:
     hh_id:
-      - 11
-      - 11
-      - 11
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
     p_id:
-      - 36
-      - 37
-      - 38
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
     p_id_kindergeld_empf:
       - -1
       - -1
-      - 36
+      - 0
+      - 0
+      - 0
     alter:
       - 35
       - 35
       - 12
+      - 10
+      - 8
     kind:
       - false
       - false
       - true
+      - true
+      - true
     arbeitsstunden_w:
+      - 0.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -32,29 +44,31 @@ inputs:
       - false
       - false
       - true
+      - true
+      - true
     bruttolohn_m:
       - 20000.0
       - 20000.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+      - 0.0
+      - 0.0
+    _zu_verst_eink_ohne_kinderfreib_y:
       - 200000.0
       - 200000.0
-      - 200000.0
+      - 0.0
+      - 0.0
+      - 0.0
   assumed: {}
 outputs:
   kindergeld_m:
-    - 219
-    - 0
-    - 0
-  kinderbonus_m:
-    - 12.5
-    - 0
-    - 0
-  kindergeld_m_hh:
-    - 219
-    - 219
-    - 219
-  kinderbonus_m_hh:
-    - 12.5
-    - 12.5
-    - 12.5
+    - 663.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  kindergeld_zur_bedarfsdeckung_m:
+    - 0.0
+    - 0.0
+    - 221.0
+    - 221.0
+    - 221.0

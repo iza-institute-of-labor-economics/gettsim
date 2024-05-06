@@ -43,18 +43,21 @@ inputs:
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1170.0
       - 1170.0
-    kindergeld_m_bg:
+    kindergeld_zur_bedarfsdeckung_m:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_bg:
+    kindergeldübertrag_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m_bg:
+    kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_bg:
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
       - 700.0
-      - 700.0
+      - 0.0
     geburtsjahr:
       - 1973
       - 1973

@@ -12,19 +12,13 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_eg: float,
     grunds_im_alter_vermög_freib_eg: float,
+    anz_kinder_eg: int,
+    anz_personen_eg: int,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
     # ToDo: There is no check for Wohngeld included as Wohngeld is
     # ToDo: currently not implemented for retirees.
-
-    # TODO(@ChristianZimpelmann): Treatment of Bedarfsgemeinschaften with both retirees
-    # and unemployed job seekers probably incorrect
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
-
-    # TODO(@MImmesberger): Check which variable is the correct Regelbedarf in place of
-    # `arbeitsl_geld_2_regelbedarf_m_bg`
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
 
     Parameters
     ----------
@@ -47,15 +41,33 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         See basic input variable :ref:`vermögen_bedürft_eg`.
     grunds_im_alter_vermög_freib_eg
         See :func:`grunds_im_alter_vermög_freib_eg`.
+    anz_kinder_eg
+        See :func:`anz_kinder_eg`.
+    anz_personen_eg
+        See :func:`anz_personen_eg`.
     Returns
     -------
 
     """
 
+    # TODO(@ChristianZimpelmann): Treatment of Bedarfsgemeinschaften with both retirees
+    # and unemployed job seekers probably incorrect
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
+
+    # TODO(@MImmesberger): Check which variable is the correct Regelbedarf in place of
+    # `arbeitsl_geld_2_regelbedarf_m_bg`
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
+
+    # TODO (@MImmesberger): Remove `anz_kinder_eg == anz_personen_eg` condition once
+    # `erwachsene_alle_rentner_hh`` is replaced by a more accurate variable.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
+
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
-    if (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg) or (
-        not erwachsene_alle_rentner_hh
+    if (
+        (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg)
+        or (not erwachsene_alle_rentner_hh)
+        or (anz_kinder_eg == anz_personen_eg)
     ):
         out = 0.0
     else:
