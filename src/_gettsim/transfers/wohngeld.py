@@ -657,3 +657,40 @@ def wohngeld_vor_vermög_check_m_hh(
         )
 
     return out
+
+
+def kinderwohngeld_m(
+    wohngeld_vor_vorrang_check_m: float,
+    kind: bool,
+    eigenbedarf_gedeckt: bool,
+):
+    """Kinderwohngeld.
+
+    Kinderwohngeld is Wohngeld for children that can drop out of the Bedarfsgemeinschaft
+    of their parents with this transfer. It is calculated exactly as Wohngeld.
+
+    Helper function for the Kindergeldübertrag.
+
+    Parameters
+    ----------
+    wohngeld_vor_vorrang_check_m
+        See :func:`wohngeld_vor_vorrang_check_m`.
+    kind
+        See :func:`kind`.
+    eigenbedarf_gedeckt
+        See :func:`eigenbedarf_gedeckt`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
+    # Bedarfsgemeinschaft is fully endogenous. The ALG2/Wohngeld calculation for
+    # children needs to be done separately from the parents (first determine, whether
+    # child is part of the parents Bedarfsgemeinschaft and calculating (Kinder-)Wohngeld
+    # to determine Kindergeldübertrag, then calculate the parents ALG2/Wohngeld given
+    # Kindergeldübertrag).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
+    # TODO (@MImmesberger): Replace basic input variable `kind`
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
+    return wohngeld_vor_vorrang_check_m if kind and eigenbedarf_gedeckt else 0.0
