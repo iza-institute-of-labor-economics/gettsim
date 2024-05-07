@@ -281,7 +281,12 @@ def _convert_data_to_correct_types(data, functions_overridden):
             column_name in functions_overridden
             and "return" in functions_overridden[column_name].__annotations__
         ):
-            internal_type = functions_overridden[column_name].__annotations__["return"]
+            func = functions_overridden[column_name]
+            if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
+                breakpoint()
+                internal_type = func.__annotations__["return"]
+            else:
+                internal_type = func.__annotations__["return"]
 
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(series, internal_type):
