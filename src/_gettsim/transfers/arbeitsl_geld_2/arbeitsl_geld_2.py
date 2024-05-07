@@ -3,9 +3,9 @@ from _gettsim.shared import policy_info
 
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
-    wohngeld_vorrang_hh: bool,
+    wohngeld_vorrang_bg: bool,
     kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_bg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -16,12 +16,12 @@ def arbeitsl_geld_2_m_bg(
     ----------
     arbeitsl_geld_2_vor_vorrang_m_bg
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
-    wohngeld_vorrang_hh
-        See :func:`wohngeld_vorrang_hh`.
+    wohngeld_vorrang_bg
+        See :func:`wohngeld_vorrang_bg`.
     kinderzuschl_vorrang_bg
         See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_bg
+        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -31,9 +31,9 @@ def arbeitsl_geld_2_m_bg(
 
     """
     if (
-        wohngeld_vorrang_hh
+        wohngeld_vorrang_bg
         or kinderzuschl_vorrang_bg
-        or wohngeld_kinderzuschl_vorrang_hh
+        or wohngeld_kinderzuschl_vorrang_bg
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0

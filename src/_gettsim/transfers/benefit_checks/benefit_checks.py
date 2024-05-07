@@ -1,13 +1,13 @@
-def wohngeld_vorrang_hh(
-    wohngeld_nach_vermög_check_m_hh: float,
+def wohngeld_vorrang_bg(
+    wohngeld_vor_vorrang_check_m_bg: float,
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
 ) -> bool:
     """Check if housing benefit has priority.
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
+    wohngeld_vor_vorrang_check_m_bg
+        See :func:`wohngeld_vor_vorrang_check_m_bg`.
     arbeitsl_geld_2_vor_vorrang_m_bg
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
 
@@ -15,10 +15,7 @@ def wohngeld_vorrang_hh(
     -------
 
     """
-    # TODO(@MImmesberger): Allow for some individuals to receive Wohngeld and some
-    # individuals to receive ALG2 in the same household.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/710
-    return wohngeld_nach_vermög_check_m_hh >= arbeitsl_geld_2_vor_vorrang_m_bg
+    return wohngeld_vor_vorrang_check_m_bg >= arbeitsl_geld_2_vor_vorrang_m_bg
 
 
 def kinderzuschl_vorrang_bg(
@@ -41,8 +38,8 @@ def kinderzuschl_vorrang_bg(
     return _kinderzuschl_nach_vermög_check_m_bg >= arbeitsl_geld_2_vor_vorrang_m_bg
 
 
-def wohngeld_kinderzuschl_vorrang_hh(
-    wohngeld_nach_vermög_check_m_hh: float,
+def wohngeld_kinderzuschl_vorrang_bg(
+    wohngeld_vor_vorrang_check_m_bg: float,
     _kinderzuschl_nach_vermög_check_m_bg: float,
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
 ) -> bool:
@@ -50,8 +47,8 @@ def wohngeld_kinderzuschl_vorrang_hh(
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
+    wohngeld_vor_vorrang_check_m_bg
+        See :func:`wohngeld_vor_vorrang_check_m_bg`.
     _kinderzuschl_nach_vermög_check_m_bg
         See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
     arbeitsl_geld_2_vor_vorrang_m_bg
@@ -62,6 +59,6 @@ def wohngeld_kinderzuschl_vorrang_hh(
 
     """
     sum_wohngeld_kinderzuschl = (
-        wohngeld_nach_vermög_check_m_hh + _kinderzuschl_nach_vermög_check_m_bg
+        wohngeld_vor_vorrang_check_m_bg + _kinderzuschl_nach_vermög_check_m_bg
     )
     return sum_wohngeld_kinderzuschl >= arbeitsl_geld_2_vor_vorrang_m_bg

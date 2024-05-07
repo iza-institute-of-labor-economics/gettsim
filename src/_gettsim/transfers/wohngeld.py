@@ -13,22 +13,26 @@ aggregate_by_p_id_wohngeld = {
 }
 
 
-def wohngeld_m_hh(
-    wohngeld_nach_vermög_check_m_hh: float,
-    wohngeld_vorrang_hh: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+def wohngeld_m(
+    wohngeld_vor_vorrang_check_m: float,
+    wohngeld_vorrang_bg: bool,
+    wohngeld_kinderzuschl_vorrang_bg: bool,
     erwachsene_alle_rentner_hh: bool,
-) -> float:
-    """Calculate final housing benefit on household level.
+):
+    """Calculate housing benefit on individual level.
+
+    Wohngeld is calculated on the household level and then compared to ALG2 and
+    Kinderzuschlag on the Bedarfsgemeinschaft level. Wohngeld is paid out if it is at
+    least as high as ALG2 and
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
-    wohngeld_vorrang_hh
-        See :func:`wohngeld_vorrang_hh`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_vor_vorrang_check_m
+        See :func:`wohngeld_vor_vorrang_check_m`.
+    wohngeld_vorrang
+        See :func:`wohngeld_vorrang`.
+    wohngeld_kinderzuschl_vorrang
+        See :func:`wohngeld_kinderzuschl_vorrang`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -36,16 +40,38 @@ def wohngeld_m_hh(
     -------
 
     """
-    if (
-        (not wohngeld_vorrang_hh)
-        and (not wohngeld_kinderzuschl_vorrang_hh)
-        or erwachsene_alle_rentner_hh
-    ):
-        out = 0.0
-    else:
-        out = wohngeld_nach_vermög_check_m_hh
 
+    # TODO (@MImmesberger): Remove erwachsene_alle_rentner_hh condition once households
+    # can get both Grundsicherung im Alter and ALG2/Wohngeld.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
+
+    if (
+        wohngeld_kinderzuschl_vorrang_bg or wohngeld_vorrang_bg
+    ) and not erwachsene_alle_rentner_hh:
+        out = wohngeld_vor_vorrang_check_m
+    else:
+        out = 0.0
     return out
+
+
+def wohngeld_vor_vorrang_check_m(
+    wohngeld_nach_vermög_check_m_hh: float,
+    anz_personen_hh: int,
+):
+    """Wohngeld on individual level before checking for SGB II priority.
+
+    Parameters
+    ----------
+    wohngeld_nach_vermög_check_m_hh
+        See :func:`wohngeld_nach_vermög_check_m_hh`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
+
+    Returns
+    -------
+
+    """
+    return wohngeld_nach_vermög_check_m_hh / anz_personen_hh
 
 
 def wohngeld_abzüge_st_sozialv_m(
