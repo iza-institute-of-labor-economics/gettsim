@@ -102,7 +102,9 @@ def kindergeld_zur_bedarfsdeckung_m(
 
 
 def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     wohngeld_vor_vorrang_check_m: float,
     kind: bool,
@@ -125,8 +127,8 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
-        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     wohngeld_vor_vorrang_check_m
@@ -150,8 +152,10 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
-        - (wohngeld_vor_vorrang_check_m if kind else 0.0)
-        - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
+        - _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        - kind_unterh_erhalt_m
+        - unterhaltsvors_m
+        - (wohngeld_vor_vorrang_check_m if kind else 0.0),
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
