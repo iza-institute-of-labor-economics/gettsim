@@ -70,9 +70,9 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     alleinerz_bg: bool,
-    anz_kinder_bg: int,
-    anz_kinder_bis_6_bg: int,
-    anz_kinder_bis_15_bg: int,
+    anz_kinder_fg: int,
+    anz_kinder_bis_6_fg: int,
+    anz_kinder_bis_15_fg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Compute additional need for single parents.
@@ -87,12 +87,12 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     ----------
     alleinerz_bg
         See :func:`alleinerz_bg`.
-    anz_kinder_bg
-        See :func:`anz_kinder_bg`.
-    anz_kinder_bis_6_bg
-        See :func:`anz_kinder_bis_6_bg`.
-    anz_kinder_bis_15_bg
-        See :func:`anz_kinder_bis_15_bg`.
+    anz_kinder_fg
+        See :func:`anz_kinder_fg`.
+    anz_kinder_bis_6_fg
+        See :func:`anz_kinder_bis_6_fg`.
+    anz_kinder_bis_15_fg
+        See :func:`anz_kinder_bis_15_fg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -110,13 +110,13 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
             max(
                 # Minimal Mehrbedarf share. Minimal rate times number of children
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
-                * anz_kinder_bg,
+                * anz_kinder_fg,
                 # Special case if 1 kid below 6 or 2,3 below 15.
                 (
                     arbeitsl_geld_2_params["mehrbedarf_anteil"][
                         "kind_unter_7_oder_mehr"
                     ]
-                    if (anz_kinder_bis_6_bg >= 1) or (2 <= anz_kinder_bis_15_bg <= 3)
+                    if (anz_kinder_bis_6_fg >= 1) or (2 <= anz_kinder_bis_15_fg <= 3)
                     else 0.0
                 ),
             ),
