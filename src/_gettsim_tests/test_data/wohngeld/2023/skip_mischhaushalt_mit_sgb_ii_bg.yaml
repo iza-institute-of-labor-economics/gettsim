@@ -1,0 +1,95 @@
+---
+info:
+  note: ''
+  source: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
+inputs:
+  provided:
+    p_id:
+      - 0
+      - 1
+    hh_id:
+      - 0
+      - 0
+    p_id_einstandspartner:
+      - -1
+      - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+    kind:
+      - false
+      - false
+    bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+    mietstufe:
+      - 5
+      - 5
+    behinderungsgrad:
+      - 0
+      - 0
+    alleinerz:
+      - false
+      - false
+    kindergeld_anspruch:
+      - false
+      - false
+    bruttolohn_m:
+      - 1000.0
+      - 0.0
+    wohngeld_vorrang_bg:
+      - true
+      - true
+    kinderzuschl_vorrang_bg:
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+    eink_selbst_y:
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+    eink_vermietung_y:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+    eink_rente_zu_verst_m:
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+    elterngeld_anr_m:
+      - 0.0
+      - 0.0
+    wohngeld_abzüge_st_sozialv_m:
+      - 0.0
+      - 0.0
+    rentner:
+      - false
+      - false
+    vermögen_bedürft_hh:
+      - 0.0
+      - 0.0
+  assumed: {}
+outputs:
+  wohngeld_m:
+    - 249.0
+    - 0.0

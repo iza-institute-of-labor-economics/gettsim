@@ -101,10 +101,11 @@ def kindergeld_zur_bedarfsdeckung_m(
     )
 
 
-def _diff_kindergeld_kindbedarf_m(
+def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    kinderwohngeld_m: float,
+    wohngeld_vor_vorrang_check_m: float,
+    kind: bool,
     kindergeld_zur_bedarfsdeckung_m: float,
     eigenbedarf_gedeckt: bool,
 ) -> float:
@@ -113,6 +114,11 @@ def _diff_kindergeld_kindbedarf_m(
     If a child does not need all of the Kindergeld to cover its own needs (SGB II), the
     remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
     SGB II).
+
+    This function also covers "Kinderwohngeld" via the `wohngeld_vor_vorrang_check_m`
+    input. If a child can cover its own needs via Wohngeld and other sources of income,
+    it leaves the Bedarfsgemeinschaft of their parents. The "Kinderwohngeld" is then
+    considered as income when calculating the Kindergeldübertrag.
 
     Kindergeldübertrag (`kindergeldübertrag_m`) is obtained by aggregating this function
     to the parental level.
@@ -123,8 +129,10 @@ def _diff_kindergeld_kindbedarf_m(
         See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    kinderwohngeld_m
-        See :func:`kinderwohngeld_m`.
+    wohngeld_vor_vorrang_check_m
+        See :func:`wohngeld_vor_vorrang_check_m`.
+    kind
+        See :func:`kind`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
     eigenbedarf_gedeckt
@@ -142,7 +150,7 @@ def _diff_kindergeld_kindbedarf_m(
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
-        - kinderwohngeld_m
+        - (wohngeld_vor_vorrang_check_m if kind else 0.0)
         - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
         0.0,
     )
