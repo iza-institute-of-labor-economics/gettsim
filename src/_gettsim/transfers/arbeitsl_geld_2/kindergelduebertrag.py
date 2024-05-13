@@ -106,7 +106,7 @@ def _diff_kindergeld_kindbedarf_m(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     eigenbedarf_gedeckt: bool,
-) -> float:
+) -> numpy.ndarray[float]:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
     If a child does not need all of the Kindergeld to cover its own needs (SGB II), the
