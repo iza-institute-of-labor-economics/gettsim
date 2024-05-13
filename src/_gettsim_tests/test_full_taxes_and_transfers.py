@@ -26,8 +26,7 @@ OUT_COLS = [
     "kinderzuschl_m_bg",
     "wohngeld_m_hh",
     "unterhaltsvors_m_hh",
-    "elterngeld_nettolohn_vorj_m"
-    "zu_verst_eink_mit_kinderfreib_tu",
+    "elterngeld_nettolohn_vorj_mzu_verst_eink_mit_kinderfreib_tu",
 ]
 
 data = load_policy_test_data("full_taxes_and_transfers")
