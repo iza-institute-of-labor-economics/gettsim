@@ -45,7 +45,10 @@ def elterngeld_m(  # noqa: PLR0913
         # Bound from above and below
         out = (
             min(
-                max(elterngeld_eink_erlass_m - elterngeld_anrechenbares_einkommen_m, elterngeld_params["mindestbetrag"]),
+                max(
+                    elterngeld_eink_erlass_m - elterngeld_anrechenbares_einkommen_m,
+                    elterngeld_params["mindestbetrag"],
+                ),
                 elterngeld_params["höchstbetrag"],
             )
             + elterngeld_geschw_bonus_m
@@ -53,8 +56,10 @@ def elterngeld_m(  # noqa: PLR0913
         )
     return out
 
-#i have changed the elternzeit_anspruch function to the elterngeld_anspruch 
-#to better accomodate to the haushaltsfinanzierungsgesetz
+
+# i have changed the elternzeit_anspruch function to the elterngeld_anspruch
+# to better accomodate to the haushaltsfinanzierungsgesetz
+
 
 ### claim function (rudimentary)
 def elterngeld_anspruch(
@@ -86,26 +91,40 @@ def elterngeld_anspruch(
 
     """
 
-    out = ( 
-        (hat_kinder == 'true' and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"])
-        and ((alleinerz == 'true' and zu_verst_eink_mit_kinderfreib_tu <= elterngeld_params["max_einkommen_allein"])
-                or (zu_verst_eink_mit_kinderfreib_tu <= elterngeld_params["max_einkommen_zsm"]))
-        and (elternzeit_anspruch == 'true')
-         )
-    return out 
+    out = (
+        (
+            hat_kinder == "true"
+            and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
+        )
+        and (
+            (
+                alleinerz == "true"
+                and zu_verst_eink_mit_kinderfreib_tu
+                <= elterngeld_params["max_einkommen_allein"]
+            )
+            or (
+                zu_verst_eink_mit_kinderfreib_tu
+                <= elterngeld_params["max_einkommen_zsm"]
+            )
+        )
+        and (elternzeit_anspruch == "true")
+    )
+    return out
+
 
 ## This code aims at defining the eligibility of Elterngeld based upon §1 BEEG
 ## This Code does process §1 (1,6,8) BEEG
-    ## (1) is processed via the kind dummy (by assuming that the hh lives in Germany and personally takes care of the child)
-    ## and by employing the max_arbeitsstunden_w parameter
-    ## (6) is porcessed via the max_arbeitsstunden_w parameter, however, Tagesmutter employment is not taken care of
-    ## (8) is processed via the max_einkommen_allein and max_einkommen_zsm paramters
+## (1) is processed via the kind dummy (by assuming that the hh lives in Germany and personally takes care of the child)
+## and by employing the max_arbeitsstunden_w parameter
+## (6) is porcessed via the max_arbeitsstunden_w parameter, however, Tagesmutter employment is not taken care of
+## (8) is processed via the max_einkommen_allein and max_einkommen_zsm paramters
 ## This code does not process §1 (2,3,4,5,7) BEEG
-    ## Not processing (2) is a valid decision for my research interest since the SOEP only aims at people in Germany
-    ## Not processing (3,4,5,7) is necessary
-        ## processing (3,4,5) could be approximated via elternzeit_anspruch
-        ## processing (7) requires its own function
-    ## regarding the processing of §1 (8): #Ehe, _tu stuff, ++++#
+## Not processing (2) is a valid decision for my research interest since the SOEP only aims at people in Germany
+## Not processing (3,4,5,7) is necessary
+## processing (3,4,5) could be approximated via elternzeit_anspruch
+## processing (7) requires its own function
+## regarding the processing of §1 (8): #Ehe, _tu stuff, ++++#
+
 
 ###Income approximation new
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
@@ -144,7 +163,9 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     prox_ssc = elterngeld_params["sozialv_pausch"] * max_ssc_relev_wage
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_income = 12 * bruttolohn_vorj_m - eink_st_abzuege_params["werbungskostenpauschale"]
+    prox_income = (
+        12 * bruttolohn_vorj_m - eink_st_abzuege_params["werbungskostenpauschale"]
+    )
     prox_income = max(prox_income, 0.0)
 
     prox_tax = _eink_st_tarif(
@@ -164,8 +185,10 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     out = bruttolohn_vorj_m - prox_ssc - prox_tax / 12 - prox_soli / 12
 
     return max(out, 0.0)
-#original function capped the taxable income at the gBBG, which is not covered by the BEEG. I have reworked this by replacing the max_wage variable with
-#the max_ssc_relev_wage variable on 2 occasions and by replacing the max_wage variable with the bruttolohn_vorj_m variable on two other occasions
+
+
+# original function capped the taxable income at the gBBG, which is not covered by the BEEG. I have reworked this by replacing the max_wage variable with
+# the max_ssc_relev_wage variable on 2 occasions and by replacing the max_wage variable with the bruttolohn_vorj_m variable on two other occasions
 
 
 def elternzeit_anspruch(  # noqa: PLR0913
@@ -386,8 +409,10 @@ def elterngeld_eink_relev_m(
     """
     return _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_vorj_m
 
-#in case the proxy func is almost correct, shouldnt this func be close to zero and as such compute a barely substantial amount of Elterngeld later?
-#if so, wouldnt it be closer to the law to just eliminate the function and than replace its uses in other functins with the proxy function?
+
+# in case the proxy func is almost correct, shouldnt this func be close to zero and as such compute a barely substantial amount of Elterngeld later?
+# if so, wouldnt it be closer to the law to just eliminate the function and than replace its uses in other functins with the proxy function?
+
 
 def elterngeld_anteil_eink_erlass(
     elterngeld_eink_relev_m: float, elterngeld_params: dict
@@ -553,14 +578,14 @@ def elterngeld_anr_m(
 
 ###anrechenbares einkommen als output
 def elterngeld_anrechenbares_einkommen_m(
-        mutterschaftsgeld_m: float,
-        dienstbezüge_bei_beschäftigungsverbot_m: float,
-        elterngeld_vergleichbare_leistungen_m: float,
-        ersatzeinnahmen_m: float
+    mutterschaftsgeld_m: float,
+    dienstbezüge_bei_beschäftigungsverbot_m: float,
+    elterngeld_vergleichbare_leistungen_m: float,
+    ersatzeinnahmen_m: float,
 ) -> float:
     """Calculate reducing income for Elterngeld.
 
-    
+
     Parameters
     ----------
     mutterschaftsgeld_m
@@ -578,20 +603,14 @@ def elterngeld_anrechenbares_einkommen_m(
     """
 
     out = (
-        mutterschaftsgeld_m 
-        + dienstbezüge_bei_beschäftigungsverbot_m 
+        mutterschaftsgeld_m
+        + dienstbezüge_bei_beschäftigungsverbot_m
         + elterngeld_vergleichbare_leistungen_m
         + ersatzeinnahmen_m
     )
 
     return out
 
+
 # This function calculates the income, that leads to a 1:1 reduction in the Elterngeld payment
 # It is calculated according to §3 (1) BEEG
-
-
-
-
-
-
-
