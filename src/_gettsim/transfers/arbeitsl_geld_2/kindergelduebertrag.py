@@ -1,6 +1,6 @@
 """Module for the calculation of the Kindergeldübertrag."""
 
-import numpy as np
+import numpy
 
 from _gettsim.shared import join_numpy, policy_info
 
@@ -68,9 +68,9 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
 @policy_info(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
     _mean_kindergeld_per_child_m: float,
-    p_id_kindergeld_empf: np.ndarray[int],
-    p_id: np.ndarray[int],
-) -> float:
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+) -> numpy.ndarray[float]:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
     Even though the Kindergeld is paid to the parent (see function

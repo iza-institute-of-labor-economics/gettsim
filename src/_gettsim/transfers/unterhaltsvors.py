@@ -1,7 +1,7 @@
 """This module provides functions to compute advance alimony payments
 (Unterhaltsvorschuss)."""
 
-import numpy as np
+import numpy
 
 from _gettsim.shared import join_numpy, policy_info
 
@@ -60,10 +60,10 @@ def unterhaltsvors_m(
 
 @policy_info(skip_vectorization=True)
 def parent_alleinerz(
-    p_id_kindergeld_empf: np.ndarray[int],
-    p_id: np.ndarray[int],
-    alleinerz: np.ndarray[bool],
-) -> np.ndarray[bool]:
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+    alleinerz: numpy.ndarray[bool],
+) -> numpy.ndarray[bool]:
     """Check if parent that receives Unterhaltsvorschuss is a single parent.
 
     Only single parents receive Unterhaltsvorschuss.
@@ -181,10 +181,10 @@ def _unterhaltsvors_anspruch_kind_m(
 
 @policy_info(skip_vectorization=True)
 def _unterhaltsvorschuss_empf_eink_above_income_threshold(
-    p_id_kindergeld_empf: np.ndarray[int],
-    p_id: np.ndarray[int],
-    _unterhaltsvorschuss_eink_above_income_threshold: np.ndarray[bool],
-) -> np.ndarray[bool]:
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+    _unterhaltsvorschuss_eink_above_income_threshold: numpy.ndarray[bool],
+) -> numpy.ndarray[bool]:
     """Income of Unterhaltsvorschuss recipient above threshold (this variable is
     defined on child level).
 
