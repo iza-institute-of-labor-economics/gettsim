@@ -24,6 +24,14 @@ inputs:
       - false
       - true
       - false
+    hat_kinder:
+      - true
+      - false
+      - true
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 39.83
     bruttolohn_m:
       - 0.0
       - 0.0
@@ -32,6 +40,10 @@ inputs:
       - 900.0
       - 0.0
       - 3400.0
+    zu_verst_eink_mit_kinderfreib_tu:
+      - 35580.00
+      - 35580.00
+      - 35580.00
     wohnort_ost:
       - false
       - false
@@ -94,3 +106,7 @@ outputs:
     - true
     - false
     - true
+  elterngeld_anspruch:
+    - true
+    - false
+    - false
