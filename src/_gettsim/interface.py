@@ -391,23 +391,31 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
     def __init__(self, columns_overriding_functions: set[str]) -> None:
         n_cols = len(columns_overriding_functions)
-        first_part = format_errors_and_warnings(
-            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
-        )
+        if n_cols == 1:
+            first_part = format_errors_and_warnings("Your data provides the column:")
+            second_part = format_errors_and_warnings(
+                """
+                This is already present among the hard-coded functions of the taxes and
+                transfers system. If you want this data column to be used instead of
+                calculating it within GETTSIM you need not do anything. If you want this
+                data column to be calculated by hard-coded functions, remove it from the
+                *data* you pass to GETTSIM. You need to pick one option for each column
+                that appears in the list above.
+                """
+            )
+        else:
+            first_part = format_errors_and_warnings("Your data provides the columns:")
+            second_part = format_errors_and_warnings(
+                """
+                These are already present among the hard-coded functions of the taxes
+                and transfers system. If you want a data column to be used instead of
+                calculating it within GETTSIM you do not need to do anything. If you
+                want data columns to be calculated by hard-coded functions, remove them
+                from the *data* you pass to GETTSIM. You need to pick one option for
+                each column that appears in the list above.
+                """
+            )
         formatted = format_list_linewise(list(columns_overriding_functions))
-        second_part = format_errors_and_warnings(
-            f"""
-            {'This is' if n_cols == 1 else 'These are'} already present among the
-            hard-coded functions of the taxes and transfers system.
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM you need not do anything.
-            If you want {'this' if n_cols == 1 else 'a'} data column to be
-            calculated by hard-coded functions, remove
-            {'it' if n_cols == 1 else 'them'} from the *data* you pass to GETTSIM.
-            {'' if n_cols == 1 else '''You need to pick one option for each column
-            that appears in the list above.'''}
-            """
-        )
         how_to_ignore = format_errors_and_warnings(
             """
             If you want to ignore this warning, add the following code to your script
