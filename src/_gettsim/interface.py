@@ -283,7 +283,7 @@ def _convert_data_to_correct_types(data, functions_overridden):
         ):
             func = functions_overridden[column_name]
             if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
-                # Assumes that things are annotated with np.ndarray([dtype]), might
+                # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
                 internal_type = get_args(func.__annotations__["return"])[0]

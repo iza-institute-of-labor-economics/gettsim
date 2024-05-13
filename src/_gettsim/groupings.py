@@ -18,7 +18,7 @@ def bg_id_numpy(
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
     eigenbedarf_gedeckt: numpy.ndarray[bool],
-):
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
     """
@@ -40,9 +40,9 @@ def bg_id_numpy(
 
 
 def eg_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_einstandspartner: numpy.ndarray,
-) -> numpy.ndarray:
+    p_id: numpy.ndarray[int],
+    p_id_einstandspartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Einstandsgemeinschaft for each person.
     """
@@ -69,9 +69,9 @@ def eg_id_numpy(
 
 
 def ehe_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
-):
+    p_id: numpy.ndarray[int],
+    p_id_ehepartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Ehe for each person.
     """
@@ -95,13 +95,13 @@ def ehe_id_numpy(
 
 
 def fg_id_numpy(  # noqa: PLR0913
-    p_id: numpy.ndarray,
-    hh_id: numpy.ndarray,
-    alter: numpy.ndarray,
-    p_id_einstandspartner: numpy.ndarray,
-    p_id_elternteil_1: numpy.ndarray,
-    p_id_elternteil_2: numpy.ndarray,
-):
+    p_id: numpy.ndarray[int],
+    hh_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+    p_id_einstandspartner: numpy.ndarray[int],
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Familiengemeinschaft for each person.
     """
@@ -171,10 +171,10 @@ def fg_id_numpy(  # noqa: PLR0913
 
 
 def sn_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
+    p_id: numpy.ndarray[int],
+    p_id_ehepartner: numpy.ndarray[int],
     gemeinsam_veranlagt: numpy.ndarray[bool],
-):
+) -> numpy.ndarray[int]:
     """
     Compute a Steuernummer (ID) for each person / couple.
     """

@@ -2,7 +2,7 @@
 Tests for `piecewise_polynomial`
 """
 
-import numpy as np
+import numpy
 from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
 )
@@ -41,6 +41,6 @@ def test_get_piecewise_parameters_all_intercepts_supplied():
         parameter="test",
         func_type="linear",
     )["intercepts_at_lower_thresholds"]
-    expected = np.array([0.27, 0.5, 0.8, 1])
+    expected = numpy.array([0.27, 0.5, 0.8, 1])
 
-    np.testing.assert_almost_equal(actual, expected, decimal=10)
+    numpy.testing.assert_almost_equal(actual, expected, decimal=10)

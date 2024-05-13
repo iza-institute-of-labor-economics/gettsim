@@ -1,4 +1,4 @@
-import numpy as np
+import numpy
 import pytest
 from _gettsim.shared import join_numpy
 
@@ -7,43 +7,43 @@ from _gettsim.shared import join_numpy
     "foreign_key, primary_key, target, value_if_foreign_key_is_missing, expected",
     [
         (
-            np.array([1, 2, 3]),
-            np.array([1, 2, 3]),
-            np.array(["a", "b", "c"]),
+            numpy.array([1, 2, 3]),
+            numpy.array([1, 2, 3]),
+            numpy.array(["a", "b", "c"]),
             "d",
-            np.array(["a", "b", "c"]),
+            numpy.array(["a", "b", "c"]),
         ),
         (
-            np.array([3, 2, 1]),
-            np.array([1, 2, 3]),
-            np.array(["a", "b", "c"]),
+            numpy.array([3, 2, 1]),
+            numpy.array([1, 2, 3]),
+            numpy.array(["a", "b", "c"]),
             "d",
-            np.array(["c", "b", "a"]),
+            numpy.array(["c", "b", "a"]),
         ),
         (
-            np.array([1, 1, 1]),
-            np.array([1, 2, 3]),
-            np.array(["a", "b", "c"]),
+            numpy.array([1, 1, 1]),
+            numpy.array([1, 2, 3]),
+            numpy.array(["a", "b", "c"]),
             "d",
-            np.array(["a", "a", "a"]),
+            numpy.array(["a", "a", "a"]),
         ),
         (
-            np.array([-1]),
-            np.array([1]),
-            np.array(["a"]),
+            numpy.array([-1]),
+            numpy.array([1]),
+            numpy.array(["a"]),
             "d",
-            np.array(["d"]),
+            numpy.array(["d"]),
         ),
     ],
 )
 def test_join_numpy(
-    foreign_key: np.ndarray[int],
-    primary_key: np.ndarray[int],
-    target: np.ndarray[str],
+    foreign_key: numpy.ndarray[int],
+    primary_key: numpy.ndarray[int],
+    target: numpy.ndarray[str],
     value_if_foreign_key_is_missing: str,
-    expected: np.ndarray[str],
+    expected: numpy.ndarray[str],
 ):
-    assert np.array_equal(
+    assert numpy.array_equal(
         join_numpy(foreign_key, primary_key, target, value_if_foreign_key_is_missing),
         expected,
     )
@@ -52,13 +52,13 @@ def test_join_numpy(
 def test_join_numpy_raises_duplicate_primary_key():
     with pytest.raises(ValueError, match="Duplicate primary keys:"):
         join_numpy(
-            np.array([1, 1, 1]),
-            np.array([1, 1, 1]),
-            np.array(["a", "b", "c"]),
+            numpy.array([1, 1, 1]),
+            numpy.array([1, 1, 1]),
+            numpy.array(["a", "b", "c"]),
             "default",
         )
 
 
 def test_join_numpy_raises_invalid_foreign_key():
     with pytest.raises(ValueError, match="Invalid foreign keys:"):
-        join_numpy(np.array([2]), np.array([1]), np.array(["a"]), "d")
+        join_numpy(numpy.array([2]), numpy.array([1]), numpy.array(["a"]), "d")
