@@ -91,27 +91,41 @@ def elterngeld_anspruch(
 
     """
 
-    out = ( 
-        (hat_kinder == 'true' and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"])
-        and ((alleinerz == 'true' and zu_verst_eink_mit_kinderfreib_y_sn <= elterngeld_params["max_einkommen_allein"])
-                or (zu_verst_eink_mit_kinderfreib_y_sn <= elterngeld_params["max_einkommen_zsm"]))
-        and (elternzeit_anspruch == 'true')
-         )
-    return out 
+    out = (
+        (
+            hat_kinder == "true"
+            and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
+        )
+        and (
+            (
+                alleinerz == "true"
+                and zu_verst_eink_mit_kinderfreib_y_sn
+                <= elterngeld_params["max_einkommen_allein"]
+            )
+            or (
+                zu_verst_eink_mit_kinderfreib_y_sn
+                <= elterngeld_params["max_einkommen_zsm"]
+            )
+        )
+        and (elternzeit_anspruch == "true")
+    )
+    return out
+
 
 ## This code aims at defining the eligibility of Elterngeld based upon §1 BEEG
 ## This Code does process §1 (1,6,8) BEEG
-    ## (1) is processed via the kind dummy (by assuming that the hh lives in Germany and personally takes care of the child)
-    ## and by employing the max_arbeitsstunden_w parameter
-    ## (6) is porcessed via the max_arbeitsstunden_w parameter, however, Tagesmutter employment is not taken care of
-    ## (8) is processed via the max_einkommen_allein and max_einkommen_zsm paramters
+## (1) is processed via the kind dummy (by assuming that the hh lives in Germany and personally takes care of the child)
+## and by employing the max_arbeitsstunden_w parameter
+## (6) is porcessed via the max_arbeitsstunden_w parameter, however, Tagesmutter employment is not taken care of
+## (8) is processed via the max_einkommen_allein and max_einkommen_zsm paramters
 ## This code does not process §1 (2,3,4,5,7) BEEG
-    ## Not processing (2) is a valid decision for my research interest since the SOEP only aims at people in Germany
-    ## Not processing (3,4,5,7) is necessary
-        ## processing (3,4,5) could be approximated via elternzeit_anspruch
-        ## processing (7) requires its own function
-    ## regarding the processing of §1 (8): #Ehe, _tu stuff, ++++#
+## Not processing (2) is a valid decision for my research interest since the SOEP only aims at people in Germany
+## Not processing (3,4,5,7) is necessary
+## processing (3,4,5) could be approximated via elternzeit_anspruch
+## processing (7) requires its own function
+## regarding the processing of §1 (8): #Ehe, _tu stuff, ++++#
 ## For this Code, three new Elterngeld Parameters are introduced
+
 
 ###Income approximation new
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
