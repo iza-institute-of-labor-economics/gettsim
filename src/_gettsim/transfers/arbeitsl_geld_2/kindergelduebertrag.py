@@ -101,13 +101,11 @@ def kindergeld_zur_bedarfsdeckung_m(
     )
 
 
-def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
+def _diff_kindergeld_kindbedarf_m(
     _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    wohngeld_vor_vorrang_check_m: float,
-    kind: bool,
     kindergeld_zur_bedarfsdeckung_m: float,
     eigenbedarf_gedeckt: bool,
 ) -> float:
@@ -117,11 +115,6 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     remaining Kindergeld is used to cover the needs of the parent (§ 11 Abs. 1 Satz 5
     SGB II).
 
-    This function also covers "Kinderwohngeld" via the `wohngeld_vor_vorrang_check_m`
-    input. If a child can cover its own needs via Wohngeld and other sources of income,
-    it leaves the Bedarfsgemeinschaft of their parents. The "Kinderwohngeld" is then
-    considered as income when calculating the Kindergeldübertrag.
-
     Kindergeldübertrag (`kindergeldübertrag_m`) is obtained by aggregating this function
     to the parental level.
 
@@ -129,12 +122,12 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     ----------
     _arbeitsl_geld_2_nettoeink_ohne_transfers_m
         See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    wohngeld_vor_vorrang_check_m
-        See :func:`wohngeld_vor_vorrang_check_m`.
-    kind
-        See :func:`kind`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
     eigenbedarf_gedeckt
@@ -154,8 +147,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         arbeitsl_geld_2_regelbedarf_m_bg
         - _arbeitsl_geld_2_nettoeink_ohne_transfers_m
         - kind_unterh_erhalt_m
-        - unterhaltsvors_m
-        - (wohngeld_vor_vorrang_check_m if kind else 0.0),
+        - unterhaltsvors_m,
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
