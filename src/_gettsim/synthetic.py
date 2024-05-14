@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 
-import numpy as np
+import numpy
 import pandas as pd
 
 from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
@@ -230,7 +230,9 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         data = pd.merge(
             data, data_adults[["p_id", "p_id_einstandspartner"]], on="p_id", how="left"
         ).fillna(-1)
-        data["p_id_einstandspartner"] = data["p_id_einstandspartner"].astype(np.int64)
+        data["p_id_einstandspartner"] = data["p_id_einstandspartner"].astype(
+            numpy.int64
+        )
         if adults_married:
             data["p_id_ehepartner"] = data["p_id_einstandspartner"]
         else:

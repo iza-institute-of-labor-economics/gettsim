@@ -1,7 +1,6 @@
 """Functions to compute unemployment benefits (Arbeitslosengeld)."""
 
-import numpy as np
-
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 from _gettsim.transfers.rente import ges_rente_regelaltersgrenze

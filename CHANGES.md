@@ -6,6 +6,9 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`755` Allow array returns when `skip_vectorization` is being used, enforce import
+  convention ({ghuser}`hmgaudecker`).
+- {gh}`751` Kindergeldübertrag ({ghuser}`MImmesberger`).
 - {gh}`739` Unterhaltsvorschuss calculation on child level ({ghuser}`MImmesberger`).
 - {gh}`725` KdU calculation on bg level and other small fixes ({ghuser}`MImmesberger`,
   {ghuser}`ChristianZimpelmann`).
