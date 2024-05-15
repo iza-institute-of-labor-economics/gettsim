@@ -100,11 +100,11 @@ def elterngeld_anspruch(
             (
                 alleinerz == "true"
                 and zu_verst_eink_mit_kinderfreib_y_sn
-                <= elterngeld_params["max_einkommen_allein"]
+                <= elterngeld_params["max_einkommen_vorj_allein"]
             )
             or (
                 zu_verst_eink_mit_kinderfreib_y_sn
-                <= elterngeld_params["max_einkommen_zsm"]
+                <= elterngeld_params["max_einkommen_vorj_zsm"]
             )
         )
         and (elternzeit_anspruch == "true")
@@ -117,14 +117,13 @@ def elterngeld_anspruch(
 ## (1) is processed via the kind dummy (by assuming that the hh lives in Germany and personally takes care of the child)
 ## and by employing the max_arbeitsstunden_w parameter
 ## (6) is porcessed via the max_arbeitsstunden_w parameter, however, Tagesmutter employment is not taken care of
-## (8) is processed via the max_einkommen_allein and max_einkommen_zsm paramters
+## (8) is processed via the max_einkommen_vorj_allein and max_einkommen_vorj_zsm paramters
 ## This code does not process §1 (2,3,4,5,7) BEEG
 ## Not processing (2) is a valid decision for my research interest since the SOEP only aims at people in Germany
 ## Not processing (3,4,5,7) is necessary
 ## processing (3,4,5) could be approximated via elternzeit_anspruch
 ## processing (7) requires its own function
 ## regarding the processing of §1 (8): #Ehe, _tu stuff, ++++#
-## For this Code, three new Elterngeld Parameters are introduced
 
 
 ###Income approximation new
