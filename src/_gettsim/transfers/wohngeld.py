@@ -40,7 +40,7 @@ def wohngeld_m_wth(
        the wohngeldrechtlicher Teilhaushalt.
 
     Note: Because Wohngeld is nonlinear in the number of people in the
-    wohngeldrechtlicher Teilhaushalt, there might be some individuals that pass the
+    wohngeldrechtlicher Teilhaushalt, there may be some individuals that pass the
     priority check, but cannot cover their needs with the Wohngeld calculated in point
     3. In this sense, this implementation is an approximation of the actual Wohngeld.
 

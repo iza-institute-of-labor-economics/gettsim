@@ -11,7 +11,7 @@ aggregate_by_group_benefit_checks = {
 
 
 def wohngeld_vorrang_bg(
-    wohngeld_vor_vorrang_check_m_bg: float,
+    wohngeld_nach_vermög_check_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
 ) -> bool:
@@ -22,8 +22,8 @@ def wohngeld_vorrang_bg(
 
     Parameters
     ----------
-    wohngeld_vor_vorrang_check_m_bg
-        See :func:`wohngeld_vor_vorrang_check_m_bg`.
+    wohngeld_nach_vermög_check_m_bg
+        See :func:`wohngeld_nach_vermög_check_m_bg`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     arbeitsl_geld_2_eink_m_bg
@@ -35,7 +35,7 @@ def wohngeld_vorrang_bg(
     """
     return (
         arbeitsl_geld_2_regelbedarf_m_bg
-        <= wohngeld_vor_vorrang_check_m_bg + arbeitsl_geld_2_eink_m_bg
+        <= wohngeld_nach_vermög_check_m_bg + arbeitsl_geld_2_eink_m_bg
     )
 
 
@@ -66,7 +66,7 @@ def kinderzuschl_vorrang_bg(
 
 
 def wohngeld_kinderzuschl_vorrang_bg(
-    wohngeld_vor_vorrang_check_m_bg: float,
+    wohngeld_nach_vermög_check_m_bg: float,
     _kinderzuschl_nach_vermög_check_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
@@ -75,8 +75,8 @@ def wohngeld_kinderzuschl_vorrang_bg(
 
     Parameters
     ----------
-    wohngeld_vor_vorrang_check_m_bg
-        See :func:`wohngeld_vor_vorrang_check_m_bg`.
+    wohngeld_nach_vermög_check_m_bg
+        See :func:`wohngeld_nach_vermög_check_m_bg`.
     _kinderzuschl_nach_vermög_check_m_bg
         See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
     arbeitsl_geld_2_regelbedarf_m_bg
@@ -89,7 +89,7 @@ def wohngeld_kinderzuschl_vorrang_bg(
 
     """
     sum_wohngeld_kinderzuschl = (
-        wohngeld_vor_vorrang_check_m_bg + _kinderzuschl_nach_vermög_check_m_bg
+        wohngeld_nach_vermög_check_m_bg + _kinderzuschl_nach_vermög_check_m_bg
     )
     return (
         arbeitsl_geld_2_regelbedarf_m_bg

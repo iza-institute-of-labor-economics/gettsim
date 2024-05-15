@@ -105,8 +105,8 @@ SUPPORTED_GROUPINGS = {
     },
     "wth": {
         "name": "wohngeldrechtlicher Teilhaushalt",
-        "description": "Members of a household that for whom the Wohngeld priority "
-        "check yields the same result.",
+        "description": "Members of a household for whom the Wohngeld priority check "
+        "yields the same result.",
     },
 }
 
