@@ -71,44 +71,6 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
     return _arbeitsl_geld_2_vermög_freib_karenzz_bg
 
 
-def wohngeld_nach_vermög_check_m_hh(
-    wohngeld_vor_vermög_check_m_hh: float,
-    vermögen_bedürft_hh: float,
-    anz_personen_hh: int,
-    wohngeld_params: dict,
-) -> float:
-    """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
-
-    The payment depends on the wealth of the household and the number of household
-    members.
-
-    Parameters
-    ----------
-    wohngeld_vor_vermög_check_m_hh
-        See :func:`wohngeld_vor_vermög_check_m_hh`.
-    vermögen_bedürft_hh
-        See basic input variable :ref:`vermögen_bedürft_hh <vermögen_bedürft_hh>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
-
-    Returns
-    -------
-
-    """
-
-    if vermögen_bedürft_hh <= (
-        wohngeld_params["vermögensgrundfreibetrag"]
-        + (wohngeld_params["vermögensfreibetrag_pers"] * (anz_personen_hh - 1))
-    ):
-        out = wohngeld_vor_vermög_check_m_hh
-    else:
-        out = 0.0
-
-    return out
-
-
 def _arbeitsl_geld_2_grundfreib_vermög(
     kind: bool,
     alter: int,

@@ -3,6 +3,14 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
+from _gettsim.transfers.wohngeld_formulas import (
+    _wohngeld_basisformel,
+    _wohngeld_einkommen_formula,
+    _wohngeld_max_miete_formel_ab_2009,
+    _wohngeld_max_miete_formel_bis_2009,
+    _wohngeld_min_miete_formel,
+    _wohngeld_nach_vermög_check_formel,
+)
 
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
@@ -14,64 +22,60 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m(
-    wohngeld_vor_vorrang_check_m: float,
-    wohngeld_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_bg: bool,
+    vermögen_bedürft_rhh: float,
+    anz_personen_rhh: int,
     erwachsene_alle_rentner_hh: bool,
-):
-    """Calculate housing benefit on individual level.
+    wohngeld_params: dict,
+) -> float:
+    """Calculate housing benefit.
 
-    Wohngeld is calculated on the household level and then compared to ALG2 and
-    Kinderzuschlag on the Bedarfsgemeinschaft level. Wohngeld is paid out if it is at
-    least as high as ALG2 and
+    Wohngeld has priority over ALG2 if the recipients can cover their needs according to
+    SGB II when receiving Wohngeld. The priority check follows the following logic:
+
+    1. Calculate Wohngeld on the Bedarfsgemeinschaft level.
+    2. Check whether the Bedarfsgemeinschaft can cover its own needs (Regelbedarf) with
+       Wohngeld. If not, the Bedarfsgemeinschaft is eligible for ALG2.
+    3. Compute Wohngeld again for all individuals in the household that can cover their
+       own needs with Wohngeld. This is the final Wohngeld amount that is paid out to
+       the wohngeldrechtlicher Teilhaushalt.
+
+    Note: Because Wohngeld is nonlinear in the number of people in the
+    wohngeldrechtlicher Teilhaushalt, there might be some individuals that pass the
+    priority check, but cannot cover their needs with the Wohngeld calculated in point
+    3. In this sense, this implementation is an approximation of the actual Wohngeld.
 
     Parameters
     ----------
-    wohngeld_vor_vorrang_check_m
-        See :func:`wohngeld_vor_vorrang_check_m`.
-    wohngeld_vorrang
-        See :func:`wohngeld_vorrang`.
-    wohngeld_kinderzuschl_vorrang
-        See :func:`wohngeld_kinderzuschl_vorrang`.
+    vermögen_bedürft_rhh
+        See :func:`vermögen_bedürft_rhh`.
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
     erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh`.
+        See basic input variable :ref:`erwachsene_alle_rentner_hh
+        <erwachsene_alle_rentner_hh>`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
     Returns
     -------
 
     """
-
+    # TODO (@MImmesberger): Document approximation.
     # TODO (@MImmesberger): Remove erwachsene_alle_rentner_hh condition once households
     # can get both Grundsicherung im Alter and ALG2/Wohngeld.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
 
-    if (
-        wohngeld_kinderzuschl_vorrang_bg or wohngeld_vorrang_bg
-    ) and not erwachsene_alle_rentner_hh:
-        out = wohngeld_vor_vorrang_check_m
+    if not erwachsene_alle_rentner_hh:
+        out = _wohngeld_nach_vermög_check_formel(
+            wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_rhh,
+            vermögen=vermögen_bedürft_rhh,
+            anz_personen=anz_personen_rhh,
+            wohngeld_params=wohngeld_params,
+        )
     else:
         out = 0.0
+
     return out
-
-
-def wohngeld_vor_vorrang_check_m(
-    wohngeld_nach_vermög_check_m_hh: float,
-    anz_personen_hh: int,
-):
-    """Wohngeld on individual level before checking for SGB II priority.
-
-    Parameters
-    ----------
-    wohngeld_nach_vermög_check_m_hh
-        See :func:`wohngeld_nach_vermög_check_m_hh`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-
-    Returns
-    -------
-
-    """
-    return wohngeld_nach_vermög_check_m_hh / anz_personen_hh
 
 
 def wohngeld_abzüge_st_sozialv_m(
@@ -366,24 +370,27 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m_hh(
-    anz_personen_hh: int,
-    wohngeld_eink_freib_m_hh: float,
-    wohngeld_eink_vor_freib_m_hh: float,
+def wohngeld_eink_m_rhh(
+    anz_personen_rhh: int,
+    wohngeld_eink_freib_m_rhh: float,
+    wohngeld_eink_vor_freib_m_rhh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Calculate final income relevant for calculation of housing benefit on household
-    level.
+    """Income relevant for Wohngeld calculation.
+
     Reference: § 13 WoGG
 
+    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
     Parameters
     ----------
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    wohngeld_eink_freib_m_hh
-        See :func:`wohngeld_eink_freib_m_hh`.
-    wohngeld_eink_vor_freib_m_hh
-        See :func:`wohngeld_eink_vor_freib_m_hh`.
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
+    wohngeld_eink_freib_m_rhh
+        See :func:`wohngeld_eink_freib_m_rhh`.
+    wohngeld_eink_vor_freib_m_rhh
+        See :func:`wohngeld_eink_vor_freib_m_rhh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -391,60 +398,118 @@ def wohngeld_eink_m_hh(
     -------
 
     """
-    wohngeld_eink_nach_abzug_m_hh = (
-        wohngeld_eink_vor_freib_m_hh - wohngeld_eink_freib_m_hh
+    return _wohngeld_einkommen_formula(
+        anz_personen=anz_personen_rhh,
+        einkommen_freibetrag=wohngeld_eink_freib_m_rhh,
+        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_rhh,
+        wohngeld_params=wohngeld_params,
     )
-    unteres_eink = wohngeld_params["min_eink"][
-        min(anz_personen_hh, max(wohngeld_params["min_eink"]))
-    ]
-
-    out = max(wohngeld_eink_nach_abzug_m_hh, unteres_eink)
-    return float(out)
 
 
-def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
-    """Calculate minimal monthly rent subject housing benefit calculation on household
-    level.
+def wohngeld_eink_m_bg(
+    anz_personen_bg: int,
+    wohngeld_eink_freib_m_bg: float,
+    wohngeld_eink_vor_freib_m_bg: float,
+    wohngeld_params: dict,
+) -> float:
+    """Income relevant for Wohngeld calculation.
+
+    Reference: § 13 WoGG
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag on the Bedarfsgemeinschaft level.
 
     Parameters
     ----------
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    wohngeld_eink_freib_m_bg
+        See :func:`wohngeld_eink_freib_m_bg`.
+    wohngeld_eink_vor_freib_m_bg
+        See :func:`wohngeld_eink_vor_freib_m_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return _wohngeld_einkommen_formula(
+        anz_personen=anz_personen_bg,
+        einkommen_freibetrag=wohngeld_eink_freib_m_bg,
+        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_bg,
+        wohngeld_params=wohngeld_params,
+    )
+
+
+def wohngeld_min_miete_m_rhh(anz_personen_rhh: int, wohngeld_params: dict) -> float:
+    """Minimum rent considered in Wohngeld calculation.
+
+    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
+    Parameters
+    ----------
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
     -------
 
     """
-    out = wohngeld_params["min_miete"][
-        min(anz_personen_hh, max(wohngeld_params["min_miete"]))
-    ]
-    return float(out)
+    return _wohngeld_min_miete_formel(
+        anz_personen=anz_personen_rhh, wohngeld_params=wohngeld_params
+    )
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
+def wohngeld_min_miete_m_bg(anz_personen_bg: int, wohngeld_params: dict) -> float:
+    """Minimum rent considered in Wohngeld calculation.
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag on the Bedarfsgemeinschaft level.
+
+    Parameters
+    ----------
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    Returns
+    -------
+
+    """
+    return _wohngeld_min_miete_formel(
+        anz_personen=anz_personen_bg, wohngeld_params=wohngeld_params
+    )
+
+
+@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_rhh")
+def wohngeld_miete_bis_2008_m_rhh(  # noqa: PLR0913
     mietstufe: int,
-    immobilie_baujahr_hh: int,
-    anz_personen_hh: int,
-    bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    immobilie_baujahr_rhh: int,
+    anz_personen_rhh: int,
+    bruttokaltmiete_m_rhh: float,
+    wohngeld_min_miete_m_rhh: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximal rent subject housing benefit calculation on household level until 2008.
 
+    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
     Parameters
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    immobilie_baujahr_hh
-        See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    immobilie_baujahr_rhh
+        See basic input variable :ref:`immobilie_baujahr_rhh <immobilie_baujahr_rhh>`.
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
+    bruttokaltmiete_m_rhh
+        See basic input variable :ref:`bruttokaltmiete_m_rhh <bruttokaltmiete_m_rhh>`.
+    wohngeld_min_miete_m_rhh
+        See :func:`wohngeld_min_miete_m_rhh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -452,58 +517,82 @@ def wohngeld_miete_m_hh_bis_2008(  # noqa: PLR0913
     -------
 
     """
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
-        "max_anz_personen_normale_berechnung"
-    ]
-    berücks_personen = min(anz_personen_hh, max_berücks_personen)
-
-    # Get yearly cutoff in params which is closest and above the construction year
-    # of the property. We assume that the same cutoffs exist for each household
-    # size.
-    params_max_miete = wohngeld_params["max_miete"]
-    selected_bin_index = np.searchsorted(
-        sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
+    return _wohngeld_max_miete_formel_bis_2009(
+        mietstufe=mietstufe,
+        immobilie_baujahr=immobilie_baujahr_rhh,
+        anz_personen=anz_personen_rhh,
+        bruttokaltmiete_m=bruttokaltmiete_m_rhh,
+        wohngeld_min_miete_m=wohngeld_min_miete_m_rhh,
+        wohngeld_params=wohngeld_params,
     )
 
-    constr_year = list(params_max_miete[1])[selected_bin_index]
 
-    # Calc maximal considered rent
-    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if anz_personen_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[anz_personen_hh][constr_year][mietstufe]
-    else:
-        max_miete_m_hh = params_max_miete[max_definierte_hh_größe][constr_year][
-            mietstufe
-        ] + params_max_miete["jede_weitere_person"][constr_year][mietstufe] * (
-            berücks_personen - max_definierte_hh_größe
-        )
-
-    out = min(bruttokaltmiete_m_hh, max_miete_m_hh)
-    out = max(out, wohngeld_min_miete_m_hh)
-
-    return out
-
-
-@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_hh")
-def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
+@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_bg")
+def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     mietstufe: int,
-    anz_personen_hh: int,
-    bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    immobilie_baujahr_bg: int,
+    anz_personen_bg: int,
+    bruttokaltmiete_m_bg: float,
+    wohngeld_min_miete_m_bg: float,
+    wohngeld_params: dict,
+) -> float:
+    """Maximal rent subject housing benefit calculation on household level until 2008.
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag on the Bedarfsgemeinschaft level.
+
+    Parameters
+    ----------
+    mietstufe
+        See basic input variable :ref:`mietstufe <mietstufe>`.
+    immobilie_baujahr_bg
+        See basic input variable :ref:`immobilie_baujahr_bg <immobilie_baujahr_bg>`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    bruttokaltmiete_m_bg
+        See basic input variable :ref:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+    wohngeld_min_miete_m_bg
+        See :func:`wohngeld_min_miete_m_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return _wohngeld_max_miete_formel_bis_2009(
+        mietstufe=mietstufe,
+        immobilie_baujahr=immobilie_baujahr_bg,
+        anz_personen=anz_personen_bg,
+        bruttokaltmiete_m=bruttokaltmiete_m_bg,
+        wohngeld_min_miete_m=wohngeld_min_miete_m_bg,
+        wohngeld_params=wohngeld_params,
+    )
+
+
+@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_rhh")
+def wohngeld_miete_ab_2009_m_rhh(
+    mietstufe: int,
+    anz_personen_rhh: int,
+    bruttokaltmiete_m_rhh: float,
+    wohngeld_min_miete_m_rhh: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximum rent considered in housing benefit since 2009.
 
+    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
     Parameters
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
+    bruttokaltmiete_m_rhh
+        See basic input variable :ref:`bruttokaltmiete_m_rhh <bruttokaltmiete_m_rhh>`.
+    wohngeld_min_miete_m_rhh
+        See :func:`wohngeld_min_miete_m_rhh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -511,114 +600,109 @@ def wohngeld_miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     -------
 
     """
-    params_max_miete = wohngeld_params["max_miete"]
+    return _wohngeld_max_miete_formel_ab_2009(
+        mietstufe=mietstufe,
+        anz_personen_rhh=anz_personen_rhh,
+        bruttokaltmiete_m_rhh=bruttokaltmiete_m_rhh,
+        wohngeld_min_miete_m_rhh=wohngeld_min_miete_m_rhh,
+        wohngeld_params=wohngeld_params,
+    )
 
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
-        "max_anz_personen_normale_berechnung"
-    ]
-    berücks_personen = min(anz_personen_hh, max_berücks_personen)
 
-    # Calc maximal considered rent
-    max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if anz_personen_hh <= max_definierte_hh_größe:
-        max_miete_m_hh = params_max_miete[anz_personen_hh][mietstufe]
-    else:
-        max_miete_m_hh = (
-            params_max_miete[max_definierte_hh_größe][mietstufe]
-            + (berücks_personen - max_definierte_hh_größe)
-            * params_max_miete["jede_weitere_person"][mietstufe]
-        )
+@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_bg")
+def wohngeld_miete_ab_2009_m_bg(
+    mietstufe: int,
+    anz_personen_bg: int,
+    bruttokaltmiete_m_bg: float,
+    wohngeld_min_miete_m_bg: float,
+    wohngeld_params: dict,
+) -> float:
+    """Maximum rent considered in housing benefit since 2009.
 
-    # Calc heating allowance. Until 2020, heating allowance was not
-    # introduced yet. For this time frame, the respective parameter is
-    # not part of wohngeld_params and heating allowance is set to 0.
-    # TODO(@MImmesberger): Apply dates_active decorator.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/711
-    if "heizkostenentlastung_m" in wohngeld_params:
-        max_def_hh_größe_heating = max(
-            i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
-        )
-    if "heizkostenentlastung_m" in wohngeld_params:
-        if anz_personen_hh <= max_def_hh_größe_heating:
-            heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                anz_personen_hh
-            ]
-        else:
-            heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["heizkostenentlastung_m"]["jede_weitere_person"]
-            )
-    else:
-        heating_allowance_m = 0
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag on the Bedarfsgemeinschaft level.
 
-    # Calc heating cost component. Until 2022, heating cost component was not
-    # introduced yet. For this time frame, the respective parameter is not part
-    # of wohngeld_params and heating cost component is set to 0.
-    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
-        max_def_hh_größe_heating = max(
-            i
-            for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
-            if isinstance(i, int)
-        )
-    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
-        if anz_personen_hh <= max_def_hh_größe_heating:
-            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                anz_personen_hh
-            ]
-        else:
-            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                    "jede_weitere_person"
-                ]
-            )
-    else:
-        heating_component_m = 0
+    Parameters
+    ----------
+    mietstufe
+        See basic input variable :ref:`mietstufe <mietstufe>`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    bruttokaltmiete_m_bg
+        See basic input variable :ref:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+    wohngeld_min_miete_m_bg
+        See :func:`wohngeld_min_miete_m_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
-    # Calc climate component. Until 2022, climate component was not
-    # introduced yet. For this time frame, the respective parameter is not
-    # part of wohngeld_params and climate component is set to 0.
-    if "klimakomponente_m" in wohngeld_params:
-        max_def_hh_größe_heating = max(
-            i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
-        )
-    if "klimakomponente_m" in wohngeld_params:
-        if anz_personen_hh <= max_def_hh_größe_heating:
-            climate_component_m = wohngeld_params["klimakomponente_m"][anz_personen_hh]
-        else:
-            climate_component_m = wohngeld_params["klimakomponente_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
-            )
-    else:
-        climate_component_m = 0
+    Returns
+    -------
 
-    out = min(bruttokaltmiete_m_hh, max_miete_m_hh + climate_component_m)
-    out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m + heating_component_m
+    """
+    return _wohngeld_max_miete_formel_ab_2009(
+        mietstufe=mietstufe,
+        anz_personen_bg=anz_personen_bg,
+        bruttokaltmiete_m_bg=bruttokaltmiete_m_bg,
+        wohngeld_min_miete_m_bg=wohngeld_min_miete_m_bg,
+        wohngeld_params=wohngeld_params,
+    )
 
-    return out
+
+def wohngeld_nach_vermög_check_m_bg(
+    wohngeld_vor_vermög_check_m_bg: float,
+    vermögen_bedürft_bg: float,
+    anz_personen_bg: int,
+    wohngeld_params: dict,
+) -> float:
+    """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag.
+
+    Parameters
+    ----------
+    wohngeld_vor_vermög_check_m_bg
+        See :func:`wohngeld_vor_vermög_check_m_bg`.
+    vermögen_bedürft_bg
+        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+
+    return _wohngeld_nach_vermög_check_formel(
+        wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_bg,
+        vermögen=vermögen_bedürft_bg,
+        anz_personen=anz_personen_bg,
+        wohngeld_params=wohngeld_params,
+    )
 
 
 @policy_info(params_key_for_rounding="wohngeld")
-def wohngeld_vor_vermög_check_m_hh(
-    anz_personen_hh: int,
-    wohngeld_eink_m_hh: float,
-    wohngeld_miete_m_hh: float,
+def wohngeld_vor_vermög_check_m_rhh(
+    anz_personen_rhh: int,
+    wohngeld_eink_m_rhh: float,
+    wohngeld_miete_m_rhh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calcualte preliminary housing benefit.
 
+    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
     Parameters
     ----------
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    wohngeld_eink_m_hh
-        See :func:`wohngeld_eink_m_hh`.
-    wohngeld_miete_m_hh
-        See :func:`wohngeld_miete_m_hh`.
+    anz_personen_rhh
+        See :func:`anz_personen_rhh`.
+    wohngeld_eink_m_rhh
+        See :func:`wohngeld_eink_m_rhh`.
+    wohngeld_miete_m_rhh
+        See :func:`wohngeld_miete_m_rhh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -626,34 +710,45 @@ def wohngeld_vor_vermög_check_m_hh(
     -------
 
     """
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
-        "max_anz_personen_normale_berechnung"
-    ]
-
-    koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
-        min(anz_personen_hh, max_berücks_personen)
-    ]
-    out = wohngeld_params["faktor_berechnungsformel"] * (
-        wohngeld_miete_m_hh
-        - (
-            (
-                koeffizienten["a"]
-                + (koeffizienten["b"] * wohngeld_miete_m_hh)
-                + (koeffizienten["c"] * wohngeld_eink_m_hh)
-            )
-            * wohngeld_eink_m_hh
-        )
+    return _wohngeld_basisformel(
+        anz_personen=anz_personen_rhh,
+        einkommen=wohngeld_eink_m_rhh,
+        miete=wohngeld_miete_m_rhh,
+        wohngeld_params=wohngeld_params,
     )
-    out = max(out, 0.0)
 
-    if anz_personen_hh > max_berücks_personen:
-        # If more than 12 persons, there is a lump-sum on top.
-        # The maximum is still capped at `wohngeld_miete_m_hh`.
-        out = min(
-            out
-            + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
-            * (anz_personen_hh - max_berücks_personen),
-            wohngeld_miete_m_hh,
-        )
 
-    return out
+@policy_info(params_key_for_rounding="wohngeld")
+def wohngeld_vor_vermög_check_m_bg(
+    anz_personen_bg: int,
+    wohngeld_eink_m_bg: float,
+    wohngeld_miete_m_bg: float,
+    wohngeld_params: dict,
+):
+    """Housing benefit on Bedarfsgemeinschaft level without wealth or priority checks.
+
+    This target is used to do the priority check against ALG2 and Kinderzuschlag.
+    Wohngeld has priority over the two transfers if the Bedarfsgemeinschaft can cover
+    their basic needs (Regelbedarf in SGB II sense) with it.
+
+    Parameters
+    ----------
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+    wohngeld_eink_m_bg
+        See :func:`wohngeld_eink_m_bg`.
+    wohngeld_miete_m_bg
+        See :func:`wohngeld_miete_m_bg`.
+    wohngeld_params
+        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return _wohngeld_basisformel(
+        anz_personen=anz_personen_bg,
+        einkommen=wohngeld_eink_m_bg,
+        miete=wohngeld_miete_m_bg,
+        wohngeld_params=wohngeld_params,
+    )
