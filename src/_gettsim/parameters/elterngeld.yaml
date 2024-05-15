@@ -174,8 +174,11 @@ max_monate_ind:
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 max_einkommen_vorj_allein:
   name:
-    de: Maximales zvE des Single-Haushalts im letzten Veranlagungszeitraum, bis zu dem man Elterngeld beziehen kann
-    en: Maximum taxable income a single-household may have, to be eligible for Elterngeld
+    de: >-
+      Maximales zvE des Single-Haushalts im letzten Veranlagungszeitraum, bis zu dem man
+      Elterngeld beziehen kann
+    en: >-
+      Maximum taxable income a single-household may have, to be eligible for Elterngeld
   description:
     de: § 1 (8) BEEG
     en: null
@@ -187,9 +190,12 @@ max_einkommen_vorj_allein:
     scalar: 150.000
     reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
 max_einkommen_vorj_zsm:
- name:
-    de: Gemeinsames maximales zvE des Haushalts im letzten Veranlagungszeitraum, bis zu dem man Elterngeld beziehen kann
-    en: Shared maximum taxable income a household may have, to be eligible for Elterngeld
+  name:
+    de: >-
+      Gemeinsames maximales zvE des Haushalts im letzten Veranlagungszeitraum, bis zu
+      dem man Elterngeld beziehen kann
+    en: >-
+      Shared maximum taxable income a household may have, to be eligible for Elterngeld
   description:
     de: § 1 (8) BEEG
     en: null
