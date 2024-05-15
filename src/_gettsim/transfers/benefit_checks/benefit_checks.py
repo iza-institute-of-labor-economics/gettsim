@@ -1,3 +1,15 @@
+aggregate_by_group_benefit_checks = {
+    "wohngeld_vorrang_wth": {
+        "source_col": "wohngeld_vorrang_bg",
+        "aggr": "any",
+    },
+    "wohngeld_kinderzuschl_vorrang_wth": {
+        "source_col": "wohngeld_kinderzuschl_vorrang_bg",
+        "aggr": "any",
+    },
+}
+
+
 def wohngeld_vorrang_bg(
     wohngeld_vor_vorrang_check_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,

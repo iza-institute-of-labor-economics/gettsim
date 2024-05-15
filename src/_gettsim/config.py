@@ -103,6 +103,11 @@ SUPPORTED_GROUPINGS = {
         "description": "A couple whose members are deemed to be responsible for each"
         " other.",
     },
+    "wth": {
+        "name": "wohngeldrechtlicher Teilhaushalt",
+        "description": "Members of a household that for whom the Wohngeld priority "
+        "check yields the same result.",
+    },
 }
 
 SUPPORTED_TIME_UNITS = {
