@@ -172,3 +172,31 @@ max_monate_ind:
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+max_einkommen_allein:
+  name: 
+    de: Maximales Einkommen des Single-Haushalts im letzten Veranlagungszeitraum, bis zu dem man Elterngeld beziehen kann
+    en: Maximum income a single-household may have, to be eligible for Elterngeld
+  description:
+    de: § 1 (8) BEEG
+    en: null
+  unit: Euro
+  2011-01-01:
+    scalar: 250.000
+    reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+  2024-04-01:
+    scalar: 150.000
+    reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
+max_einkommen_zsm:
+ name: 
+    de: Gemeinsames maximales Einkommen des Haushalts im letzten Veranlagungszeitraum, bis zu dem man Elterngeld beziehen kann
+    en: Shared maximum income a household may have, to be eligible for Elterngeld
+  description:
+    de: § 1 (8) BEEG
+    en: null
+  unit: Euro
+  2011-01-01:
+    scalar: 300.000
+    reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+  2024-04-01:
+    scalar: 175.000
+    reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
