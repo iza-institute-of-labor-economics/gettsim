@@ -867,10 +867,14 @@ def _wohngeld_nach_vermög_check_formel(
 
     """
 
-    if vermögen <= (
-        params["vermögensgrundfreibetrag"]
-        + (params["vermögensfreibetrag_pers"] * (anz_personen - 1))
-    ):
+    if anz_personen == 1:
+        vermögensfreibetrag = params["vermögensgrundfreibetrag"]
+    else:
+        vermögensfreibetrag = params["vermögensgrundfreibetrag"] + params[
+            "vermögensfreibetrag_pers"
+        ] * (anz_personen - 1)
+
+    if vermögen <= vermögensfreibetrag:
         out = basisbetrag_m
     else:
         out = 0.0
