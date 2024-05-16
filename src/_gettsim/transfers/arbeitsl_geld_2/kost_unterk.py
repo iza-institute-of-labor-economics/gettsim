@@ -29,8 +29,8 @@ def arbeitsl_geld_2_kost_unterk_m_bg_bis_2022(
 
 @policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_kost_unterk_m_bg")
 def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
-    anteil_bruttokaltmiete_m_bg: float,
-    anteil_heizkosten_m_bg: float,
+    bruttokaltmiete_m_bg: float,
+    heizkosten_m_bg: float,
     bürgerg_bezug_vorj: bool,
     _arbeitsl_geld_2_berechtigte_wohnfläche_bg: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_m_bg: float,
@@ -43,10 +43,10 @@ def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
 
     Parameters
     ----------
-    anteil_bruttokaltmiete_m_bg
-        See :func:`anteil_bruttokaltmiete_m_bg`.
-    anteil_heizkosten_m_bg
-        See :func:`anteil_heizkosten_m_bg`.
+    bruttokaltmiete_m_bg
+        See :func:`bruttokaltmiete_m_bg`.
+    heizkosten_m_bg
+        See :func:`heizkosten_m_bg`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
     _arbeitsl_geld_2_berechtigte_wohnfläche_bg
@@ -65,15 +65,15 @@ def arbeitsl_geld_2_kost_unterk_m_bg_ab_2023(
             * _arbeitsl_geld_2_warmmiete_pro_qm_m_bg
         )
     else:
-        out = anteil_bruttokaltmiete_m_bg + anteil_heizkosten_m_bg
+        out = bruttokaltmiete_m_bg + heizkosten_m_bg
 
     return out
 
 
 def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
-    anteil_bruttokaltmiete_m_bg: float,
-    anteil_heizkosten_m_bg: float,
-    anteil_wohnfläche_bg: float,
+    bruttokaltmiete_m_bg: float,
+    heizkosten_m_bg: float,
+    wohnfläche_bg: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate rent per square meter.
@@ -82,19 +82,19 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
 
     Parameters
     ----------
-    anteil_bruttokaltmiete_m_bg
-        See :func:`anteil_bruttokaltmiete_m_bg`.
-    anteil_heizkosten_m_bg
-        See :func:`anteil_heizkosten_m_bg`.
-    anteil_wohnfläche_bg
-        See function :func:`anteil_wohnfläche_bg`.
+    bruttokaltmiete_m_bg
+        See :func:`bruttokaltmiete_m_bg`.
+    heizkosten_m_bg
+        See :func:`heizkosten_m_bg`.
+    wohnfläche_bg
+        See function :func:`wohnfläche_bg`.
 
     Returns
     -------
     Integer with the total amount of rental costs per squaremeter.
 
     """
-    out = (anteil_bruttokaltmiete_m_bg + anteil_heizkosten_m_bg) / anteil_wohnfläche_bg
+    out = (bruttokaltmiete_m_bg + heizkosten_m_bg) / wohnfläche_bg
 
     # Consider maximum considered rent per square meter
     out = min(out, arbeitsl_geld_2_params["max_miete_pro_qm"]["max"])
@@ -103,7 +103,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m_bg(
 
 
 def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
-    anteil_wohnfläche_bg: float,
+    wohnfläche_bg: float,
     bewohnt_eigentum_hh: bool,
     anz_personen_bg: int,
     arbeitsl_geld_2_params: dict,
@@ -114,8 +114,8 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
 
     Parameters
     ----------
-    anteil_wohnfläche_bg
-        See function :func:`anteil_wohnfläche_bg`.
+    wohnfläche_bg
+        See function :func:`wohnfläche_bg`.
     bewohnt_eigentum_hh
         See basic input variable :ref:`bewohnt_eigentum_hh <bewohnt_eigentum_hh>`.
     anz_personen_bg
@@ -145,10 +145,10 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
                 "je_weitere_person"
             ]
         )
-    return min(anteil_wohnfläche_bg, maximum)
+    return min(wohnfläche_bg, maximum)
 
 
-def anteil_bruttokaltmiete_m(
+def bruttokaltmiete_m(
     bruttokaltmiete_m_hh: float,
     anz_personen_hh: int,
 ) -> float:
@@ -172,7 +172,7 @@ def anteil_bruttokaltmiete_m(
     return bruttokaltmiete_m_hh / anz_personen_hh
 
 
-def anteil_heizkosten_m(
+def heizkosten_m(
     heizkosten_m_hh: float,
     anz_personen_hh: int,
 ) -> float:
@@ -196,7 +196,7 @@ def anteil_heizkosten_m(
     return heizkosten_m_hh / anz_personen_hh
 
 
-def anteil_wohnfläche(
+def wohnfläche(
     wohnfläche_hh: float,
     anz_personen_hh: int,
 ) -> float:

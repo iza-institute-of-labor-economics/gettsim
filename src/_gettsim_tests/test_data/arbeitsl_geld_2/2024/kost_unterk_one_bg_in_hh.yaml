@@ -81,12 +81,12 @@ outputs:
     - 0
     - 0
     - 0
-  anteil_bruttokaltmiete_m_bg:
+  bruttokaltmiete_m_bg:
     - 1000.0
     - 1000.0
     - 1000.0
     - 1000.0
-  anteil_heizkosten_m_bg:
+  heizkosten_m_bg:
     - 100.0
     - 100.0
     - 100.0

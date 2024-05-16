@@ -93,7 +93,7 @@ outputs:
   wthh_id:
     - 1
     - 1
-  anteil_bruttokaltmiete_m_wthh:
+  bruttokaltmiete_m_wthh:
     - 500.0
     - 500.0
   anz_personen_wthh:

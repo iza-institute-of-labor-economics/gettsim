@@ -78,7 +78,7 @@ SUPPORTED_GROUPINGS = {
     "wthh": {
         "name": "wohngeldrechtlicher Teilhaushalt",
         "description": "Members of a household for whom the Wohngeld priority check "
-        "yields the same result.",
+        "compared to Bürgergeld yields the same result ∈ {True, False}.",
         "potentially_endogenous": True,
     },
     "fg": {

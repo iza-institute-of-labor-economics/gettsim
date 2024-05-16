@@ -16,7 +16,7 @@ def arbeitsl_geld_2_eink_m(
 
     Note: When aggregating this target to the household level, deduct
     `_diff_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
-    received by the child may enter `arbeitsl_geld_2_eink_m_hh` two times: once as
+    received by the child may enter `arbeitsl_geld_2_eink_m_hh` twice: once as
     Kindergeld and once as Kindergeldübertrag.
 
     Parameters

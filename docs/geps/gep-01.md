@@ -134,8 +134,9 @@ GETTSIM knows about the following units:
   Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
   Bedarfsgemeinschaft before making checks for whether children have enough income fend
   for themselves. Subset of `hh`.
-- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft plus for whether children
-  have enough income to fend for themselves. Subset of `fg_id`.
+- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding children who have
+  enough income to fend for themselves (they will form separate `bg`s). Subset of
+  `fg_id`.
 - `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
   for each other.
 - `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
