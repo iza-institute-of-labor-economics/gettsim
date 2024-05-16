@@ -21,9 +21,9 @@ aggregate_by_p_id_wohngeld = {
 }
 
 
-def wohngeld_m_wth(
-    vermögen_bedürft_wth: float,
-    anz_personen_wth: int,
+def wohngeld_m_wthh(
+    vermögen_bedürft_wthh: float,
+    anz_personen_wthh: int,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_params: dict,
 ) -> float:
@@ -46,10 +46,10 @@ def wohngeld_m_wth(
 
     Parameters
     ----------
-    vermögen_bedürft_wth
-        See :func:`vermögen_bedürft_wth`.
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
+    vermögen_bedürft_wthh
+        See :func:`vermögen_bedürft_wthh`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
     erwachsene_alle_rentner_hh
         See basic input variable :ref:`erwachsene_alle_rentner_hh
         <erwachsene_alle_rentner_hh>`.
@@ -67,9 +67,9 @@ def wohngeld_m_wth(
 
     if not erwachsene_alle_rentner_hh:
         out = _wohngeld_nach_vermög_check_formel(
-            wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_wth,
-            vermögen=vermögen_bedürft_wth,
-            anz_personen=anz_personen_wth,
+            wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_wthh,
+            vermögen=vermögen_bedürft_wthh,
+            anz_personen=anz_personen_wthh,
             wohngeld_params=wohngeld_params,
         )
     else:
@@ -370,10 +370,10 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_eink_m_wth(
-    anz_personen_wth: int,
-    wohngeld_eink_freib_m_wth: float,
-    wohngeld_eink_vor_freib_m_wth: float,
+def wohngeld_eink_m_wthh(
+    anz_personen_wthh: int,
+    wohngeld_eink_freib_m_wthh: float,
+    wohngeld_eink_vor_freib_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
     """Income relevant for Wohngeld calculation.
@@ -385,12 +385,12 @@ def wohngeld_eink_m_wth(
 
     Parameters
     ----------
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
-    wohngeld_eink_freib_m_wth
-        See :func:`wohngeld_eink_freib_m_wth`.
-    wohngeld_eink_vor_freib_m_wth
-        See :func:`wohngeld_eink_vor_freib_m_wth`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
+    wohngeld_eink_freib_m_wthh
+        See :func:`wohngeld_eink_freib_m_wthh`.
+    wohngeld_eink_vor_freib_m_wthh
+        See :func:`wohngeld_eink_vor_freib_m_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -399,9 +399,9 @@ def wohngeld_eink_m_wth(
 
     """
     return _wohngeld_einkommen_formula(
-        anz_personen=anz_personen_wth,
-        einkommen_freibetrag=wohngeld_eink_freib_m_wth,
-        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_wth,
+        anz_personen=anz_personen_wthh,
+        einkommen_freibetrag=wohngeld_eink_freib_m_wthh,
+        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_wthh,
         wohngeld_params=wohngeld_params,
     )
 
@@ -442,7 +442,7 @@ def wohngeld_eink_m_bg(
     )
 
 
-def wohngeld_min_miete_m_wth(anz_personen_wth: int, wohngeld_params: dict) -> float:
+def wohngeld_min_miete_m_wthh(anz_personen_wthh: int, wohngeld_params: dict) -> float:
     """Minimum rent considered in Wohngeld calculation.
 
     This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
@@ -450,8 +450,8 @@ def wohngeld_min_miete_m_wth(anz_personen_wth: int, wohngeld_params: dict) -> fl
 
     Parameters
     ----------
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
@@ -459,7 +459,7 @@ def wohngeld_min_miete_m_wth(anz_personen_wth: int, wohngeld_params: dict) -> fl
 
     """
     return _wohngeld_min_miete_formel(
-        anz_personen=anz_personen_wth, wohngeld_params=wohngeld_params
+        anz_personen=anz_personen_wthh, wohngeld_params=wohngeld_params
     )
 
 
@@ -484,13 +484,13 @@ def wohngeld_min_miete_m_bg(anz_personen_bg: int, wohngeld_params: dict) -> floa
     )
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_wth")
-def wohngeld_miete_bis_2008_m_wth(  # noqa: PLR0913
+@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_wthh")
+def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     mietstufe: int,
-    immobilie_baujahr_wth: int,
-    anz_personen_wth: int,
-    bruttokaltmiete_m_wth: float,
-    wohngeld_min_miete_m_wth: float,
+    immobilie_baujahr_wthh: int,
+    anz_personen_wthh: int,
+    bruttokaltmiete_m_wthh: float,
+    wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximal rent subject housing benefit calculation on household level until 2008.
@@ -502,14 +502,14 @@ def wohngeld_miete_bis_2008_m_wth(  # noqa: PLR0913
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    immobilie_baujahr_wth
-        See basic input variable :ref:`immobilie_baujahr_wth <immobilie_baujahr_wth>`.
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
-    bruttokaltmiete_m_wth
-        See basic input variable :ref:`bruttokaltmiete_m_wth <bruttokaltmiete_m_wth>`.
-    wohngeld_min_miete_m_wth
-        See :func:`wohngeld_min_miete_m_wth`.
+    immobilie_baujahr_wthh
+        See basic input variable :ref:`immobilie_baujahr_wthh <immobilie_baujahr_wthh>`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
+    bruttokaltmiete_m_wthh
+        See basic input variable :ref:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+    wohngeld_min_miete_m_wthh
+        See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -519,10 +519,10 @@ def wohngeld_miete_bis_2008_m_wth(  # noqa: PLR0913
     """
     return _wohngeld_max_miete_formel_bis_2009(
         mietstufe=mietstufe,
-        immobilie_baujahr=immobilie_baujahr_wth,
-        anz_personen=anz_personen_wth,
-        bruttokaltmiete_m=bruttokaltmiete_m_wth,
-        wohngeld_min_miete_m=wohngeld_min_miete_m_wth,
+        immobilie_baujahr=immobilie_baujahr_wthh,
+        anz_personen=anz_personen_wthh,
+        bruttokaltmiete_m=bruttokaltmiete_m_wthh,
+        wohngeld_min_miete_m=wohngeld_min_miete_m_wthh,
         wohngeld_params=wohngeld_params,
     )
 
@@ -570,12 +570,12 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     )
 
 
-@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_wth")
-def wohngeld_miete_ab_2009_m_wth(
+@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_wthh")
+def wohngeld_miete_ab_2009_m_wthh(
     mietstufe: int,
-    anz_personen_wth: int,
-    bruttokaltmiete_m_wth: float,
-    wohngeld_min_miete_m_wth: float,
+    anz_personen_wthh: int,
+    bruttokaltmiete_m_wthh: float,
+    wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
     """Maximum rent considered in housing benefit since 2009.
@@ -587,12 +587,12 @@ def wohngeld_miete_ab_2009_m_wth(
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
-    bruttokaltmiete_m_wth
-        See basic input variable :ref:`bruttokaltmiete_m_wth <bruttokaltmiete_m_wth>`.
-    wohngeld_min_miete_m_wth
-        See :func:`wohngeld_min_miete_m_wth`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
+    bruttokaltmiete_m_wthh
+        See basic input variable :ref:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+    wohngeld_min_miete_m_wthh
+        See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -602,9 +602,9 @@ def wohngeld_miete_ab_2009_m_wth(
     """
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
-        anz_personen_wth=anz_personen_wth,
-        bruttokaltmiete_m_wth=bruttokaltmiete_m_wth,
-        wohngeld_min_miete_m_wth=wohngeld_min_miete_m_wth,
+        anz_personen_wthh=anz_personen_wthh,
+        bruttokaltmiete_m_wthh=bruttokaltmiete_m_wthh,
+        wohngeld_min_miete_m_wthh=wohngeld_min_miete_m_wthh,
         wohngeld_params=wohngeld_params,
     )
 
@@ -684,10 +684,10 @@ def wohngeld_nach_vermög_check_m_bg(
 
 
 @policy_info(params_key_for_rounding="wohngeld")
-def wohngeld_vor_vermög_check_m_wth(
-    anz_personen_wth: int,
-    wohngeld_eink_m_wth: float,
-    wohngeld_miete_m_wth: float,
+def wohngeld_vor_vermög_check_m_wthh(
+    anz_personen_wthh: int,
+    wohngeld_eink_m_wthh: float,
+    wohngeld_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
     """Calcualte preliminary housing benefit.
@@ -697,12 +697,12 @@ def wohngeld_vor_vermög_check_m_wth(
 
     Parameters
     ----------
-    anz_personen_wth
-        See :func:`anz_personen_wth`.
-    wohngeld_eink_m_wth
-        See :func:`wohngeld_eink_m_wth`.
-    wohngeld_miete_m_wth
-        See :func:`wohngeld_miete_m_wth`.
+    anz_personen_wthh
+        See :func:`anz_personen_wthh`.
+    wohngeld_eink_m_wthh
+        See :func:`wohngeld_eink_m_wthh`.
+    wohngeld_miete_m_wthh
+        See :func:`wohngeld_miete_m_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -711,9 +711,9 @@ def wohngeld_vor_vermög_check_m_wth(
 
     """
     return _wohngeld_basisformel(
-        anz_personen=anz_personen_wth,
-        einkommen=wohngeld_eink_m_wth,
-        miete=wohngeld_miete_m_wth,
+        anz_personen=anz_personen_wthh,
+        einkommen=wohngeld_eink_m_wthh,
+        miete=wohngeld_miete_m_wthh,
         wohngeld_params=wohngeld_params,
     )
 

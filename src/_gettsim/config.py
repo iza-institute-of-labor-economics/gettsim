@@ -75,6 +75,11 @@ SUPPORTED_GROUPINGS = {
         " unit for Wohngeld.",
         "potentially_endogenous": False,
     },
+    "wthh": {
+        "name": "wohngeldrechtlicher Teilhaushalt",
+        "description": "Members of a household for whom the Wohngeld priority check "
+        "yields the same result.",
+    },
     "fg": {
         "name": "Familiengemeinschaft",
         "description": "Maximum of two generations, the relevant base unit for"
@@ -102,11 +107,6 @@ SUPPORTED_GROUPINGS = {
         "name": "Einstandsgemeinschaft / Einstandspartner",
         "description": "A couple whose members are deemed to be responsible for each"
         " other.",
-    },
-    "wth": {
-        "name": "wohngeldrechtlicher Teilhaushalt",
-        "description": "Members of a household for whom the Wohngeld priority check "
-        "yields the same result.",
     },
 }
 

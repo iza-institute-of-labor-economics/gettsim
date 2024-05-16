@@ -213,7 +213,7 @@ def sn_id_numpy(
     return numpy.asarray(result)
 
 
-def wth_id_numpy(
+def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
     wohngeld_vorrang_bg: numpy.ndarray[bool],
     wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],

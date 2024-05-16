@@ -1,9 +1,9 @@
 aggregate_by_group_benefit_checks = {
-    "wohngeld_vorrang_wth": {
+    "wohngeld_vorrang_wthh": {
         "source_col": "wohngeld_vorrang_bg",
         "aggr": "any",
     },
-    "wohngeld_kinderzuschl_vorrang_wth": {
+    "wohngeld_kinderzuschl_vorrang_wthh": {
         "source_col": "wohngeld_kinderzuschl_vorrang_bg",
         "aggr": "any",
     },
