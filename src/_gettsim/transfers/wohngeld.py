@@ -1,4 +1,20 @@
-"""This module provides functions to compute residence allowance (Wohngeld)."""
+"""This module provides functions to compute residence allowance (Wohngeld).
+
+    Wohngeld has priority over ALG2 if the recipients can cover their needs according to
+    SGB II when receiving Wohngeld. The priority check follows the following logic:
+
+    1. Calculate Wohngeld on the Bedarfsgemeinschaft level.
+    2. Check whether the Bedarfsgemeinschaft can cover its own needs (Regelbedarf) with
+       Wohngeld. If not, the Bedarfsgemeinschaft is eligible for ALG2.
+    3. Compute Wohngeld again for all individuals in the household that can cover their
+       own needs with Wohngeld. This is the final Wohngeld amount that is paid out to
+       the wohngeldrechtlicher Teilhaushalt.
+
+    Note: Because Wohngeld is nonlinear in the number of people in the
+    wohngeldrechtlicher Teilhaushalt, there may be some individuals that pass the
+    priority check, but cannot cover their needs with the Wohngeld calculated in point
+    3. In this sense, this implementation is an approximation of the actual Wohngeld.
+"""
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
@@ -19,22 +35,7 @@ def wohngeld_m_wthh(
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
 ) -> float:
-    """Calculate housing benefit.
-
-    Wohngeld has priority over ALG2 if the recipients can cover their needs according to
-    SGB II when receiving Wohngeld. The priority check follows the following logic:
-
-    1. Calculate Wohngeld on the Bedarfsgemeinschaft level.
-    2. Check whether the Bedarfsgemeinschaft can cover its own needs (Regelbedarf) with
-       Wohngeld. If not, the Bedarfsgemeinschaft is eligible for ALG2.
-    3. Compute Wohngeld again for all individuals in the household that can cover their
-       own needs with Wohngeld. This is the final Wohngeld amount that is paid out to
-       the wohngeldrechtlicher Teilhaushalt.
-
-    Note: Because Wohngeld is nonlinear in the number of people in the
-    wohngeldrechtlicher Teilhaushalt, there may be some individuals that pass the
-    priority check, but cannot cover their needs with the Wohngeld calculated in point
-    3. In this sense, this implementation is an approximation of the actual Wohngeld.
+    """Housing benefit after wealth and priority checks.
 
     Parameters
     ----------
@@ -51,7 +52,9 @@ def wohngeld_m_wthh(
     -------
 
     """
-    # TODO (@MImmesberger): Document approximation.
+    # TODO (@MImmesberger): This implementation may be only an approximation of the
+    # actual rules for individuals that are on the margin of the priority check.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752
     # TODO (@MImmesberger): Remove erwachsene_alle_rentner_hh condition once households
     # can get both Grundsicherung im Alter and ALG2/Wohngeld.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696

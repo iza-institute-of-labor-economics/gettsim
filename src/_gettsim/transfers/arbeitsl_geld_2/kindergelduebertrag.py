@@ -142,7 +142,7 @@ def _diff_kindergeld_kindbedarf_m(
     # Kindergeld would be counted twice as income of the Bedarfsgemeinschaft (one time
     # the full amount for the child and one time the Kindergeldübertrag for the parent -
     # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/758
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
         - _arbeitsl_geld_2_nettoeink_ohne_transfers_m
