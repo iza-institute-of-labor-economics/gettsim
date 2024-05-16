@@ -1,7 +1,7 @@
 def kinderzuschl_kost_unterk_m_bg(
     _kinderzuschl_wohnbedarf_eltern_anteil_bg: float,
-    bruttokaltmiete_m_bg: float,
-    heizkosten_m_bg: float,
+    anteil_bruttokaltmiete_m_bg: float,
+    anteil_heizkosten_m_bg: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
 
@@ -11,16 +11,16 @@ def kinderzuschl_kost_unterk_m_bg(
     ----------
     _kinderzuschl_wohnbedarf_eltern_anteil_bg
         See :func:`_kinderzuschl_wohnbedarf_eltern_anteil_bg`.
-    bruttokaltmiete_m_bg
-        See :func:`bruttokaltmiete_m_bg`.
-    heizkosten_m_bg
-        See :func:`heizkosten_m_bg`.
+    anteil_bruttokaltmiete_m_bg
+        See :func:`anteil_bruttokaltmiete_m_bg`.
+    anteil_heizkosten_m_bg
+        See :func:`anteil_heizkosten_m_bg`.
 
     Returns
     -------
 
     """
-    warmmiete_m_bg = bruttokaltmiete_m_bg + heizkosten_m_bg
+    warmmiete_m_bg = anteil_bruttokaltmiete_m_bg + anteil_heizkosten_m_bg
 
     out = _kinderzuschl_wohnbedarf_eltern_anteil_bg * warmmiete_m_bg
 

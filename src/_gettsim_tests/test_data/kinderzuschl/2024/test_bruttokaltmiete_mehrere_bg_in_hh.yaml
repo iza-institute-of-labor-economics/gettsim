@@ -110,7 +110,7 @@ outputs:
     - 292.0
     - 292.0
     - 0.0
-  bruttokaltmiete_m_bg:
+  anteil_bruttokaltmiete_m_bg:
     - 466.67
     - 466.67
     - 233.33

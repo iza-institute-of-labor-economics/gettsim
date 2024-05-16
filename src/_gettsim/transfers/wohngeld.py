@@ -22,7 +22,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    wohngeld_nach_vermög_check_m_wthh: float,
+    _wohngeld_nach_vermög_check_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
@@ -46,8 +46,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    wohngeld_nach_vermög_check_m_wthh
-        See :func:`wohngeld_nach_vermög_check_m_wthh`.
+    _wohngeld_nach_vermög_check_m_wthh
+        See :func:`_wohngeld_nach_vermög_check_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     wohngeld_kinderzuschl_vorrang_wthh
@@ -67,7 +67,7 @@ def wohngeld_m_wthh(
     if not erwachsene_alle_rentner_hh and (
         wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
     ):
-        out = wohngeld_nach_vermög_check_m_wthh
+        out = _wohngeld_nach_vermög_check_m_wthh
     else:
         out = 0.0
 
@@ -485,7 +485,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     anz_personen_wthh: int,
-    bruttokaltmiete_m_wthh: float,
+    anteil_bruttokaltmiete_m_wthh: float,
     wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -502,8 +502,8 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
-    bruttokaltmiete_m_wthh
-        See :func:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+    anteil_bruttokaltmiete_m_wthh
+        See :func:`anteil_bruttokaltmiete_m_wthh <anteil_bruttokaltmiete_m_wthh>`.
     wohngeld_min_miete_m_wthh
         See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
@@ -517,7 +517,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
         mietstufe=mietstufe,
         immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_wthh,
-        bruttokaltmiete_m=bruttokaltmiete_m_wthh,
+        bruttokaltmiete_m=anteil_bruttokaltmiete_m_wthh,
         min_miete_m=wohngeld_min_miete_m_wthh,
         params=wohngeld_params,
     )
@@ -528,7 +528,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     anz_personen_bg: int,
-    bruttokaltmiete_m_bg: float,
+    anteil_bruttokaltmiete_m_bg: float,
     wohngeld_min_miete_m_bg: float,
     wohngeld_params: dict,
 ) -> float:
@@ -545,8 +545,8 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
-    bruttokaltmiete_m_bg
-        See :func:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+    anteil_bruttokaltmiete_m_bg
+        See :func:`anteil_bruttokaltmiete_m_bg <anteil_bruttokaltmiete_m_bg>`.
     wohngeld_min_miete_m_bg
         See :func:`wohngeld_min_miete_m_bg`.
     wohngeld_params
@@ -560,7 +560,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
         mietstufe=mietstufe,
         immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_bg,
-        bruttokaltmiete_m=bruttokaltmiete_m_bg,
+        bruttokaltmiete_m=anteil_bruttokaltmiete_m_bg,
         min_miete_m=wohngeld_min_miete_m_bg,
         params=wohngeld_params,
     )
@@ -570,7 +570,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
 def wohngeld_miete_ab_2009_m_wthh(
     mietstufe: int,
     anz_personen_wthh: int,
-    bruttokaltmiete_m_wthh: float,
+    anteil_bruttokaltmiete_m_wthh: float,
     wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -585,8 +585,8 @@ def wohngeld_miete_ab_2009_m_wthh(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
-    bruttokaltmiete_m_wthh
-        See :func:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+    anteil_bruttokaltmiete_m_wthh
+        See :func:`anteil_bruttokaltmiete_m_wthh <anteil_bruttokaltmiete_m_wthh>`.
     wohngeld_min_miete_m_wthh
         See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
@@ -599,7 +599,7 @@ def wohngeld_miete_ab_2009_m_wthh(
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
         anz_personen=anz_personen_wthh,
-        bruttokaltmiete_m=bruttokaltmiete_m_wthh,
+        bruttokaltmiete_m=anteil_bruttokaltmiete_m_wthh,
         min_miete_m=wohngeld_min_miete_m_wthh,
         params=wohngeld_params,
     )
@@ -609,7 +609,7 @@ def wohngeld_miete_ab_2009_m_wthh(
 def wohngeld_miete_ab_2009_m_bg(
     mietstufe: int,
     anz_personen_bg: int,
-    bruttokaltmiete_m_bg: float,
+    anteil_bruttokaltmiete_m_bg: float,
     wohngeld_min_miete_m_bg: float,
     wohngeld_params: dict,
 ) -> float:
@@ -624,8 +624,8 @@ def wohngeld_miete_ab_2009_m_bg(
         See basic input variable :ref:`mietstufe <mietstufe>`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
-    bruttokaltmiete_m_bg
-        See :func:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+    anteil_bruttokaltmiete_m_bg
+        See :func:`anteil_bruttokaltmiete_m_bg <anteil_bruttokaltmiete_m_bg>`.
     wohngeld_min_miete_m_bg
         See :func:`wohngeld_min_miete_m_bg`.
     wohngeld_params
@@ -638,13 +638,13 @@ def wohngeld_miete_ab_2009_m_bg(
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
         anz_personen=anz_personen_bg,
-        bruttokaltmiete_m=bruttokaltmiete_m_bg,
+        bruttokaltmiete_m=anteil_bruttokaltmiete_m_bg,
         min_miete_m=wohngeld_min_miete_m_bg,
         params=wohngeld_params,
     )
 
 
-def wohngeld_nach_vermög_check_m_wthh(
+def _wohngeld_nach_vermög_check_m_wthh(
     wohngeld_vor_vermög_check_m_wthh: float,
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,

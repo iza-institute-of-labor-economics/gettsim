@@ -156,7 +156,7 @@ outputs:
     - 0
     - 200
     - 200
-  bruttokaltmiete_m_bg:
+  anteil_bruttokaltmiete_m_bg:
     - 555.56
     - 555.56
     - 222.22
@@ -166,7 +166,7 @@ outputs:
     - 555.56
     - 222.22
     - 222.22
-  heizkosten_m_bg:
+  anteil_heizkosten_m_bg:
     - 55.56
     - 55.56
     - 22.22

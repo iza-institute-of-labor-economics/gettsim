@@ -84,6 +84,6 @@ outputs:
   kinderzuschl_m_bg:
     - 292.0
     - 292.0
-  bruttokaltmiete_m_bg:
+  anteil_bruttokaltmiete_m_bg:
     - 700.0
     - 700.0
