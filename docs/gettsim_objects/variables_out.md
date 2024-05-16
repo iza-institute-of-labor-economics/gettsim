@@ -40,7 +40,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly additional child benefit, household sum
 * - {func}`elterngeld_m <_gettsim.functions.elterngeld_m>`
   - Monthly parental leave benefit
-* - {func}`wohngeld_m_hh <_gettsim.functions.wohngeld_m_hh>`
+* - {func}`wohngeld_m_wthh <_gettsim.functions.wohngeld_m_wthh>`
   - Monthly housing benefit on household level
 * - {func}`grunds_im_alter_m_eg <_gettsim.functions.grunds_im_alter_m_eg>`
   - Monthly subsistence payment for retirees on household level
