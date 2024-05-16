@@ -483,7 +483,7 @@ def wohngeld_min_miete_m_bg(anz_personen_bg: int, wohngeld_params: dict) -> floa
 @policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_wthh")
 def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     mietstufe: int,
-    immobilie_baujahr_wthh: int,
+    immobilie_baujahr_hh: int,
     anz_personen_wthh: int,
     bruttokaltmiete_m_wthh: float,
     wohngeld_min_miete_m_wthh: float,
@@ -498,12 +498,12 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    immobilie_baujahr_wthh
-        See basic input variable :ref:`immobilie_baujahr_wthh <immobilie_baujahr_wthh>`.
+    immobilie_baujahr_hh
+        See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     bruttokaltmiete_m_wthh
-        See basic input variable :ref:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+        See :func:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
     wohngeld_min_miete_m_wthh
         See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
@@ -515,7 +515,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     """
     return _wohngeld_max_miete_formel_bis_2009(
         mietstufe=mietstufe,
-        immobilie_baujahr=immobilie_baujahr_wthh,
+        immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_wthh,
         bruttokaltmiete_m=bruttokaltmiete_m_wthh,
         min_miete_m=wohngeld_min_miete_m_wthh,
@@ -526,7 +526,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
 @policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_bg")
 def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     mietstufe: int,
-    immobilie_baujahr_bg: int,
+    immobilie_baujahr_hh: int,
     anz_personen_bg: int,
     bruttokaltmiete_m_bg: float,
     wohngeld_min_miete_m_bg: float,
@@ -541,12 +541,12 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    immobilie_baujahr_bg
-        See basic input variable :ref:`immobilie_baujahr_bg <immobilie_baujahr_bg>`.
+    immobilie_baujahr_hh
+        See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
     bruttokaltmiete_m_bg
-        See basic input variable :ref:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+        See :func:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
     wohngeld_min_miete_m_bg
         See :func:`wohngeld_min_miete_m_bg`.
     wohngeld_params
@@ -558,7 +558,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     """
     return _wohngeld_max_miete_formel_bis_2009(
         mietstufe=mietstufe,
-        immobilie_baujahr=immobilie_baujahr_bg,
+        immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_bg,
         bruttokaltmiete_m=bruttokaltmiete_m_bg,
         min_miete_m=wohngeld_min_miete_m_bg,
@@ -586,7 +586,7 @@ def wohngeld_miete_ab_2009_m_wthh(
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     bruttokaltmiete_m_wthh
-        See basic input variable :ref:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
+        See :func:`bruttokaltmiete_m_wthh <bruttokaltmiete_m_wthh>`.
     wohngeld_min_miete_m_wthh
         See :func:`wohngeld_min_miete_m_wthh`.
     wohngeld_params
@@ -625,7 +625,7 @@ def wohngeld_miete_ab_2009_m_bg(
     anz_personen_bg
         See :func:`anz_personen_bg`.
     bruttokaltmiete_m_bg
-        See basic input variable :ref:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
+        See :func:`bruttokaltmiete_m_bg <bruttokaltmiete_m_bg>`.
     wohngeld_min_miete_m_bg
         See :func:`wohngeld_min_miete_m_bg`.
     wohngeld_params
