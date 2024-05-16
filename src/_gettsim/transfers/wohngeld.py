@@ -637,7 +637,7 @@ def wohngeld_miete_ab_2009_m_bg(
     """
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
-        anz_personen_bg=anz_personen_bg,
+        anz_personen=anz_personen_bg,
         bruttokaltmiete_m=bruttokaltmiete_m_bg,
         min_miete_m=wohngeld_min_miete_m_bg,
         params=wohngeld_params,
