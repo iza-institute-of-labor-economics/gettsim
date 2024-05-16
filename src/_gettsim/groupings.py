@@ -11,6 +11,7 @@ def create_groupings() -> dict[str, Callable]:
         "eg_id": eg_id_numpy,
         "ehe_id": ehe_id_numpy,
         "sn_id": sn_id_numpy,
+        "wthh_id": wthh_id_numpy,
     }
 
 
@@ -222,7 +223,6 @@ def wthh_id_numpy(
     Compute the ID of the wohngeldrechtlicher Teilhaushalt.
     """
     result = []
-
     for index, current_hh_id in enumerate(hh_id):
         if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
             result.append(current_hh_id * 100 + 1)
