@@ -27,25 +27,6 @@ def kinderzuschl_kost_unterk_m_bg(
     return out
 
 
-def _anteil_personen_in_haushalt_bg(
-    anz_personen_bg: int, anz_personen_hh: int
-) -> float:
-    """Share of persons in this Bedarfsgemeinschaft among all persons in the household.
-
-    Parameters
-    ----------
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-
-    Returns
-    -------
-
-    """
-    return anz_personen_bg / anz_personen_hh
-
-
 def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     _kinderzuschl_anz_kinder_anspruch_bg: int,
     anz_erwachsene_bg: int,

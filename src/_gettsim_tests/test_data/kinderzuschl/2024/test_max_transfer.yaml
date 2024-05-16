@@ -79,6 +79,15 @@ inputs:
     wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
+    wohnfläche_hh:
+      - 70.0
+      - 70.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
   assumed: {}
 outputs:
   kinderzuschl_m_bg:

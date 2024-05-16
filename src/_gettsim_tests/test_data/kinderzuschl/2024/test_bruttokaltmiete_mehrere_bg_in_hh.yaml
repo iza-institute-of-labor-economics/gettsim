@@ -92,6 +92,18 @@ inputs:
       - 1000.0
       - 0.0
       - 1000.0
+    wohnfläche_hh:
+      - 70.0
+      - 70.0
+      - 70.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
     ges_rente_m:
       - 0.0
       - 0.0
