@@ -1,0 +1,230 @@
+---
+info:
+  note: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
+  source: ''
+inputs:
+  provided:
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    kind:
+      - false
+      - false
+      - false
+      - false
+      - false
+    bruttokaltmiete_m_hh:
+      - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
+    alleinerz:
+      - false
+      - false
+      - false
+      - false
+      - false
+    alter:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+    immobilie_baujahr_hh:
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+    kindergeld_anspruch:
+      - false
+      - false
+      - false
+      - false
+      - false
+    mietstufe:
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+    bruttolohn_m:
+      - 1000.0
+      - 1000.0
+      - 800.0
+      - 0.0
+      - 0.0
+    sum_ges_rente_priv_rente_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kapitaleink_brutto_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    vermögen_bedürft:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtsjahr:
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+    wohngeld_vorrang_bg:
+      - true
+      - true
+      - true
+      - false
+      - false
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
+      - false
+      - false
+    eink_st_y_sn:
+      - 20.0
+      - 20.0
+      - 20.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+    ges_krankenv_beitr_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+    rentner:
+      - false
+      - false
+      - false
+      - false
+      - false
+    eink_abhängig_beschäftigt_y:
+      - 12000.0
+      - 12000.0
+      - 9600.0
+      - 0.0
+      - 0.0
+  assumed: {}
+outputs:
+  wthh_id:
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+  bruttokaltmiete_m_wthh:
+    - 600.0
+    - 600.0
+    - 600.0
+    - 400.0
+    - 400.0
+  anz_personen_wthh:
+    - 3
+    - 3
+    - 3
+    - 2
+    - 2
+  wohngeld_m_wthh:
+    - 175.0
+    - 175.0
+    - 175.0
+    - 0.0
+    - 0.0
