@@ -22,6 +22,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
+    wohngeld_vor_vermög_check_m_wthh: float,
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
     erwachsene_alle_rentner_hh: bool,
@@ -46,6 +47,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
+    wohngeld_vor_vermög_check_m_wthh
+        See :func:`wohngeld_vor_vermög_check_m_wthh`.
     vermögen_bedürft_wthh
         See :func:`vermögen_bedürft_wthh`.
     anz_personen_wthh
@@ -67,10 +70,10 @@ def wohngeld_m_wthh(
 
     if not erwachsene_alle_rentner_hh:
         out = _wohngeld_nach_vermög_check_formel(
-            wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_wthh,
+            basisbetrag_m=wohngeld_vor_vermög_check_m_wthh,
             vermögen=vermögen_bedürft_wthh,
             anz_personen=anz_personen_wthh,
-            wohngeld_params=wohngeld_params,
+            params=wohngeld_params,
         )
     else:
         out = 0.0
@@ -402,7 +405,7 @@ def wohngeld_eink_m_wthh(
         anz_personen=anz_personen_wthh,
         einkommen_freibetrag=wohngeld_eink_freib_m_wthh,
         einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_wthh,
-        wohngeld_params=wohngeld_params,
+        params=wohngeld_params,
     )
 
 
@@ -438,7 +441,7 @@ def wohngeld_eink_m_bg(
         anz_personen=anz_personen_bg,
         einkommen_freibetrag=wohngeld_eink_freib_m_bg,
         einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_bg,
-        wohngeld_params=wohngeld_params,
+        params=wohngeld_params,
     )
 
 
@@ -459,7 +462,7 @@ def wohngeld_min_miete_m_wthh(anz_personen_wthh: int, wohngeld_params: dict) -> 
 
     """
     return _wohngeld_min_miete_formel(
-        anz_personen=anz_personen_wthh, wohngeld_params=wohngeld_params
+        anz_personen=anz_personen_wthh, params=wohngeld_params
     )
 
 
@@ -480,7 +483,7 @@ def wohngeld_min_miete_m_bg(anz_personen_bg: int, wohngeld_params: dict) -> floa
 
     """
     return _wohngeld_min_miete_formel(
-        anz_personen=anz_personen_bg, wohngeld_params=wohngeld_params
+        anz_personen=anz_personen_bg, params=wohngeld_params
     )
 
 
@@ -522,8 +525,8 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
         immobilie_baujahr=immobilie_baujahr_wthh,
         anz_personen=anz_personen_wthh,
         bruttokaltmiete_m=bruttokaltmiete_m_wthh,
-        wohngeld_min_miete_m=wohngeld_min_miete_m_wthh,
-        wohngeld_params=wohngeld_params,
+        min_miete_m=wohngeld_min_miete_m_wthh,
+        params=wohngeld_params,
     )
 
 
@@ -565,8 +568,8 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
         immobilie_baujahr=immobilie_baujahr_bg,
         anz_personen=anz_personen_bg,
         bruttokaltmiete_m=bruttokaltmiete_m_bg,
-        wohngeld_min_miete_m=wohngeld_min_miete_m_bg,
-        wohngeld_params=wohngeld_params,
+        min_miete_m=wohngeld_min_miete_m_bg,
+        params=wohngeld_params,
     )
 
 
@@ -602,10 +605,10 @@ def wohngeld_miete_ab_2009_m_wthh(
     """
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
-        anz_personen_wthh=anz_personen_wthh,
-        bruttokaltmiete_m_wthh=bruttokaltmiete_m_wthh,
-        wohngeld_min_miete_m_wthh=wohngeld_min_miete_m_wthh,
-        wohngeld_params=wohngeld_params,
+        anz_personen=anz_personen_wthh,
+        bruttokaltmiete_m=bruttokaltmiete_m_wthh,
+        min_miete_m=wohngeld_min_miete_m_wthh,
+        params=wohngeld_params,
     )
 
 
@@ -642,9 +645,9 @@ def wohngeld_miete_ab_2009_m_bg(
     return _wohngeld_max_miete_formel_ab_2009(
         mietstufe=mietstufe,
         anz_personen_bg=anz_personen_bg,
-        bruttokaltmiete_m_bg=bruttokaltmiete_m_bg,
-        wohngeld_min_miete_m_bg=wohngeld_min_miete_m_bg,
-        wohngeld_params=wohngeld_params,
+        bruttokaltmiete_m=bruttokaltmiete_m_bg,
+        min_miete_m=wohngeld_min_miete_m_bg,
+        params=wohngeld_params,
     )
 
 
@@ -676,10 +679,10 @@ def wohngeld_nach_vermög_check_m_bg(
     """
 
     return _wohngeld_nach_vermög_check_formel(
-        wohngeld_basisbetrag=wohngeld_vor_vermög_check_m_bg,
+        basisbetrag_m=wohngeld_vor_vermög_check_m_bg,
         vermögen=vermögen_bedürft_bg,
         anz_personen=anz_personen_bg,
-        wohngeld_params=wohngeld_params,
+        params=wohngeld_params,
     )
 
 
@@ -712,9 +715,9 @@ def wohngeld_vor_vermög_check_m_wthh(
     """
     return _wohngeld_basisformel(
         anz_personen=anz_personen_wthh,
-        einkommen=wohngeld_eink_m_wthh,
-        miete=wohngeld_miete_m_wthh,
-        wohngeld_params=wohngeld_params,
+        einkommen_m=wohngeld_eink_m_wthh,
+        miete_m=wohngeld_miete_m_wthh,
+        params=wohngeld_params,
     )
 
 
@@ -748,7 +751,7 @@ def wohngeld_vor_vermög_check_m_bg(
     """
     return _wohngeld_basisformel(
         anz_personen=anz_personen_bg,
-        einkommen=wohngeld_eink_m_bg,
-        miete=wohngeld_miete_m_bg,
-        wohngeld_params=wohngeld_params,
+        einkommen_m=wohngeld_eink_m_bg,
+        miete_m=wohngeld_miete_m_bg,
+        params=wohngeld_params,
     )

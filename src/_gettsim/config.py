@@ -79,6 +79,7 @@ SUPPORTED_GROUPINGS = {
         "name": "wohngeldrechtlicher Teilhaushalt",
         "description": "Members of a household for whom the Wohngeld priority check "
         "yields the same result.",
+        "potentially_endogenous": True,
     },
     "fg": {
         "name": "Familiengemeinschaft",
@@ -97,6 +98,7 @@ SUPPORTED_GROUPINGS = {
         "name": "Einstandsgemeinschaft / Einstandspartner",
         "description": "A couple whose members are deemed to be responsible for each"
         " other.",
+        "potentially_endogenous": True,
     },
     "ehe": {
         "name": "Ehepartner",

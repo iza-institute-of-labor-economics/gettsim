@@ -5,9 +5,7 @@ info:
     child drops out of Bedarfsgemeinschaft and all of Kindergeld is transfered to the
     parent via Kindergeldübertrag.
   source: >-
-    https://www.buerger-geld.org/rechner/ergebnis/ (doesn't include Kindersofortzuschlag
-    and Kindergeldübertrag needs to be added manually to budget of parent
-    Bedarfsgemeinschaft.)
+    Made up.
 inputs:
   provided:
     p_id:
@@ -133,7 +131,11 @@ inputs:
       - 2024
       - 2024
       - 2024
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_wthh:
+      - 0.0
+      - 0.0
+      - 0.0
+    wohngeld_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -180,12 +182,12 @@ outputs:
     - 410.0
     - 410.0
   arbeitsl_geld_2_regelsatz_m_bg:
-    - 1040.56
-    - 1040.56
+    - 1175.68
+    - 1175.68
     - 410.0
   arbeitsl_geld_2_regelbedarf_m_bg:
-    - 1473.89
-    - 1473.89
+    - 1609.01
+    - 1609.01
     - 626.67
   arbeitsl_geld_2_kost_unterk_m_bg:
     - 433.33
@@ -193,13 +195,17 @@ outputs:
     - 216.67
   arbeitsl_geld_2_eink_m:
     - 530.0
-    - 530.0
+    - 250.0
     - 1050.0
+  arbeitsl_geld_2_eink_anr_frei_m:
+    - 170.0
+    - 0.0
+    - 0.0
   _mean_kindergeld_per_child_m:
     - 250.0
     - 0.0
     - 0.0
   arbeitsl_geld_2_m_bg:
-    - 693.89
-    - 693.89
+    - 829.01
+    - 829.01
     - 0.0

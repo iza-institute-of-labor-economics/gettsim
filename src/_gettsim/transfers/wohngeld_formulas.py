@@ -5,7 +5,7 @@ def _wohngeld_basisformel(
     anz_personen: int,
     einkommen_m: float,
     miete_m: float,
-    wohngeld_params: dict,
+    params: dict,
 ):
     """Basic formula for housing benefit calculation.
 
@@ -20,21 +20,21 @@ def _wohngeld_basisformel(
         Sum of income of people Wohngeld should be calculated for.
     miete_m
         Sum of rent.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
 
     Returns
     -------
 
     """
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+    max_berücks_personen = params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
 
-    koeffizienten = wohngeld_params["koeffizienten_berechnungsformel"][
+    koeffizienten = params["koeffizienten_berechnungsformel"][
         min(anz_personen, max_berücks_personen)
     ]
-    out = wohngeld_params["faktor_berechnungsformel"] * (
+    out = params["faktor_berechnungsformel"] * (
         miete_m
         - (
             (
@@ -52,7 +52,7 @@ def _wohngeld_basisformel(
         # The maximum is still capped at `miete_m`.
         out = min(
             out
-            + wohngeld_params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
+            + params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
             * (anz_personen - max_berücks_personen),
             miete_m,
         )
@@ -61,10 +61,10 @@ def _wohngeld_basisformel(
 
 
 def _wohngeld_nach_vermög_check_formel(
-    wohngeld_basisbetrag_m: float,
+    basisbetrag_m: float,
     vermögen: float,
     anz_personen: int,
-    wohngeld_params: dict,
+    params: dict,
 ) -> float:
     """Set preliminary housing benefit to zero if it exceeds the wealth exemption.
 
@@ -76,14 +76,14 @@ def _wohngeld_nach_vermög_check_formel(
 
     Parameters
     ----------
-    wohngeld_basisbetrag_m
+    basisbetrag_m
         Wohngeld as calculated via the basic formula (`_wohngeld_basisformel`).
     vermögen
         Relevant wealth of the Wohngeld recipients.
     anz_personen
         Number of people Wohngeld is being calculated for.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
 
     Returns
     -------
@@ -91,10 +91,10 @@ def _wohngeld_nach_vermög_check_formel(
     """
 
     if vermögen <= (
-        wohngeld_params["vermögensgrundfreibetrag"]
-        + (wohngeld_params["vermögensfreibetrag_pers"] * (anz_personen - 1))
+        params["vermögensgrundfreibetrag"]
+        + (params["vermögensfreibetrag_pers"] * (anz_personen - 1))
     ):
-        out = wohngeld_basisbetrag_m
+        out = basisbetrag_m
     else:
         out = 0.0
 
@@ -105,8 +105,8 @@ def _wohngeld_max_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen: int,
     bruttokaltmiete_m: float,
-    wohngeld_min_miete_m: float,
-    wohngeld_params: dict,
+    min_miete_m: float,
+    params: dict,
 ) -> float:
     """Formula for maximum rent considered in housing benefit since 2009.
 
@@ -121,18 +121,18 @@ def _wohngeld_max_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
         Number of people Wohngeld is being calculated for.
     bruttokaltmiete_m
         Sum of monthly rent.
-    wohngeld_min_miete_m
+    min_miete_m
         Minimum monthly rent.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
 
     Returns
     -------
 
     """
-    params_max_miete = wohngeld_params["max_miete"]
+    params_max_miete = params["max_miete"]
 
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+    max_berücks_personen = params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
     berücks_personen = min(anz_personen, max_berücks_personen)
@@ -150,73 +150,67 @@ def _wohngeld_max_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
 
     # Calc heating allowance. Until 2020, heating allowance was not
     # introduced yet. For this time frame, the respective parameter is
-    # not part of wohngeld_params and heating allowance is set to 0.
+    # not part of params and heating allowance is set to 0.
     # TODO(@MImmesberger): Apply dates_active decorator.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/711
-    if "heizkostenentlastung_m" in wohngeld_params:
+    if "heizkostenentlastung_m" in params:
         max_def_hh_größe_heating = max(
-            i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
+            i for i in params["heizkostenentlastung_m"] if isinstance(i, int)
         )
-    if "heizkostenentlastung_m" in wohngeld_params:
+    if "heizkostenentlastung_m" in params:
         if anz_personen <= max_def_hh_größe_heating:
-            heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                anz_personen
-            ]
+            heating_allowance_m = params["heizkostenentlastung_m"][anz_personen]
         else:
-            heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
+            heating_allowance_m = params["heizkostenentlastung_m"][
                 max_def_hh_größe_heating
             ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["heizkostenentlastung_m"]["jede_weitere_person"]
+                params["heizkostenentlastung_m"]["jede_weitere_person"]
             )
     else:
         heating_allowance_m = 0
 
     # Calc heating cost component. Until 2022, heating cost component was not
     # introduced yet. For this time frame, the respective parameter is not part
-    # of wohngeld_params and heating cost component is set to 0.
-    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
+    # of params and heating cost component is set to 0.
+    if "dauerhafte_heizkostenkomponente_m" in params:
         max_def_hh_größe_heating = max(
-            i
-            for i in wohngeld_params["dauerhafte_heizkostenkomponente_m"]
-            if isinstance(i, int)
+            i for i in params["dauerhafte_heizkostenkomponente_m"] if isinstance(i, int)
         )
-    if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
+    if "dauerhafte_heizkostenkomponente_m" in params:
         if anz_personen <= max_def_hh_größe_heating:
-            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+            heating_component_m = params["dauerhafte_heizkostenkomponente_m"][
                 anz_personen
             ]
         else:
-            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+            heating_component_m = params["dauerhafte_heizkostenkomponente_m"][
                 max_def_hh_größe_heating
             ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                    "jede_weitere_person"
-                ]
+                params["dauerhafte_heizkostenkomponente_m"]["jede_weitere_person"]
             )
     else:
         heating_component_m = 0
 
     # Calc climate component. Until 2022, climate component was not
     # introduced yet. For this time frame, the respective parameter is not
-    # part of wohngeld_params and climate component is set to 0.
-    if "klimakomponente_m" in wohngeld_params:
+    # part of params and climate component is set to 0.
+    if "klimakomponente_m" in params:
         max_def_hh_größe_heating = max(
-            i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
+            i for i in params["klimakomponente_m"] if isinstance(i, int)
         )
-    if "klimakomponente_m" in wohngeld_params:
+    if "klimakomponente_m" in params:
         if anz_personen <= max_def_hh_größe_heating:
-            climate_component_m = wohngeld_params["klimakomponente_m"][anz_personen]
+            climate_component_m = params["klimakomponente_m"][anz_personen]
         else:
-            climate_component_m = wohngeld_params["klimakomponente_m"][
+            climate_component_m = params["klimakomponente_m"][
                 max_def_hh_größe_heating
             ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
+                params["klimakomponente_m"]["jede_weitere_person"]
             )
     else:
         climate_component_m = 0
 
     out = min(bruttokaltmiete_m, max_miete_m + climate_component_m)
-    out = max(out, wohngeld_min_miete_m) + heating_allowance_m + heating_component_m
+    out = max(out, min_miete_m) + heating_allowance_m + heating_component_m
 
     return out
 
@@ -226,8 +220,8 @@ def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
     immobilie_baujahr: int,
     anz_personen: int,
     bruttokaltmiete_m: float,
-    wohngeld_min_miete_m: float,
-    wohngeld_params: dict,
+    min_miete_m: float,
+    params: dict,
 ) -> float:
     """Formula for maximum rent considered in housing benefit until 2008.
 
@@ -244,16 +238,16 @@ def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
         Number of people Wohngeld is being calculated for.
     bruttokaltmiete_m
         Sum of monthly rent.
-    wohngeld_min_miete_m
+    min_miete_m
         Minimum monthly rent.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
 
     Returns
     -------
 
     """
-    max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
+    max_berücks_personen = params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
     berücks_personen = min(anz_personen, max_berücks_personen)
@@ -261,7 +255,7 @@ def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
     # size.
-    params_max_miete = wohngeld_params["max_miete"]
+    params_max_miete = params["max_miete"]
     selected_bin_index = np.searchsorted(
         sorted(params_max_miete[1]), immobilie_baujahr, side="left"
     )
@@ -280,12 +274,12 @@ def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
         )
 
     out = min(bruttokaltmiete_m, max_miete_m)
-    out = max(out, wohngeld_min_miete_m)
+    out = max(out, min_miete_m)
 
     return out
 
 
-def _wohngeld_min_miete_formel(anz_personen: int, wohngeld_params: dict) -> float:
+def _wohngeld_min_miete_formel(anz_personen: int, params: dict) -> float:
     """Formula for minimal rent considered in housing benefi.
 
     Note: This function is not a direct target in the DAG, but a helper function to
@@ -295,15 +289,13 @@ def _wohngeld_min_miete_formel(anz_personen: int, wohngeld_params: dict) -> floa
     ----------
     anz_personen
         Number of people Wohngeld is being calculated for.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
     Returns
     -------
 
     """
-    out = wohngeld_params["min_miete"][
-        min(anz_personen, max(wohngeld_params["min_miete"]))
-    ]
+    out = params["min_miete"][min(anz_personen, max(params["min_miete"]))]
     return float(out)
 
 
@@ -311,7 +303,7 @@ def _wohngeld_einkommen_formula(
     anz_personen: int,
     einkommen_freibetrag: float,
     einkommen_vor_freibetrag: float,
-    wohngeld_params: dict,
+    params: dict,
 ) -> float:
     """Calculate final income relevant for calculation of housing benefit on household
     level.
@@ -325,17 +317,15 @@ def _wohngeld_einkommen_formula(
         Income that is not considered for Wohngeld calculation.
     einkommen_vor_freibetrag
         Sum of income.
-    wohngeld_params
-        See params documentation :ref:`wohngeld_params <wohngeld_params>`.
+    params
+        See params documentation :ref:`params <params>`.
 
     Returns
     -------
 
     """
-    wohngeld_eink_nach_abzug_m_hh = einkommen_vor_freibetrag - einkommen_freibetrag
-    unteres_eink = wohngeld_params["min_eink"][
-        min(anz_personen, max(wohngeld_params["min_eink"]))
-    ]
+    eink_nach_abzug_m_hh = einkommen_vor_freibetrag - einkommen_freibetrag
+    unteres_eink = params["min_eink"][min(anz_personen, max(params["min_eink"]))]
 
-    out = max(wohngeld_eink_nach_abzug_m_hh, unteres_eink)
+    out = max(eink_nach_abzug_m_hh, unteres_eink)
     return float(out)
