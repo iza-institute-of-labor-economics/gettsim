@@ -6,8 +6,8 @@ from _gettsim.shared import policy_info
 from _gettsim.transfers.wohngeld_formulas import (
     _wohngeld_basisformel,
     _wohngeld_einkommen_formula,
-    _wohngeld_max_miete_formel_ab_2009,
-    _wohngeld_max_miete_formel_bis_2009,
+    _wohngeld_miete_formel_ab_2009,
+    _wohngeld_miete_formel_bis_2009,
     _wohngeld_min_miete_formel,
     _wohngeld_nach_vermög_check_formel,
 )
@@ -489,7 +489,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximal rent subject housing benefit calculation on household level until 2008.
+    """Rent considered in housing benefit calculation on household level until 2008.
 
     This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
     that passed the priority check against ALG2 and Kinderzuschlag.
@@ -513,7 +513,7 @@ def wohngeld_miete_bis_2008_m_wthh(  # noqa: PLR0913
     -------
 
     """
-    return _wohngeld_max_miete_formel_bis_2009(
+    return _wohngeld_miete_formel_bis_2009(
         mietstufe=mietstufe,
         immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_wthh,
@@ -532,7 +532,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     wohngeld_min_miete_m_bg: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximal rent subject housing benefit calculation on household level until 2008.
+    """Rent considered in housing benefit calculation on household level until 2008.
 
     This target is used for the priority check calculation against ALG2 and
     Kinderzuschlag on the Bedarfsgemeinschaft level.
@@ -556,7 +556,7 @@ def wohngeld_miete_bis_2008_m_bg(  # noqa: PLR0913
     -------
 
     """
-    return _wohngeld_max_miete_formel_bis_2009(
+    return _wohngeld_miete_formel_bis_2009(
         mietstufe=mietstufe,
         immobilie_baujahr=immobilie_baujahr_hh,
         anz_personen=anz_personen_bg,
@@ -574,7 +574,7 @@ def wohngeld_miete_ab_2009_m_wthh(
     wohngeld_min_miete_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximum rent considered in housing benefit since 2009.
+    """Rent considered in housing benefit since 2009.
 
     This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
     that passed the priority check against ALG2 and Kinderzuschlag.
@@ -596,7 +596,7 @@ def wohngeld_miete_ab_2009_m_wthh(
     -------
 
     """
-    return _wohngeld_max_miete_formel_ab_2009(
+    return _wohngeld_miete_formel_ab_2009(
         mietstufe=mietstufe,
         anz_personen=anz_personen_wthh,
         bruttokaltmiete_m=anteil_bruttokaltmiete_m_wthh,
@@ -613,7 +613,7 @@ def wohngeld_miete_ab_2009_m_bg(
     wohngeld_min_miete_m_bg: float,
     wohngeld_params: dict,
 ) -> float:
-    """Maximum rent considered in housing benefit since 2009.
+    """Rent considered in housing benefit since 2009.
 
     This target is used for the priority check calculation against ALG2 and
     Kinderzuschlag on the Bedarfsgemeinschaft level.
@@ -635,7 +635,7 @@ def wohngeld_miete_ab_2009_m_bg(
     -------
 
     """
-    return _wohngeld_max_miete_formel_ab_2009(
+    return _wohngeld_miete_formel_ab_2009(
         mietstufe=mietstufe,
         anz_personen=anz_personen_bg,
         bruttokaltmiete_m=anteil_bruttokaltmiete_m_bg,
@@ -660,7 +660,7 @@ def _wohngeld_nach_vermög_check_m_wthh(
     wohngeld_vor_vermög_check_m_wthh
         See :func:`wohngeld_vor_vermög_check_m_wthh`.
     vermögen_bedürft_wthh
-        See basic input variable :ref:`vermögen_bedürft_wthh <vermögen_bedürft_wthh>`.
+        See :func:`vermögen_bedürft_wthh <vermögen_bedürft_wthh>`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     wohngeld_params
@@ -695,7 +695,7 @@ def wohngeld_nach_vermög_check_m_bg(
     wohngeld_vor_vermög_check_m_bg
         See :func:`wohngeld_vor_vermög_check_m_bg`.
     vermögen_bedürft_bg
-        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+        See :func:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
     wohngeld_params

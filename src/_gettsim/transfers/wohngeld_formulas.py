@@ -101,14 +101,14 @@ def _wohngeld_nach_vermög_check_formel(
     return out
 
 
-def _wohngeld_max_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
+def _wohngeld_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen: int,
     bruttokaltmiete_m: float,
     min_miete_m: float,
     params: dict,
 ) -> float:
-    """Formula for maximum rent considered in housing benefit since 2009.
+    """Formula for rent considered in housing benefit since 2009.
 
     Note: This function is not a direct target in the DAG, but a helper function to
     store the code for Wohngeld calculation.
@@ -215,7 +215,7 @@ def _wohngeld_max_miete_formel_ab_2009(  # noqa: PLR0912 (see #516)
     return out
 
 
-def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
+def _wohngeld_miete_formel_bis_2009(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr: int,
     anz_personen: int,
@@ -223,7 +223,7 @@ def _wohngeld_max_miete_formel_bis_2009(  # noqa: PLR0913
     min_miete_m: float,
     params: dict,
 ) -> float:
-    """Formula for maximum rent considered in housing benefit until 2008.
+    """Formula for rent considered in housing benefit until 2008.
 
     Note: This function is not a direct target in the DAG, but a helper function to
     store the code for Wohngeld calculation.

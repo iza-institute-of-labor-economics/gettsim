@@ -7,169 +7,85 @@ inputs:
     p_id:
       - 0
       - 1
-      - 2
-      - 3
-      - 4
     hh_id:
-      - 0
-      - 0
-      - 0
       - 0
       - 0
     p_id_einstandspartner:
       - 1
       - 0
-      - -1
-      - -1
-      - -1
     p_id_ehepartner:
       - 1
       - 0
-      - -1
-      - -1
-      - -1
     p_id_kindergeld_empf:
-      - -1
-      - -1
-      - -1
       - -1
       - -1
     eigenbedarf_gedeckt:
       - false
       - false
-      - false
-      - false
-      - false
     kind:
       - false
       - false
-      - false
-      - false
-      - false
     bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
-      - 700.0
-      - 700.0
+      - 500.0
+      - 500.0
     mietstufe:
-      - 3
-      - 3
-      - 3
-      - 3
-      - 3
+      - 1
+      - 1
     behinderungsgrad:
-      - 0
-      - 0
-      - 0
       - 0
       - 0
     alleinerz:
       - false
       - false
-      - false
-      - false
-      - false
     kindergeld_anspruch:
       - false
       - false
-      - false
-      - false
-      - false
     bruttolohn_m:
-      - 500.0
-      - 500.0
-      - 0.0
-      - 0.0
-      - 0.0
+      - 1000.0
+      - 1000.0
     wohngeld_vorrang_bg:
       - true
       - true
-      - false
-      - false
-      - false
     kinderzuschl_vorrang_bg:
       - true
       - true
-      - false
-      - false
-      - false
     wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
-      - false
-      - false
-      - false
     eink_selbst_y:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     eink_vermietung_y:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     arbeitsl_geld_m:
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     sonstig_eink_m:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     eink_rente_zu_verst_m:
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     kind_unterh_erhalt_m:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     unterhaltsvors_m:
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     elterngeld_anr_m:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     wohngeld_abzüge_st_sozialv_m:
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     rentner:
       - false
       - false
-      - false
-      - false
-      - false
     vermögen_bedürft:
-      - 0.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
   assumed: {}
@@ -177,12 +93,21 @@ outputs:
   wthh_id:
     - 1
     - 1
-    - 0
-    - 0
-    - 0
+  anteil_bruttokaltmiete_m_wthh:
+    - 500.0
+    - 500.0
+  anz_personen_wthh:
+    - 2
+    - 2
+  wohngeld_miete_m_wthh:
+    - 500.0
+    - 500.0
+  wohngeld_vor_vermög_check_m_wthh:
+    - 228.0
+    - 228.0
+  wohngeld_vor_vermög_check_m_bg:
+    - 228.0
+    - 228.0
   wohngeld_m_wthh:
-    - 271.0
-    - 271.0
-    - 0.0
-    - 0.0
-    - 0.0
+    - 228.0
+    - 228.0
