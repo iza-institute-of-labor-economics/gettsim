@@ -93,20 +93,20 @@ SUPPORTED_GROUPINGS = {
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
-    "sn": {
-        "name": "Steuernummer",
-        "description": "Spouses filing taxes jointly or individuals.",
-        "potentially_endogenous": True,
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
     },
     "ehe": {
         "name": "Ehepartner",
         "description": "Couples that are either married or in a civil union.",
         "potentially_endogenous": True,
     },
-    "eg": {
-        "name": "Einstandsgemeinschaft / Einstandspartner",
-        "description": "A couple whose members are deemed to be responsible for each"
-        " other.",
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 

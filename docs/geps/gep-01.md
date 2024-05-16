@@ -125,16 +125,22 @@ of aggregation.
 GETTSIM knows about the following units:
 
 - `p_id`: person identifier
-- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
-  Germany-wide Steuer-ID)
 - `hh_id`: Haushalt, the relevant unit for Wohngeld. Encompasses more people than the
   Bedarfsgemeinschaft (e.g., possibly more than 2 generations).
+- `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
+  priority check for Wohngeld/ALG2 yields the same result. This unit is based on the
+  priority check via `wohngeld_vorrang_bg` and `wohngeld_kinderzuschl_vorrang_bg`.
 - `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
   Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
   Bedarfsgemeinschaft before making checks for whether children have enough income fend
   for themselves. Subset of `hh`.
 - `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft plus for whether children
   have enough income to fend for themselves. Subset of `fg_id`.
+- `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
+  for each other.
+- `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
+- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
+  Germany-wide Steuer-ID)
 
 Note that households do not include flat shares etc.. Such broader definition are
 currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
