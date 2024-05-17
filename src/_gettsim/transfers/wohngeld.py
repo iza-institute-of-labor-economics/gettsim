@@ -437,57 +437,6 @@ def wohngeld_eink_m_bg(
     )
 
 
-def wohngeld_min_miete_m_wthh(
-    wohngeld_min_miete_m_hh: float,
-    anz_personen_wthh: int,
-    anz_personen_hh: int,
-) -> float:
-    """Minimum rent considered in Wohngeld calculation on wohngeldrechtlicher
-    Teilhaushalt level.
-
-    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
-
-    Parameters
-    ----------
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
-    anz_personen_wthh
-        See :func:`anz_personen_wthh`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    Returns
-    -------
-
-    """
-    return wohngeld_min_miete_m_hh * (anz_personen_wthh / anz_personen_hh)
-
-
-def wohngeld_min_miete_m_bg(
-    wohngeld_min_miete_m_hh: float,
-    anz_personen_bg: int,
-    anz_personen_hh: int,
-) -> float:
-    """Minimum rent considered in Wohngeld calculation on BG level.
-
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag on the Bedarfsgemeinschaft level.
-
-    Parameters
-    ----------
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
-    anz_personen_hh
-        See :func:`anz_personen_hh`.
-    Returns
-    -------
-
-    """
-    return wohngeld_min_miete_m_hh * (anz_personen_bg / anz_personen_hh)
-
-
 def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
     """Minimum rent considered in Wohngeld calculation.
 
