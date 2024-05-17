@@ -54,9 +54,11 @@ def wohngeld_m_wthh(
     """
     # TODO (@MImmesberger): This implementation may be only an approximation of the
     # actual rules for individuals that are on the margin of the priority check.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752
-    # TODO (@MImmesberger): Remove erwachsene_alle_rentner_hh condition once households
-    # can get both Grundsicherung im Alter and ALG2/Wohngeld.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752 TODO
+    # (@MImmesberger): No interaction between Wohngeld/ALG2 and Grundsicherung im Alter
+    # (SGB XII) is implemented yet. We assume for now that households with only retirees
+    # are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All other
+    # households are not eligible for SGB XII, but SGB II / Wohngeld.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
 
     if not erwachsene_alle_rentner_hh and (
