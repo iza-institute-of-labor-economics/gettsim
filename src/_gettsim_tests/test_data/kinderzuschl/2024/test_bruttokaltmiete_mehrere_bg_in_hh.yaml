@@ -118,7 +118,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  kinderzuschl_m_bg:
+  _kinderzuschl_nach_vermög_check_m_bg:
     - 292.0
     - 292.0
     - 0.0
