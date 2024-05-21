@@ -311,7 +311,7 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
     name_in_dag="ges_pflegev_beitr_selbst_m",
 )
 def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
+    _ges_krankenv_bemessungsgrundlage_eink_selbständig: float,
     ges_pflegev_beitr_satz: float,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution until 2004.
@@ -322,8 +322,8 @@ def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
     Parameters
     ----------
 
-    _ges_krankenv_bemessungsgrundlage_eink_selbst
-        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
+    _ges_krankenv_bemessungsgrundlage_eink_selbständig
+        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbständig`.
 
     ges_pflegev_beitr_satz
         See :func:`ges_pflegev_beitr_satz`.
@@ -333,14 +333,16 @@ def ges_pflegev_beitr_selbst_m_ohne_zusatz_fuer_kinderlose(
     Monthly care insurance contributions for self employed income.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_eink_selbst * (ges_pflegev_beitr_satz * 2)
+    out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
+        ges_pflegev_beitr_satz * 2
+    )
 
     return out
 
 
 @policy_info(start_date="2005-01-01", name_in_dag="ges_pflegev_beitr_selbst_m")
 def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
-    _ges_krankenv_bemessungsgrundlage_eink_selbst: float,
+    _ges_krankenv_bemessungsgrundlage_eink_selbständig: float,
     ges_pflegev_beitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -352,8 +354,8 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
     Parameters
     ----------
 
-    _ges_krankenv_bemessungsgrundlage_eink_selbst
-        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbst`.
+    _ges_krankenv_bemessungsgrundlage_eink_selbständig
+        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbständig`.
 
     ges_pflegev_beitr_satz
         See :func:`ges_pflegev_beitr_satz`.
@@ -366,7 +368,7 @@ def ges_pflegev_beitr_selbst_m_zusatz_kinderlos_dummy(
     Monthly care insurance contributions for self employed income.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_eink_selbst * (
+    out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
         ges_pflegev_beitr_satz
         + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
