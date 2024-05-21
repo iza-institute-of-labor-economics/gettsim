@@ -1,34 +1,35 @@
 ---
 info:
-  note: ''
+  note: https://www.kindergeld.org/kindergeldrechner/
   source: ''
 inputs:
   provided:
     hh_id:
-      - 12
+      - 0
+      - 0
     p_id:
-      - 39
+      - 0
+      - 1
     p_id_kindergeld_empf:
       - -1
+      - 0
     alter:
-      - 35
+      - 45
+      - 15
     kind:
       - false
+      - true
     arbeitsstunden_w:
+      - 40.0
       - 0.0
     in_ausbildung:
       - false
-    bruttolohn_m:
-      - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
-      - 0.0
+      - true
   assumed: {}
 outputs:
   kindergeld_m:
-    - 0
-  kinderbonus_m:
+    - 250.0
     - 0.0
-  kindergeld_m_hh:
-    - 0
-  kinderbonus_m_hh:
+  kindergeld_zur_bedarfsdeckung_m:
     - 0.0
+    - 250.0

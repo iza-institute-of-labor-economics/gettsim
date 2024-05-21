@@ -47,7 +47,7 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
     arbeitsl_geld_2_regelsatz_m_bg: float,
     arbeitsl_geld_2_kost_unterk_m_bg: float,
 ) -> float:
-    """Basic monthly subsistence level on household level.
+    """Basic monthly subsistence level on Bedarfsgemeinschaft level.
 
     This includes cost of dwelling.
 
@@ -244,17 +244,18 @@ def arbeitsl_geld_2_regelsatz_m_bg_bis_2010(
     """
     weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
-        out = arbeitsl_geld_2_params["regelsatz"] * (
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
-    else:
-        out = arbeitsl_geld_2_params["regelsatz"] * (
+    elif anz_erwachsene_bg >= 2:
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
             2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
             + weitere_erwachsene
             * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
         )
-
-    return out + arbeitsl_geld_2_kindersatz_m_bg
+    else:
+        satz_erwachsene = 0
+    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
 
 
 @policy_info(start_date="2011-01-01", name_in_dag="arbeitsl_geld_2_regelsatz_m_bg")
@@ -288,22 +289,21 @@ def arbeitsl_geld_2_regelsatz_m_bg_ab_2011(
 
     weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
     if anz_erwachsene_bg == 1:
-        out = arbeitsl_geld_2_params["regelsatz"][1] * (
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         )
-    else:
-        out = arbeitsl_geld_2_params["regelsatz"][2] * (
+    elif anz_erwachsene_bg >= 2:
+        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][2] * (
             2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
         ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
+    elif anz_erwachsene_bg == 0:
+        satz_erwachsene = 0
 
-    return out + arbeitsl_geld_2_kindersatz_m_bg
+    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
 
 
-def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
+def arbeitsl_geld_2_vor_vorrang_m_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    kindergeld_m_bg: float,
-    kind_unterh_erhalt_m_bg: float,
-    unterhaltsvors_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
     vermögen_bedürft_bg: float,
     arbeitsl_geld_2_vermög_freib_bg: float,
@@ -316,13 +316,6 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    kindergeld_m_bg
-        See :func:`kindergeld_m_bg`.
-    kind_unterh_erhalt_m_bg
-        See basic input variable
-        :ref:`kind_unterh_erhalt_m_bg <kind_unterh_erhalt_m_bg>`.
-    unterhaltsvors_m_bg
-        See :func:`unterhaltsvors_m_bg`.
     arbeitsl_geld_2_eink_m_bg
         See :func:`arbeitsl_geld_2_eink_m_bg`.
     arbeitsl_geld_2_vermög_freib_bg
@@ -342,11 +335,7 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(  # noqa: PLR0913
         # Deduct income from various sources
         out = max(
             0.0,
-            arbeitsl_geld_2_regelbedarf_m_bg
-            - arbeitsl_geld_2_eink_m_bg
-            - kind_unterh_erhalt_m_bg
-            - unterhaltsvors_m_bg
-            - kindergeld_m_bg,
+            arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
         )
 
     return out

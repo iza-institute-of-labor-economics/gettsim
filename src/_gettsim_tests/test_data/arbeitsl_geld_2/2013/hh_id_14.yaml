@@ -84,7 +84,7 @@ inputs:
     sozialv_beitr_m:
       - 160.0
       - 0.0
-    kindergeld_m_bg:
+    kindergeld_m:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
@@ -125,7 +125,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 240.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 500.0
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:

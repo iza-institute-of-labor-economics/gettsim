@@ -110,10 +110,14 @@ inputs:
       - 204.0
       - 0.0
       - 140.0
-    kindergeld_m_bg:
+    kindergeld_m:
       - 0.0
       - 0.0
       - 0.0
+    kindergeld_anz_ansprüche:
+      - 0
+      - 0
+      - 0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -164,7 +168,7 @@ outputs:
     - 348.0
     - 0.0
     - 238.0
-  arbeitsl_geld_2_eink_m:
+  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 648.0
     - 0.0
     - 322.0

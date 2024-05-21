@@ -477,7 +477,7 @@ Type: float
 ## `m_alg1_übergang`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
-Arbeitslosengeld, Unterhaltsgeld,Übergangsgeld
+Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
 
 Type: float
 
@@ -599,13 +599,14 @@ Type: float
 
 ## `kind_unterh_anspr_m`
 
-Monthly gross child alimony payments to be received as determined by the court
+Monthly gross child alimony payments to be received as determined by the court on child
+level
 
 Type: float
 
 ## `kind_unterh_erhalt_m`
 
-Monthly actual child alimony payments received
+Monthly actual child alimony payments received on child level
 
 Type: float
 

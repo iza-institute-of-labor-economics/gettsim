@@ -18,7 +18,7 @@ aggregate_by_p_id_kindergeld = {
 
 @policy_info(start_date="2023-01-01", name_in_dag="kindergeld_m")
 def kindergeld_ohne_staffelung_m(
-    kindergeld_anz_ansprüche: bool,
+    kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
@@ -43,7 +43,7 @@ def kindergeld_ohne_staffelung_m(
 
 @policy_info(end_date="2022-12-31", name_in_dag="kindergeld_m")
 def kindergeld_gestaffelt_m(
-    kindergeld_anz_ansprüche: bool,
+    kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.

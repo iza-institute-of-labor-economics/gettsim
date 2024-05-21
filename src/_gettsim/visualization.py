@@ -4,7 +4,7 @@ import operator
 from functools import reduce
 
 import networkx as nx
-import numpy as np
+import numpy
 import pandas as pd
 import plotly.graph_objects as go
 from pygments import highlight, lexers
@@ -113,7 +113,7 @@ def plot_dag(
     names = layout_df.index
     node_x_coord = layout_df[0].values
     node_y_coord = layout_df[1].values
-    url = np.array([dag.nodes[x]["url"] for x in names])
+    url = numpy.array([dag.nodes[x]["url"] for x in names])
     codes = [dag.nodes[x]["source_code"] for x in names]
 
     combo = pd.DataFrame(
@@ -389,26 +389,26 @@ def _create_pygraphviz_layout(dag, orientation):
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
     layout = {
-        integer_to_labels[i]: np.array(integer_layout[i]) for i in integer_to_labels
+        integer_to_labels[i]: numpy.array(integer_layout[i]) for i in integer_to_labels
     }
 
     # Convert nonnegative integer coordinates from the layout to unit cube.
     min_x = min(i[0] for i in layout.values())
     min_y = min(i[1] for i in layout.values())
-    min_ = np.array([min_x, min_y])
+    min_ = numpy.array([min_x, min_y])
 
     max_x = max(i[0] for i in layout.values())
     max_y = max(i[1] for i in layout.values())
-    max_ = np.array([max_x, max_y])
+    max_ = numpy.array([max_x, max_y])
 
     for k, v in layout.items():
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     if orientation == "v":
-        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
+        layout_df = numpy.transpose(pd.DataFrame.from_dict(layout))
 
     elif orientation == "h":
-        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
+        layout_df = numpy.transpose(pd.DataFrame.from_dict(layout))
         layout_df[[0, 1]] = layout_df[[1, 0]]
         layout_df[0] = layout_df[0] * (-1)
 
