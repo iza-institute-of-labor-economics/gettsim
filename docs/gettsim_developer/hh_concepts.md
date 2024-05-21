@@ -1,4 +1,4 @@
-# Relevant concepts of units of individuals
+# Relevant unit concepts
 
 This document describes the concepts of units and intra-personal relationships that are
 present in GETTSIM for the specific taxes and transfers. While some transfers are
@@ -14,14 +14,15 @@ child allowances).
 
 The units are:
 
-| Unit                  | ID     | Description                                                                                                                                                   | Endogenous |
-| --------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| Haushalt              | hh_id  | The relevant unit for Wohngeld. Encompasses more people than the Bedarfsgemeinschaft (e.g., possibly more than 2 generations)                                 | no         |
-| Familiengemeinschaft  | fg_id  | Maximum of two generations, the relevant base unit for Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough income fend for themselves. | yes        |
-| Bedarfsgemeinschaft   | bg_id  | Familiengemeinschaft except for children who have enough income to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2.                    | yes        |
-| Steuernummer          | sn_id  | Spouses filing taxes jointly or individuals.                                                                                                                  | yes        |
-| Ehepartner            | ehe_id | Couples that are either married or in a civil union.                                                                                                          | yes        |
-| Einstandsgemeinschaft | eg_id  | A couple whose members are deemed to be responsible for each other.                                                                                           | yes        |
+| Unit                             | ID      | Description                                                                                                                                                     | Endogenous |
+| -------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Haushalt                         | hh_id   | Individuals that live together in one household in the Wohngeld sense (§5 WoGG).                                                                                | no         |
+| wohngeldrechtlicher Teilhaushalt | wthh_id | The relevant unit for Wohngeld. Encompasses all members of a household for whom the Vorrangprüfung of Wohngeld against ALG2/Kinderzuschlag has the same result. | yes        |
+| Familiengemeinschaft             | fg_id   | Maximum of two generations, the relevant base unit for Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough income fend for themselves.   | yes        |
+| Bedarfsgemeinschaft              | bg_id   | Familiengemeinschaft except for children who have enough income to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2.                      | yes        |
+| Steuernummer                     | sn_id   | Spouses filing taxes jointly or individuals.                                                                                                                    | yes        |
+| Ehepartner                       | ehe_id  | Couples that are either married or in a civil union.                                                                                                            | yes        |
+| Einstandsgemeinschaft            | eg_id   | A couple whose members are deemed to be responsible for each other.                                                                                             | yes        |
 
 ## Taxes
 
