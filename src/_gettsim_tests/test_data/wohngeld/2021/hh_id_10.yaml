@@ -52,7 +52,7 @@ inputs:
       - 0.0
     ges_rentenv_beitr_arbeitnehmer_m:
       - 100.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 80.0
     behinderungsgrad:
       - 0

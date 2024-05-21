@@ -1,7 +1,7 @@
 from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_m")
+@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,
@@ -41,7 +41,7 @@ def ges_krankenv_beitr_m_vor_midijob(
     return out + ges_krankenv_beitr_rente_m
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_m")
+@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rente_m: float,

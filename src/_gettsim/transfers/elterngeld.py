@@ -269,7 +269,7 @@ def elterngeld_nettolohn_m(
     eink_st_y_sn: float,
     soli_st_y_sn: float,
     anz_personen_sn: int,
-    sozialv_beitr_m: float,
+    sozialv_beitr_arbeitnehmer_m: float,
 ) -> float:
     """Calculate the net wage.
 
@@ -286,8 +286,8 @@ def elterngeld_nettolohn_m(
         See :func:`soli_st_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_arbeitnehmer_m
+        See :func:`sozialv_beitr_arbeitnehmer_m`.
 
     Returns
     -------
@@ -297,7 +297,7 @@ def elterngeld_nettolohn_m(
         bruttolohn_m
         - (eink_st_y_sn / anz_personen_sn / 12)
         - (soli_st_y_sn / anz_personen_sn / 12)
-        - sozialv_beitr_m
+        - sozialv_beitr_arbeitnehmer_m
     )
 
     return max(out, 0.0)

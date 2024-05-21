@@ -24,7 +24,7 @@ inputs:
       - 218.96
     soli_st_y_sn:
       - 12.04
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 378.0
     geburtsjahr:
       - 1974

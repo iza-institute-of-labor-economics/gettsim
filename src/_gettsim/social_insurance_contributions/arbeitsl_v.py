@@ -3,34 +3,34 @@
 from _gettsim.shared import policy_info
 
 
-def sozialv_beitr_m(
-    ges_pflegev_beitr_m: float,
-    ges_krankenv_beitr_m: float,
+def sozialv_beitr_arbeitnehmer_m(
+    ges_pflegev_beitr_arbeitnehmer_m: float,
+    ges_krankenv_beitr_arbeitnehmer_m: float,
     ges_rentenv_beitr_arbeitnehmer_m: float,
-    arbeitsl_v_beitr_m: float,
+    arbeitsl_v_beitr_arbeitnehmer_m: float,
 ) -> float:
     """Sum of employee's social insurance contributions.
 
     Parameters
     ----------
-    ges_pflegev_beitr_m
-        See :func:`ges_pflegev_beitr_m`.
-    ges_krankenv_beitr_m
-        See :func:`ges_krankenv_beitr_m`.
+    ges_pflegev_beitr_arbeitnehmer_m
+        See :func:`ges_pflegev_beitr_arbeitnehmer_m`.
+    ges_krankenv_beitr_arbeitnehmer_m
+        See :func:`ges_krankenv_beitr_arbeitnehmer_m`.
     ges_rentenv_beitr_arbeitnehmer_m
         See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
-    arbeitsl_v_beitr_m
-        See :func:`arbeitsl_v_beitr_m`.
+    arbeitsl_v_beitr_arbeitnehmer_m
+        See :func:`arbeitsl_v_beitr_arbeitnehmer_m`.
 
     Returns
     -------
 
     """
     out = (
-        ges_pflegev_beitr_m
-        + ges_krankenv_beitr_m
+        ges_pflegev_beitr_arbeitnehmer_m
+        + ges_krankenv_beitr_arbeitnehmer_m
         + ges_rentenv_beitr_arbeitnehmer_m
-        + arbeitsl_v_beitr_m
+        + arbeitsl_v_beitr_arbeitnehmer_m
     )
     return out
 
@@ -67,28 +67,28 @@ def sozialv_beitr_arbeitgeber_m(
     return out
 
 
-def _sozialv_beitr_arbeitnehmer_arbeitgeber_m(
-    sozialv_beitr_m: float,
+def _sozialv_beitr_summe_m(
+    sozialv_beitr_arbeitnehmer_m: float,
     sozialv_beitr_arbeitgeber_m: float,
 ) -> float:
     """Sum of employer's and employee's social insurance contributions.
 
     Parameters
     ----------
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_arbeitnehmer_m
+        See :func:`sozialv_beitr_arbeitnehmer_m`.
     sozialv_beitr_arbeitgeber_m
         See :func:`sozialv_beitr_arbeitgeber_m`.
     Returns
     -------
 
     """
-    out = sozialv_beitr_m + sozialv_beitr_arbeitgeber_m
+    out = sozialv_beitr_arbeitnehmer_m + sozialv_beitr_arbeitgeber_m
     return out
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="arbeitsl_v_beitr_m")
-def arbeitsl_v_beitr_m_vor_midijob(
+@policy_info(end_date="2003-03-31", name_in_dag="arbeitsl_v_beitr_arbeitnehmer_m")
+def arbeitsl_v_beitr_arbeitnehmer_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
     sozialv_beitr_params: dict,
@@ -122,8 +122,8 @@ def arbeitsl_v_beitr_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="arbeitsl_v_beitr_m")
-def arbeitsl_v_beitr_m_mit_midijob(
+@policy_info(start_date="2003-04-01", name_in_dag="arbeitsl_v_beitr_arbeitnehmer_m")
+def arbeitsl_v_beitr_arbeitnehmer_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
     _arbeitsl_v_beitr_midijob_arbeitnehmer_m: float,
@@ -333,7 +333,7 @@ def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
     _arbeitsl_v_beitr_midijob_arbeitgeber_m: float,
 ) -> float:
-    """Employees' unemployment insurance contribution for Midijobs until September
+    """Employee's unemployment insurance contribution for Midijobs until September
     2022.
 
     Parameters
