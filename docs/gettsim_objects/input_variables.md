@@ -10,7 +10,7 @@ household.
 
 ## `hh_id`
 
-Household identifier
+Household identifier following §5 WoGG
 
 Type: int
 

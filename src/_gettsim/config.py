@@ -70,15 +70,15 @@ INTERNAL_PARAMS_GROUPS = [
 SUPPORTED_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
-        "description": "The relevant unit for Wohngeld. Encompasses more people than"
-        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
-        " unit for Wohngeld.",
+        "description": "Individuals living together in a household in the Wohngeld"
+        " sense (§5 WoGG).",
         "potentially_endogenous": False,
     },
     "wthh": {
         "name": "wohngeldrechtlicher Teilhaushalt",
-        "description": "Members of a household for whom the Wohngeld priority check "
-        "compared to Bürgergeld yields the same result ∈ {True, False}.",
+        "description": "The relevant unit for Wohngeld. Members of a household for whom"
+        " the Wohngeld priority check compared to Bürgergeld yields the same result"
+        " ∈ {True, False}.",
         "potentially_endogenous": True,
     },
     "fg": {
