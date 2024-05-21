@@ -63,6 +63,9 @@ def test_all_default_targets_among_function_names(time_indep_function_names):
 
 @pytest.mark.skip(reason="Target names will change very soon.")
 def test_length_column_names_default_targets():
+    # TODO(@MImmesberger): Unskip test once target names are updated after updating DAG
+    # to include Namespaces.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/760
     check_length(
         column_names=DEFAULT_TARGETS, limit=GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS
     )
@@ -79,6 +82,7 @@ def skip_test_length_column_names_input_variables(default_input_variables):
 def test_length_column_names_other_functions(time_indep_function_names):
     # TODO(@MImmesberger): Unskip test once target names are updated after updating DAG
     # to include Namespaces.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/760
     # Consider all functions that are not purely internal (starting with an underscore)
     # and not part of default targets
     other_function_names = [
