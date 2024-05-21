@@ -14,15 +14,15 @@ child allowances).
 
 The units are:
 
-| Unit                             | ID      | Description                                                                                                                                                     | Endogenous |
-| -------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| Haushalt                         | hh_id   | Individuals that live together in one household in the Wohngeld sense (§5 WoGG).                                                                                | no         |
-| wohngeldrechtlicher Teilhaushalt | wthh_id | The relevant unit for Wohngeld. Encompasses all members of a household for whom the Vorrangprüfung of Wohngeld against ALG2/Kinderzuschlag has the same result. | yes        |
-| Familiengemeinschaft             | fg_id   | Maximum of two generations, the relevant base unit for Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough income fend for themselves.   | yes        |
-| Bedarfsgemeinschaft              | bg_id   | Familiengemeinschaft except for children who have enough income to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2.                      | yes        |
-| Steuernummer                     | sn_id   | Spouses filing taxes jointly or individuals.                                                                                                                    | yes        |
-| Ehepartner                       | ehe_id  | Couples that are either married or in a civil union.                                                                                                            | yes        |
-| Einstandsgemeinschaft            | eg_id   | A couple whose members are deemed to be responsible for each other.                                                                                             | yes        |
+| Unit                             | ID      | Description                                                                                                                                                                     | Endogenous |
+| -------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Haushalt                         | hh_id   | Individuals that live together in one household in the Wohngeld sense (§5 WoGG).                                                                                                | no         |
+| wohngeldrechtlicher Teilhaushalt | wthh_id | The relevant unit for Wohngeld. Encompasses all members of a household for whom the Vorrangprüfung of Wohngeld against ALG2/Kinderzuschlag has the same result ∈ {True, False}. | yes        |
+| Familiengemeinschaft             | fg_id   | Maximum of two generations, the relevant base unit for Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough income fend for themselves.                   | yes        |
+| Bedarfsgemeinschaft              | bg_id   | Familiengemeinschaft except for children who have enough income to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2.                                      | yes        |
+| Steuernummer                     | sn_id   | Spouses filing taxes jointly or individuals.                                                                                                                                    | yes        |
+| Ehepartner                       | ehe_id  | Couples that are either married or in a civil union.                                                                                                                            | yes        |
+| Einstandsgemeinschaft            | eg_id   | A couple whose members are deemed to be responsible for each other.                                                                                                             | yes        |
 
 ## Taxes
 
@@ -48,8 +48,7 @@ The units are:
 - Don't have to be part of the same household
 - Possibly claim on more than one Freibetrag for one child due to
   - no child support payed by other parent
-  - other parent now known
-  - Needs to be specified by the user currently
+  - other parent not known
 
 #### Pointers
 
@@ -140,6 +139,7 @@ The units are:
 #### Description
 
 - Couples that were married or in a civil union
+- Not implemented yet
 
 #### Aggregation unit
 
@@ -157,7 +157,9 @@ The units are:
 
 - Bedarfsgemeinschaft comprised of:
   - Einstandsgemeinschaft (SGB II - max 2 adults, marriage-like relationships)
-  - Children under 18/25 whose income does not exceed their own needs.
+  - Children under 18/25 whose income does not exceed their own needs. - The
+    "Kinderwohngeld" allows children to leave the Bedarfsgemeinschaft if Wohngeld (and
+    other sourced of income) is sufficient to cover their needs. Not implemented yet.
 - Note: A household may exist of several Bedarfsgemeinschaften
   - e.g. parents and adult children aged above 18/25
   - Income/wealth of related members of the household may be considered
@@ -199,12 +201,13 @@ Regarding the household definition:
 
 #### Aggregation unit
 
-- `eg_id` (endogenous)
-- if `bg_id` and `eg_id` are the same, take `bg_id`
+- Not implemented yet. The current `eg_id` is not sufficient as it doesn't include
+  children (it follows the SGB II definition).
+- Potentially, `bg_id` could be used as the aggregation unit.
 
 #### Pointers
 
-- `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
+- `hh_id`, `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Grundsicherung im Alter / bei Erwerbsminderung)
 
@@ -222,8 +225,10 @@ Government expenditures: 7 Mrd €
 
 #### Aggregation unit
 
-- `eg_id` (endogenous)
-- if `bg_id` and `eg_id` are the same, take `bg_id`
+- Currently: `eg_id` (endogenous)
+- The current implementation of `eg_id` is not sufficient as it doesn't include children
+  (it follows the SGB II definition).
+- Potentially, `bg_id` could be used as the aggregation unit.
 
 #### Pointers
 
@@ -235,11 +240,15 @@ Government expenditures: 7 Mrd €
 
 Government expenditures: 20 Mrd €
 
+- Not implemented.
+
 ### SGB XII (Hilfe zur Pflege)
 
 #### Description
 
 Government expenditures: 4 Mrd €
+
+- Not implemented.
 
 ### Interactions between SGB II / SGB XII
 
@@ -251,7 +260,7 @@ Government expenditures: 4 Mrd €
 
 #### Description
 
-- Household
+- Household (§5 WoGG)
   - Applicant
   - Spouse / registered partner / life partner (as long as in same household)
   - Parents (incl. step-, foster- and in-laws) (as long as in same household)
@@ -269,19 +278,31 @@ Government expenditures: 4 Mrd €
     - The prerequisite for all household members is that they live with the applicant
       live in a shared apartment or house and are also registered there.
   - Other relatives
+- wohngeldrechtlicher Teilhaushalt: Level at which the transfer is paid out. A household
+  consists of at most one wohngeldrechtlicher Teilhaushalt with positive Wohngeld
+  transfer and may consist of several additional Bedarfsgemeinschaften.
+  - Wohngeld has priority over SGB II transfers. The Vorrangprüfung decides which
+    Bedarfsgemeinschaft gets Wohngeld and which gets SGB II.
+  - Households that consist of at least one Bedarfsgemeinschaft and one
+    wohngeldrechtlicher Teilhaushalt are called "Mischhaushalte".
 
 #### Aggregation unit
 
-- `hh_id` (exogenous)
+- `wthh_id` (endogenous)
+
+#### Pointers
+
+- `hh_id`, `p_id_einstandspartner`, `p_id_elternteil_1`, `p_id_elternteil_2` (exogenous)
 
 ### Kinderwohngeld
 
 #### Description
 
-- E.g. single parent with one child
-- Child cannot cover own needs with Unterhaltsleistungen, Kindergeld, Kinderzuschlag,
-  Wohngeld
-- Child drops out of Bedarfsgemeinschaft
+- Children that are part of the Bedarfsgemeinschaft of their parents can receive
+  Wohngeld to drop out of the Bedarfsgemeinschaft ("Kinderwohngeld")
+- Only possible if the child can cover its needs with the Wohngeld transfer
+- Does not happen automatically, but upon request by the parents
+- Not implemented yet.
 
 ## Modelling groupings
 
@@ -292,9 +313,9 @@ Government expenditures: 4 Mrd €
   - A student flatshare would have different values for `hh_id`
 - Bedarfsgemeinschaft from:
   - Einstandspartner `p_id_einstandspartner`
-  - Children under 17/24, unless resolved
+  - Children under 18/25, unless resolved
     - via own income
-    - Kinderwohngeld
+    - (Kinderwohngeld)
 
 #### Limitations
 
@@ -311,7 +332,7 @@ Government expenditures: 4 Mrd €
 
   Typically, 1. will be the solution (hurdles for joint economic activity are high).
 
-- An alternative would be another ID variable that specifies Haushaltsgemeinschaft
+- An alternative would be another ID variable that specifies Einstandsgemeinschaft
   according to SGB II and SGB XII.
 
 ### Parts of the data not available
