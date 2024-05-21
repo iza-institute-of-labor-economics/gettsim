@@ -101,7 +101,7 @@ def vorsorge_krankenv_option_b_ab_2019(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_beitr_satz: float,
+    ges_pflegev_beitr_satz_arbeitnehmer: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deductions: "Option a" and "Option b".
@@ -116,8 +116,8 @@ def vorsorge_krankenv_option_b_ab_2019(
         See :func:ges_krankenv_zusatzbeitr_satz`.
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
-    ges_pflegev_beitr_satz:
-        See :func:ges_pflegev_beitr_satz`.
+    ges_pflegev_beitr_satz_arbeitnehmer:
+        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
 
 
     Returns
@@ -132,7 +132,7 @@ def vorsorge_krankenv_option_b_ab_2019(
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
             + ges_krankenv_zusatzbeitr_satz / 2 / 100
-            + ges_pflegev_beitr_satz
+            + ges_pflegev_beitr_satz_arbeitnehmer
         )
     )
 
@@ -148,7 +148,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_beitr_satz: float,
+    ges_pflegev_beitr_satz_arbeitnehmer: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deductions: "Option a" and "Option b".
@@ -161,8 +161,8 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
         See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
-    ges_pflegev_beitr_satz:
-        See :func:ges_pflegev_beitr_satz`.
+    ges_pflegev_beitr_satz_arbeitnehmer:
+        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
 
 
     Returns
@@ -177,7 +177,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
             + ges_krankenv_zusatzbeitr_satz / 100
-            + ges_pflegev_beitr_satz
+            + ges_pflegev_beitr_satz_arbeitnehmer
         )
     )
 
