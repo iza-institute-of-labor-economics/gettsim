@@ -47,7 +47,7 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     ges_krankenv_beitr_rente_m: float,
     ges_krankenv_beitr_selbst_m: float,
     in_gleitzone: bool,
-    _ges_krankenv_beitr_midijob_arbeitn_m: float,
+    _ges_krankenv_beitr_midijob_arbeitnehmer_m: float,
     _ges_krankenv_beitr_reg_beschäftigt_m: float,
     selbstständig: bool,
 ) -> float:
@@ -61,8 +61,8 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
         See :func:`ges_krankenv_beitr_rente_m`.
     ges_krankenv_beitr_selbst_m
         See :func:`ges_krankenv_beitr_selbst_m`.
-    _ges_krankenv_beitr_midijob_arbeitn_m
-        See :func:`_ges_krankenv_beitr_midijob_arbeitn_m`.
+    _ges_krankenv_beitr_midijob_arbeitnehmer_m
+        See :func:`_ges_krankenv_beitr_midijob_arbeitnehmer_m`.
     _ges_krankenv_beitr_reg_beschäftigt_m
         See :func:`_ges_krankenv_beitr_reg_beschäftigt_m`.
     in_gleitzone
@@ -81,7 +81,7 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     elif geringfügig_beschäftigt:
         out = 0.0
     elif in_gleitzone:
-        out = _ges_krankenv_beitr_midijob_arbeitn_m
+        out = _ges_krankenv_beitr_midijob_arbeitnehmer_m
     else:
         out = _ges_krankenv_beitr_reg_beschäftigt_m
 
@@ -89,8 +89,8 @@ def ges_krankenv_beitr_m_mit_midijob(  # noqa: PLR0913
     return out + ges_krankenv_beitr_rente_m
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitg_m")
-def ges_krankenv_beitr_arbeitg_m_vor_midijob(
+@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
+def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     bruttolohn_m: float,
     _ges_krankenv_bruttolohn_m: float,
@@ -131,12 +131,12 @@ def ges_krankenv_beitr_arbeitg_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitg_m")
-def ges_krankenv_beitr_arbeitg_m_mit_midijob(
+@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
+def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
     bruttolohn_m: float,
-    _ges_krankenv_beitr_midijob_arbeitg_m: float,
+    _ges_krankenv_beitr_midijob_arbeitgeber_m: float,
     _ges_krankenv_bruttolohn_m: float,
     selbstständig: bool,
     sozialv_beitr_params: dict,
@@ -148,8 +148,8 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     ----------
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
-    _ges_krankenv_beitr_midijob_arbeitg_m
-        See :func:`_ges_krankenv_beitr_midijob_arbeitg_m`.
+    _ges_krankenv_beitr_midijob_arbeitgeber_m
+        See :func:`_ges_krankenv_beitr_midijob_arbeitgeber_m`.
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -174,7 +174,7 @@ def ges_krankenv_beitr_arbeitg_m_mit_midijob(
     elif geringfügig_beschäftigt:
         out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
     elif in_gleitzone:
-        out = _ges_krankenv_beitr_midijob_arbeitg_m
+        out = _ges_krankenv_beitr_midijob_arbeitgeber_m
     else:
         out = _ges_krankenv_bruttolohn_m * _ges_krankenv_beitr_satz_arbeitg
 
@@ -321,7 +321,7 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitn(
     end_date="2008-12-31",
     name_in_dag="_ges_krankenv_beitr_satz_jahresanfang",
 )
-def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitn_jahresanfang(  # noqa: E501
+def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -390,7 +390,7 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitn(
     end_date="2018-12-31",
     name_in_dag="_ges_krankenv_beitr_satz_jahresanfang",
 )
-def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitn_jahresanfang(
+def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -480,7 +480,7 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_paritätisch_jahresanfang(
     end_date="2008-12-31",
     name_in_dag="_ges_krankenv_beitr_satz_arbeitg",
 )
-def ges_krankenv_beitr_satz_arbeitg_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitn(
+def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitn(
     sozialv_beitr_params: dict,
 ) -> float:
     """Contribution rates of employers for health insurance. Zusatzbeitrag irrelevant.
@@ -500,9 +500,9 @@ def ges_krankenv_beitr_satz_arbeitg_mean_kassenspezifisch_zusatzbeitrag_nur_arbe
 
 @policy_info(
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitg_jahresanfang",
+    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
-def ges_krankenv_beitr_satz_arbeitg_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitn_jahresanfang(  # noqa: E501
+def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
 ) -> float:
     """Contribution rates of employers for health insurance. Zusatzbeitrag irrelevant.
@@ -530,7 +530,7 @@ def ges_krankenv_beitr_satz_arbeitg_mean_kassenspezifisch_zusatzbeitrag_nur_arbe
     end_date="2018-12-31",
     name_in_dag="_ges_krankenv_beitr_satz_arbeitg",
 )
-def ges_krankenv_beitr_satz_arbeitg_einheitlich_zusatzbeitrag_nur_arbeitn(
+def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitn(
     sozialv_beitr_params: dict,
 ) -> float:
     """Contribution rates of employers for health insurance. Uniform contribution rate
@@ -552,9 +552,9 @@ def ges_krankenv_beitr_satz_arbeitg_einheitlich_zusatzbeitrag_nur_arbeitn(
 @policy_info(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitg_jahresanfang",
+    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
-def ges_krankenv_beitr_satz_arbeitg_einheitlich_zusatzbeitrag_nur_arbeitn_jahresanfang(
+def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
 ) -> float:
     """Contribution rates of employers for health insurance at the beginning of the
@@ -579,7 +579,7 @@ def ges_krankenv_beitr_satz_arbeitg_einheitlich_zusatzbeitrag_nur_arbeitn_jahres
     start_date="2019-01-01",
     name_in_dag="_ges_krankenv_beitr_satz_arbeitg",
 )
-def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch(
+def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
     ges_krankenv_beitr_satz: float,
 ) -> float:
     """Contribution rates of employers for health insurance since 2019.
@@ -600,9 +600,9 @@ def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch(
 
 @policy_info(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitg_jahresanfang",
+    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
-def _ges_krankenv_beitr_satz_arbeitg_zusatzbeitrag_paritätisch_jahresanfang(
+def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
     _ges_krankenv_beitr_satz_jahresanfang: float,
 ) -> float:
     """Contribution rates of employers for health insurance for the beginning
@@ -822,7 +822,7 @@ def ges_krankenv_beitr_rente_m(
 
 
 @policy_info(start_date="2003-04-01")
-def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
+def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz: float,
     _ges_krankenv_beitr_satz_arbeitg: float,
@@ -852,9 +852,9 @@ def _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m(
 @policy_info(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_ges_krankenv_beitr_midijob_arbeitg_m",
+    name_in_dag="_ges_krankenv_beitr_midijob_arbeitgeber_m",
 )
-def _ges_krankenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
+def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitg: float
 ) -> float:
     """Employers' health insurance contribution for midijobs until September 2022.
@@ -880,11 +880,11 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_anteil_bruttolohn(
 
 
 @policy_info(
-    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitg_m"
+    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitgeber_m"
 )
-def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
-    _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
-    _ges_krankenv_beitr_midijob_arbeitn_m: float,
+def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
+    _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
+    _ges_krankenv_beitr_midijob_arbeitnehmer_m: float,
     in_gleitzone: bool,
 ) -> float:
     """Calculating the employer health insurance contribution for midijobs since October
@@ -892,10 +892,10 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
 
     Parameters
     ----------
-    _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m`.
-    _ges_krankenv_beitr_midijob_arbeitn_m
-        See :func:`_ges_krankenv_beitr_midijob_arbeitn_m`.
+    _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
+        See :func:`_ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m`.
+    _ges_krankenv_beitr_midijob_arbeitnehmer_m
+        See :func:`_ges_krankenv_beitr_midijob_arbeitnehmer_m`.
     in_gleitzone
         See :func:`in_gleitzone`.
     _ges_krankenv_beitr_satz_arbeitg
@@ -906,8 +906,8 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
     """
     if in_gleitzone:
         out = (
-            _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m
-            - _ges_krankenv_beitr_midijob_arbeitn_m
+            _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
+            - _ges_krankenv_beitr_midijob_arbeitnehmer_m
         )
     else:
         out = 0.0
@@ -918,35 +918,35 @@ def _ges_krankenv_beitr_midijob_arbeitg_m_residuum(
 @policy_info(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_ges_krankenv_beitr_midijob_arbeitn_m",
+    name_in_dag="_ges_krankenv_beitr_midijob_arbeitnehmer_m",
 )
-def _ges_krankenv_beitr_midijob_arbeitn_m_residuum(
-    _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m: float,
-    _ges_krankenv_beitr_midijob_arbeitg_m: float,
+def _ges_krankenv_beitr_midijob_arbeitnehmer_m_residuum(
+    _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
+    _ges_krankenv_beitr_midijob_arbeitgeber_m: float,
 ) -> float:
     """Employee's health insurance contribution for midijobs until September 2022.
 
     Parameters
     ----------
-    _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m
-        See :func:`_ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m`.
-    _ges_krankenv_beitr_midijob_arbeitg_m
-        See :func:`_ges_krankenv_beitr_midijob_arbeitg_m`.
+    _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
+        See :func:`_ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m`.
+    _ges_krankenv_beitr_midijob_arbeitgeber_m
+        See :func:`_ges_krankenv_beitr_midijob_arbeitgeber_m`.
     Returns
     -------
 
     """
     return (
-        _ges_krankenv_beitr_midijob_sum_arbeitn_arbeitg_m
-        - _ges_krankenv_beitr_midijob_arbeitg_m
+        _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
+        - _ges_krankenv_beitr_midijob_arbeitgeber_m
     )
 
 
 @policy_info(
-    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitn_m"
+    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitnehmer_m"
 )
-def _ges_krankenv_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
-    _midijob_beitragspfl_einnahme_arbeitn_m: float,
+def _ges_krankenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
+    _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
     ges_krankenv_beitr_satz: float,
 ) -> float:
     """Calculating the employee health insurance contribution for midijobs since October
@@ -954,12 +954,12 @@ def _ges_krankenv_beitr_midijob_arbeitn_m_anteil_beitragspfl_einnahme(
 
     Parameters
     ----------
-    _midijob_beitragspfl_einnahme_arbeitn_m
-        See :func:`_midijob_beitragspfl_einnahme_arbeitn_m`.
+    _midijob_beitragspfl_einnahme_arbeitnehmer_m
+        See :func:`_midijob_beitragspfl_einnahme_arbeitnehmer_m`.
     ges_krankenv_beitr_satz
         See :func:`ges_krankenv_beitr_satz`.
     Returns
     -------
 
     """
-    return _midijob_beitragspfl_einnahme_arbeitn_m * ges_krankenv_beitr_satz
+    return _midijob_beitragspfl_einnahme_arbeitnehmer_m * ges_krankenv_beitr_satz

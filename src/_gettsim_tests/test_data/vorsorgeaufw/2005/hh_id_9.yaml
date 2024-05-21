@@ -18,7 +18,7 @@ inputs:
       - false
     priv_rentenv_beitr_m:
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 162.5
     arbeitsl_v_beitr_m:
       - 0.0

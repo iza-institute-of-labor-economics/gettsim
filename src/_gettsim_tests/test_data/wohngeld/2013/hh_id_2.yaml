@@ -70,7 +70,7 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 100.0
       - 0.0
     ges_krankenv_beitr_m:

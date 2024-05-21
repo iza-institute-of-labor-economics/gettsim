@@ -125,7 +125,7 @@ DEFAULT_TARGETS = [
     "soli_st_y_sn",
     "abgelt_st_y_sn",
     "sozialv_beitr_m",
-    "ges_rentenv_beitr_m",
+    "ges_rentenv_beitr_arbeitnehmer_m",
     "arbeitsl_v_beitr_m",
     "ges_krankenv_beitr_m",
     "ges_pflegev_beitr_m",

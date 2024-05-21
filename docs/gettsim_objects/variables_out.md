@@ -8,7 +8,7 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`ges_rentenv_beitr_m <_gettsim.functions.ges_rentenv_beitr_m>`
+* - {func}`ges_rentenv_beitr_arbeitnehmer_m <_gettsim.functions.ges_rentenv_beitr_arbeitnehmer_m>`
   - Monthly amount employee old-age pensions contributions
 * - {func}`arbeitsl_v_beitr_m <_gettsim.functions.arbeitsl_v_beitr_m>`
   - Monthly amount employee unempl. insurance contributions

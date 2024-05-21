@@ -50,7 +50,7 @@ def wohngeld_m_hh(
 
 def wohngeld_abzüge_st_sozialv_m(
     eink_st_y_sn: float,
-    ges_rentenv_beitr_m: float,
+    ges_rentenv_beitr_arbeitnehmer_m: float,
     ges_krankenv_beitr_m: float,
     kind: bool,
     wohngeld_params: dict,
@@ -64,8 +64,8 @@ def wohngeld_abzüge_st_sozialv_m(
     ----------
     eink_st_y_sn
         See :func:`eink_st_y_sn`.
-    ges_rentenv_beitr_m
-        See :func:`ges_rentenv_beitr_m`.
+    ges_rentenv_beitr_arbeitnehmer_m
+        See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
     ges_krankenv_beitr_m
         See :func:`ges_krankenv_beitr_m`.
     kind
@@ -78,7 +78,9 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_y_sn > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
+        (eink_st_y_sn > 0)
+        + (ges_rentenv_beitr_arbeitnehmer_m > 0)
+        + (ges_krankenv_beitr_m > 0)
     )
     if kind:
         out = 0.0

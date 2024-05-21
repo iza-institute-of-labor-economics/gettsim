@@ -45,13 +45,13 @@ outputs:
   sozialv_beitr_m:
     - 0.0
     - 63.15
-  sozialv_beitr_arbeitg_m:
+  sozialv_beitr_arbeitgeber_m:
     - 0.0
     - 63.15
-  _sozialv_beitr_arbeitn_arbeitg_m:
+  _sozialv_beitr_arbeitnehmer_arbeitgeber_m:
     - 0.0
     - 126.30
-  ges_rentenv_beitr_m:
+  ges_rentenv_beitr_arbeitnehmer_m:
     - 0.0
     - 30.45
   arbeitsl_v_beitr_m:
@@ -63,15 +63,15 @@ outputs:
   ges_pflegev_beitr_m:
     - 0.0
     - 2.55
-  ges_rentenv_beitr_arbeitg_m:
+  ges_rentenv_beitr_arbeitgeber_m:
     - 0.0
     - 30.45
-  arbeitsl_v_beitr_arbeitg_m:
+  arbeitsl_v_beitr_arbeitgeber_m:
     - 0.0
     - 9.75
-  ges_krankenv_beitr_arbeitg_m:
+  ges_krankenv_beitr_arbeitgeber_m:
     - 0.0
     - 20.40
-  ges_pflegev_beitr_arbeitg_m:
+  ges_pflegev_beitr_arbeitgeber_m:
     - 0.0
     - 2.55

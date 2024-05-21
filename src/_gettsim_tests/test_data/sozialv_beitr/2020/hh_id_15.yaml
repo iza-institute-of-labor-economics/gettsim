@@ -30,11 +30,11 @@ inputs:
 outputs:
   sozialv_beitr_m:
     - 603.75
-  sozialv_beitr_arbeitg_m:
+  sozialv_beitr_arbeitgeber_m:
     - 596.25
-  _sozialv_beitr_arbeitn_arbeitg_m:
+  _sozialv_beitr_arbeitnehmer_arbeitgeber_m:
     - 1200.0
-  ges_rentenv_beitr_m:
+  ges_rentenv_beitr_arbeitnehmer_m:
     - 279.0
   arbeitsl_v_beitr_m:
     - 36.0
