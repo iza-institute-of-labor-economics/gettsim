@@ -283,6 +283,8 @@ Government expenditures: 4 Mrd €
   transfer and may consist of several additional Bedarfsgemeinschaften.
   - Wohngeld has priority over SGB II transfers. The Vorrangprüfung decides which
     Bedarfsgemeinschaft gets Wohngeld and which gets SGB II.
+  - If no or all household members receive Bürgergeld instead of an SGB II transfer, the
+    wohngeldrechtlicher Teilhaushalt equals the Haushalt, i.e. `wthh_id = hh_id`.
   - Households that consist of at least one Bedarfsgemeinschaft and one
     wohngeldrechtlicher Teilhaushalt are called "Mischhaushalte".
 
@@ -304,20 +306,7 @@ Government expenditures: 4 Mrd €
 - Does not happen automatically, but upon request by the parents
 - Not implemented yet.
 
-## Modelling groupings
-
-### Complete data
-
-- Parent-child relationships via `p_id_elternteil_1` and `p_id_elternteil_2`
-- Household concept of Wohngeld determines `hh_id`
-  - A student flatshare would have different values for `hh_id`
-- Bedarfsgemeinschaft from:
-  - Einstandspartner `p_id_einstandspartner`
-  - Children under 18/25, unless resolved
-    - via own income
-    - (Kinderwohngeld)
-
-#### Limitations
+## Limitations
 
 - Within a Wohngeldhaushalt, no distinction can be made between persons without
   Einstandsverpflichtung according to SGB II or SGB XII and those with
