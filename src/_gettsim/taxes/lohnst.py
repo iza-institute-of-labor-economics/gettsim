@@ -131,7 +131,7 @@ def vorsorge_krankenv_option_b_ab_2019(
         * 12
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + ges_krankenv_zusatzbeitr_satz / 2 / 100
+            + ges_krankenv_zusatzbeitr_satz / 2
             + ges_pflegev_beitr_satz_arbeitnehmer
         )
     )
@@ -176,7 +176,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
         * 12
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + ges_krankenv_zusatzbeitr_satz / 100
+            + ges_krankenv_zusatzbeitr_satz
             + ges_pflegev_beitr_satz_arbeitnehmer
         )
     )
