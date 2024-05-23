@@ -88,7 +88,7 @@ inputs:
     soli_st_y_sn:
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 50.0
       - 50.0
     kindergeld_m_eg:

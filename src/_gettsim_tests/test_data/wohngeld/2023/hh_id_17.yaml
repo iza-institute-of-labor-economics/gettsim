@@ -136,13 +136,13 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 123.8
       - 114.3
       - 0.0
       - 0.0
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 99.0
       - 91.4
       - 0.0
