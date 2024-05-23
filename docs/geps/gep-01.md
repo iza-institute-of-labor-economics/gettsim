@@ -139,8 +139,8 @@ GETTSIM knows about the following units:
   enough income to fend for themselves (they will form separate `bg`s). Subset of
   `fg_id`.
 - `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
-  for each other. This includes couples that live together and may or may
-  not be married or in a civil union.
+  for each other. This includes couples that live together and may or may not be married
+  or in a civil union.
 - `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
 - `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
   Germany-wide Steuer-ID)
