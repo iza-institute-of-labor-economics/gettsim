@@ -9,6 +9,8 @@ def ges_rentenv_beitr_arbeitnehmer_m_vor_midijob(
 ) -> float:
     """Employee's public pension insurance contribution.
 
+    Before Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -44,6 +46,8 @@ def ges_rentenv_beitr_arbeitnehmer_m_mit_midijob(
     in_gleitzone: bool,
 ) -> float:
     """Employee's public pension insurance contribution.
+
+    After Midijob introduction in April 2003.
 
     Parameters
     ----------
@@ -86,6 +90,8 @@ def ges_rentenv_beitr_arbeitgeber_m_vor_midijob(
 ) -> float:
     """Employer's public pension insurance contribution.
 
+    Before Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -124,6 +130,8 @@ def ges_rentenv_beitr_arbeitgeber_m_mit_midijob(
     bruttolohn_m: float,
 ) -> float:
     """Employer's public pension insurance contribution.
+
+    After Midijob introduction in April 2003.
 
     Parameters
     ----------
@@ -165,6 +173,7 @@ def _ges_rentenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     sozialv_beitr_params: dict,
 ) -> float:
     """Sum of employer and employee pension insurance contribution for midijobs.
+    Midijobs were introduced in April 2003.
 
     Parameters
     ----------
@@ -296,7 +305,7 @@ def _ges_rentenv_beitr_bruttolohn_m(
     bruttolohn_m: float,
     _ges_rentenv_beitr_bemess_grenze_m: float,
 ) -> float:
-    """Calculate the wage subject to pension and unemployment insurance contributions.
+    """Wage subject to pension and unemployment insurance contributions.
 
     Parameters
     ----------

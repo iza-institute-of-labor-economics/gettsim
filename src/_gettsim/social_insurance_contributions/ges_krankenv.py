@@ -11,6 +11,8 @@ def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
 ) -> float:
     """Employee's public health insurance contribution.
 
+    Before Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -52,6 +54,8 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     selbstständig: bool,
 ) -> float:
     """Employee's public health insurance contribution.
+
+    After Midijob introduction in April 2003.
 
     Parameters
     ----------
@@ -100,6 +104,8 @@ def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
 ) -> float:
     """Employer's public health insurance contribution.
 
+    Before Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -143,6 +149,8 @@ def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
     _ges_krankenv_beitr_satz_arbeitgeber: float,
 ) -> float:
     """Employer's public health insurance contribution.
+
+    After Midijob introduction in April 2003.
 
     Parameters
     ----------
@@ -189,7 +197,7 @@ def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
 def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Health insurance top-up rate until December 2014.
+    """Health insurance top-up (Zusatzbeitrag) rate until December 2014.
 
     Parameters
     ----------
@@ -212,7 +220,7 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
 def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Health insurance top-up rate since January 2015.
+    """Health insurance top-up rate (Zusatzbeitrag) since January 2015.
 
     Parameters
     ----------
@@ -234,9 +242,9 @@ def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
 def ges_krankenv_beitr_satz_arbeitnehmer(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance, just a basic split
-    between employees and employers. Incorporates regime changes regarding different
-    values across insurers (pick "official" mean) and same contribution rate for all.
+    """Employee's health insurance contribution rate until June 2005.
+
+    Basic split between employees and employers.
 
     Parameters
     ----------
@@ -258,10 +266,10 @@ def ges_krankenv_beitr_satz_arbeitnehmer(
 def _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance for the beginning
-    of a year, just a basic split between employees and employers. Incorporates
-    regime changes regarding different values across insurers (pick "official" mean)
-    and same contribution rate for all.
+    """Employee's health insurance contribution rate for the beginning of the year until
+    June 2005.
+
+    Basic split between employees and employers.
 
     Parameters
     ----------
@@ -290,11 +298,11 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance.
+    """Employee's health insurance contribution rate.
 
-    The contribution rates consists of a general rate (split equally between employers
-    and employees, differs across sickness funds) and a top-up rate, which is fully paid
-    by employees.
+    From July 2005 until December 2008. The contribution rates consists of a general
+    rate (split equally between employers and employees, differs across sickness funds)
+    and a top-up rate, which is fully paid by employees.
 
     Parameters
     ----------
@@ -325,12 +333,11 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance at the beginning of the
-    year.
+    """Employee's health insurance contribution rate at the beginning of the year.
 
-    The contribution rates consists of a general rate (split equally between employers
-    and employees, differs across sickness funds) and a top-up rate, which is fully paid
-    by employees.
+    From July 2005 until December 2008. The contribution rates consists of a general
+    rate (split equally between employers and employees, differs across sickness funds)
+    and a top-up rate, which is fully paid by employees.
 
     Parameters
     ----------
@@ -361,11 +368,11 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance.
+    """Employee's health insurance contribution rate.
 
-    The contribution rates consists of a general rate (split equally between employers
-    and employees, same for all sickness funds) and a top-up rate, which is fully paid
-    by employees.
+    From January 2009 until December 2018. The contribution rates consists of a general
+    rate (split equally between employers and employees, same for all sickness funds)
+    and a top-up rate, which is fully paid by employees.
 
     Parameters
     ----------
@@ -394,12 +401,11 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanf
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance at the beginning of the
-    year.
+    """Employee's health insurance contribution rate at the beginning of the year.
 
-    The contribution rates consists of a general rate (split equally between employers
-    and employees, same for all sickness funds) and a top-up rate, which is fully paid
-    by employees.
+    From January 2009 until December 2018. The contribution rates consists of a general
+    rate (split equally between employers and employees, same for all sickness funds)
+    and a top-up rate, which is fully paid by employees.
 
     Parameters
     ----------
@@ -429,9 +435,9 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance.
+    """Employee's health insurance contribution rate.
 
-    Zusatzbeitrag is split equally between employers and employees.
+    Since 2019. Zusatzbeitrag is split equally between employers and employees.
 
     Parameters
     ----------
@@ -456,8 +462,7 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employees for health insurance at the beginning of the
-    year.
+    """Employee's health insurance contribution rate at the beginning of the year.
 
     Zusatzbeitrag is now split equally between employers and employees.
 
@@ -483,7 +488,9 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang
 def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(  # noqa: E501
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employers for health insurance. Zusatzbeitrag irrelevant.
+    """Employer's health insurance contribution rate.
+
+    Until 2008, the top-up contribution rate (Zusatzbeitrag) was not considered.
 
     Parameters
     ----------
@@ -505,7 +512,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
 def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employers for health insurance. Zusatzbeitrag irrelevant.
+    """Employer's health insurance contribution rate at the begging of the year.
+
+    Until 2008, the top-up contribution rate (Zusatzbeitrag) was not considered.
 
     Parameters
     ----------
@@ -533,8 +542,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
 def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employers for health insurance. Uniform contribution rate
-    for all health insurers, Zusatzbeitrag irrelevant.
+    """Employer's health insurance contribution rate.
+
+    From 2009 until 2018, the contribution rate was uniform for all health insurers,
+    Zusatzbeitrag irrelevant.
 
     Parameters
     ----------
@@ -557,8 +568,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
 def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
 ) -> float:
-    """Contribution rates of employers for health insurance at the beginning of the
-    year. Uniform contribution rate for all health insurers, Zusatzbeitrag irrelevant.
+    """Employer's health insurance contribution rate at the beginning of the year.
+
+    From 2009 until 2018, the contribution rate was uniform for all health insurers,
+    Zusatzbeitrag irrelevant.
 
     Parameters
     ----------
@@ -582,9 +595,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
 def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
     ges_krankenv_beitr_satz_arbeitnehmer: float,
 ) -> float:
-    """Contribution rates of employers for health insurance since 2019.
+    """Employer's health insurance contribution rate.
 
-    The full contribution rate is now split equally between employers and employees.
+    Since 2019, the full contribution rate is now split equally between employers and
+    employees.
 
     Parameters
     ----------
@@ -605,10 +619,10 @@ def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
 def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
     _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
 ) -> float:
-    """Contribution rates of employers for health insurance for the beginning
-    of a year since 2019.
+    """Employer's health insurance contribution rate at the beginning of the year.
 
-    The full contribution rate is now split equally between employers and employees.
+    Since 2019, the full contribution rate is now split equally between employers and
+    employees.
 
     Parameters
     ----------
@@ -626,10 +640,10 @@ def _ges_krankenv_bruttolohn_reg_beschäftigt_m(
     bruttolohn_m: float,
     _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
-    """Calculate income subject to public health insurance contributions. This does not
-    consider reduced contributions for Mini- and Midijobs.
+    """Income subject to public health insurance contributions.
 
-    Relevant for the computation of payroll taxes.
+    This does not consider reduced contributions for Mini- and Midijobs. Relevant for
+    the computation of payroll taxes.
 
     Parameters
     ----------
@@ -650,8 +664,10 @@ def _ges_krankenv_bruttolohn_m(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
     regulär_beschäftigt: bool,
 ) -> float:
-    """Calculate the wage subject to public health insurance contributions. This affects
-    marginally employed persons and high wages for above the assessment ceiling.
+    """Wage subject to public health insurance contributions.
+
+    This affects marginally employed persons and high wages for above the assessment
+    ceiling.
 
     Parameters
     ----------
@@ -677,7 +693,7 @@ def _ges_krankenv_bruttolohn_m(
 def _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m(
     _ges_krankenv_bruttolohn_m: float, ges_krankenv_beitr_satz_arbeitnehmer: float
 ) -> float:
-    """Calculate employee's health insurance contributions for regular jobs.
+    """Employee's health insurance contributions for regular jobs.
 
     Parameters
     ----------
@@ -687,8 +703,6 @@ def _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m(
         See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions for regularly
-    employed income.
 
     """
 
@@ -703,9 +717,10 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbständig(
     _ges_krankenv_beitr_bemess_grenze_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Choose the amount of self-employed income which is subject to health insurance
-    contributions. The value is bounded from below and from above. Only affects those
-    self-employed who voluntarily contribute to the public health system.
+    """Self-employed income which is subject to health insurance contributions.
+
+    The value is bounded from below and from above. Only affects those self-employed who
+    voluntarily contribute to the public health system.
 
     Reference: §240 SGB V Abs. 4
 
@@ -764,7 +779,6 @@ def ges_krankenv_beitr_selbstständig_m(
 
     Returns
     -------
-    Monthly health insurance contributions for self-employed's income.
 
     """
 
@@ -788,7 +802,7 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
     sum_ges_rente_priv_rente_m: float,
     _ges_krankenv_beitr_bemess_grenze_m: float,
 ) -> float:
-    """Choose the amount of pension which is subject to health insurance contribution.
+    """Pension income which is subject to health insurance contribution.
 
     Parameters
     ----------
@@ -808,7 +822,7 @@ def ges_krankenv_beitr_rentner_m(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_krankenv_beitr_satz_arbeitnehmer: float,
 ) -> float:
-    """Calculate health insurance contributions for pension incomes.
+    """Health insurance contributions for pension incomes.
 
     Parameters
     ----------
@@ -818,8 +832,6 @@ def ges_krankenv_beitr_rentner_m(
         See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
     Returns
     -------
-    Pandas Series containing monthly health insurance contributions on pension income
-    income.
 
     """
 
@@ -834,8 +846,9 @@ def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     ges_krankenv_beitr_satz_arbeitnehmer: float,
     _ges_krankenv_beitr_satz_arbeitgeber: float,
 ) -> float:
-    """Calculating the sum of employee and employer health insurance contribution for
-    midijobs.
+    """Sum of employee and employer health insurance contribution for midijobs.
+
+    Midijobs were introduced in April 2003.
 
     Parameters
     ----------
@@ -866,6 +879,8 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
 ) -> float:
     """Employers' health insurance contribution for midijobs until September 2022.
 
+    Midijobs were introduced in April 2003.
+
     Parameters
     ----------
     bruttolohn_m
@@ -894,7 +909,7 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
     _ges_krankenv_beitr_midijob_arbeitnehmer_m: float,
     in_gleitzone: bool,
 ) -> float:
-    """Calculating the employer health insurance contribution for midijobs since October
+    """Employer's health insurance contribution for midijobs since October
     2022.
 
     Parameters
@@ -956,8 +971,7 @@ def _ges_krankenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
     ges_krankenv_beitr_satz_arbeitnehmer: float,
 ) -> float:
-    """Calculating the employee health insurance contribution for midijobs since October
-    2022.
+    """Employee's health insurance contribution for midijobs since October 2022.
 
     Parameters
     ----------

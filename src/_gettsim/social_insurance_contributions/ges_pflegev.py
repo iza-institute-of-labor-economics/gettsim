@@ -9,6 +9,9 @@ def ges_pflegev_zusatz_kinderlos(
 ) -> bool:
     """Whether additional care insurance contribution for childless individuals applies.
 
+    Not relevant before 2005 because the contribution rate was independent of the number
+    of children.
+
     Parameters
     ----------
     hat_kinder
@@ -36,6 +39,8 @@ def ges_pflegev_beitr_satz_arbeitnehmer_ohne_zusatz_fuer_kinderlose(
 ) -> float:
     """Employee's long-term care insurance contribution rate.
 
+    Before 2005, the contribution rate was independent of the number of children.
+
     Parameters
     ----------
     sozialv_beitr_params
@@ -58,7 +63,9 @@ def ges_pflegev_beitr_satz_arbeitnehmer_zusatz_kinderlos_dummy(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's ong-term care insurance contribution rate.
+    """Employee's long-term care insurance contribution rate.
+
+    Since 2005, the contribution rate is increased for childless individuals.
 
     Parameters
     ----------
@@ -86,8 +93,10 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's are insurance contribution rate.
-    For individuals with children younger than 25 rates are reduced.
+    """Employee's long-term care insurance contribution rate.
+
+    Since July 2023, the contribution rate is reduced for individuals with children
+    younger than 25.
 
     Parameters
     ----------
@@ -142,6 +151,7 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
 
     Returns
     -------
+    Employee's long-term care insurance contributions.
 
     """
 
@@ -187,6 +197,7 @@ def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
 
     Returns
     -------
+    Employee's long-term care insurance contributions.
 
     """
 
@@ -218,6 +229,7 @@ def _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m(
 
     Returns
     -------
+    Long-term care insurance contributions of employer and employee.
 
     """
 
@@ -237,6 +249,8 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
 ) -> float:
     """Employer's long-term care insurance contribution.
 
+    Before Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -250,6 +264,7 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
 
     Returns
     -------
+    Employer's long-term care insurance contributions.
 
     """
     # Calculate care insurance contributions for regular jobs.
@@ -276,6 +291,8 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
 ) -> float:
     """Employer's long-term care insurance contribution.
 
+    After Midijob introduction in April 2003.
+
     Parameters
     ----------
     geringfügig_beschäftigt
@@ -293,6 +310,7 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
 
     Returns
     -------
+    Employer's long-term care insurance contributions.
 
     """
     # Calculate care insurance contributions for regular jobs.
@@ -336,7 +354,7 @@ def ges_pflegev_beitr_selbstständig_m_ohne_zusatz_fuer_kinderlose(
 
     Returns
     -------
-    Monthly care insurance contributions for self employed income.
+    Self-employed long-term care insurance contributions.
 
     """
     out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
@@ -371,7 +389,7 @@ def ges_pflegev_beitr_selbstständig_m_zusatz_kinderlos_dummy(
 
     Returns
     -------
-    Monthly care insurance contributions for self employed income.
+    Self-employed long-term care insurance contributions.
 
     """
     out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
@@ -391,7 +409,8 @@ def ges_pflegev_beitr_rentner_m_reduz_beitrag(
     _ges_krankenv_bemessungsgrundlage_rente_m: float,
     ges_pflegev_beitr_satz_arbeitnehmer: float,
 ) -> float:
-    """Long-term care insurance contribution from pension income.
+    """Long-term care insurance contribution from pension income from 1995 until March
+    2004.
 
     Pensioners pay the same contribution as employees.
 
@@ -404,7 +423,7 @@ def ges_pflegev_beitr_rentner_m_reduz_beitrag(
 
     Returns
     -------
-    Monthly health insurance contributions for pension income.
+    Retiree's long-term care insurance contributions.
 
     """
     out = (
@@ -436,7 +455,7 @@ def ges_pflegev_beitr_rentner_m_ohne_zusatz_für_kinderlose(
 
     Returns
     -------
-    Monthly health insurance contributions for pension income.
+    Retiree's long-term care insurance contributions.
 
     """
     out = _ges_krankenv_bemessungsgrundlage_rente_m * (
@@ -468,7 +487,7 @@ def ges_pflegev_beitr_rentner_m_zusatz_kinderlos_dummy(
 
     Returns
     -------
-    Monthly health insurance contributions for pension income.
+    Retiree's long-term care insurance contributions.
 
     """
     out = _ges_krankenv_bemessungsgrundlage_rente_m * (
@@ -502,6 +521,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
 
     Returns
     -------
+    Long-term care insurance contributions of employer and employee.
+
 
     """
 
@@ -535,6 +556,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
 
     Returns
     -------
+    Long-term care insurance contributions of employer and employee.
 
     """
 
@@ -566,6 +588,8 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_bis_2004(
 
     Returns
     -------
+    Employer's long-term care insurance contributions.
+
 
     """
 
@@ -596,6 +620,7 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_ab_2005(
 
     Returns
     -------
+    Employer's long-term care insurance contributions.
 
     """
     out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
@@ -621,6 +646,7 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_residuum(
 
     Returns
     -------
+    Employer's long-term care insurance contributions.
 
     """
     out = (
@@ -650,6 +676,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_residuum(
 
     Returns
     -------
+    Employee's long-term care insurance contributions.
 
     """
     out = (
@@ -687,6 +714,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
 
     Returns
     -------
+    Employee's long-term care insurance contributions.
 
     """
     # Calculate the employee care insurance contribution
@@ -732,6 +760,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
 
     Returns
     -------
+    Employee's long-term care insurance contributions.
 
     """
     # Calculate the employee care insurance rate

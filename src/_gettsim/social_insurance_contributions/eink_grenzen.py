@@ -9,7 +9,9 @@ from _gettsim.shared import policy_info
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
-    """Select the income threshold depending on place of living.
+    """Minijob income threshold depending on place of living (East or West Germany).
+
+    Until 1999, the threshold is different for East and West Germany.
 
     Parameters
     ----------
@@ -34,7 +36,10 @@ def minijob_grenze_unterscheidung_ost_west(
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
-    """Select the income threshold depending on place of living.
+    """Minijob income threshold depending on place of living.
+
+    From 2000 onwards, the threshold is the same for all of Germany. Until September
+    2022, the threshold is exogenously set.
 
     Parameters
     ----------
@@ -53,8 +58,8 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
-    """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
-    the statutory minimum wage.
+    """Minijob income threshold since 10/2022. Since then, it is calculated endogenously
+    from the statutory minimum wage.
 
     Parameters
     ----------
@@ -74,7 +79,7 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
 
 
 def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
-    """Check if individual earns less than marginal employment threshold.
+    """Individual earns less than marginal employment threshold.
 
     Marginal employed pay no social insurance contributions.
 
@@ -102,7 +107,7 @@ def in_gleitzone(
     geringfügig_beschäftigt: bool,
     sozialv_beitr_params: dict,
 ) -> bool:
-    """Check if individual's income is in midi-job range.
+    """Individual's income is in midi-job range.
 
     Employed people with their wage in the range of gleitzone pay reduced social
     insurance contributions.
@@ -366,12 +371,13 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     minijob_grenze: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Total income subject to social insurance contributions for employers a and
-    employees for midijob since October 2022. In the law, the considered income is
-    referred to as "beitragspflichtige Einnahme".
+    """Total income subject to social insurance contributions for midijobs since October
+    2022.
 
-    Beitragspflichtige Einnahme is the reference income for midijobs subject
-    to employer and employee social insurance contribution.
+    In the law, the considered income is referred to as "beitragspflichtige Einnahme".
+
+    Beitragspflichtige Einnahme is the reference income for midijobs subject to employer
+    and employee social insurance contribution.
 
     Legal reference: Changes in § 20 SGB IV from 01.10.2022
 
