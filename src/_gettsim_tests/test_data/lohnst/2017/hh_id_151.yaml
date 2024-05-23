@@ -14,7 +14,7 @@ inputs:
     bruttolohn_m:
       - 5880.86
     ges_krankenv_zusatzbeitr_satz:
-      - 1.32
+      - 0.0132
     ges_pflegev_zusatz_kinderlos:
       - false
     hat_kinder:
