@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`759` Unify function names in Sozialversicherung modules ({ghuser}`MImmesberger`).
 - {gh}`755` Allow array returns when `skip_vectorization` is being used, enforce import
   convention ({ghuser}`hmgaudecker`).
 - {gh}`751` Kindergeldübertrag ({ghuser}`MImmesberger`).

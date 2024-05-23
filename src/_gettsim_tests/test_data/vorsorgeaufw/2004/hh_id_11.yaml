@@ -18,15 +18,15 @@ inputs:
       - false
     priv_rentenv_beitr_m:
       - 150.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 294.0
-    arbeitsl_v_beitr_m:
+    arbeitsl_v_beitr_arbeitnehmer_m:
       - 0.0
-    ges_pflegev_beitr_m:
+    ges_pflegev_beitr_arbeitnehmer_m:
       - 36.75
     jahr:
       - 2004
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 237.0
   assumed: {}
 outputs:

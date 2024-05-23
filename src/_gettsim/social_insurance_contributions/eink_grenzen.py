@@ -9,7 +9,9 @@ from _gettsim.shared import policy_info
 def minijob_grenze_unterscheidung_ost_west(
     wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
-    """Select the income threshold depending on place of living.
+    """Minijob income threshold depending on place of living (East or West Germany).
+
+    Until 1999, the threshold is different for East and West Germany.
 
     Parameters
     ----------
@@ -34,7 +36,10 @@ def minijob_grenze_unterscheidung_ost_west(
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
-    """Select the income threshold depending on place of living.
+    """Minijob income threshold depending on place of living.
+
+    From 2000 onwards, the threshold is the same for all of Germany. Until September
+    2022, the threshold is exogenously set.
 
     Parameters
     ----------
@@ -53,8 +58,8 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
-    """Obtains marginal job threshold since 10/2022. Since then, it is calculated from
-    the statutory minimum wage.
+    """Minijob income threshold since 10/2022. Since then, it is calculated endogenously
+    from the statutory minimum wage.
 
     Parameters
     ----------
@@ -74,7 +79,7 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
 
 
 def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
-    """Check if individual earns less than marginal employment threshold.
+    """Individual earns less than marginal employment threshold.
 
     Marginal employed pay no social insurance contributions.
 
@@ -102,7 +107,7 @@ def in_gleitzone(
     geringfügig_beschäftigt: bool,
     sozialv_beitr_params: dict,
 ) -> bool:
-    """Check if individual's income is in midi-job range.
+    """Individual's income is in midi-job range.
 
     Employed people with their wage in the range of gleitzone pay reduced social
     insurance contributions.
@@ -137,8 +142,8 @@ def in_gleitzone(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
-    _ges_krankenv_beitr_satz_jahresanfang: float,
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F until December 2004.
 
@@ -149,10 +154,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_satz_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -169,8 +174,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"]
 
     # Then calculate specific shares
-    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
-    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
 
     # Sum over the shares which are specific for midijobs.
     pausch_mini = (
@@ -193,8 +198,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
-    _ges_krankenv_beitr_satz_jahresanfang: float,
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F between 2005 and September 2025.
 
@@ -205,10 +210,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_satz_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -227,8 +232,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     ]["standard"]
 
     # Then calculate specific shares
-    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
-    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
 
     # Sum over the shares which are specific for midijobs.
     pausch_mini = (
@@ -250,8 +255,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    _ges_krankenv_beitr_satz_jahresanfang: float,
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F since October 2022.
 
@@ -262,10 +267,10 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_satz_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_jahresanfang`.
-    _ges_krankenv_beitr_satz_arbeitg_jahresanfang
-        See :func:`_ges_krankenv_beitr_satz_arbeitg_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang`.
+    _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
+        See :func:`_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -284,8 +289,8 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     )
 
     # Then calculate specific shares
-    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_jahresanfang
-    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitg_jahresanfang
+    an_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+    ag_anteil = allg_sozialv_beitr + _ges_krankenv_beitr_satz_arbeitgeber_jahresanfang
 
     # Sum over the shares which are specific for midijobs.
     # New formula only inludes the lump-sum contributions to health care
@@ -366,12 +371,13 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     minijob_grenze: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Total income subject to social insurance contributions for employers a and
-    employees for midijob since October 2022. In the law, the considered income is
-    referred to as "beitragspflichtige Einnahme".
+    """Total income subject to social insurance contributions for midijobs since October
+    2022.
 
-    Beitragspflichtige Einnahme is the reference income for midijobs subject
-    to employer and employee social insurance contribution.
+    In the law, the considered income is referred to as "beitragspflichtige Einnahme".
+
+    Beitragspflichtige Einnahme is the reference income for midijobs subject to employer
+    and employee social insurance contribution.
 
     Legal reference: Changes in § 20 SGB IV from 01.10.2022
 
@@ -406,7 +412,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     return out
 
 
-def _midijob_beitragspfl_einnahme_arbeitn_m(
+def _midijob_beitragspfl_einnahme_arbeitnehmer_m(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
     minijob_grenze: float,

@@ -7,7 +7,7 @@ from _gettsim.shared import policy_info
     name_in_dag="vorsorgeaufw_alter_y_sn",
 )
 def vorsorgeaufw_alter_y_sn_einfuehrung(
-    ges_rentenv_beitr_m_sn: float,
+    ges_rentenv_beitr_arbeitnehmer_m_sn: float,
     priv_rentenv_beitr_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -19,8 +19,8 @@ def vorsorgeaufw_alter_y_sn_einfuehrung(
 
     Parameters
     ----------
-    ges_rentenv_beitr_m_sn
-        See :func:`ges_rentenv_beitr_m_sn`.
+    ges_rentenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_rentenv_beitr_arbeitnehmer_m_sn`.
     priv_rentenv_beitr_m_sn
         See :func:`priv_rentenv_beitr_m_sn`.
     anz_personen_sn
@@ -34,8 +34,8 @@ def vorsorgeaufw_alter_y_sn_einfuehrung(
     """
     out = (
         eink_st_abzuege_params["einführungsfaktor_vorsorgeaufw_alter_ab_2005"]
-        * (2 * ges_rentenv_beitr_m_sn + priv_rentenv_beitr_m_sn)
-        - ges_rentenv_beitr_m_sn
+        * (2 * ges_rentenv_beitr_arbeitnehmer_m_sn + priv_rentenv_beitr_m_sn)
+        - ges_rentenv_beitr_arbeitnehmer_m_sn
     ) * 12
     max_value = anz_personen_sn * eink_st_abzuege_params["vorsorge_altersaufw_max"]
     out = min(out, max_value)
@@ -45,7 +45,7 @@ def vorsorgeaufw_alter_y_sn_einfuehrung(
 
 @policy_info(start_date="2023-01-01")
 def vorsorgeaufw_alter_y_sn(
-    ges_rentenv_beitr_m_sn: float,
+    ges_rentenv_beitr_arbeitnehmer_m_sn: float,
     priv_rentenv_beitr_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -54,8 +54,8 @@ def vorsorgeaufw_alter_y_sn(
 
     Parameters
     ----------
-    ges_rentenv_beitr_m_sn
-        See :func:`ges_rentenv_beitr_m_sn`.
+    ges_rentenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_rentenv_beitr_arbeitnehmer_m_sn`.
     priv_rentenv_beitr_m_sn
         See :func:`priv_rentenv_beitr_m_sn`.
     anz_personen_sn
@@ -67,7 +67,7 @@ def vorsorgeaufw_alter_y_sn(
     -------
 
     """
-    out = (ges_rentenv_beitr_m_sn + priv_rentenv_beitr_m_sn) * 12
+    out = (ges_rentenv_beitr_arbeitnehmer_m_sn + priv_rentenv_beitr_m_sn) * 12
     max_value = anz_personen_sn * eink_st_abzuege_params["vorsorge_altersaufw_max"]
 
     return min(out, max_value)
@@ -80,9 +80,9 @@ def vorsorgeaufw_alter_y_sn(
 )
 def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
     vorsorgeaufw_alter_y_sn: float,
-    ges_krankenv_beitr_m_sn: float,
-    arbeitsl_v_beitr_m_sn: float,
-    ges_pflegev_beitr_m_sn: float,
+    ges_krankenv_beitr_arbeitnehmer_m_sn: float,
+    arbeitsl_v_beitr_arbeitnehmer_m_sn: float,
+    ges_pflegev_beitr_arbeitnehmer_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -92,12 +92,12 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
     ----------
     vorsorgeaufw_alter_y_sn
         See :func:`vorsorgeaufw_alter_y_sn`.
-    ges_krankenv_beitr_m_sn
-        See :func:`ges_krankenv_beitr_m_sn`.
-    arbeitsl_v_beitr_m_sn
-        See :func:`arbeitsl_v_beitr_m_sn`.
-    ges_pflegev_beitr_m_sn
-        See :func:`ges_pflegev_beitr_m_sn`.
+    ges_krankenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_krankenv_beitr_arbeitnehmer_m_sn`.
+    arbeitsl_v_beitr_arbeitnehmer_m_sn
+        See :func:`arbeitsl_v_beitr_arbeitnehmer_m_sn`.
+    ges_pflegev_beitr_arbeitnehmer_m_sn
+        See :func:`ges_pflegev_beitr_arbeitnehmer_m_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_abzuege_params
@@ -108,7 +108,9 @@ def einführung_vorsorgeaufw_y_sn_ab_2005_bis_2009(  # noqa: PLR0913
 
     """
     sum_vorsorge = 12 * (
-        ges_krankenv_beitr_m_sn + arbeitsl_v_beitr_m_sn + ges_pflegev_beitr_m_sn
+        ges_krankenv_beitr_arbeitnehmer_m_sn
+        + arbeitsl_v_beitr_arbeitnehmer_m_sn
+        + ges_pflegev_beitr_arbeitnehmer_m_sn
     )
     max_value = anz_personen_sn * eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
 
@@ -178,9 +180,9 @@ def _vorsorgeaufw_y_sn_ab_2020(vorsorgeaufw_y_sn_ab_2020: float) -> float:
 
 def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
     vorsorgeaufw_alter_y_sn: float,
-    ges_pflegev_beitr_m_sn: float,
-    ges_krankenv_beitr_m_sn: float,
-    arbeitsl_v_beitr_m_sn: float,
+    ges_pflegev_beitr_arbeitnehmer_m_sn: float,
+    ges_krankenv_beitr_arbeitnehmer_m_sn: float,
+    arbeitsl_v_beitr_arbeitnehmer_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -193,12 +195,12 @@ def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
     ----------
     vorsorgeaufw_alter_y_sn
         See :func:`vorsorgeaufw_alter_y_sn`.
-    ges_pflegev_beitr_m_sn
-        See :func:`ges_pflegev_beitr_m_sn`.
-    ges_krankenv_beitr_m_sn
-        See :func:`ges_krankenv_beitr_m_sn`.
-    arbeitsl_v_beitr_m_sn
-        See :func:`arbeitsl_v_beitr_m_sn`.
+    ges_pflegev_beitr_arbeitnehmer_m_sn
+        See :func:`ges_pflegev_beitr_arbeitnehmer_m_sn`.
+    ges_krankenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_krankenv_beitr_arbeitnehmer_m_sn`.
+    arbeitsl_v_beitr_arbeitnehmer_m_sn
+        See :func:`arbeitsl_v_beitr_arbeitnehmer_m_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_abzuege_params
@@ -210,16 +212,21 @@ def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
     """
 
     basiskrankenversicherung = 12 * (
-        ges_pflegev_beitr_m_sn
+        ges_pflegev_beitr_arbeitnehmer_m_sn
         + (1 - eink_st_abzuege_params["vorsorge_kranken_minderung"])
-        * ges_krankenv_beitr_m_sn
+        * ges_krankenv_beitr_arbeitnehmer_m_sn
     )
 
     sonst_vors_max = (
         eink_st_abzuege_params["vorsorge_sonstige_aufw_max"] * anz_personen_sn
     )
     sonst_vors_before_basiskrankenv = min(
-        12 * (arbeitsl_v_beitr_m_sn + ges_pflegev_beitr_m_sn + ges_krankenv_beitr_m_sn),
+        12
+        * (
+            arbeitsl_v_beitr_arbeitnehmer_m_sn
+            + ges_pflegev_beitr_arbeitnehmer_m_sn
+            + ges_krankenv_beitr_arbeitnehmer_m_sn
+        ),
         sonst_vors_max,
     )
 
@@ -237,15 +244,15 @@ def vorsorgeaufw_y_sn_ab_2020(  # noqa: PLR0913
 )
 def _vorsorgeaufw_y_sn_bis_2004(
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004: float,
-    ges_krankenv_beitr_m_sn: float,
-    ges_rentenv_beitr_m_sn: float,
+    ges_krankenv_beitr_arbeitnehmer_m_sn: float,
+    ges_rentenv_beitr_arbeitnehmer_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     return vorsorgeaufw_y_sn_bis_2004(
         _vorsorgeaufw_vom_lohn_y_sn_bis_2004=_vorsorgeaufw_vom_lohn_y_sn_bis_2004,
-        ges_krankenv_beitr_m_sn=ges_krankenv_beitr_m_sn,
-        ges_rentenv_beitr_m_sn=ges_rentenv_beitr_m_sn,
+        ges_krankenv_beitr_arbeitnehmer_m_sn=ges_krankenv_beitr_arbeitnehmer_m_sn,
+        ges_rentenv_beitr_arbeitnehmer_m_sn=ges_rentenv_beitr_arbeitnehmer_m_sn,
         anz_personen_sn=anz_personen_sn,
         eink_st_abzuege_params=eink_st_abzuege_params,
     )
@@ -258,8 +265,8 @@ def _vorsorgeaufw_y_sn_bis_2004(
 )
 def vorsorgeaufw_y_sn_bis_2004(
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004: float,
-    ges_krankenv_beitr_m_sn: float,
-    ges_rentenv_beitr_m_sn: float,
+    ges_krankenv_beitr_arbeitnehmer_m_sn: float,
+    ges_rentenv_beitr_arbeitnehmer_m_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -269,10 +276,10 @@ def vorsorgeaufw_y_sn_bis_2004(
     ----------
     _vorsorgeaufw_vom_lohn_y_sn_bis_2004
         See :func:`_vorsorgeaufw_vom_lohn_y_sn_bis_2004`.
-    ges_krankenv_beitr_m_sn
-        See :func:`ges_krankenv_beitr_m_sn`.
-    ges_rentenv_beitr_m_sn
-        See :func:`ges_rentenv_beitr_m_sn`.
+    ges_krankenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_krankenv_beitr_arbeitnehmer_m_sn`.
+    ges_rentenv_beitr_arbeitnehmer_m_sn
+        See :func:`ges_rentenv_beitr_arbeitnehmer_m_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_abzuege_params
@@ -284,7 +291,11 @@ def vorsorgeaufw_y_sn_bis_2004(
     """
     multiplikator1 = max(
         (
-            12 * (ges_rentenv_beitr_m_sn + ges_krankenv_beitr_m_sn)
+            12
+            * (
+                ges_rentenv_beitr_arbeitnehmer_m_sn
+                + ges_krankenv_beitr_arbeitnehmer_m_sn
+            )
             - _vorsorgeaufw_vom_lohn_y_sn_bis_2004
         ),
         0.0,
