@@ -54,7 +54,7 @@ outputs:
     - 65.0
   _ges_rente_altersgrenze_vorzeitig:
     - 60.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 60.0
   _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss:
     - 60.0
@@ -64,7 +64,7 @@ outputs:
     - 65.0
   ges_rente_vorauss_vorzeitig:
     - true
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - true
   ges_rente_vorauss_frauen:
     - false
