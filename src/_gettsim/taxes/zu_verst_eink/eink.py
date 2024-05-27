@@ -41,7 +41,7 @@ def eink_abhängig_beschäftigt_y(
 
     out = 12 * bruttolohn_m - abzug
 
-    return out
+    return max(out, 0.0)
 
 
 def _zu_verst_eink_abhängig_beschäftigt_y(

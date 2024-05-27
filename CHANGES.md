@@ -8,6 +8,15 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 - {gh}`717` Switch from cohort-based policy to date-based policy in retirement module
   ({ghuser}`MImmesberger`).
+- {gh}`759` Unify function names in Sozialversicherung modules ({ghuser}`MImmesberger`).
+- {gh}`755` Allow array returns when `skip_vectorization` is being used, enforce import
+  convention ({ghuser}`hmgaudecker`).
+- {gh}`751` Kindergeldübertrag ({ghuser}`MImmesberger`).
+- {gh}`739` Unterhaltsvorschuss calculation on child level ({ghuser}`MImmesberger`).
+- {gh}`725` KdU calculation on bg level and other small fixes ({ghuser}`MImmesberger`,
+  {ghuser}`ChristianZimpelmann`).
+- {gh}`722` Join columns to make target columns available at source level
+  ({ghuser}`lars-reimann`).
 - {gh}`732` Change wealth input variable to individual-level (`vermögen_bedürft`)
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`730` Add argument to create_synthetic_data on whether adults are married.

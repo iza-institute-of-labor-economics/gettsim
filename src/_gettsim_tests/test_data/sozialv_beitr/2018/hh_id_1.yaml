@@ -28,17 +28,17 @@ inputs:
       - '2018'
   assumed: {}
 outputs:
-  sozialv_beitr_m:
+  sozialv_beitr_arbeitnehmer_m:
     - 0.0
-  sozialv_beitr_arbeitg_m:
+  sozialv_beitr_arbeitgeber_m:
     - 84.0
-  _sozialv_beitr_arbeitn_arbeitg_m:
+  _sozialv_beitr_summe_m:
     - 84.0
-  ges_rentenv_beitr_m:
+  ges_rentenv_beitr_arbeitnehmer_m:
     - 0.0
-  arbeitsl_v_beitr_m:
+  arbeitsl_v_beitr_arbeitnehmer_m:
     - 0.0
-  ges_krankenv_beitr_m:
+  ges_krankenv_beitr_arbeitnehmer_m:
     - 0.0
-  ges_pflegev_beitr_m:
+  ges_pflegev_beitr_arbeitnehmer_m:
     - 0.0

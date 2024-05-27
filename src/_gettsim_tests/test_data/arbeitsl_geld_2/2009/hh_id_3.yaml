@@ -24,7 +24,7 @@ inputs:
       - -1
     p_id_kindergeld_empf:
       - -1
-      - -1
+      - 10
     gemeinsam_veranlagt:
       - false
       - false
@@ -79,12 +79,12 @@ inputs:
     soli_st_y_sn:
       - 66.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 200.0
       - 0.0
-    kindergeld_m_bg:
+    kindergeld_m:
       - 164.0
-      - 164.0
+      - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -123,7 +123,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 260.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 684.5
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:

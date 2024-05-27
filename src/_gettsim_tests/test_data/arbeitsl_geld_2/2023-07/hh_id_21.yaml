@@ -106,7 +106,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 140.0
       - 0.0
@@ -164,7 +164,7 @@ outputs:
     - 0.0
     - 238.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
     - 0.0
     - 322.0
     - 0.0

@@ -2,12 +2,71 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 
-def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
+def arbeitsl_geld_2_eink_m(
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m: float,
+    kindergeldübertrag_m: float,
+) -> float:
+    """SGB II income.
+
+    Relevant income according to SGB II. Includes child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m
+        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m`.
+    kindergeldübertrag_m
+        See :func:`kindergeldübertrag_m`.
+
+    Returns
+    -------
+    Income according to SGB II.
+
+    """
+    return _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m + kindergeldübertrag_m
+
+
+def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
+) -> float:
+    """SGB II income without Kindergeldübertrag.
+
+    Relevant income according to SGB II. Does not include child benefit transfer
+    (Kindergeldübertrag).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+
+    Returns
+    -------
+    Income without child benefit transfer.
+
+    """
+    return (
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_zur_bedarfsdeckung_m
+    )
+
+
+def _arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
     soli_st_y_sn: float,
     anz_personen_sn: int,
-    sozialv_beitr_m: float,
+    sozialv_beitr_arbeitnehmer_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
 ) -> float:
     """Income (after deduction of taxes, social insurance contributions, and other
@@ -18,9 +77,9 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
     Parameters
     ----------
     arbeitsl_geld_2_bruttoeink_m
-        See :func:`arbeitsl_geld_2_eink_m`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+        See :func:`arbeitsl_geld_2_bruttoeink_m`.
+    sozialv_beitr_arbeitnehmer_m
+        See :func:`sozialv_beitr_arbeitnehmer_m`.
     eink_st_y_sn
         See :func:`eink_st_y_sn`.
     soli_st_y_sn
@@ -32,14 +91,14 @@ def arbeitsl_geld_2_eink_m(  # noqa: PLR0913
 
     Returns
     -------
-    Income of a person by unemployment insurance.
+    Income after taxes, social insurance contributions, and other deductions.
 
     """
     return (
         arbeitsl_geld_2_bruttoeink_m
         - (eink_st_y_sn / 12 / anz_personen_sn)
         - (soli_st_y_sn / 12 / anz_personen_sn)
-        - sozialv_beitr_m
+        - sozialv_beitr_arbeitnehmer_m
         - arbeitsl_geld_2_eink_anr_frei_m
     )
 
@@ -103,7 +162,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     eink_st_y_sn: float,
     soli_st_y_sn: float,
     anz_personen_sn: int,
-    sozialv_beitr_m: float,
+    sozialv_beitr_arbeitnehmer_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
@@ -120,8 +179,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
         See :func:`soli_st_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
-    sozialv_beitr_m
-        See :func:`sozialv_beitr_m`.
+    sozialv_beitr_arbeitnehmer_m
+        See :func:`sozialv_beitr_arbeitnehmer_m`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -135,7 +194,7 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
             bruttolohn_m
             - (eink_st_y_sn / anz_personen_sn / 12)
             - (soli_st_y_sn / anz_personen_sn / 12)
-            - sozialv_beitr_m
+            - sozialv_beitr_arbeitnehmer_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
         ),
@@ -185,7 +244,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
 def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
-    anz_kinder_bis_17_hh: int,
+    anz_kinder_bis_17_bg: int,
+    _eink_st_kinderfreib_anz_ansprüche: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -201,8 +261,10 @@ def arbeitsl_geld_2_eink_anr_frei_m(
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    anz_kinder_bis_17_hh
-        See :func:`anz_kinder_bis_17_hh`.
+    anz_kinder_bis_17_bg
+        See :func:`anz_kinder_bis_17_bg`.
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -215,7 +277,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # condition.
     eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
 
-    if anz_kinder_bis_17_hh > 0:
+    if anz_kinder_bis_17_bg > 0 or _eink_st_kinderfreib_anz_ansprüche > 0:
         out = piecewise_polynomial(
             x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import numpy as np
+import numpy
 import pandas as pd
 import pytest
 from _gettsim.synthetic import create_synthetic_data
@@ -160,7 +160,7 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
         ("alter", [50, 30, 5] * 11),
         (
             "bruttolohn_m",
-            np.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
+            numpy.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
         ),
         ("gemeinsam_veranlagt", [True, True, False] * 11),
     ],

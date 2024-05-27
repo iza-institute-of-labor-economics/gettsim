@@ -50,8 +50,8 @@ def wohngeld_m_hh(
 
 def wohngeld_abzüge_st_sozialv_m(
     eink_st_y_sn: float,
-    ges_rentenv_beitr_m: float,
-    ges_krankenv_beitr_m: float,
+    ges_rentenv_beitr_arbeitnehmer_m: float,
+    ges_krankenv_beitr_arbeitnehmer_m: float,
     kind: bool,
     wohngeld_params: dict,
 ) -> float:
@@ -64,10 +64,10 @@ def wohngeld_abzüge_st_sozialv_m(
     ----------
     eink_st_y_sn
         See :func:`eink_st_y_sn`.
-    ges_rentenv_beitr_m
-        See :func:`ges_rentenv_beitr_m`.
-    ges_krankenv_beitr_m
-        See :func:`ges_krankenv_beitr_m`.
+    ges_rentenv_beitr_arbeitnehmer_m
+        See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
+    ges_krankenv_beitr_arbeitnehmer_m
+        See :func:`ges_krankenv_beitr_arbeitnehmer_m`.
     kind
         See basic input variable :ref:`kind <kind>`.
     wohngeld_params
@@ -78,7 +78,9 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_y_sn > 0) + (ges_rentenv_beitr_m > 0) + (ges_krankenv_beitr_m > 0)
+        (eink_st_y_sn > 0)
+        + (ges_rentenv_beitr_arbeitnehmer_m > 0)
+        + (ges_krankenv_beitr_arbeitnehmer_m > 0)
     )
     if kind:
         out = 0.0
@@ -197,6 +199,9 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     -------
 
     """
+    # TODO(@MImmesberger): Find out whether kind_unterh_erhalt_m and unterhaltsvors_m
+    # are counted as income for Wohngeld income check.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/357
     einkommen = (
         eink_selbst_y
         + eink_abhängig_beschäftigt_y
