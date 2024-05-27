@@ -1780,7 +1780,7 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
 
 
 @policy_info(end_date="1997-12-15", name_in_dag="ges_rente_vorauss_frauen")
-def ges_rente_vorauss_frauen_ohne_geburtsjahr_prüfung(
+def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
     weiblich: bool,
     ges_rente_wartezeit_15: bool,
     y_pflichtbeitr_ab_40: float,
@@ -1834,7 +1834,7 @@ def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
 ) -> bool:
     """Eligibility for Altersrente für Frauen (pension for women).
 
-    Only individuals below a certain birth year are eligible.
+    Only individuals born before a certain year are eligible.
 
     Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
     becomes inactive in 2018 because then all potential beneficiaries have reached the

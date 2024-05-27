@@ -143,8 +143,7 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     ges_rente_regelaltersgrenze
-        See basic input variable :ref:`ges_rente_regelaltersgrenze
-            <ges_rente_regelaltersgrenze>`.
+        See :func:`ges_rente_regelaltersgrenze`.
 
     Returns
     -------

@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`717` Switch from cohort-based policy to date-based policy in retirement module
+  ({ghuser}`MImmesberger`).
 - {gh}`732` Change wealth input variable to individual-level (`vermögen_bedürft`)
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`730` Add argument to create_synthetic_data on whether adults are married.
@@ -14,8 +16,6 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   ({ghuser}`ChristianZimpelmann`).
 - {gh}`721` Optionally skip vectorization of a policy function ({ghuser}`lars-reimann`).
 - {gh}`720` Combined decorator for policy information ({ghuser}`lars-reimann`).
-- {gh}`717` Switch from cohort-based policy to date-based policy in retirement module
-  ({ghuser}`MImmesberger`).
 - {gh}`700` Data columns overwrite functions regardless of time unit
   ({ghuser}`lars-reimann`).
 - {gh}`694` Replace `tu` groupings with correct groupings. ({ghuser}`MImmesberger`,
