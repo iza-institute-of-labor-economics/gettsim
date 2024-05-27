@@ -16,15 +16,27 @@ inputs:
     gemeinsam_veranlagt:
       - false
       - false
+    alleinerz:
+      - false
+      - true
     kind:
       - true
       - false
+    hat_kinder:
+      - false
+      - true
+    arbeitsstunden_w:
+      - 0.0
+      - 33.0
     bruttolohn_m:
       - 0.0
       - 3600.0
     bruttolohn_vorj_m:
       - 0.0
       - 3400.0
+    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+      - 0.0
+      - 37406.0
     wohnort_ost:
       - false
       - false
@@ -37,6 +49,18 @@ inputs:
     sozialv_beitr_m:
       - 0.0
       - 756.0
+    mutterschaftsgeld_m:
+      - 0.0
+      - 0.0
+    dienstbezüge_bei_beschäftigungsverbot_m:
+      - 0.0
+      - 0.0
+    elterngeld_vergleichbare_leistungen_m:
+      - 0.0
+      - 0.0
+    ersatzeinnahmen_m:
+      - 0.0
+      - 0.0
     geburtsjahr:
       - 2017
       - 1976
@@ -72,3 +96,6 @@ outputs:
   elternzeit_anspruch:
     - false
     - true
+  elterngeld_anspruch:
+    - false
+    - false

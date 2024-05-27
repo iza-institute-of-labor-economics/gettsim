@@ -54,11 +54,11 @@ inputs:
       - 0.0
       - 0.0
       - 900.0
-    zu_verst_eink_mit_kinderfreib_tu:
+    _zu_verst_eink_mit_kinderfreib_vorj_sn:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
+      - 5760.0
     wohnort_ost:
       - false
       - false
@@ -79,7 +79,22 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    elterngeld_nettolohn_vorj:
+    mutterschaftsgeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    dienstbezüge_bei_beschäftigungsverbot_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_vergleichbare_leistungen_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ersatzeinnahmen_m:
       - 0.0
       - 0.0
       - 0.0

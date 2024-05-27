@@ -184,11 +184,11 @@ max_einkommen_vorj_allein:
     en: null
   unit: Euro
   2011-01-01:
-    scalar: 250.000
+    scalar: 250_000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2024-04-01:
-    scalar: 150.000
-    reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
+    scalar: 175_000.0
+    reference: Art. 7 G. v. 27.3.2024 BGBL. I Nr. 107 S. 4
 max_einkommen_vorj_zsm:
   name:
     de: >-
@@ -201,8 +201,27 @@ max_einkommen_vorj_zsm:
     en: null
   unit: Euro
   2011-01-01:
-    scalar: 300.000
+    scalar: 500_000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+  2021-09-01:
+    scalar: 300_000.0
+    reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
   2024-04-01:
-    scalar: 175.000
+    scalar: 175_000.0
     reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
+max_arbeitsstunden_w:
+  name:
+    de: >-
+      Maximale Wochenstunden die bei Elterngeldbezug gearbeitet werden dürfen
+    en: >-
+      Maximum amount of weekly hours one is allowed to work, when receiving Elterngeld
+  descripition:
+    de: §1 (6) BEEG
+    en: null
+  2007-01-01:
+    scalar: 30.0
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+  2021-09-01:
+    scalar: 32.0
+    reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
+
