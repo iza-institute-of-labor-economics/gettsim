@@ -184,10 +184,10 @@ max_einkommen_vorj_allein:
     en: null
   unit: Euro
   2011-01-01:
-    scalar: 250_000.0
+    scalar: 0250000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2024-04-01:
-    scalar: 175_000.0
+    scalar: 0175000.0
     reference: Art. 7 G. v. 27.3.2024 BGBL. I Nr. 107 S. 4
 max_einkommen_vorj_zsm:
   name:
@@ -201,13 +201,13 @@ max_einkommen_vorj_zsm:
     en: null
   unit: Euro
   2011-01-01:
-    scalar: 500_000.0
+    scalar: 0500000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2021-09-01:
-    scalar: 300_000.0
+    scalar: 0300000.0
     reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
   2024-04-01:
-    scalar: 175_000.0
+    scalar: 0175000.0
     reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
 max_arbeitsstunden_w:
   name:
@@ -224,4 +224,3 @@ max_arbeitsstunden_w:
   2021-09-01:
     scalar: 32.0
     reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
-

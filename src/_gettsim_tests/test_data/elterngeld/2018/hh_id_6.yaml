@@ -66,5 +66,5 @@ outputs:
     - 0
   elternzeit_anspruch:
     - false
-  elterngeld_anspruch: 
+  elterngeld_anspruch:
     - false

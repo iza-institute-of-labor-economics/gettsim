@@ -39,8 +39,7 @@ def elterngeld_m(  # noqa: PLR0913
     -------
 
     """
-    
-   
+
     if (elterngeld_eink_relev_m < 0) or (not elterngeld_anspruch):
         out = 0.0
     else:
@@ -48,8 +47,8 @@ def elterngeld_m(  # noqa: PLR0913
         out = (
             min(
                 max(
-                    elterngeld_eink_erlass_m - elterngeld_anrechenbares_einkommen_m
-                    , elterngeld_params["mindestbetrag"],
+                    elterngeld_eink_erlass_m - elterngeld_anrechenbares_einkommen_m,
+                    elterngeld_params["mindestbetrag"],
                 ),
                 elterngeld_params["höchstbetrag"],
             )
@@ -114,7 +113,6 @@ def elterngeld_anspruch(
     return out
 
 
-
 ###Income approximation new, removed BBmG
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
     bruttolohn_vorj_m: float,
@@ -144,7 +142,6 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
     """
 
-
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["sozialv_pausch"] * bruttolohn_vorj_m
 
@@ -173,8 +170,9 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     return max(out, 0.0)
 
 
-# original function capped the taxable income at the gBBG, which is not covered by the BEEG. 
+# original function capped the taxable income at the gBBG, which is not covered by the BEEG.
 # Due to §2f (3), the BBmG is not relevant in this calculation
+
 
 def elternzeit_anspruch(  # noqa: PLR0913
     alter_monate_jüngstes_mitglied_hh: float,
@@ -377,18 +375,18 @@ def elterngeld_eink_relev_m(
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
-    According to § 2 (1) and (3) BEEG elterngeld is calculated by the loss of income due to
-    child raising and is reduced by aquired income during the claiming of Elterngeld.
- 
- Parameters
-    ----------
-    _elterngeld_proxy_eink_vorj_elterngeld_m
-        See :func:`_elterngeld_proxy_eink_vorj_elterngeld_m`.
-    elterngeld_nettolohn_m
-        See :func:`elterngeld_nettolohn_m`.
-    
-    Returns
-    -------
+       According to § 2 (1) and (3) BEEG elterngeld is calculated by the loss of income due to
+       child raising and is reduced by aquired income during the claiming of Elterngeld.
+
+    Parameters
+       ----------
+       _elterngeld_proxy_eink_vorj_elterngeld_m
+           See :func:`_elterngeld_proxy_eink_vorj_elterngeld_m`.
+       elterngeld_nettolohn_m
+           See :func:`elterngeld_nettolohn_m`.
+
+       Returns
+       -------
 
     """
     relev = _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
@@ -453,8 +451,7 @@ def elterngeld_anteil_eink_erlass(
 
 
 def elterngeld_eink_erlass_m(
-    elterngeld_eink_relev_m: float, 
-    elterngeld_anteil_eink_erlass: float
+    elterngeld_eink_relev_m: float, elterngeld_anteil_eink_erlass: float
 ) -> float:
     """Calculate base parental leave benefit.
 
@@ -583,12 +580,14 @@ def elterngeld_anrechenbares_einkommen_m(
 
     """
 
-    out =(mutterschaftsgeld_m 
-            + dienstbezüge_bei_beschäftigungsverbot_m 
-            + elterngeld_vergleichbare_leistungen_m 
-            + ersatzeinnahmen_m
-            )
+    out = (
+        mutterschaftsgeld_m
+        + dienstbezüge_bei_beschäftigungsverbot_m
+        + elterngeld_vergleichbare_leistungen_m
+        + ersatzeinnahmen_m
+    )
     return out
+
 
 # This function calculates the income, that leads to a 1:1 reduction in the Elterngeld payment
 # It is calculated according to §3 (1) BEEG
