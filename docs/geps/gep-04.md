@@ -229,8 +229,8 @@ aggregate_by_group_demographic_vars = {
 }
 ```
 
-The group identifier (`hh_id`, `sn_id`, `fg_id`, `bg_id`, `eg_id`, `ehe_id`) will be
-automatically included as an argument; for `count` nothing else is necessary.
+The group identifier (`hh_id`, `wthh_id`, `fg_id`, `bg_id`, `eg_id`, `ehe_id`, `sn_id`)
+will be automatically included as an argument; for `count` nothing else is necessary.
 
 The output type will be the same as the input type. Exceptions:
 

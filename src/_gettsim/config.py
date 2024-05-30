@@ -70,10 +70,16 @@ INTERNAL_PARAMS_GROUPS = [
 SUPPORTED_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
-        "description": "The relevant unit for Wohngeld. Encompasses more people than"
-        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
-        " unit for Wohngeld.",
+        "description": "Individuals living together in a household in the Wohngeld"
+        " sense (§5 WoGG).",
         "potentially_endogenous": False,
+    },
+    "wthh": {
+        "name": "wohngeldrechtlicher Teilhaushalt",
+        "description": "The relevant unit for Wohngeld. Members of a household for whom"
+        " the Wohngeld priority check compared to Bürgergeld yields the same result"
+        " ∈ {True, False}.",
+        "potentially_endogenous": True,
     },
     "fg": {
         "name": "Familiengemeinschaft",
@@ -88,9 +94,10 @@ SUPPORTED_GROUPINGS = {
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
-    "sn": {
-        "name": "Steuernummer",
-        "description": "Spouses filing taxes jointly or individuals.",
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
         "potentially_endogenous": True,
     },
     "ehe": {
@@ -98,10 +105,10 @@ SUPPORTED_GROUPINGS = {
         "description": "Couples that are either married or in a civil union.",
         "potentially_endogenous": True,
     },
-    "eg": {
-        "name": "Einstandsgemeinschaft / Einstandspartner",
-        "description": "A couple whose members are deemed to be responsible for each"
-        " other.",
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 
@@ -133,7 +140,7 @@ DEFAULT_TARGETS = [
     "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_hh",
+    "wohngeld_m_wthh",
     "unterhaltsvors_m",
     "grunds_im_alter_m_eg",
     "ges_rente_m",

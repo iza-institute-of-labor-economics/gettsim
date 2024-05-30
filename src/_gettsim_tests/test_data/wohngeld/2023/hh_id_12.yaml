@@ -68,9 +68,13 @@ inputs:
       - 1
     geburtsjahr:
       - 1966
+    wohngeld_vorrang_bg:
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_wthh:
     - 425.0
-  wohngeld_nach_vermög_check_m_hh:
+  _wohngeld_nach_vermög_check_m_wthh:
     - 0.0

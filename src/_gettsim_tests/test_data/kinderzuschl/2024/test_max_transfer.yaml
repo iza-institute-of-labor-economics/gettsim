@@ -76,12 +76,21 @@ inputs:
     arbeitsl_geld_2_vor_vorrang_m_bg:
       - 0.0
       - 0.0
-    wohngeld_kinderzuschl_vorrang_hh:
+    wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
+    wohnfläche_hh:
+      - 70.0
+      - 70.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
   assumed: {}
 outputs:
-  kinderzuschl_m_bg:
+  _kinderzuschl_nach_vermög_check_m_bg:
     - 292.0
     - 292.0
   bruttokaltmiete_m_bg:

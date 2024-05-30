@@ -3,7 +3,10 @@ from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m: float,
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
 ) -> float:
     """SGB II income.
@@ -11,31 +14,10 @@ def arbeitsl_geld_2_eink_m(
     Relevant income according to SGB II. Includes child benefit transfer
     (Kindergeldübertrag).
 
-    Parameters
-    ----------
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m
-        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m`.
-    kindergeldübertrag_m
-        See :func:`kindergeldübertrag_m`.
-
-    Returns
-    -------
-    Income according to SGB II.
-
-    """
-    return _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m + kindergeldübertrag_m
-
-
-def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
-    kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
-    kindergeld_zur_bedarfsdeckung_m: float,
-) -> float:
-    """SGB II income without Kindergeldübertrag.
-
-    Relevant income according to SGB II. Does not include child benefit transfer
-    (Kindergeldübertrag).
+    Note: When aggregating this target to the household level, deduct
+    `_diff_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
+    received by the child may enter `arbeitsl_geld_2_eink_m_hh` twice: once as
+    Kindergeld and once as Kindergeldübertrag.
 
     Parameters
     ----------
@@ -47,10 +29,12 @@ def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
         See :func:`unterhaltsvors_m`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
+    kindergeldübertrag_m
+        See :func:`kindergeldübertrag_m`.
 
     Returns
     -------
-    Income without child benefit transfer.
+    Income according to SGB II.
 
     """
     return (
@@ -58,6 +42,7 @@ def _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m(
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_zur_bedarfsdeckung_m
+        + kindergeldübertrag_m
     )
 
 

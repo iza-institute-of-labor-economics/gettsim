@@ -3,9 +3,9 @@ from _gettsim.shared import policy_info
 
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
-    wohngeld_vorrang_hh: bool,
+    wohngeld_vorrang_bg: bool,
     kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_hh: bool,
+    wohngeld_kinderzuschl_vorrang_bg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -16,12 +16,12 @@ def arbeitsl_geld_2_m_bg(
     ----------
     arbeitsl_geld_2_vor_vorrang_m_bg
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
-    wohngeld_vorrang_hh
-        See :func:`wohngeld_vorrang_hh`.
+    wohngeld_vorrang_bg
+        See :func:`wohngeld_vorrang_bg`.
     kinderzuschl_vorrang_bg
         See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_hh
-        See :func:`wohngeld_kinderzuschl_vorrang_hh`.
+    wohngeld_kinderzuschl_vorrang_bg
+        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -30,10 +30,16 @@ def arbeitsl_geld_2_m_bg(
     float with the income by unemployment insurance on household level.
 
     """
+    # TODO (@MImmesberger): No interaction between Wohngeld/ALG2 and Grundsicherung im
+    # Alter (SGB XII) is implemented yet. We assume for now that households with only
+    # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
+    # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
+    # resolved, remove the `erwachsene_alle_rentner_hh` condition.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
     if (
-        wohngeld_vorrang_hh
+        wohngeld_vorrang_bg
         or kinderzuschl_vorrang_bg
-        or wohngeld_kinderzuschl_vorrang_hh
+        or wohngeld_kinderzuschl_vorrang_bg
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0
@@ -70,9 +76,9 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     alleinerz_bg: bool,
-    anz_kinder_bg: int,
-    anz_kinder_bis_6_bg: int,
-    anz_kinder_bis_15_bg: int,
+    anz_kinder_fg: int,
+    anz_kinder_bis_6_fg: int,
+    anz_kinder_bis_15_fg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Compute additional need for single parents.
@@ -87,12 +93,12 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
     ----------
     alleinerz_bg
         See :func:`alleinerz_bg`.
-    anz_kinder_bg
-        See :func:`anz_kinder_bg`.
-    anz_kinder_bis_6_bg
-        See :func:`anz_kinder_bis_6_bg`.
-    anz_kinder_bis_15_bg
-        See :func:`anz_kinder_bis_15_bg`.
+    anz_kinder_fg
+        See :func:`anz_kinder_fg`.
+    anz_kinder_bis_6_fg
+        See :func:`anz_kinder_bis_6_fg`.
+    anz_kinder_bis_15_fg
+        See :func:`anz_kinder_bis_15_fg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -110,13 +116,13 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg(
             max(
                 # Minimal Mehrbedarf share. Minimal rate times number of children
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
-                * anz_kinder_bg,
+                * anz_kinder_fg,
                 # Special case if 1 kid below 6 or 2,3 below 15.
                 (
                     arbeitsl_geld_2_params["mehrbedarf_anteil"][
                         "kind_unter_7_oder_mehr"
                     ]
-                    if (anz_kinder_bis_6_bg >= 1) or (2 <= anz_kinder_bis_15_bg <= 3)
+                    if (anz_kinder_bis_6_fg >= 1) or (2 <= anz_kinder_bis_15_fg <= 3)
                     else 0.0
                 ),
             ),

@@ -24,12 +24,7 @@ def test_wohngeld(
 
     result = compute_taxes_and_transfers(
         data=df, params=policy_params, functions=policy_functions, targets=column
-    )
-
-    if column == "wohngeld_eink_m":
-        result[column] = result[column].round(1)
-    else:
-        result[column] = result[column].round(2)
+    ).round(2)
 
     assert_series_equal(
         result[column], test_data.output_df[column], check_dtype=False, atol=0, rtol=0

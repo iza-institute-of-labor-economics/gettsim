@@ -37,7 +37,10 @@ inputs:
     _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_vor_vermög_check_m_wthh:
+      - 356.0
+      - 356.0
+    wohngeld_vor_vermög_check_m_bg:
       - 356.0
       - 356.0
     arbeitsl_geld_2_regelbedarf_m_bg:
@@ -72,7 +75,7 @@ outputs:
   kinderzuschl_m_bg:
     - 0
     - 0
-  wohngeld_m_hh:
+  wohngeld_m_wthh:
     - 0
     - 0
   arbeitsl_geld_2_m_bg:

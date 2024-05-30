@@ -125,20 +125,25 @@ indicate the level of aggregation.
 GETTSIM knows about the following units:
 
 - `p_id`: person identifier
-- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
-  Germany-wide Steuer-ID)
-- `hh_id`: Haushalt, the relevant unit for Wohngeld. Encompasses more people than the
-  Bedarfsgemeinschaft (e.g., possibly more than 2 generations).
+- `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
+  (§5 WoGG).
+- `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
+  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This unit is
+  based on the priority check via `wohngeld_vorrang_bg` and
+  `wohngeld_kinderzuschl_vorrang_bg`.
 - `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
   Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
   Bedarfsgemeinschaft before making checks for whether children have enough income fend
   for themselves. Subset of `hh`.
-- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft plus for whether children
-  have enough income to fend for themselves. Subset of `fg_id`.
-- `ehe_id`: Ehegemeinschaft, i.e., couples that are married or in a civil union.
-- `eg_id`: Einstandsgemeinschaft, i.e., a couple whose members are deemed to be
-  responsible for each other. This includes couples that live together and may or may
-  not be married or in a civil union.
+- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding children who have
+  enough income to fend for themselves (they will form separate `bg`s). Subset of
+  `fg_id`.
+- `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
+  for each other. This includes couples that live together and may or may not be married
+  or in a civil union.
+- `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
+- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
+  Germany-wide Steuer-ID)
 
 Note that households do not include flat shares etc.. Such broader definition are
 currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
@@ -163,7 +168,7 @@ general naming considerations here.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_nach_vermög_check_m_hh` for a column derived from it).
+  and `_wohngeld_nach_vermög_check_m_wthh` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 
