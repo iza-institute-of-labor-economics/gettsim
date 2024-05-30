@@ -260,9 +260,9 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     reaching the required age.
 
     Returns 0 of the person is not eligible for receiving pension benefits because
-    either i) the person is younger than the earliest retirement age or ii) the person
-    is not eligible for pension benefits because `ges_rente_vorauss_regelrente` is
-    False.
+    either i) the person is younger than the earliest possible retirement age or ii) the
+    person is not eligible for pension benefits because `ges_rente_vorauss_regelrente`
+    is False.
 
     Parameters
     ----------
@@ -1234,7 +1234,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     _ges_rente_arbeitsl_vorzeitig: float,
     _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Earliest retirement age after checking for eligibility.
+    """Earliest possible retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status. Policy becomes inactive in 2018
@@ -1287,7 +1287,7 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Earliest retirement age after checking for eligibility.
+    """Earliest possible retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status.
