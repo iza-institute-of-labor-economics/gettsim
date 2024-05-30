@@ -101,11 +101,11 @@ def elterngeld_anspruch(
             (
                 alleinerz == True
                 and _zu_verst_eink_mit_kinderfreib_vorj_sn
-                <= elterngeld_params["max_einkommen_vorj_allein"]
+                <= elterngeld_params["max_eink_vorj_allein"]
             )
             or (
                 _zu_verst_eink_mit_kinderfreib_vorj_sn
-                <= elterngeld_params["max_einkommen_vorj_zsm"]
+                <= elterngeld_params["max_eink_vorj_zsm"]
             )
         )
         and (elternzeit_anspruch == True)

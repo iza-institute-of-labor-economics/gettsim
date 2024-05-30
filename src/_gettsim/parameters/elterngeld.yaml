@@ -172,7 +172,7 @@ max_monate_ind:
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-max_einkommen_vorj_allein:
+max_eink_vorj_allein:
   name:
     de: >-
       Maximales zvE des Single-Haushalts im letzten Veranlagungszeitraum, bis zu dem man
@@ -187,9 +187,12 @@ max_einkommen_vorj_allein:
     scalar: 0250000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2024-04-01:
+    scalar: 0200000.0
+    reference: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107
+  2025-04-01:
     scalar: 0175000.0
-    reference: Art. 7 G. v. 27.3.2024 BGBL. I Nr. 107 S. 4
-max_einkommen_vorj_zsm:
+    reference: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107
+max_eink_vorj_zsm:
   name:
     de: >-
       Gemeinsames maximales zvE des Haushalts im letzten Veranlagungszeitraum, bis zu
@@ -205,10 +208,13 @@ max_einkommen_vorj_zsm:
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2021-09-01:
     scalar: 0300000.0
-    reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
+    reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
   2024-04-01:
+    scalar: 0200000.0
+    reference: Art. 1 G. v. 22.12.2023 BGBl. 2023 I Nr. 412
+  2025-04-01:
     scalar: 0175000.0
-    reference: Art. 1 G. v. 22.12.2023 BGBL. I Nr. 412 S. 1
+    reference: Art. 1 G. v. 22.12.2023 BGBl. 2023 I Nr. 412
 max_arbeitsstunden_w:
   name:
     de: >-
@@ -223,4 +229,4 @@ max_arbeitsstunden_w:
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
   2021-09-01:
     scalar: 32.0
-    reference: Artikel 1 G. v. 15.02.2021 BGBl. I S. 239
+    reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
