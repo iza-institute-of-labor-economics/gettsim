@@ -164,14 +164,24 @@ inputs:
       - 1988
       - 2013
       - 2011
+    wohngeld_vorrang_bg:
+      - true
+      - true
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
+  wohngeld_vor_vermög_check_m_wthh:
     - 758.0
     - 758.0
     - 758.0
     - 758.0
-  wohngeld_nach_vermög_check_m_hh:
+  _wohngeld_nach_vermög_check_m_wthh:
     - 758.0
     - 758.0
     - 758.0

@@ -148,11 +148,11 @@ def _arbeitsl_geld_2_berechtigte_wohnfläche_bg(
     return min(wohnfläche_bg, maximum)
 
 
-def bruttokaltmiete_m_bg(
+def bruttokaltmiete_m(
     bruttokaltmiete_m_hh: float,
-    _anteil_personen_in_haushalt_bg: float,
+    anz_personen_hh: int,
 ) -> float:
-    """Share of household's monthly rent attributed to the Bedarfsgemeinschaft.
+    """Monthly rent attributed to a single person.
 
     Reference:
     BSG Urteil v. 09.03.2016 - B 14 KG 1/15 R.
@@ -162,21 +162,21 @@ def bruttokaltmiete_m_bg(
     ----------
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    _anteil_personen_in_haushalt_bg
-        See :func:`_anteil_personen_in_haushalt_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
 
     Returns
     -------
 
     """
-    return bruttokaltmiete_m_hh * _anteil_personen_in_haushalt_bg
+    return bruttokaltmiete_m_hh / anz_personen_hh
 
 
-def heizkosten_m_bg(
+def heizkosten_m(
     heizkosten_m_hh: float,
-    _anteil_personen_in_haushalt_bg: float,
+    anz_personen_hh: int,
 ) -> float:
-    """Share of household's heating expenses attributed to the Bedarfsgemeinschaft.
+    """Monthly heating expenses attributed to a single person.
 
     Reference:
     BSG Urteil v. 09.03.2016 - B 14 KG 1/15 R.
@@ -186,31 +186,31 @@ def heizkosten_m_bg(
     ----------
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
-    _anteil_personen_in_haushalt_bg
-        See :func:`_anteil_personen_in_haushalt_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
 
     Returns
     -------
 
     """
-    return heizkosten_m_hh * _anteil_personen_in_haushalt_bg
+    return heizkosten_m_hh / anz_personen_hh
 
 
-def wohnfläche_bg(
+def wohnfläche(
     wohnfläche_hh: float,
-    _anteil_personen_in_haushalt_bg: float,
+    anz_personen_hh: int,
 ) -> float:
-    """Share of household's dwelling size attributed to the Bedarfsgemeinschaft.
+    """Share of household's dwelling size attributed to a single person.
 
     Parameters
     ----------
     wohnfläche_hh
         See basic input variable :ref:`wohnfläche_hh <wohnfläche_hh>`.
-    _anteil_personen_in_haushalt_bg
-        See :func:`_anteil_personen_in_haushalt_bg`.
+    anz_personen_hh
+        See :func:`anz_personen_hh`.
 
     Returns
     -------
 
     """
-    return wohnfläche_hh * _anteil_personen_in_haushalt_bg
+    return wohnfläche_hh / anz_personen_hh
