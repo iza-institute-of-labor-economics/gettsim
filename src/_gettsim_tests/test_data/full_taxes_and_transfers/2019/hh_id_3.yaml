@@ -44,6 +44,8 @@ inputs:
       - 0.0
     bruttolohn_vorj_m:
       - 2000.0
+    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+      - 24_750.0
     arbeitsstunden_w:
       - 0.0
     geburtsjahr:
@@ -86,6 +88,14 @@ inputs:
       - 0
     m_elterngeld_mut_hh:
       - 0
+    mutterschaftsgeld_m:
+      - 0.0
+    dienstbezüge_bei_beschäftigungsverbot_m:
+      - 0.0
+    elterngeld_vergleichbare_leistungen_m:
+      - 0.0
+    ersatzeinnahmen_m:
+      - 0.0
     in_ausbildung:
       - false
     alleinerz:
