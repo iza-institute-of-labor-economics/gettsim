@@ -259,6 +259,11 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     within month does not matter. The eligibility always starts in the month after
     reaching the required age.
 
+    Returns 0 of the person is not eligible for receiving pension benefits because
+    either i) the person is younger than the earliest retirement age or ii) the person
+    is not eligible for pension benefits because `ges_rente_vorauss_regelrente` is
+    False.
+
     Parameters
     ----------
     age_of_retirement
@@ -374,7 +379,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -429,7 +435,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     ges_rente_vorauss_besond_langj: bool,
     ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -490,7 +497,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -637,6 +645,8 @@ def ges_rente_regelaltersgrenze_ohne_staffelung(
     not serve as reference for calculating deductions. However, it serves as reference
     for calculating gains in the Zugangsfakor in case of later retirement.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -669,6 +679,8 @@ def ges_rente_regelaltersgrenze_mit_staffelung(
     The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
     not serve as reference for calculating deductions. However, it serves as reference
     for calculating gains in the Zugangsfakor in case of later retirement.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -704,6 +716,8 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
 
     FRA is the same for each birth cohort.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -731,6 +745,8 @@ def ges_rente_frauen_altersgrenze_mit_staffelung(
     """Full retirement age (FRA) for women.
 
     FRA differs by birth cohort.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -781,6 +797,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     """Full retirement age for unemployed without Vertrauensschutz.
 
     Full retirement age depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -833,6 +851,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     Before the WFG (Gesetz für Wachstum und Beschäftigung) was implemented in 1997 the
     full retirement age was the same for every birth cohort.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     ges_rente_params
@@ -859,6 +879,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -889,6 +911,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
 
     Full retirement age depends on birth year and month. Policy becomes inactive in 2010
     because then all potential beneficiaries have reached the normal retirement age.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -942,6 +966,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     Full retirement age depends on birth year and month. Policy becomes inactive in 2017
     because then all potential beneficiaries have reached the normal retirement age.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
@@ -969,6 +995,8 @@ def _ges_rente_langj_altersgrenze_ohne_staffelung(
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1007,6 +1035,8 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1062,6 +1092,8 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1119,6 +1151,8 @@ def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
     Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -1151,6 +1185,8 @@ def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
 
     Calculate the threshold from which very long term insured people (at least 45
     years) can claim their full pension without deductions.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1198,7 +1234,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     _ges_rente_arbeitsl_vorzeitig: float,
     _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Early retirement age.
+    """Earliest retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status. Policy becomes inactive in 2018
@@ -1251,7 +1287,7 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Early retirement age.
+    """Earliest retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status.
@@ -1292,6 +1328,8 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
 
     ERA does not depend on birth year and month.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -1324,6 +1362,8 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
     """Early retirement age (ERA) for Renten für Frauen.
 
     ERA depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1376,6 +1416,8 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
 
     ERA does not depend on birth year and month.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -1403,6 +1445,8 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung(
     """Early retirement age (ERA) for Rente für langjährig Versicherte.
 
     ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1435,6 +1479,8 @@ def _ges_rente_langj_vorzeitig_mit_staffelung(
     """Early retirement age (ERA) for Renten für Frauen.
 
     ERA depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1474,6 +1520,8 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
 
     ERA does not depend on birth year and month.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     geburtsjahr
@@ -1500,6 +1548,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     """Early retirement age of pension for unemployed.
 
     Early retirement age does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1528,6 +1578,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     """Early retirement age of pension for unemployed without Vertrauensschutz.
 
     Relevant if the early retirement age depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1579,6 +1631,8 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 ) -> float:
     """Early retirement age of pension for unemployed.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
@@ -1605,6 +1659,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     """Early retirement age of pension for unemployed.
 
     Includes Vertrauensschutz rules implemented from July to September 1996.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1644,6 +1700,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 
     Early retirement age does not depend on birth year and month.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     ges_rente_params
@@ -1676,6 +1734,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 
     Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2018
     because then all potential beneficiaries have reached the normal retirement age.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
