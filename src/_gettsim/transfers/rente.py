@@ -1,4 +1,3 @@
-from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 
@@ -233,7 +232,6 @@ def entgeltp_update_lohn(
 
 
 def ges_rente_zugangsfaktor(  # noqa: PLR0913
-    rentner: bool,
     age_of_retirement: float,
     ges_rente_regelaltersgrenze: float,
     referenzalter_abschlag: float,
@@ -261,10 +259,13 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
     within month does not matter. The eligibility always starts in the month after
     reaching the required age.
 
+    Returns 0 of the person is not eligible for receiving pension benefits because
+    either i) the person is younger than the earliest possible retirement age or ii) the
+    person is not eligible for pension benefits because `ges_rente_vorauss_regelrente`
+    is False.
+
     Parameters
     ----------
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
     age_of_retirement
         See :func:`age_of_retirement`.
     ges_rente_regelaltersgrenze
@@ -288,7 +289,7 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
 
     """
 
-    if rentner and ges_rente_vorauss_regelrente:
+    if ges_rente_vorauss_regelrente:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
         if age_of_retirement < _ges_rente_altersgrenze_abschlagsfrei:  # [ERA,FRA)
             if ges_rente_vorauss_vorzeitig and (
@@ -324,7 +325,8 @@ def ges_rente_zugangsfaktor(  # noqa: PLR0913
         else:  # [FRA,NRA]
             out = 1.0
 
-    # Return 0 if person not yet retired or retired before working at least 5 years
+    # Claiming pension is not possible if ges_rente_vorauss_regelrente is 'False'.
+    # Return 0 in this case. Then, the pension payment is 0 as well.
     else:
         out = 0.0
 
@@ -338,7 +340,6 @@ def age_of_retirement(
     monat_renteneintr: int,
     geburtsjahr: int,
     geburtsmonat: int,
-    rentner: bool,
 ) -> float:
     """Age at retirement in monthly precision.
 
@@ -359,36 +360,27 @@ def age_of_retirement(
         See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
     monat_renteneintr
         See basic input variable :ref:`monat_renteneintr <monat_renteneintr>`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
 
     Returns
     -------
     Age at retirement.
 
     """
-    if rentner:
-        out = (
-            jahr_renteneintr - geburtsjahr + (monat_renteneintr - geburtsmonat - 1) / 12
-        )
-    else:
-        out = float("NaN")
-    return out
+    return jahr_renteneintr - geburtsjahr + (monat_renteneintr - geburtsmonat - 1) / 12
 
 
 @policy_info(end_date="2011-12-31", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei")
 def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_regelaltersgrenze: float,
-    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -398,32 +390,28 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     ----------
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
          See :func:`_ges_rente_arbeitsl_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_frauen
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl:
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl:
+        See :func:`ges_rente_vorauss_arbeitsl`.
     Returns
     -------
     Full retirement age.
 
     """
 
-    out = float("NaN")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
-        out = min([out, ges_rente_frauen_altersgrenze])
-    if _ges_rente_vorauss_arbeitsl:
+        out = min([out, _ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, _ges_rente_arbeitsl_altersgrenze])
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
@@ -436,19 +424,19 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
     end_date="2017-12-31",
     name_in_dag="_ges_rente_altersgrenze_abschlagsfrei",
 )
-def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
+def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     ges_rente_regelaltersgrenze: float,
-    ges_rente_frauen_altersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -463,24 +451,22 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     ----------
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_besond_langj_altersgrenze
         See :func:`_ges_rente_besond_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
         See :func:`_ges_rente_arbeitsl_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_frauen
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_vorauss_besond_langj
         See :func:`ges_rente_vorauss_besond_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
     Returns
     -------
@@ -488,12 +474,10 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
 
     """
 
-    out = float("inf")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_frauen:
-        out = min([out, ges_rente_frauen_altersgrenze])
-    if _ges_rente_vorauss_arbeitsl:
+        out = min([out, _ges_rente_frauen_altersgrenze])
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, _ges_rente_arbeitsl_altersgrenze])
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
@@ -510,11 +494,11 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
-    ges_rente_vorauss_regelrente: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_besond_langj: bool,
 ) -> float:
-    """Full retirement age.
+    """Full retirement age after eligibility checks, assuming eligibility for
+    Regelaltersrente.
 
     Age at which pension can be claimed without deductions. This age is smaller or equal
     to the normal retirement age (FRA<=NRA) and depends on personal characteristics as
@@ -528,8 +512,6 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_besond_langj_altersgrenze
         See :func:`_ges_rente_besond_langj_altersgrenze`.
-    ges_rente_vorauss_regelrente
-        See :func:`ges_rente_vorauss_regelrente`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_vorauss_besond_langj
@@ -541,9 +523,7 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
     """
 
-    out = float("inf")
-    if ges_rente_vorauss_regelrente:
-        out = ges_rente_regelaltersgrenze
+    out = ges_rente_regelaltersgrenze
     if ges_rente_vorauss_langj:
         out = min([out, _ges_rente_langj_altersgrenze])
     if ges_rente_vorauss_besond_langj:
@@ -554,24 +534,27 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
 @policy_info(end_date="2017-12-31", name_in_dag="referenzalter_abschlag")
 def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
-    ges_rente_frauen_altersgrenze: float,
+    ges_rente_regelaltersgrenze: float,
+    _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_arbeitsl_altersgrenze: float,
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    NaN if person is not eligible for early retirement. Policy becomes inactive in 2018
-    because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit and Rente
-    für Frauen have reached the normal retirement age.
+    Normal retirement age if not eligible for early retirement. Policy becomes inactive
+    in 2018 because then all potential beneficiaries of the Rente wg. Arbeitslosigkeit
+    and Rente für Frauen have reached the normal retirement age.
 
     Parameters
     ----------
-    ges_rente_frauen_altersgrenze
-        See :func:`ges_rente_frauen_altersgrenze`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    _ges_rente_frauen_altersgrenze
+        See :func:`_ges_rente_frauen_altersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     _ges_rente_arbeitsl_altersgrenze
@@ -580,8 +563,8 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
      Returns
     -------
@@ -591,43 +574,46 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     if (
         ges_rente_vorauss_langj
         and ges_rente_vorauss_frauen
-        and _ges_rente_vorauss_arbeitsl
+        and ges_rente_vorauss_arbeitsl
     ):
         out = min(
             [
-                ges_rente_frauen_altersgrenze,
+                _ges_rente_frauen_altersgrenze,
                 _ges_rente_langj_altersgrenze,
                 _ges_rente_arbeitsl_altersgrenze,
             ]
         )
     elif ges_rente_vorauss_langj and ges_rente_vorauss_frauen:
-        out = min([ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
-    elif ges_rente_vorauss_langj and _ges_rente_vorauss_arbeitsl:
+        out = min([_ges_rente_frauen_altersgrenze, _ges_rente_langj_altersgrenze])
+    elif ges_rente_vorauss_langj and ges_rente_vorauss_arbeitsl:
         out = min([_ges_rente_langj_altersgrenze, _ges_rente_arbeitsl_altersgrenze])
     elif ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     elif ges_rente_vorauss_frauen:
-        out = ges_rente_frauen_altersgrenze
-    elif _ges_rente_vorauss_arbeitsl:
+        out = _ges_rente_frauen_altersgrenze
+    elif ges_rente_vorauss_arbeitsl:
         out = _ges_rente_arbeitsl_altersgrenze
     else:
-        out = float("NaN")
+        out = ges_rente_regelaltersgrenze
 
     return out
 
 
 @policy_info(start_date="2018-01-01", name_in_dag="referenzalter_abschlag")
 def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
+    ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
 
-    NaN if person is not eligible for early retirement.
+    Normal retirement age if not eligible for early retirement.
 
     Parameters
     ----------
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     _ges_rente_langj_altersgrenze
         See :func:`_ges_rente_langj_altersgrenze`.
     ges_rente_vorauss_langj
@@ -641,17 +627,60 @@ def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     if ges_rente_vorauss_langj:
         out = _ges_rente_langj_altersgrenze
     else:
-        out = float("NaN")
+        out = ges_rente_regelaltersgrenze
 
     return out
 
 
-def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> float:
+@policy_info(end_date="2007-04-19", name_in_dag="ges_rente_regelaltersgrenze")
+def ges_rente_regelaltersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
     """Normal retirement age (NRA).
+
+    NRA is the same for every birth cohort.
 
     The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
     not serve as reference for calculating deductions. However, it serves as reference
     for calculating gains in the Zugangsfakor in case of later retirement.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+
+    Returns
+    -------
+    Normal retirement age (NRA).
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["regelaltersgrenze"]
+
+
+@policy_info(start_date="2007-04-20", name_in_dag="ges_rente_regelaltersgrenze")
+def ges_rente_regelaltersgrenze_mit_staffelung(
+    geburtsjahr: int, ges_rente_params: dict
+) -> float:
+    """Normal retirement age (NRA).
+
+    NRA differs by birth cohort.
+
+    The Regelaltersrente cannot be claimed earlier than at the NRA, i.e. the NRA does
+    not serve as reference for calculating deductions. However, it serves as reference
+    for calculating gains in the Zugangsfakor in case of later retirement.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -666,31 +695,33 @@ def ges_rente_regelaltersgrenze(geburtsjahr: int, ges_rente_params: dict) -> flo
     Normal retirement age (NRA).
 
     """
-    out = piecewise_polynomial(
-        x=geburtsjahr,
-        thresholds=ges_rente_params["regelaltersgrenze"]["thresholds"],
-        rates=ges_rente_params["regelaltersgrenze"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params["regelaltersgrenze"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
+    if geburtsjahr <= ges_rente_params["regelaltersgrenze"]["max_birthyear_old_regime"]:
+        out = ges_rente_params["regelaltersgrenze"]["entry_age_old_regime"]
+    elif (
+        geburtsjahr >= ges_rente_params["regelaltersgrenze"]["min_birthyear_new_regime"]
+    ):
+        out = ges_rente_params["regelaltersgrenze"]["entry_age_new_regime"]
+    else:
+        out = ges_rente_params["regelaltersgrenze"][geburtsjahr]
 
     return out
 
 
-def ges_rente_frauen_altersgrenze(
-    birthdate_decimal: float,
-    ges_rente_regelaltersgrenze: float,
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze")
+def ges_rente_frauen_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
-    """Full retirement age for women.
+    """Full retirement age (FRA) for women.
+
+    FRA is the same for each birth cohort.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -699,23 +730,65 @@ def ges_rente_frauen_altersgrenze(
     Full retirement age for women.
 
     """
-    if birthdate_decimal < ges_rente_params["first_birthyear_without_rente_für_frauen"]:
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]["rates"],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_für_frauen_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
+
+
+@policy_info(start_date="1989-12-18", name_in_dag="_ges_rente_frauen_altersgrenze")
+def ges_rente_frauen_altersgrenze_mit_staffelung(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """Full retirement age (FRA) for women.
+
+    FRA differs by birth cohort.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age for women.
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
     else:
-        out = ges_rente_regelaltersgrenze
+        out = ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"][geburtsjahr][
+            geburtsmonat
+        ]
 
     return out
 
 
+@policy_info(end_date="2017-12-31")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -724,6 +797,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     """Full retirement age for unemployed without Vertrauensschutz.
 
     Full retirement age depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -766,7 +841,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     return out
 
 
-@policy_info(end_date="1991-12-31", name_in_dag="_ges_rente_arbeitsl_altersgrenze")
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -775,6 +850,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
     Before the WFG (Gesetz für Wachstum und Beschäftigung) was implemented in 1997 the
     full retirement age was the same for every birth cohort.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -794,7 +871,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 
 
 @policy_info(
-    start_date="1992-01-01",
+    start_date="1989-12-18",
     end_date="1996-07-28",
     name_in_dag="_ges_rente_arbeitsl_altersgrenze",
 )
@@ -802,6 +879,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -832,6 +911,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
 
     Full retirement age depends on birth year and month. Policy becomes inactive in 2010
     because then all potential beneficiaries have reached the normal retirement age.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -885,6 +966,8 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     Full retirement age depends on birth year and month. Policy becomes inactive in 2017
     because then all potential beneficiaries have reached the normal retirement age.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
     _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
@@ -898,69 +981,182 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
-def _ges_rente_langj_altersgrenze(
-    birthdate_decimal: float,
-    ges_rente_regelaltersgrenze: float,
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
+def _ges_rente_langj_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the age, at which a long term insured person (at least 35 years) is
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA is the same for each birth year.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
     eligible to claim the full pension (without deductions). This pension scheme allows
     for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
     as reference for calculating the zugangsfaktor.
 
+    Does not check for eligibility for this pathway into retirement.
+
     Parameters
     ----------
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age for long term insured.
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]
+
+
+@policy_info(
+    start_date="1989-12-18",
+    end_date="2007-04-19",
+    name_in_dag="_ges_rente_langj_altersgrenze",
+)
+def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA depends on birth year and month.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
+    eligible to claim the full pension (without deductions). This pension scheme allows
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
     Returns
     -------
     Full retirement age (without deductions) for long term insured.
-
     """
-
-    # From 1950 on, the altersgrenze of langjährig Versicherte is equal to the
-    # Regelaltersgrenze which is indpendendent of the birth month and only depends on
-    # the birth year.
-
-    if birthdate_decimal < ges_rente_params["alignment_cohort_langj_versicherte"]:
-        out = piecewise_polynomial(
-            x=birthdate_decimal,
-            thresholds=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-                "thresholds"
-            ],
-            rates=ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-                "rates"
-            ],
-            intercepts_at_lower_thresholds=ges_rente_params[
-                "altersgrenze_langj_versicherte_abschlagsfrei"
-            ]["intercepts_at_lower_thresholds"],
-        )
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
     else:
-        out = ges_rente_regelaltersgrenze
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            geburtsjahr
+        ][geburtsmonat]
 
     return out
 
 
-@policy_info(start_date="2012-01-01")
-def _ges_rente_besond_langj_altersgrenze(
+@policy_info(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
+def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     geburtsjahr: int,
-    birthdate_decimal: float,
+    geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
-    """Calculate the threshold from which very long term insured people (at least 45
-    years) can claim their full pension without deductions.
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA depends on birth year.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
+    eligible to claim the full pension (without deductions). This pension scheme allows
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    birthdate_decimal
-        See :func:`birthdate_decimal`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for long term insured.
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return out
+
+
+@policy_info(
+    start_date="2012-01-01",
+    end_date="2014-06-22",
+    name_in_dag="_ges_rente_besond_langj_altersgrenze",
+)
+def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for very long term insured.
+
+    FRA is the same for each birth year.
+
+    Calculate the threshold from which very long term insured people (at least 45
+    years) can claim their full pension without deductions.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -969,36 +1165,76 @@ def _ges_rente_besond_langj_altersgrenze(
     Full retirement age (without deductions) for very long term insured.
 
     """
-    if geburtsjahr < ges_rente_params["first_birthyear_besond_langj_versicherte"]:
-        x = birthdate_decimal
-    else:
-        x = geburtsjahr
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
 
-    out = piecewise_polynomial(
-        x=x,
-        thresholds=ges_rente_params["altersgrenze_besond_langj_versicherte"][
-            "thresholds"
-        ],
-        rates=ges_rente_params["altersgrenze_besond_langj_versicherte"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_besond_langj_versicherte"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    return ges_rente_params["altersgrenze_besond_langj_versicherte"]
+
+
+@policy_info(
+    start_date="2014-06-23", name_in_dag="_ges_rente_besond_langj_altersgrenze"
+)
+def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for very long term insured.
+
+    FRA depends on birth year and month.
+
+    Calculate the threshold from which very long term insured people (at least 45
+    years) can claim their full pension without deductions.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for very long term insured.
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_besond_langj_versicherte"][geburtsjahr]
 
     return out
 
 
 @policy_info(end_date="2017-12-31", name_in_dag="_ges_rente_altersgrenze_vorzeitig")
-def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
+def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
-    geburtsjahr: int,
+    ges_rente_vorauss_arbeitsl: bool,
     ges_rente_regelaltersgrenze: float,
-    ges_rente_arbeitsl_vorzeitig: float,
-    ges_rente_params: dict,
+    _ges_rente_frauen_altersgrenze_vorzeitig: float,
+    _ges_rente_arbeitsl_vorzeitig: float,
+    _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Early retirement age.
+    """Earliest possible retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status. Policy becomes inactive in 2018
@@ -1011,34 +1247,27 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl:
-        See :func:`_ges_rente_vorauss_arbeitsl`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_vorauss_arbeitsl:
+        See :func:`ges_rente_vorauss_arbeitsl`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_arbeitsl_vorzeitig
-        See :func:`ges_rente_arbeitsl_vorzeitig`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    _ges_rente_frauen_altersgrenze_vorzeitig
+        See :func:`_ges_rente_frauen_altersgrenze_vorzeitig`.
+    _ges_rente_arbeitsl_vorzeitig
+        See :func:`_ges_rente_arbeitsl_vorzeitig`.
+    _ges_rente_langj_vorzeitig
+        See :func:`_ges_rente_langj_vorzeitig`.
 
      Returns
     -------
     Early retirement age (potentially with deductions).
 
     """
-    frauen_vorzeitig = piecewise_polynomial(
-        x=geburtsjahr,
-        thresholds=ges_rente_params["altersgrenze_für_frauen_vorzeitig"]["thresholds"],
-        rates=ges_rente_params["altersgrenze_für_frauen_vorzeitig"]["rates"],
-        intercepts_at_lower_thresholds=ges_rente_params[
-            "altersgrenze_für_frauen_vorzeitig"
-        ]["intercepts_at_lower_thresholds"],
-    )
+    frauen_vorzeitig = _ges_rente_frauen_altersgrenze_vorzeitig
 
-    arbeitsl_vorzeitig = ges_rente_arbeitsl_vorzeitig
+    arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig
 
-    langjährig_vorzeitig = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+    langjährig_vorzeitig = _ges_rente_langj_vorzeitig
 
     out = ges_rente_regelaltersgrenze
 
@@ -1046,7 +1275,7 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
         out = langjährig_vorzeitig
     if ges_rente_vorauss_frauen:
         out = min([out, frauen_vorzeitig])
-    if _ges_rente_vorauss_arbeitsl:
+    if ges_rente_vorauss_arbeitsl:
         out = min([out, arbeitsl_vorzeitig])
 
     return out
@@ -1056,9 +1285,9 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR091
 def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_regelaltersgrenze: float,
-    ges_rente_params: dict,
+    _ges_rente_langj_vorzeitig: float,
 ) -> float:
-    """Early retirement age.
+    """Earliest possible retirement age after checking for eligibility.
 
     Early retirement age depends on personal characteristics as gender, insurance
     duration, health/disability, employment status.
@@ -1069,8 +1298,8 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_langj`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+    _ges_rente_langj_vorzeitig
+        See :func:`_ges_rente_langj_vorzeitig`.
 
      Returns
     -------
@@ -1081,14 +1310,237 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     out = ges_rente_regelaltersgrenze
 
     if ges_rente_vorauss_langj:
-        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+        out = _ges_rente_langj_vorzeitig
     else:
         out = ges_rente_regelaltersgrenze
 
     return out
 
 
-@policy_info(end_date="1991-12-31", name_in_dag="ges_rente_arbeitsl_vorzeitig")
+@policy_info(
+    end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
+)
+def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
+
+
+@policy_info(
+    start_date="1989-12-18",
+    end_date="1996-09-26",
+    name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig",
+)
+def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_für_frauen_vorzeitig"][geburtsjahr][
+            geburtsmonat
+        ]
+
+    return out
+
+
+@policy_info(
+    start_date="1996-09-27", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
+)
+def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
+
+
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+
+
+@policy_info(
+    start_date="1989-12-18",
+    end_date="1996-09-26",
+    name_in_dag="_ges_rente_langj_vorzeitig",
+)
+def _ges_rente_langj_vorzeitig_mit_staffelung(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+
+    return out
+
+
+@policy_info(start_date="1996-09-27", name_in_dag="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+
+
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_vorzeitig")
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -1096,6 +1548,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     """Early retirement age of pension for unemployed.
 
     Early retirement age does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1115,6 +1569,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
+@policy_info(end_date="2017-12-31")
 def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -1123,6 +1578,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     """Early retirement age of pension for unemployed without Vertrauensschutz.
 
     Relevant if the early retirement age depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1165,14 +1622,16 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
 
 
 @policy_info(
-    start_date="1992-01-01",
+    start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Early retirement age of pension for unemployed.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1190,7 +1649,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 @policy_info(
     start_date="1996-07-29",
     end_date="1996-09-26",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_1997: bool,
@@ -1200,6 +1659,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     """Early retirement age of pension for unemployed.
 
     Includes Vertrauensschutz rules implemented from July to September 1996.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1229,7 +1690,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 @policy_info(
     start_date="1996-09-27",
     end_date="2004-07-25",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     geburtsjahr: int,  # noqa: ARG001
@@ -1238,6 +1699,8 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     """Early retirement age of pension for unemployed.
 
     Early retirement age does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1260,7 +1723,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 @policy_info(
     start_date="2004-07-26",
     end_date="2017-12-31",
-    name_in_dag="ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006: bool,
@@ -1271,6 +1734,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 
     Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2018
     because then all potential beneficiaries have reached the normal retirement age.
+
+    Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
@@ -1301,7 +1766,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
-    _ges_rente_vorauss_arbeitsl: bool,
+    ges_rente_vorauss_arbeitsl: bool,
 ) -> bool:
     """Eligibility for early retirement.
 
@@ -1316,8 +1781,8 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
         See :func:`ges_rente_vorauss_frauen`.
     ges_rente_vorauss_langj
         See :func:`ges_rente_vorauss_langj`.
-    _ges_rente_vorauss_arbeitsl
-        See :func:`_ges_rente_vorauss_arbeitsl`.
+    ges_rente_vorauss_arbeitsl
+        See :func:`ges_rente_vorauss_arbeitsl`.
 
 
     Returns
@@ -1329,7 +1794,7 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     out = (
         ges_rente_vorauss_frauen
         or ges_rente_vorauss_langj
-        or _ges_rente_vorauss_arbeitsl
+        or ges_rente_vorauss_arbeitsl
     )
 
     return out
@@ -1374,8 +1839,53 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
     return ges_rente_wartezeit_5
 
 
-@policy_info(end_date="2017-12-31")
-def ges_rente_vorauss_frauen(
+@policy_info(end_date="1997-12-15", name_in_dag="ges_rente_vorauss_frauen")
+def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
+    weiblich: bool,
+    ges_rente_wartezeit_15: bool,
+    y_pflichtbeitr_ab_40: float,
+    ges_rente_params: dict,
+) -> bool:
+    """Eligibility for Altersrente für Frauen (pension for women).
+
+    Eligibility does not depend on birth year.
+
+    Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
+    becomes inactive in 2018 because then all potential beneficiaries have reached the
+    normal retirement age.
+
+    Parameters
+    ----------
+    weiblich
+        See basic input variable :ref:`weiblich <weiblich>`.
+    ges_rente_wartezeit_15
+        See :func:`ges_rente_wartezeit_15`
+    y_pflichtbeitr_ab_40
+        See basic input variable :ref:`y_pflichtbeitr_ab_40 <y_pflichtbeitr_ab_40>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
+    """
+
+    out = (
+        weiblich
+        and ges_rente_wartezeit_15
+        and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
+    )
+
+    return out
+
+
+@policy_info(
+    start_date="1997-12-16",
+    end_date="2017-12-31",
+    name_in_dag="ges_rente_vorauss_frauen",
+)
+def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
     weiblich: bool,
     ges_rente_wartezeit_15: bool,
     y_pflichtbeitr_ab_40: float,
@@ -1383,6 +1893,8 @@ def ges_rente_vorauss_frauen(
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Frauen (pension for women).
+
+    Only individuals born before a certain year are eligible.
 
     Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
     becomes inactive in 2018 because then all potential beneficiaries have reached the
@@ -1417,7 +1929,7 @@ def ges_rente_vorauss_frauen(
     return out
 
 
-@policy_info(end_date="2007-04-29", name_in_dag="_ges_rente_vorauss_arbeitsl")
+@policy_info(end_date="2007-04-29", name_in_dag="ges_rente_vorauss_arbeitsl")
 def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
@@ -1455,13 +1967,13 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 @policy_info(
     start_date="2007-04-30",
     end_date="2017-12-31",
-    name_in_dag="_ges_rente_vorauss_arbeitsl",
+    name_in_dag="ges_rente_vorauss_arbeitsl",
 )
 def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
     pflichtbeitr_8_in_10: bool,
-    birthdate_decimal: float,
+    geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
@@ -1482,8 +1994,8 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
         See :func:`ges_rente_wartezeit_15`
     pflichtbeitr_8_in_10
         See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
-    birthdate_decimal
-        See :func:`birthdate_decimal`
+    geburtsjahr
+        See :func:`geburtsjahr`
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -1497,10 +2009,7 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
         arbeitsl_1y_past_585
         and ges_rente_wartezeit_15
         and pflichtbeitr_8_in_10
-        and birthdate_decimal
-        < ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
-            "first_birthyear_without_rente_für_arbeitsl"
-        ]
+        and geburtsjahr < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )
 
     return out

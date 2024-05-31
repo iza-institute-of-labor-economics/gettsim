@@ -756,48 +756,55 @@ regelaltersgrenze:
     en: Entry age for receiving regelaltersrente - normal retirement age (NRA)
   description:
     de: >-
-      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das
-      Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
-      früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
-      höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
+      Regelaltersgrenze ab der Renteneintritt möglich ist. Wenn früher oder später in
+      Rente gegangen wird, wird der Zugangsfaktor und damit der Rentenanspruch höher
+      oder niedriger, sofern keine Sonderregelungen gelten.
     en: >-
-      Piecewise linear function returning the statutory normal retirement age
-      ("regelaltersgrenze") at which the agent is allowed to get pensions without
-      deductions. If the agent retires earlier or later, the Zugangsfaktor and therefore
-      the pension claim is higher or lower, unless special conditions apply.
+      Normal retirement age from which pension can be received. If retirement benefits
+      are claimed earlier or later, the Zugangsfaktor and thus the pension entitlement
+      is higher or lower unless special regulations apply.
   reference: § 35 Satz 2 SGB VI
-  note:
-    de: >-
-      Bis einschließlich Jahrgang 1946 ist NRA 65, danach steigt es bis Jahrgang 1964.
-      Ab einschließlich Jahrgang 1964 gilt NRA 67.
-    en: null
-  type: piecewise_linear
-  1984-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1946
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
-    1:
-      upper_threshold: 1958
-      rate_linear: 0.083333333
-    2:
-      upper_threshold: 1964
-      rate_linear: 0.16666666
-    3:
-      upper_threshold: inf
-      rate_linear: 0
+  1957-02-26:
+    reference: Rentenreformgesetz 1957 BGBl. I S. 88
+    scalar: 65.0
+  2007-04-20:
+    reference: RV-Altersgrenzenanpassungsgesetz 20.04.2007. BGBl. I S. 554
+    note: >-
+      Increase of the early retirement age from 65 to 67 for birth cohort 1947-1964.
+      Vertrauensschutz (Art. 56) applies for birth cohorts before 1955 who were in
+      Altersteilzeit before January 1st, 2007 or received "Anpassungsgeld für
+      entlassense Arbeitnehmer des Bergbaus".
+    entry_age_old_regime: 65.0
+    entry_age_new_regime: 67.0
+    max_birthyear_old_regime: 1946
+    min_birthyear_new_regime: 1964
+    1947: 65.083333
+    1948: 65.166667
+    1949: 65.25
+    1950: 65.333333
+    1951: 65.416667
+    1952: 65.5
+    1953: 65.583333
+    1954: 65.666667
+    1955: 65.75
+    1956: 65.833333
+    1957: 65.916667
+    1958: 66.0
+    1959: 66.166667
+    1960: 66.333333
+    1961: 66.5
+    1962: 66.666667
+    1963: 66.833333
 altersgrenze_für_frauen_abschlagsfrei:
   name:
     de: Eintrittsalter für Altersrente für Frauen
     en: Entry age for receiving Altersrente für Frauen
   description:
     de: >-
-      Stückweise lineare Funktion, die die Altersgrenzen angibt, ab denen Frauen
-      geboren vor 1952 in Rente gehen konnten.
+      Renteneintrittsalter für "Altersrente für Frauen", ab dem die Altersrente ohne
+      Abschläge bezogen werden kann.
     en: >-
-      Piecewise linear function returning the age thresholds for retirement of women
-      born before 1952.
+      Full retirement age (FRA) for pathway "Altersrente für Frauen".
   reference: § 237a SGB VI
   note:
     de: >-
@@ -805,42 +812,249 @@ altersgrenze_für_frauen_abschlagsfrei:
       Frauen, die vor 1940 geboren wurden, konnten mit 60 abschlagsfrei in Rente gehen,
       nach einer Wartezeit von 15 Jahren und mit mindestens 10 Beitragsjahren ab dem
       Alter von 40. Ab 1940 wurde das Eintrittsalter sukzessive erhöhrt um einen Monat
-      pro Geburtsmonat auf das Alter 65. Daher werden bei der Angabe der Grenzen
-      Dezimalstellen benötigt. Für Kohorten 1945-1951 beträgt es konstant 65. Für
-      Kohorten ab 1952 ist es abgeschafft. Ab dort regelaltersgrenze implementiert.
+      pro Geburtsmonat auf das Alter 65.
     en: >-
       Women born before 1940 were able to retire at age 60 without deductions (required
       waiting period of 15 years and 10 years of contributions after age 40). The age
       threshold was increase by one month for each birthmonth up to age 65 for cohort
-      1945. Therefore decimal places are needed to define thresholds. Between cohort
-      1945 and 1951 the threshold remained constant. The special pension scheme for
-      women was abolished for cohorts born after 1952. regelaltersgrenze afterwards.
-  type: piecewise_linear
+      1945.
   1980-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1939.916667
-      rate_linear: 0
-      intercept_at_lower_threshold: 60
-    1:
-      upper_threshold: 1944.916666666
-      rate_linear: 1
-    2:
-      upper_threshold: 1951.916666666  # constant 65
-      rate_linear: 0
-    3:
-      upper_threshold: 1952
-      # since 1952 abolished - regelaltersgrenze applies - jump in theshold by 6 month
-      rate_linear: 6
-    4:
-      upper_threshold: 1958
-      rate_linear: 0.083333333
-    5:
-      upper_threshold: 1964
-      rate_linear: 0.16666666
-    6:
-      upper_threshold: inf
-      rate_linear: 0
+    scalar: 60
+  1989-12-18:
+    reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
+    note: Increase of full retirement age from 60 to 65 for birth cohort 1941-1952.
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1940
+    min_birthyear_new_regime: 1953
+    1941:
+      1: 60.083333
+      2: 60.083333
+      3: 60.083333
+      4: 60.083333
+      5: 60.166667
+      6: 60.166667
+      7: 60.166667
+      8: 60.166667
+      9: 60.25
+      10: 60.25
+      11: 60.25
+      12: 60.25
+    1942:
+      1: 60.333333
+      2: 60.333333
+      3: 60.333333
+      4: 60.333333
+      5: 60.416667
+      6: 60.416667
+      7: 60.416667
+      8: 60.416667
+      9: 60.5
+      10: 60.5
+      11: 60.5
+      12: 60.5
+    1943:
+      1: 60.583333
+      2: 60.583333
+      3: 60.583333
+      4: 60.583333
+      5: 60.666667
+      6: 60.666667
+      7: 60.666667
+      8: 60.666667
+      9: 60.75
+      10: 60.75
+      11: 60.75
+      12: 60.75
+    1944:
+      1: 60.833333
+      2: 60.833333
+      3: 60.833333
+      4: 60.833333
+      5: 61.916667
+      6: 61.916667
+      7: 61.916667
+      8: 61.916667
+      9: 61.0
+      10: 61.0
+      11: 61.0
+      12: 61.0
+    1945:
+      1: 61.083333
+      2: 61.083333
+      3: 61.166667
+      4: 61.166667
+      5: 61.25
+      6: 61.25
+      7: 61.333333
+      8: 61.333333
+      9: 61.416667
+      10: 61.416667
+      11: 61.5
+      12: 61.5
+    1946:
+      1: 61.583333
+      2: 61.583333
+      3: 61.666667
+      4: 61.666667
+      5: 61.75
+      6: 61.75
+      7: 61.833333
+      8: 61.833333
+      9: 61.916667
+      10: 61.916667
+      11: 62.0
+      12: 62.0
+    1947:
+      1: 62.083333
+      2: 62.083333
+      3: 62.166667
+      4: 62.166667
+      5: 62.25
+      6: 62.25
+      7: 62.333333
+      8: 62.333333
+      9: 62.416667
+      10: 62.416667
+      11: 62.5
+      12: 62.5
+    1948:
+      1: 62.583333
+      2: 62.583333
+      3: 62.666667
+      4: 62.666667
+      5: 62.75
+      6: 62.75
+      7: 62.833333
+      8: 62.833333
+      9: 62.916667
+      10: 62.916667
+      11: 63.0
+      12: 63.0
+    1949:
+      1: 63.083333
+      2: 63.083333
+      3: 63.166667
+      4: 63.166667
+      5: 63.25
+      6: 63.25
+      7: 63.333333
+      8: 63.333333
+      9: 63.416667
+      10: 63.416667
+      11: 63.5
+      12: 63.5
+    1950:
+      1: 63.583333
+      2: 63.583333
+      3: 63.666667
+      4: 63.666667
+      5: 63.75
+      6: 63.75
+      7: 63.833333
+      8: 63.833333
+      9: 63.916667
+      10: 63.916667
+      11: 64.0
+      12: 64.0
+    1951:
+      1: 64.083333
+      2: 64.083333
+      3: 64.166667
+      4: 64.166667
+      5: 64.25
+      6: 64.25
+      7: 64.333333
+      8: 64.333333
+      9: 64.416667
+      10: 64.416667
+      11: 64.5
+      12: 64.5
+    1952:
+      1: 64.583333
+      2: 64.583333
+      3: 64.666667
+      4: 64.666667
+      5: 64.75
+      6: 64.75
+      7: 64.833333
+      8: 64.833333
+      9: 64.916667
+      10: 64.916667
+      11: 65.0
+      12: 65.0
+  1996-09-27:
+    reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461
+    note: Increase of FRA accelerated with exemption (Vertrauensschutz).
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1939
+    min_birthyear_new_regime: 1945
+    1940:
+      1: 60.083333
+      2: 60.166667
+      3: 60.25
+      4: 60.333333
+      5: 60.416667
+      6: 60.5
+      7: 60.583333
+      8: 60.666667
+      9: 60.75
+      10: 60.833333
+      11: 60.916667
+      12: 61.0
+    1941:
+      1: 61.083333
+      2: 61.166667
+      3: 61.25
+      4: 61.333333
+      5: 61.416667
+      6: 61.5
+      7: 61.583333
+      8: 61.666667
+      9: 61.75
+      10: 61.833333
+      11: 61.916667
+      12: 62.0
+    1942:
+      1: 62.083333
+      2: 62.166667
+      3: 62.25
+      4: 62.333333
+      5: 62.416667
+      6: 62.5
+      7: 62.583333
+      8: 62.666667
+      9: 62.75
+      10: 62.833333
+      11: 62.916667
+      12: 63.0
+    1943:
+      1: 63.083333
+      2: 63.166667
+      3: 63.25
+      4: 63.333333
+      5: 63.416667
+      6: 63.5
+      7: 63.583333
+      8: 63.666667
+      9: 63.75
+      10: 63.833333
+      11: 63.916667
+      12: 64.0
+    1944:
+      1: 64.083333
+      2: 64.166667
+      3: 64.25
+      4: 64.333333
+      5: 64.416667
+      6: 64.5
+      7: 64.583333
+      8: 64.666667
+      9: 64.75
+      10: 64.833333
+      11: 64.916667
+      12: 65.0
 altersgrenze_für_frauen_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für Frauen.
@@ -853,31 +1067,81 @@ altersgrenze_für_frauen_vorzeitig:
       Earliest possible age to receive pension for women (with deductions).
   reference: § 237a SGB VI
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html)
-  type: piecewise_linear
   1980-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1952
-      rate_linear: 0
-      intercept_at_lower_threshold: 60
-    1:
-      upper_threshold: 1953
-      rate_linear: 7
-    2:
-      upper_threshold: inf  # constant 67
-      rate_linear: 0
+    scalar: 60.0
+  1989-12-18:
+    reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
+    note: Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
+    entry_age_old_regime: 60.0
+    entry_age_new_regime: 62.0
+    max_birthyear_old_regime: 1948
+    min_birthyear_new_regime: 1953
+    1949:
+      1: 60.083333
+      2: 60.083333
+      3: 60.166667
+      4: 60.166667
+      5: 60.25
+      6: 60.25
+      7: 60.333333
+      8: 60.333333
+      9: 60.416667
+      10: 60.416667
+      11: 60.5
+      12: 60.5
+    1950:
+      1: 60.583333
+      2: 60.583333
+      3: 60.666667
+      4: 60.666667
+      5: 60.75
+      6: 60.75
+      7: 60.833333
+      8: 60.833333
+      9: 60.916667
+      10: 60.916667
+      11: 61.0
+      12: 61.0
+    1951:
+      1: 61.083333
+      2: 61.083333
+      3: 61.166667
+      4: 61.166667
+      5: 61.25
+      6: 61.25
+      7: 61.333333
+      8: 61.333333
+      9: 61.416667
+      10: 61.416667
+      11: 61.5
+      12: 61.5
+    1952:
+      1: 61.583333
+      2: 61.583333
+      3: 61.666667
+      4: 61.666667
+      5: 61.75
+      6: 61.75
+      7: 61.833333
+      8: 61.833333
+      9: 61.916667
+      10: 61.916667
+      11: 62.0
+      12: 62.0
+  1996-09-27:
+    reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461
+    note: Increase of ERA was revoked.
+    scalar: 60.0
 first_birthyear_without_rente_für_frauen:
   name:
     de: Kohorte Abschaffung Rente für Frauen
     en: Cohort abolishment pension for women
   description:
-    de: >-
-      Kohorte, ab der Rente für Frauen abgeschafft.
-    en: >-
-      Cohort from which pension for women abolished
-  reference: § 237a SGB VI
+    de: Kohorte, ab der Rente für Frauen abgeschafft.
+    en: Cohort from which pension for women abolished
+  reference: § 237a SGB VI, Rentenreformgesetz 1999. BGBl. I 1997 S. 2998
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
-  1980-01-01:
+  1997-12-16:
     scalar: 1952
 rente_für_frauen_pflichtbeitr_y:
   name:
@@ -908,13 +1172,13 @@ altersgrenze_arbeitsl_abschlagsfrei:
   note: https://www.gesetze-im-internet.de/sgb_6/__237.html
   1980-01-01:
     scalar: 60.0
-  1992-01-01:
+  1989-12-18:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of full retirement age from 60 to 65 for birth cohort 1941-1952.
-    max_birthyear_old_regime: 1940
-    min_birthyear_new_regime: 1953
     entry_age_old_regime: 60.0
     entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1940
+    min_birthyear_new_regime: 1953
     1941:
       1: 60.083333
       2: 60.083333
@@ -1074,10 +1338,10 @@ altersgrenze_arbeitsl_abschlagsfrei:
   1996-07-29:
     reference: Ruhestandsförderungsgesetz 1996. BGBl. I S. 1078 1996.
     note: Increase of full retirement age from 60 to 65 for birth cohort 1937-1952.
-    max_birthyear_old_regime: 1936
-    min_birthyear_new_regime: 1953
     entry_age_old_regime: 60.0
     entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1936
+    min_birthyear_new_regime: 1953
     1937:
       1: 60.083333
       2: 60.166667
@@ -1345,10 +1609,10 @@ altersgrenze_arbeitsl_abschlagsfrei:
   1996-09-27:
     reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
     note: Increase of full retirement age from 60 to 65 for birth cohort 1937-1941.
-    max_birthyear_old_regime: 1936
-    min_birthyear_new_regime: 1942
     entry_age_old_regime: 60.0
     entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1936
+    min_birthyear_new_regime: 1942
     1937:
       1: 60.083333
       2: 60.166667
@@ -1426,8 +1690,8 @@ altersgrenze_arbeitsl_abschlagsfrei:
         Increase of full retirement age according to old law (RRG 1992) for individuals
         covered under Vertrauensschutz.
       reference: § 237 SGB VI Abs. 4
-      max_birthyear_old_regime: 1940
       entry_age_old_regime: 60.0
+      max_birthyear_old_regime: 1940
       1941:
         1: 60.083333
         2: 60.083333
@@ -1490,13 +1754,13 @@ altersgrenze_arbeitsl_vorzeitig:
       https://www.buzer.de/Anlage_19_SGB_VI.htm
   1980-01-01:
     scalar: 60.0
-  1992-01-01:
+  1989-12-18:
     reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
     note: Increase of early retirement age from 60 to 62 for birth cohort 1949-1952.
-    max_birthyear_old_regime: 1948
-    min_birthyear_new_regime: 1953
     entry_age_old_regime: 60.0
     entry_age_new_regime: 62.0
+    max_birthyear_old_regime: 1948
+    min_birthyear_new_regime: 1953
     1949:
       1: 60.083333
       2: 60.083333
@@ -1554,10 +1818,10 @@ altersgrenze_arbeitsl_vorzeitig:
     note: >-
       Increase of early retirement age as before, with Vertrauensschutz
       (§ 237 SGB VI  Abs.5).
-    max_birthyear_old_regime: 1948
-    min_birthyear_new_regime: 1953
     entry_age_old_regime: 60.0
     entry_age_new_regime: 62.0
+    max_birthyear_old_regime: 1948
+    min_birthyear_new_regime: 1953
     1949:
       1: 60.083333
       2: 60.083333
@@ -1618,10 +1882,10 @@ altersgrenze_arbeitsl_vorzeitig:
   2004-07-26:
     reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791 2004
     note: Increase of the early retirement age from 60 to 63 for birth cohort 1946-1948.
-    max_birthyear_old_regime: 1945
-    min_birthyear_new_regime: 1949
     entry_age_old_regime: 60.0
     entry_age_new_regime: 63.0
+    max_birthyear_old_regime: 1945
+    min_birthyear_new_regime: 1949
     1946:
       1: 60.083333
       2: 60.166667
@@ -1662,57 +1926,11 @@ altersgrenze_arbeitsl_vorzeitig:
       11: 62.916667
       12: 63.0
     vertrauensschutz: 60.0
-  2007-04-30:
-    reference: >-
-      RV-Nachhaltigkeitsgesetz 2004 and RV-Altersgrenzenanpassungsgesetz 2007.
-      § 237 SGB VI https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
-    note: >-
-      Same statutory retirement ages as before, but abolishment with birth cohort 1952.
-    first_birthyear_without_rente_für_arbeitsl: 1952
-    max_birthyear_old_regime: 1945
-    min_birthyear_new_regime: 1949
-    entry_age_old_regime: 60.0
-    entry_age_new_regime: 63.0
-    1946:
-      1: 60.083333
-      2: 60.166667
-      3: 60.25
-      4: 60.333333
-      5: 60.416667
-      6: 60.5
-      7: 60.583333
-      8: 60.666667
-      9: 60.75
-      10: 60.833333
-      11: 60.916667
-      12: 61.0
-    1947:
-      1: 61.083333
-      2: 61.166667
-      3: 61.25
-      4: 61.333333
-      5: 61.416667
-      6: 61.5
-      7: 61.583333
-      8: 61.666667
-      9: 61.75
-      10: 61.833333
-      11: 61.916667
-      12: 62.0
-    1948:
-      1: 62.083333
-      2: 62.166667
-      3: 62.25
-      4: 62.333333
-      5: 62.416667
-      6: 62.5
-      7: 62.583333
-      8: 62.666667
-      9: 62.75
-      10: 62.833333
-      11: 62.916667
-      12: 63.0
-    vertrauensschutz: 60.0
+first_birthyear_without_rente_für_arbeitsl:
+  reference: Rentenreformgesetz 1999. BGBl. I S. 2998 1997
+  note: Abolishment starting from birth cohort 1952.
+  1997-12-16:
+    scalar: 1952
 altersgrenze_langj_versicherte_vorzeitig:
   name:
     de: Altersgrenze für vorzeitigen Bezug der Altersrente für langjährig Versicherte
@@ -1727,75 +1945,356 @@ altersgrenze_langj_versicherte_vorzeitig:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
     scalar: 63.0
+  1989-12-18:
+    reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
+    note: Early retirement age descreased from 63 to 62 starting from birth cohort 1944.
+    entry_age_old_regime: 63.0
+    entry_age_new_regime: 62.0
+    max_birthyear_old_regime: 1943
+    min_birthyear_new_regime: 1944
+  1996-09-27:
+    reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
+    note: ERA back to 63.
+    scalar: 63.0
+  1997-12-16:
+    reference: Rentenreformgesetz 1999. BGBl. I S. 2998 1997
+    note: ERA back to 62.
+    scalar: 62.0
+  2007-04-20:
+    reference: RV-Nachhaltigkeitsgesetz 2004. BGBl. I S. 1791 2004
+    note: ERA back to 63.
+    scalar: 63.0
 altersgrenze_langj_versicherte_abschlagsfrei:
   name:
     de: Eintrittsalter für langjährig Versicherte - abschlagsfrei
-    en: Entry age for long term insured (35 insurance years) without deductions
-  description:
-    de: >-
-      Stückweise lineare Funktion, die die Regelaltersgrenze angibt, bei der das
-      Individuum mit seinem vollen Rentenanspruch in Rente gehen kann. Geht die Person
-      früher oder später in Rente, ist der Zugangsfaktor und damit der Rentenanspruch
-      höher oder niedriger, wenn keine Ausnahmeregelungen erfüllt sind.
-    en: >-
-      Piecewise linear function returning the regelaltersgrenze at which the agent is
-      allowed to get pensions with his full claim. If the agent retires earlier or
-      later, the Zugangsfaktor and therefore the pension claim is higher or lower,
-      unless special conditions apply.
+    en: Entry age for long term insured (35 insurance years) without deductions (FRA)
   reference: § 236 SGB VI
   note:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/242-altersrente-fuer-langjaehrig-versicherte-altersgrenzen.html
-      Kohorten vor 1937 konnten mit 63 abschlagsfrei in Rente gehen. Ab Geburtsdatum
-      Januar 1937 wurde für jeden Monat, den die Person später geboren wurde das
-      Eintrittsalter um 1 Monat erhöht bis Geburtsdatum Dezember 1938: Eintrittsalter
-      65. Dieses Eintrittsalter galt bis einschließlich Jahrgang 1948. Ab Geburtsdatum
-      März 1949 entspricht die Altersgrenze der Regelaltersgrenze, also 65 Jahre, 3
-      Monate. Für Geburtsdatum 1/1949 ist sie 65, 1 Monat. Für 2/1949 65, 2 Monate.
     en: null
-  type: piecewise_linear
-  1984-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1936.916666666
-      rate_linear: 0
-      intercept_at_lower_threshold: 63
-    1:
-      upper_threshold: 1938.916666666
-      rate_linear: 1
-    2:
-      upper_threshold: 1948.916666666
-      rate_linear: 0
-    3:
-      upper_threshold: 1949.25
-      rate_linear: 1
-    4:
-      upper_threshold: 1950  # 1950.91667
-      rate_linear: 0
-    5:
-      upper_threshold: 1958
-      rate_linear: 0.083333333
-    6:
-      upper_threshold: 1964
-      rate_linear: 0.16666666
-    7:
-      upper_threshold: inf
-      rate_linear: 0
-alignment_cohort_langj_versicherte:
-  name:
-    de: Kohorte Angleichung Rente langjährig Versicherte
-    en: Cohort alignment pension for long term insured
-  description:
-    de: >-
-      Kohorte, ab der Altersgrenze für abschlagfreie Rente für langjährig Versicherte an
-      Altersgrenze Regelaltersrente angeglichen wurde.
-    en: >-
-      Cohort from which age threshold for deduction free pensions for long term insured
-      was aligned with threshold of Regelaltersrente.
-  reference: § 237 SGB VI
-  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/236.html
   1980-01-01:
-    scalar: 1950
+    scalar: 63.0
+  1989-12-18:
+    reference: Rentenreformgesetz 1992. BGBl. I S. 2261 1989 § 41
+    note: Increase of full retirement age from 63 to 65 for birth cohort 1938-1943.
+    entry_age_old_regime: 63.0
+    entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1937
+    min_birthyear_new_regime: 1944
+    1938:
+      1: 63.083333
+      2: 63.083333
+      3: 63.083333
+      4: 63.083333
+      5: 63.166667
+      6: 63.166667
+      7: 63.166667
+      8: 63.166667
+      9: 63.25
+      10: 63.25
+      11: 63.25
+      12: 63.25
+    1939:
+      1: 63.333333
+      2: 63.333333
+      3: 63.333333
+      4: 63.333333
+      5: 63.416667
+      6: 63.416667
+      7: 63.416667
+      8: 63.416667
+      9: 63.5
+      10: 63.5
+      11: 63.5
+      12: 63.5
+    1940:
+      1: 63.583333
+      2: 63.583333
+      3: 63.583333
+      4: 63.583333
+      5: 63.666667
+      6: 63.666667
+      7: 63.666667
+      8: 63.666667
+      9: 63.75
+      10: 63.75
+      11: 63.75
+      12: 63.75
+    1941:
+      1: 63.833333
+      2: 63.833333
+      3: 63.833333
+      4: 63.833333
+      5: 63.916667
+      6: 63.916667
+      7: 63.916667
+      8: 63.916667
+      9: 64.0
+      10: 64.0
+      11: 64.0
+      12: 64.0
+    1942:
+      1: 64.083333
+      2: 64.083333
+      3: 64.166667
+      4: 64.166667
+      5: 64.25
+      6: 64.25
+      7: 64.333333
+      8: 64.333333
+      9: 64.416667
+      10: 64.416667
+      11: 64.5
+      12: 64.5
+    1943:
+      1: 64.583333
+      2: 64.583333
+      3: 64.666667
+      4: 64.666667
+      5: 64.75
+      6: 64.75
+      7: 64.833333
+      8: 64.833333
+      9: 64.916667
+      10: 64.916667
+      12: 65.0
+      11: 65.0
+  1996-09-27:
+    reference: Wachstums- und Beschäftigungsförderungsgesetz 1996. BGBl. I S. 1461 1996
+    note: FRA increase accelerated.
+    entry_age_old_regime: 63.0
+    entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1936
+    min_birthyear_new_regime: 1939
+    1937:
+      1: 63.083333
+      2: 63.166667
+      3: 63.25
+      4: 63.333333
+      5: 63.416667
+      6: 63.5
+      7: 63.583333
+      8: 63.666667
+      9: 63.75
+      10: 63.833333
+      11: 63.916667
+      12: 64.0
+    1938:
+      1: 64.083333
+      2: 64.166667
+      3: 64.25
+      4: 64.333333
+      5: 64.416667
+      6: 64.5
+      7: 64.583333
+      8: 64.666667
+      9: 64.75
+      10: 64.833333
+      11: 64.916667
+      12: 65.0
+  2007-04-20:
+    reference: RV-Altersgrenzenanpassungsgesetz 2007. BGBl. I S. 554 2007
+    note: Increase of FRA from 65 to 67 for birth cohort 1949-1963.
+    entry_age_old_regime: 65.0
+    entry_age_new_regime: 67.0
+    max_birthyear_old_regime: 1948
+    min_birthyear_new_regime: 1964
+    1949:
+      1: 65.083333
+      2: 65.166667
+      3: 65.25
+      4: 65.25
+      5: 65.25
+      6: 65.25
+      7: 65.25
+      8: 65.25
+      9: 65.25
+      10: 65.25
+      11: 65.25
+      12: 65.25
+    1950:
+      1: 65.333333
+      2: 65.333333
+      3: 65.333333
+      4: 65.333333
+      5: 65.333333
+      6: 65.333333
+      7: 65.333333
+      8: 65.333333
+      9: 65.333333
+      10: 65.333333
+      11: 65.333333
+      12: 65.333333
+    1951:
+      1: 65.416667
+      2: 65.416667
+      3: 65.416667
+      4: 65.416667
+      5: 65.416667
+      6: 65.416667
+      7: 65.416667
+      8: 65.416667
+      9: 65.416667
+      10: 65.416667
+      11: 65.416667
+      12: 65.416667
+    1952:
+      1: 65.5
+      2: 65.5
+      3: 65.5
+      4: 65.5
+      5: 65.5
+      6: 65.5
+      7: 65.5
+      8: 65.5
+      9: 65.5
+      10: 65.5
+      11: 65.5
+      12: 65.5
+    1953:
+      1: 65.583333
+      2: 65.583333
+      3: 65.583333
+      4: 65.583333
+      5: 65.583333
+      6: 65.583333
+      7: 65.583333
+      8: 65.583333
+      9: 65.583333
+      10: 65.583333
+      11: 65.583333
+      12: 65.583333
+    1954:
+      1: 65.666667
+      2: 65.666667
+      3: 65.666667
+      4: 65.666667
+      5: 65.666667
+      6: 65.666667
+      7: 65.666667
+      8: 65.666667
+      9: 65.666667
+      10: 65.666667
+      11: 65.666667
+      12: 65.666667
+    1955:
+      1: 65.75
+      2: 65.75
+      3: 65.75
+      4: 65.75
+      5: 65.75
+      6: 65.75
+      7: 65.75
+      8: 65.75
+      9: 65.75
+      10: 65.75
+      11: 65.75
+      12: 65.75
+    1956:
+      1: 65.833333
+      2: 65.833333
+      3: 65.833333
+      4: 65.833333
+      5: 65.833333
+      6: 65.833333
+      7: 65.833333
+      8: 65.833333
+      9: 65.833333
+      10: 65.833333
+      11: 65.833333
+      12: 65.833333
+    1957:
+      1: 65.916667
+      2: 65.916667
+      3: 65.916667
+      4: 65.916667
+      5: 65.916667
+      6: 65.916667
+      7: 65.916667
+      8: 65.916667
+      9: 65.916667
+      10: 65.916667
+      11: 65.916667
+      12: 65.916667
+    1958:
+      1: 66.0
+      2: 66.0
+      3: 66.0
+      4: 66.0
+      5: 66.0
+      6: 66.0
+      7: 66.0
+      8: 66.0
+      9: 66.0
+      10: 66.0
+      11: 66.0
+      12: 66.0
+    1959:
+      1: 66.166667
+      2: 66.166667
+      3: 66.166667
+      4: 66.166667
+      5: 66.166667
+      6: 66.166667
+      7: 66.166667
+      8: 66.166667
+      9: 66.166667
+      10: 66.166667
+      11: 66.166667
+      12: 66.166667
+    1960:
+      1: 66.333333
+      2: 66.333333
+      3: 66.333333
+      4: 66.333333
+      5: 66.333333
+      6: 66.333333
+      7: 66.333333
+      8: 66.333333
+      9: 66.333333
+      10: 66.333333
+      11: 66.333333
+      12: 66.333333
+    1961:
+      1: 66.5
+      2: 66.5
+      3: 66.5
+      4: 66.5
+      5: 66.5
+      6: 66.5
+      7: 66.5
+      8: 66.5
+      9: 66.5
+      10: 66.5
+      11: 66.5
+      12: 66.5
+    1962:
+      1: 66.666667
+      2: 66.666667
+      3: 66.666667
+      4: 66.666667
+      5: 66.666667
+      6: 66.666667
+      7: 66.666667
+      8: 66.666667
+      9: 66.666667
+      10: 66.666667
+      11: 66.666667
+      12: 66.666667
+    1963:
+      1: 66.833333
+      2: 66.833333
+      3: 66.833333
+      4: 66.833333
+      5: 66.833333
+      6: 66.833333
+      7: 66.833333
+      8: 66.833333
+      9: 66.833333
+      10: 66.833333
+      11: 66.833333
+      12: 66.833333
 altersgrenze_besond_langj_versicherte:
   name:
     de: >-
@@ -1834,44 +2333,26 @@ altersgrenze_besond_langj_versicherte:
     de: >-
       https://sozialversicherung-kompetent.de/rentenversicherung/leistungsrecht/249-altersrente-fuer-besonders-langjaehrig-versicherte.html
     en: null
-  type: piecewise_linear
-  2012-01-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: inf
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
-  2014-07-01:
-    0:
-      lower_threshold: -inf
-      upper_threshold: 1949.5
-      rate_linear: 0
-      intercept_at_lower_threshold: 65
-    1:
-      upper_threshold: 1951.5
-      rate_linear: -1
-    2:
-      upper_threshold: 1952
-      rate_linear: 0
-    3:
-      upper_threshold: 1964
-      rate_linear: 0.16666666
-    4:
-      upper_threshold: inf
-      rate_linear: 0
-first_birthyear_besond_langj_versicherte:
-  name:
-    de: Kohorte Implementierung Rente für besonders langjährig Versicherte
-    en: Cohort implementation pension for very long term insured
-  description:
-    de: >-
-      Kohorte, ab der Rente für besonders langjährig Versicherte vollständig eingeführt.
-    en: >-
-      Cohort from which pension for very long term insured was fully implemented.
-  reference: § 237 SGB VI
-  note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237.html
-  2012-01-01:
-    scalar: 1952
+  2007-04-30:
+    reference: RV-Altersgrenzenanpassungsgesetz 2007. BGBl. I S. 554 2007
+    scalar: 65.0
+  2014-06-23:
+    reference: RV-Leistungsverbesserungsgesetz 2014. BGBl. I S. 787 2014
+    entry_age_old_regime: 63.0
+    entry_age_new_regime: 65.0
+    max_birthyear_old_regime: 1952
+    min_birthyear_new_regime: 1964
+    1953: 63.166667
+    1954: 63.333333
+    1955: 63.5
+    1956: 63.666667
+    1957: 63.833333
+    1958: 64.0
+    1959: 64.166667
+    1960: 64.333333
+    1961: 64.5
+    1962: 64.666667
+    1963: 64.833333
 rounding:
   ges_rente_m:
     1980-01-01:
