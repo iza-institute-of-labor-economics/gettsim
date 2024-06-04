@@ -103,6 +103,7 @@ def _kinderzuschl_vor_vermög_check_m_bg(
     kinderzuschl_eink_min_m_bg: float,
     kinderzuschl_kindereink_abzug_m_bg: float,
     kinderzuschl_eink_anrechn_m_bg: float,
+    anz_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -122,12 +123,16 @@ def _kinderzuschl_vor_vermög_check_m_bg(
         See :func:`kinderzuschl_kindereink_abzug_m_bg`.
     kinderzuschl_eink_anrechn_m_bg
         See :func:`kinderzuschl_eink_anrechn_m_bg`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
 
     Returns
     -------
 
     """
-    if kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg:
+    if (
+        kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg
+    ) and anz_personen_bg > 1:
         out = max(
             kinderzuschl_kindereink_abzug_m_bg - kinderzuschl_eink_anrechn_m_bg, 0.0
         )
