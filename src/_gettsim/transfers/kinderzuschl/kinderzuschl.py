@@ -111,6 +111,9 @@ def _kinderzuschl_vor_vermög_check_m_bg(
     To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
     minimum income threshold.
 
+    Kinderzuschlag is only paid out if parents are part of the BG (anz_personen_bg > 1).
+
+
     Parameters
     ----------
     hh_id
