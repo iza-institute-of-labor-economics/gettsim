@@ -163,12 +163,12 @@ inputs:
       - false
       - false
       - false
-    bg_id:
-      - 0
-      - 0
-      - 1
   assumed: {}
 outputs:
+  bg_id:
+    - 0
+    - 0
+    - 1
   kindergeldübertrag_m:
     - 73.33
     - 0.0
