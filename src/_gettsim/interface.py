@@ -19,6 +19,7 @@ from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
     convert_series_to_internal_type,
 )
+from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     KeyErrorMessage,
     format_errors_and_warnings,
@@ -286,6 +287,9 @@ def _convert_data_to_correct_types(data, functions_overridden):
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
+                internal_type = get_args(func.__annotations__["return"])[0]
+            elif func in create_groupings().values():
+                # Functions that create a grouping ID
                 internal_type = get_args(func.__annotations__["return"])[0]
             else:
                 internal_type = func.__annotations__["return"]
