@@ -41,6 +41,21 @@ def input_data_aggregate_by_p_id():
     )
 
 
+@pytest.fixture()
+def input_data_for_group_id_check():
+    return pd.DataFrame(
+        {
+            "p_id": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            "hh_id": [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            "alter": [30, 30, 5, 5, 5, 5, 5, 30, 30, 5],
+            "p_id_elternteil_1": [-1, -1, 0, 0, 0, 0, 0, -1, -1, 7],
+            "p_id_elternteil_2": [-1, -1, 1, 1, 1, 1, 1, -1, -1, 8],
+            "p_id_einstandspartner": [1, 0, -1, -1, -1, -1, -1, -1, -1, -1],
+            "p_id_ehepartner": [1, 0, -1, -1, -1, -1, -1, -1, -1, -1],
+        }
+    )
+
+
 # Create a partial function which is used by some tests below
 def func_before_partial(arg_1, arbeitsl_geld_2_params):
     return arg_1 + arbeitsl_geld_2_params["test_param_1"]

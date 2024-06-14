@@ -244,6 +244,8 @@ def _process_and_check_data(data):
     _fail_if_group_variables_not_constant_within_groups(data)
     _fail_if_pid_is_non_unique(data)
     _fail_if_foreign_keys_are_invalid(data)
+    # Check user-provided grouping IDs
+    _fail_if_grouping_ids_are_invalid(data)
 
     return data
 
@@ -541,6 +543,74 @@ def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
         raise ValueError(f"The following data columns are missing.\n{formatted}")
+
+
+def _fail_if_grouping_ids_are_invalid(data):
+    """Check whether user-provided group IDs are sensible.
+
+    Parameters
+    ----------
+    data : dict of pandas.Series
+        Dictionary containing the input data.
+
+    """
+    for col in ["ehe_id", "eg_id", "sn_id"]:
+        if col in data:
+            error_msg = (
+                f"There cannot be more than two people with the same `{col}`. "
+                "Check the input data."
+            )
+            group_sizes = data[col].value_counts()
+            assert (group_sizes <= 2).all(), error_msg
+
+    for col in ["fg_id", "bg_id", "wthh_id"]:
+        if col in data:
+            error_msg = (
+                f"Individuals with the same `{col}` must have the same `hh_id`. "
+                "Check the input data."
+            )
+            hh_ids_given_col_id = {}
+            for idx, col_value in enumerate(data[col]):
+                if col_value not in hh_ids_given_col_id:
+                    hh_ids_given_col_id[col_value] = []
+                hh_ids_given_col_id[col_value].append(data["hh_id"][idx])
+            unique_hh_ids = {
+                col_value: set(hh_ids)
+                for col_value, hh_ids in hh_ids_given_col_id.items()
+            }
+            assert all(len(hh_ids) == 1 for hh_ids in unique_hh_ids.values()), error_msg
+
+    for col in ["fg_id", "bg_id"]:
+        if col in data:
+            error_msg = (
+                f"Individuals with the same `{col}` must have the same `wthh_id`. "
+                "Check the input data."
+            )
+            wthh_ids_given_col_id = {}
+            for idx, col_value in enumerate(data[col]):
+                if col_value not in wthh_ids_given_col_id:
+                    wthh_ids_given_col_id[col_value] = []
+                wthh_ids_given_col_id[col_value].append(data["wthh_id"][idx])
+            unique_wthh_ids = {
+                col_value: set(wthh_ids)
+                for col_value, wthh_ids in wthh_ids_given_col_id.items()
+            }
+            assert all(
+                len(wthh_ids) == 1 for wthh_ids in unique_wthh_ids.values()
+            ), error_msg
+
+    if ["p_id_einstandspartner", "p_id_ehepartner"] in data:
+        error_msg = (
+            "Ehepartner must be also Einstandspartner. Check your specification "
+            "of `p_id_einstandspartner`."
+        )
+        invalid_p_ids = [
+            p_id
+            for index, p_id in enumerate(data["p_id_einstandspartner"])
+            if data["p_id_ehepartner"][index] > 0
+            and data["p_id_einstandspartner"][index] != data["p_id_ehepartner"][index]
+        ]
+        assert len(invalid_p_ids) == 0, error_msg
 
 
 def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
