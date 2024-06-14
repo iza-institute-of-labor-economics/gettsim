@@ -57,7 +57,7 @@ repos:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.7
+    rev: v0.4.8
     hooks:
       - id: ruff
       #   args:
@@ -77,7 +77,7 @@ repos:
           - black==24.4.2
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.4.4
+          - ruff==v0.4.8
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
