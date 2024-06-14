@@ -1,0 +1,179 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed:
+    hh_id:
+      - 3
+      - 3
+      - 3
+    p_id:
+      - 9
+      - 10
+      - 11
+    alter:
+      - 40
+      - 9
+      - 7
+    p_id_elternteil_1:
+      - -1
+      - 9
+      - 9
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 9
+      - 9
+    bruttolohn_m:
+      - 1500.0
+      - 0.0
+      - 0.0
+    hat_kinder:
+      - true
+      - false
+      - false
+    alleinerz:
+      - true
+      - false
+      - false
+    anz_eig_kind_bis_24:
+      - 2
+      - 0
+      - 0
+    weiblich:
+      - false
+      - true
+      - false
+    kind:
+      - false
+      - true
+      - true
+    in_ausbildung:
+      - false
+      - true
+      - true
+    bruttokaltmiete_m_hh:
+      - 630.0
+      - 630.0
+      - 630.0
+    heizkosten_m_hh:
+      - 120.0
+      - 120.0
+      - 120.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 75.0
+      - 75.0
+    bürgerg_bezug_vorj:
+      - true
+      - true
+      - true
+    vermögen_bedürft:
+      - 0.0
+      - 0.0
+      - 0.0
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    selbstständig:
+      - false
+      - false
+      - false
+    wohnort_ost:
+      - false
+      - false
+      - false
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    in_priv_krankenv:
+      - false
+      - false
+      - false
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+    geburtsjahr:
+      - 1984
+      - 2015
+      - 2017
+    geburtstag:
+      - 1
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+    mietstufe:
+      - 3
+      - 3
+      - 3
+    betreuungskost_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    p_id_betreuungsk_träger:
+      - 0
+      - 0
+      - 0
+    kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    monat_renteneintr:
+      - 0
+      - 0
+      - 0
+    behinderungsgrad:
+      - 0
+      - 0
+      - 0
+    wohnfläche_hh:
+      - 73.0
+      - 73.0
+      - 73.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+    immobilie_baujahr_hh:
+      - 0
+      - 0
+      - 0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    kind_unterh_anspr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    steuerklasse:
+      - 0
+      - 0
+      - 0
+outputs:
+  fg_id:
+    - 0
+    - 0
+    - 0

@@ -1,0 +1,136 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed:
+    hh_id:
+      - 4
+      - 4
+    p_id:
+      - 8
+      - 9
+    alter:
+      - 40
+      - 9
+    p_id_elternteil_1:
+      - -1
+      - 8
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 8
+    bruttolohn_m:
+      - 2000.0
+      - 0.0
+    hat_kinder:
+      - true
+      - false
+    alleinerz:
+      - true
+      - false
+    anz_eig_kind_bis_24:
+      - 1
+      - 0
+    weiblich:
+      - false
+      - true
+    kind:
+      - false
+      - true
+    in_ausbildung:
+      - false
+      - true
+    bruttokaltmiete_m_hh:
+      - 530.0
+      - 530.0
+    heizkosten_m_hh:
+      - 100.0
+      - 100.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 875.0
+    bürgerg_bezug_vorj:
+      - true
+      - true
+    vermögen_bedürft:
+      - 0.0
+      - 0.0
+    gemeinsam_veranlagt:
+      - false
+      - false
+    selbstständig:
+      - false
+      - false
+    wohnort_ost:
+      - false
+      - false
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+    in_priv_krankenv:
+      - false
+      - false
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+    geburtsjahr:
+      - 1984
+      - 2015
+    geburtstag:
+      - 1
+      - 1
+    geburtsmonat:
+      - 1
+      - 1
+    mietstufe:
+      - 3
+      - 3
+    betreuungskost_m:
+      - 0.0
+      - 0.0
+    p_id_betreuungsk_träger:
+      - 0
+      - 0
+    kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+    monat_renteneintr:
+      - 0
+      - 0
+    behinderungsgrad:
+      - 0
+      - 0
+    wohnfläche_hh:
+      - 62.0
+      - 62.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    immobilie_baujahr_hh:
+      - 0
+      - 0
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+    kind_unterh_anspr_m:
+      - 0.0
+      - 0.0
+    steuerklasse:
+      - 0
+      - 0
+outputs:
+  fg_id:
+    - 0
+    - 0
