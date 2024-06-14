@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`766` Allow for user-provided grouping IDs. ({ghuser}`MImmesberger`).
 - {gh}`717` Switch from cohort-based policy to date-based policy in retirement module
   ({ghuser}`MImmesberger`).
 - {gh}`753` Vorrangprüfung of Wohngeld and ALG2 on bg level ({ghuser}`MImmesberger`).

@@ -699,8 +699,8 @@ def test_fail_if_cannot_be_converted_to_internal_type(
         ),
     ],
 )
-def test_user_provided_groupings(data, functions_overridden):
-    """Test whether user-provided grouping IDs are admissible."""
+def test_provide_groupings(data, functions_overridden):
+    """Test whether GETTSIM handles user-provided grouping IDs."""
     _convert_data_to_correct_types(data, functions_overridden)
 
 
