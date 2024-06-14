@@ -85,7 +85,10 @@ inputs:
     bürgerg_bezug_vorj:
       - false
       - false
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 1
 outputs:
   _kinderzuschl_vor_vermög_check_m_bg:
     - 0.0

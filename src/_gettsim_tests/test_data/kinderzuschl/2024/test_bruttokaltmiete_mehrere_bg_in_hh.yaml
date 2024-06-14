@@ -116,7 +116,11 @@ inputs:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 1
 outputs:
   _kinderzuschl_nach_vermög_check_m_bg:
     - 292.0

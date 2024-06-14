@@ -1,6 +1,8 @@
 ---
 info:
-  note: Multiple households with mutliple Bedarfsgemeinschaften.
+  note: >-
+    Multiple households with mutliple Bedarfsgemeinschaften. Skipped because
+    multiple fgs in hh.
   source: ''
 inputs:
   provided:

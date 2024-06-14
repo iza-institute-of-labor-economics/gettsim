@@ -480,7 +480,21 @@ inputs:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    wthh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 outputs:
   wohngeld_vor_vermög_check_m_wthh:
     - 1233.0

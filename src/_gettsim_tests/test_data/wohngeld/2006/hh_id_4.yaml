@@ -22,6 +22,24 @@ inputs:
       - 22
       - 22
       - 22
+    p_id_einstandspartner:
+      - 23
+      - 22
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 22
+      - 22
+      - 22
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 23
+      - 23
+      - 23
     kind:
       - false
       - false
