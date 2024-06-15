@@ -1,7 +1,20 @@
 """This module computes the bg_id endogenously.
 
-Step 1: Compute the fg_id.
+It follows this logic:
 
+1. We determine Familiengemeinschaften that have no claim for Bürgergeld. These will
+   always be in the same Bedarfsgemeinschaft and wohngeldrechtlicher Teilhaushalt.
+2. We do the Vorrangprüfung and Günstigerprüfung for two candidate specifications: a)
+   Parents and children that cannot cover their SGB II needs are in a different
+   Bedarfsgemeinschaft than children who can cover their SGB II needs; b) the whole
+   Familiengemeinschaft is in the same Bedarfsgemeinschaft. We then compute whether in
+   Scenario (a), the Bedarfsgemeinschaft is eligible for Bürgergeld (Vorrangprüfung). If
+   not, we accept scenario (b). If the Bedarfsgemeinschaft of scenario (a) is eligible
+   for Bürgergeld, we take the specification that maximizes income on the fg level
+   (Günstigerprüfung / eingeschränktes Wahlrecht zwischen Wohngeld und Bürgergeld).
+3. We assign the bg_id and wthh_id according to the results of the Vorrang- and
+   Günstigerprüfung. We also determine whether the BG takes up Bürgergeld or Wohngeld
+   which is a basic input variable in GETTSIM (`wohngeld_und_kiz_günstiger_als_sgb_ii`).
 """
 
 import numpy
@@ -16,7 +29,8 @@ def determine_bg_and_wthh_ids(
     params: dict[str, any],
     functions: dict[str, callable],
 ) -> [pd.Series, pd.Series]:
-    """Determine bg_id and wthh_id endogenously.
+    """Determine bg_id and wthh_id endogenously. Also determines the outcome of the
+    Günstigerprüfung.
 
     Return the correct setting of bg_id and wthh_id using the Günstiger- and
     Vorrangprüfung of Wohngeld and Bürgergeld given the input data.
@@ -249,6 +263,9 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
     higher transfer, they can apply for it even if their own needs are not covered
     without Wohngeld.
     """
+    wthh_id_result = {}
+    bg_id_result = {}
+    wohngeld_und_kiz_günstiger_als_sgb_ii_result = {}
     input_data = data.copy()
     # Set candidate bg_ids and wthh_ids
     candidates = _create_data_with_candidate_ids(
@@ -268,6 +285,84 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
                 "_transfereinkommen_für_günstigerprüfung_fg",
             ],
         )
+
+    hh_ids = numpy.unique(input_data["hh_id"])
+    for this_hh_id in hh_ids:
+        current_hh_parents_have_own_bg = results["candidate_parents_have_own_bg"].query(
+            f"hh_id == {this_hh_id}"
+        )
+        parental_bg = current_hh_parents_have_own_bg.query(
+            "wohngeld_und_kiz_günstiger_als_sgb_ii == False"
+        )
+        current_hh_fg_forms_bg = results["candidate_fg_forms_bg"].query(
+            f"hh_id == {this_hh_id}"
+        )
+
+        _fail_if_bg_id_or_wthh_id_not_unique(data=[parental_bg, current_hh_fg_forms_bg])
+
+        whole_fg_wohngeld_günstiger = (
+            current_hh_fg_forms_bg["_transfereinkommen_für_günstigerprüfung_fg"].max()
+            > current_hh_parents_have_own_bg[
+                "_transfereinkommen_für_günstigerprüfung_fg"
+            ].max()
+        )
+
+        # Not eligible for BüG or Wohngeld for parental BG maximizes fg income
+        if (
+            current_hh_parents_have_own_bg["vorrangprüfung_bg"].all()
+            or whole_fg_wohngeld_günstiger
+        ):
+            wthh_id_update = dict(
+                zip(current_hh_fg_forms_bg["p_id"], current_hh_fg_forms_bg["wthh_id"])
+            )
+            bg_id_update = dict(
+                zip(current_hh_fg_forms_bg["p_id"], current_hh_fg_forms_bg["bg_id"])
+            )
+            wohngeld_und_kiz_günstiger_als_sgb_ii_result_update = dict(
+                zip(
+                    current_hh_fg_forms_bg["p_id"],
+                    current_hh_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"],
+                )
+            )
+        # Bürgergeld for parental BG maximizes fg income
+        else:
+            wthh_id_update = dict(
+                zip(
+                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg["wthh_id"],
+                )
+            )
+            bg_id_update = dict(
+                zip(
+                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg["bg_id"],
+                )
+            )
+            wohngeld_und_kiz_günstiger_als_sgb_ii_result_update = dict(
+                zip(
+                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg[
+                        "wohngeld_und_kiz_günstiger_als_sgb_ii"
+                    ],
+                )
+            )
+
+        wthh_id_result.update(wthh_id_update)
+        bg_id_result.update(bg_id_update)
+        wohngeld_und_kiz_günstiger_als_sgb_ii_result.update(
+            wohngeld_und_kiz_günstiger_als_sgb_ii_result_update
+        )
+
+    _fail_if_not_all_p_ids_are_covered(
+        data=input_data,
+        id_list=[
+            wthh_id_result,
+            bg_id_result,
+            wohngeld_und_kiz_günstiger_als_sgb_ii_result,
+        ],
+    )
+
+    return wthh_id_result, bg_id_result, wohngeld_und_kiz_günstiger_als_sgb_ii_result
 
 
 def _create_data_with_candidate_ids(
@@ -292,6 +387,7 @@ def _create_data_with_candidate_ids(
     candidate_fg_forms_bg = input_data.copy()
     candidate_fg_forms_bg["wthh_id"] = input_data["wthh_id_with_wohngeld"]
     candidate_fg_forms_bg["bg_id"] = input_data["fg_id"]
+    candidate_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"] = True
 
     ### Candidate 2
     candidate_parents_have_own_bg = input_data.copy()
@@ -300,6 +396,10 @@ def _create_data_with_candidate_ids(
     candidate_parents_have_own_bg.loc[
         not candidate_parents_have_own_bg["kind"], "wthh_id"
     ] = candidate_parents_have_own_bg["wthh_id_no_wohngeld"]
+    candidate_parents_have_own_bg.loc[
+        not candidate_parents_have_own_bg["kind"],
+        "wohngeld_und_kiz_günstiger_als_sgb_ii",
+    ] = False
 
     # Assign wthh_id_no_wohngeld to children whose needs are not covered
     needs_not_covered = input_data["p_id"].apply(
@@ -308,6 +408,10 @@ def _create_data_with_candidate_ids(
     candidate_parents_have_own_bg.loc[
         candidate_parents_have_own_bg["kind"] & needs_not_covered, "wthh_id"
     ] = candidate_parents_have_own_bg["wthh_id_no_wohngeld"]
+    candidate_parents_have_own_bg.loc[
+        candidate_parents_have_own_bg["kind"] & needs_not_covered,
+        "wohngeld_und_kiz_günstiger_als_sgb_ii",
+    ] = False
 
     # Assign wthh_id_with_wohngeld to other children
     candidate_parents_have_own_bg.loc[
@@ -318,6 +422,13 @@ def _create_data_with_candidate_ids(
     candidate_parents_have_own_bg["wthh_id"] = candidate_parents_have_own_bg[
         "wthh_id"
     ].astype(int)
+    candidate_parents_have_own_bg.loc[
+        candidate_parents_have_own_bg["kind"]
+        & candidate_parents_have_own_bg[
+            "wohngeld_und_kiz_günstiger_als_sgb_ii"
+        ].isnull(),
+        "wohngeld_und_kiz_günstiger_als_sgb_ii",
+    ] = True
 
     # Set bg_id
     candidate_parents_have_own_bg["bg_id"] = _set_bg_id_based_on_covered_needs_check(
@@ -398,3 +509,17 @@ def _fail_if_bg_or_wthh_id_already_present(data: pd.DataFrame) -> None:
             "bg_id or wthh_id are already in the data. Remove them if you want to "
             "compute them endogenously."
         )
+
+
+def _fail_if_bg_id_or_wthh_id_not_unique(data: list[pd.DataFrame]) -> None:
+    """Raise an error if bg_id or wthh_id is not unique in the data."""
+    for this_data in data:
+        if this_data["bg_id"].nunique() > 1 or this_data["wthh_id"].nunique() > 1:
+            raise ValueError("bg_id or wthh_id are not unique in the data.")
+
+
+def _fail_if_not_all_p_ids_are_covered(data: pd.DataFrame, id_list: list[dict]) -> None:
+    """Raise an error if not all p_ids were assigned a bg_id or wthh_id."""
+    for this_id_dict in id_list:
+        if len([p_id for p_id in data["p_id"] if p_id not in this_id_dict]) > 0:
+            raise ValueError("Not all p_ids were assigned a bg_id or wthh_id.")

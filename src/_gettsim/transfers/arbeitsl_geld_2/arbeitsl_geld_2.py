@@ -3,9 +3,7 @@ from _gettsim.shared import policy_info
 
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
-    wohngeld_vorrang_bg: bool,
-    kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_bg: bool,
+    wohngeld_und_kiz_günstiger_als_sgb_ii: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -16,12 +14,9 @@ def arbeitsl_geld_2_m_bg(
     ----------
     arbeitsl_geld_2_vor_vorrang_m_bg
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
-    wohngeld_vorrang_bg
-        See :func:`wohngeld_vorrang_bg`.
-    kinderzuschl_vorrang_bg
-        See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_bg
-        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
+    wohngeld_und_kiz_günstiger_als_sgb_ii
+        See basic input variable :ref:`wohngeld_und_kiz_günstiger_als_sgb_ii
+        <wohngeld_und_kiz_günstiger_als_sgb_ii>`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -36,12 +31,7 @@ def arbeitsl_geld_2_m_bg(
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
-    if (
-        wohngeld_vorrang_bg
-        or kinderzuschl_vorrang_bg
-        or wohngeld_kinderzuschl_vorrang_bg
-        or erwachsene_alle_rentner_hh
-    ):
+    if not wohngeld_und_kiz_günstiger_als_sgb_ii or erwachsene_alle_rentner_hh:
         out = 0.0
     else:
         out = arbeitsl_geld_2_vor_vorrang_m_bg

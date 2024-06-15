@@ -13,11 +13,6 @@ aggregate_by_group_benefit_checks = {
     },
 }
 
-# basic input wohngeld_günstiger_als_sgb_ii (bool)?
-# pro: we do the günstigerprüfung outside of gettim, the bg level günstigerprüfung may
-# make a mistake
-# con: ???
-
 
 def vorrangprüfung_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,

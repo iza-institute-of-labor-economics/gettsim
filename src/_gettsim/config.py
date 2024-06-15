@@ -231,6 +231,7 @@ TYPES_INPUT_VARIABLES = {
     "budgetsatz_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,
+    "wohngeld_und_kiz_günstiger_als_sgb_ii": bool,
 }
 
 FOREIGN_KEYS = [

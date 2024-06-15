@@ -6,7 +6,6 @@ import numpy
 
 def create_groupings() -> dict[str, Callable]:
     return {
-        "wthh_id": wthh_id_numpy,
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
         "eg_id": eg_id_numpy,
@@ -210,23 +209,5 @@ def sn_id_numpy(
         p_id_to_sn_id[current_p_id] = next_sn_id
         p_id_to_gemeinsam_veranlagt[current_p_id] = current_gemeinsam_veranlagt
         next_sn_id += 1
-
-    return numpy.asarray(result)
-
-
-def wthh_id_numpy(
-    hh_id: numpy.ndarray[int],
-    wohngeld_vorrang_bg: numpy.ndarray[bool],
-    wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],
-) -> numpy.ndarray[int]:
-    """
-    Compute the ID of the wohngeldrechtlicher Teilhaushalt.
-    """
-    result = []
-    for index, current_hh_id in enumerate(hh_id):
-        if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
-            result.append(current_hh_id * 100 + 1)
-        else:
-            result.append(current_hh_id * 100)
 
     return numpy.asarray(result)
