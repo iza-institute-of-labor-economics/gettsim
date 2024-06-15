@@ -32,6 +32,7 @@ def determine_bg_and_wthh_ids(
     """
     bg_id_result = {}
     wthh_id_result = {}
+    wohngeld_günstiger_als_sgb_ii = {}
 
     input_data = data.copy()
 
@@ -74,6 +75,11 @@ def determine_bg_and_wthh_ids(
         if p_id in fgs_with_covered_needs
     }
     wthh_id_result.update(wthh_id_update)
+    # Set wohngeld_günstiger_als_sgb_ii to True if needs of whole fg are covered
+    wohngeld_günstiger_als_sgb_ii_update = {
+        p_id: True for p_id in input_data["p_id"] if p_id in fgs_with_covered_needs
+    }
+    wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
 
     ### Step 2: Determine whether needs are covered individually
     input_data_without_covered_fgs = input_data.query(
@@ -86,16 +92,23 @@ def determine_bg_and_wthh_ids(
     )
 
     ### Step 3: Perform Vorrang- and Günstigerprüfung
-    bg_id_update, wthh_id_update = vorrangprüfung_and_günstigerprüfung_on_fg_level(
-        data=input_data_without_covered_fgs,
-        policy_params=params,
-        policy_functions=functions,
-        needs_covered_individually_dict=needs_covered_individually_dict,
+    bg_id_update, wthh_id_update, wohngeld_günstiger_als_sgb_ii_update = (
+        vorrangprüfung_and_günstigerprüfung_on_fg_level(
+            data=input_data_without_covered_fgs,
+            policy_params=params,
+            policy_functions=functions,
+            needs_covered_individually_dict=needs_covered_individually_dict,
+        )
     )
     bg_id_result.update(bg_id_update)
     wthh_id_result.update(wthh_id_update)
+    wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
 
-    return pd.Series(bg_id_result), pd.Series(wthh_id_result)
+    return (
+        pd.Series(bg_id_result),
+        pd.Series(wthh_id_result),
+        wohngeld_günstiger_als_sgb_ii,
+    )
 
 
 def compute_fg_id(
@@ -225,7 +238,7 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
     policy_params: dict[str, any],
     policy_functions: dict[str, callable],
     needs_covered_individually_dict: dict[int, bool],
-) -> [pd.Series, pd.Series]:
+) -> [pd.Series, pd.Series, pd.Series]:
     """Outcome of the Vorrang- and Günstigerprüfung on `fg` level.
 
     The Günstigerprüfung is preceeded by the Vorrangprüfung which checks whether the
@@ -250,7 +263,10 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
             data=df,
             params=policy_params,
             functions=policy_functions,
-            targets=["günstigerprüfung_on_hh_level"],
+            targets=[
+                "vorrangprüfung_bg",
+                "_transfereinkommen_für_günstigerprüfung_fg",
+            ],
         )
 
 
@@ -372,6 +388,7 @@ def _fail_if_more_than_one_fg_in_hh(
 
 def _fail_if_minimal_specification_missing(data: pd.DataFrame) -> None:
     """Raise an error if the minimal specification is missing."""
+    # TODO: check that all necessary data is there.
 
 
 def _fail_if_bg_or_wthh_id_already_present(data: pd.DataFrame) -> None:
