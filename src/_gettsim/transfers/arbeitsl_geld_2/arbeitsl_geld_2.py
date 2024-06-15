@@ -345,3 +345,43 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
         )
 
     return out
+
+
+def arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_bg(
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    arbeitsl_geld_2_eink_ohne_kindereinkommen_m_bg: float,
+    vermögen_bedürft_bg: float,
+    arbeitsl_geld_2_vermög_freib_bg: float,
+) -> float:
+    """Calculate potential basic subsistence (after income deduction and wealth check).
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    arbeitsl_geld_2_eink_ohne_kindereinkommen_m_bg
+        See :func:`arbeitsl_geld_2_eink_ohne_kindereinkommen_m_bg`.
+    arbeitsl_geld_2_vermög_freib_bg
+        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
+    vermögen_bedürft_bg
+        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+
+    Returns
+    -------
+
+    """
+
+    # Check wealth exemption
+    if vermögen_bedürft_bg > arbeitsl_geld_2_vermög_freib_bg:
+        out = 0.0
+    else:
+        # Deduct income from various sources
+        out = max(
+            0.0,
+            arbeitsl_geld_2_regelbedarf_m_bg
+            - arbeitsl_geld_2_eink_ohne_kindereinkommen_m_bg,
+        )
+
+    return out

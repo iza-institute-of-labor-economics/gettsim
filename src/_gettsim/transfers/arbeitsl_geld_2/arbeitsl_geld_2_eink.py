@@ -46,6 +46,32 @@ def arbeitsl_geld_2_eink_m(
     )
 
 
+def arbeitsl_geld_2_eink_ohne_kindereinkommen_m(
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
+    kind: bool,
+) -> float:
+    """SGB II income without children's income (except Kindergeld).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+    kind
+        See :func:`kind`.
+
+    Returns
+    -------
+    Income according to SGB II without children's income (except Kindergeld).
+
+    """
+    return (
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m if not kind else 0.0
+    ) + kindergeld_zur_bedarfsdeckung_m
+
+
 def _arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
