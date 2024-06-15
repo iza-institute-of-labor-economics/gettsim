@@ -25,7 +25,7 @@ from _gettsim.interface import compute_taxes_and_transfers
 
 
 def determine_bg_and_wthh_ids(
-    data: pd.DataFrame,
+    data,
     params: dict[str, any],
     functions: dict[str, callable],
 ) -> [pd.Series, pd.Series]:
@@ -119,16 +119,16 @@ def determine_bg_and_wthh_ids(
     wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
 
     return (
-        pd.Series(bg_id_result),
-        pd.Series(wthh_id_result),
-        wohngeld_günstiger_als_sgb_ii,
+        pd.Series(bg_id_result).astype(int),
+        pd.Series(wthh_id_result).astype(int),
+        pd.Series(wohngeld_günstiger_als_sgb_ii).astype(bool),
     )
 
 
 def compute_fg_id(
-    data: pd.DataFrame,
-    policy_params: dict[str, any],
-    policy_functions: dict[str, callable],
+    data,
+    params: dict[str, any],
+    functions: dict[str, callable],
 ) -> dict[int, int]:
     """Let GETTSIM compute the fg_id.
 
@@ -138,16 +138,16 @@ def compute_fg_id(
     ----------
     data : pd.DataFrame
         The input data.
-    policy_params : dict[str, any]
+    params : dict[str, any]
         The policy parameters.
-    policy_functions : dict[str, callable]
+    functions : dict[str, callable]
         The policy functions.
     """
     result = (
         compute_taxes_and_transfers(
             data=data,
-            params=policy_params,
-            functions=policy_functions,
+            params=params,
+            functions=functions,
             targets=["fg_id"],
         )
         .join(data["p_id"])
@@ -159,7 +159,7 @@ def compute_fg_id(
 
 
 def bürgergeld_claim_for_whole_fg(
-    data: pd.DataFrame,
+    data,
     policy_params: dict[str, any],
     policy_functions: dict[str, callable],
 ) -> dict[int, bool]:
@@ -202,7 +202,7 @@ def bürgergeld_claim_for_whole_fg(
 
 
 def _own_needs_covered_individually(
-    data: pd.DataFrame,
+    data,
     policy_params: dict[str, any],
     policy_functions: dict[str, callable],
 ) -> dict[int, bool]:
@@ -224,7 +224,6 @@ def _own_needs_covered_individually(
     # TODO: Move this function to this module
     input_data["bg_id"] = bg_id_numpy(
         fg_id=input_data["fg_id"].to_numpy(),
-        hh_id=input_data["hh_id"].to_numpy(),
         alter=input_data["alter"].to_numpy(),
         eigenbedarf_gedeckt=[True for _ in range(len(input_data))],
     )
@@ -248,7 +247,7 @@ def _own_needs_covered_individually(
 
 
 def vorrangprüfung_and_günstigerprüfung_on_fg_level(
-    data: pd.DataFrame,
+    data,
     policy_params: dict[str, any],
     policy_functions: dict[str, callable],
     needs_covered_individually_dict: dict[int, bool],
@@ -276,14 +275,29 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
     # Call GETTSIM for both candidates
     results = {}
     for name, df in candidates.items():
-        results[name] = compute_taxes_and_transfers(
-            data=df,
-            params=policy_params,
-            functions=policy_functions,
-            targets=[
-                "vorrangprüfung_bg",
-                "_transfereinkommen_für_günstigerprüfung_fg",
-            ],
+        results[name] = (
+            compute_taxes_and_transfers(
+                data=df,
+                params=policy_params,
+                functions=policy_functions,
+                targets=[
+                    "vorrangprüfung_bg",
+                    "_transfereinkommen_für_günstigerprüfung_fg",
+                ],
+            )
+            .reset_index()
+            .join(
+                df[
+                    [
+                        "hh_id",
+                        "p_id",
+                        "wthh_id",
+                        "bg_id",
+                        "wohngeld_und_kiz_günstiger_als_sgb_ii",
+                    ]
+                ]
+            )
+            .set_index("p_id")
         )
 
     hh_ids = numpy.unique(input_data["hh_id"])
@@ -313,14 +327,14 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
             or whole_fg_wohngeld_günstiger
         ):
             wthh_id_update = dict(
-                zip(current_hh_fg_forms_bg["p_id"], current_hh_fg_forms_bg["wthh_id"])
+                zip(current_hh_fg_forms_bg.index, current_hh_fg_forms_bg["wthh_id"])
             )
             bg_id_update = dict(
-                zip(current_hh_fg_forms_bg["p_id"], current_hh_fg_forms_bg["bg_id"])
+                zip(current_hh_fg_forms_bg.index, current_hh_fg_forms_bg["bg_id"])
             )
             wohngeld_und_kiz_günstiger_als_sgb_ii_result_update = dict(
                 zip(
-                    current_hh_fg_forms_bg["p_id"],
+                    current_hh_fg_forms_bg.index,
                     current_hh_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"],
                 )
             )
@@ -328,19 +342,19 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
         else:
             wthh_id_update = dict(
                 zip(
-                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg.index,
                     current_hh_parents_have_own_bg["wthh_id"],
                 )
             )
             bg_id_update = dict(
                 zip(
-                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg.index,
                     current_hh_parents_have_own_bg["bg_id"],
                 )
             )
             wohngeld_und_kiz_günstiger_als_sgb_ii_result_update = dict(
                 zip(
-                    current_hh_parents_have_own_bg["p_id"],
+                    current_hh_parents_have_own_bg.index,
                     current_hh_parents_have_own_bg[
                         "wohngeld_und_kiz_günstiger_als_sgb_ii"
                     ],
@@ -367,8 +381,8 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
 
 def _create_data_with_candidate_ids(
     needs_covered_individually_dict: dict[int, bool],
-    data: pd.DataFrame,
-) -> dict[pd.Dataframe, pd.Dataframe]:
+    data,
+) -> dict:
     """Helper function to set the candidate bg_ids and wthh_ids.
 
     There are two candidate outcomes:
@@ -394,10 +408,10 @@ def _create_data_with_candidate_ids(
 
     # Assign wthh_id_no_wohngeld to all adults
     candidate_parents_have_own_bg.loc[
-        not candidate_parents_have_own_bg["kind"], "wthh_id"
+        ~candidate_parents_have_own_bg["kind"], "wthh_id"
     ] = candidate_parents_have_own_bg["wthh_id_no_wohngeld"]
     candidate_parents_have_own_bg.loc[
-        not candidate_parents_have_own_bg["kind"],
+        ~candidate_parents_have_own_bg["kind"],
         "wohngeld_und_kiz_günstiger_als_sgb_ii",
     ] = False
 
@@ -432,9 +446,27 @@ def _create_data_with_candidate_ids(
 
     # Set bg_id
     candidate_parents_have_own_bg["bg_id"] = _set_bg_id_based_on_covered_needs_check(
-        eigenbedarf_gedeckt_dict=needs_covered_individually_dict,
-        input_data=candidate_parents_have_own_bg,
-    ).astype(int)
+        needs_covered_individually_dict=needs_covered_individually_dict,
+        data=candidate_parents_have_own_bg,
+    )
+
+    # Set types
+    candidate_fg_forms_bg["wthh_id"] = candidate_fg_forms_bg["wthh_id"].astype(int)
+    candidate_fg_forms_bg["bg_id"] = candidate_fg_forms_bg["bg_id"].astype(int)
+    candidate_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"] = (
+        candidate_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"].astype(bool)
+    )
+    candidate_parents_have_own_bg["wthh_id"] = candidate_parents_have_own_bg[
+        "wthh_id"
+    ].astype(int)
+    candidate_parents_have_own_bg["bg_id"] = candidate_parents_have_own_bg[
+        "bg_id"
+    ].astype(int)
+    candidate_parents_have_own_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"] = (
+        candidate_parents_have_own_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"].astype(
+            bool
+        )
+    )
 
     return {
         "candidate_fg_forms_bg": candidate_fg_forms_bg,
@@ -444,7 +476,7 @@ def _create_data_with_candidate_ids(
 
 def _set_bg_id_based_on_covered_needs_check(
     needs_covered_individually_dict: dict[int, bool],
-    data: pd.DataFrame,
+    data,
 ) -> pd.Series:
     """Helper function to set a candidate bg_id given wthh_id and information about
     needs covered.
@@ -497,12 +529,12 @@ def _fail_if_more_than_one_fg_in_hh(
     assert len(hh_ids_with_multiple_fgs) == 0, error_msg
 
 
-def _fail_if_minimal_specification_missing(data: pd.DataFrame) -> None:
+def _fail_if_minimal_specification_missing(data) -> None:
     """Raise an error if the minimal specification is missing."""
     # TODO: check that all necessary data is there.
 
 
-def _fail_if_bg_or_wthh_id_already_present(data: pd.DataFrame) -> None:
+def _fail_if_bg_or_wthh_id_already_present(data) -> None:
     """Raise an error if bg_id or wthh_id is already in data."""
     if "bg_id" in data.columns or "wthh_id" in data.columns:
         raise ValueError(
@@ -511,14 +543,14 @@ def _fail_if_bg_or_wthh_id_already_present(data: pd.DataFrame) -> None:
         )
 
 
-def _fail_if_bg_id_or_wthh_id_not_unique(data: list[pd.DataFrame]) -> None:
+def _fail_if_bg_id_or_wthh_id_not_unique(data: list) -> None:
     """Raise an error if bg_id or wthh_id is not unique in the data."""
     for this_data in data:
         if this_data["bg_id"].nunique() > 1 or this_data["wthh_id"].nunique() > 1:
             raise ValueError("bg_id or wthh_id are not unique in the data.")
 
 
-def _fail_if_not_all_p_ids_are_covered(data: pd.DataFrame, id_list: list[dict]) -> None:
+def _fail_if_not_all_p_ids_are_covered(data, id_list: list[dict]) -> None:
     """Raise an error if not all p_ids were assigned a bg_id or wthh_id."""
     for this_id_dict in id_list:
         if len([p_id for p_id in data["p_id"] if p_id not in this_id_dict]) > 0:
