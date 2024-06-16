@@ -46,7 +46,7 @@ def determine_bg_and_wthh_ids(
     """
     bg_id_result = {}
     wthh_id_result = {}
-    wohngeld_günstiger_als_sgb_ii = {}
+    wohngeld_und_kiz_günstiger_als_sgb_ii = {}
 
     input_data = data.copy().set_index("p_id")
 
@@ -76,23 +76,25 @@ def determine_bg_and_wthh_ids(
     )
     # Set bg_id to fg_id if needs of whole fg are covered
     bg_id_update = {
-        p_id: fg_ids[p_id]
+        p_id: fg_ids[p_id] * 100
         for p_id in input_data.index
         if p_id in fgs_with_covered_needs
     }
     bg_id_result.update(bg_id_update)
     # Set wthh_id to fg_id if needs of whole fg are covered
     wthh_id_update = {
-        p_id: fg_ids[p_id]
+        p_id: fg_ids[p_id] * 100
         for p_id in input_data.index
         if p_id in fgs_with_covered_needs
     }
     wthh_id_result.update(wthh_id_update)
-    # Set wohngeld_günstiger_als_sgb_ii to True if needs of whole fg are covered
-    wohngeld_günstiger_als_sgb_ii_update = {
+    # Set wohngeld_und_kiz_günstiger_als_sgb_ii to True if needs of whole fg are covered
+    wohngeld_und_kiz_günstiger_als_sgb_ii_update = {
         p_id: True for p_id in input_data.index if p_id in fgs_with_covered_needs
     }
-    wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
+    wohngeld_und_kiz_günstiger_als_sgb_ii.update(
+        wohngeld_und_kiz_günstiger_als_sgb_ii_update
+    )
 
     ### Step 2: Determine whether needs are covered individually
     input_data_without_covered_fgs = input_data.loc[
@@ -104,7 +106,7 @@ def determine_bg_and_wthh_ids(
         policy_functions=functions,
     )
     ### Step 3: Perform Vorrang- and Günstigerprüfung
-    bg_id_update, wthh_id_update, wohngeld_günstiger_als_sgb_ii_update = (
+    wthh_id_update, bg_id_update, wohngeld_und_kiz_günstiger_als_sgb_ii_update = (
         vorrangprüfung_and_günstigerprüfung_on_fg_level(
             data=input_data_without_covered_fgs,
             policy_params=params,
@@ -114,12 +116,14 @@ def determine_bg_and_wthh_ids(
     )
     bg_id_result.update(bg_id_update)
     wthh_id_result.update(wthh_id_update)
-    wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
+    wohngeld_und_kiz_günstiger_als_sgb_ii.update(
+        wohngeld_und_kiz_günstiger_als_sgb_ii_update
+    )
 
     return (
         pd.Series(bg_id_result).astype(int),
         pd.Series(wthh_id_result).astype(int),
-        pd.Series(wohngeld_günstiger_als_sgb_ii).astype(bool),
+        pd.Series(wohngeld_und_kiz_günstiger_als_sgb_ii).astype(bool),
     )
 
 
@@ -283,6 +287,9 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
                 targets=[
                     "vorrangprüfung_bg",
                     "_transfereinkommen_für_günstigerprüfung_fg",
+                    "wohngeld_m_wthh",
+                    "kinderzuschl_m_bg",
+                    "arbeitsl_geld_2_m_bg",
                 ],
             )
             .reset_index()
@@ -294,6 +301,7 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
                         "wthh_id",
                         "bg_id",
                         "wohngeld_und_kiz_günstiger_als_sgb_ii",
+                        "fg_id",
                     ]
                 ]
             )
@@ -320,7 +328,6 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
                 "_transfereinkommen_für_günstigerprüfung_fg"
             ].max()
         )
-
         # Not eligible for BüG or fg income is maximized by Wohngeld for parental BG
         if parental_bg["vorrangprüfung_bg"].all() or whole_fg_wohngeld_günstiger:
             wthh_id_update = dict(
@@ -391,13 +398,13 @@ def _create_data_with_candidate_ids(
     """
     input_data = data.copy()
     ### Initialize wthh_id columns
-    input_data["wthh_id_no_wohngeld"] = input_data["hh_id"] * 100
-    input_data["wthh_id_with_wohngeld"] = input_data["hh_id"] * 100 + 1
+    input_data["wthh_id_no_wohngeld"] = input_data["fg_id"] * 100
+    input_data["wthh_id_with_wohngeld"] = input_data["fg_id"] * 100 + 1
 
     ### Candidate 1
     candidate_fg_forms_bg = input_data.copy()
     candidate_fg_forms_bg["wthh_id"] = input_data["wthh_id_with_wohngeld"]
-    candidate_fg_forms_bg["bg_id"] = input_data["fg_id"]
+    candidate_fg_forms_bg["bg_id"] = input_data["fg_id"] * 100
     candidate_fg_forms_bg["_needs_covered_individually"] = candidate_fg_forms_bg[
         "p_id"
     ].map(needs_covered_individually_dict)

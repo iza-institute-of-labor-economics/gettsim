@@ -28,17 +28,16 @@ def test_endogenous_bg_ids(
         data=df, params=policy_params, functions=policy_functions
     )
 
-    result = pd.DataFrame([bg_id, wthh_id, wohngeld_günstiger_als_sgb_ii])
-
-    if column == "bg_id":
-        result = bg_id
-    elif column == "wthh_id":
-        result = wthh_id
-    elif column == "wohngeld_günstiger_als_sgb_ii":
-        result = wohngeld_günstiger_als_sgb_ii
+    result = pd.DataFrame(
+        {
+            "bg_id": bg_id,
+            "wthh_id": wthh_id,
+            "wohngeld_günstiger_als_sgb_ii": wohngeld_günstiger_als_sgb_ii,
+        }
+    ).sort_index()
 
     assert_series_equal(
-        result,
+        result[column],
         test_data.output_df[column],
         check_dtype=False,
         check_names=False,

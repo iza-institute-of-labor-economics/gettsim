@@ -1,6 +1,6 @@
 ---
 info:
-  note: ''
+  note: Children don't cover their own needs. Always in parental BG.
   source: ''
 inputs:
   assumed:
@@ -1554,3 +1554,97 @@ inputs:
       - false
       - false
       - false
+outputs:
+  bg_id:
+    - 0
+    - 0
+    - 0
+    - 100
+    - 100
+    - 100
+    - 200
+    - 200
+    - 200
+    - 300
+    - 300
+    - 300
+    - 400
+    - 400
+    - 400
+    - 500
+    - 500
+    - 500
+    - 600
+    - 600
+    - 600
+    - 700
+    - 700
+    - 700
+    - 800
+    - 800
+    - 800
+    - 900
+    - 900
+    - 900
+  wthh_id:
+    - 0
+    - 0
+    - 0
+    - 100
+    - 100
+    - 100
+    - 200
+    - 200
+    - 200
+    - 301
+    - 301
+    - 301
+    - 401
+    - 401
+    - 401
+    - 501
+    - 501
+    - 501
+    - 600
+    - 600
+    - 600
+    - 700
+    - 700
+    - 700
+    - 800
+    - 800
+    - 800
+    - 900
+    - 900
+    - 900
+  wohngeld_günstiger_als_sgb_ii:
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true

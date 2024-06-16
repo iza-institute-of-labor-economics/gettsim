@@ -20,6 +20,7 @@ def vorrangprüfung_bg(
     kindergeld_zur_bedarfsdeckung_m_bg: float,
     kind_unterh_erhalt_m_bg: float,
     unterhaltsvors_m_bg: float,
+    kindergeldübertrag_m_bg: float,
 ) -> float:
     """Vorrangprüfung for SGB II vs. WoG / KiZ benefits.
 
@@ -38,6 +39,8 @@ def vorrangprüfung_bg(
         See :func:`kind_unterh_erhalt_m_bg`.
     unterhaltsvors_m_bg
         See :func:`unterhaltsvors_m_bg`.
+    kindergeldübertrag_m_bg
+        See :func:`kindergeldübertrag_m_bg`.
 
     Returns
     -------
@@ -49,6 +52,7 @@ def vorrangprüfung_bg(
         + kindergeld_zur_bedarfsdeckung_m_bg
         + kind_unterh_erhalt_m_bg
         + unterhaltsvors_m_bg
+        + kindergeldübertrag_m_bg
     )
 
 

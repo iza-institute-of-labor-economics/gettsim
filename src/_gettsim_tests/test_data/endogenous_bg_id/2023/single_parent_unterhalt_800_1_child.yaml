@@ -1,6 +1,8 @@
 ---
 info:
-  note: ''
+  note: >-
+    Children cover their own needs. Separated BGs until Günstigerprüfung
+    implies Wohngeld for whole fg maximizes fg income.
   source: ''
 inputs:
   assumed:
@@ -1054,3 +1056,67 @@ inputs:
       - false
       - false
       - false
+outputs:
+  bg_id:
+    - 0
+    - 1
+    - 100
+    - 103
+    - 200
+    - 200
+    - 300
+    - 300
+    - 400
+    - 400
+    - 500
+    - 500
+    - 600
+    - 600
+    - 700
+    - 700
+    - 800
+    - 800
+    - 900
+    - 900
+  wthh_id:
+    - 0
+    - 1
+    - 100
+    - 101
+    - 201
+    - 201
+    - 301
+    - 301
+    - 401
+    - 401
+    - 500
+    - 500
+    - 600
+    - 600
+    - 700
+    - 700
+    - 800
+    - 800
+    - 900
+    - 900
+  wohngeld_günstiger_als_sgb_ii:
+    - false
+    - true
+    - false
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
