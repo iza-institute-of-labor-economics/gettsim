@@ -51,7 +51,9 @@ def determine_bg_and_wthh_ids(
     input_data = data.copy().set_index("p_id")
 
     _fail_if_bg_or_wthh_id_already_present(input_data)
-    _fail_if_minimal_specification_missing(input_data)
+    _fail_if_minimal_specification_missing(
+        data=input_data, params=params, functions=functions
+    )
 
     if "fg_id" not in input_data.columns:
         # Compute a dict of fg_ids
@@ -70,7 +72,6 @@ def determine_bg_and_wthh_ids(
 
     ### Step 1: Set bg_id and wthh_id if there is no Bürgergeld claim for whole fg
     # Compute Bürgergeld claim
-    # breakpoint()
     fgs_with_covered_needs = bürgergeld_claim_for_whole_fg(
         data=input_data,
         policy_params=params,
@@ -79,27 +80,27 @@ def determine_bg_and_wthh_ids(
     # Set bg_id to fg_id if needs of whole fg are covered
     bg_id_update = {
         p_id: fg_ids[p_id]
-        for p_id in input_data["p_id"]
+        for p_id in input_data.index
         if p_id in fgs_with_covered_needs
     }
     bg_id_result.update(bg_id_update)
     # Set wthh_id to fg_id if needs of whole fg are covered
     wthh_id_update = {
         p_id: fg_ids[p_id]
-        for p_id in input_data["p_id"]
+        for p_id in input_data.index
         if p_id in fgs_with_covered_needs
     }
     wthh_id_result.update(wthh_id_update)
     # Set wohngeld_günstiger_als_sgb_ii to True if needs of whole fg are covered
     wohngeld_günstiger_als_sgb_ii_update = {
-        p_id: True for p_id in input_data["p_id"] if p_id in fgs_with_covered_needs
+        p_id: True for p_id in input_data.index if p_id in fgs_with_covered_needs
     }
     wohngeld_günstiger_als_sgb_ii.update(wohngeld_günstiger_als_sgb_ii_update)
 
     ### Step 2: Determine whether needs are covered individually
-    input_data_without_covered_fgs = input_data.query(
-        "p_id not in @fgs_with_covered_needs"
-    )
+    input_data_without_covered_fgs = input_data.loc[
+        ~input_data.index.isin(fgs_with_covered_needs)
+    ]
     needs_covered_individually_dict = _own_needs_covered_individually(
         data=input_data_without_covered_fgs,
         policy_params=params,
@@ -198,7 +199,11 @@ def bürgergeld_claim_for_whole_fg(
         "arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_bg == 0.0"
     )
 
-    return result_only_fgs_without_bürgergeld_claim.to_dict()
+    fgs_with_covered_needs = {
+        p_id: True for p_id in result_only_fgs_without_bürgergeld_claim.index
+    }
+
+    return fgs_with_covered_needs
 
 
 def _own_needs_covered_individually(
@@ -220,7 +225,7 @@ def _own_needs_covered_individually(
     policy_functions : dict[str, callable]
         The policy functions.
     """
-    input_data = data.copy()
+    input_data = data.copy().reset_index()
     # TODO: Move this function to this module
     input_data["bg_id"] = bg_id_numpy(
         fg_id=input_data["fg_id"].to_numpy(),
@@ -234,9 +239,7 @@ def _own_needs_covered_individually(
             data=input_data,
             params=policy_params,
             functions=policy_functions,
-            targets=[
-                "vorrangprüfung_bg",
-            ],
+            targets=["vorrangprüfung_bg"],
         )
         .join(input_data["p_id"])
         .reset_index()
@@ -265,7 +268,7 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
     wthh_id_result = {}
     bg_id_result = {}
     wohngeld_und_kiz_günstiger_als_sgb_ii_result = {}
-    input_data = data.copy()
+    input_data = data.copy().reset_index()
     # Set candidate bg_ids and wthh_ids
     candidates = _create_data_with_candidate_ids(
         needs_covered_individually_dict=needs_covered_individually_dict,
@@ -316,16 +319,13 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
 
         whole_fg_wohngeld_günstiger = (
             current_hh_fg_forms_bg["_transfereinkommen_für_günstigerprüfung_fg"].max()
-            >= current_hh_parents_have_own_bg[
+            > current_hh_parents_have_own_bg[
                 "_transfereinkommen_für_günstigerprüfung_fg"
             ].max()
         )
 
         # Not eligible for BüG or fg income is maximized by Wohngeld for parental BG
-        if (
-            current_hh_parents_have_own_bg["vorrangprüfung_bg"].all()
-            or whole_fg_wohngeld_günstiger
-        ):
+        if parental_bg["vorrangprüfung_bg"].all() or whole_fg_wohngeld_günstiger:
             wthh_id_update = dict(
                 zip(current_hh_fg_forms_bg.index, current_hh_fg_forms_bg["wthh_id"])
             )
@@ -401,7 +401,14 @@ def _create_data_with_candidate_ids(
     candidate_fg_forms_bg = input_data.copy()
     candidate_fg_forms_bg["wthh_id"] = input_data["wthh_id_with_wohngeld"]
     candidate_fg_forms_bg["bg_id"] = input_data["fg_id"]
-    candidate_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"] = True
+    candidate_fg_forms_bg["_needs_covered_individually"] = candidate_fg_forms_bg[
+        "p_id"
+    ].map(needs_covered_individually_dict)
+    candidate_fg_forms_bg["wohngeld_und_kiz_günstiger_als_sgb_ii"] = (
+        candidate_fg_forms_bg.groupby("fg_id")["_needs_covered_individually"].transform(
+            "any"
+        )
+    )
 
     ### Candidate 2
     candidate_parents_have_own_bg = input_data.copy()
@@ -529,9 +536,21 @@ def _fail_if_more_than_one_fg_in_hh(
     assert len(hh_ids_with_multiple_fgs) == 0, error_msg
 
 
-def _fail_if_minimal_specification_missing(data) -> None:
+def _fail_if_minimal_specification_missing(data, params, functions) -> None:
     """Raise an error if the minimal specification is missing."""
-    # TODO: check that all necessary data is there.
+    # Targets that will be called by the module
+    targets = [
+        "vorrangprüfung_bg",
+        "_transfereinkommen_für_günstigerprüfung_fg",
+        "fg_id",
+        "arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_bg",
+    ]
+    compute_taxes_and_transfers(
+        data=data,
+        params=params,
+        functions=functions,
+        targets=targets,
+    )
 
 
 def _fail_if_bg_or_wthh_id_already_present(data) -> None:

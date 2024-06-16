@@ -28,6 +28,10 @@ inputs:
       - 0
       - 0
       - 0
+    betreuungskost_elternteil_m:
+      - 0.0
+      - 0.0
+      - 0.0
     betreuungskost_m:
       - 0.0
       - 0.0
@@ -136,10 +140,6 @@ inputs:
       - 24
       - 25
       - 26
-    p_id_betreuungsk_träger:
-      - 0
-      - 0
-      - 0
     p_id_ehepartner:
       - -1
       - -1
@@ -168,6 +168,10 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    rentner:
+      - false
+      - false
+      - false
     selbstständig:
       - false
       - false

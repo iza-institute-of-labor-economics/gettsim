@@ -31,7 +31,7 @@ def arbeitsl_geld_2_m_bg(
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
-    if not wohngeld_und_kiz_günstiger_als_sgb_ii or erwachsene_alle_rentner_hh:
+    if wohngeld_und_kiz_günstiger_als_sgb_ii or erwachsene_alle_rentner_hh:
         out = 0.0
     else:
         out = arbeitsl_geld_2_vor_vorrang_m_bg

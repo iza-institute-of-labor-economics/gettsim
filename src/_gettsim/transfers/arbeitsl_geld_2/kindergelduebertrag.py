@@ -108,7 +108,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     kindergeld_zur_bedarfsdeckung_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    eigenbedarf_gedeckt: bool,
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
@@ -133,19 +133,13 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    eigenbedarf_gedeckt
-        See :func:`eigenbedarf_gedeckt`.
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
+        See :func:`_in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger`.
 
     Returns
     -------
 
     """
-    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
-    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix. Without it,
-    # Kindergeld would be counted twice as income of the Bedarfsgemeinschaft (one time
-    # the full amount for the child and one time the Kindergeldübertrag for the parent -
-    # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/758
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
         - wohngeld_nach_vermög_check_m_bg
@@ -155,9 +149,34 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
-    if not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfsdeckung_m:
+    if (
+        not _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
+        or fehlbetrag > kindergeld_zur_bedarfsdeckung_m
+    ):
         out = 0.0
     # Bedarf is covered
     else:
         out = kindergeld_zur_bedarfsdeckung_m - fehlbetrag
     return out
+
+
+@policy_info(skip_vectorization=True)
+def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
+    p_id: numpy.ndarray[int],
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    bg_id: numpy.ndarray[int],
+) -> numpy.ndarray[bool]:
+    """True if the person is in a different Bedarfsgemeinschaft than the
+    Kindergeldempfänger for that person.
+    """
+    # Create a dictionary to map p_id to bg_id
+    p_id_to_bg_id = dict(zip(p_id, bg_id))
+
+    # Map each p_id_kindergeld_empf to its corresponding bg_id
+    empf_bg_id = [
+        p_id_to_bg_id[empfänger_id] if empfänger_id >= 0 else -1
+        for empfänger_id in p_id_kindergeld_empf
+    ]
+
+    # Compare bg_id array with the mapped bg_ids of p_id_kindergeld_empf
+    return bg_id != empf_bg_id
