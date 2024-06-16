@@ -48,7 +48,7 @@ def determine_bg_and_wthh_ids(
     wthh_id_result = {}
     wohngeld_günstiger_als_sgb_ii = {}
 
-    input_data = data.copy()
+    input_data = data.copy().set_index("p_id")
 
     _fail_if_bg_or_wthh_id_already_present(input_data)
     _fail_if_minimal_specification_missing(input_data)
@@ -61,7 +61,7 @@ def determine_bg_and_wthh_ids(
             functions=functions,
         )
         # Assign fg_ids to input_data
-        input_data["fg_id"] = fg_ids
+        input_data["fg_id"] = pd.Series(fg_ids)
 
     _fail_if_more_than_one_fg_in_hh(
         hh_id=input_data["hh_id"].to_numpy(),
@@ -70,6 +70,7 @@ def determine_bg_and_wthh_ids(
 
     ### Step 1: Set bg_id and wthh_id if there is no Bürgergeld claim for whole fg
     # Compute Bürgergeld claim
+    # breakpoint()
     fgs_with_covered_needs = bürgergeld_claim_for_whole_fg(
         data=input_data,
         policy_params=params,
@@ -104,7 +105,6 @@ def determine_bg_and_wthh_ids(
         policy_params=params,
         policy_functions=functions,
     )
-
     ### Step 3: Perform Vorrang- and Günstigerprüfung
     bg_id_update, wthh_id_update, wohngeld_günstiger_als_sgb_ii_update = (
         vorrangprüfung_and_günstigerprüfung_on_fg_level(
@@ -143,14 +143,15 @@ def compute_fg_id(
     functions : dict[str, callable]
         The policy functions.
     """
+    input_data = data.copy().reset_index()
     result = (
         compute_taxes_and_transfers(
-            data=data,
+            data=input_data,
             params=params,
             functions=functions,
             targets=["fg_id"],
         )
-        .join(data["p_id"])
+        .join(input_data["p_id"])
         .reset_index()
         .set_index("p_id")
     )
@@ -179,7 +180,7 @@ def bürgergeld_claim_for_whole_fg(
     policy_functions : dict[str, callable]
         The policy functions.
     """
-    input_data = data.copy()
+    input_data = data.copy().reset_index()
     input_data["bg_id"] = input_data["fg_id"]
 
     ## Call GETTSIM to compute if eigenbedarf is covered
@@ -191,7 +192,6 @@ def bürgergeld_claim_for_whole_fg(
             targets=["arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_bg"],
         )
         .join(input_data["p_id"])
-        .reset_index()
         .set_index("p_id")
     )
     result_only_fgs_without_bürgergeld_claim = gettsim_result.query(
@@ -316,12 +316,12 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
 
         whole_fg_wohngeld_günstiger = (
             current_hh_fg_forms_bg["_transfereinkommen_für_günstigerprüfung_fg"].max()
-            > current_hh_parents_have_own_bg[
+            >= current_hh_parents_have_own_bg[
                 "_transfereinkommen_für_günstigerprüfung_fg"
             ].max()
         )
 
-        # Not eligible for BüG or Wohngeld for parental BG maximizes fg income
+        # Not eligible for BüG or fg income is maximized by Wohngeld for parental BG
         if (
             current_hh_parents_have_own_bg["vorrangprüfung_bg"].all()
             or whole_fg_wohngeld_günstiger

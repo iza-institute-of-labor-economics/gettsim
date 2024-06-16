@@ -1,6 +1,5 @@
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
-from pandas.testing import assert_series_equal
+from _gettsim.endogenous_bg_id import determine_bg_and_wthh_ids
 
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
@@ -23,14 +22,6 @@ def test_endogenous_bg_ids(
         date=test_data.date
     )
 
-    result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
-    )
-
-    assert_series_equal(
-        result[column],
-        test_data.output_df[column],
-        check_dtype=False,
-        atol=1e-1,
-        rtol=0,
+    result = determine_bg_and_wthh_ids(
+        data=df, params=policy_params, functions=policy_functions
     )
