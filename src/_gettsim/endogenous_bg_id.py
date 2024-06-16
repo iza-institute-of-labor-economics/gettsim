@@ -51,9 +51,6 @@ def determine_bg_and_wthh_ids(
     input_data = data.copy().set_index("p_id")
 
     _fail_if_bg_or_wthh_id_already_present(input_data)
-    _fail_if_minimal_specification_missing(
-        data=input_data, params=params, functions=functions
-    )
 
     if "fg_id" not in input_data.columns:
         # Compute a dict of fg_ids
@@ -534,23 +531,6 @@ def _fail_if_more_than_one_fg_in_hh(
         f"{hh_ids_with_multiple_fgs}."
     )
     assert len(hh_ids_with_multiple_fgs) == 0, error_msg
-
-
-def _fail_if_minimal_specification_missing(data, params, functions) -> None:
-    """Raise an error if the minimal specification is missing."""
-    # Targets that will be called by the module
-    targets = [
-        "vorrangprüfung_bg",
-        "_transfereinkommen_für_günstigerprüfung_fg",
-        "fg_id",
-        "arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_bg",
-    ]
-    compute_taxes_and_transfers(
-        data=data,
-        params=params,
-        functions=functions,
-        targets=targets,
-    )
 
 
 def _fail_if_bg_or_wthh_id_already_present(data) -> None:
