@@ -440,18 +440,11 @@ def _create_data_with_candidate_ids(
 
     # Assign wthh_id_with_wohngeld to other children
     candidate_parents_have_own_bg.loc[
-        candidate_parents_have_own_bg["kind"]
-        & candidate_parents_have_own_bg["wthh_id"].isnull(),
+        candidate_parents_have_own_bg["kind"] & ~needs_not_covered,
         "wthh_id",
     ] = candidate_parents_have_own_bg["wthh_id_with_wohngeld"]
-    candidate_parents_have_own_bg["wthh_id"] = candidate_parents_have_own_bg[
-        "wthh_id"
-    ].astype(int)
     candidate_parents_have_own_bg.loc[
-        candidate_parents_have_own_bg["kind"]
-        & candidate_parents_have_own_bg[
-            "wohngeld_und_kiz_günstiger_als_sgb_ii"
-        ].isnull(),
+        candidate_parents_have_own_bg["kind"] & ~needs_not_covered,
         "wohngeld_und_kiz_günstiger_als_sgb_ii",
     ] = True
 
