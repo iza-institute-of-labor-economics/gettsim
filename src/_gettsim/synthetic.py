@@ -190,6 +190,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     - p_id_erziehgeld_empf
     - p_id_einstandspartner
     - p_id_ehepartner
+    - p_id_betreuungsk_träger
 
     Parameters
     ----------
@@ -215,6 +216,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         data["p_id_elternteil_2"] = -1
     data["p_id_kindergeld_empf"] = data["p_id_elternteil_1"]
     data["p_id_erziehgeld_empf"] = data["p_id_elternteil_1"]
+    data["p_id_betreuungsk_träger"] = data["p_id_elternteil_1"]
 
     # Create other IDs
     if n_adults == 1:
