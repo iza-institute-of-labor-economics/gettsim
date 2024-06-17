@@ -224,6 +224,9 @@ def test_fail_if_functions_and_columns_overlap(
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
+                "p_id_betreuungsk_träger": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
             },
         ),
         (
@@ -246,6 +249,9 @@ def test_fail_if_functions_and_columns_overlap(
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
+                "p_id_betreuungsk_träger": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
             },
         ),
         (
@@ -258,6 +264,7 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_erziehgeld_empf": [-1, 0],
                 "p_id_ehepartner": [-1, -1],
                 "p_id_einstandspartner": [-1, -1],
+                "p_id_betreuungsk_träger": [-1, 0],
             },
         ),
         (
@@ -270,6 +277,7 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_erziehgeld_empf": [-1, -1],
                 "p_id_ehepartner": [1, 0],
                 "p_id_einstandspartner": [1, 0],
+                "p_id_betreuungsk_träger": [-1, -1],
             },
         ),
     ],
