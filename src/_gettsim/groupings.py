@@ -16,19 +16,19 @@ def create_groupings() -> dict[str, Callable]:
     }
 
 
-def bg_id_numpy(
-    fg_id: numpy.ndarray[int],
-    alter: numpy.ndarray[int],
-    eigenbedarf_gedeckt: numpy.ndarray[bool],
-) -> numpy.ndarray[int]:
-    """
-    Compute the ID of the Bedarfsgemeinschaft for each person.
-    """
-    return _create_bg_id(
-        fg_id=fg_id,
-        alter=alter,
-        needs_covered=eigenbedarf_gedeckt,
-    )
+# def bg_id_numpy(
+#     fg_id: numpy.ndarray[int],
+#     alter: numpy.ndarray[int],
+#     eigenbedarf_gedeckt: numpy.ndarray[bool],
+# ) -> numpy.ndarray[int]:
+#     """
+#     Compute the ID of the Bedarfsgemeinschaft for each person.
+#     """
+#     return _create_bg_id(
+#         fg_id=fg_id,
+#         alter=alter,
+#         needs_covered=eigenbedarf_gedeckt,
+#     )
 
 
 def bg_children_needs_covered_numpy(
@@ -36,8 +36,8 @@ def bg_children_needs_covered_numpy(
     alter: numpy.ndarray[int],
 ) -> numpy.ndarray[int]:
     """
-    Compute the ID of the Bedarfsgemeinschaft assuming that children are not part of the
-    parental BG.
+    Compute the ID of the Bedarfsgemeinschaft assuming that all children are not part of
+    the parental BG.
 
     Parameters
     ----------
@@ -53,6 +53,36 @@ def bg_children_needs_covered_numpy(
         alter=alter,
         eigenbedarf_gedeckt=numpy.full(fg_id.shape, True),
     )
+
+
+def bg_parents_have_own_bg_numpy(
+    fg_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
+):
+    """Compute the ID of the Bedarfsgemeinschaft assuming that parents and children who
+    cannot cover their needs are in a different BG than children who can.
+
+    This is the first candidate for the Günstigerprüfung (only children who cover their
+    needs have a potential Wohngeld claim, parents and children who cannot cover their
+    needs have a potential claim on ALG II / Bürgergeld).
+    """
+    return _create_bg_id(
+        fg_id=fg_id,
+        alter=alter,
+        needs_covered=eigenbedarf_gedeckt,
+    )
+
+
+def bg_whole_fg_numpy(
+    fg_id: numpy.ndarray[int],
+):
+    """Compute the ID of the Bedarfsgemeinschaft assuming that all parents and children
+    are in the same BG, regardless of whether children can cover their needs.
+
+    This is the second candidate for the Günstigerprüfung (the whole
+    Familiengemeinschaft has a potential claim on Wohngeld).
+    """
 
 
 def _create_bg_id(
