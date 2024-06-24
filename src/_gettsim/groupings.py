@@ -10,25 +10,22 @@ def create_groupings() -> dict[str, Callable]:
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
         "bg_needs_covered_id": bg_children_needs_covered_numpy,
+        "bg_parents_have_own_bg_id": bg_parents_have_own_bg_numpy,
+        "bg_whole_fg_id": bg_whole_fg_numpy,
         "eg_id": eg_id_numpy,
         "ehe_id": ehe_id_numpy,
         "sn_id": sn_id_numpy,
     }
 
 
-# def bg_id_numpy(
-#     fg_id: numpy.ndarray[int],
-#     alter: numpy.ndarray[int],
-#     eigenbedarf_gedeckt: numpy.ndarray[bool],
-# ) -> numpy.ndarray[int]:
-#     """
-#     Compute the ID of the Bedarfsgemeinschaft for each person.
-#     """
-#     return _create_bg_id(
-#         fg_id=fg_id,
-#         alter=alter,
-#         needs_covered=eigenbedarf_gedeckt,
-#     )
+def bg_id_numpy(
+    fg_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Bedarfsgemeinschaft given the result of the Günstigerprüfung.
+    """
 
 
 def bg_children_needs_covered_numpy(
@@ -76,13 +73,14 @@ def bg_parents_have_own_bg_numpy(
 
 def bg_whole_fg_numpy(
     fg_id: numpy.ndarray[int],
-):
+) -> numpy.ndarray[int]:
     """Compute the ID of the Bedarfsgemeinschaft assuming that all parents and children
     are in the same BG, regardless of whether children can cover their needs.
 
     This is the second candidate for the Günstigerprüfung (the whole
     Familiengemeinschaft has a potential claim on Wohngeld).
     """
+    return fg_id * 100
 
 
 def _create_bg_id(
@@ -290,13 +288,88 @@ def wthh_id_numpy(
     wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
-    Compute the ID of the wohngeldrechtlicher Teilhaushalt.
+    Compute the ID of the wohngeldrechtlicher Teilhaushalt given the result of the
+    Günstigerprüfung.
     """
+
+
+def wthh_parents_have_own_bg_numpy(
+    hh_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
+    kind: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the wohngeldrechtlicher Teilhaushalt assuming that parents and
+    children who cannot cover their needs are in a different WTHH than children who can.
+
+    This is the first candidate for the Günstigerprüfung.
+    """
+
+    _fail_if_more_than_one_fg_in_hh(hh_id, fg_id)
+
     result = []
     for index, current_hh_id in enumerate(hh_id):
-        if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
+        if kind[index] and eigenbedarf_gedeckt[index]:
+            # Parents and children who cannot cover their needs, potential claim on
+            # ALG II
             result.append(current_hh_id * 100 + 1)
         else:
+            # Children who can cover their needs, potential claim on Wohngeld
             result.append(current_hh_id * 100)
 
     return numpy.asarray(result)
+
+
+def wthh_whole_fg_numpy(
+    hh_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the wohngeldrechtlicher Teilhaushalt assuming that the whole
+    Familiengemeinschaft forms one Wohngeldhaushalt.
+
+    This is the second candidate for the Günstigerprüfung.
+    """
+
+    _fail_if_more_than_one_fg_in_hh(hh_id, fg_id)
+
+    result = []
+    for index, current_hh_id in enumerate(hh_id):
+        result.append(current_hh_id * 100)
+
+    return numpy.asarray(result)
+
+
+def _fail_if_more_than_one_fg_in_hh(
+    hh_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+):
+    """
+    Fail if there is more than one `fg_id` in a household.
+
+    GETTSIM does not support the endogenous creation of Bedarfsgemeinschaften in this
+    case. The user has to provide `bg_id` and `wthh_id` themselves.
+
+    Parameters
+    ----------
+    hh_id : numpy.ndarray[int]
+        Array of household IDs.
+    fg_id : numpy.ndarray[int]
+        Array of family group IDs.
+    """
+    unique_hh_ids = numpy.unique(hh_id)
+    hh_ids_with_multiple_fgs_list = []
+    for this_hh_id in unique_hh_ids:
+        # Find all family group IDs for the current household ID
+        fg_ids_in_hh = fg_id[hh_id == this_hh_id]
+        if len(numpy.unique(fg_ids_in_hh)) > 1:
+            hh_ids_with_multiple_fgs_list.append(this_hh_id)
+    hh_ids_with_multiple_fgs = set(hh_ids_with_multiple_fgs_list)
+    error_msg = (
+        "There are households with more than one `fg_id`. GETTSIM does not support the "
+        "endogenous creation of Bedarfsgemeinschaften in this case yet. Please provide "
+        "`bg_id` and `wthh_id` yourself for the following households: "
+        f"{hh_ids_with_multiple_fgs}."
+    )
+    assert len(hh_ids_with_multiple_fgs) == 0, error_msg

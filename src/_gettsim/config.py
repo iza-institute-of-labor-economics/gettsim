@@ -67,7 +67,23 @@ INTERNAL_PARAMS_GROUPS = [
     "erziehungsgeld",
 ]
 
-SUPPORTED_GROUPINGS = {
+INTERNAL_GROUPINGS = {
+    "bg_needs_covered": {
+        "description": "Bedarfsgemeinschaft assuming that children are not part of the"
+        " parental Bedarfsgemeinschaft.",
+    },
+    "bg_parents_have_own_bg": {
+        "description": "Bedarfsgemeinschaft assuming that parents and children who "
+        "cannot cover their needs are in a different Bedarfsgemeinschaft than children "
+        "who can.",
+    },
+    "bg_whole_fg": {
+        "description": "Bedarfsgemeinschaft assuming that the whole Familiengemeinschaft"
+        " forms the Bedarfsgemeinschaft.",
+    },
+}
+
+PUBLIC_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
         "description": "Individuals living together in a household in the Wohngeld"
@@ -94,11 +110,6 @@ SUPPORTED_GROUPINGS = {
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
-    "bg_needs_covered": {
-        "name": "Bedarfsgemeinschaft if children have covered their needs.",
-        "description": "Bedarfsgemeinschaft assuming that children are not part of the"
-        " parental Bedarfsgemeinschaft.",
-    },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
         "description": "A couple whose members are deemed to be responsible for each"
@@ -116,6 +127,8 @@ SUPPORTED_GROUPINGS = {
         "potentially_endogenous": True,
     },
 }
+
+SUPPORTED_GROUPINGS = {**PUBLIC_GROUPINGS, **INTERNAL_GROUPINGS}
 
 SUPPORTED_TIME_UNITS = {
     "y": {
