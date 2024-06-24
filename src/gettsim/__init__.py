@@ -25,6 +25,7 @@ from _gettsim import (
     transfers,
     visualization,
 )
+from _gettsim.endogenous_bg_id import determine_bg_and_wthh_ids
 from _gettsim.interface import (
     FunctionsAndColumnsOverlapWarning,
     compute_taxes_and_transfers,
@@ -57,6 +58,7 @@ __all__ = [
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",
+    "determine_bg_and_wthh_ids",
     # TODO (@hmgaudecker): See what can be changed/removed from remainder.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/378
     "aggregation",

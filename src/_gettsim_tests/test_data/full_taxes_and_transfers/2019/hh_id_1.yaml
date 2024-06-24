@@ -5,10 +5,10 @@ info:
 inputs:
   provided:
     hh_id:
+      - 0
       - 1
-      - 1
-      - 1
-      - 1
+      - 2
+      - 3
     p_id:
       - 1
       - 2

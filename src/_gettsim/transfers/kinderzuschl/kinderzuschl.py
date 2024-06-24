@@ -7,8 +7,7 @@ from _gettsim.shared import policy_info
 
 def kinderzuschl_m_bg(
     _kinderzuschl_nach_vermög_check_m_bg: float,
-    kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_bg: bool,
+    wohngeld_und_kiz_günstiger_als_sgb_ii: bool,
     anz_rentner_hh: int,
 ) -> float:
     """Aggregate child benefit on household level.
@@ -17,10 +16,9 @@ def kinderzuschl_m_bg(
     ----------
     _kinderzuschl_nach_vermög_check_m_bg
         See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
-    kinderzuschl_vorrang_bg
-        See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_bg
-        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
+    wohngeld_und_kiz_günstiger_als_sgb_ii
+        See basic input variable :ref:`wohngeld_und_kiz_günstiger_als_sgb_ii
+        <wohngeld_und_kiz_günstiger_als_sgb_ii>`.
     anz_rentner_hh
         See :func:`anz_rentner_hh`.
 
@@ -28,9 +26,7 @@ def kinderzuschl_m_bg(
     -------
 
     """
-    if ((not kinderzuschl_vorrang_bg) and (not wohngeld_kinderzuschl_vorrang_bg)) or (
-        anz_rentner_hh > 0
-    ):
+    if (not wohngeld_und_kiz_günstiger_als_sgb_ii) or (anz_rentner_hh > 0):
         out = 0.0
     else:
         out = _kinderzuschl_nach_vermög_check_m_bg

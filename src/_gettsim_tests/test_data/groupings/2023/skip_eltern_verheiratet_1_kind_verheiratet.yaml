@@ -1,6 +1,8 @@
 ---
 info:
-  note: Child in separate Familiengemeinschaft if he/she is married
+  note: >-
+    Child in separate Familiengemeinschaft if he/she is married. Skipped because
+    multiple fgs in hh.
   source: ''
 inputs:
   provided:

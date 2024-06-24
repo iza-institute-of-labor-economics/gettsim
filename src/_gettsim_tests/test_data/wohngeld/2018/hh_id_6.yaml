@@ -25,6 +25,27 @@ inputs:
       - 28
       - 28
       - 28
+    p_id_einstandspartner:
+      - 29
+      - 28
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 28
+      - 28
+      - 28
+      - 28
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 29
+      - 29
+      - 29
+      - 29
     kind:
       - false
       - false

@@ -1,6 +1,8 @@
 ---
 info:
-  note: Couple with three children and two grandparents. One child outside of parent BG.
+  note: >-
+    Couple with three children and two grandparents. One child outside of parent BG.
+    Skipped because multiple fgs in hh.
   source: ''
 inputs:
   provided:

@@ -67,7 +67,23 @@ INTERNAL_PARAMS_GROUPS = [
     "erziehungsgeld",
 ]
 
-SUPPORTED_GROUPINGS = {
+INTERNAL_GROUPINGS = {
+    "bg_needs_covered": {
+        "description": "Bedarfsgemeinschaft assuming that children are not part of the"
+        " parental Bedarfsgemeinschaft.",
+    },
+    "bg_parents_have_own_bg": {
+        "description": "Bedarfsgemeinschaft assuming that parents and children who "
+        "cannot cover their needs are in a different Bedarfsgemeinschaft than children "
+        "who can.",
+    },
+    "bg_whole_fg": {
+        "description": "Bedarfsgemeinschaft assuming that the whole Familiengemeinschaft"
+        " forms the Bedarfsgemeinschaft.",
+    },
+}
+
+PUBLIC_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
         "description": "Individuals living together in a household in the Wohngeld"
@@ -111,6 +127,8 @@ SUPPORTED_GROUPINGS = {
         "potentially_endogenous": True,
     },
 }
+
+SUPPORTED_GROUPINGS = {**PUBLIC_GROUPINGS, **INTERNAL_GROUPINGS}
 
 SUPPORTED_TIME_UNITS = {
     "y": {
@@ -157,7 +175,6 @@ TYPES_INPUT_VARIABLES = {
     "p_id_ehepartner": int,
     "p_id_einstandspartner": int,
     "vermögen_bedürft": float,
-    "eigenbedarf_gedeckt": bool,
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
@@ -231,6 +248,7 @@ TYPES_INPUT_VARIABLES = {
     "budgetsatz_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,
+    "wohngeld_und_kiz_günstiger_als_sgb_ii": bool,
 }
 
 FOREIGN_KEYS = [

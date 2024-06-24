@@ -8,6 +8,8 @@ def arbeitsl_geld_2_eink_m(
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
+    _diff_kindergeld_kindbedarf_m: float,
 ) -> float:
     """SGB II income.
 
@@ -37,13 +39,49 @@ def arbeitsl_geld_2_eink_m(
     Income according to SGB II.
 
     """
+    if _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger:
+        out = (
+            _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+            + kind_unterh_erhalt_m
+            + unterhaltsvors_m
+            + _diff_kindergeld_kindbedarf_m
+            + kindergeldübertrag_m
+        )
+    else:
+        out = (
+            _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+            + kind_unterh_erhalt_m
+            + unterhaltsvors_m
+            + kindergeld_zur_bedarfsdeckung_m
+            + kindergeldübertrag_m
+        )
+    return out
+
+
+def arbeitsl_geld_2_eink_ohne_kindereinkommen_m(
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
+    kind: bool,
+) -> float:
+    """SGB II income without children's income (except Kindergeld).
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+    kind
+        See :func:`kind`.
+
+    Returns
+    -------
+    Income according to SGB II without children's income (except Kindergeld).
+
+    """
     return (
-        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
-        + kind_unterh_erhalt_m
-        + unterhaltsvors_m
-        + kindergeld_zur_bedarfsdeckung_m
-        + kindergeldübertrag_m
-    )
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m if not kind else 0.0
+    ) + kindergeld_zur_bedarfsdeckung_m
 
 
 def _arbeitsl_geld_2_nettoeink_ohne_transfers_m(  # noqa: PLR0913
