@@ -7,7 +7,7 @@ This section documents the code inside GETTSIM.
 maxdepth: 1
 ---
 interface
-functions
+apidocs/index
 input_variables
 variables_out
 params
