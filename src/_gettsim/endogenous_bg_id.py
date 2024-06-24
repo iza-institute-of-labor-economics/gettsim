@@ -120,6 +120,11 @@ def determine_bg_and_wthh_ids(
         wohngeld_und_kiz_günstiger_als_sgb_ii_update
     )
 
+    _fail_if_multiple_fg_in_one_bg(
+        data=input_data,
+        bg_id_result=bg_id_result,
+    )
+
     return (
         pd.Series(bg_id_result).astype(int),
         pd.Series(wthh_id_result).astype(int),
@@ -183,7 +188,7 @@ def bürgergeld_claim_for_whole_fg(
         The policy functions.
     """
     input_data = data.copy().reset_index()
-    input_data["bg_id"] = input_data["fg_id"]
+    input_data["bg_id"] = input_data["fg_id"] * 100
 
     ## Call GETTSIM to compute if eigenbedarf is covered
     gettsim_result = (
@@ -307,7 +312,6 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
             )
             .set_index("p_id")
         )
-
     hh_ids = numpy.unique(input_data["hh_id"])
     for this_hh_id in hh_ids:
         current_hh_parents_have_own_bg = results["candidate_parents_have_own_bg"].query(
@@ -328,6 +332,10 @@ def vorrangprüfung_and_günstigerprüfung_on_fg_level(
                 "_transfereinkommen_für_günstigerprüfung_fg"
             ].max()
         )
+        # if parental_bg["vorrangprüfung_bg"].all() and not whole_fg_wohngeld_günstiger:
+        #     import warnings
+        #     warnings.warn(f"Case for hh_id {this_hh_id}.")
+
         # Not eligible for BüG or fg income is maximized by Wohngeld for parental BG
         if parental_bg["vorrangprüfung_bg"].all() or whole_fg_wohngeld_günstiger:
             wthh_id_update = dict(
@@ -497,7 +505,12 @@ def _set_bg_id_based_on_covered_needs_check(
     ).fillna(False)
 
     # Assign unique bg_id to each child with needs covered
-    data.loc[children_needs_covered, "bg_id"] = data["base_bg_id"] + data["p_id"]
+    data.loc[children_needs_covered, "bg_id"] = (
+        data["base_bg_id"] + data["p_id"] + 100_000
+    )
+    # Note: This is a hack to avoid bg_id collisions with the base bg_id. It is not
+    # guaranteed to work in all cases (large datasets). A better approach would be to
+    # base the `bg_id` on `p_id`.
 
     return data["bg_id"].astype(int)
 
@@ -554,3 +567,17 @@ def _fail_if_not_all_p_ids_are_covered(data, id_list: list[dict]) -> None:
     for this_id_dict in id_list:
         if len([p_id for p_id in data["p_id"] if p_id not in this_id_dict]) > 0:
             raise ValueError("Not all p_ids were assigned a bg_id or wthh_id.")
+
+
+def _fail_if_multiple_fg_in_one_bg(
+    data,
+    bg_id_result: dict[int, int],
+) -> None:
+    """Raise an error if there is more than one fg_id in a bg_id."""
+    data_with_bg_ids = data.copy(deep=True)
+    data_with_bg_ids["bg_id"] = pd.Series(bg_id_result)
+    unique_bg_ids = numpy.unique(list(bg_id_result.values()))
+    for this_bg_id in unique_bg_ids:
+        current_data = data_with_bg_ids.query(f"bg_id == {this_bg_id}")
+        if current_data["fg_id"].nunique() > 1:
+            raise ValueError(f"More than one fg_id in bg_id {this_bg_id}.")

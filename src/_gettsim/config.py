@@ -94,6 +94,11 @@ SUPPORTED_GROUPINGS = {
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
+    "bg_needs_covered": {
+        "name": "Bedarfsgemeinschaft if children have covered their needs.",
+        "description": "Bedarfsgemeinschaft assuming that children are not part of the"
+        " parental Bedarfsgemeinschaft.",
+    },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
         "description": "A couple whose members are deemed to be responsible for each"
@@ -157,7 +162,6 @@ TYPES_INPUT_VARIABLES = {
     "p_id_ehepartner": int,
     "p_id_einstandspartner": int,
     "vermögen_bedürft": float,
-    "eigenbedarf_gedeckt": bool,
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,

@@ -9,6 +9,7 @@ def create_groupings() -> dict[str, Callable]:
         "wthh_id": wthh_id_numpy,
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
+        "bg_needs_covered_id": bg_children_needs_covered_numpy,
         "eg_id": eg_id_numpy,
         "ehe_id": ehe_id_numpy,
         "sn_id": sn_id_numpy,
@@ -23,12 +24,51 @@ def bg_id_numpy(
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
     """
+    return _create_bg_id(
+        fg_id=fg_id,
+        alter=alter,
+        needs_covered=eigenbedarf_gedeckt,
+    )
+
+
+def bg_children_needs_covered_numpy(
+    fg_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Bedarfsgemeinschaft assuming that children are not part of the
+    parental BG.
+
+    Parameters
+    ----------
+    fg_id
+        The ID of the Familiengemeinschaft for each person.
+
+    Returns
+    -------
+
+    """
+    return _create_bg_id(
+        fg_id=fg_id,
+        alter=alter,
+        eigenbedarf_gedeckt=numpy.full(fg_id.shape, True),
+    )
+
+
+def _create_bg_id(
+    fg_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+    needs_covered: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Bedarfsgemeinschaft for each person.
+    """
     counter = Counter()
     result = []
 
     for index, current_fg_id in enumerate(fg_id):
         current_alter = alter[index]
-        current_eigenbedarf_gedeckt = eigenbedarf_gedeckt[index]
+        current_eigenbedarf_gedeckt = needs_covered[index]
         # TODO(@MImmesberger): Remove hard-coded number
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
         if current_alter < 25 and current_eigenbedarf_gedeckt:

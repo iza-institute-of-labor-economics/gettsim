@@ -14,6 +14,62 @@ aggregate_by_group_benefit_checks = {
 }
 
 
+def eigenbedarf_gedeckt(
+    arbeitsl_geld_2_regelbedarf_m_bg_needs_covered: float,
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m_bg_needs_covered: float,
+    kindergeld_zur_bedarfsdeckung_m_bg_needs_covered: float,
+    kind_unterh_erhalt_m_bg_needs_covered: float,
+    unterhaltsvors_m_bg_needs_covered: float,
+    kindergeldübertrag_m_bg_needs_covered: float,
+) -> bool:
+    """Check if SGB II needs are covered.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_bg_needs_covered
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg_needs_covered`.
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m_bg_needs_covered
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m_bg_needs_covered`.
+    kindergeld_zur_bedarfsdeckung_m_bg_needs_covered
+        See :func:`kindergeld_zur_bedarfsdeckung_m_bg_needs_covered`.
+    kind_unterh_erhalt_m_bg_needs_covered
+        See :func:`kind_unterh_erhalt_m_bg_needs_covered`.
+    unterhaltsvors_m_bg_needs_covered
+        See :func:`unterhaltsvors_m_bg_needs_covered`.
+    kindergeldübertrag_m_bg_needs_covered
+        See :func:`kindergeldübertrag_m_bg_needs_covered`.
+
+    Returns
+    -------
+
+    """
+    return (
+        arbeitsl_geld_2_regelbedarf_m_bg_needs_covered
+        <= _arbeitsl_geld_2_nettoeink_ohne_transfers_m_bg_needs_covered
+        + kindergeld_zur_bedarfsdeckung_m_bg_needs_covered
+        + kind_unterh_erhalt_m_bg_needs_covered
+        + unterhaltsvors_m_bg_needs_covered
+        + kindergeldübertrag_m_bg_needs_covered
+    )
+
+
+def sgb_ii_needs_covered_for_fg(
+    arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_fg: float,
+):
+    """Familiengemeinschaft as a whole has SGB II needs covered.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_fg
+        See :func:`arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_fg`.
+
+    Returns
+    -------
+
+    """
+    return arbeitsl_geld_2_vor_vorrang_ohne_kindereinkommen_m_fg == 0.0
+
+
 def vorrangprüfung_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     _arbeitsl_geld_2_nettoeink_ohne_transfers_m_bg: float,
@@ -81,10 +137,13 @@ def _transfereinkommen_für_günstigerprüfung(
 
     """
     wohngeld_individual_level = wohngeld_m_wthh / anz_personen_wthh
-    arbeitsl_geld_2_kinderzuschl_individual_level = (
-        kinderzuschl_m_bg / anz_personen_bg + arbeitsl_geld_2_m_bg / anz_personen_bg
+    arbeitsl_geld_2_individual_level = arbeitsl_geld_2_m_bg / anz_personen_bg
+    kinderzuschl_individual_level = kinderzuschl_m_bg / anz_personen_bg
+    return (
+        arbeitsl_geld_2_individual_level
+        + wohngeld_individual_level
+        + kinderzuschl_individual_level
     )
-    return arbeitsl_geld_2_kinderzuschl_individual_level + wohngeld_individual_level
 
 
 def wohngeld_vorrang_bg(

@@ -8,6 +8,8 @@ def arbeitsl_geld_2_eink_m(
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
+    _diff_kindergeld_kindbedarf_m: float,
 ) -> float:
     """SGB II income.
 
@@ -37,13 +39,23 @@ def arbeitsl_geld_2_eink_m(
     Income according to SGB II.
 
     """
-    return (
-        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
-        + kind_unterh_erhalt_m
-        + unterhaltsvors_m
-        + kindergeld_zur_bedarfsdeckung_m
-        + kindergeldübertrag_m
-    )
+    if _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger:
+        out = (
+            _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+            + kind_unterh_erhalt_m
+            + unterhaltsvors_m
+            + _diff_kindergeld_kindbedarf_m
+            + kindergeldübertrag_m
+        )
+    else:
+        out = (
+            _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+            + kind_unterh_erhalt_m
+            + unterhaltsvors_m
+            + kindergeld_zur_bedarfsdeckung_m
+            + kindergeldübertrag_m
+        )
+    return out
 
 
 def arbeitsl_geld_2_eink_ohne_kindereinkommen_m(
