@@ -1,5 +1,3 @@
-
-
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_bg: bool,
