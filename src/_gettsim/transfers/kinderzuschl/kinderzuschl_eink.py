@@ -103,7 +103,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     else:
         out = (
             arbeitsl_geld_2_params["regelsatz"]
-            * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
+            * arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"]
             * 2
         )
 

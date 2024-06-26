@@ -411,24 +411,24 @@ anteil_regelsatz_kinder:
     en: Fraction of standard rate for children
   description:
     de: >-
-      § 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V
-      derselben Norm. 2005 bis 2010. 2005-2010 der Regelsatz für Kinder wurden als  Anteil
-      des Standardsatzes bestimmt.
+      § 20 (3) SGB II, eigentliche Wirknorm ist § 20 IV SGB II i.V.m Absatz V derselben
+      Norm. 2005 bis 2010: Der Regelsatz für Kinder wurden als Anteil des Standardsatzes
+      bestimmt.
     en: null
   note:
     de: null
     en: null
   unit: Share
   2005-01-01:
-    6:
-      max_alter: 5
-      share: 0.6
-    5:
-      max_alter: 13
-      share: 0.6
     4:
       max_alter: 24
-      share: 0.8
+      anteil: 0.8
+    5:
+      max_alter: 13
+      anteil: 0.6
+    6:
+      max_alter: 5
+      anteil: 0.6
     reference: Artikel 1 § 20 G. v. 24.12.2003 BGBl. I S. 2954.
   2009-07-01:
     deviation_from: previous

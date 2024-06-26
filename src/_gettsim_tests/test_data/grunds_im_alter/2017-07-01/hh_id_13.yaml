@@ -26,6 +26,9 @@ inputs:
     p_id_elternteil_2:
       - -1
       - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
     gemeinsam_veranlagt:
       - true
       - true

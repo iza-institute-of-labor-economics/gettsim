@@ -206,9 +206,9 @@ def gleiche_fg_kindergeldempfänger_kind(
         value_if_foreign_key_is_missing=-1,
     )
 
-    return numpy.ndarray(
-        [
-            fg_id_empf == fg_id_child if fg_id_empf >= 0 else False
-            for fg_id_empf, fg_id_child in fg_id_kindergeldempfänger
-        ]
-    )
+    out = [
+        fg_id_empf == fg_id_child if fg_id_empf >= 0 else False
+        for fg_id_empf, fg_id_child in zip(fg_id_kindergeldempfänger, fg_id)
+    ]
+
+    return numpy.array(out)

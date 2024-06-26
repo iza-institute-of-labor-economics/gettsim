@@ -3,9 +3,9 @@
 from _gettsim.shared import policy_info
 
 
-def arbeitsl_geld_2_regelbedarf_m(
-    arbeitsl_geld_2_regelsatz_m: float,
-    arbeitsl_geld_2_kost_unterk_m: float,
+def arbeitsl_geld_2_regelbedarf_m_bg(
+    arbeitsl_geld_2_regelsatz_m_bg: float,
+    arbeitsl_geld_2_kost_unterk_m_bg: float,
 ) -> float:
     """Basic monthly subsistence level on individual level.
 
@@ -15,17 +15,17 @@ def arbeitsl_geld_2_regelbedarf_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelsatz_m
-        See :func:`arbeitsl_geld_2_regelsatz_m`.
-    arbeitsl_geld_2_kost_unterk_m
-        See :func:`arbeitsl_geld_2_kost_unterk_m`.
+    arbeitsl_geld_2_regelsatz_m_bg
+        See :func:`arbeitsl_geld_2_regelsatz_m_bg`.
+    arbeitsl_geld_2_kost_unterk_m_bg
+        See :func:`arbeitsl_geld_2_kost_unterk_m_bg`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m + arbeitsl_geld_2_kost_unterk_m
+    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_bg
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
@@ -120,6 +120,8 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
         out = regelsatz * anteile[5]["anteil"]
     elif alter <= anteile[4]["max_alter"] and gleiche_fg_kindergeldempfänger_kind:
         out = regelsatz * anteile[4]["anteil"]
+    else:
+        out = 0.0
 
     return float(out)
 
@@ -149,47 +151,48 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
 
     """
 
+    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
+
     if (
         alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][6]["anteil"]
+        out = arbeitsl_geld_2_params["regelsatz"][6]["bedarf"] + kindersofortzuschl
     elif (
         alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][5]["anteil"]
+        out = arbeitsl_geld_2_params["regelsatz"][5]["bedarf"] + kindersofortzuschl
     elif (
         alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][4]["anteil"]
+        out = arbeitsl_geld_2_params["regelsatz"][4]["bedarf"] + kindersofortzuschl
     elif gleiche_fg_kindergeldempfänger_kind:  # adult children with parents in FG
-        out = arbeitsl_geld_2_params["regelsatz"][3]
-
-    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
-    out += kindersofortzuschl
+        out = arbeitsl_geld_2_params["regelsatz"][3] + kindersofortzuschl
+    else:
+        out = 0.0
 
     return float(out)
 
 
 @policy_info(end_date="2010-12-31", name_in_dag="arbeitsl_geld_2_erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
-    anz_erwachsene_bg: int,
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
     arbeitsl_geld_2_kindersatz_m: float,
+    p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs for adults without dwelling.
 
     Parameters
     ----------
-    anz_erwachsene_bg
-        See :func:`anz_erwachsene_bg`.
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m
         See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m`.
     arbeitsl_geld_2_kindersatz_m
         See :func:`arbeitsl_geld_2_kindersatz_m`.
+    p_id_einstandspartner
+        See basic input variable :ref:`p_id_einstandspartner`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -197,40 +200,25 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     -------
 
     """
-    if alleinerz:
+    if p_id_einstandspartner > 0:  # BG with 2 adults
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+            arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"]
         )
-    elif p_id_einstandspartner > 0:
+    elif arbeitsl_geld_2_kindersatz_m == 0.0:  # BG with 1 adult
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m
         )
     else:
-        out = arbeitsl_geld_2_params["regelsatz"] * (
-            arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-        )
+        out = 0.0
 
-    weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
-    if anz_erwachsene_bg == 1:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
-        )
-    elif anz_erwachsene_bg >= 2:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"] * (
-            2 * arbeitsl_geld_2_params["anteil_regelsatz"]["zwei_erwachsene"]
-            + weitere_erwachsene
-            * arbeitsl_geld_2_params["anteil_regelsatz"]["weitere_erwachsene"]
-        )
-    else:
-        satz_erwachsene = 0
-    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m
+    return out
 
 
 @policy_info(start_date="2011-01-01", name_in_dag="arbeitsl_geld_2_erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
-    anz_erwachsene_bg: int,
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
-    arbeitsl_geld_2_kindersatz_m_bg: float,
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
+    arbeitsl_geld_2_kindersatz_m: float,
+    p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs for adults without dwelling since 2011.
@@ -239,12 +227,12 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
 
     Parameters
     ----------
-    anz_erwachsene_bg
-        See :func:`anz_erwachsene_bg`.
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
-    arbeitsl_geld_2_kindersatz_m_bg
-        See :func:`arbeitsl_geld_2_kindersatz_m_bg`.
+    _arbeitsl_geld_2_alleinerz_mehrbedarf_m
+        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m`.
+    arbeitsl_geld_2_kindersatz_m
+        See :func:`arbeitsl_geld_2_kindersatz_m`.
+    p_id_einstandspartner
+        See basic input variable :ref:`p_id_einstandspartner`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -253,21 +241,16 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     float with the minimum needs of an household in Euro.
 
     """
-    zuschlag = arbeitsl_geld_2_params.get("kindersofortzuschl", 0)
-
-    weitere_erwachsene = max(anz_erwachsene_bg - 2, 0)
-    if anz_erwachsene_bg == 1:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+    if p_id_einstandspartner > 0:  # BG with 2 adults
+        out = arbeitsl_geld_2_params["regelsatz"][2]
+    elif arbeitsl_geld_2_kindersatz_m == 0.0:  # BG with 1 adult
+        out = arbeitsl_geld_2_params["regelsatz"][1] * (
+            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m
         )
-    elif anz_erwachsene_bg >= 2:
-        satz_erwachsene = arbeitsl_geld_2_params["regelsatz"][2] * (
-            2 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
-        ) + ((arbeitsl_geld_2_params["regelsatz"][3] + zuschlag) * weitere_erwachsene)
-    elif anz_erwachsene_bg == 0:
-        satz_erwachsene = 0
+    else:
+        out = 0.0
 
-    return satz_erwachsene + arbeitsl_geld_2_kindersatz_m_bg
+    return out
 
 
 def arbeitsl_geld_2_regelsatz_m(
