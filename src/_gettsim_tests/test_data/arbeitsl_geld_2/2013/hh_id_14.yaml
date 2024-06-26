@@ -140,3 +140,6 @@ outputs:
   arbeitsl_geld_2_m_bg:
     - 670.0
     - 670.0
+  _arbeitsl_geld_2_berechtigte_wohnfläche:
+    - 35.0
+    - 35.0

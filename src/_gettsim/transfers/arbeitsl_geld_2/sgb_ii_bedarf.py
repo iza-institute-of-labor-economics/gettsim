@@ -3,9 +3,9 @@
 from _gettsim.shared import policy_info
 
 
-def arbeitsl_geld_2_regelbedarf_m_bg(
-    arbeitsl_geld_2_regelsatz_m_bg: float,
-    arbeitsl_geld_2_kost_unterk_m_bg: float,
+def arbeitsl_geld_2_regelbedarf_m(
+    arbeitsl_geld_2_regelsatz_m: float,
+    arbeitsl_geld_2_kost_unterk_m: float,
 ) -> float:
     """Basic monthly subsistence level on individual level.
 
@@ -15,17 +15,17 @@ def arbeitsl_geld_2_regelbedarf_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelsatz_m_bg
-        See :func:`arbeitsl_geld_2_regelsatz_m_bg`.
-    arbeitsl_geld_2_kost_unterk_m_bg
-        See :func:`arbeitsl_geld_2_kost_unterk_m_bg`.
+    arbeitsl_geld_2_regelsatz_m
+        See :func:`arbeitsl_geld_2_regelsatz_m`.
+    arbeitsl_geld_2_kost_unterk_m
+        See :func:`arbeitsl_geld_2_kost_unterk_m`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m_bg + arbeitsl_geld_2_kost_unterk_m_bg
+    return arbeitsl_geld_2_regelsatz_m + arbeitsl_geld_2_kost_unterk_m
 
 
 def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
