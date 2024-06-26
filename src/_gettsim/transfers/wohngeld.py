@@ -763,6 +763,7 @@ def wohngeld_nach_vermög_check_m_bg(
 
 @policy_info(params_key_for_rounding="wohngeld")
 def wohngeld_vor_vermög_check_m_wthh(
+    wohngeld_mindesteinkommen_erreicht_wthh: bool,
     anz_personen_wthh: int,
     wohngeld_eink_m_wthh: float,
     wohngeld_miete_m_wthh: float,
@@ -776,6 +777,8 @@ def wohngeld_vor_vermög_check_m_wthh(
 
     Parameters
     ----------
+    wohngeld_mindesteinkommen_erreicht_wthh
+        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     wohngeld_eink_m_wthh
@@ -789,16 +792,22 @@ def wohngeld_vor_vermög_check_m_wthh(
     -------
 
     """
-    return _wohngeld_basisformel(
-        anz_personen=anz_personen_wthh,
-        einkommen_m=wohngeld_eink_m_wthh,
-        miete_m=wohngeld_miete_m_wthh,
-        params=wohngeld_params,
-    )
+    if wohngeld_mindesteinkommen_erreicht_wthh:
+        out = _wohngeld_basisformel(
+            anz_personen=anz_personen_wthh,
+            einkommen_m=wohngeld_eink_m_wthh,
+            miete_m=wohngeld_miete_m_wthh,
+            params=wohngeld_params,
+        )
+    else:
+        out = 0.0
+
+    return out
 
 
 @policy_info(params_key_for_rounding="wohngeld")
 def wohngeld_vor_vermög_check_m_bg(
+    wohngeld_mindesteinkommen_erreicht_bg: bool,
     anz_personen_bg: int,
     wohngeld_eink_m_bg: float,
     wohngeld_miete_m_bg: float,
@@ -812,6 +821,8 @@ def wohngeld_vor_vermög_check_m_bg(
 
     Parameters
     ----------
+    wohngeld_mindesteinkommen_erreicht_bg
+        See :func`wohngeld_mindesteinkommen_erreicht_bg`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
     wohngeld_eink_m_bg
@@ -825,12 +836,98 @@ def wohngeld_vor_vermög_check_m_bg(
     -------
 
     """
-    return _wohngeld_basisformel(
-        anz_personen=anz_personen_bg,
-        einkommen_m=wohngeld_eink_m_bg,
-        miete_m=wohngeld_miete_m_bg,
-        params=wohngeld_params,
+    if wohngeld_mindesteinkommen_erreicht_bg:
+        out = _wohngeld_basisformel(
+            anz_personen=anz_personen_bg,
+            einkommen_m=wohngeld_eink_m_bg,
+            miete_m=wohngeld_miete_m_bg,
+            params=wohngeld_params,
+        )
+    else:
+        out = 0.0
+
+    return out
+
+
+def wohngeld_mindesteinkommen_erreicht_wthh(
+    arbeitsl_geld_2_regelbedarf_wthh: float,
+    arbeitsl_geld_2_eink_m_wthh: float,
+    kinderzuschl_m_wthh: float,
+) -> bool:
+    """Check if the minimum income is reached.
+
+    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
+
+    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
+    Kindergeld count as income for this check.
+
+    Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
+    meet the Mindesteinkommen:
+
+    1. Savings may partly cover the Regelbedarf, making the applicant eligible again.
+    2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
+        insurance contributions).
+
+    This room for discretionary judgment is ignored here.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_wthh
+        See :func:`arbeitsl_geld_2_regelbedarf_wthh`.
+    arbeitsl_geld_2_eink_m_wthh
+        See :func:`arbeitsl_geld_2_eink_m_wthh`.
+    kinderzuschl_m_wthh
+        See :func:`kinderzuschl_m_wthh`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        arbeitsl_geld_2_regelbedarf_wthh
+        <= arbeitsl_geld_2_eink_m_wthh + kinderzuschl_m_wthh
     )
+    return out
+
+
+def wohngeld_mindesteinkommen_erreicht_bg(
+    arbeitsl_geld_2_regelbedarf_bg: float,
+    arbeitsl_geld_2_eink_m_bg: float,
+    kinderzuschl_m_bg: float,
+) -> bool:
+    """Check if the minimum income is reached.
+
+    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
+
+    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
+    Kindergeld count as income for this check.
+
+    Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
+    meet the Mindesteinkommen:
+
+    1. Savings may partly cover the Regelbedarf, making the applicant eligible again.
+    2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
+        insurance contributions).
+
+    This room for discretionary judgment is ignored here.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_bg`.
+    arbeitsl_geld_2_eink_m_bg
+        See :func:`arbeitsl_geld_2_eink_m_bg`.
+    kinderzuschl_m_bg
+        See :func:`kinderzuschl_m_bg`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        arbeitsl_geld_2_regelbedarf_bg <= arbeitsl_geld_2_eink_m_bg + kinderzuschl_m_bg
+    )
+    return out
 
 
 def _wohngeld_basisformel(
