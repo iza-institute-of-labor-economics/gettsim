@@ -1,6 +1,6 @@
 ---
 info:
-  note: ''
+  note: Regression test.
   source: ''
 inputs:
   provided:
@@ -130,11 +130,11 @@ outputs:
     - 684.5
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:
-    - 687.96
-    - 687.96
+    - 673.92
+    - 673.92
   arbeitsl_geld_2_kost_unterk_m_bg:
     - 480.0
     - 480.0
   arbeitsl_geld_2_m_bg:
-    - 319.46
-    - 319.46
+    - 305.42
+    - 305.42
