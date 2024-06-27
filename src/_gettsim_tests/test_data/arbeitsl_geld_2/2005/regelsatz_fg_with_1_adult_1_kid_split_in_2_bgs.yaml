@@ -1,44 +1,70 @@
 ---
 info:
-  note: Test Regelsatz when no adult is part of Bedarfsgemeinschaft.
+  note: >-
+    Test Regelsatz when Familiengemeinschaft (1 adult, 1 kid) is split into two
+    Bedarfsgemeinschaften.
   source: Made up.
 inputs:
   assumed:
     p_id:
       - 0
+      - 1
     hh_id:
+      - 0
       - 0
     p_id_einstandspartner:
       - -1
+      - -1
     p_id_ehepartner:
+      - -1
       - -1
     p_id_elternteil_1:
       - -1
+      - 0
     p_id_elternteil_2:
+      - -1
       - -1
     p_id_kindergeld_empf:
       - -1
+      - 0
+    bg_id:
+      - 0
+      - 1
     gemeinsam_veranlagt:
+      - false
       - false
     eigenbedarf_gedeckt:
       - false
+      - true
     jahr:
-      - 2018
+      - 2005
+      - 2005
     kind:
+      - false
       - true
     alleinerz:
+      - true
       - false
     alter:
+      - 40
       - 10
     bruttokaltmiete_m_hh:
-      - 300.0
+      - 600.0
+      - 600.0
     heizkosten_m_hh:
-      - 50.0
+      - 100.0
+      - 100.0
     wohnfläche_hh:
-      - 20.0
+      - 40.0
+      - 40.0
   provided: {}
 outputs:
   arbeitsl_geld_2_regelsatz_m_bg:
+    - 378.56
     - 202.80
   arbeitsl_geld_2_kindersatz_m_bg:
+    - 0.0
     - 202.80
+  arbeitsl_geld_2_erwachsenensatz_m_bg:
+    - 378.56
+    - 0.0
