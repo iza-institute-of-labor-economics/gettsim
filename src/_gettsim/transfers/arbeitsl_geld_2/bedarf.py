@@ -253,7 +253,7 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     float with the minimum needs of an household in Euro.
 
     """
-    if p_id_einstandspartner > 0:  # BG with 2 adults
+    if p_id_einstandspartner >= 0:  # BG with 2 adults
         out = arbeitsl_geld_2_params["regelsatz"][2]
     elif arbeitsl_geld_2_kindersatz_m == 0.0:  # BG with 1 adult
         out = arbeitsl_geld_2_params["regelsatz"][1]

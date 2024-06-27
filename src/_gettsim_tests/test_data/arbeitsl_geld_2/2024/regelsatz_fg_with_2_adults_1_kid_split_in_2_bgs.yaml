@@ -77,14 +77,14 @@ inputs:
   provided: {}
 outputs:
   arbeitsl_geld_2_regelsatz_m:
-    - 304.2
-    - 202.80
-    - 304.2
+    - 506.0
+    - 410.0
+    - 506.0
   arbeitsl_geld_2_kindersatz_m:
     - 0.0
-    - 202.80
+    - 410.0
     - 0.0
   arbeitsl_geld_2_erwachsenensatz_m:
-    - 304.2
+    - 506.0
     - 0.0
-    - 304.2
+    - 506.0
