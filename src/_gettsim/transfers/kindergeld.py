@@ -207,7 +207,7 @@ def same_fg_as_kindergeldempfänger(
     )
 
     out = [
-        fg_id_empf == fg_id_child if fg_id_empf >= 0 else False
+        fg_id_empf == fg_id_child
         for fg_id_empf, fg_id_child in zip(fg_id_kindergeldempfänger, fg_id)
     ]
 

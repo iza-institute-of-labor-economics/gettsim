@@ -19,9 +19,9 @@ from _gettsim.taxes.zu_verst_eink.zu_verst_eink import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import *  # noqa: F403
+from _gettsim.transfers.arbeitsl_geld_2.bedarf import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld_2.kindergelduebertrag import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.sgb_ii_bedarf import *  # noqa: F403
 from _gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F403
 from _gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F403
 from _gettsim.transfers.elterngeld import *  # noqa: F403
