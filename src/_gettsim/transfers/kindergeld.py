@@ -179,7 +179,7 @@ def kind_bis_10_mit_kindergeld(
 
 
 @policy_info(skip_vectorization=True)
-def gleiche_fg_kindergeldempfänger_kind(
+def same_fg_as_kindergeldempfänger(
     p_id: numpy.ndarray[int],
     p_id_kindergeld_empf: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
