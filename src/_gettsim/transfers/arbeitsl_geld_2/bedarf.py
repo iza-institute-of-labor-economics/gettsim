@@ -162,28 +162,28 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
 
     """
 
-    kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
+    out = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
 
     if (
         alter >= arbeitsl_geld_2_params["regelsatz"][6]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][6]["bedarf"] + kindersofortzuschl
+        out += arbeitsl_geld_2_params["regelsatz"][6]["bedarf"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][5]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][5]["bedarf"] + kindersofortzuschl
+        out += arbeitsl_geld_2_params["regelsatz"][5]["bedarf"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][4]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out = arbeitsl_geld_2_params["regelsatz"][4]["bedarf"] + kindersofortzuschl
+        out += arbeitsl_geld_2_params["regelsatz"][4]["bedarf"]
     elif same_fg_as_kindergeldempfänger:  # adult children with parents in FG
-        out = arbeitsl_geld_2_params["regelsatz"][3] + kindersofortzuschl
+        out += arbeitsl_geld_2_params["regelsatz"][3]
     else:
         out = 0.0
 

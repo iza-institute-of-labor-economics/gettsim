@@ -1,6 +1,8 @@
 ---
 info:
-  note: Test Regelsatz when no adult is part of Bedarfsgemeinschaft.
+  note: >-
+    Test Regelsatz when no adult is part of Bedarfsgemeinschaft. Child receives the
+    adult Regelsatz.
   source: Made up.
 inputs:
   assumed:
@@ -29,7 +31,7 @@ inputs:
     alleinerz:
       - false
     alter:
-      - 10
+      - 17
     bruttokaltmiete_m_hh:
       - 300.0
     heizkosten_m_hh:
@@ -38,7 +40,9 @@ inputs:
       - 20.0
   provided: {}
 outputs:
-  arbeitsl_geld_2_regelsatz_m_bg:
-    - 202.80
-  arbeitsl_geld_2_kindersatz_m_bg:
-    - 202.80
+  arbeitsl_geld_2_regelsatz_m:
+    - 338.0
+  arbeitsl_geld_2_kindersatz_m:
+    - 0.0
+  arbeitsl_geld_2_erwachsenensatz_m:
+    - 338.0
