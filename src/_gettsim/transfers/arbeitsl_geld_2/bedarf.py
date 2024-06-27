@@ -214,7 +214,7 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     -------
 
     """
-    if p_id_einstandspartner > 0:  # BG with 2 adults
+    if p_id_einstandspartner >= 0:  # BG with 2 adults
         out = arbeitsl_geld_2_params["regelsatz"] * (
             arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"]
         )
