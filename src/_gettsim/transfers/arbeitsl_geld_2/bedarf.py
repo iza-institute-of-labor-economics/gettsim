@@ -114,11 +114,11 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     regelsatz = arbeitsl_geld_2_params["regelsatz"]
 
     if (
-        alter >= anteile["kind_zwischen_15_und_24"]["min_alter"]
-        and alter <= anteile["kind_zwischen_15_und_24"]["max_alter"]
+        alter >= anteile["kind_zwischen_14_und_24"]["min_alter"]
+        and alter <= anteile["kind_zwischen_14_und_24"]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out = regelsatz * anteile["kind_zwischen_15_und_24"]["anteil"]
+        out = regelsatz * anteile["kind_zwischen_14_und_24"]["anteil"]
     elif (
         alter >= anteile["kind_zwischen_6_und_13"]["min_alter"]
         and alter <= anteile["kind_zwischen_6_und_13"]["max_alter"]

@@ -462,8 +462,8 @@ anteil_regelsatz_kinder:
     en: null
   unit: Share
   2005-01-01:
-    kind_zwischen_15_und_24:
-      min_alter: 15
+    kind_zwischen_14_und_24:
+      min_alter: 14
       max_alter: 24
       anteil: 0.8
     kind_zwischen_6_und_13:
