@@ -1,4 +1,5 @@
-"""Functions to calculate basic needs according to SGB II."""
+"""Functions to calculate basic needs according to SGB II
+(i.e., where Arbeitslosengeld 2 is defined)."""
 
 from _gettsim.shared import policy_info
 
