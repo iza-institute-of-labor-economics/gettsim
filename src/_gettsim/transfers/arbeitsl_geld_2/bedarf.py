@@ -72,10 +72,10 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
                 # Minimal Mehrbedarf share. Minimal rate times number of children
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
                 * anz_kinder_fg,
-                # Special case if 1 kid below 6 or 2,3 below 15.
+                # Increased rated if children up to 6 and/or 2-3 up to 15 are present.
                 (
                     arbeitsl_geld_2_params["mehrbedarf_anteil"][
-                        "kind_unter_7_oder_mehr"
+                        "kind_bis_6_oder_mehrere_bis_15"
                     ]
                     if (anz_kinder_bis_6_fg >= 1) or (2 <= anz_kinder_bis_15_fg <= 3)
                     else 0.0
@@ -96,8 +96,6 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
 ) -> float:
     """Basic monthly subsistence / SGB II needs of children until 2010.
 
-    Since 2010 children get additional shares instead of lump sum payments.
-
     Parameters
     ----------
     alter
@@ -115,11 +113,23 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     anteile = arbeitsl_geld_2_params["anteil_regelsatz_kinder"]
     regelsatz = arbeitsl_geld_2_params["regelsatz"]
 
-    if alter <= anteile[6]["max_alter"] and gleiche_fg_kindergeldempfänger_kind:
+    if (
+        alter >= anteile[6]["min_alter"]
+        and alter <= anteile[6]["max_alter"]
+        and gleiche_fg_kindergeldempfänger_kind
+    ):
         out = regelsatz * anteile[6]["anteil"]
-    elif alter <= anteile[5]["max_alter"] and gleiche_fg_kindergeldempfänger_kind:
+    elif (
+        alter >= anteile[5]["min_alter"]
+        and alter <= anteile[5]["max_alter"]
+        and gleiche_fg_kindergeldempfänger_kind
+    ):
         out = regelsatz * anteile[5]["anteil"]
-    elif alter <= anteile[4]["max_alter"] and gleiche_fg_kindergeldempfänger_kind:
+    elif (
+        alter >= anteile[4]["min_alter"]
+        and alter <= anteile[4]["max_alter"]
+        and gleiche_fg_kindergeldempfänger_kind
+    ):
         out = regelsatz * anteile[4]["anteil"]
     else:
         out = 0.0
@@ -155,17 +165,20 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
     kindersofortzuschl = arbeitsl_geld_2_params.get("kindersofortzuschl", 0.0)
 
     if (
-        alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
+        alter >= arbeitsl_geld_2_params["regelsatz"][6]["min_alter"]
+        and alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
         out = arbeitsl_geld_2_params["regelsatz"][6]["bedarf"] + kindersofortzuschl
     elif (
-        alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
+        alter >= arbeitsl_geld_2_params["regelsatz"][5]["min_alter"]
+        and alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
         out = arbeitsl_geld_2_params["regelsatz"][5]["bedarf"] + kindersofortzuschl
     elif (
-        alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
+        alter >= arbeitsl_geld_2_params["regelsatz"][4]["min_alter"]
+        and alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
         and gleiche_fg_kindergeldempfänger_kind
     ):
         out = arbeitsl_geld_2_params["regelsatz"][4]["bedarf"] + kindersofortzuschl

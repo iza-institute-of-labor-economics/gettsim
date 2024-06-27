@@ -177,12 +177,15 @@ regelsatz:
     2: 328
     3: 291
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 287
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 251
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 215
     reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
@@ -191,12 +194,15 @@ regelsatz:
     2: 337
     3: 299
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 287
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 251
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 219
     reference: V. v. 20.10.2011 BGBl. I S. 2093.
@@ -205,12 +211,15 @@ regelsatz:
     2: 345
     3: 306
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 289
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 255
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 224
     reference: B. v. 18.10.2012 BGBl. I S. 2175.
@@ -219,12 +228,15 @@ regelsatz:
     2: 353
     3: 313
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 296
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 261
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 229
     reference: B. v. 16.10.2013 BGBl. I S. 3857.
@@ -233,12 +245,15 @@ regelsatz:
     2: 360
     3: 320
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 302
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 267
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 234
     reference: B. v. 15.10.2014 BGBl. I S. 1620.
@@ -247,12 +262,15 @@ regelsatz:
     2: 364
     3: 324
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 306
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 270
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 237
     reference: B. v. 22.10.2015 BGBl. I S. 1792.
@@ -261,12 +279,15 @@ regelsatz:
     2: 368
     3: 327
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 311
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 291
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 236
     reference: G. v. 22.12.2016 BGBl. I S. 3159.
@@ -275,12 +296,15 @@ regelsatz:
     2: 374
     3: 332
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 316
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 296
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 240
     reference: V. v. 08.11.2017 BGBl. I S. 3767.
@@ -289,12 +313,15 @@ regelsatz:
     2: 382
     3: 339
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 322
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 302
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 245
     reference: V. v. 19.10.2018 BGBl. I S. 1766.
@@ -303,12 +330,15 @@ regelsatz:
     2: 389
     3: 345
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 328
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 308
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 250
     reference: V. v. 15.10.2019 BGBl. I S. 1452.
@@ -317,12 +347,15 @@ regelsatz:
     2: 401
     3: 357
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 373
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 309
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 283
     reference: G. v. 09.12.2020 BGBl. I S. 2855.
@@ -331,12 +364,15 @@ regelsatz:
     2: 404
     3: 360
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 376
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 311
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 285
     reference: V. v. 13.10.2021 BGBl. I S. 4674.
@@ -345,12 +381,15 @@ regelsatz:
     2: 451
     3: 402
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 420
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 348
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 318
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
@@ -360,12 +399,15 @@ regelsatz:
     2: 506
     3: 451
     4:
+      min_alter: 14
       max_alter: 17
       bedarf: 471
     5:
+      min_alter: 6
       max_alter: 13
       bedarf: 390
     6:
+      min_alter: 0
       max_alter: 5
       bedarf: 357
     reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
@@ -439,10 +481,10 @@ anteil_regelsatz_kinder:
 mehrbedarf_anteil:
   name:
     de: >-
-      ``kind_unter_7_oder_mehr`` gibt Mehrbedarf AE bei mind. einem Kind unter 7 Jahren
-      oder zwei oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den Mehrbedarf
-      an wenn der Anspruch größer ist als der für den ersten Schlüssel. ``max`` gibt
-      den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am
+      ``kind_bis_6_oder_mehrere_bis_15`` gibt Mehrbedarf AE bei mind. einem Kind unter 7
+      Jahren oder zwei oder drei Kindern unter 16 Jahre an. ``min_1_kind`` gibt den
+      Mehrbedarf an wenn der Anspruch größer ist als der für den ersten Schlüssel.
+      ``max`` gibt den Maximalanteil für den Mehrbedarf für Alleinerziehende gemessen am
       maßgebenden Regelbedarf.
     en: >-
       Additional need, single parent, one child below 7 or two or three children
@@ -455,7 +497,7 @@ mehrbedarf_anteil:
   reference_period: Month
   2005-01-01:
     min_1_kind: 0.12
-    kind_unter_7_oder_mehr: 0.36
+    kind_bis_6_oder_mehrere_bis_15: 0.36
     max: 0.6
     reference: G. v. 24.12.2003 BGBl. I S. 2954.
 vermögensgrundfreibetrag_obergrenze:
