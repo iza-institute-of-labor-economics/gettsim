@@ -891,12 +891,7 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
     arbeitsl_geld_2_regelbedarf_m_wthh: float,
     wohngeld_einkommen_für_mindesteinkommen_check_m_wthh: float,
 ) -> bool:
-    """Check if the minimum income is reached.
-
-    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
-
-    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
-    Kindergeld count as income for this check.
+    """Minimum income requirement for Wohngeld has been met.
 
     Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
     meet the Mindesteinkommen:
@@ -905,7 +900,7 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
     2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
         insurance contributions).
 
-    This room for discretionary judgment is ignored here.
+    The allowance for discretionary judgment is ignored here.
 
     Parameters
     ----------
@@ -928,21 +923,13 @@ def wohngeld_mindesteinkommen_erreicht_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
 ) -> bool:
-    """Check if the minimum income is reached.
+    """Minimum income requirement for Wohngeld has been met.
 
     Minimum income is defined via VwV 15.01 ff § 15 WoGG.
 
     According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
     Kindergeld count as income for this check.
 
-    Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
-    meet the Mindesteinkommen:
-
-    1. Savings may partly cover the Regelbedarf, making the applicant eligible again.
-    2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
-        insurance contributions).
-
-    This room for discretionary judgment is ignored here.
 
     Parameters
     ----------
