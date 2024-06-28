@@ -720,7 +720,7 @@ def wohngeld_nach_mindesteinkommen_check_m_wthh(
 
 def wohngeld_nach_mindesteinkommen_check_m_bg(
     wohngeld_mindesteinkommen_erreicht_bg: bool,
-    wohngeld_nach_vermög_check_m_wthh: float,
+    wohngeld_nach_vermög_check_m_bg: float,
 ) -> float:
     """Preliminary housing benefit after minimum income check.
 
@@ -731,15 +731,15 @@ def wohngeld_nach_mindesteinkommen_check_m_bg(
     ----------
     wohngeld_mindesteinkommen_erreicht_bg
         See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
-    wohngeld_nach_vermög_check_m_wthh
-        See :func:`wohngeld_nach_vermög_check_m_wthh`.
+    wohngeld_nach_vermög_check_m_bg
+        See :func:`wohngeld_nach_vermög_check_m_bg`.
 
     Returns
     -------
 
     """
     return (
-        wohngeld_nach_vermög_check_m_wthh
+        wohngeld_nach_vermög_check_m_bg
         if wohngeld_mindesteinkommen_erreicht_bg
         else 0.0
     )
@@ -963,7 +963,11 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
 
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    arbeitsl_geld_2_bruttoeink_m: float,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
+    sozialv_beitr_arbeitnehmer_m: float,
+    anz_personen_sn: int,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_m: float,
@@ -990,7 +994,10 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     """
 
     return (
-        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        arbeitsl_geld_2_bruttoeink_m
+        - (eink_st_y_sn / 12 / anz_personen_sn)
+        - (soli_st_y_sn / 12 / anz_personen_sn)
+        - sozialv_beitr_arbeitnehmer_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_m
