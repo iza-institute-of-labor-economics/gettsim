@@ -22,6 +22,42 @@ inputs:
       - -1
       - -1
       - -1
+    p_id_ehepartner:
+      - 1
+      - 0
+      - 3
+      - 2
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - 1
+      - 0
+      - 3
+      - 2
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -34,6 +70,42 @@ inputs:
       - 1000.0
       - 1000.0
       - 1000.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false

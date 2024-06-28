@@ -30,7 +30,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    _wohngeld_nach_vermög_check_m_wthh: float,
+    wohngeld_nach_mindesteinkommen_check_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
@@ -39,8 +39,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    _wohngeld_nach_vermög_check_m_wthh
-        See :func:`_wohngeld_nach_vermög_check_m_wthh`.
+    wohngeld_nach_mindesteinkommen_check_m_wthh
+        See :func:`wohngeld_nach_mindesteinkommen_check_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     wohngeld_kinderzuschl_vorrang_wthh
@@ -66,7 +66,7 @@ def wohngeld_m_wthh(
     if not erwachsene_alle_rentner_hh and (
         wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
     ):
-        out = _wohngeld_nach_vermög_check_m_wthh
+        out = wohngeld_nach_mindesteinkommen_check_m_wthh
     else:
         out = 0.0
 
@@ -691,7 +691,61 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     return out
 
 
-def _wohngeld_nach_vermög_check_m_wthh(
+def wohngeld_nach_mindesteinkommen_check_m_wthh(
+    wohngeld_mindesteinkommen_erreicht_wthh: bool,
+    wohngeld_nach_vermög_check_m_wthh: float,
+) -> float:
+    """Preliminary housing benefit after minimum income check.
+
+    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
+    Parameters
+    ----------
+    wohngeld_mindesteinkommen_erreicht_wthh
+        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
+    wohngeld_nach_vermög_check_m_wthh
+        See :func:`wohngeld_nach_vermög_check_m_wthh`.
+
+    Returns
+    -------
+
+    """
+    return (
+        wohngeld_nach_vermög_check_m_wthh
+        if wohngeld_mindesteinkommen_erreicht_wthh
+        else 0.0
+    )
+
+
+def wohngeld_nach_mindesteinkommen_check_m_bg(
+    wohngeld_mindesteinkommen_erreicht_bg: bool,
+    wohngeld_nach_vermög_check_m_wthh: float,
+) -> float:
+    """Preliminary housing benefit after minimum income check.
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag.
+
+    Parameters
+    ----------
+    wohngeld_mindesteinkommen_erreicht_bg
+        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
+    wohngeld_nach_vermög_check_m_wthh
+        See :func:`wohngeld_nach_vermög_check_m_wthh`.
+
+    Returns
+    -------
+
+    """
+    return (
+        wohngeld_nach_vermög_check_m_wthh
+        if wohngeld_mindesteinkommen_erreicht_bg
+        else 0.0
+    )
+
+
+def wohngeld_nach_vermög_check_m_wthh(
     wohngeld_vor_vermög_check_m_wthh: float,
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
@@ -763,7 +817,6 @@ def wohngeld_nach_vermög_check_m_bg(
 
 @policy_info(params_key_for_rounding="wohngeld")
 def wohngeld_vor_vermög_check_m_wthh(
-    wohngeld_mindesteinkommen_erreicht_wthh: bool,
     anz_personen_wthh: int,
     wohngeld_eink_m_wthh: float,
     wohngeld_miete_m_wthh: float,
@@ -777,8 +830,6 @@ def wohngeld_vor_vermög_check_m_wthh(
 
     Parameters
     ----------
-    wohngeld_mindesteinkommen_erreicht_wthh
-        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     wohngeld_eink_m_wthh
@@ -792,22 +843,16 @@ def wohngeld_vor_vermög_check_m_wthh(
     -------
 
     """
-    if wohngeld_mindesteinkommen_erreicht_wthh:
-        out = _wohngeld_basisformel(
-            anz_personen=anz_personen_wthh,
-            einkommen_m=wohngeld_eink_m_wthh,
-            miete_m=wohngeld_miete_m_wthh,
-            params=wohngeld_params,
-        )
-    else:
-        out = 0.0
-
-    return out
+    return _wohngeld_basisformel(
+        anz_personen=anz_personen_wthh,
+        einkommen_m=wohngeld_eink_m_wthh,
+        miete_m=wohngeld_miete_m_wthh,
+        params=wohngeld_params,
+    )
 
 
 @policy_info(params_key_for_rounding="wohngeld")
 def wohngeld_vor_vermög_check_m_bg(
-    wohngeld_mindesteinkommen_erreicht_bg: bool,
     anz_personen_bg: int,
     wohngeld_eink_m_bg: float,
     wohngeld_miete_m_bg: float,
@@ -821,8 +866,6 @@ def wohngeld_vor_vermög_check_m_bg(
 
     Parameters
     ----------
-    wohngeld_mindesteinkommen_erreicht_bg
-        See :func`wohngeld_mindesteinkommen_erreicht_bg`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
     wohngeld_eink_m_bg
@@ -836,23 +879,17 @@ def wohngeld_vor_vermög_check_m_bg(
     -------
 
     """
-    if wohngeld_mindesteinkommen_erreicht_bg:
-        out = _wohngeld_basisformel(
-            anz_personen=anz_personen_bg,
-            einkommen_m=wohngeld_eink_m_bg,
-            miete_m=wohngeld_miete_m_bg,
-            params=wohngeld_params,
-        )
-    else:
-        out = 0.0
-
-    return out
+    return _wohngeld_basisformel(
+        anz_personen=anz_personen_bg,
+        einkommen_m=wohngeld_eink_m_bg,
+        miete_m=wohngeld_miete_m_bg,
+        params=wohngeld_params,
+    )
 
 
 def wohngeld_mindesteinkommen_erreicht_wthh(
-    arbeitsl_geld_2_regelbedarf_wthh: float,
-    arbeitsl_geld_2_eink_m_wthh: float,
-    kinderzuschl_m_wthh: float,
+    arbeitsl_geld_2_regelbedarf_m_wthh: float,
+    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh: float,
 ) -> bool:
     """Check if the minimum income is reached.
 
@@ -872,28 +909,24 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_wthh
-        See :func:`arbeitsl_geld_2_regelbedarf_wthh`.
-    arbeitsl_geld_2_eink_m_wthh
-        See :func:`arbeitsl_geld_2_eink_m_wthh`.
-    kinderzuschl_m_wthh
-        See :func:`kinderzuschl_m_wthh`.
+    arbeitsl_geld_2_regelbedarf_m_wthh
+        See :func:`arbeitsl_geld_2_regelbedarf_m_wthh`.
+    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_wthh`.
 
     Returns
     -------
 
     """
-    out = (
-        arbeitsl_geld_2_regelbedarf_wthh
-        <= arbeitsl_geld_2_eink_m_wthh + kinderzuschl_m_wthh
+    return (
+        arbeitsl_geld_2_regelbedarf_m_wthh
+        <= wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
     )
-    return out
 
 
 def wohngeld_mindesteinkommen_erreicht_bg(
-    arbeitsl_geld_2_regelbedarf_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
-    kinderzuschl_m_bg: float,
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
 ) -> bool:
     """Check if the minimum income is reached.
 
@@ -913,21 +946,56 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
-    kinderzuschl_m_bg
-        See :func:`kinderzuschl_m_bg`.
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    wohngeld_einkommen_für_mindesteinkommen_check_m_bg
+        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_bg`.
 
     Returns
     -------
 
     """
     out = (
-        arbeitsl_geld_2_regelbedarf_bg <= arbeitsl_geld_2_eink_m_bg + kinderzuschl_m_bg
+        arbeitsl_geld_2_regelbedarf_m_bg
+        <= wohngeld_einkommen_für_mindesteinkommen_check_m_bg
     )
     return out
+
+
+def wohngeld_einkommen_für_mindesteinkommen_check_m(
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_m: float,
+    _kinderzuschl_nach_vermög_check_individual_level_m: float,
+) -> float:
+    """Income for the Mindesteinkommen check.
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    _kinderzuschl_nach_vermög_check_individual_level_m
+        See :func:`_kinderzuschl_nach_vermög_check_individual_level_m`.
+
+    Returns
+    -------
+
+    """
+
+    return (
+        _arbeitsl_geld_2_nettoeink_ohne_transfers_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_m
+        + _kinderzuschl_nach_vermög_check_individual_level_m
+    )
 
 
 def _wohngeld_basisformel(
