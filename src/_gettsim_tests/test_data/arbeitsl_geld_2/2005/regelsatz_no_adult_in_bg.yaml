@@ -12,16 +12,12 @@ inputs:
       - 0
     p_id_einstandspartner:
       - -1
-    p_id_ehepartner:
-      - -1
     p_id_elternteil_1:
       - -1
     p_id_elternteil_2:
       - -1
     p_id_kindergeld_empf:
       - -1
-    gemeinsam_veranlagt:
-      - false
     eigenbedarf_gedeckt:
       - false
     jahr:
@@ -32,12 +28,6 @@ inputs:
       - false
     alter:
       - 17
-    bruttokaltmiete_m_hh:
-      - 300.0
-    heizkosten_m_hh:
-      - 50.0
-    wohnfläche_hh:
-      - 20.0
   provided: {}
 outputs:
   arbeitsl_geld_2_regelsatz_m:

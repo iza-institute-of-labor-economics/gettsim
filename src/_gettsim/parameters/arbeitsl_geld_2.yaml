@@ -179,15 +179,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 287
+      betrag: 287
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 251
+      betrag: 251
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 215
+      betrag: 215
     reference: Artikel 1 G. v. 24.03.2011 BGBl. I S. 453.
   2012-01-01:
     1: 374
@@ -196,15 +196,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 287
+      betrag: 287
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 251
+      betrag: 251
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 219
+      betrag: 219
     reference: V. v. 20.10.2011 BGBl. I S. 2093.
   2013-01-01:
     1: 382
@@ -213,15 +213,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 289
+      betrag: 289
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 255
+      betrag: 255
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 224
+      betrag: 224
     reference: B. v. 18.10.2012 BGBl. I S. 2175.
   2014-01-01:
     1: 391
@@ -230,15 +230,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 296
+      betrag: 296
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 261
+      betrag: 261
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 229
+      betrag: 229
     reference: B. v. 16.10.2013 BGBl. I S. 3857.
   2015-01-01:
     1: 399
@@ -247,15 +247,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 302
+      betrag: 302
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 267
+      betrag: 267
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 234
+      betrag: 234
     reference: B. v. 15.10.2014 BGBl. I S. 1620.
   2016-01-01:
     1: 404
@@ -264,15 +264,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 306
+      betrag: 306
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 270
+      betrag: 270
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 237
+      betrag: 237
     reference: B. v. 22.10.2015 BGBl. I S. 1792.
   2017-01-01:
     1: 409
@@ -281,15 +281,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 311
+      betrag: 311
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 291
+      betrag: 291
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 236
+      betrag: 236
     reference: G. v. 22.12.2016 BGBl. I S. 3159.
   2018-01-01:
     1: 416
@@ -298,15 +298,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 316
+      betrag: 316
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 296
+      betrag: 296
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 240
+      betrag: 240
     reference: V. v. 08.11.2017 BGBl. I S. 3767.
   2019-01-01:
     1: 424
@@ -315,15 +315,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 322
+      betrag: 322
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 302
+      betrag: 302
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 245
+      betrag: 245
     reference: V. v. 19.10.2018 BGBl. I S. 1766.
   2020-01-01:
     1: 432
@@ -332,15 +332,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 328
+      betrag: 328
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 308
+      betrag: 308
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 250
+      betrag: 250
     reference: V. v. 15.10.2019 BGBl. I S. 1452.
   2021-01-01:
     1: 446
@@ -349,15 +349,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 373
+      betrag: 373
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 309
+      betrag: 309
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 283
+      betrag: 283
     reference: G. v. 09.12.2020 BGBl. I S. 2855.
   2022-01-01:
     1: 449
@@ -366,15 +366,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 376
+      betrag: 376
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 311
+      betrag: 311
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 285
+      betrag: 285
     reference: V. v. 13.10.2021 BGBl. I S. 4674.
   2023-01-01:
     1: 502
@@ -383,15 +383,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 420
+      betrag: 420
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 348
+      betrag: 348
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 318
+      betrag: 318
     reference: G. v. 20.12.2022 BGBl. I S. 2328.
     note: Bürgergeld-Gesetz
   2024-01-01:
@@ -401,15 +401,15 @@ regelsatz:
     4:
       min_alter: 14
       max_alter: 17
-      bedarf: 471
+      betrag: 471
     5:
       min_alter: 6
       max_alter: 13
-      bedarf: 390
+      betrag: 390
     6:
       min_alter: 0
       max_alter: 5
-      bedarf: 357
+      betrag: 357
     reference: §2 V. v. 24.10.2024 BGBl. I Nr. 287
 kindersofortzuschl:
   name:

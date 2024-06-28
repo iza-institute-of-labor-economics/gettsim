@@ -169,19 +169,19 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
         and alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out += arbeitsl_geld_2_params["regelsatz"][6]["bedarf"]
+        out += arbeitsl_geld_2_params["regelsatz"][6]["betrag"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][5]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out += arbeitsl_geld_2_params["regelsatz"][5]["bedarf"]
+        out += arbeitsl_geld_2_params["regelsatz"][5]["betrag"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][4]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
         and same_fg_as_kindergeldempfänger
     ):
-        out += arbeitsl_geld_2_params["regelsatz"][4]["bedarf"]
+        out += arbeitsl_geld_2_params["regelsatz"][4]["betrag"]
     elif same_fg_as_kindergeldempfänger:  # adult children with parents in FG
         out += arbeitsl_geld_2_params["regelsatz"][3]
     else:
@@ -214,11 +214,13 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     -------
 
     """
-    if p_id_einstandspartner >= 0:  # BG with 2 adults
+    # BG has 2 adults
+    if p_id_einstandspartner >= 0:
         out = arbeitsl_geld_2_params["regelsatz"] * (
             arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"]
         )
-    elif arbeitsl_geld_2_kindersatz_m == 0.0:  # BG with 1 adult
+    # This observation is not a child, so BG has 1 adult
+    elif arbeitsl_geld_2_kindersatz_m == 0.0:
         out = arbeitsl_geld_2_params["regelsatz"]
     else:
         out = 0.0
@@ -253,9 +255,11 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     float with the minimum needs of an household in Euro.
 
     """
-    if p_id_einstandspartner >= 0:  # BG with 2 adults
+    # BG has 2 adults
+    if p_id_einstandspartner >= 0:
         out = arbeitsl_geld_2_params["regelsatz"][2]
-    elif arbeitsl_geld_2_kindersatz_m == 0.0:  # BG with 1 adult
+    # This observation is not a child, so BG has 1 adult
+    elif arbeitsl_geld_2_kindersatz_m == 0.0:
         out = arbeitsl_geld_2_params["regelsatz"][1]
     else:
         out = 0.0

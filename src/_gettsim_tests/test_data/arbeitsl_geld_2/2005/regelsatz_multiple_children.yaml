@@ -24,12 +24,6 @@ inputs:
       - -1
       - -1
       - -1
-    p_id_ehepartner:
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
     p_id_elternteil_1:
       - -1
       - 0
@@ -48,18 +42,6 @@ inputs:
       - 0
       - 0
       - 0
-    bg_id:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-    gemeinsam_veranlagt:
-      - false
-      - false
-      - false
-      - false
-      - false
     eigenbedarf_gedeckt:
       - false
       - false

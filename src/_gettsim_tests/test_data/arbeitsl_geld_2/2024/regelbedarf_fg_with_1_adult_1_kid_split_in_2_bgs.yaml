@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    Test Regelsatz when Familiengemeinschaft (1 adult, 1 kid) is the same as
-    Bedarfsgemeinschaft.
+    Test Regelsatz when Familiengemeinschaft (1 adult, 1 kid) is split into two
+    Bedarfsgemeinschaften.
   source: Made up.
 inputs:
   assumed:
@@ -13,9 +13,6 @@ inputs:
       - 0
       - 0
     p_id_einstandspartner:
-      - -1
-      - -1
-    p_id_ehepartner:
       - -1
       - -1
     p_id_elternteil_1:
@@ -29,13 +26,16 @@ inputs:
       - 0
     bg_id:
       - 0
-      - 0
-    gemeinsam_veranlagt:
+      - 1
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    bürgerg_bezug_vorj:
       - false
       - false
     eigenbedarf_gedeckt:
       - false
-      - false
+      - true
     jahr:
       - 2005
       - 2005
@@ -68,3 +68,15 @@ outputs:
   arbeitsl_geld_2_erwachsenensatz_m:
     - 630.56
     - 0.0
+  _arbeitsl_geld_2_berechtigte_wohnfläche:
+    - 20.0
+    - 20.0
+  _arbeitsl_geld_2_warmmiete_pro_qm_m:
+    - 10.0
+    - 10.0
+  arbeitsl_geld_2_kost_unterk_m:
+    - 350.0
+    - 350.0
+  arbeitsl_geld_2_regelbedarf_m:
+    - 980.56
+    - 760.0
