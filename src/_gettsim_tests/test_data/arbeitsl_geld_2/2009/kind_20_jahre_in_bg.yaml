@@ -1,44 +1,42 @@
 ---
 info:
-  note: >-
-    Test with wealth (calculated wealth allowance using
-    https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
+  note: Regression test.
   source: ''
 inputs:
   provided:
     p_id:
-      - 35
-      - 36
+      - 10
+      - 11
     hh_id:
-      - 14
-      - 14
+      - 3
+      - 3
     p_id_ehepartner:
-      - 36
-      - 35
+      - -1
+      - -1
     p_id_elternteil_1:
       - -1
-      - -1
+      - 10
     p_id_elternteil_2:
       - -1
       - -1
     p_id_einstandspartner:
-      - 36
-      - 35
+      - -1
+      - -1
     p_id_kindergeld_empf:
       - -1
-      - -1
+      - 10
     gemeinsam_veranlagt:
-      - true
-      - true
+      - false
+      - false
     eigenbedarf_gedeckt:
       - false
       - false
     kind:
       - false
-      - false
+      - true
     alter:
-      - 40
-      - 40
+      - 38
+      - 20
     bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
@@ -46,16 +44,16 @@ inputs:
       - 80.0
       - 80.0
     wohnfläche_hh:
-      - 70.0
-      - 70.0
+      - 58.0
+      - 58.0
     bewohnt_eigentum_hh:
-      - true
-      - true
-    alleinerz:
       - false
+      - false
+    alleinerz:
+      - true
       - false
     bruttolohn_m:
-      - 800.0
+      - 1000.0
       - 0.0
     sum_ges_rente_priv_rente_m:
       - 0.0
@@ -67,7 +65,7 @@ inputs:
       - 0.0
       - 0.0
     sonstig_eink_m:
-      - 100.0
+      - 250.0
       - 0.0
     eink_selbst_m:
       - 0.0
@@ -76,16 +74,16 @@ inputs:
       - 0.0
       - 0.0
     eink_st_y_sn:
-      - 0.0
+      - 1200.0
       - 0.0
     soli_st_y_sn:
-      - 0.0
+      - 66.0
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
-      - 160.0
+      - 200.0
       - 0.0
     kindergeld_m:
-      - 0.0
+      - 164.0
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
@@ -97,8 +95,8 @@ inputs:
       - 0.0
       - 0.0
     jahr:
-      - '2013'
-      - '2013'
+      - '2009'
+      - '2009'
     wohngeld_vor_vermög_check_m_wthh:
       - 0.0
       - 0.0
@@ -106,19 +104,19 @@ inputs:
       - 0.0
       - 0.0
     vermögen_bedürft:
-      - 12900.0
+      - 0.0
       - 0.0
     geburtsjahr:
-      - 1973
-      - 1973
+      - 1981
+      - 2008
     rentner:
       - false
       - false
     in_ausbildung:
       - false
-      - false
+      - true
     arbeitsstunden_w:
-      - 20.0
+      - 40.0
       - 0.0
     bürgerg_bezug_vorj:
       - false
@@ -126,20 +124,17 @@ inputs:
   assumed: {}
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
-    - 240.0
+    - 260.0
     - 0.0
   _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
-    - 500.0
+    - 684.5
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:
-    - 690.0
-    - 690.0
+    - 673.92
+    - 673.92
   arbeitsl_geld_2_kost_unterk_m_bg:
     - 480.0
     - 480.0
   arbeitsl_geld_2_m_bg:
-    - 670.0
-    - 670.0
-  _arbeitsl_geld_2_berechtigte_wohnfläche:
-    - 35.0
-    - 35.0
+    - 305.42
+    - 305.42

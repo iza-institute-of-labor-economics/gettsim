@@ -20,6 +20,8 @@ inputs:
       - -1
     p_id_elternteil_2:
       - -1
+    p_id_kindergeld_empf:
+      - -1
     gemeinsam_veranlagt:
       - false
     eigenbedarf_gedeckt:
