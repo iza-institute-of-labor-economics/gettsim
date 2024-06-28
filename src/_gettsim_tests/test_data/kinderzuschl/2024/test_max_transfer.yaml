@@ -67,7 +67,7 @@ inputs:
     arbeitsl_geld_2_bruttoeink_m:
       - 1000.0
       - 0.0
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
       - 1000.0
       - 0.0
     ges_rente_m:

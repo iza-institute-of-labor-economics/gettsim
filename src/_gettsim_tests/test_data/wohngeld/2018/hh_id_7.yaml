@@ -46,6 +46,90 @@ inputs:
       - 34
       - 34
       - 34
+    p_id_ehepartner:
+      - 35
+      - 34
+      - 37
+      - 36
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+      - 34
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+      - 35
+    p_id_einstandspartner:
+      - 35
+      - 34
+      - 37
+      - 36
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -74,6 +158,76 @@ inputs:
       - 2000.0
       - 2000.0
       - 2000.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -496,7 +650,7 @@ outputs:
     - 1233.0
     - 1233.0
     - 1233.0
-  _wohngeld_nach_vermög_check_m_wthh:
+  wohngeld_nach_vermög_check_m_wthh:
     - 1233.0
     - 1233.0
     - 1233.0

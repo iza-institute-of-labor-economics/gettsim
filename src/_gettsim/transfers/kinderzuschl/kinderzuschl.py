@@ -4,6 +4,13 @@
 
 from _gettsim.shared import policy_info
 
+aggregate_by_group_kinderzuschl = {
+    "_kinderzuschl_nach_vermög_check_m_wthh": {
+        "source_col": "_kinderzuschl_nach_vermög_check_m_for_aggregation",
+        "aggr": "sum",
+    },
+}
+
 
 def kinderzuschl_m_bg(
     _kinderzuschl_nach_vermög_check_m_bg: float,
@@ -36,6 +43,28 @@ def kinderzuschl_m_bg(
         out = _kinderzuschl_nach_vermög_check_m_bg
 
     return out
+
+
+def _kinderzuschl_nach_vermög_check_individual_level_m(
+    _kinderzuschl_nach_vermög_check_m_bg: float,
+    anz_personen_bg: int,
+) -> float:
+    """Kinderzuschlag on individual level.
+
+    Target necessary for aggregation to wthh level.
+
+    Parameters
+    ----------
+    _kinderzuschl_nach_vermög_check_m_bg
+        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+
+    Returns
+    -------
+
+    """
+    return _kinderzuschl_nach_vermög_check_m_bg / anz_personen_bg
 
 
 @policy_info(

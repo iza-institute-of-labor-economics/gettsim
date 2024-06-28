@@ -168,7 +168,7 @@ outputs:
     - 240.0
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
     - 424.0
     - 0.0
     - 0.0

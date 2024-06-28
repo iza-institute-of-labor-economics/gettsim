@@ -30,7 +30,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    _wohngeld_nach_vermög_check_m_wthh: float,
+    wohngeld_nach_mindesteinkommen_check_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
@@ -39,8 +39,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    _wohngeld_nach_vermög_check_m_wthh
-        See :func:`_wohngeld_nach_vermög_check_m_wthh`.
+    wohngeld_nach_mindesteinkommen_check_m_wthh
+        See :func:`wohngeld_nach_mindesteinkommen_check_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     wohngeld_kinderzuschl_vorrang_wthh
@@ -66,7 +66,7 @@ def wohngeld_m_wthh(
     if not erwachsene_alle_rentner_hh and (
         wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
     ):
-        out = _wohngeld_nach_vermög_check_m_wthh
+        out = wohngeld_nach_mindesteinkommen_check_m_wthh
     else:
         out = 0.0
 
@@ -691,7 +691,61 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     return out
 
 
-def _wohngeld_nach_vermög_check_m_wthh(
+def wohngeld_nach_mindesteinkommen_check_m_wthh(
+    wohngeld_mindesteinkommen_erreicht_wthh: bool,
+    wohngeld_nach_vermög_check_m_wthh: float,
+) -> float:
+    """Preliminary housing benefit after minimum income check.
+
+    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
+    that passed the priority check against ALG2 and Kinderzuschlag.
+
+    Parameters
+    ----------
+    wohngeld_mindesteinkommen_erreicht_wthh
+        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
+    wohngeld_nach_vermög_check_m_wthh
+        See :func:`wohngeld_nach_vermög_check_m_wthh`.
+
+    Returns
+    -------
+
+    """
+    return (
+        wohngeld_nach_vermög_check_m_wthh
+        if wohngeld_mindesteinkommen_erreicht_wthh
+        else 0.0
+    )
+
+
+def wohngeld_nach_mindesteinkommen_check_m_bg(
+    wohngeld_mindesteinkommen_erreicht_bg: bool,
+    wohngeld_nach_vermög_check_m_bg: float,
+) -> float:
+    """Preliminary housing benefit after minimum income check.
+
+    This target is used for the priority check calculation against ALG2 and
+    Kinderzuschlag.
+
+    Parameters
+    ----------
+    wohngeld_mindesteinkommen_erreicht_bg
+        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
+    wohngeld_nach_vermög_check_m_bg
+        See :func:`wohngeld_nach_vermög_check_m_bg`.
+
+    Returns
+    -------
+
+    """
+    return (
+        wohngeld_nach_vermög_check_m_bg
+        if wohngeld_mindesteinkommen_erreicht_bg
+        else 0.0
+    )
+
+
+def wohngeld_nach_vermög_check_m_wthh(
     wohngeld_vor_vermög_check_m_wthh: float,
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
@@ -830,6 +884,104 @@ def wohngeld_vor_vermög_check_m_bg(
         einkommen_m=wohngeld_eink_m_bg,
         miete_m=wohngeld_miete_m_bg,
         params=wohngeld_params,
+    )
+
+
+def wohngeld_mindesteinkommen_erreicht_wthh(
+    arbeitsl_geld_2_regelbedarf_m_wthh: float,
+    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh: float,
+) -> bool:
+    """Minimum income requirement for Wohngeld has been met.
+
+    Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
+    meet the Mindesteinkommen:
+
+    1. Savings may partly cover the Regelbedarf, making the applicant eligible again.
+    2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
+        insurance contributions).
+
+    The allowance for discretionary judgment is ignored here.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_wthh
+        See :func:`arbeitsl_geld_2_regelbedarf_m_wthh`.
+    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_wthh`.
+
+    Returns
+    -------
+
+    """
+    return (
+        arbeitsl_geld_2_regelbedarf_m_wthh
+        <= wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+    )
+
+
+def wohngeld_mindesteinkommen_erreicht_bg(
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
+) -> bool:
+    """Minimum income requirement for Wohngeld has been met.
+
+    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
+
+    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
+    Kindergeld count as income for this check.
+
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_bg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    wohngeld_einkommen_für_mindesteinkommen_check_m_bg
+        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_bg`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        arbeitsl_geld_2_regelbedarf_m_bg
+        <= wohngeld_einkommen_für_mindesteinkommen_check_m_bg
+    )
+    return out
+
+
+def wohngeld_einkommen_für_mindesteinkommen_check_m(
+    arbeitsl_geld_2_nettoeink_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeld_m: float,
+    _kinderzuschl_nach_vermög_check_individual_level_m: float,
+) -> float:
+    """Income for the Mindesteinkommen check.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_nettoeink_m
+        See :func:`arbeitsl_geld_2_nettoeink_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeld_m
+        See :func:`kindergeld_m`.
+    _kinderzuschl_nach_vermög_check_individual_level_m
+        See :func:`_kinderzuschl_nach_vermög_check_individual_level_m`.
+
+    Returns
+    -------
+
+    """
+
+    return (
+        arbeitsl_geld_2_nettoeink_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeld_m
+        + _kinderzuschl_nach_vermög_check_individual_level_m
     )
 
 

@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`772` Add Mindesteinkommen check to Wohngeld ({ghuser}`MImmesberger`).
 - {gh}`771` Move SGB II Regelsatz calculation from BG to individual level
   ({ghuser}`MImmesberger`).
 - {gh}`765` Kinderzuschlag only paid out if parents are in the same BG as the child
