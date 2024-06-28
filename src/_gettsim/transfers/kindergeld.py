@@ -206,9 +206,4 @@ def same_fg_as_kindergeldempfänger(
         value_if_foreign_key_is_missing=-1,
     )
 
-    out = [
-        fg_id_empf == fg_id_child
-        for fg_id_empf, fg_id_child in zip(fg_id_kindergeldempfänger, fg_id)
-    ]
-
-    return numpy.array(out)
+    return fg_id_kindergeldempfänger == fg_id
