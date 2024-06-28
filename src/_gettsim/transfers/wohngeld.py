@@ -963,11 +963,7 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
 
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
-    arbeitsl_geld_2_bruttoeink_m: float,
-    eink_st_y_sn: float,
-    soli_st_y_sn: float,
-    sozialv_beitr_arbeitnehmer_m: float,
-    anz_personen_sn: int,
+    arbeitsl_geld_2_nettoeink_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_m: float,
@@ -977,8 +973,8 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m
-        See :func:`_arbeitsl_geld_2_nettoeink_ohne_transfers_m`.
+    arbeitsl_geld_2_nettoeink_m
+        See :func:`arbeitsl_geld_2_nettoeink_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
@@ -994,10 +990,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     """
 
     return (
-        arbeitsl_geld_2_bruttoeink_m
-        - (eink_st_y_sn / 12 / anz_personen_sn)
-        - (soli_st_y_sn / 12 / anz_personen_sn)
-        - sozialv_beitr_arbeitnehmer_m
+        arbeitsl_geld_2_nettoeink_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_m
