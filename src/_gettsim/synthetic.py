@@ -278,7 +278,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     )
 
     # Use data for 2 children if there are more than 2 children in the household.
-    n_children_lookup = n_children if n_children <= 2 else 2
+    n_children_lookup = min(n_children, 2)
     hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj
