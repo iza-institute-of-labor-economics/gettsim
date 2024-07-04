@@ -9,7 +9,6 @@ import datetime
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.shared import policy_info
 
 aggregate_by_p_id_demographic_vars = {
     "anz_kinder_bis_24_elternteil_1": {
@@ -156,10 +155,9 @@ def anz_kinder_bis_24(
     return anz_kinder_bis_24_elternteil_1 + anz_kinder_bis_24_elternteil_2
 
 
-@policy_info(skip_vectorization=True)
 def hat_kinder(
-    _eink_st_kinderfreib_anz_ansprüche: numpy.ndarray[int],
-) -> numpy.ndarray[bool]:
+    _eink_st_kinderfreib_anz_ansprüche: int,
+) -> bool:
     """Check if person has children.
 
     Parameters
