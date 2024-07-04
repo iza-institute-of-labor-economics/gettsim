@@ -128,11 +128,11 @@ inputs:
       - '2019'
       - '2019'
       - '2019'
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_vor_vermög_check_m_wthh:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
+    wohngeld_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -174,7 +174,7 @@ outputs:
     - 240.0
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
     - 424.0
     - 0.0
     - 0.0
