@@ -30,8 +30,8 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    wohngeld_nach_mindesteinkommenscheck_m_wthh: float,
-    erwachsene_alle_rentner_hh: bool,
+    wohngeld_basisbetrag_m_wthh: float,
+    wohngeld_anspruchsbedingungen_erfüllt_wthh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
 ) -> float:
@@ -39,10 +39,10 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    wohngeld_nach_mindesteinkommenscheck_m_wthh
-        See :func:`wohngeld_nach_mindesteinkommenscheck_m_wthh`.
-    erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
+    wohngeld_basisbetrag_m_wthh
+        See :func:`wohngeld_basisbetrag_m_wthh`.
+    wohngeld_anspruchsbedingungen_erfüllt_wthh
+        See :func:`wohngeld_anspruchsbedingungen_erfüllt_wthh`.
     wohngeld_kinderzuschl_vorrang_wthh
         See :func:`wohngeld_kinderzuschl_vorrang_wthh`.
     wohngeld_vorrang_wthh
@@ -56,21 +56,130 @@ def wohngeld_m_wthh(
     # actual rules for individuals that are on the margin of the priority check.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752
 
+    if wohngeld_anspruchsbedingungen_erfüllt_wthh and (
+        wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
+    ):
+        out = wohngeld_basisbetrag_m_wthh
+    else:
+        out = 0.0
+
+    return out
+
+
+def wohngeld_anspruchshöhe_m_wthh(
+    wohngeld_basisbetrag_m_wthh: float,
+    wohngeld_anspruchsbedingungen_erfüllt_wthh: bool,
+) -> float:
+    """Housing benefit after wealth check.
+
+    Parameters
+    ----------
+    wohngeld_basisbetrag_m_wthh
+        See :func:`wohngeld_basisbetrag_m_wthh`.
+    wohngeld_anspruchsbedingungen_erfüllt_wthh
+        See :func:`wohngeld_anspruchsbedingungen_erfüllt_wthh`.
+
+    Returns
+    -------
+
+    """
+    if wohngeld_anspruchsbedingungen_erfüllt_wthh:
+        out = wohngeld_basisbetrag_m_wthh
+    else:
+        out = 0.0
+
+    return out
+
+
+def wohngeld_anspruchshöhe_m_bg(
+    wohngeld_basisbetrag_m_bg: float,
+    wohngeld_anspruchsbedingungen_erfüllt_bg: bool,
+) -> float:
+    """Housing benefit after wealth check.
+
+    Parameters
+    ----------
+    wohngeld_basisbetrag_m_bg
+        See :func:`wohngeld_basisbetrag_m_bg`.
+    wohngeld_anspruchsbedingungen_erfüllt_bg
+        See :func:`wohngeld_anspruchsbedingungen_erfüllt_bg`.
+
+    Returns
+    -------
+
+    """
+    if wohngeld_anspruchsbedingungen_erfüllt_bg:
+        out = wohngeld_basisbetrag_m_bg
+    else:
+        out = 0.0
+
+    return out
+
+
+def wohngeld_anspruchsbedingungen_erfüllt_wthh(
+    wohngeld_vermögen_unter_freibetrag_wthh: bool,
+    wohngeld_mindesteinkommen_erreicht_wthh: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> bool:
+    """Requirements to receive housing benefit are met.
+
+    Parameters
+    ----------
+    wohngeld_vermögen_unter_freibetrag_wthh
+        See :func:`wohngeld_vermögen_unter_freibetrag_wthh`.
+    wohngeld_mindesteinkommen_erreicht_wthh
+        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
+
+    Returns
+    -------
+
+    """
     # TODO (@MImmesberger): No interaction between Wohngeld/ALG2 and Grundsicherung im
     # Alter (SGB XII) is implemented yet. We assume for now that households with only
     # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
+    return (
+        wohngeld_vermögen_unter_freibetrag_wthh
+        and wohngeld_mindesteinkommen_erreicht_wthh
+        and not erwachsene_alle_rentner_hh
+    )
 
-    if not erwachsene_alle_rentner_hh and (
-        wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
-    ):
-        out = wohngeld_nach_mindesteinkommenscheck_m_wthh
-    else:
-        out = 0.0
 
-    return out
+def wohngeld_anspruchsbedingungen_erfüllt_bg(
+    wohngeld_vermögen_unter_freibetrag_bg: bool,
+    wohngeld_mindesteinkommen_erreicht_bg: bool,
+    erwachsene_alle_rentner_hh: bool,
+) -> bool:
+    """Requirements to receive housing benefit are met.
+
+    Parameters
+    ----------
+    wohngeld_vermögen_unter_freibetrag_bg
+        See :func:`wohngeld_vermögen_unter_freibetrag_bg`.
+    wohngeld_mindesteinkommen_erreicht_bg
+        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
+    erwachsene_alle_rentner_hh
+        See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): No interaction between Wohngeld/ALG2 and Grundsicherung im
+    # Alter (SGB XII) is implemented yet. We assume for now that households with only
+    # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
+    # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
+    # resolved, remove the `erwachsene_alle_rentner_hh` condition.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
+    return (
+        wohngeld_vermögen_unter_freibetrag_bg
+        and wohngeld_mindesteinkommen_erreicht_bg
+        and not erwachsene_alle_rentner_hh
+    )
 
 
 def wohngeld_abzüge_st_sozialv_m(
@@ -691,75 +800,18 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     return out
 
 
-def wohngeld_nach_mindesteinkommenscheck_m_wthh(
-    wohngeld_mindesteinkommen_erreicht_wthh: bool,
-    wohngeld_nach_vermög_check_m_wthh: float,
-) -> float:
-    """Preliminary housing benefit after minimum income check.
-
-    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
-
-    Parameters
-    ----------
-    wohngeld_mindesteinkommen_erreicht_wthh
-        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
-    wohngeld_nach_vermög_check_m_wthh
-        See :func:`wohngeld_nach_vermög_check_m_wthh`.
-
-    Returns
-    -------
-
-    """
-    return (
-        wohngeld_nach_vermög_check_m_wthh
-        if wohngeld_mindesteinkommen_erreicht_wthh
-        else 0.0
-    )
-
-
-def wohngeld_nach_mindesteinkommenscheck_m_bg(
-    wohngeld_mindesteinkommen_erreicht_bg: bool,
-    wohngeld_nach_vermög_check_m_bg: float,
-) -> float:
-    """Preliminary housing benefit after minimum income check.
-
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag.
-
-    Parameters
-    ----------
-    wohngeld_mindesteinkommen_erreicht_bg
-        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
-    wohngeld_nach_vermög_check_m_bg
-        See :func:`wohngeld_nach_vermög_check_m_bg`.
-
-    Returns
-    -------
-
-    """
-    return (
-        wohngeld_nach_vermög_check_m_bg
-        if wohngeld_mindesteinkommen_erreicht_bg
-        else 0.0
-    )
-
-
-def wohngeld_nach_vermög_check_m_wthh(
-    wohngeld_vor_vermög_check_m_wthh: float,
+def wohngeld_vermögen_unter_freibetrag_wthh(
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
     wohngeld_params: dict,
 ) -> float:
-    """Preliminary housing benefit after wealth check.
+    """Wealth is below the threshold for housing benefit.
 
     This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
     that passed the priority check against ALG2 and Kinderzuschlag.
 
     Parameters
     ----------
-    wohngeld_vor_vermög_check_m_wthh
-        See :func:`wohngeld_vor_vermög_check_m_wthh`.
     vermögen_bedürft_wthh
         See :func:`vermögen_bedürft_wthh <vermögen_bedürft_wthh>`.
     anz_personen_wthh
@@ -772,29 +824,25 @@ def wohngeld_nach_vermög_check_m_wthh(
 
     """
 
-    return _wohngeld_nach_vermög_check_formel(
-        basisbetrag_m=wohngeld_vor_vermög_check_m_wthh,
+    return wohngeld_vermögen_unter_freibetrag_formel(
         vermögen=vermögen_bedürft_wthh,
         anz_personen=anz_personen_wthh,
         params=wohngeld_params,
     )
 
 
-def wohngeld_nach_vermög_check_m_bg(
-    wohngeld_vor_vermög_check_m_bg: float,
+def wohngeld_vermögen_unter_freibetrag_bg(
     vermögen_bedürft_bg: float,
     anz_personen_bg: int,
     wohngeld_params: dict,
 ) -> float:
-    """Preliminary housing benefit after wealth check.
+    """Wealth is below the threshold for housing benefit.
 
     This target is used for the priority check calculation against ALG2 and
     Kinderzuschlag.
 
     Parameters
     ----------
-    wohngeld_vor_vermög_check_m_bg
-        See :func:`wohngeld_vor_vermög_check_m_bg`.
     vermögen_bedürft_bg
         See :func:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
     anz_personen_bg
@@ -807,8 +855,7 @@ def wohngeld_nach_vermög_check_m_bg(
 
     """
 
-    return _wohngeld_nach_vermög_check_formel(
-        basisbetrag_m=wohngeld_vor_vermög_check_m_bg,
+    return wohngeld_vermögen_unter_freibetrag_formel(
         vermögen=vermögen_bedürft_bg,
         anz_personen=anz_personen_bg,
         params=wohngeld_params,
@@ -816,7 +863,7 @@ def wohngeld_nach_vermög_check_m_bg(
 
 
 @policy_info(params_key_for_rounding="wohngeld")
-def wohngeld_vor_vermög_check_m_wthh(
+def wohngeld_basisbetrag_m_wthh(
     anz_personen_wthh: int,
     wohngeld_eink_m_wthh: float,
     wohngeld_miete_m_wthh: float,
@@ -852,7 +899,7 @@ def wohngeld_vor_vermög_check_m_wthh(
 
 
 @policy_info(params_key_for_rounding="wohngeld")
-def wohngeld_vor_vermög_check_m_bg(
+def wohngeld_basisbetrag_m_bg(
     anz_personen_bg: int,
     wohngeld_eink_m_bg: float,
     wohngeld_miete_m_bg: float,
@@ -1044,8 +1091,7 @@ def _wohngeld_basisformel(
     return out
 
 
-def _wohngeld_nach_vermög_check_formel(
-    basisbetrag_m: float,
+def wohngeld_vermögen_unter_freibetrag_formel(
     vermögen: float,
     anz_personen: int,
     params: dict,
@@ -1060,8 +1106,6 @@ def _wohngeld_nach_vermög_check_formel(
 
     Parameters
     ----------
-    basisbetrag_m
-        Wohngeld as calculated via the basic formula (`_wohngeld_basisformel`).
     vermögen
         Relevant wealth of the Wohngeld recipients.
     anz_personen
@@ -1082,9 +1126,9 @@ def _wohngeld_nach_vermög_check_formel(
         ] * (anz_personen - 1)
 
     if vermögen <= vermögensfreibetrag:
-        out = basisbetrag_m
+        out = True
     else:
-        out = 0.0
+        out = False
 
     return out
 

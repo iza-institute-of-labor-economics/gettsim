@@ -190,11 +190,11 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
+  wohngeld_basisbetrag_m_wthh:
     - 469.0
     - 469.0
     - 469.0
-  wohngeld_nach_vermög_check_m_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 469.0
     - 469.0
     - 469.0
