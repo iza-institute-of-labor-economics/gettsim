@@ -26,9 +26,9 @@ inputs:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
-    wohngeld_nach_mindesteinkommenscheck_m_wthh:
+    wohngeld_anspruchshöhe_wthh:
       - 0.0
-    wohngeld_nach_mindesteinkommenscheck_m_bg:
+    wohngeld_anspruchshöhe_bg:
       - 0.0
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1000.0
