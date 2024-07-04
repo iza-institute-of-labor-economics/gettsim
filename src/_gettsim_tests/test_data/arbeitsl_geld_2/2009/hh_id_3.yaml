@@ -74,10 +74,10 @@ inputs:
       - 0.0
       - 0.0
     lohnst_m:
-      - 1200.0
+      - 100
       - 0.0
     soli_st_lohnst_m:
-      - 66.0
+      - 5.5
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
       - 200.0

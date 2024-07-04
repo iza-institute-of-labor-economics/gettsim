@@ -317,8 +317,8 @@ inputs:
   assumed: {}
 outputs:
   wthh_id:
-    - 1
-    - 1
+    - 0
+    - 0
     - 100
     - 100
     - 200
@@ -338,10 +338,10 @@ outputs:
     - 1452.0
     - 1452.0
   wohngeld_einkommen_für_mindesteinkommen_check_m_wthh:
-    - 2000.0
-    - 2000.0
-    - 1000.0
-    - 1000.0
+    - 1600.0
+    - 1600.0
+    - 900.0
+    - 900.0
     - 400.0
     - 400.0
   wohngeld_mindesteinkommen_erreicht_wthh:

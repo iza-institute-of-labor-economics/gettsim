@@ -74,7 +74,7 @@ def wohngeld_m_wthh(
 
 
 def wohngeld_abzüge_st_sozialv_m(
-    eink_st_y_sn: float,
+    lohnst_m: float,
     ges_rentenv_beitr_arbeitnehmer_m: float,
     ges_krankenv_beitr_arbeitnehmer_m: float,
     kind: bool,
@@ -82,13 +82,10 @@ def wohngeld_abzüge_st_sozialv_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that eink_st_y_sn is used as an approximation for taxes on income (as mentioned
-    in § 16 WoGG Satz 1 Nr. 1).
-
     Parameters
     ----------
-    eink_st_y_sn
-        See :func:`eink_st_y_sn`.
+    lohnst_m
+        See :func:`lohnst_m`.
     ges_rentenv_beitr_arbeitnehmer_m
         See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
     ges_krankenv_beitr_arbeitnehmer_m
@@ -103,7 +100,7 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_y_sn > 0)
+        (lohnst_m > 0)
         + (ges_rentenv_beitr_arbeitnehmer_m > 0)
         + (ges_krankenv_beitr_arbeitnehmer_m > 0)
     )
