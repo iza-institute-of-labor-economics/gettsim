@@ -108,7 +108,7 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-    soli_st_y_sn:
+    soli_st_lohnst_m:
       - 0.0
       - 0.0
       - 0.0
@@ -324,7 +324,7 @@ inputs:
       - false
       - false
       - false
-    eink_st_y_sn:
+    lohnst_m:
       - 20.0
       - 20.0
       - 20.0

@@ -30,7 +30,7 @@ inputs:
       - 50.0
     wohnfläche_hh:
       - 40.0
-    soli_st_y_sn:
+    soli_st_lohnst_m:
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
       - 0.0
@@ -78,7 +78,7 @@ inputs:
       - 0
     jahr:
       - 2019
-    eink_st_y_sn:
+    lohnst_m:
       - 0.0
     vermögen_bedürft:
       - 55000.0

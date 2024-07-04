@@ -90,7 +90,7 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-    soli_st_y_sn:
+    soli_st_lohnst_m:
       - 0.0
       - 0.0
       - 0.0
@@ -272,7 +272,7 @@ inputs:
       - 1983
       - 1983
       - 1983
-    eink_st_y_sn:
+    lohnst_m:
       - 200.0
       - 200.0
       - 50.0

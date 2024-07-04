@@ -60,7 +60,7 @@ inputs:
       - 60.0
       - 60.0
       - 60.0
-    soli_st_y_sn:
+    soli_st_lohnst_m:
       - 0.0
       - 0.0
       - 0.0
@@ -156,7 +156,7 @@ inputs:
       - 2023
       - 2023
       - 2023
-    eink_st_y_sn:
+    lohnst_m:
       - 585.0
       - 585.0
       - 585.0
