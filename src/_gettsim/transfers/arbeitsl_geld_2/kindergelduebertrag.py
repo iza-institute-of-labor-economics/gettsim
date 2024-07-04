@@ -103,7 +103,7 @@ def kindergeld_zur_bedarfsdeckung_m(
 
 def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m: float,
+    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m: float,
     wohngeld_nach_mindesteinkommenscheck_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kind_unterh_erhalt_m: float,
@@ -123,7 +123,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m
+    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
         See :func:`_arbeitsl_geld_2
     wohngeld_nach_mindesteinkommenscheck_m_bg
         See :func:`wohngeld_nach_mindesteinkommenscheck_m_bg`.
@@ -149,7 +149,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
         - wohngeld_nach_mindesteinkommenscheck_m_bg
-        - _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m
+        - _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
         - kind_unterh_erhalt_m
         - unterhaltsvors_m,
         0.0,
