@@ -134,11 +134,11 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_vor_vermög_check_m_wthh:
+    wohngeld_basisbetrag_m_wthh:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_vor_vermög_check_m_bg:
+    wohngeld_basisbetrag_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -180,7 +180,7 @@ outputs:
     - 300.0
     - 0.0
     - 220.0
-  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
     - 696.0
     - 0.0
     - 340.0

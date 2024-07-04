@@ -97,10 +97,10 @@ inputs:
     jahr:
       - '2013'
       - '2013'
-    wohngeld_vor_vermög_check_m_wthh:
+    wohngeld_basisbetrag_m_wthh:
       - 0.0
       - 0.0
-    wohngeld_vor_vermög_check_m_bg:
+    wohngeld_basisbetrag_m_bg:
       - 0.0
       - 0.0
     vermögen_bedürft:
@@ -135,7 +135,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 140.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
     - 210.0
     - 250.0
   arbeitsl_geld_2_regelsatz_m_bg:
