@@ -8,8 +8,6 @@ inputs:
       - 0
     p_id:
       - 0
-    hat_kinder:
-      - false
 outputs:
   minijob_grenze:
     - 520.0

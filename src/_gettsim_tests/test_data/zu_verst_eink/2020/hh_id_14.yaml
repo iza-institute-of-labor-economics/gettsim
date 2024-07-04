@@ -129,11 +129,6 @@ inputs:
       - false
       - false
       - false
-    hat_kinder:
-      - true
-      - true
-      - false
-      - false
     in_priv_krankenv:
       - false
       - false

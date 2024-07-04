@@ -79,9 +79,6 @@ inputs:
     selbstständig:
       - false
       - false
-    hat_kinder:
-      - true
-      - true
     in_priv_krankenv:
       - false
       - false

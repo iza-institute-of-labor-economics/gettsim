@@ -21,8 +21,8 @@ inputs:
     selbstständig:
       - false
     hat_kinder:
-      - true
-    anz_eig_kind_bis_24:
+      - false
+    anz_kinder_bis_24:
       - 0
     eink_selbst_m:
       - 0.0

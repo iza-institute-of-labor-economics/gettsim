@@ -161,6 +161,14 @@ inputs:
       - false
       - false
       - false
+    wohnort_ost:
+      - false
+      - false
+      - false
+    steuerklasse:
+      - 1
+      - 1
+      - 1
   assumed: {}
 outputs:
   bg_id:

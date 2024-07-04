@@ -83,11 +83,15 @@ inputs:
       - 20.0
     bürgerg_bezug_vorj:
       - false
+    steuerklasse:
+      - 1
+    wohnort_ost:
+      - false
   assumed: {}
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 348.0
-  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
     - 648.0
   arbeitsl_geld_2_regelsatz_m_bg:
     - 502.0

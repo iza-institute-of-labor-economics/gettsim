@@ -3,7 +3,7 @@ from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(
-    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m: float,
+    _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
@@ -21,8 +21,8 @@ def arbeitsl_geld_2_eink_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
-        See :func:`_arbeitsl_geld_2_nettoeink_mit_freibetrag_m`.
+    _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m
+        See :func:`_arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
@@ -38,7 +38,7 @@ def arbeitsl_geld_2_eink_m(
 
     """
     return (
-        _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
+        _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_zur_bedarfsdeckung_m
@@ -46,8 +46,8 @@ def arbeitsl_geld_2_eink_m(
     )
 
 
-def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
-    arbeitsl_geld_2_nettoeink_m: float,
+def _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m(
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
 ) -> float:
     """Net income after deductions for calculation of basic subsistence
@@ -57,8 +57,8 @@ def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_m
-        See :func:`arbeitsl_geld_2_nettoeink_m`.
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_ohne_freibetrag_m`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
 
@@ -67,14 +67,13 @@ def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
     Income after taxes, social insurance contributions, and other deductions.
 
     """
-    return arbeitsl_geld_2_nettoeink_m - arbeitsl_geld_2_eink_anr_frei_m
+    return arbeitsl_geld_2_nettoeink_ohne_freibetrag_m - arbeitsl_geld_2_eink_anr_frei_m
 
 
-def arbeitsl_geld_2_nettoeink_m(
+def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(
     arbeitsl_geld_2_bruttoeink_m: float,
-    eink_st_y_sn: float,
-    soli_st_y_sn: float,
-    anz_personen_sn: int,
+    lohnst_m: float,
+    soli_st_lohnst_m: float,
     sozialv_beitr_arbeitnehmer_m: float,
 ) -> float:
     """Net income for calculation of basic subsistence (Arbeitslosengeld II /
@@ -86,12 +85,10 @@ def arbeitsl_geld_2_nettoeink_m(
     ----------
     arbeitsl_geld_2_bruttoeink_m
         See :func:`arbeitsl_geld_2_bruttoeink_m`.
-    eink_st_y_sn
-        See :func:`eink_st_y_sn`.
-    soli_st_y_sn
-        See :func:`soli_st_y_sn`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
+    lohnst_m
+        See :func:`lohnst_m`.
+    soli_st_lohnst_m
+        See :func:`soli_st_lohnst_m`.
     sozialv_beitr_arbeitnehmer_m
         See :func:`sozialv_beitr_arbeitnehmer_m`.
 
@@ -102,8 +99,8 @@ def arbeitsl_geld_2_nettoeink_m(
     """
     return (
         arbeitsl_geld_2_bruttoeink_m
-        - (eink_st_y_sn / 12 / anz_personen_sn)
-        - (soli_st_y_sn / 12 / anz_personen_sn)
+        - lohnst_m
+        - soli_st_lohnst_m
         - sozialv_beitr_arbeitnehmer_m
     )
 
@@ -162,11 +159,10 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 
 
 @policy_info(end_date="2005-09-30")
-def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
+def arbeitsl_geld_2_nettoquote(
     bruttolohn_m: float,
-    eink_st_y_sn: float,
-    soli_st_y_sn: float,
-    anz_personen_sn: int,
+    lohnst_m: float,
+    soli_st_lohnst_m: float,
     sozialv_beitr_arbeitnehmer_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -178,10 +174,10 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_y_sn
-        See :func:`eink_st_y_sn`.
-    soli_st_y_sn
-        See :func:`soli_st_y_sn`.
+    lohnst_m
+        See :func:`lohnst_m`.
+    soli_st_lohnst_m
+        See :func:`soli_st_lohnst_m`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     sozialv_beitr_arbeitnehmer_m
@@ -197,8 +193,8 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             bruttolohn_m
-            - (eink_st_y_sn / anz_personen_sn / 12)
-            - (soli_st_y_sn / anz_personen_sn / 12)
+            - lohnst_m
+            - soli_st_lohnst_m
             - sozialv_beitr_arbeitnehmer_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]

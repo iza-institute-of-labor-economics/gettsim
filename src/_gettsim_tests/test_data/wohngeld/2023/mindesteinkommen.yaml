@@ -300,6 +300,20 @@ inputs:
       - false
       - false
       - false
+    steuerklasse:
+      - 3
+      - 4
+      - 3
+      - 4
+      - 3
+      - 4
+    wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
   assumed: {}
 outputs:
   wthh_id:
@@ -324,10 +338,10 @@ outputs:
     - 1452.0
     - 1452.0
   wohngeld_einkommen_für_mindesteinkommen_check_m_wthh:
-    - 1983.33
-    - 1983.33
-    - 995.83
-    - 995.83
+    - 2000.0
+    - 2000.0
+    - 1000.0
+    - 1000.0
     - 400.0
     - 400.0
   wohngeld_mindesteinkommen_erreicht_wthh:

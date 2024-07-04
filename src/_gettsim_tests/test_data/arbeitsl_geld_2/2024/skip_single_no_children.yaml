@@ -1,7 +1,8 @@
 ---
 info:
   note: >-
-    Test with new Regelbedarf. `_arbeitsl_geld_2_nettoeink_mit_freibetrag_m` is wrong.
+    Test with new Regelbedarf.
+    `_arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m` is wrong.
   source: https://www.buerger-geld.org/rechner/ergebnis/index.php
 inputs:
   provided:
@@ -79,21 +80,19 @@ inputs:
       - 20.0
     bürgerg_bezug_vorj:
       - false
-    hat_kinder:
-      - false
     in_priv_krankenv:
       - false
     selbstständig:
       - false
     wohnort_ost:
       - false
-    anz_eig_kind_bis_24:
+    anz_kinder_bis_24:
       - 0
   assumed: {}
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 208.0
-  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
     - 392.0
   arbeitsl_geld_2_regelsatz_m_bg:
     - 563.0

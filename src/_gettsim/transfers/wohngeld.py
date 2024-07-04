@@ -30,7 +30,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    wohngeld_nach_mindesteinkommen_check_m_wthh: float,
+    wohngeld_nach_mindesteinkommenscheck_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
@@ -39,8 +39,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    wohngeld_nach_mindesteinkommen_check_m_wthh
-        See :func:`wohngeld_nach_mindesteinkommen_check_m_wthh`.
+    wohngeld_nach_mindesteinkommenscheck_m_wthh
+        See :func:`wohngeld_nach_mindesteinkommenscheck_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     wohngeld_kinderzuschl_vorrang_wthh
@@ -66,7 +66,7 @@ def wohngeld_m_wthh(
     if not erwachsene_alle_rentner_hh and (
         wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
     ):
-        out = wohngeld_nach_mindesteinkommen_check_m_wthh
+        out = wohngeld_nach_mindesteinkommenscheck_m_wthh
     else:
         out = 0.0
 
@@ -691,7 +691,7 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     return out
 
 
-def wohngeld_nach_mindesteinkommen_check_m_wthh(
+def wohngeld_nach_mindesteinkommenscheck_m_wthh(
     wohngeld_mindesteinkommen_erreicht_wthh: bool,
     wohngeld_nach_vermög_check_m_wthh: float,
 ) -> float:
@@ -718,7 +718,7 @@ def wohngeld_nach_mindesteinkommen_check_m_wthh(
     )
 
 
-def wohngeld_nach_mindesteinkommen_check_m_bg(
+def wohngeld_nach_mindesteinkommenscheck_m_bg(
     wohngeld_mindesteinkommen_erreicht_bg: bool,
     wohngeld_nach_vermög_check_m_bg: float,
 ) -> float:
@@ -950,7 +950,7 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
 
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
-    arbeitsl_geld_2_nettoeink_m: float,
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_m: float,
@@ -960,8 +960,8 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_m
-        See :func:`arbeitsl_geld_2_nettoeink_m`.
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_ohne_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
@@ -977,7 +977,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     """
 
     return (
-        arbeitsl_geld_2_nettoeink_m
+        arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_m

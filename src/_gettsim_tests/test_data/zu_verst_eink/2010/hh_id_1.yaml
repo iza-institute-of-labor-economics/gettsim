@@ -54,8 +54,6 @@ inputs:
       - false
     selbstständig:
       - false
-    hat_kinder:
-      - false
     in_priv_krankenv:
       - false
     geburtsjahr:

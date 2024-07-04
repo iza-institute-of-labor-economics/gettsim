@@ -79,11 +79,6 @@ inputs:
       - false
       - false
       - true
-    hat_kinder:
-      - false
-      - false
-      - false
-      - true
     eink_selbst_m:
       - 0.0
       - 0.0

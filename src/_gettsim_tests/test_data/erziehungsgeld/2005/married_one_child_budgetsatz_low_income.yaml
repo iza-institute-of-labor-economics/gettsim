@@ -56,10 +56,6 @@ inputs:
       - 1
       - 1
       - 8
-    hat_kinder:
-      - true
-      - true
-      - false
     kind:
       - false
       - false

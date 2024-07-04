@@ -17,8 +17,6 @@ inputs:
       - 0.0102
     ges_pflegev_zusatz_kinderlos:
       - false
-    hat_kinder:
-      - false
     hh_id:
       - 925
     in_ausbildung:

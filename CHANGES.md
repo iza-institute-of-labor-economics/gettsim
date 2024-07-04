@@ -72,7 +72,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   Minijobs, Pflegeversicherung. ({ghuser}`hmgaudecker`).
 - {gh}`624` Don't create functions for other time units if this leads to a cycle in the
   graph ({ghuser}`lars-reimann`).
-- {gh}`603` Add anz_eig_kind_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
+- {gh}`603` Add anz_kinder_bis_24 to synthetic ({ghuser}`ChristianZimpelmann`).
 - {gh}`593` Implement reform of gesetzliche Pflegepflegeversicherung effective as of
   2023-07-01 ({ghuser}`paulinaschroeder`).
 - {gh}`602` Correct `midijob_faktor_f` ({ghuser}`paulinaschroeder`).

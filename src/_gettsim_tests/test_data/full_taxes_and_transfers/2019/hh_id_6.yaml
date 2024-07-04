@@ -34,8 +34,6 @@ inputs:
       - false
     wohnort_ost:
       - false
-    hat_kinder:
-      - true
     eink_selbst_m:
       - 0.0
     in_priv_krankenv:

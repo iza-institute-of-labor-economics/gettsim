@@ -286,7 +286,7 @@ def erziehungsgeld_anspruch_eltern(
     arbeitsstunden_w
         See :See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     hat_kinder
-        See :See basic input variable :ref:`hat_kinder <hat_kinder>`.
+        See :func:`hat_kinder`.
     erziehungsgeld_anspruch_kind_fg
         See :func:`erziehungsgeld_anspruch_kind_fg`.
     erziehungsgeld_params

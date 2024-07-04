@@ -274,6 +274,18 @@ inputs:
       - 9600.0
       - 0.0
       - 0.0
+    steuerklasse:
+      - 3
+      - 4
+      - 3
+      - 4
+      - 1
+    wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      - false
   assumed: {}
 outputs:
   wthh_id:

@@ -43,9 +43,6 @@ inputs:
     geburtsmonat:
       - 1
       - 1
-    hat_kinder:
-      - true
-      - false
     kind:
       - false
       - true

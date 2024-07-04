@@ -22,7 +22,7 @@ inputs:
       - false
     hat_kinder:
       - true
-    anz_eig_kind_bis_24:
+    anz_kinder_bis_24:
       - 2
     eink_selbst_m:
       - 0.0

@@ -162,13 +162,21 @@ inputs:
       - false
       - false
       - false
+    wohnort_ost:
+      - false
+      - false
+      - false
+    steuerklasse:
+      - 1
+      - 1
+      - 1
   assumed: {}
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 240.0
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  _arbeitsl_geld_2_nettoeink_ohne_freibetrag_mit_freibetrag_m:
     - 424.0
     - 0.0
     - 0.0
