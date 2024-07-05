@@ -40,10 +40,10 @@ inputs:
     _kinderzuschl_vor_vermög_check_m_bg:
       - 140.0
       - 140.0
-    wohngeld_anspruchshöhe_m_wthh:
+    wohngeld_anspruchshöhe_wthh:
       - 500.0
       - 500.0
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld_anspruchshöhe_bg:
       - 500.0
       - 500.0
     arbeitsl_geld_2_regelbedarf_m_bg:

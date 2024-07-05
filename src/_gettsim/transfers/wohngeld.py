@@ -30,7 +30,7 @@ aggregate_by_p_id_wohngeld = {
 
 
 def wohngeld_m_wthh(
-    wohngeld_anspruchshöhe_m_wthh: float,
+    wohngeld_anspruchshöhe_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
     wohngeld_vorrang_wthh: bool,
@@ -39,8 +39,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    wohngeld_anspruchshöhe_m_wthh
-        See :func:`wohngeld_anspruchshöhe_m_wthh`.
+    wohngeld_anspruchshöhe_wthh
+        See :func:`wohngeld_anspruchshöhe_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     wohngeld_kinderzuschl_vorrang_wthh
@@ -66,14 +66,14 @@ def wohngeld_m_wthh(
     if not erwachsene_alle_rentner_hh and (
         wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
     ):
-        out = wohngeld_anspruchshöhe_m_wthh
+        out = wohngeld_anspruchshöhe_wthh
     else:
         out = 0.0
 
     return out
 
 
-def wohngeld_anspruchshöhe_m_wthh(
+def wohngeld_anspruchshöhe_wthh(
     wohngeld_basisbetrag_m_wthh: float,
     wohngeld_anspruchsbedingungen_erfüllt_wthh: bool,
 ) -> float:
@@ -102,7 +102,7 @@ def wohngeld_anspruchshöhe_m_wthh(
     return out
 
 
-def wohngeld_anspruchshöhe_m_bg(
+def wohngeld_anspruchshöhe_bg(
     wohngeld_basisbetrag_m_bg: float,
     wohngeld_anspruchsbedingungen_erfüllt_bg: bool,
 ) -> float:
