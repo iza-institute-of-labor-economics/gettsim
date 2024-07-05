@@ -79,8 +79,9 @@ def wohngeld_anspruchshöhe_wthh(
 ) -> float:
     """Housing benefit after wealth and income check.
 
-    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
+    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften in
+    the household that passed the priority check against Arbeitslosengeld 2. Returns
+    zero if not eligible.
 
     Parameters
     ----------
@@ -107,8 +108,7 @@ def wohngeld_anspruchshöhe_bg(
 ) -> float:
     """Housing benefit after wealth and income check.
 
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag.
+    This target is used for the priority check calculation against Arbeitslosengeld 2.
 
     Parameters
     ----------
@@ -135,8 +135,8 @@ def wohngeld_anspruchsbedingungen_erfüllt_wthh(
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
-    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
+    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
+    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
 
     Parameters
     ----------
@@ -161,8 +161,8 @@ def wohngeld_anspruchsbedingungen_erfüllt_bg(
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag.
+    This target is used for the priority check calculation against Arbeitslosengeld II /
+    Bürgergeld on the Bedarfsgemeinschaft level.
 
     Parameters
     ----------
@@ -485,8 +485,8 @@ def wohngeld_eink_m_wthh(
 
     Reference: § 13 WoGG
 
-    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
+    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
+    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
 
     Parameters
     ----------
@@ -521,8 +521,8 @@ def wohngeld_eink_m_bg(
 
     Reference: § 13 WoGG
 
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag on the Bedarfsgemeinschaft level.
+    This target is used for the priority check calculation against Arbeitslosengeld II /
+    Bürgergeld on the Bedarfsgemeinschaft level.
 
     Parameters
     ----------
@@ -574,8 +574,8 @@ def wohngeld_miete_m_wthh(
     """Rent considered in housing benefit calculation on wohngeldrechtlicher
     Teilhaushalt level.
 
-    This target is used to calculate the actual Wohngeld of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
+    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
+    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
 
     Parameters
     ----------
@@ -600,8 +600,8 @@ def wohngeld_miete_m_bg(
 ) -> float:
     """Rent considered in housing benefit calculation on BG level.
 
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag on the Bedarfsgemeinschaft level.
+    This target is used for the priority check calculation against Arbeitslosengeld II /
+    Bürgergeld on the Bedarfsgemeinschaft level.
 
     Parameters
     ----------
@@ -806,9 +806,6 @@ def wohngeld_vermögensgrenze_unterschritten_wthh(
 ) -> bool:
     """Wealth is below the threshold for housing benefit.
 
-    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
-
     Parameters
     ----------
     vermögen_bedürft_wthh
@@ -836,9 +833,6 @@ def wohngeld_vermögensgrenze_unterschritten_bg(
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the threshold for housing benefit.
-
-    This target is used for the priority check calculation against ALG2 and
-    Kinderzuschlag.
 
     Parameters
     ----------
@@ -871,8 +865,8 @@ def wohngeld_basisbetrag_m_wthh(
     """Housing benefit on wohngeldrechtlicher Teilhaushalt level without wealth or
     priority checks.
 
-    This target is used for the actual Wohngeld calculation of the Bedarfsgemeinschaften
-    that passed the priority check against ALG2 and Kinderzuschlag.
+    This target is used for the actual Wohngeld calculation of all Bedarfsgemeinschaften
+    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
 
     Parameters
     ----------
@@ -906,9 +900,9 @@ def wohngeld_basisbetrag_m_bg(
 ):
     """Housing benefit on Bedarfsgemeinschaft level without wealth or priority checks.
 
-    This target is used to do the priority check against ALG2 and Kinderzuschlag.
-    Wohngeld has priority over the two transfers if the Bedarfsgemeinschaft can cover
-    their basic needs (Regelbedarf in SGB II sense) with it.
+    This target is used to do the priority check against Arbeitslosengeld II /
+    Bürgergeld. Wohngeld has priority over the two transfers if the Bedarfsgemeinschaft
+    can cover their basic needs (Regelbedarf in SGB II sense) with it.
 
     Parameters
     ----------
@@ -960,8 +954,8 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
 
     """
     return (
-        arbeitsl_geld_2_regelbedarf_m_wthh
-        <= wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+        wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+        >= arbeitsl_geld_2_regelbedarf_m_wthh
     )
 
 
@@ -971,11 +965,14 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 ) -> bool:
     """Minimum income requirement for Wohngeld has been met.
 
-    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
+    Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
+    meet the Mindesteinkommen:
 
-    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
-    Kindergeld count as income for this check.
+    1. Savings may partly cover the Regelbedarf, making the applicant eligible again.
+    2. The Wohngeldstelle may reduce the Regelsatz by 20% (but not KdU or private
+        insurance contributions).
 
+    The allowance for discretionary judgment is ignored here.
 
     Parameters
     ----------
@@ -988,11 +985,10 @@ def wohngeld_mindesteinkommen_erreicht_bg(
     -------
 
     """
-    out = (
-        arbeitsl_geld_2_regelbedarf_m_bg
-        <= wohngeld_einkommen_für_mindesteinkommen_check_m_bg
+    return (
+        wohngeld_einkommen_für_mindesteinkommen_check_m_bg
+        >= arbeitsl_geld_2_regelbedarf_m_bg
     )
-    return out
 
 
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
@@ -1003,6 +999,11 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     _kinderzuschl_nach_vermög_check_individual_level_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
+
+    Minimum income is defined via VwV 15.01 ff § 15 WoGG.
+
+    According to BMI Erlass of 11.03.2020, Unterhaltsvorschuss, Kinderzuschlag and
+    Kindergeld count as income for this check.
 
     Parameters
     ----------
