@@ -3,7 +3,7 @@ from _gettsim.shared import policy_info
 
 
 def arbeitsl_geld_2_eink_m(
-    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m: float,
+    arbeitsl_geld_2_nettoeink_mit_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
@@ -21,8 +21,8 @@ def arbeitsl_geld_2_eink_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
-        See :func:`_arbeitsl_geld_2_nettoeink_mit_freibetrag_m`.
+    arbeitsl_geld_2_nettoeink_mit_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_mit_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
@@ -38,7 +38,7 @@ def arbeitsl_geld_2_eink_m(
 
     """
     return (
-        _arbeitsl_geld_2_nettoeink_mit_freibetrag_m
+        arbeitsl_geld_2_nettoeink_mit_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_zur_bedarfsdeckung_m
@@ -46,8 +46,8 @@ def arbeitsl_geld_2_eink_m(
     )
 
 
-def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
-    arbeitsl_geld_2_nettoeink_m: float,
+def arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
 ) -> float:
     """Net income after deductions for calculation of basic subsistence
@@ -57,8 +57,8 @@ def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_m
-        See :func:`arbeitsl_geld_2_nettoeink_m`.
+    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_ohne_freibetrag_m`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
 
@@ -67,10 +67,10 @@ def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
     Income after taxes, social insurance contributions, and other deductions.
 
     """
-    return arbeitsl_geld_2_nettoeink_m - arbeitsl_geld_2_eink_anr_frei_m
+    return arbeitsl_geld_2_nettoeink_ohne_freibetrag_m - arbeitsl_geld_2_eink_anr_frei_m
 
 
-def arbeitsl_geld_2_nettoeink_m(
+def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(
     arbeitsl_geld_2_bruttoeink_m: float,
     eink_st_y_sn: float,
     soli_st_y_sn: float,

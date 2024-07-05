@@ -10,6 +10,19 @@ import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
+aggregate_by_p_id_demographic_vars = {
+    "anz_kinder_bis_24_elternteil_1": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
+        "source_col": "kind_bis_24_mit_kindergeld_anspruch",
+        "aggr": "sum",
+    },
+    "anz_kinder_bis_24_elternteil_2": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "source_col": "kind_bis_24_mit_kindergeld_anspruch",
+        "aggr": "sum",
+    },
+}
+
 
 def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
     """Add grouping suffixes to keys of a dictionary.
@@ -104,6 +117,35 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
     """
     out = kind and (alter <= 17)
     return out
+
+
+def kind_bis_24(alter: int) -> bool:
+    """Child below the age of 25.
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+
+    Returns
+    -------
+    """
+    return alter <= 24
+
+
+def anz_kinder_bis_24(
+    anz_kinder_bis_24_elternteil_1: int, anz_kinder_bis_24_elternteil_2: int
+) -> int:
+    """Number of children under 25 years of age.
+    Parameters
+    ----------
+    anz_kinder_bis_24_elternteil_1
+        See :func:`anz_kinder_bis_24_elternteil_1`.
+    anz_kinder_bis_24_elternteil_2
+        See :func:`anz_kinder_bis_24_elternteil_2`.
+    Returns
+    -------
+    """
+    return anz_kinder_bis_24_elternteil_1 + anz_kinder_bis_24_elternteil_2
 
 
 def erwachsen(kind: bool) -> bool:

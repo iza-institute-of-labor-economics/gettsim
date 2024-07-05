@@ -126,7 +126,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 240.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
     - 500.0
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:
