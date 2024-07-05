@@ -70,14 +70,16 @@ def _arbeitsl_geld_2_nettoeink_mit_freibetrag_m(
     return arbeitsl_geld_2_nettoeink_ohne_freibetrag_m - arbeitsl_geld_2_eink_anr_frei_m
 
 
-def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(
+def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(  # noqa: PLR0913
     arbeitsl_geld_2_bruttoeink_m: float,
-    lohnst_m: float,
-    soli_st_lohnst_m: float,
+    eink_st_y_sn: float,
+    soli_st_y_sn: float,
+    anz_personen_sn: int,
     sozialv_beitr_arbeitnehmer_m: float,
+    arbeitsl_geld_2_eink_anr_frei_m: float,
 ) -> float:
-    """Net income for calculation of basic subsistence (Arbeitslosengeld II /
-    Bürgergeld).
+    """Income (after deduction of taxes, social insurance contributions, and other
+    deductions) for calculation of basic subsistence.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
 
@@ -85,12 +87,16 @@ def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(
     ----------
     arbeitsl_geld_2_bruttoeink_m
         See :func:`arbeitsl_geld_2_bruttoeink_m`.
-    lohnst_m
-        See :func:`lohnst_m`.
-    soli_st_lohnst_m
-        See :func:`soli_st_lohnst_m`.
     sozialv_beitr_arbeitnehmer_m
         See :func:`sozialv_beitr_arbeitnehmer_m`.
+    eink_st_y_sn
+        See :func:`eink_st_y_sn`.
+    soli_st_y_sn
+        See :func:`soli_st_y_sn`.
+    anz_personen_sn
+        See :func:`anz_personen_sn`.
+    arbeitsl_geld_2_eink_anr_frei_m
+        See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
 
     Returns
     -------
@@ -99,9 +105,10 @@ def arbeitsl_geld_2_nettoeink_ohne_freibetrag_m(
     """
     return (
         arbeitsl_geld_2_bruttoeink_m
-        - lohnst_m
-        - soli_st_lohnst_m
+        - (eink_st_y_sn / 12 / anz_personen_sn)
+        - (soli_st_y_sn / 12 / anz_personen_sn)
         - sozialv_beitr_arbeitnehmer_m
+        - arbeitsl_geld_2_eink_anr_frei_m
     )
 
 
