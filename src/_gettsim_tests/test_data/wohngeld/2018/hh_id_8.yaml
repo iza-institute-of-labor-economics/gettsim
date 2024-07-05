@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -152,7 +152,7 @@ inputs:
       - 4
       - 4
     bruttolohn_m:
-      - 3000.0
+      - 3650.0
       - 0.0
       - 0.0
       - 0.0
@@ -214,13 +214,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 35000.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
@@ -264,14 +257,14 @@ inputs:
       - 2018
       - 2018
     eink_st_y_sn:
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
+      - 1000.0
+      - 1000.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     vermögen_bedürft:
-      - 220000.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -322,16 +315,16 @@ inputs:
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0

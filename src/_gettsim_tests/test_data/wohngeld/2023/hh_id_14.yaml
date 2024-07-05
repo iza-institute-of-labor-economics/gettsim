@@ -1,8 +1,6 @@
 ---
 info:
-  note: >-
-    When using that site, the unrounded value is displayed when clicking on the question
-    mark next to the housing allowance calculation.
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
   source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
   provided:
@@ -328,6 +326,13 @@ inputs:
       - true
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
@@ -338,9 +343,9 @@ outputs:
     - 777.0
     - 777.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+    - 777.0
+    - 777.0
+    - 777.0
+    - 777.0
+    - 777.0
+    - 777.0

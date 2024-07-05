@@ -1,7 +1,7 @@
 ---
 info:
-  note: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=4&housingbenefitRecipients=4&income=1115%2C5&rent=730&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=746%2C00
-  source: ''
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
+  source: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=4&housingbenefitRecipients=4&income=1115%2C5&rent=730&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=746%2C00
 inputs:
   provided:
     p_id:
@@ -230,6 +230,11 @@ inputs:
       - true
       - true
     wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
+      - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
       - true
       - true
       - true

@@ -3,7 +3,7 @@ info:
   note: >-
     Expanded test case to include additional household members so that more than seven
     people are eligible for housing subsidies
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -196,8 +196,8 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 0.0
-      - 0.0
+      - 1450.0
+      - 1450.0
       - 0.0
       - 0.0
       - 0.0
@@ -268,15 +268,6 @@ inputs:
       - 0.0
       - 0.0
     eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
       - 0.0
       - 0.0
       - 0.0
@@ -414,20 +405,20 @@ inputs:
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0

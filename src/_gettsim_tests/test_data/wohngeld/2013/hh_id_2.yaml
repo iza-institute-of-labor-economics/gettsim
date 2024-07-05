@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -68,7 +68,7 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 800.0
+      - 1300.0
       - 0.0
     sum_ges_rente_priv_rente_m:
       - 0.0
@@ -93,9 +93,6 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 10000.0
       - 0.0
     kapitaleink_brutto_y:
       - 0.0
@@ -141,9 +138,9 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_bg:
-    - 202.0
-    - 202.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
+    - 73.0
+    - 73.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 73.0
+    - 73.0

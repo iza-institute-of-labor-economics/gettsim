@@ -163,10 +163,10 @@ inputs:
     bruttolohn_m:
       - 1200.0
       - 1200.0
+      - 750.0
+      - 750.0
       - 600.0
       - 600.0
-      - 200.0
-      - 200.0
     sum_ges_rente_priv_rente_m:
       - 0.0
       - 0.0
@@ -326,10 +326,10 @@ outputs:
   wohngeld_einkommen_für_mindesteinkommen_check_m_wthh:
     - 1983.33
     - 1983.33
-    - 995.83
-    - 995.83
-    - 400.0
-    - 400.0
+    - 1295.83
+    - 1295.83
+    - 1200.0
+    - 1200.0
   wohngeld_mindesteinkommen_erreicht_wthh:
     - true
     - true

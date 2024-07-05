@@ -1,7 +1,7 @@
 ---
 info:
-  note: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
-  source: ''
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
+  source: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
 inputs:
   provided:
     p_id:

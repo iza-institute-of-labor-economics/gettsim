@@ -1,6 +1,6 @@
 ---
 info:
-  note: ''
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
   source: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
 inputs:
   provided:
@@ -188,6 +188,14 @@ inputs:
       - true
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
+      - true
+    wohngeld_mindesteinkommen_erreicht_bg:
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
@@ -195,6 +203,6 @@ outputs:
     - 469.0
     - 469.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
+    - 469.0
+    - 469.0
+    - 469.0

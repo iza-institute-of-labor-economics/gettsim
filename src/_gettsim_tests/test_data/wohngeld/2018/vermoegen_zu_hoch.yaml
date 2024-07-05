@@ -1,7 +1,7 @@
 ---
 info:
-  note: ''
-  source: ''
+  note: Wealth is too high for housing subsidies.
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -214,13 +214,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 35000.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
@@ -271,7 +264,7 @@ inputs:
       - 7000.0
       - 7000.0
     vermögen_bedürft:
-      - 200000.0
+      - 2000000.0
       - 0.0
       - 0.0
       - 0.0
@@ -319,15 +312,22 @@ inputs:
       - true
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_bg:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
-    - 42.0
-    - 42.0
-    - 42.0
-    - 42.0
-    - 42.0
-    - 42.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   wohngeld_anspruchshöhe_m_wthh:
     - 0.0
     - 0.0

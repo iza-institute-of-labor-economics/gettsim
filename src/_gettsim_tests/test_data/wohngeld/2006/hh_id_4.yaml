@@ -1,7 +1,7 @@
 ---
 info:
   note: No wealth threshold in place before 2009
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -131,8 +131,8 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 0.0
-      - 0.0
+      - 1000.0
+      - 1000.0
       - 0.0
       - 0.0
       - 0.0
@@ -179,12 +179,6 @@ inputs:
       - 0.0
       - 0.0
     eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
       - 0.0
       - 0.0
       - 0.0
@@ -277,14 +271,14 @@ inputs:
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0

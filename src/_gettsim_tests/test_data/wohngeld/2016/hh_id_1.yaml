@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -191,6 +191,6 @@ outputs:
     - 75.0
     - 75.0
   wohngeld_anspruchshöhe_m_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
+    - 75.0
+    - 75.0
+    - 75.0

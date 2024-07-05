@@ -1,7 +1,7 @@
 ---
 info:
-  note: ''
-  source: ''
+  note: Wealth is too high for housing subsidies.
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -142,8 +142,8 @@ inputs:
   assumed: {}
 outputs:
   wohngeld_anspruchshöhe_m_bg:
-    - 26.0
-    - 26.0
+    - 0.0
+    - 0.0
   wohngeld_anspruchshöhe_m_wthh:
     - 0.0
     - 0.0
