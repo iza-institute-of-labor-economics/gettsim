@@ -1,41 +1,43 @@
 ---
 info:
-  note: >-
-    Individuals pass the Mindesteinkommencheck by setting
-    `wohngeld_mindesteinkommen_erreicht_wthh` to `true` explicitly.
-  source: Regression test.
+  note: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
+  source: ''
 inputs:
   provided:
     p_id:
-      - 66
-      - 67
-      - 68
-      - 69
-      - 70
-      - 71
-      - 72
-      - 73
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
     hh_id:
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
-      - 15
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    p_id_ehepartner:
+      - 1
+      - 0
+      - -1
+      - 4
+      - 3
+      - 6
+      - 5
+    p_id_einstandspartner:
+      - 1
+      - 0
+      - -1
+      - 4
+      - 3
+      - 6
+      - 5
     p_id_kindergeld_empf:
       - -1
-      - -1
-      - 66
-      - 66
-      - 66
-      - 66
-      - 66
-      - 66
-    p_id_ehepartner:
-      - 67
-      - 66
       - -1
       - -1
       - -1
@@ -45,24 +47,13 @@ inputs:
     p_id_elternteil_1:
       - -1
       - -1
-      - 66
-      - 66
-      - 66
-      - 66
-      - 66
-      - 66
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
     p_id_elternteil_2:
       - -1
-      - -1
-      - 67
-      - 67
-      - 67
-      - 67
-      - 67
-      - 67
-    p_id_einstandspartner:
-      - 67
-      - 66
       - -1
       - -1
       - -1
@@ -70,17 +61,15 @@ inputs:
       - -1
       - -1
     eigenbedarf_gedeckt:
+      - true
+      - true
       - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
+      - true
+      - true
+      - true
+      - true
     gemeinsam_veranlagt:
-      - true
-      - true
+      - false
       - false
       - false
       - false
@@ -90,23 +79,20 @@ inputs:
     kind:
       - false
       - false
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
+      - false
+      - false
     bruttokaltmiete_m_hh:
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
+      - 1200.0
+      - 1200.0
+      - 1200.0
+      - 1200.0
+      - 1200.0
+      - 1200.0
+      - 1200.0
     heizkosten_m_hh:
-      - 50.0
       - 50.0
       - 50.0
       - 50.0
@@ -122,9 +108,15 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-      - 100.0
-    sozialv_beitr_arbeitnehmer_m:
+    soli_st_lohnst_m:
       - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -140,6 +132,13 @@ inputs:
       - false
       - false
       - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
       - false
     alleinerz:
       - false
@@ -149,25 +148,22 @@ inputs:
       - false
       - false
       - false
-      - false
     alter:
-      - 42
-      - 53
-      - 7
-      - 8
-      - 12
-      - 2
-      - 2
-      - 5
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
     immobilie_baujahr_hh:
-      - 1995
-      - 1995
-      - 1995
-      - 1995
-      - 1995
-      - 1995
-      - 1995
-      - 1995
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
     kindergeld_anspruch:
       - false
       - false
@@ -176,27 +172,23 @@ inputs:
       - false
       - false
       - false
-      - false
     mietstufe:
-      - 3
-      - 3
-      - 3
-      - 3
-      - 3
-      - 3
-      - 3
-      - 3
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
     bruttolohn_m:
+      - 1000.0
+      - 1000.0
+      - 800.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+      - 600.0
       - 0.0
     sum_ges_rente_priv_rente_m:
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -212,9 +204,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
     elterngeld_m:
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -230,9 +220,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
     sonstig_eink_m:
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -248,9 +236,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
     unterhaltsvors_m:
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -266,18 +252,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     kapitaleink_brutto_y:
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -293,25 +268,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
-      - 50.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     behinderungsgrad:
       - 0
       - 0
@@ -320,27 +276,7 @@ inputs:
       - 0
       - 0
       - 0
-      - 0
-    jahr:
-      - 2006
-      - 2006
-      - 2006
-      - 2006
-      - 2006
-      - 2006
-      - 2006
-      - 2006
-    eink_st_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     vermögen_bedürft:
-      - 200000.0
       - 0.0
       - 0.0
       - 0.0
@@ -348,17 +284,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    anz_personen_hh:
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
-      - 8
     geburtstag:
-      - 1
       - 1
       - 1
       - 1
@@ -374,51 +300,133 @@ inputs:
       - 1
       - 1
       - 1
-      - 1
     geburtsjahr:
-      - 1964
-      - 1953
-      - 1999
-      - 1998
-      - 1994
-      - 2004
-      - 2004
-      - 2001
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
     wohngeld_vorrang_bg:
       - true
       - true
       - true
-      - true
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
+      - false
     wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
       - true
-      - true
-      - true
-      - true
-      - true
-      - true
-    wohngeld_mindesteinkommen_erreicht_wthh:
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
+      - false
+    eink_st_y_sn:
+      - 20.0
+      - 20.0
+      - 20.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_rentenv_beitr_arbeitnehmer_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ges_krankenv_beitr_arbeitnehmer_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    rentner:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    eink_abhängig_beschäftigt_y:
+      - 12000.0
+      - 12000.0
+      - 9600.0
+      - 0.0
+      - 0.0
+      - 7200.0
+      - 0.0
+    steuerklasse:
+      - 3
+      - 4
+      - 1
+      - 3
+      - 4
+      - 3
+      - 4
+    wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_wthh:
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
+  bg_id:
+    - 0
+    - 0
+    - 100
+    - 200
+    - 200
+    - 300
+    - 300
+  wthh_id:
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0
+  bruttokaltmiete_m_wthh:
+    - 514.29
+    - 514.29
+    - 514.29
+    - 685.71
+    - 685.71
+    - 685.71
+    - 685.71
+  anz_personen_wthh:
+    - 3
+    - 3
+    - 3
+    - 4
+    - 4
+    - 4
+    - 4
+  wohngeld_m_wthh:
+    - 128.0
+    - 128.0
+    - 128.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  wohngeld_mindesteinkommen_erreicht_wthh:
+    - true
+    - true
+    - true
+    - false
+    - false
+    - false
+    - false

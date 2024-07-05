@@ -1,35 +1,35 @@
 ---
 info:
   note: >-
-    When using that site, the unrounded value is displayed when clicking on the question
-    mark next to the housing allowance calculation.
-  source: https://www.smart-rechner.de/wohngeld/rechner.php
+    Individuals pass the Mindesteinkommencheck by setting
+    `wohngeld_mindesteinkommen_erreicht_wthh` to `true` explicitly.
+  source: Regression test.
 inputs:
   provided:
     p_id:
-      - 60
-      - 61
-      - 62
-      - 63
-      - 64
-      - 65
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
     hh_id:
-      - 14
-      - 14
-      - 14
-      - 14
-      - 14
-      - 14
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
+      - 8
     p_id_kindergeld_empf:
       - -1
       - -1
-      - 60
-      - 60
-      - 60
-      - 60
+      - 47
+      - 47
+      - 47
+      - 47
     p_id_ehepartner:
-      - 61
-      - 60
+      - 48
+      - 47
       - -1
       - -1
       - -1
@@ -37,20 +37,20 @@ inputs:
     p_id_elternteil_1:
       - -1
       - -1
-      - 60
-      - 60
-      - 60
-      - 60
+      - 47
+      - 47
+      - 47
+      - 47
     p_id_elternteil_2:
       - -1
       - -1
-      - 61
-      - 61
-      - 61
-      - 61
+      - 48
+      - 48
+      - 48
+      - 48
     p_id_einstandspartner:
-      - 61
-      - 60
+      - 48
+      - 47
       - -1
       - -1
       - -1
@@ -77,12 +77,12 @@ inputs:
       - true
       - true
     bruttokaltmiete_m_hh:
-      - 1300.0
-      - 1300.0
-      - 1300.0
-      - 1300.0
-      - 1300.0
-      - 1300.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
+      - 1400.0
     heizkosten_m_hh:
       - 50.0
       - 50.0
@@ -118,13 +118,6 @@ inputs:
       - false
       - false
       - false
-    bürgerg_bezug_vorj:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
     alleinerz:
       - false
       - false
@@ -133,36 +126,36 @@ inputs:
       - false
       - false
     alter:
-      - 45
-      - 40
+      - 43
+      - 48
+      - 14
       - 15
-      - 10
-      - 8
-      - 3
+      - 6
+      - 5
     immobilie_baujahr_hh:
-      - 1993
-      - 1993
-      - 1993
-      - 1993
-      - 1993
-      - 1993
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
+      - 1995
     kindergeld_anspruch:
       - false
       - false
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
+      - false
     mietstufe:
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
+      - 4
+      - 4
+      - 4
+      - 4
+      - 4
+      - 4
     bruttolohn_m:
-      - 1300.0
-      - 1200.0
+      - 3000.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -182,7 +175,7 @@ inputs:
       - 0.0
       - 0.0
     elterngeld_m:
-      - 0.0
+      - 800.0
       - 0.0
       - 0.0
       - 0.0
@@ -224,8 +217,8 @@ inputs:
       - 0.0
       - 0.0
     eink_abhängig_beschäftigt_y:
-      - 15600.0
-      - 14400.0
+      - 35000.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -245,15 +238,15 @@ inputs:
       - 0.0
       - 0.0
     ges_rentenv_beitr_arbeitnehmer_m:
-      - 123.8
-      - 114.3
+      - 300.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
     ges_krankenv_beitr_arbeitnehmer_m:
-      - 99.0
-      - 91.4
+      - 255.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -266,21 +259,21 @@ inputs:
       - 0
       - 0
     jahr:
-      - 2023
-      - 2023
-      - 2023
-      - 2023
-      - 2023
-      - 2023
-    lohnst_m:
-      - 714.0
-      - 714.0
-      - 714.0
-      - 714.0
-      - 714.0
-      - 714.0
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+      - 2018
+    eink_st_y_sn:
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
+      - 7000.0
     vermögen_bedürft:
-      - 85000.0
+      - 220000.0
       - 0.0
       - 0.0
       - 0.0
@@ -308,12 +301,12 @@ inputs:
       - 1
       - 1
     geburtsjahr:
-      - 1978
-      - 1983
-      - 2008
+      - 1975
+      - 1970
+      - 2004
+      - 2003
+      - 2012
       - 2013
-      - 2015
-      - 2020
     wohngeld_vorrang_bg:
       - true
       - true
@@ -328,19 +321,19 @@ inputs:
       - true
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_basisbetrag_m_wthh:
-    - 777.0
-    - 777.0
-    - 777.0
-    - 777.0
-    - 777.0
-    - 777.0
-  wohngeld_anspruchshöhe_wthh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0
+    - 246.0

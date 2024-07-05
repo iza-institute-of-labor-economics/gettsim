@@ -1,7 +1,9 @@
 ---
 info:
-  note: ''
-  source: ''
+  note: >-
+    Individuals pass the Mindesteinkommencheck by setting
+    `wohngeld_mindesteinkommen_erreicht_wthh` to `true` explicitly.
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -43,9 +45,6 @@ inputs:
     wohnfläche_hh:
       - 50.0
       - 50.0
-    soli_st_lohnst_m:
-      - 0.0
-      - 0.0
     sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
@@ -115,7 +114,7 @@ inputs:
     jahr:
       - 2013
       - 2013
-    lohnst_m:
+    eink_st_y_sn:
       - 0.0
       - 0.0
     vermögen_bedürft:
@@ -139,11 +138,11 @@ inputs:
     wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_basisbetrag_m_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 202.0
     - 202.0
-  wohngeld_anspruchshöhe_wthh:
-    - 0.0
-    - 0.0

@@ -10,43 +10,25 @@ inputs:
       - 2
       - 3
       - 4
-      - 5
-      - 6
     hh_id:
       - 0
       - 0
       - 0
       - 0
       - 0
-      - 0
-      - 0
-    p_id_ehepartner:
-      - 1
-      - 0
-      - -1
-      - 4
-      - 3
-      - 6
-      - 5
-    p_id_einstandspartner:
-      - 1
-      - 0
-      - -1
-      - 4
-      - 3
-      - 6
-      - 5
     p_id_kindergeld_empf:
       - -1
       - -1
       - -1
       - -1
       - -1
-      - -1
+    p_id_ehepartner:
+      - 1
+      - 0
+      - 3
+      - 2
       - -1
     p_id_elternteil_1:
-      - -1
-      - -1
       - -1
       - -1
       - -1
@@ -58,19 +40,19 @@ inputs:
       - -1
       - -1
       - -1
-      - -1
+    p_id_einstandspartner:
+      - 1
+      - 0
+      - 3
+      - 2
       - -1
     eigenbedarf_gedeckt:
-      - true
-      - true
       - false
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
+      - false
     gemeinsam_veranlagt:
-      - false
-      - false
       - false
       - false
       - false
@@ -82,19 +64,13 @@ inputs:
       - false
       - false
       - false
-      - false
-      - false
     bruttokaltmiete_m_hh:
-      - 1200.0
-      - 1200.0
-      - 1200.0
-      - 1200.0
-      - 1200.0
-      - 1200.0
-      - 1200.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
     heizkosten_m_hh:
-      - 50.0
-      - 50.0
       - 50.0
       - 50.0
       - 50.0
@@ -106,11 +82,7 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-      - 100.0
-      - 100.0
     soli_st_lohnst_m:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -122,11 +94,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     bewohnt_eigentum_hh:
-      - false
-      - false
       - false
       - false
       - false
@@ -138,11 +106,7 @@ inputs:
       - false
       - false
       - false
-      - false
-      - false
     alleinerz:
-      - false
-      - false
       - false
       - false
       - false
@@ -154,11 +118,7 @@ inputs:
       - 40
       - 40
       - 40
-      - 40
-      - 40
     immobilie_baujahr_hh:
-      - 2010
-      - 2010
       - 2010
       - 2010
       - 2010
@@ -170,11 +130,7 @@ inputs:
       - false
       - false
       - false
-      - false
-      - false
     mietstufe:
-      - 5
-      - 5
       - 5
       - 5
       - 5
@@ -186,11 +142,7 @@ inputs:
       - 800.0
       - 0.0
       - 0.0
-      - 600.0
-      - 0.0
     sum_ges_rente_priv_rente_m:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -202,11 +154,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     elterngeld_m:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -218,11 +166,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     sonstig_eink_m:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -234,11 +178,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     unterhaltsvors_m:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -250,11 +190,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     kapitaleink_brutto_y:
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -266,11 +202,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     behinderungsgrad:
-      - 0
-      - 0
       - 0
       - 0
       - 0
@@ -282,11 +214,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     geburtstag:
-      - 1
-      - 1
       - 1
       - 1
       - 1
@@ -298,11 +226,7 @@ inputs:
       - 1
       - 1
       - 1
-      - 1
-      - 1
     geburtsjahr:
-      - 1983
-      - 1983
       - 1983
       - 1983
       - 1983
@@ -314,22 +238,16 @@ inputs:
       - true
       - false
       - false
-      - false
-      - false
     wohngeld_kinderzuschl_vorrang_bg:
       - true
       - true
       - true
       - false
       - false
-      - false
-      - false
-    lohnst_m:
+    eink_st_y_sn:
       - 20.0
       - 20.0
       - 20.0
-      - 0.0
-      - 0.0
       - 0.0
       - 0.0
     ges_rentenv_beitr_arbeitnehmer_m:
@@ -338,19 +256,13 @@ inputs:
       - 50.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     ges_krankenv_beitr_arbeitnehmer_m:
       - 50.0
       - 50.0
       - 50.0
       - 0.0
       - 0.0
-      - 0.0
-      - 0.0
     rentner:
-      - false
-      - false
       - false
       - false
       - false
@@ -362,19 +274,13 @@ inputs:
       - 9600.0
       - 0.0
       - 0.0
-      - 7200.0
-      - 0.0
     steuerklasse:
       - 3
       - 4
+      - 3
+      - 4
       - 1
-      - 3
-      - 4
-      - 3
-      - 4
     wohnort_ost:
-      - false
-      - false
       - false
       - false
       - false
@@ -382,51 +288,33 @@ inputs:
       - false
   assumed: {}
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 200
-    - 200
-    - 300
-    - 300
   wthh_id:
     - 1
     - 1
     - 1
     - 0
     - 0
-    - 0
-    - 0
   bruttokaltmiete_m_wthh:
-    - 514.29
-    - 514.29
-    - 514.29
-    - 685.71
-    - 685.71
-    - 685.71
-    - 685.71
+    - 600.0
+    - 600.0
+    - 600.0
+    - 400.0
+    - 400.0
   anz_personen_wthh:
     - 3
     - 3
     - 3
-    - 4
-    - 4
-    - 4
-    - 4
+    - 2
+    - 2
   wohngeld_m_wthh:
-    - 128.0
-    - 128.0
-    - 128.0
-    - 0.0
-    - 0.0
+    - 175.0
+    - 175.0
+    - 175.0
     - 0.0
     - 0.0
   wohngeld_mindesteinkommen_erreicht_wthh:
     - true
     - true
     - true
-    - false
-    - false
     - false
     - false

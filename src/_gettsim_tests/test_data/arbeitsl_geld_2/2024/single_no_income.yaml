@@ -64,9 +64,9 @@ inputs:
       - 0.0
     elterngeld_m:
       - 0.0
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_anspruchshöhe_m_wthh:
       - 0.0
-    wohngeld_basisbetrag_m_bg:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
     vermögen_bedürft:
       - 0.0
