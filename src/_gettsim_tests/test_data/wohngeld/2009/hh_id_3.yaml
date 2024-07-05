@@ -144,6 +144,6 @@ outputs:
   wohngeld_basisbetrag_m_wthh:
     - 26.0
     - 26.0
-  wohngeld_anspruchshöhe_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 0.0
     - 0.0

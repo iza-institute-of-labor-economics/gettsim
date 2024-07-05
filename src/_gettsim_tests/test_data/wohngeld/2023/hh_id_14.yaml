@@ -337,7 +337,7 @@ outputs:
     - 777.0
     - 777.0
     - 777.0
-  wohngeld_anspruchshöhe_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 0.0
     - 0.0
     - 0.0
