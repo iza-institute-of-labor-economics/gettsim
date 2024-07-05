@@ -130,11 +130,11 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_vor_vermög_check_m_wthh:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
+    wohngeld_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
       - 0.0

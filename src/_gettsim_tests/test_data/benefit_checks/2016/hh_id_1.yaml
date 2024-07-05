@@ -48,11 +48,11 @@ inputs:
       - 140.0
       - 140.0
       - 140.0
-    wohngeld_anspruchshöhe_m_wthh:
+    wohngeld_nach_mindesteinkommenscheck_m_wthh:
       - 350.0
       - 350.0
       - 350.0
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld_nach_mindesteinkommenscheck_m_bg:
       - 350.0
       - 350.0
       - 350.0

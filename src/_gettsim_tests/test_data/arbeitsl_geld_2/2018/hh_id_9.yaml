@@ -190,13 +190,13 @@ inputs:
       - '2018'
       - '2018'
       - '2018'
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_vor_vermög_check_m_wthh:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
+    wohngeld_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
       - 0.0
