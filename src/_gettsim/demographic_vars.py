@@ -11,14 +11,14 @@ import numpy
 from _gettsim.config import SUPPORTED_GROUPINGS
 
 aggregate_by_p_id_demographic_vars = {
-    "anz_kinder_bis_24_elternteil_1": {
+    "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
         "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
-        "source_col": "kind_bis_24_mit_kindergeld_anspruch",
+        "source_col": "kind_bis_24",
         "aggr": "sum",
     },
-    "anz_kinder_bis_24_elternteil_2": {
+    "ges_pflegev_anz_kinder_bis_24_elternteil_2": {
         "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
-        "source_col": "kind_bis_24_mit_kindergeld_anspruch",
+        "source_col": "kind_bis_24",
         "aggr": "sum",
     },
 }
@@ -121,6 +121,10 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
 
 def kind_bis_24(alter: int) -> bool:
     """Child below the age of 25.
+
+    Relevant for the calculation of the long-term care insurance contribution. It does
+    not matter whether children have a claim on Kindergeld.
+
     Parameters
     ----------
     alter
@@ -132,20 +136,42 @@ def kind_bis_24(alter: int) -> bool:
     return alter <= 24
 
 
-def anz_kinder_bis_24(
-    anz_kinder_bis_24_elternteil_1: int, anz_kinder_bis_24_elternteil_2: int
+def ges_pflegev_anz_kinder_bis_24(
+    ges_pflegev_anz_kinder_bis_24_elternteil_1: int,
+    ges_pflegev_anz_kinder_bis_24_elternteil_2: int,
 ) -> int:
     """Number of children under 25 years of age.
     Parameters
     ----------
-    anz_kinder_bis_24_elternteil_1
-        See :func:`anz_kinder_bis_24_elternteil_1`.
-    anz_kinder_bis_24_elternteil_2
-        See :func:`anz_kinder_bis_24_elternteil_2`.
+    ges_pflegev_anz_kinder_bis_24_elternteil_1
+        See :func:`ges_pflegev_anz_kinder_bis_24_elternteil_1`.
+    ges_pflegev_anz_kinder_bis_24_elternteil_2
+        See :func:`ges_pflegev_anz_kinder_bis_24_elternteil_2`.
+
     Returns
     -------
     """
-    return anz_kinder_bis_24_elternteil_1 + anz_kinder_bis_24_elternteil_2
+    return (
+        ges_pflegev_anz_kinder_bis_24_elternteil_1
+        + ges_pflegev_anz_kinder_bis_24_elternteil_2
+    )
+
+
+def hat_kinder(
+    _eink_st_kinderfreib_anz_ansprüche: int,
+) -> bool:
+    """Check if person has children.
+
+    Parameters
+    ----------
+    _eink_st_kinderfreib_anz_ansprüche
+        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
+
+    Returns
+    -------
+
+    """
+    return _eink_st_kinderfreib_anz_ansprüche > 0
 
 
 def erwachsen(kind: bool) -> bool:

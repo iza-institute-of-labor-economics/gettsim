@@ -22,7 +22,7 @@ inputs:
       - false
     hat_kinder:
       - false
-    anz_kinder_bis_24:
+    ges_pflegev_anz_kinder_bis_24:
       - 0
     eink_selbst_m:
       - 0.0
