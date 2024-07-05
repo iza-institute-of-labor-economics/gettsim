@@ -3,7 +3,7 @@ from _gettsim.shared import policy_info
 
 @policy_info(start_date="2005-01-01")
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: bool,
+    ges_pflegev_hat_kinder: bool,
     alter: int,
     sozialv_beitr_params: dict,
 ) -> bool:
@@ -14,8 +14,8 @@ def ges_pflegev_zusatz_kinderlos(
 
     Parameters
     ----------
-    hat_kinder
-        See basic input variable :ref:`hat_kinder <hat_kinder>`.
+    ges_pflegev_hat_kinder
+        See basic input variable :ref:`ges_pflegev_hat_kinder <ges_pflegev_hat_kinder>`.
     alter
         See basic input variable :ref:`alter <alter>`.
     sozialv_beitr_params: dict,
@@ -26,7 +26,7 @@ def ges_pflegev_zusatz_kinderlos(
 
     """
     mindestalter = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
-    return (not hat_kinder) and alter >= mindestalter
+    return (not ges_pflegev_hat_kinder) and alter >= mindestalter
 
 
 @policy_info(

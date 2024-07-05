@@ -79,7 +79,7 @@ inputs:
       - 20.0
     bürgerg_bezug_vorj:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
     in_priv_krankenv:
       - false

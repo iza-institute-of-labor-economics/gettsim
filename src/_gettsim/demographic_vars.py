@@ -157,23 +157,6 @@ def ges_pflegev_anz_kinder_bis_24(
     )
 
 
-def hat_kinder(
-    _eink_st_kinderfreib_anz_ansprüche: int,
-) -> bool:
-    """Check if person has children.
-
-    Parameters
-    ----------
-    _eink_st_kinderfreib_anz_ansprüche
-        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
-
-    Returns
-    -------
-
-    """
-    return _eink_st_kinderfreib_anz_ansprüche > 0
-
-
 def erwachsen(kind: bool) -> bool:
     """Calculate if adult.
 

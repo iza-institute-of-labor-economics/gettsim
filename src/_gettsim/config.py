@@ -164,7 +164,7 @@ TYPES_INPUT_VARIABLES = {
     "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
-    "hat_kinder": bool,
+    "ges_pflegev_hat_kinder": bool,
     "eink_selbst_m": float,
     "in_priv_krankenv": bool,
     "priv_rentenv_beitr_m": float,

@@ -16,7 +16,7 @@ inputs:
       - 50
     selbstständig:
       - true
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
     eink_selbst_m:
       - 8000.0

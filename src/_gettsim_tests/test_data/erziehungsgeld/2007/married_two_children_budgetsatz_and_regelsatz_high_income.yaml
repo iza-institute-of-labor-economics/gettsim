@@ -69,7 +69,7 @@ inputs:
       - 1
       - 3
       - 9
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
       - true
       - false

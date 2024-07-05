@@ -150,9 +150,9 @@ Self-employed (main profession)
 
 Type: bool
 
-(hat_kinder)=
+(ges_pflegev_hat_kinder)=
 
-## `hat_kinder`
+## `ges_pflegev_hat_kinder`
 
 Has kids (incl. not in hh)
 

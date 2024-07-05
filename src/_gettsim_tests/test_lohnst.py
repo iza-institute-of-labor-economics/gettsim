@@ -13,7 +13,7 @@ INPUT_COLS = [
     "steuerklasse",
     "bruttolohn_m",
     "alter",
-    "hat_kinder",
+    "ges_pflegev_hat_kinder",
     "arbeitsstunden_w",
     "in_ausbildung",
     "ges_krankenv_zusatzbeitr_satz",
