@@ -30,7 +30,7 @@ inputs:
       - 50.0
     wohnfläche_hh:
       - 40.0
-    soli_st_lohnst_m:
+    soli_st_y_sn:
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
       - 0.0

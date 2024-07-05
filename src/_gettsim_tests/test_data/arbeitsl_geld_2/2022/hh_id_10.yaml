@@ -98,11 +98,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    lohnst_m:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    soli_st_lohnst_m:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
