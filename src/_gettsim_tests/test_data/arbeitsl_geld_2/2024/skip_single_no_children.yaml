@@ -86,7 +86,7 @@ inputs:
       - false
     wohnort_ost:
       - false
-    anz_kinder_bis_24:
+    ges_pflegev_anz_kinder_bis_24:
       - 0
   assumed: {}
 outputs:
