@@ -273,7 +273,6 @@ def _erziehungsgeld_anspruch_kind_nach_abschaffung(
 @policy_info(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_anspruch_eltern(
     arbeitsstunden_w: float,
-    hat_kinder: bool,
     erziehungsgeld_anspruch_kind_fg: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
@@ -285,8 +284,6 @@ def erziehungsgeld_anspruch_eltern(
     ----------
     arbeitsstunden_w
         See :See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
-    hat_kinder
-        See :See basic input variable :ref:`hat_kinder <hat_kinder>`.
     erziehungsgeld_anspruch_kind_fg
         See :func:`erziehungsgeld_anspruch_kind_fg`.
     erziehungsgeld_params
@@ -297,10 +294,8 @@ def erziehungsgeld_anspruch_eltern(
     eligibility of parental leave benefit (Erziehungsgeld) as a bool
 
     """
-    out = (
-        erziehungsgeld_anspruch_kind_fg
-        and (arbeitsstunden_w <= erziehungsgeld_params["arbeitsstunden_w_grenze"])
-        and hat_kinder
+    out = erziehungsgeld_anspruch_kind_fg and (
+        arbeitsstunden_w <= erziehungsgeld_params["arbeitsstunden_w_grenze"]
     )
 
     return out
