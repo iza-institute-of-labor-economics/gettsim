@@ -134,7 +134,7 @@ inputs:
       - 2023-07
       - 2023-07
       - 2023-07
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0

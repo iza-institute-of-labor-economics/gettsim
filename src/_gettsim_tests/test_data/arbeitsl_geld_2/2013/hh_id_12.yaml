@@ -97,7 +97,7 @@ inputs:
     jahr:
       - '2013'
       - '2013'
-    wohngeld_basisbetrag_m_wthh:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
     wohngeld_basisbetrag_m_bg:

@@ -236,12 +236,12 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_basisbetrag_m_wthh:
+  wohngeld_anspruchshöhe_m_bg:
     - 758.0
     - 758.0
     - 758.0
     - 758.0
-  wohngeld_anspruchshöhe_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 758.0
     - 758.0
     - 758.0
