@@ -90,6 +90,6 @@ outputs:
   _kinderzuschl_vor_vermög_check_m_bg:
     - 0.0
     - 0.0
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 0.0
     - 0.0

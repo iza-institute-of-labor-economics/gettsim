@@ -3,6 +3,52 @@
 
 from _gettsim.shared import policy_info
 
+aggregate_by_group_benefit_checks = {
+    "kinder_mit_gedecktem_bedarf_in_fg": {
+        "source_col": "eigenbedarf_gedeckt",
+        "aggr": "any",
+    },
+}
+
+
+def eigenbedarf_gedeckt(  # noqa: PLR0913
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
+    arbeitsl_geld_2_regelbedarf_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    kindergeldübertrag_m: float,
+) -> bool:
+    """Needs according to SGB II are covered.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
+    arbeitsl_geld_2_regelbedarf_m
+        See :func:`arbeitsl_geld_2_regelbedarf_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    kindergeldübertrag_m
+        See :func:`kindergeldübertrag_m`.
+
+    Returns
+    -------
+
+    """
+    return (
+        arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        + kindergeld_zur_bedarfsdeckung_m
+        + kind_unterh_erhalt_m
+        + unterhaltsvors_m
+        + kindergeldübertrag_m
+        >= arbeitsl_geld_2_regelbedarf_m
+    )
+
 
 def arbeitsl_geld_2_regelbedarf_m(
     arbeitsl_geld_2_regelsatz_m: float,

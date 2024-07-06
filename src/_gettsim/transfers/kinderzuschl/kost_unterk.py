@@ -27,6 +27,35 @@ def kinderzuschl_kost_unterk_m_bg(
     return out
 
 
+def kinderzuschl_kost_unterk_m_fg(
+    _kinderzuschl_wohnbedarf_eltern_anteil_fg: float,
+    bruttokaltmiete_m_fg: float,
+    heizkosten_m_fg: float,
+) -> float:
+    """Calculate costs of living eligible to claim.
+
+    Unlike ALG2, there is no check on whether living costs are "appropriate".
+
+    Parameters
+    ----------
+    _kinderzuschl_wohnbedarf_eltern_anteil_fg
+        See :func:`_kinderzuschl_wohnbedarf_eltern_anteil_fg`.
+    bruttokaltmiete_m_fg
+        See :func:`bruttokaltmiete_m_fg`.
+    heizkosten_m_fg
+        See :func:`heizkosten_m_fg`.
+
+    Returns
+    -------
+
+    """
+    warmmiete_m_fg = bruttokaltmiete_m_fg + heizkosten_m_fg
+
+    out = _kinderzuschl_wohnbedarf_eltern_anteil_fg * warmmiete_m_fg
+
+    return out
+
+
 def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     _kinderzuschl_anz_kinder_anspruch_bg: int,
     anz_erwachsene_bg: int,
@@ -56,6 +85,54 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     # Up to 10 children are considered
     considered_children = min(_kinderzuschl_anz_kinder_anspruch_bg, 10)
     single_oder_paar = "single" if anz_erwachsene_bg == 1 else "paare"
+
+    out = (
+        ex_min["kosten_der_unterkunft"][single_oder_paar]
+        + ex_min["heizkosten"][single_oder_paar]
+    ) / (
+        ex_min["kosten_der_unterkunft"][single_oder_paar]
+        + ex_min["heizkosten"][single_oder_paar]
+        + (
+            considered_children
+            * (
+                ex_min["kosten_der_unterkunft"]["kinder"]
+                + ex_min["heizkosten"]["kinder"]
+            )
+        )
+    )
+
+    return out
+
+
+def _kinderzuschl_wohnbedarf_eltern_anteil_fg(
+    _kinderzuschl_anz_kinder_anspruch_fg: int,
+    anz_erwachsene_fg: int,
+    kinderzuschl_params: dict,
+) -> float:
+    """Calculate living needs broken down to the parents. Defined as parents'
+    subsistence level on housing, divided by sum of subsistence level from parents and
+    children.
+
+    Reference: § 6a Abs. 5 S. 3 BKGG
+
+    Parameters
+    ----------
+    _kinderzuschl_anz_kinder_anspruch_fg
+        See :func:`_kinderzuschl_anz_kinder_anspruch_fg`.
+    anz_erwachsene_fg
+        See :func:`anz_erwachsene_fg`.
+    kinderzuschl_params
+        See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
+
+    Returns
+    -------
+
+    """
+    ex_min = kinderzuschl_params["existenzminimum"]
+
+    # Up to 10 children are considered
+    considered_children = min(_kinderzuschl_anz_kinder_anspruch_fg, 10)
+    single_oder_paar = "single" if anz_erwachsene_fg == 1 else "paare"
 
     out = (
         ex_min["kosten_der_unterkunft"][single_oder_paar]

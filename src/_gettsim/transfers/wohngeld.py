@@ -32,8 +32,7 @@ aggregate_by_p_id_wohngeld = {
 def wohngeld_m_wthh(
     wohngeld_anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
-    wohngeld_kinderzuschl_vorrang_wthh: bool,
-    wohngeld_vorrang_wthh: bool,
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2: bool,
 ) -> float:
     """Housing benefit after wealth and priority checks.
 
@@ -47,6 +46,9 @@ def wohngeld_m_wthh(
         See :func:`wohngeld_kinderzuschl_vorrang_wthh`.
     wohngeld_vorrang_wthh
         See :func:`wohngeld_vorrang_wthh`.
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2
+        See basic input variable :ref:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2
+        <wohngeld_kinderzuschl_statt_arbeitsl_geld_2>`.
 
     Returns
     -------
@@ -63,9 +65,7 @@ def wohngeld_m_wthh(
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
-    if not erwachsene_alle_rentner_hh and (
-        wohngeld_vorrang_wthh or wohngeld_kinderzuschl_vorrang_wthh
-    ):
+    if not erwachsene_alle_rentner_hh and wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
         out = wohngeld_anspruchshöhe_m_wthh
     else:
         out = 0.0
@@ -118,11 +118,11 @@ def wohngeld_anspruchshöhe_m_wthh(
 
 
 @policy_info(params_key_for_rounding="wohngeld")
-def wohngeld_anspruchshöhe_m_bg(
-    anz_personen_bg: int,
-    wohngeld_eink_m_bg: float,
-    wohngeld_miete_m_bg: float,
-    wohngeld_anspruchsbedingungen_erfüllt_bg: bool,
+def wohngeld_anspruchshöhe_m_fg(
+    anz_personen_fg: int,
+    wohngeld_eink_m_fg: float,
+    wohngeld_miete_m_fg: float,
+    wohngeld_anspruchsbedingungen_erfüllt_fg: bool,
     wohngeld_params: dict,
 ) -> float:
     """Housing benefit after wealth and income check.
@@ -131,14 +131,14 @@ def wohngeld_anspruchshöhe_m_bg(
 
     Parameters
     ----------
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
-    wohngeld_eink_m_bg
-        See :func:`wohngeld_eink_m_bg`.
-    wohngeld_miete_m_bg
-        See :func:`wohngeld_miete_m_bg`.
-    wohngeld_anspruchsbedingungen_erfüllt_bg
-        See :func:`wohngeld_anspruchsbedingungen_erfüllt_bg`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
+    wohngeld_eink_m_fg
+        See :func:`wohngeld_eink_m_fg`.
+    wohngeld_miete_m_fg
+        See :func:`wohngeld_miete_m_fg`.
+    wohngeld_anspruchsbedingungen_erfüllt_fg
+        See :func:`wohngeld_anspruchsbedingungen_erfüllt_fg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -146,11 +146,11 @@ def wohngeld_anspruchshöhe_m_bg(
     -------
 
     """
-    if wohngeld_anspruchsbedingungen_erfüllt_bg:
+    if wohngeld_anspruchsbedingungen_erfüllt_fg:
         out = _wohngeld_basisformel(
-            anz_personen=anz_personen_bg,
-            einkommen_m=wohngeld_eink_m_bg,
-            miete_m=wohngeld_miete_m_bg,
+            anz_personen=anz_personen_fg,
+            einkommen_m=wohngeld_eink_m_fg,
+            miete_m=wohngeld_miete_m_fg,
             params=wohngeld_params,
         )
     else:
@@ -185,9 +185,9 @@ def wohngeld_anspruchsbedingungen_erfüllt_wthh(
     )
 
 
-def wohngeld_anspruchsbedingungen_erfüllt_bg(
-    wohngeld_mindesteinkommen_erreicht_bg: bool,
-    wohngeld_vermögensgrenze_unterschritten_bg: bool,
+def wohngeld_anspruchsbedingungen_erfüllt_fg(
+    wohngeld_mindesteinkommen_erreicht_fg: bool,
+    wohngeld_vermögensgrenze_unterschritten_fg: bool,
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
@@ -196,18 +196,18 @@ def wohngeld_anspruchsbedingungen_erfüllt_bg(
 
     Parameters
     ----------
-    wohngeld_mindesteinkommen_erreicht_bg
-        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
-    wohngeld_vermögensgrenze_unterschritten_bg
-        See :func:`wohngeld_vermögensgrenze_unterschritten_bg`.
+    wohngeld_mindesteinkommen_erreicht_fg
+        See :func:`wohngeld_mindesteinkommen_erreicht_fg`.
+    wohngeld_vermögensgrenze_unterschritten_fg
+        See :func:`wohngeld_vermögensgrenze_unterschritten_fg`.
 
     Returns
     -------
 
     """
     return (
-        wohngeld_mindesteinkommen_erreicht_bg
-        and wohngeld_vermögensgrenze_unterschritten_bg
+        wohngeld_mindesteinkommen_erreicht_fg
+        and wohngeld_vermögensgrenze_unterschritten_fg
     )
 
 
@@ -541,10 +541,10 @@ def wohngeld_eink_m_wthh(
     )
 
 
-def wohngeld_eink_m_bg(
-    anz_personen_bg: int,
-    wohngeld_eink_freib_m_bg: float,
-    wohngeld_eink_vor_freib_m_bg: float,
+def wohngeld_eink_m_fg(
+    anz_personen_fg: int,
+    wohngeld_eink_freib_m_fg: float,
+    wohngeld_eink_vor_freib_m_fg: float,
     wohngeld_params: dict,
 ) -> float:
     """Income relevant for Wohngeld calculation.
@@ -556,12 +556,12 @@ def wohngeld_eink_m_bg(
 
     Parameters
     ----------
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
-    wohngeld_eink_freib_m_bg
-        See :func:`wohngeld_eink_freib_m_bg`.
-    wohngeld_eink_vor_freib_m_bg
-        See :func:`wohngeld_eink_vor_freib_m_bg`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
+    wohngeld_eink_freib_m_fg
+        See :func:`wohngeld_eink_freib_m_fg`.
+    wohngeld_eink_vor_freib_m_fg
+        See :func:`wohngeld_eink_vor_freib_m_fg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -570,9 +570,9 @@ def wohngeld_eink_m_bg(
 
     """
     return _wohngeld_einkommen_formel(
-        anz_personen=anz_personen_bg,
-        einkommen_freibetrag=wohngeld_eink_freib_m_bg,
-        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_bg,
+        anz_personen=anz_personen_fg,
+        einkommen_freibetrag=wohngeld_eink_freib_m_fg,
+        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_fg,
         params=wohngeld_params,
     )
 
@@ -623,9 +623,9 @@ def wohngeld_miete_m_wthh(
     return wohngeld_miete_m_hh * (anz_personen_wthh / anz_personen_hh)
 
 
-def wohngeld_miete_m_bg(
+def wohngeld_miete_m_fg(
     wohngeld_miete_m_hh: float,
-    anz_personen_bg: int,
+    anz_personen_fg: int,
     anz_personen_hh: int,
 ) -> float:
     """Rent considered in housing benefit calculation on BG level.
@@ -637,8 +637,8 @@ def wohngeld_miete_m_bg(
     ----------
     wohngeld_miete_m_hh
         See :func:`wohngeld_miete_m_hh`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
     anz_personen_hh
         See :func:`anz_personen_hh`.
 
@@ -646,7 +646,7 @@ def wohngeld_miete_m_bg(
     -------
 
     """
-    return wohngeld_miete_m_hh * (anz_personen_bg / anz_personen_hh)
+    return wohngeld_miete_m_hh * (anz_personen_fg / anz_personen_hh)
 
 
 @policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
@@ -857,19 +857,19 @@ def wohngeld_vermögensgrenze_unterschritten_wthh(
     )
 
 
-def wohngeld_vermögensgrenze_unterschritten_bg(
-    vermögen_bedürft_bg: float,
-    anz_personen_bg: int,
+def wohngeld_vermögensgrenze_unterschritten_fg(
+    vermögen_bedürft_fg: float,
+    anz_personen_fg: int,
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the eligibility threshold for housing benefits.
 
     Parameters
     ----------
-    vermögen_bedürft_bg
-        See :func:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    vermögen_bedürft_fg
+        See :func:`vermögen_bedürft_fg <vermögen_bedürft_fg>`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -879,8 +879,8 @@ def wohngeld_vermögensgrenze_unterschritten_bg(
     """
 
     return _wohngeld_vermögensprüfung_formel(
-        vermögen=vermögen_bedürft_bg,
-        anz_personen=anz_personen_bg,
+        vermögen=vermögen_bedürft_fg,
+        anz_personen=anz_personen_fg,
         params=wohngeld_params,
     )
 
@@ -917,9 +917,9 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
     )
 
 
-def wohngeld_mindesteinkommen_erreicht_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
+def wohngeld_mindesteinkommen_erreicht_fg(
+    arbeitsl_geld_2_regelbedarf_m_fg: float,
+    wohngeld_einkommen_für_mindesteinkommen_check_m_fg: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
 
@@ -934,18 +934,18 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    wohngeld_einkommen_für_mindesteinkommen_check_m_bg
-        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_bg`.
+    arbeitsl_geld_2_regelbedarf_m_fg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_fg`.
+    wohngeld_einkommen_für_mindesteinkommen_check_m_fg
+        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_fg`.
 
     Returns
     -------
 
     """
     return (
-        wohngeld_einkommen_für_mindesteinkommen_check_m_bg
-        >= arbeitsl_geld_2_regelbedarf_m_bg
+        wohngeld_einkommen_für_mindesteinkommen_check_m_fg
+        >= arbeitsl_geld_2_regelbedarf_m_fg
     )
 
 
@@ -954,7 +954,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_m: float,
-    _kinderzuschl_nach_vermög_check_m: float,
+    kinderzuschl_anspruchshöhe_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
 
@@ -973,8 +973,8 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
         See :func:`unterhaltsvors_m`.
     kindergeld_m
         See :func:`kindergeld_m`.
-    _kinderzuschl_nach_vermög_check_m
-        See :func:`_kinderzuschl_nach_vermög_check_m`.
+    kinderzuschl_anspruchshöhe_m
+        See :func:`kinderzuschl_anspruchshöhe_m`.
 
     Returns
     -------
@@ -986,7 +986,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_m
-        + _kinderzuschl_nach_vermög_check_m
+        + kinderzuschl_anspruchshöhe_m
     )
 
 

@@ -108,7 +108,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_2_vor_vorrang_m_bg:
+    arbeitsl_geld_2_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -118,7 +118,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 292.0
     - 292.0
     - 0.0

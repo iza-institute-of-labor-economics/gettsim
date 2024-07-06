@@ -1,38 +1,6 @@
 from _gettsim.shared import policy_info
 
 
-def _kinderzuschl_nach_vermög_check_m_bg(
-    _kinderzuschl_vor_vermög_check_m_bg: float,
-    vermögen_bedürft_bg: float,
-    kinderzuschl_vermög_freib_bg: float,
-) -> float:
-    """Set preliminary child benefit to zero if it exceeds the wealth exemption.
-
-    Parameters
-    ----------
-    _kinderzuschl_vor_vermög_check_m_bg
-        See :func:`_kinderzuschl_vor_vermög_check_m_bg`.
-    vermögen_bedürft_bg
-        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
-    kinderzuschl_vermög_freib_bg
-        See :func:`kinderzuschl_vermög_freib_bg`.
-
-    Returns
-    -------
-
-    """
-
-    if vermögen_bedürft_bg > kinderzuschl_vermög_freib_bg:
-        out = max(
-            _kinderzuschl_vor_vermög_check_m_bg
-            - (vermögen_bedürft_bg - kinderzuschl_vermög_freib_bg),
-            0.0,
-        )
-    else:
-        out = _kinderzuschl_vor_vermög_check_m_bg
-    return out
-
-
 @policy_info(end_date="2022-12-31", name_in_dag="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_bis_2022(
     arbeitsl_geld_2_vermög_freib_bg: float,
@@ -69,6 +37,44 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
     """
 
     return _arbeitsl_geld_2_vermög_freib_karenzz_bg
+
+
+@policy_info(end_date="2022-12-31", name_in_dag="kinderzuschl_vermög_freib_fg")
+def kinderzuschl_vermög_freib_fg_bis_2022(
+    arbeitsl_geld_2_vermög_freib_fg: float,
+) -> float:
+    """Wealth exemptions for Kinderzuschlag until 2022.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_vermög_freib_fg
+        See :func:`arbeitsl_geld_2_vermög_freib_fg`.
+
+    Returns
+    -------
+
+    """
+
+    return arbeitsl_geld_2_vermög_freib_fg
+
+
+@policy_info(start_date="2023-01-01", name_in_dag="kinderzuschl_vermög_freib_fg")
+def kinderzuschl_vermög_freib_fg_ab_2023(
+    _arbeitsl_geld_2_vermög_freib_karenzz_fg: float,
+) -> float:
+    """Wealth exemptions for Kinderzuschlag since 2023.
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_vermög_freib_karenzz_fg
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_fg`.
+
+    Returns
+    -------
+
+    """
+
+    return _arbeitsl_geld_2_vermög_freib_karenzz_fg
 
 
 def _arbeitsl_geld_2_grundfreib_vermög(
@@ -195,6 +201,41 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     return out
 
 
+@policy_info(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_vermög_freib_fg")
+def arbeitsl_geld_2_vermög_freib_fg_bis_2022(
+    _arbeitsl_geld_2_grundfreib_vermög_fg: float,
+    anz_kinder_bis_17_fg: int,
+    anz_personen_fg: int,
+    arbeitsl_geld_2_params: dict,
+) -> float:
+    """Calculate actual exemptions until 2022.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    _arbeitsl_geld_2_grundfreib_vermög_fg
+        See :func:`_arbeitsl_geld_2_grundfreib_vermög_fg`.
+    anz_kinder_bis_17_fg
+        See :func:`anz_kinder_bis_17_fg`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
+
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        _arbeitsl_geld_2_grundfreib_vermög_fg
+        + anz_kinder_bis_17_fg * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
+        + anz_personen_fg * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
+    )
+    return out
+
+
 @policy_info(start_date="2023-01-01")
 def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params: dict,
@@ -222,6 +263,37 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
     out = params["während_karenzzeit"] + (anz_personen_bg - 1) * params["normaler_satz"]
+
+    return out
+
+
+@policy_info(start_date="2023-01-01")
+def _arbeitsl_geld_2_vermög_freib_karenzz_fg(
+    arbeitsl_geld_2_params: dict,
+    anz_personen_fg: int,
+) -> float:
+    """Calculate wealth exemptions since 2023 during Karenzzeit. This variable is also
+    reffered to as 'erhebliches Vermögen'.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params
+        <arbeitsl_geld_2_params>`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
+    bürgerg_bezug_vorj
+        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+
+
+    Returns
+    -------
+
+    """
+    params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
+    out = params["während_karenzzeit"] + (anz_personen_fg - 1) * params["normaler_satz"]
 
     return out
 
@@ -260,5 +332,43 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
         out = anz_personen_bg * params["normaler_satz"]
     else:
         out = _arbeitsl_geld_2_vermög_freib_karenzz_bg
+
+    return out
+
+
+@policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_vermög_freib_fg")
+def arbeitsl_geld_2_vermög_freib_fg_ab_2023(
+    arbeitsl_geld_2_params: dict,
+    anz_personen_fg: int,
+    _arbeitsl_geld_2_vermög_freib_karenzz_fg: float,
+    bürgerg_bezug_vorj: bool,
+) -> float:
+    """Calculate actual wealth exemptions since 2023.
+
+    During the first year (Karenzzeit), the wealth exemption is substantially larger.
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_params
+        See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
+    anz_personen_fg
+        See :func:`anz_personen_fg`.
+    _arbeitsl_geld_2_vermög_freib_karenzz_fg
+        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_fg`.
+    bürgerg_bezug_vorj
+        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+
+
+    Returns
+    -------
+
+    """
+    params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
+    if bürgerg_bezug_vorj:
+        out = anz_personen_fg * params["normaler_satz"]
+    else:
+        out = _arbeitsl_geld_2_vermög_freib_karenzz_fg
 
     return out

@@ -23,7 +23,8 @@ def bg_id_numpy(
     eigenbedarf_gedeckt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
-    Compute the ID of the Bedarfsgemeinschaft for each person.
+    Candidate ID of Bedarfsgemeinschaften. All children who cover their needs are
+    separated from the parental Bedarfsgemeinschaft.
     """
     counter = Counter()
     result = []
@@ -247,16 +248,20 @@ def sn_id_numpy(
 
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
-    wohngeld_vorrang_bg: numpy.ndarray[bool],
-    wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],
+    eigenbedarf_gedeckt: numpy.ndarray[bool],
+    ist_kind_in_fg: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
-    Compute the ID of the wohngeldrechtlicher Teilhaushalt.
+    ID of the wohngeldrechtlicher Teilhaushalt if children who cover their needs receive
+    Wohngeld and parents and children who do not cover their needs receive ALG II.
     """
     result = []
+    # Create candidate wthh_ids
     for index, current_hh_id in enumerate(hh_id):
-        if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
+        # Put children with covered needs in the Wohngeld wthh
+        if ist_kind_in_fg[index] and eigenbedarf_gedeckt[index]:
             result.append(current_hh_id * 100 + 1)
+        # Parents and children who do not cover needs in ALG II wthh
         else:
             result.append(current_hh_id * 100)
 
