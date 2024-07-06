@@ -102,9 +102,6 @@ inputs:
     wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
-      - 0.0
-      - 0.0
     vermögen_bedürft:
       - 12900.0
       - 0.0
@@ -128,7 +125,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 240.0
     - 0.0
-  arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 500.0
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:

@@ -4,13 +4,6 @@
 
 from _gettsim.shared import policy_info
 
-aggregate_by_group_kinderzuschl = {
-    "_kinderzuschl_nach_vermög_check_m_wthh": {
-        "source_col": "_kinderzuschl_nach_vermög_check_m_for_aggregation",
-        "aggr": "sum",
-    },
-}
-
 
 def kinderzuschl_m_bg(
     _kinderzuschl_nach_vermög_check_m_bg: float,
@@ -45,7 +38,7 @@ def kinderzuschl_m_bg(
     return out
 
 
-def _kinderzuschl_nach_vermög_check_individual_level_m(
+def _kinderzuschl_nach_vermög_check_m(
     _kinderzuschl_nach_vermög_check_m_bg: float,
     anz_personen_bg: int,
 ) -> float:

@@ -834,7 +834,7 @@ def wohngeld_vermögensgrenze_unterschritten_wthh(
     anz_personen_wthh: int,
     wohngeld_params: dict,
 ) -> bool:
-    """Wealth is below the threshold for housing benefit.
+    """Wealth is below the eligibility threshold for housing benefits.
 
     Parameters
     ----------
@@ -862,7 +862,7 @@ def wohngeld_vermögensgrenze_unterschritten_bg(
     anz_personen_bg: int,
     wohngeld_params: dict,
 ) -> bool:
-    """Wealth is below the threshold for housing benefit.
+    """Wealth is below the eligibility threshold for housing benefits.
 
     Parameters
     ----------
@@ -889,7 +889,7 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
     arbeitsl_geld_2_regelbedarf_m_wthh: float,
     wohngeld_einkommen_für_mindesteinkommen_check_m_wthh: float,
 ) -> bool:
-    """Minimum income requirement for Wohngeld has been met.
+    """Minimum income requirement for housing benefits is met.
 
     Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
     meet the Mindesteinkommen:
@@ -921,7 +921,7 @@ def wohngeld_mindesteinkommen_erreicht_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
 ) -> bool:
-    """Minimum income requirement for Wohngeld has been met.
+    """Minimum income requirement for housing benefits is met.
 
     Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
     meet the Mindesteinkommen:
@@ -950,11 +950,11 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 
 
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
-    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m: float,
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     kindergeld_m: float,
-    _kinderzuschl_nach_vermög_check_individual_level_m: float,
+    _kinderzuschl_nach_vermög_check_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
 
@@ -965,16 +965,16 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_ohne_freibetrag_m`.
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
     kindergeld_m
         See :func:`kindergeld_m`.
-    _kinderzuschl_nach_vermög_check_individual_level_m
-        See :func:`_kinderzuschl_nach_vermög_check_individual_level_m`.
+    _kinderzuschl_nach_vermög_check_m
+        See :func:`_kinderzuschl_nach_vermög_check_m`.
 
     Returns
     -------
@@ -982,11 +982,11 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     """
 
     return (
-        arbeitsl_geld_2_nettoeink_ohne_freibetrag_m
+        arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + kindergeld_m
-        + _kinderzuschl_nach_vermög_check_individual_level_m
+        + _kinderzuschl_nach_vermög_check_m
     )
 
 

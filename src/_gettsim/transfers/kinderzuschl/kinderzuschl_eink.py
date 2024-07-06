@@ -45,7 +45,7 @@ def kinderzuschl_bruttoeink_eltern_m(
 
 @policy_info(params_key_for_rounding="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
-    arbeitsl_geld_2_nettoeink_mit_freibetrag_m: float,
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
     kindergeld_anspruch: bool,
     erwachsen: bool,
 ) -> float:
@@ -54,8 +54,8 @@ def kinderzuschl_eink_eltern_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_mit_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_mit_freibetrag_m`.
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m`.
     kindergeld_anspruch
         See :func:`kindergeld_anspruch`.
     erwachsen
@@ -69,7 +69,7 @@ def kinderzuschl_eink_eltern_m(
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
     if erwachsen and (not kindergeld_anspruch):
-        out = arbeitsl_geld_2_nettoeink_mit_freibetrag_m
+        out = arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
     else:
         out = 0.0
     return out

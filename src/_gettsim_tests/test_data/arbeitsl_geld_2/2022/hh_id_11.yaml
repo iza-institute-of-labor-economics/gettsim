@@ -134,10 +134,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
     vermögen_bedürft:
       - 13000.0
       - 0.0
@@ -168,7 +164,7 @@ outputs:
     - 240.0
     - 0.0
     - 0.0
-  arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 424.0
     - 0.0
     - 0.0

@@ -1,7 +1,8 @@
 ---
 info:
   note: >-
-    Test with new Regelbedarf. `arbeitsl_geld_2_nettoeink_mit_freibetrag_m` is wrong.
+    Test with new Regelbedarf. `arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m` is
+    wrong.
   source: https://www.buerger-geld.org/rechner/ergebnis/index.php
 inputs:
   provided:
@@ -65,8 +66,6 @@ inputs:
       - 0.0
     wohngeld_anspruchshöhe_m_bg:
       - 0.0
-    wohngeld_basisbetrag_m_bg:
-      - 0.0
     vermögen_bedürft:
       - 0.0
     geburtsjahr:
@@ -93,7 +92,7 @@ inputs:
 outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 208.0
-  arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 392.0
   arbeitsl_geld_2_regelsatz_m_bg:
     - 563.0

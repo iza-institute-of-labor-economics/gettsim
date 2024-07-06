@@ -112,7 +112,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_2_nettoeink_mit_freibetrag_m:
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 362.0
       - 100.0
       - 0.0

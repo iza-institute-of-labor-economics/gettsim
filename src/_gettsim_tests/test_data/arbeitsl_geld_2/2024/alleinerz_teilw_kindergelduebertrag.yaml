@@ -135,10 +135,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_basisbetrag_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
     vermögen_bedürft:
       - 0.0
       - 0.0

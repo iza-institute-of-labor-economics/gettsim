@@ -34,8 +34,8 @@ def wohngeld_vorrang_bg(
 
     """
     return (
-        arbeitsl_geld_2_regelbedarf_m_bg
-        <= arbeitsl_geld_2_eink_m_bg + wohngeld_anspruchshöhe_m_bg
+        arbeitsl_geld_2_eink_m_bg + wohngeld_anspruchshöhe_m_bg
+        >= arbeitsl_geld_2_regelbedarf_m_bg
     )
 
 
@@ -60,8 +60,8 @@ def kinderzuschl_vorrang_bg(
 
     """
     return (
-        arbeitsl_geld_2_regelbedarf_m_bg
-        <= arbeitsl_geld_2_eink_m_bg + _kinderzuschl_nach_vermög_check_m_bg
+        arbeitsl_geld_2_eink_m_bg + _kinderzuschl_nach_vermög_check_m_bg
+        >= arbeitsl_geld_2_regelbedarf_m_bg
     )
 
 
@@ -90,8 +90,8 @@ def wohngeld_kinderzuschl_vorrang_bg(
     """
 
     return (
-        arbeitsl_geld_2_regelbedarf_m_bg
-        <= arbeitsl_geld_2_eink_m_bg
+        arbeitsl_geld_2_eink_m_bg
         + wohngeld_anspruchshöhe_m_bg
         + _kinderzuschl_nach_vermög_check_m_bg
+        >= arbeitsl_geld_2_regelbedarf_m_bg
     )
