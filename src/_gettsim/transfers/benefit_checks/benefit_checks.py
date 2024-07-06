@@ -7,15 +7,42 @@ aggregate_by_group_benefit_checks = {
         "source_col": "wohngeld_kinderzuschl_vorrang_bg",
         "aggr": "any",
     },
+    "alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg": {
+        "source_col": "wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen",
+        "aggr": "all",
+    },
 }
 
 
-def wohngeld_vorrang_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
-    wohngeld_anspruchshöhe_m_bg: float,
+def wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
+    wohngeld_kinderzuschl_vorrangig_bg: bool,
+    wohngeld_kinderzuschl_günstiger: bool,
 ) -> bool:
-    """Check if housing benefit has priority.
+    """Individual receives Wohngeld and Kinderzuschlag instead of Arbeitslosengeld II.
+
+    Parameters
+    ----------
+    wohngeld_vorrangig_bg
+        See :func:`wohngeld_vorrangig_bg`.
+    wohngeld_kinderzuschl_günstiger
+        See :func:`wohngeld_kinderzuschl_günstiger`.
+
+    Returns
+    -------
+
+    """
+    return wohngeld_kinderzuschl_vorrangig_bg or wohngeld_kinderzuschl_günstiger
+
+
+def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
+    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
+    kindergeld_zur_bedarfsdeckung_m_bg: float,
+    kind_unterh_erhalt_m_bg: float,
+    unterhaltsvors_m_bg: float,
+    kindergeldübertrag_m_bg: float,
+) -> bool:
+    """Wohngeld and Kinderzuschlag have priority over Arbeitslosengeld II / Bürgergeld.
 
     Housing benefit has priority if the sum of housing benefit and income covers the
     needs according to SGB II of the Bedarfsgemeinschaft.
@@ -24,74 +51,123 @@ def wohngeld_vorrang_bg(
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
-    wohngeld_anspruchshöhe_m_bg
-        See :func:`wohngeld_anspruchshöhe_m_bg`.
+    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
+    kindergeld_zur_bedarfsdeckung_m_bg
+        See :func:`kindergeld_zur_bedarfsdeckung_m_bg`.
+    kind_unterh_erhalt_m_bg
+        See :func:`kind_unterh_erhalt_m_bg`.
+    unterhaltsvors_m_bg
+        See :func:`unterhaltsvors_m_bg`.
+    kindergeldübertrag_m_bg
+        See :func:`kindergeldübertrag_m_bg`.
 
     Returns
     -------
 
     """
     return (
-        arbeitsl_geld_2_eink_m_bg + wohngeld_anspruchshöhe_m_bg
+        arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        + kindergeld_zur_bedarfsdeckung_m_bg
+        + kind_unterh_erhalt_m_bg
+        + unterhaltsvors_m_bg
+        + kindergeldübertrag_m_bg
         >= arbeitsl_geld_2_regelbedarf_m_bg
     )
 
 
-def kinderzuschl_vorrang_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
-    _kinderzuschl_nach_vermög_check_m_bg: float,
+def wohngeld_kinderzuschl_günstiger(
+    kinder_mit_gedecktem_bedarf_in_fg: bool,
+    gesamte_fg_in_einer_bg_günstiger: bool,
+    eigenbedarf_gedeckt: bool,
+    ist_kind_in_fg: bool,
+    wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg: bool,
 ) -> bool:
-    """Check if child benefit has priority.
+    """It is more favorable to receive Wohngeld and Kinderzuschlag instead of
+    Arbeitslosengeld II / Bürgergeld.
+
+    If this is the case, individuals can choose to receive Wohngeld and Kinderzuschlag
+    instead of Arbeitslosengeld II / Bürgergeld even if the transfers don't have
+    priority over Arbeitslosengeld II / Bürgergeld (eingeschränktes Wahlrecht).
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
-    _kinderzuschl_nach_vermög_check_m_bg
-        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
+    kinder_mit_gedecktem_bedarf_in_fg
+        See :func:`kinder_mit_gedecktem_bedarf_in_fg`.
+    gesamte_fg_in_einer_bg_günstiger
+        See :func:`gesamte_fg_in_einer_bg_günstiger`.
+    eigenbedarf_gedeckt
+        See :func:`eigenbedarf_gedeckt`.
+    ist_kind_in_fg
+        See :func:`ist_kind_in_fg`.
+    wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg
+        See :func:`wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg`.
 
     Returns
     -------
 
     """
-    return (
-        arbeitsl_geld_2_eink_m_bg + _kinderzuschl_nach_vermög_check_m_bg
-        >= arbeitsl_geld_2_regelbedarf_m_bg
-    )
+    # Children who cover their needs are in BG with parens -> FG receives Wohngeld
+    if gesamte_fg_in_einer_bg_günstiger and kinder_mit_gedecktem_bedarf_in_fg:
+        out = True
+    # Children who cover their needs are not in parental BG -> Children who cover their
+    # needs receive Wohngeld, everyone else Arbeitslosengeld II / Bürgergeld
+    elif (not gesamte_fg_in_einer_bg_günstiger) and kinder_mit_gedecktem_bedarf_in_fg:
+        out = eigenbedarf_gedeckt and ist_kind_in_fg
+    # There are no children that cover their needs -> Simple favorability check on FG
+    # level
+    elif not kinder_mit_gedecktem_bedarf_in_fg:
+        out = wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg
+
+    return out
 
 
-def wohngeld_kinderzuschl_vorrang_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
-    _kinderzuschl_nach_vermög_check_m_bg: float,
-    wohngeld_anspruchshöhe_m_bg: float,
+def gesamte_fg_in_einer_bg_günstiger(
+    _transfereinkommen_gleiche_bg_eltern_kinder_fg: bool,
+    _transfereinkommen_getrennte_bg_eltern_kinder_fg: bool,
+    kinder_mit_gedecktem_bedarf_in_fg: bool,
 ) -> bool:
-    """Check if housing and child benefit have priority.
+    """Familiengemeinschaft is being split up into several Bedarfsgemeinschaften.
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
-    _kinderzuschl_nach_vermög_check_m_bg
-        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
-    wohngeld_anspruchshöhe_m_bg
-        See :func:`wohngeld_anspruchshöhe_m_bg`.
+    _transfereinkommen_gleiche_bg_eltern_kinder_fg
+        See :func:`_transfereinkommen_gleiche_bg_eltern_kinder_fg`.
+    _transfereinkommen_getrennte_bg_eltern_kinder_fg
+        See :func:`_transfereinkommen_getrennte_bg_eltern_kinder_fg`..
 
     Returns
     -------
 
     """
-
     return (
-        arbeitsl_geld_2_eink_m_bg
-        + wohngeld_anspruchshöhe_m_bg
-        + _kinderzuschl_nach_vermög_check_m_bg
-        >= arbeitsl_geld_2_regelbedarf_m_bg
+        (
+            _transfereinkommen_gleiche_bg_eltern_kinder_fg
+            >= _transfereinkommen_getrennte_bg_eltern_kinder_fg
+        )
+        if kinder_mit_gedecktem_bedarf_in_fg
+        else True
     )
+
+
+def wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg(
+    wohngeld_m_fg: float,
+    kinderzuschlag_m_fg: float,
+    arbeitsl_geld_2_fg: float,
+) -> bool:
+    """Wohngeld and Kinderzuschlag are higher than Arbeitslosengeld II / Bürgergeld.
+
+    Parameters
+    ----------
+    wohngeld_m_fg
+        See :func:`wohngeld_m_fg`.
+    kinderzuschlag_m_fg
+        See :func:`kinderzuschlag_m_fg`.
+    arbeitsl_geld_2_fg
+        See :func:`arbeitsl_geld_2_fg`.
+
+    Returns
+    -------
+
+    """
+    return wohngeld_m_fg + kinderzuschlag_m_fg >= arbeitsl_geld_2_fg

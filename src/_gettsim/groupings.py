@@ -7,8 +7,10 @@ import numpy
 def create_groupings() -> dict[str, Callable]:
     return {
         "wthh_id": wthh_id_numpy,
+        "wthh_id_endogen": wthh_id_endogen_numpy,
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
+        "bg_id_endogen": bg_id_endogen_numpy,
         "eg_id": eg_id_numpy,
         "ehe_id": ehe_id_numpy,
         "sn_id": sn_id_numpy,
@@ -32,6 +34,35 @@ def bg_id_numpy(
         # TODO(@MImmesberger): Remove hard-coded number
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
         if current_alter < 25 and current_eigenbedarf_gedeckt:
+            counter[current_fg_id] += 1
+            result.append(current_fg_id * 100 + counter[current_fg_id])
+        else:
+            result.append(current_fg_id * 100)
+
+    return numpy.asarray(result)
+
+
+def bg_id_endogen_numpy(
+    fg_id: numpy.ndarray[int],
+    alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg: numpy.ndarray[bool],
+    ist_kind_in_fg: numpy.ndarray[bool],
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Bedarfsgemeinschaft endogenously for each person.
+    """
+    counter = Counter()
+    result = []
+
+    for index, current_fg_id in enumerate(fg_id):
+        current_wog_kiz_statt_alg_2 = (
+            wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]
+        )
+        # TODO(@MImmesberger): Remove hard-coded number
+        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
+        if alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg:
+            result.append(current_fg_id * 100)
+        elif ist_kind_in_fg and current_wog_kiz_statt_alg_2:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:
@@ -225,6 +256,23 @@ def wthh_id_numpy(
     result = []
     for index, current_hh_id in enumerate(hh_id):
         if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
+            result.append(current_hh_id * 100 + 1)
+        else:
+            result.append(current_hh_id * 100)
+
+    return numpy.asarray(result)
+
+
+def wthh_id_endogen_numpy(
+    hh_id: numpy.ndarray[int],
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the wohngeldrechtlicher Teilhaushalt endogenously.
+    """
+    result = []
+    for index, current_hh_id in enumerate(hh_id):
+        if wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]:
             result.append(current_hh_id * 100 + 1)
         else:
             result.append(current_hh_id * 100)

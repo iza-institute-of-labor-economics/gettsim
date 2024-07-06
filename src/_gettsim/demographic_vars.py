@@ -9,6 +9,7 @@ import datetime
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_demographic_vars = {
     "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
@@ -173,6 +174,45 @@ def erwachsen(kind: bool) -> bool:
     """
     out = not kind
     return out
+
+
+@policy_info(skip_vectorization=True)
+def ist_kind_in_fg(
+    p_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[bool]:
+    """Person is a child in the Familiengemeinschaft.
+
+    Parameters
+    ----------
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
+    fg_id
+        See :func:`fg_id`.
+    p_id_elternteil_1
+        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
+    p_id_elternteil_2
+        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
+
+    Returns
+    -------
+    """
+    fg_id_elternteil_1 = join_numpy(
+        p_id_elternteil_1,
+        p_id,
+        fg_id,
+        value_if_foreign_key_is_missing=-1,
+    )
+    fg_id_elternteil_2 = join_numpy(
+        p_id_elternteil_2,
+        p_id,
+        fg_id,
+        value_if_foreign_key_is_missing=-1,
+    )
+
+    return (fg_id_elternteil_1 == fg_id) | (fg_id_elternteil_2 == fg_id)
 
 
 def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:

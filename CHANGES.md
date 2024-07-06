@@ -6,7 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-- {gh}`772` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24
+- {gh}`777` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24
   instead of requiring it as an input variable ({ghuser}`MImmesberger`).
 - {gh}`771` Move SGB II Regelsatz calculation from BG to individual level
   ({ghuser}`MImmesberger`).
