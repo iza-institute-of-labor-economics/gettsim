@@ -3,7 +3,7 @@ info:
   note: >-
     Expanded test case to include additional household members so that more than seven
     people are eligible for housing subsidies
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -33,6 +33,60 @@ inputs:
       - 66
       - 66
       - 66
+    p_id_ehepartner:
+      - 67
+      - 66
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 66
+      - 66
+      - 66
+      - 66
+      - 66
+      - 66
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 67
+      - 67
+      - 67
+      - 67
+      - 67
+      - 67
+    p_id_einstandspartner:
+      - 67
+      - 66
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -51,6 +105,51 @@ inputs:
       - 850.0
       - 850.0
       - 850.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -97,8 +196,8 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 0.0
-      - 0.0
+      - 1450.0
+      - 1450.0
       - 0.0
       - 0.0
       - 0.0
@@ -169,15 +268,6 @@ inputs:
       - 0.0
       - 0.0
     eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
       - 0.0
       - 0.0
       - 0.0
@@ -314,21 +404,21 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-  _wohngeld_nach_vermög_check_m_wthh:
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
-    - 690.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0
+    - 93.0

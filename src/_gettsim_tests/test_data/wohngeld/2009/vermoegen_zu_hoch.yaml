@@ -1,7 +1,7 @@
 ---
 info:
-  note: ''
-  source: ''
+  note: Wealth is too high for housing subsidies.
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -13,12 +13,45 @@ inputs:
     p_id_kindergeld_empf:
       - -1
       - 20
+    p_id_ehepartner:
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - 20
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - false
+      - false
     kind:
       - false
       - true
     bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 50.0
+      - 50.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
     alleinerz:
       - true
       - false
@@ -108,9 +141,9 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
-    - 26.0
-    - 26.0
-  _wohngeld_nach_vermög_check_m_wthh:
+  wohngeld_anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
+  wohngeld_anspruchshöhe_m_wthh:
     - 0.0
     - 0.0

@@ -1,8 +1,6 @@
 ---
 info:
-  note: >-
-    (unrounded value is displayed when you click on the question mark next to the
-    housing allowance calculation)
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen, Vermögen.
   source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
   provided:
@@ -12,10 +10,32 @@ inputs:
       - 10
     p_id_kindergeld_empf:
       - -1
+    p_id_ehepartner:
+      - -1
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_einstandspartner:
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
     bruttokaltmiete_m_hh:
       - 600.0
+    heizkosten_m_hh:
+      - 50.0
+    wohnfläche_hh:
+      - 40.0
+    soli_st_y_sn:
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
     alleinerz:
       - false
     alter:
@@ -61,7 +81,7 @@ inputs:
     eink_st_y_sn:
       - 300.0
     vermögen_bedürft:
-      - 61000.0
+      - 31000.0
     anz_personen_hh:
       - 1
     geburtstag:
@@ -76,7 +96,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
+  wohngeld_anspruchshöhe_m_bg:
     - 249.0
-  _wohngeld_nach_vermög_check_m_wthh:
-    - 0.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 249.0

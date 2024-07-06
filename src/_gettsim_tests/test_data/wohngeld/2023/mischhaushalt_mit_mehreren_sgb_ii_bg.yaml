@@ -1,7 +1,7 @@
 ---
 info:
-  note: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
-  source: ''
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
+  source: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
 inputs:
   provided:
     p_id:
@@ -61,6 +61,14 @@ inputs:
       - -1
       - -1
     eigenbedarf_gedeckt:
+      - true
+      - true
+      - false
+      - true
+      - true
+      - true
+      - true
+    gemeinsam_veranlagt:
       - false
       - false
       - false
@@ -84,6 +92,54 @@ inputs:
       - 1200.0
       - 1200.0
       - 1200.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -350,3 +406,11 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
+  wohngeld_mindesteinkommen_erreicht_wthh:
+    - true
+    - true
+    - true
+    - false
+    - false
+    - false
+    - false

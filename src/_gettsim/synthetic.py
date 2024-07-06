@@ -139,19 +139,19 @@ def create_basic_households(
     else:
         alleinerziehend = [False] * (n_children + n_adults)
     if n_children > 0:
-        hat_kinder = [True] * n_adults + [False] * n_children
+        ges_pflegev_hat_kinder = [True] * n_adults + [False] * n_children
     else:
-        hat_kinder = [False] * (n_adults)
+        ges_pflegev_hat_kinder = [False] * (n_adults)
     # Add specifications and create DataFrame
     all_households = [
         {
             "hh_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
-            "hat_kinder": hat_kinder,
+            "ges_pflegev_hat_kinder": ges_pflegev_hat_kinder,
             "alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
-            "anz_eig_kind_bis_24": [n_children] * n_adults + [0] * n_children,
+            "ges_pflegev_anz_kinder_bis_24": [n_children] * n_adults + [0] * n_children,
             **specs_constant_over_households,
             **{v: k[i] for v, k in specs_heterogeneous.items()},
         }

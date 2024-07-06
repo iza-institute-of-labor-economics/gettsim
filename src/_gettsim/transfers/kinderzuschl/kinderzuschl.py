@@ -38,6 +38,28 @@ def kinderzuschl_m_bg(
     return out
 
 
+def _kinderzuschl_nach_vermög_check_m(
+    _kinderzuschl_nach_vermög_check_m_bg: float,
+    anz_personen_bg: int,
+) -> float:
+    """Kinderzuschlag on individual level.
+
+    Target necessary for aggregation to wthh level.
+
+    Parameters
+    ----------
+    _kinderzuschl_nach_vermög_check_m_bg
+        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
+    anz_personen_bg
+        See :func:`anz_personen_bg`.
+
+    Returns
+    -------
+
+    """
+    return _kinderzuschl_nach_vermög_check_m_bg / anz_personen_bg
+
+
 @policy_info(
     end_date="2019-06-30",
     name_in_dag="_kinderzuschl_vor_vermög_check_m_bg",

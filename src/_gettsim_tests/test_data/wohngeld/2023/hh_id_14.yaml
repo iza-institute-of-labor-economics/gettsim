@@ -1,8 +1,6 @@
 ---
 info:
-  note: >-
-    When using that site, the unrounded value is displayed when clicking on the question
-    mark next to the housing allowance calculation.
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
   source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
   provided:
@@ -27,6 +25,48 @@ inputs:
       - 60
       - 60
       - 60
+    p_id_ehepartner:
+      - 61
+      - 60
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 60
+      - 60
+      - 60
+      - 60
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 61
+      - 61
+      - 61
+      - 61
+    p_id_einstandspartner:
+      - 61
+      - 60
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -41,6 +81,48 @@ inputs:
       - 1300.0
       - 1300.0
       - 1300.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -244,16 +326,23 @@ inputs:
       - true
       - true
       - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
+  wohngeld_anspruchshöhe_m_bg:
     - 777.0
     - 777.0
     - 777.0
     - 777.0
     - 777.0
     - 777.0
-  _wohngeld_nach_vermög_check_m_wthh:
+  wohngeld_anspruchshöhe_m_wthh:
     - 777.0
     - 777.0
     - 777.0

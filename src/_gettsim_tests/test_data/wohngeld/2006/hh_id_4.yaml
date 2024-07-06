@@ -1,7 +1,7 @@
 ---
 info:
   note: No wealth threshold in place before 2009
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -22,6 +22,42 @@ inputs:
       - 22
       - 22
       - 22
+    p_id_ehepartner:
+      - 23
+      - 22
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 22
+      - 22
+      - 22
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 23
+      - 23
+      - 23
+    p_id_einstandspartner:
+      - 23
+      - 22
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - true
+      - true
+      - true
     kind:
       - false
       - false
@@ -34,6 +70,36 @@ inputs:
       - 850.0
       - 850.0
       - 850.0
+    wohnfläche_hh:
+      - 70.0
+      - 70.0
+      - 70.0
+      - 70.0
+      - 70.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -65,8 +131,8 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 0.0
-      - 0.0
+      - 1000.0
+      - 1000.0
       - 0.0
       - 0.0
       - 0.0
@@ -113,12 +179,6 @@ inputs:
       - 0.0
       - 0.0
     eink_selbst_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    eink_abhängig_beschäftigt_y:
       - 0.0
       - 0.0
       - 0.0
@@ -210,15 +270,15 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_wthh:
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
-  _wohngeld_nach_vermög_check_m_wthh:
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
-    - 509.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0
+    - 104.0

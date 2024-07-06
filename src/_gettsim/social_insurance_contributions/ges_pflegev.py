@@ -3,7 +3,7 @@ from _gettsim.shared import policy_info
 
 @policy_info(start_date="2005-01-01")
 def ges_pflegev_zusatz_kinderlos(
-    hat_kinder: bool,
+    ges_pflegev_hat_kinder: bool,
     alter: int,
     sozialv_beitr_params: dict,
 ) -> bool:
@@ -14,8 +14,8 @@ def ges_pflegev_zusatz_kinderlos(
 
     Parameters
     ----------
-    hat_kinder
-        See basic input variable :ref:`hat_kinder <hat_kinder>`.
+    ges_pflegev_hat_kinder
+        See basic input variable :ref:`ges_pflegev_hat_kinder <ges_pflegev_hat_kinder>`.
     alter
         See basic input variable :ref:`alter <alter>`.
     sozialv_beitr_params: dict,
@@ -26,7 +26,7 @@ def ges_pflegev_zusatz_kinderlos(
 
     """
     mindestalter = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
-    return (not hat_kinder) and alter >= mindestalter
+    return (not ges_pflegev_hat_kinder) and alter >= mindestalter
 
 
 @policy_info(
@@ -89,7 +89,7 @@ def ges_pflegev_beitr_satz_arbeitnehmer_zusatz_kinderlos_dummy(
 
 @policy_info(start_date="2023-07-01", name_in_dag="ges_pflegev_beitr_satz_arbeitnehmer")
 def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
-    anz_eig_kind_bis_24: int,
+    ges_pflegev_anz_kinder_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -100,8 +100,8 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
 
     Parameters
     ----------
-    anz_eig_kind_bis_24: int,
-        See basic input variable :ref:`anz_eig_kind_bis_24 <anz_eig_kind_bis_24>`.
+    ges_pflegev_anz_kinder_bis_24: int,
+        See :func:`ges_pflegev_anz_kinder_bis_24`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     sozialv_beitr_params
@@ -118,10 +118,10 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
         out += sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
 
     # Reduced contribution for individuals with two or more children under 25
-    if anz_eig_kind_bis_24 >= 2:
+    if ges_pflegev_anz_kinder_bis_24 >= 2:
         out -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "abschlag_kinder"
-        ] * min(anz_eig_kind_bis_24 - 1, 4)
+        ] * min(ges_pflegev_anz_kinder_bis_24 - 1, 4)
 
     return out
 
@@ -737,7 +737,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     start_date="2023-07-01", name_in_dag="_ges_pflegev_beitr_midijob_arbeitnehmer_m"
 )
 def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
-    anz_eig_kind_bis_24: int,
+    ges_pflegev_anz_kinder_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
     _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
     midijob_bemessungsentgelt_m: float,
@@ -747,8 +747,8 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
 
     Parameters
     ----------
-    anz_eig_kind_bis_24
-        See basic input variable :ref:`anz_eig_kind_bis_24 <anz_eig_kind_bis_24>`.
+    ges_pflegev_anz_kinder_bis_24
+        See :func:`ges_pflegev_anz_kinder_bis_24`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
     midijob_bemessungsentgelt_m
@@ -767,10 +767,10 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_rate = sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
 
     # Reduced contribution for individuals with two or more children under 25
-    if anz_eig_kind_bis_24 >= 2:
+    if ges_pflegev_anz_kinder_bis_24 >= 2:
         ges_pflegev_rate -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "abschlag_kinder"
-        ] * min(anz_eig_kind_bis_24 - 1, 4)
+        ] * min(ges_pflegev_anz_kinder_bis_24 - 1, 4)
 
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = _midijob_beitragspfl_einnahme_arbeitnehmer_m * ges_pflegev_rate

@@ -43,7 +43,7 @@ inputs:
     geburtsmonat:
       - 1
       - 1
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
       - false
     kind:

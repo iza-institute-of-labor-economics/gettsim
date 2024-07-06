@@ -134,11 +134,7 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_vor_vermög_check_m_wthh:
-      - 0.0
-      - 0.0
-      - 0.0
-    wohngeld_vor_vermög_check_m_bg:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -172,7 +168,7 @@ outputs:
     - 300.0
     - 0.0
     - 220.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 696.0
     - 0.0
     - 340.0

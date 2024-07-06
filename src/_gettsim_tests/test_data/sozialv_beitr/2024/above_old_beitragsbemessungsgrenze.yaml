@@ -17,9 +17,9 @@ inputs:
       - 45
     selbstständig:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
-    anz_eig_kind_bis_24:
+    ges_pflegev_anz_kinder_bis_24:
       - 2
     eink_selbst_m:
       - 0.0

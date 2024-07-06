@@ -88,7 +88,7 @@ inputs:
       - 1000.0
       - 0.0
       - 1000.0
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 1000.0
       - 0.0
       - 1000.0
