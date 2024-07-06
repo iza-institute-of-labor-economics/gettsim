@@ -24,11 +24,26 @@ inputs:
       - false
       - false
       - false
+    alleinerz:
+      - false
+      - false
+      - false
+      - true
     kind:
       - true
       - true
       - true
       - false
+    hat_kinder:
+      - false
+      - false
+      - false
+      - true
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     bruttolohn_m:
       - 0.0
       - 0.0
@@ -39,6 +54,11 @@ inputs:
       - 0.0
       - 0.0
       - 900.0
+    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 5760.0
     wohnort_ost:
       - false
       - false
@@ -55,6 +75,26 @@ inputs:
       - 0.0
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    mutterschaftsgeld_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    dienstbezüge_bei_beschäftigungsverbot_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld_vergleichbare_leistungen_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    ersatzeinnahmen_m:
       - 0.0
       - 0.0
       - 0.0
@@ -112,6 +152,11 @@ outputs:
     - 0
     - 1
   elternzeit_anspruch:
+    - false
+    - false
+    - false
+    - true
+  elterngeld_anspruch:
     - false
     - false
     - false
