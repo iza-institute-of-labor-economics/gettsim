@@ -129,10 +129,10 @@ inputs:
       - 2024
       - 2024
       - 2024
-    wohngeld_anspruchshöhe_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+      - false
+      - false
+      - false
     vermögen_bedürft:
       - 0.0
       - 0.0

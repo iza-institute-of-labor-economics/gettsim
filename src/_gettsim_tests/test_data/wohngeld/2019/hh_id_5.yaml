@@ -88,13 +88,11 @@ inputs:
       - 1
     geburtsjahr:
       - 1967
-    wohngeld_vorrang_bg:
-      - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     - 59.0
   wohngeld_anspruchshöhe_m_wthh:
     - 59.0

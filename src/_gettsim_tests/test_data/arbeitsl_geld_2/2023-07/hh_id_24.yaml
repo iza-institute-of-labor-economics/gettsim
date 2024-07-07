@@ -67,8 +67,8 @@ inputs:
       - 0.0
     jahr:
       - 2023-07
-    wohngeld_anspruchshöhe_m_bg:
-      - 0.0
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+      - false
     vermögen_bedürft:
       - 40000.0
     geburtsjahr:

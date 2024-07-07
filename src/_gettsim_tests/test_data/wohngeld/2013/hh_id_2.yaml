@@ -130,10 +130,7 @@ inputs:
     geburtsjahr:
       - 1973
       - 1958
-    wohngeld_vorrang_bg:
-      - true
-      - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
   assumed: {}
@@ -141,6 +138,6 @@ outputs:
   wohngeld_anspruchshöhe_m_wthh:
     - 73.0
     - 73.0
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     - 73.0
     - 73.0

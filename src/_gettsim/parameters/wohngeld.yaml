@@ -1970,7 +1970,7 @@ klimakomponente_m:
     5: 39.20
     jede_weitere_person: 4.8
 rounding:
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     1970-01-01:
       base: 1
       direction: nearest

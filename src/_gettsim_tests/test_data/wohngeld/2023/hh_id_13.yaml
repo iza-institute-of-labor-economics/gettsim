@@ -180,11 +180,7 @@ inputs:
       - 1984
       - 1988
       - 2013
-    wohngeld_vorrang_bg:
-      - true
-      - true
-      - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
@@ -198,7 +194,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     - 469.0
     - 469.0
     - 469.0
