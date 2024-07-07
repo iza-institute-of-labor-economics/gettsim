@@ -1,6 +1,8 @@
 ---
 info:
-  note: One child is in separate Familiengemeinschaft since over 24
+  note: >-
+    One child is in separate Familiengemeinschaft since over 24. Don't test bg_id
+    because multiple Familiengemeinschaften in one household are not supported.
   source: ''
 inputs:
   provided:
@@ -72,11 +74,11 @@ outputs:
     - 0
     - 1
     - 0
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 0
+  # bg_id:
+  #   - 0
+  #   - 0
+  #   - 100
+  #   - 0
   eg_id:
     - 0
     - 0
@@ -92,8 +94,3 @@ outputs:
     - 0
     - 1
     - 2
-#  potentielle_kinderfreibeträge:
-#    - 1
-#    - 1
-#    - 0
-#    - 0

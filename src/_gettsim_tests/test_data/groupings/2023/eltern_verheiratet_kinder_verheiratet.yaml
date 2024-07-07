@@ -1,6 +1,8 @@
 ---
 info:
-  note: ''
+  note: >-
+    Don't test bg_id because multiple Familiengemeinschaften in one household are not
+    supported.
   source: ''
 inputs:
   provided:
@@ -72,11 +74,11 @@ outputs:
     - 0
     - 1
     - 1
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 100
+  # bg_id:
+  #   - 0
+  #   - 0
+  #   - 100
+  #   - 100
   eg_id:
     - 0
     - 0
@@ -92,8 +94,3 @@ outputs:
     - 0
     - 1
     - 1
-# potentielle_kinderfreibeträge:
-#   - 1
-#   - 1
-#   - 0
-#   - 0

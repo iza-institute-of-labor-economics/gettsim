@@ -41,14 +41,9 @@ def wohngeld_m_wthh(
     wohngeld_anspruchshöhe_m_wthh
         See :func:`wohngeld_anspruchshöhe_m_wthh`.
     erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
-    wohngeld_kinderzuschl_vorrang_wthh
-        See :func:`wohngeld_kinderzuschl_vorrang_wthh`.
-    wohngeld_vorrang_wthh
-        See :func:`wohngeld_vorrang_wthh`.
+        See :func:`erwachsene_alle_rentner_hh`.
     wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
-        See basic input variable :ref:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
-        <wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh>`.
+        See :func:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh`.
 
     Returns
     -------
