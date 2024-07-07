@@ -54,10 +54,6 @@ def wohngeld_m_wthh(
     -------
 
     """
-    # TODO (@MImmesberger): This implementation may be only an approximation of the
-    # actual rules for individuals that are on the margin of the priority check.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752
-
     # TODO (@MImmesberger): No interaction between Wohngeld/ALG2 and Grundsicherung im
     # Alter (SGB XII) is implemented yet. We assume for now that households with only
     # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
@@ -83,9 +79,7 @@ def wohngeld_anspruchshöhe_m_wthh(
 ) -> float:
     """Housing benefit after wealth and income check.
 
-    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften in
-    the household that passed the priority check against Arbeitslosengeld 2. Returns
-    zero if not eligible.
+    Returns zero if not eligible.
 
     Parameters
     ----------
@@ -125,9 +119,7 @@ def wohngeld_anspruchshöhe_m_fg(
     wohngeld_anspruchsbedingungen_erfüllt_fg: bool,
     wohngeld_params: dict,
 ) -> float:
-    """Housing benefit after wealth and income check.
-
-    This target is used for the priority check calculation against Arbeitslosengeld 2.
+    """Housing benefit after wealth and income check on Familiengemeinschaft level.
 
     Parameters
     ----------
@@ -165,9 +157,6 @@ def wohngeld_anspruchsbedingungen_erfüllt_wthh(
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
-    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
-    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
-
     Parameters
     ----------
     wohngeld_mindesteinkommen_erreicht_wthh
@@ -189,10 +178,8 @@ def wohngeld_anspruchsbedingungen_erfüllt_fg(
     wohngeld_mindesteinkommen_erreicht_fg: bool,
     wohngeld_vermögensgrenze_unterschritten_fg: bool,
 ) -> bool:
-    """Check whether the household meets the conditions for Wohngeld.
-
-    This target is used for the priority check calculation against Arbeitslosengeld II /
-    Bürgergeld on the Bedarfsgemeinschaft level.
+    """Check whether the household meets the conditions for Wohngeld on
+    Familiengemeinschaft level.
 
     Parameters
     ----------
@@ -515,9 +502,6 @@ def wohngeld_eink_m_wthh(
 
     Reference: § 13 WoGG
 
-    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
-    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
-
     Parameters
     ----------
     anz_personen_wthh
@@ -547,12 +531,9 @@ def wohngeld_eink_m_fg(
     wohngeld_eink_vor_freib_m_fg: float,
     wohngeld_params: dict,
 ) -> float:
-    """Income relevant for Wohngeld calculation.
+    """Income relevant for Wohngeld calculation on Familiengemeinschaft level.
 
     Reference: § 13 WoGG
-
-    This target is used for the priority check calculation against Arbeitslosengeld II /
-    Bürgergeld on the Bedarfsgemeinschaft level.
 
     Parameters
     ----------
@@ -604,9 +585,6 @@ def wohngeld_miete_m_wthh(
     """Rent considered in housing benefit calculation on wohngeldrechtlicher
     Teilhaushalt level.
 
-    This target is used to calculate the actual Wohngeld of all Bedarfsgemeinschaften
-    that passed the priority check against Arbeitslosengeld II / Bürgergeld.
-
     Parameters
     ----------
     wohngeld_miete_m_hh
@@ -628,10 +606,7 @@ def wohngeld_miete_m_fg(
     anz_personen_fg: int,
     anz_personen_hh: int,
 ) -> float:
-    """Rent considered in housing benefit calculation on BG level.
-
-    This target is used for the priority check calculation against Arbeitslosengeld II /
-    Bürgergeld on the Bedarfsgemeinschaft level.
+    """Rent considered in housing benefit calculation on Familiengeinschaft level.
 
     Parameters
     ----------
@@ -921,7 +896,8 @@ def wohngeld_mindesteinkommen_erreicht_fg(
     arbeitsl_geld_2_regelbedarf_m_fg: float,
     wohngeld_einkommen_für_mindesteinkommen_check_m_fg: float,
 ) -> bool:
-    """Minimum income requirement for housing benefits is met.
+    """Minimum income requirement for housing benefits is met on Familiengeinschaft
+    level.
 
     Note: The Wohngeldstelle can make a discretionary judgment if the applicant does not
     meet the Mindesteinkommen:
