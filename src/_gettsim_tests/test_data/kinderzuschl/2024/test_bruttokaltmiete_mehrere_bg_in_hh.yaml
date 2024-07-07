@@ -116,7 +116,15 @@ inputs:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 1
+    wthh_id:
+      - 0
+      - 0
+      - 0
 outputs:
   kinderzuschl_anspruchshöhe_m_bg:
     - 292.0

@@ -96,11 +96,11 @@ inputs:
       - true
     wohngeld_mindesteinkommen_erreicht_wthh:
       - true
-    wohngeld_mindesteinkommen_erreicht_bg:
+    wohngeld_mindesteinkommen_erreicht_fg:
       - true
     wohngeld_vermögensgrenze_unterschritten_wthh:
       - true
-    wohngeld_vermögensgrenze_unterschritten_bg:
+    wohngeld_vermögensgrenze_unterschritten_fg:
       - true
   assumed:
     p_id_einstandspartner:

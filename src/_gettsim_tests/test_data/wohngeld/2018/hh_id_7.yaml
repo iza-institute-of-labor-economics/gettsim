@@ -606,7 +606,35 @@ inputs:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 1
+      - 1
+      - 2
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    wthh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
 outputs:
   wohngeld_anspruchshöhe_m_wthh:
     - 47.0

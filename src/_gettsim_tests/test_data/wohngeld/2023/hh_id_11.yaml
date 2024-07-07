@@ -96,7 +96,7 @@ inputs:
       - true
     wohngeld_mindesteinkommen_erreicht_wthh:
       - true
-    wohngeld_mindesteinkommen_erreicht_bg:
+    wohngeld_mindesteinkommen_erreicht_fg:
       - true
   assumed:
     p_id_einstandspartner:

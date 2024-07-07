@@ -140,8 +140,8 @@ def wohngeld_kinderzuschl_günstiger(
 
 
 def gesamte_fg_in_einer_bg_günstiger(
-    _transfereinkommen_gleiche_bg_eltern_kinder_fg: bool,
-    _transfereinkommen_getrennte_bg_eltern_kinder_fg: bool,
+    _transfereinkommen_gleiche_bg_eltern_kinder_fg: float,
+    _transfereinkommen_getrennte_bg_eltern_kinder_fg: float,
     kinder_mit_gedecktem_bedarf_in_fg: bool,
 ) -> bool:
     """It is more favorable to have the whole Familiengemeinschaft in one
