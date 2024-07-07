@@ -21,7 +21,7 @@ def bg_id_numpy(
     hh_id: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
-    eigenbedarf_gedeckt: numpy.ndarray[bool],
+    arbeitsl_geld_2_eigenbedarf_gedeckt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     ID of Bedarfsgemeinschaften.
@@ -36,10 +36,12 @@ def bg_id_numpy(
 
     for index, current_fg_id in enumerate(fg_id):
         current_alter = alter[index]
-        current_eigenbedarf_gedeckt = eigenbedarf_gedeckt[index]
+        current_arbeitsl_geld_2_eigenbedarf_gedeckt = (
+            arbeitsl_geld_2_eigenbedarf_gedeckt[index]
+        )
         # TODO(@MImmesberger): Remove hard-coded number
         # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
-        if current_alter < 25 and current_eigenbedarf_gedeckt:
+        if current_alter < 25 and current_arbeitsl_geld_2_eigenbedarf_gedeckt:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:
@@ -252,7 +254,7 @@ def sn_id_numpy(
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
-    eigenbedarf_gedeckt: numpy.ndarray[bool],
+    arbeitsl_geld_2_eigenbedarf_gedeckt: numpy.ndarray[bool],
     ist_kind_in_fg: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
@@ -268,7 +270,7 @@ def wthh_id_numpy(
     # Create candidate wthh_ids
     for index, current_hh_id in enumerate(hh_id):
         # Put children with covered needs in the Wohngeld wthh
-        if ist_kind_in_fg[index] and eigenbedarf_gedeckt[index]:
+        if ist_kind_in_fg[index] and arbeitsl_geld_2_eigenbedarf_gedeckt[index]:
             result.append(current_hh_id * 100 + 1)
         # Parents and children who do not cover needs in ALG II wthh
         else:

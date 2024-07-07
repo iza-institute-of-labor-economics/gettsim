@@ -25,7 +25,7 @@ inputs:
     p_id_einstandspartner:
       - 19
       - 18
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - false
       - false
     gemeinsam_veranlagt:

@@ -30,7 +30,7 @@ inputs:
     bewohnt_eigentum_hh:
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - false
       - true
     jahr:

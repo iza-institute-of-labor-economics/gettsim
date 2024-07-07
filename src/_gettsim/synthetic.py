@@ -289,7 +289,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "gemeinsam_veranlagt": (
             df["kind"] == False if n_adults == 2 else False  # noqa: E712
         ),
-        "eigenbedarf_gedeckt": False,
+        "arbeitsl_geld_2_eigenbedarf_gedeckt": False,
         "mietstufe": 3,
         "geburtsmonat": 1,
         "geburtstag": 1,

@@ -28,7 +28,7 @@ inputs:
     gemeinsam_veranlagt:
       - true
       - true
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - false
       - false
     kind:

@@ -40,7 +40,7 @@ inputs:
       - true
       - true
       - false
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - true
       - true
       - true

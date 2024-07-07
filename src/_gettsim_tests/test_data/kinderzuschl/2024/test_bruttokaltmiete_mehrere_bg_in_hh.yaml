@@ -28,7 +28,7 @@ inputs:
       - -1
       - 49
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - false
       - false
       - false

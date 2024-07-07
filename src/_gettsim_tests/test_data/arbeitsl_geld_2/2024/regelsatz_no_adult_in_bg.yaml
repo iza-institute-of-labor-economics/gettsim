@@ -18,7 +18,7 @@ inputs:
       - -1
     p_id_kindergeld_empf:
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_eigenbedarf_gedeckt:
       - false
     jahr:
       - 2005

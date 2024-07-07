@@ -96,7 +96,7 @@ def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
 def wohngeld_kinderzuschl_günstiger(
     kinder_mit_gedecktem_bedarf_in_fg: bool,
     gesamte_fg_in_einer_bg_günstiger: bool,
-    eigenbedarf_gedeckt: bool,
+    arbeitsl_geld_2_eigenbedarf_gedeckt: bool,
     ist_kind_in_fg: bool,
     wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg: bool,
 ) -> bool:
@@ -113,8 +113,8 @@ def wohngeld_kinderzuschl_günstiger(
         See :func:`kinder_mit_gedecktem_bedarf_in_fg`.
     gesamte_fg_in_einer_bg_günstiger
         See :func:`gesamte_fg_in_einer_bg_günstiger`.
-    eigenbedarf_gedeckt
-        See :func:`eigenbedarf_gedeckt`.
+    arbeitsl_geld_2_eigenbedarf_gedeckt
+        See :func:`arbeitsl_geld_2_eigenbedarf_gedeckt`.
     ist_kind_in_fg
         See :func:`ist_kind_in_fg`.
     wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg
@@ -130,7 +130,7 @@ def wohngeld_kinderzuschl_günstiger(
     # Children who cover their needs are not in parental BG -> Children who cover their
     # needs receive Wohngeld, everyone else Arbeitslosengeld II / Bürgergeld
     elif (not gesamte_fg_in_einer_bg_günstiger) and kinder_mit_gedecktem_bedarf_in_fg:
-        out = eigenbedarf_gedeckt and ist_kind_in_fg
+        out = arbeitsl_geld_2_eigenbedarf_gedeckt and ist_kind_in_fg
     # There are no children that cover their needs -> Simple favorability check on FG
     # level
     elif not kinder_mit_gedecktem_bedarf_in_fg:
