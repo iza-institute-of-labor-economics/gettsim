@@ -18,14 +18,19 @@ def create_groupings() -> dict[str, Callable]:
 
 
 def bg_id_numpy(
+    hh_id: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
     eigenbedarf_gedeckt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
-    Candidate ID of Bedarfsgemeinschaften. All children who cover their needs are
+    ID of Bedarfsgemeinschaften.
+
+    If not overwritten by user-provided bg_ids, all children who cover their needs are
     separated from the parental Bedarfsgemeinschaft.
     """
+    _fail_if_more_than_one_fg_in_hh(hh_id, fg_id)
+
     counter = Counter()
     result = []
 
@@ -246,13 +251,19 @@ def sn_id_numpy(
 
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
     eigenbedarf_gedeckt: numpy.ndarray[bool],
     ist_kind_in_fg: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
-    ID of the wohngeldrechtlicher Teilhaushalt if children who cover their needs receive
-    Wohngeld and parents and children who do not cover their needs receive ALG II.
+    ID of the wohngeldrechtlicher Teilhaushalt.
+
+    If not overwritten by user-provided wthh_ids, children who cover their needs are in
+    the Wohngeld wthh and parents and children who do not cover their needs are in the
+    Arbeitslosengeld II / Bürgergeld wthh.
     """
+    _fail_if_more_than_one_fg_in_hh(hh_id, fg_id)
+
     result = []
     # Create candidate wthh_ids
     for index, current_hh_id in enumerate(hh_id):
@@ -281,3 +292,38 @@ def wthh_id_endogen_numpy(
             result.append(current_hh_id * 100)
 
     return numpy.asarray(result)
+
+
+def _fail_if_more_than_one_fg_in_hh(
+    hh_id: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+):
+    """
+    Fail if there is more than one `fg_id` in a household.
+
+    GETTSIM does not support the endogenous creation of Bedarfsgemeinschaften in this
+    case. The user has to provide `bg_id`, `wthh_id` and
+    `wohngeld_kinderzuschl_statt_arbeitsl_geld_2` themselves.
+
+    Parameters
+    ----------
+    hh_id : numpy.ndarray[int]
+        Array of household IDs.
+    fg_id : numpy.ndarray[int]
+        Array of family group IDs.
+    """
+    unique_hh_ids = numpy.unique(hh_id)
+    hh_ids_with_multiple_fgs_list = []
+    for this_hh_id in unique_hh_ids:
+        # Find all family group IDs for the current household ID
+        fg_ids_in_hh = fg_id[hh_id == this_hh_id]
+        if len(numpy.unique(fg_ids_in_hh)) > 1:
+            hh_ids_with_multiple_fgs_list.append(this_hh_id)
+    hh_ids_with_multiple_fgs = set(hh_ids_with_multiple_fgs_list)
+    error_msg = (
+        "There are households with more than one `fg_id`. GETTSIM does not support the "
+        "endogenous creation of Bedarfsgemeinschaften in this case yet. Please provide "
+        "`bg_id` and `wthh_id` yourself for the following households: "
+        f"{hh_ids_with_multiple_fgs}."
+    )
+    assert len(hh_ids_with_multiple_fgs) == 0, error_msg

@@ -14,6 +14,8 @@ def wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
 ) -> bool:
     """Individual receives Wohngeld and Kinderzuschlag instead of Arbeitslosengeld II.
 
+    Calculated endogenously.
+
     Parameters
     ----------
     wohngeld_vorrangig_bg
@@ -26,6 +28,27 @@ def wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
 
     """
     return wohngeld_kinderzuschl_vorrangig_bg or wohngeld_kinderzuschl_günstiger
+
+
+def wohngeld_kinderzuschl_statt_arbeitsl_geld_2(
+    arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg: bool,
+) -> bool:
+    """Individual receives Wohngeld and Kinderzuschlag instead of Arbeitslosengeld II.
+
+    If not specified by the user, this function assumes that children who cover their
+    SGB II needs are not in the parental Bedarfsgemeinschaft. In this case, this
+    function is used as a candidate specification for the Günstigerprüfung.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg
+        See :func:`arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg`.
+
+    Returns
+    -------
+
+    """
+    return arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg
 
 
 def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
