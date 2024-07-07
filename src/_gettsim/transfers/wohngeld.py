@@ -32,7 +32,7 @@ aggregate_by_p_id_wohngeld = {
 def wohngeld_m_wthh(
     wohngeld_anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2: bool,
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh: bool,
 ) -> float:
     """Housing benefit after wealth and priority checks.
 
@@ -46,9 +46,9 @@ def wohngeld_m_wthh(
         See :func:`wohngeld_kinderzuschl_vorrang_wthh`.
     wohngeld_vorrang_wthh
         See :func:`wohngeld_vorrang_wthh`.
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2
-        See basic input variable :ref:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2
-        <wohngeld_kinderzuschl_statt_arbeitsl_geld_2>`.
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
+        See basic input variable :ref:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
+        <wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh>`.
 
     Returns
     -------
@@ -61,7 +61,10 @@ def wohngeld_m_wthh(
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
-    if not erwachsene_alle_rentner_hh and wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    if (
+        not erwachsene_alle_rentner_hh
+        and wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
+    ):
         out = wohngeld_anspruchshöhe_m_wthh
     else:
         out = 0.0
