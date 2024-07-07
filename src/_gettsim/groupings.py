@@ -59,11 +59,9 @@ def bg_id_endogen_numpy(
         current_wog_kiz_statt_alg_2 = (
             wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]
         )
-        # TODO(@MImmesberger): Remove hard-coded number
-        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
-        if alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg:
+        if alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg[index]:
             result.append(current_fg_id * 100)
-        elif ist_kind_in_fg and current_wog_kiz_statt_alg_2:
+        elif ist_kind_in_fg[index] and current_wog_kiz_statt_alg_2:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:

@@ -121,7 +121,8 @@ def gesamte_fg_in_einer_bg_günstiger(
     _transfereinkommen_getrennte_bg_eltern_kinder_fg: bool,
     kinder_mit_gedecktem_bedarf_in_fg: bool,
 ) -> bool:
-    """Familiengemeinschaft is being split up into several Bedarfsgemeinschaften.
+    """It is more favorable to have the whole Familiengemeinschaft in one
+    Bedarfsgemeinschaft.
 
     Parameters
     ----------

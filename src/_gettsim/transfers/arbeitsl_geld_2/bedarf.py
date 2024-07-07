@@ -5,13 +5,13 @@ from _gettsim.shared import policy_info
 
 aggregate_by_group_benefit_checks = {
     "kinder_mit_gedecktem_bedarf_in_fg": {
-        "source_col": "eigenbedarf_gedeckt",
+        "source_col": "arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg",
         "aggr": "any",
     },
 }
 
 
-def eigenbedarf_gedeckt(  # noqa: PLR0913
+def arbeitsl_geld_2_eigenbedarf_gedeckt(  # noqa: PLR0913
     arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
     arbeitsl_geld_2_regelbedarf_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
@@ -48,6 +48,27 @@ def eigenbedarf_gedeckt(  # noqa: PLR0913
         + kindergeldübertrag_m
         >= arbeitsl_geld_2_regelbedarf_m
     )
+
+
+def arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg(
+    arbeitsl_geld_2_eigenbedarf_gedeckt: bool,
+    ist_kind_in_fg: bool,
+) -> bool:
+    """Needs according to SGB II are covered and individual is a child in the
+    Familiengemeinschaft.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_eigenbedarf_gedeckt
+        See :func:`arbeitsl_geld_2_eigenbedarf_gedeckt`.
+    ist_kind_in_fg
+        See :func:`ist_kind_in_fg`.
+
+    Returns
+    -------
+
+    """
+    return arbeitsl_geld_2_eigenbedarf_gedeckt and ist_kind_in_fg
 
 
 def arbeitsl_geld_2_regelbedarf_m(

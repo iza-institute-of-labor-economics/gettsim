@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`778` Endogenous calculation of `bg_id` and `wthh_id` if there is at most one
+  Familiengemeinschaft in the household ({ghuser}`MImmesberger`, {ghuser}`hmgaudecker`).
 - {gh}`777` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24
   instead of requiring it as an input variable ({ghuser}`MImmesberger`).
 - {gh}`771` Move SGB II Regelsatz calculation from BG to individual level
