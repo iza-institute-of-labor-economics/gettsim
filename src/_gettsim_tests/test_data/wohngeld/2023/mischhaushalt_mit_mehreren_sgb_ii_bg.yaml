@@ -63,11 +63,11 @@ inputs:
     eigenbedarf_gedeckt:
       - true
       - true
+      - true
       - false
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
     gemeinsam_veranlagt:
       - false
       - false
@@ -356,24 +356,24 @@ inputs:
       - 0.0
       - 7200.0
       - 0.0
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 100
+      - 200
+      - 200
+      - 300
+      - 300
+    wthh_id:
+      - 1
+      - 1
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 200
-    - 200
-    - 300
-    - 300
-  wthh_id:
-    - 1
-    - 1
-    - 1
-    - 0
-    - 0
-    - 0
-    - 0
   bruttokaltmiete_m_wthh:
     - 514.29
     - 514.29

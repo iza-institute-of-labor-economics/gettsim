@@ -180,7 +180,19 @@ inputs:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    p_id_einstandspartner:
+      - 16
+      - 15
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 16
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 15
 outputs:
   wohngeld_anspruchshöhe_m_fg:
     - 75.0

@@ -98,7 +98,13 @@ inputs:
       - true
     wohngeld_mindesteinkommen_erreicht_bg:
       - true
-  assumed: {}
+  assumed:
+    p_id_einstandspartner:
+      - -1
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
 outputs:
   wohngeld_anspruchshöhe_m_fg:
     - 425.0

@@ -69,6 +69,8 @@ inputs:
       - 2023-07
     wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
+    wohngeld_m_wthh:
+      - 0.0
     vermögen_bedürft:
       - 40000.0
     geburtsjahr:

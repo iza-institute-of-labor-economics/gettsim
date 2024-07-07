@@ -236,7 +236,7 @@ inputs:
       - true
       - true
       - true
-      - false
+      - true
       - false
     eink_st_y_sn:
       - 20.0
@@ -268,14 +268,20 @@ inputs:
       - 9600.0
       - 0.0
       - 0.0
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    wthh_id:
+      - 100
+      - 100
+      - 100
+      - 100
+      - 101
 outputs:
-  wthh_id:
-    - 1
-    - 1
-    - 1
-    - 0
-    - 0
   bruttokaltmiete_m_wthh:
     - 600.0
     - 600.0
@@ -292,11 +298,11 @@ outputs:
     - 175.0
     - 175.0
     - 175.0
-    - 0.0
+    - 175.0
     - 0.0
   wohngeld_mindesteinkommen_erreicht_wthh:
     - true
     - true
     - true
-    - false
+    - true
     - false

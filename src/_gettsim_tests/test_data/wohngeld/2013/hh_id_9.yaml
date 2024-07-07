@@ -133,7 +133,16 @@ inputs:
     wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
-  assumed: {}
+  assumed:
+    p_id_einstandspartner:
+      - 54
+      - 53
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
 outputs:
   wohngeld_anspruchshöhe_m_wthh:
     - 108.0

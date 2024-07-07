@@ -68,6 +68,8 @@ inputs:
       - '2005'
     wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
+    wohngeld_m_wthh:
+      - 0.0
     vermögen_bedürft:
       - 0.0
     geburtsjahr:
