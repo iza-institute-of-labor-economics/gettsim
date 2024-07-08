@@ -28,5 +28,9 @@ def test_endogenous_bg_id(
     )
 
     assert_series_equal(
-        result[column], test_data.output_df[column], check_dtype=False, atol=1, rtol=0
+        result[column],
+        test_data.output_df[column],
+        check_dtype=False,
+        atol=1e-1,
+        rtol=0,
     )

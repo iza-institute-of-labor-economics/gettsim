@@ -55,6 +55,7 @@ def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
     arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m_bg: float,
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m_bg: float,
+    _diff_kindergeld_kindbedarf_m_bg: float,
     kind_unterh_erhalt_m_bg: float,
     unterhaltsvors_m_bg: float,
     kindergeldübertrag_m_bg: float,
@@ -72,6 +73,8 @@ def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     kindergeld_zur_bedarfsdeckung_m_bg
         See :func:`kindergeld_zur_bedarfsdeckung_m_bg`.
+    _diff_kindergeld_kindbedarf_m_bg
+        See :func:`_diff_kindergeld_kindbedarf_m_bg`.
     kind_unterh_erhalt_m_bg
         See :func:`kind_unterh_erhalt_m_bg`.
     unterhaltsvors_m_bg
@@ -85,7 +88,7 @@ def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
     """
     return (
         arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m_bg
-        + kindergeld_zur_bedarfsdeckung_m_bg
+        + (kindergeld_zur_bedarfsdeckung_m_bg - _diff_kindergeld_kindbedarf_m_bg)
         + kind_unterh_erhalt_m_bg
         + unterhaltsvors_m_bg
         + kindergeldübertrag_m_bg
@@ -140,8 +143,8 @@ def wohngeld_kinderzuschl_günstiger(
 
 
 def gesamte_fg_in_einer_bg_günstiger(
-    _transfereinkommen_gleiche_bg_eltern_kinder_fg: float,
-    _transfereinkommen_getrennte_bg_eltern_kinder_fg: float,
+    _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg: float,
+    _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg: float,
     kinder_mit_gedecktem_bedarf_in_fg: bool,
 ) -> bool:
     """It is more favorable to have the whole Familiengemeinschaft in one
@@ -149,28 +152,29 @@ def gesamte_fg_in_einer_bg_günstiger(
 
     Parameters
     ----------
-    _transfereinkommen_gleiche_bg_eltern_kinder_fg
-        See :func:`_transfereinkommen_gleiche_bg_eltern_kinder_fg`.
-    _transfereinkommen_getrennte_bg_eltern_kinder_fg
-        See :func:`_transfereinkommen_getrennte_bg_eltern_kinder_fg`..
+    _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg
+        See :func:`_transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg`.
+    _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg
+        See :func:`_transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg`..
 
     Returns
     -------
 
     """
-    return (
-        (
-            _transfereinkommen_gleiche_bg_eltern_kinder_fg
-            >= _transfereinkommen_getrennte_bg_eltern_kinder_fg
+    if kinder_mit_gedecktem_bedarf_in_fg:
+        out = (
+            _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg
+            >= _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg
         )
-        if kinder_mit_gedecktem_bedarf_in_fg
-        else True
-    )
+    else:
+        out = True
+
+    return out
 
 
 def wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg(
     wohngeld_anspruchshöhe_m_fg: float,
-    kinderzuschlag_anspruchshöhe_m_fg: float,
+    kinderzuschl_anspruchshöhe_m_fg: float,
     arbeitsl_geld_2_anspruchshöhe_m_fg: float,
 ) -> bool:
     """Wohngeld and Kinderzuschlag are higher than Arbeitslosengeld II / Bürgergeld.
@@ -179,8 +183,8 @@ def wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg(
     ----------
     wohngeld_anspruchshöhe_m_fg
         See :func:`wohngeld_anspruchshöhe_m_fg`.
-    kinderzuschlag_anspruchshöhe_m_fg
-        See :func:`kinderzuschlag_anspruchshöhe_m_fg`.
+    kinderzuschl_anspruchshöhe_m_fg
+        See :func:`kinderzuschl_anspruchshöhe_m_fg`.
     arbeitsl_geld_2_anspruchshöhe_m_fg
         See :func:`arbeitsl_geld_2_anspruchshöhe_m_fg`.
 
@@ -189,14 +193,14 @@ def wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg(
 
     """
     return (
-        wohngeld_anspruchshöhe_m_fg + kinderzuschlag_anspruchshöhe_m_fg
+        wohngeld_anspruchshöhe_m_fg + kinderzuschl_anspruchshöhe_m_fg
         >= arbeitsl_geld_2_anspruchshöhe_m_fg
     )
 
 
-def _transfereinkommen_gleiche_bg_eltern_kinder_fg(
+def _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg(
     wohngeld_anspruchshöhe_m_fg: float,
-    kinderzuschlag_anspruchshöhe_m_fg: float,
+    kinderzuschl_anspruchshöhe_m_fg: float,
 ) -> float:
     """Transfers if children with needs covered are part of the Familiengemeinschaft and
     whole Familiengemeinschaft forms a Bedarfsgemeinschaft.
@@ -205,21 +209,21 @@ def _transfereinkommen_gleiche_bg_eltern_kinder_fg(
     ----------
     wohngeld_anspruchshöhe_m_fg
         See :func:`wohngeld_anspruchshöhe_m_fg`.
-    kinderzuschlag_anspruchshöhe_m_fg
-        See :func:`kinderzuschlag_anspruchshöhe_m_fg`.
+    kinderzuschl_anspruchshöhe_m_fg
+        See :func:`kinderzuschl_anspruchshöhe_m_fg`.
 
     Returns
     -------
 
     """
-    return wohngeld_anspruchshöhe_m_fg + kinderzuschlag_anspruchshöhe_m_fg
+    return wohngeld_anspruchshöhe_m_fg + kinderzuschl_anspruchshöhe_m_fg
 
 
 @policy_info(skip_vectorization=True)
-def _transfereinkommen_getrennte_bg_eltern_kinder(
-    wohngeld_anspruchshöhe_m_wthh: float,
-    kinderzuschl_anspruchshöhe_m_bg: float,
-    arbeitsl_geld_2_anspruchshöhe_m_bg: float,
+def _transfereinkommen_eltern_erhalten_arbeitsl_geld_2(
+    wohngeld_m_wthh: float,
+    kinderzuschl_m_bg: float,
+    arbeitsl_geld_2_m_bg: float,
     anz_personen_wthh: int,
     anz_personen_bg: int,
 ) -> float:
@@ -228,18 +232,18 @@ def _transfereinkommen_getrennte_bg_eltern_kinder(
 
     Parameters
     ----------
-    wohngeld_anspruchshöhe_m_wthh
-        See :func:`wohngeld_anspruchshöhe_m_wthh`.
-    kinderzuschl_anspruchshöhe_m_bg
-        See :func:`kinderzuschl_anspruchshöhe_m_bg`.
-    arbeitsl_geld_2_anspruchshöhe_m_bg
-        See :func:`arbeitsl_geld_2_anspruchshöhe_m_bg`.
+    wohngeld_m_wthh
+        See :func:`wohngeld_m_wthh`.
+    kinderzuschl_m_bg
+        See :func:`kinderzuschl_m_bg`.
+    arbeitsl_geld_2_m_bg
+        See :func:`arbeitsl_geld_2_m_bg`.
 
     Returns
     -------
 
     """
-    wohngeld_individual = wohngeld_anspruchshöhe_m_wthh / anz_personen_wthh
-    kinderzuschlag_individual = kinderzuschl_anspruchshöhe_m_bg / anz_personen_bg
-    alg2_individual = arbeitsl_geld_2_anspruchshöhe_m_bg / anz_personen_bg
+    wohngeld_individual = wohngeld_m_wthh / anz_personen_wthh
+    kinderzuschlag_individual = kinderzuschl_m_bg / anz_personen_bg
+    alg2_individual = arbeitsl_geld_2_m_bg / anz_personen_bg
     return wohngeld_individual + kinderzuschlag_individual + alg2_individual

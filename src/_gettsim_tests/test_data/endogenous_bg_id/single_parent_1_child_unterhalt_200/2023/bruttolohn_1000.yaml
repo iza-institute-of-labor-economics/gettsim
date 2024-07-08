@@ -64,7 +64,7 @@ inputs:
     ges_rente_m:
       - 0.0
       - 0.0
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
       - false
     heizkosten_m_hh:
@@ -155,3 +155,63 @@ outputs:
   fg_id:
     - 0
     - 0
+  arbeitsl_geld_2_regelbedarf_m:
+    - 862.24
+    - 668.0
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - false
+  kinder_mit_gedecktem_bedarf_in_fg:
+    - false
+    - false
+  bg_id:
+    - 0
+    - 0
+  wthh_id:
+    - 200
+    - 200
+  arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m:
+    - 868.81
+    - 0.0
+  wohngeld_anspruchshöhe_m_fg:
+    - 0.0
+    - 0.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 136.60
+    - 136.60
+  wohngeld_m_wthh:
+    - 0.0
+    - 0.0
+  kinderzuschl_m_bg:
+    - 0.0
+    - 0.0
+  arbeitsl_geld_2_m_bg:
+    - 439.42
+    - 439.42
+  _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg:
+    - 136.60
+    - 136.60
+  _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg:
+    - 439.42
+    - 439.42
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    - false
+    - false
+  gesamte_fg_in_einer_bg_günstiger:
+    - true
+    - true
+  wohngeld_kinderzuschl_vorrangig_bg:
+    - false
+    - false
+  wohngeld_kinderzuschl_günstiger:
+    - false
+    - false
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen:
+    - false
+    - false
+  bg_id_endogen:
+    - 0
+    - 0
+  wthh_id_endogen:
+    - 200
+    - 200

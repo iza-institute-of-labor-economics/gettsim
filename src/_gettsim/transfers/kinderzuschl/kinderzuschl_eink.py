@@ -5,6 +5,10 @@ aggregate_by_group_kinderzuschl_eink = {
         "source_col": "kindergeld_anz_ansprüche",
         "aggr": "sum",
     },
+    "_kinderzuschl_anz_kinder_anspruch_fg": {
+        "source_col": "kindergeld_anz_ansprüche",
+        "aggr": "sum",
+    },
 }
 
 

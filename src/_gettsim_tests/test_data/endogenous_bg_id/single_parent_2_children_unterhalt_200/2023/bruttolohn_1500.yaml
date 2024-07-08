@@ -84,7 +84,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
       - false
       - false
@@ -205,3 +205,83 @@ outputs:
     - 0
     - 0
     - 0
+  arbeitsl_geld_2_regelbedarf_m:
+    - 926.05
+    - 611.33
+    - 611.33
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+  kinder_mit_gedecktem_bedarf_in_fg:
+    - false
+    - false
+    - false
+  bg_id:
+    - 0
+    - 0
+    - 0
+  wthh_id:
+    - 300
+    - 300
+    - 300
+  arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m:
+    - 1232.16
+    - 0.0
+    - 0.0
+  wohngeld_anspruchshöhe_m_fg:
+    - 390.0
+    - 390.0
+    - 390.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 273.2
+    - 273.2
+    - 273.2
+  wohngeld_m_wthh:
+    - 0.0
+    - 0.0
+    - 0.0
+  kinderzuschl_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+  arbeitsl_geld_2_m_bg:
+    - 242.57
+    - 242.57
+    - 242.57
+  _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg:
+    - 663.2
+    - 663.2
+    - 663.2
+  _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg:
+    - 242.57
+    - 242.57
+    - 242.57
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    - false
+    - false
+    - false
+  gesamte_fg_in_einer_bg_günstiger:
+    - true
+    - true
+    - true
+  wohngeld_kinderzuschl_vorrangig_bg:
+    - true
+    - true
+    - true
+  wohngeld_kinderzuschl_günstiger:
+    - true
+    - true
+    - true
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen:
+    - true
+    - true
+    - true
+  bg_id_endogen:
+    - 0
+    - 0
+    - 0
+  wthh_id_endogen:
+    - 301
+    - 301
+    - 301

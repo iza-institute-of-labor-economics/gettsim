@@ -210,6 +210,10 @@ outputs:
     - true
     - false
     - true
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - false
+    - true
   arbeitsl_geld_2_anspruchshöhe_m_bg:
     - 1005.68
     - 1005.68

@@ -196,6 +196,10 @@ outputs:
     - true
     - false
     - false
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
   arbeitsl_geld_2_anspruchshöhe_m_bg:
     - 1455.68
     - 1455.68

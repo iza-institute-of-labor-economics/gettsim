@@ -927,7 +927,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    kindergeld_m: float,
+    kindergeld_zur_bedarfsdeckung_m: float,
     kinderzuschl_anspruchshöhe_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
@@ -945,8 +945,8 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    kindergeld_m
-        See :func:`kindergeld_m`.
+    kindergeld_zur_bedarfsdeckung_m
+        See :func:`kindergeld_zur_bedarfsdeckung_m`.
     kinderzuschl_anspruchshöhe_m
         See :func:`kinderzuschl_anspruchshöhe_m`.
 
@@ -959,7 +959,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
         arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
-        + kindergeld_m
+        + kindergeld_zur_bedarfsdeckung_m
         + kinderzuschl_anspruchshöhe_m
     )
 
