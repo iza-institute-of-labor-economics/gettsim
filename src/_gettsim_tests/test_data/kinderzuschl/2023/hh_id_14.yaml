@@ -87,6 +87,12 @@ inputs:
       - false
   assumed: {}
 outputs:
+  _kinderzuschl_vor_vermög_check_m_fg:
+    - 178.0
+    - 178.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 178.0
+    - 178.0
   _kinderzuschl_vor_vermög_check_m_bg:
     - 178.0
     - 178.0

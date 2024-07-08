@@ -40,7 +40,7 @@ def arbeitsl_geld_2_m_bg(
 def arbeitsl_geld_2_anspruchshöhe_m_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
-    arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg: bool,
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_bg: bool,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -52,15 +52,15 @@ def arbeitsl_geld_2_anspruchshöhe_m_bg(
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     arbeitsl_geld_2_eink_m_bg
         See :func:`arbeitsl_geld_2_eink_m_bg`.
-    arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg
-        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg`.
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_bg
+        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_bg`.
 
     Returns
     -------
 
     """
 
-    if arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg:
+    if arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
         # Deduct income from various sources
         out = max(
             0.0,
@@ -75,7 +75,7 @@ def arbeitsl_geld_2_anspruchshöhe_m_bg(
 def arbeitsl_geld_2_anspruchshöhe_m_fg(
     arbeitsl_geld_2_regelbedarf_m_fg: float,
     arbeitsl_geld_2_eink_m_fg: float,
-    arbeitsl_geld_2_vermögensgrenze_unterschritten_m_fg: bool,
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_fg: bool,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -87,15 +87,15 @@ def arbeitsl_geld_2_anspruchshöhe_m_fg(
         See :func:`arbeitsl_geld_2_regelbedarf_m_fg`.
     arbeitsl_geld_2_eink_m_fg
         See :func:`arbeitsl_geld_2_eink_m_fg`.
-    arbeitsl_geld_2_vermögensgrenze_unterschritten_m_fg
-        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_m_fg`.
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_fg
+        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_fg`.
 
     Returns
     -------
 
     """
 
-    if arbeitsl_geld_2_vermögensgrenze_unterschritten_m_fg:
+    if arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
         # Deduct income from various sources
         out = max(
             0.0,
@@ -107,7 +107,7 @@ def arbeitsl_geld_2_anspruchshöhe_m_fg(
     return out
 
 
-def arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg(
+def arbeitsl_geld_2_vermögensgrenze_unterschritten_bg(
     vermögen_bedürft_bg: float,
     arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> bool:
@@ -127,7 +127,7 @@ def arbeitsl_geld_2_vermögensgrenze_unterschritten_m_bg(
     return vermögen_bedürft_bg <= arbeitsl_geld_2_vermög_freib_bg
 
 
-def arbeitsl_geld_2_vermögensgrenze_unterschritten_m_fg(
+def arbeitsl_geld_2_vermögensgrenze_unterschritten_fg(
     vermögen_bedürft_fg: float,
     arbeitsl_geld_2_vermög_freib_fg: float,
 ) -> bool:

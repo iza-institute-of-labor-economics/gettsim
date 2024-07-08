@@ -180,6 +180,14 @@ outputs:
     - 750.0
     - 750.0
     - 750.0
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
+    - true
+    - true
+    - true
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
+    - true
+    - true
+    - true
   arbeitsl_geld_2_m_bg:
     - 1400.0
     - 1400.0

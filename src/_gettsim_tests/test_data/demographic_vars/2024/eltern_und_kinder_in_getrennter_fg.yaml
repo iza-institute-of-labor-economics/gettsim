@@ -1,0 +1,45 @@
+---
+info:
+  note: >-
+    Parents and children are in separate fgs. The "child" is, thus, not considered as a
+    child of their Familiengemeinschaft (they are treated as an adult by GETTSIM).
+  source: ''
+inputs:
+  provided: {}
+  assumed:
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+    hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 1
+      - -1
+    alter:
+      - 50
+      - 50
+      - 24
+      - 24
+    p_id_einstandspartner:
+      - 1
+      - 0
+      - 3
+      - 2
+outputs:
+  ist_kind_in_fg:
+    - false
+    - false
+    - false
+    - false

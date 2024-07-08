@@ -100,5 +100,9 @@ outputs:
     - 563.0
   arbeitsl_geld_2_kost_unterk_m_bg:
     - 450.0
+  arbeitsl_geld_2_anspruchshöhe_m_bg:
+    - 1013.0
+  arbeitsl_geld_2_anspruchshöhe_m_fg:
+    - 1013.0
   arbeitsl_geld_2_m_bg:
     - 1013.0

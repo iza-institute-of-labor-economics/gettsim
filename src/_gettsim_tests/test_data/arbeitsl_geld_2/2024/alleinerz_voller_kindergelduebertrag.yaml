@@ -198,6 +198,26 @@ outputs:
     - 250.0
     - 0.0
     - 0.0
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
+    - true
+    - true
+    - true
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
+    - true
+    - true
+    - true
+  _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger:
+    - true
+    - false
+    - true
+  arbeitsl_geld_2_anspruchshöhe_m_bg:
+    - 829.01
+    - 829.01
+    - 0.0
+  arbeitsl_geld_2_anspruchshöhe_m_fg:
+    - 405.68
+    - 405.68
+    - 405.68
   arbeitsl_geld_2_m_bg:
     - 829.01
     - 829.01
