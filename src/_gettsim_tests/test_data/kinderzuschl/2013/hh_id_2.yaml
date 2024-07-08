@@ -22,7 +22,7 @@ inputs:
     p_id_kindergeld_empf:
       - -1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
     kind:
@@ -85,11 +85,20 @@ inputs:
     bürgerg_bezug_vorj:
       - false
       - false
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 1
 outputs:
+  _kinderzuschl_vor_vermög_check_m_fg:
+    - 0.0
+    - 0.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 0.0
+    - 0.0
   _kinderzuschl_vor_vermög_check_m_bg:
     - 0.0
     - 0.0
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 0.0
     - 0.0

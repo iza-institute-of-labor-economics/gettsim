@@ -1,6 +1,8 @@
 ---
 info:
-  note: ''
+  note: >-
+    Don't test bg_id because multiple Familiengemeinschaften in one household are not
+    supported.
   source: ''
 inputs:
   provided:
@@ -67,7 +69,7 @@ inputs:
       - 1
       - 1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -86,15 +88,15 @@ outputs:
     - 3
     - 0
     - 3
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 0
-    - 200
-    - 300
-    - 1
-    - 300
+  # bg_id:
+  #   - 0
+  #   - 0
+  #   - 100
+  #   - 0
+  #   - 200
+  #   - 300
+  #   - 1
+  #   - 300
   eg_id:
     - 0
     - 0

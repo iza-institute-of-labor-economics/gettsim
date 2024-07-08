@@ -1,6 +1,8 @@
 ---
 info:
-  note: Multiple households with mutliple Bedarfsgemeinschaften.
+  note: >-
+    Multiple households with mutliple Bedarfsgemeinschaften. Don't test bg_id and
+    wthh_id because multiple Familiengemeinschaften in one household are not supported.
   source: ''
 inputs:
   provided:
@@ -94,27 +96,11 @@ inputs:
       - 1
       - 1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
       - false
-      - false
-      - false
-      - true
-    wohngeld_vorrang_bg:
-      - false
-      - false
-      - true
-      - true
-      - false
-      - false
-      - true
-    wohngeld_kinderzuschl_vorrang_bg:
-      - false
-      - false
-      - true
-      - true
       - false
       - false
       - true
@@ -127,19 +113,19 @@ outputs:
     - 2
     - 3
     - 0
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 100
-    - 200
-    - 300
-    - 1
-  wthh_id:
-    - 0
-    - 0
-    - 101
-    - 101
-    - 200
-    - 200
-    - 1
+  # bg_id:
+  #   - 0
+  #   - 0
+  #   - 100
+  #   - 100
+  #   - 200
+  #   - 300
+  #   - 1
+  # wthh_id:
+  #   - 0
+  #   - 0
+  #   - 101
+  #   - 101
+  #   - 200
+  #   - 200
+  #   - 1

@@ -1,8 +1,6 @@
 def arbeitsl_geld_2_m_bg(
-    arbeitsl_geld_2_vor_vorrang_m_bg: float,
-    wohngeld_vorrang_bg: bool,
-    kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_bg: bool,
+    arbeitsl_geld_2_anspruchshöhe_m_bg: float,
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -11,14 +9,10 @@ def arbeitsl_geld_2_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_vor_vorrang_m_bg
-        See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
-    wohngeld_vorrang_bg
-        See :func:`wohngeld_vorrang_bg`.
-    kinderzuschl_vorrang_bg
-        See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_bg
-        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
+    arbeitsl_geld_2_anspruchshöhe_m_bg
+        See :func:`arbeitsl_geld_2_anspruchshöhe_m_bg`.
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
+        See :func:`beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -33,24 +27,20 @@ def arbeitsl_geld_2_m_bg(
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
-    if (
-        wohngeld_vorrang_bg
-        or kinderzuschl_vorrang_bg
-        or wohngeld_kinderzuschl_vorrang_bg
-        or erwachsene_alle_rentner_hh
+    if (not beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg) and (
+        not erwachsene_alle_rentner_hh
     ):
-        out = 0.0
+        out = arbeitsl_geld_2_anspruchshöhe_m_bg
     else:
-        out = arbeitsl_geld_2_vor_vorrang_m_bg
+        out = 0.0
 
     return out
 
 
-def arbeitsl_geld_2_vor_vorrang_m_bg(
+def arbeitsl_geld_2_anspruchshöhe_m_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
-    vermögen_bedürft_bg: float,
-    arbeitsl_geld_2_vermög_freib_bg: float,
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_bg: bool,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -62,24 +52,96 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     arbeitsl_geld_2_eink_m_bg
         See :func:`arbeitsl_geld_2_eink_m_bg`.
-    arbeitsl_geld_2_vermög_freib_bg
-        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
-    vermögen_bedürft_bg
-        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_bg
+        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_bg`.
 
     Returns
     -------
 
     """
 
-    # Check wealth exemption
-    if vermögen_bedürft_bg > arbeitsl_geld_2_vermög_freib_bg:
-        out = 0.0
-    else:
+    if arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
         # Deduct income from various sources
         out = max(
             0.0,
             arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
         )
+    else:
+        out = 0.0
 
     return out
+
+
+def arbeitsl_geld_2_anspruchshöhe_m_fg(
+    arbeitsl_geld_2_regelbedarf_m_fg: float,
+    arbeitsl_geld_2_eink_m_fg: float,
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_fg: bool,
+) -> float:
+    """Calculate potential basic subsistence (after income deduction and wealth check).
+
+    Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
+
+    Parameters
+    ----------
+    arbeitsl_geld_2_regelbedarf_m_fg
+        See :func:`arbeitsl_geld_2_regelbedarf_m_fg`.
+    arbeitsl_geld_2_eink_m_fg
+        See :func:`arbeitsl_geld_2_eink_m_fg`.
+    arbeitsl_geld_2_vermögensgrenze_unterschritten_fg
+        See :func:`arbeitsl_geld_2_vermögensgrenze_unterschritten_fg`.
+
+    Returns
+    -------
+
+    """
+
+    if arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
+        # Deduct income from various sources
+        out = max(
+            0.0,
+            arbeitsl_geld_2_regelbedarf_m_fg - arbeitsl_geld_2_eink_m_fg,
+        )
+    else:
+        out = 0.0
+
+    return out
+
+
+def arbeitsl_geld_2_vermögensgrenze_unterschritten_bg(
+    vermögen_bedürft_bg: float,
+    arbeitsl_geld_2_vermög_freib_bg: float,
+) -> bool:
+    """Wealth is below the exemption limit for Arbeitslosengeld 2.
+
+    Parameters
+    ----------
+    vermögen_bedürft_bg
+        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    arbeitsl_geld_2_vermög_freib_bg
+        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
+
+    Returns
+    -------
+
+    """
+    return vermögen_bedürft_bg <= arbeitsl_geld_2_vermög_freib_bg
+
+
+def arbeitsl_geld_2_vermögensgrenze_unterschritten_fg(
+    vermögen_bedürft_fg: float,
+    arbeitsl_geld_2_vermög_freib_fg: float,
+) -> bool:
+    """Wealth is below the exemption limit for Arbeitslosengeld 2.
+
+    Parameters
+    ----------
+    vermögen_bedürft_fg
+        See basic input variable :ref:`vermögen_bedürft_fg <vermögen_bedürft_fg>`.
+    arbeitsl_geld_2_vermög_freib_fg
+        See :func:`arbeitsl_geld_2_vermög_freib_fg`.
+
+    Returns
+    -------
+
+    """
+    return vermögen_bedürft_fg <= arbeitsl_geld_2_vermög_freib_fg

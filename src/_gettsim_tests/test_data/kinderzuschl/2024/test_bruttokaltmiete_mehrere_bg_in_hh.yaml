@@ -28,7 +28,7 @@ inputs:
       - -1
       - 49
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -108,17 +108,25 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_2_vor_vorrang_m_bg:
+    arbeitsl_geld_2_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    wohngeld_kinderzuschl_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 1
+    wthh_id:
+      - 0
+      - 0
+      - 0
 outputs:
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 292.0
     - 292.0
     - 0.0

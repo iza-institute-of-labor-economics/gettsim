@@ -38,13 +38,6 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
-    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     kind:
       - false
       - true
@@ -129,7 +122,11 @@ inputs:
       - 2024
       - 2024
       - 2024
-    wohngeld_anspruchshöhe_m_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+      - false
+      - false
+      - false
+    wohngeld_m_wthh:
       - 0.0
       - 0.0
       - 0.0
@@ -187,6 +184,30 @@ outputs:
     - 250.0
     - 0.0
     - 0.0
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
+    - true
+    - true
+    - true
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
+    - true
+    - true
+    - true
+  _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger:
+    - true
+    - false
+    - false
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+  arbeitsl_geld_2_anspruchshöhe_m_bg:
+    - 1455.68
+    - 1455.68
+    - 1455.68
+  arbeitsl_geld_2_anspruchshöhe_m_fg:
+    - 1455.68
+    - 1455.68
+    - 1455.68
   arbeitsl_geld_2_m_bg:
     - 1455.68
     - 1455.68

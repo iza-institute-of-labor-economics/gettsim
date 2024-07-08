@@ -60,14 +60,14 @@ inputs:
       - -1
       - -1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+      - true
       - true
       - true
       - false
-      - true
-      - true
-      - true
-      - true
+      - false
+      - false
+      - false
     gemeinsam_veranlagt:
       - false
       - false
@@ -308,15 +308,7 @@ inputs:
       - 1983
       - 1983
       - 1983
-    wohngeld_vorrang_bg:
-      - true
-      - true
-      - true
-      - false
-      - false
-      - false
-      - false
-    wohngeld_kinderzuschl_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
@@ -364,24 +356,24 @@ inputs:
       - 0.0
       - 7200.0
       - 0.0
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 100
+      - 200
+      - 200
+      - 300
+      - 300
+    wthh_id:
+      - 1
+      - 1
+      - 1
+      - 0
+      - 0
+      - 0
+      - 0
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 200
-    - 200
-    - 300
-    - 300
-  wthh_id:
-    - 1
-    - 1
-    - 1
-    - 0
-    - 0
-    - 0
-    - 0
   bruttokaltmiete_m_wthh:
     - 514.29
     - 514.29

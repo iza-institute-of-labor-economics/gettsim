@@ -32,7 +32,7 @@ inputs:
       - 16
       - 15
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -176,17 +176,25 @@ inputs:
       - 1971
       - 1970
       - 2007
-    wohngeld_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
-      - true
-      - true
-      - true
-  assumed: {}
+  assumed:
+    p_id_einstandspartner:
+      - 16
+      - 15
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 16
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 15
 outputs:
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     - 75.0
     - 75.0
     - 75.0

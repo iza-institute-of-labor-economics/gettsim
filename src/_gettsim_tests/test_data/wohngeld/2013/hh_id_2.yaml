@@ -25,7 +25,7 @@ inputs:
     p_id_einstandspartner:
       - 19
       - 18
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
     gemeinsam_veranlagt:
@@ -130,17 +130,23 @@ inputs:
     geburtsjahr:
       - 1973
       - 1958
-    wohngeld_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
-      - true
-      - true
-  assumed: {}
+  assumed:
+    p_id_einstandspartner:
+      - 19
+      - 18
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
 outputs:
   wohngeld_anspruchshöhe_m_wthh:
     - 73.0
     - 73.0
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld_anspruchshöhe_m_fg:
     - 73.0
     - 73.0

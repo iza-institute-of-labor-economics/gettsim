@@ -38,7 +38,7 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -130,7 +130,11 @@ inputs:
       - 2023-07
       - 2023-07
       - 2023-07
-    wohngeld_anspruchshöhe_m_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+      - false
+      - false
+      - false
+    wohngeld_m_wthh:
       - 0.0
       - 0.0
       - 0.0
@@ -176,6 +180,22 @@ outputs:
     - 750.0
     - 750.0
     - 750.0
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_bg:
+    - false
+    - false
+    - false
+  arbeitsl_geld_2_vermögensgrenze_unterschritten_fg:
+    - false
+    - false
+    - false
+  arbeitsl_geld_2_anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+  arbeitsl_geld_2_anspruchshöhe_m_fg:
+    - 0.0
+    - 0.0
+    - 0.0
   arbeitsl_geld_2_m_bg:
     - 0.0
     - 0.0

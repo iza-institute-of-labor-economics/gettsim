@@ -22,7 +22,7 @@ inputs:
     p_id_kindergeld_empf:
       - -1
       - 47
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
     alter:
@@ -73,10 +73,10 @@ inputs:
     ges_rente_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_vor_vorrang_m_bg:
+    arbeitsl_geld_2_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    wohngeld_kinderzuschl_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
     wohnfläche_hh:
@@ -90,7 +90,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 292.0
     - 292.0
   bruttokaltmiete_m_bg:

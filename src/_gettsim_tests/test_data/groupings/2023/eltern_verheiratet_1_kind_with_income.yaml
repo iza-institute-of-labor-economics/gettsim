@@ -40,9 +40,9 @@ inputs:
       - true
       - true
       - false
-    eigenbedarf_gedeckt:
-      - true
-      - true
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+      - false
+      - false
       - true
     hh_id:
       - 0

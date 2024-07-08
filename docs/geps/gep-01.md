@@ -128,9 +128,7 @@ GETTSIM knows about the following units:
 - `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
   (§5 WoGG).
 - `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
-  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This unit is
-  based on the priority check via `wohngeld_vorrang_bg` and
-  `wohngeld_kinderzuschl_vorrang_bg`.
+  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}.
 - `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
   Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
   Bedarfsgemeinschaft before making checks for whether children have enough income fend

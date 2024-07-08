@@ -74,7 +74,7 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -144,18 +144,18 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-  provided: {}
+  provided:
+    bg_id:
+      - 0
+      - 0
+      - 100
+      - 100
+      - 0
+      - 0
+      - 0
+      - 200
+      - 200
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 100
-    - 100
-    - 0
-    - 0
-    - 0
-    - 200
-    - 200
   bruttokaltmiete_m_bg:
     - 555.56
     - 555.56

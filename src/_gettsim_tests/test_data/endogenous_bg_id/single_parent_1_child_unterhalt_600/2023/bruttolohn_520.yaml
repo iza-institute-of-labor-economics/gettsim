@@ -1,0 +1,220 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed:
+    alleinerz:
+      - true
+      - false
+    alter:
+      - 40
+      - 9
+    anz_eig_kind_bis_24:
+      - 1
+      - 0
+    arbeitsl_geld_m:
+      - 0.0
+      - 0.0
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+    behinderungsgrad:
+      - 0
+      - 0
+    betreuungskost_elternteil_m:
+      - 0.0
+      - 0.0
+    betreuungskost_m:
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+    bruttokaltmiete_m_hh:
+      - 530.0
+      - 530.0
+    bruttolohn_m:
+      - 520.0
+      - 0.0
+    bürgerg_bezug_vorj:
+      - true
+      - true
+    eink_selbst_m:
+      - 0.0
+      - 0.0
+    eink_vermietung_m:
+      - 0.0
+      - 0.0
+    elterngeld_m:
+      - 0.0
+      - 0.0
+    geburtsjahr:
+      - 1984
+      - 2015
+    geburtsmonat:
+      - 1
+      - 1
+    geburtstag:
+      - 1
+      - 1
+    gemeinsam_veranlagt:
+      - false
+      - false
+    ges_rente_m:
+      - 0.0
+      - 0.0
+    ges_pflegev_hat_kinder:
+      - true
+      - false
+    heizkosten_m_hh:
+      - 100.0
+      - 100.0
+    hh_id:
+      - 1
+      - 1
+    immobilie_baujahr_hh:
+      - 0
+      - 0
+    in_ausbildung:
+      - false
+      - true
+    in_priv_krankenv:
+      - false
+      - false
+    jahr_renteneintr:
+      - 2050
+      - 2050
+    kapitaleink_brutto_m:
+      - 0.0
+      - 0.0
+    kind:
+      - false
+      - true
+    kind_unterh_anspr_m:
+      - 0.0
+      - 0.0
+    kind_unterh_erhalt_m:
+      - 0.0
+      - 475.0
+    mietstufe:
+      - 3
+      - 3
+    monat_renteneintr:
+      - 0
+      - 0
+    p_id:
+      - 2
+      - 3
+    p_id_ehepartner:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - 2
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 2
+    priv_rente_m:
+      - 0.0
+      - 0.0
+    priv_rentenv_beitr_m_sn:
+      - 0.0
+      - 0.0
+    rentner:
+      - false
+      - false
+    selbstständig:
+      - false
+      - false
+    sonstig_eink_m:
+      - 0.0
+      - 0.0
+    steuerklasse:
+      - 0
+      - 0
+    vermögen_bedürft:
+      - 0.0
+      - 0.0
+    weiblich:
+      - false
+      - true
+    wohnfläche_hh:
+      - 62.0
+      - 62.0
+    wohnort_ost:
+      - false
+      - false
+outputs:
+  fg_id:
+    - 0
+    - 0
+  arbeitsl_geld_2_regelbedarf_m:
+    - 862.24
+    - 668.0
+  arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
+    - false
+    - true
+  kinder_mit_gedecktem_bedarf_in_fg:
+    - true
+    - true
+  bg_id:
+    - 0
+    - 1
+  wthh_id:
+    - 100
+    - 101
+  arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m:
+    - 520.0
+    - 0.0
+  wohngeld_anspruchshöhe_m_fg:
+    - 0.0
+    - 0.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 0.0
+    - 0.0
+  wohngeld_m_wthh:
+    - 0.0
+    - 261.0
+  kinderzuschl_m_bg:
+    - 0.0
+    - 0.0
+  arbeitsl_geld_2_m_bg:
+    - 276.24
+    - 0.0
+  _transfereinkommen_gesamte_fg_erhält_wohngeld_kinderzuschl_fg:
+    - 0.0
+    - 0.0
+  _transfereinkommen_eltern_erhalten_arbeitsl_geld_2_fg:
+    - 537.24
+    - 537.24
+  wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg:
+    - false
+    - false
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    - false
+    - true
+  gesamte_fg_in_einer_bg_günstiger:
+    - false
+    - false
+  wohngeld_kinderzuschl_vorrangig_bg:
+    - false
+    - false
+  wohngeld_kinderzuschl_günstiger:
+    - false
+    - true
+  beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen:
+    - false
+    - true
+  bg_id_endogen:
+    - 0
+    - 1
+  wthh_id_endogen:
+    - 100
+    - 101

@@ -34,7 +34,7 @@ inputs:
       - -1
       - 23
       - 23
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -141,12 +141,22 @@ inputs:
       - false
   assumed: {}
 outputs:
+  _kinderzuschl_vor_vermög_check_m_fg:
+    - 340.0
+    - 340.0
+    - 340.0
+    - 340.0
+  kinderzuschl_anspruchshöhe_m_fg:
+    - 340.0
+    - 340.0
+    - 340.0
+    - 340.0
   _kinderzuschl_vor_vermög_check_m_bg:
     - 340.0
     - 340.0
     - 340.0
     - 340.0
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschl_anspruchshöhe_m_bg:
     - 340.0
     - 340.0
     - 340.0

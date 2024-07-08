@@ -36,7 +36,7 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -128,7 +128,11 @@ inputs:
       - '2019'
       - '2019'
       - '2019'
-    wohngeld_anspruchshöhe_m_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+      - false
+      - false
+      - false
+    wohngeld_m_wthh:
       - 0.0
       - 0.0
       - 0.0

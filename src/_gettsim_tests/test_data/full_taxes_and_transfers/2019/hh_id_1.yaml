@@ -5,10 +5,10 @@ info:
 inputs:
   provided:
     hh_id:
+      - 0
       - 1
-      - 1
-      - 1
-      - 1
+      - 2
+      - 3
     p_id:
       - 1
       - 2
@@ -34,7 +34,7 @@ inputs:
       - -1
       - -1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false

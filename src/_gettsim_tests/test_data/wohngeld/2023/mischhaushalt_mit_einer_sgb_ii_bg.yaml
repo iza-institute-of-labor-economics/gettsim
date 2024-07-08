@@ -46,7 +46,7 @@ inputs:
       - 3
       - 2
       - -1
-    eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -232,17 +232,11 @@ inputs:
       - 1983
       - 1983
       - 1983
-    wohngeld_vorrang_bg:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
-      - false
-      - false
-    wohngeld_kinderzuschl_vorrang_bg:
       - true
-      - true
-      - true
-      - false
       - false
     eink_st_y_sn:
       - 20.0
@@ -274,35 +268,41 @@ inputs:
       - 9600.0
       - 0.0
       - 0.0
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    wthh_id:
+      - 100
+      - 100
+      - 100
+      - 100
+      - 101
 outputs:
-  wthh_id:
-    - 1
-    - 1
-    - 1
-    - 0
-    - 0
   bruttokaltmiete_m_wthh:
-    - 600.0
-    - 600.0
-    - 600.0
-    - 400.0
-    - 400.0
+    - 800.0
+    - 800.0
+    - 800.0
+    - 800.0
+    - 200.0
   anz_personen_wthh:
-    - 3
-    - 3
-    - 3
-    - 2
-    - 2
+    - 4
+    - 4
+    - 4
+    - 4
+    - 1
   wohngeld_m_wthh:
-    - 175.0
-    - 175.0
-    - 175.0
-    - 0.0
+    - 519.0
+    - 519.0
+    - 519.0
+    - 519.0
     - 0.0
   wohngeld_mindesteinkommen_erreicht_wthh:
     - true
     - true
     - true
-    - false
+    - true
     - false

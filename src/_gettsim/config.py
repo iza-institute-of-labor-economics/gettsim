@@ -157,7 +157,7 @@ TYPES_INPUT_VARIABLES = {
     "p_id_ehepartner": int,
     "p_id_einstandspartner": int,
     "vermögen_bedürft": float,
-    "eigenbedarf_gedeckt": bool,
+    "beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2": bool,
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
