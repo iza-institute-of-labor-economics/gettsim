@@ -64,7 +64,7 @@ inputs:
       - 0.0
     elterngeld_m:
       - 0.0
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
     wohngeld_m_wthh:
       - 0.0

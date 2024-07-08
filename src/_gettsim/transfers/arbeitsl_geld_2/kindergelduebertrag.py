@@ -125,7 +125,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
-        See :func:`_arbeitsl_geld_2
+        See :func:`_arbeitsl_geld_
     wohngeld_m_wthh
         See :func:`wohngeld_m_wthh`.
     anz_personen_wthh
@@ -171,6 +171,9 @@ def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
 ) -> numpy.ndarray[bool]:
     """True if the person is in a different Bedarfsgemeinschaft than the
     Kindergeldempfänger of that person.
+
+    Relevant if individual and Kindergeldempfänger have the same `fg_id`.
+    Kindergeldübertrag is relevant only if they are in different `bg_id`s.
     """
     # Create a dictionary to map p_id to bg_id
     p_id_to_bg_id = dict(zip(p_id, bg_id))

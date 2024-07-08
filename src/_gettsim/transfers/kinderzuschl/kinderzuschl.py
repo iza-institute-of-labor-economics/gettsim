@@ -8,7 +8,7 @@ from _gettsim.shared import policy_info
 def kinderzuschl_m_bg(
     kinderzuschl_anspruchshöhe_m_bg: float,
     erwachsene_alle_rentner_hh: bool,
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg: bool,
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg: bool,
 ) -> float:
     """Aggregate child benefit on Bedarfsgemeinschaft level.
 
@@ -18,15 +18,15 @@ def kinderzuschl_m_bg(
         See :func:`kinderzuschl_anspruchshöhe_m_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
-        See :func:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg`.
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
+        See :func:`beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg`.
 
     Returns
     -------
 
     """
     if (
-        wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
+        beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
         and not erwachsene_alle_rentner_hh
     ):
         out = kinderzuschl_anspruchshöhe_m_bg
@@ -40,9 +40,8 @@ def kinderzuschl_anspruchshöhe_m(
     kinderzuschl_anspruchshöhe_m_bg: float,
     anz_personen_bg: int,
 ) -> float:
-    """Kinderzuschlag on individual level.
-
-    Target necessary for aggregation to wthh level.
+    """Kinderzuschlag distributed across all members of  a Bedarfsgemeinschaft, required
+    for Wohngeld income check on wthh level.
 
     Parameters
     ----------

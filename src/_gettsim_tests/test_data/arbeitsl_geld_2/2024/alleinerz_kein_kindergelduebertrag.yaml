@@ -129,7 +129,7 @@ inputs:
       - 2024
       - 2024
       - 2024
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
       - false
       - false

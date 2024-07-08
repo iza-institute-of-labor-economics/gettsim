@@ -76,7 +76,7 @@ inputs:
     arbeitsl_geld_2_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
     wohnfläche_hh:

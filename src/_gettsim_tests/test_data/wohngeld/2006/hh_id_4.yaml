@@ -256,7 +256,7 @@ inputs:
       - 1999
       - 1998
       - 1994
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
