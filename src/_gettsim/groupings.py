@@ -20,8 +20,7 @@ def create_groupings() -> dict[str, Callable]:
 def bg_id_numpy(
     hh_id: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
-    alter: numpy.ndarray[int],
-    arbeitsl_geld_2_eigenbedarf_gedeckt: numpy.ndarray[bool],
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     ID of Bedarfsgemeinschaften.
@@ -35,13 +34,7 @@ def bg_id_numpy(
     result = []
 
     for index, current_fg_id in enumerate(fg_id):
-        current_alter = alter[index]
-        current_arbeitsl_geld_2_eigenbedarf_gedeckt = (
-            arbeitsl_geld_2_eigenbedarf_gedeckt[index]
-        )
-        # TODO(@MImmesberger): Remove hard-coded number
-        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
-        if current_alter < 25 and current_arbeitsl_geld_2_eigenbedarf_gedeckt:
+        if arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt[index]:
             counter[current_fg_id] += 1
             result.append(current_fg_id * 100 + counter[current_fg_id])
         else:
@@ -52,9 +45,9 @@ def bg_id_numpy(
 
 def bg_id_endogen_numpy(
     fg_id: numpy.ndarray[int],
-    alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg: numpy.ndarray[bool],
+    alle_beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg: numpy.ndarray[bool],
     ist_kind_in_fg: numpy.ndarray[bool],
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     Compute the ID of the Bedarfsgemeinschaft endogenously for each person.
@@ -64,9 +57,9 @@ def bg_id_endogen_numpy(
 
     for index, current_fg_id in enumerate(fg_id):
         current_wog_kiz_statt_alg_2 = (
-            wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]
+            beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]
         )
-        if alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg[index]:
+        if alle_beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg[index]:
             result.append(current_fg_id * 100)
         elif ist_kind_in_fg[index] and current_wog_kiz_statt_alg_2:
             counter[current_fg_id] += 1
@@ -254,8 +247,7 @@ def sn_id_numpy(
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],
-    arbeitsl_geld_2_eigenbedarf_gedeckt: numpy.ndarray[bool],
-    ist_kind_in_fg: numpy.ndarray[bool],
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     ID of the wohngeldrechtlicher Teilhaushalt.
@@ -270,7 +262,7 @@ def wthh_id_numpy(
     # Create candidate wthh_ids
     for index, current_hh_id in enumerate(hh_id):
         # Put children with covered needs in the Wohngeld wthh
-        if ist_kind_in_fg[index] and arbeitsl_geld_2_eigenbedarf_gedeckt[index]:
+        if arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt[index]:
             result.append(current_hh_id * 100 + 1)
         # Parents and children who do not cover needs in ALG II wthh
         else:
@@ -281,14 +273,14 @@ def wthh_id_numpy(
 
 def wthh_id_endogen_numpy(
     hh_id: numpy.ndarray[int],
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     Compute the ID of the wohngeldrechtlicher Teilhaushalt endogenously.
     """
     result = []
     for index, current_hh_id in enumerate(hh_id):
-        if wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]:
+        if beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen[index]:
             result.append(current_hh_id * 100 + 1)
         else:
             result.append(current_hh_id * 100)
@@ -305,7 +297,7 @@ def _fail_if_more_than_one_fg_in_hh(
 
     GETTSIM does not support the endogenous creation of Bedarfsgemeinschaften in this
     case. The user has to provide `bg_id`, `wthh_id` and
-    `wohngeld_kinderzuschl_statt_arbeitsl_geld_2` themselves.
+    `beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2` themselves.
 
     Parameters
     ----------

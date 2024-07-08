@@ -18,7 +18,7 @@ inputs:
       - -1
     p_id_einstandspartner:
       - -1
-    arbeitsl_geld_2_eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
     gemeinsam_veranlagt:
       - false
@@ -90,7 +90,7 @@ inputs:
       - 1
     geburtsjahr:
       - 1964
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
   assumed:
     p_id_einstandspartner:

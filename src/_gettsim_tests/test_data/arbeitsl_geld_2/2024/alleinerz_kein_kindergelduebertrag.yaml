@@ -38,13 +38,6 @@ inputs:
       - false
       - false
       - false
-    arbeitsl_geld_2_eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-    # TODO (@MImmesberger): Remove `arbeitsl_geld_2_eigenbedarf_gedeckt` conditions once
-    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     kind:
       - false
       - true
@@ -129,7 +122,7 @@ inputs:
       - 2024
       - 2024
       - 2024
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
       - false
       - false

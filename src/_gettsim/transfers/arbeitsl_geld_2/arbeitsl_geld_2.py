@@ -1,6 +1,6 @@
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_anspruchshöhe_m_bg: float,
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg: bool,
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -11,8 +11,8 @@ def arbeitsl_geld_2_m_bg(
     ----------
     arbeitsl_geld_2_anspruchshöhe_m_bg
         See :func:`arbeitsl_geld_2_anspruchshöhe_m_bg`.
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
-        See :func:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg`.
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg
+        See :func:`beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -27,7 +27,7 @@ def arbeitsl_geld_2_m_bg(
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
-    if (not wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg) and (
+    if (not beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_bg) and (
         not erwachsene_alle_rentner_hh
     ):
         out = arbeitsl_geld_2_anspruchshöhe_m_bg

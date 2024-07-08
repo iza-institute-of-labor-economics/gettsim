@@ -22,7 +22,7 @@ inputs:
     p_id_kindergeld_empf:
       - -1
       - 47
-    arbeitsl_geld_2_eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
     alter:
@@ -76,7 +76,7 @@ inputs:
     arbeitsl_geld_2_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
     wohnfläche_hh:

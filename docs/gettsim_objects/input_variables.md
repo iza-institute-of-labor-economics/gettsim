@@ -110,9 +110,9 @@ Identifier of person that claims Kindergeld for the particular child
 
 Type: int
 
-(wohngeld_kinderzuschl_statt_arbeitsl_geld_2)=
+(beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2)=
 
-## \`wohngeld_kinderzuschl_statt_arbeitsl_geld_2\`\`
+## \`beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2\`\`
 
 Individual may have claim on Wohngeld and Kinderzuschlag instead of Arbeitslosengeld II
 / Bürgergeld

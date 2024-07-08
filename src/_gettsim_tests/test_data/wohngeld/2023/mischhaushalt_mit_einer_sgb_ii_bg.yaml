@@ -46,7 +46,7 @@ inputs:
       - 3
       - 2
       - -1
-    arbeitsl_geld_2_eigenbedarf_gedeckt:
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -232,7 +232,7 @@ inputs:
       - 1983
       - 1983
       - 1983
-    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true

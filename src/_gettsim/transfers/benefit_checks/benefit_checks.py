@@ -1,14 +1,14 @@
 from _gettsim.shared import policy_info
 
 aggregate_by_group_benefit_checks = {
-    "alle_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg": {
-        "source_col": "wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen",
+    "alle_beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_fg": {
+        "source_col": "beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen",
         "aggr": "all",
     },
 }
 
 
-def wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
+def beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
     wohngeld_kinderzuschl_vorrangig_bg: bool,
     wohngeld_kinderzuschl_günstiger: bool,
 ) -> bool:
@@ -30,8 +30,8 @@ def wohngeld_kinderzuschl_statt_arbeitsl_geld_2_endogen(
     return wohngeld_kinderzuschl_vorrangig_bg or wohngeld_kinderzuschl_günstiger
 
 
-def wohngeld_kinderzuschl_statt_arbeitsl_geld_2(
-    arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg: bool,
+def beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2(
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt: bool,
 ) -> bool:
     """Individual receives Wohngeld and Kinderzuschlag instead of Arbeitslosengeld II.
 
@@ -41,14 +41,14 @@ def wohngeld_kinderzuschl_statt_arbeitsl_geld_2(
 
     Parameters
     ----------
-    arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg
-        See :func:`arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg`.
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt
+        See :func:`arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt`.
 
     Returns
     -------
 
     """
-    return arbeitsl_geld_2_eigenbedarf_gedeckt_und_kind_in_fg
+    return arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt
 
 
 def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
@@ -96,7 +96,7 @@ def wohngeld_kinderzuschl_vorrangig_bg(  # noqa: PLR0913
 def wohngeld_kinderzuschl_günstiger(
     kinder_mit_gedecktem_bedarf_in_fg: bool,
     gesamte_fg_in_einer_bg_günstiger: bool,
-    arbeitsl_geld_2_eigenbedarf_gedeckt: bool,
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt: bool,
     ist_kind_in_fg: bool,
     wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg: bool,
 ) -> bool:
@@ -113,8 +113,8 @@ def wohngeld_kinderzuschl_günstiger(
         See :func:`kinder_mit_gedecktem_bedarf_in_fg`.
     gesamte_fg_in_einer_bg_günstiger
         See :func:`gesamte_fg_in_einer_bg_günstiger`.
-    arbeitsl_geld_2_eigenbedarf_gedeckt
-        See :func:`arbeitsl_geld_2_eigenbedarf_gedeckt`.
+    arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt
+        See :func:`arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt`.
     ist_kind_in_fg
         See :func:`ist_kind_in_fg`.
     wohngeld_kinderzuschl_größer_als_arbeitsl_geld_2_fg
@@ -130,7 +130,7 @@ def wohngeld_kinderzuschl_günstiger(
     # Children who cover their needs are not in parental BG -> Children who cover their
     # needs receive Wohngeld, everyone else Arbeitslosengeld II / Bürgergeld
     elif (not gesamte_fg_in_einer_bg_günstiger) and kinder_mit_gedecktem_bedarf_in_fg:
-        out = arbeitsl_geld_2_eigenbedarf_gedeckt and ist_kind_in_fg
+        out = arbeitsl_geld_2_ist_kind_und_eigenbedarf_gedeckt and ist_kind_in_fg
     # There are no children that cover their needs -> Simple favorability check on FG
     # level
     elif not kinder_mit_gedecktem_bedarf_in_fg:
