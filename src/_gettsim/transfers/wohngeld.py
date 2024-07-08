@@ -32,7 +32,7 @@ aggregate_by_p_id_wohngeld = {
 def wohngeld_m_wthh(
     wohngeld_anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
-    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh: bool,
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh: bool,
 ) -> float:
     """Housing benefit after wealth and priority checks.
 
@@ -42,8 +42,8 @@ def wohngeld_m_wthh(
         See :func:`wohngeld_anspruchshöhe_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
-    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
-        See :func:`beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh`.
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
+        See :func:`wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh`.
 
     Returns
     -------
@@ -58,7 +58,7 @@ def wohngeld_m_wthh(
 
     if (
         not erwachsene_alle_rentner_hh
-        and beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
+        and wohngeld_kinderzuschl_statt_arbeitsl_geld_2_wthh
     ):
         out = wohngeld_anspruchshöhe_m_wthh
     else:

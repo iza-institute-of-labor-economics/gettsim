@@ -97,7 +97,7 @@ inputs:
     jahr:
       - '2013'
       - '2013'
-    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - false
       - false
     wohngeld_m_wthh:

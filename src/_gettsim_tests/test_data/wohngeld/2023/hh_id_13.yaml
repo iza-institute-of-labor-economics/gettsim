@@ -180,7 +180,7 @@ inputs:
       - 1984
       - 1988
       - 2013
-    beantragt_wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
+    wohngeld_kinderzuschl_statt_arbeitsl_geld_2:
       - true
       - true
       - true
