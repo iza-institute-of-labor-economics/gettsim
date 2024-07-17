@@ -292,7 +292,7 @@ def _load_functions_nested(sources, include_imported_functions=False):
         ):
             current = result
 
-            for key in module.split("."):
+            for key in module.split(".")[1:]:
                 current = current.setdefault(key, {})
 
             current.update(functions)
