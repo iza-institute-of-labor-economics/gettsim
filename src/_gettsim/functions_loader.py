@@ -256,6 +256,54 @@ def _load_functions(sources, include_imported_functions=False):
     return functions
 
 
+def _load_functions_nested(sources, include_imported_functions=False):
+    """
+    Load functions into a nested dictionary that reflects the module structure.
+
+    Parameters
+    ----------
+    sources : str, pathlib.Path, function, module, imports statements
+        Sources from where to load functions.
+    include_imported_functions : bool
+        Whether to load functions that are imported into the module(s) passed via
+        *sources*.
+
+    Returns
+    -------
+    functions : dict
+        A dictionary mapping column names to functions producing them.
+    """
+    modules = _search_directories_recursively_for_python_files(
+        sources if isinstance(sources, list) else [sources]
+    )
+
+    functions_by_module = _convert_paths_and_strings_to_dicts_of_functions(
+        modules, include_imported_functions
+    )
+
+    result = {}
+
+    for module, functions in zip(modules, functions_by_module):
+        if callable(functions):
+            functions = {functions.__name__: functions}  # noqa: PLW2901
+
+        if isinstance(functions, dict) and all(
+            inspect.isfunction(i) for i in functions.values()
+        ):
+            current = result
+
+            for key in module.split("."):
+                current = current.setdefault(key, {})
+
+            current.update(functions)
+        else:
+            raise NotImplementedError(
+                f"Source {functions} has invalid type {type(functions)}."
+            )
+
+    return result
+
+
 def _search_directories_recursively_for_python_files(sources):
     """Handle paths to load modules.
 
