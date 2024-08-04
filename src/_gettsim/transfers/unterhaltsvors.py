@@ -14,7 +14,7 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@policy_info(params_key_for_rounding="unterhaltsvors")
+@policy_info(start_date="2017-01-01", params_key_for_rounding="unterhaltsvors")
 def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
@@ -56,6 +56,20 @@ def unterhaltsvors_m(
         out = 0.0
 
     return out
+
+
+@policy_info(
+    end_date="2016-12-31",
+    name_in_dag="unterhaltsvors_m",
+    params_key_for_rounding="unterhaltsvors",
+)
+def unterhaltsvors_not_implemented_m() -> float:
+    raise NotImplementedError(
+        """
+        Unterhaltsvorschuss is not implemented prior to 2017.
+        https://github.com/iza-institute-of-labor-economics/gettsim/issues/566
+    """
+    )
 
 
 @policy_info(skip_vectorization=True)
@@ -130,6 +144,7 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     return kindergeld_params["kindergeld"][1]
 
 
+@policy_info(start_date="2017-01-01")
 def _unterhaltsvors_anspruch_kind_m(
     alter: int,
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
@@ -179,7 +194,7 @@ def _unterhaltsvors_anspruch_kind_m(
     return out
 
 
-@policy_info(skip_vectorization=True)
+@policy_info(start_date="2017-01-01", skip_vectorization=True)
 def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     p_id_kindergeld_empf: numpy.ndarray[int],
     p_id: numpy.ndarray[int],
@@ -208,6 +223,7 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     )
 
 
+@policy_info(start_date="2017-01-01")
 def _unterhaltsvorschuss_eink_above_income_threshold(
     unterhaltsvorschuss_eink_m: float,
     unterhaltsvors_params: dict,
@@ -228,6 +244,7 @@ def _unterhaltsvorschuss_eink_above_income_threshold(
     return unterhaltsvorschuss_eink_m >= unterhaltsvors_params["mindesteinkommen"]
 
 
+@policy_info(start_date="2017-01-01")
 def unterhaltsvorschuss_eink_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,
