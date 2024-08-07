@@ -169,8 +169,18 @@ def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
     """True if the person is in a different Bedarfsgemeinschaft than the
     Kindergeldempfänger of that person.
 
-    Relevant if individual and Kindergeldempfänger have the same `fg_id`.
-    Kindergeldübertrag is relevant only if they are in different `bg_id`s.
+    Parameters
+    ----------
+    p_id
+        See basic input variable :ref:`p_id <p_id>`
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf <p_id_kindergeld_empf>`
+    bg_id
+        See :func:`bg_id`.
+
+    Returns
+    -------
+
     """
     # Create a dictionary to map p_id to bg_id
     p_id_to_bg_id = dict(zip(p_id, bg_id))
