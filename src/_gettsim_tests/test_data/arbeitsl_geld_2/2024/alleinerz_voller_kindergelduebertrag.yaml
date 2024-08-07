@@ -40,13 +40,6 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
-      - false
-      - false
-      - true
-    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
-    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
     kind:
       - false
       - true
@@ -159,12 +152,12 @@ inputs:
       - false
       - false
       - false
-  assumed: {}
+  assumed:
+    bg_id:
+      - 0
+      - 0
+      - 1
 outputs:
-  bg_id:
-    - 0
-    - 0
-    - 1
   kindergeldübertrag_m:
     - 250.0
     - 0.0
