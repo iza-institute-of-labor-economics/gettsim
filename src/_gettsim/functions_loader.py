@@ -291,9 +291,11 @@ def _load_functions_nested(sources, include_imported_functions=False):
             inspect.isfunction(i) for i in functions.values()
         ):
             current = result
+            is_top_level = True
 
             for key in module.split(".")[1:]:
-                current = current.setdefault(key, {})
+                if not is_top_level or key not in {"taxes", "transfers"}:
+                    current = current.setdefault(key, {})
 
             current.update(functions)
         else:
