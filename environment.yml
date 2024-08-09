@@ -35,3 +35,5 @@ dependencies:
   - pip:
       - kaleido
       - -e .
+      - git+https://github.com/lars-reimann/dags.git@namespaces
+      - flatten_dict # only for development version of dags
