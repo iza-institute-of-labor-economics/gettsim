@@ -125,7 +125,7 @@ def load_and_check_functions(
 
     return (
         functions_overridden,
-        _create_nested_function_dict(functions_not_overridden)
+        _create_nested_function_dict(functions_not_overridden),
     )
 
 
@@ -142,6 +142,7 @@ def _create_nested_function_dict(functions):
         current[name.split(".")[-1]] = function
 
     return result
+
 
 def _create_derived_functions(
     user_and_internal_functions: dict[str, Callable],
@@ -260,10 +261,9 @@ def _load_functions(sources, include_imported_functions=False):
 
     for module, functions in zip(modules, functions_by_module):
         clean_module = (
-            module
-                .removeprefix("_gettsim.")
-                .removeprefix("taxes.")
-                .removeprefix("transfers.")
+            module.removeprefix("_gettsim.")
+            .removeprefix("taxes.")
+            .removeprefix("transfers.")
         )
 
         if callable(functions):
