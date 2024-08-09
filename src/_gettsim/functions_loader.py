@@ -123,8 +123,25 @@ def load_and_check_functions(
         else:
             functions_not_overridden[k] = v
 
-    return functions_not_overridden, functions_overridden
+    return (
+        functions_overridden,
+        _create_nested_function_dict(functions_not_overridden)
+    )
 
+
+def _create_nested_function_dict(functions):
+    """Create a nested dictionary of functions."""
+    result = {}
+
+    for name, function in functions.items():
+        current = result
+
+        for key in name.split(".")[:-1]:
+            current = current.setdefault(key, {})
+
+        current[name.split(".")[-1]] = function
+
+    return result
 
 def _create_derived_functions(
     user_and_internal_functions: dict[str, Callable],
@@ -231,48 +248,6 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-    all_sources = _search_directories_recursively_for_python_files(
-        sources if isinstance(sources, list) else [sources]
-    )
-    all_sources = _convert_paths_and_strings_to_dicts_of_functions(
-        all_sources, include_imported_functions
-    )
-
-    functions = {}
-    for source in all_sources:
-        if callable(source):
-            source = {source.__name__: source}  # noqa: PLW2901
-
-        if isinstance(source, dict) and all(
-            inspect.isfunction(i) for i in source.values()
-        ):
-            functions = {**functions, **source}
-
-        else:
-            raise NotImplementedError(
-                f"Source {source} has invalid type {type(source)}."
-            )
-
-    return functions
-
-
-def _load_functions_nested(sources, include_imported_functions=False):
-    """
-    Load functions into a nested dictionary that reflects the module structure.
-
-    Parameters
-    ----------
-    sources : str, pathlib.Path, function, module, imports statements
-        Sources from where to load functions.
-    include_imported_functions : bool
-        Whether to load functions that are imported into the module(s) passed via
-        *sources*.
-
-    Returns
-    -------
-    functions : dict
-        A dictionary mapping column names to functions producing them.
-    """
     modules = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -284,20 +259,21 @@ def _load_functions_nested(sources, include_imported_functions=False):
     result = {}
 
     for module, functions in zip(modules, functions_by_module):
+        clean_module = (
+            module
+                .removeprefix("_gettsim.")
+                .removeprefix("taxes.")
+                .removeprefix("transfers.")
+        )
+
         if callable(functions):
             functions = {functions.__name__: functions}  # noqa: PLW2901
 
         if isinstance(functions, dict) and all(
             inspect.isfunction(i) for i in functions.values()
         ):
-            current = result
-            is_top_level = True
-
-            for key in module.split(".")[1:]:
-                if not is_top_level or key not in {"taxes", "transfers"}:
-                    current = current.setdefault(key, {})
-
-            current.update(functions)
+            for name, func in functions.items():
+                result[f"{clean_module}.{name}"] = func
         else:
             raise NotImplementedError(
                 f"Source {functions} has invalid type {type(functions)}."
