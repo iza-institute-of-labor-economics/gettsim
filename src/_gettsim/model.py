@@ -1,20 +1,38 @@
 from __future__ import annotations
 
+import functools
 import inspect
 from collections.abc import Callable
 from datetime import date
+from typing import Any, TypeVar
 
-from _gettsim.functions_loader import _vectorize_func
+import numpy
 
+T = TypeVar("T")
 
 class PolicyFunction(Callable):
     """
     A function that computes an output vector based on some input vectors.
+
+    Parameters
+    ----------
+    function:
+        The function to wrap. Argument values of the `@policy_info` are reused unless
+        explicitly overwritten.
+    module_name:
+        The name of the module where the function is defined.
+    function_name:
+        The name of the function in the DAG
+    start_date:
+        The date from which the function is active (inclusive).
+    end_date:
+        The date until which the function is active (inclusive).
+    params_key_for_rounding:
+        The key in the params dictionary that should be used for rounding.
+    skip_vectorization:
+        Whether the function should be vectorized.
     """
 
-    # Default values are set to None and overwritten in the body here, so callers don't
-    # have to repeat default values for functions with the @policy_info decorator.
-    # Instead, they can just always pass None.
     def __init__(  # noqa: PLR0913
         self,
         function: Callable,
@@ -25,12 +43,38 @@ class PolicyFunction(Callable):
         params_key_for_rounding: str | None = None,
         skip_vectorization: bool | None = None,
     ):
+        info: dict[str, Any] = getattr(function, "__info__", {})
+        skip_vectorization: bool = _first_not_none_or_none(
+            skip_vectorization,
+            info.get("skip_vectorization"),
+            False
+        )
+
         self.function = function if skip_vectorization else _vectorize_func(function)
         self.module_name = module_name
-        self.function_name = function_name or function.__name__
-        self.start_date = start_date or date(1, 1, 1)
-        self.end_date = end_date or date(9999, 12, 31)
-        self.params_key_for_rounding = params_key_for_rounding
+
+        self.function_name: str = _first_not_none_or_none(
+            function_name,
+            info.get("name_in_dag"),
+            function.__name__,
+        )
+
+        self.start_date: date = _first_not_none_or_none(
+            start_date,
+            info.get("start_date"),
+            date(1, 1, 1),
+        )
+
+        self.end_date: date = _first_not_none_or_none(
+            end_date,
+            info.get("end_date"),
+            date(9999, 12, 31),
+        )
+
+        self.params_key_for_rounding: str | None = _first_not_none_or_none(
+            params_key_for_rounding,
+            info.get("params_key_for_rounding"),
+        )
 
         # Expose the signature of the wrapped function for dependency resolution
         self.__signature__ = inspect.signature(self.function)
@@ -49,3 +93,34 @@ class PolicyFunction(Callable):
 
     def is_active_at_date(self, date: date) -> bool:
         return self.start_date <= date <= self.end_date
+
+
+def _vectorize_func(func: Callable) -> Callable:
+    # What should work once that Jax backend is fully supported
+    signature = inspect.signature(func)
+    func_vec = numpy.vectorize(func)
+
+    @functools.wraps(func)
+    def wrapper_vectorize_func(*args, **kwargs):
+        return func_vec(*args, **kwargs)
+
+    wrapper_vectorize_func.__signature__ = signature
+
+    return wrapper_vectorize_func
+
+
+def _first_not_none_or_none(*values: T) -> T | None:
+    """
+    Return the first value that is not None or None if all values are None.
+
+    Parameters
+    ----------
+    values:
+        The values to check.
+    """
+
+    for value in values:
+        if value is not None:
+            return value
+
+    return None

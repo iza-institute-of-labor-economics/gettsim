@@ -8,7 +8,7 @@ from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 from _gettsim.model import PolicyFunction
 
 
-def load_functions_for_date(date: datetime.date) -> dict[str, PolicyFunction]:
+def load_functions_for_date(date: datetime.date) -> dict[str, PolicyFunction]:  # TODO: should be list of policy functions
     """
     Load policy functions that are active at a specific date.
 
@@ -148,20 +148,9 @@ def _create_policy_function_from_decorated_callable(
             .removeprefix("transfers.")
     )
 
-    if not hasattr(function, "__info__"):
-        return PolicyFunction(
-            function=function,
-            module_name=clean_module_name,
-        )
-
     return PolicyFunction(
         function=function,
         module_name=clean_module_name,
-        function_name=function.__info__.get("name_in_dag"),
-        start_date=function.__info__.get("start_date"),
-        end_date=function.__info__.get("end_date"),
-        params_key_for_rounding=function.__info__.get("params_key_for_rounding"),
-        skip_vectorization=function.__info__.get("skip_vectorization"),
     )
 
 
