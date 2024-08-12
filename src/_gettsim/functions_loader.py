@@ -173,16 +173,6 @@ def _create_derived_functions(
     )
 
 
-def load_user_and_internal_functions(user_functions_raw):
-    user_functions_raw = [] if user_functions_raw is None else user_functions_raw
-
-    user_functions = _load_functions(user_functions_raw)
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = _load_functions(imports)
-
-    return user_functions, internal_functions
-
-
 def load_internal_functions():
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     internal_functions = _load_functions(imports)
