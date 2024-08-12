@@ -173,20 +173,13 @@ def _create_derived_functions(
     )
 
 
-def load_internal_functions():
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    internal_functions = _load_functions(imports)
-
-    return internal_functions
-
-
 def load_aggregation_dict(typ: Literal["aggregate_by_group", "aggregate_by_p_id"]):
     imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
     sources = _search_directories_recursively_for_python_files(imports)
     return _load_aggregation_dicts_from_modules(sources, typ)
 
 
-def _convert_paths_to_import_strings(paths):
+def _convert_paths_to_import_strings(paths) -> list[str]:
     """Convert paths to modules for gettsim's internal functions to imports.
 
     Example
@@ -221,6 +214,8 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
+    from _gettsim.model import PolicyFunction  # cyclic import
+
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]
     )
@@ -234,7 +229,8 @@ def _load_functions(sources, include_imported_functions=False):
             source = {source.__name__: source}  # noqa: PLW2901
 
         if isinstance(source, dict) and all(
-            inspect.isfunction(i) for i in source.values()
+            inspect.isfunction(i) or isinstance(i, PolicyFunction)
+            for i in source.values()
         ):
             functions = {**functions, **source}
 

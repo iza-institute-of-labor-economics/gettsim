@@ -1,7 +1,6 @@
 import copy
 import datetime
 import operator
-from collections.abc import Callable
 from functools import reduce
 
 import numpy
@@ -10,7 +9,7 @@ import yaml
 
 import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
-from _gettsim.functions_loader import load_internal_functions
+from _gettsim.functions_loader_new import load_functions_for_date
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -220,40 +219,6 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
         params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] = out.loc[0]
 
     return params
-
-
-def load_functions_for_date(date):
-    """Load time-dependent policy reforms.
-
-    Parameters
-    ----------
-    date : datetime.date
-        The date for which the policy system is set up.
-
-    Returns
-    -------
-    functions : dict
-        Dictionary mapping column names to functions creating the respective
-        data.
-
-    """
-
-    # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
-    functions = {}
-    for f in load_internal_functions().values():
-        if not is_time_dependent(f) or is_active_at_date(f, date):
-            name = f.__info__["name_in_dag"] if hasattr(f, "__info__") else f.__name__
-            functions[name] = f
-
-    return functions
-
-
-def is_time_dependent(f: Callable) -> bool:
-    return hasattr(f, "__info__") and "name_in_dag" in f.__info__
-
-
-def is_active_at_date(f: Callable, date: datetime.date) -> bool:
-    return f.__info__["start_date"] <= date <= f.__info__["end_date"]
 
 
 def _load_parameter_group_from_yaml(
