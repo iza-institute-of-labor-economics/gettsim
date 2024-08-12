@@ -41,6 +41,8 @@ from _gettsim.time_conversion import create_time_conversion_functions
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from _gettsim.policy_function import PolicyFunction
+
 
 def load_and_check_functions(
     functions_raw, targets, data_cols, aggregate_by_group_specs, aggregate_by_p_id_specs
@@ -214,7 +216,7 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-    from _gettsim.model import PolicyFunction  # cyclic import
+    from _gettsim.policy_function import PolicyFunction  # cyclic import
 
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]

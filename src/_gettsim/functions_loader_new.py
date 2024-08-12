@@ -5,7 +5,7 @@ from collections.abc import Callable
 from pathlib import Path
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
-from _gettsim.model import PolicyFunction
+from _gettsim.policy_function import PolicyFunction
 
 
 def load_functions_for_date(date: datetime.date) -> dict[str, PolicyFunction]:  # TODO: should be list of policy functions
