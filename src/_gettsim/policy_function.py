@@ -77,6 +77,7 @@ class PolicyFunction(Callable):
         )
 
         # Expose the signature of the wrapped function for dependency resolution
+        self.__annotations__ = function.__annotations__
         self.__signature__ = inspect.signature(self.function)
 
         # Temporary solution until the rest of the interface is updated
@@ -118,7 +119,6 @@ def _first_not_none_or_none(*values: T) -> T | None:
     values:
         The values to check.
     """
-
     for value in values:
         if value is not None:
             return value

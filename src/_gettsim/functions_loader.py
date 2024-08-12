@@ -31,6 +31,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.groupings import create_groupings
+from _gettsim.policy_function import PolicyFunction
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -40,8 +41,6 @@ from _gettsim.time_conversion import create_time_conversion_functions
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-    from _gettsim.policy_function import PolicyFunction
 
 
 def load_and_check_functions(
@@ -765,6 +764,9 @@ def _create_one_aggregate_by_p_id_func(
 def _vectorize_func(func):
     # If the function is already vectorized, return it as is
     if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
+        return func
+
+    if isinstance(func, PolicyFunction):
         return func
 
     # What should work once that Jax backend is fully supported
