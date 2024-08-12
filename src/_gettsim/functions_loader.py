@@ -44,7 +44,11 @@ if TYPE_CHECKING:
 
 
 def load_and_check_functions(
-    functions_raw, targets, data_cols, aggregate_by_group_specs, aggregate_by_p_id_specs
+    functions_raw: dict[str, PolicyFunction],
+    targets,
+    data_cols,
+    aggregate_by_group_specs,
+    aggregate_by_p_id_specs,
 ):
     """Create the dict with all functions that may become part of the DAG by:
 
@@ -82,20 +86,13 @@ def load_and_check_functions(
 
     """
 
-    # Load functions.
-    functions_raw = [] if functions_raw is None else functions_raw
-    functions = _load_functions(functions_raw)
-
-    # Vectorize functions.
-    vectorized_functions = {fn: _vectorize_func(f) for fn, f in functions.items()}
-
     # Create derived functions
     (
         time_conversion_functions,
         aggregate_by_group_functions,
         aggregate_by_p_id_functions,
     ) = _create_derived_functions(
-        vectorized_functions,
+        functions_raw,
         targets,
         data_cols,
         aggregate_by_group_specs,
@@ -108,7 +105,7 @@ def load_and_check_functions(
     all_functions = {
         **aggregate_by_p_id_functions,
         **time_conversion_functions,
-        **vectorized_functions,
+        **functions_raw,
         **aggregate_by_group_functions,
         **groupings,
     }
@@ -128,7 +125,7 @@ def load_and_check_functions(
 
 
 def _create_derived_functions(
-    user_and_internal_functions: dict[str, Callable],
+    user_and_internal_functions: dict[str, PolicyFunction],
     targets: list[str],
     data_cols: list[str],
     aggregate_by_group_specs: dict[str, dict[str, str]],
