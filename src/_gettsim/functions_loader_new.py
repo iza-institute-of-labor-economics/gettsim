@@ -8,7 +8,9 @@ from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 from _gettsim.policy_function import PolicyFunction
 
 
-def load_functions_for_date(date: datetime.date) -> dict[str, PolicyFunction]:  # TODO: should be list of policy functions
+def load_functions_for_date(
+    date: datetime.date,
+) -> dict[str, PolicyFunction]:  # TODO: should be list of policy functions
     """
     Load policy functions that are active at a specific date.
 
@@ -105,9 +107,9 @@ def _convert_path_to_module_name(absolute_path: Path) -> str:
     """
     return (
         absolute_path.relative_to(RESOURCE_DIR.parent)
-            .with_suffix("")
-            .as_posix()
-            .replace("/", ".")
+        .with_suffix("")
+        .as_posix()
+        .replace("/", ".")
     )
 
 
@@ -128,10 +130,7 @@ def _load_functions_in_module(module_name: str) -> list[PolicyFunction]:
     module = importlib.import_module(module_name)
     return [
         _create_policy_function_from_decorated_callable(function, module_name)
-        for name, function in inspect.getmembers(
-            module,
-            inspect.isfunction
-        )
+        for name, function in inspect.getmembers(module, inspect.isfunction)
         if _is_function_defined_in_module(function, module_name)
     ]
 
@@ -158,10 +157,9 @@ def _create_policy_function_from_decorated_callable(
 
     # Only needed until the directory structure is cleaned up
     clean_module_name = (
-        module_name
-            .removeprefix("_gettsim.")
-            .removeprefix("taxes.")
-            .removeprefix("transfers.")
+        module_name.removeprefix("_gettsim.")
+        .removeprefix("taxes.")
+        .removeprefix("transfers.")
     )
 
     return PolicyFunction(

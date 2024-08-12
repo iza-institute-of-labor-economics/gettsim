@@ -10,6 +10,7 @@ import numpy
 
 T = TypeVar("T")
 
+
 class PolicyFunction(Callable):
     """
     A function that computes an output vector based on some input vectors.
@@ -45,9 +46,7 @@ class PolicyFunction(Callable):
     ):
         info: dict[str, Any] = getattr(function, "__info__", {})
         skip_vectorization: bool = _first_not_none_or_none(
-            skip_vectorization,
-            info.get("skip_vectorization"),
-            False
+            skip_vectorization, info.get("skip_vectorization"), False
         )
 
         self.function = function if skip_vectorization else _vectorize_func(function)
@@ -83,7 +82,6 @@ class PolicyFunction(Callable):
         # Temporary solution until the rest of the interface is updated
         if hasattr(function, "__info__"):
             self.__info__ = function.__info__
-
 
     def __call__(self, *args, **kwargs):
         return self.function(*args, **kwargs)
