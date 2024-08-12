@@ -140,6 +140,22 @@ def _create_policy_function_from_decorated_callable(
     function: Callable,
     module_name: str,
 ) -> PolicyFunction:
+    """
+    Create a policy function from a callable with a `@policy_info` decorator.
+
+    Parameters
+    ----------
+    function:
+        The callable to wrap.
+    module_name:
+        The name of the module in which the callable is defined.
+
+    Returns
+    -------
+    policy_function:
+        The policy function.
+    """
+
     # Only needed until the directory structure is cleaned up
     clean_module_name = (
         module_name
@@ -155,4 +171,5 @@ def _create_policy_function_from_decorated_callable(
 
 
 def _is_function_defined_in_module(function: Callable, module_name: str) -> bool:
+    """Check if a function is defined in a specific module or only imported."""
     return inspect.getmodule(function).__name__ == module_name
