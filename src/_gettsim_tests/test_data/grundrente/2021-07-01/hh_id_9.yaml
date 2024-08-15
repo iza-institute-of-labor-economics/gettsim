@@ -38,6 +38,8 @@ inputs:
       - 1951
     bruttolohn_m:
       - 0.0
+    höchster_bruttolohn_letzte_15_jahre_y:
+      - 0.0
     entgeltp_west:
       - 34.5
     entgeltp_ost:

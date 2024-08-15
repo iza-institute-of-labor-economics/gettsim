@@ -219,6 +219,7 @@ TYPES_INPUT_VARIABLES = {
     "arbeitsl_1y_past_585": bool,
     "vertra_arbeitsl_1997": bool,
     "vertra_arbeitsl_2006": bool,
+    "höchster_bruttolohn_letzte_15_jahre_y": float,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,

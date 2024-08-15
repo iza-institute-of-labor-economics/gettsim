@@ -555,6 +555,13 @@ implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 
+(höchster_bruttolohn_letzte_15_jahre_y)=
+
+## `höchster_bruttolohn_letzte_15_jahre_y`
+
+Highest gross income from regular employment in the last 15 years. Relevant to determine
+pension benefit deductions for retirees in early retirement.
+
 (bürgerg_bezug_vorj)=
 
 ## `bürgerg_bezug_vorj`
