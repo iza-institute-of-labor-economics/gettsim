@@ -158,6 +158,9 @@ TYPES_INPUT_VARIABLES = {
     "p_id_einstandspartner": int,
     "vermögen_bedürft": float,
     "eigenbedarf_gedeckt": bool,
+    # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
+    # Bedarfsgemeinschaften are fully endogenous
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
