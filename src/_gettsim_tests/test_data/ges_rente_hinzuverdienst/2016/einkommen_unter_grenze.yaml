@@ -1,6 +1,6 @@
 ---
 info:
-  note: High income and low Hinzuverdienstdeckel.
+  note: ''
   source: ''
 inputs:
   provided:
@@ -9,9 +9,7 @@ inputs:
     hh_id:
       - 0
     bruttolohn_m:
-      - 6000.0
-    höchster_bruttolohn_letzte_15_jahre_m:
-      - 3000.0
+      - 0.0
     wohnort_ost:
       - false
     geburtsjahr:
@@ -31,8 +29,8 @@ inputs:
   assumed: {}
 outputs:
   ges_rente_m:
-    - 0.0
+    - 1168.4
   bruttorente_basisbetrag_m:
-    - 1367.6
+    - 1168.4
   bruttorente_m:
-    - 0.0
+    - 1168.4

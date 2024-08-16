@@ -134,11 +134,11 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=["ges_rente_vor_grundr_m"],
+        targets=["bruttorente_m"],
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["ges_rente_vor_grundr_m"] + df["priv_rente_m"],
+        calc_result_last_year["bruttorente_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

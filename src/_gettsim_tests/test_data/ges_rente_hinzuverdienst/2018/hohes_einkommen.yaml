@@ -36,5 +36,3 @@ outputs:
     - 1241.2
   bruttorente_m:
     - 0.0
-  bruttorente_nach_teilweiser_einkommensanrechnung_m:
-    - 0.0

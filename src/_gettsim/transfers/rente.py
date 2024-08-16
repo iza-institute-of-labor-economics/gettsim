@@ -55,7 +55,11 @@ def ges_rente_m(bruttorente_m: float) -> float:
     return bruttorente_m
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="bruttorente_m")
+@policy_info(
+    start_date="2023-01-01",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
 def bruttorente_ohne_einkommensanrechnung_m(
     bruttorente_basisbetrag_m: float,
 ) -> float:
@@ -73,18 +77,21 @@ def bruttorente_ohne_einkommensanrechnung_m(
     return bruttorente_basisbetrag_m
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="bruttorente_m")
-def bruttorente_mit_einkommensanrechnung_m(  # noqa: PLR0913
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
+def bruttorente_mit_hinzuverdienstdeckel_m(  # noqa: PLR0913
     alter: float,
     ges_rente_regelaltersgrenze: float,
     bruttorente_basisbetrag_m: float,
-    bruttorente_nach_teilweiser_einkommensanrechnung_m: float,
-    bruttorente_nach_voller_einkommensanrechnung_m: float,
     bruttolohn_m: float,
     höchster_bruttolohn_letzte_15_jahre_m: float,
     ges_rente_params: dict,
 ) -> float:
-    """Pension benefit deduction due to earnings test for early retirement.
+    """Pension benefits after earnings test for early retirees.
 
     Deductions are made if earnings are above an earnings limit. If sum of earnings and
     pension is larger than the highest income in the last 15 years, the pension is fully
@@ -98,10 +105,6 @@ def bruttorente_mit_einkommensanrechnung_m(  # noqa: PLR0913
         See :func:`ges_rente_regelaltersgrenze`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
-    bruttorente_nach_teilweiser_einkommensanrechnung_m
-        See :func:`bruttorente_nach_teilweiser_einkommensanrechnung_m`.
-    bruttorente_nach_voller_einkommensanrechnung_m
-        See :func:`bruttorente_nach_voller_einkommensanrechnung_m`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     höchster_bruttolohn_letzte_15_jahre_m
@@ -113,19 +116,79 @@ def bruttorente_mit_einkommensanrechnung_m(  # noqa: PLR0913
     -------
 
     """
+    # No deduction because of age or low earnings
+    if (alter >= ges_rente_regelaltersgrenze) or (
+        bruttolohn_m <= ges_rente_params["hinzuverdienstgrenze"] / 12
+    ):
+        zahlbetrag_nach_einkommensanrechung = bruttorente_basisbetrag_m
+    # Basis deduction of 40%
+    else:
+        zahlbetrag_nach_einkommensanrechung = max(
+            bruttorente_basisbetrag_m
+            - ges_rente_params["abzugsrate_hinzuverdienst"]
+            * (bruttolohn_m - ges_rente_params["hinzuverdienstgrenze"] / 12),
+            0.0,
+        )
+
+    # Additional 100% deduction if earnings plus pension exceed Hinzuverdienstdeckel
+    einkommen_über_hinzuverdienstdeckel = (
+        zahlbetrag_nach_einkommensanrechung
+        + bruttolohn_m
+        - höchster_bruttolohn_letzte_15_jahre_m
+    )
+    if (
+        einkommen_über_hinzuverdienstdeckel > 0
+        and alter <= ges_rente_regelaltersgrenze
+        and bruttolohn_m > 0
+    ):
+        out = max(bruttorente_basisbetrag_m - einkommen_über_hinzuverdienstdeckel, 0.0)
+    else:
+        out = zahlbetrag_nach_einkommensanrechung
+
+    return out
+
+
+@policy_info(
+    end_date="2016-12-31",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
+def bruttorente_mit_harter_hinzuverdienstgrenze_m(
+    alter: int,
+    ges_rente_regelaltersgrenze: float,
+    bruttolohn_m: float,
+    bruttorente_basisbetrag_m: float,
+    ges_rente_params: dict,
+) -> float:
+    """Pension benefits after earnings test for early retirees.
+
+    If earnings are above an earnings limit, the pension is fully deducted.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    bruttorente_basisbetrag_m
+        See :func:`bruttorente_basisbetrag_m`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (alter >= ges_rente_regelaltersgrenze) or (
         bruttolohn_m <= ges_rente_params["hinzuverdienstgrenze"] / 12
     ):
         out = bruttorente_basisbetrag_m
-    # Teilrente unter Hinzuverdienstdeckel; 40% deduction rate
-    elif (
-        bruttolohn_m + bruttorente_basisbetrag_m
-        <= höchster_bruttolohn_letzte_15_jahre_m
-    ):
-        out = bruttorente_nach_teilweiser_einkommensanrechnung_m
-    # Teilrente über Hinzuverdienstdeckel; 100% deduction rate
     else:
-        out = bruttorente_nach_voller_einkommensanrechnung_m
+        out = 0.0
 
     return out
 
@@ -176,73 +239,6 @@ def bruttorente_basisbetrag_m(
         out = 0.0
 
     return out
-
-
-@policy_info(end_date="2022-12-31")
-def bruttorente_nach_voller_einkommensanrechnung_m(
-    bruttorente_basisbetrag_m: float,
-    bruttorente_nach_teilweiser_einkommensanrechnung_m: float,
-    bruttolohn_m: float,
-    höchster_bruttolohn_letzte_15_jahre_m: float,
-) -> float:
-    """Pension benefit deduction at full rate during early retirement.
-
-    Deductions at full rate (=100%) if earnings are above the Hinzuverdienstdeckel.
-
-    Parameters
-    ----------
-    bruttorente_basisbetrag_m
-        See :func:`bruttorente_basisbetrag_m`.
-    bruttorente_nach_teilweiser_einkommensanrechnung_m
-        See :func:`bruttorente_nach_teilweiser_einkommensanrechnung_m`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    höchster_bruttolohn_letzte_15_jahre_m
-        See :func:`höchster_bruttolohn_letzte_15_jahre_m`.
-
-    Returns
-    -------
-
-    """
-
-    rentenabzug = (
-        bruttorente_nach_teilweiser_einkommensanrechnung_m
-        + bruttolohn_m
-        - höchster_bruttolohn_letzte_15_jahre_m
-    )
-
-    return max(bruttorente_basisbetrag_m - rentenabzug, 0.0)
-
-
-@policy_info(end_date="2022-12-31")
-def bruttorente_nach_teilweiser_einkommensanrechnung_m(
-    bruttorente_basisbetrag_m: float,
-    bruttolohn_m: float,
-    ges_rente_params: dict,
-) -> float:
-    """Pension benefit deduction at reduced rate during early retirement.
-
-    Deductions at reduced rate (<100%) if earnings are below the Hinzuverdienstdeckel.
-
-    Parameters
-    ----------
-    bruttorente_basisbetrag_m
-        See :func:`bruttorente_basisbetrag_m`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    ges_rente_params
-        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
-
-    Returns
-    -------
-
-    """
-    return max(
-        bruttorente_basisbetrag_m
-        - ges_rente_params["abzugsrate_hinzuverdienst"]
-        * (bruttolohn_m - ges_rente_params["hinzuverdienstgrenze"] / 12),
-        0.0,
-    )
 
 
 def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
