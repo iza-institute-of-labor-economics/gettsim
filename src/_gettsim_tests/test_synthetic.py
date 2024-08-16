@@ -293,7 +293,7 @@ def test_p_id_groups(fixture, expected, request):
 
 @pytest.mark.parametrize(
     "fixture, policy_date",
-    [("synthetic_data_couple_with_children", i) for i in range(2017, 2024)],
+    [("synthetic_data_couple_with_children", y) for y in range(2017, 2024)],
 )
 def test_default_targets(fixture, policy_date, request):
     policy_params, policy_functions = set_up_policy_environment(policy_date)
