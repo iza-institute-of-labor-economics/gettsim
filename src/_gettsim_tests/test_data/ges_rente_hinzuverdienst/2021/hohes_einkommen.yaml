@@ -32,9 +32,9 @@ inputs:
 outputs:
   ges_rente_m:
     - 0.0
-  bruttorente_ohne_einkommensanrechnung_m:
+  bruttorente_basisbetrag_m:
     - 1367.6
-  bruttorente_mit_einkommensanrechnung_m:
+  bruttorente_m:
     - 0.0
   bruttorente_nach_teilweiser_einkommensanrechnung_m:
     - 502.93

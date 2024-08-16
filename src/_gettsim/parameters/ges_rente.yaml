@@ -2435,8 +2435,7 @@ abzugsrate_hinzuverdienst:
     de: Abzugsrate für Hinzuverdienst vor der Regelaltersgrenze
     en: Deduction rate for additional earnings during early retirement
   reference: § 34 SGB VI
-  note: Starting date unclear.
-  1980-01-01:
+  2017-07-01:
     scalar: 0.4
 hinzuverdienstgrenze:
   name:
@@ -2451,8 +2450,8 @@ hinzuverdienstgrenze:
   2013-01-01:
     scalar: 450.0
   2017-01-01:
-    scalar: 06300.0
+    scalar: 6300.0
   2020-01-01:
-    scalar: 044590.0
+    scalar: 44590.0
   2021-01-01:
-    scalar: 046060.0
+    scalar: 46060.0

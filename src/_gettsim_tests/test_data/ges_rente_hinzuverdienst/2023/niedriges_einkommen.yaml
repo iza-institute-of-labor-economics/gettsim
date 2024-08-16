@@ -28,5 +28,5 @@ inputs:
 outputs:
   ges_rente_m:
     - 1440.8
-  bruttorente_ohne_einkommensanrechnung_m:
+  bruttorente_basisbetrag_m:
     - 1440.8
