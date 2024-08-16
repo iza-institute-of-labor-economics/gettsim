@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`786` Check directly whether child and parent are in same Bedarfsgemeinschaft for
+  Kindergeldübertrag ({ghuser}`MImmesberger`).
 - {gh}`785` Add NotImplementedError to Unterhaltsvorschuss and test whether output from
   `create_synthetic_data` is enough to compute default targets ({ghuser}`MImmesberger`).
 - {gh}`772` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24

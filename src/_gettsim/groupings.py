@@ -23,6 +23,9 @@ def bg_id_numpy(
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
     """
+    # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
+    # Bedarfsgemeinschaften are fully endogenous
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     counter = Counter()
     result = []
 
