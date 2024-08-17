@@ -46,7 +46,7 @@ def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
         {
             "p_id": [0, 1],
             "p_id_ehepartner": [1, 0],
-            "gemeinsam_veranlagt": [0, 1],
+            "gemeinsam_veranlagt": [False, True],
         }
     )
 

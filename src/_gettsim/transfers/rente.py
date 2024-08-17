@@ -84,7 +84,7 @@ def bruttorente_ohne_einkommensanrechnung_m(
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_mit_hinzuverdienstdeckel_m(  # noqa: PLR0913
-    alter: float,
+    alter: int,
     ges_rente_regelaltersgrenze: float,
     bruttorente_basisbetrag_m: float,
     bruttolohn_m: float,
