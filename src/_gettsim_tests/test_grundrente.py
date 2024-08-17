@@ -56,7 +56,7 @@ INPUT_COLS_INCOME = [
     "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
-    "höchster_bruttolohn_letzte_15_jahre_y",
+    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "weiblich",
     "y_pflichtbeitr_ab_40",
     "pflichtbeitr_8_in_10",

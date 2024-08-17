@@ -18,9 +18,9 @@ inputs:
       - 64
     ges_rente_zugangsfaktor:
       - 1.0
-    entgeltp_west_update:
+    entgeltp_west:
       - 40.0
-    entgeltp_ost_update:
+    entgeltp_ost:
       - 0.0
     rentner:
       - true
