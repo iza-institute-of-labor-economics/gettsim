@@ -261,7 +261,7 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     return float(out)
 
 
-def entgeltp_west_update(
+def entgeltp_west_updated(
     wohnort_ost: bool, entgeltp_west: float, entgeltp_update_lohn: float
 ) -> float:
     """Update western earning points.
@@ -291,7 +291,7 @@ def entgeltp_west_update(
     return out
 
 
-def entgeltp_ost_update(
+def entgeltp_ost_updated(
     wohnort_ost: bool, entgeltp_ost: float, entgeltp_update_lohn: float
 ) -> float:
     """Update eastern earning points.
