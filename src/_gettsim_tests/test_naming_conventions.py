@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+
 from _gettsim.config import (
     DEFAULT_TARGETS,
     GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS,

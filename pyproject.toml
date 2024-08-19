@@ -107,6 +107,7 @@ extend-ignore = [
     "PLR5501", # elif not supported by Jax converter
     "TRY003", # Avoid specifying long messages outside the exception class
     "FIX002", # Line contains TODO -- Use stuff from TD area.
+    "PLC2401", # Allow non-ASCII characters in variable names.
 
     # Things we are not sure we want
     # ==============================
@@ -124,6 +125,7 @@ extend-ignore = [
     "C901", # function too complex
     "PT011", # pytest raises without match statement
     "INP001", # implicit namespace packages without init.
+    "E721", # Use `is` and `is not` for type comparisons
 ]
 exclude = []
 
@@ -143,6 +145,7 @@ exclude = []
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
+"docs/**/*.ipynb" = ["T201"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"

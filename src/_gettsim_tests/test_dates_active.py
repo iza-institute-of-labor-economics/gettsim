@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+
 from _gettsim.shared import (
     TIME_DEPENDENT_FUNCTIONS,
     ConflictingTimeDependentFunctionsError,

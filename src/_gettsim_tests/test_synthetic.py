@@ -3,33 +3,34 @@ from __future__ import annotations
 import numpy
 import pandas as pd
 import pytest
+
 from _gettsim.config import DEFAULT_TARGETS
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_with_defaults():
     return create_synthetic_data()
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_couple_with_children():
     return create_synthetic_data(n_adults=2, n_children=2)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_alleinerziehend():
     return create_synthetic_data(n_adults=1, n_children=1)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_no_children():
     return create_synthetic_data(n_adults=2, n_children=0)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_variables():
     df = create_synthetic_data(
         n_adults=2,
@@ -42,7 +43,7 @@ def synthetic_data_spec_variables():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_married():
     df = create_synthetic_data(
         n_adults=2,
@@ -56,7 +57,7 @@ def synthetic_data_spec_heterogeneous_married():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_not_married():
     df = create_synthetic_data(
         n_adults=2,

@@ -194,7 +194,7 @@ def parse_to_list_of_strings(user_input, name):
     elif isinstance(user_input, list) and all(isinstance(i, str) for i in user_input):
         pass
     else:
-        NotImplementedError(
+        raise NotImplementedError(
             f"{name!r} needs to be None, a string or a list of strings."
         )
 
