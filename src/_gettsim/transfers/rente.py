@@ -133,6 +133,8 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     -------
 
     """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (
         _differenz_bruttolohn_hinzuverdienstdeckel_m > 0
         and alter <= ges_rente_regelaltersgrenze
@@ -183,6 +185,8 @@ def _ges_rente_zahlbetrag_ohne_deckel_m(
     -------
 
     """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     # No deduction because of age or low earnings
     if (alter >= ges_rente_regelaltersgrenze) or (
         bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
