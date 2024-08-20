@@ -104,19 +104,17 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     name_in_dag="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
-def bruttorente_mit_hinzuverdienstdeckel_m(  # noqa: PLR0913
+def bruttorente_mit_hinzuverdienstdeckel_m(
     alter: int,
     ges_rente_regelaltersgrenze: float,
-    bruttorente_basisbetrag_m: float,
-    bruttolohn_m: float,
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_m: float,
-    ges_rente_params: dict,
+    bruttolohn_y: float,
+    _differenz_bruttolohn_hinzuverdienstdeckel_m: float,
+    _ges_rente_zahlbetrag_ohne_deckel_m: float,
 ) -> float:
     """Pension benefits after earnings test for early retirees.
 
-    Deductions are made if earnings are above an earnings limit. If sum of earnings and
-    pension is larger than the highest income in the last 15 years, the pension is fully
-    deducted (Hinzuverdienstdeckel).
+    If sum of earnings and pension is larger than the highest income in the last 15
+    years, the pension is fully deducted (Hinzuverdienstdeckel).
 
     Parameters
     ----------
@@ -124,12 +122,60 @@ def bruttorente_mit_hinzuverdienstdeckel_m(  # noqa: PLR0913
         See basic input variable :ref:`alter <alter>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    _differenz_bruttolohn_hinzuverdienstdeckel_m
+        See :func:`_differenz_bruttolohn_hinzuverdienstdeckel_m`.
+    _ges_rente_zahlbetrag_ohne_deckel_m
+        See :func:`_ges_rente_zahlbetrag_ohne_deckel_m`.
+
+    Returns
+    -------
+
+    """
+    if (
+        _differenz_bruttolohn_hinzuverdienstdeckel_m > 0
+        and alter <= ges_rente_regelaltersgrenze
+        and bruttolohn_y > 0
+    ):
+        out = max(
+            _ges_rente_zahlbetrag_ohne_deckel_m
+            - _differenz_bruttolohn_hinzuverdienstdeckel_m,
+            0.0,
+        )
+    else:
+        out = _ges_rente_zahlbetrag_ohne_deckel_m
+
+    return out
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _ges_rente_zahlbetrag_ohne_deckel_m(
+    bruttolohn_y: float,
+    alter: int,
+    ges_rente_regelaltersgrenze: float,
+    bruttorente_basisbetrag_m: float,
+    _differenz_bruttolohn_hinzuverdienstgrenze_m: float,
+    ges_rente_params: dict,
+) -> float:
+    """Pension benefits after earnings test without accounting for the earnings cap
+    (Hinzuverdienstdeckel).
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_m
-        See :func:`höchster_bruttolohn_letzte_15_jahre_vor_rente_m`.
+    _differenz_bruttolohn_hinzuverdienstgrenze_m
+        See :func:`_differenz_bruttolohn_hinzuverdienstgrenze_m`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -139,34 +185,76 @@ def bruttorente_mit_hinzuverdienstdeckel_m(  # noqa: PLR0913
     """
     # No deduction because of age or low earnings
     if (alter >= ges_rente_regelaltersgrenze) or (
-        bruttolohn_m <= ges_rente_params["hinzuverdienstgrenze"] / 12
+        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
     ):
-        zahlbetrag_nach_einkommensanrechung = bruttorente_basisbetrag_m
+        out = bruttorente_basisbetrag_m
     # Basis deduction of 40%
     else:
-        zahlbetrag_nach_einkommensanrechung = max(
+        out = max(
             bruttorente_basisbetrag_m
             - ges_rente_params["abzugsrate_hinzuverdienst"]
-            * (bruttolohn_m - ges_rente_params["hinzuverdienstgrenze"] / 12),
+            * _differenz_bruttolohn_hinzuverdienstgrenze_m,
             0.0,
         )
 
-    # Additional 100% deduction if earnings plus pension exceed Hinzuverdienstdeckel
-    einkommen_über_hinzuverdienstdeckel = (
-        zahlbetrag_nach_einkommensanrechung
-        + bruttolohn_m
-        - höchster_bruttolohn_letzte_15_jahre_vor_rente_m
-    )
-    if (
-        einkommen_über_hinzuverdienstdeckel > 0
-        and alter <= ges_rente_regelaltersgrenze
-        and bruttolohn_m > 0
-    ):
-        out = max(bruttorente_basisbetrag_m - einkommen_über_hinzuverdienstdeckel, 0.0)
-    else:
-        out = zahlbetrag_nach_einkommensanrechung
-
     return out
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _differenz_bruttolohn_hinzuverdienstgrenze_y(
+    bruttolohn_y: float,
+    ges_rente_params: dict,
+) -> float:
+    """Earnings that are subject to pension deductions.
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    return max(bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _differenz_bruttolohn_hinzuverdienstdeckel_y(
+    bruttolohn_y: float,
+    _ges_rente_zahlbetrag_ohne_deckel_y: float,
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
+) -> float:
+    """Income above the earnings cap (Hinzuverdienstdeckel).
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    _ges_rente_zahlbetrag_ohne_deckel_y
+        See :func:`_ges_rente_zahlbetrag_ohne_deckel_y`.
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        See basic input variable :ref:`höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        <höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
+
+    Returns
+    -------
+
+    """
+    return max(
+        _ges_rente_zahlbetrag_ohne_deckel_y
+        + bruttolohn_y
+        - höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
+        0.0,
+    )
 
 
 @policy_info(
