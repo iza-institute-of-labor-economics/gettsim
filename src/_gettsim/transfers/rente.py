@@ -20,8 +20,8 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
 
 
 @policy_info(end_date="2020-12-31")
-def ges_rente_m(bruttorente_m: float) -> float:
-    return bruttorente_m
+def ges_rente_m(bruttorente_m: float, rentner: bool) -> float:
+    return bruttorente_m if rentner else 0.0
 
 
 @policy_info(
@@ -61,7 +61,7 @@ def ges_rente_mit_grundrente_m(
 def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     alter: int,
     ges_rente_regelaltersgrenze: float,
-    bruttolohn_m: float,
+    bruttolohn_y: float,
     bruttorente_basisbetrag_m: float,
     ges_rente_params: dict,
 ) -> float:
@@ -75,8 +75,8 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
         See basic input variable :ref:`alter <alter>`.
     ges_rente_regelaltersgrenze
         See :func:`ges_rente_regelaltersgrenze`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
     ges_rente_params
@@ -89,7 +89,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (alter >= ges_rente_regelaltersgrenze) or (
-        bruttolohn_m <= ges_rente_params["hinzuverdienstgrenze"] / 12
+        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
     ):
         out = bruttorente_basisbetrag_m
     else:
@@ -199,8 +199,7 @@ def bruttorente_basisbetrag_m(
     rentner: bool,
     ges_rente_params: dict,
 ) -> float:
-    """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
-    following equation:
+    """Old-Age Pensions claim. The function follows the following equation:
 
     .. math::
 
