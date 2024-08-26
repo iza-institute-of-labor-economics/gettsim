@@ -68,7 +68,7 @@ class PolicyEnvironment:
     def __init__(
         self,
         functions: list[PolicyFunction | Callable],
-        params: dict[str, Any] | None = None
+        params: dict[str, Any] | None = None,
     ):
         self._functions = {}
         for function in functions:
@@ -92,8 +92,7 @@ class PolicyEnvironment:
         return self._params
 
     def upsert_functions(
-        self,
-        *functions: PolicyFunction | Callable
+        self, *functions: PolicyFunction | Callable
     ) -> PolicyEnvironment:
         """
         Adds to or overwrites functions of the policy environment. Note that this
@@ -124,6 +123,7 @@ class PolicyEnvironment:
         result._params = self._params  # noqa: SLF001
 
         return result
+
 
 def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.

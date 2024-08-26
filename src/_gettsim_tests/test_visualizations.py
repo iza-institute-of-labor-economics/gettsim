@@ -119,8 +119,7 @@ def test_should_fail_if_target_is_missing():
         ValueError, match="The following targets have no corresponding function"
     ):
         plot_dag(
-            environment=PolicyEnvironment([]),
-            targets=["erwachsene_alle_rentner_hh"]
+            environment=PolicyEnvironment([]), targets=["erwachsene_alle_rentner_hh"]
         )
 
 

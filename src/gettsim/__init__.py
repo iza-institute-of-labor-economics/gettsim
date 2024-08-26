@@ -29,7 +29,7 @@ from _gettsim.interface import (
     FunctionsAndColumnsOverlapWarning,
     compute_taxes_and_transfers,
 )
-from _gettsim.policy_environment import set_up_policy_environment, PolicyEnvironment
+from _gettsim.policy_environment import PolicyEnvironment, set_up_policy_environment
 from _gettsim.policy_function import PolicyFunction
 from _gettsim.synthetic import create_synthetic_data
 from _gettsim.visualization import plot_dag

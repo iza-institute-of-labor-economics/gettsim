@@ -47,8 +47,7 @@ def time_indep_function_names(all_function_names):
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {
-            func.function.__name__: func.function_name
-            for func in year_functions
+            func.function.__name__: func.function_name for func in year_functions
         }
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
@@ -135,8 +134,7 @@ def test_type_hints():  # noqa: PLR0912
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {
-            func.function.__name__: func.function_name
-            for func in year_functions
+            func.function.__name__: func.function_name for func in year_functions
         }
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 

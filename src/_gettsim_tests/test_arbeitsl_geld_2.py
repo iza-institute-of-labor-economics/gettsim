@@ -18,9 +18,7 @@ def test_arbeitsl_geld_2(
     column: str,
 ):
     df = test_data.input_df
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
         data=df,

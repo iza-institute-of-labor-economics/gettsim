@@ -113,7 +113,6 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     def test_func(income):
         return income
 
-
     data = pd.DataFrame([{"p_id": 1}, {"p_id": 2}])
     data["income"] = input_values
     rounding_specs = {
@@ -264,8 +263,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {
-            func.function.__name__: func.function_name
-            for func in year_functions
+            func.function.__name__: func.function_name for func in year_functions
         }
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 

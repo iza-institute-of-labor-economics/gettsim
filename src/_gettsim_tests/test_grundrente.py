@@ -28,9 +28,7 @@ def test_grundrente(
     column: str,
 ):
     df = test_data.input_df
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
         data=df, environment=environment, targets=column
@@ -90,9 +88,7 @@ def test_proxy_rente_vorj(
     column: str,
 ):
     df = test_data.input_df[INPUT_COLS_INCOME]
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
         data=df, environment=environment, targets=column
@@ -124,9 +120,7 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     )
 
     # Calculate pension of last year
-    environment = cached_set_up_policy_environment(
-        date - timedelta(days=365)
-    )
+    environment = cached_set_up_policy_environment(date - timedelta(days=365))
     df["alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,

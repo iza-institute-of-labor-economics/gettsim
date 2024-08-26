@@ -24,14 +24,10 @@ def test_renten_anspr(
     column: str,
 ):
     df = test_data.input_df
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
-        data=df,
-        environment=environment,
-        targets=column
+        data=df, environment=environment, targets=column
     )
 
     assert_series_equal(result[column], test_data.output_df[column], atol=1e-1, rtol=0)

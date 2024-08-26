@@ -66,7 +66,9 @@ def test_warn_if_functions_and_columns_overlap():
 
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
-    environment = PolicyEnvironment([PolicyFunction(lambda x: x, function_name="some_func")])
+    environment = PolicyEnvironment(
+        [PolicyFunction(lambda x: x, function_name="some_func")]
+    )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
@@ -169,9 +171,7 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         ValueError,
         match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(
-            minimal_input_data, environment, targets="c"
-        )
+        compute_taxes_and_transfers(minimal_input_data, environment, targets="c")
 
 
 def test_data_as_series():
@@ -574,11 +574,16 @@ def test_user_provided_aggregate_by_p_id_specs(
             * len(df)
         )
 
-    environment = PolicyEnvironment([
-        PolicyFunction(source_func, function_name=aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
-            "source_col"
-        ])
-    ])
+    environment = PolicyEnvironment(
+        [
+            PolicyFunction(
+                source_func,
+                function_name=aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
+                    "source_col"
+                ],
+            )
+        ]
+    )
     out = compute_taxes_and_transfers(
         df,
         environment,

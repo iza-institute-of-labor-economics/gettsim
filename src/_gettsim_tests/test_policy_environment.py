@@ -84,8 +84,7 @@ def test_load_functions_for_date(
     function_name_next_day: str,
 ):
     functions_last_day = {
-        f.function_name: f.function
-        for f in load_functions_for_date(date=last_day)
+        f.function_name: f.function for f in load_functions_for_date(date=last_day)
     }
     functions_next_day = {
         f.function_name: f.function

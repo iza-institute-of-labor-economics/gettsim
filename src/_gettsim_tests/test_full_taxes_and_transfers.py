@@ -40,9 +40,7 @@ def test_full_taxes_and_transfers(
     test_data: PolicyTestData,
 ):
     df = test_data.input_df
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
@@ -78,9 +76,7 @@ def test_data_types(
         }
 
     df = test_data.input_df
-    environment = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
         data=df,
