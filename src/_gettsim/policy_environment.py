@@ -18,9 +18,10 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
+from _gettsim.policy_function import PolicyFunction
 
 if TYPE_CHECKING:
-    from _gettsim.policy_function import PolicyFunction
+    from collections.abc import Callable
 
 
 class PolicyEnvironment:
@@ -69,11 +70,43 @@ class PolicyEnvironment:
 
     @property
     def functions(self) -> dict[str, PolicyFunction]:
+        """The functions of the policy environment."""
         return self._functions
 
     @property
     def params(self) -> dict[str, Any]:
+        """The parameters of the policy environment."""
         return self._params
+
+    def upsert_functions(
+        self,
+        *functions: PolicyFunction | Callable
+    ) -> PolicyEnvironment:
+        """
+        Adds to or overwrites functions of the policy environment. Note that this
+        method does not modify the current policy environment but returns a new one.
+
+        Parameters
+        ----------
+        functions:
+            The functions to add or overwrite.
+
+        Returns
+        -------
+        new_environment:
+            The policy environment with the new functions.
+        """
+        new_functions = copy.deepcopy(self._functions)
+
+        for function in functions:
+            f = (
+                function
+                if isinstance(function, PolicyFunction)
+                else PolicyFunction(function)
+            )
+            new_functions[f.function_name] = f
+
+        return PolicyEnvironment(new_functions, self._params)
 
 def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.

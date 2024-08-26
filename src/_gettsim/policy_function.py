@@ -37,7 +37,7 @@ class PolicyFunction(Callable):
     def __init__(  # noqa: PLR0913
         self,
         function: Callable,
-        module_name: str,
+        module_name: str = "",
         function_name: str | None = None,
         start_date: date | None = None,
         end_date: date | None = None,
