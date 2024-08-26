@@ -55,6 +55,8 @@ def test(*args):
 __all__ = [
     "__version__",
     "FunctionsAndColumnsOverlapWarning",
+    "PolicyEnvironment",
+    "PolicyFunction",
     "compute_taxes_and_transfers",
     "set_up_policy_environment",
     "plot_dag",

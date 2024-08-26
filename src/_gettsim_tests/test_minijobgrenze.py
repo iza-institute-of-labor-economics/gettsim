@@ -24,8 +24,7 @@ def test_groupings(
 
     result = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
         targets=column,
     )
 
