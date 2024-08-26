@@ -18,12 +18,12 @@ def test_sozialv_beitr(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, environment=environment, targets=column
     )
 
     pd.testing.assert_series_equal(

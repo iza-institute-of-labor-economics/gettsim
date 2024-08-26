@@ -20,15 +20,14 @@ def test_aggregate_by_p_id(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 
     result = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=column,
+        environment=environment,
+        targets=column
     )
 
     assert_series_equal(

@@ -25,6 +25,12 @@ if TYPE_CHECKING:
 
 
 class PolicyEnvironment:
+    """
+    A container for policy functions and parameters. You should usually use the factory
+    method :meth:`for_date` to create a policy environment instead of calling the
+    constructor directly.
+    """
+
     @staticmethod
     def for_date(date: datetime.date | str | int) -> PolicyEnvironment:
         """
@@ -61,13 +67,18 @@ class PolicyEnvironment:
 
     def __init__(
         self,
-        functions: list[PolicyFunction],
+        functions: list[PolicyFunction | Callable],
         params: dict[str, Any] | None = None
     ):
-        self._functions = {
-            f.function_name: f
-            for f in functions
-        }
+        self._functions = {}
+        for function in functions:
+            f = (
+                function
+                if isinstance(function, PolicyFunction)
+                else PolicyFunction(function)
+            )
+            self._functions[f.function_name] = f
+
         self._params = params if params is not None else {}
 
     @property
@@ -98,7 +109,7 @@ class PolicyEnvironment:
         new_environment:
             The policy environment with the new functions.
         """
-        new_functions = copy.deepcopy(self._functions)
+        new_functions = {**self._functions}
 
         for function in functions:
             f = (
@@ -108,7 +119,11 @@ class PolicyEnvironment:
             )
             new_functions[f.function_name] = f
 
-        return PolicyEnvironment(new_functions, self._params)
+        result = object.__new__(PolicyEnvironment)
+        result._functions = new_functions  # noqa: SLF001
+        result._params = self._params  # noqa: SLF001
+
+        return result
 
 def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.
@@ -207,7 +222,7 @@ def _parse_kinderzuschl_max(date, params):
 
     Returns
     -------
-    params: dic
+    params: dict
         updated dictionary
 
     """
@@ -243,7 +258,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
 
     Returns
     -------
-    params: dic
+    params: dict
         updated dictionary
 
     """
@@ -276,7 +291,7 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
 
     Returns
     -------
-    out: float
+    out: dict
 
     """
 

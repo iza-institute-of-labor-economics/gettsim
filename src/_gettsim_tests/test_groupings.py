@@ -21,14 +21,13 @@ def test_groupings(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 
     result = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
         targets=column,
     )
 
@@ -50,14 +49,13 @@ def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
         }
     )
 
-    policy_params, policy_functions = cached_set_up_policy_environment(date="2023")
+    environment = cached_set_up_policy_environment(date="2023")
 
     with pytest.raises(
         ValueError, match="have different values for gemeinsam_veranlagt"
     ):
         compute_taxes_and_transfers(
             data=data,
-            params=policy_params,
-            functions=policy_functions,
+            environment=environment,
             targets=["sn_id"],
         )

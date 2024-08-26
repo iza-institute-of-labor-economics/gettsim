@@ -20,7 +20,7 @@ def test_groupings(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 

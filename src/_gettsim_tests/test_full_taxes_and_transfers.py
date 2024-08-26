@@ -40,7 +40,7 @@ def test_full_taxes_and_transfers(
     test_data: PolicyTestData,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 
@@ -50,8 +50,7 @@ def test_full_taxes_and_transfers(
 
     compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
         targets=out,
     )
 
@@ -74,19 +73,18 @@ def test_data_types(
     # Load all time dependent functions
     for y in range(1990, 2023):
         year_functions = {
-            f.function.__name__: f.function
+            f.function_name: f.function
             for f in load_functions_for_date(datetime.date(year=y, month=1, day=1))
         }
 
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
+    environment = cached_set_up_policy_environment(
         date=test_data.date
     )
 
     result = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
         targets=out,
         debug=True,
     )
