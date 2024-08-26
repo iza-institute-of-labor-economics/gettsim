@@ -20,7 +20,7 @@ from _gettsim.gettsim_typing import (
     convert_series_to_internal_type,
 )
 from _gettsim.groupings import create_groupings
-from _gettsim.policy_function import PolicyFunction
+from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
     format_errors_and_warnings,
@@ -32,8 +32,7 @@ from _gettsim.shared import (
 
 def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
-    params,
-    functions: dict[str, PolicyFunction],  # TODO: should be PolicyEnvironment
+    environment: PolicyEnvironment,
     aggregate_by_group_specs=None,
     aggregate_by_p_id_specs=None,
     targets=None,
@@ -47,11 +46,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
-    params : dict
-        A dictionary with parameters from the policy environment. For more information
-        see the documentation of the :ref:`params_files`.
-    functions:
-        Functions from the policy environment.
+    environment:
+        The policy environment which contains all necessary functions and parameters.
     aggregate_by_group_specs : dict, default None
         A dictionary which contains specs for functions which aggregate variables on the
         aggregation levels specified in config.py. The syntax is the same as for
@@ -87,7 +83,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
-    params = {} if params is None else params
+    params = environment.params
+    functions = environment.functions
     aggregate_by_group_specs = (
         {} if aggregate_by_group_specs is None else aggregate_by_group_specs
     )
