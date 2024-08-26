@@ -109,7 +109,6 @@ class PolicyEnvironment:
             The policy environment with the new functions.
         """
         new_functions = {**self._functions}
-
         for function in functions:
             f = (
                 function
@@ -121,6 +120,29 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._functions = new_functions  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
+
+        return result
+
+    def replace_all_parameters(
+        self, params: dict[str, Any]
+    ):
+        """
+        Replace all parameters of the policy environment. Note that this
+        method does not modify the current policy environment but returns a new one.
+
+        Parameters
+        ----------
+        params:
+            The new parameters.
+
+        Returns
+        -------
+        new_environment:
+            The policy environment with the new parameters.
+        """
+        result = object.__new__(PolicyEnvironment)
+        result._functions = self._functions # noqa: SLF001
+        result._params = params  # noqa: SLF001
 
         return result
 
