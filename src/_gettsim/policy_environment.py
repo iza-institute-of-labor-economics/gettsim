@@ -40,9 +40,23 @@ class PolicyEnvironment:
         environment:
             The policy environment for the specified date.
         """
-        params, functions = set_up_policy_environment(date)
-        return PolicyEnvironment(functions, params)
+        # Check policy date for correct format and transfer to datetime.date
+        date = _parse_date(date)
 
+        params = {}
+        for group in INTERNAL_PARAMS_GROUPS:
+            params_one_group = _load_parameter_group_from_yaml(date, group)
+
+            # Align parameters for piecewise polynomial functions
+            params[group] = _parse_piecewise_parameters(params_one_group)
+
+        # extend dictionary with date-specific values which do not need an own function
+        params = _parse_kinderzuschl_max(date, params)
+        params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
+        params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
+        functions = load_functions_for_date(date)
+
+        return PolicyEnvironment(functions, params)
 
     # TODO: should be list of policy functions
     def __init__(self, functions: dict[str, PolicyFunction], params: dict[str, Any]):
@@ -76,23 +90,8 @@ def set_up_policy_environment(date):
         data.
 
     """
-    # Check policy date for correct format and transfer to datetime.date
-    date = _parse_date(date)
-
-    params = {}
-    for group in INTERNAL_PARAMS_GROUPS:
-        params_one_group = _load_parameter_group_from_yaml(date, group)
-
-        # Align parameters for piecewise polynomial functions
-        params[group] = _parse_piecewise_parameters(params_one_group)
-
-    # extend dictionary with date-specific values which do not need an own function
-    params = _parse_kinderzuschl_max(date, params)
-    params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-    params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
-    functions = load_functions_for_date(date)
-
-    return params, functions
+    environment = PolicyEnvironment.for_date(date)
+    return environment.params, environment.functions
 
 
 def _parse_date(date):
