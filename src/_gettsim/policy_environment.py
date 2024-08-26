@@ -59,13 +59,15 @@ class PolicyEnvironment:
 
         return PolicyEnvironment(functions, params)
 
-    # TODO: should be list of policy functions
     def __init__(
         self,
-        functions: dict[str, PolicyFunction],
+        functions: list[PolicyFunction],
         params: dict[str, Any] | None = None
     ):
-        self._functions = functions
+        self._functions = {
+            f.function_name: f
+            for f in functions
+        }
         self._params = params if params is not None else {}
 
     @property

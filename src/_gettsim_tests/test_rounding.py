@@ -258,7 +258,10 @@ def test_decorator_for_all_functions_with_rounding_spec():
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
+        new_dict = {
+            func.function.__name__: func.function_name
+            for func in year_functions
+        }
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Add time dependent functions for which rounding specs for new name exist

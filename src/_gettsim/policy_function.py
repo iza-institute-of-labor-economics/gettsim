@@ -37,6 +37,7 @@ class PolicyFunction(Callable):
     def __init__(  # noqa: PLR0913
         self,
         function: Callable,
+        *,
         module_name: str = "",
         function_name: str | None = None,
         start_date: date | None = None,
@@ -77,6 +78,7 @@ class PolicyFunction(Callable):
 
         # Expose the signature of the wrapped function for dependency resolution
         self.__annotations__ = function.__annotations__
+        self.__name__ = function.__name__
         self.__signature__ = inspect.signature(self.function)
 
         # Temporary solution until the rest of the interface is updated

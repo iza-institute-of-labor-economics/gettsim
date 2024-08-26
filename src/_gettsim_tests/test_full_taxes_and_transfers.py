@@ -73,7 +73,10 @@ def test_data_types(
 
     # Load all time dependent functions
     for y in range(1990, 2023):
-        year_functions = load_functions_for_date(datetime.date(year=y, month=1, day=1))
+        year_functions = {
+            f.function.__name__: f.function
+            for f in load_functions_for_date(datetime.date(year=y, month=1, day=1))
+        }
 
     df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(

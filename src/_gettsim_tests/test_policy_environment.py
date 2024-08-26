@@ -83,8 +83,14 @@ def test_load_functions_for_date(
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = load_functions_for_date(date=last_day)
-    functions_next_day = load_functions_for_date(date=last_day + timedelta(days=1))
+    functions_last_day = {
+        f.function_name: f.function
+        for f in load_functions_for_date(date=last_day)
+    }
+    functions_next_day = {
+        f.function_name: f.function
+        for f in load_functions_for_date(date=last_day + timedelta(days=1))
+    }
 
     assert functions_last_day[dag_key].__name__ == function_name_last_day
     assert functions_next_day[dag_key].__name__ == function_name_next_day
