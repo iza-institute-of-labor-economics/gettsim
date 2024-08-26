@@ -296,10 +296,9 @@ def test_p_id_groups(fixture, expected, request):
     [("synthetic_data_couple_with_children", y) for y in range(2017, 2024)],
 )
 def test_default_targets(fixture, policy_date, request):
-    policy_params, policy_functions = set_up_policy_environment(policy_date)
+    environment = set_up_policy_environment(policy_date)
     compute_taxes_and_transfers(
         data=request.getfixturevalue(fixture),
         targets=DEFAULT_TARGETS,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
     )
