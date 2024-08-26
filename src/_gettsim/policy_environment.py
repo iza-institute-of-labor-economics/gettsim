@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 import copy
 import datetime
 import operator
 from functools import reduce
+from typing import TYPE_CHECKING, Any
 
 import numpy
 import pandas as pd
@@ -16,6 +19,43 @@ from _gettsim.piecewise_functions import (
     piecewise_polynomial,
 )
 
+if TYPE_CHECKING:
+    from _gettsim.policy_function import PolicyFunction
+
+
+class PolicyEnvironment:
+    @staticmethod
+    def for_date(date: datetime.date | str | int) -> PolicyEnvironment:
+        """
+        Set up the policy environment for a particular date.
+
+        Parameters
+        ----------
+        date:
+            The date for which the policy system is set up. An integer is
+            interpreted as the year.
+
+        Returns
+        -------
+        environment:
+            The policy environment for the specified date.
+        """
+        params, functions = set_up_policy_environment(date)
+        return PolicyEnvironment(functions, params)
+
+
+    # TODO: should be list of policy functions
+    def __init__(self, functions: dict[str, PolicyFunction], params: dict[str, Any]):
+        self._functions = functions
+        self._params = params
+
+    @property
+    def functions(self) -> dict[str, PolicyFunction]:
+        return self._functions
+
+    @property
+    def params(self) -> dict[str, Any]:
+        return self._params
 
 def set_up_policy_environment(date):
     """Set up the policy environment for a particular date.
