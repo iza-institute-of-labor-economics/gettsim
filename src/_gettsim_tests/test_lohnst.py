@@ -47,10 +47,10 @@ def test_lohnsteuer(
 
 
 def test_lohnsteuer_rv_anteil():
-    policy_params, policy_functions = set_up_policy_environment(2018)
+    environment = set_up_policy_environment(2018)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 0.72
+    assert environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 0.72
 
-    policy_params, policy_functions = set_up_policy_environment(2023)
+    environment = set_up_policy_environment(2023)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1
+    assert environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1

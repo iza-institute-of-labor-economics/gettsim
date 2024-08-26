@@ -125,27 +125,22 @@ class PolicyEnvironment:
         return result
 
 
-def set_up_policy_environment(date):
-    """Set up the policy environment for a particular date.
+def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironment:
+    """
+    Set up the policy environment for a particular date.
 
     Parameters
     ----------
-    date : int, str, datetime.date
-        The date for which the policy system is set up.
-
+    date:
+        The date for which the policy system is set up. An integer is
+        interpreted as the year.
 
     Returns
     -------
-    params : dict
-        A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`params_files`.
-    functions : dict
-        Dictionary mapping column names to functions creating the respective
-        data.
-
+    environment:
+        The policy environment for the specified date.
     """
-    environment = PolicyEnvironment.for_date(date)
-    return environment.params, environment.functions
+    return PolicyEnvironment.for_date(date)
 
 
 def _parse_date(date):
