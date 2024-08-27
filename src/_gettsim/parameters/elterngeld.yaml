@@ -172,49 +172,37 @@ max_monate_ind:
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-max_eink_vorj_allein:
-  name:
+max_eink_vorj:
+  'description:':
     de: >-
-      Maximales zvE des Single-Haushalts im letzten Veranlagungszeitraum, bis zu dem man
-      Elterngeld beziehen kann
+      Maximales zu versteuerndes Einkommen im letzten Veranlagungszeitraum vor Geburt
+      des Kindes. Einkommen über dieser Grenze schließt den Bezug von Elterngeld aus (§
+      1 (8) BEEG).
     en: >-
-      Maximum taxable income a single-household may have, to be eligible for Elterngeld
-  description:
-    de: § 1 (8) BEEG
+      Maximum taxable income in the year before the birth of the child. Income above
+      this threshold disqualifies the parent from receiving Elterngeld.
+  reference:
+    de: null
     en: null
   unit: Euro
   2011-01-01:
-    scalar: 0250000.0
-    reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
-  2024-04-01:
-    scalar: 0200000.0
-    reference: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107
-  2025-04-01:
-    scalar: 0175000.0
-    reference: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107
-max_eink_vorj_zsm:
-  name:
-    de: >-
-      Gemeinsames maximales zvE des Haushalts im letzten Veranlagungszeitraum, bis zu
-      dem man Elterngeld beziehen kann
-    en: >-
-      Shared maximum taxable income a household may have, to be eligible for Elterngeld
-  description:
-    de: § 1 (8) BEEG
-    en: null
-  unit: Euro
-  2011-01-01:
-    scalar: 0500000.0
+    single: 250000.0
+    paar: 500000.0
     reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
   2021-09-01:
-    scalar: 0300000.0
+    deviation_from: previous
+    paar: 300000.0
     reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
   2024-04-01:
-    scalar: 0200000.0
-    reference: Art. 1 G. v. 22.12.2023 BGBl. 2023 I Nr. 412
+    scalar: 200000.0
+    reference: >-
+      Single: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107, Paar: Art. 1 G. v.
+      22.12.2023 BGBl. 2023 I Nr. 412
   2025-04-01:
-    scalar: 0175000.0
-    reference: Art. 1 G. v. 22.12.2023 BGBl. 2023 I Nr. 412
+    scalar: 175000.0
+    reference: >-
+      Single: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107, Paar: Art. 1 G. v.
+      22.12.2023 BGBl. 2023 I Nr. 412
 max_arbeitsstunden_w:
   name:
     de: >-

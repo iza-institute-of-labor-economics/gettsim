@@ -4,7 +4,6 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-###Elterngeld neu
 def elterngeld_m(  # noqa: PLR0913
     elterngeld_eink_relev_m: float,
     elterngeld_anspruch: bool,
@@ -168,10 +167,6 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     out = bruttolohn_vorj_m - prox_ssc - prox_tax / 12 - prox_soli / 12
 
     return max(out, 0.0)
-
-
-# original function capped the taxable income at the gBBG, which is not covered by the BEEG.
-# Due to §2f (3), the BBmG is not relevant in this calculation
 
 
 def elternzeit_anspruch(  # noqa: PLR0913
@@ -375,8 +370,8 @@ def elterngeld_eink_relev_m(
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
-       According to § 2 (1) and (3) BEEG elterngeld is calculated by the loss of income due to
-       child raising and is reduced by aquired income during the claiming of Elterngeld.
+    According to § 2 (1) and (3) BEEG elterngeld is calculated by the loss of income due
+    to child raising and is reduced by aquired income during the claiming of Elterngeld.
 
     Parameters
        ----------
@@ -569,9 +564,11 @@ def elterngeld_anrechenbares_einkommen_m(
     mutterschaftsgeld_m
         See basic input variable :ref:`mutterschaftsgeld_m`<mutterschaftsgeld_m>.
     dienstbezüge_bei_beschäftigungsverbot_m
-        See basic input variable :ref:`dienstbezüge_bei_beschäftigungsverbot_m`<dienstbezüge_bei_beschäftigungsverbot_m>.
+        See basic input variable
+        :ref:`dienstbezüge_bei_beschäftigungsverbot_m`<dienstbezüge_bei_beschäftigungsverbot_m>.
     elterngeld_vergleichbare_leistungen_m
-        See basic input variable :ref:`elterngeld_vergleichbare_leistungen_m <elterngeld_vergleichbare_leistungen_m>`.
+        See basic input variable :ref:`elterngeld_vergleichbare_leistungen_m
+        <elterngeld_vergleichbare_leistungen_m>`.
     ersatzeinnahmen_m
         See basic input variable :ref: èrsatzeinnahmen_m <èrsatzeinnahmen_m>.
 
@@ -587,7 +584,3 @@ def elterngeld_anrechenbares_einkommen_m(
         + ersatzeinnahmen_m
     )
     return out
-
-
-# This function calculates the income, that leads to a 1:1 reduction in the Elterngeld payment
-# It is calculated according to §3 (1) BEEG
