@@ -2,6 +2,7 @@ import copy
 
 import numpy
 import pytest
+
 from _gettsim.aggregation import (
     grouped_all,
     grouped_any,

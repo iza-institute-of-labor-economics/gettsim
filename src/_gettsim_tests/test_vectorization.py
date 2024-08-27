@@ -3,10 +3,13 @@ import string
 
 import numpy
 import pytest
+
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, USE_JAX
 
 if USE_JAX:
     import jax.numpy
+from numpy.testing import assert_array_equal
+
 from _gettsim.functions_loader import _load_functions
 from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m, elternzeit_anspruch
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
@@ -15,7 +18,6 @@ from _gettsim.vectorization import (
     make_vectorizable,
     make_vectorizable_source,
 )
-from numpy.testing import assert_array_equal
 
 # ======================================================================================
 # Backend

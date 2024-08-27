@@ -1,7 +1,8 @@
 import importlib
 
-import _gettsim
 import pytest
+
+import _gettsim
 
 
 def test_default_backend():

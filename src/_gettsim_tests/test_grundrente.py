@@ -1,9 +1,9 @@
 from datetime import timedelta
 
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
+from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -56,6 +56,7 @@ INPUT_COLS_INCOME = [
     "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
+    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "weiblich",
     "y_pflichtbeitr_ab_40",
     "pflichtbeitr_8_in_10",
@@ -133,11 +134,11 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
         data=df,
         params=policy_params,
         functions=policy_functions,
-        targets=["ges_rente_vor_grundr_m"],
+        targets=["bruttorente_m"],
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["ges_rente_vor_grundr_m"] + df["priv_rente_m"],
+        calc_result_last_year["bruttorente_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

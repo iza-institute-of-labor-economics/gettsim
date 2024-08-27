@@ -2359,7 +2359,7 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  ges_rente_vor_grundr_m:
+  bruttorente_m:
     1980-01-01:
       base: 0.01
       direction: nearest
@@ -2430,3 +2430,29 @@ wartezeit_45_pflichtbeitragsmonate:
   note: https://www.gesetze-im-internet.de/sgb_6/__51.html
   1980-01-01:
     scalar: 216
+abzugsrate_hinzuverdienst:
+  name:
+    de: Abzugsrate für Hinzuverdienst vor der Regelaltersgrenze
+    en: Deduction rate for additional earnings during early retirement
+  reference: § 34 SGB VI; Artikel 1 G. v. 08.12.2016 BGBl. I S. 2838
+  note: Revoked in 2017.
+  2017-07-01:
+    scalar: 0.4
+hinzuverdienstgrenze:
+  name:
+    de: Hinzuverdienstgrenze vor der Regelaltersgrenze
+    en: Additional earnings threshold during early retirement
+  reference: § 34 SGB VI
+  note: Revoked in 2023.
+  2002-01-01:
+    scalar: 350.0
+  2008-01-01:
+    scalar: 400.0
+  2013-01-01:
+    scalar: 450.0
+  2017-01-01:
+    scalar: 6300.0
+  2020-01-01:
+    scalar: 44590.0
+  2021-01-01:
+    scalar: 46060.0

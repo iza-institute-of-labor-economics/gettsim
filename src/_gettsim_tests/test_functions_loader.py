@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 import numpy
 import pytest
+
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions_loader import (
     _create_derived_functions,

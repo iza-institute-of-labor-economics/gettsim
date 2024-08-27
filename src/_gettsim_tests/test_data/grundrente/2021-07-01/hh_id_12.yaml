@@ -34,6 +34,8 @@ inputs:
       - 1990
     bruttolohn_m:
       - 0.0
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+      - 0.0
     entgeltp_west:
       - 0.0
     entgeltp_ost:
