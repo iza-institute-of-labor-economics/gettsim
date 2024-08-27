@@ -8,7 +8,7 @@ inputs:
       - 0
     p_id:
       - 0
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
 outputs:
   minijob_grenze:

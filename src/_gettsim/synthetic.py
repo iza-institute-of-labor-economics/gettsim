@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 
-import numpy as np
+import numpy
 import pandas as pd
 
 from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
@@ -139,19 +139,19 @@ def create_basic_households(
     else:
         alleinerziehend = [False] * (n_children + n_adults)
     if n_children > 0:
-        hat_kinder = [True] * n_adults + [False] * n_children
+        ges_pflegev_hat_kinder = [True] * n_adults + [False] * n_children
     else:
-        hat_kinder = [False] * (n_adults)
+        ges_pflegev_hat_kinder = [False] * (n_adults)
     # Add specifications and create DataFrame
     all_households = [
         {
             "hh_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
-            "hat_kinder": hat_kinder,
+            "ges_pflegev_hat_kinder": ges_pflegev_hat_kinder,
             "alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
-            "anz_eig_kind_bis_24": [n_children] * n_adults + [0] * n_children,
+            "ges_pflegev_anz_kinder_bis_24": [n_children] * n_adults + [0] * n_children,
             **specs_constant_over_households,
             **{v: k[i] for v, k in specs_heterogeneous.items()},
         }
@@ -190,6 +190,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     - p_id_erziehgeld_empf
     - p_id_einstandspartner
     - p_id_ehepartner
+    - p_id_betreuungsk_träger
 
     Parameters
     ----------
@@ -215,6 +216,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         data["p_id_elternteil_2"] = -1
     data["p_id_kindergeld_empf"] = data["p_id_elternteil_1"]
     data["p_id_erziehgeld_empf"] = data["p_id_elternteil_1"]
+    data["p_id_betreuungsk_träger"] = data["p_id_elternteil_1"]
 
     # Create other IDs
     if n_adults == 1:
@@ -230,7 +232,9 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         data = pd.merge(
             data, data_adults[["p_id", "p_id_einstandspartner"]], on="p_id", how="left"
         ).fillna(-1)
-        data["p_id_einstandspartner"] = data["p_id_einstandspartner"].astype(np.int64)
+        data["p_id_einstandspartner"] = data["p_id_einstandspartner"].astype(
+            numpy.int64
+        )
         if adults_married:
             data["p_id_ehepartner"] = data["p_id_einstandspartner"]
         else:
@@ -274,7 +278,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     )
 
     # Use data for 2 children if there are more than 2 children in the household.
-    n_children_lookup = n_children if n_children <= 2 else 2
+    n_children_lookup = min(n_children, 2)
     hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj

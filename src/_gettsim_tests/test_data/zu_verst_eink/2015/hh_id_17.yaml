@@ -79,7 +79,7 @@ inputs:
     selbstständig:
       - false
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
       - false
     in_priv_krankenv:

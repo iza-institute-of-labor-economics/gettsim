@@ -30,6 +30,8 @@ inputs:
       - true
     bruttolohn_m:
       - 0.0
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+      - 0.0
     weiblich:
       - false
     y_pflichtbeitr_ab_40:

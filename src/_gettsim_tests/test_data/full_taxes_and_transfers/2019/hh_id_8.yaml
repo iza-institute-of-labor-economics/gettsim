@@ -34,7 +34,7 @@ inputs:
       - true
     wohnort_ost:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
     eink_selbst_m:
       - 2500.0

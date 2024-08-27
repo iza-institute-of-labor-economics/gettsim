@@ -26,7 +26,9 @@ inputs:
       - 0.0
     _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_anspruchshöhe_m_wthh:
+      - 0.0
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1000.0
@@ -38,7 +40,7 @@ inputs:
       - 0.0
     unterhaltsvors_m:
       - 0.0
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 0.0
     geburtsjahr:
       - 1939
@@ -48,7 +50,7 @@ inputs:
 outputs:
   kinderzuschl_m_bg:
     - 0
-  wohngeld_m_hh:
+  wohngeld_m_wthh:
     - 0
   arbeitsl_geld_2_m_bg:
     - 0.0

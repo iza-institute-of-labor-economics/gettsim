@@ -5,7 +5,7 @@ from collections.abc import Callable
 from datetime import date
 from typing import TypeVar
 
-import numpy as np
+import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -194,7 +194,7 @@ def parse_to_list_of_strings(user_input, name):
     elif isinstance(user_input, list) and all(isinstance(i, str) for i in user_input):
         pass
     else:
-        NotImplementedError(
+        raise NotImplementedError(
             f"{name!r} needs to be None, a string or a list of strings."
         )
 
@@ -270,38 +270,38 @@ Out: TypeVar = TypeVar("Out")
 
 
 def join_numpy(
-    foreign_key: np.ndarray[Key],
-    primary_key: np.ndarray[Key],
-    target: np.ndarray[Out],
+    foreign_key: numpy.ndarray[Key],
+    primary_key: numpy.ndarray[Key],
+    target: numpy.ndarray[Out],
     value_if_foreign_key_is_missing: Out,
-) -> np.ndarray[Out]:
+) -> numpy.ndarray[Out]:
     """
     Given a foreign key, find the corresponding primary key, and return the target at
     the same index as the primary key.
 
     Parameters
     ----------
-    foreign_key : np.ndarray[Key]
+    foreign_key : numpy.ndarray[Key]
         The foreign keys.
-    primary_key : np.ndarray[Key]
+    primary_key : numpy.ndarray[Key]
         The primary keys.
-    target : np.ndarray[Out]
+    target : numpy.ndarray[Out]
         The targets in the same order as the primary keys.
     value_if_foreign_key_is_missing : Out
         The value to return if no matching primary key is found.
 
     Returns
     -------
-    np.ndarray[Out]
+    numpy.ndarray[Out]
         The joined array.
     """
-    if len(np.unique(primary_key)) != len(primary_key):
-        keys, counts = np.unique(primary_key, return_counts=True)
+    if len(numpy.unique(primary_key)) != len(primary_key):
+        keys, counts = numpy.unique(primary_key, return_counts=True)
         duplicate_primary_keys = keys[counts > 1]
         raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
 
     invalid_foreign_keys = foreign_key[
-        (foreign_key >= 0) & (~np.isin(foreign_key, primary_key))
+        (foreign_key >= 0) & (~numpy.isin(foreign_key, primary_key))
     ]
 
     if len(invalid_foreign_keys) > 0:
@@ -312,15 +312,15 @@ def join_numpy(
 
     # For each foreign key, add a column with True at the end, to later fall back to
     # the value for unresolved foreign keys
-    padded_matches_foreign_key = np.pad(
+    padded_matches_foreign_key = numpy.pad(
         matches_foreign_key, ((0, 0), (0, 1)), "constant", constant_values=True
     )
 
     # For each foreign key, compute the index of the first matching primary key
-    indices = np.argmax(padded_matches_foreign_key, axis=1)
+    indices = numpy.argmax(padded_matches_foreign_key, axis=1)
 
     # Add the value for unresolved foreign keys at the end of the target array
-    padded_targets = np.pad(
+    padded_targets = numpy.pad(
         target, (0, 1), "constant", constant_values=value_if_foreign_key_is_missing
     )
 

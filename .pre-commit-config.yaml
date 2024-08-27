@@ -10,7 +10,7 @@ repos:
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-added-large-files
         args:
@@ -41,23 +41,23 @@ repos:
       - id: check-ast
       - id: check-docstring-first
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.34.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
   - repo: https://github.com/psf/black
-    rev: 24.2.0
+    rev: 24.8.0
     hooks:
       - id: black
         # It is recommended to specify the latest version of Python
         # supported by your project here
         language_version: python3.12
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.16.0
+    rev: 1.18.0
     hooks:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.1
+    rev: v0.6.1
     hooks:
       - id: ruff
       #   args:
@@ -70,14 +70,14 @@ repos:
           - --extra-keys
           - metadata.kernelspec metadata.language_info.version metadata.vscode
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.7.1
+    rev: 1.8.7
     hooks:
       - id: nbqa-black
         additional_dependencies:
-          - black==24.2.0
+          - black==24.8.0
       - id: nbqa-ruff
         additional_dependencies:
-          - ruff==v0.2.1
+          - ruff==v0.6.1
         args:
           - --ignore=B018,T201
   - repo: https://github.com/executablebooks/mdformat
@@ -103,7 +103,7 @@ repos:
           - '88'
         files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.8.0
+    rev: v1.11.1
     hooks:
       - id: mypy
         args:

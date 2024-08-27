@@ -1,6 +1,7 @@
 import inspect
 
 import pytest
+
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
     create_time_conversion_functions,

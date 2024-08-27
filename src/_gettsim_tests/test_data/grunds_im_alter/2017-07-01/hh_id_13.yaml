@@ -26,6 +26,9 @@ inputs:
     p_id_elternteil_2:
       - -1
       - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
     gemeinsam_veranlagt:
       - true
       - true
@@ -92,7 +95,7 @@ inputs:
     soli_st_y_sn:
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
     kindergeld_m_eg:

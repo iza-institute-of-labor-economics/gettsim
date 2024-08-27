@@ -70,10 +70,16 @@ INTERNAL_PARAMS_GROUPS = [
 SUPPORTED_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
-        "description": "The relevant unit for Wohngeld. Encompasses more people than"
-        " the Bedarfsgemeinschaft (e.g., possibly more than 2 generations). Relevant"
-        " unit for Wohngeld.",
+        "description": "Individuals living together in a household in the Wohngeld"
+        " sense (§5 WoGG).",
         "potentially_endogenous": False,
+    },
+    "wthh": {
+        "name": "wohngeldrechtlicher Teilhaushalt",
+        "description": "The relevant unit for Wohngeld. Members of a household for whom"
+        " the Wohngeld priority check compared to Bürgergeld yields the same result"
+        " ∈ {True, False}.",
+        "potentially_endogenous": True,
     },
     "fg": {
         "name": "Familiengemeinschaft",
@@ -88,9 +94,10 @@ SUPPORTED_GROUPINGS = {
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
-    "sn": {
-        "name": "Steuernummer",
-        "description": "Spouses filing taxes jointly or individuals.",
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
         "potentially_endogenous": True,
     },
     "ehe": {
@@ -98,10 +105,10 @@ SUPPORTED_GROUPINGS = {
         "description": "Couples that are either married or in a civil union.",
         "potentially_endogenous": True,
     },
-    "eg": {
-        "name": "Einstandsgemeinschaft / Einstandspartner",
-        "description": "A couple whose members are deemed to be responsible for each"
-        " other.",
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 
@@ -124,16 +131,16 @@ DEFAULT_TARGETS = [
     "eink_st_y_sn",
     "soli_st_y_sn",
     "abgelt_st_y_sn",
-    "sozialv_beitr_m",
-    "ges_rentenv_beitr_m",
-    "arbeitsl_v_beitr_m",
-    "ges_krankenv_beitr_m",
-    "ges_pflegev_beitr_m",
+    "sozialv_beitr_arbeitnehmer_m",
+    "ges_rentenv_beitr_arbeitnehmer_m",
+    "arbeitsl_v_beitr_arbeitnehmer_m",
+    "ges_krankenv_beitr_arbeitnehmer_m",
+    "ges_pflegev_beitr_arbeitnehmer_m",
     "arbeitsl_geld_m",
     "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_hh",
+    "wohngeld_m_wthh",
     "unterhaltsvors_m",
     "grunds_im_alter_m_eg",
     "ges_rente_m",
@@ -151,13 +158,16 @@ TYPES_INPUT_VARIABLES = {
     "p_id_einstandspartner": int,
     "vermögen_bedürft": float,
     "eigenbedarf_gedeckt": bool,
+    # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
+    # Bedarfsgemeinschaften are fully endogenous
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
     "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
-    "hat_kinder": bool,
+    "ges_pflegev_hat_kinder": bool,
     "eink_selbst_m": float,
     "in_priv_krankenv": bool,
     "priv_rentenv_beitr_m": float,
@@ -216,6 +226,7 @@ TYPES_INPUT_VARIABLES = {
     "arbeitsl_1y_past_585": bool,
     "vertra_arbeitsl_1997": bool,
     "vertra_arbeitsl_2006": bool,
+    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y": float,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
@@ -224,7 +235,6 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
-    "anz_eig_kind_bis_24": int,
     "budgetsatz_erzieh": bool,
     "voll_erwerbsgemind": bool,
     "teilw_erwerbsgemind": bool,

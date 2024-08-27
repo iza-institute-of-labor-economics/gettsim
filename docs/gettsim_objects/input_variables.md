@@ -10,7 +10,7 @@ household.
 
 ## `hh_id`
 
-Household identifier
+Household identifier following §5 WoGG
 
 Type: int
 
@@ -150,9 +150,9 @@ Self-employed (main profession)
 
 Type: bool
 
-(hat_kinder)=
+(ges_pflegev_hat_kinder)=
 
-## `hat_kinder`
+## `ges_pflegev_hat_kinder`
 
 Has kids (incl. not in hh)
 
@@ -555,6 +555,14 @@ implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 
+(höchster_bruttolohn_letzte_15_jahre_vor_rente_y)=
+
+## `höchster_bruttolohn_letzte_15_jahre_vor_rente_y`
+
+Highest gross income from regular employment in the last 15 years before pension benefit
+claiming. Relevant to determine pension benefit deductions for retirees in early
+retirement.
+
 (bürgerg_bezug_vorj)=
 
 ## `bürgerg_bezug_vorj`
@@ -615,12 +623,6 @@ Type: float
 ## `steuerklasse`
 
 Tax Bracket (1 to 5) for withholding tax
-
-Type: int
-
-## `anz_eig_kind_bis_24`
-
-Number of own children below the age of 25 (incl. not in hh)
 
 Type: int
 

@@ -1,32 +1,36 @@
 from __future__ import annotations
 
-import numpy as np
+import numpy
 import pandas as pd
 import pytest
+
+from _gettsim.config import DEFAULT_TARGETS
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_with_defaults():
     return create_synthetic_data()
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_couple_with_children():
     return create_synthetic_data(n_adults=2, n_children=2)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_alleinerziehend():
     return create_synthetic_data(n_adults=1, n_children=1)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_no_children():
     return create_synthetic_data(n_adults=2, n_children=0)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_variables():
     df = create_synthetic_data(
         n_adults=2,
@@ -39,7 +43,7 @@ def synthetic_data_spec_variables():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_married():
     df = create_synthetic_data(
         n_adults=2,
@@ -53,7 +57,7 @@ def synthetic_data_spec_heterogeneous_married():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_not_married():
     df = create_synthetic_data(
         n_adults=2,
@@ -160,7 +164,7 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
         ("alter", [50, 30, 5] * 11),
         (
             "bruttolohn_m",
-            np.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
+            numpy.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
         ),
         ("gemeinsam_veranlagt", [True, True, False] * 11),
     ],
@@ -224,6 +228,9 @@ def test_fail_if_functions_and_columns_overlap(
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
+                "p_id_betreuungsk_träger": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
             },
         ),
         (
@@ -246,6 +253,9 @@ def test_fail_if_functions_and_columns_overlap(
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
+                "p_id_betreuungsk_träger": [
+                    -1 if i % 3 != 2 else i - 2 for i in range(33)
+                ],
             },
         ),
         (
@@ -258,6 +268,7 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_erziehgeld_empf": [-1, 0],
                 "p_id_ehepartner": [-1, -1],
                 "p_id_einstandspartner": [-1, -1],
+                "p_id_betreuungsk_träger": [-1, 0],
             },
         ),
         (
@@ -270,6 +281,7 @@ def test_fail_if_functions_and_columns_overlap(
                 "p_id_erziehgeld_empf": [-1, -1],
                 "p_id_ehepartner": [1, 0],
                 "p_id_einstandspartner": [1, 0],
+                "p_id_betreuungsk_träger": [-1, -1],
             },
         ),
     ],
@@ -278,3 +290,17 @@ def test_p_id_groups(fixture, expected, request):
     df = request.getfixturevalue(fixture)
     for col, values in expected.items():
         pd.testing.assert_series_equal(df[col], pd.Series(values, name=col))
+
+
+@pytest.mark.parametrize(
+    "fixture, policy_date",
+    [("synthetic_data_couple_with_children", y) for y in range(2017, 2024)],
+)
+def test_default_targets(fixture, policy_date, request):
+    policy_params, policy_functions = set_up_policy_environment(policy_date)
+    compute_taxes_and_transfers(
+        data=request.getfixturevalue(fixture),
+        targets=DEFAULT_TARGETS,
+        params=policy_params,
+        functions=policy_functions,
+    )

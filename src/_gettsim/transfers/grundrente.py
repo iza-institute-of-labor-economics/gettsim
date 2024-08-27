@@ -46,8 +46,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
       year, and other income on the current year instead of the year two years ago to
       avoid the need for several new input variables.
     - Warning: Freibeträge for income are currently not considered as `freibeträge_y`
-      depends on pension income through `ges_krankenv_beitr_m` -> `vorsorgeaufw` ->
-      `freibeträge`
+      depends on pension income through `ges_krankenv_beitr_arbeitnehmer_m` ->
+      `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
 

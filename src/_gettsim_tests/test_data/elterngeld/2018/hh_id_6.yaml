@@ -32,7 +32,7 @@ inputs:
       - 7.68
     soli_st_y_sn:
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 180.0
     mutterschaftsgeld_m:
       - 0.0

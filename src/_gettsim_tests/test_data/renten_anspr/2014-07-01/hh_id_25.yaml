@@ -64,11 +64,13 @@ inputs:
       - 108.0
     m_pfleg_berücks_zeit:
       - 10.0
+    ges_rente_vorauss_besond_langj:
+      - false
   assumed: {}
 outputs:
-  entgeltp_west_update:
+  entgeltp_west_updated:
     - 22.99796044
-  entgeltp_ost_update:
+  entgeltp_ost_updated:
     - 0.0
   entgeltp_update_lohn:
     - 0.577960442

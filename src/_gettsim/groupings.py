@@ -6,6 +6,7 @@ import numpy
 
 def create_groupings() -> dict[str, Callable]:
     return {
+        "wthh_id": wthh_id_numpy,
         "fg_id": fg_id_numpy,
         "bg_id": bg_id_numpy,
         "eg_id": eg_id_numpy,
@@ -18,10 +19,13 @@ def bg_id_numpy(
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
     eigenbedarf_gedeckt: numpy.ndarray[bool],
-):
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
     """
+    # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
+    # Bedarfsgemeinschaften are fully endogenous
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     counter = Counter()
     result = []
 
@@ -40,9 +44,9 @@ def bg_id_numpy(
 
 
 def eg_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_einstandspartner: numpy.ndarray,
-) -> numpy.ndarray:
+    p_id: numpy.ndarray[int],
+    p_id_einstandspartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Einstandsgemeinschaft for each person.
     """
@@ -69,9 +73,9 @@ def eg_id_numpy(
 
 
 def ehe_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
-):
+    p_id: numpy.ndarray[int],
+    p_id_ehepartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Ehe for each person.
     """
@@ -95,13 +99,13 @@ def ehe_id_numpy(
 
 
 def fg_id_numpy(  # noqa: PLR0913
-    p_id: numpy.ndarray,
-    hh_id: numpy.ndarray,
-    alter: numpy.ndarray,
-    p_id_einstandspartner: numpy.ndarray,
-    p_id_elternteil_1: numpy.ndarray,
-    p_id_elternteil_2: numpy.ndarray,
-):
+    p_id: numpy.ndarray[int],
+    hh_id: numpy.ndarray[int],
+    alter: numpy.ndarray[int],
+    p_id_einstandspartner: numpy.ndarray[int],
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
     """
     Compute the ID of the Familiengemeinschaft for each person.
     """
@@ -171,10 +175,10 @@ def fg_id_numpy(  # noqa: PLR0913
 
 
 def sn_id_numpy(
-    p_id: numpy.ndarray,
-    p_id_ehepartner: numpy.ndarray,
+    p_id: numpy.ndarray[int],
+    p_id_ehepartner: numpy.ndarray[int],
     gemeinsam_veranlagt: numpy.ndarray[bool],
-):
+) -> numpy.ndarray[int]:
     """
     Compute a Steuernummer (ID) for each person / couple.
     """
@@ -209,5 +213,23 @@ def sn_id_numpy(
         p_id_to_sn_id[current_p_id] = next_sn_id
         p_id_to_gemeinsam_veranlagt[current_p_id] = current_gemeinsam_veranlagt
         next_sn_id += 1
+
+    return numpy.asarray(result)
+
+
+def wthh_id_numpy(
+    hh_id: numpy.ndarray[int],
+    wohngeld_vorrang_bg: numpy.ndarray[bool],
+    wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the wohngeldrechtlicher Teilhaushalt.
+    """
+    result = []
+    for index, current_hh_id in enumerate(hh_id):
+        if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
+            result.append(current_hh_id * 100 + 1)
+        else:
+            result.append(current_hh_id * 100)
 
     return numpy.asarray(result)

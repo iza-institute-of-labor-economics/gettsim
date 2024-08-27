@@ -8,13 +8,13 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`ges_rentenv_beitr_m <_gettsim.functions.ges_rentenv_beitr_m>`
+* - {func}`ges_rentenv_beitr_arbeitnehmer_m <_gettsim.functions.ges_rentenv_beitr_arbeitnehmer_m>`
   - Monthly amount employee old-age pensions contributions
-* - {func}`arbeitsl_v_beitr_m <_gettsim.functions.arbeitsl_v_beitr_m>`
+* - {func}`arbeitsl_v_beitr_arbeitnehmer_m <_gettsim.functions.arbeitsl_v_beitr_arbeitnehmer_m>`
   - Monthly amount employee unempl. insurance contributions
-* - {func}`ges_krankenv_beitr_m <_gettsim.functions.ges_krankenv_beitr_m>`
+* - {func}`ges_krankenv_beitr_arbeitnehmer_m <_gettsim.functions.ges_krankenv_beitr_arbeitnehmer_m>`
   - Monthly amount employee health insurance contributions
-* - {func}`ges_pflegev_beitr_m <_gettsim.functions.ges_pflegev_beitr_m>`
+* - {func}`ges_pflegev_beitr_arbeitnehmer_m <_gettsim.functions.ges_pflegev_beitr_arbeitnehmer_m>`
   - Monthly amount of long term care insurance
 * - {func}`arbeitsl_geld_m <_gettsim.functions.arbeitsl_geld_m>`
   - Monthly amount of unemployment assistance
@@ -40,7 +40,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly additional child benefit, household sum
 * - {func}`elterngeld_m <_gettsim.functions.elterngeld_m>`
   - Monthly parental leave benefit
-* - {func}`wohngeld_m_hh <_gettsim.functions.wohngeld_m_hh>`
+* - {func}`wohngeld_m_wthh <_gettsim.functions.wohngeld_m_wthh>`
   - Monthly housing benefit on household level
 * - {func}`grunds_im_alter_m_eg <_gettsim.functions.grunds_im_alter_m_eg>`
   - Monthly subsistence payment for retirees on household level

@@ -154,7 +154,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 136.0
       - 0.0
       - 0.0
@@ -190,7 +190,7 @@ inputs:
       - '2018'
       - '2018'
       - '2018'
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -240,7 +240,7 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 796.0
     - 0.0
     - 0.0

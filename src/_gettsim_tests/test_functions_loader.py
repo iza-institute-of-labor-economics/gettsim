@@ -3,8 +3,9 @@ from __future__ import annotations
 import textwrap
 from typing import TYPE_CHECKING
 
-import numpy as np
+import numpy
 import pytest
+
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions_loader import (
     _create_derived_functions,
@@ -97,8 +98,8 @@ def scalar_func(x: int) -> int:
 
 
 @policy_info(skip_vectorization=True)
-def already_vectorized_func(x: np.ndarray) -> np.ndarray:
-    return np.asarray([xi * 2 for xi in x])
+def already_vectorized_func(x: numpy.ndarray) -> numpy.ndarray:
+    return numpy.asarray([xi * 2 for xi in x])
 
 
 @pytest.mark.parametrize(
@@ -111,4 +112,6 @@ def already_vectorized_func(x: np.ndarray) -> np.ndarray:
 def test_vectorize_func(function: Callable) -> None:
     vectorized_func = _vectorize_func(function)
 
-    assert np.array_equal(vectorized_func(np.array([1, 2, 3])), np.array([2, 4, 6]))
+    assert numpy.array_equal(
+        vectorized_func(numpy.array([1, 2, 3])), numpy.array([2, 4, 6])
+    )

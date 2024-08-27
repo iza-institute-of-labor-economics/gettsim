@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import _convert_paths_to_import_strings, _load_functions
 from _gettsim.gettsim_typing import check_series_has_expected_type
@@ -8,7 +9,6 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import (
     load_functions_for_date,
 )
-
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -16,15 +16,15 @@ OUT_COLS = [
     "eink_st_y_sn",
     "soli_st_y_sn",
     "abgelt_st_y_sn",
-    "ges_rentenv_beitr_m",
-    "arbeitsl_v_beitr_m",
-    "ges_krankenv_beitr_m",
-    "ges_pflegev_beitr_m",
+    "ges_rentenv_beitr_arbeitnehmer_m",
+    "arbeitsl_v_beitr_arbeitnehmer_m",
+    "ges_krankenv_beitr_arbeitnehmer_m",
+    "ges_pflegev_beitr_arbeitnehmer_m",
     "arbeitsl_geld_m",
     "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_hh",
+    "wohngeld_m_wthh",
     "unterhaltsvors_m_hh",
 ]
 

@@ -25,19 +25,19 @@ inputs:
     priv_rentenv_beitr_m:
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 500.0
       - 0.0
-    arbeitsl_v_beitr_m:
+    arbeitsl_v_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
-    ges_pflegev_beitr_m:
+    ges_pflegev_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
     jahr:
       - 2010
       - 2010
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
   assumed: {}

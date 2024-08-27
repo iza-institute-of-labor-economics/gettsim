@@ -48,7 +48,11 @@ inputs:
       - 140.0
       - 140.0
       - 140.0
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_anspruchshöhe_m_wthh:
+      - 350.0
+      - 350.0
+      - 350.0
+    wohngeld_anspruchshöhe_m_bg:
       - 350.0
       - 350.0
       - 350.0
@@ -72,7 +76,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 1100.0
       - 200.0
       - 0.0
@@ -90,7 +94,7 @@ outputs:
     - 140
     - 140
     - 140
-  wohngeld_m_hh:
+  wohngeld_m_wthh:
     - 350
     - 350
     - 350

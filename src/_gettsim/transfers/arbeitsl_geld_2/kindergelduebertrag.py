@@ -1,6 +1,6 @@
 """Module for the calculation of the Kindergeldübertrag."""
 
-import numpy as np
+import numpy
 
 from _gettsim.shared import join_numpy, policy_info
 
@@ -68,9 +68,9 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
 @policy_info(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
     _mean_kindergeld_per_child_m: float,
-    p_id_kindergeld_empf: np.ndarray[int],
-    p_id: np.ndarray[int],
-) -> float:
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+) -> numpy.ndarray[float]:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
     Even though the Kindergeld is paid to the parent (see function
@@ -101,11 +101,14 @@ def kindergeld_zur_bedarfsdeckung_m(
     )
 
 
-def _diff_kindergeld_kindbedarf_m(
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg: float,
+def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
+    wohngeld_anspruchshöhe_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
-    eigenbedarf_gedeckt: bool,
+    kind_unterh_erhalt_m: float,
+    unterhaltsvors_m: float,
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
@@ -118,36 +121,75 @@ def _diff_kindergeld_kindbedarf_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg
-        See :func:`_arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg`.
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+        See :func:`_arbeitsl_geld_2
+    wohngeld_anspruchshöhe_m_bg
+        See :func:`wohngeld_anspruchshöhe_m_bg`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
-    eigenbedarf_gedeckt
-        See :func:`eigenbedarf_gedeckt`.
+    kind_unterh_erhalt_m
+        See :func:`kind_unterh_erhalt_m`.
+    unterhaltsvors_m
+        See :func:`unterhaltsvors_m`.
+    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
+        See :func:`_in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger`.
 
     Returns
     -------
 
     """
-    # TODO (@MImmesberger): Remove `eigenbedarf_gedeckt` conditions once
-    # Bedarfsgemeinschaft is fully endogenous. This is a temporary fix. Without it,
-    # Kindergeld would be counted twice as income of the Bedarfsgemeinschaft (one time
-    # the full amount for the child and one time the Kindergeldübertrag for the parent -
-    # because the child doesn't drop out of Bedarfsgemeinschaft endogenously).
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/622
-    # TODO (@MImmesberger): Consider Kinderwohngeld in the Fehlbetrag calculation.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/750
     fehlbetrag = max(
         arbeitsl_geld_2_regelbedarf_m_bg
-        - _arbeitsl_geld_2_eink_ohne_kindergeldübertrag_m_bg,
+        - wohngeld_anspruchshöhe_m_bg
+        - arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+        - kind_unterh_erhalt_m
+        - unterhaltsvors_m,
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
-    if not eigenbedarf_gedeckt or fehlbetrag > kindergeld_zur_bedarfsdeckung_m:
+    if (
+        not _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
+        or fehlbetrag > kindergeld_zur_bedarfsdeckung_m
+    ):
         out = 0.0
     # Bedarf is covered
     else:
         out = kindergeld_zur_bedarfsdeckung_m - fehlbetrag
     return out
+
+
+@policy_info(skip_vectorization=True)
+def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
+    p_id: numpy.ndarray[int],
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    bg_id: numpy.ndarray[int],
+) -> numpy.ndarray[bool]:
+    """True if the person is in a different Bedarfsgemeinschaft than the
+    Kindergeldempfänger of that person.
+
+    Parameters
+    ----------
+    p_id
+        See basic input variable :ref:`p_id <p_id>`
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf <p_id_kindergeld_empf>`
+    bg_id
+        See :func:`bg_id`.
+
+    Returns
+    -------
+
+    """
+    # Create a dictionary to map p_id to bg_id
+    p_id_to_bg_id = dict(zip(p_id, bg_id))
+
+    # Map each p_id_kindergeld_empf to its corresponding bg_id
+    empf_bg_id = [
+        p_id_to_bg_id[empfänger_id] if empfänger_id >= 0 else -1
+        for empfänger_id in p_id_kindergeld_empf
+    ]
+
+    # Compare bg_id array with the mapped bg_ids of p_id_kindergeld_empf
+    return bg_id != empf_bg_id

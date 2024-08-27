@@ -131,7 +131,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 140.0
       - 0.0
@@ -161,7 +161,7 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
@@ -203,7 +203,7 @@ outputs:
     - 220.0
     - 0.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 0.0
     - 340.0
     - 0.0

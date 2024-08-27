@@ -79,7 +79,7 @@ inputs:
     soli_st_y_sn:
       - 66.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 200.0
       - 0.0
     kindergeld_m:
@@ -97,7 +97,7 @@ inputs:
     jahr:
       - '2009'
       - '2009'
-    wohngeld_vor_vermög_check_m_hh:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
     vermögen_bedürft:
@@ -123,7 +123,7 @@ outputs:
   arbeitsl_geld_2_eink_anr_frei_m:
     - 260.0
     - 0.0
-  _arbeitsl_geld_2_nettoeink_ohne_transfers_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 684.5
     - 0.0
   arbeitsl_geld_2_regelsatz_m_bg:

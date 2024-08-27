@@ -1,4 +1,6 @@
-from _gettsim.shared import policy_info
+import numpy
+
+from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_group_kindergeld = {
     "anz_kinder_mit_kindergeld_fg": {
@@ -68,11 +70,7 @@ def kindergeld_gestaffelt_m(
     else:
         sum_kindergeld = sum(
             kindergeld_params["kindergeld"][
-                (
-                    i
-                    if i <= max(kindergeld_params["kindergeld"])
-                    else max(kindergeld_params["kindergeld"])
-                )
+                (min(i, max(kindergeld_params["kindergeld"])))
             ]
             for i in range(1, kindergeld_anz_ansprüche + 1)
         )
@@ -174,3 +172,34 @@ def kind_bis_10_mit_kindergeld(
     """
     out = kindergeld_anspruch and (alter <= 10)
     return out
+
+
+@policy_info(skip_vectorization=True)
+def same_fg_as_kindergeldempfänger(
+    p_id: numpy.ndarray[int],
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    fg_id: numpy.ndarray[int],
+) -> numpy.ndarray[bool]:
+    """The child's Kindergeldempfänger is in the same Familiengemeinschaft.
+
+    Parameters
+    ----------
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf <p_id_kindergeld_empf>`.
+    fg_id
+        See basic input variable :ref:`fg_id <fg_id>`.
+
+    Returns
+    -------
+
+    """
+    fg_id_kindergeldempfänger = join_numpy(
+        p_id_kindergeld_empf,
+        p_id,
+        fg_id,
+        value_if_foreign_key_is_missing=-1,
+    )
+
+    return fg_id_kindergeldempfänger == fg_id

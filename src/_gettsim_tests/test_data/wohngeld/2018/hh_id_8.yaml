@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -25,6 +25,48 @@ inputs:
       - 47
       - 47
       - 47
+    p_id_ehepartner:
+      - 48
+      - 47
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 47
+      - 47
+      - 47
+      - 47
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 48
+      - 48
+      - 48
+      - 48
+    p_id_einstandspartner:
+      - 48
+      - 47
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -39,6 +81,41 @@ inputs:
       - 1400.0
       - 1400.0
       - 1400.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -75,7 +152,7 @@ inputs:
       - 4
       - 4
     bruttolohn_m:
-      - 3000.0
+      - 3650.0
       - 0.0
       - 0.0
       - 0.0
@@ -137,13 +214,6 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 35000.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
@@ -158,14 +228,14 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 300.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 255.0
       - 0.0
       - 0.0
@@ -187,14 +257,14 @@ inputs:
       - 2018
       - 2018
     eink_st_y_sn:
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
-      - 7000.0
+      - 1000.0
+      - 1000.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     vermögen_bedürft:
-      - 220000.0
+      - 0.0
       - 0.0
       - 0.0
       - 0.0
@@ -228,19 +298,33 @@ inputs:
       - 2003
       - 2012
       - 2013
+    wohngeld_vorrang_bg:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_hh:
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
-    - 246.0
-  wohngeld_nach_vermög_check_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
+    - 24.0
