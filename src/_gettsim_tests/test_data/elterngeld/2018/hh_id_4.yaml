@@ -31,7 +31,7 @@ inputs:
     bruttolohn_m:
       - 0.0
       - 3600.0
-    bruttolohn_vorj_m:
+    elterngeld_bruttolohn_vor_geburt_m:
       - 0.0
       - 3400.0
     _zu_verst_eink_mit_kinderfreib_vorj_sn:

@@ -1,10 +1,10 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
 
-import numpy
 
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 from _gettsim.taxes.eink_st import _eink_st_tarif
+
+# elterngeldempf_1 , elterngeldempf_2
 
 
 def elterngeld_m(
@@ -71,38 +71,50 @@ def elterngeld_anspruchshöhe_m(
 
 
 def elterngeld_anspruchsbedingungen_erfüllt(
+    alleinerz: bool,
+    monate_elterngeldbezug_fg: int,
     hat_kinder: bool,
     arbeitsstunden_w: float,
-    elternzeit_anspruch: bool,
+    kind_anspruchsberechtigt_fg: bool,
     vorjahr_einkommen_unter_bezugsgrenze: bool,
     elterngeld_params: dict,
 ) -> bool:
-    """Check the eligibility of Elterngeld.
+    """Individual is eligible to receive Elterngeld.
 
     Parameters
     ----------
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
+    monate_elterngeldbezug_fg
+        See :func:`monate_elterngeldbezug_fg`.
     hat_kinder
         See :func:`hat_kinder`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
-    alleinerz:
-        See basic input variable :ref: `alleinerz` <alleinerz>.
-    _zu_verst_eink_mit_kinderfreib_vorj_sn
-        See :func:`_zu_verst_eink_mit_kinderfreib_vorj_sn`.
-    elternzeit_anspruch
-        See :func:`elternzeit_anspruch`
+    kind_anspruchsberechtigt_fg
+        See :func:`kind_anspruchsberechtigt_fg`.
     vorjahr_einkommen_unter_bezugsgrenze
         See :func:`vorjahr_einkommen_unter_bezugsgrenze`.
     elterngeld_params
-        See params documentation :ref: `elterngeld_params <elterngeld_params>`.
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
     Returns
     -------
 
     """
+    if alleinerz:
+        bezugsmonate_unter_grenze = (
+            monate_elterngeldbezug_fg <= elterngeld_params["max_monate_ind"]
+        )
+    else:
+        bezugsmonate_unter_grenze = (
+            monate_elterngeldbezug_fg <= elterngeld_params["max_monate_paar"]
+        )
     out = (
         (hat_kinder and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"])
         and vorjahr_einkommen_unter_bezugsgrenze
-        and (elternzeit_anspruch == True)
+        and kind_anspruchsberechtigt_fg
+        and bezugsmonate_unter_grenze
     )
     return out
 
@@ -140,30 +152,16 @@ def vorjahr_einkommen_unter_bezugsgrenze(
     return out
 
 
-def elterngeld_bezugsmonate_unter_grenze(
-    alter_monate_jüngstes_kind: float,
-    monate_elterngeldbezug_elternteil_1: int,
-    monate_elterngeldbezug_elternteil_2: int,
-    m_elterngeld: int,
-    kind: bool,
+def kind_anspruchsberechtigt(
+    alter: float,
     elterngeld_params: dict,
 ) -> bool:
-    """Check parental leave eligibility.
+    """Child is young enough to give rise to Elterngeld claim.
 
     Parameters
     ----------
-    alter_monate_jüngstes_mitglied_hh
-        See :func:`alter_monate_jüngstes_mitglied_hh`.
-    monate_elterngeldbezug_elternteil_1
-        See basic input variable :ref:`monate_elterngeldbezug_elternteil_1
-        <monate_elterngeldbezug_elternteil_1>`.
-    monate_elterngeldbezug_elternteil_2
-        See basic input variable :ref:`monate_elterngeldbezug_elternteil_2
-        <monate_elterngeldbezug_elternteil_2>`.
-    m_elterngeld
-        See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -171,68 +169,25 @@ def elterngeld_bezugsmonate_unter_grenze(
     -------
 
     """
-    kind_jünger_als_grenze = (
-        alter_monate_jüngstes_kind < elterngeld_params["max_monate_paar"]
-    )
-    if alleinerz:
-        out = (
-            kind_jünger_als_grenze
-            and monate_elterngeldbezug <= elterngeld_params["max_monate_ind"]
-        )
-    out = (
-        (alter_monate_jüngstes_kind <= elterngeld_params["max_monate_paar"])
-        and (
-            monate_elterngeldbezug_elternteil_1 + monate_elterngeldbezug_elternteil_2
-            < elterngeld_params["max_monate_paar"]
-        )
-        and (m_elterngeld <= elterngeld_params["max_monate_ind"])
-    )
-
-    return out
+    return alter <= elterngeld_params["max_monate_paar"]
 
 
-@policy_info(skip_vectorization=True)
-def monate_elterngeldbezug_partner(
-    monate_elterngeldbezug: numpy.ndarray[int],
-    p_id: numpy.ndarray[int],
-    p_id_elternteil_1: numpy.ndarray[int],
-    p_id_elternteil_2: numpy.ndarray[int],
-) -> numpy.ndarray[int]:
-    """Number of months of parental leave benefit for partner.
-
-    Parameters
-    ----------
-    monate_elterngeldbezug
-        See basic input variable :ref:`monate_elterngeldbezug <monate_elterngeldbezug>`.
-    p_id
-        See basic input variable :ref:`p_id <p_id>`.
-    p_id_elternteil_1
-        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
-    p_id_elternteil_2
-        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
-
-    Returns
-    -------
-
-    """
-    # TODO do this on child level instead
-
-
-# TODO either use this (and move to lohnsteuer) or remove _zu_verst_eink_mit_kinderfreib_vorj_sn
+# TODO move to lohnsteuer
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
-    bruttolohn_vorj_m: float,
+    elterngeld_bruttolohn_vor_geburt_m: float,
     elterngeld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
     soli_st_params: dict,
 ) -> float:
-    """Calculating the claim for benefits depending on previous wage.
+    """Proxy for income before birth for Elterngeld calculation.
 
     Parameters
     ----------
 
-    bruttolohn_vorj_m
-        See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
+    elterngeld_bruttolohn_vor_geburt_m
+        See basic input variable :ref:`elterngeld_bruttolohn_vor_geburt_m
+        <elterngeld_bruttolohn_vor_geburt_m>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     eink_st_params
@@ -248,11 +203,11 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     """
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["sozialv_pausch"] * bruttolohn_vorj_m
+    prox_ssc = elterngeld_params["sozialv_pausch"] * elterngeld_bruttolohn_vor_geburt_m
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = (
-        12 * bruttolohn_vorj_m
+        12 * elterngeld_bruttolohn_vor_geburt_m
         - eink_st_abzuege_params[
             "werbungskostenpauschale"
         ]  # TODO substract werbekosten from nettolohn!
@@ -273,36 +228,22 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
         ],
     )
 
-    out = bruttolohn_vorj_m - prox_ssc - prox_tax / 12 - prox_soli / 12
+    out = elterngeld_bruttolohn_vor_geburt_m - prox_ssc - prox_tax / 12 - prox_soli / 12
 
     return max(out, 0.0)
 
 
-# TODO use only on input variable (monate_elterngeldbezug) and aggregate on child level,
-# compute kind_anspruch on child level and then go back to parental level
-def elternzeit_anspruch(  # noqa: PLR0913
-    alter_monate_jüngstes_mitglied_hh: float,
-    monate_elterngeldbezug_elternteil_1_hh: int,
-    monate_elterngeldbezug_elternteil_2_hh: int,
-    m_elterngeld: int,
-    kind: bool,
+def elterngeld_geschwister_fg(
+    anz_kinder_bis_2_fg: int,
+    anz_kinder_bis_5_fg: int,
     elterngeld_params: dict,
 ) -> bool:
-    """Check parental leave eligibility.
-
+    """Check if there are siblings that give rise to Elterngeld siblings bonus.
 
     Parameters
     ----------
-    alter_monate_jüngstes_mitglied_hh
-        See :func:`alter_monate_jüngstes_mitglied_hh`.
-    monate_elterngeldbezug_elternteil_1_hh
-        See basic input variable :ref:`monate_elterngeldbezug_elternteil_1_hh <monate_elterngeldbezug_elternteil_1_hh>`.
-    monate_elterngeldbezug_elternteil_2_hh
-        See basic input variable :ref:`monate_elterngeldbezug_elternteil_2_hh <monate_elterngeldbezug_elternteil_2_hh>`.
-    m_elterngeld
-        See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -310,113 +251,14 @@ def elternzeit_anspruch(  # noqa: PLR0913
     -------
 
     """
-    out = (
-        (alter_monate_jüngstes_mitglied_hh <= elterngeld_params["max_monate_paar"])
-        and (
-            monate_elterngeldbezug_elternteil_1_hh
-            + monate_elterngeldbezug_elternteil_2_hh
-            < elterngeld_params["max_monate_paar"]
-        )
-        and (not kind)
-        and (m_elterngeld <= elterngeld_params["max_monate_ind"])
+    geschwister_unter_3 = (
+        anz_kinder_bis_2_fg >= elterngeld_params["geschwister_bonus_altersgrenzen"][3]
+    )
+    geschwister_unter_6 = (
+        anz_kinder_bis_5_fg >= elterngeld_params["geschwister_bonus_altersgrenzen"][6]
     )
 
-    return out
-
-
-def elterngeld_kind(
-    geburtsjahr: int,
-    elterngeld_params: dict,
-) -> bool:
-    """Check for sibling bonus on parental leave benefit.
-
-    # ToDo: why use datum and geburtsjahr instead of alter?
-
-    Parameters
-    ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-
-    Returns
-    -------
-
-    """
-    current_year = (
-        elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
-    )  # TODO use age
-    out = current_year - geburtsjahr < next(
-        iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())
-    )
-    return out
-
-
-def elterngeld_vorschulkind(
-    geburtsjahr: int,
-    elterngeld_params: dict,
-) -> bool:
-    """Check for sibling bonus on parental leave benefit.
-
-    Parameters
-    ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-
-    Returns
-    -------
-
-    """
-    current_year = (
-        elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
-    )  # TODO use age
-    out = (
-        current_year - geburtsjahr
-        < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
-    )
-    return out
-
-
-def elterngeld_geschw_bonus_anspruch(
-    elterngeld_kind_hh: int,
-    elterngeld_vorschulkind_hh: int,
-    elternzeit_anspruch: bool,
-    elterngeld_params: dict,
-) -> bool:
-    """Check for sibling bonus on parental leave benefit.
-
-    Parameters
-    ----------
-    elterngeld_kind_hh
-        See :func:`elterngeld_kind_hh`.
-    elternzeit_anspruch
-        See :func:`elternzeit_anspruch`.
-    elterngeld_vorschulkind_hh
-        See :func:`elterngeld_vorschulkind_hh`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-
-    Returns
-    -------
-
-    """
-    if elternzeit_anspruch:
-        out = (
-            elterngeld_kind_hh
-            == next(
-                iter(
-                    elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values()
-                )  # TODO make this easier?
-            )
-        ) or (
-            elterngeld_vorschulkind_hh
-            >= list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())[1]
-        )
-    else:
-        out = False
-    return out
+    return geschwister_unter_3 or geschwister_unter_6
 
 
 def _elterngeld_anz_mehrlinge_anspruch(

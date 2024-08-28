@@ -247,9 +247,9 @@ Weekly working hours of individual
 
 Type: float
 
-(bruttolohn_vorj_m)=
+(elterngeld_bruttolohn_vor_geburt_m)=
 
-## `bruttolohn_vorj_m`
+## `elterngeld_bruttolohn_vor_geburt_m`
 
 Monthly wage, previous year
 

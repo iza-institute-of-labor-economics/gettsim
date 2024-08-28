@@ -53,6 +53,8 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_rentner": {"source_col": "rentner", "aggr": "sum"},
         "anz_kinder": {"source_col": "kind", "aggr": "sum"},
         "anz_personen": {"aggr": "count"},
+        "anz_kinder_bis_2": {"source_col": "kind_bis_2", "aggr": "sum"},
+        "anz_kinder_bis_5": {"source_col": "kind_bis_5", "aggr": "sum"},
         "anz_kinder_bis_6": {"source_col": "kind_bis_6", "aggr": "sum"},
         "anz_kinder_bis_15": {"source_col": "kind_bis_15", "aggr": "sum"},
         "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
@@ -64,6 +66,42 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         },
     }
 )
+
+
+def kind_bis_2(alter: int, kind: bool) -> bool:
+    """Calculate if child under the age of 3.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 2)
+    return out
+
+
+def kind_bis_5(alter: int, kind: bool) -> bool:
+    """Calculate if child under the age of 6.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 5)
+    return out
 
 
 def kind_bis_6(alter: int, kind: bool) -> bool:

@@ -34,7 +34,7 @@ inputs:
     bruttolohn_m:
       - 1400.0
       - 0.0
-    bruttolohn_vorj_m:
+    elterngeld_bruttolohn_vor_geburt_m:
       - 1700.0
       - 0.0
     geburtstag:

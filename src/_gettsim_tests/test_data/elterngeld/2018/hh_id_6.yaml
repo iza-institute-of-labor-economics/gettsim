@@ -22,7 +22,7 @@ inputs:
       - 10.0
     bruttolohn_m:
       - 900.0
-    bruttolohn_vorj_m:
+    elterngeld_bruttolohn_vor_geburt_m:
       - 900.0
     _zu_verst_eink_mit_kinderfreib_vorj_sn:
       - 7406.0

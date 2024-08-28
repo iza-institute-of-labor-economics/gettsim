@@ -171,7 +171,7 @@ TYPES_INPUT_VARIABLES = {
     "eink_selbst_m": float,
     "in_priv_krankenv": bool,
     "priv_rentenv_beitr_m": float,
-    "bruttolohn_vorj_m": float,
+    "elterngeld_bruttolohn_vor_geburt_m": float,
     "arbeitsstunden_w": float,
     "geburtsjahr": int,
     "geburtstag": int,

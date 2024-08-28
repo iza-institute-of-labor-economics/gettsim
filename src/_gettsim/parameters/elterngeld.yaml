@@ -90,7 +90,7 @@ eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-geschw_bonus_altersgrenzen_kinder:
+geschwister_bonus_altersgrenzen:
   name:
     de: Altersgrenzen für Geschwisterbonus
     en: Age limit for sibling bonus
