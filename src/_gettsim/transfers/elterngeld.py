@@ -1,30 +1,49 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
 
+import numpy
+
 from _gettsim.piecewise_functions import piecewise_polynomial
+from _gettsim.shared import policy_info
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-def elterngeld_m(  # noqa: PLR0913
-    elterngeld_eink_relev_m: float,
-    elterngeld_anspruch: bool,
-    elterngeld_eink_erlass_m: float,
+def elterngeld_m(
+    elterngeld_anspruchsbedingungen_erfüllt: bool,
+    elterngeld_anspruchshöhe_m: float,
+) -> float:
+    """Parental leave benefit (Elterngeld).
+
+    Parameters
+    ----------
+    elterngeld_anspruchsbedingungen_erfüllt
+        See :func:`elterngeld_anspruchsbedingungen_erfüllt`.
+    elterngeld_anspruchshöhe_m
+        See :func:`elterngeld_anspruchshöhe_m`.
+
+    Returns
+    -------
+
+    """
+    if elterngeld_anspruchsbedingungen_erfüllt:
+        out = elterngeld_anspruchshöhe_m
+    else:
+        out = 0.0
+    return out
+
+
+def elterngeld_anspruchshöhe_m(
+    elterngeld_basisbetrag_m: float,
     elterngeld_anrechenbares_einkommen_m: float,
     elterngeld_geschw_bonus_m: float,
     elterngeld_mehrlinge_bonus_m: float,
     elterngeld_params: dict,
 ) -> float:
-    """Calculate parental leave benefit (elterngeld).
-
-    For the calculation, the relevant wage and the eligibility for bonuses is needed.
+    """Parental leave before checking eligibility.
 
     Parameters
     ----------
-    elterngeld_eink_relev_m
-        See :func:`elterngeld_eink_relev_m`.
-    elterngeld_anspruch
-        See :func:`elterngeld_anspruch`.
-    elterngeld_eink_erlass_m
-        See :func:`elterngeld_eink_erlass_m`.
+    elterngeld_basisbetrag_m
+        See :func:`elterngeld_basisbetrag_m`.
     elterngeld_anrechenbares_einkommen_m
         See :func:`elterngeld_anrechenbares_einkommen_m`.
     elterngeld_geschw_bonus_m
@@ -38,36 +57,24 @@ def elterngeld_m(  # noqa: PLR0913
     -------
 
     """
-
-    if (elterngeld_eink_relev_m < 0) or (not elterngeld_anspruch):
-        out = 0.0
-    else:
-        # Bound from above and below
-        out = (
-            min(
-                max(
-                    elterngeld_eink_erlass_m - elterngeld_anrechenbares_einkommen_m,
-                    elterngeld_params["mindestbetrag"],
-                ),
-                elterngeld_params["höchstbetrag"],
-            )
-            + elterngeld_geschw_bonus_m
-            + elterngeld_mehrlinge_bonus_m
+    return (
+        min(
+            max(
+                elterngeld_basisbetrag_m - elterngeld_anrechenbares_einkommen_m,
+                elterngeld_params["mindestbetrag"],
+            ),
+            elterngeld_params["höchstbetrag"],
         )
-    return out
+        + elterngeld_geschw_bonus_m
+        + elterngeld_mehrlinge_bonus_m
+    )
 
 
-# i have changed the elternzeit_anspruch function to the elterngeld_anspruch
-# to better accomodate to the haushaltsfinanzierungsgesetz
-
-
-### claim function (rudimentary)
-def elterngeld_anspruch(
+def elterngeld_anspruchsbedingungen_erfüllt(
     hat_kinder: bool,
     arbeitsstunden_w: float,
-    alleinerz: bool,
-    _zu_verst_eink_mit_kinderfreib_vorj_sn: float,
     elternzeit_anspruch: bool,
+    vorjahr_einkommen_unter_bezugsgrenze: bool,
     elterngeld_params: dict,
 ) -> bool:
     """Check the eligibility of Elterngeld.
@@ -75,44 +82,145 @@ def elterngeld_anspruch(
     Parameters
     ----------
     hat_kinder
-        See basic input variable :ref:`hat_kinder <hat_kinder>`.
+        See :func:`hat_kinder`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     alleinerz:
-        See basic input variable :ref: `alleinerz` <alleinerz>
+        See basic input variable :ref: `alleinerz` <alleinerz>.
     _zu_verst_eink_mit_kinderfreib_vorj_sn
-        See :func:`_zu_verst_eink_mit_kinderfreib_vorj_sn`
+        See :func:`_zu_verst_eink_mit_kinderfreib_vorj_sn`.
     elternzeit_anspruch
         See :func:`elternzeit_anspruch`
+    vorjahr_einkommen_unter_bezugsgrenze
+        See :func:`vorjahr_einkommen_unter_bezugsgrenze`.
     elterngeld_params
-        See params documentation :ref: `elterngeld_params <elterngeld_params>`
+        See params documentation :ref: `elterngeld_params <elterngeld_params>`.
     Returns
     -------
 
     """
-
     out = (
-        (
-            hat_kinder == True
-            and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
-        )
-        and (
-            (
-                alleinerz == True
-                and _zu_verst_eink_mit_kinderfreib_vorj_sn
-                <= elterngeld_params["max_eink_vorj_allein"]
-            )
-            or (
-                _zu_verst_eink_mit_kinderfreib_vorj_sn
-                <= elterngeld_params["max_eink_vorj_zsm"]
-            )
-        )
+        (hat_kinder and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"])
+        and vorjahr_einkommen_unter_bezugsgrenze
         and (elternzeit_anspruch == True)
     )
     return out
 
 
-###Income approximation new, removed BBmG
+def vorjahr_einkommen_unter_bezugsgrenze(
+    alleinerz: bool,
+    _zu_verst_eink_mit_kinderfreib_vorj_sn: float,
+    elterngeld_params: dict,
+) -> bool:
+    """Income before birth is below income threshold for Elterngeld.
+
+    Parameters
+    ----------
+    alleinerz
+        See basic input variable :ref:`alleinerz <alleinerz>`.
+    _zu_verst_eink_mit_kinderfreib_vorj_sn
+        See :func:`_zu_verst_eink_mit_kinderfreib_vorj_sn`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    if alleinerz:
+        out = (
+            _zu_verst_eink_mit_kinderfreib_vorj_sn
+            <= elterngeld_params["max_eink_vorj_allein"]
+        )
+    else:
+        out = (
+            _zu_verst_eink_mit_kinderfreib_vorj_sn
+            <= elterngeld_params["max_eink_vorj_zsm"]
+        )
+    return out
+
+
+def elterngeld_bezugsmonate_unter_grenze(
+    alter_monate_jüngstes_kind: float,
+    monate_elterngeldbezug_elternteil_1: int,
+    monate_elterngeldbezug_elternteil_2: int,
+    m_elterngeld: int,
+    kind: bool,
+    elterngeld_params: dict,
+) -> bool:
+    """Check parental leave eligibility.
+
+    # ToDo: Check meaning and naming and make description of
+    monate_elterngeldbezug_elternteil_1, # ToDo: monate_elterngeldbezug_elternteil_2,
+    and m_elterngeld more precise
+
+    Parameters
+    ----------
+    alter_monate_jüngstes_mitglied_hh
+        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    monate_elterngeldbezug_elternteil_1
+        See basic input variable :ref:`monate_elterngeldbezug_elternteil_1
+        <monate_elterngeldbezug_elternteil_1>`.
+    monate_elterngeldbezug_elternteil_2
+        See basic input variable :ref:`monate_elterngeldbezug_elternteil_2
+        <monate_elterngeldbezug_elternteil_2>`.
+    m_elterngeld
+        See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    kind_jünger_als_grenze = (
+        alter_monate_jüngstes_kind < elterngeld_params["max_monate_paar"]
+    )
+    if alleinerz:
+        out = (
+            kind_jünger_als_grenze
+            and monate_elterngeldbezug <= elterngeld_params["max_monate_ind"]
+        )
+    out = (
+        (alter_monate_jüngstes_kind <= elterngeld_params["max_monate_paar"])
+        and (
+            monate_elterngeldbezug_elternteil_1 + monate_elterngeldbezug_elternteil_2
+            < elterngeld_params["max_monate_paar"]
+        )
+        and (m_elterngeld <= elterngeld_params["max_monate_ind"])
+    )
+
+    return out
+
+
+@policy_info(skip_vectorization=True)
+def monate_elterngeldbezug_partner(
+    monate_elterngeldbezug: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """Number of months of parental leave benefit for partner.
+
+    Parameters
+    ----------
+    monate_elterngeldbezug
+        See basic input variable :ref:`monate_elterngeldbezug <monate_elterngeldbezug>`.
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
+    p_id_elternteil_1
+        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
+    p_id_elternteil_2
+        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
+
+    Returns
+    -------
+
+    """
+
+
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
     bruttolohn_vorj_m: float,
     elterngeld_params: dict,
@@ -171,25 +279,25 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
 def elternzeit_anspruch(  # noqa: PLR0913
     alter_monate_jüngstes_mitglied_hh: float,
-    m_elterngeld_mut_hh: int,
-    m_elterngeld_vat_hh: int,
+    monate_elterngeldbezug_elternteil_1_hh: int,
+    monate_elterngeldbezug_elternteil_2_hh: int,
     m_elterngeld: int,
     kind: bool,
     elterngeld_params: dict,
 ) -> bool:
     """Check parental leave eligibility.
 
-    # ToDo: Check meaning and naming and make description of m_elterngeld_mut_hh,
-    # ToDo: m_elterngeld_vat_hh, and m_elterngeld more precise
+    # ToDo: Check meaning and naming and make description of monate_elterngeldbezug_elternteil_1_hh,
+    # ToDo: monate_elterngeldbezug_elternteil_2_hh, and m_elterngeld more precise
 
     Parameters
     ----------
     alter_monate_jüngstes_mitglied_hh
         See :func:`alter_monate_jüngstes_mitglied_hh`.
-    m_elterngeld_mut_hh
-        See basic input variable :ref:`m_elterngeld_mut_hh <m_elterngeld_mut_hh>`.
-    m_elterngeld_vat_hh
-        See basic input variable :ref:`m_elterngeld_vat_hh <m_elterngeld_vat_hh>`.
+    monate_elterngeldbezug_elternteil_1_hh
+        See basic input variable :ref:`monate_elterngeldbezug_elternteil_1_hh <monate_elterngeldbezug_elternteil_1_hh>`.
+    monate_elterngeldbezug_elternteil_2_hh
+        See basic input variable :ref:`monate_elterngeldbezug_elternteil_2_hh <monate_elterngeldbezug_elternteil_2_hh>`.
     m_elterngeld
         See basic input variable :ref:`m_elterngeld <m_elterngeld>`.
     kind
@@ -204,7 +312,8 @@ def elternzeit_anspruch(  # noqa: PLR0913
     out = (
         (alter_monate_jüngstes_mitglied_hh <= elterngeld_params["max_monate_paar"])
         and (
-            m_elterngeld_mut_hh + m_elterngeld_vat_hh
+            monate_elterngeldbezug_elternteil_1_hh
+            + monate_elterngeldbezug_elternteil_2_hh
             < elterngeld_params["max_monate_paar"]
         )
         and (not kind)
@@ -370,8 +479,8 @@ def elterngeld_eink_relev_m(
 ) -> float:
     """Calculating the relevant wage for the calculation of elterngeld.
 
-    According to § 2 (1) and (3) BEEG elterngeld is calculated by the loss of income due
-    to child raising and is reduced by aquired income during the claiming of Elterngeld.
+    Elterngeld payment is reduced by income during the claiming period (§ 2 (1) and (3)
+    BEEG).
 
     Parameters
        ----------

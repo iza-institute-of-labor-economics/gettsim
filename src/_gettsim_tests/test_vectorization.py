@@ -457,16 +457,16 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     # Test original gettsim function on scalar input
     # ==================================================================================
     alter_monate_juengstes_mitglied_hh = 12.0
-    m_elterngeld_mut_hh = 2
-    m_elterngeld_vat_hh = 3
+    monate_elterngeldbezug_elternteil_1_hh = 2
+    monate_elterngeldbezug_elternteil_2_hh = 3
     m_elterngeld = 4
     kind = False
     elterngeld_params = {"max_monate_paar": 14.0, "max_monate_ind": 6}
 
     exp = elternzeit_anspruch(
         alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
+        monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
         m_elterngeld=m_elterngeld,
         kind=kind,
         elterngeld_params=elterngeld_params,
@@ -482,8 +482,8 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         elternzeit_anspruch(
             alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-            m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-            m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+            monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
+            monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
             m_elterngeld=m_elterngeld,
             kind=kind,
             elterngeld_params=elterngeld_params,
@@ -494,8 +494,8 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     converted = make_vectorizable(elternzeit_anspruch, backend=backend)
     got = converted(
         alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
-        m_elterngeld_mut_hh=m_elterngeld_mut_hh,
-        m_elterngeld_vat_hh=m_elterngeld_vat_hh,
+        monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
+        monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
         m_elterngeld=m_elterngeld,
         kind=kind,
         elterngeld_params=elterngeld_params,

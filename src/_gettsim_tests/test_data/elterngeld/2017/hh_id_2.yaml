@@ -48,9 +48,9 @@ inputs:
       - 3
     geburtstag:
       - 3
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug_elternteil_1_hh:
       - 1
-    m_elterngeld_vat_hh:
+    monate_elterngeldbezug_elternteil_2_hh:
       - 0
     m_elterngeld:
       - 0

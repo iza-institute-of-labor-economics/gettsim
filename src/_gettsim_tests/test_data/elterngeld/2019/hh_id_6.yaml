@@ -92,11 +92,11 @@ inputs:
       - 12
       - 12
       - 13
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug_elternteil_1_hh:
       - 2
       - 2
       - 2
-    m_elterngeld_vat_hh:
+    monate_elterngeldbezug_elternteil_2_hh:
       - 2
       - 2
       - 2

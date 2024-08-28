@@ -303,19 +303,19 @@ Number of months hh received elterngeld
 
 Type: int
 
-(m_elterngeld_vat_hh)=
+(monate_elterngeldbezug_elternteil_1)=
 
-## `m_elterngeld_vat_hh`
+## `monate_elterngeldbezug_elternteil_1`
 
-Number of months father received elterngeld
+Number of months parent 1 received Elterngeld
 
 Type: int
 
-(m_elterngeld_mut_hh)=
+(monate_elterngeldbezug_elternteil_2)=
 
-## `m_elterngeld_mut_hh`
+## `monate_elterngeldbezug_elternteil_2`
 
-Number of months mother received elterngeld
+Number of months parent 2 received Elterngeld
 
 Type: int
 

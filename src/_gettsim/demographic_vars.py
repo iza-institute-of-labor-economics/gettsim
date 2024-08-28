@@ -9,6 +9,7 @@ import datetime
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_demographic_vars = {
     "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
@@ -238,6 +239,86 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
     out = age_in_days / 30.436875
     return out.astype(float)
+
+
+@policy_info(skip_vectorization=True)
+def alter_monate_jüngstes_kind(
+    alter_monate: numpy.ndarray[float],
+    p_id: numpy.ndarray[int],
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[float]:
+    """Age of individuals' youngest child in months.
+
+    Parameters
+    ----------
+    alter_monate
+        See :func:`alter_monate`.
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
+    p_id_elternteil_1
+        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
+    p_id_elternteil_2
+        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
+
+    Returns
+    -------
+    """
+    candidate_1 = join_numpy(
+        p_id_elternteil_1,
+        p_id,
+        alter_monate,
+        -1,
+    )
+    candidate_2 = join_numpy(
+        p_id_elternteil_2,
+        p_id,
+        alter_monate,
+        -1,
+    )
+    if candidate_1 >= 0 and candidate_2 >= 0:
+        out = min(candidate_1, candidate_2)
+    elif candidate_1 >= 0:
+        out = candidate_1
+    elif candidate_2 >= 0:
+        out = candidate_2
+    else:
+        out = numpy.nan
+
+    return out
+
+
+@policy_info(skip_vectorization=True)
+def hat_kinder(
+    p_id_elternteil_1: numpy.ndarray[int],
+    p_id_elternteil_2: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+) -> numpy.ndarray[bool]:
+    """Check if individual has children.
+
+    Parameters
+    ----------
+    p_id_elternteil_1
+        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
+    p_id_elternteil_2
+        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
+
+    Returns
+    -------
+    """
+    return join_numpy(
+        p_id_elternteil_1,
+        p_id,
+        True,
+        False,
+    ) | join_numpy(
+        p_id_elternteil_2,
+        p_id,
+        True,
+        False,
+    )
 
 
 def jüngstes_kind_oder_mehrling(
