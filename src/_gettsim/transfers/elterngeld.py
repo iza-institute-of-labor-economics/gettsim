@@ -150,10 +150,6 @@ def elterngeld_bezugsmonate_unter_grenze(
 ) -> bool:
     """Check parental leave eligibility.
 
-    # ToDo: Check meaning and naming and make description of
-    monate_elterngeldbezug_elternteil_1, # ToDo: monate_elterngeldbezug_elternteil_2,
-    and m_elterngeld more precise
-
     Parameters
     ----------
     alter_monate_jüngstes_mitglied_hh
@@ -219,8 +215,10 @@ def monate_elterngeldbezug_partner(
     -------
 
     """
+    # TODO do this on child level instead
 
 
+# TODO either use this (and move to lohnsteuer) or remove _zu_verst_eink_mit_kinderfreib_vorj_sn
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
     bruttolohn_vorj_m: float,
     elterngeld_params: dict,
@@ -254,7 +252,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = (
-        12 * bruttolohn_vorj_m - eink_st_abzuege_params["werbungskostenpauschale"]
+        12 * bruttolohn_vorj_m - eink_st_abzuege_params["werbungskostenpauschale"] # TODO substract werbekosten from nettolohn!
     )
     prox_income = max(prox_income, 0.0)
 
@@ -276,7 +274,8 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
     return max(out, 0.0)
 
-
+# TODO use only on input variable (monate_elterngeldbezug) and aggregate on child level,
+# compute kind_anspruch on child level and then go back to parental level
 def elternzeit_anspruch(  # noqa: PLR0913
     alter_monate_jüngstes_mitglied_hh: float,
     monate_elterngeldbezug_elternteil_1_hh: int,
@@ -287,8 +286,6 @@ def elternzeit_anspruch(  # noqa: PLR0913
 ) -> bool:
     """Check parental leave eligibility.
 
-    # ToDo: Check meaning and naming and make description of monate_elterngeldbezug_elternteil_1_hh,
-    # ToDo: monate_elterngeldbezug_elternteil_2_hh, and m_elterngeld more precise
 
     Parameters
     ----------
@@ -342,7 +339,7 @@ def elterngeld_kind(
     -------
 
     """
-    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970 # TODO use age
     out = current_year - geburtsjahr < next(
         iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())
     )
@@ -366,7 +363,7 @@ def elterngeld_vorschulkind(
     -------
 
     """
-    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970 # TODO use age
     out = (
         current_year - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
@@ -401,7 +398,7 @@ def elterngeld_geschw_bonus_anspruch(
         out = (
             elterngeld_kind_hh
             == next(
-                iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values())
+                iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values()) # TODO make this easier?
             )
         ) or (
             elterngeld_vorschulkind_hh
@@ -429,51 +426,12 @@ def _elterngeld_anz_mehrlinge_anspruch(
     -------
 
     """
-    out = anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
+    out = anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0 # TODO move away from hh?
     return out
 
 
-def elterngeld_nettolohn_m(
-    bruttolohn_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
-    anz_personen_sn: int,
-    sozialv_beitr_arbeitnehmer_m: float,
-) -> float:
-    """Calculate the net wage.
-
-    Taxes and social insurance contributions are needed for the calculation.
-
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
-    sozialv_beitr_arbeitnehmer_m
-        See :func:`sozialv_beitr_arbeitnehmer_m`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        bruttolohn_m
-        - (eink_st_m_sn / anz_personen_sn)
-        - (soli_st_m_sn / anz_personen_sn)
-        - sozialv_beitr_arbeitnehmer_m
-    )
-
-    return max(out, 0.0)
-
-
 ### relevant income new
-def elterngeld_eink_relev_m(
+def elterngeld_eink_relev_m( # TODO naming
     _elterngeld_proxy_eink_vorj_elterngeld_m: float,
     elterngeld_nettolohn_m: float,
 ) -> float:
@@ -493,7 +451,7 @@ def elterngeld_eink_relev_m(
        -------
 
     """
-    relev = _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
+    relev = _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m # TODO nettolohn doesnt make sense here
     return max(relev, 0.0)
 
 
@@ -554,7 +512,7 @@ def elterngeld_anteil_eink_erlass(
     return out
 
 
-def elterngeld_eink_erlass_m(
+def elterngeld_eink_erlass_m( # TODO naming
     elterngeld_eink_relev_m: float, elterngeld_anteil_eink_erlass: float
 ) -> float:
     """Calculate base parental leave benefit.
@@ -626,7 +584,7 @@ def elterngeld_mehrlinge_bonus_m(
     )
 
 
-def elterngeld_anr_m(
+def elterngeld_anr_m( # TODO improve naming
     elterngeld_m: float,
     elterngeld_params: dict,
     anz_mehrlinge_jüngstes_kind_hh: int,
@@ -686,7 +644,7 @@ def elterngeld_anrechenbares_einkommen_m(
 
     """
 
-    out = (
+    out = ( # TODO Throw out unnecessary input vars
         mutterschaftsgeld_m
         + dienstbezüge_bei_beschäftigungsverbot_m
         + elterngeld_vergleichbare_leistungen_m
