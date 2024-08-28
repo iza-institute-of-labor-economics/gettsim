@@ -252,7 +252,10 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
 
     # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
     prox_income = (
-        12 * bruttolohn_vorj_m - eink_st_abzuege_params["werbungskostenpauschale"] # TODO substract werbekosten from nettolohn!
+        12 * bruttolohn_vorj_m
+        - eink_st_abzuege_params[
+            "werbungskostenpauschale"
+        ]  # TODO substract werbekosten from nettolohn!
     )
     prox_income = max(prox_income, 0.0)
 
@@ -273,6 +276,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     out = bruttolohn_vorj_m - prox_ssc - prox_tax / 12 - prox_soli / 12
 
     return max(out, 0.0)
+
 
 # TODO use only on input variable (monate_elterngeldbezug) and aggregate on child level,
 # compute kind_anspruch on child level and then go back to parental level
@@ -339,7 +343,9 @@ def elterngeld_kind(
     -------
 
     """
-    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970 # TODO use age
+    current_year = (
+        elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    )  # TODO use age
     out = current_year - geburtsjahr < next(
         iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())
     )
@@ -363,7 +369,9 @@ def elterngeld_vorschulkind(
     -------
 
     """
-    current_year = elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970 # TODO use age
+    current_year = (
+        elterngeld_params["datum"].astype("datetime64[Y]").astype(int) + 1970
+    )  # TODO use age
     out = (
         current_year - geburtsjahr
         < list(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].keys())[1]
@@ -398,7 +406,9 @@ def elterngeld_geschw_bonus_anspruch(
         out = (
             elterngeld_kind_hh
             == next(
-                iter(elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values()) # TODO make this easier?
+                iter(
+                    elterngeld_params["geschw_bonus_altersgrenzen_kinder"].values()
+                )  # TODO make this easier?
             )
         ) or (
             elterngeld_vorschulkind_hh
@@ -426,12 +436,14 @@ def _elterngeld_anz_mehrlinge_anspruch(
     -------
 
     """
-    out = anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0 # TODO move away from hh?
+    out = (
+        anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
+    )  # TODO move away from hh?
     return out
 
 
 ### relevant income new
-def elterngeld_eink_relev_m( # TODO naming
+def elterngeld_eink_relev_m(  # TODO naming
     _elterngeld_proxy_eink_vorj_elterngeld_m: float,
     elterngeld_nettolohn_m: float,
 ) -> float:
@@ -451,7 +463,9 @@ def elterngeld_eink_relev_m( # TODO naming
        -------
 
     """
-    relev = _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m # TODO nettolohn doesnt make sense here
+    relev = (
+        _elterngeld_proxy_eink_vorj_elterngeld_m - elterngeld_nettolohn_m
+    )  # TODO nettolohn doesnt make sense here
     return max(relev, 0.0)
 
 
@@ -512,7 +526,7 @@ def elterngeld_anteil_eink_erlass(
     return out
 
 
-def elterngeld_eink_erlass_m( # TODO naming
+def elterngeld_eink_erlass_m(  # TODO naming
     elterngeld_eink_relev_m: float, elterngeld_anteil_eink_erlass: float
 ) -> float:
     """Calculate base parental leave benefit.
@@ -584,7 +598,7 @@ def elterngeld_mehrlinge_bonus_m(
     )
 
 
-def elterngeld_anr_m( # TODO improve naming
+def elterngeld_anr_m(  # TODO improve naming
     elterngeld_m: float,
     elterngeld_params: dict,
     anz_mehrlinge_jüngstes_kind_hh: int,
@@ -644,7 +658,7 @@ def elterngeld_anrechenbares_einkommen_m(
 
     """
 
-    out = ( # TODO Throw out unnecessary input vars
+    out = (  # TODO Throw out unnecessary input vars
         mutterschaftsgeld_m
         + dienstbezüge_bei_beschäftigungsverbot_m
         + elterngeld_vergleichbare_leistungen_m
