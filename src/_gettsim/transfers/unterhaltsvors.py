@@ -66,8 +66,7 @@ def unterhaltsvors_m(
 def unterhaltsvors_not_implemented_m() -> float:
     raise NotImplementedError(
         """
-        Unterhaltsvorschuss is not implemented prior to 2008.
-        https://github.com/iza-institute-of-labor-economics/gettsim/issues/566
+        Unterhaltsvorschuss is not implemented prior to 2009.
     """
     )
 
