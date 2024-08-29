@@ -114,7 +114,7 @@ outputs:
     - 575.554889
     - 0.0
     - 0.0
-  elterngeld_geschw_bonus_anspruch:
+  elterngeld_geschwisterbonus_anspruch:
     - false
     - false
     - false

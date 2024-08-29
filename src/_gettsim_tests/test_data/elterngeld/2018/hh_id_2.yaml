@@ -87,7 +87,7 @@ outputs:
   elterngeld_m:
     - 730.97
     - 0.0
-  elterngeld_geschw_bonus_anspruch:
+  elterngeld_geschwisterbonus_anspruch:
     - false
     - false
   _elterngeld_anz_mehrlinge_anspruch:

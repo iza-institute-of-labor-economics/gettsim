@@ -5,6 +5,13 @@ from _gettsim.taxes.eink_st import _eink_st_tarif
 
 # elterngeldempf_1 , elterngeldempf_2
 
+aggregate_by_group_elterngeld = {
+    "kind_anspruchsberechtigt_fg": {
+        "source_col": "kind_anspruchsberechtigt",
+        "aggr": "any",
+    },
+}
+
 
 def elterngeld_m(
     elterngeld_anspruchsbedingungen_erfüllt: bool,
@@ -33,8 +40,8 @@ def elterngeld_m(
 def elterngeld_anspruchshöhe_m(
     elterngeld_basisbetrag_m: float,
     elterngeld_anrechenbares_einkommen_m: float,
-    elterngeld_geschw_bonus_m: float,
-    elterngeld_mehrlinge_bonus_m: float,
+    elterngeld_geschwisterbonus_m: float,
+    elterngeld_mehrlingsbonus_m: float,
     elterngeld_params: dict,
 ) -> float:
     """Parental leave before checking eligibility.
@@ -45,10 +52,10 @@ def elterngeld_anspruchshöhe_m(
         See :func:`elterngeld_basisbetrag_m`.
     elterngeld_anrechenbares_einkommen_m
         See :func:`elterngeld_anrechenbares_einkommen_m`.
-    elterngeld_geschw_bonus_m
-        See :func:`elterngeld_geschw_bonus_m`.
-    elterngeld_mehrlinge_bonus_m
-        See :func:`elterngeld_mehrlinge_bonus_m`.
+    elterngeld_geschwisterbonus_m
+        See :func:`elterngeld_geschwisterbonus_m`.
+    elterngeld_mehrlingsbonus_m
+        See :func:`elterngeld_mehrlingsbonus_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -64,8 +71,8 @@ def elterngeld_anspruchshöhe_m(
             ),
             elterngeld_params["höchstbetrag"],
         )
-        + elterngeld_geschw_bonus_m
-        + elterngeld_mehrlinge_bonus_m
+        + elterngeld_geschwisterbonus_m
+        + elterngeld_mehrlingsbonus_m
     )
 
 
@@ -120,7 +127,7 @@ def elterngeld_anspruchsbedingungen_erfüllt(
 
 def vorjahr_einkommen_unter_bezugsgrenze(
     alleinerz: bool,
-    _zu_verst_eink_mit_kinderfreib_vorj_sn: float,
+    _zu_verst_eink_mit_kinderfreib_vorj_sn: float, # TODO potentially rename
     elterngeld_params: dict,
 ) -> bool:
     """Income before birth is below income threshold for Elterngeld.
@@ -171,6 +178,25 @@ def kind_anspruchsberechtigt(
     return alter <= elterngeld_params["max_monate_paar"]
 
 
+def elterngeld_basisbetrag_m(
+    elterngeld_einkommen_vorjahr_m: float, elterngeld_lohnersatzanteil: float
+) -> float:
+    """Base parental leave benefit without accounting for floor and ceiling.
+
+    Parameters
+    ----------
+    elterngeld_einkommen_vorjahr_m
+        See :func:`elterngeld_einkommen_vorjahr_m`.
+    elterngeld_lohnersatzanteil
+        See :func:`elterngeld_lohnersatzanteil`.
+
+    Returns
+    -------
+
+    """
+    return elterngeld_einkommen_vorjahr_m * elterngeld_lohnersatzanteil
+
+
 # TODO move to lohnsteuer
 def _elterngeld_proxy_eink_vorj_elterngeld_m(
     elterngeld_bruttolohn_vor_geburt_m: float,
@@ -179,11 +205,13 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     eink_st_abzuege_params: dict,
     soli_st_params: dict,
 ) -> float:
-    """Proxy for income before birth for Elterngeld calculation.
+    """Income before birth.
+
+    Income 12 months before birth is used to calculate the replacement rate and the base
+    benefit.
 
     Parameters
     ----------
-
     elterngeld_bruttolohn_vor_geburt_m
         See basic input variable :ref:`elterngeld_bruttolohn_vor_geburt_m
         <elterngeld_bruttolohn_vor_geburt_m>`.
@@ -200,7 +228,6 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     -------
 
     """
-
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = elterngeld_params["sozialv_pausch"] * elterngeld_bruttolohn_vor_geburt_m
 
@@ -209,7 +236,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
         12 * elterngeld_bruttolohn_vor_geburt_m
         - eink_st_abzuege_params[
             "werbungskostenpauschale"
-        ]  # TODO substract werbekosten from nettolohn!
+        ]  # TODO substract werbekosten from nettolohn?
     )
     prox_income = max(prox_income, 0.0)
 
@@ -232,59 +259,7 @@ def _elterngeld_proxy_eink_vorj_elterngeld_m(
     return max(out, 0.0)
 
 
-def elterngeld_geschwister_fg(
-    anz_kinder_bis_2_fg: int,
-    anz_kinder_bis_5_fg: int,
-    elterngeld_params: dict,
-) -> bool:
-    """Check if there are siblings that give rise to Elterngeld siblings bonus.
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-
-    Returns
-    -------
-
-    """
-    geschwister_unter_3 = (
-        anz_kinder_bis_2_fg >= elterngeld_params["geschwister_bonus_altersgrenzen"][3]
-    )
-    geschwister_unter_6 = (
-        anz_kinder_bis_5_fg >= elterngeld_params["geschwister_bonus_altersgrenzen"][6]
-    )
-
-    return geschwister_unter_3 or geschwister_unter_6
-
-
-def _elterngeld_anz_mehrlinge_anspruch(
-    elternzeit_anspruch: bool,
-    anz_mehrlinge_jüngstes_kind_hh: int,
-) -> int:
-    """Check for multiple bonus on parental leave benefit.
-
-    Parameters
-    ----------
-    elternzeit_anspruch
-        See :func:`elternzeit_anspruch`.
-    anz_mehrlinge_jüngstes_kind_hh
-        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        anz_mehrlinge_jüngstes_kind_hh - 1 if elternzeit_anspruch else 0
-    )  # TODO move away from hh?
-    return out
-
-
-### relevant income new
-def elterngeld_eink_relev_m(  # TODO naming
+def elterngeld_einkommen_vorjahr_m(  # TODO naming
     _elterngeld_proxy_eink_vorj_elterngeld_m: float,
     elterngeld_nettolohn_m: float,
 ) -> float:
@@ -310,8 +285,8 @@ def elterngeld_eink_relev_m(  # TODO naming
     return max(relev, 0.0)
 
 
-def elterngeld_anteil_eink_erlass(
-    elterngeld_eink_relev_m: float, elterngeld_params: dict
+def elterngeld_lohnersatzanteil(
+    elterngeld_einkommen_vorjahr_m: float, elterngeld_params: dict
 ) -> float:
     """Calculate the share of net income which is reimbursed when receiving elterngeld.
 
@@ -323,8 +298,8 @@ def elterngeld_anteil_eink_erlass(
 
     Parameters
     ----------
-    elterngeld_eink_relev_m
-        See :func:`elterngeld_eink_relev_m`.
+    elterngeld_einkommen_vorjahr_m
+        See :func:`elterngeld_einkommen_vorjahr_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -334,12 +309,12 @@ def elterngeld_anteil_eink_erlass(
 
     # Higher replacement rate if considered income is below a threshold
     if (
-        elterngeld_eink_relev_m
+        elterngeld_einkommen_vorjahr_m
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
     ):
         out = (
             elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-            - elterngeld_eink_relev_m
+            - elterngeld_einkommen_vorjahr_m
         ) / elterngeld_params["eink_schritt_korrektur"] * elterngeld_params[
             "prozent_korrektur"
         ] + elterngeld_params[
@@ -348,14 +323,14 @@ def elterngeld_anteil_eink_erlass(
 
     # Lower replacement rate if considered income is above a threshold
     elif (
-        elterngeld_eink_relev_m
+        elterngeld_einkommen_vorjahr_m
         > elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
     ):
         # Replacement rate is only lowered up to a specific value
         out = max(
             elterngeld_params["faktor"]
             - (
-                elterngeld_eink_relev_m
+                elterngeld_einkommen_vorjahr_m
                 - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
             )
             / elterngeld_params["eink_schritt_korrektur"],
@@ -367,40 +342,21 @@ def elterngeld_anteil_eink_erlass(
     return out
 
 
-def elterngeld_eink_erlass_m(  # TODO naming
-    elterngeld_eink_relev_m: float, elterngeld_anteil_eink_erlass: float
-) -> float:
-    """Calculate base parental leave benefit.
-
-    Parameters
-    ----------
-    elterngeld_eink_relev_m
-        See :func:`elterngeld_eink_relev_m`.
-    elterngeld_anteil_eink_erlass
-        See :func:`elterngeld_anteil_eink_erlass`.
-
-    Returns
-    -------
-
-    """
-    return elterngeld_eink_relev_m * elterngeld_anteil_eink_erlass
-
-
-def elterngeld_geschw_bonus_m(
-    elterngeld_eink_erlass_m: float,
-    elterngeld_geschw_bonus_anspruch: bool,
+def elterngeld_geschwisterbonus_m(
+    elterngeld_basisbetrag_m: float,
+    elterngeld_geschwisterbonus_anspruchsberechtigt_fg: bool,
     elterngeld_params: dict,
 ) -> float:
-    """Calculate the bonus for siblings.
+    """Elterngeld bonus for (older) siblings.
 
     According to § 2a parents of siblings get a bonus.
 
     Parameters
     ----------
-    elterngeld_eink_erlass_m
-        See :func:`elterngeld_eink_erlass_m`.
-    elterngeld_geschw_bonus_anspruch
-        See :func:`elterngeld_geschw_bonus_anspruch`.
+    elterngeld_basisbetrag_m
+        See :func:`elterngeld_basisbetrag_m`.
+    elterngeld_geschwisterbonus_anspruchsberechtigt_fg
+        See :func:`elterngeld_geschwisterbonus_anspruchsberechtigt_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -408,25 +364,25 @@ def elterngeld_geschw_bonus_m(
     -------
 
     """
-    if elterngeld_geschw_bonus_anspruch:
+    if elterngeld_geschwisterbonus_anspruchsberechtigt_fg:
         out = max(
-            elterngeld_params["geschw_bonus_aufschlag"] * elterngeld_eink_erlass_m,
-            elterngeld_params["geschw_bonus_minimum"],
+            elterngeld_params["geschwisterbonus_aufschlag"] * elterngeld_basisbetrag_m,
+            elterngeld_params["geschwisterbonus_minimum"],
         )
     else:
         out = 0.0
     return out
 
 
-def elterngeld_mehrlinge_bonus_m(
-    _elterngeld_anz_mehrlinge_anspruch: int, elterngeld_params: dict
+def elterngeld_mehrlingsbonus_m(
+    _elterngeld_anz_mehrlinge_fg: int, elterngeld_params: dict
 ) -> float:
     """Calculate the bonus for multiples.
 
     Parameters
     ----------
-    _elterngeld_anz_mehrlinge_anspruch
-        See :func:`_elterngeld_anz_mehrlinge_anspruch`.
+    _elterngeld_anz_mehrlinge_fg
+        See :func:`_elterngeld_anz_mehrlinge_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -434,45 +390,55 @@ def elterngeld_mehrlinge_bonus_m(
     -------
 
     """
-    return float(
-        _elterngeld_anz_mehrlinge_anspruch * elterngeld_params["mehrlingbonus"]
-    )
+    return _elterngeld_anz_mehrlinge_fg * elterngeld_params["mehrlingbonus"]
 
 
-def elterngeld_anr_m(  # TODO improve naming
-    elterngeld_m: float,
+def elterngeld_geschwisterbonus_anspruchsberechtigt_fg(
+    anz_kinder_bis_2_fg: int,
+    anz_kinder_bis_5_fg: int,
     elterngeld_params: dict,
-    anz_mehrlinge_jüngstes_kind_hh: int,
-) -> float:
-    """Calculate elterngeld above threshold which is considered as income for transfers
-    such as wohngeld and grunds_im_alter.
-    For arbeitsl_geld_2 as well as kinderzuschl the whole amount of elterngeld is
-    considered as income, except for the case in which the parents still worked
-    right before they had children.
-    See: https://www.kindergeld.org/elterngeld-einkommen/
+) -> bool:
+    """Check if there are siblings that give rise to Elterngeld siblings bonus.
 
     Parameters
     ----------
-    elterngeld_m
-        See :func:`elterngeld_m`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    anz_mehrlinge_jüngstes_kind_hh
-        See :func:`anz_mehrlinge_jüngstes_kind_hh`.
 
     Returns
     -------
 
     """
-    out = max(
-        elterngeld_m
-        - ((1 + anz_mehrlinge_jüngstes_kind_hh) * elterngeld_params["mindestbetrag"]),
-        0,
+    geschwister_unter_3 = (
+        anz_kinder_bis_2_fg >= elterngeld_params["geschwisterbonus_altersgrenzen"][3]
     )
+    geschwister_unter_6 = (
+        anz_kinder_bis_5_fg >= elterngeld_params["geschwisterbonus_altersgrenzen"][6]
+    )
+
+    return geschwister_unter_3 or geschwister_unter_6
+
+
+def _elterngeld_anz_mehrlinge_fg(
+    anz_mehrlinge_jüngstes_kind_fg: int,
+) -> int:
+    """Number of multiples of the youngest child.
+
+    Parameters
+    ----------
+    anz_mehrlinge_jüngstes_kind_fg
+        See :func:`anz_mehrlinge_jüngstes_kind_fg`.
+
+    Returns
+    -------
+
+    """
+    out = anz_mehrlinge_jüngstes_kind_fg - 1
     return out
 
 
-###anrechenbares einkommen als output
 def elterngeld_anrechenbares_einkommen_m(
     mutterschaftsgeld_m: float,
     dienstbezüge_bei_beschäftigungsverbot_m: float,
@@ -504,5 +470,40 @@ def elterngeld_anrechenbares_einkommen_m(
         + dienstbezüge_bei_beschäftigungsverbot_m
         + elterngeld_vergleichbare_leistungen_m
         + ersatzeinnahmen_m
+    )
+    return out
+
+
+def anrechenbares_elterngeld_m(
+    elterngeld_m: float,
+    _elterngeld_anz_mehrlinge_fg: int,
+    elterngeld_params: dict,
+) -> float:
+    """Elterngeld that can be considered as income for other transfers.
+
+    Relevant for Wohngeld and Grundsicherung im Alter.
+    
+    For Arbeitslosengeld II / Bürgergeld as well as Kinderzuschlag the whole amount of
+    Elterngeld is considered as income, except for the case in which the parents still
+    worked right before they had children. See:
+    https://www.kindergeld.org/elterngeld-einkommen/
+
+    Parameters
+    ----------
+    elterngeld_m
+        See :func:`elterngeld_m`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    _elterngeld_anz_mehrlinge_fg
+        See :func:`_elterngeld_anz_mehrlinge_fg`.
+
+    Returns
+    -------
+
+    """
+    out = max(
+        elterngeld_m
+        - ((1 + _elterngeld_anz_mehrlinge_fg) * elterngeld_params["mindestbetrag"]),
+        0,
     )
     return out

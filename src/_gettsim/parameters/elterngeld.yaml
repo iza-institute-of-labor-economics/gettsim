@@ -20,7 +20,7 @@ höchstbetrag:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 1800
+    scalar: 1800.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 nettoeinkommen_stufen:
   name:
@@ -34,12 +34,12 @@ nettoeinkommen_stufen:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    lower_threshold: 1000
-    upper_threshold: 1001
+    lower_threshold: 1000.0
+    upper_threshold: 1001.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
   2011-01-01:
-    lower_threshold: 1000
-    upper_threshold: 1201
+    lower_threshold: 1000.0
+    upper_threshold: 1201.0
   reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
 mindestbetrag:
   name:
@@ -90,7 +90,7 @@ eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-geschwister_bonus_altersgrenzen:
+geschwisterbonus_altersgrenzen:
   name:
     de: Altersgrenzen für Geschwisterbonus
     en: Age limit for sibling bonus
@@ -105,7 +105,7 @@ geschwister_bonus_altersgrenzen:
   2007-01-01:
     3: 2
     6: 3
-geschw_bonus_aufschlag:
+geschwisterbonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag
     en: Sibling Bonus, percentage top-up
@@ -116,7 +116,7 @@ geschw_bonus_aufschlag:
   2007-01-01:
     scalar: 0.1
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-geschw_bonus_minimum:
+geschwisterbonus_minimum:
   name:
     de: Minimaler Geschwisterbonus als Euro-Betrag
     en: Sibling Bonus, minimal amount
@@ -126,7 +126,7 @@ geschw_bonus_minimum:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 75
+    scalar: 75.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 mehrlingbonus:
   name:
@@ -138,7 +138,7 @@ mehrlingbonus:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 300
+    scalar: 300.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 sozialv_pausch:
   name:

@@ -11,7 +11,7 @@ if USE_JAX:
 from numpy.testing import assert_array_equal
 
 from _gettsim.functions_loader import _load_functions
-from _gettsim.transfers.elterngeld import elterngeld_geschw_bonus_m, elternzeit_anspruch
+from _gettsim.transfers.elterngeld import elterngeld_geschwisterbonus_m, elternzeit_anspruch
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from _gettsim.vectorization import (
     TranslateToVectorizableError,
@@ -382,18 +382,18 @@ def test_convertible(func, backend):
 
 
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
+def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
     # ==================================================================================
     elterngeld_eink_erlass_m = 3.0
-    elterngeld_geschw_bonus_anspruch = True
-    elterngeld_params = {"geschw_bonus_aufschlag": 1.0, "geschw_bonus_minimum": 2.0}
+    elterngeld_geschwisterbonus_anspruch = True
+    elterngeld_params = {"geschwisterbonus_aufschlag": 1.0, "geschwisterbonus_minimum": 2.0}
 
-    exp = elterngeld_geschw_bonus_m(
+    exp = elterngeld_geschwisterbonus_m(
         elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
-        elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+        elterngeld_geschwisterbonus_anspruch=elterngeld_geschwisterbonus_anspruch,
         elterngeld_params=elterngeld_params,
     )
     assert exp == 3.0
@@ -402,21 +402,21 @@ def test_transfers__elterngeld__elterngeld_geschw_bonus_m(backend):
     # ==================================================================================
     shape = (10, 2)
     elterngeld_eink_erlass_m = full(shape, elterngeld_eink_erlass_m)
-    elterngeld_geschw_bonus_anspruch = full(shape, elterngeld_geschw_bonus_anspruch)
+    elterngeld_geschwisterbonus_anspruch = full(shape, elterngeld_geschwisterbonus_anspruch)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
-        elterngeld_geschw_bonus_m(
+        elterngeld_geschwisterbonus_m(
             elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
-            elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+            elterngeld_geschwisterbonus_anspruch=elterngeld_geschwisterbonus_anspruch,
             elterngeld_params=elterngeld_params,
         )
 
     # Call converted function on array input and test result
     # ==================================================================================
-    converted = make_vectorizable(elterngeld_geschw_bonus_m, backend=backend)
+    converted = make_vectorizable(elterngeld_geschwisterbonus_m, backend=backend)
     got = converted(
         elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
-        elterngeld_geschw_bonus_anspruch=elterngeld_geschw_bonus_anspruch,
+        elterngeld_geschwisterbonus_anspruch=elterngeld_geschwisterbonus_anspruch,
         elterngeld_params=elterngeld_params,
     )
     assert_array_equal(got, full(shape, exp))

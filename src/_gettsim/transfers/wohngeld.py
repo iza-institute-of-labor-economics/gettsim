@@ -326,7 +326,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    elterngeld_anr_m: float,
+    anrechenbares_elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -353,8 +353,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    elterngeld_anr_m
-        See :func:`elterngeld_anr_m`.
+    anrechenbares_elterngeld_m
+        See :func:`anrechenbares_elterngeld_m`.
     wohngeld_abzüge_st_sozialv_m
         See :func:`wohngeld_abzüge_st_sozialv_m`.
 
@@ -377,7 +377,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         + eink_rente_zu_verst_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
-        + elterngeld_anr_m
+        + anrechenbares_elterngeld_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m

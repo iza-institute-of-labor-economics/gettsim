@@ -60,7 +60,7 @@ inputs:
 outputs:
   elterngeld_m:
     - 0.0
-  elterngeld_geschw_bonus_anspruch:
+  elterngeld_geschwisterbonus_anspruch:
     - false
   _elterngeld_anz_mehrlinge_anspruch:
     - 0
