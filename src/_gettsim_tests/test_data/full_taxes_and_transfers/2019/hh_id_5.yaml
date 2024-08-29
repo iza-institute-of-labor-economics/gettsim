@@ -44,7 +44,7 @@ inputs:
       - 0.0
     elterngeld_bruttolohn_vor_geburt_m:
       - 4000.0
-    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+    elterngeld_zu_verst_eink_vor_geburt_sn:
       - 048798.0
     arbeitsstunden_w:
       - 20.0
@@ -88,14 +88,6 @@ inputs:
       - 0
     monate_elterngeldbezug_elternteil_1_hh:
       - 0
-    mutterschaftsgeld_m:
-      - 0.0
-    dienstbezüge_bei_beschäftigungsverbot_m:
-      - 0.0
-    elterngeld_vergleichbare_leistungen_m:
-      - 0.0
-    ersatzeinnahmen_m:
-      - 0.0
     in_ausbildung:
       - false
     alleinerz:

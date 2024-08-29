@@ -24,7 +24,7 @@ inputs:
       - 1800.0
     elterngeld_bruttolohn_vor_geburt_m:
       - 1800.0
-    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+    elterngeld_zu_verst_eink_vor_geburt_sn:
       - 18260.0
     wohnort_ost:
       - false
@@ -34,14 +34,6 @@ inputs:
       - 12.04
     sozialv_beitr_arbeitnehmer_m:
       - 378.0
-    mutterschaftsgeld_m:
-      - 0.0
-    dienstbezüge_bei_beschäftigungsverbot_m:
-      - 0.0
-    elterngeld_vergleichbare_leistungen_m:
-      - 0.0
-    ersatzeinnahmen_m:
-      - 0.0
     geburtsjahr:
       - 1974
     geburtsmonat:

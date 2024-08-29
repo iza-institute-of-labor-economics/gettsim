@@ -44,7 +44,7 @@ inputs:
       - 0.0
       - 0.0
       - 900.0
-    _zu_verst_eink_mit_kinderfreib_vorj_sn:
+    elterngeld_zu_verst_eink_vor_geburt_sn:
       - 0.0
       - 0.0
       - 5760.0
@@ -61,22 +61,6 @@ inputs:
       - 0.0
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    mutterschaftsgeld_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    dienstbezüge_bei_beschäftigungsverbot_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    elterngeld_vergleichbare_leistungen_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    ersatzeinnahmen_m:
       - 0.0
       - 0.0
       - 0.0

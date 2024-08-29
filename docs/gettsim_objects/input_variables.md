@@ -247,6 +247,14 @@ Weekly working hours of individual
 
 Type: float
 
+(elterngeld_claimed)=
+
+## `elterngeld_claimed`
+
+Individual claims Elterngeld
+
+Type: bool
+
 (elterngeld_bruttolohn_vor_geburt_m)=
 
 ## `elterngeld_bruttolohn_vor_geburt_m`
