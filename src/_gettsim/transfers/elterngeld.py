@@ -127,7 +127,7 @@ def elterngeld_anspruchsbedingungen_erfüllt(
 
 def vorjahr_einkommen_unter_bezugsgrenze(
     alleinerz: bool,
-    _zu_verst_eink_mit_kinderfreib_vorj_sn: float, # TODO potentially rename
+    _zu_verst_eink_mit_kinderfreib_vorj_sn: float,  # TODO potentially rename
     elterngeld_params: dict,
 ) -> bool:
     """Income before birth is below income threshold for Elterngeld.
@@ -482,7 +482,7 @@ def anrechenbares_elterngeld_m(
     """Elterngeld that can be considered as income for other transfers.
 
     Relevant for Wohngeld and Grundsicherung im Alter.
-    
+
     For Arbeitslosengeld II / Bürgergeld as well as Kinderzuschlag the whole amount of
     Elterngeld is considered as income, except for the case in which the parents still
     worked right before they had children. See:

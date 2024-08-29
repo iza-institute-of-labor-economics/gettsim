@@ -11,7 +11,10 @@ if USE_JAX:
 from numpy.testing import assert_array_equal
 
 from _gettsim.functions_loader import _load_functions
-from _gettsim.transfers.elterngeld import elterngeld_geschwisterbonus_m, elternzeit_anspruch
+from _gettsim.transfers.elterngeld import (
+    elterngeld_geschwisterbonus_m,
+    elternzeit_anspruch,
+)
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from _gettsim.vectorization import (
     TranslateToVectorizableError,
@@ -389,7 +392,10 @@ def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
     # ==================================================================================
     elterngeld_eink_erlass_m = 3.0
     elterngeld_geschwisterbonus_anspruch = True
-    elterngeld_params = {"geschwisterbonus_aufschlag": 1.0, "geschwisterbonus_minimum": 2.0}
+    elterngeld_params = {
+        "geschwisterbonus_aufschlag": 1.0,
+        "geschwisterbonus_minimum": 2.0,
+    }
 
     exp = elterngeld_geschwisterbonus_m(
         elterngeld_eink_erlass_m=elterngeld_eink_erlass_m,
@@ -402,7 +408,9 @@ def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
     # ==================================================================================
     shape = (10, 2)
     elterngeld_eink_erlass_m = full(shape, elterngeld_eink_erlass_m)
-    elterngeld_geschwisterbonus_anspruch = full(shape, elterngeld_geschwisterbonus_anspruch)
+    elterngeld_geschwisterbonus_anspruch = full(
+        shape, elterngeld_geschwisterbonus_anspruch
+    )
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         elterngeld_geschwisterbonus_m(
