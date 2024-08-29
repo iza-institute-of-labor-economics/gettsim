@@ -14,7 +14,7 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@policy_info(start_date="2017-01-01", params_key_for_rounding="unterhaltsvors")
+@policy_info(start_date="2009-01-01", params_key_for_rounding="unterhaltsvors")
 def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
@@ -59,14 +59,14 @@ def unterhaltsvors_m(
 
 
 @policy_info(
-    end_date="2016-12-31",
+    end_date="2008-12-31",
     name_in_dag="unterhaltsvors_m",
     params_key_for_rounding="unterhaltsvors",
 )
 def unterhaltsvors_not_implemented_m() -> float:
     raise NotImplementedError(
         """
-        Unterhaltsvorschuss is not implemented prior to 2017.
+        Unterhaltsvorschuss is not implemented prior to 2008.
         https://github.com/iza-institute-of-labor-economics/gettsim/issues/566
     """
     )
@@ -144,15 +144,161 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     return kindergeld_params["kindergeld"][1]
 
 
-@policy_info(start_date="2017-01-01")
-def _unterhaltsvors_anspruch_kind_m(
+@policy_info(
+    start_date="2009-01-01",
+    end_date="2014-12-31",
+    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+)
+def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
+    alter: int,
+    _kindergeld_erstes_kind_m: float,
+    unterhaltsvors_params: dict,
+    eink_st_abzuege_params: dict,
+) -> float:
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level for the
+    years 2009 to 2014.
+
+    Relevant parameter is directly 'steuerfrei zu stellenden sächlichen Existenzminimum
+    des minderjährigen Kindes' § 1612a (1). Modeling relative to the child allowance for
+    this. The amout for the lower age group is defined relative to the middle age group
+    with a factor of 0.87. There is probably a rounding rule documented somewhere in
+    some (Durchführungs-)Verordnung.
+
+    Rule was in priciple also active for 2015 but has been overwritten by an
+    Anwendungsvorschrift as Kinderfreibetrag and Kindergeld changed on July 2015.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    _kindergeld_erstes_kind_m
+        See :func:`_kindergeld_erstes_kind_m`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+
+    Returns
+    -------
+
+    """
+    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+
+    kinderfreib_sächl_existenzmin = eink_st_abzuege_params["kinderfreib"][
+        "sächl_existenzmin"
+    ]
+
+    if alter < altersgrenzen[1]:
+        out = (
+            0.87 * (2 * kinderfreib_sächl_existenzmin / 12) - _kindergeld_erstes_kind_m
+        )
+    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
+        out = 2 * kinderfreib_sächl_existenzmin / 12 - _kindergeld_erstes_kind_m
+    else:
+        out = 0.0
+
+    return out
+
+
+@policy_info(
+    start_date="2015-01-01",
+    end_date="2015-12-31",
+    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+)
+def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
+    alter: int,
+    unterhaltsvors_params: dict,
+) -> float:
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level over
+    the year 2015.
+
+    Rule _unterhaltsvors_anspruch_kind_m_2009_bis_2014 was in priciple also active for
+    2015 but has been overwritten by an Anwendungsvorschrift as Kinderfreibetrag and
+    Kindergeld changed on July 2015.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+
+    Returns
+    -------
+
+    """
+    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+
+    unterhaltsvors = unterhaltsvors_params["unterhaltsvors_anwendungsvors"]
+
+    if alter < altersgrenzen[1]:
+        out = unterhaltsvors[altersgrenzen[1]]
+    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
+        out = unterhaltsvors[altersgrenzen[2]]
+    else:
+        out = 0.0
+
+    return out
+
+
+@policy_info(
+    start_date="2016-01-01",
+    end_date="2016-12-31",
+    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+)
+def _unterhaltsvors_anspruch_kind_m_2016(
+    alter: int,
+    _kindergeld_erstes_kind_m: float,
+    unterhalt_params: dict,
+    unterhaltsvors_params: dict,
+) -> float:
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level for the
+    year 2016.
+
+    § 2 Unterhaltsvorschussgesetz refers to Section § 1612a BGB. There still is the
+    reference to 'steuerfrei zu stellenden sächlichen Existenzminimum des minderjährigen
+    Kindes' (§ 1612a (1)) as well as a Verordnungsermächtigung (§ 1612a (4)). The § 1
+    Mindesunterhaltsverordnung applies fixed amounts and no relative definition as
+    before.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    _kindergeld_erstes_kind_m
+        See :func:`_kindergeld_erstes_kind_m`.
+    unterhalt_params
+        See params documentation :ref:`unterhalt_params <unterhalt_params>`.
+    unterhaltsvors_params
+        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
+
+    Returns
+    -------
+
+    """
+    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    mindestunterhalt = unterhalt_params["mindestunterhalt"]
+
+    if alter < altersgrenzen[1]:
+        out = mindestunterhalt[altersgrenzen[1]] - _kindergeld_erstes_kind_m
+    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
+        out = mindestunterhalt[altersgrenzen[2]] - _kindergeld_erstes_kind_m
+    else:
+        out = 0.0
+
+    return out
+
+
+@policy_info(start_date="2017-01-01", name_in_dag="_unterhaltsvors_anspruch_kind_m")
+def _unterhaltsvors_anspruch_kind_m_ab_2017(
     alter: int,
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level since
+    2017.
 
     Parameters
     ----------
