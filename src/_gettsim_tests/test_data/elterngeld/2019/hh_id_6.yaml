@@ -84,7 +84,7 @@ inputs:
       - 2
       - 2
       - 2
-    m_elterngeld:
+    monate_elterngeldbezug:
       - 0
       - 0
       - 2

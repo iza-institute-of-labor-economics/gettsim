@@ -162,7 +162,7 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
 
 def arbeitsl_geld_eink_vorj_proxy_m(
     _ges_rentenv_beitr_bemess_grenze_m: float,
-    elterngeld_bruttolohn_vor_geburt_m: float,
+    bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
@@ -174,8 +174,8 @@ def arbeitsl_geld_eink_vorj_proxy_m(
     ----------
     _ges_rentenv_beitr_bemess_grenze_m
         See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
-    elterngeld_bruttolohn_vor_geburt_m
-        See basic input variable :ref:`elterngeld_bruttolohn_vor_geburt_m <elterngeld_bruttolohn_vor_geburt_m>`.
+    bruttolohn_vorj_m
+        See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
@@ -190,9 +190,7 @@ def arbeitsl_geld_eink_vorj_proxy_m(
 
     """
     # Relevant wage is capped at the contribution thresholds
-    max_wage = min(
-        elterngeld_bruttolohn_vor_geburt_m, _ges_rentenv_beitr_bemess_grenze_m
-    )
+    max_wage = min(bruttolohn_vorj_m, _ges_rentenv_beitr_bemess_grenze_m)
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
     prox_ssc = arbeitsl_geld_params["sozialv_pausch"] * max_wage

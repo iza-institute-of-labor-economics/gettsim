@@ -1,7 +1,6 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
 
-from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.taxes.eink_st import _eink_st_tarif
+from _gettsim.shared import policy_info
 
 aggregate_by_group_elterngeld = {
     "kind_anspruchsberechtigt_fg": {
@@ -15,6 +14,7 @@ aggregate_by_group_elterngeld = {
 }
 
 
+@policy_info(start_date="2011-01-01")
 def elterngeld_m(
     elterngeld_anspruchsbedingungen_erfüllt: bool,
     elterngeld_anspruchshöhe_m: float,
@@ -37,6 +37,11 @@ def elterngeld_m(
     else:
         out = 0.0
     return out
+
+
+@policy_info(end_date="2010-12-31", name_in_dag="elterngeld_m")
+def eltergeld_not_implemented() -> None:
+    raise NotImplementedError("Elterngeld is not implemented prior to 2011.")
 
 
 def elterngeld_anspruchshöhe_m(
@@ -208,14 +213,15 @@ def kind_anspruchsberechtigt(
 
 
 def elterngeld_basisbetrag_m(
-    elterngeld_einkommen_vorjahr_m: float, elterngeld_lohnersatzanteil: float
+    elterngeld_nettoeinkommen_vorjahr_m: float, elterngeld_lohnersatzanteil: float
 ) -> float:
     """Base parental leave benefit without accounting for floor and ceiling.
 
     Parameters
     ----------
-    elterngeld_einkommen_vorjahr_m
-        See :func:`elterngeld_einkommen_vorjahr_m`.
+    elterngeld_nettoeinkommen_vorjahr_m
+        See basic input variable :ref:`elterngeld_nettoeinkommen_vorjahr_m
+        <elterngeld_nettoeinkommen_vorjahr_m>`.
     elterngeld_lohnersatzanteil
         See :func:`elterngeld_lohnersatzanteil`.
 
@@ -223,85 +229,23 @@ def elterngeld_basisbetrag_m(
     -------
 
     """
-    return elterngeld_einkommen_vorjahr_m * elterngeld_lohnersatzanteil
+    return elterngeld_nettoeinkommen_vorjahr_m * elterngeld_lohnersatzanteil
 
 
-def elterngeld_einkommen_vorjahr_m(
-    elterngeld_bruttolohn_vor_geburt_m: float,
-    elterngeld_params: dict,
-    eink_st_params: dict,
-    eink_st_abzuege_params: dict,
-    soli_st_params: dict,
-) -> float:
-    """Income before birth.
-
-    Income 12 months before birth is used to calculate the replacement rate and the base
-    benefit.
-
-    Parameters
-    ----------
-    elterngeld_bruttolohn_vor_geburt_m
-        See basic input variable :ref:`elterngeld_bruttolohn_vor_geburt_m
-        <elterngeld_bruttolohn_vor_geburt_m>`.
-    elterngeld_params
-        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    eink_st_params
-        See params documentation :ref:`eink_st_params <eink_st_params>`.
-    eink_st_abzuege_params
-        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    soli_st_params
-        See params documentation :ref:`soli_st_params <soli_st_params>`.
-
-    Returns
-    -------
-
-    """
-    # We need to deduct lump-sum amounts for contributions, taxes and soli
-    prox_ssc = elterngeld_params["sozialv_pausch"] * elterngeld_bruttolohn_vor_geburt_m
-
-    # Fictive taxes (Lohnsteuer) are approximated by applying the wage to the tax tariff
-    prox_income = (
-        12 * elterngeld_bruttolohn_vor_geburt_m
-        - eink_st_abzuege_params[
-            "werbungskostenpauschale"
-        ]  # TODO substract werbekosten from nettolohn?
-    )
-    prox_income = max(prox_income, 0.0)
-
-    prox_tax = _eink_st_tarif(
-        prox_income,
-        eink_st_params,
-    )
-
-    prox_soli = piecewise_polynomial(
-        prox_tax,
-        thresholds=soli_st_params["soli_st"]["thresholds"],
-        rates=soli_st_params["soli_st"]["rates"],
-        intercepts_at_lower_thresholds=soli_st_params["soli_st"][
-            "intercepts_at_lower_thresholds"
-        ],
-    )
-
-    out = elterngeld_bruttolohn_vor_geburt_m - prox_ssc - prox_tax / 12 - prox_soli / 12
-
-    return max(out, 0.0)
-
-
+@policy_info(start_date="2011-01-01")
 def elterngeld_lohnersatzanteil(
-    elterngeld_einkommen_vorjahr_m: float, elterngeld_params: dict
+    elterngeld_nettoeinkommen_vorjahr_m: float, elterngeld_params: dict
 ) -> float:
-    """Calculate the share of net income which is reimbursed when receiving elterngeld.
+    """Replacement rate of Elterngeld (before applying floor and ceiling rules).
 
     According to § 2 (2) BEEG the percentage increases below the first step and
     decreases above the second step until prozent_minimum.
 
-    # ToDo: Split this function up in a function before and after 2011. Before 2011 the
-    # ToDo: replacement rate was not lowered for high incomes.
-
     Parameters
     ----------
-    elterngeld_einkommen_vorjahr_m
-        See :func:`elterngeld_einkommen_vorjahr_m`.
+    elterngeld_nettoeinkommen_vorjahr_m
+        See basic input variable
+        :ref:`elterngeld_nettoeinkommen_vorjahr_m<elterngeld_nettoeinkommen_vorjahr_m>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -311,12 +255,12 @@ def elterngeld_lohnersatzanteil(
 
     # Higher replacement rate if considered income is below a threshold
     if (
-        elterngeld_einkommen_vorjahr_m
+        elterngeld_nettoeinkommen_vorjahr_m
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
     ):
         out = (
             elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-            - elterngeld_einkommen_vorjahr_m
+            - elterngeld_nettoeinkommen_vorjahr_m
         ) / elterngeld_params["eink_schritt_korrektur"] * elterngeld_params[
             "prozent_korrektur"
         ] + elterngeld_params[
@@ -325,14 +269,14 @@ def elterngeld_lohnersatzanteil(
 
     # Lower replacement rate if considered income is above a threshold
     elif (
-        elterngeld_einkommen_vorjahr_m
+        elterngeld_nettoeinkommen_vorjahr_m
         > elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
     ):
         # Replacement rate is only lowered up to a specific value
         out = max(
             elterngeld_params["faktor"]
             - (
-                elterngeld_einkommen_vorjahr_m
+                elterngeld_nettoeinkommen_vorjahr_m
                 - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
             )
             / elterngeld_params["eink_schritt_korrektur"],
@@ -495,3 +439,28 @@ def anrechenbares_elterngeld_m(
 
 
 # elterngeld_zu_verst_eink_vor_geburt_sn
+
+
+def elterngeld_nettolohn_approximation_m(
+    bruttolohn_m: float,
+    lohnst_m: float,
+    soli_st_lohnst_m: float,
+    elterngeld_params: dict,
+) -> float:
+    """Approximation of net wage used to calculate Elterngeld.
+
+    This target can be used as an input in another GETTSIM call to compute Elterngeld.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    lohnst_m
+        See :func:`lohnst_m`.
+    soli_st_lohnst_m
+        See :func:`soli_st_lohnst_m`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+    """
+    prox_ssc = elterngeld_params["sozialv_pausch"] * bruttolohn_m
+    return bruttolohn_m - prox_ssc - lohnst_m - soli_st_lohnst_m

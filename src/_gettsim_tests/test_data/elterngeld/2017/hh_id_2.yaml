@@ -44,7 +44,7 @@ inputs:
       - 1
     monate_elterngeldbezug_elternteil_2_hh:
       - 0
-    m_elterngeld:
+    monate_elterngeldbezug:
       - 0
     jahr:
       - 2017

@@ -82,7 +82,7 @@ inputs:
       - 0
     wohnfläche_hh:
       - 50.0
-    m_elterngeld:
+    monate_elterngeldbezug:
       - 0
     monate_elterngeldbezug_elternteil_2_hh:
       - 0

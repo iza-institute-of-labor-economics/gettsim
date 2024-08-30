@@ -17,14 +17,7 @@ def test_elterngeld(
     test_data: PolicyTestData,
     column: str,
 ):
-    """Run tests to validate elterngeld.
-
-    hh_id 7 in test cases is for the calculator on
-    https://familienportal.de/familienportal/meta/egr. The calculator's result is 10
-    Euro off GETTSIM's result. We need to discuss if we should adapt the calculation of
-    the proxy wage of last year or anything else.
-
-    """
+    """Run tests to validate elterngeld."""
     df = test_data.input_df
     policy_params, policy_functions = cached_set_up_policy_environment(
         date=test_data.date

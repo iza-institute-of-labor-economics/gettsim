@@ -467,7 +467,7 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
     alter_monate_juengstes_mitglied_hh = 12.0
     monate_elterngeldbezug_elternteil_1_hh = 2
     monate_elterngeldbezug_elternteil_2_hh = 3
-    m_elterngeld = 4
+    monate_elterngeldbezug = 4
     kind = False
     elterngeld_params = {"max_monate_paar": 14.0, "max_monate_ind": 6}
 
@@ -475,7 +475,7 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
         alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
         monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
         monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
-        m_elterngeld=m_elterngeld,
+        monate_elterngeldbezug=monate_elterngeldbezug,
         kind=kind,
         elterngeld_params=elterngeld_params,
     )
@@ -492,7 +492,7 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
             alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
             monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
             monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
-            m_elterngeld=m_elterngeld,
+            monate_elterngeldbezug=monate_elterngeldbezug,
             kind=kind,
             elterngeld_params=elterngeld_params,
         )
@@ -504,7 +504,7 @@ def test_transfers__elternzeit_elternzeit_anspruch(backend):
         alter_monate_jüngstes_mitglied_hh=alter_monate_juengstes_mitglied_hh,
         monate_elterngeldbezug_elternteil_1_hh=monate_elterngeldbezug_elternteil_1_hh,
         monate_elterngeldbezug_elternteil_2_hh=monate_elterngeldbezug_elternteil_2_hh,
-        m_elterngeld=m_elterngeld,
+        monate_elterngeldbezug=monate_elterngeldbezug,
         kind=kind,
         elterngeld_params=elterngeld_params,
     )

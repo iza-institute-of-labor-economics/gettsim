@@ -255,11 +255,21 @@ Individual claims Elterngeld
 
 Type: bool
 
-(elterngeld_bruttolohn_vor_geburt_m)=
+(elterngeld_nettoeinkommen_vorjahr_m)=
 
-## `elterngeld_bruttolohn_vor_geburt_m`
+## `elterngeld_nettoeinkommen_vorjahr_m`
 
-Monthly wage, previous year
+Approximation of the net wage in the 12 months before birth of child (according to
+simplified calculation rules). You may let GETTSIM compute this variable via the
+`elterngeld_nettolohn_approximation_m` target in a separate run.
+
+Type: float
+
+(bruttolohn_vorj_m)=
+
+## `bruttolohn_vorj_m`
+
+Gross wage in the previous year
 
 Type: float
 
@@ -303,9 +313,9 @@ Month of retirement
 
 Type: int
 
-(m_elterngeld)=
+(monate_elterngeldbezug)=
 
-## `m_elterngeld`
+## `monate_elterngeldbezug`
 
 Number of months hh received elterngeld
 

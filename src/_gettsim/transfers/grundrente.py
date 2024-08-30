@@ -26,7 +26,7 @@ def grundr_zuschlag_m(
 
 def _grundr_zuschlag_eink_vor_freibetrag_m(
     rente_vorj_vor_grundr_proxy_m: float,
-    elterngeld_bruttolohn_vor_geburt_m: float,
+    bruttolohn_vorj_m: float,
     eink_selbst_y: float,
     eink_vermietung_y: float,
     kapitaleink_y: float,
@@ -55,8 +55,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     ----------
     rente_vorj_vor_grundr_proxy_m
         See :func:`rente_vorj_vor_grundr_proxy_m`.
-    elterngeld_bruttolohn_vor_geburt_m
-        See :func:`elterngeld_bruttolohn_vor_geburt_m`.
+    bruttolohn_vorj_m
+        See :func:`bruttolohn_vorj_m`.
     eink_selbst_y
         See :func:`eink_selbst_y`.
     eink_vermietung_y
@@ -72,7 +72,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     # Sum income over different income sources.
     out = (
         rente_vorj_vor_grundr_proxy_m
-        + elterngeld_bruttolohn_vor_geburt_m
+        + bruttolohn_vorj_m
         + eink_selbst_y / 12  # income from self-employment
         + eink_vermietung_y / 12  # rental income
         + kapitaleink_y / 12
