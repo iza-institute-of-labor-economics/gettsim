@@ -162,8 +162,8 @@ def vorjahr_einkommen_unter_bezugsgrenze(
     ----------
     alleinerz
         See basic input variable :ref:`alleinerz <alleinerz>`.
-    elterngeld_zu_verst
-        See :func:`elterngeld_zu_verst`.
+    elterngeld_zu_verst_eink_vor_geburt_sn
+        See :func:`elterngeld_zu_verst_eink_vor_geburt_sn`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 

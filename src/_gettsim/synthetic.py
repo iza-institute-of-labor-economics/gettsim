@@ -297,6 +297,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "m_schul_ausbild": 10.0,
         "m_kind_berücks_zeit": 24.0,
         "m_pfleg_berücks_zeit": 1.0,
+        "elterngeld_zu_verst_eink_vor_geburt_sn": 1000.0,
         "geburtsjahr": policy_year - df["alter"],
         "jahr_renteneintr": policy_year - df["alter"] + 67,
         "grundr_zeiten": (df["alter"] - 20).clip(lower=0) * 12,

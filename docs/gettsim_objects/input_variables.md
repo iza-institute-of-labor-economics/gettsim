@@ -259,11 +259,17 @@ Type: bool
 
 ## `elterngeld_nettoeinkommen_vorjahr_m`
 
-Approximation of the net wage in the 12 months before birth of child (according to
-simplified calculation rules). You may let GETTSIM compute this variable via the
+Approximation of the net wage in the 12 months before birth of youngest child (according
+to simplified calculation rules). You may let GETTSIM compute this variable via the
 `elterngeld_nettolohn_approximation_m` target in a separate run.
 
 Type: float
+
+(elterngeld_zu_verst_eink_vor_geburt_sn)=
+
+## `elterngeld_zu_verst_eink_vor_geburt_sn`
+
+Taxable income in the 12 months before birth of youngest child.
 
 (bruttolohn_vorj_m)=
 
@@ -317,23 +323,7 @@ Type: int
 
 ## `monate_elterngeldbezug`
 
-Number of months hh received elterngeld
-
-Type: int
-
-(monate_elterngeldbezug_elternteil_1)=
-
-## `monate_elterngeldbezug_elternteil_1`
-
-Number of months parent 1 received Elterngeld
-
-Type: int
-
-(monate_elterngeldbezug_elternteil_2)=
-
-## `monate_elterngeldbezug_elternteil_2`
-
-Number of months parent 2 received Elterngeld
+Number of months the individual received Elterngeld for the current youngest child.
 
 Type: int
 
