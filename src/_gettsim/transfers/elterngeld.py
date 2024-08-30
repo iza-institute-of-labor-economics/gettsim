@@ -290,7 +290,7 @@ def elterngeld_lohnersatzanteil(
 
 def elterngeld_geschwisterbonus_m(
     elterngeld_basisbetrag_m: float,
-    elterngeld_geschwisterbonus_anspruchsberechtigt_fg: bool,
+    geschwisterbonus_anspruchsberechtigt_fg: bool,
     elterngeld_params: dict,
 ) -> float:
     """Elterngeld bonus for (older) siblings.
@@ -301,8 +301,8 @@ def elterngeld_geschwisterbonus_m(
     ----------
     elterngeld_basisbetrag_m
         See :func:`elterngeld_basisbetrag_m`.
-    elterngeld_geschwisterbonus_anspruchsberechtigt_fg
-        See :func:`elterngeld_geschwisterbonus_anspruchsberechtigt_fg`.
+    geschwisterbonus_anspruchsberechtigt_fg
+        See :func:`geschwisterbonus_anspruchsberechtigt_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -310,7 +310,7 @@ def elterngeld_geschwisterbonus_m(
     -------
 
     """
-    if elterngeld_geschwisterbonus_anspruchsberechtigt_fg:
+    if geschwisterbonus_anspruchsberechtigt_fg:
         out = max(
             elterngeld_params["geschwisterbonus_aufschlag"] * elterngeld_basisbetrag_m,
             elterngeld_params["geschwisterbonus_minimum"],
@@ -339,7 +339,7 @@ def elterngeld_mehrlingsbonus_m(
     return _elterngeld_anz_mehrlinge_fg * elterngeld_params["mehrlingbonus"]
 
 
-def elterngeld_geschwisterbonus_anspruchsberechtigt_fg(
+def geschwisterbonus_anspruchsberechtigt_fg(
     anz_kinder_bis_2_fg: int,
     anz_kinder_bis_5_fg: int,
     elterngeld_params: dict,
