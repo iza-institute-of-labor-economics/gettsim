@@ -9,7 +9,6 @@ import datetime
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.shared import join_numpy, policy_info
 
 aggregate_by_p_id_demographic_vars = {
     "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
@@ -60,8 +59,8 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
         "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
         "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
-        "anz_mehrlinge_jüngstes_kind": {
-            "source_col": "jüngstes_kind_oder_mehrling",
+        "anz_mehrlinge_jüngstes_kind_fg": {
+            "source_col": "jüngstes_kind_oder_mehrling_fg",
             "aggr": "sum",
         },
     }
@@ -279,56 +278,9 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     return out.astype(float)
 
 
-@policy_info(skip_vectorization=True)
-def alter_monate_jüngstes_kind(
-    alter_monate: numpy.ndarray[float],
-    p_id: numpy.ndarray[int],
-    p_id_elternteil_1: numpy.ndarray[int],
-    p_id_elternteil_2: numpy.ndarray[int],
-) -> numpy.ndarray[float]:
-    """Age of individuals' youngest child in months.
-
-    Parameters
-    ----------
-    alter_monate
-        See :func:`alter_monate`.
-    p_id
-        See basic input variable :ref:`p_id <p_id>`.
-    p_id_elternteil_1
-        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
-    p_id_elternteil_2
-        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
-
-    Returns
-    -------
-    """
-    candidate_1 = join_numpy(
-        p_id_elternteil_1,
-        p_id,
-        alter_monate,
-        -1,
-    )
-    candidate_2 = join_numpy(
-        p_id_elternteil_2,
-        p_id,
-        alter_monate,
-        -1,
-    )
-    if candidate_1 >= 0 and candidate_2 >= 0:
-        out = min(candidate_1, candidate_2)
-    elif candidate_1 >= 0:
-        out = candidate_1
-    elif candidate_2 >= 0:
-        out = candidate_2
-    else:
-        out = numpy.nan
-
-    return out
-
-
-def jüngstes_kind_oder_mehrling(
+def jüngstes_kind_oder_mehrling_fg(
     alter_monate: float,
-    alter_monate_jüngstes_mitglied_hh: float,
+    alter_monate_jüngstes_mitglied_fg: float,
     kind: bool,
 ) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
@@ -342,8 +294,8 @@ def jüngstes_kind_oder_mehrling(
     ----------
     alter_monate
         See :func:`alter_monate`.
-    alter_monate_jüngstes_mitglied_hh
-        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    alter_monate_jüngstes_mitglied_fg
+        See :func:`alter_monate_jüngstes_mitglied_fg`.
     kind
         See basic input variable :ref:`kind <kind>`.
 
@@ -351,7 +303,7 @@ def jüngstes_kind_oder_mehrling(
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
+    out = (alter_monate - alter_monate_jüngstes_mitglied_fg < 0.1) and kind
     return out
 
 
