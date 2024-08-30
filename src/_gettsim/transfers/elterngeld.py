@@ -448,9 +448,6 @@ def anrechenbares_elterngeld_m(
     return out
 
 
-# elterngeld_zu_verst_eink_vor_geburt_sn
-
-
 def elterngeld_nettolohn_approximation_m(
     bruttolohn_m: float,
     lohnst_m: float,
