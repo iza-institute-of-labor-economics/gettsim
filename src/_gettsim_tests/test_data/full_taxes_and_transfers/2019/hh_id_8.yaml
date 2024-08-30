@@ -88,10 +88,6 @@ inputs:
       - 50.0
     monate_elterngeldbezug:
       - 0
-    monate_elterngeldbezug_elternteil_2_hh:
-      - 0
-    monate_elterngeldbezug_elternteil_1_hh:
-      - 0
     in_ausbildung:
       - false
     alleinerz:

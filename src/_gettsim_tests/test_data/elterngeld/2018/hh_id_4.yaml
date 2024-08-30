@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     hh_id:
@@ -61,15 +61,6 @@ inputs:
     wohnort_ost:
       - false
       - false
-    eink_st_y_sn:
-      - 0.0
-      - 779.33
-    soli_st_y_sn:
-      - 0.0
-      - 42.86
-    sozialv_beitr_arbeitnehmer_m:
-      - 0.0
-      - 756.0
     geburtsjahr:
       - 2017
       - 1976
@@ -79,12 +70,6 @@ inputs:
     geburtstag:
       - 12
       - 9
-    monate_elterngeldbezug_elternteil_1_hh:
-      - 1
-      - 1
-    monate_elterngeldbezug_elternteil_2_hh:
-      - 0
-      - 0
     monate_elterngeldbezug:
       - 0
       - 0
