@@ -387,7 +387,7 @@ def _elterngeld_anz_mehrlinge_fg(
 
     """
     out = anz_mehrlinge_jüngstes_kind_fg - 1
-    return out
+    return max(out, 0)
 
 
 def elterngeld_anrechenbares_nettoeinkommen_m(

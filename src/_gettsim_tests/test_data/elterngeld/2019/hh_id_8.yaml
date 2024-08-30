@@ -11,14 +11,54 @@ inputs:
       - 8
     p_id:
       - 25
-      - 27
       - 26
+      - 27
       - 28
     p_id_ehepartner:
       - -1
       - -1
       - -1
       - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - 28
+      - 28
+      - 28
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+    steuerklasse:
+      - 1
+      - 1
+      - 1
+      - 1
+    ges_pflegev_hat_kinder:
+      - false
+      - false
+      - false
+      - true
+    alter:
+      - 1
+      - 0
+      - 0
+      - 43
+    elterngeld_claimed:
+      - false
+      - false
+      - false
+      - true
+    in_ausbildung:
+      - false
+      - false
+      - false
+      - false
     gemeinsam_veranlagt:
       - false
       - false
@@ -44,7 +84,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    elterngeld_bruttolohn_vor_geburt_m:
+    elterngeld_nettoeinkommen_vorjahr_m:
       - 0.0
       - 0.0
       - 0.0
@@ -115,23 +155,18 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-    - 950.554889
-  elterngeld_geschwisterbonus_anspruch:
-    - false
-    - false
-    - false
+    - 1023.0
+  geschwisterbonus_anspruchsberechtigt_fg:
     - true
-  _elterngeld_anz_mehrlinge_anspruch:
-    - 0
-    - 0
-    - 0
+    - true
+    - true
+    - true
+  _elterngeld_anz_mehrlinge_fg:
     - 1
-  elternzeit_anspruch:
-    - false
-    - false
-    - false
-    - true
-  elterngeld_anspruch:
+    - 1
+    - 1
+    - 1
+  elterngeld_anspruchsbedingungen_erfüllt:
     - false
     - false
     - false
