@@ -80,18 +80,6 @@ inputs:
       - false
       - false
       - false
-    eink_st_y_sn:
-      - 0.0
-      - 0.0
-      - 788.34
-    soli_st_y_sn:
-      - 0.0
-      - 0.0
-      - 43.36
-    sozialv_beitr_arbeitnehmer_m:
-      - 0.0
-      - 0.0
-      - 756.0
     geburtsjahr:
       - 1976
       - 2018

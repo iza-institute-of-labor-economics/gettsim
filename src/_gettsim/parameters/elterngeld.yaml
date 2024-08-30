@@ -22,7 +22,7 @@ höchstbetrag:
   2007-01-01:
     scalar: 1800.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-max_berücksichtiges_einkommen:
+max_zu_berücksichtigendes_einkommen:
   name:
     de: Maximal zu berücksichtigendes Einkommen vor Geburt.
     en: Maximum income to be considered before birth.

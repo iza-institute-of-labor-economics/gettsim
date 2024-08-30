@@ -230,7 +230,7 @@ def elterngeld_basisbetrag_m(
     """
     berücksichtigtes_einkommen = min(
         elterngeld_nettoeinkommen_vorjahr_m,
-        elterngeld_params["max_berücksichtiges_einkommen"],
+        elterngeld_params["max_zu_berücksichtigendes_einkommen"],
     )
     return (
         berücksichtigtes_einkommen - elterngeld_anrechenbares_nettoeinkommen_m
