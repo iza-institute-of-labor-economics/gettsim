@@ -18,7 +18,7 @@ inputs:
       - false
     rente_vorj_vor_grundr_proxy_m:
       - 0.0
-    elterngeld_bruttolohn_vor_geburt_m:
+    bruttolohn_vorj_m:
       - 0.0
     eink_selbst_y:
       - 0.0

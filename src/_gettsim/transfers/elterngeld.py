@@ -40,7 +40,7 @@ def elterngeld_m(
 
 
 @policy_info(end_date="2010-12-31", name_in_dag="elterngeld_m")
-def eltergeld_not_implemented() -> None:
+def eltergeld_not_implemented() -> float:
     raise NotImplementedError("Elterngeld is not implemented prior to 2011.")
 
 
@@ -193,7 +193,7 @@ def vorjahr_einkommen_unter_bezugsgrenze(
 
 
 def kind_anspruchsberechtigt(
-    alter: float,
+    alter: int,
     elterngeld_params: dict,
 ) -> bool:
     """Child is young enough to give rise to Elterngeld claim.
@@ -213,7 +213,9 @@ def kind_anspruchsberechtigt(
 
 
 def elterngeld_basisbetrag_m(
-    elterngeld_nettoeinkommen_vorjahr_m: float, elterngeld_lohnersatzanteil: float
+    elterngeld_nettoeinkommen_vorjahr_m: float,
+    elterngeld_lohnersatzanteil: float,
+    elterngeld_anrechenbares_nettoeinkommen_m: float,
 ) -> float:
     """Base parental leave benefit without accounting for floor and ceiling.
 
@@ -224,12 +226,16 @@ def elterngeld_basisbetrag_m(
         <elterngeld_nettoeinkommen_vorjahr_m>`.
     elterngeld_lohnersatzanteil
         See :func:`elterngeld_lohnersatzanteil`.
+    elterngeld_anrechenbares_nettoeinkommen_m
+        See :func:`elterngeld_anrechenbares_nettoeinkommen_m`.
 
     Returns
     -------
 
     """
-    return elterngeld_nettoeinkommen_vorjahr_m * elterngeld_lohnersatzanteil
+    return (
+        elterngeld_nettoeinkommen_vorjahr_m - elterngeld_anrechenbares_nettoeinkommen_m
+    ) * elterngeld_lohnersatzanteil
 
 
 @policy_info(start_date="2011-01-01")
@@ -385,22 +391,27 @@ def _elterngeld_anz_mehrlinge_fg(
     return out
 
 
-def elterngeld_anrechenbares_einkommen_m(
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
+def elterngeld_anrechenbares_nettoeinkommen_m(
+    bruttolohn_m: float,
+    lohnst_m: float,
+    soli_st_lohnst_m: float,
 ) -> float:
     """Income that reduces the Elterngeld claim.
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    lohnst_m
+        See :func:`lohnst_m`.
+    soli_st_lohnst_m
+        See :func:`soli_st_lohnst_m`.
 
     Returns
     -------
 
     """
-
-    return arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+    return bruttolohn_m - lohnst_m - soli_st_lohnst_m
 
 
 def anrechenbares_elterngeld_m(

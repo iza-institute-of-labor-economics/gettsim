@@ -18,7 +18,7 @@ inputs:
     p_id_elternteil_2:
       - -1
       - -1
-    elterngeld_bruttolohn_vor_geburt_m:
+    bruttolohn_vorj_m:
       - 0.0
       - 3000.0
     wohnort_ost:

@@ -42,7 +42,7 @@ inputs:
       - false
     priv_rentenv_beitr_m:
       - 0.0
-    elterngeld_bruttolohn_vor_geburt_m:
+    bruttolohn_vorj_m:
       - 2500.0
     elterngeld_zu_verst_eink_vor_geburt_sn:
       - 030804.0

@@ -99,7 +99,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    elterngeld_bruttolohn_vor_geburt_m:
+    bruttolohn_vorj_m:
       - 1000.0
       - 2000.0
       - 3000.0
