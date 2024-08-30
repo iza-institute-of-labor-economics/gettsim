@@ -59,8 +59,8 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
         "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
         "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
-        "anz_mehrlinge_jüngstes_kind_fg": {
-            "source_col": "jüngstes_kind_oder_mehrling_fg",
+        "anz_mehrlinge_jüngstes_kind": {
+            "source_col": "jüngstes_kind_oder_mehrling",
             "aggr": "sum",
         },
     }
@@ -278,7 +278,7 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     return out.astype(float)
 
 
-def jüngstes_kind_oder_mehrling_fg(
+def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_fg: float,
     kind: bool,
