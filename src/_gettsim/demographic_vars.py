@@ -326,39 +326,6 @@ def alter_monate_jüngstes_kind(
     return out
 
 
-@policy_info(skip_vectorization=True)
-def hat_kinder(
-    p_id_elternteil_1: numpy.ndarray[int],
-    p_id_elternteil_2: numpy.ndarray[int],
-    p_id: numpy.ndarray[int],
-) -> numpy.ndarray[bool]:
-    """Check if individual has children.
-
-    Parameters
-    ----------
-    p_id_elternteil_1
-        See basic input variable :ref:`p_id_elternteil_1 <p_id_elternteil_1>`.
-    p_id_elternteil_2
-        See basic input variable :ref:`p_id_elternteil_2 <p_id_elternteil_2>`.
-    p_id
-        See basic input variable :ref:`p_id <p_id>`.
-
-    Returns
-    -------
-    """
-    return join_numpy(
-        p_id_elternteil_1,
-        p_id,
-        True,
-        False,
-    ) | join_numpy(
-        p_id_elternteil_2,
-        p_id,
-        True,
-        False,
-    )
-
-
 def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_hh: float,

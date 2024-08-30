@@ -22,9 +22,6 @@ inputs:
     kind:
       - false
       - true
-    hat_kinder:
-      - true
-      - false
     arbeitsstunden_w:
       - 3.0
       - 0.0

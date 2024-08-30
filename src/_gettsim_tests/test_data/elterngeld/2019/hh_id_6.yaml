@@ -28,10 +28,6 @@ inputs:
       - true
       - true
       - false
-    hat_kinder:
-      - false
-      - false
-      - true
     arbeitsstunden_w:
       - 0.0
       - 0.0

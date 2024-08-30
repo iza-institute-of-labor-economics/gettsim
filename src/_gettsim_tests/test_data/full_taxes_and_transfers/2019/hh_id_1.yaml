@@ -104,6 +104,16 @@ inputs:
       - 2000.0
       - 3000.0
       - 4000.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 1000.0
+      - 2000.0
+      - 3000.0
+      - 4000.0
+    elterngeld_claimed:
+      - true
+      - true
+      - true
+      - true
     elterngeld_zu_verst_eink_vor_geburt_sn:
       - 012606.0
       - 024618.0

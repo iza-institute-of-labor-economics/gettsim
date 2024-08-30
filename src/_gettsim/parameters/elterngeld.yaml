@@ -22,6 +22,21 @@ höchstbetrag:
   2007-01-01:
     scalar: 1800.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+max_berücksichtiges_einkommen:
+  name:
+    de: Maximal zu berücksichtigendes Einkommen vor Geburt.
+    en: Maximum income to be considered before birth.
+  description:
+    de: § 2 (3) BEEG
+    en: null
+  unit: Euro
+  reference_period: Month
+  2007-01-01:
+    scalar: 2700.0
+    reference: BGBl. I S. 2748 Art. 1 G. v. 05.12.2006
+  2012-09-18:
+    scalar: 2770.0
+    reference: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
 nettoeinkommen_stufen:
   name:
     de: Nettoeinkommen an 1. und 2. Stufe

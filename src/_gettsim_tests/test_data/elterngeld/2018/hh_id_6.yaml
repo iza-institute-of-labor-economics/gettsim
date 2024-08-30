@@ -16,8 +16,6 @@ inputs:
       - false
     kind:
       - false
-    hat_kinder:
-      - false
     arbeitsstunden_w:
       - 10.0
     bruttolohn_m:

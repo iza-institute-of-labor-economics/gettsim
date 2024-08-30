@@ -44,6 +44,10 @@ inputs:
       - 0.0
     bruttolohn_vorj_m:
       - 2300.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 2300.0
+    elterngeld_claimed:
+      - true
     elterngeld_zu_verst_eink_vor_geburt_sn:
       - 025962.0
     arbeitsstunden_w:

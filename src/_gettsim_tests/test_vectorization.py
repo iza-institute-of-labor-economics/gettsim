@@ -459,13 +459,12 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
 
 
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__elternzeit_elterngeld_anspruchsbedingungen_erfüllt(backend):
+def test_transfers__elterngeld_anspruchsbedingungen_erfüllt(backend):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
     # ==================================================================================
     elterngeld_claimed = True
-    hat_kinder = True
     arbeitsstunden_w = 20.0
     kind_anspruchsberechtigt_fg = True
     vorjahr_einkommen_unter_bezugsgrenze = True
@@ -476,7 +475,6 @@ def test_transfers__elternzeit_elterngeld_anspruchsbedingungen_erfüllt(backend)
 
     exp = elterngeld_anspruchsbedingungen_erfüllt(
         elterngeld_claimed=elterngeld_claimed,
-        hat_kinder=hat_kinder,
         arbeitsstunden_w=arbeitsstunden_w,
         kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
         vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
@@ -495,7 +493,6 @@ def test_transfers__elternzeit_elterngeld_anspruchsbedingungen_erfüllt(backend)
         exp = elterngeld_anspruchsbedingungen_erfüllt(
             arbeitsstunden_w=arbeitsstunden_w,
             elterngeld_claimed=elterngeld_claimed,
-            hat_kinder=hat_kinder,
             kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
             vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
             monate_elterngeldbezug_unter_grenze_fg=monate_elterngeldbezug_unter_grenze_fg,
@@ -509,7 +506,6 @@ def test_transfers__elternzeit_elterngeld_anspruchsbedingungen_erfüllt(backend)
     )
     got = converted(
         elterngeld_claimed=elterngeld_claimed,
-        hat_kinder=hat_kinder,
         arbeitsstunden_w=arbeitsstunden_w,
         kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
         vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
