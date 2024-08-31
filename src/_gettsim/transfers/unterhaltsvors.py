@@ -154,14 +154,12 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
     unterhaltsvors_params: dict,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level for the
-    years 2009 to 2014.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
     Relevant parameter is directly 'steuerfrei zu stellenden sächlichen Existenzminimum
     des minderjährigen Kindes' § 1612a (1). Modeling relative to the child allowance for
     this. The amout for the lower age group is defined relative to the middle age group
-    with a factor of 0.87. There is probably a rounding rule documented somewhere in
-    some (Durchführungs-)Verordnung.
+    with a factor of 0.87.
 
     Rule was in priciple also active for 2015 but has been overwritten by an
     Anwendungsvorschrift as Kinderfreibetrag and Kindergeld changed on July 2015.
@@ -181,7 +179,7 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
 
     kinderfreib_sächl_existenzmin = eink_st_abzuege_params["kinderfreib"][
         "sächl_existenzmin"
@@ -208,12 +206,11 @@ def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
     alter: int,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level over
-    the year 2015.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
     Rule _unterhaltsvors_anspruch_kind_m_2009_bis_2014 was in priciple also active for
     2015 but has been overwritten by an Anwendungsvorschrift as Kinderfreibetrag and
-    Kindergeld changed on July 2015.
+    Kindergeld changed in July 2015.
 
     Parameters
     ----------
@@ -226,7 +223,7 @@ def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
 
     unterhaltsvors = unterhaltsvors_params["unterhaltsvors_anwendungsvors"]
 
@@ -251,8 +248,7 @@ def _unterhaltsvors_anspruch_kind_m_2016(
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level for the
-    year 2016.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
     § 2 Unterhaltsvorschussgesetz refers to Section § 1612a BGB. There still is the
     reference to 'steuerfrei zu stellenden sächlichen Existenzminimum des minderjährigen
@@ -275,7 +271,7 @@ def _unterhaltsvors_anspruch_kind_m_2016(
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
 
     if alter < altersgrenzen[1]:
@@ -296,8 +292,9 @@ def _unterhaltsvors_anspruch_kind_m_ab_2017(
     unterhalt_params: dict,
     unterhaltsvors_params: dict,
 ) -> float:
-    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level since
-    2017.
+    """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
+
+    Introduction of a minimum income threshold if child is older than some threshold.
 
     Parameters
     ----------
@@ -316,7 +313,7 @@ def _unterhaltsvors_anspruch_kind_m_ab_2017(
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen"]
+    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
 
     if alter < altersgrenzen[1]:

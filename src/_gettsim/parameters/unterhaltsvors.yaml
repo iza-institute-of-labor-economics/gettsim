@@ -30,7 +30,7 @@ altersgrenze_mindesteinkommen:
   2017-01-01:
     scalar: 12
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
-altersgrenzen:
+altersgrenzen_bezug:
   name:
     de: Altersgrenzen für den Bezug von Unterhaltsvorschuss
     en: age limits for receiving alimony payments
@@ -49,6 +49,7 @@ altersgrenzen:
     1: 6
     2: 12
     3: 18
+    reference: Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122
 rounding:
   unterhaltsvors_m:
     note:
@@ -67,35 +68,35 @@ unterhaltsvors_anwendungsvors:
       Parametern Kinderfreibetrag für das sächliche Existenzminimum und dem Kindergeld
       für das erste Kind. Wird das Kindergeld unterjährig geändert oder der
       Kinderfreibetrag unterjährig rückwirkend geändert, gelten abweichende
-      Abwendungsvorschriften, die von unveränderten Werten für Kindergeld bzw.
+      Anwendungsvorschriften, die von unveränderten Werten für Kindergeld bzw.
       Kinderfreibetrag ausgehen können. Hier werden die entsprechenden Werte für den
       Unterhaltsvorschuss (d.h. nach Abzug des unterstellten Kindergeldes) verwendet.
     en: >-
       The advance child alimony is calculated in principle from 2009 to 2015 based on
-      the parameters parameters child allowance for the material minimum subsistence
-      level and child benefit for the first child. If the child benefit is changed
-      during the year or the or the child allowance is changed retroactively during the
-      year, deviating application rules apply, which can be based on unchanged values
-      for child benefit or child child allowance can be assumed. Here, the corresponding
-      values for the advance child alimony (i.e. after deduction of the assumed child
-      benefit) are used.
+      the parameters parameters 'child allowance for the material minimum subsistence
+      level' (Kinderfreibetrag für das sächliche Existenzminimum) and Kindergeld for the
+      first child. If the Kindergeld is changed during the year or the or the child
+      allowance is changed retroactively during the year, deviating application rules
+      apply, which can be based on unchanged values for Kindergeld or child child
+      allowance can be assumed. Here, the corresponding values for the advance child
+      alimony (i.e. after deduction of the assumed Kindergeld) are used.
   unit: Euro
   reference_period: Month
   2015-01-01:
     6: 133
     12: 180
-    reference:
+    reference: null
     note: >-
-      2015-01-01 bis 2015-06-31 errechnete sich der Mindesunterhalt aus einem
-      Kinderfreibetrag für das sächliche Existenzminimum in Höhe von 2184 Euro und dem
-      geltenden Kindergeld für das erste Kind in Höhe von 184 Euro. Da der
-      Kinderfreibetragtrospektiv Mitte des Jahres retrospektiv angehoben wurde, gilt im
-      Zuge dessen eine Anwendungsvorschrift, die den alten Kinderfreibetrag für die
-      Berechnung der Unterhaltsleistung unterstellt. § 11a Anwendungsvorschrift: "Im
-      Sinne dieses Gesetzes beträgt für die Zeit vom 1. Januar 2015 bis zum 30. Juni
-      2015 die Unterhaltsleistung nach § 2 Absatz 1 Satz 1 monatlich 317 Euro für ein
-      Kind, das das sechste Lebensjahr noch nicht vollendet hat, und monatlich 364 Euro
-      für ein Kind, das das zwölfte Lebensjahr noch nicht vollendet hat."
+      Der Mindesunterhalt errechnet sich aus einem Kinderfreibetrag für das sächliche
+      Existenzminimum in Höhe von 2184 Euro und dem geltenden Kindergeld für das erste
+      Kind in Höhe von 184 Euro. Da der Kinderfreibetrag Mitte des Jahres retrospektiv
+      angehoben wurde, gilt im Zuge dessen eine Anwendungsvorschrift, die den alten
+      Kinderfreibetrag für die Berechnung der Unterhaltsleistung unterstellt. § 11a
+      Anwendungsvorschrift: "Im Sinne dieses Gesetzes beträgt für die Zeit vom 1. Januar
+      2015 bis zum 30. Juni 2015 die Unterhaltsleistung nach § 2 Absatz 1 Satz 1
+      monatlich 317 Euro für ein Kind, das das sechste Lebensjahr noch nicht vollendet
+      hat, und monatlich 364 Euro für ein Kind, das das zwölfte Lebensjahr noch nicht
+      vollendet hat."
   2015-07-01:
     6: 144
     12: 192
