@@ -123,9 +123,7 @@ class PolicyEnvironment:
 
         return result
 
-    def replace_all_parameters(
-        self, params: dict[str, Any]
-    ):
+    def replace_all_parameters(self, params: dict[str, Any]):
         """
         Replace all parameters of the policy environment. Note that this
         method does not modify the current policy environment but returns a new one.
@@ -141,7 +139,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._functions = self._functions # noqa: SLF001
+        result._functions = self._functions  # noqa: SLF001
         result._params = params  # noqa: SLF001
 
         return result

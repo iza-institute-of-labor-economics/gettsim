@@ -51,7 +51,9 @@ class PolicyFunction(Callable):
             skip_vectorization, info.get("skip_vectorization"), False
         )
 
-        self.function = function if self.skip_vectorization else _vectorize_func(function)
+        self.function = (
+            function if self.skip_vectorization else _vectorize_func(function)
+        )
         self.module_name = module_name
 
         self.name_in_dag: str = _first_not_none_or_none(

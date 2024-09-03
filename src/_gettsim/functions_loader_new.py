@@ -36,6 +36,7 @@ def _load_internal_functions() -> list[PolicyFunction]:
     """
     return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
 
+
 def _load_functions(
     roots: Path | list[Path],
     include_imported_functions=False,
@@ -138,7 +139,8 @@ def _load_functions_in_module(
     return [
         _create_policy_function_from_decorated_callable(function, module_name)
         for name, function in inspect.getmembers(module, inspect.isfunction)
-        if include_imported_functions or _is_function_defined_in_module(function, module_name)
+        if include_imported_functions
+        or _is_function_defined_in_module(function, module_name)
     ]
 
 

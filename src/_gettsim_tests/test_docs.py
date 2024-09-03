@@ -46,9 +46,7 @@ def time_indep_function_names(all_function_names):
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {
-            func.function.__name__: func.name_in_dag for func in year_functions
-        }
+        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Only use time dependent function names

@@ -1,15 +1,10 @@
-import datetime
 
 import pytest
 
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, TYPES_INPUT_VARIABLES
-from _gettsim.functions_loader import _convert_paths_to_import_strings, _load_functions
+from _gettsim.config import TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader_new import _load_internal_functions
 from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import (
-    load_functions_for_date,
-)
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -62,10 +57,7 @@ def test_full_taxes_and_transfers(
 def test_data_types(
     test_data: PolicyTestData,
 ):
-    functions = {
-        f.name_in_dag: f.function
-        for f in _load_internal_functions()
-    }
+    functions = {f.name_in_dag: f.function for f in _load_internal_functions()}
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:

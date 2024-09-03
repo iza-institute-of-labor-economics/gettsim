@@ -1,5 +1,6 @@
 import networkx as nx
 import pytest
+
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.visualization import (
     _get_selected_nodes,
@@ -9,7 +10,6 @@ from _gettsim.visualization import (
     _select_nodes_in_dag,
     plot_dag,
 )
-
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
 environment = cached_set_up_policy_environment(date=2020)

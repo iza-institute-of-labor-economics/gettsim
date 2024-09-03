@@ -7,10 +7,8 @@ from pandas._testing import assert_series_equal
 
 from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
-    PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.functions_loader import _load_functions
 from _gettsim.functions_loader_new import _load_internal_functions
 from _gettsim.interface import (
     _add_rounding_to_functions,
@@ -264,9 +262,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {
-            func.function.__name__: func.name_in_dag for func in year_functions
-        }
+        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Add time dependent functions for which rounding specs for new name exist
