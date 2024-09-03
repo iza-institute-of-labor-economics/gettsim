@@ -6,7 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-- {gh}`787` Model classes for policy functions and policy environments ({ghuser}`lars-reimann`).
+- {gh}`787` Model classes for policy functions and policy environments
+  ({ghuser}`lars-reimann`).
 - {gh}`788` Pension benefit earnings test for early retirees ({ghuser}`MImmesberger`).
 - {gh}`786` Check directly whether child and parent are in same Bedarfsgemeinschaft for
   Kindergeldübertrag ({ghuser}`MImmesberger`).

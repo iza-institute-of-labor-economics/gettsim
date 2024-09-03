@@ -1,4 +1,3 @@
-
 import pytest
 
 from _gettsim.config import TYPES_INPUT_VARIABLES
