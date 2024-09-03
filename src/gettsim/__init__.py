@@ -15,6 +15,7 @@ import itertools
 import warnings
 
 import pytest
+
 from _gettsim import (
     aggregation,
     config,

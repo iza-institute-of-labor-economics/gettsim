@@ -3,6 +3,8 @@ import datetime
 import pandas as pd
 import pytest
 import yaml
+from pandas._testing import assert_series_equal
+
 from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     PATHS_TO_INTERNAL_FUNCTIONS,
@@ -17,7 +19,6 @@ from _gettsim.interface import (
 )
 from _gettsim.policy_environment import PolicyEnvironment, load_functions_for_date
 from _gettsim.shared import policy_info
-from pandas._testing import assert_series_equal
 
 rounding_specs_and_exp_results = [
     (1, "up", None, [100.24, 100.78], [101.0, 101.0]),

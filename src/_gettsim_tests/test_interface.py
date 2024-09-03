@@ -3,6 +3,7 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
+
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
@@ -33,7 +34,7 @@ def minimal_input_data():
     return out
 
 
-@pytest.fixture()
+@pytest.fixture
 def input_data_aggregate_by_p_id():
     return pd.DataFrame(
         {

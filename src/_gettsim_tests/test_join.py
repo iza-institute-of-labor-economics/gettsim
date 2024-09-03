@@ -1,5 +1,6 @@
 import numpy
 import pytest
+
 from _gettsim.shared import join_numpy
 
 

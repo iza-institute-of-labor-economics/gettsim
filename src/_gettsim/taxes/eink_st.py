@@ -248,11 +248,7 @@ def eink_st_rel_kindergeld_mit_staffelung_m(
     else:
         sum_eink_st_rel_kindergeld = sum(
             kindergeld_params["kindergeld"][
-                (
-                    i
-                    if i <= max(kindergeld_params["kindergeld"])
-                    else max(kindergeld_params["kindergeld"])
-                )
+                (min(i, max(kindergeld_params["kindergeld"])))
             ]
             for i in range(1, eink_st_rel_kindergeld_anz_ansprüche + 1)
         )

@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, TYPES_INPUT_VARIABLES
 from _gettsim.functions_loader import _convert_paths_to_import_strings, _load_functions
 from _gettsim.functions_loader_new import _load_internal_functions
@@ -9,7 +10,6 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import (
     load_functions_for_date,
 )
-
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
