@@ -179,6 +179,8 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
     -------
 
     """
+    # TODO(@MImmesberger): Remove explicit parameter conversion.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/575
     altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
 
     kinderfreib_sächl_existenzmin = eink_st_abzuege_params["kinderfreib"][
@@ -187,7 +189,9 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
 
     if alter < altersgrenzen[1]:
         out = (
-            0.87 * (2 * kinderfreib_sächl_existenzmin / 12) - _kindergeld_erstes_kind_m
+            unterhaltsvors_params["faktor_jüngste_altersgruppe"]
+            * (2 * kinderfreib_sächl_existenzmin / 12)
+            - _kindergeld_erstes_kind_m
         )
     elif altersgrenzen[1] <= alter < altersgrenzen[2]:
         out = 2 * kinderfreib_sächl_existenzmin / 12 - _kindergeld_erstes_kind_m

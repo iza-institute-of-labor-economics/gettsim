@@ -55,14 +55,17 @@ altersgrenzen_bezug:
     3: 18
     reference: Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122
     note: New age group 12 to 17 introduced (§ 1 new Abs. 1a UhVorschG).
-rounding:
-  unterhaltsvors_m:
-    note:
-      en: Rounding rules since implementation in 1980 via BGBl. I 1979 S. 1184.
-    1980-01-01:
-      base: 1
-      direction: up
-      reference: § 9 Abs. 3 UhVorschG
+faktor_jüngste_altersgruppe:
+  name:
+    de: >-
+      Faktor mit dem das sächliche Existenzminimum multipliziert wird um den
+      Unterhaltsvorschuss für Kinder der jüngsten Altersgruppe zu berechnen.
+    en: >-
+      Factor by which the sächliche Existenzminimum is multiplied to calculate
+      the advance child alimony for children of the youngest age group.
+  2009-01-01:
+    scalar: 0.87
+    reference: § 1612a Abs. 1 BGB
 unterhaltsvors_anwendungsvors:
   name:
     de: Unterhaltsvorschuss für Kinder entsprechend Anwendungsvorschriften
@@ -114,3 +117,11 @@ unterhaltsvors_anwendungsvors:
       hat. 3Bis zum 31. Dezember 2015 gilt als für ein erstes Kind zu zahlendes
       Kindergeld im Sinne von § 2 Absatz 2 Satz 1 ein Betrag in Höhe von monatlich 184
       Euro."
+rounding:
+  unterhaltsvors_m:
+    note:
+      en: Rounding rules since implementation in 1980 via BGBl. I 1979 S. 1184.
+    1980-01-01:
+      base: 1
+      direction: up
+      reference: § 9 Abs. 3 UhVorschG
