@@ -10,11 +10,9 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions_loader import (
-    _convert_paths_to_import_strings,
-    _load_functions,
     load_aggregation_dict,
 )
-from _gettsim.functions_loader_new import _load_internal_functions
+from _gettsim.functions_loader_new import _load_functions, _load_internal_functions
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
 
@@ -104,23 +102,28 @@ def test_all_input_vars_documented(
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
-    documented_functions = _load_functions(
-        RESOURCE_DIR / "functions.py", include_imported_functions=True
-    )
+    documented_functions = {
+        f.name_in_dag
+        for f in _load_functions(
+            RESOURCE_DIR / "functions.py",
+            include_imported_functions=True,
+        )
+    }
 
     internal_function_files = [
         RESOURCE_DIR.joinpath(p) for p in PATHS_TO_INTERNAL_FUNCTIONS
     ]
-    internal_functions = _load_functions(
-        internal_function_files, include_imported_functions=True
-    )
 
-    # Private functions are not imported in functions.py.
     internal_functions = {
-        k: v for k, v in internal_functions.items() if not k.startswith("_")
+        f.name_in_dag
+        for f in _load_functions(
+            internal_function_files,
+            include_imported_functions=True,
+        )
+        if not f.original_function_name.startswith("_")
     }
 
-    assert set(documented_functions) == set(internal_functions)
+    assert documented_functions == internal_functions
 
 
 def test_type_hints():  # noqa: PLR0912

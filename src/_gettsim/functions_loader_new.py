@@ -36,8 +36,10 @@ def _load_internal_functions() -> list[PolicyFunction]:
     """
     return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
 
-
-def _load_functions(roots: Path | list[Path]) -> list[PolicyFunction]:
+def _load_functions(
+    roots: Path | list[Path],
+    include_imported_functions=False,
+) -> list[PolicyFunction]:
     """
     Load policy functions reachable from the given roots.
 
@@ -45,6 +47,9 @@ def _load_functions(roots: Path | list[Path]) -> list[PolicyFunction]:
     ----------
     roots:
         The roots from which to start the search for policy functions.
+    include_imported_functions:
+        Whether to load functions that are imported into the modules passed via
+        sources.
 
     Returns
     -------
@@ -58,7 +63,9 @@ def _load_functions(roots: Path | list[Path]) -> list[PolicyFunction]:
 
     for path in paths:
         module_name = _convert_path_to_module_name(path)
-        result.extend(_load_functions_in_module(module_name))
+        result.extend(
+            _load_functions_in_module(module_name, include_imported_functions)
+        )
 
     return result
 
@@ -107,7 +114,10 @@ def _convert_path_to_module_name(absolute_path: Path) -> str:
     )
 
 
-def _load_functions_in_module(module_name: str) -> list[PolicyFunction]:
+def _load_functions_in_module(
+    module_name: str,
+    include_imported_functions: bool,
+) -> list[PolicyFunction]:
     """
     Load policy functions defined in a module.
 
@@ -115,6 +125,9 @@ def _load_functions_in_module(module_name: str) -> list[PolicyFunction]:
     ----------
     module_name:
         The name of the module in which to search for policy functions.
+    include_imported_functions:
+        Whether to load functions that are imported into the modules passed via
+        sources.
 
     Returns
     -------
@@ -125,7 +138,7 @@ def _load_functions_in_module(module_name: str) -> list[PolicyFunction]:
     return [
         _create_policy_function_from_decorated_callable(function, module_name)
         for name, function in inspect.getmembers(module, inspect.isfunction)
-        if _is_function_defined_in_module(function, module_name)
+        if include_imported_functions or _is_function_defined_in_module(function, module_name)
     ]
 
 
