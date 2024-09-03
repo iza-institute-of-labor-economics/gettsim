@@ -14,6 +14,7 @@ from _gettsim.functions_loader import (
     _load_functions,
     load_aggregation_dict,
 )
+from _gettsim.functions_loader_new import _load_internal_functions
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
 
@@ -30,8 +31,8 @@ def default_input_variables():
 
 @pytest.fixture(scope="module")
 def all_function_names():
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-    return sorted(functions.keys())
+    functions = _load_internal_functions()
+    return sorted([func.function_name for func in functions])
 
 
 @pytest.fixture(scope="module")
@@ -73,14 +74,14 @@ def test_all_input_vars_documented(
 ):
     """Test if arguments of all non-internal functions are either the name of another
     function, a documented input variable, or a parameter dictionary."""
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
+    functions = _load_internal_functions()
 
     # Collect arguments of all non-internal functions (do not start with underscore)
     arguments = [
         i
         for f in functions
-        for i in list(inspect.signature(functions[f]).parameters)
-        if not f.startswith("_")
+        for i in list(inspect.signature(f).parameters)
+        if not f.function_name.startswith("_")
     ]
 
     # Remove duplicates
