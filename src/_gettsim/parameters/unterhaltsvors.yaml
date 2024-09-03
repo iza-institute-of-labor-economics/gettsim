@@ -38,18 +38,23 @@ altersgrenzen_bezug:
     de: >-
       Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem
       alleinerziehenden Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem
-      können auch Kinder bis zur Vollendung des 18. Lebensjahres Unterhaltsvorschuss
-      bekommen, wenn das Elternteil ein Mindesteinkommen hat.
+      können seit Juli 2017 auch Kinder bis zur Vollendung des 18. Lebensjahres
+      Unterhaltsvorschuss bekommen, wenn das Elternteil ein Mindesteinkommen hat.
     en: >-
       Children under the age of 12 living with a single parent are entitled to alimony
-      payments. In addition, children up to the age of 18 receive advance on alimony
-      payments if the parent has income beyond a minimal threshold.
+      payments. In addition, since July 2017, children up to the age of 18 receive
+      advance on alimony payments if the parent has income beyond a minimal threshold.
   reference: § 1 Abs. 1, 1a UhVorschG
-  2009-01-01:
+  2008-01-01:
+    1: 6
+    2: 12
+    reference: G. v. 21.12.2007 BGBl. I S. 3194
+  2017-07-01:
     1: 6
     2: 12
     3: 18
     reference: Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122
+    note: New age group 12 to 17 introduced (§ 1 new Abs. 1a UhVorschG).
 rounding:
   unterhaltsvors_m:
     note:

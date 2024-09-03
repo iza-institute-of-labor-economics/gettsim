@@ -239,10 +239,10 @@ def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
 
 @policy_info(
     start_date="2016-01-01",
-    end_date="2016-12-31",
+    end_date="2017-06-30",
     name_in_dag="_unterhaltsvors_anspruch_kind_m",
 )
-def _unterhaltsvors_anspruch_kind_m_2016(
+def _unterhaltsvors_anspruch_kind_m_2016_bis_201706(
     alter: int,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
@@ -284,8 +284,8 @@ def _unterhaltsvors_anspruch_kind_m_2016(
     return out
 
 
-@policy_info(start_date="2017-01-01", name_in_dag="_unterhaltsvors_anspruch_kind_m")
-def _unterhaltsvors_anspruch_kind_m_ab_2017(
+@policy_info(start_date="2017-07-01", name_in_dag="_unterhaltsvors_anspruch_kind_m")
+def _unterhaltsvors_anspruch_kind_m_ab_201707(
     alter: int,
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
     _kindergeld_erstes_kind_m: float,
