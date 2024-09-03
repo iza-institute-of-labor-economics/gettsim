@@ -46,14 +46,15 @@ class PolicyFunction(Callable):
         skip_vectorization: bool | None = None,
     ):
         info: dict[str, Any] = getattr(function, "__info__", {})
-        skip_vectorization: bool = _first_not_none_or_none(
+
+        self.skip_vectorization: bool = _first_not_none_or_none(
             skip_vectorization, info.get("skip_vectorization"), False
         )
 
-        self.function = function if skip_vectorization else _vectorize_func(function)
+        self.function = function if self.skip_vectorization else _vectorize_func(function)
         self.module_name = module_name
 
-        self.function_name: str = _first_not_none_or_none(
+        self.name_in_dag: str = _first_not_none_or_none(
             function_name,
             info.get("name_in_dag"),
             function.__name__,
@@ -90,9 +91,16 @@ class PolicyFunction(Callable):
 
     @property
     def dependencies(self) -> set[str]:
+        """The names of input variables that the function depends on."""
         return set(inspect.signature(self).parameters)
 
+    @property
+    def original_function_name(self) -> str:
+        """The name of the wrapped function."""
+        return self.function.__name__
+
     def is_active_at_date(self, date: date) -> bool:
+        """Check if the function is active at a given date."""
         return self.start_date <= date <= self.end_date
 
 

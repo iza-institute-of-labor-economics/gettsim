@@ -77,7 +77,7 @@ class PolicyEnvironment:
                 if isinstance(function, PolicyFunction)
                 else PolicyFunction(function)
             )
-            self._functions[f.function_name] = f
+            self._functions[f.name_in_dag] = f
 
         self._params = params if params is not None else {}
 
@@ -115,7 +115,7 @@ class PolicyEnvironment:
                 if isinstance(function, PolicyFunction)
                 else PolicyFunction(function)
             )
-            new_functions[f.function_name] = f
+            new_functions[f.name_in_dag] = f
 
         result = object.__new__(PolicyEnvironment)
         result._functions = new_functions  # noqa: SLF001

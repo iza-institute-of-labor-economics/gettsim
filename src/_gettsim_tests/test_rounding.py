@@ -263,7 +263,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {
-            func.function.__name__: func.function_name for func in year_functions
+            func.function.__name__: func.name_in_dag for func in year_functions
         }
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 

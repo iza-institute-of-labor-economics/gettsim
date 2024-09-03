@@ -71,7 +71,7 @@ def test_data_types(
     # Load all time dependent functions
     for y in range(1990, 2023):
         year_functions = {
-            f.function_name: f.function
+            f.name_in_dag: f.function
             for f in load_functions_for_date(datetime.date(year=y, month=1, day=1))
         }
 
