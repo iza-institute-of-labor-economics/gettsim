@@ -9,6 +9,7 @@ from _gettsim.config import (
     RESOURCE_DIR,
 )
 from _gettsim.functions_loader import _load_functions
+from _gettsim.functions_loader_new import _load_internal_functions
 from _gettsim.interface import (
     _add_rounding_to_functions,
     _add_rounding_to_one_function,
@@ -280,20 +281,17 @@ def test_decorator_for_all_functions_with_rounding_spec():
         if fn not in time_dependent_functions.values()
     ]
 
-    # Loop over these functions and check if attribute
-    # __info__["params_key_for_rounding"] exists
-    all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-    for fn in function_names_to_check:
-        assert hasattr(all_functions[fn], "__info__"), (
-            f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the policy_info decorator. The attribute "
-            "__info__ is not found."
-        )
-        assert "params_key_for_rounding" in all_functions[fn].__info__, (
-            f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the params_key_for_rounding parameter in the "
-            "policy_info decorator. The key 'params_key_for_rounding' is not found in "
-            "the __info__ dict."
+    functions_to_check = [
+        f
+        for f in _load_internal_functions()
+        if f.original_function_name in function_names_to_check
+    ]
+
+    for f in functions_to_check:
+        assert f.params_key_for_rounding, (
+            f"For the function {f.original_function_name}, rounding parameters are"
+            f" specified. But the function is missing the policy_info decorator or its "
+            "params_key_for_rounding parameter is not set."
         )
 
 
