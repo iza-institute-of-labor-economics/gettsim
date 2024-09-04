@@ -187,13 +187,13 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
         "sächl_existenzmin"
     ]
 
-    if alter < altersgrenzen[1]:
+    if altersgrenzen[1]["min_alter"] <= alter <= altersgrenzen[1]["max_alter"]:
         out = (
             unterhaltsvors_params["faktor_jüngste_altersgruppe"]
             * (2 * kinderfreib_sächl_existenzmin / 12)
             - _kindergeld_erstes_kind_m
         )
-    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
+    elif altersgrenzen[2]["min_alter"] <= alter <= altersgrenzen[2]["max_alter"]:
         out = 2 * kinderfreib_sächl_existenzmin / 12 - _kindergeld_erstes_kind_m
     else:
         out = 0.0
@@ -231,10 +231,10 @@ def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
 
     unterhaltsvors = unterhaltsvors_params["unterhaltsvors_anwendungsvors"]
 
-    if alter < altersgrenzen[1]:
-        out = unterhaltsvors[altersgrenzen[1]]
-    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
-        out = unterhaltsvors[altersgrenzen[2]]
+    if altersgrenzen[1]["min_alter"] <= alter <= altersgrenzen[1]["max_alter"]:
+        out = unterhaltsvors[1]
+    elif altersgrenzen[2]["min_alter"] <= alter <= altersgrenzen[2]["max_alter"]:
+        out = unterhaltsvors[2]
     else:
         out = 0.0
 
@@ -250,7 +250,6 @@ def _unterhaltsvors_anspruch_kind_m_2016_bis_201706(
     alter: int,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
-    unterhaltsvors_params: dict,
 ) -> float:
     """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
@@ -268,20 +267,17 @@ def _unterhaltsvors_anspruch_kind_m_2016_bis_201706(
         See :func:`_kindergeld_erstes_kind_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
-    unterhaltsvors_params
-        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
 
     Returns
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
 
-    if alter < altersgrenzen[1]:
-        out = mindestunterhalt[altersgrenzen[1]] - _kindergeld_erstes_kind_m
-    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
-        out = mindestunterhalt[altersgrenzen[2]] - _kindergeld_erstes_kind_m
+    if mindestunterhalt[1]["min_alter"] <= alter <= mindestunterhalt[1]["max_alter"]:
+        out = mindestunterhalt[1]["betrag"] - _kindergeld_erstes_kind_m
+    elif mindestunterhalt[2]["min_alter"] <= alter <= mindestunterhalt[2]["max_alter"]:
+        out = mindestunterhalt[2]["betrag"] - _kindergeld_erstes_kind_m
     else:
         out = 0.0
 
@@ -298,7 +294,8 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
 ) -> float:
     """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
-    Introduction of a minimum income threshold if child is older than some threshold.
+    Introduction of a minimum income threshold if child is older than some threshold and
+    third age group (12-17) via Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122.
 
     Parameters
     ----------
@@ -317,15 +314,14 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
     -------
 
     """
-    altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
     mindestunterhalt = unterhalt_params["mindestunterhalt"]
 
-    if alter < altersgrenzen[1]:
-        out = mindestunterhalt[altersgrenzen[1]] - _kindergeld_erstes_kind_m
-    elif altersgrenzen[1] <= alter < altersgrenzen[2]:
-        out = mindestunterhalt[altersgrenzen[2]] - _kindergeld_erstes_kind_m
-    elif altersgrenzen[2] <= alter < altersgrenzen[3]:
-        out = mindestunterhalt[altersgrenzen[3]] - _kindergeld_erstes_kind_m
+    if mindestunterhalt[1]["min_alter"] <= alter <= mindestunterhalt[1]["max_alter"]:
+        out = mindestunterhalt[1]["betrag"] - _kindergeld_erstes_kind_m
+    elif mindestunterhalt[2]["min_alter"] <= alter <= mindestunterhalt[2]["max_alter"]:
+        out = mindestunterhalt[2]["betrag"] - _kindergeld_erstes_kind_m
+    elif mindestunterhalt[3]["min_alter"] <= alter <= mindestunterhalt[3]["max_alter"]:
+        out = mindestunterhalt[3]["betrag"] - _kindergeld_erstes_kind_m
     else:
         out = 0.0
 

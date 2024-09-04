@@ -46,15 +46,13 @@ altersgrenzen_bezug:
       advance on alimony payments if the parent has income beyond a minimal threshold.
   reference: § 1 Abs. 1, 1a UhVorschG
   2008-01-01:
-    1: 6
-    2: 12
+    1:
+      min_alter: 0
+      max_alter: 5
+    2:
+      min_alter: 6
+      max_alter: 11
     reference: G. v. 21.12.2007 BGBl. I S. 3194
-  2017-07-01:
-    1: 6
-    2: 12
-    3: 18
-    reference: Artikel 23 G. v. 14.08.2017 BGBl. I S. 3122
-    note: New age group 12 to 17 introduced (§ 1 new Abs. 1a UhVorschG).
 faktor_jüngste_altersgruppe:
   name:
     de: >-
@@ -91,8 +89,8 @@ unterhaltsvors_anwendungsvors:
   unit: Euro
   reference_period: Month
   2015-01-01:
-    6: 133
-    12: 180
+    1: 133
+    2: 180
     reference: null
     note: >-
       Der Mindesunterhalt errechnet sich aus einem Kinderfreibetrag für das sächliche
@@ -106,8 +104,8 @@ unterhaltsvors_anwendungsvors:
       hat, und monatlich 364 Euro für ein Kind, das das zwölfte Lebensjahr noch nicht
       vollendet hat."
   2015-07-01:
-    6: 144
-    12: 192
+    1: 144
+    2: 192
     reference: Artikel 9 Gesetz v. 16.07.2015 BGBl. I S. 1202.
     note: >-
       § 11a Anwendungsvorschrift: "Für die Zeit vom 1. Juli 2015 bis zum 31.
