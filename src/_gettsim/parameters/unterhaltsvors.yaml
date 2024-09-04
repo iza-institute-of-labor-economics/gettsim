@@ -15,35 +15,18 @@ mindesteinkommen:
   2017-01-01:
     scalar: 600
     reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
-altersgrenze_mindesteinkommen:
-  name:
-    de: >-
-      Altersgrenze, ab der UHV nur mit einem Mindesteinkommen in Höhe von
-      `mindesteinkommen` bezogen werden kann.
-    en: >-
-      Age threshold from which on Unterhaltsvorschuss is only paied if earnings are
-      above `mindesteinkommen`.
-  description:
-    de: § 1 (1a) Nr. 2 Unterhaltsvorschussgesetz
-    en: null
-  unit: Years
-  2017-01-01:
-    scalar: 12
-    reference: Art. 23 G. v. 14.08.2017 BGBl. I S. 3122.
 altersgrenzen_bezug:
   name:
-    de: Altersgrenzen für den Bezug von Unterhaltsvorschuss
-    en: age limits for receiving alimony payments
+    de: Altersgrenzen für den Bezug von Unterhaltsvorschuss bis Juni 2017.
+    en: Age limits for receiving alimony payments until June 2017.
   description:
     de: >-
       Kinder, die das 12. Lebensjahr noch nicht vollendet haben und bei einem
-      alleinerziehenden Elternteil leben haben Anspruch auf Unterhaltszahlungen. Zudem
-      können seit Juli 2017 auch Kinder bis zur Vollendung des 18. Lebensjahres
-      Unterhaltsvorschuss bekommen, wenn das Elternteil ein Mindesteinkommen hat.
+      alleinerziehenden Elternteil leben haben Anspruch auf Unterhaltszahlungen. Seit
+      Juli 2017 gelten die Altersgrenzen des Mindestunterhalts.
     en: >-
       Children under the age of 12 living with a single parent are entitled to alimony
-      payments. In addition, since July 2017, children up to the age of 18 receive
-      advance on alimony payments if the parent has income beyond a minimal threshold.
+      payments. Since July 2017, the age limits of the minimum alimony apply.
   reference: § 1 Abs. 1, 1a UhVorschG
   2008-01-01:
     1:
@@ -93,28 +76,31 @@ unterhaltsvors_anwendungsvors:
     2: 180
     reference: null
     note: >-
-      Der Mindesunterhalt errechnet sich aus einem Kinderfreibetrag für das sächliche
-      Existenzminimum in Höhe von 2184 Euro und dem geltenden Kindergeld für das erste
-      Kind in Höhe von 184 Euro. Da der Kinderfreibetrag Mitte des Jahres retrospektiv
-      angehoben wurde, gilt im Zuge dessen eine Anwendungsvorschrift, die den alten
-      Kinderfreibetrag für die Berechnung der Unterhaltsleistung unterstellt. § 11a
-      Anwendungsvorschrift: "Im Sinne dieses Gesetzes beträgt für die Zeit vom 1. Januar
-      2015 bis zum 30. Juni 2015 die Unterhaltsleistung nach § 2 Absatz 1 Satz 1
-      monatlich 317 Euro für ein Kind, das das sechste Lebensjahr noch nicht vollendet
-      hat, und monatlich 364 Euro für ein Kind, das das zwölfte Lebensjahr noch nicht
-      vollendet hat."
+      Durch Anpassung des Kinderfreibetrags in der Mitte des Jahres gilt eine vorläufige
+      Anwendungsvorschrift, welche den Mindestunterhalt basierend auf dem alten
+      Kinderfreibetrag berechnet. § 11a Anwendungsvorschrift: "Im Sinne dieses Gesetzes
+      beträgt für die Zeit vom 1. Januar 2015 bis zum 30. Juni 2015 die
+      Unterhaltsleistung nach § 2 Absatz 1 Satz 1 monatlich 317 Euro für ein Kind, das
+      das sechste Lebensjahr noch nicht vollendet hat, und monatlich 364 Euro für ein
+      Kind, das das zwölfte Lebensjahr noch nicht vollendet hat." Der
+      Unterhaltsvorschuss berechnet sich aus diesem Mindestunterhalt abzüglich des
+      Kindergeldes für das erste Kind vor Anpassung des Kinderfreibetrags (hier: 184
+      Euro).
   2015-07-01:
     1: 144
     2: 192
     reference: Artikel 9 Gesetz v. 16.07.2015 BGBl. I S. 1202.
     note: >-
-      § 11a Anwendungsvorschrift: "Für die Zeit vom 1. Juli 2015 bis zum 31.
-      Dezember 2015 beträgt die Unterhaltsleistung nach § 2 Absatz 1 Satz 1 monatlich
-      328 Euro für ein Kind, das das sechste Lebensjahr noch nicht vollendet hat, und
-      monatlich 376 Euro für ein Kind, das das zwölfte Lebensjahr noch nicht vollendet
-      hat. 3Bis zum 31. Dezember 2015 gilt als für ein erstes Kind zu zahlendes
-      Kindergeld im Sinne von § 2 Absatz 2 Satz 1 ein Betrag in Höhe von monatlich 184
-      Euro."
+      § 11a Anwendungsvorschrift: "Für die Zeit vom 1. Juli 2015 bis zum 31. Dezember
+      2015 beträgt die Unterhaltsleistung nach § 2 Absatz 1 Satz 1 monatlich 328 Euro
+      für ein Kind, das das sechste Lebensjahr noch nicht vollendet hat, und monatlich
+      376 Euro für ein Kind, das das zwölfte Lebensjahr noch nicht vollendet hat. 3Bis
+      zum 31. Dezember 2015 gilt als für ein erstes Kind zu zahlendes Kindergeld im
+      Sinne von § 2 Absatz 2 Satz 1 ein Betrag in Höhe von monatlich 184 Euro." Der
+      Unterhaltsvorschuss berechnet sich aus diesem Mindestunterhalt abzüglich des
+      Kindergeldes für das erste Kind vor Anpassung des Kinderfreibetrags (hier: 184
+      Euro). Ab 2016 orientiert sich der Unterhaltsvorschuss wieder an den regulären
+      Mindestunterhaltsbeträgen.
 rounding:
   unterhaltsvors_m:
     note:

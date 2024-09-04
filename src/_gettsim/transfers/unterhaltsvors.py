@@ -290,7 +290,6 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
     _kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
-    unterhaltsvors_params: dict,
 ) -> float:
     """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
@@ -307,8 +306,6 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
         See :func:`_kindergeld_erstes_kind_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
-    unterhaltsvors_params
-        See params documentation :ref:`unterhaltsvors_params <unterhaltsvors_params>`.
 
     Returns
     -------
@@ -320,17 +317,12 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
         out = mindestunterhalt[1]["betrag"] - _kindergeld_erstes_kind_m
     elif mindestunterhalt[2]["min_alter"] <= alter <= mindestunterhalt[2]["max_alter"]:
         out = mindestunterhalt[2]["betrag"] - _kindergeld_erstes_kind_m
-    elif mindestunterhalt[3]["min_alter"] <= alter <= mindestunterhalt[3]["max_alter"]:
+    elif (
+        mindestunterhalt[3]["min_alter"] <= alter <= mindestunterhalt[3]["max_alter"]
+        and _unterhaltsvorschuss_empf_eink_above_income_threshold
+    ):
         out = mindestunterhalt[3]["betrag"] - _kindergeld_erstes_kind_m
     else:
-        out = 0.0
-
-    # Older kids get it only if the single parent has income > mindesteinkommen.
-    if (
-        out > 0
-        and (alter >= unterhaltsvors_params["altersgrenze_mindesteinkommen"])
-        and (not _unterhaltsvorschuss_empf_eink_above_income_threshold)
-    ):
         out = 0.0
 
     return out
