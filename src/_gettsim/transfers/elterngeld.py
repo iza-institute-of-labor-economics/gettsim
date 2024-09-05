@@ -12,6 +12,13 @@ aggregate_by_group_elterngeld = {
         "aggr": "sum",
     },
 }
+aggregate_by_p_id_elterngeld = {
+    "monate_elterngeld_partner": {
+        "p_id_to_aggregate_by": "p_id_einstandspartner",
+        "source_col": "monate_elterngeldbezug",
+        "aggr": "sum",
+    },
+}
 
 
 @policy_info(start_date="2011-01-01")
@@ -120,6 +127,7 @@ def elterngeld_anspruchsbedingungen_erfüllt(  # noqa: PLR0913
 
 def monate_elterngeldbezug_unter_grenze_fg(
     monate_elterngeldbezug_fg: int,
+    monate_elterngeld_partner: int,
     alleinerz: bool,
     elterngeld_anzahl_claims_fg: int,
     elterngeld_params: dict,
@@ -131,6 +139,8 @@ def monate_elterngeldbezug_unter_grenze_fg(
     ----------
     monate_elterngeldbezug_fg
         See :func:`monate_elterngeldbezug_fg`.
+    monate_elterngeld_partner
+        See function :func:`monate_elterngeld_partner`.
     alleinerz
         See basic input variable :ref:`alleinerz <alleinerz>`.
     elterngeld_anzahl_claims_fg
@@ -142,20 +152,20 @@ def monate_elterngeldbezug_unter_grenze_fg(
     -------
 
     """
-    if alleinerz:
+    if alleinerz or monate_elterngeld_partner >= 2:
         out = (
             monate_elterngeldbezug_fg
-            <= elterngeld_params["max_monate_ohne_partnermonate"]
+            < elterngeld_params["max_monate_mit_partnermonate"]
         )
     elif elterngeld_anzahl_claims_fg > 1:
         out = (
             monate_elterngeldbezug_fg + 1
-            <= elterngeld_params["max_monate_mit_partnermonate"]
+            < elterngeld_params["max_monate_mit_partnermonate"]
         )
     else:
         out = (
             monate_elterngeldbezug_fg
-            <= elterngeld_params["max_monate_mit_partnermonate"]
+            < elterngeld_params["max_monate_ohne_partnermonate"]
         )
     return out
 
