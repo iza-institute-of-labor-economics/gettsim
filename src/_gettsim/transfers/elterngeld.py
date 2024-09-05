@@ -143,11 +143,20 @@ def monate_elterngeldbezug_unter_grenze_fg(
 
     """
     if alleinerz:
-        out = monate_elterngeldbezug_fg <= elterngeld_params["max_monate_ind"]
+        out = (
+            monate_elterngeldbezug_fg
+            <= elterngeld_params["max_monate_ohne_partnermonate"]
+        )
     elif elterngeld_anzahl_claims_fg > 1:
-        out = monate_elterngeldbezug_fg + 1 <= elterngeld_params["max_monate_paar"]
+        out = (
+            monate_elterngeldbezug_fg + 1
+            <= elterngeld_params["max_monate_mit_partnermonate"]
+        )
     else:
-        out = monate_elterngeldbezug_fg <= elterngeld_params["max_monate_paar"]
+        out = (
+            monate_elterngeldbezug_fg
+            <= elterngeld_params["max_monate_mit_partnermonate"]
+        )
     return out
 
 
@@ -201,7 +210,7 @@ def kind_anspruchsberechtigt(
     -------
 
     """
-    return alter <= elterngeld_params["max_monate_paar"]
+    return alter <= elterngeld_params["max_monate_mit_partnermonate"]
 
 
 def elterngeld_basisbetrag_m(

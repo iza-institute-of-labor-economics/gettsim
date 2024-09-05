@@ -167,23 +167,27 @@ sozialv_pausch:
     scalar: 0.21
     reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
     note: .09 + .1 + .02
-max_monate_paar:
+max_monate_mit_partnermonate:
   name:
-    de: Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
-    en: Maximum number of months a couple may receive parental benefit.
+    de: Maximale Anzahl an Monaten, inklusiver Partnermonate.
+    en: Maximum number of months, including "Partnermonate".
   description:
-    de: § 4 (3) BEEG
-    en: null
+    de: >-
+      Basismonate plus "Partnermonate" bei gleichzeitiger Inanspruchnahme von Elterngeld
+      bei Paaren. Basismonate bei Alleinerziehenden.
+  reference: § 4 (3) BEEG
   2007-01-01:
     scalar: 14
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-max_monate_ind:
+max_monate_ohne_partnermonate:
   name:
-    de: Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält
-    en: Maximum number of months an individual parent may receive parental benefit.
+    de: >-
+      Maximale Anzahl an Monaten bei Paaren, die nicht gleichzeitig Elterngeld beziehen.
+    en: Maximum number of months for couples not receiving Elterngeld simultaneously.
   description:
-    de: § 4 (3) BEEG
+    de: Basismonate ohne Partnermonate.
     en: null
+  reference: § 4 (3) BEEG
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
