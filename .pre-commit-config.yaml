@@ -6,7 +6,7 @@ repos:
       - id: check-useless-excludes
       # - id: identity  # Prints all files passed to pre-commits. Debugging.
   - repo: https://github.com/lyz-code/yamlfix
-    rev: 1.16.0
+    rev: 1.17.0
     hooks:
       - id: yamlfix
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -57,7 +57,7 @@ repos:
       - id: blacken-docs
       # exclude: docs/source/how_to_guides/optimization/how_to_specify_constraints.md
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.1
+    rev: v0.6.3
     hooks:
       - id: ruff
       #   args:
@@ -103,7 +103,7 @@ repos:
           - '88'
         files: (docs/.|CHANGES.md|CODE_OF_CONDUCT.md)
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.11.1
+    rev: v1.11.2
     hooks:
       - id: mypy
         args:
