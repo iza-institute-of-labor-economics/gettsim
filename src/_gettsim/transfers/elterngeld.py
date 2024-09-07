@@ -258,7 +258,10 @@ def elterngeld_basisbetrag_m(
 
 @policy_info(start_date="2011-01-01")
 def elterngeld_lohnersatzanteil(
-    elterngeld_nettoeinkommen_vorjahr_m: float, elterngeld_params: dict
+    elterngeld_nettoeinkommen_vorjahr_m: float,
+    _untere_lohnersatzanteil_grenze_minus_nettoeinkommen: float,
+    _nettoeinkommen_minus_obere_lohnersatzanteil_grenze: float,
+    elterngeld_params: dict,
 ) -> float:
     """Replacement rate of Elterngeld (before applying floor and ceiling rules).
 
@@ -270,6 +273,10 @@ def elterngeld_lohnersatzanteil(
     elterngeld_nettoeinkommen_vorjahr_m
         See basic input variable
         :ref:`elterngeld_nettoeinkommen_vorjahr_m<elterngeld_nettoeinkommen_vorjahr_m>`.
+    _untere_lohnersatzanteil_grenze_minus_nettoeinkommen
+        See :func:`_untere_lohnersatzanteil_grenze_minus_nettoeinkommen`.
+    _nettoeinkommen_minus_obere_lohnersatzanteil_grenze
+        See :func:`_nettoeinkommen_minus_obere_lohnersatzanteil_grenze`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     Returns
@@ -283,13 +290,11 @@ def elterngeld_lohnersatzanteil(
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
     ):
         out = (
-            elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-            - elterngeld_nettoeinkommen_vorjahr_m
-        ) / elterngeld_params["eink_schritt_korrektur"] * elterngeld_params[
-            "prozent_korrektur"
-        ] + elterngeld_params[
-            "faktor"
-        ]
+            _untere_lohnersatzanteil_grenze_minus_nettoeinkommen
+            / elterngeld_params["eink_schritt_korrektur"]
+            * elterngeld_params["prozent_korrektur"]
+            + elterngeld_params["faktor"]
+        )
 
     # Lower replacement rate if considered income is above a threshold
     elif (
@@ -299,10 +304,7 @@ def elterngeld_lohnersatzanteil(
         # Replacement rate is only lowered up to a specific value
         out = max(
             elterngeld_params["faktor"]
-            - (
-                elterngeld_nettoeinkommen_vorjahr_m
-                - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
-            )
+            - _nettoeinkommen_minus_obere_lohnersatzanteil_grenze
             / elterngeld_params["eink_schritt_korrektur"],
             elterngeld_params["prozent_minimum"],
         )
@@ -310,6 +312,56 @@ def elterngeld_lohnersatzanteil(
         out = elterngeld_params["faktor"]
 
     return out
+
+
+@policy_info(params_key_for_rounding="elterngeld")
+def _untere_lohnersatzanteil_grenze_minus_nettoeinkommen(
+    elterngeld_nettoeinkommen_vorjahr_m: float,
+    elterngeld_params: dict,
+) -> float:
+    """Lower threshold for replacement rate adjustment minus net income.
+
+    Parameters
+    ----------
+    elterngeld_nettoeinkommen_vorjahr_m
+        See basic input variable
+        :ref:`elterngeld_nettoeinkommen_vorjahr_m<elterngeld_nettoeinkommen_vorjahr_m>`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return (
+        elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+        - elterngeld_nettoeinkommen_vorjahr_m
+    )
+
+
+@policy_info(params_key_for_rounding="elterngeld")
+def _nettoeinkommen_minus_obere_lohnersatzanteil_grenze(
+    elterngeld_nettoeinkommen_vorjahr_m: float,
+    elterngeld_params: dict,
+) -> float:
+    """Net income minus upper threshold for replacement rate adjustment.
+
+    Parameters
+    ----------
+    elterngeld_nettoeinkommen_vorjahr_m
+        See basic input variable
+        :ref:`elterngeld_nettoeinkommen_vorjahr_m<elterngeld_nettoeinkommen_vorjahr_m>`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return (
+        elterngeld_nettoeinkommen_vorjahr_m
+        - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
+    )
 
 
 def elterngeld_geschwisterbonus_m(

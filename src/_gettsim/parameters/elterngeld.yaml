@@ -237,3 +237,14 @@ max_arbeitsstunden_w:
   2021-09-01:
     scalar: 32.0
     reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
+rounding:
+  _untere_lohnersatzanteil_grenze_minus_nettoeinkommen:
+    1980-01-01:
+      base: 2
+      direction: down
+      reference: §2 (2) BEEG
+  _nettoeinkommen_minus_obere_lohnersatzanteil_grenze:
+    1980-01-01:
+      base: 2
+      direction: down
+      reference: §2 (2) BEEG
