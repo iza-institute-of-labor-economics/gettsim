@@ -261,15 +261,20 @@ Type: bool
 
 Approximation of the net wage in the 12 months before birth of youngest child (according
 to simplified calculation rules). You may let GETTSIM compute this variable via the
-`elterngeld_nettolohn_approximation_m` target in a separate run.
+`elterngeld_nettolohn_approximation_m` target in a separate run, which would typically
+be for the previous calendar year.
 
 Type: float
 
-(elterngeld_zu_verst_eink_vor_geburt_sn)=
+(elterngeld_zu_verst_eink_vorjahr_y_sn)=
 
-## `elterngeld_zu_verst_eink_vor_geburt_sn`
+## `elterngeld_zu_verst_eink_vorjahr_y_sn`
 
-Taxable income in the 12 months before birth of youngest child.
+Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
+compute this variable via the `_zu_verst_eink_mit_kinderfreib_y_sn` target in a separate
+run, which would typically be for the previous calendar year.
+
+Type: float
 
 (bruttolohn_vorj_m)=
 

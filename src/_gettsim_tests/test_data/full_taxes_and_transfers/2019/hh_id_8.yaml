@@ -48,7 +48,7 @@ inputs:
       - 2300.0
     elterngeld_claimed:
       - true
-    elterngeld_zu_verst_eink_vor_geburt_sn:
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
       - 025962.0
     arbeitsstunden_w:
       - 0.0

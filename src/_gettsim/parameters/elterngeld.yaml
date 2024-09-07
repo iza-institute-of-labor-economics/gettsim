@@ -192,7 +192,7 @@ max_monate_ohne_partnermonate:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 max_eink_vorj:
-  'description:':
+  description:
     de: >-
       Maximales zu versteuerndes Einkommen im letzten Veranlagungszeitraum vor Geburt
       des Kindes. Einkommen über dieser Grenze schließt den Bezug von Elterngeld aus (§
@@ -228,7 +228,7 @@ max_arbeitsstunden_w:
       Maximale Wochenstunden die bei Elterngeldbezug gearbeitet werden dürfen
     en: >-
       Maximum amount of weekly hours one is allowed to work, when receiving Elterngeld
-  descripition:
+  description:
     de: §1 (6) BEEG
     en: null
   2007-01-01:

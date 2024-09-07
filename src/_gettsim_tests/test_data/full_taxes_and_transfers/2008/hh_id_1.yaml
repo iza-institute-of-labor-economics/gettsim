@@ -114,7 +114,7 @@ inputs:
       - true
       - true
       - true
-    elterngeld_zu_verst_eink_vor_geburt_sn:
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
       - 013176.0
       - 025188.0
       - 037200.0

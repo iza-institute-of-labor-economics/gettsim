@@ -55,7 +55,7 @@ inputs:
     elterngeld_nettoeinkommen_vorjahr_m:
       - 3600.0
       - 0.0
-    elterngeld_zu_verst_eink_vor_geburt_sn:
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
       - 38160.00
       - 0.0
     wohnort_ost:

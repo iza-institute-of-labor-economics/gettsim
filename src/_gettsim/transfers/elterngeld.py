@@ -172,7 +172,7 @@ def monate_elterngeldbezug_unter_grenze_fg(
 
 def vorjahr_einkommen_unter_bezugsgrenze(
     alleinerz: bool,
-    elterngeld_zu_verst_eink_vor_geburt_sn: float,
+    elterngeld_zu_verst_eink_vorjahr_y_sn: float,
     elterngeld_params: dict,
 ) -> bool:
     """Income before birth is below income threshold for Elterngeld.
@@ -181,8 +181,8 @@ def vorjahr_einkommen_unter_bezugsgrenze(
     ----------
     alleinerz
         See basic input variable :ref:`alleinerz <alleinerz>`.
-    elterngeld_zu_verst_eink_vor_geburt_sn
-        See :func:`elterngeld_zu_verst_eink_vor_geburt_sn`.
+    elterngeld_zu_verst_eink_vorjahr_y_sn
+        See :func:`elterngeld_zu_verst_eink_vorjahr_y_sn`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -192,12 +192,12 @@ def vorjahr_einkommen_unter_bezugsgrenze(
     """
     if alleinerz:
         out = (
-            elterngeld_zu_verst_eink_vor_geburt_sn
+            elterngeld_zu_verst_eink_vorjahr_y_sn
             <= elterngeld_params["max_eink_vorj"]["single"]
         )
     else:
         out = (
-            elterngeld_zu_verst_eink_vor_geburt_sn
+            elterngeld_zu_verst_eink_vorjahr_y_sn
             <= elterngeld_params["max_eink_vorj"]["paar"]
         )
     return out
@@ -429,6 +429,9 @@ def elterngeld_anrechenbares_nettoeinkommen_m(
     -------
 
     """
+    # TODO(@MImmesberger): In this case, lohnst_m should be calculated without taking
+    # into account adaptions to the standard care insurance rate.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/792
     return bruttolohn_m - lohnst_m - soli_st_lohnst_m
 
 
@@ -476,6 +479,10 @@ def elterngeld_nettolohn_approximation_m(
     """Approximation of net wage used to calculate Elterngeld.
 
     This target can be used as an input in another GETTSIM call to compute Elterngeld.
+    In principle, the relevant gross wage for this target is the sum of the gross wages
+    in the 12 months before the birth of the child. For most datasets, except those with
+    monthly income date (IAB, DRV data), the best approximation will likely be the gross
+    wage in the calendar year before the birth of the child.
 
     Parameters
     ----------

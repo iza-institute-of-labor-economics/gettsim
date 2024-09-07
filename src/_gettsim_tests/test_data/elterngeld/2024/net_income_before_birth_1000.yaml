@@ -72,7 +72,7 @@ inputs:
       - 1000.0
       - 0.0
       - 3400.0
-    elterngeld_zu_verst_eink_vor_geburt_sn:
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
       - 5760.0
       - 0.00
       - 35760.0
