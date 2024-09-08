@@ -31,6 +31,6 @@ def test_elterngeld(
         result[column],
         test_data.output_df[column],
         check_dtype=False,
-        atol=1e-1,
-        rtol=0,
+        atol=1e-3,
+        rtol=1e-3,
     )

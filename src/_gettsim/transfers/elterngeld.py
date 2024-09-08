@@ -288,14 +288,13 @@ def elterngeld_lohnersatzanteil(
     if (
         elterngeld_nettoeinkommen_vorjahr_m
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
+        and elterngeld_nettoeinkommen_vorjahr_m > 0
     ):
-        out = (
+        out = elterngeld_params["faktor"] + (
             _untere_lohnersatzanteil_grenze_minus_nettoeinkommen
             / elterngeld_params["eink_schritt_korrektur"]
             * elterngeld_params["prozent_korrektur"]
-            + elterngeld_params["faktor"]
         )
-
     # Lower replacement rate if considered income is above a threshold
     elif (
         elterngeld_nettoeinkommen_vorjahr_m
@@ -304,8 +303,11 @@ def elterngeld_lohnersatzanteil(
         # Replacement rate is only lowered up to a specific value
         out = max(
             elterngeld_params["faktor"]
-            - _nettoeinkommen_minus_obere_lohnersatzanteil_grenze
-            / elterngeld_params["eink_schritt_korrektur"],
+            - (
+                _nettoeinkommen_minus_obere_lohnersatzanteil_grenze
+                / elterngeld_params["eink_schritt_korrektur"]
+                * elterngeld_params["prozent_korrektur"]
+            ),
             elterngeld_params["prozent_minimum"],
         )
     else:
