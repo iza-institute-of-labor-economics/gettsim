@@ -524,6 +524,7 @@ def anrechenbares_elterngeld_m(
     return out
 
 
+@policy_info(params_key_for_rounding="elterngeld")
 def elterngeld_nettolohn_approximation_m(
     bruttolohn_m: float,
     lohnst_m: float,
