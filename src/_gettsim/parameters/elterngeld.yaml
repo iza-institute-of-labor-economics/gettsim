@@ -238,6 +238,10 @@ max_arbeitsstunden_w:
     scalar: 32.0
     reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
 rounding:
+  elterngeld_m:
+    1980-01-01:
+      base: 0.01
+      direction: down
   _untere_lohnersatzanteil_grenze_minus_nettoeinkommen:
     1980-01-01:
       base: 2

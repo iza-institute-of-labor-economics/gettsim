@@ -21,7 +21,7 @@ aggregate_by_p_id_elterngeld = {
 }
 
 
-@policy_info(start_date="2011-01-01")
+@policy_info(start_date="2011-01-01", params_key_for_rounding="elterngeld")
 def elterngeld_m(
     elterngeld_anspruchsbedingungen_erfüllt: bool,
     elterngeld_anspruchshöhe_m: float,
