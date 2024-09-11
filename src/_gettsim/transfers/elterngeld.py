@@ -46,7 +46,11 @@ def elterngeld_m(
     return out
 
 
-@policy_info(end_date="2010-12-31", name_in_dag="elterngeld_m")
+@policy_info(
+    end_date="2010-12-31",
+    name_in_dag="elterngeld_m",
+    params_key_for_rounding="elterngeld",
+)
 def eltergeld_not_implemented() -> float:
     raise NotImplementedError("Elterngeld is not implemented prior to 2011.")
 
@@ -170,7 +174,8 @@ def monate_elterngeldbezug_unter_grenze_fg(
     return out
 
 
-def vorjahr_einkommen_unter_bezugsgrenze(
+@policy_info(end_date="2024-03-31", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze")
+def vorjahr_einkommen_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     alleinerz: bool,
     elterngeld_zu_verst_eink_vorjahr_y_sn: float,
     elterngeld_params: dict,
@@ -201,6 +206,29 @@ def vorjahr_einkommen_unter_bezugsgrenze(
             <= elterngeld_params["max_eink_vorj"]["paar"]
         )
     return out
+
+
+@policy_info(
+    start_date="2024-04-01", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze"
+)
+def vorjahr_einkommen_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
+    elterngeld_zu_verst_eink_vorjahr_y_sn: float,
+    elterngeld_params: dict,
+) -> bool:
+    """Income before birth is below income threshold for Elterngeld.
+
+    Parameters
+    ----------
+    elterngeld_zu_verst_eink_vorjahr_y_sn
+        See :func:`elterngeld_zu_verst_eink_vorjahr_y_sn`.
+    elterngeld_params
+        See params documentation :ref:`elterngeld_params <elterngeld_params>`.
+
+    Returns
+    -------
+
+    """
+    return elterngeld_zu_verst_eink_vorjahr_y_sn <= elterngeld_params["max_eink_vorj"]
 
 
 def kind_anspruchsberechtigt(
