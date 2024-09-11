@@ -46,6 +46,9 @@ inputs:
     bruttolohn_vorj_m:
       - 1500.0
       - 0.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 1500.0
+      - 0.0
     ges_pflegev_hat_kinder:
       - true
       - false

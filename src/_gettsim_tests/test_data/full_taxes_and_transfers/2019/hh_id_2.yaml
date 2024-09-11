@@ -104,6 +104,21 @@ inputs:
       - 2500.0
       - 2300.0
       - 1000.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 7000.0
+      - 2500.0
+      - 2300.0
+      - 1000.0
+    elterngeld_claimed:
+      - true
+      - true
+      - true
+      - true
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
+      - 084654.0
+      - 030678.0
+      - 028302.0
+      - 012726.0
     arbeitsstunden_w:
       - 0.0
       - 0.0
@@ -194,17 +209,7 @@ inputs:
       - 50.0
       - 50.0
       - 50.0
-    m_elterngeld:
-      - 0
-      - 0
-      - 0
-      - 0
-    m_elterngeld_vat_hh:
-      - 0
-      - 0
-      - 0
-      - 0
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug:
       - 0
       - 0
       - 0

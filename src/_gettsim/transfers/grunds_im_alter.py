@@ -95,7 +95,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     soli_st_m_sn: float,
     anz_personen_sn: int,
     sozialv_beitr_arbeitnehmer_m: float,
-    elterngeld_anr_m: float,
+    anrechenbares_elterngeld_m: float,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung im
     Alter.
@@ -122,8 +122,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`anz_personen_sn`.
     sozialv_beitr_arbeitnehmer_m
         See :func:`sozialv_beitr_arbeitnehmer_m`.
-    elterngeld_anr_m
-        See :func:`elterngeld_anr_m`.
+    anrechenbares_elterngeld_m
+        See :func:`anrechenbares_elterngeld_m`.
 
     Returns
     -------
@@ -138,7 +138,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         + sonstig_eink_m
         + eink_vermietung_m
         + _grunds_im_alter_kapitaleink_brutto_m
-        + elterngeld_anr_m
+        + anrechenbares_elterngeld_m
     )
 
     out = (

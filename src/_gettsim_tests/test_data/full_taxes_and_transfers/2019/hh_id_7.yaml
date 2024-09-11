@@ -44,6 +44,12 @@ inputs:
       - 0.0
     bruttolohn_vorj_m:
       - 2500.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 2500.0
+    elterngeld_claimed:
+      - true
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
+      - 030804.0
     arbeitsstunden_w:
       - 0.0
     geburtsjahr:
@@ -80,11 +86,7 @@ inputs:
       - 0
     wohnfläche_hh:
       - 50.0
-    m_elterngeld:
-      - 0
-    m_elterngeld_vat_hh:
-      - 0
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug:
       - 0
     in_ausbildung:
       - false
