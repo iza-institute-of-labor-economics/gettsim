@@ -13,7 +13,7 @@ T = TypeVar("T")
 
 class PolicyFunction(Callable):
     """
-    A function that computes an output vector based on some input vectors.
+    A function that computes an output vector based on some input vectors and/or parameters.
 
     Parameters
     ----------

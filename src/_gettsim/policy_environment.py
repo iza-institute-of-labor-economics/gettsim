@@ -26,9 +26,9 @@ if TYPE_CHECKING:
 
 class PolicyEnvironment:
     """
-    A container for policy functions and parameters. You should usually use the factory
-    method :meth:`for_date` to create a policy environment instead of calling the
-    constructor directly.
+    A container for policy functions and parameters. 
+    
+    Almost always, instances are created with :PolicyEnvironment.for_date()`.
     """
 
     @staticmethod
