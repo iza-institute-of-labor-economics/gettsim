@@ -12,7 +12,7 @@ import yaml
 
 import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
-from _gettsim.functions_loader_new import load_functions_for_date
+from _gettsim.functions_loader import load_functions_for_date
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
