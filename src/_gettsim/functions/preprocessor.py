@@ -31,7 +31,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.groupings import create_groupings
-from _gettsim.policy_function import PolicyFunction
+from .policy_function import PolicyFunction
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -212,7 +212,7 @@ def _load_functions(sources, include_imported_functions=False):
         A dictionary mapping column names to functions producing them.
 
     """
-    from _gettsim.policy_function import PolicyFunction  # cyclic import
+    from _gettsim.functions.policy_function import PolicyFunction  # cyclic import
 
     all_sources = _search_directories_recursively_for_python_files(
         sources if isinstance(sources, list) else [sources]

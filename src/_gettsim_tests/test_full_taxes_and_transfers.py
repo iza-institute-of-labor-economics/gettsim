@@ -1,7 +1,7 @@
 import pytest
 
 from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.functions_loader_new import _load_internal_functions
+from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment

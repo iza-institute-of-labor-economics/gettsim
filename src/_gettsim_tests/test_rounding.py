@@ -9,7 +9,7 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions_loader_new import _load_internal_functions
+from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.interface import (
     _add_rounding_to_functions,
     _add_rounding_to_one_function,

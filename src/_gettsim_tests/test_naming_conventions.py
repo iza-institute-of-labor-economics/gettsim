@@ -10,11 +10,11 @@ from _gettsim.config import (
     GEP_01_CHARACTER_LIMIT_USER_FACING_COLUMNS,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions_loader_new import _load_internal_functions
+from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.shared import remove_group_suffix
 
 if TYPE_CHECKING:
-    from _gettsim.policy_function import PolicyFunction
+    from _gettsim.functions.policy_function import PolicyFunction
 
 
 def _nice_output_list_of_strings(list_of_strings):

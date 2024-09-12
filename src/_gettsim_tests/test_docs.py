@@ -4,14 +4,13 @@ import datetime
 import inspect
 
 import pytest
-
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions_loader_new import _load_functions, _load_internal_functions
-from _gettsim.functions_preprocessor import (
+from _gettsim.functions.loader import _load_functions, _load_internal_functions
+from _gettsim.functions.preprocessor import (
     load_aggregation_dict,
 )
 from _gettsim.policy_environment import load_functions_for_date
@@ -104,7 +103,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = {
         f.name_in_dag
         for f in _load_functions(
-            RESOURCE_DIR / "functions.py",
+            RESOURCE_DIR / "functions" / "all_functions.py",
             include_imported_functions=True,
         )
     }

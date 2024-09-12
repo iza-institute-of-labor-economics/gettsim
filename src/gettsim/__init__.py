@@ -15,7 +15,6 @@ import itertools
 import warnings
 
 import pytest
-
 from _gettsim import (
     aggregation,
     config,
@@ -26,12 +25,12 @@ from _gettsim import (
     transfers,
     visualization,
 )
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.interface import (
     FunctionsAndColumnsOverlapWarning,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment, set_up_policy_environment
-from _gettsim.policy_function import PolicyFunction
 from _gettsim.synthetic import create_synthetic_data
 from _gettsim.visualization import plot_dag
 from _gettsim_tests import TEST_DIR

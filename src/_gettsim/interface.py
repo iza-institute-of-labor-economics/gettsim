@@ -14,7 +14,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions_preprocessor import load_and_check_functions
+from _gettsim.functions.preprocessor import load_and_check_functions
 from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
     convert_series_to_internal_type,
