@@ -10,7 +10,7 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
-from _gettsim.functions_loader import _load_functions
+from _gettsim.functions_preprocessor import _load_functions
 from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
     elterngeld_geschwisterbonus_m,

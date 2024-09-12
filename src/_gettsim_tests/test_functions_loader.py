@@ -7,7 +7,7 @@ import numpy
 import pytest
 
 from _gettsim.config import RESOURCE_DIR
-from _gettsim.functions_loader import (
+from _gettsim.functions_preprocessor import (
     _create_derived_functions,
     _load_functions,
     _vectorize_func,
