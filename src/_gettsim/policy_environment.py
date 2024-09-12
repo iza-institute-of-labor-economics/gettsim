@@ -26,8 +26,8 @@ if TYPE_CHECKING:
 
 class PolicyEnvironment:
     """
-    A container for policy functions and parameters. 
-    
+    A container for policy functions and parameters.
+
     Almost always, instances are created with :PolicyEnvironment.for_date()`.
     """
 
