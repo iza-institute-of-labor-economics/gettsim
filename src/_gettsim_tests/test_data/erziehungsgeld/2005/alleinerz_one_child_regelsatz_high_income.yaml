@@ -37,6 +37,9 @@ inputs:
     bruttolohn_vorj_m:
       - 1700.0
       - 0.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 1700.0
+      - 0.0
     geburtstag:
       - 1
       - 1

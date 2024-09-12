@@ -59,6 +59,11 @@ inputs:
       - 1300.0
       - 0.0
       - 0.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 400.0
+      - 1300.0
+      - 0.0
+      - 0.0
     geburtstag:
       - 1
       - 1
