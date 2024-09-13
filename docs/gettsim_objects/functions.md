@@ -10,12 +10,12 @@ further below. By clicking on the `source` hyperlink next to the function signat
 you can see the full source code of the function.
 
 ```{eval-rst}
-.. automodsumm:: _gettsim.functions.all_functions
+.. automodsumm:: _gettsim.functions.all_functions_for_docs
    :functions-only:
 ```
 
 ```{eval-rst}
-.. automodule:: _gettsim.functions.all_functions
+.. automodule:: _gettsim.functions.all_functions_for_docs
    :members:
    :imported-members:
 ```

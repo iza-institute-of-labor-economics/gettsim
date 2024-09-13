@@ -103,7 +103,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = {
         f.name_in_dag
         for f in _load_functions(
-            RESOURCE_DIR / "functions" / "all_functions.py",
+            RESOURCE_DIR / "functions" / "all_functions_for_docs.py",
             include_imported_functions=True,
         )
     }

@@ -8,40 +8,40 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`ges_rentenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions.ges_rentenv_beitr_arbeitnehmer_m>`
+* - {func}`ges_rentenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_rentenv_beitr_arbeitnehmer_m>`
   - Monthly amount employee old-age pensions contributions
-* - {func}`arbeitsl_v_beitr_arbeitnehmer_m <_gettsim.functions.all_functions.arbeitsl_v_beitr_arbeitnehmer_m>`
+* - {func}`arbeitsl_v_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.arbeitsl_v_beitr_arbeitnehmer_m>`
   - Monthly amount employee unempl. insurance contributions
-* - {func}`ges_krankenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions.ges_krankenv_beitr_arbeitnehmer_m>`
+* - {func}`ges_krankenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_krankenv_beitr_arbeitnehmer_m>`
   - Monthly amount employee health insurance contributions
-* - {func}`ges_pflegev_beitr_arbeitnehmer_m <_gettsim.functions.all_functions.ges_pflegev_beitr_arbeitnehmer_m>`
+* - {func}`ges_pflegev_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_pflegev_beitr_arbeitnehmer_m>`
   - Monthly amount of long term care insurance
-* - {func}`arbeitsl_geld_m <_gettsim.functions.all_functions.arbeitsl_geld_m>`
+* - {func}`arbeitsl_geld_m <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_m>`
   - Monthly amount of unemployment assistance
-* - {func}`entgeltp_update <_gettsim.functions.all_functions.entgeltp_update>`
+* - {func}`entgeltp_update <_gettsim.functions.all_functions_for_docs.entgeltp_update>`
   - Updated earning points for pension claim
-* - {func}`abgelt_st_y_sn <_gettsim.functions.all_functions.abgelt_st_y_sn>`
+* - {func}`abgelt_st_y_sn <_gettsim.functions.all_functions_for_docs.abgelt_st_y_sn>`
   - Capital income tax on Steuernummer level
-* - {func}`soli_st_y_sn <_gettsim.functions.all_functions.soli_st_y_sn>`
+* - {func}`soli_st_y_sn <_gettsim.functions.all_functions_for_docs.soli_st_y_sn>`
   - Solidarity surcharge on Steuernummer level
-* - {func}`kindergeld_m <_gettsim.functions.all_functions.kindergeld_m>`
+* - {func}`kindergeld_m <_gettsim.functions.all_functions_for_docs.kindergeld_m>`
   - Monthly child benefit
-* - {func}`eink_st_y_sn <_gettsim.functions.all_functions.eink_st_y_sn>`
+* - {func}`eink_st_y_sn <_gettsim.functions.all_functions_for_docs.eink_st_y_sn>`
   - Income Tax on Steuernummer level
-* - {func}`lohnst_m` <_gettsim.functions.all_functions.lohnst_m>`
+* - {func}`lohnst_m` <_gettsim.functions.all_functions_for_docs.lohnst_m>`
   - Withholding tax
-* - {func}`soli_st_lohnst_m <_gettsim.functions.all_functions.soli_st_lohnst_m>`
+* - {func}`soli_st_lohnst_m <_gettsim.functions.all_functions_for_docs.soli_st_lohnst_m>`
   - Solidarity surcharge on withholding tax
-* - {func}`unterhaltsvors_m <_gettsim.functions.all_functions.unterhaltsvors_m>`
+* - {func}`unterhaltsvors_m <_gettsim.functions.all_functions_for_docs.unterhaltsvors_m>`
   - Alimony advance payment
-* - {func}`arbeitsl_geld_2_m_bg <_gettsim.functions.all_functions.arbeitsl_geld_2_m_bg>`
+* - {func}`arbeitsl_geld_2_m_bg <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_2_m_bg>`
   - Monthly subsistence payment on household level
-* - {func}`kinderzuschl_m_bg <_gettsim.functions.all_functions.kinderzuschl_m_bg>`
+* - {func}`kinderzuschl_m_bg <_gettsim.functions.all_functions_for_docs.kinderzuschl_m_bg>`
   - Monthly additional child benefit, household sum
-* - {func}`elterngeld_m <_gettsim.functions.all_functions.elterngeld_m>`
+* - {func}`elterngeld_m <_gettsim.functions.all_functions_for_docs.elterngeld_m>`
   - Monthly parental leave benefit
-* - {func}`wohngeld_m_wthh <_gettsim.functions.all_functions.wohngeld_m_wthh>`
+* - {func}`wohngeld_m_wthh <_gettsim.functions.all_functions_for_docs.wohngeld_m_wthh>`
   - Monthly housing benefit on household level
-* - {func}`grunds_im_alter_m_eg <_gettsim.functions.all_functions.grunds_im_alter_m_eg>`
+* - {func}`grunds_im_alter_m_eg <_gettsim.functions.all_functions_for_docs.grunds_im_alter_m_eg>`
   - Monthly subsistence payment for retirees on household level
 ```
