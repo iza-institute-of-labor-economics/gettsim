@@ -48,7 +48,7 @@ class PolicyFunction(Callable):
     ):
         info: dict[str, Any] = getattr(function, "__info__", {})
 
-        self.skip_vectorization: bool = _first_not_none_or_none(
+        self.skip_vectorization: bool = _first_not_none(
             skip_vectorization, info.get("skip_vectorization"), False
         )
 
@@ -57,19 +57,19 @@ class PolicyFunction(Callable):
         )
         self.module_name = module_name
 
-        self.name_in_dag: str = _first_not_none_or_none(
+        self.name_in_dag: str = _first_not_none(
             function_name,
             info.get("name_in_dag"),
             function.__name__,
         )
 
-        self.start_date: date = _first_not_none_or_none(
+        self.start_date: date = _first_not_none(
             start_date,
             info.get("start_date"),
             date(1, 1, 1),
         )
 
-        self.end_date: date = _first_not_none_or_none(
+        self.end_date: date = _first_not_none(
             end_date,
             info.get("end_date"),
             date(9999, 12, 31),
@@ -119,6 +119,22 @@ def _vectorize_func(func: Callable) -> Callable:
     wrapper_vectorize_func.__signature__ = signature
 
     return wrapper_vectorize_func
+
+
+def _first_not_none(*values: T) -> T:
+    """
+    Return the first value that is not None or raise values are None.
+
+    Parameters
+    ----------
+    values:
+        The values to check.
+    """
+    for value in values:
+        if value is not None:
+            return value
+
+    raise ValueError("All values are None.")
 
 
 def _first_not_none_or_none(*values: T) -> T | None:
