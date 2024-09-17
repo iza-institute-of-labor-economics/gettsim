@@ -69,5 +69,6 @@ ___*
 .env/installed_pip_pkgs
 .env/installed_spec.json
 docs/_build
+docs/gettsim_objects/apidocs
 docs/tutorials/sandbox_cz.ipynb
 _version.py

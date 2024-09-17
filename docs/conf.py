@@ -36,6 +36,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx_copybutton",
     "myst_parser",
+    "autodoc2",
 ]
 
 # The master toctree document.
@@ -59,7 +60,41 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Extensions configuration ------------------------------------------------
 
+myst_enable_extensions = ["fieldlist"]
+
 add_module_names = False
+
+autodoc2_packages = [
+    {
+        "path": "../src/_gettsim/social_insurance_contributions",
+    },
+    {
+        "path": "../src/_gettsim/taxes",
+    },
+    {
+        "path": "../src/_gettsim/transfers",
+    },
+]
+
+autodoc2_render_plugin = "myst"
+
+autodoc2_output_dir = "gettsim_objects/apidocs"
+
+autodoc2_index_template = """Policy functions in GETTSIM
+===============================
+
+This section documents the internal functions provided by GETTSIM to model the tax and
+transfer system [#f1]_.
+
+.. toctree::
+   :titlesonly:
+   :glob:
+{% for package in top_level %}
+   {{ package }}
+{%- endfor %}
+
+.. [#f1] Created with `sphinx-autodoc2
+    <https://github.com/chrisjsewell/sphinx-autodoc2>`_'"""
 
 autodoc_default_options = {
     "members": True,
