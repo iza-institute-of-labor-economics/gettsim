@@ -141,6 +141,22 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
+    def get_function_by_name(self, name: str) -> PolicyFunction | None:
+        """
+        Return the function with a specific name or `None` if no such function exists.
+
+        Parameters
+        ----------
+        name:
+            The name of the functions.
+
+        Returns
+        -------
+        function:
+            The functions with the specified name, if it exists.
+        """
+        return self._functions.get(name)
+
     def upsert_functions(
         self, *functions: PolicyFunction | Callable
     ) -> PolicyEnvironment:
