@@ -231,7 +231,7 @@ def _load_aggregation_dict(
         dicts.extend(_load_dicts_in_module(path, package_root, f"{variant}_"))
 
     # Check for duplicate keys
-    all_keys = [k for dict_ in dicts for k in dict_.keys()]
+    all_keys = [k for dict_ in dicts for k in dict_]
     if len(all_keys) != len(set(all_keys)):
         duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
         raise ValueError(

@@ -95,8 +95,8 @@ class PolicyEnvironment:
         self,
         functions: list[PolicyFunction | Callable],
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, dict[str, str]] = None,
-        aggregate_by_p_id_specs: dict[str, dict[str, str]] = None,
+        aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
+        aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
     ):
         self._functions = {}
         for function in functions:

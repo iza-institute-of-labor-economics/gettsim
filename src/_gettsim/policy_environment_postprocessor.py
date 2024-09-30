@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import functools
 import inspect
-from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import numpy
 
@@ -28,13 +28,17 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
-from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from _gettsim.policy_environment import PolicyEnvironment
 
 
 def load_and_check_functions(
