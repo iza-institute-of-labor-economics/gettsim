@@ -10,8 +10,8 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.loader import _load_functions, _load_internal_functions
-from _gettsim.functions.preprocessor import (
-    load_aggregation_dict,
+from _gettsim.functions.loader import (
+    load_internal_aggregation_dict,
 )
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
@@ -35,7 +35,7 @@ def all_function_names():
 
 @pytest.fixture(scope="module")
 def aggregation_dict():
-    return load_aggregation_dict()
+    return load_internal_aggregation_dict()
 
 
 @pytest.fixture(scope="module")
