@@ -123,12 +123,17 @@ def _vectorize_func(func: Callable) -> Callable:
 
 def _first_not_none(*values: T) -> T:
     """
-    Return the first value that is not None or raise values are None.
+    Return the first value that is not None or raise if all values are None.
 
     Parameters
     ----------
     values:
         The values to check.
+
+    Raises
+    ------
+    ValueError:
+        If all values are None.
     """
     for value in values:
         if value is not None:

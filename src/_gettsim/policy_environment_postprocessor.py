@@ -34,7 +34,7 @@ from _gettsim.shared import (
 )
 from _gettsim.time_conversion import create_time_conversion_functions
 
-from .policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import PolicyEnvironment
 
 
