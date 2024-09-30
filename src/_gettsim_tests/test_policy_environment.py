@@ -7,9 +7,10 @@ import pytest
 
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
+    PolicyEnvironment,
     _load_parameter_group_from_yaml,
     load_functions_for_date,
-    set_up_policy_environment, PolicyEnvironment,
+    set_up_policy_environment,
 )
 from _gettsim_tests import TEST_DIR
 
@@ -30,13 +31,17 @@ class TestPolicyEnvironment:
         "environment",
         [
             PolicyEnvironment([], {}),
-            PolicyEnvironment([
-                PolicyFunction(lambda x: 1, function_name="foo"),
-            ]),
-            PolicyEnvironment([
-                PolicyFunction(lambda x: 1, function_name="foo"),
-                PolicyFunction(lambda x: 2, function_name="bar"),
-            ]),
+            PolicyEnvironment(
+                [
+                    PolicyFunction(lambda x: 1, function_name="foo"),
+                ]
+            ),
+            PolicyEnvironment(
+                [
+                    PolicyFunction(lambda x: 1, function_name="foo"),
+                    PolicyFunction(lambda x: 2, function_name="bar"),
+                ]
+            ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
@@ -48,14 +53,8 @@ class TestPolicyEnvironment:
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment(
-                [],
-                {}
-            ),
-            PolicyEnvironment(
-                [],
-                {"foo": {"bar": 1}}
-            ),
+            PolicyEnvironment([], {}),
+            PolicyEnvironment([], {"foo": {"bar": 1}}),
         ],
     )
     def test_replace_all_parameters(self, environment: PolicyEnvironment):
