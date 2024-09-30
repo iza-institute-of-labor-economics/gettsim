@@ -1,8 +1,10 @@
 import datetime
-import importlib
+import importlib.util
 import inspect
+import sys
 from collections.abc import Callable
 from pathlib import Path
+from types import ModuleType
 from typing import Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
@@ -35,11 +37,12 @@ def _load_internal_functions() -> list[PolicyFunction]:
     functions:
         All internal policy functions.
     """
-    return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
+    return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR)
 
 
 def _load_functions(
     roots: Path | list[Path],
+    package_root: Path,
     include_imported_functions=False,
 ) -> list[PolicyFunction]:
     """
@@ -49,6 +52,9 @@ def _load_functions(
     ----------
     roots:
         The roots from which to start the search for policy functions.
+    package_root:
+        The root of the package that contains the functions. This is required to assign
+        qualified names to the functions. It must contain all roots.
     include_imported_functions:
         Whether to load functions that are imported into the modules passed via
         sources.
@@ -64,9 +70,8 @@ def _load_functions(
     result = []
 
     for path in paths:
-        module_name = _convert_path_to_module_name(path)
         result.extend(
-            _load_functions_in_module(module_name, include_imported_functions)
+            _load_functions_in_module(path, package_root, include_imported_functions)
         )
 
     return result
@@ -99,25 +104,9 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
     return result
 
 
-def _convert_path_to_module_name(absolute_path: Path) -> str:
-    """
-    Convert an absolute path to a Python module name.
-
-    Examples
-    --------
-    >>> _convert_path_to_module_name(RESOURCE_DIR / "taxes" / "functions.py")
-    "taxes.functions"
-    """
-    return (
-        absolute_path.relative_to(RESOURCE_DIR.parent)
-        .with_suffix("")
-        .as_posix()
-        .replace("/", ".")
-    )
-
-
 def _load_functions_in_module(
-    module_name: str,
+    path: Path,
+    package_root: Path,
     include_imported_functions: bool,
 ) -> list[PolicyFunction]:
     """
@@ -125,8 +114,8 @@ def _load_functions_in_module(
 
     Parameters
     ----------
-    module_name:
-        The name of the module in which to search for policy functions.
+    path:
+        The path to the module in which to search for policy functions.
     include_imported_functions:
         Whether to load functions that are imported into the modules passed via
         sources.
@@ -136,13 +125,43 @@ def _load_functions_in_module(
     functions:
         Loaded policy functions.
     """
-    module = importlib.import_module(module_name)
-    return [
-        _create_policy_function_from_decorated_callable(function, module_name)
+    module = _load_module(path, package_root)
+
+    result= [
+        _create_policy_function_from_decorated_callable(function, module.__name__)
         for name, function in inspect.getmembers(module, inspect.isfunction)
         if include_imported_functions
-        or _is_function_defined_in_module(function, module_name)
+        or _is_function_defined_in_module(function, module)
     ]
+
+    return result
+
+
+def _load_module(path: Path, package_root: Path) -> ModuleType:
+    module_name = _convert_path_to_module_name(path, package_root)
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+
+    return module
+
+
+def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
+    """
+    Convert an absolute path to a Python module name.
+
+    Examples
+    --------
+    >>> _convert_path_to_module_name(RESOURCE_DIR / "taxes" / "functions.py")
+    "taxes.functions"
+    """
+    return (
+        path.relative_to(package_root.parent)
+        .with_suffix("")
+        .as_posix()
+        .replace("/", ".")
+    )
 
 
 def _create_policy_function_from_decorated_callable(
@@ -178,10 +197,9 @@ def _create_policy_function_from_decorated_callable(
     )
 
 
-def _is_function_defined_in_module(function: Callable, module_name: str) -> bool:
+def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bool:
     """Check if a function is defined in a specific module or only imported."""
-    return inspect.getmodule(function).__name__ == module_name
-
+    return function.__module__ == module.__name__
 
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
@@ -191,11 +209,12 @@ def load_internal_aggregation_dict(variant: _AggregationVariant):
     Load a dictionary with all aggregations by group or person that are defined for
     internal functions.
     """
-    return _load_aggregation_dict(PATHS_TO_INTERNAL_FUNCTIONS, variant)
+    return _load_aggregation_dict(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR, variant)
 
 
 def _load_aggregation_dict(
     roots: list[Path],
+    package_root: Path,
     variant: _AggregationVariant
 ):
     """
@@ -209,9 +228,8 @@ def _load_aggregation_dict(
     dicts = []
 
     for path in paths:
-        module_name = _convert_path_to_module_name(path)
         dicts.extend(
-            _load_dicts_in_module(module_name, f"{variant}_")
+            _load_dicts_in_module(path, package_root, f"{variant}_")
         )
 
     # Check for duplicate keys
@@ -228,7 +246,8 @@ def _load_aggregation_dict(
 
 
 def _load_dicts_in_module(
-    module_name: str,
+    path: Path,
+    package_root: Path,
     prefix_filter: str,
 ) -> list[dict]:
     """
@@ -236,8 +255,8 @@ def _load_dicts_in_module(
 
     Parameters
     ----------
-    module_name:
-        The name of the module in which to search for dictionaries.
+    path:
+        The path to the module in which to search for dictionaries.
     prefix_filter:
         The prefix that the names of the dictionaries must have.
 
@@ -246,7 +265,7 @@ def _load_dicts_in_module(
     dictionaries:
         Loaded dictionaries.
     """
-    module = importlib.import_module(module_name)
+    module = _load_module(path, package_root)
 
     return [
         member

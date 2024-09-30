@@ -82,6 +82,7 @@ class PolicyFunction(Callable):
 
         # Expose the signature of the wrapped function for dependency resolution
         self.__annotations__ = function.__annotations__
+        self.__module__ = function.__module__
         self.__name__ = function.__name__
         self.__signature__ = inspect.signature(self.function)
 
