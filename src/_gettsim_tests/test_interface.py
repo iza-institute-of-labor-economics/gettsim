@@ -3,6 +3,7 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
+
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import convert_series_to_internal_type

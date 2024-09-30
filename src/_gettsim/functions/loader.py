@@ -11,6 +11,7 @@ from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 
 from .policy_function import PolicyFunction
 
+
 def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     """
     Load policy functions that are active at a specific date.
@@ -127,7 +128,7 @@ def _load_functions_in_module(
     """
     module = _load_module(path, package_root)
 
-    result= [
+    result = [
         _create_policy_function_from_decorated_callable(function, module.__name__)
         for name, function in inspect.getmembers(module, inspect.isfunction)
         if include_imported_functions
@@ -201,6 +202,7 @@ def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bo
     """Check if a function is defined in a specific module or only imported."""
     return function.__module__ == module.__name__
 
+
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
@@ -213,9 +215,7 @@ def load_internal_aggregation_dict(variant: _AggregationVariant):
 
 
 def _load_aggregation_dict(
-    roots: list[Path],
-    package_root: Path,
-    variant: _AggregationVariant
+    roots: list[Path], package_root: Path, variant: _AggregationVariant
 ):
     """
     Load a dictionary with all aggregations by group or person reachable from the given
@@ -228,9 +228,7 @@ def _load_aggregation_dict(
     dicts = []
 
     for path in paths:
-        dicts.extend(
-            _load_dicts_in_module(path, package_root, f"{variant}_")
-        )
+        dicts.extend(_load_dicts_in_module(path, package_root, f"{variant}_"))
 
     # Check for duplicate keys
     all_keys = [k for dict_ in dicts for k in dict_.keys()]

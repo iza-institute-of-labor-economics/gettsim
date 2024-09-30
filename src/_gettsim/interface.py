@@ -14,13 +14,13 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.policy_environment_postprocessor import load_and_check_functions
 from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
     convert_series_to_internal_type,
 )
 from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.policy_environment_postprocessor import load_and_check_functions
 from _gettsim.shared import (
     KeyErrorMessage,
     format_errors_and_warnings,

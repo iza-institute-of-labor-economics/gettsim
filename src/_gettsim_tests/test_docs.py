@@ -4,13 +4,15 @@ import datetime
 import inspect
 
 import pytest
+
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions.loader import _load_functions, _load_internal_functions
 from _gettsim.functions.loader import (
+    _load_functions,
+    _load_internal_functions,
     load_internal_aggregation_dict,
 )
 from _gettsim.policy_environment import load_functions_for_date

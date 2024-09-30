@@ -31,6 +31,7 @@ def make_vectorizable(func: callable, backend: str):
     # recreate scope of function and add policy_info decorator and array library
     scope = func.__globals__
     from _gettsim.shared import policy_info
+
     scope["policy_info"] = policy_info
     scope[module] = import_module(module)
 

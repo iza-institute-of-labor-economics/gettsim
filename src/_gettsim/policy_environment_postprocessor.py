@@ -26,16 +26,15 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
+from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     remove_group_suffix,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
-
-from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.policy_environment import PolicyEnvironment
 
 
 def load_and_check_functions(

@@ -5,15 +5,16 @@ from typing import TYPE_CHECKING
 
 import numpy
 import pytest
+
 from _gettsim.config import RESOURCE_DIR
+from _gettsim.functions.loader import (
+    _load_functions,
+)
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
     _create_derived_functions,
     _vectorize_func,
-)
-from _gettsim.functions.loader import (
-    _load_functions,
 )
 from _gettsim.shared import policy_info
 
@@ -26,6 +27,7 @@ def test_load_path():
         RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py",
         RESOURCE_DIR,
     )
+
 
 def test_load_paths():
     assert _load_functions(
@@ -68,13 +70,15 @@ def test_special_attribute_module_is_set_for_internal_functions():
 def test_create_derived_functions(
     functions: dict[str, Callable], targets: list[str]
 ) -> None:
-    environment = PolicyEnvironment([
-        PolicyFunction(
-            function_name=name,
-            function=func,
-        )
-        for name, func in functions.items()
-    ])
+    environment = PolicyEnvironment(
+        [
+            PolicyFunction(
+                function_name=name,
+                function=func,
+            )
+            for name, func in functions.items()
+        ]
+    )
 
     (
         time_conversion_functions,
