@@ -3,11 +3,11 @@ import string
 
 import numpy
 import pytest
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, USE_JAX
+from _gettsim.config import USE_JAX
 
 if USE_JAX:
     import jax.numpy
-from _gettsim.functions.preprocessor import _load_functions
+from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,
     elterngeld_geschwisterbonus_m,
@@ -365,12 +365,12 @@ def test_unallowed_operation_wrapper(func):
 # ======================================================================================
 
 
-gettsim_functions = _load_functions(sources=PATHS_TO_INTERNAL_FUNCTIONS)
+gettsim_functions = _load_internal_functions()
 
 
 @pytest.mark.parametrize(
     "func",
-    list(gettsim_functions.values()),
+    [policy_function.function for policy_function in gettsim_functions],
 )
 @pytest.mark.parametrize("backend", backends)
 def test_convertible(func, backend):

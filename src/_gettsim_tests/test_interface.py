@@ -211,7 +211,7 @@ def test_wrong_data_type():
             "pd.Series or a dictionary of pd.Series."
         ),
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), [c])
+        compute_taxes_and_transfers(data, PolicyEnvironment([]), ["c"])
 
 
 def test_check_minimal_spec_data():
@@ -424,8 +424,7 @@ def test_user_provided_aggregate_by_group_specs():
 
     out = compute_taxes_and_transfers(
         data,
-        PolicyEnvironment([]),
-        aggregate_by_group_specs=aggregate_by_group_specs,
+        PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
         targets="arbeitsl_geld_2_m_hh",
     )
 
@@ -451,12 +450,14 @@ def test_user_provided_aggregate_by_group_specs_function():
     def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
         return 2 * arbeitsl_geld_2_m
 
-    environment = PolicyEnvironment([arbeitsl_geld_2_m_double])
+    environment = PolicyEnvironment(
+        [arbeitsl_geld_2_m_double],
+        aggregate_by_group_specs=aggregate_by_group_specs,
+    )
 
     out = compute_taxes_and_transfers(
         data,
         environment,
-        aggregate_by_group_specs=aggregate_by_group_specs,
         targets="arbeitsl_geld_2_double_m_hh",
     )
 
@@ -485,8 +486,7 @@ def test_aggregate_by_group_specs_missing_group_sufix():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment([]),
-            aggregate_by_group_specs=aggregate_by_group_specs,
+            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
             targets="arbeitsl_geld_2_agg_m",
         )
 
@@ -511,8 +511,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment([]),
-            aggregate_by_group_specs=aggregate_by_group_specs,
+            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
             targets="arbeitsl_geld_2_m_hh",
         )
 
@@ -581,13 +580,13 @@ def test_user_provided_aggregate_by_p_id_specs(
                 function_name=aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
                     "source_col"
                 ],
-            )
-        ]
+            ),
+        ],
+        aggregate_by_p_id_specs=aggregate_by_p_id_spec,
     )
     out = compute_taxes_and_transfers(
         df,
         environment,
-        aggregate_by_p_id_specs=aggregate_by_p_id_spec,
         targets=target,
     )
 

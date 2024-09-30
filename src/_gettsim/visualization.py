@@ -64,7 +64,6 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
-    functions = environment.functions
 
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
@@ -74,11 +73,9 @@ def plot_dag(
 
     # Load functions.
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        functions_raw=functions,
+        environment,
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),
-        aggregate_by_group_specs={},
-        aggregate_by_p_id_specs={},
     )
 
     # Select necessary nodes by creating a preliminary DAG.

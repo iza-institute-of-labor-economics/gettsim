@@ -104,6 +104,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
         f.name_in_dag
         for f in _load_functions(
             RESOURCE_DIR / "functions" / "all_functions_for_docs.py",
+            package_root=RESOURCE_DIR,
             include_imported_functions=True,
         )
     }
@@ -116,6 +117,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
         f.name_in_dag
         for f in _load_functions(
             internal_function_files,
+            package_root=RESOURCE_DIR,
             include_imported_functions=True,
         )
         if not f.original_function_name.startswith("_")
