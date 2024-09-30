@@ -3,11 +3,11 @@ import importlib
 import inspect
 from collections.abc import Callable
 from pathlib import Path
+from typing import Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 
 from .policy_function import PolicyFunction
-
 
 def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     """
@@ -181,3 +181,75 @@ def _create_policy_function_from_decorated_callable(
 def _is_function_defined_in_module(function: Callable, module_name: str) -> bool:
     """Check if a function is defined in a specific module or only imported."""
     return inspect.getmodule(function).__name__ == module_name
+
+
+_AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
+
+
+def load_internal_aggregation_dict(variant: _AggregationVariant):
+    """
+    Load a dictionary with all aggregations by group or person that are defined for
+    internal functions.
+    """
+    return _load_aggregation_dict(PATHS_TO_INTERNAL_FUNCTIONS, variant)
+
+
+def _load_aggregation_dict(
+    roots: list[Path],
+    variant: _AggregationVariant
+):
+    """
+    Load a dictionary with all aggregations by group or person reachable from the given
+    roots.
+    """
+    roots = roots if isinstance(roots, list) else [roots]
+    paths = _find_python_files_recursively(roots)
+
+    # Load dictionaries
+    dicts = []
+
+    for path in paths:
+        module_name = _convert_path_to_module_name(path)
+        dicts.extend(
+            _load_dicts_in_module(module_name, f"{variant}_")
+        )
+
+    # Check for duplicate keys
+    all_keys = [k for dict_ in dicts for k in dict_.keys()]
+    if len(all_keys) != len(set(all_keys)):
+        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
+        raise ValueError(
+            "The following column names are used more "
+            f"than once in the {variant} dictionaries: {duplicate_keys}"
+        )
+
+    # Combine dictionaries
+    return {k: v for dict_ in dicts for k, v in dict_.items()}
+
+
+def _load_dicts_in_module(
+    module_name: str,
+    prefix_filter: str,
+) -> list[dict]:
+    """
+    Load dictionaries defined in a module.
+
+    Parameters
+    ----------
+    module_name:
+        The name of the module in which to search for dictionaries.
+    prefix_filter:
+        The prefix that the names of the dictionaries must have.
+
+    Returns
+    -------
+    dictionaries:
+        Loaded dictionaries.
+    """
+    module = importlib.import_module(module_name)
+
+    return [
+        member
+        for name, member in inspect.getmembers(module)
+        if isinstance(member, dict) and name.startswith(prefix_filter)
+    ]

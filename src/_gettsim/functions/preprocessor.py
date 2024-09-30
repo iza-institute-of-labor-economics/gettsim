@@ -1,11 +1,8 @@
 from __future__ import annotations
 
 import functools
-import importlib
 import inspect
 from collections.abc import Callable
-from pathlib import Path
-from typing import Literal
 
 import numpy
 
@@ -26,8 +23,6 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
-    PATHS_TO_INTERNAL_FUNCTIONS,
-    RESOURCE_DIR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -40,14 +35,13 @@ from _gettsim.shared import (
 from _gettsim.time_conversion import create_time_conversion_functions
 
 from .policy_function import PolicyFunction
+from _gettsim.policy_environment import PolicyEnvironment
 
 
 def load_and_check_functions(
-    functions_raw: dict[str, PolicyFunction],
-    targets,
+    environment: PolicyEnvironment,
+    targets: list[str],
     data_cols,
-    aggregate_by_group_specs,
-    aggregate_by_p_id_specs,
 ):
     """Create the dict with all functions that may become part of the DAG by:
 
@@ -58,23 +52,12 @@ def load_and_check_functions(
 
     Parameters
     ----------
-    functions_raw : dict
-        A dictionary mapping column names to policy functions.
-    targets : list of str
-        List of strings with names of functions whose output is actually needed by the
-        user.
+    environment:
+        The policy environment.
+    targets:
+        Names of functions whose output is actually needed by the user.
     data_cols : list
         Data columns provided by the user.
-    aggregate_by_group_specs : dict
-        A dictionary which contains specs for functions which aggregate variables on the
-        the aggregation levels specified in config.py. The syntax is the same as for
-        aggregation specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
-    aggregate_by_p_id_specs : dict
-        A dictionary which contains specs for linking aggregating taxes and by another
-        individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
 
     Returns
     -------
@@ -84,6 +67,7 @@ def load_and_check_functions(
         Functions that are overridden by an input column.
 
     """
+    functions_raw = environment.functions
 
     # Create derived functions
     (
@@ -91,11 +75,9 @@ def load_and_check_functions(
         aggregate_by_group_functions,
         aggregate_by_p_id_functions,
     ) = _create_derived_functions(
-        functions_raw,
+        environment,
         targets,
         data_cols,
-        aggregate_by_group_specs,
-        aggregate_by_p_id_specs,
     )
 
     # Create groupings
@@ -124,12 +106,10 @@ def load_and_check_functions(
 
 
 def _create_derived_functions(
-    user_and_internal_functions: dict[str, PolicyFunction],
+    environment: PolicyEnvironment,
     targets: list[str],
     data_cols: list[str],
-    aggregate_by_group_specs: dict[str, dict[str, str]],
-    aggregate_by_p_id_specs: dict[str, dict[str, str]],
-) -> tuple[dict[str, Callable], dict[str, Callable]]:
+) -> tuple[dict[str, Callable], dict[str, Callable], dict[str, Callable]]:
     """
     Create functions that are derived from the user and internal functions.
 
@@ -138,6 +118,9 @@ def _create_derived_functions(
     - aggregation functions
     - combinations of these
     """
+    user_and_internal_functions = environment.functions
+    aggregate_by_group_specs = environment.aggregate_by_group_specs
+    aggregate_by_p_id_specs = environment.aggregate_by_p_id_specs
 
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
@@ -170,135 +153,6 @@ def _create_derived_functions(
     )
 
 
-def load_aggregation_dict(typ: Literal["aggregate_by_group", "aggregate_by_p_id"]):
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    sources = _search_directories_recursively_for_python_files(imports)
-    return _load_aggregation_dicts_from_modules(sources, typ)
-
-
-def _convert_paths_to_import_strings(paths) -> list[str]:
-    """Convert paths to modules for gettsim's internal functions to imports.
-
-    Example
-    -------
-    >>> path = RESOURCE_DIR / "demographic_vars.py"
-    >>> _convert_paths_to_import_strings(path)
-    ['_gettsim.demographic_vars']
-
-    """
-    paths = paths if isinstance(paths, list) else [paths]
-    abs_paths = _search_directories_recursively_for_python_files(paths)
-    rel_paths = [p.relative_to(RESOURCE_DIR.parent) for p in abs_paths]
-    import_strings = [p.with_suffix("").as_posix().replace("/", ".") for p in rel_paths]
-
-    return import_strings
-
-
-def _load_functions(sources, include_imported_functions=False):
-    """Load functions.
-
-    Parameters
-    ----------
-    sources : str, pathlib.Path, function, module, imports statements
-        Sources from where to load functions.
-    include_imported_functions : bool
-        Whether to load functions that are imported into the module(s) passed via
-        *sources*.
-
-    Returns
-    -------
-    functions : dict
-        A dictionary mapping column names to functions producing them.
-
-    """
-    from _gettsim.functions.policy_function import PolicyFunction  # cyclic import
-
-    all_sources = _search_directories_recursively_for_python_files(
-        sources if isinstance(sources, list) else [sources]
-    )
-    all_sources = _convert_paths_and_strings_to_dicts_of_functions(
-        all_sources, include_imported_functions
-    )
-
-    functions = {}
-    for source in all_sources:
-        if callable(source):
-            source = {source.__name__: source}  # noqa: PLW2901
-
-        if isinstance(source, dict) and all(
-            inspect.isfunction(i) or isinstance(i, PolicyFunction)
-            for i in source.values()
-        ):
-            functions = {**functions, **source}
-
-        else:
-            raise NotImplementedError(
-                f"Source {source} has invalid type {type(source)}."
-            )
-
-    return functions
-
-
-def _search_directories_recursively_for_python_files(sources):
-    """Handle paths to load modules.
-
-    If a path in `sources` points to a directory, search this directory recursively for
-    Python files.
-
-    """
-    new_sources = []
-    for source in sources:
-        if isinstance(source, Path) and source.is_dir():
-            modules = list(source.rglob("*.py"))
-            new_sources.extend(modules)
-
-        else:
-            new_sources.append(source)
-
-    return new_sources
-
-
-def _convert_paths_and_strings_to_dicts_of_functions(
-    sources, include_imported_functions
-):
-    """Convert paths and strings to dictionaries of functions.
-
-    1. Paths point to modules which are loaded.
-    2. Strings are import statements which can be imported as module.
-
-    Then, all functions in the modules are collected and returned in a dictionary.
-
-    """
-    new_sources = []
-    for source in sources:
-        if isinstance(source, Path | str):
-            if isinstance(source, Path):
-                spec = importlib.util.spec_from_file_location(source.name, source)
-                out = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(out)
-            elif isinstance(source, str):
-                out = importlib.import_module(source)
-
-            functions_defined_in_module = {
-                name: func
-                for name, func in inspect.getmembers(
-                    out, lambda x: inspect.isfunction(x)
-                )
-                if include_imported_functions
-                or _is_function_defined_in_module(func, out.__name__)
-            }
-        else:
-            functions_defined_in_module = source
-
-        new_sources.append(functions_defined_in_module)
-
-    return new_sources
-
-
-def _is_function_defined_in_module(func, module):
-    return func.__module__ == module
-
-
 def _format_duplicated_functions(duplicated_functions, functions, source):
     """Format an error message showing duplicated functions and their sources."""
     lines = []
@@ -310,54 +164,13 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
     return "\n".join(lines)
 
 
-def _load_aggregation_dicts_from_modules(
-    sources: list[Path | str], typ: Literal["aggregate_by_group", "aggregate_by_p_id"]
-):
-    """Return a dictionary with all aggregations by group or person.
-
-    Dictionaries are imported from *sources*, which point to modules:
-
-    1. Paths point to modules which are loaded.
-    2. Strings are import statements which can be imported as module.
-
-    """
-    new_sources = []
-    for source in sources:
-        if isinstance(source, Path | str):
-            if isinstance(source, Path):
-                spec = importlib.util.spec_from_file_location(source.name, source)
-                out = importlib.util.module_from_spec(spec)
-                spec.loader.exec_module(out)
-            elif isinstance(source, str):
-                out = importlib.import_module(source)
-            dicts_defined_in_module = [
-                obj
-                for name, obj in inspect.getmembers(out)
-                if isinstance(obj, dict) and name.startswith(f"{typ}_")
-            ]
-
-        new_sources.append(dicts_defined_in_module)
-
-    # Combine dictionaries
-    list_of_dicts = [c for inner_list in new_sources for c in inner_list]
-    all_keys = [c for inner_dict in list_of_dicts for c in inner_dict]
-    if len(all_keys) != len(set(all_keys)):
-        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
-        raise ValueError(
-            "The following column names are used more "
-            f"than once in the {typ} dictionaries: {duplicate_keys}"
-        )
-    return {k: v for inner_dict in list_of_dicts for k, v in inner_dict.items()}
-
-
 def _create_aggregate_by_group_functions(
     user_and_internal_functions,
     targets,
     data_cols,
-    user_provided_aggregate_by_group_specs,
+    aggregate_by_group_specs,
 ):
     """Create aggregation functions."""
-    aggregate_by_group_dict = load_aggregation_dict(typ="aggregate_by_group")
 
     # Make specs for automated sum aggregation
     potential_source_cols = list(user_and_internal_functions) + data_cols
@@ -387,14 +200,7 @@ def _create_aggregate_by_group_functions(
     # than automated specs.
     aggregate_by_group_dict = {
         **automated_sum_aggregate_by_group_specs,
-        **aggregate_by_group_dict,
-    }
-
-    # Add user provided aggregation specs.
-    # Note: For duplicate keys, user provided specs are treated with higher priority.
-    aggregate_by_group_dict = {
-        **aggregate_by_group_dict,
-        **user_provided_aggregate_by_group_specs,
+        **aggregate_by_group_specs,
     }
 
     # Check validity of aggregation specs
@@ -618,17 +424,12 @@ def _create_one_aggregate_by_group_func(
 
 def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Callable],
-    user_provided_aggregate_by_p_id_specs: dict[str, dict[str, str]],
+    aggregate_by_p_id_specs: dict[str, dict[str, str]],
     data_cols: list[str],
 ) -> dict[str, Callable]:
     """Create function dict with functions that link variables across persons."""
 
-    aggregate_by_p_id_dict = load_aggregation_dict(typ="aggregate_by_p_id")
-
-    aggregate_by_p_id_dict = {
-        **aggregate_by_p_id_dict,
-        **user_provided_aggregate_by_p_id_specs,
-    }
+    aggregate_by_p_id_dict = aggregate_by_p_id_specs
 
     [
         _check_agg_specs_validity(agg_specs=v, agg_col=k)

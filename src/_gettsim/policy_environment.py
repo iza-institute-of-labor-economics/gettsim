@@ -10,9 +10,9 @@ import numpy
 import pandas as pd
 import yaml
 
-import _gettsim.functions  # Execute all decorators # noqa: F401
+import _gettsim.functions.all_functions_for_docs  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
-from _gettsim.functions.loader import load_functions_for_date
+from _gettsim.functions.loader import load_functions_for_date, load_internal_aggregation_dict
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
     check_thresholds,
@@ -29,6 +29,23 @@ class PolicyEnvironment:
     A container for policy functions and parameters.
 
     Almost always, instances are created with :PolicyEnvironment.for_date()`.
+
+    Parameters
+    ----------
+    functions:
+        A list of policy functions.
+    params:
+        A dictionary with policy parameters.
+    aggregate_by_group_specs:
+        A dictionary which contains specs for functions which aggregate variables on the
+        aggregation levels specified in config.py. The syntax is the same as for
+        aggregation specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
+    aggregate_by_p_id_specs:
+        A dictionary which contains specs for linking aggregating taxes and by another
+        individual (for example, a parent). The syntax is the same as for aggregation
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     """
 
     @staticmethod
@@ -47,7 +64,7 @@ class PolicyEnvironment:
         environment:
             The policy environment for the specified date.
         """
-        # Check policy date for correct format and transfer to datetime.date
+        # Check policy date for correct format and convert to datetime.date
         date = _parse_date(date)
 
         params = {}
@@ -57,18 +74,24 @@ class PolicyEnvironment:
             # Align parameters for piecewise polynomial functions
             params[group] = _parse_piecewise_parameters(params_one_group)
 
-        # extend dictionary with date-specific values which do not need an own function
+        # Extend dictionary with date-specific values which do not need an own function
         params = _parse_kinderzuschl_max(date, params)
         params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
         params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
         functions = load_functions_for_date(date)
 
-        return PolicyEnvironment(functions, params)
+        # Load aggregation specs
+        aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
+        aggregate_by_p_id_specs = load_internal_aggregation_dict("aggregate_by_p_id")
+
+        return PolicyEnvironment(functions, params, aggregate_by_group_specs, aggregate_by_p_id_specs)
 
     def __init__(
         self,
         functions: list[PolicyFunction | Callable],
         params: dict[str, Any] | None = None,
+        aggregate_by_group_specs: dict[str, dict[str, str]] = None,
+        aggregate_by_p_id_specs: dict[str, dict[str, str]] = None,
     ):
         self._functions = {}
         for function in functions:
@@ -80,6 +103,8 @@ class PolicyEnvironment:
             self._functions[f.name_in_dag] = f
 
         self._params = params if params is not None else {}
+        self._aggregate_by_group_specs = aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
+        self._aggregate_by_p_id_specs = aggregate_by_p_id_specs if aggregate_by_p_id_specs is not None else {}
 
     @property
     def functions(self) -> dict[str, PolicyFunction]:
@@ -90,6 +115,22 @@ class PolicyEnvironment:
     def params(self) -> dict[str, Any]:
         """The parameters of the policy environment."""
         return self._params
+
+    @property
+    def aggregate_by_group_specs(self) -> dict[str, dict[str, str]]:
+        """
+        The specs for functions which aggregate variables on the aggregation levels
+        specified in config.py.
+        """
+        return self._aggregate_by_group_specs
+
+    @property
+    def aggregate_by_p_id_specs(self) -> dict[str, dict[str, str]]:
+        """
+        The specs for linking aggregating taxes and by another individual (for example,
+        a parent).
+        """
+        return self._aggregate_by_p_id_specs
 
     def upsert_functions(
         self, *functions: PolicyFunction | Callable

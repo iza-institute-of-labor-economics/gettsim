@@ -33,8 +33,6 @@ from _gettsim.shared import (
 def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
     environment: PolicyEnvironment,
-    aggregate_by_group_specs=None,
-    aggregate_by_p_id_specs=None,
     targets=None,
     check_minimal_specification="ignore",
     rounding=True,
@@ -48,16 +46,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         Data provided by the user.
     environment:
         The policy environment which contains all necessary functions and parameters.
-    aggregate_by_group_specs : dict, default None
-        A dictionary which contains specs for functions which aggregate variables on the
-        aggregation levels specified in config.py. The syntax is the same as for
-        aggregation specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
-    aggregate_by_p_id_specs : dict, default None
-        A dictionary which contains specs for linking aggregating taxes and by another
-        individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -84,22 +72,13 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
     params = environment.params
-    functions = environment.functions
-    aggregate_by_group_specs = (
-        {} if aggregate_by_group_specs is None else aggregate_by_group_specs
-    )
-    aggregate_by_p_id_specs = (
-        {} if aggregate_by_p_id_specs is None else aggregate_by_p_id_specs
-    )
 
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = load_and_check_functions(
-        functions_raw=functions,
+        environment=environment,
         targets=targets,
         data_cols=list(data),
-        aggregate_by_group_specs=aggregate_by_group_specs,
-        aggregate_by_p_id_specs=aggregate_by_p_id_specs,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)
