@@ -170,6 +170,8 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._functions = new_functions  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
+        result._aggregate_by_group_specs = self._aggregate_by_group_specs  # noqa: SLF001
+        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
 
         return result
 
@@ -191,6 +193,8 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._functions = self._functions  # noqa: SLF001
         result._params = params  # noqa: SLF001
+        result._aggregate_by_group_specs = self._aggregate_by_group_specs  # noqa: SLF001
+        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
 
         return result
 
