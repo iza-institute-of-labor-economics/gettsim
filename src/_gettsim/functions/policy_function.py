@@ -8,12 +8,10 @@ from typing import Any, TypeVar
 
 import numpy
 
-from _gettsim.functions.gettsim_function import GettsimFunction
-
 T = TypeVar("T")
 
 
-class PolicyFunction(GettsimFunction):
+class PolicyFunction(Callable):
     """
     A function that computes an output vector based on some input vectors and/or
     parameters.
