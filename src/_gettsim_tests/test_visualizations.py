@@ -1,6 +1,7 @@
 import networkx as nx
 import pytest
 
+from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.visualization import (
     _get_selected_nodes,
     _kth_order_neighbors,
@@ -11,7 +12,7 @@ from _gettsim.visualization import (
 )
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 
-policy_params, policy_functions = cached_set_up_policy_environment(date=2020)
+environment = cached_set_up_policy_environment(date=2020)
 
 
 @pytest.mark.parametrize(
@@ -110,34 +111,36 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
 
 def test_plot_dag():
     """Make sure that minimal example doesn't produce an error."""
-    plot_dag(functions=policy_functions, targets=["erwachsene_alle_rentner_hh"])
+    plot_dag(environment=environment, targets=["erwachsene_alle_rentner_hh"])
 
 
 def test_should_fail_if_target_is_missing():
     with pytest.raises(
         ValueError, match="The following targets have no corresponding function"
     ):
-        plot_dag(functions=[], targets=["erwachsene_alle_rentner_hh"])
+        plot_dag(
+            environment=PolicyEnvironment([]), targets=["erwachsene_alle_rentner_hh"]
+        )
 
 
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
     selectors = "kapitaleink_brutto_y_sn"
-    plot_dag(functions=policy_functions, selectors=selectors)
+    plot_dag(environment=environment, selectors=selectors)
 
 
 def test_10_dots_plot_dag():
     """Make sure that when No.of nodes is larger than 10 or show_labels is false, the
     graph example doesn't produce an error and hover information works properly."""
     selector = {"type": "descendants", "node": "geringfügig_beschäftigt"}
-    plot_dag(functions=policy_functions, selectors=selector, orientation="h")
+    plot_dag(environment=environment, selectors=selector, orientation="h")
 
 
 def test_horizontal_plot_dag():
     """Make sure that when we choose horizontal orientation, the graph example doesn't
     produce an error."""
     plot_dag(
-        functions=policy_functions,
+        environment=environment,
         selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
         orientation="h",
     )
@@ -147,7 +150,7 @@ def test_hover_source_code_plot_dag():
     """Make sure that when hover information is source code, the graph example doesn't
     produce an error and works properly."""
     plot_dag(
-        functions=policy_functions,
+        environment=environment,
         selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
         orientation="h",
         hover_source_code=True,

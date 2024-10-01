@@ -40,6 +40,7 @@ jobs:
           environment-file: environment.yml
           environment-name: gettsim
           cache-environment: true
+          micromamba-version: 1.5.6-0
           create-args: >-
             python=${{ matrix.python-version }}
       - name: Install conda environment on Unix
