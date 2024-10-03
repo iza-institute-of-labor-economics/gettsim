@@ -13,7 +13,7 @@ on:
       - '*'
 jobs:
   run-tests:
-    name: Run tests for ${{ matrix.os }} on ${{ matrix.python-version }}
+    name: Run tests for ${{ matrix.os }} on ${{ matrix.environment }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -22,57 +22,44 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-        python-version:
-          - '3.11'
-          - '3.12'
+        environment:
+          - py311
+          - py312
+          - py312-jax
         exclude:
           - os: macos-latest
-            python-version: 3.11
+            environment:
+              - py311
+              - py312
           - os: windows-latest
-            python-version: 3.11
+            environment:
+              - py311
+              - py312
+          - os: ubuntu-latest
+            environment: py312-jax
     steps:
-      - uses: actions/checkout@v3
-      - name: Install conda environment on Windows
-        if: runner.os == 'Windows'
-        uses: mamba-org/setup-micromamba@v1
+      - uses: actions/checkout@v4
+      - uses: prefix-dev/setup-pixi@v0.8.1
         with:
-          init-shell: powershell
-          environment-file: environment.yml
-          environment-name: gettsim
-          cache-environment: true
-          create-args: >-
-            python=${{ matrix.python-version }}
-      - name: Install conda environment on Unix
-        if: runner.os != 'Windows'
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          init-shell: bash
-          environment-file: environment.yml
-          environment-name: gettsim
-          cache-environment: true
-          create-args: >-
-            python=${{ matrix.python-version }}
-            jax
+          pixi-version: v0.29.0
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+          frozen: true
+          environments: ${{ matrix.environment }}
       - name: Run tests with NumPy backend on Linux
         # Ignore MacOS for being slow -- no reason that would break if Jax works.
         if: runner.os == 'Linux'
-        run: pytest --cov=./ --cov-report=xml
+        run: pixi run tests
         shell: bash -el {0}
-      - name: Run tests with NumPy backend on Windows
-        # No JAX on Windows.
-        if: runner.os == 'Windows'
-        run: pytest src/_gettsim_tests
-        shell: pwsh
       - name: Run tests with JAX backend
-        # No JAX on Windows.
         # TODO: remove exclusion of Linux once --use-jax is fixed.
-        if: runner.os != 'Windows' && runner.os != 'Linux'
-        run: pytest src/_gettsim_tests
+        if: runner.os != 'Linux'
+        run: pixi run -e py312-jax tests
         # TODO: add to the end of previous line to actually run with Jax backend
         # --use-jax
         shell: bash -el {0}
       - name: Upload coverage reports
-        if: runner.os == 'Linux' && matrix.python-version == '3.12'
-        uses: codecov/codecov-action@v3
+        if: runner.os == 'Linux' && matrix.environment == 'py312'
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
