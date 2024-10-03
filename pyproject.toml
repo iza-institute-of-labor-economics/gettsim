@@ -146,10 +146,6 @@ pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 
-[tool.pixi.feature.test.tasks]
-tests = "pytest"
-tests-with-cov = "pytest --cov-report=xml --cov=./"
-
 # Environments
 # --------------------------------------------------------------------------------------
 

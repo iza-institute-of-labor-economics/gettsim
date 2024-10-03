@@ -49,12 +49,12 @@ jobs:
       - name: Run tests with NumPy backend on Linux
         # Ignore MacOS for being slow -- no reason that would break if Jax works.
         if: runner.os == 'Linux'
-        run: pixi run tests
+        run: pixi run pytest --cov-report=xml --cov=./
         shell: bash -el {0}
       - name: Run tests with JAX backend
         # TODO: remove exclusion of Linux once --use-jax is fixed.
         if: runner.os != 'Linux'
-        run: pixi run -e py312-jax tests
+        run: pixi run -e py312-jax pytest
         # TODO: add to the end of previous line to actually run with Jax backend
         # --use-jax
         shell: bash -el {0}
