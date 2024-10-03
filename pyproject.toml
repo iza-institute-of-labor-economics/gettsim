@@ -1,4 +1,6 @@
-# Reference: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#static-vs-dynamic-metadata
+# ======================================================================================
+# Project metadata
+# ======================================================================================
 
 [project]
 # Basic information
@@ -55,14 +57,35 @@ Github = "https://github.com/iza-institute-of-labor-economics/gettsim"
 Tracker = "https://github.com/iza-institute-of-labor-economics/gettsim/issues"
 
 
+# ======================================================================================
+# Build system configuration
+# ======================================================================================
+
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch_vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/_gettsim/_version.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests"]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 
-[tool.setuptools_scm]
-write_to = "src/_gettsim/_version.py"
-
+# ======================================================================================
+# Ruff configuration
+# ======================================================================================
 
 [tool.ruff]
 target-version = "py311" # Replace by [project] requires-python = ">=3.11" above
@@ -151,6 +174,10 @@ exclude = []
 convention = "numpy"
 
 
+# ======================================================================================
+# mypy configuration
+# ======================================================================================
+
 [tool.mypy]
 files = ["src"]
 check_untyped_defs = true
@@ -187,12 +214,20 @@ ignore = [
 ]
 
 
+# ======================================================================================
+# nbqa configuration
+# ======================================================================================
+
 [tool.nbqa.config]
 black = "pyproject.toml"
 
 [tool.nbqa.mutate]
 black = 1
 
+
+# ======================================================================================
+# pytest configuration
+# ======================================================================================
 
 [tool.pytest.ini_options]
 filterwarnings = [
@@ -215,6 +250,10 @@ testpaths = [
     "src/_gettsim_tests",
 ]
 
+
+# ======================================================================================
+# yamlfix configuration
+# ======================================================================================
 
 [tool.yamlfix]
 line_length = 88
