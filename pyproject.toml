@@ -149,6 +149,10 @@ extend-ignore = [
     "PT011", # pytest raises without match statement
     "INP001", # implicit namespace packages without init.
     "E721", # Use `is` and `is not` for type comparisons
+
+    # Things ignored to avoid conflicts with ruff-format
+    # ==================================================
+    "ISC001",
 ]
 exclude = []
 

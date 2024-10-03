@@ -263,10 +263,14 @@ def erwerbsm_rente_zugangsfaktor(
     else:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params["altersgrenze_abschlagsfrei"]
 
-    zugangsfaktor = 1 + (age_of_retirement - altersgrenze_abschlagsfrei) * (
-        ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
-            "vorzeitiger_renteneintritt"
-        ]
+    zugangsfaktor = (
+        1
+        + (age_of_retirement - altersgrenze_abschlagsfrei)
+        * (
+            ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
+                "vorzeitiger_renteneintritt"
+            ]
+        )
     )
     out = max(zugangsfaktor, erwerbsm_rente_params["min_zugangsfaktor"])
 
