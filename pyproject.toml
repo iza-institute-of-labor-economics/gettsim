@@ -84,6 +84,75 @@ allow-direct-references = true
 
 
 # ======================================================================================
+# Pixi
+# ======================================================================================
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+# Development Dependencies (conda)
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.dependencies]
+python = "3.11"
+pre-commit = "*"
+pandas = ">=2.1"
+numpy_groupies = "*"
+numpydoc = "*"
+openpyxl = "*"
+astor = "*"
+dags = "*"
+ipywidgets = "*"
+jupyterlab = "*"
+networkx = "*"
+plotly = ">=5.24,<6"
+pygments = "*"
+pygraphviz = "*"
+pyyaml = "*"
+toml = "*"
+
+
+# Development Dependencies (pypi)
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.pypi-dependencies]
+gettsim = {path = ".", editable = true}
+kaleido = "*"
+pdbp = "*"
+
+[tool.pixi.target.win-64.pypi-dependencies]
+kaleido = ">=0.1.0.post1,<=0.1.0.post1"
+
+# Features and Tasks
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.feature.jax.target.unix.dependencies]
+jax = ">=0.4.20"
+jaxlib = ">=0.4.20"
+
+[tool.pixi.feature.jax.target.win-64.pypi-dependencies]
+jax = { version = ">=0.4.20", extras = ["cpu"] }
+jaxlib = ">=0.4.20"
+
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+
+[tool.pixi.feature.test.tasks]
+tests = "pytest"
+tests-with-cov = "pytest --cov-report=xml --cov=./"
+
+# Environments
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.environments]
+test = {features = ["test"], solve-group = "default"}
+test-jax = {features = ["test", "jax"], solve-group = "jax"}
+
+
+# ======================================================================================
 # Ruff configuration
 # ======================================================================================
 
