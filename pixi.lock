@@ -6017,9 +6017,9 @@ packages:
   timestamp: 1694400856979
 - kind: pypi
   name: gettsim
-  version: 0.7.1.dev83+g946a1b52.d20241003
+  version: 0.7.1.dev84+g5e2c6b61.d20241003
   path: .
-  sha256: d41a81c48a0747e7e22c9ec968561b66f5dabcbb6f315fbdef4987fb9aafc4e9
+  sha256: 47ef6de3b4793017c9ed9a630fd3c2884cd49765b9db8e3e277719d7590cc659
   requires_dist:
   - astor
   - dags
@@ -6027,6 +6027,7 @@ packages:
   - networkx
   - numpy
   - numpy-groupies
+  - openpyxl
   - pandas
   - plotly
   - pygments

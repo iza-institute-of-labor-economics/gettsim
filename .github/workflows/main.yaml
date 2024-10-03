@@ -28,13 +28,13 @@ jobs:
           - py312-jax
         exclude:
           - os: macos-latest
-            environment:
-              - py311
-              - py312
+            environment: py311
+          - os: macos-latest
+            environment: py312
           - os: windows-latest
-            environment:
-              - py311
-              - py312
+            environment: py311
+          - os: windows-latest
+            environment: py312
           - os: ubuntu-latest
             environment: py312-jax
     steps:
@@ -49,12 +49,12 @@ jobs:
       - name: Run tests with NumPy backend on Linux
         # Ignore MacOS for being slow -- no reason that would break if Jax works.
         if: runner.os == 'Linux'
-        run: pixi run pytest --cov-report=xml --cov=./
+        run: pixi run -e ${{ matrix.environment }} pytest --cov=./ --cov-report=xml
         shell: bash -el {0}
       - name: Run tests with JAX backend
         # TODO: remove exclusion of Linux once --use-jax is fixed.
         if: runner.os != 'Linux'
-        run: pixi run -e py312-jax pytest
+        run: pixi run -e ${{ matrix.environment }} pytest
         # TODO: add to the end of previous line to actually run with Jax backend
         # --use-jax
         shell: bash -el {0}
