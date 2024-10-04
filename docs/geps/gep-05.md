@@ -129,9 +129,9 @@ rounded to the next-lowest fourth decimal point instead of to the nearest. In th
 the rounding parameters will need to be changed as follows
 
 ```python
-policy_params["ges_rente"]["rounding"]["grundr_zuschlag_höchstwert_m"][
-    "direction"
-] = "down"
+policy_params["ges_rente"]["rounding"]["grundr_zuschlag_höchstwert_m"]["direction"] = (
+    "down"
+)
 ```
 
 This will be done after the policy environment has been set up and it is exactly the
