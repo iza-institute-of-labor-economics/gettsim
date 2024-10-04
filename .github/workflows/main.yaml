@@ -46,12 +46,15 @@ jobs:
           cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
           frozen: true
           environments: ${{ matrix.environment }}
-      - name: Run tests with NumPy backend on Linux
-        # Ignore MacOS for being slow -- no reason that would break if Jax works.
+      - name: Run tests on Linux (with NumPy backend)
+        # Ignore MacOS for being slow -- no reason that would break if JAX works.
         if: runner.os == 'Linux'
         run: pixi run -e ${{ matrix.environment }} pytest --cov=./ --cov-report=xml
         shell: bash -el {0}
-      - name: Run tests with JAX backend
+      - name: Configure dot on macOS
+        if: runner.os == 'macOS'
+        run: pixi run -e ${{ matrix.environment }} dot -c
+      - name: Run tests on macOS & Windows (with JAX backend)
         # TODO: remove exclusion of Linux once --use-jax is fixed.
         if: runner.os != 'Linux'
         run: pixi run -e ${{ matrix.environment }} pytest
