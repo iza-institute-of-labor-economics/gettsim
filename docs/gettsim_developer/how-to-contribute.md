@@ -19,9 +19,7 @@ To contribute to the project, adhere to the following process.
 - Make sure you have the following programs installed and that these can be found on
   your path:
 
-  - A [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended) or
-    [Anaconda](https://www.anaconda.com/products/distribution) Python distribution.
-  - [Git](https://git-scm.com/downloads)
+  - [pixi](https://prefix.dev/docs/pixi/overview#installation) (Python package manager)
   - A modern text editor (e.g. [VS Code](https://code.visualstudio.com/))
 
 - Cloning the repository works differently for regular contributors and newcomers. As a
@@ -43,19 +41,12 @@ To contribute to the project, adhere to the following process.
   $ git clone https://github.com/<user>/gettsim
   ```
 
-- In the next step, go into the GETTSIM folder and set up the Python environment with
-
-  ```shell-session
-  $ conda env create
-  ```
-
   Then, activate the environment and install the current GETTSIM version in the
   repository in development mode. Also, install pre-commits which are checks before a
   commit is accepted.
 
   ```shell-session
-  $ conda activate gettsim
-  $ pre-commit install
+  $ pixi run pre-commit install
   ```
 
 - Under Windows, yaml-files are by default not loaded with the correct encoding (UTF-8).
@@ -78,7 +69,7 @@ To contribute to the project, adhere to the following process.
   they pass our test suite which can be started with the following command.
 
   ```shell-session
-  $ pytest
+  $ pixi run pytest
   ```
 
   Sometimes you want to push changes even if the tests fail because you need feedback.
@@ -88,7 +79,7 @@ To contribute to the project, adhere to the following process.
   message.
 
   ```shell-session
-  $ git commit -am "Add new parameters for ges_rente_beitrag in 2024."
+  $ pixi run git commit -am "Add new parameters for ges_rente_beitrag in 2024."
   ```
 
   A commit starts the pre-commits which are additional checks, mostly formatting and
