@@ -28,7 +28,7 @@ def make_vectorizable(func: callable, backend: str):
     module = _module_from_backend(backend)
     tree = _make_vectorizable_ast(func, module=module)
 
-    # recreate scope of function and add policy_info decorator and array library
+    # recreate scope of function, add policy_info decorator and array library
     scope = func.__globals__
     from _gettsim.shared import policy_info
 
