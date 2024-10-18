@@ -11,7 +11,7 @@ from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
 from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.interface import check_functions_and_differentiate_types, set_up_dag
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     format_list_linewise,
@@ -72,7 +72,7 @@ def plot_dag(
     )
 
     # Load functions.
-    functions_not_overridden, functions_overridden = load_and_check_functions(
+    functions_not_overridden, functions_overridden = check_functions_and_differentiate_types(
         environment,
         targets=targets,
         data_cols=list(TYPES_INPUT_VARIABLES),

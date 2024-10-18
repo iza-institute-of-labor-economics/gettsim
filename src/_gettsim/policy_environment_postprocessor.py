@@ -41,11 +41,11 @@ if TYPE_CHECKING:
     from _gettsim.policy_environment import PolicyEnvironment
 
 
-def load_and_check_functions(
+def check_functions_and_differentiate_types(
     environment: PolicyEnvironment,
     targets: list[str],
     data_cols,
-):
+) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """Create the dict with all functions that may become part of the DAG by:
 
     - vectorizing all functions
