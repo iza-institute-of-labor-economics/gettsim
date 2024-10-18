@@ -121,32 +121,28 @@ def _create_derived_functions(
     - aggregation functions
     - combinations of these
     """
-    user_and_internal_functions = environment.functions
-    aggregate_by_group_specs = environment.aggregate_by_group_specs
-    aggregate_by_p_id_specs = environment.aggregate_by_p_id_specs
-
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
-        user_and_internal_functions,
-        aggregate_by_p_id_specs,
+        environment.functions,
+        environment.aggregate_by_p_id_specs,
         data_cols,
     )
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**user_and_internal_functions, **aggregate_by_p_id_functions}, data_cols
+        {**environment.functions, **aggregate_by_p_id_functions}, data_cols
     )
 
     # Create aggregation functions
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
         {
             **time_conversion_functions,
-            **user_and_internal_functions,
+            **environment.functions,
             **aggregate_by_p_id_functions,
         },
         targets,
         data_cols,
-        aggregate_by_group_specs,
+        environment.aggregate_by_group_specs,
     )
 
     return (
