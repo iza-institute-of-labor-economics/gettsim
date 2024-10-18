@@ -20,7 +20,9 @@ from _gettsim.gettsim_typing import (
 )
 from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.policy_environment_postprocessor import check_functions_and_differentiate_types
+from _gettsim.policy_environment_postprocessor import (
+    check_functions_and_differentiate_types,
+)
 from _gettsim.shared import (
     KeyErrorMessage,
     format_errors_and_warnings,
@@ -75,10 +77,12 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
-    functions_not_overridden, functions_overridden = check_functions_and_differentiate_types(
-        environment=environment,
-        targets=targets,
-        data_cols=list(data),
+    functions_not_overridden, functions_overridden = (
+        check_functions_and_differentiate_types(
+            environment=environment,
+            targets=targets,
+            data_cols=list(data),
+        )
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)

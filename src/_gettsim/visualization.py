@@ -72,10 +72,12 @@ def plot_dag(
     )
 
     # Load functions.
-    functions_not_overridden, functions_overridden = check_functions_and_differentiate_types(
-        environment,
-        targets=targets,
-        data_cols=list(TYPES_INPUT_VARIABLES),
+    functions_not_overridden, functions_overridden = (
+        check_functions_and_differentiate_types(
+            environment,
+            targets=targets,
+            data_cols=list(TYPES_INPUT_VARIABLES),
+        )
     )
 
     # Select necessary nodes by creating a preliminary DAG.
