@@ -6,6 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`787` Model classes for policy functions and policy environments
+  ({ghuser}`lars-reimann`).
 - {gh}`756` Refactor Elterngeld module and some small fixes ({ghuser}`MImmesberger`,
   {ghuser}`ThOrtmann`).
 - {gh}`790` Add unterhaltsvors implementation 2009 to 2016 ({ghuser}`mjbloemer`).

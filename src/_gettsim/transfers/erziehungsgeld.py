@@ -47,7 +47,7 @@ def erziehungsgeld_m(
     name_in_dag="erziehungsgeld_kind_m",
     params_key_for_rounding="erziehungsgeld",
 )
-def erziehungsgeld_kind_ohne_budgetsatz_m() -> None:
+def erziehungsgeld_kind_ohne_budgetsatz_m() -> float:
     raise NotImplementedError(
         """
     Erziehungsgeld is not implemented yet prior to 2004, see

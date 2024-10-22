@@ -689,7 +689,7 @@ def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
     # size.
     params_max_miete = wohngeld_params["max_miete"]
     selected_bin_index = np.searchsorted(
-        sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
+        np.asarray(sorted(params_max_miete[1])), immobilie_baujahr_hh, side="left"
     )
 
     constr_year = list(params_max_miete[1])[selected_bin_index]
