@@ -26,6 +26,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
+from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
@@ -112,7 +113,7 @@ def _create_derived_functions(
     environment: PolicyEnvironment,
     targets: list[str],
     data_cols: list[str],
-) -> tuple[dict[str, Callable], dict[str, Callable], dict[str, Callable]]:
+) -> tuple[dict[str, DerivedFunction], dict[str, DerivedFunction], dict[str, DerivedFunction]]:
     """
     Create functions that are derived from the user and internal functions.
 
@@ -130,7 +131,8 @@ def _create_derived_functions(
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**environment.functions, **aggregate_by_p_id_functions}, data_cols
+        {**environment.functions, **aggregate_by_p_id_functions},
+        data_cols
     )
 
     # Create aggregation functions
@@ -164,11 +166,11 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
 
 
 def _create_aggregate_by_group_functions(
-    user_and_internal_functions,
-    targets,
-    data_cols,
-    aggregate_by_group_specs,
-):
+    user_and_internal_functions: dict[str, PolicyFunction],
+    targets: list[str],
+    data_cols: list[str],
+    aggregate_by_group_specs: dict[str, dict[str, str]],
+) -> dict[str, DerivedFunction]:
     """Create aggregation functions."""
 
     # Make specs for automated sum aggregation
@@ -313,8 +315,10 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _create_one_aggregate_by_group_func(
-    agg_col, agg_specs, user_and_internal_functions
-):
+    agg_col: str,
+    agg_specs: dict[str, str],
+    user_and_internal_functions: dict[str, PolicyFunction],
+) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
@@ -418,27 +422,29 @@ def _create_one_aggregate_by_group_func(
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
-    return aggregate_by_group_func
+    return DerivedFunction(
+        aggregate_by_group_func,
+        function_name=agg_col,
+    )
 
 
 def _create_aggregate_by_p_id_functions(
-    user_and_internal_functions: dict[str, Callable],
+    user_and_internal_functions: dict[str, PolicyFunction],
     aggregate_by_p_id_specs: dict[str, dict[str, str]],
     data_cols: list[str],
-) -> dict[str, Callable]:
+) -> dict[str, DerivedFunction]:
     """Create function dict with functions that link variables across persons."""
 
     aggregate_by_p_id_dict = aggregate_by_p_id_specs
 
-    [
+    for k, v in aggregate_by_p_id_dict.items():
         _check_agg_specs_validity(agg_specs=v, agg_col=k)
-        for k, v in aggregate_by_p_id_dict.items()
-    ]
 
     aggregate_by_p_id_functions = {
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
+            agg_col=agg_by_p_id_col,
             agg_specs=agg_by_p_id_spec,
-            user_and_internal_functions=user_and_internal_functions,
+            user_and_internal_functions=user_and_internal_functions
         )
         for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
         if (
@@ -451,9 +457,10 @@ def _create_aggregate_by_p_id_functions(
 
 
 def _create_one_aggregate_by_p_id_func(
+    agg_col: str,
     agg_specs: dict[str, str],
-    user_and_internal_functions: dict[str, Callable],
-) -> Callable:
+    user_and_internal_functions: dict[str, PolicyFunction]
+) -> DerivedFunction:
     """Create one function that links variables across persons.
 
     Parameters
@@ -554,7 +561,10 @@ def _create_one_aggregate_by_p_id_func(
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
-    return aggregate_by_p_id_func
+    return DerivedFunction(
+        aggregate_by_p_id_func,
+        function_name=agg_col,
+    )
 
 
 def _vectorize_func(func):
