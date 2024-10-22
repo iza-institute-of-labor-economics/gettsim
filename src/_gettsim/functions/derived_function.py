@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from _gettsim.functions.policy_function import PolicyFunction
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 class DerivedFunction(PolicyFunction):
     """
