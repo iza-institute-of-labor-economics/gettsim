@@ -7,6 +7,7 @@ from _gettsim.functions.policy_function import PolicyFunction
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+
 class DerivedFunction(PolicyFunction):
     """
     A function that is derived from other functions.
