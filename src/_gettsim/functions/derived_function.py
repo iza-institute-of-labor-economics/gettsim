@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from _gettsim.functions.policy_function import PolicyFunction
 
@@ -21,12 +21,12 @@ class DerivedFunction(PolicyFunction):
         from a data column, this may be None.
     """
 
-    def __init__(  # noqa: PLR0913
-            self,
-            function: Callable,
-            function_name: str,
-            *,
-            derived_from: PolicyFunction | None = None,
+    def __init__(
+        self,
+        function: Callable,
+        function_name: str,
+        *,
+        derived_from: PolicyFunction | None = None,
     ):
         super().__init__(
             function,

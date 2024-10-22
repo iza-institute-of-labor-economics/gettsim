@@ -113,7 +113,9 @@ def _create_derived_functions(
     environment: PolicyEnvironment,
     targets: list[str],
     data_cols: list[str],
-) -> tuple[dict[str, DerivedFunction], dict[str, DerivedFunction], dict[str, DerivedFunction]]:
+) -> tuple[
+    dict[str, DerivedFunction], dict[str, DerivedFunction], dict[str, DerivedFunction]
+]:
     """
     Create functions that are derived from the user and internal functions.
 
@@ -131,8 +133,7 @@ def _create_derived_functions(
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**environment.functions, **aggregate_by_p_id_functions},
-        data_cols
+        {**environment.functions, **aggregate_by_p_id_functions}, data_cols
     )
 
     # Create aggregation functions
@@ -444,7 +445,7 @@ def _create_aggregate_by_p_id_functions(
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
             agg_col=agg_by_p_id_col,
             agg_specs=agg_by_p_id_spec,
-            user_and_internal_functions=user_and_internal_functions
+            user_and_internal_functions=user_and_internal_functions,
         )
         for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
         if (
@@ -459,7 +460,7 @@ def _create_aggregate_by_p_id_functions(
 def _create_one_aggregate_by_p_id_func(
     agg_col: str,
     agg_specs: dict[str, str],
-    user_and_internal_functions: dict[str, PolicyFunction]
+    user_and_internal_functions: dict[str, PolicyFunction],
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 

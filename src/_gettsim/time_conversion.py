@@ -300,8 +300,7 @@ def create_time_conversion_functions(
 
 
 def _create_time_conversion_functions(
-    name: str,
-    func: PolicyFunction | None = None
+    name: str, func: PolicyFunction | None = None
 ) -> dict[str, DerivedFunction]:
     result: dict[str, DerivedFunction] = {}
 
@@ -350,8 +349,7 @@ def _create_time_conversion_functions(
 
 
 def _create_function_for_time_unit(
-    function_name: str,
-    converter: Callable[[float], float]
+    function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
     @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:
