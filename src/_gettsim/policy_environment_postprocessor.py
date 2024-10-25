@@ -466,6 +466,8 @@ def _create_one_aggregate_by_p_id_func(
 
     Parameters
     ----------
+    agg_col : str
+        Name of the aggregated column.
     agg_specs : dict
         Dictionary of aggregation specifications. Must contain the p_id by which to
         aggregate ("p_id_to_aggregate_by") and the aggregation type ("aggr"). Unless
