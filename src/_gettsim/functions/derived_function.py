@@ -21,7 +21,7 @@ class DerivedFunction(PolicyFunction):
         The name of the function in the DAG
     derived_from:
         The function from which the new function is derived. If the function is derived
-        from a data column, this may be None.
+        from a data column, this should be the column name.
     """
 
     def __init__(
@@ -29,16 +29,16 @@ class DerivedFunction(PolicyFunction):
         function: Callable,
         function_name: str,
         *,
-        derived_from: PolicyFunction | None = None,
+        derived_from: PolicyFunction | str | tuple[str, str],
     ):
         super().__init__(
             function,
-            module_name=derived_from.module_name if derived_from is not None else "",
+            module_name=derived_from.module_name if isinstance(derived_from, PolicyFunction) else "",
             function_name=function_name,
-            start_date=derived_from.start_date if derived_from is not None else None,
-            end_date=derived_from.end_date if derived_from is not None else None,
+            start_date=derived_from.start_date if isinstance(derived_from, PolicyFunction) else None,
+            end_date=derived_from.end_date if isinstance(derived_from, PolicyFunction) else None,
             params_key_for_rounding=None,
             skip_vectorization=True,
         )
 
-        self.derived_from: PolicyFunction | str = derived_from
+        self.derived_from = derived_from

@@ -423,9 +423,15 @@ def _create_one_aggregate_by_group_func(
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
+    if agg_specs["aggr"] == "count":
+        derived_from = group_id
+    else:
+        derived_from = (agg_specs["source_col"], group_id)
+
     return DerivedFunction(
         aggregate_by_group_func,
         function_name=agg_col,
+        derived_from=derived_from,
     )
 
 
@@ -564,9 +570,15 @@ def _create_one_aggregate_by_p_id_func(
         else:
             raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
 
+    if agg_specs["aggr"] == "count":
+        derived_from = agg_specs["p_id_to_aggregate_by"]
+    else:
+        derived_from = (agg_specs["source_col"], agg_specs["p_id_to_aggregate_by"])
+
     return DerivedFunction(
         aggregate_by_p_id_func,
         function_name=agg_col,
+        derived_from=derived_from,
     )
 
 
