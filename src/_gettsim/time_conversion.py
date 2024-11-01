@@ -280,9 +280,9 @@ def create_time_conversion_functions(
     for name, func in functions.items():
         result.update(
             {
-                name: func
-                for name, func in _create_time_conversion_functions(name, func).items()
-                if name not in functions and name not in data_cols
+                der_name: der_func
+                for der_name, der_func in _create_time_conversion_functions(name, func).items()
+                if der_name not in functions and der_name not in data_cols
             }
         )
 
@@ -290,9 +290,9 @@ def create_time_conversion_functions(
     for name in data_cols:
         result.update(
             {
-                name: func
-                for name, func in _create_time_conversion_functions(name).items()
-                if name not in data_cols
+                der_name: der_func
+                for der_name, der_func in _create_time_conversion_functions(name).items()
+                if der_name not in data_cols
             }
         )
 
