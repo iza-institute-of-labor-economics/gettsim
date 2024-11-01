@@ -10,7 +10,6 @@ import numpy
 import pandas as pd
 import yaml
 
-import _gettsim.functions.all_functions_for_docs  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
     load_functions_for_date,
