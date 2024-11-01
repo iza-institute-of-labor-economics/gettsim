@@ -33,10 +33,22 @@ class DerivedFunction(PolicyFunction):
     ):
         super().__init__(
             function,
-            module_name=derived_from.module_name if isinstance(derived_from, PolicyFunction) else "",
+            module_name=(
+                derived_from.module_name
+                if isinstance(derived_from, PolicyFunction)
+                else ""
+            ),
             function_name=function_name,
-            start_date=derived_from.start_date if isinstance(derived_from, PolicyFunction) else None,
-            end_date=derived_from.end_date if isinstance(derived_from, PolicyFunction) else None,
+            start_date=(
+                derived_from.start_date
+                if isinstance(derived_from, PolicyFunction)
+                else None
+            ),
+            end_date=(
+                derived_from.end_date
+                if isinstance(derived_from, PolicyFunction)
+                else None
+            ),
             params_key_for_rounding=None,
             skip_vectorization=True,
         )
