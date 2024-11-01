@@ -335,12 +335,11 @@ def _create_time_conversion_functions(
             if new_name in dependencies:
                 continue
 
-            function = _create_function_for_time_unit(
-                name,
-                _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
-            )
             result[new_name] = DerivedFunction(
-                function,
+                _create_function_for_time_unit(
+                    name,
+                    _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
+                ),
                 function_name=new_name,
                 derived_from=func,
             )
