@@ -71,8 +71,6 @@ def check_functions_and_differentiate_types(
         Functions that are overridden by an input column.
 
     """
-    functions_raw = environment.functions
-
     # Create derived functions
     (
         time_conversion_functions,
@@ -88,9 +86,9 @@ def check_functions_and_differentiate_types(
     groupings = create_groupings()
 
     all_functions = {
+        **environment.functions,
         **aggregate_by_p_id_functions,
         **time_conversion_functions,
-        **functions_raw,
         **aggregate_by_group_functions,
         **groupings,
     }
