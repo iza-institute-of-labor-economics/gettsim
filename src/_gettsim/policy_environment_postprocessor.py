@@ -313,7 +313,7 @@ def _select_return_type(aggr, source_col_type):
     return return_type
 
 
-def _create_one_aggregate_by_group_func(
+def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     agg_col: str,
     agg_specs: dict[str, str],
     user_and_internal_functions: dict[str, PolicyFunction],
