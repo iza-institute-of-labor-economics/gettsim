@@ -7,16 +7,15 @@ from pandas._testing import assert_series_equal
 
 from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
-    PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.functions_loader import _load_functions
+from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.interface import (
     _add_rounding_to_functions,
     _add_rounding_to_one_function,
     compute_taxes_and_transfers,
 )
-from _gettsim.policy_environment import load_functions_for_date
+from _gettsim.policy_environment import PolicyEnvironment, load_functions_for_date
 from _gettsim.shared import policy_info
 
 rounding_specs_and_exp_results = [
@@ -56,10 +55,11 @@ def test_no_rounding_specs(rounding_specs):
         def test_func():
             return 0
 
+        environment = PolicyEnvironment([test_func], rounding_specs)
+
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            params=rounding_specs,
-            functions=[test_func],
+            environment=environment,
             targets=["test_func"],
         )
 
@@ -92,10 +92,11 @@ def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
             }
         }
 
+        environment = PolicyEnvironment([test_func], rounding_specs)
+
         compute_taxes_and_transfers(
             data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
-            params=rounding_specs,
-            functions=[test_func],
+            environment=environment,
             targets=["test_func"],
         )
 
@@ -130,8 +131,10 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
             "to_add_after_rounding"
         ] = to_add_after_rounding
 
+    environment = PolicyEnvironment([test_func], rounding_specs)
+
     calc_result = compute_taxes_and_transfers(
-        data=data, params=rounding_specs, functions=[test_func], targets=["test_func"]
+        data=data, environment=environment, targets=["test_func"]
     )
     assert_series_equal(
         calc_result["test_func"], pd.Series(exp_output), check_names=False
@@ -157,11 +160,11 @@ def test_rounding_with_time_conversion():
             }
         }
     }
+    environment = PolicyEnvironment([test_func_m], rounding_specs)
 
     calc_result = compute_taxes_and_transfers(
         data=data,
-        params=rounding_specs,
-        functions=[test_func_m],
+        environment=environment,
         targets=["test_func_y"],
     )
     assert_series_equal(
@@ -188,6 +191,7 @@ def test_no_rounding(
             "rounding": {"test_func": {"base": base, "direction": direction}}
         }
     }
+    environment = PolicyEnvironment([test_func], rounding_specs)
 
     if to_add_after_rounding:
         rounding_specs["params_key_test"]["rounding"]["test_func"][
@@ -196,8 +200,7 @@ def test_no_rounding(
 
     calc_result = compute_taxes_and_transfers(
         data=data,
-        params=rounding_specs,
-        functions=[test_func],
+        environment=environment,
         targets=["test_func"],
         rounding=False,
     )
@@ -259,7 +262,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
+        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Add time dependent functions for which rounding specs for new name exist
@@ -275,20 +278,17 @@ def test_decorator_for_all_functions_with_rounding_spec():
         if fn not in time_dependent_functions.values()
     ]
 
-    # Loop over these functions and check if attribute
-    # __info__["params_key_for_rounding"] exists
-    all_functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-    for fn in function_names_to_check:
-        assert hasattr(all_functions[fn], "__info__"), (
-            f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the policy_info decorator. The attribute "
-            "__info__ is not found."
-        )
-        assert "params_key_for_rounding" in all_functions[fn].__info__, (
-            f"For the function {fn}, rounding parameters are specified. But the "
-            "function is missing the params_key_for_rounding parameter in the "
-            "policy_info decorator. The key 'params_key_for_rounding' is not found in "
-            "the __info__ dict."
+    functions_to_check = [
+        f
+        for f in _load_internal_functions()
+        if f.original_function_name in function_names_to_check
+    ]
+
+    for f in functions_to_check:
+        assert f.params_key_for_rounding, (
+            f"For the function {f.original_function_name}, rounding parameters are"
+            f" specified. But the function is missing the policy_info decorator or its "
+            "params_key_for_rounding parameter is not set."
         )
 
 
