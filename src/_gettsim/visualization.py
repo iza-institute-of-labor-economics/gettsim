@@ -11,8 +11,11 @@ from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
 from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import check_functions_and_differentiate_types, set_up_dag
+from _gettsim.interface import set_up_dag
 from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.policy_environment_postprocessor import (
+    check_functions_and_differentiate_types,
+)
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
