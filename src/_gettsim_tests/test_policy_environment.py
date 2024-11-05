@@ -5,12 +5,63 @@ from datetime import date, timedelta
 import pandas as pd
 import pytest
 
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
+    PolicyEnvironment,
     _load_parameter_group_from_yaml,
     load_functions_for_date,
     set_up_policy_environment,
 )
 from _gettsim_tests import TEST_DIR
+
+
+class TestPolicyEnvironment:
+    def test_get_function_by_name_exists(self):
+        function = PolicyFunction(lambda: 1, function_name="foo")
+        environment = PolicyEnvironment([function])
+
+        assert environment.get_function_by_name("foo") == function
+
+    def test_get_function_by_name_does_not_exist(self):
+        environment = PolicyEnvironment([], {})
+
+        assert environment.get_function_by_name("foo") is None
+
+    @pytest.mark.parametrize(
+        "environment",
+        [
+            PolicyEnvironment([], {}),
+            PolicyEnvironment(
+                [
+                    PolicyFunction(lambda: 1, function_name="foo"),
+                ]
+            ),
+            PolicyEnvironment(
+                [
+                    PolicyFunction(lambda: 1, function_name="foo"),
+                    PolicyFunction(lambda: 2, function_name="bar"),
+                ]
+            ),
+        ],
+    )
+    def test_upsert_functions(self, environment: PolicyEnvironment):
+        new_function = PolicyFunction(lambda: 3, function_name="foo")
+        new_environment = environment.upsert_functions(new_function)
+
+        assert new_environment.get_function_by_name("foo") == new_function
+
+    @pytest.mark.parametrize(
+        "environment",
+        [
+            PolicyEnvironment([], {}),
+            PolicyEnvironment([], {"foo": {"bar": 1}}),
+        ],
+    )
+    def test_replace_all_parameters(self, environment: PolicyEnvironment):
+        new_params = {"foo": {"bar": 2}}
+        new_environment = environment.replace_all_parameters(new_params)
+
+        assert new_environment.params == new_params
 
 
 def test_leap_year_correctly_handled():
@@ -83,8 +134,13 @@ def test_load_functions_for_date(
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = load_functions_for_date(date=last_day)
-    functions_next_day = load_functions_for_date(date=last_day + timedelta(days=1))
+    functions_last_day = {
+        f.name_in_dag: f.function for f in load_functions_for_date(date=last_day)
+    }
+    functions_next_day = {
+        f.name_in_dag: f.function
+        for f in load_functions_for_date(date=last_day + timedelta(days=1))
+    }
 
     assert functions_last_day[dag_key].__name__ == function_name_last_day
     assert functions_next_day[dag_key].__name__ == function_name_next_day

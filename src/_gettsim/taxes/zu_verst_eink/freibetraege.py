@@ -63,7 +63,7 @@ def _eink_st_behinderungsgrad_pauschbetrag_y(
 
     # Select corresponding bin.
     selected_bin_index = (
-        np.searchsorted([*bins, np.inf], behinderungsgrad, side="right") - 1
+        np.searchsorted(np.asarray([*bins, np.inf]), behinderungsgrad, side="right") - 1
     )
     selected_bin = bins[selected_bin_index]
 
@@ -227,7 +227,7 @@ def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
     else:
         # Select corresponding bin.
         selected_bin = bins[
-            np.searchsorted([*bins, np.inf], geburtsjahr, side="right") - 1
+            np.searchsorted(np.asarray([*bins, np.inf]), geburtsjahr, side="right") - 1
         ]
 
     # Select appropriate tax credit threshold and quota.
