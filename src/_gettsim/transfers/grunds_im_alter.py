@@ -287,11 +287,13 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
 
     """
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
-    mehrbedarf_single = (arbeitsl_geld_2_params["regelsatz"][1]) * (
-        grunds_im_alter_params["mehrbedarf_schwerbeh_g"]
+    mehrbedarf_single = (
+        (arbeitsl_geld_2_params["regelsatz"][1])
+        * (grunds_im_alter_params["mehrbedarf_schwerbeh_g"])
     )
-    mehrbedarf_in_couple = (arbeitsl_geld_2_params["regelsatz"][2]) * (
-        grunds_im_alter_params["mehrbedarf_schwerbeh_g"]
+    mehrbedarf_in_couple = (
+        (arbeitsl_geld_2_params["regelsatz"][2])
+        * (grunds_im_alter_params["mehrbedarf_schwerbeh_g"])
     )
 
     if (schwerbeh_g) and (anz_erwachsene_eg == 1):
