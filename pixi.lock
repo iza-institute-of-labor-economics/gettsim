@@ -6017,9 +6017,9 @@ packages:
   timestamp: 1694400856979
 - kind: pypi
   name: gettsim
-  version: 0.7.1.dev84+g5e2c6b61.d20241003
+  version: 0.7.1.dev93+gc26fe3ca
   path: .
-  sha256: 47ef6de3b4793017c9ed9a630fd3c2884cd49765b9db8e3e277719d7590cc659
+  sha256: c9cfaed41f73aaa1ae9d4ec46cc9243a2ad315c0c3d61237f2bf5fd1b358b2e3
   requires_dist:
   - astor
   - dags
