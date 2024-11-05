@@ -5,7 +5,7 @@ build:
   tools:
     python: mambaforge-latest
 conda:
-  environment: rtd_environment.yml
+  environment: docs/rtd_environment.yml
 sphinx:
   builder: html
   configuration: docs/conf.py
