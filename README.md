@@ -1,6 +1,6 @@
 [![Documentation Status](https://readthedocs.org/projects/gettsim/badge/?version=latest)](https://gettsim.readthedocs.io/en/latest)
-[![image](https://anaconda.org/gettsim/gettsim/badges/version.svg)](https://anaconda.org/gettsim/gettsim)
-[![image](https://anaconda.org/gettsim/gettsim/badges/platforms.svg)](https://anaconda.org/gettsim/gettsim)
+[![image](https://img.shields.io/conda/vn/conda-forge/gettsim.svg)](https://anaconda.org/conda-forge/gettsim)
+[![image](https://img.shields.io/conda/pn/conda-forge/gettsim.svg)](https://anaconda.org/conda-forge/gettsim)
 [![main](https://github.com/iza-institute-of-labor-economics/gettsim/actions/workflows/main.yaml/badge.svg)](https://github.com/iza-institute-of-labor-economics/gettsim/actions/workflows/main.yaml)
 [![image](https://codecov.io/gh/iza-institute-of-labor-economics/gettsim/branch/main/graph/badge.svg)](https://codecov.io/gh/iza-institute-of-labor-economics/gettsim)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
