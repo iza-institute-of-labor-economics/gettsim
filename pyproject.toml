@@ -302,6 +302,7 @@ ignore = [
 # ======================================================================================
 
 [tool.pytest.ini_options]
+addopts = ["--pdbcls=pdbp:Pdb"]
 filterwarnings = [
     "ignore:.*XMLParser*:DeprecationWarning",
     "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
