@@ -1,6 +1,4 @@
-"""Kinderzuschlag / Additional Child Benefit.
-
-"""
+"""Kinderzuschlag / Additional Child Benefit."""
 
 from _gettsim.shared import policy_info
 

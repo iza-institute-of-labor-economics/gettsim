@@ -1,7 +1,7 @@
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
+from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -17,27 +17,18 @@ def test_elterngeld(
     test_data: PolicyTestData,
     column: str,
 ):
-    """Run tests to validate elterngeld.
-
-    hh_id 7 in test cases is for the calculator on
-    https://familienportal.de/familienportal/meta/egr. The calculator's result is 10
-    Euro off GETTSIM's result. We need to discuss if we should adapt the calculation of
-    the proxy wage of last year or anything else.
-
-    """
+    """Run tests to validate elterngeld."""
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, environment=environment, targets=column
     )
 
     assert_series_equal(
         result[column],
         test_data.output_df[column],
         check_dtype=False,
-        atol=1e-1,
-        rtol=0,
+        atol=1e-3,
+        rtol=1e-3,
     )

@@ -3,6 +3,7 @@ Tests for `piecewise_polynomial`
 """
 
 import numpy
+
 from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
 )

@@ -19,16 +19,279 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
     return out
 
 
-@policy_info(params_key_for_rounding="ges_rente")
-def ges_rente_vor_grundr_m(
+@policy_info(end_date="2020-12-31")
+def ges_rente_m(bruttorente_m: float, rentner: bool) -> float:
+    return bruttorente_m if rentner else 0.0
+
+
+@policy_info(
+    start_date="2021-01-01",
+    params_key_for_rounding="ges_rente",
+    name_in_dag="ges_rente_m",
+)
+def ges_rente_mit_grundrente_m(
+    bruttorente_m: float,
+    grundr_zuschlag_m: float,
+    rentner: bool,
+) -> float:
+    """Calculate total individual public pension including Grundrentenzuschlag.
+
+    Parameters
+    ----------
+    bruttorente_m
+        See :func:`bruttorente_m`.
+    grundr_zuschlag_m
+        See :func:`grundr_zuschlag_m`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
+
+    Returns
+    -------
+
+    """
+    out = bruttorente_m + grundr_zuschlag_m if rentner else 0.0
+    return out
+
+
+@policy_info(
+    end_date="2016-12-31",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
+def bruttorente_mit_harter_hinzuverdienstgrenze_m(
+    alter: int,
+    ges_rente_regelaltersgrenze: float,
+    bruttolohn_y: float,
+    bruttorente_basisbetrag_m: float,
+    ges_rente_params: dict,
+) -> float:
+    """Pension benefits after earnings test for early retirees.
+
+    If earnings are above an earnings limit, the pension is fully deducted.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    bruttorente_basisbetrag_m
+        See :func:`bruttorente_basisbetrag_m`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
+    if (alter >= ges_rente_regelaltersgrenze) or (
+        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
+    ):
+        out = bruttorente_basisbetrag_m
+    else:
+        out = 0.0
+
+    return out
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
+def bruttorente_mit_hinzuverdienstdeckel_m(
+    alter: int,
+    ges_rente_regelaltersgrenze: float,
+    bruttolohn_y: float,
+    _differenz_bruttolohn_hinzuverdienstdeckel_m: float,
+    _ges_rente_zahlbetrag_ohne_deckel_m: float,
+) -> float:
+    """Pension benefits after earnings test for early retirees.
+
+    If sum of earnings and pension is larger than the highest income in the last 15
+    years, the pension is fully deducted (Hinzuverdienstdeckel).
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    _differenz_bruttolohn_hinzuverdienstdeckel_m
+        See :func:`_differenz_bruttolohn_hinzuverdienstdeckel_m`.
+    _ges_rente_zahlbetrag_ohne_deckel_m
+        See :func:`_ges_rente_zahlbetrag_ohne_deckel_m`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
+    if (
+        _differenz_bruttolohn_hinzuverdienstdeckel_m > 0
+        and alter <= ges_rente_regelaltersgrenze
+        and bruttolohn_y > 0
+    ):
+        out = max(
+            _ges_rente_zahlbetrag_ohne_deckel_m
+            - _differenz_bruttolohn_hinzuverdienstdeckel_m,
+            0.0,
+        )
+    else:
+        out = _ges_rente_zahlbetrag_ohne_deckel_m
+
+    return out
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _ges_rente_zahlbetrag_ohne_deckel_m(
+    bruttolohn_y: float,
+    alter: int,
+    ges_rente_regelaltersgrenze: float,
+    bruttorente_basisbetrag_m: float,
+    _differenz_bruttolohn_hinzuverdienstgrenze_m: float,
+    ges_rente_params: dict,
+) -> float:
+    """Pension benefits after earnings test without accounting for the earnings cap
+    (Hinzuverdienstdeckel).
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    ges_rente_regelaltersgrenze
+        See :func:`ges_rente_regelaltersgrenze`.
+    bruttorente_basisbetrag_m
+        See :func:`bruttorente_basisbetrag_m`.
+    _differenz_bruttolohn_hinzuverdienstgrenze_m
+        See :func:`_differenz_bruttolohn_hinzuverdienstgrenze_m`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    # TODO (@MImmesberger): Use age with monthly precision.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
+    # No deduction because of age or low earnings
+    if (alter >= ges_rente_regelaltersgrenze) or (
+        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
+    ):
+        out = bruttorente_basisbetrag_m
+    # Basis deduction of 40%
+    else:
+        out = max(
+            bruttorente_basisbetrag_m
+            - ges_rente_params["abzugsrate_hinzuverdienst"]
+            * _differenz_bruttolohn_hinzuverdienstgrenze_m,
+            0.0,
+        )
+
+    return out
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _differenz_bruttolohn_hinzuverdienstgrenze_y(
+    bruttolohn_y: float,
+    ges_rente_params: dict,
+) -> float:
+    """Earnings that are subject to pension deductions.
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    return max(bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+)
+def _differenz_bruttolohn_hinzuverdienstdeckel_y(
+    bruttolohn_y: float,
+    _ges_rente_zahlbetrag_ohne_deckel_y: float,
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
+) -> float:
+    """Income above the earnings cap (Hinzuverdienstdeckel).
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    _ges_rente_zahlbetrag_ohne_deckel_y
+        See :func:`_ges_rente_zahlbetrag_ohne_deckel_y`.
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        See basic input variable :ref:`höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        <höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
+
+    Returns
+    -------
+
+    """
+    return max(
+        _ges_rente_zahlbetrag_ohne_deckel_y
+        + bruttolohn_y
+        - höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
+        0.0,
+    )
+
+
+@policy_info(
+    start_date="2023-01-01",
+    name_in_dag="bruttorente_m",
+    params_key_for_rounding="ges_rente",
+)
+def bruttorente_ohne_einkommensanrechnung_m(
+    bruttorente_basisbetrag_m: float,
+) -> float:
+    """Public pension claim before Grundrentenzuschlag.
+
+    Parameters
+    ----------
+    bruttorente_basisbetrag_m
+        See :func:`bruttorente_basisbetrag_m`.
+
+    Returns
+    -------
+
+    """
+    return bruttorente_basisbetrag_m
+
+
+@policy_info(start_date="1992-01-01")
+def bruttorente_basisbetrag_m(
     ges_rente_zugangsfaktor: float,
-    entgeltp_ost_update: float,
-    entgeltp_west_update: float,
+    entgeltp_ost: float,
+    entgeltp_west: float,
     rentner: bool,
     ges_rente_params: dict,
 ) -> float:
-    """Old-Age Pensions claim without Grundrentenzuschlag. The function follows the
-    following equation:
+    """Old-Age Pensions claim. The function follows the following equation:
 
     .. math::
 
@@ -43,10 +306,10 @@ def ges_rente_vor_grundr_m(
     ----------
     ges_rente_zugangsfaktor
         See :func:`ges_rente_zugangsfaktor`.
-    entgeltp_ost_update
-        See :func:`entgeltp_ost_update`.
-    entgeltp_west_update
-        See :func:`entgeltp_west_update`.
+    entgeltp_ost
+        See :func:`entgeltp_ost`.
+    entgeltp_west
+        See :func:`entgeltp_west`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
     ges_rente_params
@@ -59,48 +322,12 @@ def ges_rente_vor_grundr_m(
 
     if rentner:
         out = (
-            entgeltp_west_update * ges_rente_params["rentenwert"]["west"]
-            + entgeltp_ost_update * ges_rente_params["rentenwert"]["ost"]
+            entgeltp_west * ges_rente_params["rentenwert"]["west"]
+            + entgeltp_ost * ges_rente_params["rentenwert"]["ost"]
         ) * ges_rente_zugangsfaktor
     else:
         out = 0.0
 
-    return out
-
-
-@policy_info(end_date="2020-12-31")
-def ges_rente_m(ges_rente_vor_grundr_m: float) -> float:
-    return ges_rente_vor_grundr_m
-
-
-@policy_info(
-    start_date="2021-01-01",
-    name_in_dag="ges_rente_m",
-    params_key_for_rounding="ges_rente",
-)
-def ges_rente_m_nach_grundr(
-    ges_rente_vor_grundr_m: float,
-    grundr_zuschlag_m: float,
-    rentner: bool,
-) -> float:
-    """Calculate total individual public pension including Grundrentenzuschlag. Is only
-    active after 2021 when Grundrente is in place.
-
-    Parameters
-    ----------
-    ges_rente_vor_grundr_m
-        See :func:`ges_rente_vor_grundr_m`.
-    grundr_zuschlag_m
-        See :func:`grundr_zuschlag_m`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-
-    Returns
-    -------
-
-    """
-    # Return 0 if person not yet retired
-    out = ges_rente_vor_grundr_m + grundr_zuschlag_m if rentner else 0.0
     return out
 
 
@@ -125,7 +352,7 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     return float(out)
 
 
-def entgeltp_west_update(
+def entgeltp_west_updated(
     wohnort_ost: bool, entgeltp_west: float, entgeltp_update_lohn: float
 ) -> float:
     """Update western earning points.
@@ -155,7 +382,7 @@ def entgeltp_west_update(
     return out
 
 
-def entgeltp_ost_update(
+def entgeltp_ost_updated(
     wohnort_ost: bool, entgeltp_ost: float, entgeltp_update_lohn: float
 ) -> float:
     """Update eastern earning points.

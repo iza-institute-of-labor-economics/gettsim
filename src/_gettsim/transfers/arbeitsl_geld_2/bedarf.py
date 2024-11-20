@@ -216,8 +216,9 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     """
     # BG has 2 adults
     if p_id_einstandspartner >= 0:
-        out = arbeitsl_geld_2_params["regelsatz"] * (
-            arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"]
+        out = (
+            arbeitsl_geld_2_params["regelsatz"]
+            * (arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"])
         )
     # This observation is not a child, so BG has 1 adult
     elif arbeitsl_geld_2_kindersatz_m == 0.0:

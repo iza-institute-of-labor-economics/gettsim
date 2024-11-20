@@ -4,15 +4,16 @@ import datetime
 import inspect
 
 import pytest
+
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions_loader import (
-    _convert_paths_to_import_strings,
+from _gettsim.functions.loader import (
     _load_functions,
-    load_aggregation_dict,
+    _load_internal_functions,
+    load_internal_aggregation_dict,
 )
 from _gettsim.policy_environment import load_functions_for_date
 from _gettsim.shared import remove_group_suffix
@@ -30,13 +31,13 @@ def default_input_variables():
 
 @pytest.fixture(scope="module")
 def all_function_names():
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
-    return sorted(functions.keys())
+    functions = _load_internal_functions()
+    return sorted([func.name_in_dag for func in functions])
 
 
 @pytest.fixture(scope="module")
 def aggregation_dict():
-    return load_aggregation_dict()
+    return load_internal_aggregation_dict()
 
 
 @pytest.fixture(scope="module")
@@ -46,7 +47,7 @@ def time_indep_function_names(all_function_names):
         year_functions = load_functions_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
+        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Only use time dependent function names
@@ -71,14 +72,14 @@ def test_all_input_vars_documented(
 ):
     """Test if arguments of all non-internal functions are either the name of another
     function, a documented input variable, or a parameter dictionary."""
-    functions = _load_functions(PATHS_TO_INTERNAL_FUNCTIONS)
+    functions = _load_internal_functions()
 
     # Collect arguments of all non-internal functions (do not start with underscore)
     arguments = [
         i
         for f in functions
-        for i in list(inspect.signature(functions[f]).parameters)
-        if not f.startswith("_")
+        for i in list(inspect.signature(f).parameters)
+        if not f.name_in_dag.startswith("_")
     ]
 
     # Remove duplicates
@@ -101,71 +102,67 @@ def test_all_input_vars_documented(
 
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
-    documented_functions = _load_functions(
-        RESOURCE_DIR / "functions.py", include_imported_functions=True
-    )
+    documented_functions = {
+        f.name_in_dag
+        for f in _load_functions(
+            RESOURCE_DIR / "functions" / "all_functions_for_docs.py",
+            package_root=RESOURCE_DIR,
+            include_imported_functions=True,
+        )
+    }
 
     internal_function_files = [
         RESOURCE_DIR.joinpath(p) for p in PATHS_TO_INTERNAL_FUNCTIONS
     ]
-    internal_functions = _load_functions(
-        internal_function_files, include_imported_functions=True
-    )
 
-    # Private functions are not imported in functions.py.
     internal_functions = {
-        k: v for k, v in internal_functions.items() if not k.startswith("_")
+        f.name_in_dag
+        for f in _load_functions(
+            internal_function_files,
+            package_root=RESOURCE_DIR,
+            include_imported_functions=True,
+        )
+        if not f.original_function_name.startswith("_")
     }
 
-    assert set(documented_functions) == set(internal_functions)
+    assert documented_functions == internal_functions
 
 
 def test_type_hints():  # noqa: PLR0912
     """Check if output and input types of all functions coincide."""
-    imports = _convert_paths_to_import_strings(PATHS_TO_INTERNAL_FUNCTIONS)
-    functions = _load_functions(imports)
+    types = {}
 
-    # Load all time dependent functions
-    time_dependent_functions = {}
-    for year in range(1990, 2024):
-        year_functions = load_functions_for_date(
-            datetime.date(year=year, month=1, day=1)
-        )
-        new_dict = {func.__name__: key for key, func in year_functions.items()}
-        time_dependent_functions = {**time_dependent_functions, **new_dict}
-
-    return_types = {}
-    for name, func in functions.items():
-        if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
+    for func in _load_internal_functions():
+        if func.skip_vectorization:
             continue
+
+        name = func.name_in_dag
 
         for var, internal_type in func.__annotations__.items():
             if var == "return":
-                output_name = time_dependent_functions.get(name, name)
-
-                if output_name in return_types:
-                    if return_types[output_name] != internal_type:
+                if name in types:
+                    if types[name] != internal_type:
                         raise ValueError(
-                            f"The return type hint of {name}, does not "
-                            f"coincide  with the input type hint of "
+                            f"The return type hint of {func.original_function_name}, "
+                            f"does not coincide  with the input type hint of "
                             f"another function."
                         )
                 else:
-                    return_types[name] = internal_type
+                    types[name] = internal_type
             else:
                 if var in TYPES_INPUT_VARIABLES:
                     if internal_type != TYPES_INPUT_VARIABLES[var]:
                         raise ValueError(
                             f"The input type hint of {var} in function "
-                            f"{name} does not coincide with the standard "
-                            f"data types provided in the config file."
+                            f"{func.original_function_name} does not coincide with the "
+                            f"standard data types provided in the config file."
                         )
-                elif var in return_types:
-                    if return_types[var] != internal_type:
+                elif var in types:
+                    if types[var] != internal_type:
                         raise ValueError(
-                            f"The type hint of {var} in {name} "
+                            f"The type hint of {var} in {func.original_function_name} "
                             f"does not coincide with the input type hint "
                             f"of another function."
                         )
                 else:
-                    return_types[var] = internal_type
+                    types[var] = internal_type

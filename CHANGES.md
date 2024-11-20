@@ -6,6 +6,18 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`797` Update infrastructure to use pixi and modern pre-commit hooks
+  ({ghuser}`timmens`).
+- {gh}`787` Model classes for policy functions and policy environments
+  ({ghuser}`lars-reimann`).
+- {gh}`756` Refactor Elterngeld module and some small fixes ({ghuser}`MImmesberger`,
+  {ghuser}`ThOrtmann`).
+- {gh}`790` Add unterhaltsvors implementation 2009 to 2016 ({ghuser}`mjbloemer`).
+- {gh}`788` Pension benefit earnings test for early retirees ({ghuser}`MImmesberger`).
+- {gh}`786` Check directly whether child and parent are in same Bedarfsgemeinschaft for
+  Kindergeldübertrag ({ghuser}`MImmesberger`).
+- {gh}`785` Add NotImplementedError to Unterhaltsvorschuss and test whether output from
+  `create_synthetic_data` is enough to compute default targets ({ghuser}`MImmesberger`).
 - {gh}`772` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24
   instead of requiring it as an input variable ({ghuser}`MImmesberger`).
 - {gh}`771` Move SGB II Regelsatz calculation from BG to individual level

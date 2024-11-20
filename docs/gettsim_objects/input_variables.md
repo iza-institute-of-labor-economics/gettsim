@@ -247,11 +247,40 @@ Weekly working hours of individual
 
 Type: float
 
+(elterngeld_claimed)=
+
+## `elterngeld_claimed`
+
+Individual claims Elterngeld
+
+Type: bool
+
+(elterngeld_nettoeinkommen_vorjahr_m)=
+
+## `elterngeld_nettoeinkommen_vorjahr_m`
+
+Approximation of the net wage in the 12 months before birth of youngest child (according
+to simplified calculation rules). You may let GETTSIM compute this variable via the
+`elterngeld_nettolohn_approximation_m` target in a separate run, which would typically
+be for the previous calendar year.
+
+Type: float
+
+(elterngeld_zu_verst_eink_vorjahr_y_sn)=
+
+## `elterngeld_zu_verst_eink_vorjahr_y_sn`
+
+Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
+compute this variable via the `_zu_verst_eink_mit_kinderfreib_y_sn` target in a separate
+run, which would typically be for the previous calendar year.
+
+Type: float
+
 (bruttolohn_vorj_m)=
 
 ## `bruttolohn_vorj_m`
 
-Monthly wage, previous year
+Gross wage in the previous year
 
 Type: float
 
@@ -295,27 +324,11 @@ Month of retirement
 
 Type: int
 
-(m_elterngeld)=
+(monate_elterngeldbezug)=
 
-## `m_elterngeld`
+## `monate_elterngeldbezug`
 
-Number of months hh received elterngeld
-
-Type: int
-
-(m_elterngeld_vat_hh)=
-
-## `m_elterngeld_vat_hh`
-
-Number of months father received elterngeld
-
-Type: int
-
-(m_elterngeld_mut_hh)=
-
-## `m_elterngeld_mut_hh`
-
-Number of months mother received elterngeld
+Number of months the individual received Elterngeld for the current youngest child.
 
 Type: int
 
@@ -554,6 +567,14 @@ Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
 implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
+
+(höchster_bruttolohn_letzte_15_jahre_vor_rente_y)=
+
+## `höchster_bruttolohn_letzte_15_jahre_vor_rente_y`
+
+Highest gross income from regular employment in the last 15 years before pension benefit
+claiming. Relevant to determine pension benefit deductions for retirees in early
+retirement.
 
 (bürgerg_bezug_vorj)=
 

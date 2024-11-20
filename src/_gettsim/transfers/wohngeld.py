@@ -1,19 +1,19 @@
 """This module provides functions to compute residence allowance (Wohngeld).
 
-    Wohngeld has priority over ALG2 if the recipients can cover their needs according to
-    SGB II when receiving Wohngeld. The priority check follows the following logic:
+Wohngeld has priority over ALG2 if the recipients can cover their needs according to
+SGB II when receiving Wohngeld. The priority check follows the following logic:
 
-    1. Calculate Wohngeld on the Bedarfsgemeinschaft level.
-    2. Check whether the Bedarfsgemeinschaft can cover its own needs (Regelbedarf) with
-       Wohngeld. If not, the Bedarfsgemeinschaft is eligible for ALG2.
-    3. Compute Wohngeld again for all individuals in the household that can cover their
-       own needs with Wohngeld. This is the final Wohngeld amount that is paid out to
-       the wohngeldrechtlicher Teilhaushalt.
+1. Calculate Wohngeld on the Bedarfsgemeinschaft level.
+2. Check whether the Bedarfsgemeinschaft can cover its own needs (Regelbedarf) with
+   Wohngeld. If not, the Bedarfsgemeinschaft is eligible for ALG2.
+3. Compute Wohngeld again for all individuals in the household that can cover their
+   own needs with Wohngeld. This is the final Wohngeld amount that is paid out to
+   the wohngeldrechtlicher Teilhaushalt.
 
-    Note: Because Wohngeld is nonlinear in the number of people in the
-    wohngeldrechtlicher Teilhaushalt, there may be some individuals that pass the
-    priority check, but cannot cover their needs with the Wohngeld calculated in point
-    3. In this sense, this implementation is an approximation of the actual Wohngeld.
+Note: Because Wohngeld is nonlinear in the number of people in the
+wohngeldrechtlicher Teilhaushalt, there may be some individuals that pass the
+priority check, but cannot cover their needs with the Wohngeld calculated in point
+3. In this sense, this implementation is an approximation of the actual Wohngeld.
 """
 
 from _gettsim.config import numpy_or_jax as np
@@ -326,7 +326,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_rente_zu_verst_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
-    elterngeld_anr_m: float,
+    anrechenbares_elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -353,8 +353,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
         See :func:`unterhaltsvors_m`.
-    elterngeld_anr_m
-        See :func:`elterngeld_anr_m`.
+    anrechenbares_elterngeld_m
+        See :func:`anrechenbares_elterngeld_m`.
     wohngeld_abzüge_st_sozialv_m
         See :func:`wohngeld_abzüge_st_sozialv_m`.
 
@@ -377,7 +377,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         + eink_rente_zu_verst_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
-        + elterngeld_anr_m
+        + anrechenbares_elterngeld_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
@@ -689,7 +689,7 @@ def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
     # size.
     params_max_miete = wohngeld_params["max_miete"]
     selected_bin_index = np.searchsorted(
-        sorted(params_max_miete[1]), immobilie_baujahr_hh, side="left"
+        np.asarray(sorted(params_max_miete[1])), immobilie_baujahr_hh, side="left"
     )
 
     constr_year = list(params_max_miete[1])[selected_bin_index]
@@ -771,10 +771,10 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
                 anz_personen_hh
             ]
         else:
-            heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["heizkostenentlastung_m"]["jede_weitere_person"]
+            heating_allowance_m = (
+                wohngeld_params["heizkostenentlastung_m"][max_def_hh_größe_heating]
+                + (berücks_personen - max_def_hh_größe_heating)
+                * (wohngeld_params["heizkostenentlastung_m"]["jede_weitere_person"])
             )
     else:
         heating_allowance_m = 0
@@ -794,12 +794,16 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
                 anz_personen_hh
             ]
         else:
-            heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
+            heating_component_m = (
                 wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                    "jede_weitere_person"
+                    max_def_hh_größe_heating
                 ]
+                + (berücks_personen - max_def_hh_größe_heating)
+                * (
+                    wohngeld_params["dauerhafte_heizkostenkomponente_m"][
+                        "jede_weitere_person"
+                    ]
+                )
             )
     else:
         heating_component_m = 0
@@ -815,10 +819,10 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
         if anz_personen_hh <= max_def_hh_größe_heating:
             climate_component_m = wohngeld_params["klimakomponente_m"][anz_personen_hh]
         else:
-            climate_component_m = wohngeld_params["klimakomponente_m"][
-                max_def_hh_größe_heating
-            ] + (berücks_personen - max_def_hh_größe_heating) * (
-                wohngeld_params["klimakomponente_m"]["jede_weitere_person"]
+            climate_component_m = (
+                wohngeld_params["klimakomponente_m"][max_def_hh_größe_heating]
+                + (berücks_personen - max_def_hh_größe_heating)
+                * (wohngeld_params["klimakomponente_m"]["jede_weitere_person"])
             )
     else:
         climate_component_m = 0

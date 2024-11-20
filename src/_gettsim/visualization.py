@@ -11,7 +11,11 @@ from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
 from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.interface import set_up_dag
+from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.policy_environment_postprocessor import (
+    check_functions_and_differentiate_types,
+)
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -20,7 +24,7 @@ from _gettsim.shared import (
 
 
 def plot_dag(
-    functions,
+    environment: PolicyEnvironment,
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
@@ -34,11 +38,8 @@ def plot_dag(
 
     Parameters
     ----------
-    functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same
-        objects. If the object is a dictionary, the keys of the dictionary are used as
-        a name instead of the function name. For all other objects, the name is
-        inferred from the function name.
+    environment:
+        The policy environment.
     targets : str, list of str
         String or list of strings with names of functions whose output is actually
         needed by the user.
@@ -74,12 +75,12 @@ def plot_dag(
     )
 
     # Load functions.
-    functions_not_overridden, functions_overridden = load_and_check_functions(
-        functions_raw=functions,
-        targets=targets,
-        data_cols=list(TYPES_INPUT_VARIABLES),
-        aggregate_by_group_specs={},
-        aggregate_by_p_id_specs={},
+    functions_not_overridden, functions_overridden = (
+        check_functions_and_differentiate_types(
+            environment,
+            targets=targets,
+            data_cols=list(TYPES_INPUT_VARIABLES),
+        )
     )
 
     # Select necessary nodes by creating a preliminary DAG.

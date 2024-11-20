@@ -1,9 +1,9 @@
 from datetime import timedelta
 
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
 from pandas.testing import assert_series_equal
 
+from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
@@ -28,12 +28,10 @@ def test_grundrente(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, environment=environment, targets=column
     )
 
     tol = OUT_COLS_TOL[column]
@@ -56,6 +54,7 @@ INPUT_COLS_INCOME = [
     "monat_renteneintr",
     "wohnort_ost",
     "bruttolohn_m",
+    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "weiblich",
     "y_pflichtbeitr_ab_40",
     "pflichtbeitr_8_in_10",
@@ -90,12 +89,10 @@ def test_proxy_rente_vorj(
     column: str,
 ):
     df = test_data.input_df[INPUT_COLS_INCOME]
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, environment=environment, targets=column
     )
 
     assert_series_equal(
@@ -115,29 +112,25 @@ def test_proxy_rente_vorj(
 def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     df = test_data.input_df[INPUT_COLS_INCOME].copy()
     date = test_data.date
-    policy_params, policy_functions = cached_set_up_policy_environment(date)
+    environment = cached_set_up_policy_environment(date)
 
     calc_result = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
+        environment=environment,
         targets="rente_vorj_vor_grundr_proxy_m",
     )
 
     # Calculate pension of last year
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date - timedelta(days=365)
-    )
+    environment = cached_set_up_policy_environment(date - timedelta(days=365))
     df["alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
-        params=policy_params,
-        functions=policy_functions,
-        targets=["ges_rente_vor_grundr_m"],
+        environment=environment,
+        targets=["bruttorente_m"],
     )
     assert_series_equal(
         calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["ges_rente_vor_grundr_m"] + df["priv_rente_m"],
+        calc_result_last_year["bruttorente_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

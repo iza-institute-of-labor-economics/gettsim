@@ -70,11 +70,7 @@ def kindergeld_gestaffelt_m(
     else:
         sum_kindergeld = sum(
             kindergeld_params["kindergeld"][
-                (
-                    i
-                    if i <= max(kindergeld_params["kindergeld"])
-                    else max(kindergeld_params["kindergeld"])
-                )
+                (min(i, max(kindergeld_params["kindergeld"])))
             ]
             for i in range(1, kindergeld_anz_ansprüche + 1)
         )

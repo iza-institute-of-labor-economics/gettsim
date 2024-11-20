@@ -3,30 +3,34 @@ from __future__ import annotations
 import numpy
 import pandas as pd
 import pytest
+
+from _gettsim.config import DEFAULT_TARGETS
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim.synthetic import create_synthetic_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_with_defaults():
     return create_synthetic_data()
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_couple_with_children():
     return create_synthetic_data(n_adults=2, n_children=2)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_alleinerziehend():
     return create_synthetic_data(n_adults=1, n_children=1)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_no_children():
     return create_synthetic_data(n_adults=2, n_children=0)
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_variables():
     df = create_synthetic_data(
         n_adults=2,
@@ -39,7 +43,7 @@ def synthetic_data_spec_variables():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_married():
     df = create_synthetic_data(
         n_adults=2,
@@ -53,7 +57,7 @@ def synthetic_data_spec_heterogeneous_married():
     return df
 
 
-@pytest.fixture()
+@pytest.fixture
 def synthetic_data_spec_heterogeneous_not_married():
     df = create_synthetic_data(
         n_adults=2,
@@ -286,3 +290,16 @@ def test_p_id_groups(fixture, expected, request):
     df = request.getfixturevalue(fixture)
     for col, values in expected.items():
         pd.testing.assert_series_equal(df[col], pd.Series(values, name=col))
+
+
+@pytest.mark.parametrize(
+    "fixture, policy_date",
+    [("synthetic_data_couple_with_children", y) for y in range(2015, 2024)],
+)
+def test_default_targets(fixture, policy_date, request):
+    environment = set_up_policy_environment(policy_date)
+    compute_taxes_and_transfers(
+        data=request.getfixturevalue(fixture),
+        targets=DEFAULT_TARGETS,
+        environment=environment,
+    )

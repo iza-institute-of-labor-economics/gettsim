@@ -278,7 +278,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     )
 
     # Use data for 2 children if there are more than 2 children in the household.
-    n_children_lookup = n_children if n_children <= 2 else 2
+    n_children_lookup = min(n_children, 2)
     hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
     # Take care of bürgerg_bezug_vorj
@@ -297,6 +297,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "m_schul_ausbild": 10.0,
         "m_kind_berücks_zeit": 24.0,
         "m_pfleg_berücks_zeit": 1.0,
+        "elterngeld_nettoeinkommen_vorjahr_m": 20000.0,
         "geburtsjahr": policy_year - df["alter"],
         "jahr_renteneintr": policy_year - df["alter"] + 67,
         "grundr_zeiten": (df["alter"] - 20).clip(lower=0) * 12,
