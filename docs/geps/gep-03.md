@@ -11,6 +11,8 @@
   * Standards Track
 - * Created
   * 2022-03-28
+- * Updated
+  * 2024-11-21
 - * Resolution
   * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003)
 ```
