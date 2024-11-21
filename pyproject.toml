@@ -36,7 +36,7 @@ classifiers = [
 requires-python = ">=3.11"
 dependencies = [
     "astor",
-    "dags",
+    #"dags",
     "ipywidgets",
     "networkx",
     "numpy",
@@ -118,9 +118,10 @@ toml = "*"
 
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
-kaleido = "*"
 pdbp = "*"
-dags = {git = "ssh://git@github.com/lars-reimann/dags.git", rev = "43173e88436b2a628e8a6a552f29e116d083c2c1"}
+dags = {git = "https://github.com/lars-reimann/dags.git", rev = "namespaces"}
+flatten_dict = "*"
+
 
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = ">=0.1.0.post1,<=0.1.0.post1"
