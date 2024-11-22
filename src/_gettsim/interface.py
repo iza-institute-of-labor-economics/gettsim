@@ -28,7 +28,7 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    parse_to_list_of_strings,
+    parse_to_nested_dict,
 )
 
 
@@ -72,7 +72,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     """
 
     targets = DEFAULT_TARGETS if targets is None else targets
-    targets = parse_to_list_of_strings(targets, "targets")
+    target_tree = parse_to_nested_dict(targets, "targets")
     params = environment.params
 
     # Process data and load dictionaries with functions.
@@ -119,12 +119,11 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
 
     # Calculate results.
-    tax_transfer_function = dags.concatenate_functions(
-        processed_functions,
-        targets,
-        return_type="dict",
-        aggregator=None,
-        enforce_signature=True,
+    tax_transfer_function = dags.concatenate_functions_tree(
+        functions=function_tree,
+        targets=targets,
+        input_structure=input_structure,
+        name_clashes="raise",
     )
 
     results = tax_transfer_function(**input_data)

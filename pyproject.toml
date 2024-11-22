@@ -44,6 +44,7 @@ dependencies = [
     "pandas",
     "openpyxl",
     "plotly",
+    "pybaum",
     "pygments",
     "pygraphviz",
     "pytest",
@@ -107,6 +108,7 @@ ipywidgets = "*"
 jupyterlab = "*"
 networkx = "*"
 plotly = ">=5.24,<6"
+pybaum = "*"
 pygments = "*"
 pygraphviz = "*"
 pyyaml = "*"
