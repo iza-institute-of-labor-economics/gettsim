@@ -119,7 +119,7 @@ toml = "*"
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
 pdbp = "*"
-dags = {git = "https://github.com/lars-reimann/dags.git", rev = "namespaces"}
+dags = {git = "https://github.com/lars-reimann/dags.git", rev = "43173e88436b2a628e8a6a552f29e116d083c2c1"}
 flatten_dict = "*"
 
 
