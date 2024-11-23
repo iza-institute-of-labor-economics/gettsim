@@ -3,16 +3,20 @@ import importlib.util
 import inspect
 import sys
 from collections.abc import Callable
+from functools import reduce
 from pathlib import Path
 from types import ModuleType
 from typing import Literal, TypeAlias
 
+from pybaum import tree_flatten, tree_unflatten
+
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.shared import create_nested_dict
 
 from .policy_function import PolicyFunction
 
 
-def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
+def load_functions_for_date(date: datetime.date) -> dict[dict | PolicyFunction]:
     """
     Load policy functions that are active at a specific date.
 
@@ -26,17 +30,21 @@ def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     functions:
         The policy functions that are active at the given date.
     """
-    return [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    flattened_functions_tree, tree_def = tree_flatten(_load_internal_functions())
+    active_functions = [
+        f for f in flattened_functions_tree if f.is_active_at_date(date)
+    ]
+    return tree_unflatten(active_functions, tree_def)
 
 
-def _load_internal_functions() -> list[PolicyFunction]:
+def _load_internal_functions() -> dict[dict | PolicyFunction]:
     """
     Load all internal policy functions.
 
     Returns
     -------
     functions:
-        All internal policy functions.
+        All internal policy functions as a tree.
     """
     return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR)
 
@@ -45,7 +53,7 @@ def _load_functions(
     roots: Path | list[Path],
     package_root: Path,
     include_imported_functions=False,
-) -> list[PolicyFunction]:
+) -> dict[dict | PolicyFunction]:
     """
     Load policy functions reachable from the given roots.
 
@@ -63,19 +71,80 @@ def _load_functions(
     Returns
     -------
     functions:
-        Loaded policy functions.
+        Loaded policy functions as a tree.
     """
     roots = roots if isinstance(roots, list) else [roots]
     paths = _find_python_files_recursively(roots)
 
-    result = []
+    result = {}
 
     for path in paths:
-        result.extend(
-            _load_functions_in_module(path, package_root, include_imported_functions)
+        # Get functions from module
+        functions = _load_functions_in_module(
+            path, package_root, include_imported_functions
+        )
+        result = update_functions_tree_from_path(
+            current_dict=result,
+            path=path,
+            package_root=package_root,
+            functions=functions,
         )
 
     return result
+
+
+def update_functions_tree_from_path(
+    current_dict: dict,
+    path: Path,
+    package_root: Path,
+    functions: list[PolicyFunction],
+) -> dict:
+    """
+    Update the functions tree with the functions from a path.
+
+    Example
+    -------
+    current_dict = {}
+    path = Path("src/_gettsim/a/b/c.py")
+    package_root = Path("src/_gettsim")
+    functions = [PolicyFunction(...), PolicyFunction(...)]
+
+    Result:
+    {
+        "a": {
+            "b": {
+                "c": {[PolicyFunction(...), PolicyFunction(...)]
+                }
+            }
+        }
+    }
+
+
+    Parameters
+    ----------
+    current_dict:
+        The dictionary to update.
+    path:
+        The path to the module in which the functions are defined.
+    package_root:
+        The root of the package that contains the functions.
+    functions:
+        The functions to add to the dictionary.
+
+    Returns
+    -------
+    updated_dict:
+        The updated dictionary.
+    """
+    # Dissect path to dict keys
+    dict_levels = list(path.relative_to(package_root).with_suffix("").parts)
+    # Create nested dict with functions as the value at the deepest level
+    update_dict = reduce(
+        lambda d, key: {key: d},
+        reversed(dict_levels),
+        functions,  # Use functions as the final value
+    )
+    return create_nested_dict(current_dict, update_dict)
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:

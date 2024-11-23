@@ -318,6 +318,7 @@ norecursedirs = ["docs"]
 testpaths = [
     "src/_gettsim_tests",
 ]
+addopts = ["--pdbcls=pdbp:Pdb"]
 
 
 # ======================================================================================
