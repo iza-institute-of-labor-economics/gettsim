@@ -96,7 +96,7 @@ platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
 # --------------------------------------------------------------------------------------
 
 [tool.pixi.dependencies]
-python = ">=3.11"
+python = ">=3.11,<3.13"
 pre-commit = "*"
 pandas = ">=2.1"
 numpy_groupies = "*"
@@ -112,6 +112,9 @@ pygments = "*"
 pygraphviz = "*"
 pyyaml = "*"
 toml = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 
 
 # Development Dependencies (pypi)
@@ -119,13 +122,15 @@ toml = "*"
 
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
-kaleido = "*"
 pdbp = "*"
+
+[tool.pixi.target.unix.pypi-dependencies]
+kaleido = "*"
 
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = ">=0.1.0.post1,<=0.1.0.post1"
 
-# Features and Tasks
+# Features
 # --------------------------------------------------------------------------------------
 
 [tool.pixi.feature.py311.dependencies]
@@ -142,10 +147,11 @@ jaxlib = ">=0.4.20"
 jax = { version = ">=0.4.20", extras = ["cpu"] }
 jaxlib = ">=0.4.20"
 
-[tool.pixi.feature.test.dependencies]
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
+# Tasks
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.feature.test.tasks]
+tests = "pytest"
 
 # Environments
 # --------------------------------------------------------------------------------------
@@ -296,6 +302,7 @@ ignore = [
 # ======================================================================================
 
 [tool.pytest.ini_options]
+addopts = ["--pdbcls=pdbp:Pdb"]
 filterwarnings = [
     "ignore:.*XMLParser*:DeprecationWarning",
     "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
