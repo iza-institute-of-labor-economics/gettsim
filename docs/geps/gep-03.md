@@ -170,12 +170,11 @@ These work differently and they are
   (Bekanntmachung "B. v.") that changes the law
 - uses German language
 - follows the style
-  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS].` for older references
-    published until 2022
-    - the page should be the first page of the law/decree/proclamation, not the exact
-      page of the parameter
-  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. [YYYY] I Nr. [NNN].` for newer
-    references from 2023 on
+  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS].` for references published
+    until 2022 (the page should be the first page of the law/decree/proclamation, not
+    the exact page of the parameter)
+  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. [YYYY] I Nr. [NNN].` for references
+    from 2023 on
 - does not add information "geändert durch" (it is always a change) or the date the law
   comes into force (this would just repeat the date key one level above)
 
