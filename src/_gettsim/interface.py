@@ -28,7 +28,6 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    parse_to_nested_dict,
 )
 
 
@@ -72,11 +71,9 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     """
 
     targets = DEFAULT_TARGETS if targets is None else targets
-    target_tree = parse_to_nested_dict(targets, "targets")
     params = environment.params
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
-    data_tree = parse_to_nested_dict(data, "data")
     functions_not_overridden, functions_overridden = (
         check_functions_and_differentiate_types(
             environment=environment,

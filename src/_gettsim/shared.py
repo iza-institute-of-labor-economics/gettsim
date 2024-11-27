@@ -202,18 +202,20 @@ def parse_to_list_of_strings(user_input, name):
     return sorted(set(user_input))
 
 
-def parse_to_nested_dict(
-    user_input: str | dict | list[str] | tuple[str],
+def parse_input_to_nested_dict(
+    input_object: str | dict | list[str] | tuple[str],
+    separator: str,
     name: str,
 ) -> dict:
-    """Parse strings to nested dictionaries.
+    """Parse strings to a nested dictionary.
 
-    Dissect strings to keywords separated by double underscores. Create a nested dict
+    Dissect strings to keywords separated by 'separator'. Create a nested dict
     from these keys.
 
     Example:
         Input:
-            user_input = ["a__b__c", "a__b__d", "a__e"]
+            input_object = ["a.b.c", "a.b.d", "a.e"]
+            separator = "."
         Result:
             {
                 "a": {
@@ -227,42 +229,46 @@ def parse_to_nested_dict(
 
     Parameters
     ----------
-    user_input : str | dict | list[str] | tuple
-        The user input.
+    input_object : str | dict | list[str] | tuple
+        Object to parse.
+    separator : str
+        The separator to split the strings.
     name : str
-        Name of the user_input.
+        Name of the input_object.
 
     Returns
     -------
     dict
         The nested dictionary.
     """
-    if isinstance(user_input, dict):
-        out = user_input
-    elif isinstance(user_input, str):
-        out = dissect_string_to_dict(user_input)
-    elif isinstance(user_input, list | tuple):
-        string_dicts = [dissect_string_to_dict(s) for s in user_input]
+    if isinstance(input_object, dict):
+        out = input_object
+    elif isinstance(input_object, str):
+        dict_keys = input_object.split(separator)
+        out = dissect_string_to_dict(dict_keys)
+    elif isinstance(input_object, list | tuple):
+        string_dicts = [
+            dissect_string_to_dict(s.split(separator)) for s in input_object
+        ]
         out = reduce(lambda x, y: create_nested_dict(x, y), string_dicts)
     else:
         raise NotImplementedError(
-            f"{name!r} needs to be a string, a list of strings or a dictionary."
+            f"{name!r} needs to be a string, a list/tuple of strings or a dictionary."
         )
 
     return out
 
 
-def dissect_string_to_dict(string: str) -> dict:
-    """Dissect a string separated by double underscores to dict.
+def dissect_string_to_dict(keys: list[str]) -> dict:
+    """Dissect a string into a nested dictionary.
 
     Example:
         Input:
-            string = "a__b__c"
+            keys = ["a", "b", "c"]
         Result:
             {"a": {"b": {"c": None}}}
 
     """
-    keys = string.split("__")
     nested_dict = None
     for key in reversed(keys):
         nested_dict = {key: nested_dict}

@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, Any
 import numpy
 import pandas as pd
 import yaml
+from pybaum import tree_flatten, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -21,6 +22,7 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
+from _gettsim.shared import create_nested_dict, dissect_string_to_dict
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -81,30 +83,31 @@ class PolicyEnvironment:
         params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
         params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
         functions = load_functions_for_date(date)
+        functions_tree = _build_functions_tree(functions)
 
         # Load aggregation specs
         aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
         aggregate_by_p_id_specs = load_internal_aggregation_dict("aggregate_by_p_id")
 
         return PolicyEnvironment(
-            functions, params, aggregate_by_group_specs, aggregate_by_p_id_specs
+            functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
         )
 
     def __init__(
         self,
-        functions: list[PolicyFunction | Callable],
+        functions: dict[str, Any],
         params: dict[str, Any] | None = None,
         aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
         aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
     ):
-        self._functions = {}
-        for function in functions:
-            f = (
-                function
-                if isinstance(function, PolicyFunction)
-                else PolicyFunction(function)
-            )
-            self._functions[f.name_in_dag] = f
+        flattened_function_tree, tree_def = tree_flatten(functions)
+        functions_with_correct_types = [
+            function
+            if isinstance(function, PolicyFunction)
+            else PolicyFunction(function)
+            for function in flattened_function_tree
+        ]
+        self._functions = tree_unflatten(functions_with_correct_types, tree_def)
 
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
@@ -115,7 +118,7 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions(self) -> dict[str, PolicyFunction]:
+    def functions(self) -> dict[str, Any]:
         """The functions of the policy environment."""
         return self._functions
 
@@ -140,14 +143,16 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
-    def get_function_by_name(self, name: str) -> PolicyFunction | None:
+    def get_function_by_name(self, name_dict: dict[str, Any]) -> PolicyFunction | None:
         """
-        Return the function with a specific name or `None` if no such function exists.
+        Return the function with a specific path in the function tree or `None` if no
+        such function exists.
 
         Parameters
         ----------
-        name:
-            The name of the functions.
+        name_dict:
+            The path to the function in the function tree.
+            Example: {"level_1": {"level_2": "function_name"}}
 
         Returns
         -------
@@ -255,6 +260,31 @@ def _parse_date(date):
     elif isinstance(date, int):
         date = datetime.date(year=date, month=1, day=1)
     return date
+
+
+def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFunction]:
+    """Build the function tree.
+
+    Takes the list of active policy functions and builds a tree using the module names.
+
+    Parameters
+    ----------
+    functions:
+        A list of PolicyFunctions.
+
+    Returns
+    -------
+    tree:
+        A tree of PolicyFunctions.
+    """
+    # Build module_name - functions dictionary
+    tree = {}
+    for function in functions:
+        tree_keys = function.module_name.split(".") + [function.name_in_dag]
+        update_dict = dissect_string_to_dict(tree_keys)
+        set_by_path(update_dict, tree_keys, function)
+        tree = create_nested_dict(tree, update_dict)
+    return tree
 
 
 def _parse_piecewise_parameters(tax_data):
