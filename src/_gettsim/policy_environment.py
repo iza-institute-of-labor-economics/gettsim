@@ -97,6 +97,7 @@ class PolicyEnvironment:
         aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
         aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
     ):
+        _fail_if_functions_not_passed_as_tree(functions)
         flattened_function_tree, tree_def = tree_flatten(functions)
         functions_with_correct_types = [
             function
@@ -104,7 +105,7 @@ class PolicyEnvironment:
             else PolicyFunction(function)
             for function in flattened_function_tree
         ]
-        self._functions = tree_unflatten(functions_with_correct_types, tree_def)
+        self._functions = tree_unflatten(tree_def, functions_with_correct_types)
 
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
@@ -169,7 +170,12 @@ class PolicyEnvironment:
             raise NotImplementedError(
                 "The function_tree_path must be a dictionary or a list."
             )
-        out = get_by_path(self._functions, keys)
+
+        try:
+            out = get_by_path(self._functions, keys)
+        except KeyError:
+            out = None
+
         return out if isinstance(out, PolicyFunction) else None
 
     def upsert_functions(
@@ -685,6 +691,12 @@ def _fail_if_more_than_one_path(path_list):
             "The function_tree_path must point to exactly one function in the function "
             "tree."
         )
+
+
+def _fail_if_functions_not_passed_as_tree(obj):
+    """Raise error if functions are not passed as tree."""
+    if not isinstance(obj, dict):
+        raise TypeError("Functions must be passed as a tree.")
 
 
 def add_progressionsfaktor(params_dict, parameter):

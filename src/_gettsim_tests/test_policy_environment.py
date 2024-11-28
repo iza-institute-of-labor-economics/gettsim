@@ -17,44 +17,40 @@ from _gettsim_tests import TEST_DIR
 
 class TestPolicyEnvironment:
     def test_get_function_by_name_exists(self):
-        function = PolicyFunction(lambda: 1, function_name="foo")
-        environment = PolicyEnvironment([function])
+        function = PolicyFunction(lambda: 1)
+        environment = PolicyEnvironment({"foo": function})
 
-        assert environment.get_function_by_name("foo") == function
+        assert environment.get_function_by_name(["foo"]) == function
 
     def test_get_function_by_name_does_not_exist(self):
-        environment = PolicyEnvironment([], {})
+        environment = PolicyEnvironment({}, {})
 
-        assert environment.get_function_by_name("foo") is None
+        assert environment.get_function_by_name(["foo"]) is None
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({"foo": PolicyFunction(lambda: 1)}),
             PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                ]
-            ),
-            PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                    PolicyFunction(lambda: 2, function_name="bar"),
-                ]
+                {
+                    "foo": PolicyFunction(lambda: 1),
+                    "bar": PolicyFunction(lambda: 2),
+                }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3, function_name="foo")
-        new_environment = environment.upsert_functions(new_function)
+        new_function = PolicyFunction(lambda: 3)
+        new_environment = environment.upsert_functions({"foo": new_function})
 
-        assert new_environment.get_function_by_name("foo") == new_function
+        assert new_environment.get_function_by_name(["foo"]) == new_function
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
-            PolicyEnvironment([], {"foo": {"bar": 1}}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({}, {"foo": {"bar": 1}}),
         ],
     )
     def test_replace_all_parameters(self, environment: PolicyEnvironment):
