@@ -4,10 +4,12 @@ from datetime import date, timedelta
 
 import pandas as pd
 import pytest
+from optree import tree_paths
 
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
     PolicyEnvironment,
+    _build_functions_tree,
     _load_parameter_group_from_yaml,
     load_functions_for_date,
     set_up_policy_environment,
@@ -140,3 +142,37 @@ def test_load_functions_for_date(
 
     assert functions_last_day[dag_key].__name__ == function_name_last_day
     assert functions_next_day[dag_key].__name__ == function_name_next_day
+
+
+@pytest.mark.parametrize(
+    "functions_list, expected",
+    [
+        (
+            [
+                PolicyFunction(lambda: 1, module_name="a", function_name="foo"),
+                PolicyFunction(lambda: 1, module_name="a", function_name="bar"),
+                PolicyFunction(lambda: 3, module_name="a.b", function_name="foo"),
+                PolicyFunction(lambda: 4, module_name="a.b.c", function_name="foo"),
+                PolicyFunction(lambda: 2, module_name="b", function_name="foo"),
+            ],
+            {
+                "a": {
+                    "foo": None,
+                    "bar": None,
+                    "b": {
+                        "foo": None,
+                        "c": {
+                            "foo": None,
+                        },
+                    },
+                },
+                "b": {
+                    "foo": None,
+                },
+            },
+        ),
+    ],
+)
+def test_build_functions_tree(functions_list, expected):
+    tree = _build_functions_tree(functions_list)
+    assert tree_paths(tree) == tree_paths(expected, none_is_leaf=True)
