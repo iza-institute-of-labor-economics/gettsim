@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any
 import numpy
 import pandas as pd
 import yaml
-from pybaum import tree_flatten, tree_unflatten
+from pybaum import tree_flatten, tree_just_flatten, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -143,23 +143,28 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
-    def get_function_by_name(self, name_dict: dict[str, Any]) -> PolicyFunction | None:
+    def get_function_by_name(
+        self, tree_path: dict[str, Any] | list[str]
+    ) -> PolicyFunction | None:
         """
         Return the function with a specific path in the function tree or `None` if no
         such function exists.
 
         Parameters
         ----------
-        name_dict:
+        tree_path:
             The path to the function in the function tree.
-            Example: {"level_1": {"level_2": "function_name"}}
+            Example 1: {"level_1": {"level_2": "function_name"}}
+            Example 2: ["level_1", "level_2", "function_name"]
 
         Returns
         -------
         function:
             The functions with the specified name, if it exists.
         """
-        return self._functions.get(name)
+        tree_path_as_list = tree_just_flatten(tree_path)
+        out = self._functions.get_by_path(tree_path_as_list)
+        return out if isinstance(out, PolicyFunction) else None
 
     def upsert_functions(
         self, *functions: PolicyFunction | Callable
@@ -280,7 +285,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFu
     # Build module_name - functions dictionary
     tree = {}
     for function in functions:
-        tree_keys = function.module_name.split(".") + [function.name_in_dag]
+        tree_keys = [*function.module_name.split("."), function.name_in_dag]
         update_dict = dissect_string_to_dict(tree_keys)
         set_by_path(update_dict, tree_keys, function)
         tree = create_nested_dict(tree, update_dict)
