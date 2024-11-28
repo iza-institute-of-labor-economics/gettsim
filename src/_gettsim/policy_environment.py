@@ -4,7 +4,7 @@ import copy
 import datetime
 import operator
 from functools import reduce
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import numpy
 import pandas as pd
@@ -22,10 +22,7 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.shared import create_nested_dict, dissect_string_to_dict
-
-if TYPE_CHECKING:
-    from collections.abc import Callable
+from _gettsim.shared import dissect_string_to_dict, merge_nested_dicts
 
 
 class PolicyEnvironment:
@@ -167,15 +164,16 @@ class PolicyEnvironment:
         return out if isinstance(out, PolicyFunction) else None
 
     def upsert_functions(
-        self, *functions: PolicyFunction | Callable
+        self, function_tree_update: dict[str, Any]
     ) -> PolicyEnvironment:
-        """
+        """Upsert GETTSIM's function tree with (parts of) a new function tree.
+
         Adds to or overwrites functions of the policy environment. Note that this
         method does not modify the current policy environment but returns a new one.
 
         Parameters
         ----------
-        functions:
+        function_tree_update:
             The functions to add or overwrite.
 
         Returns
@@ -183,17 +181,19 @@ class PolicyEnvironment:
         new_environment:
             The policy environment with the new functions.
         """
-        new_functions = {**self._functions}
-        for function in functions:
-            f = (
-                function
-                if isinstance(function, PolicyFunction)
-                else PolicyFunction(function)
-            )
-            new_functions[f.name_in_dag] = f
+        new_function_tree = {**self._functions}
+        functions_to_upsert, tree_def = tree_flatten(function_tree_update)
+        functions_to_upsert = [
+            function
+            if isinstance(function, PolicyFunction)
+            else PolicyFunction(function)
+            for function in functions_to_upsert
+        ]
+        functions_tree_update = tree_unflatten(tree_def, functions_to_upsert)
+        new_function_tree = merge_nested_dicts(new_function_tree, functions_tree_update)
 
         result = object.__new__(PolicyEnvironment)
-        result._functions = new_functions  # noqa: SLF001
+        result._functions = new_function_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -288,7 +288,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFu
         tree_keys = [*function.module_name.split("."), function.name_in_dag]
         update_dict = dissect_string_to_dict(tree_keys)
         set_by_path(update_dict, tree_keys, function)
-        tree = create_nested_dict(tree, update_dict)
+        tree = merge_nested_dicts(tree, update_dict)
     return tree
 
 

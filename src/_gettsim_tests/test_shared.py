@@ -2,8 +2,8 @@ import pandas as pd
 import pytest
 
 from _gettsim.shared import (
-    create_nested_dict,
     dissect_string_to_dict,
+    merge_nested_dicts,
     parse_input_to_nested_dict,
 )
 
@@ -58,5 +58,5 @@ def test_dissect_string_to_dict(keys, expected):
         ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
     ],
 )
-def test_create_nested_dict(base_dict, update_dict, expected):
-    assert create_nested_dict(base_dict, update_dict) == expected
+def test_merge_nested_dicts(base_dict, update_dict, expected):
+    assert merge_nested_dicts(base_dict, update_dict) == expected

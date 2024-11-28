@@ -250,7 +250,7 @@ def parse_input_to_nested_dict(
         string_dicts = [
             dissect_string_to_dict(s.split(separator)) for s in input_object
         ]
-        out = reduce(lambda x, y: create_nested_dict(x, y), string_dicts)
+        out = reduce(lambda x, y: merge_nested_dicts(x, y), string_dicts)
     else:
         raise NotImplementedError(
             f"{name!r} needs to be a string, a list/tuple of strings or a dictionary."
@@ -275,7 +275,7 @@ def dissect_string_to_dict(keys: list[str]) -> dict:
     return nested_dict
 
 
-def create_nested_dict(base_dict: dict, update_dict: dict) -> dict:
+def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
     """
     Recursively merge nested dictionaries.
 
@@ -302,7 +302,7 @@ def create_nested_dict(base_dict: dict, update_dict: dict) -> dict:
 
     for key, value in update_dict.items():
         if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-            result[key] = create_nested_dict(result[key], value)
+            result[key] = merge_nested_dicts(result[key], value)
         else:
             result[key] = value
 
