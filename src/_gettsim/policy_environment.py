@@ -9,7 +9,7 @@ from typing import Any
 import numpy
 import pandas as pd
 import yaml
-from pybaum import tree_flatten, tree_just_flatten, tree_unflatten
+from optree import tree_flatten, tree_paths, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -141,7 +141,7 @@ class PolicyEnvironment:
         return self._aggregate_by_p_id_specs
 
     def get_function_by_name(
-        self, tree_path: dict[str, Any] | list[str]
+        self, function_tree_path: dict[str, Any] | list[str]
     ) -> PolicyFunction | None:
         """
         Return the function with a specific path in the function tree or `None` if no
@@ -149,7 +149,7 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        tree_path:
+        function_tree_path:
             The path to the function in the function tree.
             Example 1: {"level_1": {"level_2": "function_name"}}
             Example 2: ["level_1", "level_2", "function_name"]
@@ -157,10 +157,19 @@ class PolicyEnvironment:
         Returns
         -------
         function:
-            The functions with the specified name, if it exists.
+            The functions with the specified tree path, if it exists.
         """
-        tree_path_as_list = tree_just_flatten(tree_path)
-        out = self._functions.get_by_path(tree_path_as_list)
+        if isinstance(function_tree_path, dict):
+            path_list = tree_paths(function_tree_path)
+            _fail_if_more_than_one_path(path_list)
+            keys = path_list[0]
+        elif isinstance(function_tree_path, list):
+            keys = function_tree_path
+        else:
+            raise NotImplementedError(
+                "The function_tree_path must be a dictionary or a list."
+            )
+        out = get_by_path(self._functions, keys)
         return out if isinstance(out, PolicyFunction) else None
 
     def upsert_functions(
@@ -667,6 +676,15 @@ def get_by_path(data_dict, key_list):
 def set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+
+
+def _fail_if_more_than_one_path(path_list):
+    """Raise error if more than one path is found."""
+    if len(path_list) > 1:
+        raise ValueError(
+            "The function_tree_path must point to exactly one function in the function "
+            "tree."
+        )
 
 
 def add_progressionsfaktor(params_dict, parameter):
