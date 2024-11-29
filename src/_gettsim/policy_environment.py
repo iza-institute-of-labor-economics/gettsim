@@ -172,7 +172,7 @@ class PolicyEnvironment:
             )
 
         try:
-            out = get_by_path(self.functions_tree, keys)
+            out = get_by_path(self._functions_tree, keys)
         except KeyError:
             out = None
 
@@ -210,7 +210,7 @@ class PolicyEnvironment:
         )
 
         result = object.__new__(PolicyEnvironment)
-        result._functions = new_functions_tree  # noqa: SLF001
+        result._functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
