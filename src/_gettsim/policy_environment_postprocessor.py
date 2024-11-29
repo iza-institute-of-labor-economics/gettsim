@@ -86,7 +86,7 @@ def check_functions_and_differentiate_types(
     groupings = create_groupings()
 
     all_functions = {
-        **environment.functions,
+        **environment.functions_tree,
         **aggregate_by_p_id_functions,
         **time_conversion_functions,
         **aggregate_by_group_functions,
@@ -124,21 +124,21 @@ def _create_derived_functions(
     """
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
-        environment.functions,
+        environment.functions_tree,
         environment.aggregate_by_p_id_specs,
         data_cols,
     )
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**environment.functions, **aggregate_by_p_id_functions}, data_cols
+        {**environment.functions_tree, **aggregate_by_p_id_functions}, data_cols
     )
 
     # Create aggregation functions
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
         {
             **time_conversion_functions,
-            **environment.functions,
+            **environment.functions_tree,
             **aggregate_by_p_id_functions,
         },
         targets,

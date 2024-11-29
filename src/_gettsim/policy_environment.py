@@ -92,20 +92,20 @@ class PolicyEnvironment:
 
     def __init__(
         self,
-        functions: dict[str, Any],
+        functions_tree: dict[str, Any],
         params: dict[str, Any] | None = None,
         aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
         aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
     ):
-        _fail_if_functions_not_passed_as_tree(functions)
-        flattened_function_tree, tree_def = tree_flatten(functions)
+        _fail_if_functions_tree_not_tree(functions_tree)
+        flattened_functions_tree, tree_def = tree_flatten(functions_tree)
         functions_with_correct_types = [
             function
             if isinstance(function, PolicyFunction)
             else PolicyFunction(function)
-            for function in flattened_function_tree
+            for function in flattened_functions_tree
         ]
-        self._functions = tree_unflatten(tree_def, functions_with_correct_types)
+        self._functions_tree = tree_unflatten(tree_def, functions_with_correct_types)
 
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
@@ -116,9 +116,9 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions(self) -> dict[str, Any]:
+    def functions_tree(self) -> dict[str, Any]:
         """The functions of the policy environment."""
-        return self._functions
+        return self._functions_tree
 
     @property
     def params(self) -> dict[str, Any]:
@@ -141,8 +141,8 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
-    def get_function_by_name(
-        self, function_tree_path: dict[str, Any] | list[str]
+    def get_function_by_path(
+        self, function_path: dict[str, Any] | list[str]
     ) -> PolicyFunction | None:
         """
         Return the function with a specific path in the function tree or `None` if no
@@ -150,7 +150,7 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        function_tree_path:
+        function_path:
             The path to the function in the function tree.
             Example 1: {"level_1": {"level_2": "function_name"}}
             Example 2: ["level_1", "level_2", "function_name"]
@@ -160,26 +160,26 @@ class PolicyEnvironment:
         function:
             The functions with the specified tree path, if it exists.
         """
-        if isinstance(function_tree_path, dict):
-            path_list = tree_paths(function_tree_path)
+        if isinstance(function_path, dict):
+            path_list = tree_paths(function_path)
             _fail_if_more_than_one_path(path_list)
             keys = path_list[0]
-        elif isinstance(function_tree_path, list):
-            keys = function_tree_path
+        elif isinstance(function_path, list):
+            keys = function_path
         else:
             raise NotImplementedError(
-                "The function_tree_path must be a dictionary or a list."
+                "The function_path must be a dictionary or a list."
             )
 
         try:
-            out = get_by_path(self._functions, keys)
+            out = get_by_path(self.functions_tree, keys)
         except KeyError:
             out = None
 
         return out if isinstance(out, PolicyFunction) else None
 
     def upsert_functions(
-        self, function_tree_update: dict[str, Any]
+        self, functions_tree_update: dict[str, Any]
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
@@ -188,7 +188,7 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        function_tree_update:
+        functions_tree_update:
             The functions to add or overwrite.
 
         Returns
@@ -196,8 +196,8 @@ class PolicyEnvironment:
         new_environment:
             The policy environment with the new functions.
         """
-        new_function_tree = {**self._functions}
-        functions_to_upsert, tree_def = tree_flatten(function_tree_update)
+        new_functions_tree = {**self._functions_tree}
+        functions_to_upsert, tree_def = tree_flatten(functions_tree_update)
         functions_to_upsert = [
             function
             if isinstance(function, PolicyFunction)
@@ -205,10 +205,12 @@ class PolicyEnvironment:
             for function in functions_to_upsert
         ]
         functions_tree_update = tree_unflatten(tree_def, functions_to_upsert)
-        new_function_tree = merge_nested_dicts(new_function_tree, functions_tree_update)
+        new_functions_tree = merge_nested_dicts(
+            new_functions_tree, functions_tree_update
+        )
 
         result = object.__new__(PolicyEnvironment)
-        result._functions = new_function_tree  # noqa: SLF001
+        result._functions = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -233,7 +235,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._functions = self._functions  # noqa: SLF001
+        result._functions_tree = self._functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -688,12 +690,12 @@ def _fail_if_more_than_one_path(path_list):
     """Raise error if more than one path is found."""
     if len(path_list) > 1:
         raise ValueError(
-            "The function_tree_path must point to exactly one function in the function "
+            "The functions_path must point to exactly one function in the functions "
             "tree."
         )
 
 
-def _fail_if_functions_not_passed_as_tree(obj):
+def _fail_if_functions_tree_not_tree(obj):
     """Raise error if functions are not passed as tree."""
     if not isinstance(obj, dict):
         raise TypeError("Functions must be passed as a tree.")

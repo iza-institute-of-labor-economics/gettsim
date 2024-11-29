@@ -18,16 +18,16 @@ from _gettsim_tests import TEST_DIR
 
 
 class TestPolicyEnvironment:
-    def test_get_function_by_name_exists(self):
+    def test_get_function_by_path_exists(self):
         function = PolicyFunction(lambda: 1)
         environment = PolicyEnvironment({"foo": function})
 
-        assert environment.get_function_by_name(["foo"]) == function
+        assert environment.get_function_by_path(["foo"]) == function
 
-    def test_get_function_by_name_does_not_exist(self):
+    def test_get_function_by_path_does_not_exist(self):
         environment = PolicyEnvironment({}, {})
 
-        assert environment.get_function_by_name(["foo"]) is None
+        assert environment.get_function_by_path(["foo"]) is None
 
     @pytest.mark.parametrize(
         "environment",
@@ -46,7 +46,7 @@ class TestPolicyEnvironment:
         new_function = PolicyFunction(lambda: 3)
         new_environment = environment.upsert_functions({"foo": new_function})
 
-        assert new_environment.get_function_by_name(["foo"]) == new_function
+        assert new_environment.get_function_by_path(["foo"]) == new_function
 
     @pytest.mark.parametrize(
         "environment",
