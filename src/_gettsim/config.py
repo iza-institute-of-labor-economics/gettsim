@@ -127,26 +127,38 @@ SUPPORTED_TIME_UNITS = {
     },
 }
 
-DEFAULT_TARGETS = [
-    "eink_st_y_sn",
-    "soli_st_y_sn",
-    "abgelt_st_y_sn",
-    "elterngeld_m",
-    "sozialv_beitr_arbeitnehmer_m",
-    "ges_rentenv_beitr_arbeitnehmer_m",
-    "arbeitsl_v_beitr_arbeitnehmer_m",
-    "ges_krankenv_beitr_arbeitnehmer_m",
-    "ges_pflegev_beitr_arbeitnehmer_m",
-    "arbeitsl_geld_m",
-    "kindergeld_m",
-    "arbeitsl_geld_2_m_bg",
-    "kinderzuschl_m_bg",
-    "wohngeld_m_wthh",
-    "unterhaltsvors_m",
-    "grunds_im_alter_m_eg",
-    "ges_rente_m",
-    "erwerbsm_rente_m",
-]
+DEFAULT_TARGETS = {
+    "taxes": {
+        "eink_st": ["eink_st_y_sn"],
+        "soli_st": ["soli_st_y_sn"],
+        "abgelt_st": ["abgelt_st_y_sn"],
+    },
+    "transfers": {
+        "elterngeld": ["elterngeld_m"],
+        "arbeitsl_geld": ["arbeitsl_geld_m"],
+        "kindergeld": ["kindergeld_m"],
+        "arbeitsl_geld_2": {
+            "arbeitsl_geld_2": ["arbeitsl_geld_2_m_bg"],
+        },
+        "kinderzuschl": {
+            "kinderzuschl": ["kinderzuschl_m_bg"],
+        },
+        "wohngeld": ["wohngeld_m_wthh"],
+        "unterhaltsvors": ["unterhaltsvors_m"],
+        "grunds_im_alter": ["grunds_im_alter_m_eg"],
+        "rente": ["ges_rente_m"],
+        "erwerbsm_rente": ["erwerbsm_rente_m"],
+    },
+    "social_insurance_contributions": {
+        "arbeitsl_v": [
+            "sozialv_beitr_arbeitnehmer_m",
+            "arbeitsl_v_beitr_arbeitnehmer_m",
+        ],
+        "ges_rentenv": ["ges_rentenv_beitr_arbeitnehmer_m"],
+        "ges_krankenv": ["ges_krankenv_beitr_arbeitnehmer_m"],
+        "ges_pflegev": ["ges_pflegev_beitr_arbeitnehmer_m"],
+    },
+}
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
