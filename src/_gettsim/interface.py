@@ -137,16 +137,16 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
 
 def build_targets_tree(targets: dict[str, Any] | list[str] | str) -> dict[str, Any]:
-    """Build a tree from a list of targets.
+    """Build a tree from a list or dictionary of targets.
 
     Parameters
     ----------
-    targets : dict[str, Any]
-        Dictionary of targets.
+    targets : dict[str, Any] | list[str] | str
+        Targets provided by the user.
 
     Returns
     -------
-    tree : dict
+    targets_tree : dict[str, Any]
         Dictionary representing the tree.
 
     """
