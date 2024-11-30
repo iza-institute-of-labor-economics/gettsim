@@ -3,7 +3,6 @@ import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
-from functools import reduce
 from typing import TypeVar
 
 import numpy
@@ -180,83 +179,6 @@ def format_list_linewise(list_):
         ]
         """
     ).format(formatted_list=formatted_list)
-
-
-def parse_to_list_of_strings(user_input, name):
-    """Parse None, str, and list of strings to list of strings.
-
-    Note that the function automatically removes duplicates.
-
-    """
-    if user_input is None:
-        user_input = []
-    elif isinstance(user_input, str):
-        user_input = [user_input]
-    elif isinstance(user_input, list) and all(isinstance(i, str) for i in user_input):
-        pass
-    else:
-        raise NotImplementedError(
-            f"{name!r} needs to be None, a string or a list of strings."
-        )
-
-    return sorted(set(user_input))
-
-
-def parse_input_to_nested_dict(
-    input_object: str | dict | list[str] | tuple[str],
-    separator: str,
-    name: str,
-) -> dict:
-    """Parse strings to a nested dictionary.
-
-    Dissect strings to keywords separated by 'separator'. Create a nested dict
-    from these keys.
-
-    Example:
-        Input:
-            input_object = ["a.b.c", "a.b.d", "a.e"]
-            separator = "."
-        Result:
-            {
-                "a": {
-                    "b": {
-                        "c": None,
-                        "d": None,
-                    },
-                    "e": None,
-                },
-            }
-
-    Parameters
-    ----------
-    input_object : str | dict | list[str] | tuple
-        Object to parse.
-    separator : str
-        The separator to split the strings.
-    name : str
-        Name of the input_object.
-
-    Returns
-    -------
-    dict
-        The nested dictionary.
-    """
-    if isinstance(input_object, dict):
-        out = input_object
-    elif isinstance(input_object, str):
-        dict_keys = input_object.split(separator)
-        out = dissect_string_to_dict(dict_keys)
-    elif isinstance(input_object, list | tuple):
-        string_dicts = [
-            dissect_string_to_dict(s.split(separator)) for s in input_object
-        ]
-        out = reduce(lambda x, y: merge_nested_dicts(x, y), string_dicts)
-    else:
-        raise NotImplementedError(
-            f"{name!r} needs to be a string, a list/tuple of strings or a dictionary."
-        )
-
-    return out
 
 
 def dissect_string_to_dict(keys: list[str]) -> dict:
