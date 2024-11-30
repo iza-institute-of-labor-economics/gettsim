@@ -14,6 +14,7 @@ from _gettsim.interface import (
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
+    build_targets_tree,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
@@ -768,3 +769,18 @@ def test_fail_if_cannot_be_converted_to_correct_type(
 ):
     with pytest.raises(ValueError, match=error_match):
         _convert_data_to_correct_types(data, functions_overridden)
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        ("a", {"a": None}),
+        ("a__b", {"a": {"b": None}}),
+        (["a", "b"], {"a": None, "b": None}),
+        (["a__b", "c__d"], {"a": {"b": None}, "c": {"d": None}}),
+        (["a__b", "a__c"], {"a": {"b": None, "c": None}}),
+        ({"a": {"b": None}}, {"a": {"b": None}}),
+    ],
+)
+def test_build_targets_tree(input_object, expected_output):
+    assert build_targets_tree(input_object) == expected_output

@@ -2,10 +2,12 @@ import copy
 import functools
 import inspect
 import warnings
-from typing import Literal, get_args
+from functools import reduce
+from typing import Any, Literal, get_args
 
 import dags
 import pandas as pd
+from optree import tree_flatten
 
 from _gettsim.config import (
     DEFAULT_TARGETS,
@@ -25,9 +27,11 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     KeyErrorMessage,
+    dissect_string_to_dict,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    merge_nested_dicts,
 )
 
 
@@ -71,6 +75,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     """
 
     targets = DEFAULT_TARGETS if targets is None else targets
+    targets_tree = build_targets_tree(targets)
     params = environment.params
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
@@ -129,6 +134,96 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     prepared_results = _prepare_results(results, data, debug)
 
     return prepared_results
+
+
+def build_targets_tree(targets: dict[str, Any] | list[str] | str) -> dict[str, Any]:
+    """Build a tree from a list of targets.
+
+    Parameters
+    ----------
+    targets : dict[str, Any]
+        Dictionary of targets.
+
+    Returns
+    -------
+    tree : dict
+        Dictionary representing the tree.
+
+    """
+    if isinstance(targets, str):
+        targets = [targets]
+
+    flattened_targets, _ = tree_flatten(targets)
+    all_leafs_none = all(el is None for el in flattened_targets)
+    all_leafs_str_or_list = all(isinstance(el, str | list) for el in flattened_targets)
+
+    if isinstance(targets, list):
+        # Build targets tree from strings
+        targets_tree = _build_targets_tree_from_list(targets)
+    elif isinstance(targets, dict) and all_leafs_none:
+        # Input is already the correct targets tree
+        targets_tree = targets
+    elif isinstance(targets, dict) and all_leafs_str_or_list:
+        # Build targets tree if leafs are strings or lists of strings
+        targets_tree = _build_targets_tree_from_dict(targets)
+    else:
+        raise NotImplementedError(
+            "Targets must be either a list of strings or a dictionary in tree form."
+        )
+
+    return targets_tree
+
+
+def _build_targets_tree_from_list(targets: list[str]) -> dict[str, Any]:
+    """Build a tree from a list of targets.
+
+    Parameters
+    ----------
+    targets : list[str]
+        List of strings with names of functions whose output is actually needed by the
+        user.
+        Example: ["a__b__c", "a__b__d", "a__e"]
+
+    Returns
+    -------
+    tree : dict
+        Dictionary representing the tree.
+        Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
+
+    """
+    paths = [dissect_string_to_dict(el.split("__")) for el in targets]
+    targets_tree = reduce(lambda x, y: merge_nested_dicts(x, y), paths)
+    return targets_tree
+
+
+def _build_targets_tree_from_dict(targets: dict[str, Any]) -> dict[str, Any]:
+    """Build a tree from a dictionary of targets.
+
+    The dictionary follows the tree structure but the leafs are strings or lists, not
+    None. This function is used to convert the dictionary to the correct tree structure.
+
+    Parameters
+    ----------
+    targets : dict[str, Any]
+        Dictionary of targets.
+        Example: {"a": {"b": {"c": ["d", "e"]}}}
+
+    Returns
+    -------
+    tree : dict
+        Dictionary representing the tree.
+        Example: {"a": {"b": {"c": {"d": None, "e": None}}}}
+
+    """
+    for k, v in targets.items():
+        if isinstance(v, dict):
+            targets[k] = _build_targets_tree_from_dict(v)
+        elif isinstance(v, str):
+            targets[k] = {v: None}
+        elif isinstance(v, list):
+            targets[k] = _build_targets_tree_from_list(v)
+
+    return targets
 
 
 def set_up_dag(
