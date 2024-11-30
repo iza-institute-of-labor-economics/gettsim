@@ -19,7 +19,6 @@ from _gettsim.policy_environment_postprocessor import (
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    parse_to_list_of_strings,
 )
 
 

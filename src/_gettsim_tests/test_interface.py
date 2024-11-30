@@ -3,6 +3,7 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
+from optree import tree_flatten, tree_paths
 
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.functions.policy_function import PolicyFunction
@@ -10,10 +11,13 @@ from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
+    _fail_if_data_not_tree_or_df,
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
+    _use_correct_series_names,
+    build_data_tree,
     build_targets_tree,
     compute_taxes_and_transfers,
 )
@@ -25,13 +29,10 @@ from gettsim import FunctionsAndColumnsOverlapWarning
 @pytest.fixture(scope="module")
 def minimal_input_data():
     n_individuals = 5
-    out = pd.DataFrame(
-        {
-            "p_id": numpy.arange(n_individuals),
-            "hh_id": numpy.arange(n_individuals),
-        },
-        index=numpy.arange(n_individuals),
-    )
+    out = {
+        "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
+        "hh_id": pd.Series(numpy.arange(n_individuals), name="hh_id"),
+    }
     return out
 
 
@@ -39,8 +40,8 @@ def minimal_input_data():
 def input_data_aggregate_by_p_id():
     return pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "p_id": pd.Series([1, 2, 3], name="p_id"),
+            "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         }
     )
 
@@ -96,14 +97,14 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
 
 
 def test_fail_if_pid_does_not_exist():
-    data = pd.Series(data=numpy.arange(8), name="hh_id").to_frame()
+    data = {"hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = pd.Series(data=numpy.arange(4).repeat(2), name="p_id").to_frame()
+    data = {"p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -111,12 +112,10 @@ def test_fail_if_pid_is_non_unique():
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [0, 1, 4],
-        }
-    )
+    data = {
+        "p_id": pd.Series([1, 2, 3], name="p_id"),
+        foreign_key: pd.Series([0, 1, 4], name=foreign_key),
+    }
 
     with pytest.raises(ValueError, match="not a valid p_id"):
         _fail_if_foreign_keys_are_invalid(data)
@@ -124,38 +123,36 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_allow_minus_one_as_foreign_key(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [-1, 1, 2],
-        }
-    )
+    data = {
+        "p_id": pd.Series([1, 2, 3], name="p_id"),
+        foreign_key: pd.Series([-1, 1, 2], name=foreign_key),
+    }
 
     _fail_if_foreign_keys_are_invalid(data)
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [1, 3, 3],
-        }
-    )
+    data = {
+        "p_id": pd.Series([1, 2, 3], name="p_id"),
+        foreign_key: pd.Series([1, 3, 3], name=foreign_key),
+    }
 
-    with pytest.raises(ValueError, match="are equal to the p_id in the same row"):
+    with pytest.raises(ValueError, match="are equal to the p_id in the same"):
         _fail_if_foreign_keys_are_invalid(data)
 
 
-def test_fail_if_group_variables_not_constant_within_groups():
-    data = pd.DataFrame(
+@pytest.mark.parametrize(
+    "data",
+    [
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m_hh": [100, 200, 300],
-        }
-    )
-
+            "hh_id": pd.Series([1, 1, 2], name="hh_id"),
+            "foo_hh": pd.Series([1, 2, 2], name="foo_hh"),
+        },
+        {"foo_eg": pd.Series([1, 2, 2], name="foo_eg")},
+    ],
+)
+def test_fail_if_group_variables_not_constant_within_groups(data):
     with pytest.raises(ValueError):
         _fail_if_group_variables_not_constant_within_groups(data)
 
@@ -336,23 +333,23 @@ def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions
 
 
 def test_fail_if_missing_pid(minimal_input_data):
-    data = minimal_input_data.drop("p_id", axis=1).copy()
+    data = {"hh_id": minimal_input_data.copy().pop("p_id")}
     with pytest.raises(
         ValueError,
         match="The input data must contain the column p_id",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
 
 
 def test_fail_if_non_unique_pid(minimal_input_data):
     data = minimal_input_data.copy()
-    data["p_id"] = 1
+    data["p_id"][:] = 1
 
     with pytest.raises(
         ValueError,
         match="The following p_ids are non-unique",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
 
 
 def test_fail_if_non_unique_cols(minimal_input_data):
@@ -701,6 +698,23 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 
 
 @pytest.mark.parametrize(
+    "type_error_obj",
+    [
+        1,
+        "a",
+        {"a": 1},
+        {"a": "b"},
+    ],
+)
+def test_fail_if_data_not_tree_or_df(type_error_obj):
+    with pytest.raises(
+        TypeError,
+        match="Data must be provided as a tree with sequence",
+    ):
+        _fail_if_data_not_tree_or_df(type_error_obj)
+
+
+@pytest.mark.parametrize(
     "data, functions_overridden",
     [
         (
@@ -784,3 +798,30 @@ def test_fail_if_cannot_be_converted_to_correct_type(
 )
 def test_build_targets_tree(input_object, expected_output):
     assert build_targets_tree(input_object) == expected_output
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        (pd.DataFrame({"a": [1, 2, 3]}), {"a": pd.Series([1, 2, 3])}),
+        (pd.DataFrame({"a__b": [1, 2, 3]}), {"a": {"b": pd.Series([1, 2, 3])}}),
+        ({"a": pd.Series([1, 2, 3])}, {"a": pd.Series([1, 2, 3])}),
+    ],
+)
+def test_build_data_tree(input_object, expected_output):
+    assert tree_paths(build_data_tree(input_object)) == tree_paths(expected_output)
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        ({"a": pd.Series([1, 2, 3])}, ["a"]),
+        ({"a": {"b": pd.Series([1, 2, 3])}}, ["b"]),
+        ({"a": pd.Series([1, 2, 3], name="c"), "b": pd.Series([1, 2, 3])}, ["a", "b"]),
+    ],
+)
+def test_use_correct_series_names(input_object, expected_output):
+    result = [
+        sr.name for sr in tree_flatten(_use_correct_series_names(input_object))[0]
+    ]
+    assert result == expected_output

@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import copy
 import datetime
-import operator
-from functools import reduce
 from typing import Any
 
 import numpy
@@ -22,7 +20,12 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
-from _gettsim.shared import dissect_string_to_dict, merge_nested_dicts
+from _gettsim.shared import (
+    create_dict_from_list,
+    get_by_path,
+    merge_nested_dicts,
+    set_by_path,
+)
 
 
 class PolicyEnvironment:
@@ -303,7 +306,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFu
     tree = {}
     for function in functions:
         tree_keys = [*function.module_name.split("."), function.name_in_dag]
-        update_dict = dissect_string_to_dict(tree_keys)
+        update_dict = create_dict_from_list(tree_keys)
         set_by_path(update_dict, tree_keys, function)
         tree = merge_nested_dicts(tree, update_dict)
     return tree
@@ -674,16 +677,6 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
         # Now remaining dict is just a scalar
         set_by_path(new_dict, key_list, remaining_dict)
     return new_dict
-
-
-def get_by_path(data_dict, key_list):
-    """Access a nested object in root by item sequence."""
-    return reduce(operator.getitem, key_list, data_dict)
-
-
-def set_by_path(data_dict, key_list, value):
-    """Set a value in a nested object in root by item sequence."""
-    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
 def _fail_if_more_than_one_path(path_list):

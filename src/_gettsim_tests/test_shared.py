@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 from _gettsim.shared import (
-    dissect_string_to_dict,
+    create_dict_from_list,
     merge_nested_dicts,
     parse_input_to_nested_dict,
 )
@@ -45,8 +45,8 @@ def test_parse_input_to_nested_dict_type_error(function_input):
         (["a", "b", "c"], {"a": {"b": {"c": None}}}),
     ],
 )
-def test_dissect_string_to_dict(keys, expected):
-    assert dissect_string_to_dict(keys=keys) == expected
+def test_create_dict_from_list(keys, expected):
+    assert create_dict_from_list(keys=keys) == expected
 
 
 @pytest.mark.parametrize(

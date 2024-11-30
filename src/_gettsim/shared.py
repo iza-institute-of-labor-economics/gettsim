@@ -1,8 +1,10 @@
 import inspect
+import operator
 import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
+from functools import reduce
 from typing import TypeVar
 
 import numpy
@@ -181,8 +183,8 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def dissect_string_to_dict(keys: list[str]) -> dict:
-    """Dissect a string into a nested dictionary.
+def create_dict_from_list(keys: list[str]) -> dict:
+    """Create a nested dict from a list of strings.
 
     Example:
         Input:
@@ -356,3 +358,13 @@ def join_numpy(
 
     # Return the target at the index of the first matching primary key
     return padded_targets.take(indices)
+
+
+def get_by_path(data_dict, key_list):
+    """Access a nested object in root by item sequence."""
+    return reduce(operator.getitem, key_list, data_dict)
+
+
+def set_by_path(data_dict, key_list, value):
+    """Set a value in a nested object in root by item sequence."""
+    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
