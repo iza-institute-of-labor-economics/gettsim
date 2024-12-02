@@ -15,7 +15,7 @@ from _gettsim.interface import (
     _add_rounding_to_one_function,
     compute_taxes_and_transfers,
 )
-from _gettsim.policy_environment import PolicyEnvironment, load_functions_for_date
+from _gettsim.policy_environment import PolicyEnvironment, load_functions_tree_for_date
 from _gettsim.shared import policy_info
 
 rounding_specs_and_exp_results = [
@@ -259,7 +259,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = load_functions_for_date(
+        year_functions = load_functions_tree_for_date(
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}

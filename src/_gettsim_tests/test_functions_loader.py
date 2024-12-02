@@ -5,9 +5,11 @@ from typing import TYPE_CHECKING
 
 import numpy
 import pytest
+from optree import tree_paths
 
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.loader import (
+    _build_functions_tree,
     _load_functions,
 )
 from _gettsim.functions.policy_function import PolicyFunction
@@ -121,3 +123,37 @@ def test_vectorize_func(function: Callable) -> None:
     assert numpy.array_equal(
         vectorized_func(numpy.array([1, 2, 3])), numpy.array([2, 4, 6])
     )
+
+
+@pytest.mark.parametrize(
+    "functions_list, expected",
+    [
+        (
+            [
+                PolicyFunction(lambda: 1, module_name="a", function_name="foo"),
+                PolicyFunction(lambda: 1, module_name="a", function_name="bar"),
+                PolicyFunction(lambda: 3, module_name="a.b", function_name="foo"),
+                PolicyFunction(lambda: 4, module_name="a.b.c", function_name="foo"),
+                PolicyFunction(lambda: 2, module_name="b", function_name="foo"),
+            ],
+            {
+                "a": {
+                    "foo": None,
+                    "bar": None,
+                    "b": {
+                        "foo": None,
+                        "c": {
+                            "foo": None,
+                        },
+                    },
+                },
+                "b": {
+                    "foo": None,
+                },
+            },
+        ),
+    ],
+)
+def test_build_functions_tree(functions_list, expected):
+    tree = _build_functions_tree(functions_list)
+    assert tree_paths(tree) == tree_paths(expected, none_is_leaf=True)

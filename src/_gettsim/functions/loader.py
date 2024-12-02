@@ -5,14 +5,15 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from types import ModuleType
-from typing import Literal, TypeAlias
+from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.shared import create_dict_from_list, merge_nested_dicts, set_by_path
 
 from .policy_function import PolicyFunction
 
 
-def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
+def load_functions_tree_for_date(date: datetime.date) -> dict[str, Any]:
     """
     Load policy functions that are active at a specific date.
 
@@ -26,7 +27,9 @@ def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     functions:
         The policy functions that are active at the given date.
     """
-    return [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    return _build_functions_tree(
+        [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    )
 
 
 def _load_internal_functions() -> list[PolicyFunction]:
@@ -76,6 +79,31 @@ def _load_functions(
         )
 
     return result
+
+
+def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFunction]:
+    """Build the function tree.
+
+    Takes the list of active policy functions and builds a tree using the module names.
+
+    Parameters
+    ----------
+    functions:
+        A list of PolicyFunctions.
+
+    Returns
+    -------
+    tree:
+        A tree of PolicyFunctions.
+    """
+    # Build module_name - functions dictionary
+    tree = {}
+    for function in functions:
+        tree_keys = [*function.module_name.split("."), function.name_in_dag]
+        update_dict = create_dict_from_list(tree_keys)
+        set_by_path(update_dict, tree_keys, function)
+        tree = merge_nested_dicts(tree, update_dict)
+    return tree
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:

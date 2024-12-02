@@ -11,7 +11,7 @@ from optree import tree_flatten, tree_paths, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
-    load_functions_for_date,
+    load_functions_tree_for_date,
     load_internal_aggregation_dict,
 )
 from _gettsim.functions.policy_function import PolicyFunction
@@ -21,7 +21,6 @@ from _gettsim.piecewise_functions import (
     piecewise_polynomial,
 )
 from _gettsim.shared import (
-    create_dict_from_list,
     get_by_path,
     merge_nested_dicts,
     set_by_path,
@@ -82,8 +81,7 @@ class PolicyEnvironment:
         params = _parse_kinderzuschl_max(date, params)
         params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
         params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
-        functions = load_functions_for_date(date)
-        functions_tree = _build_functions_tree(functions)
+        functions_tree = load_functions_tree_for_date(date)
 
         # Load aggregation specs
         aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
@@ -285,31 +283,6 @@ def _parse_date(date):
     elif isinstance(date, int):
         date = datetime.date(year=date, month=1, day=1)
     return date
-
-
-def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFunction]:
-    """Build the function tree.
-
-    Takes the list of active policy functions and builds a tree using the module names.
-
-    Parameters
-    ----------
-    functions:
-        A list of PolicyFunctions.
-
-    Returns
-    -------
-    tree:
-        A tree of PolicyFunctions.
-    """
-    # Build module_name - functions dictionary
-    tree = {}
-    for function in functions:
-        tree_keys = [*function.module_name.split("."), function.name_in_dag]
-        update_dict = create_dict_from_list(tree_keys)
-        set_by_path(update_dict, tree_keys, function)
-        tree = merge_nested_dicts(tree, update_dict)
-    return tree
 
 
 def _parse_piecewise_parameters(tax_data):
