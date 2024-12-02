@@ -177,7 +177,7 @@ class PolicyEnvironment:
         except KeyError:
             out = None
 
-        return out if isinstance(out, PolicyFunction) else None
+        return out
 
     def upsert_functions(
         self, functions_tree_update: dict[str, Any]
@@ -205,9 +205,9 @@ class PolicyEnvironment:
             else PolicyFunction(function)
             for function in functions_to_upsert
         ]
-        functions_tree_update = tree_unflatten(tree_def, functions_to_upsert)
+        functions_tree_to_upsert = tree_unflatten(tree_def, functions_to_upsert)
         new_functions_tree = merge_nested_dicts(
-            new_functions_tree, functions_tree_update
+            new_functions_tree, functions_tree_to_upsert
         )
 
         result = object.__new__(PolicyEnvironment)
