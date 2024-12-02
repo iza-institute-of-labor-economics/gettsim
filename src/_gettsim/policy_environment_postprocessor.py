@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import functools
 import inspect
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import numpy
 
@@ -32,7 +32,9 @@ from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    merge_nested_dicts,
     remove_group_suffix,
+    tree_flatten_with_qualified_name,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
 
@@ -45,7 +47,7 @@ if TYPE_CHECKING:
 def check_functions_and_differentiate_types(
     environment: PolicyEnvironment,
     targets: list[str],
-    data_cols,
+    data: dict[str, Any],
 ) -> tuple[dict[str, Callable], dict[str, Callable]]:
     """Create the dict with all functions that may become part of the DAG by:
 
@@ -71,6 +73,8 @@ def check_functions_and_differentiate_types(
         Functions that are overridden by an input column.
 
     """
+    data_qualified_names, _, _ = tree_flatten_with_qualified_name(data)
+
     # Create derived functions
     (
         time_conversion_functions,
@@ -79,19 +83,22 @@ def check_functions_and_differentiate_types(
     ) = _create_derived_functions(
         environment,
         targets,
-        data_cols,
+        data_qualified_names,
     )
 
     # Create groupings
     groupings = create_groupings()
 
-    all_functions = {
-        **environment.functions_tree,
-        **aggregate_by_p_id_functions,
-        **time_conversion_functions,
-        **aggregate_by_group_functions,
-        **groupings,
-    }
+    all_functions = functools.reduce(
+        merge_nested_dicts,
+        [
+            aggregate_by_p_id_functions,
+            time_conversion_functions,
+            aggregate_by_group_functions,
+            groupings,
+        ],
+        environment.functions_tree,
+    )
 
     _fail_if_targets_are_not_among_functions(all_functions, targets)
 
@@ -109,11 +116,9 @@ def check_functions_and_differentiate_types(
 
 def _create_derived_functions(
     environment: PolicyEnvironment,
-    targets: list[str],
-    data_cols: list[str],
-) -> tuple[
-    dict[str, DerivedFunction], dict[str, DerivedFunction], dict[str, DerivedFunction]
-]:
+    targets: dict[str, Any],
+    data_qualified_names: list[str],
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     """
     Create functions that are derived from the user and internal functions.
 
@@ -126,12 +131,13 @@ def _create_derived_functions(
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         environment.functions_tree,
         environment.aggregate_by_p_id_specs,
-        data_cols,
+        data_qualified_names,
     )
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
-        {**environment.functions_tree, **aggregate_by_p_id_functions}, data_cols
+        {**environment.functions_tree, **aggregate_by_p_id_functions},
+        data_qualified_names,
     )
 
     # Create aggregation functions
@@ -142,7 +148,7 @@ def _create_derived_functions(
             **aggregate_by_p_id_functions,
         },
         targets,
-        data_cols,
+        data_qualified_names,
         environment.aggregate_by_group_specs,
     )
 

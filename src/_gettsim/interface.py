@@ -85,7 +85,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         check_functions_and_differentiate_types(
             environment=environment,
             targets=targets,
-            data_cols=list(data),
+            data=data,
         )
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
