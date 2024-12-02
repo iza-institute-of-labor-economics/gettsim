@@ -4,7 +4,22 @@ from _gettsim.shared import (
     create_dict_from_list,
     merge_nested_dicts,
     tree_to_dict_with_qualified_name,
+    update_tree,
 )
+
+
+@pytest.mark.parametrize(
+    "tree, path, value, expected",
+    [
+        ({}, ["a"], 1, {"a": 1}),
+        ({"a": 1}, ["a"], 2, {"a": 2}),
+        ({}, ["a", "b"], 2, {"a": {"b": 2}}),
+        ({"a": {"b": 1}}, ["a", "c"], 2, {"a": {"b": 1, "c": 2}}),
+    ],
+)
+def test_update_tree(tree, path, value, expected):
+    result = update_tree(tree, path, value)
+    assert result == expected
 
 
 @pytest.mark.parametrize(

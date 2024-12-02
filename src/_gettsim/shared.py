@@ -184,6 +184,15 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
+def update_tree(
+    tree: dict[str, Any], path: list[str], value: Any = None
+) -> dict[str, Any]:
+    """Update tree with a path and value."""
+    update_dict = create_dict_from_list(path)
+    set_by_path(update_dict, path, value)
+    return merge_nested_dicts(tree, update_dict)
+
+
 def create_dict_from_list(keys: list[str]) -> dict:
     """Create a nested dict from a list of strings.
 
@@ -371,16 +380,23 @@ def set_by_path(data_dict, key_list, value):
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
-def tree_to_dict_with_qualified_name(tree: dict[str, Any]) -> dict[str, Any]:
+def tree_to_dict_with_qualified_name(
+    tree: dict[str, Any], none_is_leaf: bool = False
+) -> dict[str, Any]:
     """Flatten a nested dictionary and return a dictionary with qualified names."""
-    qualified_names, flattened_tree, _ = tree_flatten_with_qualified_name(tree)
+    qualified_names, flattened_tree, _ = tree_flatten_with_qualified_name(
+        tree, none_is_leaf=none_is_leaf
+    )
     return dict(zip(qualified_names, flattened_tree))
 
 
 def tree_flatten_with_qualified_name(
     tree: dict[str, Any],
+    none_is_leaf: bool = False,
 ) -> tuple[list[list[str]], list[Any], list[str]]:
     """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
-    paths, flattened_tree, tree_spec = tree_flatten_with_path(tree)
+    paths, flattened_tree, tree_spec = tree_flatten_with_path(
+        tree, none_is_leaf=none_is_leaf
+    )
     qualified_names = ["__".join(path) for path in paths]
     return qualified_names, flattened_tree, tree_spec

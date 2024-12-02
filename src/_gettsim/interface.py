@@ -23,7 +23,8 @@ from _gettsim.gettsim_typing import (
 from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
-    check_functions_and_differentiate_types,
+    add_derived_functions_to_functions_tree,
+    filter_overridden_functions,
 )
 from _gettsim.shared import (
     KeyErrorMessage,
@@ -32,9 +33,9 @@ from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
-    set_by_path,
     tree_flatten_with_qualified_name,
     tree_to_dict_with_qualified_name,
+    update_tree,
 )
 
 
@@ -81,12 +82,14 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     params = environment.params
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
-    functions_not_overridden, functions_overridden = (
-        check_functions_and_differentiate_types(
-            environment=environment,
-            targets=targets,
-            data=data,
-        )
+    all_functions = add_derived_functions_to_functions_tree(
+        environment=environment,
+        targets=targets,
+        data=data,
+    )
+    functions_not_overridden, functions_overridden = filter_overridden_functions(
+        all_functions=all_functions,
+        data=data,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 
@@ -271,11 +274,13 @@ def _build_data_tree_from_df(data: pd.DataFrame) -> dict[str, Any]:
     tree = {}
     cols_to_paths = [cols.split("__") for cols in data.columns]
     for path, column in zip(cols_to_paths, data.columns):
-        update_dict = create_dict_from_list(path)
         series = data[column].copy()
         series.name = path[-1]
-        set_by_path(update_dict, path, series)
-        tree = merge_nested_dicts(tree, update_dict)
+        tree = update_tree(
+            tree,
+            path,
+            series,
+        )
 
     return tree
 

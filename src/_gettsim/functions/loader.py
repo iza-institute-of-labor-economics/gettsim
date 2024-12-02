@@ -8,7 +8,7 @@ from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
-from _gettsim.shared import create_dict_from_list, merge_nested_dicts, set_by_path
+from _gettsim.shared import update_tree
 
 from .policy_function import PolicyFunction
 
@@ -100,9 +100,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFu
     tree = {}
     for function in functions:
         tree_keys = [*function.module_name.split("."), function.name_in_dag]
-        update_dict = create_dict_from_list(tree_keys)
-        set_by_path(update_dict, tree_keys, function)
-        tree = merge_nested_dicts(tree, update_dict)
+        tree = update_tree(tree, tree_keys, function)
     return tree
 
 

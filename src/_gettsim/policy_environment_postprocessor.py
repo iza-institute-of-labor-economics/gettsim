@@ -5,6 +5,7 @@ import inspect
 from typing import TYPE_CHECKING, Any
 
 import numpy
+from optree import tree_flatten_with_path
 
 from _gettsim.aggregation import (
     all_by_p_id,
@@ -35,45 +36,44 @@ from _gettsim.shared import (
     merge_nested_dicts,
     remove_group_suffix,
     tree_flatten_with_qualified_name,
+    update_tree,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from _gettsim.policy_environment import PolicyEnvironment
 
 
-def check_functions_and_differentiate_types(
+def add_derived_functions_to_functions_tree(
     environment: PolicyEnvironment,
-    targets: list[str],
+    targets: dict[str, Any],
     data: dict[str, Any],
-) -> tuple[dict[str, Callable], dict[str, Callable]]:
-    """Create the dict with all functions that may become part of the DAG by:
+) -> dict[str, Any]:
+    """Create the functions tree including derived functions.
 
-    - vectorizing all functions
-    - adding time conversion functions, aggregation functions, and combinations
+    Create the functions tree by vectorizing all functions, and adding time conversion
+    functions, aggregation functions, and combinations of these.
 
-    Check that: - all targets are in set of functions or in data_cols
+    Check that all targets have a corresponding function in the functions tree or can be
+    taken from the data.
 
     Parameters
     ----------
-    environment:
-        The policy environment.
-    targets:
-        Names of functions whose output is actually needed by the user.
-    data_cols : list
-        Data columns provided by the user.
+    environment : PolicyEnvironment
+        The environment containing the functions tree and the specs for aggregation.
+    targets : dict
+        The targets which should be computed. They limit the DAG in the way that only
+        ancestors of these nodes need to be considered.
+    data : dict
+        The data dictionary containing the input columns.
 
     Returns
     -------
-    functions_not_overridden : dict
-        All functions except the ones that are overridden by an input column.
-    functions_overridden : dict
-        Functions that are overridden by an input column.
+    all_functions : dict
+        The functions tree including derived functions.
 
     """
-    data_qualified_names, _, _ = tree_flatten_with_qualified_name(data)
+    names_of_columns_in_data, _ = tree_flatten_with_qualified_name(data)
 
     # Create derived functions
     (
@@ -83,7 +83,7 @@ def check_functions_and_differentiate_types(
     ) = _create_derived_functions(
         environment,
         targets,
-        data_qualified_names,
+        names_of_columns_in_data,
     )
 
     # Create groupings
@@ -102,14 +102,49 @@ def check_functions_and_differentiate_types(
 
     _fail_if_targets_are_not_among_functions(all_functions, targets)
 
-    # Separate all functions by whether they will be used or not.
-    functions_overridden = {}
+    return all_functions
+
+
+def filter_overridden_functions(
+    functions: dict[str, Any], data: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Filter functions that are overridden by input columns.
+
+    Parameters
+    ----------
+    functions : dict
+        Dictionary containing functions to build the DAG.
+    data : dict
+        Dictionary containing the input columns.
+
+    Returns
+    -------
+    functions_not_overridden : dict
+        All functions except the ones that are overridden by an input column.
+    functions_overridden : dict
+        Functions that are overridden by an input column.
+
+    """
     functions_not_overridden = {}
-    for k, v in all_functions.items():
-        if k in data_cols:
-            functions_overridden[k] = v
+    functions_overridden = {}
+
+    names_of_columns_in_data, _ = tree_flatten_with_qualified_name(data)
+    function_paths, functions_leafs, _ = tree_flatten_with_path(functions)
+
+    for name, func in zip(function_paths, functions_leafs):
+        qualified_name = "__".join(name)
+        if qualified_name in names_of_columns_in_data:
+            functions_overridden = update_tree(
+                functions_overridden,
+                name,
+                func,
+            )
         else:
-            functions_not_overridden[k] = v
+            functions_not_overridden = update_tree(
+                functions_not_overridden,
+                name,
+                func,
+            )
 
     return functions_not_overridden, functions_overridden
 
@@ -607,14 +642,16 @@ def _vectorize_func(func):
     return wrapper_vectorize_func
 
 
-def _fail_if_targets_are_not_among_functions(functions, targets):
+def _fail_if_targets_are_not_among_functions(
+    functions: dict[str, Any], targets: dict[str, Any]
+) -> None:
     """Fail if some target is not among functions.
 
     Parameters
     ----------
-    functions : dict of callable
+    functions : dict
         Dictionary containing functions to build the DAG.
-    targets : list of str
+    targets : dict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
 
@@ -624,7 +661,12 @@ def _fail_if_targets_are_not_among_functions(functions, targets):
         Raised if any member of `targets` is not among functions.
 
     """
-    targets_not_in_functions = set(targets) - set(functions)
+    qualified_names_targets, _, _ = tree_flatten_with_qualified_name(targets)
+    qualified_names_functions, _, _ = tree_flatten_with_qualified_name(functions)
+
+    targets_not_in_functions = set(qualified_names_targets) - set(
+        qualified_names_functions
+    )
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
