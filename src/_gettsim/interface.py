@@ -89,12 +89,14 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         )
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
-    columns_overriding_functions = set(functions_overridden)
 
     # Warn if columns override functions.
-    if columns_overriding_functions:
+    names_of_columns_overriding_functions, _, _ = set(
+        tree_flatten_with_qualified_name(functions_overridden)
+    )
+    if len(names_of_columns_overriding_functions) > 0:
         warnings.warn(
-            FunctionsAndColumnsOverlapWarning(columns_overriding_functions),
+            FunctionsAndColumnsOverlapWarning(names_of_columns_overriding_functions),
             stacklevel=2,
         )
 
