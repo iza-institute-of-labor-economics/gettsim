@@ -3,7 +3,7 @@ import pytest
 from _gettsim.shared import (
     create_dict_from_list,
     merge_nested_dicts,
-    tree_flatten_with_qualified_name,
+    tree_to_dict_with_qualified_name,
 )
 
 
@@ -41,5 +41,5 @@ def test_merge_nested_dicts(base_dict, update_dict, expected):
     ],
 )
 def test_tree_flatten_with_qualified_name(tree, expected):
-    leafs_names_dict = tree_flatten_with_qualified_name(tree)
+    leafs_names_dict = tree_to_dict_with_qualified_name(tree)
     assert leafs_names_dict == expected

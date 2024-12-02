@@ -34,6 +34,7 @@ from _gettsim.shared import (
     merge_nested_dicts,
     set_by_path,
     tree_flatten_with_qualified_name,
+    tree_to_dict_with_qualified_name,
 )
 
 
@@ -369,19 +370,21 @@ def _process_and_check_data(data: dict[str, Any] | pd.DataFrame) -> dict[str, An
     return data_tree
 
 
-def _convert_data_to_correct_types(data, functions_overridden):
+def _convert_data_to_correct_types(
+    data: dict[str, Any], functions_overridden: dict[str, Any]
+) -> dict[str, Any]:
     """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
     ----------
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+    data : dict tree with pandas.Series as leafs
         Data provided by the user.
-    functions_overridden : dict of callable
+    functions_overridden : dict tree with PolicyFunction as leafs
         Functions to be overridden.
 
     Returns
     -------
-    data : dict of pandas.Series with correct type
+    data : dict tree with pandas.Series as leafs
 
     """
     collected_errors = ["The data types of the following columns are invalid: \n"]
@@ -394,16 +397,23 @@ def _convert_data_to_correct_types(data, functions_overridden):
         " The best solution is to convert all columns to the expected data"
         " types yourself."
     )
-    for column_name, series in data.items():
+
+    data_qualified_names, data_leafs, data_tree_spec = tree_flatten_with_qualified_name(
+        data
+    )
+    names_to_functions_dict = tree_to_dict_with_qualified_name(functions_overridden)
+
+    data_with_correct_types = []
+    for column_name, series in zip(data_qualified_names, data_leafs):
         # Find out if internal_type is defined
         internal_type = None
         if column_name in TYPES_INPUT_VARIABLES:
             internal_type = TYPES_INPUT_VARIABLES[column_name]
         elif (
-            column_name in functions_overridden
-            and "return" in functions_overridden[column_name].__annotations__
+            column_name in names_to_functions_dict
+            and "return" in names_to_functions_dict[column_name].__annotations__
         ):
-            func = functions_overridden[column_name]
+            func = names_to_functions_dict[column_name]
             if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
@@ -418,16 +428,17 @@ def _convert_data_to_correct_types(data, functions_overridden):
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(series, internal_type):
             try:
-                data[column_name] = convert_series_to_internal_type(
-                    series, internal_type
+                data_with_correct_types.append(
+                    convert_series_to_internal_type(series, internal_type)
                 )
                 collected_conversions.append(
                     f" - {column_name} from {series.dtype} "
                     f"to {internal_type.__name__}"
                 )
-
             except ValueError as e:
                 collected_errors.append(f" - {column_name}: {e}")
+        else:
+            data_with_correct_types.append(series)
 
     # If any error occured raise Error
     if len(collected_errors) > 1:
@@ -576,7 +587,7 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
         Data provided by the user.
 
     """
-    names_leafs_dict = tree_flatten_with_qualified_name(data)
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
 
     grouped_data_cols = {
         name: col
@@ -618,7 +629,7 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
 
 def _fail_if_pid_is_non_unique(data: dict[str, Any]) -> None:
     """Check that pid is unique."""
-    names_leafs_dict = tree_flatten_with_qualified_name(data)
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
     try:
         p_id_col = names_leafs_dict["p_id"]
     except KeyError as e:
@@ -651,7 +662,7 @@ def _fail_if_foreign_keys_are_invalid(data: dict[str, Any]) -> None:
     the `p_id` of the same row.
     """
 
-    names_leafs_dict = tree_flatten_with_qualified_name(data)
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
 
     p_id_col = names_leafs_dict["p_id"]
     valid_ids = set(p_id_col) | {-1}

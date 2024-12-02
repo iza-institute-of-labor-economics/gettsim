@@ -718,11 +718,11 @@ def test_fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj):
     "data, functions_overridden",
     [
         (
-            pd.DataFrame({"bg_id": [1, 2, 3]}),
+            {"bg_id": pd.Series([1, 2, 3])},
             {"bg_id": bg_id_numpy},
         ),
         (
-            pd.DataFrame({"wthh_id": [1, 2, 3]}),
+            {"wthh_id": pd.Series([1, 2, 3])},
             {"wthh_id": wthh_id_numpy},
         ),
     ],
@@ -737,7 +737,7 @@ def test_provide_endogenous_groupings(data, functions_overridden):
     "data, functions_overridden, error_match",
     [
         (
-            pd.DataFrame({"hh_id": [1, 1.1, 2]}),
+            {"hh_id": pd.Series([1, 1.1, 2])},
             {},
             "The data types of the following columns are invalid: \n"
             "\n - hh_id: Conversion from input type float64 to int failed."
@@ -745,7 +745,7 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             " data are equal to 0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
+            {"wohnort_ost": pd.Series([1.1, 0.0, 1.0])},
             {},
             "The data types of the following columns are invalid: \n"
             "\n - wohnort_ost: Conversion from input type float64 to bool failed."
@@ -753,7 +753,10 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             " the values 1.0 and 0.0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
+            {
+                "wohnort_ost": pd.Series([2, 0, 1]),
+                "hh_id": pd.Series([1.0, 2.0, 3.0]),
+            },
             {},
             "The data types of the following columns are invalid: \n"
             "\n - wohnort_ost: Conversion from input type int64 to bool failed."
@@ -761,20 +764,23 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             " the values 1 and 0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": ["True", "False"]}),
+            {"wohnort_ost": pd.Series(["True", "False"])},
             {},
             "The data types of the following columns are invalid: \n"
             "\n - wohnort_ost: Conversion from input type object to bool failed."
             " Object type is not supported as input.",
         ),
         (
-            pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
+            {
+                "hh_id": pd.Series([1, "1", 2]),
+                "bruttolohn_m": pd.Series(["2000", 3000, 4000]),
+            },
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - hh_id: Conversion from input type object to int failed. "
-            "Object type is not supported as input."
             "\n - bruttolohn_m: Conversion from input type object to float failed."
-            " Object type is not supported as input.",
+            " Object type is not supported as input."
+            "\n - hh_id: Conversion from input type object to int failed. "
+            "Object type is not supported as input.",
         ),
     ],
 )
