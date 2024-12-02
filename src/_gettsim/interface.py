@@ -48,7 +48,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     Parameters
     ----------
-    data : pandas.Series or pandas.DataFrame or dict of pandas.Series
+    data : pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
     environment:
         The policy environment which contains all necessary functions and parameters.
@@ -79,7 +79,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     targets_tree = build_targets_tree(targets)
     params = environment.params
     # Process data and load dictionaries with functions.
-    data = _process_and_check_data(data=data)
+    data_tree = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = (
         check_functions_and_differentiate_types(
             environment=environment,
