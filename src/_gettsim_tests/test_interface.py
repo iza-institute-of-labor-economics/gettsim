@@ -11,7 +11,7 @@ from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
-    _fail_if_data_not_tree_or_df,
+    _fail_if_data_not_dict_with_sequence_leafs_or_dataframe,
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
@@ -706,12 +706,12 @@ def test_fail_if_cannot_be_converted_to_internal_type(
         {"a": "b"},
     ],
 )
-def test_fail_if_data_not_tree_or_df(type_error_obj):
+def test_fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj):
     with pytest.raises(
         TypeError,
         match="Data must be provided as a tree with sequence",
     ):
-        _fail_if_data_not_tree_or_df(type_error_obj)
+        _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj)
 
 
 @pytest.mark.parametrize(

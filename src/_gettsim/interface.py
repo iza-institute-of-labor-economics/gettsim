@@ -7,7 +7,7 @@ from typing import Any, Literal, get_args
 
 import dags
 import pandas as pd
-from optree import tree_flatten, tree_paths, tree_unflatten
+from optree import tree_flatten, tree_map_with_path
 
 from _gettsim.config import (
     DEFAULT_TARGETS,
@@ -33,6 +33,7 @@ from _gettsim.shared import (
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
     set_by_path,
+    tree_flatten_with_qualified_name,
 )
 
 
@@ -75,11 +76,10 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     """
 
-    targets = DEFAULT_TARGETS if targets is None else targets
-    targets_tree = build_targets_tree(targets)
+    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)
     params = environment.params
     # Process data and load dictionaries with functions.
-    data_tree = _process_and_check_data(data=data)
+    data = _process_and_check_data(data=data)
     functions_not_overridden, functions_overridden = (
         check_functions_and_differentiate_types(
             environment=environment,
@@ -169,7 +169,7 @@ def build_targets_tree(targets: dict[str, Any] | list[str] | str) -> dict[str, A
         targets_tree = _build_targets_tree_from_dict(targets)
     else:
         raise NotImplementedError(
-            "Targets must be either a list of strings or a dictionary in tree form."
+            "Targets must be either a list of strings or a dictionary."
         )
 
     return targets_tree
@@ -241,7 +241,7 @@ def build_data_tree(data: dict[str, Any] | pd.DataFrame) -> dict[str, Any]:
         Dictionary representing the tree.
 
     """
-    _fail_if_data_not_tree_or_df(data)
+    _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data)
 
     if isinstance(data, pd.DataFrame):
         data_tree = _build_data_tree_from_df(data)
@@ -287,19 +287,16 @@ def _use_correct_series_names(data: dict[str, Any]) -> dict[str, Any]:
 
     Returns
     -------
-    tree : dict
+    tree : dict[str, Any]
         Dictionary representing the tree.
 
     """
-    paths = tree_paths(data)
-    leafs, tree_def = tree_flatten(data)
-
-    for i, (path, leaf) in enumerate(zip(paths, leafs)):
-        if not isinstance(leaf, pd.Series):
-            leafs[i] = pd.Series(leaf)
-        leafs[i].name = path[-1]
-
-    return tree_unflatten(tree_def, leafs)
+    return tree_map_with_path(
+        lambda path, x: x.rename(path[-1])
+        if isinstance(x, pd.Series)
+        else pd.Series(x, name=path[-1]),
+        data,
+    )
 
 
 def set_up_dag(
@@ -579,36 +576,39 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
         Data provided by the user.
 
     """
-    flattened_data = tree_flatten(data)[0]
-    paths = tree_paths(data)
-    grouped_data_cols = [
-        (col, path)
-        for col, path in zip(flattened_data, paths)
-        if any(col.name.endswith(grouping) for grouping in SUPPORTED_GROUPINGS)
-    ]
+    names_leafs_dict = tree_flatten_with_qualified_name(data)
 
-    for col, path in grouped_data_cols:
-        name = col.name
-        column_identifier = "/".join(path)
-        grouping_id = f"{name.split("_")[-1]}_id"
-        grouping_id_col = next(
-            (s for s in flattened_data if s.name == grouping_id), None
-        )
-        if grouping_id_col is None:
+    grouped_data_cols = {
+        name: col
+        for name, col in names_leafs_dict.items()
+        if any(name.endswith(grouping) for grouping in SUPPORTED_GROUPINGS)
+    }
+    group_ids_in_data = {
+        name: col
+        for name, col in names_leafs_dict.items()
+        if name.endswith("_id") and name.split("__")[-1] in SUPPORTED_GROUPINGS
+    }
+
+    for name, col in grouped_data_cols.items():
+        group_id_name = f"{name.split('_')[-1]}_id"
+
+        try:
+            group_id_array = group_ids_in_data[group_id_name]
+        except KeyError as e:
             message = format_errors_and_warnings(
                 f"""
-                Data input {column_identifier!r} is a group variable but no
-                corresponding group ID column {grouping_id!r} was found.
+                Data input {name!r} is a group variable but no corresponding group ID
+                column {group_id_name!r} was found.
                 """
             )
-            raise ValueError(message)
+            raise ValueError(message) from e
 
-        max_value = col.groupby(grouping_id_col).transform("max")
+        max_value = col.groupby(group_id_array).transform("max")
         if not (max_value == col).all():
             message = format_errors_and_warnings(
                 f"""
-                Data input {column_identifier!r} has not one unique value per group
-                defined by {grouping_id!r}.
+                Data input {name!r} has not one unique value per group defined by
+                {group_id_name!r}.
 
                 To fix the error, assign the same value to each group.
                 """
@@ -618,16 +618,27 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
 
 def _fail_if_pid_is_non_unique(data: dict[str, Any]) -> None:
     """Check that pid is unique."""
-    flattened_data = tree_flatten(data)[0]
-    p_id_col = next((s for s in flattened_data if s.name == "p_id"), None)
-    if p_id_col is None:
-        message = "The input data must contain the column p_id"
-        raise ValueError(message)
-    elif not p_id_col.is_unique:
-        list_of_nunique_ids = list(p_id_col.loc[p_id_col.duplicated()])
+    names_leafs_dict = tree_flatten_with_qualified_name(data)
+    try:
+        p_id_col = names_leafs_dict["p_id"]
+    except KeyError as e:
+        message = "The input data must contain the column p_id."
+        raise ValueError(message) from e
+
+    # Check for non-unique p_ids
+    p_id_counts = {}
+    for p_id in p_id_col:
+        if p_id in p_id_counts:
+            p_id_counts[p_id] += 1
+        else:
+            p_id_counts[p_id] = 1
+
+    non_unique_p_ids = [p_id for p_id, count in p_id_counts.items() if count > 1]
+
+    if non_unique_p_ids:
         message = (
             "The following p_ids are non-unique in the input data:"
-            f"{list_of_nunique_ids}"
+            f"{non_unique_p_ids}"
         )
         raise ValueError(message)
 
@@ -640,27 +651,30 @@ def _fail_if_foreign_keys_are_invalid(data: dict[str, Any]) -> None:
     the `p_id` of the same row.
     """
 
-    flattened_data = tree_flatten(data)[0]
+    names_leafs_dict = tree_flatten_with_qualified_name(data)
 
-    p_id_col = next((s for s in flattened_data if s.name == "p_id"), None)
+    p_id_col = names_leafs_dict["p_id"]
     valid_ids = set(p_id_col) | {-1}
 
-    foreign_keys_in_data = [col for col in flattened_data if col.name in FOREIGN_KEYS]
+    for name, col in names_leafs_dict.items():
+        foreign_key_col = any(name.endswith(group) for group in FOREIGN_KEYS)
 
-    for foreign_key_col in foreign_keys_in_data:
+        if not foreign_key_col:
+            continue
+
         # Referenced `p_id` must exist in the input data
-        if not foreign_key_col.isin(valid_ids).all():
+        if not all(i in valid_ids for i in col):
             message = f"""
-                The following {foreign_key_col.name}s are not a valid p_id in the input
-                data: {list(foreign_key_col.loc[~foreign_key_col.isin(valid_ids)])}
+                The following {name}s are not a valid p_id in the input
+                data: {[i for i in col if i not in valid_ids]}
                 """
             raise ValueError(message)
 
         # Referenced `p_id` must not be the same as the `p_id` of the same row
-        if (foreign_key_col == p_id_col).any():
+        if any(i == j for i, j in zip(col, p_id_col)):
             message = f"""
-                The following {foreign_key_col.name}s are equal to the p_id in the same
-                row: {list(foreign_key_col.loc[foreign_key_col == p_id_col])}
+                The following {name}s are equal to the p_id in the same
+                row: {[i for i, j in zip(col, p_id_col) if i == j]}
                 """
             raise ValueError(message)
 
@@ -685,7 +699,7 @@ def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
         raise ValueError(f"The following data columns are missing.\n{formatted}")
 
 
-def _fail_if_data_not_tree_or_df(data: Any) -> None:
+def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
     """Fail if data is not a tree with sequence leaves or a DataFrame."""
     not_df = not isinstance(data, pd.DataFrame)
     not_dict = not isinstance(data, dict)
@@ -693,9 +707,8 @@ def _fail_if_data_not_tree_or_df(data: Any) -> None:
         not isinstance(el, pd.Series | np.ndarray | list)
         for el in tree_flatten(data)[0]
     )
-    not_tree = not_dict or not_sequence_leafs
 
-    if not_df and not_tree:
+    if not_df and (not_dict or not_sequence_leafs):
         raise TypeError(
             """
             Data must be provided as a tree with sequence leaves (pd.Series, np.ndarray,

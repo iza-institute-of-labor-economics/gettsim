@@ -3,6 +3,7 @@ import pytest
 from _gettsim.shared import (
     create_dict_from_list,
     merge_nested_dicts,
+    tree_flatten_with_qualified_name,
 )
 
 
@@ -29,3 +30,16 @@ def test_create_dict_from_list(keys, expected):
 )
 def test_merge_nested_dicts(base_dict, update_dict, expected):
     assert merge_nested_dicts(base_dict, update_dict) == expected
+
+
+@pytest.mark.parametrize(
+    "tree, expected",
+    [
+        ({"a": 1}, {"a": 1}),
+        ({"a": {"b": 1}}, {"a__b": 1}),
+        ({"a": {"b": {"c": 1}, "d": 2}}, {"a__b__c": 1, "a__d": 2}),
+    ],
+)
+def test_tree_flatten_with_qualified_name(tree, expected):
+    leafs_names_dict = tree_flatten_with_qualified_name(tree)
+    assert leafs_names_dict == expected

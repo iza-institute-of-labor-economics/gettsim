@@ -5,9 +5,10 @@ import textwrap
 from collections.abc import Callable
 from datetime import date
 from functools import reduce
-from typing import TypeVar
+from typing import Any, TypeVar
 
 import numpy
+from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 
@@ -368,3 +369,10 @@ def get_by_path(data_dict, key_list):
 def set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+
+
+def tree_flatten_with_qualified_name(tree: dict[str, Any]) -> dict[str, Any]:
+    """Flatten a nested dictionary and return a dictionary with qualified names."""
+    paths, flattened_tree, _ = tree_flatten_with_path(tree)
+    qualified_names = ["__".join(path) for path in paths]
+    return dict(zip(qualified_names, flattened_tree))
