@@ -166,7 +166,6 @@ def _create_derived_functions(
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         environment.functions_tree,
         environment.aggregate_by_p_id_specs,
-        names_of_columns_in_data,
     )
 
     # Create functions for different time units
@@ -477,28 +476,24 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 def _create_aggregate_by_p_id_functions(
     user_and_internal_functions: dict[str, Any],
     aggregate_by_p_id_specs: dict[str, Any],
-    data_cols: list[str],
 ) -> dict[str, Any]:
     """Create function dict with functions that link variables across persons."""
 
     aggregation_dicts = _get_aggregation_dicts(aggregate_by_p_id_specs)
 
-    aggregate_by_p_id_functions = {}
+    derived_functions = {}
 
-    aggregate_by_p_id_functions = {
-        agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
-            agg_col=agg_by_p_id_col,
-            agg_specs=agg_by_p_id_spec,
-            user_and_internal_functions=user_and_internal_functions,
-        )
-        for agg_by_p_id_col, agg_by_p_id_spec in aggregate_by_p_id_dict.items()
-        if (
-            agg_by_p_id_spec["source_col"] in user_and_internal_functions
-            or agg_by_p_id_spec["source_col"] in data_cols
-        )
-    }
+    for module_name, module_aggregation_dicts in aggregation_dicts.items():
+        for func_name, aggregation_dict in module_aggregation_dicts.items():
+            path = [*module_name.split("__"), func_name]
+            derived_func = _create_one_aggregate_by_p_id_func(
+                agg_col=func_name,
+                agg_specs=aggregation_dict,
+                user_and_internal_functions=user_and_internal_functions,
+            )
+            derived_functions = update_tree(derived_functions, path, derived_func)
 
-    return aggregate_by_p_id_functions
+    return derived_functions
 
 
 def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str, dict]:
