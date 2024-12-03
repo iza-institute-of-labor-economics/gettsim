@@ -36,6 +36,7 @@ from _gettsim.shared import (
     merge_nested_dicts,
     remove_group_suffix,
     tree_flatten_with_qualified_name,
+    tree_to_dict_with_qualified_name,
     update_tree,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
@@ -209,28 +210,33 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
 
 
 def _create_aggregate_by_group_functions(
-    user_and_internal_functions: dict[str, PolicyFunction],
-    targets: list[str],
+    user_and_internal_functions: dict[str, Any],
+    targets: dict[str, Any],
     data_cols: list[str],
-    aggregate_by_group_specs: dict[str, dict[str, str]],
+    aggregate_by_group_specs: dict[str, Any],
 ) -> dict[str, DerivedFunction]:
     """Create aggregation functions."""
 
+    aggregation_dicts = _get_aggregation_dicts(aggregate_by_group_specs)
+
     # Make specs for automated sum aggregation
-    potential_source_cols = list(user_and_internal_functions) + data_cols
+    names_to_functions = tree_to_dict_with_qualified_name(user_and_internal_functions)
+    names_to_targets = tree_to_dict_with_qualified_name(targets)
+
+    potential_source_cols = names_to_functions.keys() + data_cols
     potential_agg_cols = set(
         [
             arg
-            for func in user_and_internal_functions.values()
+            for func in names_to_functions.values()
             for arg in get_names_of_arguments_without_defaults(func)
         ]
-        + targets
+        + names_to_targets.keys()
     )
 
     automated_sum_aggregate_by_group_cols = [
         col
         for col in potential_agg_cols
-        if (col not in user_and_internal_functions)
+        if (col not in names_to_functions)
         and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
         and (remove_group_suffix(col) in potential_source_cols)
     ]

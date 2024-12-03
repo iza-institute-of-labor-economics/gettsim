@@ -381,7 +381,7 @@ def set_by_path(data_dict, key_list, value):
 
 
 def tree_to_dict_with_qualified_name(
-    tree: dict[str, Any], none_is_leaf: bool = False
+    tree: dict[str, Any], none_is_leaf: bool = True
 ) -> dict[str, Any]:
     """Flatten a nested dictionary and return a dictionary with qualified names."""
     qualified_names, flattened_tree, _ = tree_flatten_with_qualified_name(
@@ -392,7 +392,7 @@ def tree_to_dict_with_qualified_name(
 
 def tree_flatten_with_qualified_name(
     tree: dict[str, Any],
-    none_is_leaf: bool = False,
+    none_is_leaf: bool = True,
 ) -> tuple[list[list[str]], list[Any], list[str]]:
     """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
     paths, flattened_tree, tree_spec = tree_flatten_with_path(
