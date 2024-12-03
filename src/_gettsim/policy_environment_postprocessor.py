@@ -169,18 +169,22 @@ def _create_derived_functions(
     )
 
     # Create functions for different time units
+    funcs_with_p_id_aggregation = merge_nested_dicts(
+        environment.functions_tree,
+        aggregate_by_p_id_functions,
+    )
     time_conversion_functions = create_time_conversion_functions(
-        {**environment.functions_tree, **aggregate_by_p_id_functions},
+        funcs_with_p_id_aggregation,
         names_of_columns_in_data,
     )
 
     # Create aggregation functions
+    funcs_with_time_conversion = merge_nested_dicts(
+        funcs_with_p_id_aggregation,
+        time_conversion_functions,
+    )
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
-        {
-            **time_conversion_functions,
-            **environment.functions_tree,
-            **aggregate_by_p_id_functions,
-        },
+        funcs_with_time_conversion,
         targets,
         names_of_columns_in_data,
         environment.aggregate_by_group_specs,

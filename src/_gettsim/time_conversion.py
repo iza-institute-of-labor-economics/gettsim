@@ -1,12 +1,15 @@
 import inspect
 import re
 from collections.abc import Callable
+from typing import Any
 
 from dags.signature import rename_arguments
+from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.shared import update_tree
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -234,9 +237,9 @@ _time_conversion_functions = {
 
 
 def create_time_conversion_functions(
-    functions: dict[str, PolicyFunction],
+    functions_tree: dict[str, Any],
     data_cols: list[str],
-) -> dict[str, DerivedFunction]:
+) -> dict[str, Any]:
     """
      Create functions that convert variables to different time units.
 
@@ -263,7 +266,7 @@ def create_time_conversion_functions(
 
     Parameters
     ----------
-    functions:
+    functions_tree:
         Dictionary of functions.
     data_cols:
         List of data columns.
@@ -274,33 +277,39 @@ def create_time_conversion_functions(
         Dictionary of created functions.
     """
 
-    result: dict[str, DerivedFunction] = {}
+    converted_functions = {}
+
+    paths, funcs, _ = tree_flatten_with_path(functions_tree)
+    qualified_names = ["__".join(path) for path in paths]
 
     # Create time-conversions for existing functions
-    for name, func in functions.items():
-        result.update(
-            {
-                der_name: der_func
-                for der_name, der_func in _create_time_conversion_functions(
-                    name, func
-                ).items()
-                if der_name not in functions and der_name not in data_cols
-            }
-        )
+    for path, qualified_name, func in zip(paths, qualified_names, funcs):
+        path_stem_for_new_funcs = path[:-1]
+        new_funcs_dict = {
+            der_name: der_func
+            for der_name, der_func in _create_time_conversion_functions(
+                qualified_name, func
+            ).items()
+            if der_name not in qualified_names and der_name not in data_cols
+        }
+        for k, v in new_funcs_dict.items():
+            converted_functions = update_tree(
+                converted_functions, [*path_stem_for_new_funcs, k], v
+            )
 
-    # Create time-conversions for data columns and overwrite existing functions
     for name in data_cols:
-        result.update(
-            {
-                der_name: der_func
-                for der_name, der_func in _create_time_conversion_functions(
-                    name
-                ).items()
-                if der_name not in data_cols
-            }
-        )
+        path_stem_for_new_funcs = name.split("__")[-1]
+        new_funcs_dict = {
+            der_name: der_func
+            for der_name, der_func in _create_time_conversion_functions(name).items()
+            if der_name not in data_cols
+        }
+        for k, v in new_funcs_dict.items():
+            converted_functions = update_tree(
+                converted_functions, [*path_stem_for_new_funcs, k], v
+            )
 
-    return result
+    return converted_functions
 
 
 def _create_time_conversion_functions(
