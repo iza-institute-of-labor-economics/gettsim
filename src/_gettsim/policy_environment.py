@@ -95,8 +95,8 @@ class PolicyEnvironment:
         self,
         functions_tree: dict[str, Any],
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
-        aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
+        aggregate_by_group_specs: dict[str, Any] | None = None,
+        aggregate_by_p_id_specs: dict[str, Any] | None = None,
     ):
         _fail_if_functions_tree_not_tree(functions_tree)
         flattened_functions_tree, tree_def = tree_flatten(functions_tree)
@@ -127,7 +127,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs(self) -> dict[str, dict[str, str]]:
+    def aggregate_by_group_specs(self) -> dict[str, Any]:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
@@ -135,7 +135,7 @@ class PolicyEnvironment:
         return self._aggregate_by_group_specs
 
     @property
-    def aggregate_by_p_id_specs(self) -> dict[str, dict[str, str]]:
+    def aggregate_by_p_id_specs(self) -> dict[str, Any]:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).

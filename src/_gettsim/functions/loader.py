@@ -232,7 +232,7 @@ def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bo
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
-def load_internal_aggregation_dict(variant: _AggregationVariant):
+def load_internal_aggregation_dict(variant: _AggregationVariant) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person that are defined for
     internal functions.
@@ -242,7 +242,7 @@ def load_internal_aggregation_dict(variant: _AggregationVariant):
 
 def _load_aggregation_dict(
     roots: list[Path], package_root: Path, variant: _AggregationVariant
-):
+) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person reachable from the given
     roots.
@@ -250,23 +250,23 @@ def _load_aggregation_dict(
     roots = roots if isinstance(roots, list) else [roots]
     paths = _find_python_files_recursively(roots)
 
-    # Load dictionaries
-    dicts = []
+    tree = {}
 
     for path in paths:
-        dicts.extend(_load_dicts_in_module(path, package_root, f"{variant}_"))
-
-    # Check for duplicate keys
-    all_keys = [k for dict_ in dicts for k in dict_]
-    if len(all_keys) != len(set(all_keys)):
-        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
-        raise ValueError(
-            "The following column names are used more "
-            f"than once in the {variant} dictionaries: {duplicate_keys}"
+        module_name = _convert_path_to_module_name(path, package_root)
+        # TODO(@MImmesberger): Remove the removeprefix calls once the directory
+        # structure is cleaned up
+        clean_module_name = (
+            module_name.removeprefix("_gettsim.")
+            .removeprefix("taxes.")
+            .removeprefix("transfers.")
         )
+        tree_keys = clean_module_name.split(".")
+        dicts_in_module = _load_dicts_in_module(path, package_root, f"{variant}_")
+        _fail_if_more_than_one_dict_loaded(dicts_in_module)
+        tree = update_tree(tree, tree_keys, *dicts_in_module)
 
-    # Combine dictionaries
-    return {k: v for dict_ in dicts for k, v in dict_.items()}
+    return tree
 
 
 def _load_dicts_in_module(
@@ -296,3 +296,11 @@ def _load_dicts_in_module(
         for name, member in inspect.getmembers(module)
         if isinstance(member, dict) and name.startswith(prefix_filter)
     ]
+
+
+def _fail_if_more_than_one_dict_loaded(dicts: list[dict]) -> None:
+    if len(dicts) > 1:
+        raise ValueError(
+            "More than one dictionary found in the module. "
+            "Only one dictionary is allowed."
+        )
