@@ -1,6 +1,7 @@
 import inspect
 
 import pytest
+from optree import tree_paths
 
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.time_conversion import (
@@ -222,6 +223,41 @@ class TestCreateFunctionsForTimeUnits:
         )
 
         assert "test_d" in time_conversion_functions
+
+    @pytest.mark.parametrize(
+        "functions_tree, expected",
+        [
+            (
+                {"module1": {"function1_y": PolicyFunction(lambda: 1)}},
+                {
+                    "module1": {
+                        "function1_m": PolicyFunction(lambda: 1),
+                        "function1_w": PolicyFunction(lambda: 1),
+                        "function1_d": PolicyFunction(lambda: 1),
+                    },
+                },
+            ),
+            (
+                {"module1": {"module2": {"function1_y_hh": PolicyFunction(lambda: 1)}}},
+                {
+                    "module1": {
+                        "module2": {
+                            "function1_m_hh": PolicyFunction(lambda: 1),
+                            "function1_w_hh": PolicyFunction(lambda: 1),
+                            "function1_d_hh": PolicyFunction(lambda: 1),
+                        },
+                    },
+                },
+            ),
+        ],
+    )
+    def test_should_return_nested_dict(self, functions_tree, expected) -> None:
+        time_conversion_functions = create_time_conversion_functions(functions_tree, [])
+
+        expected_path = tree_paths(expected)
+        result_path = tree_paths(time_conversion_functions)
+
+        assert expected_path == result_path
 
 
 class TestCreateFunctionForTimeUnit:

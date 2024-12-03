@@ -283,31 +283,31 @@ def create_time_conversion_functions(
     qualified_names = ["__".join(path) for path in paths]
 
     # Create time-conversions for existing functions
-    for path, qualified_name, func in zip(paths, qualified_names, funcs):
-        path_stem_for_new_funcs = path[:-1]
+    for path, func in zip(paths, funcs):
+        function_name = path[-1]
         new_funcs_dict = {
             der_name: der_func
             for der_name, der_func in _create_time_conversion_functions(
-                qualified_name, func
+                function_name, func
             ).items()
             if der_name not in qualified_names and der_name not in data_cols
         }
         for k, v in new_funcs_dict.items():
-            converted_functions = update_tree(
-                converted_functions, [*path_stem_for_new_funcs, k], v
-            )
+            stem = path[:-1] if len(path) > 1 else None
+            new_path = [*stem, k] if stem else [k]
+            converted_functions = update_tree(converted_functions, new_path, v)
 
-    for name in data_cols:
-        path_stem_for_new_funcs = name.split("__")[-1]
+    for qualified_name in data_cols:
+        name = qualified_name.split("__")[-1]
         new_funcs_dict = {
             der_name: der_func
             for der_name, der_func in _create_time_conversion_functions(name).items()
             if der_name not in data_cols
         }
         for k, v in new_funcs_dict.items():
-            converted_functions = update_tree(
-                converted_functions, [*path_stem_for_new_funcs, k], v
-            )
+            stem = qualified_name.split("__")[-1] if "__" in qualified_name else None
+            new_path = [*stem, k] if stem else [k]
+            converted_functions = update_tree(converted_functions, new_path, v)
 
     return converted_functions
 
