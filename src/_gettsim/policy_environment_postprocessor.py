@@ -481,7 +481,7 @@ def _create_aggregate_by_p_id_functions(
 ) -> dict[str, Any]:
     """Create function dict with functions that link variables across persons."""
 
-    aggregate_by_p_id_dict = aggregate_by_p_id_specs
+    aggregation_dicts = _get_aggregation_dicts(aggregate_by_p_id_specs)
 
     aggregate_by_p_id_functions = {}
 
@@ -499,6 +499,31 @@ def _create_aggregate_by_p_id_functions(
     }
 
     return aggregate_by_p_id_functions
+
+
+def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str, dict]:
+    """Get aggregation dictionaries from the specs.
+
+    Reduces the tree to a dict with qualified module names as keys and the aggregation
+    dict as values.
+
+    Example:
+    {"module1": {"module2": {"func": {"source_col": "col", "p_id_to_aggregate_by":
+    "xx_id"}}},
+    Result: {"module1__module2": {"func": {
+    "source_col": "col", "p_id_to_aggregate_by": "xx_id"}}}
+    """
+
+    out = {}
+    paths, leafs, _ = tree_flatten_with_path(aggregate_by_p_id_specs)
+    for path, leaf in zip(paths, leafs):
+        qualified_name = "__".join(path[:-2])
+        aggregation_func_name = path[-2]
+        aggregation_spec_keyword = path[-1]
+        keys = [qualified_name, aggregation_func_name, aggregation_spec_keyword]
+        out = update_tree(out, keys, leaf)
+
+    return out
 
 
 def _create_one_aggregate_by_p_id_func(
