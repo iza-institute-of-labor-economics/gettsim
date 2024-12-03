@@ -12,6 +12,7 @@ from _gettsim.policy_environment import (
     load_functions_tree_for_date,
     set_up_policy_environment,
 )
+from _gettsim.shared import tree_to_dict_with_qualified_name
 from _gettsim_tests import TEST_DIR
 
 
@@ -102,22 +103,22 @@ def test_access_different_date_jahresanfang():
 
 
 @pytest.mark.parametrize(
-    "dag_key, last_day, function_name_last_day, function_name_next_day",
+    "qualified_name, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            "eink_st_altersfreib_y",
+            "zu_verst_eink__freibetraege__eink_st_altersfreib_y",
             date(2004, 12, 31),
             "eink_st_altersfreib_y_bis_2004",
             "eink_st_altersfreib_y_ab_2005",
         ),
         (
-            "alleinerz_freib_y_sn",
+            "zu_verst_eink__freibetraege__alleinerz_freib_y_sn",
             date(2014, 12, 31),
             "eink_st_alleinerz_freib_y_sn_pauschal",
             "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
         ),
         (
-            "sum_eink_y",
+            "zu_verst_eink__eink__sum_eink_y",
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",
@@ -125,18 +126,17 @@ def test_access_different_date_jahresanfang():
     ],
 )
 def test_load_functions_tree_for_date(
-    dag_key: str,
+    qualified_name: str,
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = {
-        f.name_in_dag: f.function for f in load_functions_tree_for_date(date=last_day)
-    }
-    functions_next_day = {
-        f.name_in_dag: f.function
-        for f in load_functions_tree_for_date(date=last_day + timedelta(days=1))
-    }
+    functions_last_day = tree_to_dict_with_qualified_name(
+        load_functions_tree_for_date(date=last_day)
+    )
+    functions_next_day = tree_to_dict_with_qualified_name(
+        load_functions_tree_for_date(date=last_day + timedelta(days=1))
+    )
 
-    assert functions_last_day[dag_key].__name__ == function_name_last_day
-    assert functions_next_day[dag_key].__name__ == function_name_next_day
+    assert functions_last_day[qualified_name].__name__ == function_name_last_day
+    assert functions_next_day[qualified_name].__name__ == function_name_next_day
