@@ -162,7 +162,6 @@ def _create_derived_functions(
     - aggregation functions
     - combinations of these
     """
-    breakpoint()
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         environment.functions_tree,
@@ -476,16 +475,15 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
 
 def _create_aggregate_by_p_id_functions(
-    user_and_internal_functions: dict[str, PolicyFunction],
-    aggregate_by_p_id_specs: dict[str, dict[str, str]],
+    user_and_internal_functions: dict[str, Any],
+    aggregate_by_p_id_specs: dict[str, Any],
     data_cols: list[str],
-) -> dict[str, DerivedFunction]:
+) -> dict[str, Any]:
     """Create function dict with functions that link variables across persons."""
 
     aggregate_by_p_id_dict = aggregate_by_p_id_specs
 
-    for k, v in aggregate_by_p_id_dict.items():
-        _check_agg_specs_validity(agg_specs=v, agg_col=k)
+    aggregate_by_p_id_functions = {}
 
     aggregate_by_p_id_functions = {
         agg_by_p_id_col: _create_one_aggregate_by_p_id_func(
@@ -506,7 +504,7 @@ def _create_aggregate_by_p_id_functions(
 def _create_one_aggregate_by_p_id_func(
     agg_col: str,
     agg_specs: dict[str, str],
-    user_and_internal_functions: dict[str, PolicyFunction],
+    user_and_internal_functions: dict[str, Any],
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
