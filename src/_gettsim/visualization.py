@@ -14,7 +14,7 @@ from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
 from _gettsim.interface import set_up_dag
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
-    check_functions_and_differentiate_types,
+    add_derived_functions_to_functions_tree,
 )
 from _gettsim.shared import (
     format_list_linewise,
@@ -75,7 +75,7 @@ def plot_dag(
 
     # Load functions.
     functions_not_overridden, functions_overridden = (
-        check_functions_and_differentiate_types(
+        add_derived_functions_to_functions_tree(
             environment,
             targets=targets,
             data_cols=list(TYPES_INPUT_VARIABLES),

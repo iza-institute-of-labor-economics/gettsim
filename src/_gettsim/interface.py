@@ -94,7 +94,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     data = _convert_data_to_correct_types(data, functions_overridden)
 
     # Warn if columns override functions.
-    names_of_columns_overriding_functions, _, _ = set(
+    names_of_columns_overriding_functions, _ = set(
         tree_flatten_with_qualified_name(functions_overridden)
     )
     if len(names_of_columns_overriding_functions) > 0:
@@ -370,9 +370,9 @@ def _process_and_check_data(data: dict[str, Any] | pd.DataFrame) -> dict[str, An
     data_tree = build_data_tree(data)
 
     # Check that group variables are constant within groups
-    _fail_if_group_variables_not_constant_within_groups(data)
-    _fail_if_pid_is_non_unique(data)
-    _fail_if_foreign_keys_are_invalid(data)
+    _fail_if_group_variables_not_constant_within_groups(data_tree)
+    _fail_if_pid_is_non_unique(data_tree)
+    _fail_if_foreign_keys_are_invalid(data_tree)
 
     return data_tree
 
@@ -604,7 +604,7 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
     group_ids_in_data = {
         name: col
         for name, col in names_leafs_dict.items()
-        if name.endswith("_id") and name.split("__")[-1] in SUPPORTED_GROUPINGS
+        if name.endswith("_id") and name.split("_")[-2] in SUPPORTED_GROUPINGS
     }
 
     for name, col in grouped_data_cols.items():
@@ -612,14 +612,8 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
 
         try:
             group_id_array = group_ids_in_data[group_id_name]
-        except KeyError as e:
-            message = format_errors_and_warnings(
-                f"""
-                Data input {name!r} is a group variable but no corresponding group ID
-                column {group_id_name!r} was found.
-                """
-            )
-            raise ValueError(message) from e
+        except KeyError:
+            continue
 
         max_value = col.groupby(group_id_array).transform("max")
         if not (max_value == col).all():

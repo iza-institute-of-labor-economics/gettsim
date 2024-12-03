@@ -73,7 +73,7 @@ def add_derived_functions_to_functions_tree(
         The functions tree including derived functions.
 
     """
-    names_of_columns_in_data, _ = tree_flatten_with_qualified_name(data)
+    names_of_columns_in_data, _, _ = tree_flatten_with_qualified_name(data)
 
     # Create derived functions
     (
@@ -128,7 +128,7 @@ def filter_overridden_functions(
     functions_not_overridden = {}
     functions_overridden = {}
 
-    names_of_columns_in_data, _ = tree_flatten_with_qualified_name(data)
+    names_of_columns_in_data, _, _ = tree_flatten_with_qualified_name(data)
     function_paths, functions_leafs, _ = tree_flatten_with_path(functions)
 
     for name, func in zip(function_paths, functions_leafs):
@@ -152,7 +152,7 @@ def filter_overridden_functions(
 def _create_derived_functions(
     environment: PolicyEnvironment,
     targets: dict[str, Any],
-    data_qualified_names: list[str],
+    names_of_columns_in_data: list[str],
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     """
     Create functions that are derived from the user and internal functions.
@@ -162,17 +162,18 @@ def _create_derived_functions(
     - aggregation functions
     - combinations of these
     """
+    breakpoint()
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         environment.functions_tree,
         environment.aggregate_by_p_id_specs,
-        data_qualified_names,
+        names_of_columns_in_data,
     )
 
     # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
         {**environment.functions_tree, **aggregate_by_p_id_functions},
-        data_qualified_names,
+        names_of_columns_in_data,
     )
 
     # Create aggregation functions
@@ -183,7 +184,7 @@ def _create_derived_functions(
             **aggregate_by_p_id_functions,
         },
         targets,
-        data_qualified_names,
+        names_of_columns_in_data,
         environment.aggregate_by_group_specs,
     )
 
