@@ -7,6 +7,7 @@ import pandas as pd
 
 from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
+from _gettsim.shared import tree_to_dict_with_qualified_name
 
 current_year = datetime.datetime.today().year
 
@@ -314,7 +315,10 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     }
 
     # Set default values for new columns.
-    for input_col, col_type in TYPES_INPUT_VARIABLES.items():
+    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
+        TYPES_INPUT_VARIABLES
+    )
+    for input_col, col_type in types_input_variables_with_qualified_names.items():
         if input_col not in df:
             if input_col in default_values:
                 df[input_col] = default_values[input_col]
