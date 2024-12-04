@@ -210,7 +210,7 @@ def _format_duplicated_functions(duplicated_functions, functions, source):
 
 
 def _create_aggregate_by_group_functions(
-    user_and_internal_functions: dict[str, Any],
+    functions_tree: dict[str, Any],
     targets: dict[str, Any],
     data_cols: list[str],
     aggregate_by_group_specs: dict[str, Any],
@@ -220,7 +220,7 @@ def _create_aggregate_by_group_functions(
     aggregation_dicts_provided_by_env = _get_aggregation_dicts(aggregate_by_group_specs)
     automatically_created_aggregation_dicts = (
         _create_derived_aggregation_specifications(
-            user_and_internal_functions,
+            functions_tree,
             targets,
             data_cols,
             aggregate_by_group_specs,
@@ -241,19 +241,23 @@ def _create_aggregate_by_group_functions(
             _check_agg_specs_validity(
                 agg_specs=agg_spec, agg_col=func_name, module=module
             )
-            path = [*module.split("__"), func_name]
+            module_path = module.split("__")
             derived_func = _create_one_aggregate_by_group_func(
-                agg_col=func_name,
+                module_path=module_path,
+                new_function_name=func_name,
                 agg_specs=agg_spec,
-                user_and_internal_functions=user_and_internal_functions,
+                functions_tree=functions_tree,
             )
-            derived_functions = update_tree(derived_functions, path, derived_func)
+            function_path = [*module_path, func_name]
+            derived_functions = update_tree(
+                derived_functions, function_path, derived_func
+            )
 
     return derived_functions
 
 
 def _create_derived_aggregation_specifications(
-    user_and_internal_functions: dict[str, Any],
+    functions_tree: dict[str, Any],
     targets: dict[str, Any],
     data_cols: list[str],
 ) -> dict[str, Any]:
@@ -262,15 +266,15 @@ def _create_derived_aggregation_specifications(
     Aggregation specifications are created automatically for summation aggregations.
 
     Example: If
-        - `func_hh` is an argument of the functions in `user_and_internal_functions`, or
+        - `func_hh` is an argument of the functions in `functions_tree`, or
           a target
-        - and not represented by a function in `user_and_internal_functions` or a data
+        - and not represented by a function in `functions_tree` or a data
           column in the input data
     then an automatic aggregation specification is created for the sum aggregation of
     `func` by household.
     """
     # Make specs for automated sum aggregation
-    names_to_functions = tree_to_dict_with_qualified_name(user_and_internal_functions)
+    names_to_functions = tree_to_dict_with_qualified_name(functions_tree)
     names_to_targets = tree_to_dict_with_qualified_name(targets)
 
     potential_source_cols = list(names_to_functions.keys()) + data_cols
@@ -357,30 +361,41 @@ def _check_agg_specs_validity(agg_specs, agg_col, module):
             )
 
 
-def _annotations_for_aggregation(agg_specs, user_and_internal_functions):
+def _annotations_for_aggregation(
+    aggregation_type: str,
+    source_col: str,
+    qualified_name_source_col: str,
+    qualified_names_to_functions_dict: dict[str, PolicyFunction],
+):
+    """Create annotations for derived aggregation functions."""
+
     annotations = {}
-    if agg_specs["aggr"] == "count":
+
+    if aggregation_type == "count":
         annotations["return"] = int
     else:
-        source_col = agg_specs["source_col"]
         if (
-            source_col in user_and_internal_functions
-            and "return" in user_and_internal_functions[source_col].__annotations__
+            qualified_name_source_col in qualified_names_to_functions_dict
+            and "return"
+            in qualified_names_to_functions_dict[
+                qualified_name_source_col
+            ].__annotations__
         ):
-            annotations[source_col] = user_and_internal_functions[
-                source_col
+            # Find out source col type to infer return type
+            annotations[source_col] = qualified_names_to_functions_dict[
+                qualified_name_source_col
             ].__annotations__["return"]
 
             # Find out return type
             annotations["return"] = _select_return_type(
-                agg_specs["aggr"], annotations[source_col]
+                aggregation_type, annotations[source_col]
             )
         elif source_col in TYPES_INPUT_VARIABLES:
             annotations[source_col] = TYPES_INPUT_VARIABLES[source_col]
 
             # Find out return type
             annotations["return"] = _select_return_type(
-                agg_specs["aggr"], annotations[source_col]
+                aggregation_type, annotations[source_col]
             )
         else:
             # TODO(@hmgaudecker): Think about how type annotations of aggregations of
@@ -403,57 +418,66 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _create_one_aggregate_by_group_func(  # noqa: PLR0912
-    agg_col: str,
+    module_path: list[str],
+    new_function_name: str,
     agg_specs: dict[str, str],
-    user_and_internal_functions: dict[str, PolicyFunction],
+    functions_tree: dict[str, PolicyFunction],
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
     ----------
-    agg_col : str
-        Name of the aggregated column.
+    module_path : list
+        List of strings representing the path to the module in the functions tree.
+    new_function_name : str
+        Name of the new function.
     agg_specs : dict
-        Dictionary of aggregation specifications. Can contain the source column
-        ("source_col") and the group ids ("group_id") Dictionary of aggregation
-        specifications. Must contain the aggregation type ("aggr"). Unless
-        `aggr == "count"`, it must contain the column to aggregate ("source_col").
-    user_and_internal_functions: dict
-        Dictionary of functions.
-
+        Dictionary of aggregation specifications. Must contain the aggregation type
+        ("aggr") and the column to aggregate ("source_col").
+    functions_tree: dict
+        Functions tree.
 
     Returns
     -------
     aggregate_by_group_func : The aggregation func with the expected signature
 
     """
+    qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
+    aggregation_type = agg_specs["aggr"]
+    source_col = agg_specs["source_col"]
+    qualified_name_source_col = "__".join([*module_path, source_col])
 
     # Identify grouping level
     group_id = None
     for g in SUPPORTED_GROUPINGS:
-        if agg_col.endswith(f"_{g}"):
+        if new_function_name.endswith(f"_{g}"):
             group_id = f"{g}_id"
     if not group_id:
         raise ValueError(
             "Name of aggregated column needs to have a suffix "
             "indicating the group over which it is aggregated. "
-            f"The name {agg_col} does not do so."
+            f"The name {new_function_name} does not do so."
         )
 
     annotations = _annotations_for_aggregation(
-        agg_specs=agg_specs,
-        user_and_internal_functions=user_and_internal_functions,
+        aggregation_type=aggregation_type,
+        source_col=source_col,
+        qualified_name_source_col=qualified_name_source_col,
+        qualified_names_to_functions_dict=qualified_names_to_functions_dict,
     )
 
-    if agg_specs["aggr"] == "count":
-
+    if aggregation_type == "count":
+        # TODO(@MImmesberger): Use qualified name of group_id here once namespace
+        # changes
         @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
         def aggregate_by_group_func(group_id):
             return grouped_count(group_id)
 
     else:
-        mapper = {"source_col": agg_specs["source_col"], "group_id": group_id}
-        if agg_specs["aggr"] == "sum":
+        # TODO(@MImmesberger): Use qualified name of group_id here once namespace
+        # changes
+        mapper = {"source_col": qualified_name_source_col, "group_id": group_id}
+        if aggregation_type == "sum":
 
             @rename_arguments(
                 mapper=mapper,
@@ -462,7 +486,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_sum(source_col, group_id)
 
-        elif agg_specs["aggr"] == "mean":
+        elif aggregation_type == "mean":
 
             @rename_arguments(
                 mapper=mapper,
@@ -471,7 +495,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_mean(source_col, group_id)
 
-        elif agg_specs["aggr"] == "max":
+        elif aggregation_type == "max":
 
             @rename_arguments(
                 mapper=mapper,
@@ -480,7 +504,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_max(source_col, group_id)
 
-        elif agg_specs["aggr"] == "min":
+        elif aggregation_type == "min":
 
             @rename_arguments(
                 mapper=mapper,
@@ -489,7 +513,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_min(source_col, group_id)
 
-        elif agg_specs["aggr"] == "any":
+        elif aggregation_type == "any":
 
             @rename_arguments(
                 mapper=mapper,
@@ -498,7 +522,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_any(source_col, group_id)
 
-        elif agg_specs["aggr"] == "all":
+        elif aggregation_type == "all":
 
             @rename_arguments(
                 mapper=mapper,
@@ -508,22 +532,22 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 return grouped_all(source_col, group_id)
 
         else:
-            raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
+            raise ValueError(f"Aggr {aggregation_type} is not implemented.")
 
-    if agg_specs["aggr"] == "count":
+    if aggregation_type == "count":
         derived_from = group_id
     else:
-        derived_from = (agg_specs["source_col"], group_id)
+        derived_from = (qualified_name_source_col, group_id)
 
     return DerivedFunction(
         aggregate_by_group_func,
-        function_name=agg_col,
+        function_name=new_function_name,
         derived_from=derived_from,
     )
 
 
 def _create_aggregate_by_p_id_functions(
-    user_and_internal_functions: dict[str, Any],
+    functions_tree: dict[str, Any],
     aggregate_by_p_id_specs: dict[str, Any],
 ) -> dict[str, Any]:
     """Create function dict with functions that link variables across persons."""
@@ -538,7 +562,7 @@ def _create_aggregate_by_p_id_functions(
             derived_func = _create_one_aggregate_by_p_id_func(
                 agg_col=func_name,
                 agg_specs=aggregation_dict,
-                user_and_internal_functions=user_and_internal_functions,
+                functions_tree=functions_tree,
             )
             derived_functions = update_tree(derived_functions, path, derived_func)
 
@@ -573,7 +597,7 @@ def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str,
 def _create_one_aggregate_by_p_id_func(
     agg_col: str,
     agg_specs: dict[str, str],
-    user_and_internal_functions: dict[str, Any],
+    functions_tree: dict[str, Any],
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
@@ -585,7 +609,7 @@ def _create_one_aggregate_by_p_id_func(
         Dictionary of aggregation specifications. Must contain the p_id by which to
         aggregate ("p_id_to_aggregate_by") and the aggregation type ("aggr"). Unless
         `aggr == "count"`, it must contain the column to aggregate ("source_col").
-    user_and_internal_functions: dict
+    functions_tree: dict
         Dictionary of functions.
 
 
@@ -597,7 +621,7 @@ def _create_one_aggregate_by_p_id_func(
 
     annotations = _annotations_for_aggregation(
         agg_specs=agg_specs,
-        user_and_internal_functions=user_and_internal_functions,
+        functions_tree=functions_tree,
     )
 
     # Define aggregation func

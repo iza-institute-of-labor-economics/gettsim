@@ -297,6 +297,7 @@ def create_time_conversion_functions(
             new_path = [*stem, k] if stem else [k]
             converted_functions = update_tree(converted_functions, new_path, v)
 
+    # Create time-conversions for data columns
     for qualified_name in data_cols:
         name = qualified_name.split("__")[-1]
         new_funcs_dict = {
