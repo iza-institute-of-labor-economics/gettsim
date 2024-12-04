@@ -213,9 +213,9 @@ def _create_policy_function_from_decorated_callable(
 
     # Only needed until the directory structure is cleaned up
     clean_module_name = (
-        module_name.removeprefix("_gettsim.")
-        .removeprefix("taxes.")
-        .removeprefix("transfers.")
+        module_name.removeprefix("_gettsim__")
+        .removeprefix("taxes__")
+        .removeprefix("transfers__")
     )
 
     return PolicyFunction(
@@ -257,9 +257,9 @@ def _load_aggregation_dict(
         # TODO(@MImmesberger): Remove the removeprefix calls once the directory
         # structure is cleaned up
         clean_module_name = (
-            module_name.removeprefix("_gettsim.")
-            .removeprefix("taxes.")
-            .removeprefix("transfers.")
+            module_name.removeprefix("_gettsim__")
+            .removeprefix("taxes__")
+            .removeprefix("transfers__")
         )
         tree_keys = clean_module_name.split("__")
         dicts_in_module = _load_dicts_in_module(path, package_root, f"{variant}_")
