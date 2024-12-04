@@ -198,17 +198,6 @@ def _create_derived_functions(
     )
 
 
-def _format_duplicated_functions(duplicated_functions, functions, source):
-    """Format an error message showing duplicated functions and their sources."""
-    lines = []
-    for name in duplicated_functions:
-        lines.append(f"{name!r} is defined in")
-        lines.append("    " + inspect.getfile(functions[name]))
-        lines.append("    " + inspect.getfile(source[name]))
-
-    return "\n".join(lines)
-
-
 def _create_aggregate_by_group_functions(
     functions_tree: dict[str, Any],
     targets: dict[str, Any],
