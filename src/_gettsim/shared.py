@@ -184,7 +184,7 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def update_tree(
+def tree_update(
     tree: dict[str, Any], path: list[str], value: Any = None
 ) -> dict[str, Any]:
     """Update tree with a path and value."""

@@ -4,7 +4,7 @@ from _gettsim.shared import (
     create_dict_from_list,
     merge_nested_dicts,
     tree_to_dict_with_qualified_name,
-    update_tree,
+    tree_update,
 )
 
 
@@ -17,8 +17,8 @@ from _gettsim.shared import (
         ({"a": {"b": 1}}, ["a", "c"], 2, {"a": {"b": 1, "c": 2}}),
     ],
 )
-def test_update_tree(tree, path, value, expected):
-    result = update_tree(tree, path, value)
+def test_tree_update(tree, path, value, expected):
+    result = tree_update(tree, path, value)
     assert result == expected
 
 

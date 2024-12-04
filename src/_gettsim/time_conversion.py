@@ -9,7 +9,7 @@ from optree import tree_flatten_with_path
 from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.shared import update_tree
+from _gettsim.shared import tree_update
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -295,7 +295,7 @@ def create_time_conversion_functions(
         for k, v in new_funcs_dict.items():
             stem = path[:-1] if len(path) > 1 else None
             new_path = [*stem, k] if stem else [k]
-            converted_functions = update_tree(converted_functions, new_path, v)
+            converted_functions = tree_update(converted_functions, new_path, v)
 
     # Create time-conversions for data columns
     for qualified_name in data_cols:
@@ -308,7 +308,7 @@ def create_time_conversion_functions(
         for k, v in new_funcs_dict.items():
             stem = qualified_name.split("__")[-1] if "__" in qualified_name else None
             new_path = [*stem, k] if stem else [k]
-            converted_functions = update_tree(converted_functions, new_path, v)
+            converted_functions = tree_update(converted_functions, new_path, v)
 
     return converted_functions
 

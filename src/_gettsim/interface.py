@@ -35,7 +35,7 @@ from _gettsim.shared import (
     merge_nested_dicts,
     tree_flatten_with_qualified_name,
     tree_to_dict_with_qualified_name,
-    update_tree,
+    tree_update,
 )
 
 
@@ -276,7 +276,7 @@ def _build_data_tree_from_df(data: pd.DataFrame) -> dict[str, Any]:
     for path, column in zip(cols_to_paths, data.columns):
         series = data[column].copy()
         series.name = path[-1]
-        tree = update_tree(
+        tree = tree_update(
             tree,
             path,
             series,

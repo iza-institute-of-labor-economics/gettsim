@@ -37,7 +37,7 @@ from _gettsim.shared import (
     remove_group_suffix,
     tree_flatten_with_qualified_name,
     tree_to_dict_with_qualified_name,
-    update_tree,
+    tree_update,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
 
@@ -135,13 +135,13 @@ def filter_overridden_functions(
     for name, func in zip(function_paths, functions_leafs):
         qualified_name = "__".join(name)
         if qualified_name in names_of_columns_in_data:
-            functions_overridden = update_tree(
+            functions_overridden = tree_update(
                 functions_overridden,
                 name,
                 func,
             )
         else:
-            functions_not_overridden = update_tree(
+            functions_not_overridden = tree_update(
                 functions_not_overridden,
                 name,
                 func,
@@ -237,7 +237,7 @@ def _create_aggregate_by_group_functions(
                 functions_tree=functions_tree,
             )
             function_path = [*module_path, func_name]
-            derived_functions = update_tree(
+            derived_functions = tree_update(
                 derived_functions, function_path, derived_func
             )
 
@@ -290,7 +290,7 @@ def _create_derived_aggregation_specifications(
         # Create module name for path in tree; None if func is in main namespace
         module_name = "__".join(path[:-1]) if len(path) > 1 else None
         update_dict = {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
-        automated_sum_aggregate_by_group_specs = update_tree(
+        automated_sum_aggregate_by_group_specs = tree_update(
             automated_sum_aggregate_by_group_specs,
             [module_name, func_name] if module_name else [func_name],
             update_dict,
@@ -556,7 +556,7 @@ def _create_aggregate_by_p_id_functions(
                 agg_specs=aggregation_dict,
                 functions_tree=functions_tree,
             )
-            derived_functions = update_tree(derived_functions, path, derived_func)
+            derived_functions = tree_update(derived_functions, path, derived_func)
 
     return derived_functions
 
@@ -579,9 +579,9 @@ def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str,
     for path, leaf in zip(paths, leafs):
         qualified_name = "__".join(path[:-2])
         aggregation_func_name = path[-2]
-        aggregation_spec_keyword = path[-1]
-        keys = [qualified_name, aggregation_func_name, aggregation_spec_keyword]
-        out = update_tree(out, keys, leaf)
+        aggregation_spec_key = path[-1]
+        keys = [qualified_name, aggregation_func_name, aggregation_spec_key]
+        out = tree_update(out, keys, leaf)
 
     return out
 
