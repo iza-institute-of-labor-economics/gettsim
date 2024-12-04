@@ -217,56 +217,92 @@ def _create_aggregate_by_group_functions(
 ) -> dict[str, DerivedFunction]:
     """Create aggregation functions."""
 
-    aggregation_dicts = _get_aggregation_dicts(aggregate_by_group_specs)
+    aggregation_dicts_provided_by_env = _get_aggregation_dicts(aggregate_by_group_specs)
+    automatically_created_aggregation_dicts = (
+        _create_derived_aggregation_specifications(
+            user_and_internal_functions,
+            targets,
+            data_cols,
+            aggregate_by_group_specs,
+        )
+    )
 
+    # Add automated aggregation specs.
+    # Note: For duplicate keys, explicitly set specs are treated with higher priority
+    # than automated specs.
+    full_aggregate_by_group_spec = merge_nested_dicts(
+        automatically_created_aggregation_dicts,
+        aggregation_dicts_provided_by_env,
+    )
+
+    derived_functions = {}
+    for module, agg_dicts_of_module in full_aggregate_by_group_spec.items():
+        for func_name, agg_spec in agg_dicts_of_module.items():
+            _check_agg_specs_validity(
+                agg_specs=agg_spec, agg_col=func_name, module=module
+            )
+            path = [*module.split("__"), func_name]
+            derived_func = _create_one_aggregate_by_group_func(
+                agg_col=func_name,
+                agg_specs=agg_spec,
+                user_and_internal_functions=user_and_internal_functions,
+            )
+            derived_functions = update_tree(derived_functions, path, derived_func)
+
+    return derived_functions
+
+
+def _create_derived_aggregation_specifications(
+    user_and_internal_functions: dict[str, Any],
+    targets: dict[str, Any],
+    data_cols: list[str],
+) -> dict[str, Any]:
+    """Create automatic aggregation specs.
+
+    Aggregation specifications are created automatically for summation aggregations.
+
+    Example: If
+        - `func_hh` is an argument of the functions in `user_and_internal_functions`, or
+          a target
+        - and not represented by a function in `user_and_internal_functions` or a data
+          column in the input data
+    then an automatic aggregation specification is created for the sum aggregation of
+    `func` by household.
+    """
     # Make specs for automated sum aggregation
     names_to_functions = tree_to_dict_with_qualified_name(user_and_internal_functions)
     names_to_targets = tree_to_dict_with_qualified_name(targets)
 
-    potential_source_cols = names_to_functions.keys() + data_cols
-    potential_agg_cols = set(
+    potential_source_cols = list(names_to_functions.keys()) + data_cols
+    potential_agg_targets = set(
         [
             arg
             for func in names_to_functions.values()
             for arg in get_names_of_arguments_without_defaults(func)
         ]
-        + names_to_targets.keys()
+        + list(names_to_targets.keys())
     )
 
     automated_sum_aggregate_by_group_cols = [
         col
-        for col in potential_agg_cols
+        for col in potential_agg_targets
         if (col not in names_to_functions)
         and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
         and (remove_group_suffix(col) in potential_source_cols)
     ]
-    automated_sum_aggregate_by_group_specs = {
-        agg_col: {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
-        for agg_col in automated_sum_aggregate_by_group_cols
-    }
-
-    # Add automated aggregation specs.
-    # Note: For duplicate keys, explicitly set specs are treated with higher priority
-    # than automated specs.
-    aggregate_by_group_dict = {
-        **automated_sum_aggregate_by_group_specs,
-        **aggregate_by_group_specs,
-    }
-
-    # Check validity of aggregation specs
-    [
-        _check_agg_specs_validity(agg_specs=v, agg_col=k)
-        for k, v in aggregate_by_group_dict.items()
-    ]
-
-    # Create functions from specs
-    aggregate_by_group_functions = {
-        agg_col: _create_one_aggregate_by_group_func(
-            agg_col, agg_spec, user_and_internal_functions
+    automated_sum_aggregate_by_group_specs = {}
+    for agg_col in automated_sum_aggregate_by_group_cols:
+        path = agg_col.split("__")
+        func_name = path[-1]
+        module_name = "__".join(path[:-1])
+        update_dict = {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
+        automated_sum_aggregate_by_group_specs = update_tree(
+            automated_sum_aggregate_by_group_specs,
+            [module_name, func_name],
+            update_dict,
         )
-        for agg_col, agg_spec in aggregate_by_group_dict.items()
-    }
-    return aggregate_by_group_functions
+
+    return automated_sum_aggregate_by_group_specs
 
 
 def rename_arguments(func=None, mapper=None, annotations=None):
@@ -307,14 +343,17 @@ def rename_arguments(func=None, mapper=None, annotations=None):
         return decorator_rename_arguments
 
 
-def _check_agg_specs_validity(agg_specs, agg_col):
+def _check_agg_specs_validity(agg_specs, agg_col, module):
     if "aggr" not in agg_specs:
-        raise KeyError(f"`aggr` key is missing for aggregation column {agg_col}.")
-
+        raise KeyError(
+            f"""`aggr` key is missing for aggregation column {agg_col} in module
+             {module}."""
+        )
     if agg_specs["aggr"] != "count":
         if "source_col" not in agg_specs:
             raise KeyError(
-                f"`source_col` key is missing for aggregation column {agg_col}."
+                f"""`source_col` key is missing for aggregation column {agg_col} in
+                 module {module}."""
             )
 
 
