@@ -99,7 +99,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFu
     # Build module_name - functions dictionary
     tree = {}
     for function in functions:
-        tree_keys = [*function.module_name.split("."), function.name_in_dag]
+        tree_keys = [*function.module_name.split("__"), function.name_in_dag]
         tree = tree_update(tree, tree_keys, function)
     return tree
 
@@ -187,7 +187,7 @@ def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
-        .replace("/", ".")
+        .replace("/", "__")
     )
 
 
@@ -261,7 +261,7 @@ def _load_aggregation_dict(
             .removeprefix("taxes.")
             .removeprefix("transfers.")
         )
-        tree_keys = clean_module_name.split(".")
+        tree_keys = clean_module_name.split("__")
         dicts_in_module = _load_dicts_in_module(path, package_root, f"{variant}_")
         _fail_if_more_than_one_dict_loaded(dicts_in_module)
         tree = tree_update(tree, tree_keys, *dicts_in_module)
