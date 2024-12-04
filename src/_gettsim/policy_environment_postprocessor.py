@@ -74,7 +74,7 @@ def add_derived_functions_to_functions_tree(
         The functions tree including derived functions.
 
     """
-    names_of_columns_in_data, _, _ = tree_flatten_with_qualified_name(data)
+    names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
 
     # Create derived functions
     (
@@ -129,7 +129,7 @@ def filter_overridden_functions(
     functions_not_overridden = {}
     functions_overridden = {}
 
-    names_of_columns_in_data, _, _ = tree_flatten_with_qualified_name(data)
+    names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
     function_paths, functions_leafs, _ = tree_flatten_with_path(functions)
 
     for name, func in zip(function_paths, functions_leafs):
@@ -764,8 +764,8 @@ def _fail_if_targets_are_not_among_functions(
         Raised if any member of `targets` is not among functions.
 
     """
-    qualified_names_targets, _, _ = tree_flatten_with_qualified_name(targets)
-    qualified_names_functions, _, _ = tree_flatten_with_qualified_name(functions)
+    qualified_names_targets = tree_flatten_with_qualified_name(targets)[0]
+    qualified_names_functions = tree_flatten_with_qualified_name(functions)[0]
 
     targets_not_in_functions = set(qualified_names_targets) - set(
         qualified_names_functions
