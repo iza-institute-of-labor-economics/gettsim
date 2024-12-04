@@ -5,8 +5,6 @@ from pathlib import Path
 
 import numpy
 
-from _gettsim.shared import tree_flatten_with_qualified_name
-
 # Defaults
 USE_JAX = False
 numpy_or_jax = numpy
@@ -253,10 +251,6 @@ TYPES_INPUT_VARIABLES = {
         "teilw_erwerbsgemind": bool,
     },
 }
-
-TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES = tree_flatten_with_qualified_name(
-    TYPES_INPUT_VARIABLES
-)[0]
 
 FOREIGN_KEYS = [
     "p_id_ehepartner",

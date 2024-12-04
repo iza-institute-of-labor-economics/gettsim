@@ -25,7 +25,7 @@ from _gettsim.aggregation import (
 )
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,
-    TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES,
+    TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
@@ -361,6 +361,10 @@ def _annotations_for_aggregation(
 
     annotations = {}
 
+    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
+        TYPES_INPUT_VARIABLES
+    )
+
     if aggregation_type == "count":
         annotations["return"] = int
     else:
@@ -380,8 +384,10 @@ def _annotations_for_aggregation(
             annotations["return"] = _select_return_type(
                 aggregation_type, annotations[source_col]
             )
-        elif source_col in TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES:
-            annotations[source_col] = TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES[source_col]
+        elif source_col in types_input_variables_with_qualified_names:
+            annotations[source_col] = types_input_variables_with_qualified_names[
+                source_col
+            ]
 
             # Find out return type
             annotations["return"] = _select_return_type(

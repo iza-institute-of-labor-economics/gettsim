@@ -13,7 +13,7 @@ from _gettsim.config import (
     DEFAULT_TARGETS,
     FOREIGN_KEYS,
     SUPPORTED_GROUPINGS,
-    TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES,
+    TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.gettsim_typing import (
@@ -410,12 +410,16 @@ def _convert_data_to_correct_types(
     )
     names_to_functions_dict = tree_to_dict_with_qualified_name(functions_overridden)
 
+    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
+        TYPES_INPUT_VARIABLES
+    )
+
     data_with_correct_types = []
     for column_name, series in zip(data_qualified_names, data_leafs):
         # Find out if internal_type is defined
         internal_type = None
-        if column_name in TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES:
-            internal_type = TYPES_INPUT_VARS_WITH_QUALIFIED_NAMES[column_name]
+        if column_name in types_input_variables_with_qualified_names:
+            internal_type = types_input_variables_with_qualified_names[column_name]
         elif (
             column_name in names_to_functions_dict
             and "return" in names_to_functions_dict[column_name].__annotations__
