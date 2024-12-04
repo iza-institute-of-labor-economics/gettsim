@@ -595,41 +595,50 @@ def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str,
 
 
 def _create_one_aggregate_by_p_id_func(
-    agg_col: str,
+    module_path: list[str],
+    new_function_name: str,
     agg_specs: dict[str, str],
-    functions_tree: dict[str, Any],
+    functions_tree: dict[str, PolicyFunction],
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
     Parameters
     ----------
-    agg_col : str
-        Name of the aggregated column.
+    module_path : list
+        List of strings representing the path to the module in the functions tree.
+    new_function_name : str
+        Name of the new function.
     agg_specs : dict
-        Dictionary of aggregation specifications. Must contain the p_id by which to
-        aggregate ("p_id_to_aggregate_by") and the aggregation type ("aggr"). Unless
-        `aggr == "count"`, it must contain the column to aggregate ("source_col").
+        Dictionary of aggregation specifications. Must contain the aggregation type
+        ("aggr") and the column to aggregate ("source_col").
     functions_tree: dict
-        Dictionary of functions.
-
+        Functions tree.
 
     Returns
     -------
     aggregate_by_p_id_func : The aggregation func with the expected signature
 
     """
+    qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
+    aggregation_type = agg_specs["aggr"]
+    source_col = agg_specs["source_col"]
+    p_id_to_aggregate_by = agg_specs["p_id_to_aggregate_by"]
+    qualified_name_source_col = "__".join([*module_path, source_col])
 
     annotations = _annotations_for_aggregation(
-        agg_specs=agg_specs,
-        functions_tree=functions_tree,
+        aggregation_type=aggregation_type,
+        source_col=source_col,
+        qualified_name_source_col=qualified_name_source_col,
+        qualified_names_to_functions_dict=qualified_names_to_functions_dict,
     )
 
     # Define aggregation func
-    if agg_specs["aggr"] == "count":
-
+    if aggregation_type == "count":
+        # TODO(@MImmesberger): Use qualified name of p_id and p_id_to_aggregate_by here
+        # once namespace changes
         @rename_arguments(
             mapper={
-                "p_id_to_aggregate_by": agg_specs["p_id_to_aggregate_by"],
+                "p_id_to_aggregate_by": p_id_to_aggregate_by,
                 "p_id_to_store_by": "p_id",
             },
             annotations=annotations,
@@ -638,13 +647,15 @@ def _create_one_aggregate_by_p_id_func(
             return count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by)
 
     else:
+        # TODO(@MImmesberger): Use qualified name of p_id and p_id_to_aggregate_by here
+        # once namespace changes
         mapper = {
-            "p_id_to_aggregate_by": agg_specs["p_id_to_aggregate_by"],
+            "p_id_to_aggregate_by": p_id_to_aggregate_by,
             "p_id_to_store_by": "p_id",
-            "column": agg_specs["source_col"],
+            "column": qualified_name_source_col,
         }
 
-        if agg_specs["aggr"] == "sum":
+        if aggregation_type == "sum":
 
             @rename_arguments(
                 mapper=mapper,
@@ -653,7 +664,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif agg_specs["aggr"] == "mean":
+        elif aggregation_type == "mean":
 
             @rename_arguments(
                 mapper=mapper,
@@ -662,7 +673,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif agg_specs["aggr"] == "max":
+        elif aggregation_type == "max":
 
             @rename_arguments(
                 mapper=mapper,
@@ -671,7 +682,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif agg_specs["aggr"] == "min":
+        elif aggregation_type == "min":
 
             @rename_arguments(
                 mapper=mapper,
@@ -680,7 +691,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif agg_specs["aggr"] == "any":
+        elif aggregation_type == "any":
 
             @rename_arguments(
                 mapper=mapper,
@@ -689,7 +700,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif agg_specs["aggr"] == "all":
+        elif aggregation_type == "all":
 
             @rename_arguments(
                 mapper=mapper,
@@ -699,16 +710,18 @@ def _create_one_aggregate_by_p_id_func(
                 return all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         else:
-            raise ValueError(f"Aggr {agg_specs['aggr']} is not implemented.")
+            raise ValueError(f"Aggr {aggregation_type} is not implemented.")
 
-    if agg_specs["aggr"] == "count":
-        derived_from = agg_specs["p_id_to_aggregate_by"]
+    # TODO(@MImmesberger): Use qualified name of p_id_to_aggregate_by here once
+    # namespace changes
+    if aggregation_type == "count":
+        derived_from = p_id_to_aggregate_by
     else:
-        derived_from = (agg_specs["source_col"], agg_specs["p_id_to_aggregate_by"])
+        derived_from = (qualified_name_source_col, p_id_to_aggregate_by)
 
     return DerivedFunction(
         aggregate_by_p_id_func,
-        function_name=agg_col,
+        function_name=new_function_name,
         derived_from=derived_from,
     )
 
