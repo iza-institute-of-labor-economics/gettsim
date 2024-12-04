@@ -209,10 +209,9 @@ def _create_aggregate_by_group_functions(
     aggregation_dicts_provided_by_env = _get_aggregation_dicts(aggregate_by_group_specs)
     automatically_created_aggregation_dicts = (
         _create_derived_aggregation_specifications(
-            functions_tree,
-            targets,
-            data_cols,
-            aggregate_by_group_specs,
+            functions_tree=functions_tree,
+            targets=targets,
+            data_cols=data_cols,
         )
     )
 
@@ -547,9 +546,11 @@ def _create_aggregate_by_p_id_functions(
 
     for module_name, module_aggregation_dicts in aggregation_dicts.items():
         for func_name, aggregation_dict in module_aggregation_dicts.items():
-            path = [*module_name.split("__"), func_name]
+            module_path = module_name.split("__")
+            path = [*module_path, func_name]
             derived_func = _create_one_aggregate_by_p_id_func(
-                agg_col=func_name,
+                module_path=module_path,
+                new_function_name=func_name,
                 agg_specs=aggregation_dict,
                 functions_tree=functions_tree,
             )
