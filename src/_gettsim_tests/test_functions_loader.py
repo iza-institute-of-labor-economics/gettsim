@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import textwrap
+from functools import reduce
 from typing import TYPE_CHECKING
 
 import numpy
@@ -18,7 +19,11 @@ from _gettsim.policy_environment_postprocessor import (
     _create_derived_functions,
     _vectorize_func,
 )
-from _gettsim.shared import policy_info
+from _gettsim.shared import (
+    merge_nested_dicts,
+    policy_info,
+    tree_flatten_with_qualified_name,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -65,21 +70,23 @@ def test_special_attribute_module_is_set_for_internal_functions():
 @pytest.mark.parametrize(
     ("functions", "targets"),
     [
-        ({"foo_y": lambda: 1}, ["foo_d_hh"]),
-        ({"foo_y": lambda: 1}, ["foo_d", "foo_d_hh"]),
+        ({"foo_y": lambda: 1}, {"module": {"foo_d_hh": None}}),
+        ({"foo_y": lambda: 1}, {"module": {"foo_d": None, "foo_d_hh": None}}),
     ],
 )
 def test_create_derived_functions(
     functions: dict[str, Callable], targets: list[str]
 ) -> None:
     environment = PolicyEnvironment(
-        [
-            PolicyFunction(
-                function_name=name,
-                function=func,
-            )
-            for name, func in functions.items()
-        ]
+        {
+            "module": {
+                name: PolicyFunction(
+                    function_name=name,
+                    function=func,
+                )
+                for name, func in functions.items()
+            },
+        }
     )
 
     (
@@ -88,14 +95,21 @@ def test_create_derived_functions(
         aggregate_by_p_id_functions,
     ) = _create_derived_functions(environment, targets, [])
 
-    derived_functions = {
-        **time_conversion_functions,
-        **aggregate_by_group_functions,
-        **aggregate_by_p_id_functions,
-    }
+    derived_functions = reduce(
+        merge_nested_dicts,
+        [
+            time_conversion_functions,
+            aggregate_by_group_functions,
+            aggregate_by_p_id_functions,
+        ],
+        environment.functions_tree,
+    )
 
-    for name in targets:
-        assert name in derived_functions
+    target_names = tree_flatten_with_qualified_name(targets)[0]
+    potential_targets = tree_flatten_with_qualified_name(derived_functions)[0]
+
+    for name in target_names:
+        assert name in potential_targets
 
 
 # vectorize_func --------------------------------------------------------------

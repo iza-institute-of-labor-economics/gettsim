@@ -282,15 +282,17 @@ def _create_derived_aggregation_specifications(
         and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
         and (remove_group_suffix(col) in potential_source_cols)
     ]
+
     automated_sum_aggregate_by_group_specs = {}
     for agg_col in automated_sum_aggregate_by_group_cols:
         path = agg_col.split("__")
         func_name = path[-1]
-        module_name = "__".join(path[:-1])
+        # Create module name for path in tree; None if func is in main namespace
+        module_name = "__".join(path[:-1]) if len(path) > 1 else None
         update_dict = {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
         automated_sum_aggregate_by_group_specs = update_tree(
             automated_sum_aggregate_by_group_specs,
-            [module_name, func_name],
+            [module_name, func_name] if module_name else [func_name],
             update_dict,
         )
 
