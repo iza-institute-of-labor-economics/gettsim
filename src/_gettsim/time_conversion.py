@@ -306,7 +306,7 @@ def create_time_conversion_functions(
             if der_name not in data_cols
         }
         for k, v in new_funcs_dict.items():
-            stem = qualified_name.split("__")[-1] if "__" in qualified_name else None
+            stem = qualified_name.split("__")[:-1] if "__" in qualified_name else None
             new_path = [*stem, k] if stem else [k]
             converted_functions = tree_update(converted_functions, new_path, v)
 

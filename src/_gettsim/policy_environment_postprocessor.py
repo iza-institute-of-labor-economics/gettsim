@@ -353,8 +353,8 @@ def _check_agg_specs_validity(agg_specs, agg_col, module):
 
 def _annotations_for_aggregation(
     aggregation_type: str,
-    source_col: str,
-    qualified_name_source_col: str,
+    source_col: str | None,
+    qualified_name_source_col: str | None,
     qualified_names_to_functions_dict: dict[str, PolicyFunction],
 ):
     """Create annotations for derived aggregation functions."""
@@ -440,8 +440,10 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     """
     qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
     aggregation_type = agg_specs["aggr"]
-    source_col = agg_specs["source_col"]
-    qualified_name_source_col = "__".join([*module_path, source_col])
+    source_col = agg_specs["source_col"] if aggregation_type != "count" else None
+    qualified_name_source_col = (
+        "__".join([*module_path, source_col]) if aggregation_type != "count" else None
+    )
 
     # Identify grouping level
     group_id = None
@@ -619,9 +621,11 @@ def _create_one_aggregate_by_p_id_func(
     """
     qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
     aggregation_type = agg_specs["aggr"]
-    source_col = agg_specs["source_col"]
     p_id_to_aggregate_by = agg_specs["p_id_to_aggregate_by"]
-    qualified_name_source_col = "__".join([*module_path, source_col])
+    source_col = agg_specs["source_col"] if aggregation_type != "count" else None
+    qualified_name_source_col = (
+        "__".join([*module_path, source_col]) if aggregation_type != "count" else None
+    )
 
     annotations = _annotations_for_aggregation(
         aggregation_type=aggregation_type,
