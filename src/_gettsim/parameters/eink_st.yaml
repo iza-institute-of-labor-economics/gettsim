@@ -217,9 +217,9 @@ eink_st_tarif:
       upper_threshold: 277826
   2024-01-01:
     deviation_from: previous
-    reference: Art. 3 G. v. 08.12.2022 BGBl. I S. 2230.
+    reference: Art. 1 G. v. 05.12.2024 BGBl. 2024 I Nr. 386.
     0:
-      upper_threshold: 11605
+      upper_threshold: 11784
     1:
       upper_threshold: 17006
     2:
