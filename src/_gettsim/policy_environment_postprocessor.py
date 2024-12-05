@@ -107,13 +107,13 @@ def add_derived_functions_to_functions_tree(
 
 
 def filter_overridden_functions(
-    functions: dict[str, Any], data: dict[str, Any]
+    all_functions: dict[str, Any], data: dict[str, Any]
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Filter functions that are overridden by input columns.
 
     Parameters
     ----------
-    functions : dict
+    all_functions : dict
         Dictionary containing functions to build the DAG.
     data : dict
         Dictionary containing the input columns.
@@ -130,7 +130,7 @@ def filter_overridden_functions(
     functions_overridden = {}
 
     names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
-    function_paths, functions_leafs, _ = tree_flatten_with_path(functions)
+    function_paths, functions_leafs, _ = tree_flatten_with_path(all_functions)
 
     for name, func in zip(function_paths, functions_leafs):
         qualified_name = "__".join(name)
