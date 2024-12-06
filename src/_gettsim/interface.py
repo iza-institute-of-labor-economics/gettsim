@@ -6,6 +6,7 @@ from functools import reduce
 from typing import Any, Literal, get_args
 
 import dags
+import networkx
 import pandas as pd
 from optree import tree_flatten, tree_map_with_path
 
@@ -103,11 +104,18 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
             stacklevel=2,
         )
 
+    # Create parameter input structure.
+    input_structure = dags.dag_tree.create_input_structure_tree(
+        functions=functions_not_overridden,
+        targets=targets,
+    )
+
     # Select necessary nodes by creating a preliminary DAG.
     nodes = set_up_dag(
         all_functions=functions_not_overridden,
         targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
+        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+        input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
     ).nodes
     necessary_functions = {
@@ -308,11 +316,12 @@ def _use_correct_series_names(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def set_up_dag(
-    all_functions,
-    targets,
-    columns_overriding_functions,
-    check_minimal_specification,
-):
+    all_functions: dict[str, Any],
+    targets: dict[str, Any],
+    names_of_columns_overriding_functions: list[str],
+    input_structure: dict[str, Any],
+    check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
+) -> networkx.DiGraph:
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
     Parameters
@@ -320,13 +329,15 @@ def set_up_dag(
     all_functions : dict
         All internal and user functions except the ones that are overridden by an input
         column.
-    targets : list of str
-        List of strings with names of functions whose output is actually
-        needed by the user. By default, ``targets`` contains all key outputs as
-        defined by `gettsim.config.DEFAULT_TARGETS`.
-    columns_overriding_functions : list of str
+    targets : dict
+        Tree names of functions whose output is actually needed by the user as leafs. By
+        default, ``targets`` contains all key outputs as defined by
+        `gettsim.config.DEFAULT_TARGETS`.
+    names_of_columns_overriding_functions : dict
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
+    input_structure : dict
+        Tree representing the input structure.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
         be silenced, emitted as warnings or errors.
@@ -339,15 +350,14 @@ def set_up_dag(
     """
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
-
-    dag = dags.dag.create_dag(
+    dag = dags.dag_tree.create_dag_tree(
         functions=all_functions,
         targets=targets,
+        input_structure=input_structure,
     )
     _fail_if_columns_overriding_functions_are_not_in_dag(
-        dag, columns_overriding_functions, check_minimal_specification
+        dag, names_of_columns_overriding_functions, check_minimal_specification
     )
-
     return dag
 
 
@@ -921,15 +931,17 @@ def _add_rounding_to_one_function(
 
 
 def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag, columns_overriding_functions, check_minimal_specification
-):
-    """Fail if ``columns_overriding_functions`` are not in the DAG.
+    dag: networkx.DiGraph,
+    names_of_columns_overriding_functions: list[str],
+    check_minimal_specification: Literal["ignore", "warn", "raise"],
+) -> None:
+    """Fail if ``names_of_columns_overriding_functions`` are not in the DAG.
 
     Parameters
     ----------
     dag : networkx.DiGraph
         The DAG which is limited to targets and their ancestors.
-    columns_overriding_functions : list of str
+    names_of_columns_overriding_functions : list of str
         The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
@@ -939,16 +951,16 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
     Warnings
     --------
     UserWarning
-        Warns if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``check_minimal_specification`` is set to "warn".
+        Warns if there are columns in 'names_of_columns_overriding_functions' which are
+        not necessary and ``check_minimal_specification`` is set to "warn".
     Raises
     ------
     ValueError
-        Raised if there are columns in 'columns_overriding_functions' which are not
-        necessary and ``check_minimal_specification`` is set to "raise".
+        Raised if there are columns in 'names_of_columns_overriding_functions' which are
+        not necessary and ``check_minimal_specification`` is set to "raise".
 
     """
-    unused_columns = set(columns_overriding_functions) - set(dag.nodes)
+    unused_columns = set(names_of_columns_overriding_functions) - set(dag.nodes)
     formatted = format_list_linewise(unused_columns)
     if unused_columns and check_minimal_specification == "warn":
         warnings.warn(
