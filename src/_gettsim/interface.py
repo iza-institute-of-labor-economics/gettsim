@@ -129,7 +129,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     # Calculate results.
     tax_transfer_function = dags.concatenate_functions_tree(
-        functions=function_tree,
+        functions=processed_functions,
         targets=targets,
         input_structure=input_structure,
         name_clashes="raise",

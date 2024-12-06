@@ -124,7 +124,7 @@ pytest-xdist = "*"
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
 pdbp = "*"
-dags = {git = "https://github.com/lars-reimann/dags.git", rev = "43173e88436b2a628e8a6a552f29e116d083c2c1"}
+dags = {git = "https://github.com/lars-reimann/dags.git", rev = "6f7df3d905cd1f6d0cdae372edb3f15d11b9bbe5"}
 flatten_dict = "*"
 
 
