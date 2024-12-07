@@ -75,7 +75,6 @@ def add_derived_functions_to_functions_tree(
 
     """
     names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
-
     # Create derived functions
     (
         time_conversion_functions,

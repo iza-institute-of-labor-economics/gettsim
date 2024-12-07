@@ -11,6 +11,7 @@ import numpy
 from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.functions.policy_function import PolicyFunction
 
 
 class KeyErrorMessage(str):
@@ -274,7 +275,7 @@ def format_errors_and_warnings(text, width=79):
     return formatted_text
 
 
-def get_names_of_arguments_without_defaults(function):
+def get_names_of_arguments_without_defaults(function: PolicyFunction) -> list[str]:
     """Get argument names without defaults.
 
     The detection of argument names also works for partialed functions.
@@ -296,7 +297,13 @@ def get_names_of_arguments_without_defaults(function):
         p for p in parameters if parameters[p].default == parameters[p].empty
     ]
 
-    return argument_names_without_defaults
+    # Add namespace to argument names if not already present
+    qualified_argument_names_without_defaults = [
+        f"{function.module_name}__{p}" if "__" not in p else p
+        for p in argument_names_without_defaults
+    ]
+
+    return qualified_argument_names_without_defaults
 
 
 def remove_group_suffix(col):
