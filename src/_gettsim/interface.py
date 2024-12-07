@@ -18,6 +18,10 @@ from _gettsim.config import (
 )
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.gettsim_typing import (
+    NestedDataDict,
+    NestedFunctionDict,
+    NestedInputStructureDict,
+    NestedTargetDict,
     check_series_has_expected_type,
     convert_series_to_internal_type,
 )
@@ -41,22 +45,22 @@ from _gettsim.shared import (
 
 
 def compute_taxes_and_transfers(  # noqa: PLR0913
-    data,
+    data: NestedDataDict | pd.DataFrame,
     environment: PolicyEnvironment,
-    targets=None,
-    check_minimal_specification="ignore",
-    rounding=True,
-    debug=False,
-):
+    targets: NestedTargetDict | list[str] = None,
+    check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
+    rounding: bool = True,
+    debug: bool = False,
+) -> NestedDataDict:
     """Compute taxes and transfers.
 
     Parameters
     ----------
-    data : pandas.DataFrame or dict of pandas.Series
+    data : NestedDataDict | pd.DataFrame
         Data provided by the user.
-    environment:
+    environment: PolicyEnvironment
         The policy environment which contains all necessary functions and parameters.
-    targets : str, list of str, default None
+    targets : NestedTargetDict | list[str] | str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS` are returned.
@@ -151,7 +155,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     return prepared_results
 
 
-def build_targets_tree(targets: dict[str, Any] | list[str] | str) -> dict[str, Any]:
+def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTargetDict:
     """Build a tree from a list or dictionary of targets.
 
     Parameters
@@ -189,7 +193,7 @@ def build_targets_tree(targets: dict[str, Any] | list[str] | str) -> dict[str, A
     return targets_tree
 
 
-def _build_targets_tree_from_list(targets: list[str]) -> dict[str, Any]:
+def _build_targets_tree_from_list(targets: list[str]) -> NestedTargetDict:
     """Build a tree from a list of targets.
 
     Parameters
@@ -211,7 +215,7 @@ def _build_targets_tree_from_list(targets: list[str]) -> dict[str, Any]:
     return targets_tree
 
 
-def _build_targets_tree_from_dict(targets: dict[str, Any]) -> dict[str, Any]:
+def _build_targets_tree_from_dict(targets: dict[str, dict | str]) -> NestedTargetDict:
     """Build a tree from a dictionary of targets.
 
     The dictionary follows the tree structure but the leafs are strings or lists, not
@@ -219,13 +223,13 @@ def _build_targets_tree_from_dict(targets: dict[str, Any]) -> dict[str, Any]:
 
     Parameters
     ----------
-    targets : dict[str, Any]
+    targets : dict[str, Union[dict, str]]
         Dictionary of targets.
         Example: {"a": {"b": {"c": ["d", "e"]}}}
 
     Returns
     -------
-    tree : dict
+    tree : NestedTargetDict
         Dictionary representing the tree.
         Example: {"a": {"b": {"c": {"d": None, "e": None}}}}
 
@@ -241,17 +245,17 @@ def _build_targets_tree_from_dict(targets: dict[str, Any]) -> dict[str, Any]:
     return targets
 
 
-def build_data_tree(data: dict[str, Any] | pd.DataFrame) -> dict[str, Any]:
+def build_data_tree(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
     """Build a tree from a dictionary or DataFrame of data.
 
     Parameters
     ----------
-    data : dict[str, Any] | pd.DataFrame
+    data : NestedDataDict | pd.DataFrame
         Data provided by the user.
 
     Returns
     -------
-    data_tree : dict[str, Any]
+    data_tree : NestedDataDict
         Dictionary representing the tree.
 
     """
@@ -265,7 +269,7 @@ def build_data_tree(data: dict[str, Any] | pd.DataFrame) -> dict[str, Any]:
     return data_tree
 
 
-def _build_data_tree_from_df(data: pd.DataFrame) -> dict[str, Any]:
+def _build_data_tree_from_df(data: pd.DataFrame) -> NestedDataDict:
     """Build a tree from a DataFrame of data.
 
     Parameters
@@ -293,17 +297,17 @@ def _build_data_tree_from_df(data: pd.DataFrame) -> dict[str, Any]:
     return tree
 
 
-def _use_correct_series_names(data: dict[str, Any]) -> dict[str, Any]:
+def _use_correct_series_names(data: NestedDataDict) -> NestedDataDict:
     """Use correct series names for the tree.
 
     Parameters
     ----------
-    data : dict[str, Any]
+    data : NestedDataDict
         Data provided by the user.
 
     Returns
     -------
-    tree : dict[str, Any]
+    tree : NestedDataDict
         Dictionary representing the tree.
 
     """
@@ -316,10 +320,10 @@ def _use_correct_series_names(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def set_up_dag(
-    all_functions: dict[str, Any],
-    targets: dict[str, Any],
+    all_functions: NestedFunctionDict,
+    targets: NestedTargetDict,
     names_of_columns_overriding_functions: list[str],
-    input_structure: dict[str, Any],
+    input_structure: NestedInputStructureDict,
     check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
 ) -> networkx.DiGraph:
     """Set up the DAG. Partial functions before that and add rounding afterwards.
@@ -354,6 +358,8 @@ def set_up_dag(
         functions=all_functions,
         targets=targets,
         input_structure=input_structure,
+        name_clashes="ignore",
+        # TODO(@MImmesberger): Change to "raise" once function renamings are done
     )
     _fail_if_columns_overriding_functions_are_not_in_dag(
         dag, names_of_columns_overriding_functions, check_minimal_specification
@@ -361,7 +367,7 @@ def set_up_dag(
     return dag
 
 
-def _process_and_check_data(data: dict[str, Any] | pd.DataFrame) -> dict[str, Any]:
+def _process_and_check_data(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
     """Process data and perform several checks.
 
     Data needs to be provided in tree form with leafs being pandas.Series, or as a
@@ -388,8 +394,8 @@ def _process_and_check_data(data: dict[str, Any] | pd.DataFrame) -> dict[str, An
 
 
 def _convert_data_to_correct_types(
-    data: dict[str, Any], functions_overridden: dict[str, Any]
-) -> dict[str, Any]:
+    data: NestedDataDict, functions_overridden: NestedFunctionDict
+) -> NestedDataDict:
     """Convert all series of data to the type that is expected by GETTSIM.
 
     Parameters
@@ -599,7 +605,7 @@ def _fail_if_duplicates_in_columns(data):
         )
 
 
-def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) -> None:
+def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:
     """Check whether group variables have the same value within each group.
 
     Parameters
@@ -642,7 +648,7 @@ def _fail_if_group_variables_not_constant_within_groups(data: dict[str, Any]) ->
             raise ValueError(message)
 
 
-def _fail_if_pid_is_non_unique(data: dict[str, Any]) -> None:
+def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
     """Check that pid is unique."""
     names_leafs_dict = tree_to_dict_with_qualified_name(data)
     try:
@@ -669,7 +675,7 @@ def _fail_if_pid_is_non_unique(data: dict[str, Any]) -> None:
         raise ValueError(message)
 
 
-def _fail_if_foreign_keys_are_invalid(data: dict[str, Any]) -> None:
+def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
     """
     Check that all foreign keys are valid.
 

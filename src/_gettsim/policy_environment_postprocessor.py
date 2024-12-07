@@ -29,6 +29,11 @@ from _gettsim.config import (
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import (
+    NestedDataDict,
+    NestedFunctionDict,
+    NestedTargetDict,
+)
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
@@ -47,9 +52,9 @@ if TYPE_CHECKING:
 
 def add_derived_functions_to_functions_tree(
     environment: PolicyEnvironment,
-    targets: dict[str, Any],
-    data: dict[str, Any],
-) -> dict[str, Any]:
+    targets: NestedTargetDict,
+    data: NestedDataDict,
+) -> NestedFunctionDict:
     """Create the functions tree including derived functions.
 
     Create the functions tree by vectorizing all functions, and adding time conversion
@@ -62,15 +67,15 @@ def add_derived_functions_to_functions_tree(
     ----------
     environment : PolicyEnvironment
         The environment containing the functions tree and the specs for aggregation.
-    targets : dict
+    targets : NestedTargetDict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    data : dict
+    data : NestedDataDict
         The data dictionary containing the input columns.
 
     Returns
     -------
-    all_functions : dict
+    all_functions : NestedFunctionDict
         The functions tree including derived functions.
 
     """
@@ -106,22 +111,22 @@ def add_derived_functions_to_functions_tree(
 
 
 def filter_overridden_functions(
-    all_functions: dict[str, Any], data: dict[str, Any]
-) -> tuple[dict[str, Any], dict[str, Any]]:
+    all_functions: NestedFunctionDict, data: NestedDataDict
+) -> tuple[NestedFunctionDict, NestedFunctionDict]:
     """Filter functions that are overridden by input columns.
 
     Parameters
     ----------
-    all_functions : dict
+    all_functions : NestedFunctionDict
         Dictionary containing functions to build the DAG.
-    data : dict
+    data : NestedDataDict
         Dictionary containing the input columns.
 
     Returns
     -------
-    functions_not_overridden : dict
+    functions_not_overridden : NestedFunctionDict
         All functions except the ones that are overridden by an input column.
-    functions_overridden : dict
+    functions_overridden : NestedFunctionDict
         Functions that are overridden by an input column.
 
     """
@@ -151,9 +156,9 @@ def filter_overridden_functions(
 
 def _create_derived_functions(
     environment: PolicyEnvironment,
-    targets: dict[str, Any],
+    targets: NestedTargetDict,
     names_of_columns_in_data: list[str],
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+) -> tuple[NestedFunctionDict, NestedFunctionDict, NestedFunctionDict]:
     """
     Create functions that are derived from the user and internal functions.
 
@@ -198,8 +203,8 @@ def _create_derived_functions(
 
 
 def _create_aggregate_by_group_functions(
-    functions_tree: dict[str, Any],
-    targets: dict[str, Any],
+    functions_tree: NestedFunctionDict,
+    targets: NestedTargetDict,
     data_cols: list[str],
     aggregate_by_group_specs: dict[str, Any],
 ) -> dict[str, DerivedFunction]:
@@ -244,8 +249,8 @@ def _create_aggregate_by_group_functions(
 
 
 def _create_derived_aggregation_specifications(
-    functions_tree: dict[str, Any],
-    targets: dict[str, Any],
+    functions_tree: NestedFunctionDict,
+    targets: NestedTargetDict,
     data_cols: list[str],
 ) -> dict[str, Any]:
     """Create automatic aggregation specs.
@@ -416,7 +421,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     module_path: list[str],
     new_function_name: str,
     agg_specs: dict[str, str],
-    functions_tree: dict[str, PolicyFunction],
+    functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
@@ -429,7 +434,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     agg_specs : dict
         Dictionary of aggregation specifications. Must contain the aggregation type
         ("aggr") and the column to aggregate ("source_col").
-    functions_tree: dict
+    functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
@@ -544,9 +549,9 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
 
 def _create_aggregate_by_p_id_functions(
-    functions_tree: dict[str, Any],
+    functions_tree: NestedFunctionDict,
     aggregate_by_p_id_specs: dict[str, Any],
-) -> dict[str, Any]:
+) -> NestedFunctionDict:
     """Create function dict with functions that link variables across persons."""
 
     aggregation_dicts = _get_aggregation_dicts(aggregate_by_p_id_specs)
@@ -568,7 +573,7 @@ def _create_aggregate_by_p_id_functions(
     return derived_functions
 
 
-def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str, dict]:
+def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str, Any]:
     """Get aggregation dictionaries from the specs.
 
     Reduces the tree to a dict with qualified module names as keys and the aggregation
@@ -597,7 +602,7 @@ def _create_one_aggregate_by_p_id_func(
     module_path: list[str],
     new_function_name: str,
     agg_specs: dict[str, str],
-    functions_tree: dict[str, PolicyFunction],
+    functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
@@ -610,7 +615,7 @@ def _create_one_aggregate_by_p_id_func(
     agg_specs : dict
         Dictionary of aggregation specifications. Must contain the aggregation type
         ("aggr") and the column to aggregate ("source_col").
-    functions_tree: dict
+    functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
@@ -749,7 +754,7 @@ def _vectorize_func(func):
 
 
 def _fail_if_targets_are_not_among_functions(
-    functions: dict[str, Any], targets: dict[str, Any]
+    functions: NestedFunctionDict, targets: NestedTargetDict
 ) -> None:
     """Fail if some target is not among functions.
 

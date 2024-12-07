@@ -15,6 +15,9 @@ from _gettsim.functions.loader import (
     load_internal_aggregation_dict,
 )
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import (
+    NestedFunctionDict,
+)
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -93,10 +96,10 @@ class PolicyEnvironment:
 
     def __init__(
         self,
-        functions_tree: dict[str, Any],
+        functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, Any] | None = None,
-        aggregate_by_p_id_specs: dict[str, Any] | None = None,
+        aggregate_by_group_specs: dict[str, str | dict] | None = None,
+        aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
     ):
         _fail_if_functions_tree_not_tree(functions_tree)
         flattened_functions_tree, tree_def = tree_flatten(functions_tree)
@@ -117,7 +120,7 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions_tree(self) -> dict[str, Any]:
+    def functions_tree(self) -> NestedFunctionDict:
         """The functions of the policy environment."""
         return self._functions_tree
 
@@ -127,7 +130,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs(self) -> dict[str, Any]:
+    def aggregate_by_group_specs(self) -> dict[str, str | dict]:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
@@ -135,7 +138,7 @@ class PolicyEnvironment:
         return self._aggregate_by_group_specs
 
     @property
-    def aggregate_by_p_id_specs(self) -> dict[str, Any]:
+    def aggregate_by_p_id_specs(self) -> dict[str, str | dict]:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
@@ -143,7 +146,7 @@ class PolicyEnvironment:
         return self._aggregate_by_p_id_specs
 
     def get_function_by_path(
-        self, function_path: dict[str, Any] | list[str]
+        self, function_path: dict[str, str | dict] | list[str]
     ) -> PolicyFunction | None:
         """
         Return the function with a specific path in the function tree or `None` if no
@@ -180,7 +183,7 @@ class PolicyEnvironment:
         return out
 
     def upsert_functions(
-        self, functions_tree_update: dict[str, Any]
+        self, functions_tree_update: NestedFunctionDict
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
