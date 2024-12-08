@@ -1,12 +1,12 @@
 """Test namespace."""
 
 
-def f(a, b):
-    return a + b
+def f(module2_params, g):  # noqa: ARG001
+    return module2_params["a"] + module2_params["b"]
 
 
-def g(module1__f, c):
-    return module1__f + c
+def g(module1__f, module2_params):
+    return module1__f + module2_params["c"]
 
 
 FUNCTIONS_MODULE2 = {
