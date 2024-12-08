@@ -6,7 +6,6 @@ import pandas as pd
 import pytest
 from optree import tree_flatten_with_path
 
-from _gettsim.functions.loader import _create_policy_function_from_decorated_callable
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
     PolicyEnvironment,
@@ -17,7 +16,6 @@ from _gettsim.policy_environment import (
 )
 from _gettsim.policy_environment_postprocessor import _get_aggregation_dicts
 from _gettsim.shared import (
-    get_names_of_arguments_without_defaults,
     tree_to_dict_with_qualified_name,
 )
 from _gettsim_tests import TEST_DIR
@@ -176,31 +174,6 @@ def test_load_functions_tree_for_date(
 )
 def test_get_aggregation_dicts(input_tree, expected):
     assert _get_aggregation_dicts(input_tree) == expected
-
-
-def function_with_simple_args(a, b):
-    pass
-
-
-def function_with_qualified_args(module__a, b):
-    pass
-
-
-@pytest.mark.parametrize(
-    "function, module_name, expected_arg_names",
-    [
-        (function_with_simple_args, "module", ["module__a", "module__b"]),
-        (function_with_qualified_args, "module", ["module__a", "module__b"]),
-    ],
-)
-def test_get_names_of_arguments_without_defaults(
-    function, module_name, expected_arg_names
-):
-    func_with_renamed_args = _create_policy_function_from_decorated_callable(
-        function, module_name
-    )
-    arg_names = get_names_of_arguments_without_defaults(func_with_renamed_args)
-    assert arg_names == expected_arg_names
 
 
 @pytest.mark.parametrize(
