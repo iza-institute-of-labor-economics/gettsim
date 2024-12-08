@@ -26,7 +26,8 @@ PARAMETERS = {
 }
 
 
-def test_tree_interface():
+def test_compute_taxes_and_transfers_with_tree():
+    """Test compute_taxes_and_transfers with function tree input."""
     policy_env = PolicyEnvironment(
         functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,

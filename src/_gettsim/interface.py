@@ -111,7 +111,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     # Create parameter input structure.
     input_structure = dags.dag_tree.create_input_structure_tree(
         functions=functions_not_overridden,
-        targets=targets,
+        targets=None,  # None because no functions should be filtered out
     )
 
     # Select necessary nodes by creating a preliminary DAG.
