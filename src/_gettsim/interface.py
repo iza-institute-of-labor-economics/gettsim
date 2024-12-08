@@ -446,7 +446,7 @@ def _convert_data_to_correct_types(
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
                 internal_type = get_args(func.__annotations__["return"])[0]
-            elif func in create_groupings().values():
+            elif func in tree_flatten(create_groupings())[0]:
                 # Functions that create a grouping ID
                 internal_type = get_args(func.__annotations__["return"])[0]
             else:

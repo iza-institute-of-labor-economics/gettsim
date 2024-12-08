@@ -4,11 +4,13 @@ from datetime import date, timedelta
 
 import pandas as pd
 import pytest
+from optree import tree_flatten_with_path
 
 from _gettsim.functions.loader import _create_policy_function_from_decorated_callable
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
     PolicyEnvironment,
+    _add_module_name_if_missing,
     _load_parameter_group_from_yaml,
     load_functions_tree_for_date,
     set_up_policy_environment,
@@ -199,3 +201,38 @@ def test_get_names_of_arguments_without_defaults(
     )
     arg_names = get_names_of_arguments_without_defaults(func_with_renamed_args)
     assert arg_names == expected_arg_names
+
+
+@pytest.mark.parametrize(
+    "tree, expected_module_name",
+    [
+        (
+            {
+                "module1": {
+                    "f": PolicyFunction(
+                        lambda: 1,
+                        module_name="module1",
+                    )
+                }
+            },
+            "module1",
+        ),
+        (
+            {
+                "module1": {
+                    "f": PolicyFunction(
+                        lambda: 1,
+                    )
+                }
+            },
+            "module1",
+        ),
+    ],
+)
+def test_add_module_name_if_missing(tree, expected_module_name):
+    paths, flattened_tree, _ = tree_flatten_with_path(tree)
+    funcs_with_correct_module_names = _add_module_name_if_missing(
+        flattened_tree, paths=paths
+    )
+    for func in funcs_with_correct_module_names:
+        assert func.module_name == expected_module_name

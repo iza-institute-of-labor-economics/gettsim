@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 import numpy
 import pandas as pd
 import yaml
-from optree import tree_flatten, tree_paths, tree_unflatten
+from optree import tree_flatten, tree_flatten_with_path, tree_paths, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -103,15 +103,19 @@ class PolicyEnvironment:
         aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
     ):
         _fail_if_functions_tree_not_tree(functions_tree)
-        flattened_functions_tree, tree_def = tree_flatten(functions_tree)
-        functions_with_correct_types = [
-            function
-            if isinstance(function, PolicyFunction)
-            else PolicyFunction(function)
-            for function in flattened_functions_tree
-        ]
+        paths, flattened_functions_tree, tree_def = tree_flatten_with_path(
+            functions_tree
+        )
+        functions_with_correct_types = _add_module_name_if_missing(
+            [
+                function
+                if isinstance(function, PolicyFunction)
+                else PolicyFunction(function)
+                for function in flattened_functions_tree
+            ],
+            paths=paths,
+        )
         self._functions_tree = tree_unflatten(tree_def, functions_with_correct_types)
-
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
             aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
@@ -287,6 +291,34 @@ def _parse_date(date):
     elif isinstance(date, int):
         date = datetime.date(year=date, month=1, day=1)
     return date
+
+
+def _add_module_name_if_missing(
+    functions: list[PolicyFunction],
+    paths: list[tuple[str]],
+) -> list[PolicyFunction]:
+    """Add module name if missing.
+
+    Module name derived from the function's position in the functions tree.
+
+    Parameters
+    ----------
+    functions : list[PolicyFunction]
+        List of functions.
+    paths : list[tuple[str]]
+        List of paths to the functions.
+
+    Returns
+    -------
+    functions : list[PolicyFunction]
+        List of functions with module name.
+
+    """
+    for path, function in zip(paths, functions):
+        new_module_name = "__".join(path[:-1])
+        if not function.module_name or function.module_name == "":
+            function.module_name = new_module_name
+    return functions
 
 
 def _parse_piecewise_parameters(tax_data):
