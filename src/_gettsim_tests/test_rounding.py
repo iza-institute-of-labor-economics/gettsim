@@ -3,6 +3,7 @@ import datetime
 import pandas as pd
 import pytest
 import yaml
+from optree import tree_flatten
 from pandas._testing import assert_series_equal
 
 from _gettsim.config import (
@@ -11,8 +12,8 @@ from _gettsim.config import (
 )
 from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.interface import (
-    _add_rounding_to_functions,
-    _add_rounding_to_one_function,
+    _add_rounding_to_function,
+    _apply_rounding_spec,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment, load_functions_tree_for_date
@@ -218,13 +219,13 @@ def test_rounding_callable(
 ):
     """Check if callable is rounded correctly.
 
-    Tests `_add_rounding_to_one_function` directly.
+    Tests `_apply_rounding_spec` directly.
     """
 
     def test_func(income):
         return income
 
-    func_with_rounding = _add_rounding_to_one_function(
+    func_with_rounding = _apply_rounding_spec(
         base=base,
         direction=direction,
         to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
@@ -259,11 +260,16 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = load_functions_tree_for_date(
-            datetime.date(year=year, month=1, day=1)
+        year_functions, _ = tree_flatten(
+            load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
         )
-        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
-        time_dependent_functions = {**time_dependent_functions, **new_dict}
+        function_name_to_name_in_dag_dict = {
+            func.function.__name__: func.name_in_dag for func in year_functions
+        }
+        time_dependent_functions = {
+            **time_dependent_functions,
+            **function_name_to_name_in_dag_dict,
+        }
 
     # Add time dependent functions for which rounding specs for new name exist
     # and remove new name from list
@@ -310,6 +316,4 @@ def test_raise_if_missing_rounding_spec(params, match):
         return arg_1
 
     with pytest.raises(KeyError, match=match):
-        _add_rounding_to_functions(
-            functions={"eink_st_func": eink_st_func}, params=params
-        )
+        _add_rounding_to_function(input_function=eink_st_func, params=params)

@@ -8,7 +8,7 @@ from typing import Any, Literal, get_args
 import dags
 import networkx
 import pandas as pd
-from optree import tree_flatten, tree_flatten_with_path, tree_map_with_path
+from optree import tree_flatten, tree_flatten_with_path, tree_map, tree_map_with_path
 
 from _gettsim.config import (
     DEFAULT_TARGETS,
@@ -17,6 +17,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import (
     NestedDataDict,
     NestedFunctionDict,
@@ -808,29 +809,34 @@ def _reduce_to_necessary_data(root_nodes, data, check_minimal_specification):
     return {k: v for k, v in data.items() if k not in unnecessary_data}
 
 
-def _round_and_partial_parameters_to_functions(functions, params, rounding):
-    """Create a dictionary of all functions that are available.
+def _round_and_partial_parameters_to_functions(
+    functions: NestedFunctionDict,
+    params: dict[str, Any],
+    rounding: bool,
+) -> NestedFunctionDict:
+    """Round and partial parameters into functions.
 
     Parameters
     ----------
-    functions : dict of callable
+    functions: NestedFunctionDict
         Dictionary of functions which are either internal or user provided functions.
-    params : dict
-        Dictionary of parameters which is partialed to the function such that `params`
-        are invisible to the DAG.
-    rounding : bool
+    params: dict[str, Any]
+        Dictionary of parameters.
+    rounding: bool
         Indicator for whether rounding should be applied as specified in the law.
 
     Returns
     -------
-    processed_functions : dict of callable
-        Dictionary mapping function names to rounded callables with partialed
-        parameters.
+    processed_functions : NestedFunctionDict
+        Dictionary of rounded functions with parameters.
 
     """
     # Add rounding to functions.
     if rounding:
-        functions = _add_rounding_to_functions(functions, params)
+        functions = tree_map(
+            lambda x: _add_rounding_to_function(x, params),
+            functions,
+        )
 
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
@@ -858,71 +864,68 @@ def _round_and_partial_parameters_to_functions(functions, params, rounding):
     return processed_functions
 
 
-def _add_rounding_to_functions(functions, params):
-    """Add appropriate rounding of outputs to functions.
+def _add_rounding_to_function(
+    input_function: PolicyFunction,
+    params: dict[str, Any],
+) -> PolicyFunction:
+    """Add appropriate rounding of outputs to function.
 
     Parameters
     ----------
-    functions : dict of callable
-        Dictionary of functions which are either internal or user provided functions.
+    input_function : PolicyFunction
+        Function to which rounding should be added.
     params : dict
         Dictionary of parameters
 
     Returns
     -------
-    functions_new : dict of callable
-        Dictionary of rounded functions.
+    functions_new : PolicyFunction
+        Function with rounding added.
 
     """
-    functions_new = copy.deepcopy(functions)
+    func = copy.deepcopy(input_function)
 
-    for func_name, func in functions.items():
-        # If function has rounding params attribute, look for rounding specs in
-        # params dict.
-        if hasattr(func, "__info__") and "params_key_for_rounding" in func.__info__:
-            params_key = func.__info__["params_key_for_rounding"]
-
-            # Check if there are any rounding specifications.
-            if not (
-                params_key in params
-                and "rounding" in params[params_key]
-                and func_name in params[params_key]["rounding"]
-            ):
-                raise KeyError(
-                    KeyErrorMessage(
-                        f"Rounding specifications for function {func_name} are expected"
-                        " in the parameter dictionary \n"
-                        f" at [{params_key!r}]['rounding'][{func_name!r}]. These nested"
-                        " keys do not exist. \n"
-                        " If this function should not be rounded,"
-                        " remove the respective decorator."
-                    )
+    if hasattr(func, "__info__") and "params_key_for_rounding" in func.__info__:
+        params_key = func.__info__["params_key_for_rounding"]
+        func_name = func.__name__
+        # Check if there are any rounding specifications.
+        if not (
+            params_key in params
+            and "rounding" in params[params_key]
+            and func_name in params[params_key]["rounding"]
+        ):
+            raise KeyError(
+                KeyErrorMessage(
+                    f"Rounding specifications for function {func_name} are expected"
+                    " in the parameter dictionary \n"
+                    f" at [{params_key!r}]['rounding'][{func_name!r}]. These nested"
+                    " keys do not exist. \n"
+                    " If this function should not be rounded,"
+                    " remove the respective decorator."
                 )
-
-            rounding_spec = params[params_key]["rounding"][func_name]
-
-            # Check if expected parameters are present in rounding specifications.
-            if not ("base" in rounding_spec and "direction" in rounding_spec):
-                raise KeyError(
-                    KeyErrorMessage(
-                        "Both 'base' and 'direction' are expected as rounding "
-                        "parameters in the parameter dictionary. \n "
-                        "At least one of them "
-                        f"is missing at [{params_key!r}]['rounding'][{func_name!r}]."
-                    )
+            )
+        rounding_spec = params[params_key]["rounding"][func_name]
+        # Check if expected parameters are present in rounding specifications.
+        if not ("base" in rounding_spec and "direction" in rounding_spec):
+            raise KeyError(
+                KeyErrorMessage(
+                    "Both 'base' and 'direction' are expected as rounding "
+                    "parameters in the parameter dictionary. \n "
+                    "At least one of them "
+                    f"is missing at [{params_key!r}]['rounding'][{func_name!r}]."
                 )
+            )
+        # Add rounding.
+        func = _apply_rounding_spec(
+            base=rounding_spec["base"],
+            direction=rounding_spec["direction"],
+            to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
+        )(func)
 
-            # Add rounding.
-            functions_new[func_name] = _add_rounding_to_one_function(
-                base=rounding_spec["base"],
-                direction=rounding_spec["direction"],
-                to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
-            )(func)
-
-    return functions_new
+    return func
 
 
-def _add_rounding_to_one_function(
+def _apply_rounding_spec(
     base: float,
     direction: Literal["up", "down", "nearest"],
     to_add_after_rounding: float,
