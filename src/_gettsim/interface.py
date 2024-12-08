@@ -8,7 +8,7 @@ from typing import Any, Literal, get_args
 import dags
 import networkx
 import pandas as pd
-from optree import tree_flatten, tree_map_with_path
+from optree import tree_flatten, tree_flatten_with_path, tree_map_with_path
 
 from _gettsim.config import (
     DEFAULT_TARGETS,
@@ -29,7 +29,6 @@ from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
     add_derived_functions_to_functions_tree,
-    filter_overridden_functions,
 )
 from _gettsim.shared import (
     KeyErrorMessage,
@@ -92,9 +91,9 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         targets=targets,
         data=data,
     )
-    functions_not_overridden, functions_overridden = filter_overridden_functions(
+    functions_not_overridden, functions_overridden = _filter_functions_by_name(
         all_functions=all_functions,
-        data=data,
+        qualified_names_list=tree_flatten_with_qualified_name(data)[0],
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 
@@ -122,10 +121,9 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
     ).nodes
-    necessary_functions = {
-        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
-    }
-
+    # Select functions that are nodes of the DAG.
+    _, necessary_functions = _filter_functions_by_name(functions_not_overridden, nodes)
+    # Round and partial parameters into functions.
     processed_functions = _round_and_partial_parameters_to_functions(
         necessary_functions, params, rounding
     )
@@ -487,6 +485,54 @@ def _convert_data_to_correct_types(
             stacklevel=2,
         )
     return data
+
+
+def _filter_functions_by_name(
+    functions_tree: NestedFunctionDict,
+    qualified_names_list: list[str],
+) -> tuple[NestedFunctionDict, NestedFunctionDict]:
+    """Filter functions by name.
+
+    Splits the functions tree in two parts: functions whose qualified name is in the
+    qualified_names_list and functions whose qualified name is not in
+    qualified_names_list.
+
+    Parameters
+    ----------
+    functions_tree : NestedFunctionDict
+        Dictionary containing functions to build the DAG.
+    qualified_names_list : list[str]
+        List of qualified names.
+
+    Returns
+    -------
+    functions_not_in_names_list : NestedFunctionDict
+        All functions except the ones that are overridden by an input column.
+    functions_in_names_list : NestedFunctionDict
+        Functions that are overridden by an input column.
+
+    """
+    functions_not_in_names_list = {}
+    functions_in_names_list = {}
+
+    function_paths, functions_leafs, _ = tree_flatten_with_path(functions_tree)
+
+    for name, func in zip(function_paths, functions_leafs):
+        qualified_name = "__".join(name)
+        if qualified_name in qualified_names_list:
+            functions_in_names_list = tree_update(
+                functions_in_names_list,
+                name,
+                func,
+            )
+        else:
+            functions_not_in_names_list = tree_update(
+                functions_not_in_names_list,
+                name,
+                func,
+            )
+
+    return functions_not_in_names_list, functions_in_names_list
 
 
 def _create_input_data(

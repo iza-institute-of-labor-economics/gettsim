@@ -111,50 +111,6 @@ def add_derived_functions_to_functions_tree(
     return all_functions
 
 
-def filter_overridden_functions(
-    all_functions: NestedFunctionDict, data: NestedDataDict
-) -> tuple[NestedFunctionDict, NestedFunctionDict]:
-    """Filter functions that are overridden by input columns.
-
-    Parameters
-    ----------
-    all_functions : NestedFunctionDict
-        Dictionary containing functions to build the DAG.
-    data : NestedDataDict
-        Dictionary containing the input columns.
-
-    Returns
-    -------
-    functions_not_overridden : NestedFunctionDict
-        All functions except the ones that are overridden by an input column.
-    functions_overridden : NestedFunctionDict
-        Functions that are overridden by an input column.
-
-    """
-    functions_not_overridden = {}
-    functions_overridden = {}
-
-    names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
-    function_paths, functions_leafs, _ = tree_flatten_with_path(all_functions)
-
-    for name, func in zip(function_paths, functions_leafs):
-        qualified_name = "__".join(name)
-        if qualified_name in names_of_columns_in_data:
-            functions_overridden = tree_update(
-                functions_overridden,
-                name,
-                func,
-            )
-        else:
-            functions_not_overridden = tree_update(
-                functions_not_overridden,
-                name,
-                func,
-            )
-
-    return functions_not_overridden, functions_overridden
-
-
 def _create_derived_functions(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
