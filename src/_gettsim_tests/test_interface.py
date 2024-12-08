@@ -15,7 +15,7 @@ from _gettsim.interface import (
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
-    _filter_functions_by_name,
+    _filter_tree_by_name_list,
     _round_and_partial_parameters_to_functions,
     _use_correct_series_names,
     build_data_tree,
@@ -865,8 +865,8 @@ def test_use_correct_series_names(input_object, expected_output):
         ),
     ],
 )
-def test_filter_functions_by_name(tree, names, expected_names):
-    result_not_in_names, result_in_names = _filter_functions_by_name(tree, names)
+def test_filter_tree_by_name_list(tree, names, expected_names):
+    result_not_in_names, result_in_names = _filter_tree_by_name_list(tree, names)
     flattened_result_not_in_names = tree_flatten_with_qualified_name(
         result_not_in_names
     )[0]
