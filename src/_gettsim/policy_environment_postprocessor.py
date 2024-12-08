@@ -80,6 +80,7 @@ def add_derived_functions_to_functions_tree(
         The functions tree including derived functions.
 
     """
+    breakpoint()
     names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
     # Create derived functions
     (
@@ -294,7 +295,7 @@ def _create_derived_aggregation_specifications(
         func_name = path[-1]
         # Create module name for path in tree; None if func is in main namespace
         module_name = "__".join(path[:-1]) if len(path) > 1 else None
-        update_dict = {"aggr": "sum", "source_col": remove_group_suffix(agg_col)}
+        update_dict = {"aggr": "sum", "source_col": remove_group_suffix(func_name)}
         automated_sum_aggregate_by_group_specs = tree_update(
             automated_sum_aggregate_by_group_specs,
             [module_name, func_name] if module_name else [func_name],
