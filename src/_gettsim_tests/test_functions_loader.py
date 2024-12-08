@@ -64,7 +64,9 @@ def test_special_attribute_module_is_set_for_internal_functions():
         RESOURCE_DIR,
     )
     function = next(iter(a_few_functions))
-    assert function.__module__ == "_gettsim.social_insurance_contributions.eink_grenzen"
+    assert (
+        function.__module__ == "_gettsim__social_insurance_contributions__eink_grenzen"
+    )
 
 
 @pytest.mark.parametrize(
@@ -146,8 +148,8 @@ def test_vectorize_func(function: Callable) -> None:
             [
                 PolicyFunction(lambda: 1, module_name="a", function_name="foo"),
                 PolicyFunction(lambda: 1, module_name="a", function_name="bar"),
-                PolicyFunction(lambda: 3, module_name="a.b", function_name="foo"),
-                PolicyFunction(lambda: 4, module_name="a.b.c", function_name="foo"),
+                PolicyFunction(lambda: 3, module_name="a__b", function_name="foo"),
+                PolicyFunction(lambda: 4, module_name="a__b__c", function_name="foo"),
                 PolicyFunction(lambda: 2, module_name="b", function_name="foo"),
             ],
             {
