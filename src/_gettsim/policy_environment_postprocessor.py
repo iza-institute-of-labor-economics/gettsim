@@ -29,17 +29,13 @@ from _gettsim.config import (
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.gettsim_typing import (
-    NestedDataDict,
-    NestedFunctionDict,
-    NestedTargetDict,
-)
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
     remove_group_suffix,
+    rename_arguments_and_add_annotations,
     tree_flatten_with_qualified_name,
     tree_to_dict_with_qualified_name,
     tree_update,
@@ -47,6 +43,11 @@ from _gettsim.shared import (
 from _gettsim.time_conversion import create_time_conversion_functions
 
 if TYPE_CHECKING:
+    from _gettsim.gettsim_typing import (
+        NestedDataDict,
+        NestedFunctionDict,
+        NestedTargetDict,
+    )
     from _gettsim.policy_environment import PolicyEnvironment
 
 
@@ -303,44 +304,6 @@ def _create_derived_aggregation_specifications(
     return automated_sum_aggregate_by_group_specs
 
 
-def rename_arguments(func=None, mapper=None, annotations=None):
-    if not annotations:
-        annotations = {}
-
-    def decorator_rename_arguments(func):
-        old_parameters = dict(inspect.signature(func).parameters)
-        parameters = []
-        for name, param in old_parameters.items():
-            if name in mapper:
-                parameters.append(param.replace(name=mapper[name]))
-            else:
-                parameters.append(param)
-
-        signature = inspect.Signature(parameters=parameters)
-
-        reverse_mapper = {v: k for k, v in mapper.items()}
-
-        @functools.wraps(func)
-        def wrapper_rename_arguments(*args, **kwargs):
-            internal_kwargs = {}
-            for name, value in kwargs.items():
-                if name in reverse_mapper:
-                    internal_kwargs[reverse_mapper[name]] = value
-                elif name not in mapper:
-                    internal_kwargs[name] = value
-            return func(*args, **internal_kwargs)
-
-        wrapper_rename_arguments.__signature__ = signature
-        wrapper_rename_arguments.__annotations__ = annotations
-
-        return wrapper_rename_arguments
-
-    if callable(func):
-        return decorator_rename_arguments(func)
-    else:
-        return decorator_rename_arguments
-
-
 def _check_agg_specs_validity(agg_specs, agg_col, module):
     if "aggr" not in agg_specs:
         raise KeyError(
@@ -471,7 +434,9 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     if aggregation_type == "count":
         # TODO(@MImmesberger): Use qualified name of group_id here once namespace
         # changes
-        @rename_arguments(mapper={"group_id": group_id}, annotations=annotations)
+        @rename_arguments_and_add_annotations(
+            mapper={"group_id": group_id}, annotations=annotations
+        )
         def aggregate_by_group_func(group_id):
             return grouped_count(group_id)
 
@@ -481,7 +446,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
         mapper = {"source_col": qualified_name_source_col, "group_id": group_id}
         if aggregation_type == "sum":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -490,7 +455,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
         elif aggregation_type == "mean":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -499,7 +464,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
         elif aggregation_type == "max":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -508,7 +473,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
         elif aggregation_type == "min":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -517,7 +482,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
         elif aggregation_type == "any":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -526,7 +491,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
         elif aggregation_type == "all":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -642,7 +607,7 @@ def _create_one_aggregate_by_p_id_func(
     if aggregation_type == "count":
         # TODO(@MImmesberger): Use qualified name of p_id and p_id_to_aggregate_by here
         # once namespace changes
-        @rename_arguments(
+        @rename_arguments_and_add_annotations(
             mapper={
                 "p_id_to_aggregate_by": p_id_to_aggregate_by,
                 "p_id_to_store_by": "p_id",
@@ -663,7 +628,7 @@ def _create_one_aggregate_by_p_id_func(
 
         if aggregation_type == "sum":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -672,7 +637,7 @@ def _create_one_aggregate_by_p_id_func(
 
         elif aggregation_type == "mean":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -681,7 +646,7 @@ def _create_one_aggregate_by_p_id_func(
 
         elif aggregation_type == "max":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -690,7 +655,7 @@ def _create_one_aggregate_by_p_id_func(
 
         elif aggregation_type == "min":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -699,7 +664,7 @@ def _create_one_aggregate_by_p_id_func(
 
         elif aggregation_type == "any":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )
@@ -708,7 +673,7 @@ def _create_one_aggregate_by_p_id_func(
 
         elif aggregation_type == "all":
 
-            @rename_arguments(
+            @rename_arguments_and_add_annotations(
                 mapper=mapper,
                 annotations=annotations,
             )

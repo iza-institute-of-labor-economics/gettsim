@@ -3,13 +3,12 @@ import re
 from collections.abc import Callable
 from typing import Any
 
-from dags.signature import rename_arguments
 from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.shared import tree_update
+from _gettsim.shared import rename_arguments_and_add_annotations, tree_update
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -364,7 +363,7 @@ def _create_time_conversion_functions(
 def _create_function_for_time_unit(
     function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
-    @rename_arguments(mapper={"x": function_name})
+    @rename_arguments_and_add_annotations(mapper={"x": function_name})
     def func(x: float) -> float:
         return converter(x)
 

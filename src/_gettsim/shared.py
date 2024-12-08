@@ -1,13 +1,14 @@
+import functools
 import inspect
 import operator
 import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
-from functools import reduce
 from typing import Any, TypeVar
 
 import numpy
+from dags.signature import rename_arguments
 from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS
@@ -293,17 +294,7 @@ def get_names_of_arguments_without_defaults(function: PolicyFunction) -> list[st
     """
     parameters = inspect.signature(function).parameters
 
-    argument_names_without_defaults = [
-        p for p in parameters if parameters[p].default == parameters[p].empty
-    ]
-
-    # Add namespace to argument names if not already present
-    qualified_argument_names_without_defaults = [
-        f"{function.module_name}__{p}" if "__" not in p else p
-        for p in argument_names_without_defaults
-    ]
-
-    return qualified_argument_names_without_defaults
+    return [p for p in parameters if parameters[p].default == parameters[p].empty]
 
 
 def remove_group_suffix(col):
@@ -377,9 +368,49 @@ def join_numpy(
     return padded_targets.take(indices)
 
 
+def rename_arguments_and_add_annotations(
+    function: Callable | None = None,
+    *,
+    mapper: dict | None = None,
+    annotations: dict | None = None,
+):
+    wrapper = rename_arguments(function, mapper=mapper)
+
+    if annotations:
+        wrapper.__annotations__ = annotations
+
+    return wrapper
+
+
+def _get_qualified_name_mapper(
+    function: Callable, qualified_name: str
+) -> dict[str, str]:
+    """
+    Get a mapper that maps the argument names of a function to their qualified names.
+
+    Parameters
+    ----------
+    function : Callable
+        The function for which to get the mapper.
+    qualified_name : str
+        The qualified name of the function.
+
+    Returns
+    -------
+    dict[str, str]
+        The mapper that maps the argument names of the function to their qualified
+        names.
+
+    """
+    return {
+        arg: arg if "__" in arg else f"{qualified_name}__{arg}"
+        for arg in get_names_of_arguments_without_defaults(function)
+    }
+
+
 def get_by_path(data_dict, key_list):
     """Access a nested object in root by item sequence."""
-    return reduce(operator.getitem, key_list, data_dict)
+    return functools.reduce(operator.getitem, key_list, data_dict)
 
 
 def set_by_path(data_dict, key_list, value):

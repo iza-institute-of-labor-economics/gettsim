@@ -1,49 +1,11 @@
 import pytest
 
-from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.shared import (
     create_dict_from_list,
-    get_names_of_arguments_without_defaults,
     merge_nested_dicts,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
-
-
-def module1__module2__function_with_local_function_argument(a):
-    """Function with a local function argument."""
-    return a
-
-
-def module1__module2__function_with_global_function_argument(module1__module3__a):
-    """Function with a global function argument."""
-    return module1__module3__a
-
-
-@pytest.mark.parametrize(
-    "function, expected_argument_name",
-    [
-        (
-            PolicyFunction(
-                module1__module2__function_with_local_function_argument,
-                module_name="module1__module2",
-                function_name="function_with_local_function_argument",
-            ),
-            "module1__module2__a",
-        ),
-        (
-            PolicyFunction(
-                module1__module2__function_with_global_function_argument,
-                module_name="module1__module2",
-                function_name="function_with_global_function_argument",
-            ),
-            "module1__module3__a",
-        ),
-    ],
-)
-def test_get_names_of_arguments(function, expected_argument_name):
-    names = get_names_of_arguments_without_defaults(function)
-    assert names == [expected_argument_name]
 
 
 @pytest.mark.parametrize(

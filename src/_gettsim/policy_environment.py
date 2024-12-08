@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import copy
 import datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy
 import pandas as pd
@@ -15,9 +15,6 @@ from _gettsim.functions.loader import (
     load_internal_aggregation_dict,
 )
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.gettsim_typing import (
-    NestedFunctionDict,
-)
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -28,6 +25,9 @@ from _gettsim.shared import (
     merge_nested_dicts,
     set_by_path,
 )
+
+if TYPE_CHECKING:
+    from _gettsim.gettsim_typing import NestedFunctionDict
 
 
 class PolicyEnvironment:
@@ -84,6 +84,7 @@ class PolicyEnvironment:
         params = _parse_kinderzuschl_max(date, params)
         params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
         params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
+
         functions_tree = load_functions_tree_for_date(date)
 
         # Load aggregation specs

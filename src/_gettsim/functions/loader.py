@@ -8,7 +8,11 @@ from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
-from _gettsim.shared import tree_update
+from _gettsim.shared import (
+    _get_qualified_name_mapper,
+    rename_arguments_and_add_annotations,
+    tree_update,
+)
 
 from .policy_function import PolicyFunction
 
@@ -218,8 +222,16 @@ def _create_policy_function_from_decorated_callable(
         .removeprefix("transfers__")
     )
 
-    return PolicyFunction(
+    # Rename args of functions to qualified names
+    mapper = _get_qualified_name_mapper(function, clean_module_name)
+    function_with_renamed_args = rename_arguments_and_add_annotations(
         function=function,
+        mapper=mapper,
+        annotations=function.__annotations__,
+    )
+
+    return PolicyFunction(
+        function=function_with_renamed_args,
         module_name=clean_module_name,
     )
 
