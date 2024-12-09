@@ -37,11 +37,9 @@ def test_compute_taxes_and_transfers_with_tree():
         "module2": {"g_hh": None},
     }
     data = {
-        "basic_inputs": {
+        "groupings": {  # To set groupings functions off
             "p_id": pd.Series([0, 1, 2]),
             "hh_id": pd.Series([0, 0, 1]),
-        },
-        "groupings": {  # To set groupings functions off
             "bg_id": pd.Series([0, 1, 2]),
             "eg_id": pd.Series([0, 1, 2]),
             "ehe_id": pd.Series([0, 1, 2]),

@@ -149,7 +149,7 @@ def create_basic_households(
     # Add specifications and create DataFrame
     all_households = [
         {
-            "basic_inputs__hh_id": [i] * (n_adults + n_children),
+            "groupings__hh_id": [i] * (n_adults + n_children),
             "basic_inputs__hh_typ": [hh_typ_string] * (n_adults + n_children),
             "basic_inputs__ges_pflegev_hat_kinder": ges_pflegev_hat_kinder,
             "basic_inputs__alleinerz": alleinerziehend,
@@ -174,16 +174,16 @@ def create_basic_households(
         for key, value in SUPPORTED_GROUPINGS.items()
         if not value.get("potentially_endogenous", True)
     ]
-    group_ids = [f"basic_inputs__{g}_id" for g in exogenous_groupings]
-    df["basic_inputs__p_id"] = df.index
+    group_ids = [f"groupings__{g}_id" for g in exogenous_groupings]
+    df["groupings__p_id"] = df.index
 
     df = return_df_with_ids_for_aggregation(df, n_adults, n_children, adults_married)
 
     df = df[
-        ["basic_inputs__p_id", *group_ids]
-        + [c for c in df if c not in [*group_ids, "basic_inputs__p_id"]]
+        ["groupings__p_id", *group_ids]
+        + [c for c in df if c not in [*group_ids, "groupings__p_id"]]
     ]
-    df = df.sort_values(by=[*group_ids, "basic_inputs__p_id"])
+    df = df.sort_values(by=[*group_ids, "groupings__p_id"])
 
     return df
 
@@ -220,42 +220,38 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     if n_children > 0:
         data = return_p_id_elternteil(data=data, n_adults=n_adults)
     else:
-        data["basic_inputs__p_id_elternteil_1"] = -1
-        data["basic_inputs__p_id_elternteil_2"] = -1
-    data["basic_inputs__p_id_kindergeld_empf"] = data["basic_inputs__p_id_elternteil_1"]
-    data["basic_inputs__p_id_erziehgeld_empf"] = data["basic_inputs__p_id_elternteil_1"]
-    data["basic_inputs__p_id_betreuungsk_träger"] = data[
-        "basic_inputs__p_id_elternteil_1"
-    ]
+        data["groupings__p_id_elternteil_1"] = -1
+        data["groupings__p_id_elternteil_2"] = -1
+    data["groupings__p_id_kindergeld_empf"] = data["groupings__p_id_elternteil_1"]
+    data["groupings__p_id_erziehgeld_empf"] = data["groupings__p_id_elternteil_1"]
+    data["groupings__p_id_betreuungsk_träger"] = data["groupings__p_id_elternteil_1"]
 
     # Create other IDs
     if n_adults == 1:
-        data["basic_inputs__p_id_ehepartner"] = -1
-        data["basic_inputs__p_id_einstandspartner"] = data[
-            "basic_inputs__p_id_ehepartner"
-        ]
+        data["groupings__p_id_ehepartner"] = -1
+        data["groupings__p_id_einstandspartner"] = data["groupings__p_id_ehepartner"]
     else:
         data_adults = data.query("basic_inputs__kind == False").copy()
-        for hh_id, group in data_adults.groupby("basic_inputs__hh_id"):
-            relevant_rows = (data_adults["basic_inputs__hh_id"] == hh_id).values
-            data_adults.loc[relevant_rows, "basic_inputs__p_id_einstandspartner"] = (
-                group["basic_inputs__p_id"].tolist()[::-1]
-            )
+        for hh_id, group in data_adults.groupby("groupings__hh_id"):
+            relevant_rows = (data_adults["groupings__hh_id"] == hh_id).values
+            data_adults.loc[relevant_rows, "groupings__p_id_einstandspartner"] = group[
+                "groupings__p_id"
+            ].tolist()[::-1]
         data = pd.merge(
             data,
-            data_adults[["basic_inputs__p_id", "basic_inputs__p_id_einstandspartner"]],
-            on="basic_inputs__p_id",
+            data_adults[["groupings__p_id", "groupings__p_id_einstandspartner"]],
+            on="groupings__p_id",
             how="left",
         ).fillna(-1)
-        data["basic_inputs__p_id_einstandspartner"] = data[
-            "basic_inputs__p_id_einstandspartner"
+        data["groupings__p_id_einstandspartner"] = data[
+            "groupings__p_id_einstandspartner"
         ].astype(numpy.int64)
         if adults_married:
-            data["basic_inputs__p_id_ehepartner"] = data[
-                "basic_inputs__p_id_einstandspartner"
+            data["groupings__p_id_ehepartner"] = data[
+                "groupings__p_id_einstandspartner"
             ]
         else:
-            data["basic_inputs__p_id_ehepartner"] = -1
+            data["groupings__p_id_ehepartner"] = -1
 
     return data
 
@@ -264,12 +260,12 @@ def return_p_id_elternteil(data, n_adults):
     """Find the p_id_elternteil_1 and p_id_elternteil_2."""
     # p_id_elternteil_1 is the first adult in the household
     elternteil_1_candidate = {
-        hh_id: group["basic_inputs__p_id"].iloc[0]
-        for hh_id, group in data.groupby("basic_inputs__hh_id")
+        hh_id: group["groupings__p_id"].iloc[0]
+        for hh_id, group in data.groupby("groupings__hh_id")
     }
     # Apply candidate id if kind, else -1
-    data["basic_inputs__p_id_elternteil_1"] = data.apply(
-        lambda x: elternteil_1_candidate[x["basic_inputs__hh_id"]]
+    data["groupings__p_id_elternteil_1"] = data.apply(
+        lambda x: elternteil_1_candidate[x["groupings__hh_id"]]
         if x["basic_inputs__kind"]
         else -1,
         axis=1,

@@ -93,6 +93,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     params = environment.params
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
+
     all_functions = add_derived_functions_to_functions_tree(
         environment=environment,
         targets=targets,
@@ -723,7 +724,7 @@ def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
     """Check that pid is unique."""
     names_leafs_dict = tree_to_dict_with_qualified_name(data)
     try:
-        p_id_col = names_leafs_dict["basic_inputs__p_id"]
+        p_id_col = names_leafs_dict["groupings__p_id"]
     except KeyError as e:
         message = "The input data must contain the column p_id."
         raise ValueError(message) from e
@@ -756,7 +757,7 @@ def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
 
     names_leafs_dict = tree_to_dict_with_qualified_name(data)
 
-    p_id_col = names_leafs_dict["basic_inputs__p_id"]
+    p_id_col = names_leafs_dict["groupings__p_id"]
     valid_ids = set(p_id_col) | {-1}
 
     for name, col in names_leafs_dict.items():
@@ -1089,7 +1090,7 @@ def _prepare_results(results, data, debug):
 
 def _reorder_columns(results):
     order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
-    order_ids["basic_inputs__p_id"] = len(order_ids)
+    order_ids["groupings__p_id"] = len(order_ids)
     ids_in_data = order_ids.keys() & set(results.columns)
     sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
     remaining_columns = [i for i in results if i not in sorted_ids]

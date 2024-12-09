@@ -161,15 +161,18 @@ DEFAULT_TARGETS = {
 }
 
 TYPES_INPUT_VARIABLES = {
-    "basic_inputs": {
-        "hh_id": int,
+    "groupings": {
         "p_id": int,
+        "hh_id": int,
         "p_id_elternteil_1": int,
         "p_id_elternteil_2": int,
         "p_id_kindergeld_empf": int,
         "p_id_erziehgeld_empf": int,
         "p_id_ehepartner": int,
         "p_id_einstandspartner": int,
+        "p_id_betreuungsk_träger": int,
+    },
+    "basic_inputs": {
         "vermögen_bedürft": float,
         "eigenbedarf_gedeckt": bool,
         # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
@@ -198,7 +201,6 @@ TYPES_INPUT_VARIABLES = {
         "kind": bool,
         "rentner": bool,
         "betreuungskost_m": float,
-        "p_id_betreuungsk_träger": int,
         "kapitaleink_brutto_m": float,
         "eink_vermietung_m": float,
         "bruttokaltmiete_m_hh": float,

@@ -372,7 +372,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     group_id = None
     for g in SUPPORTED_GROUPINGS:
         if new_function_name.endswith(f"_{g}"):
-            group_id = f"{g}_id"
+            group_id = f"groupings__{g}_id"
     if not group_id:
         raise ValueError(
             "Name of aggregated column needs to have a suffix "
