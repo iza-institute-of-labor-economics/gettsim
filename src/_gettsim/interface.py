@@ -153,15 +153,13 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     input_data = _create_input_data(
         data=data,
         processed_functions=processed_functions,
-        parameters=environment.params,
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
     )
 
-    results = tax_transfer_function(**input_data)
-
+    results = tax_transfer_function(input_data)
     # Prepare results.
     prepared_results = _prepare_results(results, data, debug)
 
@@ -371,8 +369,7 @@ def set_up_dag(
         functions=all_functions,
         targets=targets,
         input_structure=input_structure,
-        name_clashes="ignore",
-        # TODO(@MImmesberger): Change to "raise" once function renamings are done
+        name_clashes="raise",
     )
     _fail_if_columns_overriding_functions_are_not_in_dag(
         dag, names_of_columns_overriding_functions, check_minimal_specification
@@ -553,7 +550,6 @@ def _filter_tree_by_name_list(
 def _create_input_data(  # noqa: PLR0913
     processed_functions: NestedFunctionDict,
     data: NestedDataDict,
-    parameters: dict[str, Any],
     targets: NestedTargetDict,
     names_of_columns_overriding_functions: list[str],
     input_structure: NestedInputStructureDict,
@@ -570,8 +566,6 @@ def _create_input_data(  # noqa: PLR0913
         Nested function dictionary.
     data : NestedDataDict
         Data provided by the user.
-    parameters : dict
-        Parameters of the policy environment.
     targets : NestedTargetDict
         Targets provided by the user.
     names_of_columns_overriding_functions : list[str]
@@ -600,7 +594,6 @@ def _create_input_data(  # noqa: PLR0913
     data_cols = tree_flatten_with_qualified_name(data)[0]
     _fail_if_root_nodes_are_missing(
         functions=processed_functions,
-        parameters=parameters,
         root_nodes=root_nodes,
         data_cols=data_cols,
     )
@@ -615,7 +608,7 @@ def _create_input_data(  # noqa: PLR0913
         names_unnecessary_data, check_minimal_specification
     )
 
-    return tree_map(lambda x: x.values, input_data)
+    return tree_to_dict_with_qualified_name(tree_map(lambda x: x.values, input_data))
 
 
 class FunctionsAndColumnsOverlapWarning(UserWarning):
@@ -789,7 +782,6 @@ def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
 
 def _fail_if_root_nodes_are_missing(
     functions: NestedFunctionDict,
-    parameters: dict[str, Any],
     root_nodes: list[str],
     data_cols: list[str],
 ) -> None:
@@ -808,13 +800,7 @@ def _fail_if_root_nodes_are_missing(
     missing_nodes = [
         c
         for c in root_nodes
-        if (
-            c not in data_cols
-            and c not in funcs_based_on_params_only
-            and c.removesuffix("_params") not in parameters
-            # TODO(@MImmesberger): Make sure that params should actually show up in the
-            # DAG. If not, remove this condition and find bug.
-        )
+        if (c not in data_cols and c not in funcs_based_on_params_only)
     ]
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
