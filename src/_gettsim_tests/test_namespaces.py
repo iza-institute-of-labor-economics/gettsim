@@ -13,12 +13,12 @@ FUNCTIONS_TREE = {
 }
 
 PARAMETERS = {
-    "module1_params": {
+    "module1": {
         "a": 1,
         "b": 1,
         "c": 1,
     },
-    "module2_params": {
+    "module2": {
         "a": 1,
         "b": 1,
         "c": 1,

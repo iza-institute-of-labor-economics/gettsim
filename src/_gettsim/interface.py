@@ -90,7 +90,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     """
 
     targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)
-    params = environment.params
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
@@ -133,7 +132,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     _, necessary_functions = _filter_tree_by_name_list(functions_not_overridden, nodes)
     # Round and partial parameters into functions.
     processed_functions = _round_and_partial_parameters_to_functions(
-        necessary_functions, params, rounding
+        necessary_functions, environment.params, rounding
     )
 
     # Input structure for final DAG.
@@ -154,6 +153,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     input_data = _create_input_data(
         data=data,
         processed_functions=processed_functions,
+        parameters=environment.params,
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
@@ -551,8 +551,9 @@ def _filter_tree_by_name_list(
 
 
 def _create_input_data(  # noqa: PLR0913
-    data: NestedDataDict,
     processed_functions: NestedFunctionDict,
+    data: NestedDataDict,
+    parameters: dict[str, Any],
     targets: NestedTargetDict,
     names_of_columns_overriding_functions: list[str],
     input_structure: NestedInputStructureDict,
@@ -565,10 +566,12 @@ def _create_input_data(  # noqa: PLR0913
 
     Parameters
     ----------
+    processed_functions : NestedFunctionDict
+        Nested function dictionary.
     data : NestedDataDict
         Data provided by the user.
-    processed_functions : NestedFunctionDict
-        Dictionary mapping function names to callables.
+    parameters : dict
+        Parameters of the policy environment.
     targets : NestedTargetDict
         Targets provided by the user.
     names_of_columns_overriding_functions : list[str]
@@ -593,10 +596,11 @@ def _create_input_data(  # noqa: PLR0913
         input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
     )
-    root_nodes = {n for n in dag.nodes if list(dag.predecessors(n)) == []}
+    root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
     data_cols = tree_flatten_with_qualified_name(data)[0]
     _fail_if_root_nodes_are_missing(
         functions=processed_functions,
+        parameters=parameters,
         root_nodes=root_nodes,
         data_cols=data_cols,
     )
@@ -785,6 +789,7 @@ def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
 
 def _fail_if_root_nodes_are_missing(
     functions: NestedFunctionDict,
+    parameters: dict[str, Any],
     root_nodes: list[str],
     data_cols: list[str],
 ) -> None:
@@ -803,7 +808,13 @@ def _fail_if_root_nodes_are_missing(
     missing_nodes = [
         c
         for c in root_nodes
-        if c not in data_cols and c not in funcs_based_on_params_only
+        if (
+            c not in data_cols
+            and c not in funcs_based_on_params_only
+            and c.removesuffix("_params") not in parameters
+            # TODO(@MImmesberger): Make sure that params should actually show up in the
+            # DAG. If not, remove this condition and find bug.
+        )
     ]
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
