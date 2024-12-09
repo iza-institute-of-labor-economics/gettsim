@@ -5,14 +5,17 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from types import ModuleType
-from typing import Literal, TypeAlias
+from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.shared import (
+    tree_update,
+)
 
 from .policy_function import PolicyFunction
 
 
-def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
+def load_functions_tree_for_date(date: datetime.date) -> dict[str, Any]:
     """
     Load policy functions that are active at a specific date.
 
@@ -26,7 +29,9 @@ def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     functions:
         The policy functions that are active at the given date.
     """
-    return [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    return _build_functions_tree(
+        [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    )
 
 
 def _load_internal_functions() -> list[PolicyFunction]:
@@ -76,6 +81,29 @@ def _load_functions(
         )
 
     return result
+
+
+def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFunction]:
+    """Build the function tree.
+
+    Takes the list of active policy functions and builds a tree using the module names.
+
+    Parameters
+    ----------
+    functions:
+        A list of PolicyFunctions.
+
+    Returns
+    -------
+    tree:
+        A tree of PolicyFunctions.
+    """
+    # Build module_name - functions dictionary
+    tree = {}
+    for function in functions:
+        tree_keys = [*function.module_name.split("__"), function.name_in_dag]
+        tree = tree_update(tree, tree_keys, function)
+    return tree
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
@@ -161,7 +189,7 @@ def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
-        .replace("/", ".")
+        .replace("/", "__")
     )
 
 
@@ -187,9 +215,9 @@ def _create_policy_function_from_decorated_callable(
 
     # Only needed until the directory structure is cleaned up
     clean_module_name = (
-        module_name.removeprefix("_gettsim.")
-        .removeprefix("taxes.")
-        .removeprefix("transfers.")
+        module_name.removeprefix("_gettsim__")
+        .removeprefix("taxes__")
+        .removeprefix("transfers__")
     )
 
     return PolicyFunction(
@@ -206,7 +234,7 @@ def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bo
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
-def load_internal_aggregation_dict(variant: _AggregationVariant):
+def load_internal_aggregation_dict(variant: _AggregationVariant) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person that are defined for
     internal functions.
@@ -216,7 +244,7 @@ def load_internal_aggregation_dict(variant: _AggregationVariant):
 
 def _load_aggregation_dict(
     roots: list[Path], package_root: Path, variant: _AggregationVariant
-):
+) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person reachable from the given
     roots.
@@ -224,23 +252,23 @@ def _load_aggregation_dict(
     roots = roots if isinstance(roots, list) else [roots]
     paths = _find_python_files_recursively(roots)
 
-    # Load dictionaries
-    dicts = []
+    tree = {}
 
     for path in paths:
-        dicts.extend(_load_dicts_in_module(path, package_root, f"{variant}_"))
-
-    # Check for duplicate keys
-    all_keys = [k for dict_ in dicts for k in dict_]
-    if len(all_keys) != len(set(all_keys)):
-        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
-        raise ValueError(
-            "The following column names are used more "
-            f"than once in the {variant} dictionaries: {duplicate_keys}"
+        module_name = _convert_path_to_module_name(path, package_root)
+        # TODO(@MImmesberger): Remove the removeprefix calls once the directory
+        # structure is cleaned up
+        clean_module_name = (
+            module_name.removeprefix("_gettsim__")
+            .removeprefix("taxes__")
+            .removeprefix("transfers__")
         )
+        tree_keys = clean_module_name.split("__")
+        dicts_in_module = _load_dicts_in_module(path, package_root, f"{variant}_")
+        _fail_if_more_than_one_dict_loaded(dicts_in_module)
+        tree = tree_update(tree, tree_keys, *dicts_in_module)
 
-    # Combine dictionaries
-    return {k: v for dict_ in dicts for k, v in dict_.items()}
+    return tree
 
 
 def _load_dicts_in_module(
@@ -270,3 +298,11 @@ def _load_dicts_in_module(
         for name, member in inspect.getmembers(module)
         if isinstance(member, dict) and name.startswith(prefix_filter)
     ]
+
+
+def _fail_if_more_than_one_dict_loaded(dicts: list[dict]) -> None:
+    if len(dicts) > 1:
+        raise ValueError(
+            "More than one dictionary found in the module. "
+            "Only one dictionary is allowed."
+        )

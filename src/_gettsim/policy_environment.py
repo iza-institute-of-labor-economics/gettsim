@@ -2,17 +2,16 @@ from __future__ import annotations
 
 import copy
 import datetime
-import operator
-from functools import reduce
 from typing import TYPE_CHECKING, Any
 
 import numpy
 import pandas as pd
 import yaml
+from optree import tree_flatten, tree_flatten_with_path, tree_paths, tree_unflatten
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
-    load_functions_for_date,
+    load_functions_tree_for_date,
     load_internal_aggregation_dict,
 )
 from _gettsim.functions.policy_function import PolicyFunction
@@ -21,9 +20,14 @@ from _gettsim.piecewise_functions import (
     get_piecewise_parameters,
     piecewise_polynomial,
 )
+from _gettsim.shared import (
+    get_by_path,
+    merge_nested_dicts,
+    set_by_path,
+)
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from _gettsim.gettsim_typing import NestedFunctionDict
 
 
 class PolicyEnvironment:
@@ -80,32 +84,38 @@ class PolicyEnvironment:
         params = _parse_kinderzuschl_max(date, params)
         params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
         params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
-        functions = load_functions_for_date(date)
+
+        functions_tree = load_functions_tree_for_date(date)
 
         # Load aggregation specs
         aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
         aggregate_by_p_id_specs = load_internal_aggregation_dict("aggregate_by_p_id")
 
         return PolicyEnvironment(
-            functions, params, aggregate_by_group_specs, aggregate_by_p_id_specs
+            functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
         )
 
     def __init__(
         self,
-        functions: list[PolicyFunction | Callable],
+        functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
-        aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
+        aggregate_by_group_specs: dict[str, str | dict] | None = None,
+        aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
     ):
-        self._functions = {}
-        for function in functions:
-            f = (
+        _fail_if_functions_tree_not_tree(functions_tree)
+        paths, flattened_functions_tree, tree_def = tree_flatten_with_path(
+            functions_tree
+        )
+        functions_with_correct_types = _add_module_name_if_missing(
+            [
                 function
                 if isinstance(function, PolicyFunction)
                 else PolicyFunction(function)
-            )
-            self._functions[f.name_in_dag] = f
-
+                for function in flattened_functions_tree
+            ],
+            paths=paths,
+        )
+        self._functions_tree = tree_unflatten(tree_def, functions_with_correct_types)
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
             aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
@@ -115,9 +125,9 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions(self) -> dict[str, PolicyFunction]:
+    def functions_tree(self) -> NestedFunctionDict:
         """The functions of the policy environment."""
-        return self._functions
+        return self._functions_tree
 
     @property
     def params(self) -> dict[str, Any]:
@@ -125,7 +135,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs(self) -> dict[str, dict[str, str]]:
+    def aggregate_by_group_specs(self) -> dict[str, str | dict]:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
@@ -133,39 +143,61 @@ class PolicyEnvironment:
         return self._aggregate_by_group_specs
 
     @property
-    def aggregate_by_p_id_specs(self) -> dict[str, dict[str, str]]:
+    def aggregate_by_p_id_specs(self) -> dict[str, str | dict]:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
         """
         return self._aggregate_by_p_id_specs
 
-    def get_function_by_name(self, name: str) -> PolicyFunction | None:
+    def get_function_by_path(
+        self, function_path: dict[str, str | dict] | list[str]
+    ) -> PolicyFunction | None:
         """
-        Return the function with a specific name or `None` if no such function exists.
+        Return the function with a specific path in the function tree or `None` if no
+        such function exists.
 
         Parameters
         ----------
-        name:
-            The name of the functions.
+        function_path:
+            The path to the function in the function tree.
+            Example 1: {"level_1": {"level_2": "function_name"}}
+            Example 2: ["level_1", "level_2", "function_name"]
 
         Returns
         -------
         function:
-            The functions with the specified name, if it exists.
+            The functions with the specified tree path, if it exists.
         """
-        return self._functions.get(name)
+        if isinstance(function_path, dict):
+            path_list = tree_paths(function_path)
+            _fail_if_more_than_one_path(path_list)
+            keys = path_list[0]
+        elif isinstance(function_path, list):
+            keys = function_path
+        else:
+            raise NotImplementedError(
+                "The function_path must be a dictionary or a list."
+            )
+
+        try:
+            out = get_by_path(self._functions_tree, keys)
+        except KeyError:
+            out = None
+
+        return out
 
     def upsert_functions(
-        self, *functions: PolicyFunction | Callable
+        self, functions_tree_update: NestedFunctionDict
     ) -> PolicyEnvironment:
-        """
+        """Upsert GETTSIM's function tree with (parts of) a new function tree.
+
         Adds to or overwrites functions of the policy environment. Note that this
         method does not modify the current policy environment but returns a new one.
 
         Parameters
         ----------
-        functions:
+        functions_tree_update:
             The functions to add or overwrite.
 
         Returns
@@ -173,17 +205,21 @@ class PolicyEnvironment:
         new_environment:
             The policy environment with the new functions.
         """
-        new_functions = {**self._functions}
-        for function in functions:
-            f = (
-                function
-                if isinstance(function, PolicyFunction)
-                else PolicyFunction(function)
-            )
-            new_functions[f.name_in_dag] = f
+        new_functions_tree = {**self._functions_tree}
+        functions_to_upsert, tree_def = tree_flatten(functions_tree_update)
+        functions_to_upsert = [
+            function
+            if isinstance(function, PolicyFunction)
+            else PolicyFunction(function)
+            for function in functions_to_upsert
+        ]
+        functions_tree_to_upsert = tree_unflatten(tree_def, functions_to_upsert)
+        new_functions_tree = merge_nested_dicts(
+            new_functions_tree, functions_tree_to_upsert
+        )
 
         result = object.__new__(PolicyEnvironment)
-        result._functions = new_functions  # noqa: SLF001
+        result._functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -208,7 +244,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._functions = self._functions  # noqa: SLF001
+        result._functions_tree = self._functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -255,6 +291,34 @@ def _parse_date(date):
     elif isinstance(date, int):
         date = datetime.date(year=date, month=1, day=1)
     return date
+
+
+def _add_module_name_if_missing(
+    functions: list[PolicyFunction],
+    paths: list[tuple[str]],
+) -> list[PolicyFunction]:
+    """Add module name if missing.
+
+    Module name derived from the function's position in the functions tree.
+
+    Parameters
+    ----------
+    functions : list[PolicyFunction]
+        List of functions.
+    paths : list[tuple[str]]
+        List of paths to the functions.
+
+    Returns
+    -------
+    functions : list[PolicyFunction]
+        List of functions with module name.
+
+    """
+    for path, function in zip(paths, functions):
+        new_module_name = "__".join(path[:-1])
+        if not function.module_name or function.module_name == "":
+            function.module_name = new_module_name
+    return functions
 
 
 def _parse_piecewise_parameters(tax_data):
@@ -624,14 +688,19 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
     return new_dict
 
 
-def get_by_path(data_dict, key_list):
-    """Access a nested object in root by item sequence."""
-    return reduce(operator.getitem, key_list, data_dict)
+def _fail_if_more_than_one_path(path_list):
+    """Raise error if more than one path is found."""
+    if len(path_list) > 1:
+        raise ValueError(
+            "The functions_path must point to exactly one function in the functions "
+            "tree."
+        )
 
 
-def set_by_path(data_dict, key_list, value):
-    """Set a value in a nested object in root by item sequence."""
-    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+def _fail_if_functions_tree_not_tree(obj):
+    """Raise error if functions are not passed as tree."""
+    if not isinstance(obj, dict):
+        raise TypeError("Functions must be passed as a tree.")
 
 
 def add_progressionsfaktor(params_dict, parameter):
