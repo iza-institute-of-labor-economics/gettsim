@@ -393,6 +393,7 @@ def _process_and_check_data(data: NestedDataDict | pd.DataFrame) -> NestedDataDi
     data_tree : dict
 
     """
+    _fail_if_duplicates_in_columns(data)
     data_tree = build_data_tree(data)
 
     # Check that group variables are constant within groups
@@ -665,9 +666,9 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
         super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
-def _fail_if_duplicates_in_columns(data):
+def _fail_if_duplicates_in_columns(data: NestedDataDict | pd.DataFrame) -> None:
     """Check that all column names are unique."""
-    if any(data.columns.duplicated()):
+    if any(data.columns.duplicated()) and isinstance(data, pd.DataFrame):
         raise ValueError(
             "The following columns are non-unique in the input data:\n\n"
             f"{data.columns[data.columns.duplicated()]}"
