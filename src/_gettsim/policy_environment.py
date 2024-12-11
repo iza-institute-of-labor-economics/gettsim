@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 import numpy
 import pandas as pd
 import yaml
-from optree import tree_flatten, tree_flatten_with_path, tree_paths, tree_unflatten
+from optree import tree_map_with_path, tree_paths
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -102,20 +102,14 @@ class PolicyEnvironment:
         aggregate_by_group_specs: dict[str, str | dict] | None = None,
         aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
     ):
-        _fail_if_functions_tree_not_tree(functions_tree)
-        paths, flattened_functions_tree, tree_def = tree_flatten_with_path(
-            functions_tree
+        # Check functions tree and convert functions to PolicyFunction if necessary
+        _fail_if_functions_tree_not_dict(functions_tree)
+        self._functions_tree = tree_map_with_path(
+            _convert_function_to_correct_type,
+            functions_tree,
         )
-        functions_with_correct_types = _add_module_name_if_missing(
-            [
-                function
-                if isinstance(function, PolicyFunction)
-                else PolicyFunction(function)
-                for function in flattened_functions_tree
-            ],
-            paths=paths,
-        )
-        self._functions_tree = tree_unflatten(tree_def, functions_with_correct_types)
+
+        # Read in parameters and aggregation specs
         self._params = params if params is not None else {}
         self._aggregate_by_group_specs = (
             aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
@@ -151,7 +145,7 @@ class PolicyEnvironment:
         return self._aggregate_by_p_id_specs
 
     def get_function_by_path(
-        self, function_path: dict[str, str | dict] | list[str]
+        self, function_path: dict[str, str | dict] | list[str] | str
     ) -> PolicyFunction | None:
         """
         Return the function with a specific path in the function tree or `None` if no
@@ -161,7 +155,7 @@ class PolicyEnvironment:
         ----------
         function_path:
             The path to the function in the function tree.
-            Example 1: {"level_1": {"level_2": "function_name"}}
+            Example 1: {"level_1": {"level_2": {"function_name": None}}}
             Example 2: ["level_1", "level_2", "function_name"]
 
         Returns
@@ -170,11 +164,15 @@ class PolicyEnvironment:
             The functions with the specified tree path, if it exists.
         """
         if isinstance(function_path, dict):
-            path_list = tree_paths(function_path)
+            path_list = tree_paths(function_path, none_is_leaf=True)
             _fail_if_more_than_one_path(path_list)
             keys = path_list[0]
-        elif isinstance(function_path, list):
+        elif isinstance(function_path, list) and all(
+            isinstance(s, str) for s in function_path
+        ):
             keys = function_path
+        elif isinstance(function_path, str):
+            keys = function_path.split("__")
         else:
             raise NotImplementedError(
                 "The function_path must be a dictionary or a list."
@@ -197,23 +195,18 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        functions_tree_update:
+        functions_tree_update: NestedFunctionDict
             The functions to add or overwrite.
 
         Returns
         -------
-        new_environment:
+        new_environment: PolicyEnvironment
             The policy environment with the new functions.
         """
         new_functions_tree = {**self._functions_tree}
-        functions_to_upsert, tree_def = tree_flatten(functions_tree_update)
-        functions_to_upsert = [
-            function
-            if isinstance(function, PolicyFunction)
-            else PolicyFunction(function)
-            for function in functions_to_upsert
-        ]
-        functions_tree_to_upsert = tree_unflatten(tree_def, functions_to_upsert)
+        functions_tree_to_upsert = tree_map_with_path(
+            _convert_function_to_correct_type, functions_tree_update
+        )
         new_functions_tree = merge_nested_dicts(
             new_functions_tree, functions_tree_to_upsert
         )
@@ -293,32 +286,38 @@ def _parse_date(date):
     return date
 
 
-def _add_module_name_if_missing(
-    functions: list[PolicyFunction],
-    paths: list[tuple[str]],
-) -> list[PolicyFunction]:
+def _convert_function_to_correct_type(
+    path: tuple[str],
+    function: callable,
+) -> PolicyFunction:
     """Add module name if missing.
 
     Module name derived from the function's position in the functions tree.
 
     Parameters
     ----------
-    functions : list[PolicyFunction]
-        List of functions.
-    paths : list[tuple[str]]
-        List of paths to the functions.
+    path : tuple[str]
+        Path to the function in the functions tree.
+    function : callable
+        The function to convert.
 
     Returns
     -------
-    functions : list[PolicyFunction]
-        List of functions with module name.
+    function : PolicyFunction
+        The converted function.
 
     """
-    for path, function in zip(paths, functions):
-        new_module_name = "__".join(path[:-1])
-        if not function.module_name or function.module_name == "":
-            function.module_name = new_module_name
-    return functions
+    new_module_name = "__".join(path[:-1])
+
+    if not isinstance(function, PolicyFunction):
+        converted_function = PolicyFunction(function)
+    else:
+        converted_function = function
+
+    if not hasattr(function, "module_name") or function.module_name == "":
+        converted_function.module_name = new_module_name
+
+    return converted_function
 
 
 def _parse_piecewise_parameters(tax_data):
@@ -697,7 +696,7 @@ def _fail_if_more_than_one_path(path_list):
         )
 
 
-def _fail_if_functions_tree_not_tree(obj):
+def _fail_if_functions_tree_not_dict(obj):
     """Raise error if functions are not passed as tree."""
     if not isinstance(obj, dict):
         raise TypeError("Functions must be passed as a tree.")

@@ -189,7 +189,12 @@ def format_list_linewise(list_):
 def tree_update(
     tree: dict[str, Any], path: list[str], value: Any = None
 ) -> dict[str, Any]:
-    """Update tree with a path and value."""
+    """Update tree with a path and value.
+
+    The path is a list of strings that represent the keys in the nested dictionary. If
+    the path does not exist, it will be created. If the path already exists, the value
+    will be updated.
+    """
     update_dict = create_dict_from_list(path)
     set_by_path(update_dict, path, value)
     return merge_nested_dicts(tree, update_dict)
@@ -380,32 +385,6 @@ def rename_arguments_and_add_annotations(
         wrapper.__annotations__ = annotations
 
     return wrapper
-
-
-def _get_qualified_name_mapper(
-    function: Callable, qualified_name: str
-) -> dict[str, str]:
-    """
-    Get a mapper that maps the argument names of a function to their qualified names.
-
-    Parameters
-    ----------
-    function : Callable
-        The function for which to get the mapper.
-    qualified_name : str
-        The qualified name of the function.
-
-    Returns
-    -------
-    dict[str, str]
-        The mapper that maps the argument names of the function to their qualified
-        names.
-
-    """
-    return {
-        arg: arg if "__" in arg else f"{qualified_name}__{arg}"
-        for arg in get_names_of_arguments_without_defaults(function)
-    }
 
 
 def get_by_path(data_dict, key_list):
