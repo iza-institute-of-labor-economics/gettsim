@@ -44,7 +44,6 @@ from _gettsim.time_conversion import create_time_conversion_functions
 
 if TYPE_CHECKING:
     from _gettsim.gettsim_typing import (
-        NestedDataDict,
         NestedFunctionDict,
         NestedTargetDict,
     )
@@ -54,7 +53,7 @@ if TYPE_CHECKING:
 def add_derived_functions_to_functions_tree(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
-    data: NestedDataDict,
+    names_of_columns_in_data: list[str],
 ) -> NestedFunctionDict:
     """Create the functions tree including derived functions.
 
@@ -71,8 +70,8 @@ def add_derived_functions_to_functions_tree(
     targets : NestedTargetDict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    data : NestedDataDict
-        The data dictionary containing the input columns.
+    names_of_columns_in_data : list
+        Names of columns in the input data.
 
     Returns
     -------
@@ -80,7 +79,6 @@ def add_derived_functions_to_functions_tree(
         The functions tree including derived functions.
 
     """
-    names_of_columns_in_data = tree_flatten_with_qualified_name(data)[0]
     # Create derived functions
     (
         time_conversion_functions,

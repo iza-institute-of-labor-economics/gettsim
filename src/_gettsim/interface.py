@@ -93,14 +93,15 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
+    names_of_cols_in_data = list(tree_to_dict_with_qualified_name(data).keys())
     all_functions = add_derived_functions_to_functions_tree(
         environment=environment,
         targets=targets,
-        data=data,
+        names_of_columns_in_data=names_of_cols_in_data,
     )
     functions_not_overridden, functions_overridden = _filter_tree_by_name_list(
         tree=all_functions,
-        qualified_names_list=tree_to_dict_with_qualified_name(data).keys(),
+        qualified_names_list=names_of_cols_in_data,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 

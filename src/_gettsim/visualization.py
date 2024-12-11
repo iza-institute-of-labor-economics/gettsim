@@ -3,6 +3,7 @@ import inspect
 import operator
 from functools import reduce
 
+import dags
 import networkx as nx
 import numpy
 import pandas as pd
@@ -10,15 +11,21 @@ import plotly.graph_objects as go
 from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
-from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import set_up_dag
+from _gettsim.config import DEFAULT_TARGETS
+from _gettsim.interface import (
+    _round_and_partial_parameters_to_functions,
+    build_targets_tree,
+    set_up_dag,
+)
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
     add_derived_functions_to_functions_tree,
 )
 from _gettsim.shared import (
+    _filter_tree_by_name_list,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    tree_to_dict_with_qualified_name,
 )
 
 
@@ -66,41 +73,66 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
+    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)
 
-    targets = DEFAULT_TARGETS if targets is None else targets
-    targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
+    if isinstance(columns_overriding_functions, dict):
+        names_of_columns_overriding_functions = tree_to_dict_with_qualified_name(
+            columns_overriding_functions
+        ).keys()
+    elif isinstance(columns_overriding_functions, str):
+        names_of_columns_overriding_functions = [columns_overriding_functions]
+    elif columns_overriding_functions is None:
+        names_of_columns_overriding_functions = []
+    else:
+        names_of_columns_overriding_functions = columns_overriding_functions
 
     # Load functions.
-    functions_not_overridden, functions_overridden = (
-        add_derived_functions_to_functions_tree(
-            environment,
-            targets=targets,
-            data_cols=list(TYPES_INPUT_VARIABLES),
-        )
+    all_functions = add_derived_functions_to_functions_tree(
+        environment=environment,
+        targets=targets,
+        names_of_columns_in_data=names_of_columns_overriding_functions,
+    )
+    functions_not_overridden, _ = _filter_tree_by_name_list(
+        tree=all_functions,
+        qualified_names_list=names_of_columns_overriding_functions,
+    )
+
+    # Create parameter input structure.
+    input_structure = dags.dag_tree.create_input_structure_tree(
+        functions=functions_not_overridden,
+        targets=None,  # None because no functions should be filtered out
     )
 
     # Select necessary nodes by creating a preliminary DAG.
-    nodes = set_up_dag(
+    dag = set_up_dag(
         all_functions=functions_not_overridden,
         targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
+        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+        input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
-    ).nodes
-    necessary_functions = {
-        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
-    }
+    )
 
-    # Params should not show up in DAG.
-    processed_functions = _mock_parameters_arguments(necessary_functions)
+    _, necessary_functions = _filter_tree_by_name_list(
+        functions_not_overridden, dag.nodes
+    )
+    processed_functions = _round_and_partial_parameters_to_functions(
+        necessary_functions,
+        environment.params,
+        rounding=False,
+    )
 
+    input_structure = dags.dag_tree.create_input_structure_tree(
+        functions=processed_functions,
+        targets=None,
+    )
+
+    # Calculate results.
     dag = set_up_dag(
-        processed_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
+        all_functions=processed_functions,
+        targets=targets,
+        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+        input_structure=input_structure,
+        check_minimal_specification=check_minimal_specification,
     )
 
     selectors = [] if selectors is None else _to_list(selectors)
