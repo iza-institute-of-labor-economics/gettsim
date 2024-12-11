@@ -10,7 +10,6 @@ import networkx
 import pandas as pd
 from optree import (
     tree_flatten,
-    tree_flatten_with_path,
     tree_map,
     tree_map_with_path,
     tree_unflatten,
@@ -39,13 +38,13 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     KeyErrorMessage,
+    _filter_tree_by_name_list,
     create_dict_from_list,
     format_errors_and_warnings,
     format_list_linewise,
     get_by_path,
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
-    tree_flatten_with_qualified_name,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
@@ -101,13 +100,13 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
     functions_not_overridden, functions_overridden = _filter_tree_by_name_list(
         tree=all_functions,
-        qualified_names_list=tree_flatten_with_qualified_name(data)[0],
+        qualified_names_list=tree_to_dict_with_qualified_name(data).keys(),
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 
     # Warn if columns override functions.
     names_of_columns_overriding_functions = set(
-        tree_flatten_with_qualified_name(functions_overridden)[0]
+        tree_to_dict_with_qualified_name(functions_overridden).keys()
     )
     if len(names_of_columns_overriding_functions) > 0:
         warnings.warn(
@@ -433,9 +432,7 @@ def _convert_data_to_correct_types(
         " types yourself."
     )
 
-    data_qualified_names, data_leafs, data_tree_spec = tree_flatten_with_qualified_name(
-        data
-    )
+    data_dict = tree_to_dict_with_qualified_name(data)
     names_to_functions_dict = tree_to_dict_with_qualified_name(functions_overridden)
 
     types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
@@ -443,7 +440,7 @@ def _convert_data_to_correct_types(
     )
 
     data_with_correct_types = []
-    for column_name, series in zip(data_qualified_names, data_leafs):
+    for column_name, series in data_dict.items():
         # Find out if internal_type is defined
         internal_type = None
         if column_name in types_input_variables_with_qualified_names:
@@ -501,54 +498,6 @@ def _convert_data_to_correct_types(
     return data
 
 
-def _filter_tree_by_name_list(
-    tree: NestedFunctionDict | NestedDataDict,
-    qualified_names_list: list[str],
-) -> tuple[NestedFunctionDict, NestedFunctionDict]:
-    """Filter functions by name.
-
-    Splits the functions tree in two parts: functions whose qualified name is in the
-    qualified_names_list and functions whose qualified name is not in
-    qualified_names_list.
-
-    Parameters
-    ----------
-    tree : NestedFunctionDict | NestedDataDict
-        Dictionary containing functions to build the DAG.
-    qualified_names_list : list[str]
-        List of qualified names.
-
-    Returns
-    -------
-    not_in_names_list : NestedFunctionDict
-        All functions except the ones that are overridden by an input column.
-    in_names_list : NestedFunctionDict
-        Functions that are overridden by an input column.
-
-    """
-    not_in_names_list = {}
-    in_names_list = {}
-
-    paths, leafs, _ = tree_flatten_with_path(tree)
-
-    for name, leaf in zip(paths, leafs):
-        qualified_name = "__".join(name)
-        if qualified_name in qualified_names_list:
-            in_names_list = tree_update(
-                in_names_list,
-                name,
-                leaf,
-            )
-        else:
-            not_in_names_list = tree_update(
-                not_in_names_list,
-                name,
-                leaf,
-            )
-
-    return not_in_names_list, in_names_list
-
-
 def _create_input_data(  # noqa: PLR0913
     processed_functions: NestedFunctionDict,
     data: NestedDataDict,
@@ -593,7 +542,7 @@ def _create_input_data(  # noqa: PLR0913
         check_minimal_specification=check_minimal_specification,
     )
     root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
-    data_cols = tree_flatten_with_qualified_name(data)[0]
+    data_cols = tree_to_dict_with_qualified_name(data).keys()
     _fail_if_root_nodes_are_missing(
         functions=processed_functions,
         root_nodes=root_nodes,
@@ -605,7 +554,7 @@ def _create_input_data(  # noqa: PLR0913
         tree=data,
         qualified_names_list=root_nodes,
     )
-    names_unnecessary_data = tree_flatten_with_qualified_name(unnecessary_data)[0]
+    names_unnecessary_data = tree_to_dict_with_qualified_name(unnecessary_data).keys()
     _warn_or_raise_if_unnecessary_data(
         names_unnecessary_data, check_minimal_specification
     )

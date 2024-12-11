@@ -13,6 +13,7 @@ from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
 
 class KeyErrorMessage(str):
@@ -248,6 +249,54 @@ def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
             result[key] = value
 
     return result
+
+
+def _filter_tree_by_name_list(
+    tree: NestedFunctionDict | NestedDataDict,
+    qualified_names_list: list[str],
+) -> tuple[NestedFunctionDict, NestedFunctionDict]:
+    """Filter a tree by name.
+
+    Splits the functions tree in two parts: functions whose qualified name is in the
+    qualified_names_list and functions whose qualified name is not in
+    qualified_names_list.
+
+    Parameters
+    ----------
+    tree : NestedFunctionDict | NestedDataDict
+        Dictionary containing functions to build the DAG.
+    qualified_names_list : list[str]
+        List of qualified names.
+
+    Returns
+    -------
+    not_in_names_list : NestedFunctionDict
+        All functions except the ones that are overridden by an input column.
+    in_names_list : NestedFunctionDict
+        Functions that are overridden by an input column.
+
+    """
+    not_in_names_list = {}
+    in_names_list = {}
+
+    paths, leafs, _ = tree_flatten_with_path(tree)
+
+    for name, leaf in zip(paths, leafs):
+        qualified_name = "__".join(name)
+        if qualified_name in qualified_names_list:
+            in_names_list = tree_update(
+                in_names_list,
+                name,
+                leaf,
+            )
+        else:
+            not_in_names_list = tree_update(
+                not_in_names_list,
+                name,
+                leaf,
+            )
+
+    return not_in_names_list, in_names_list
 
 
 def format_errors_and_warnings(text, width=79):
