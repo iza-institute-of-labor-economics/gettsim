@@ -57,6 +57,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
     rounding: bool = True,
     debug: bool = False,
+    return_dataframe: bool = False,
 ) -> NestedDataDict:
     """Compute taxes and transfers.
 
@@ -77,10 +78,11 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         Indicator for whether rounding should be applied as specified in the law.
     debug : bool
         The debug mode does the following:
-
         1. All necessary inputs and all computed variables are returned.
         2. If an exception occurs while computing one variable, the exception is
            skipped.
+    return_dataframe : bool
+        Indicator for whether the result should be returned as a DataFrame.
 
     Returns
     -------
@@ -162,7 +164,9 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     results = tax_transfer_function(input_data)
     # Prepare results.
-    prepared_results = _prepare_results(results, data, debug)
+    prepared_results = _prepare_results(
+        results, data, debug, return_dataframe=return_dataframe
+    )
 
     return prepared_results
 
@@ -649,7 +653,7 @@ def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) ->
     }
 
     for name, col in grouped_data_cols.items():
-        group_id_name = f"{name.split('_')[-1]}_id"
+        group_id_name = f"groupings__{name.split('_')[-1]}_id"
 
         try:
             group_id_array = group_ids_in_data[group_id_name]
@@ -1008,17 +1012,24 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
         )
 
 
-def _prepare_results(results, data, debug):
+def _prepare_results(
+    results: NestedDataDict,
+    data: NestedDataDict,
+    debug: bool,
+    return_dataframe: bool = False,
+) -> pd.DataFrame | NestedDataDict:
     """Prepare results after DAG was executed.
 
     Parameters
     ----------
-    results : dict
-        Dictionary of pd.Series with the results.
-    data : dict
-        Dictionary of pd.Series based on the input data provided by the user.
+    results : NestedDataDict
+        Nested dictionary of results.
+    data : NestedDataDict
+        Nested dictionary of data.
     debug : bool
         Indicates debug mode.
+    return_dataframe : bool, default False
+        Indicates whether the results should be returned as a DataFrame.
 
     Returns
     -------
@@ -1027,12 +1038,15 @@ def _prepare_results(results, data, debug):
 
     """
     if debug:
-        results = pd.DataFrame({**data, **results})
+        out = merge_nested_dicts(data, results)
     else:
-        results = pd.DataFrame(results)
-    results = _reorder_columns(results)
+        out = results
 
-    return results
+    if return_dataframe:
+        out = pd.DataFrame(tree_to_dict_with_qualified_name(out))
+        out = _reorder_columns(out)
+
+    return out
 
 
 def _reorder_columns(results):
