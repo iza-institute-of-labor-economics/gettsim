@@ -151,22 +151,48 @@ def test_load_functions_tree_for_date(
     "input_tree, expected",
     [
         (
-            {"module1": {"module2": {"func_name": {"spec": "some_spec"}}}},
-            {"module1__module2": {"func_name": {"spec": "some_spec"}}},
+            {"module1": {"module2": {"func_name": {"source_col": "some_spec"}}}},
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
         ),
         (
             {
-                "module1": {"module2": {"func_name": {"spec": "some_spec"}}},
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
+        ),
+        (
+            {"module1": {"module2": {"func_name": {"p_id_to_aggregate_by": "hh_id"}}}},
+            {
+                "module1__module2": {
+                    "func_name": {"p_id_to_aggregate_by": "groupings__hh_id"}
+                }
+            },
+        ),
+        (
+            {
+                "module1": {"module2": {"func_name": {"source_col": "some_spec"}}},
                 "module3": {
-                    "func_name": {"spec": "some_spec"},
-                    "func_name2": {"spec": "some_spec2"},
+                    "func_name": {"source_col": "some_spec"},
+                    "func_name2": {"source_col": "some_spec2"},
                 },
             },
             {
-                "module1__module2": {"func_name": {"spec": "some_spec"}},
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                },
                 "module3": {
-                    "func_name": {"spec": "some_spec"},
-                    "func_name2": {"spec": "some_spec2"},
+                    "func_name": {"source_col": "module3__some_spec"},
+                    "func_name2": {"source_col": "module3__some_spec2"},
                 },
             },
         ),

@@ -190,13 +190,12 @@ def _create_aggregate_by_group_functions(
             _check_agg_specs_validity(
                 agg_specs=agg_spec, agg_col=func_name, module=module
             )
-            module_path = module.split("__")
             derived_func = _create_one_aggregate_by_group_func(
-                module_path=module_path,
                 new_function_name=func_name,
                 agg_specs=agg_spec,
                 functions_tree=functions_tree,
             )
+            module_path = module.split("__")
             function_path = [*module_path, func_name]
             derived_functions = tree_update(
                 derived_functions, function_path, derived_func
@@ -277,7 +276,6 @@ def _check_agg_specs_validity(agg_specs, agg_col, module):
 def _annotations_for_aggregation(
     aggregation_type: str,
     source_col: str | None,
-    qualified_name_source_col: str | None,
     qualified_names_to_functions_dict: dict[str, PolicyFunction],
 ):
     """Create annotations for derived aggregation functions."""
@@ -292,15 +290,13 @@ def _annotations_for_aggregation(
         annotations["return"] = int
     else:
         if (
-            qualified_name_source_col in qualified_names_to_functions_dict
+            source_col in qualified_names_to_functions_dict
             and "return"
-            in qualified_names_to_functions_dict[
-                qualified_name_source_col
-            ].__annotations__
+            in qualified_names_to_functions_dict[source_col].__annotations__
         ):
             # Find out source col type to infer return type
             annotations[source_col] = qualified_names_to_functions_dict[
-                qualified_name_source_col
+                source_col
             ].__annotations__["return"]
 
             # Find out return type
@@ -337,7 +333,6 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _create_one_aggregate_by_group_func(  # noqa: PLR0912
-    module_path: list[str],
     new_function_name: str,
     agg_specs: dict[str, str],
     functions_tree: NestedFunctionDict,
@@ -346,8 +341,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
     Parameters
     ----------
-    module_path : list
-        List of strings representing the path to the module in the functions tree.
     new_function_name : str
         Name of the new function.
     agg_specs : dict
@@ -364,9 +357,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
     aggregation_type = agg_specs["aggr"]
     source_col = agg_specs["source_col"] if aggregation_type != "count" else None
-    qualified_name_source_col = (
-        "__".join([*module_path, source_col]) if aggregation_type != "count" else None
-    )
 
     # Identify grouping level
     group_id = None
@@ -383,7 +373,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     annotations = _annotations_for_aggregation(
         aggregation_type=aggregation_type,
         source_col=source_col,
-        qualified_name_source_col=qualified_name_source_col,
         qualified_names_to_functions_dict=qualified_names_to_functions_dict,
     )
 
@@ -396,7 +385,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             return grouped_count(group_id)
 
     else:
-        mapper = {"source_col": qualified_name_source_col, "group_id": group_id}
+        mapper = {"source_col": source_col, "group_id": group_id}
         if aggregation_type == "sum":
 
             @rename_arguments_and_add_annotations(
@@ -457,7 +446,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     if aggregation_type == "count":
         derived_from = group_id
     else:
-        derived_from = (qualified_name_source_col, group_id)
+        derived_from = (source_col, group_id)
 
     return DerivedFunction(
         aggregate_by_group_func,
@@ -478,15 +467,16 @@ def _create_aggregate_by_p_id_functions(
 
     for module_name, module_aggregation_dicts in aggregation_dicts.items():
         for func_name, aggregation_dict in module_aggregation_dicts.items():
-            module_path = module_name.split("__")
-            path = [*module_path, func_name]
             derived_func = _create_one_aggregate_by_p_id_func(
-                module_path=module_path,
                 new_function_name=func_name,
                 agg_specs=aggregation_dict,
                 functions_tree=functions_tree,
             )
-            derived_functions = tree_update(derived_functions, path, derived_func)
+            module_path = module_name.split("__")
+            function_path = [*module_path, func_name]
+            derived_functions = tree_update(
+                derived_functions, function_path, derived_func
+            )
 
     return derived_functions
 
@@ -499,25 +489,39 @@ def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str,
 
     Example:
     {"module1": {"module2": {"func": {"source_col": "col", "p_id_to_aggregate_by":
-    "xx_id"}}},
+    "groupings__xx_id"}}},
     Result: {"module1__module2": {"func": {
-    "source_col": "col", "p_id_to_aggregate_by": "xx_id"}}}
+    "source_col": "module1__module2__col", "p_id_to_aggregate_by": "groupings__xx_id"}}}
     """
 
     out = {}
     paths, leafs, _ = tree_flatten_with_path(aggregate_by_p_id_specs)
     for path, leaf in zip(paths, leafs):
-        qualified_name = "__".join(path[:-2])
+        # Qualified name of module
+        module_name = "__".join(path[:-2])
+
+        # Simple name of aggregation target
         aggregation_func_name = path[-2]
+
+        # Key word of the aggregation dict (e.g. "source_col", "aggr",
+        # "p_id_to_aggregate_by", ...)
         aggregation_spec_key = path[-1]
-        keys = [qualified_name, aggregation_func_name, aggregation_spec_key]
-        out = tree_update(out, keys, leaf)
+
+        # Transform source cols and IDs to qualified names if not already done
+        if aggregation_spec_key == "p_id_to_aggregate_by":
+            value = f"groupings__{leaf}" if "__" not in leaf else leaf
+        elif aggregation_spec_key == "source_col":
+            value = f"{module_name}__{leaf}" if "__" not in leaf else leaf
+        else:
+            value = leaf
+
+        keys = [module_name, aggregation_func_name, aggregation_spec_key]
+        out = tree_update(out, keys, value)
 
     return out
 
 
 def _create_one_aggregate_by_p_id_func(
-    module_path: list[str],
     new_function_name: str,
     agg_specs: dict[str, str],
     functions_tree: NestedFunctionDict,
@@ -526,8 +530,6 @@ def _create_one_aggregate_by_p_id_func(
 
     Parameters
     ----------
-    module_path : list
-        List of strings representing the path to the module in the functions tree.
     new_function_name : str
         Name of the new function.
     agg_specs : dict
@@ -545,14 +547,10 @@ def _create_one_aggregate_by_p_id_func(
     aggregation_type = agg_specs["aggr"]
     p_id_to_aggregate_by = agg_specs["p_id_to_aggregate_by"]
     source_col = agg_specs["source_col"] if aggregation_type != "count" else None
-    qualified_name_source_col = (
-        "__".join([*module_path, source_col]) if aggregation_type != "count" else None
-    )
 
     annotations = _annotations_for_aggregation(
         aggregation_type=aggregation_type,
         source_col=source_col,
-        qualified_name_source_col=qualified_name_source_col,
         qualified_names_to_functions_dict=qualified_names_to_functions_dict,
     )
 
@@ -573,7 +571,7 @@ def _create_one_aggregate_by_p_id_func(
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
             "p_id_to_store_by": "groupings__p_id",
-            "column": qualified_name_source_col,
+            "column": source_col,
         }
 
         if aggregation_type == "sum":
@@ -636,7 +634,7 @@ def _create_one_aggregate_by_p_id_func(
     if aggregation_type == "count":
         derived_from = p_id_to_aggregate_by
     else:
-        derived_from = (qualified_name_source_col, p_id_to_aggregate_by)
+        derived_from = (source_col, p_id_to_aggregate_by)
 
     return DerivedFunction(
         aggregate_by_p_id_func,
