@@ -271,14 +271,14 @@ def return_p_id_elternteil(data, n_adults):
         axis=1,
     )
     if n_adults == 2:
-        data["basic_inputs__p_id_elternteil_2"] = data.apply(
-            lambda x: x["basic_inputs__p_id_elternteil_1"] + 1
+        data["groupings__p_id_elternteil_2"] = data.apply(
+            lambda x: x["groupings__p_id_elternteil_1"] + 1
             if x["basic_inputs__kind"]
             else -1,
             axis=1,
         )
     else:
-        data["basic_inputs__p_id_elternteil_2"] = -1
+        data["groupings__p_id_elternteil_2"] = -1
     return data
 
 
