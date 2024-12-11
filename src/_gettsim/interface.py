@@ -42,6 +42,7 @@ from _gettsim.shared import (
     create_dict_from_list,
     format_errors_and_warnings,
     format_list_linewise,
+    get_by_path,
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
     tree_flatten_with_qualified_name,
@@ -188,7 +189,7 @@ def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTar
     all_leafs_str_or_list = all(isinstance(el, str | list) for el in flattened_targets)
 
     if isinstance(targets, list):
-        # Build targets tree from strings
+        # Build targets tree from list of strings
         targets_tree = _build_targets_tree_from_list(targets)
     elif isinstance(targets, dict) and all_leafs_none:
         # Input is already the correct targets tree
@@ -273,6 +274,7 @@ def build_data_tree(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
     _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data)
 
     if isinstance(data, pd.DataFrame):
+        _fail_if_duplicates_in_columns(data)
         data_tree = _build_data_tree_from_df(data)
     else:
         data_tree = _use_correct_series_names(data)
@@ -393,7 +395,6 @@ def _process_and_check_data(data: NestedDataDict | pd.DataFrame) -> NestedDataDi
     data_tree : dict
 
     """
-    _fail_if_duplicates_in_columns(data)
     data_tree = build_data_tree(data)
 
     # Check that group variables are constant within groups
@@ -666,14 +667,13 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
         super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
-def _fail_if_duplicates_in_columns(data: NestedDataDict | pd.DataFrame) -> None:
+def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
     """Check that all column names are unique."""
-    if isinstance(data, pd.DataFrame):
-        if any(data.columns.duplicated()):
-            raise ValueError(
-                "The following columns are non-unique in the input data:\n\n"
-                f"{data.columns[data.columns.duplicated()]}"
-            )
+    if any(data.columns.duplicated()):
+        raise ValueError(
+            "The following columns are non-unique in the input data:\n\n"
+            f"{data.columns[data.columns.duplicated()]}"
+        )
 
 
 def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:
@@ -721,11 +721,10 @@ def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) ->
 
 def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
     """Check that pid is unique."""
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
     try:
-        p_id_col = names_leafs_dict["groupings__p_id"]
+        p_id_col = get_by_path(data, ["groupings", "p_id"])
     except KeyError as e:
-        message = "The input data must contain the column p_id."
+        message = "The input data must contain the p_id."
         raise ValueError(message) from e
 
     # Check for non-unique p_ids
@@ -753,12 +752,10 @@ def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
     They must point to an existing `p_id` in the input data and may not refer to
     the `p_id` of the same row.
     """
-
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
-
-    p_id_col = names_leafs_dict["groupings__p_id"]
+    p_id_col = get_by_path(data, ["groupings", "p_id"])
     valid_ids = set(p_id_col) | {-1}
 
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
     for name, col in names_leafs_dict.items():
         foreign_key_col = any(name.endswith(group) for group in FOREIGN_KEYS)
 
@@ -774,10 +771,11 @@ def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
             raise ValueError(message)
 
         # Referenced `p_id` must not be the same as the `p_id` of the same row
-        if any(i == j for i, j in zip(col, p_id_col)):
+        equal_to_pid_in_same_row = [i for i, j in zip(col, p_id_col) if i == j]
+        if any(equal_to_pid_in_same_row):
             message = f"""
                 The following {name}s are equal to the p_id in the same
-                row: {[i for i, j in zip(col, p_id_col) if i == j]}
+                row: {equal_to_pid_in_same_row}
                 """
             raise ValueError(message)
 
