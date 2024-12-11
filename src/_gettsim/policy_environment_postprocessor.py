@@ -388,8 +388,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     )
 
     if aggregation_type == "count":
-        # TODO(@MImmesberger): Use qualified name of group_id here once namespace
-        # changes
+
         @rename_arguments_and_add_annotations(
             mapper={"group_id": group_id}, annotations=annotations
         )
@@ -397,8 +396,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             return grouped_count(group_id)
 
     else:
-        # TODO(@MImmesberger): Use qualified name of group_id here once namespace
-        # changes
         mapper = {"source_col": qualified_name_source_col, "group_id": group_id}
         if aggregation_type == "sum":
 
@@ -561,12 +558,11 @@ def _create_one_aggregate_by_p_id_func(
 
     # Define aggregation func
     if aggregation_type == "count":
-        # TODO(@MImmesberger): Use qualified name of p_id and p_id_to_aggregate_by here
-        # once namespace changes
+
         @rename_arguments_and_add_annotations(
             mapper={
                 "p_id_to_aggregate_by": p_id_to_aggregate_by,
-                "p_id_to_store_by": "p_id",
+                "p_id_to_store_by": "groupings__p_id",
             },
             annotations=annotations,
         )
@@ -574,11 +570,9 @@ def _create_one_aggregate_by_p_id_func(
             return count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by)
 
     else:
-        # TODO(@MImmesberger): Use qualified name of p_id and p_id_to_aggregate_by here
-        # once namespace changes
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "p_id",
+            "p_id_to_store_by": "groupings__p_id",
             "column": qualified_name_source_col,
         }
 
@@ -639,8 +633,6 @@ def _create_one_aggregate_by_p_id_func(
         else:
             raise ValueError(f"Aggr {aggregation_type} is not implemented.")
 
-    # TODO(@MImmesberger): Use qualified name of p_id_to_aggregate_by here once
-    # namespace changes
     if aggregation_type == "count":
         derived_from = p_id_to_aggregate_by
     else:

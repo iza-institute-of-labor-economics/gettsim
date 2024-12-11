@@ -668,11 +668,12 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
 def _fail_if_duplicates_in_columns(data: NestedDataDict | pd.DataFrame) -> None:
     """Check that all column names are unique."""
-    if any(data.columns.duplicated()) and isinstance(data, pd.DataFrame):
-        raise ValueError(
-            "The following columns are non-unique in the input data:\n\n"
-            f"{data.columns[data.columns.duplicated()]}"
-        )
+    if isinstance(data, pd.DataFrame):
+        if any(data.columns.duplicated()):
+            raise ValueError(
+                "The following columns are non-unique in the input data:\n\n"
+                f"{data.columns[data.columns.duplicated()]}"
+            )
 
 
 def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:

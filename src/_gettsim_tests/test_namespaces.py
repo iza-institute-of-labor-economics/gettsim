@@ -25,16 +25,43 @@ PARAMETERS = {
     },
 }
 
+AGGREGATION_BY_GROUP_SPEC = {
+    "module1": {
+        "group_mean_bg": {
+            "source_col": "f",
+            "aggr": "sum",
+        },
+    },
+}
+
+AGGREGATION_BY_PID_SPEC = {
+    "module2": {
+        "p_id_aggregation_target": {
+            "p_id_to_aggregate_by": "groupings__some_foreign_keys",
+            "source_col": "g_hh",
+            "aggr": "sum",
+        },
+    },
+}
+
 
 def test_compute_taxes_and_transfers_with_tree():
     """Test compute_taxes_and_transfers with function tree input."""
     policy_env = PolicyEnvironment(
         functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,
+        aggregate_by_group_specs=AGGREGATION_BY_GROUP_SPEC,
+        aggregate_by_p_id_specs=AGGREGATION_BY_PID_SPEC,
     )
     targets = {
-        "module1": {"g_hh": None},
-        "module2": {"g_hh": None},
+        "module1": {
+            "g_hh": None,
+            "group_mean_bg": None,
+        },
+        "module2": {
+            "g_hh": None,
+            "p_id_aggregation_target": None,
+        },
     }
     data = {
         "groupings": {  # To set groupings functions off
@@ -46,6 +73,7 @@ def test_compute_taxes_and_transfers_with_tree():
             "wthh_id": pd.Series([0, 1, 2]),
             "sn_id": pd.Series([0, 1, 2]),
             "fg_id": pd.Series([0, 1, 2]),
+            "some_foreign_keys": pd.Series([2, 0, 1]),
         },
         "module1": {
             "f": pd.Series([1, 2, 3]),
