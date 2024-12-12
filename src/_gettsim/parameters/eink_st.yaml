@@ -297,3 +297,13 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 1 EStG
+  eink_st_ohne_kinderfreib_y:
+    2002-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 6 EStG
+  eink_st_mit_kinderfreib_y:
+    2002-01-01:
+      base: 1
+      direction: down
+      reference: § 32a Abs. 1 S. 6 EStG
