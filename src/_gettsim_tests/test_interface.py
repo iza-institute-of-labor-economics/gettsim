@@ -6,6 +6,7 @@ import pytest
 from optree import tree_flatten, tree_paths
 
 from _gettsim.config import FOREIGN_KEYS
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
@@ -58,6 +59,50 @@ func_after_partial = _round_and_partial_parameters_to_functions(
     {"arbeitsl_geld_2": {"test_param_1": 1}},
     rounding=False,
 )["test_func"]
+
+
+def test_output_as_tree(minimal_input_data):
+    environment = PolicyEnvironment(
+        {
+            "module": {
+                "test_func": PolicyFunction(
+                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                )
+            }
+        }
+    )
+    out = compute_taxes_and_transfers(
+        minimal_input_data,
+        environment,
+        targets={"module": {"test_func": None}},
+        return_dataframe=False,
+    )
+
+    assert isinstance(out, dict)
+    assert "test_func" in out["module"]
+    assert isinstance(out["module"]["test_func"], np.ndarray)
+
+
+def test_output_as_dataframe(minimal_input_data):
+    environment = PolicyEnvironment(
+        {
+            "module": {
+                "test_func": PolicyFunction(
+                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                )
+            }
+        }
+    )
+    out = compute_taxes_and_transfers(
+        minimal_input_data,
+        environment,
+        targets="module__test_func",
+        return_dataframe=True,
+    )
+
+    assert isinstance(out, pd.DataFrame)
+    assert "module__test_func" in out.columns
+    assert isinstance(out["module__test_func"], pd.Series)
 
 
 def test_warn_if_functions_and_columns_overlap():
