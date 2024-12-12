@@ -8,6 +8,7 @@ from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.shared import (
     get_path_from_qualified_name,
     tree_update,
@@ -16,7 +17,7 @@ from _gettsim.shared import (
 from .policy_function import PolicyFunction
 
 
-def load_functions_tree_for_date(date: datetime.date) -> dict[str, Any]:
+def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     """
     Load policy functions that are active at a specific date.
 
@@ -84,7 +85,7 @@ def _load_functions(
     return result
 
 
-def _build_functions_tree(functions: list[PolicyFunction]) -> dict[str, PolicyFunction]:
+def _build_functions_tree(functions: list[PolicyFunction]) -> NestedFunctionDict:
     """Build the function tree.
 
     Takes the list of active policy functions and builds a tree using the module names.
