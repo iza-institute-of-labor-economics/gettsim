@@ -11,6 +11,8 @@
   * Standards Track
 - * Created
   * 2022-03-28
+- * Updated
+  * 2024-11-21
 - * Resolution
   * [Accepted](https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs/topic/GEP.2003)
 ```
@@ -167,11 +169,14 @@ These work differently and they are
 - cites the law (Gesetz "G. v."), decree (Verordnung "V. v.") or proclamation
   (Bekanntmachung "B. v.") that changes the law
 - uses German language
-- follows the style `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS].`
+- follows the style
+  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. I S. [SSSS].` for references published
+    until 2022 (the page should be the first page of the law/decree/proclamation, not
+    the exact page of the parameter)
+  - `Artikel [n] [G./V./B.] v. [DD.MM.YYYY] BGBl. [YYYY] I Nr. [NNN].` for references
+    from 2023 on
 - does not add information "geändert durch" (it is always a change) or the date the law
   comes into force (this would just repeat the date key one level above)
-- the page should be the first page of the law/decree/proclamation, not the exact page
-  of the parameter
 
 Example:
 
