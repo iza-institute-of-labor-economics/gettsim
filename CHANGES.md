@@ -6,8 +6,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
-- {gh}`803` Apply correct rounding rules for Ehegattensplitting
-  ({ghuser}`MImmesberger`).
+- {gh}`803` Apply correct rounding rules for Ehegattensplitting and update EStG
+  parameters ({ghuser}`MImmesberger`, `mjbloemer`).
 - {gh}`797` Update infrastructure to use pixi and modern pre-commit hooks
   ({ghuser}`timmens`).
 - {gh}`787` Model classes for policy functions and policy environments
