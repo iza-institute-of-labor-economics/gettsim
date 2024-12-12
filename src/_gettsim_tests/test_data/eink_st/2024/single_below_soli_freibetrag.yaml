@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: https://www.smart-rechner.de/einkommensteuer/rechner.php
+  source: https://www.bmf-steuerrechner.de
 inputs:
   provided:
     p_id:
@@ -23,9 +23,9 @@ inputs:
   assumed: {}
 outputs:
   eink_st_ohne_kinderfreib_y_sn:
-    - 10906.0
+    - 10872.0
   eink_st_mit_kinderfreib_y_sn:
-    - 10906.0
+    - 10872.0
   abgelt_st_y_sn:
     - 0.0
   soli_st_y_sn:

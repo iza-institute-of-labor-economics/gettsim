@@ -15,7 +15,8 @@ aggregate_by_p_id_eink_st = {
 }
 
 
-def eink_st_ohne_kinderfreib_y_sn(
+@policy_info(params_key_for_rounding="eink_st")
+def eink_st_ohne_kinderfreib_y(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
@@ -37,20 +38,26 @@ def eink_st_ohne_kinderfreib_y_sn(
 
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_sn / anz_personen_sn
-    out = anz_personen_sn * _eink_st_tarif(
-        zu_verst_eink_per_indiv, params=eink_st_params
-    )
+    out = _eink_st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
     return out
 
 
-@policy_info(end_date="2001-12-31", name_in_dag="eink_st_mit_kinderfreib_y_sn")
-def eink_st_mit_kinderfreib_y_sn_bis_2001() -> float:
+@policy_info(
+    end_date="2001-12-31",
+    name_in_dag="eink_st_mit_kinderfreib_y",
+    params_key_for_rounding="eink_st",
+)
+def eink_st_mit_kinderfreib_y_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@policy_info(start_date="2002-01-01", name_in_dag="eink_st_mit_kinderfreib_y_sn")
-def eink_st_mit_kinderfreib_y_sn_ab_2002(
+@policy_info(
+    start_date="2002-01-01",
+    name_in_dag="eink_st_mit_kinderfreib_y",
+    params_key_for_rounding="eink_st",
+)
+def eink_st_mit_kinderfreib_y_ab_2002(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
@@ -72,9 +79,7 @@ def eink_st_mit_kinderfreib_y_sn_ab_2002(
 
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_sn / anz_personen_sn
-    out = anz_personen_sn * _eink_st_tarif(
-        zu_verst_eink_per_indiv, params=eink_st_params
-    )
+    out = _eink_st_tarif(zu_verst_eink_per_indiv, params=eink_st_params)
 
     return out
 
