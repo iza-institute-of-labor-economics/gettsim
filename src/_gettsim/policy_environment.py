@@ -22,6 +22,7 @@ from _gettsim.piecewise_functions import (
 )
 from _gettsim.shared import (
     get_by_path,
+    get_path_from_qualified_name,
     merge_nested_dicts,
     set_by_path,
 )
@@ -172,7 +173,7 @@ class PolicyEnvironment:
         ):
             keys = function_path
         elif isinstance(function_path, str):
-            keys = function_path.split("__")
+            keys = get_path_from_qualified_name(function_path)
         else:
             raise NotImplementedError(
                 "The function_path must be a dictionary or a list."

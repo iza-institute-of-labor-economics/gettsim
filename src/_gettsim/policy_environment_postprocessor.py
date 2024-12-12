@@ -33,6 +33,7 @@ from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    get_path_from_qualified_name,
     merge_nested_dicts,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
@@ -183,17 +184,17 @@ def _create_aggregate_by_group_functions(
     )
 
     derived_functions = {}
-    for module, agg_dicts_of_module in full_aggregate_by_group_spec.items():
+    for module_name, agg_dicts_of_module in full_aggregate_by_group_spec.items():
         for func_name, agg_spec in agg_dicts_of_module.items():
             _check_agg_specs_validity(
-                agg_specs=agg_spec, agg_col=func_name, module=module
+                agg_specs=agg_spec, agg_col=func_name, module=module_name
             )
             derived_func = _create_one_aggregate_by_group_func(
                 new_function_name=func_name,
                 agg_specs=agg_spec,
                 functions_tree=functions_tree,
             )
-            module_path = module.split("__")
+            module_path = get_path_from_qualified_name(module_name)
             function_path = [*module_path, func_name]
             derived_functions = tree_update(
                 derived_functions, function_path, derived_func
@@ -243,14 +244,13 @@ def _create_derived_aggregation_specifications(
 
     automated_sum_aggregate_by_group_specs = {}
     for agg_col in automated_sum_aggregate_by_group_cols:
-        path = agg_col.split("__")
+        path = get_path_from_qualified_name(agg_col)
         func_name = path[-1]
-        # Create module name for path in tree; None if func is in main namespace
-        module_name = "__".join(path[:-1]) if len(path) > 1 else None
+        module_name = "__".join(path[:-1])
         update_dict = {"aggr": "sum", "source_col": remove_group_suffix(func_name)}
         automated_sum_aggregate_by_group_specs = tree_update(
             automated_sum_aggregate_by_group_specs,
-            [module_name, func_name] if module_name else [func_name],
+            [module_name, func_name],
             update_dict,
         )
 
@@ -470,7 +470,7 @@ def _create_aggregate_by_p_id_functions(
                 agg_specs=aggregation_dict,
                 functions_tree=functions_tree,
             )
-            module_path = module_name.split("__")
+            module_path = get_path_from_qualified_name(module_name)
             function_path = [*module_path, func_name]
             derived_functions = tree_update(
                 derived_functions, function_path, derived_func

@@ -446,6 +446,10 @@ def set_by_path(data_dict, key_list, value):
     get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
+def get_path_from_qualified_name(qualified_name: str) -> list[str]:
+    return qualified_name.split("__")
+
+
 def tree_to_dict_with_qualified_name(
     tree: dict[str, Any], none_is_leaf: bool = True
 ) -> dict[str, Any]:

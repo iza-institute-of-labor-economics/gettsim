@@ -44,6 +44,7 @@ from _gettsim.shared import (
     format_list_linewise,
     get_by_path,
     get_names_of_arguments_without_defaults,
+    get_path_from_qualified_name,
     merge_nested_dicts,
     tree_to_dict_with_qualified_name,
     tree_update,
@@ -226,7 +227,7 @@ def _build_targets_tree_from_list(targets: list[str]) -> NestedTargetDict:
         Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
 
     """
-    paths = [create_dict_from_list(el.split("__")) for el in targets]
+    paths = [create_dict_from_list(get_path_from_qualified_name(el)) for el in targets]
     targets_tree = reduce(lambda x, y: merge_nested_dicts(x, y), paths, {})
     return targets_tree
 
@@ -301,7 +302,7 @@ def _build_data_tree_from_df(data: pd.DataFrame) -> NestedDataDict:
 
     """
     tree = {}
-    cols_to_paths = [cols.split("__") for cols in data.columns]
+    cols_to_paths = [get_path_from_qualified_name(cols) for cols in data.columns]
     for path, column in zip(cols_to_paths, data.columns):
         series = data[column].copy()
         series.name = path[-1]
