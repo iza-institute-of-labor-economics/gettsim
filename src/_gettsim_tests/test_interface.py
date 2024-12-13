@@ -3,17 +3,23 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
+from optree import tree_flatten, tree_paths
 
 from _gettsim.config import FOREIGN_KEYS
+from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
+    _fail_if_data_not_dict_with_sequence_leafs_or_dataframe,
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
+    _use_correct_series_names,
+    build_data_tree,
+    build_targets_tree,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
@@ -24,22 +30,21 @@ from gettsim import FunctionsAndColumnsOverlapWarning
 @pytest.fixture(scope="module")
 def minimal_input_data():
     n_individuals = 5
-    out = pd.DataFrame(
-        {
-            "p_id": numpy.arange(n_individuals),
-            "hh_id": numpy.arange(n_individuals),
-        },
-        index=numpy.arange(n_individuals),
-    )
+    out = {
+        "groupings": {
+            "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
+            "hh_id": pd.Series(numpy.arange(n_individuals), name="hh_id"),
+        }
+    }
     return out
 
 
-@pytest.fixture
-def input_data_aggregate_by_p_id():
+@pytest.fixture(scope="module")
+def minimal_input_data_as_df():
     return pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "groupings__p_id": pd.Series([1, 2, 3], name="p_id"),
+            "groupings__hh_id": pd.Series([1, 1, 2], name="hh_id"),
         }
     )
 
@@ -56,11 +61,57 @@ func_after_partial = _round_and_partial_parameters_to_functions(
 )["test_func"]
 
 
+def test_output_as_tree(minimal_input_data):
+    environment = PolicyEnvironment(
+        {
+            "module": {
+                "test_func": PolicyFunction(
+                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                )
+            }
+        }
+    )
+    out = compute_taxes_and_transfers(
+        minimal_input_data,
+        environment,
+        targets={"module": {"test_func": None}},
+        return_dataframe=False,
+    )
+
+    assert isinstance(out, dict)
+    assert "test_func" in out["module"]
+    assert isinstance(out["module"]["test_func"], np.ndarray)
+
+
+def test_output_as_dataframe(minimal_input_data):
+    environment = PolicyEnvironment(
+        {
+            "module": {
+                "test_func": PolicyFunction(
+                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                )
+            }
+        }
+    )
+    out = compute_taxes_and_transfers(
+        minimal_input_data,
+        environment,
+        targets="module__test_func",
+        return_dataframe=True,
+    )
+
+    assert isinstance(out, pd.DataFrame)
+    assert "module__test_func" in out.columns
+    assert isinstance(out["module__test_func"], pd.Series)
+
+
 def test_warn_if_functions_and_columns_overlap():
-    environment = PolicyEnvironment([PolicyFunction(lambda x: x, function_name="dupl")])
+    environment = PolicyEnvironment(
+        {"dupl": PolicyFunction(lambda x: x, function_name="dupl")}
+    )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
-            data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
+            data=pd.DataFrame({"groupings__p_id": [0], "dupl": [1]}),
             environment=environment,
             targets=[],
         )
@@ -68,25 +119,27 @@ def test_warn_if_functions_and_columns_overlap():
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     environment = PolicyEnvironment(
-        [PolicyFunction(lambda x: x, function_name="some_func")]
+        {"some_func": PolicyFunction(lambda x: x, function_name="some_func")}
     )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data=pd.DataFrame({"p_id": [0]}),
+            data=pd.DataFrame({"groupings__p_id": [0]}),
             environment=environment,
             targets=[],
         )
 
 
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
-    environment = PolicyEnvironment([PolicyFunction(lambda x: x, function_name="dupl")])
+    environment = PolicyEnvironment(
+        {"dupl": PolicyFunction(lambda x: x, function_name="dupl")}
+    )
     with warnings.catch_warnings(
         category=FunctionsAndColumnsOverlapWarning, record=True
     ) as warning_list:
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
+            data=pd.DataFrame({"groupings__p_id": [0], "dupl": [1]}),
             environment=environment,
             targets=[],
         )
@@ -95,14 +148,14 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
 
 
 def test_fail_if_pid_does_not_exist():
-    data = pd.Series(data=numpy.arange(8), name="hh_id").to_frame()
+    data = {"groupings__hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = pd.Series(data=numpy.arange(4).repeat(2), name="p_id").to_frame()
+    data = {"groupings__p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -110,12 +163,12 @@ def test_fail_if_pid_is_non_unique():
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [0, 1, 4],
-        }
-    )
+    data = {
+        "groupings": {
+            "p_id": pd.Series([1, 2, 3], name="p_id"),
+            foreign_key: pd.Series([0, 1, 4], name=foreign_key),
+        },
+    }
 
     with pytest.raises(ValueError, match="not a valid p_id"):
         _fail_if_foreign_keys_are_invalid(data)
@@ -123,38 +176,41 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_allow_minus_one_as_foreign_key(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [-1, 1, 2],
-        }
-    )
+    data = {
+        "groupings": {
+            "p_id": pd.Series([1, 2, 3], name="p_id"),
+            foreign_key: pd.Series([-1, 1, 2], name=foreign_key),
+        },
+    }
 
     _fail_if_foreign_keys_are_invalid(data)
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
-    data = pd.DataFrame(
-        {
-            "p_id": [1, 2, 3],
-            foreign_key: [1, 3, 3],
-        }
-    )
+    data = {
+        "groupings": {
+            "p_id": pd.Series([1, 2, 3], name="p_id"),
+            foreign_key: pd.Series([1, 3, 3], name=foreign_key),
+        },
+    }
 
-    with pytest.raises(ValueError, match="are equal to the p_id in the same row"):
+    with pytest.raises(ValueError, match="are equal to the p_id in the same"):
         _fail_if_foreign_keys_are_invalid(data)
 
 
-def test_fail_if_group_variables_not_constant_within_groups():
-    data = pd.DataFrame(
+@pytest.mark.parametrize(
+    "data",
+    [
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m_hh": [100, 200, 300],
-        }
-    )
-
+            "foo_hh": pd.Series([1, 2, 2], name="foo_hh"),
+            "groupings": {
+                "hh_id": pd.Series([1, 1, 2], name="hh_id"),
+            },
+        },
+    ],
+)
+def test_fail_if_group_variables_not_constant_within_groups(data):
     with pytest.raises(ValueError):
         _fail_if_group_variables_not_constant_within_groups(data)
 
@@ -166,7 +222,7 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
     def c(b):
         return b
 
-    environment = PolicyEnvironment([PolicyFunction(b), PolicyFunction(c)])
+    environment = PolicyEnvironment({"b": PolicyFunction(b), "c": PolicyFunction(c)})
 
     with pytest.raises(
         ValueError,
@@ -175,28 +231,25 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         compute_taxes_and_transfers(minimal_input_data, environment, targets="c")
 
 
-def test_data_as_series():
-    def c(p_id):
-        return p_id
-
-    data = pd.Series([1, 2, 3])
-    data.name = "p_id"
-
-    environment = PolicyEnvironment([c])
-    compute_taxes_and_transfers(data, environment, targets="c")
-
-
-def test_data_as_dict():
+def test_data_as_dict(minimal_input_data):
     def c(b):
         return b
 
-    data = {
-        "p_id": pd.Series([1, 2, 3]),
-        "hh_id": pd.Series([1, 1, 2]),
-        "b": pd.Series([100, 200, 300]),
-    }
+    data = minimal_input_data.copy()
+    data["b"] = pd.Series([1, 2, 3], name="b")
 
-    environment = PolicyEnvironment([c])
+    environment = PolicyEnvironment({"c": c})
+    compute_taxes_and_transfers(data, environment, targets="c")
+
+
+def test_data_as_df(minimal_input_data_as_df):
+    def c(b):
+        return b
+
+    data = minimal_input_data_as_df.copy()
+    data["b"] = pd.Series([1, 2, 3], name="b")
+
+    environment = PolicyEnvironment({"c": c})
     compute_taxes_and_transfers(data, environment, targets="c")
 
 
@@ -206,13 +259,10 @@ def test_wrong_data_type():
 
     data = "not_a_data_object"
     with pytest.raises(
-        NotImplementedError,
-        match=(
-            "'data' is not a pd.DataFrame or a "
-            "pd.Series or a dictionary of pd.Series."
-        ),
+        TypeError,
+        match=("Data must be provided as a tree with sequence leaves"),
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), ["c"])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), ["c"])
 
 
 def test_check_minimal_spec_data():
@@ -221,13 +271,13 @@ def test_check_minimal_spec_data():
 
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
     )
-    environment = PolicyEnvironment([c])
+    environment = PolicyEnvironment({"c": c})
     with pytest.raises(
         ValueError,
         match="The following columns in 'data' are unused",
@@ -243,13 +293,13 @@ def test_check_minimal_spec_data_warn():
 
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
     )
-    environment = PolicyEnvironment([c])
+    environment = PolicyEnvironment({"c": c})
     with pytest.warns(
         UserWarning,
         match="The following columns in 'data' are unused",
@@ -268,13 +318,13 @@ def test_check_minimal_spec_columns_overriding():
 
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
     )
-    environment = PolicyEnvironment([b, c])
+    environment = PolicyEnvironment({"b": b, "c": c})
     with pytest.raises(
         ValueError,
         match="The following 'columns_overriding_functions' are unused",
@@ -293,13 +343,13 @@ def test_check_minimal_spec_columns_overriding_warn():
 
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
             "a": [100, 200, 300],
             "b": [1, 2, 3],
         }
     )
-    environment = PolicyEnvironment([b, c])
+    environment = PolicyEnvironment({"b": b, "c": c})
     with pytest.warns(
         UserWarning,
         match="The following 'columns_overriding_functions' are unused",
@@ -311,19 +361,19 @@ def test_check_minimal_spec_columns_overriding_warn():
 
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     def a():
-        return pd.Series(range(minimal_input_data.shape[0]))
+        return pd.Series(range(minimal_input_data["groupings"]["p_id"].size))
 
     def b(a):
         return a
 
-    environment = PolicyEnvironment([a, b])
+    environment = PolicyEnvironment({"a": a, "b": b})
     compute_taxes_and_transfers(minimal_input_data, environment, targets="b")
 
 
 def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
     minimal_input_data,
 ):
-    environment = PolicyEnvironment([])
+    environment = PolicyEnvironment({})
 
     with pytest.raises(
         ValueError,
@@ -334,35 +384,38 @@ def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions
         )
 
 
-def test_fail_if_missing_pid(minimal_input_data):
-    data = minimal_input_data.drop("p_id", axis=1).copy()
+def test_fail_if_missing_pid():
+    data = {"groupings": {"hh_id": pd.Series([1, 2, 3], name="hh_id")}}
     with pytest.raises(
         ValueError,
-        match="The input data must contain the column p_id",
+        match="The input data must contain the p_id",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
 
 
 def test_fail_if_non_unique_pid(minimal_input_data):
     data = minimal_input_data.copy()
-    data["p_id"] = 1
+    data["groupings"]["p_id"][:] = 1
 
     with pytest.raises(
         ValueError,
         match="The following p_ids are non-unique",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
 
 
-def test_fail_if_non_unique_cols(minimal_input_data):
-    data = minimal_input_data.copy()
-    data["temp"] = data["hh_id"]
-    data = data.rename(columns={"temp": "hh_id"})
+def test_fail_if_non_unique_cols():
+    data = pd.DataFrame(
+        {
+            "groupings__p_id": pd.Series([1, 2, 3], name="p_id"),
+        }
+    )
+    data = pd.concat([data, data], axis=1)
     with pytest.raises(
         ValueError,
         match="The following columns are non-unique",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
 
 
 def test_consecutive_internal_test_runs():
@@ -410,76 +463,106 @@ def test_partial_parameters_to_functions_keep_decorator():
 def test_user_provided_aggregate_by_group_specs():
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m": [100, 100, 100],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
+            "module_name__betrag_m": [100, 100, 100],
         }
     )
     aggregate_by_group_specs = {
-        "arbeitsl_geld_2_m_hh": {
-            "source_col": "arbeitsl_geld_2_m",
-            "aggr": "sum",
+        "module_name": {
+            "betrag_m_hh": {
+                "source_col": "betrag_m",
+                "aggr": "sum",
+            }
         }
     }
     expected_res = pd.Series([200, 200, 100])
 
     out = compute_taxes_and_transfers(
         data,
-        PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
-        targets="arbeitsl_geld_2_m_hh",
+        PolicyEnvironment({}, aggregate_by_group_specs=aggregate_by_group_specs),
+        targets="module_name__betrag_m_hh",
+        return_dataframe=True,
     )
 
-    numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
+    numpy.testing.assert_array_almost_equal(
+        out["module_name__betrag_m_hh"], expected_res
+    )
 
 
-def test_user_provided_aggregate_by_group_specs_function():
+@pytest.mark.parametrize(
+    "aggregate_by_group_specs",
+    [
+        {
+            "module_name": {
+                "betrag_double_m_hh": {
+                    "source_col": "betrag_m_double",
+                    "aggr": "max",
+                },
+            },
+        },
+        {
+            "module_name": {
+                "betrag_double_m_hh": {
+                    "source_col": "module_name__betrag_m_double",
+                    "aggr": "max",
+                },
+            },
+        },
+    ],
+)
+def test_user_provided_aggregate_by_group_specs_function(aggregate_by_group_specs):
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m": [200, 100, 100],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
+            "module_name__betrag_m": [200, 100, 100],
         }
     )
-    aggregate_by_group_specs = {
-        "arbeitsl_geld_2_double_m_hh": {
-            "source_col": "arbeitsl_geld_2_m_double",
-            "aggr": "max",
-        }
-    }
     expected_res = pd.Series([400, 400, 200])
 
-    def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
-        return 2 * arbeitsl_geld_2_m
+    def betrag_m_double(betrag_m):
+        return 2 * betrag_m
 
     environment = PolicyEnvironment(
-        [arbeitsl_geld_2_m_double],
+        {
+            "module_name": {
+                "betrag_m_double": PolicyFunction(
+                    betrag_m_double,
+                    function_name="betrag_m_double",
+                )
+            },
+        },
         aggregate_by_group_specs=aggregate_by_group_specs,
     )
 
     out = compute_taxes_and_transfers(
         data,
         environment,
-        targets="arbeitsl_geld_2_double_m_hh",
+        targets="module_name__betrag_double_m_hh",
+        return_dataframe=True,
     )
 
     numpy.testing.assert_array_almost_equal(
-        out["arbeitsl_geld_2_double_m_hh"], expected_res
+        out["module_name__betrag_double_m_hh"], expected_res
     )
 
 
 def test_aggregate_by_group_specs_missing_group_sufix():
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m": [100, 100, 100],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
+            "module_name__betrag_m": [100, 100, 100],
         }
     )
     aggregate_by_group_specs = {
-        "arbeitsl_geld_2_agg_m": {
-            "source_col": "arbeitsl_geld_2_m",
-            "aggr": "sum",
-        }
+        "module_name": {
+            "betrag_agg_m": {
+                "source_col": "betrag_m",
+                "aggr": "sum",
+            }
+        },
     }
     with pytest.raises(
         ValueError,
@@ -487,24 +570,26 @@ def test_aggregate_by_group_specs_missing_group_sufix():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
-            targets="arbeitsl_geld_2_agg_m",
+            PolicyEnvironment({}, aggregate_by_group_specs=aggregate_by_group_specs),
+            targets="betrag_agg_m",
         )
 
 
 def test_aggregate_by_group_specs_agg_not_impl():
     data = pd.DataFrame(
         {
-            "p_id": [1, 2, 3],
-            "hh_id": [1, 1, 2],
-            "arbeitsl_geld_2_m": [100, 100, 100],
+            "groupings__p_id": [1, 2, 3],
+            "groupings__hh_id": [1, 1, 2],
+            "module_name__betrag_m": [100, 100, 100],
         }
     )
     aggregate_by_group_specs = {
-        "arbeitsl_geld_2_m_hh": {
-            "source_col": "arbeitsl_geld_2_m",
-            "aggr": "aggr_not_implemented",
-        }
+        "module_name": {
+            "betrag_m_hh": {
+                "source_col": "betrag_m",
+                "aggr": "aggr_not_implemented",
+            }
+        },
     }
     with pytest.raises(
         ValueError,
@@ -512,8 +597,8 @@ def test_aggregate_by_group_specs_agg_not_impl():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
-            targets="arbeitsl_geld_2_m_hh",
+            PolicyEnvironment({}, aggregate_by_group_specs=aggregate_by_group_specs),
+            targets="module_name__betrag_m_hh",
         )
 
 
@@ -521,42 +606,48 @@ def test_aggregate_by_group_specs_agg_not_impl():
     ("df, aggregate_by_p_id_spec, target, expected"),
     [
         (
-            "input_data_aggregate_by_p_id",
+            "minimal_input_data_as_df",
             {
-                "target_func": {
-                    "p_id_to_aggregate_by": "hh_id",
-                    "source_col": "source_func",
-                    "aggr": "sum",
-                    "func_return": 100,
+                "module": {
+                    "target_func": {
+                        "p_id_to_aggregate_by": "groupings__hh_id",
+                        "source_col": "source_func",
+                        "aggr": "sum",
+                        "func_return": 100,
+                    }
                 }
             },
-            "target_func",
+            "module__target_func",
             pd.Series([200, 100, 0]),
         ),
         (
-            "input_data_aggregate_by_p_id",
+            "minimal_input_data_as_df",
             {
-                "target_func_m": {
-                    "p_id_to_aggregate_by": "hh_id",
-                    "source_col": "source_func_m",
-                    "aggr": "sum",
-                    "func_return": 100,
+                "module": {
+                    "target_func_m": {
+                        "p_id_to_aggregate_by": "groupings__hh_id",
+                        "source_col": "source_func_m",
+                        "aggr": "sum",
+                        "func_return": 100,
+                    }
                 }
             },
-            "target_func_y",
+            "module__target_func_y",
             pd.Series([2400, 1200, 0]),
         ),
         (
-            "input_data_aggregate_by_p_id",
+            "minimal_input_data_as_df",
             {
-                "target_func_m": {
-                    "p_id_to_aggregate_by": "hh_id",
-                    "source_col": "source_func_m",
-                    "aggr": "sum",
-                    "func_return": 100,
+                "module": {
+                    "target_func_m": {
+                        "p_id_to_aggregate_by": "groupings__hh_id",
+                        "source_col": "source_func_m",
+                        "aggr": "sum",
+                        "func_return": 100,
+                    }
                 }
             },
-            "target_func_y_hh",
+            "module__target_func_y_hh",
             pd.Series([3600, 3600, 0]),
         ),
     ],
@@ -566,29 +657,36 @@ def test_user_provided_aggregate_by_p_id_specs(
 ):
     df = request.getfixturevalue(df)
 
-    target_aggregate_by_p_id_spec = next(iter(aggregate_by_p_id_spec.keys()))
+    target_aggregate_by_p_id_spec = next(iter(aggregate_by_p_id_spec["module"].keys()))
 
     def source_func():
         return numpy.array(
-            [aggregate_by_p_id_spec[target_aggregate_by_p_id_spec]["func_return"]]
+            [
+                aggregate_by_p_id_spec["module"][target_aggregate_by_p_id_spec][
+                    "func_return"
+                ]
+            ]
             * len(df)
         )
 
+    name_source_col = aggregate_by_p_id_spec["module"][target_aggregate_by_p_id_spec][
+        "source_col"
+    ]
     environment = PolicyEnvironment(
-        [
-            PolicyFunction(
-                source_func,
-                function_name=aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
-                    "source_col"
-                ],
-            ),
-        ],
+        {
+            "module": {
+                name_source_col: PolicyFunction(
+                    source_func,
+                ),
+            },
+        },
         aggregate_by_p_id_specs=aggregate_by_p_id_spec,
     )
     out = compute_taxes_and_transfers(
         df,
         environment,
         targets=target,
+        return_dataframe=True,
     )
 
     numpy.testing.assert_array_almost_equal(out[target], expected)
@@ -700,14 +798,31 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 
 
 @pytest.mark.parametrize(
+    "type_error_obj",
+    [
+        1,
+        "a",
+        {"a": 1},
+        {"a": "b"},
+    ],
+)
+def test_fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj):
+    with pytest.raises(
+        TypeError,
+        match="Data must be provided as a tree with sequence",
+    ):
+        _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj)
+
+
+@pytest.mark.parametrize(
     "data, functions_overridden",
     [
         (
-            pd.DataFrame({"bg_id": [1, 2, 3]}),
+            {"bg_id": pd.Series([1, 2, 3])},
             {"bg_id": bg_id_numpy},
         ),
         (
-            pd.DataFrame({"wthh_id": [1, 2, 3]}),
+            {"wthh_id": pd.Series([1, 2, 3])},
             {"wthh_id": wthh_id_numpy},
         ),
     ],
@@ -722,44 +837,51 @@ def test_provide_endogenous_groupings(data, functions_overridden):
     "data, functions_overridden, error_match",
     [
         (
-            pd.DataFrame({"hh_id": [1, 1.1, 2]}),
+            {"groupings__hh_id": pd.Series([1, 1.1, 2])},
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - hh_id: Conversion from input type float64 to int failed."
+            "\n - groupings__hh_id: Conversion from input type float64 to int failed."
             " This conversion is only supported if all decimal places of input"
             " data are equal to 0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": [1.1, 0.0, 1.0]}),
+            {"basic_inputs__wohnort_ost": pd.Series([1.1, 0.0, 1.0])},
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - wohnort_ost: Conversion from input type float64 to bool failed."
-            " This conversion is only supported if input data exclusively contains"
-            " the values 1.0 and 0.0.",
+            "\n - basic_inputs__wohnort_ost: Conversion from input type float64 to bool"
+            " failed. This conversion is only supported if input data exclusively "
+            "contains the values 1.0 and 0.0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": [2, 0, 1], "hh_id": [1.0, 2.0, 3.0]}),
+            {
+                "basic_inputs__wohnort_ost": pd.Series([2, 0, 1]),
+                "groupings__hh_id": pd.Series([1.0, 2.0, 3.0]),
+            },
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - wohnort_ost: Conversion from input type int64 to bool failed."
-            " This conversion is only supported if input data exclusively contains"
-            " the values 1 and 0.",
+            "\n - basic_inputs__wohnort_ost: Conversion from input type int64 to bool "
+            "failed. This conversion is only supported if input data exclusively "
+            "contains the values 1 and 0.",
         ),
         (
-            pd.DataFrame({"wohnort_ost": ["True", "False"]}),
+            {"basic_inputs__wohnort_ost": pd.Series(["True", "False"])},
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - wohnort_ost: Conversion from input type object to bool failed."
-            " Object type is not supported as input.",
+            "\n - basic_inputs__wohnort_ost: Conversion from input type object to bool "
+            "failed. Object type is not supported as input.",
         ),
         (
-            pd.DataFrame({"hh_id": [1, "1", 2], "bruttolohn_m": ["2000", 3000, 4000]}),
+            {
+                "groupings__hh_id": pd.Series([1, "1", 2]),
+                "basic_inputs__bruttolohn_m": pd.Series(["2000", 3000, 4000]),
+            },
             {},
             "The data types of the following columns are invalid: \n"
-            "\n - hh_id: Conversion from input type object to int failed. "
-            "Object type is not supported as input."
-            "\n - bruttolohn_m: Conversion from input type object to float failed."
-            " Object type is not supported as input.",
+            "\n - basic_inputs__bruttolohn_m: Conversion from input type object to"
+            " float failed."
+            " Object type is not supported as input."
+            "\n - groupings__hh_id: Conversion from input type object to int failed. "
+            "Object type is not supported as input.",
         ),
     ],
 )
@@ -768,3 +890,45 @@ def test_fail_if_cannot_be_converted_to_correct_type(
 ):
     with pytest.raises(ValueError, match=error_match):
         _convert_data_to_correct_types(data, functions_overridden)
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        ("a", {"a": None}),
+        ("a__b", {"a": {"b": None}}),
+        (["a", "b"], {"a": None, "b": None}),
+        (["a__b", "c__d"], {"a": {"b": None}, "c": {"d": None}}),
+        (["a__b", "a__c"], {"a": {"b": None, "c": None}}),
+        ({"a": {"b": None}}, {"a": {"b": None}}),
+    ],
+)
+def test_build_targets_tree(input_object, expected_output):
+    assert build_targets_tree(input_object) == expected_output
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        (pd.DataFrame({"a": [1, 2, 3]}), {"a": pd.Series([1, 2, 3])}),
+        (pd.DataFrame({"a__b": [1, 2, 3]}), {"a": {"b": pd.Series([1, 2, 3])}}),
+        ({"a": pd.Series([1, 2, 3])}, {"a": pd.Series([1, 2, 3])}),
+    ],
+)
+def test_build_data_tree(input_object, expected_output):
+    assert tree_paths(build_data_tree(input_object)) == tree_paths(expected_output)
+
+
+@pytest.mark.parametrize(
+    "input_object, expected_output",
+    [
+        ({"a": pd.Series([1, 2, 3])}, ["a"]),
+        ({"a": {"b": pd.Series([1, 2, 3])}}, ["b"]),
+        ({"a": pd.Series([1, 2, 3], name="c"), "b": pd.Series([1, 2, 3])}, ["a", "b"]),
+    ],
+)
+def test_use_correct_series_names(input_object, expected_output):
+    result = [
+        sr.name for sr in tree_flatten(_use_correct_series_names(input_object))[0]
+    ]
+    assert result == expected_output

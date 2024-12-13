@@ -69,8 +69,11 @@ To contribute to the project, adhere to the following process.
   they pass our test suite which can be started with the following command.
 
   ```shell-session
-  $ pixi run pytest
+  $ pixi run tests
   ```
+
+  which will prompt you to choose a python version to run the tests with. You may choose
+  the most recent one; both will be checked in our CI testing.
 
   Sometimes you want to push changes even if the tests fail because you need feedback.
   Then, skip this step.

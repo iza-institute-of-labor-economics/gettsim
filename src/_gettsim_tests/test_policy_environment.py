@@ -4,57 +4,59 @@ from datetime import date, timedelta
 
 import pandas as pd
 import pytest
+from optree import tree_flatten, tree_map_with_path
 
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
     PolicyEnvironment,
+    _convert_function_to_correct_type,
     _load_parameter_group_from_yaml,
-    load_functions_for_date,
+    load_functions_tree_for_date,
     set_up_policy_environment,
+)
+from _gettsim.policy_environment_postprocessor import _get_aggregation_dicts
+from _gettsim.shared import (
+    tree_to_dict_with_qualified_name,
 )
 from _gettsim_tests import TEST_DIR
 
 
 class TestPolicyEnvironment:
-    def test_get_function_by_name_exists(self):
-        function = PolicyFunction(lambda: 1, function_name="foo")
-        environment = PolicyEnvironment([function])
+    def test_get_function_by_path_exists(self):
+        function = PolicyFunction(lambda: 1)
+        environment = PolicyEnvironment({"foo": function})
 
-        assert environment.get_function_by_name("foo") == function
+        assert environment.get_function_by_path(["foo"]) == function
 
-    def test_get_function_by_name_does_not_exist(self):
-        environment = PolicyEnvironment([], {})
+    def test_get_function_by_path_does_not_exist(self):
+        environment = PolicyEnvironment({}, {})
 
-        assert environment.get_function_by_name("foo") is None
+        assert environment.get_function_by_path(["foo"]) is None
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({"foo": PolicyFunction(lambda: 1)}),
             PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                ]
-            ),
-            PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                    PolicyFunction(lambda: 2, function_name="bar"),
-                ]
+                {
+                    "foo": PolicyFunction(lambda: 1),
+                    "bar": PolicyFunction(lambda: 2),
+                }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3, function_name="foo")
-        new_environment = environment.upsert_functions(new_function)
+        new_function = PolicyFunction(lambda: 3)
+        new_environment = environment.upsert_functions({"foo": new_function})
 
-        assert new_environment.get_function_by_name("foo") == new_function
+        assert new_environment.get_function_by_path(["foo"]) == new_function
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
-            PolicyEnvironment([], {"foo": {"bar": 1}}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({}, {"foo": {"bar": 1}}),
         ],
     )
     def test_replace_all_parameters(self, environment: PolicyEnvironment):
@@ -106,41 +108,130 @@ def test_access_different_date_jahresanfang():
 
 
 @pytest.mark.parametrize(
-    "dag_key, last_day, function_name_last_day, function_name_next_day",
+    "qualified_name, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            "eink_st_altersfreib_y",
+            "zu_verst_eink__freibetraege__eink_st_altersfreib_y",
             date(2004, 12, 31),
             "eink_st_altersfreib_y_bis_2004",
             "eink_st_altersfreib_y_ab_2005",
         ),
         (
-            "alleinerz_freib_y_sn",
+            "zu_verst_eink__freibetraege__alleinerz_freib_y_sn",
             date(2014, 12, 31),
             "eink_st_alleinerz_freib_y_sn_pauschal",
             "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
         ),
         (
-            "sum_eink_y",
+            "zu_verst_eink__eink__sum_eink_y",
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",
         ),
     ],
 )
-def test_load_functions_for_date(
-    dag_key: str,
+def test_load_functions_tree_for_date(
+    qualified_name: str,
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = {
-        f.name_in_dag: f.function for f in load_functions_for_date(date=last_day)
-    }
-    functions_next_day = {
-        f.name_in_dag: f.function
-        for f in load_functions_for_date(date=last_day + timedelta(days=1))
-    }
+    functions_last_day = tree_to_dict_with_qualified_name(
+        load_functions_tree_for_date(date=last_day)
+    )
+    functions_next_day = tree_to_dict_with_qualified_name(
+        load_functions_tree_for_date(date=last_day + timedelta(days=1))
+    )
 
-    assert functions_last_day[dag_key].__name__ == function_name_last_day
-    assert functions_next_day[dag_key].__name__ == function_name_next_day
+    assert functions_last_day[qualified_name].__name__ == function_name_last_day
+    assert functions_next_day[qualified_name].__name__ == function_name_next_day
+
+
+@pytest.mark.parametrize(
+    "input_tree, expected",
+    [
+        (
+            {"module1": {"module2": {"func_name": {"source_col": "some_spec"}}}},
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
+        ),
+        (
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                }
+            },
+        ),
+        (
+            {"module1": {"module2": {"func_name": {"p_id_to_aggregate_by": "hh_id"}}}},
+            {
+                "module1__module2": {
+                    "func_name": {"p_id_to_aggregate_by": "groupings__hh_id"}
+                }
+            },
+        ),
+        (
+            {
+                "module1": {"module2": {"func_name": {"source_col": "some_spec"}}},
+                "module3": {
+                    "func_name": {"source_col": "some_spec"},
+                    "func_name2": {"source_col": "some_spec2"},
+                },
+            },
+            {
+                "module1__module2": {
+                    "func_name": {"source_col": "module1__module2__some_spec"}
+                },
+                "module3": {
+                    "func_name": {"source_col": "module3__some_spec"},
+                    "func_name2": {"source_col": "module3__some_spec2"},
+                },
+            },
+        ),
+    ],
+)
+def test_get_aggregation_dicts(input_tree, expected):
+    assert _get_aggregation_dicts(input_tree) == expected
+
+
+@pytest.mark.parametrize(
+    "tree, expected_module_name",
+    [
+        (
+            {
+                "module1": {
+                    "f": PolicyFunction(
+                        lambda: 1,
+                        module_name="module1",
+                    )
+                }
+            },
+            "module1",
+        ),
+        (
+            {
+                "module1": {
+                    "f": lambda: 1,
+                }
+            },
+            "module1",
+        ),
+    ],
+)
+def test_convert_function_to_correct_type(tree, expected_module_name):
+    funcs_with_correct_type = tree_map_with_path(
+        _convert_function_to_correct_type,
+        tree,
+    )
+    func_list, _ = tree_flatten(funcs_with_correct_type)
+    for func in func_list:
+        assert func.module_name == expected_module_name
+        assert isinstance(func, PolicyFunction)
