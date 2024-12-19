@@ -29,7 +29,7 @@ aggregate_by_p_id_wohngeld = {
 }
 
 
-def wohngeld_m_wthh(
+def betrag_m_wthh(
     wohngeld_anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     wohngeld_kinderzuschl_vorrang_wthh: bool,
