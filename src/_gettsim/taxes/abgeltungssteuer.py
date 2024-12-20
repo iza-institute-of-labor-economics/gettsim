@@ -1,9 +1,11 @@
+"""Taxes on capital income (Abgeltungssteuer)."""
+
 from _gettsim.shared import policy_info
 
 
 @policy_info(start_date="2009-01-01")
 def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
-    """Calculate abgeltungssteuer on Steuernummer level.
+    """Calculate Abgeltungssteuer on Steuernummer level.
 
     Parameters
     ----------
@@ -24,7 +26,7 @@ def zu_verst_kapitaleink_y_sn(
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Calculate taxable income on Steuernummer level.
+    """Calculate taxable capital income on Steuernummer level.
 
     Parameters
     ----------

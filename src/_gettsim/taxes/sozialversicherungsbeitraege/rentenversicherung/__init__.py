@@ -1,3 +1,5 @@
+"""Public pension insurance contributions."""
+
 from _gettsim.shared import policy_info
 
 
@@ -167,6 +169,50 @@ def ges_rentenv_beitr_arbeitgeber_m_mit_midijob(
     return out
 
 
+def _ges_rentenv_beitr_bruttolohn_m(
+    bruttolohn_m: float,
+    _ges_rentenv_beitr_bemess_grenze_m: float,
+) -> float:
+    """Wage subject to pension and unemployment insurance contributions.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+    _ges_rentenv_beitr_bemess_grenze_m
+        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
+
+
+    Returns
+    -------
+
+    """
+    out = min(bruttolohn_m, _ges_rentenv_beitr_bemess_grenze_m)
+    return out
+
+
+def _ges_rentenv_beitr_bemess_grenze_m(
+    wohnort_ost: bool, sozialv_beitr_params: dict
+) -> float:
+    """Income threshold up to which pension insurance payments apply.
+
+    Parameters
+    ----------
+    wohnort_ost
+        See :func:`wohnort_ost`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+
+    """
+    params = sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]
+    out = params["ost"] if wohnort_ost else params["west"]
+
+    return float(out)
+
+
 @policy_info(start_date="2003-04-01")
 def _ges_rentenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     midijob_bemessungsentgelt_m: float,
@@ -299,25 +345,3 @@ def _ges_rentenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
         * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
     return an_beitr_midijob
-
-
-def _ges_rentenv_beitr_bruttolohn_m(
-    bruttolohn_m: float,
-    _ges_rentenv_beitr_bemess_grenze_m: float,
-) -> float:
-    """Wage subject to pension and unemployment insurance contributions.
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_rentenv_beitr_bemess_grenze_m
-        See :func:`_ges_rentenv_beitr_bemess_grenze_m`.
-
-
-    Returns
-    -------
-
-    """
-    out = min(bruttolohn_m, _ges_rentenv_beitr_bemess_grenze_m)
-    return out

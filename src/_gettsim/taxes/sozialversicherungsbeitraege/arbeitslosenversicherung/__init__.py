@@ -1,90 +1,6 @@
-"""Functions for modeling unemployment and pension insurance."""
+"""Contributions to the unemployment insurance."""
 
 from _gettsim.shared import policy_info
-
-
-def sozialv_beitr_arbeitnehmer_m(
-    ges_pflegev_beitr_arbeitnehmer_m: float,
-    ges_krankenv_beitr_arbeitnehmer_m: float,
-    ges_rentenv_beitr_arbeitnehmer_m: float,
-    arbeitsl_v_beitr_arbeitnehmer_m: float,
-) -> float:
-    """Sum of employee's social insurance contributions.
-
-    Parameters
-    ----------
-    ges_pflegev_beitr_arbeitnehmer_m
-        See :func:`ges_pflegev_beitr_arbeitnehmer_m`.
-    ges_krankenv_beitr_arbeitnehmer_m
-        See :func:`ges_krankenv_beitr_arbeitnehmer_m`.
-    ges_rentenv_beitr_arbeitnehmer_m
-        See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
-    arbeitsl_v_beitr_arbeitnehmer_m
-        See :func:`arbeitsl_v_beitr_arbeitnehmer_m`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        ges_pflegev_beitr_arbeitnehmer_m
-        + ges_krankenv_beitr_arbeitnehmer_m
-        + ges_rentenv_beitr_arbeitnehmer_m
-        + arbeitsl_v_beitr_arbeitnehmer_m
-    )
-    return out
-
-
-def sozialv_beitr_arbeitgeber_m(
-    ges_pflegev_beitr_arbeitgeber_m: float,
-    ges_krankenv_beitr_arbeitgeber_m: float,
-    ges_rentenv_beitr_arbeitgeber_m: float,
-    arbeitsl_v_beitr_arbeitgeber_m: float,
-) -> float:
-    """Sum of employer's social insurance contributions.
-
-    Parameters
-    ----------
-    ges_pflegev_beitr_arbeitgeber_m
-        See :func:`ges_pflegev_beitr_arbeitgeber_m`.
-    ges_krankenv_beitr_arbeitgeber_m
-        See :func:`ges_krankenv_beitr_arbeitgeber_m`.
-    ges_rentenv_beitr_arbeitgeber_m
-        See :func:`ges_rentenv_beitr_arbeitgeber_m`.
-    arbeitsl_v_beitr_arbeitgeber_m
-        See :func:`arbeitsl_v_beitr_arbeitgeber_m`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        ges_pflegev_beitr_arbeitgeber_m
-        + ges_krankenv_beitr_arbeitgeber_m
-        + ges_rentenv_beitr_arbeitgeber_m
-        + arbeitsl_v_beitr_arbeitgeber_m
-    )
-    return out
-
-
-def _sozialv_beitr_summe_m(
-    sozialv_beitr_arbeitnehmer_m: float,
-    sozialv_beitr_arbeitgeber_m: float,
-) -> float:
-    """Sum of employer's and employee's social insurance contributions.
-
-    Parameters
-    ----------
-    sozialv_beitr_arbeitnehmer_m
-        See :func:`sozialv_beitr_arbeitnehmer_m`.
-    sozialv_beitr_arbeitgeber_m
-        See :func:`sozialv_beitr_arbeitgeber_m`.
-    Returns
-    -------
-
-    """
-    out = sozialv_beitr_arbeitnehmer_m + sozialv_beitr_arbeitgeber_m
-    return out
 
 
 @policy_info(end_date="2003-03-31", name_in_dag="arbeitsl_v_beitr_arbeitnehmer_m")
@@ -262,12 +178,11 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     -------
 
     """
-    out = (
+    return (
         midijob_bemessungsentgelt_m
         * 2
         * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return out
 
 
 @policy_info(
@@ -293,8 +208,7 @@ def _arbeitsl_v_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     -------
 
     """
-    out = bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
-    return out
+    return bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
 
 
 @policy_info(
@@ -317,11 +231,10 @@ def _arbeitsl_v_beitr_midijob_arbeitgeber_m_residuum(
     -------
 
     """
-    out = (
+    return (
         _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
         - _arbeitsl_v_beitr_midijob_arbeitnehmer_m
     )
-    return out
 
 
 @policy_info(
@@ -347,11 +260,10 @@ def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_residuum(
     -------
 
     """
-    out = (
+    return (
         _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
         - _arbeitsl_v_beitr_midijob_arbeitgeber_m
     )
-    return out
 
 
 @policy_info(
@@ -374,8 +286,7 @@ def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     -------
 
     """
-    out = (
+    return (
         _midijob_beitragspfl_einnahme_arbeitnehmer_m
         * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )
-    return out

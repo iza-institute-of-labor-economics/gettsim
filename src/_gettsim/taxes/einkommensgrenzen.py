@@ -1,4 +1,79 @@
+"""Income tresholds for taxes and deductions."""
+
 from _gettsim.shared import policy_info
+
+
+def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
+    """Individual earns less than marginal employment threshold.
+
+    Marginal employed pay no social insurance contributions.
+
+    Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    minijob_grenze
+        See :func:`minijob_grenze`.
+
+
+    Returns
+    -------
+    Whether person earns less than marginal employment threshold.
+
+    """
+    return bruttolohn_m <= minijob_grenze
+
+
+@policy_info(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
+def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
+    """Regular employment check until March 2003.
+
+    Employees earning more than the minijob threshold, are subject to all ordinary
+    income and social insurance contribution regulations. In gettsim we call these
+    regular employed.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Whether regular employed persons.
+
+    """
+    out = bruttolohn_m >= minijob_grenze
+    return out
+
+
+@policy_info(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
+def regulär_beschäftigt_mit_midijob(
+    bruttolohn_m: float, sozialv_beitr_params: dict
+) -> bool:
+    """Regular employment check since April 2003.
+
+    Employees earning more than the midijob threshold, are subject to all ordinary
+    income and social insurance contribution regulations. In gettsim we call these
+    regular employed.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
+
+    Returns
+    -------
+    Whether regular employed persons.
+
+    """
+    out = bruttolohn_m >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    return out
 
 
 @policy_info(
@@ -78,59 +153,42 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     )
 
 
-def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
-    """Individual earns less than marginal employment threshold.
+def _midijob_beitragspfl_einnahme_arbeitnehmer_m(
+    bruttolohn_m: float,
+    sozialv_beitr_params: dict,
+    minijob_grenze: float,
+) -> float:
+    """Income subject to employee social insurance contributions for midijob since
+    October 2022.
 
-    Marginal employed pay no social insurance contributions.
+    Gesonderte Beitragspflichtige Einnahme is the reference income for midijobs subject
+    to employee social insurance contribution.
 
-    Legal reference: § 8 Abs. 1 Satz 1 and 2 SGB IV
+    Legal reference: Changes in § 20 SGB IV from 01.10.2022
+
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    sozialv_beitr_params
+        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
 
     Returns
     -------
-    Whether person earns less than marginal employment threshold.
+    Income subject to employee social insurance contributions for midijob.
 
     """
-    return bruttolohn_m <= minijob_grenze
+    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
+    quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
+    einkommen_diff = bruttolohn_m - minijob_grenze
 
-@policy_info(start_date="2003-04-01")
-def in_gleitzone(
-    bruttolohn_m: float,
-    geringfügig_beschäftigt: bool,
-    sozialv_beitr_params: dict,
-) -> bool:
-    """Individual's income is in midi-job range.
+    out = quotient * einkommen_diff
 
-    Employed people with their wage in the range of gleitzone pay reduced social
-    insurance contributions.
-
-    Legal reference: § 20 Abs. 2 SGB IV
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
-    sozialv_beitr_params
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-
-    Returns
-    -------
-    Whether individual's income is in midi-job range.
-
-    """
-    out = (
-        bruttolohn_m <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
-    ) and (not geringfügig_beschäftigt)
     return out
 
 
@@ -412,90 +470,34 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     return out
 
 
-def _midijob_beitragspfl_einnahme_arbeitnehmer_m(
+@policy_info(start_date="2003-04-01")
+def in_gleitzone(
     bruttolohn_m: float,
+    geringfügig_beschäftigt: bool,
     sozialv_beitr_params: dict,
-    minijob_grenze: float,
-) -> float:
-    """Income subject to employee social insurance contributions for midijob since
-    October 2022.
-
-    Gesonderte Beitragspflichtige Einnahme is the reference income for midijobs subject
-    to employee social insurance contribution.
-
-    Legal reference: Changes in § 20 SGB IV from 01.10.2022
-
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    sozialv_beitr_params
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    minijob_grenze
-        See :func:`minijob_grenze`.
-
-
-    Returns
-    -------
-    Income subject to employee social insurance contributions for midijob.
-
-    """
-    midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
-
-    quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
-    einkommen_diff = bruttolohn_m - minijob_grenze
-
-    out = quotient * einkommen_diff
-
-    return out
-
-
-@policy_info(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
-def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
-    """Regular employment check until March 2003.
-
-    Employees earning more than the minijob threshold, are subject to all ordinary
-    income and social insurance contribution regulations. In gettsim we call these
-    regular employed.
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    sozialv_beitr_params
-        See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-
-    Returns
-    -------
-    Whether regular employed persons.
-
-    """
-    out = bruttolohn_m >= minijob_grenze
-    return out
-
-
-@policy_info(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
-def regulär_beschäftigt_mit_midijob(
-    bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:
-    """Regular employment check since April 2003.
+    """Individual's income is in midi-job range.
 
-    Employees earning more than the midijob threshold, are subject to all ordinary
-    income and social insurance contribution regulations. In gettsim we call these
-    regular employed.
+    Employed people with their wage in the range of gleitzone pay reduced social
+    insurance contributions.
+
+    Legal reference: § 20 Abs. 2 SGB IV
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    geringfügig_beschäftigt
+        See :func:`geringfügig_beschäftigt`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
     Returns
     -------
-    Whether regular employed persons.
+    Whether individual's income is in midi-job range.
 
     """
-    out = bruttolohn_m >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    out = (
+        bruttolohn_m <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    ) and (not geringfügig_beschäftigt)
     return out

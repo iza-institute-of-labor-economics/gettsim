@@ -1,10 +1,12 @@
+"""Income relevant for withholding tax on earnings (Lohnsteuer)."""
+
 from _gettsim.shared import policy_info
-from _gettsim.taxes.eink_st import _eink_st_tarif
+from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import _soli_st_tarif
 
 
 @policy_info(params_key_for_rounding="lohnst")
 def lohnst_eink_y(
-    bruttolohn_m: float,
+    bruttolohn_y: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
     vorsorgepauschale_y: float,
@@ -13,8 +15,8 @@ def lohnst_eink_y(
 
     Parameters
     ----------
-    bruttolohn_m:
-      See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    bruttolohn_y:
+      See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
     steuerklasse:
       See :func:`steuerklasse`
     eink_st_abzuege_params:
@@ -42,7 +44,7 @@ def lohnst_eink_y(
 
     # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
     out = max(
-        12 * bruttolohn_m
+        bruttolohn_y
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
@@ -53,52 +55,33 @@ def lohnst_eink_y(
     return out
 
 
-def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> float:
-    """Calculate base for Lohnsteuer for Steuerklasse 5 and 6, by applying
-    obtaining twice the difference between applying the factors 1.25 and 0.75
-    to the lohnsteuer payment. There is a also a minimum amount, which is checked
-    afterwards.
-
-    §39 b Absatz 2 Satz 7 (part 1):
-
-        Jahreslohnsteuer die sich aus dem Zweifachen des Unterschiedsbetrags zwischen
-        dem Steuerbetrag für das Eineinviertelfache und dem Steuerbetrag für das
-        Dreiviertelfache des zu versteuernden Jahresbetrags nach § 32a Absatz 1 ergibt;
-        die Jahreslohnsteuer beträgt jedoch mindestens 14 Prozent des zu versteuernden
-        Jahresbetrags.
+def soli_st_lohnst_y(lohnst_mit_kinderfreib_y: float, soli_st_params: dict) -> float:
+    """Calculates the monthly Solidarity Surcharge on Lohnsteuer
+    (withholding tax on earnings).
 
     Parameters
     ----------
-
-    taxable_inc:
-        Taxable Income used in function (not necessarily the same as lohnst_eink_y)
-    eink_st_params
-        See params documentation :ref:`eink_st_params <eink_st_params>`
+    lohnst_mit_kinderfreib_y
+        See :func:`lohnst_mit_kinderfreib_y`.
+    soli_st_params
+        See params documentation :ref:`soli_st_params <soli_st_params>`.
 
     Returns
+        Solidarity Surcharge on Lohnsteuer
     -------
-    Base for Lohnsteuer for Steuerklasse 5 and 6
 
     """
 
-    out = max(
-        2
-        * (
-            _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
-            - _eink_st_tarif(taxable_inc * 0.75, eink_st_params)
-        ),
-        taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
-    )
-
-    return out
+    return _soli_st_tarif(lohnst_mit_kinderfreib_y, soli_st_params)
 
 
 @policy_info(
-    start_date="2019-01-01",
+    start_date="2015-01-01",
+    end_date="2018-12-31",
     name_in_dag="vorsorge_krankenv_option_b",
 )
-def vorsorge_krankenv_option_b_ab_2019(
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
+def vorsorge_krankenv_option_b_ab_2015_bis_2018(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
     ges_krankenv_zusatzbeitr_satz: float,
     sozialv_beitr_params: dict,
     ges_pflegev_beitr_satz_arbeitnehmer: float,
@@ -110,8 +93,48 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     Parameters
     ----------
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
-        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y:
+        See :func:`_ges_krankenv_bruttolohn_reg_beschäftigt_y`.
+    ges_krankenv_zusatzbeitr_satz
+        See :func:ges_krankenv_zusatzbeitr_satz`.
+    ges_pflegev_beitr_satz_arbeitnehmer:
+        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
+
+
+    Returns
+    -------
+    Health care deductions for withholding taxes option b
+
+    """
+
+    out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + ges_krankenv_zusatzbeitr_satz
+        + ges_pflegev_beitr_satz_arbeitnehmer
+    )
+
+    return out
+
+
+@policy_info(
+    start_date="2019-01-01",
+    name_in_dag="vorsorge_krankenv_option_b",
+)
+def vorsorge_krankenv_option_b_ab_2019(
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
+    ges_krankenv_zusatzbeitr_satz: float,
+    sozialv_beitr_params: dict,
+    ges_pflegev_beitr_satz_arbeitnehmer: float,
+) -> float:
+    """For health care deductions, there are two ways to calculate
+    the deductions: "Option a" and "Option b".
+    This function calculates option b where the actual contributions
+    are used.
+
+    Parameters
+    ----------
+    _ges_krankenv_bruttolohn_reg_beschäftigt_y:
+        See :func:`_ges_krankenv_bruttolohn_reg_beschäftigt_y`.
     ges_krankenv_zusatzbeitr_satz
         See :func:ges_krankenv_zusatzbeitr_satz`.
     sozialv_beitr_params:
@@ -126,59 +149,10 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     """
 
-    out = (
-        _ges_krankenv_bruttolohn_reg_beschäftigt_m
-        * 12
-        * (
-            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + ges_krankenv_zusatzbeitr_satz / 2
-            + ges_pflegev_beitr_satz_arbeitnehmer
-        )
-    )
-
-    return out
-
-
-@policy_info(
-    start_date="2015-01-01",
-    end_date="2018-12-31",
-    name_in_dag="vorsorge_krankenv_option_b",
-)
-def vorsorge_krankenv_option_b_ab_2015_bis_2018(
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
-    ges_krankenv_zusatzbeitr_satz: float,
-    sozialv_beitr_params: dict,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
-) -> float:
-    """For health care deductions, there are two ways to calculate
-    the deductions: "Option a" and "Option b".
-    This function calculates option b where the actual contributions
-    are used.
-
-    Parameters
-    ----------
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
-        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
-    ges_krankenv_zusatzbeitr_satz
-        See :func:ges_krankenv_zusatzbeitr_satz`.
-    ges_pflegev_beitr_satz_arbeitnehmer:
-        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
-
-
-    Returns
-    -------
-    Health care deductions for withholding taxes option b
-
-    """
-
-    out = (
-        _ges_krankenv_bruttolohn_reg_beschäftigt_m
-        * 12
-        * (
-            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + ges_krankenv_zusatzbeitr_satz
-            + ges_pflegev_beitr_satz_arbeitnehmer
-        )
+    out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + ges_krankenv_zusatzbeitr_satz / 2
+        + ges_pflegev_beitr_satz_arbeitnehmer
     )
 
     return out
@@ -235,7 +209,7 @@ def vorsorge_krankenv_option_a(
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
-    bruttolohn_m: float,
+    bruttolohn_y: float,
     wohnort_ost: bool,
     eink_st_abzuege_params: dict,
     sozialv_beitr_params: dict,
@@ -248,8 +222,8 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 
     Parameters
     ----------
-    bruttolohn_m:
-      See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    bruttolohn_y:
+      See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
     wohnort_ost:
       See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
     eink_st_abzuege_params:
@@ -271,12 +245,12 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     if wohnort_ost:
         bruttolohn_rente = min(
-            12 * bruttolohn_m,
+            bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
         )
     else:
         bruttolohn_rente = min(
-            12 * bruttolohn_m,
+            bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 
@@ -337,115 +311,3 @@ def kinderfreib_für_soli_st_lohnst_y(
     else:
         out = 0
     return out
-
-
-def _lohnst_m(
-    lohnst_eink_y: float, eink_st_params: dict, lohnst_params: dict, steuerklasse: int
-) -> float:
-    """
-    Calculates Lohnsteuer (withholding tax on earnings), paid monthly by the employer on
-    behalf of the employee. Apply the income tax tariff, but individually and with
-    different exemptions, determined by the 'Steuerklasse'. Source: §39b EStG
-
-    Calculation is differentiated by steuerklasse
-
-    1,2,4: Standard tariff (§32a (1) EStG) 3: Splitting tariff (§32a (5) EStG) 5,6: Take
-    twice the difference between applying the tariff on 5/4 and 3/4 of taxable income.
-    Tax rate may not be lower than the starting statutory one.
-
-    Parameters
-    ----------
-    lohnst_eink_y
-        See :func:`lohnst_eink_y`.
-    eink_st_params
-        See params documentation :ref:`eink_st_params <eink_st_params>`
-    lohnst_params
-        See params documentation :ref:`lohnst_params <lohnst_params>`
-    steuerklasse:
-        See basic input variable :ref:`steuerklasse <steuerklasse>`.
-
-
-    Returns
-    -------
-    Individual withholding tax on monthly basis
-
-    """
-
-    lohnsteuer_basistarif = _eink_st_tarif(lohnst_eink_y, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohnst_eink_y / 2, eink_st_params)
-    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis_y(lohnst_eink_y, eink_st_params)
-
-    grenze_1 = lohnst_params["lohnst_einkommensgrenzen"][0]
-    grenze_2 = lohnst_params["lohnst_einkommensgrenzen"][1]
-    grenze_3 = lohnst_params["lohnst_einkommensgrenzen"][2]
-
-    lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis_y(grenze_1, eink_st_params)
-    max_lohnsteuer = (
-        lohnsteuer_grenze_1
-        + (lohnst_eink_y - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
-    )
-    lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis_y(grenze_2, eink_st_params)
-    lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params["eink_st_tarif"][
-        "rates"
-    ][0][3]
-    lohnsteuer_klasse5_6_tmp = lohnsteuer_grenze_2 + lohnsteuer_zw_grenze_2_3
-
-    if lohnst_eink_y < grenze_1:
-        lohnsteuer_klasse5_6 = lohnsteuer_5_6_basis
-    elif grenze_1 <= lohnst_eink_y < grenze_2:
-        lohnsteuer_klasse5_6 = min(
-            max_lohnsteuer, _lohnsteuer_klasse5_6_basis_y(lohnst_eink_y, eink_st_params)
-        )
-    elif grenze_2 <= lohnst_eink_y < grenze_3:
-        lohnsteuer_klasse5_6 = (
-            lohnsteuer_grenze_2
-            + (lohnst_eink_y - grenze_2)
-            * eink_st_params["eink_st_tarif"]["rates"][0][3]
-        )
-    else:
-        lohnsteuer_klasse5_6 = (
-            lohnsteuer_klasse5_6_tmp
-            + (lohnst_eink_y - grenze_3)
-            * eink_st_params["eink_st_tarif"]["rates"][0][4]
-        )
-
-    if steuerklasse in {1, 2, 4}:
-        out = lohnsteuer_basistarif
-    elif steuerklasse == 3:
-        out = lohnsteuer_splittingtarif
-    else:
-        out = lohnsteuer_klasse5_6
-
-    out = out / 12
-
-    return max(out, 0.0)
-
-
-def lohnst_m(
-    lohnst_eink_y: float,
-    eink_st_params: dict,
-    lohnst_params: dict,
-    steuerklasse: int,
-) -> float:
-    """
-    Calls _lohnst_m with individual income
-    """
-    return _lohnst_m(lohnst_eink_y, eink_st_params, lohnst_params, steuerklasse)
-
-
-def lohnst_mit_kinderfreib_m(
-    lohnst_eink_y: float,
-    kinderfreib_für_soli_st_lohnst_y: float,
-    eink_st_params: dict,
-    lohnst_params: dict,
-    steuerklasse: int,
-) -> float:
-    """
-    Same as lohnst_m, but with an alternative income definition that
-    takes child allowance into account. Important only for calculation
-    of soli on Lohnsteuer!
-    """
-
-    eink = max(lohnst_eink_y - kinderfreib_für_soli_st_lohnst_y, 0)
-
-    return _lohnst_m(eink, eink_st_params, lohnst_params, steuerklasse)

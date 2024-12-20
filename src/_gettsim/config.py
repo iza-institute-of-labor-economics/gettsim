@@ -39,7 +39,6 @@ GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 # List of paths to internal functions.
 # If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    RESOURCE_DIR / "social_insurance_contributions",
     RESOURCE_DIR / "transfers",
     RESOURCE_DIR / "taxes",
     RESOURCE_DIR / "demographic_vars.py",
