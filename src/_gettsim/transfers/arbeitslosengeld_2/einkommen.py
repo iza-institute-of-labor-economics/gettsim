@@ -1,4 +1,4 @@
-"""Income relevant for Arbeitslosengeld II / Bürgergeld calculation."""
+"""Income relevant for calculation of Arbeitslosengeld II / Bürgergeld."""
 
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
