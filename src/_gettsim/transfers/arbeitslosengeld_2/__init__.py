@@ -1,3 +1,9 @@
+"""Monthly SGB II subsitence payment (Arbeitslosengeld II).
+
+Note: Since 2023, Arbeitslosengeld II is referred to as Bürgergeld.
+"""
+
+
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
     wohngeld_vorrang_bg: bool,
@@ -71,7 +77,6 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
     -------
 
     """
-
     # Check wealth exemption
     if vermögen_bedürft_bg > arbeitsl_geld_2_vermög_freib_bg:
         out = 0.0
