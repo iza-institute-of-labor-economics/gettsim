@@ -1,5 +1,4 @@
-"""This module provides functions to compute advance alimony payments
-(Unterhaltsvorschuss)."""
+"""Advance alimony payments (Unterhaltsvorschuss)."""
 
 import numpy
 

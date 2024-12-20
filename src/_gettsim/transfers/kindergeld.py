@@ -1,3 +1,5 @@
+"""Basic child allowance (Kindergeld)."""
+
 import numpy
 
 from _gettsim.shared import join_numpy, policy_info

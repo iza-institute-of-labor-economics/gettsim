@@ -26,13 +26,13 @@ from _gettsim.taxes.sozialversicherungsbeitraege.pflegeversicherung import *  # 
 from _gettsim.taxes.sozialversicherungsbeitraege.pflegeversicherung.beitragssatz import *  # noqa: F403, E501
 from _gettsim.taxes.sozialversicherungsbeitraege.rentenversicherung import *  # noqa: F403
 from _gettsim.transfers.arbeitsl_geld import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2 import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.arbeitsl_geld_2_eink import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.bedarf import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.kindergelduebertrag import *  # noqa: F403
-from _gettsim.transfers.arbeitsl_geld_2.kost_unterk import *  # noqa: F403
 from _gettsim.transfers.benefit_checks.benefit_checks import *  # noqa: F403
 from _gettsim.transfers.benefit_checks.vermoegens_checks import *  # noqa: F403
+from _gettsim.transfers.buergergeld.arbeitsl_geld_2 import *  # noqa: F403
+from _gettsim.transfers.buergergeld.arbeitsl_geld_2_eink import *  # noqa: F403
+from _gettsim.transfers.buergergeld.bedarf import *  # noqa: F403
+from _gettsim.transfers.buergergeld.kindergelduebertrag import *  # noqa: F403
+from _gettsim.transfers.buergergeld.kost_unterk import *  # noqa: F403
 from _gettsim.transfers.elterngeld import *  # noqa: F403
 from _gettsim.transfers.erwerbsm_rente import *  # noqa: F403
 from _gettsim.transfers.erziehungsgeld import *  # noqa: F403
@@ -40,10 +40,10 @@ from _gettsim.transfers.grundrente import *  # noqa: F403
 from _gettsim.transfers.grunds_im_alter import *  # noqa: F403
 from _gettsim.transfers.kinderbonus import *  # noqa: F403
 from _gettsim.transfers.kindergeld import *  # noqa: F403
-from _gettsim.transfers.kinderzuschl.kinderzuschl import *  # noqa: F403
-from _gettsim.transfers.kinderzuschl.kinderzuschl_eink import *  # noqa: F403
-from _gettsim.transfers.kinderzuschl.kost_unterk import *  # noqa: F403
+from _gettsim.transfers.kinderzuschlag.kinderzuschl import *  # noqa: F403
+from _gettsim.transfers.kinderzuschlag.kinderzuschl_eink import *  # noqa: F403
+from _gettsim.transfers.kinderzuschlag.kost_unterk import *  # noqa: F403
 from _gettsim.transfers.rente import *  # noqa: F403
 from _gettsim.transfers.unterhalt import *  # noqa: F403
-from _gettsim.transfers.unterhaltsvors import *  # noqa: F403
+from _gettsim.transfers.unterhaltsvorschuss import *  # noqa: F403
 from _gettsim.transfers.wohngeld import *  # noqa: F403

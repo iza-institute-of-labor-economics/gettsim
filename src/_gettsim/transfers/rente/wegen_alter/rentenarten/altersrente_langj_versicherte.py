@@ -1,0 +1,280 @@
+"""Pathway for the long-term insured."""
+
+from _gettsim.shared import policy_info
+
+
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
+def _ges_rente_langj_altersgrenze_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA is the same for each birth year.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
+    eligible to claim the full pension (without deductions). This pension scheme allows
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age for long term insured.
+
+    """
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]
+
+
+@policy_info(
+    start_date="1989-12-18",
+    end_date="2007-04-19",
+    name_in_dag="_ges_rente_langj_altersgrenze",
+)
+def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA depends on birth year and month.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
+    eligible to claim the full pension (without deductions). This pension scheme allows
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for long term insured.
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return out
+
+
+@policy_info(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
+def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
+    geburtsjahr: int,
+    geburtsmonat: int,
+    ges_rente_params: dict,
+) -> float:
+    """
+    Full retirement age (FRA) for long term insured.
+
+    FRA depends on birth year.
+
+    Calculate the age, at which a long term insured person (at least 35 years) is
+    eligible to claim the full pension (without deductions). This pension scheme allows
+    for early retirement (e.g. age 63) with deductions. Hence this threshold is needed
+    as reference for calculating the zugangsfaktor.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    geburtsmonat
+        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Full retirement age (without deductions) for long term insured.
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_old_regime"
+        ]
+    elif (
+        geburtsjahr
+        >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "min_birthyear_new_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            "entry_age_new_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
+            geburtsjahr
+        ][geburtsmonat]
+
+    return out
+
+
+@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+
+
+@policy_info(
+    start_date="1989-12-18",
+    end_date="1996-09-26",
+    name_in_dag="_ges_rente_langj_vorzeitig",
+)
+def _ges_rente_langj_vorzeitig_mit_staffelung(
+    geburtsjahr: int,
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Renten für Frauen.
+
+    ERA depends on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+
+    """
+    if (
+        geburtsjahr
+        <= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "max_birthyear_old_regime"
+        ]
+    ):
+        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "entry_age_old_regime"
+        ]
+    else:
+        out = ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
+            "entry_age_new_regime"
+        ]
+
+    return out
+
+
+@policy_info(start_date="1996-09-27", name_in_dag="_ges_rente_langj_vorzeitig")
+def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
+    geburtsjahr: int,  # noqa: ARG001
+    ges_rente_params: dict,
+) -> float:
+    """Early retirement age (ERA) for Rente für langjährig Versicherte.
+
+    ERA does not depend on birth year and month.
+
+    Does not check for eligibility for this pathway into retirement.
+
+    Parameters
+    ----------
+    geburtsjahr
+        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+    Early retirement age
+    """
+
+    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
+
+    return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
+
+
+def ges_rente_vorauss_langj(
+    ges_rente_wartezeit_35: bool,
+) -> bool:
+    """Determining the eligibility for Altersrente für langjährig
+    Versicherte (pension for long-term insured). Wartezeit 35 years and
+    crossing the age threshold.
+
+    Parameters
+    ----------
+    ges_rente_wartezeit_35
+        See :func:`ges_rente_wartezeit_35`.
+
+    Returns
+    -------
+    Eligibility as bool.
+
+    """
+
+    return ges_rente_wartezeit_35

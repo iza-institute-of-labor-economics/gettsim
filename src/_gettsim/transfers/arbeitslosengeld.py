@@ -1,4 +1,4 @@
-"""Functions to compute unemployment benefits (Arbeitslosengeld)."""
+"""Unemployment benefits (Arbeitslosengeld)."""
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
