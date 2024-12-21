@@ -4,8 +4,8 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2004-12-31", name_in_dag="eink_st_altersfreib_y")
-def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
+@policy_info(end_date="2004-12-31", name_in_dag="betrag_y")
+def betrag_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -51,8 +51,8 @@ def eink_st_altersfreib_y_bis_2004(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2005-01-01", name_in_dag="eink_st_altersfreib_y")
-def eink_st_altersfreib_y_ab_2005(  # noqa: PLR0913
+@policy_info(start_date="2005-01-01", name_in_dag="betrag_y")
+def betrag_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     alter: int,

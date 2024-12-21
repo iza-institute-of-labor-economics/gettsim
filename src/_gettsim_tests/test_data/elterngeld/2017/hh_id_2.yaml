@@ -42,9 +42,9 @@ inputs:
       - false
     wohnort_ost:
       - false
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 218.96
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 12.04
     sozialv_beitr_arbeitnehmer_m:
       - 378.0

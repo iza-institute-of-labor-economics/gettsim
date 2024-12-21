@@ -1,7 +1,9 @@
 """Income relevant for withholding tax on earnings (Lohnsteuer)."""
 
 from _gettsim.shared import policy_info
-from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import _soli_st_tarif
+from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import (
+    solidaritaetszuschlag_tarif,
+)
 
 
 @policy_info(params_key_for_rounding="lohnst")
@@ -72,7 +74,7 @@ def soli_st_lohnst_y(lohnst_mit_kinderfreib_y: float, soli_st_params: dict) -> f
 
     """
 
-    return _soli_st_tarif(lohnst_mit_kinderfreib_y, soli_st_params)
+    return solidaritaetszuschlag_tarif(lohnst_mit_kinderfreib_y, soli_st_params)
 
 
 @policy_info(
@@ -288,7 +290,7 @@ def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
 
 def kinderfreib_für_soli_st_lohnst_y(
     steuerklasse: int,
-    _eink_st_kinderfreib_anz_ansprüche: int,
+    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate Child Allowance for Lohnsteuer-Soli.
@@ -305,9 +307,16 @@ def kinderfreib_für_soli_st_lohnst_y(
 
     # For certain tax brackets, twice the child allowance can be deducted
     if steuerklasse in {1, 2, 3}:
-        out = kinderfreib_basis * 2 * _eink_st_kinderfreib_anz_ansprüche
+        out = (
+            kinderfreib_basis
+            * 2
+            * einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
+        )
     elif steuerklasse == 4:
-        out = kinderfreib_basis * _eink_st_kinderfreib_anz_ansprüche
+        out = (
+            kinderfreib_basis
+            * einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
+        )
     else:
         out = 0
     return out

@@ -3,10 +3,8 @@
 from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2014-12-31", name_in_dag="alleinerz_freib_y_sn")
-def eink_st_alleinerz_freib_y_sn_pauschal(
-    alleinerz_sn: bool, eink_st_abzuege_params: dict
-) -> float:
+@policy_info(end_date="2014-12-31", name_in_dag="betrag_y")
+def betrag_y_pauschal(alleinerz_sn: bool, eink_st_abzuege_params: dict) -> float:
     """Calculate tax deduction allowance for single parents until 2014.
 
     This used to be called 'Haushaltsfreibetrag'.
@@ -30,8 +28,8 @@ def eink_st_alleinerz_freib_y_sn_pauschal(
     return out
 
 
-@policy_info(start_date="2015-01-01", name_in_dag="alleinerz_freib_y_sn")
-def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
+@policy_info(start_date="2015-01-01", name_in_dag="betrag_y")
+def betrag_y_nach_kinderzahl(
     alleinerz_sn: bool,
     kindergeld_anz_ansprüche_sn: int,
     eink_st_abzuege_params: dict,
@@ -54,13 +52,13 @@ def eink_st_alleinerz_freib_y_sn_nach_kinderzahl(
     -------
 
     """
-    alleinerz_freib_y_sn = (
+    betrag_y = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
         + (kindergeld_anz_ansprüche_sn - 1)
         * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz_sn:
-        out = alleinerz_freib_y_sn
+        out = betrag_y
     else:
         out = 0.0
 

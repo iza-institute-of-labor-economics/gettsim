@@ -86,7 +86,7 @@ def wohngeld_eink_m_bg(
 
 
 def wohngeld_abzüge_st_sozialv_m(
-    eink_st_y_sn: float,
+    taxes__einkommensteuer__betrag_y_sn: float,
     ges_rentenv_beitr_arbeitnehmer_m: float,
     ges_krankenv_beitr_arbeitnehmer_m: float,
     kind: bool,
@@ -94,13 +94,13 @@ def wohngeld_abzüge_st_sozialv_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that eink_st_y_sn is used as an approximation for taxes on income (as mentioned
-    in § 16 WoGG Satz 1 Nr. 1).
+    Note that taxes__einkommensteuer__betrag_y_sn is used as an approximation for taxes
+    on income (as mentioned in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    eink_st_y_sn
-        See :func:`eink_st_y_sn`.
+    taxes__einkommensteuer__betrag_y_sn
+        See :func:`taxes__einkommensteuer__betrag_y_sn`.
     ges_rentenv_beitr_arbeitnehmer_m
         See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
     ges_krankenv_beitr_arbeitnehmer_m
@@ -115,7 +115,7 @@ def wohngeld_abzüge_st_sozialv_m(
 
     """
     abzug_stufen = (
-        (eink_st_y_sn > 0)
+        (taxes__einkommensteuer__betrag_y_sn > 0)
         + (ges_rentenv_beitr_arbeitnehmer_m > 0)
         + (ges_krankenv_beitr_arbeitnehmer_m > 0)
     )
@@ -134,7 +134,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_vermietung_m: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
-    eink_rente_zu_verst_m: float,
+    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
@@ -157,8 +157,8 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
         See :func:`arbeitsl_geld_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
-    eink_rente_zu_verst_m
-        See :func:`eink_rente_zu_verst_m`.
+    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
+        See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
@@ -179,7 +179,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
 
     transfers = (
         arbeitsl_geld_m
-        + eink_rente_zu_verst_m
+        + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
     )
@@ -197,7 +197,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_vermietung_m: float,
     arbeitsl_geld_m: float,
     sonstig_eink_m: float,
-    eink_rente_zu_verst_m: float,
+    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvors_m: float,
     anrechenbares_elterngeld_m: float,
@@ -221,8 +221,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`arbeitsl_geld_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
-    eink_rente_zu_verst_m
-        See :func:`eink_rente_zu_verst_m`.
+    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
+        See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvors_m
@@ -248,7 +248,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
 
     transfers = (
         arbeitsl_geld_m
-        + eink_rente_zu_verst_m
+        + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         + kind_unterh_erhalt_m
         + unterhaltsvors_m
         + anrechenbares_elterngeld_m

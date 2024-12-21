@@ -127,8 +127,8 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_y_sn",
-    "soli_st_y_sn",
+    "taxes__einkommensteuer__betrag_y_sn",
+    "taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn",
     "abgelt_st_y_sn",
     "elterngeld_m",
     "sozialv_beitr_arbeitnehmer_m",
@@ -183,7 +183,7 @@ TYPES_INPUT_VARIABLES = {
     "entgeltp_west": float,
     "kind": bool,
     "rentner": bool,
-    "betreuungskost_m": float,
+    "betreuungskosten_m": float,
     "p_id_betreuungsk_träger": int,
     "kapitaleink_brutto_m": float,
     "eink_vermietung_m": float,

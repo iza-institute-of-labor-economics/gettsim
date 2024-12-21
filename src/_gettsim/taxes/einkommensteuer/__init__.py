@@ -4,12 +4,12 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.shared import policy_info
 
 aggregate_by_p_id_eink_st = {
-    "eink_st_rel_kindergeld_anz_ansprüche_1": {
+    "anzahl_kindergeld_ansprüche_1": {
         "p_id_to_aggregate_by": "p_id_elternteil_1",
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
     },
-    "eink_st_rel_kindergeld_anz_ansprüche_2": {
+    "anzahl_kindergeld_ansprüche_2": {
         "p_id_to_aggregate_by": "p_id_elternteil_2",
         "source_col": "kindergeld_anspruch",
         "aggr": "sum",
@@ -18,94 +18,94 @@ aggregate_by_p_id_eink_st = {
 
 
 @policy_info(
-    end_date="1996-12-31", name_in_dag="eink_st_y_sn", params_key_for_rounding="eink_st"
+    end_date="1996-12-31", name_in_dag="betrag_y_sn", params_key_for_rounding="eink_st"
 )
-def eink_st_y_sn_kindergeld_kinderfreib_parallel(
-    eink_st_mit_kinderfreib_y_sn: float,
+def betrag_y_sn_kindergeld_kinderfreib_parallel(
+    betrag_mit_kinderfreib_y_sn: float,
 ) -> float:
     """Income tax calculation on Steuernummer level allowing for claiming
     Kinderfreibetrag and receiving Kindergeld at the same time.
 
     Parameters
     ----------
-    eink_st_mit_kinderfreib_y_sn
-        See :func:`eink_st_mit_kinderfreib_y_sn`.
+    betrag_mit_kinderfreib_y_sn
+        See :func:`betrag_mit_kinderfreib_y_sn`.
 
     Returns
     -------
 
     """
-    return eink_st_mit_kinderfreib_y_sn
+    return betrag_mit_kinderfreib_y_sn
 
 
 @policy_info(
     start_date="1997-01-01",
-    name_in_dag="eink_st_y_sn",
+    name_in_dag="betrag_y_sn",
     params_key_for_rounding="eink_st",
 )
-def eink_st_y_sn_kindergeld_oder_kinderfreib(
-    eink_st_ohne_kinderfreib_y_sn: float,
-    eink_st_mit_kinderfreib_y_sn: float,
+def betrag_y_sn_kindergeld_oder_kinderfreib(
+    betrag_ohne_kinderfreib_y_sn: float,
+    betrag_mit_kinderfreib_y_sn: float,
     kinderfreib_günstiger_sn: bool,
-    eink_st_rel_kindergeld_y_sn: float,
+    relevantes_kindergeld_y_sn: float,
 ) -> float:
     """Income tax calculation on Steuernummer level since 1997.
 
     Parameters
     ----------
-    eink_st_ohne_kinderfreib_y_sn
-        See :func:`eink_st_ohne_kinderfreib_y_sn`.
-    eink_st_mit_kinderfreib_y_sn
-        See :func:`eink_st_mit_kinderfreib_y_sn`.
+    betrag_ohne_kinderfreib_y_sn
+        See :func:`betrag_ohne_kinderfreib_y_sn`.
+    betrag_mit_kinderfreib_y_sn
+        See :func:`betrag_mit_kinderfreib_y_sn`.
     kinderfreib_günstiger_sn
         See :func:`kinderfreib_günstiger_sn`.
-    eink_st_rel_kindergeld_y_sn
-        See :func:`eink_st_rel_kindergeld_y_sn`.
+    relevantes_kindergeld_y_sn
+        See :func:`relevantes_kindergeld_y_sn`.
 
     Returns
     -------
 
     """
     if kinderfreib_günstiger_sn:
-        out = eink_st_mit_kinderfreib_y_sn + eink_st_rel_kindergeld_y_sn
+        out = betrag_mit_kinderfreib_y_sn + relevantes_kindergeld_y_sn
     else:
-        out = eink_st_ohne_kinderfreib_y_sn
+        out = betrag_ohne_kinderfreib_y_sn
 
     return out
 
 
 def kinderfreib_günstiger_sn(
-    eink_st_ohne_kinderfreib_y_sn: float,
-    eink_st_mit_kinderfreib_y_sn: float,
-    eink_st_rel_kindergeld_y_sn: float,
+    betrag_ohne_kinderfreib_y_sn: float,
+    betrag_mit_kinderfreib_y_sn: float,
+    relevantes_kindergeld_y_sn: float,
 ) -> bool:
     """Kinderfreibetrag more favorable than Kindergeld.
 
     Parameters
     ----------
-    eink_st_ohne_kinderfreib_y_sn
-        See :func:`eink_st_ohne_kinderfreib_y_sn`.
-    eink_st_mit_kinderfreib_y_sn
-        See :func:`eink_st_mit_kinderfreib_y_sn`.
-    eink_st_rel_kindergeld_y_sn
-        See :func:`eink_st_rel_kindergeld_y_sn`.
+    betrag_ohne_kinderfreib_y_sn
+        See :func:`betrag_ohne_kinderfreib_y_sn`.
+    betrag_mit_kinderfreib_y_sn
+        See :func:`betrag_mit_kinderfreib_y_sn`.
+    relevantes_kindergeld_y_sn
+        See :func:`relevantes_kindergeld_y_sn`.
     Returns
     -------
 
     """
-    unterschiedsbeitrag = eink_st_ohne_kinderfreib_y_sn - eink_st_mit_kinderfreib_y_sn
+    unterschiedsbeitrag = betrag_ohne_kinderfreib_y_sn - betrag_mit_kinderfreib_y_sn
 
-    out = unterschiedsbeitrag > eink_st_rel_kindergeld_y_sn
+    out = unterschiedsbeitrag > relevantes_kindergeld_y_sn
     return out
 
 
-@policy_info(end_date="2001-12-31", name_in_dag="eink_st_mit_kinderfreib_y_sn")
-def eink_st_mit_kinderfreib_y_sn_bis_2001() -> float:
+@policy_info(end_date="2001-12-31", name_in_dag="betrag_mit_kinderfreib_y_sn")
+def betrag_mit_kinderfreib_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@policy_info(start_date="2002-01-01", name_in_dag="eink_st_mit_kinderfreib_y_sn")
-def eink_st_mit_kinderfreib_y_sn_ab_2002(
+@policy_info(start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreib_y_sn")
+def betrag_mit_kinderfreib_y_sn_ab_2002(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
@@ -127,14 +127,14 @@ def eink_st_mit_kinderfreib_y_sn_ab_2002(
 
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_sn / anz_personen_sn
-    out = anz_personen_sn * _eink_st_tarif(
+    out = anz_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
     return out
 
 
-def eink_st_ohne_kinderfreib_y_sn(
+def betrag_ohne_kinderfreib_y_sn(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
@@ -156,17 +156,17 @@ def eink_st_ohne_kinderfreib_y_sn(
 
     """
     zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_sn / anz_personen_sn
-    out = anz_personen_sn * _eink_st_tarif(
+    out = anz_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
     return out
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="eink_st_rel_kindergeld_m")
-def eink_st_rel_kindergeld_mit_staffelung_m(
-    eink_st_rel_kindergeld_anz_ansprüche_1: int,
-    eink_st_rel_kindergeld_anz_ansprüche_2: int,
+@policy_info(end_date="2022-12-31", name_in_dag="relevantes_kindergeld_m")
+def relevantes_kindergeld_mit_staffelung_m(
+    anzahl_kindergeld_ansprüche_1: int,
+    anzahl_kindergeld_ansprüche_2: int,
     kindergeld_params: dict,
 ) -> float:
     """Kindergeld relevant for income tax. For each parent, half of the actual
@@ -177,36 +177,34 @@ def eink_st_rel_kindergeld_mit_staffelung_m(
 
     Parameters
     ----------
-    eink_st_rel_kindergeld_anz_ansprüche_1
-        See :func:`eink_st_rel_kindergeld_anz_ansprüche_1`.
-    eink_st_rel_kindergeld_anz_ansprüche_2
-        See :func:`eink_st_rel_kindergeld_anz_ansprüche_2`.
+    anzahl_kindergeld_ansprüche_1
+        See :func:`anzahl_kindergeld_ansprüche_1`.
+    anzahl_kindergeld_ansprüche_2
+        See :func:`anzahl_kindergeld_ansprüche_2`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     Returns
     -------
     """
-    eink_st_rel_kindergeld_anz_ansprüche = (
-        eink_st_rel_kindergeld_anz_ansprüche_1 + eink_st_rel_kindergeld_anz_ansprüche_2
-    )
+    kindergeld_ansprüche = anzahl_kindergeld_ansprüche_1 + anzahl_kindergeld_ansprüche_2
 
-    if eink_st_rel_kindergeld_anz_ansprüche == 0:
-        sum_eink_st_rel_kindergeld = 0.0
+    if kindergeld_ansprüche == 0:
+        relevantes_kindergeld = 0.0
     else:
-        sum_eink_st_rel_kindergeld = sum(
+        relevantes_kindergeld = sum(
             kindergeld_params["kindergeld"][
                 (min(i, max(kindergeld_params["kindergeld"])))
             ]
-            for i in range(1, eink_st_rel_kindergeld_anz_ansprüche + 1)
+            for i in range(1, kindergeld_ansprüche + 1)
         )
 
-    return sum_eink_st_rel_kindergeld / 2
+    return relevantes_kindergeld / 2
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="eink_st_rel_kindergeld_m")
-def eink_st_rel_kindergeld_ohne_staffelung_m(
-    eink_st_rel_kindergeld_anz_ansprüche_1: int,
-    eink_st_rel_kindergeld_anz_ansprüche_2: int,
+@policy_info(start_date="2023-01-01", name_in_dag="relevantes_kindergeld_m")
+def relevantes_kindergeld_ohne_staffelung_m(
+    anzahl_kindergeld_ansprüche_1: int,
+    anzahl_kindergeld_ansprüche_2: int,
     kindergeld_params: dict,
 ) -> float:
     """Kindergeld relevant for income tax. For each parent, half of the actual
@@ -217,23 +215,21 @@ def eink_st_rel_kindergeld_ohne_staffelung_m(
 
     Parameters
     ----------
-    eink_st_rel_kindergeld_anz_ansprüche_1
-        See :func:`eink_st_rel_kindergeld_anz_ansprüche_1`.
-    eink_st_rel_kindergeld_anz_ansprüche_2
-        See :func:`eink_st_rel_kindergeld_anz_ansprüche_2`.
+    anzahl_kindergeld_ansprüche_1
+        See :func:`anzahl_kindergeld_ansprüche_1`.
+    anzahl_kindergeld_ansprüche_2
+        See :func:`anzahl_kindergeld_ansprüche_2`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     Returns
     -------
 
     """
-    eink_st_rel_kindergeld_anz_ansprüche = (
-        eink_st_rel_kindergeld_anz_ansprüche_1 + eink_st_rel_kindergeld_anz_ansprüche_2
-    )
-    return kindergeld_params["kindergeld"] * eink_st_rel_kindergeld_anz_ansprüche / 2
+    kindergeld_ansprüche = anzahl_kindergeld_ansprüche_1 + anzahl_kindergeld_ansprüche_2
+    return kindergeld_params["kindergeld"] * kindergeld_ansprüche / 2
 
 
-def _eink_st_tarif(x: float, params: dict) -> float:
+def einkommensteuer_tarif(x: float, params: dict) -> float:
     """The German income tax tariff.
 
     Parameters

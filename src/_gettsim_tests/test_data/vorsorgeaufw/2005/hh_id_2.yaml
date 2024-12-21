@@ -42,6 +42,6 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  vorsorgeaufw_y_sn:
+  einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn:
     - 3605
     - 3605

@@ -24,11 +24,11 @@ inputs:
       - false
       - false
       - true
-    eink_st_ohne_kinderfreib_y_sn:
+    taxes__einkommensteuer__betrag_ohne_kinderfreib_y_sn:
       - 12000.0
       - 12000.0
       - 0.0
-    eink_st_mit_kinderfreib_y_sn:
+    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
       - 10000.0
       - 10000.0
       - 0.0
@@ -44,7 +44,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_rel_kindergeld_m:
+    taxes__einkommensteuer__relevantes_kindergeld_m:
       - 0.0
       - 0.0
       - 0.0
@@ -54,7 +54,7 @@ inputs:
       - 2019
   assumed: {}
 outputs:
-  eink_st_y_sn:
+  taxes__einkommensteuer__betrag_y_sn:
     - 19344.0
     - 19344.0
     - 0.0

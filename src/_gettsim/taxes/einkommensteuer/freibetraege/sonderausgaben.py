@@ -3,18 +3,18 @@
 from _gettsim.shared import policy_info
 
 aggregate_by_p_id_sonderausgaben = {
-    "betreuungskost_elternteil_m": {
+    "betreuungskosten_elternteil_m": {
         "p_id_to_aggregate_by": "p_id_betreuungsk_träger",
-        "source_col": "betreuungskost_m",
+        "source_col": "betreuungskosten_m",
         "aggr": "sum",
     },
 }
 
 
-@policy_info(end_date="2011-12-31", name_in_dag="eink_st_sonderausgaben_y_sn")
-def eink_st_sonderausgaben_y_sn_nur_pauschale(
-    eink_st_abzuege_params: dict,
+@policy_info(end_date="2011-12-31", name_in_dag="betrag_y_sn")
+def betrag_y_sn_nur_pauschale(
     anz_personen_sn: int,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level until 2011.
 
@@ -40,11 +40,11 @@ def eink_st_sonderausgaben_y_sn_nur_pauschale(
     return float(out)
 
 
-@policy_info(start_date="2012-01-01", name_in_dag="eink_st_sonderausgaben_y_sn")
-def eink_st_sonderausgaben_y_sn_mit_betreuung(
-    eink_st_abzuege_params: dict,
-    sonderausgaben_betreuung_y_sn: float,
+@policy_info(start_date="2012-01-01", name_in_dag="betrag_y_sn")
+def betrag_y_sn_mit_betreuung(
+    absetzbare_betreuungskosten: float,
     anz_personen_sn: int,
+    eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level since 2012.
 
@@ -53,8 +53,8 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
 
     Parameters
     ----------
-    sonderausgaben_betreuung_y_sn
-        See :func:`sonderausgaben_betreuung_y_sn`.
+    absetzbare_betreuungskosten
+        See :func:`absetzbare_betreuungskosten`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     anz_personen_sn
@@ -64,7 +64,7 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
     -------
 
     """
-    sonderausgaben_gesamt = sonderausgaben_betreuung_y_sn
+    sonderausgaben_gesamt = absetzbare_betreuungskosten
     pauschale = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_sn
     )
@@ -74,16 +74,16 @@ def eink_st_sonderausgaben_y_sn_mit_betreuung(
     return float(out)
 
 
-def eink_st_abz_betreuungskost_y(
+def ausgaben_für_betreuung_y(
+    betreuungskosten_elternteil_y: float,
     eink_st_abzuege_params: dict,
-    betreuungskost_elternteil_y: float,
 ) -> float:
     """Individual deductable childcare cost for each individual child under 14.
 
     Parameters
     ----------
-    betreuungskost_elternteil_y
-        See :func:`betreuungskost_elternteil_y`.
+    betreuungskosten_elternteil_y
+        See :func:`betreuungskosten_elternteil_y`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -92,16 +92,16 @@ def eink_st_abz_betreuungskost_y(
 
     """
     out = min(
-        betreuungskost_elternteil_y,
+        betreuungskosten_elternteil_y,
         eink_st_abzuege_params["kinderbetreuungskosten_abz_maximum"],
     )
     return out
 
 
 @policy_info(params_key_for_rounding="eink_st_abzuege")
-def sonderausgaben_betreuung_y_sn(
+def absetzbare_betreuungskosten_y_sn(
+    ausgaben_für_betreuung_y_sn: float,
     eink_st_abzuege_params: dict,
-    eink_st_abz_betreuungskost_y_sn: float,
 ) -> float:
     """Sonderausgaben for childcare on Steuernummer level.
 
@@ -112,8 +112,8 @@ def sonderausgaben_betreuung_y_sn(
     ----------
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    eink_st_abz_betreuungskost_y_sn
-        See :func:`eink_st_abz_betreuungskost_y_sn`.
+    ausgaben_für_betreuung_y_sn
+        See :func:`ausgaben_für_betreuung_y_sn`.
 
     Returns
     -------
@@ -121,7 +121,7 @@ def sonderausgaben_betreuung_y_sn(
     """
 
     out = (
-        eink_st_abz_betreuungskost_y_sn
+        ausgaben_für_betreuung_y_sn
         * eink_st_abzuege_params["kinderbetreuungskosten_abz_anteil"]
     )
 

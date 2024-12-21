@@ -38,11 +38,11 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_sn:
+  taxes__einkommensteuer__betrag_ohne_kinderfreib_y_sn:
     - 0
     - 0
     - 0
-  eink_st_mit_kinderfreib_y_sn:
+  taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
     - 0
     - 0
     - 0
@@ -50,7 +50,7 @@ outputs:
     - 49.5
     - 49.5
     - 0.0
-  soli_st_y_sn:
+  taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
     - 2.72
     - 2.72
     - 0.0

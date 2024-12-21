@@ -43,7 +43,7 @@ inputs:
     wohnfläche_hh:
       - 50.0
       - 50.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
     sozialv_beitr_arbeitnehmer_m:
@@ -73,7 +73,7 @@ inputs:
     sum_ges_rente_priv_rente_m:
       - 0.0
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
     elterngeld_m:
@@ -112,7 +112,7 @@ inputs:
     jahr:
       - 2013
       - 2013
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
     vermögen_bedürft:

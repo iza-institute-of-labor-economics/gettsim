@@ -164,7 +164,7 @@ inputs:
       - false
       - false
       - false
-    betreuungskost_m:
+    betreuungskosten_m:
       - 0.0
       - 0.0
       - 0.0

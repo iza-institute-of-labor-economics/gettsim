@@ -109,19 +109,19 @@ def test_access_different_date_jahresanfang():
     "dag_key, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            "eink_st_altersfreib_y",
+            "einkommensteuer__freibetraege__altersfreibetrag__betrag_y",
             date(2004, 12, 31),
-            "eink_st_altersfreib_y_bis_2004",
-            "eink_st_altersfreib_y_ab_2005",
+            "einkommensteuer__freibetraege__altersfreibetrag__betrag_y_bis_2004",
+            "einkommensteuer__freibetraege__altersfreibetrag__betrag_y_ab_2005",
         ),
         (
-            "alleinerz_freib_y_sn",
+            "einkommensteuer__freibetraege__alleinerziehend__betrag_y",
             date(2014, 12, 31),
-            "eink_st_alleinerz_freib_y_sn_pauschal",
-            "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
+            "eink_st_einkommensteuer__freibetraege__alleinerziehend__betrag_y_pauschal",
+            "eink_st_einkommensteuer__freibetraege__alleinerziehend__betrag_y_nach_kinderzahl",
         ),
         (
-            "sum_eink_y",
+            "einkommensteuer__einkommen__bruttoeinkommen__betrag_y",
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",

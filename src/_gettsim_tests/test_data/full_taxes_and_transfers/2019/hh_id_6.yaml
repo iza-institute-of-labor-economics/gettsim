@@ -68,7 +68,7 @@ inputs:
       - false
     rentner:
       - false
-    betreuungskost_m:
+    betreuungskosten_m:
       - 0.0
     p_id_betreuungsk_träger:
       - -1

@@ -255,7 +255,7 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
     anz_kinder_bis_17_bg: int,
-    _eink_st_kinderfreib_anz_ansprüche: int,
+    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -273,8 +273,9 @@ def arbeitsl_geld_2_eink_anr_frei_m(
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
     anz_kinder_bis_17_bg
         See :func:`anz_kinder_bis_17_bg`.
-    _eink_st_kinderfreib_anz_ansprüche
-        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
+    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
+        See :func:
+        `einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -287,7 +288,10 @@ def arbeitsl_geld_2_eink_anr_frei_m(
     # condition.
     eink_erwerbstätigkeit = bruttolohn_m + eink_selbst_m
 
-    if anz_kinder_bis_17_bg > 0 or _eink_st_kinderfreib_anz_ansprüche > 0:
+    if (
+        anz_kinder_bis_17_bg > 0
+        or einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche > 0
+    ):
         out = piecewise_polynomial(
             x=eink_erwerbstätigkeit,
             thresholds=arbeitsl_geld_2_params["eink_anr_frei_kinder"]["thresholds"],

@@ -63,7 +63,8 @@ GETTSIM; this is irrelevant for the DAG.
 Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `bruttolohn_m`).
-- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_sn`).
+- Outputs of other functions in the taxes and transfers system (e.g.,
+  `taxes__einkommensteuer__betrag_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 
@@ -108,8 +109,8 @@ parameters related to the calculation of `abgelt_st_y_sn`.
 Another function, say
 
 ```python
-def soli_st_y_sn(
-    eink_st_mit_kinderfreib_y_sn: float,
+def taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn(
+    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     abgelt_st_y_sn: float,
     soli_st_params: dict,

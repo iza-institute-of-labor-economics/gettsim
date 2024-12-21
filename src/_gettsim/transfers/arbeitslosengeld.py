@@ -2,11 +2,11 @@
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.taxes.einkommensteuer import _eink_st_tarif
+from _gettsim.taxes.einkommensteuer import einkommensteuer_tarif
 
 
 def arbeitsl_geld_m(
-    _eink_st_kinderfreib_anz_ansprüche: int,
+    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
     arbeitsl_geld_berechtigt: bool,
     arbeitsl_geld_eink_vorj_proxy_m: float,
     arbeitsl_geld_params: dict,
@@ -15,8 +15,9 @@ def arbeitsl_geld_m(
 
     Parameters
     ----------
-    _eink_st_kinderfreib_anz_ansprüche
-        See :func:`_eink_st_kinderfreib_anz_ansprüche`.
+    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
+        See :func:
+        `einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche`.
     arbeitsl_geld_berechtigt
         See :func:`arbeitsl_geld_berechtigt`.
     arbeitsl_geld_eink_vorj_proxy_m
@@ -29,9 +30,9 @@ def arbeitsl_geld_m(
 
     """
 
-    if _eink_st_kinderfreib_anz_ansprüche == 0:
+    if einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche == 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-    elif _eink_st_kinderfreib_anz_ansprüche > 0:
+    elif einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
     if arbeitsl_geld_berechtigt:
@@ -200,7 +201,7 @@ def arbeitsl_geld_eink_vorj_proxy_m(
     # 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"] not being
     # the same as zu versteuerndes einkommen
     # waiting for PR Lohnsteuer #150 to be merged to correct this problem
-    prox_tax = _eink_st_tarif(
+    prox_tax = einkommensteuer_tarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )

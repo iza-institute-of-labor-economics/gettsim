@@ -123,7 +123,7 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -213,7 +213,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0
@@ -330,7 +330,7 @@ inputs:
       - 2006
       - 2006
       - 2006
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0

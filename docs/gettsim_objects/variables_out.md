@@ -22,11 +22,11 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Updated earning points for pension claim
 * - {func}`abgelt_st_y_sn <_gettsim.functions.all_functions_for_docs.abgelt_st_y_sn>`
   - Capital income tax on Steuernummer level
-* - {func}`soli_st_y_sn <_gettsim.functions.all_functions_for_docs.soli_st_y_sn>`
+* - {func}`taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn>`
   - Solidarity surcharge on Steuernummer level
 * - {func}`kindergeld_m <_gettsim.functions.all_functions_for_docs.kindergeld_m>`
   - Monthly child benefit
-* - {func}`eink_st_y_sn <_gettsim.functions.all_functions_for_docs.eink_st_y_sn>`
+* - {func}`taxes__einkommensteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__betrag_y_sn>`
   - Income Tax on Steuernummer level
 * - {func}`lohnst_m` <_gettsim.functions.all_functions_for_docs.lohnst_m>`
   - Withholding tax

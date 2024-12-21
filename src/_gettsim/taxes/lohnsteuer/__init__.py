@@ -1,6 +1,6 @@
 """Withholding tax on earnings (Lohnsteuer)."""
 
-from _gettsim.taxes.einkommensteuer import _eink_st_tarif
+from _gettsim.taxes.einkommensteuer import einkommensteuer_tarif
 
 
 def lohnst_m(
@@ -65,8 +65,10 @@ def _lohnst_m(
 
     """
 
-    lohnsteuer_basistarif = _eink_st_tarif(lohnst_eink_y, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * _eink_st_tarif(lohnst_eink_y / 2, eink_st_params)
+    lohnsteuer_basistarif = einkommensteuer_tarif(lohnst_eink_y, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * einkommensteuer_tarif(
+        lohnst_eink_y / 2, eink_st_params
+    )
     lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis_y(lohnst_eink_y, eink_st_params)
 
     grenze_1 = lohnst_params["lohnst_einkommensgrenzen"][0]
@@ -146,8 +148,8 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     out = max(
         2
         * (
-            _eink_st_tarif(taxable_inc * 1.25, eink_st_params)
-            - _eink_st_tarif(taxable_inc * 0.75, eink_st_params)
+            einkommensteuer_tarif(taxable_inc * 1.25, eink_st_params)
+            - einkommensteuer_tarif(taxable_inc * 0.75, eink_st_params)
         ),
         taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
