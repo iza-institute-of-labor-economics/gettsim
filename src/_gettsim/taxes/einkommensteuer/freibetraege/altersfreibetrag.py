@@ -54,7 +54,7 @@ def betrag_y_bis_2004(  # noqa: PLR0913
 @policy_info(start_date="2005-01-01", name_in_dag="betrag_y")
 def betrag_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     alter: int,
     geburtsjahr: int,
     kapitaleink_brutto_m: float,
@@ -80,8 +80,8 @@ def betrag_y_ab_2005(  # noqa: PLR0913
         See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
 
     Returns
     -------
@@ -100,7 +100,7 @@ def betrag_y_ab_2005(  # noqa: PLR0913
     # Select appropriate tax credit threshold and quota.
     out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
 
-    einkommen_lohn = 0 if geringfügig_beschäftigt else bruttolohn_m
+    einkommen_lohn = 0 if einkommensgrenzen__geringfügig_beschäftigt else bruttolohn_m
     weiteres_einkommen = max(
         kapitaleink_brutto_m + eink_selbst_m + eink_vermietung_m, 0.0
     )

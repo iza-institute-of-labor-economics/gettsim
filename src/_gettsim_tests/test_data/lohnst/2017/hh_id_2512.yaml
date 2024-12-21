@@ -25,7 +25,7 @@ inputs:
       - false
     p_id:
       - 2512
-    regulär_beschäftigt:
+    einkommensgrenzen__regulär_beschäftigt:
       - true
     steuerklasse:
       - 6

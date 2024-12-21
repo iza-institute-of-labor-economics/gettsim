@@ -50,7 +50,7 @@ def betrag_y_sn_ohne_abgelt_st(
 def betrag_y_sn_mit_abgelt_st(
     taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
-    abgelt_st_y_sn: float,
+    abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float:
     """Calculate the Solidarity Surcharge on Steuernummer level.
@@ -72,8 +72,8 @@ def betrag_y_sn_mit_abgelt_st(
         See :func:`taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
-    abgelt_st_y_sn
-        See :func:`abgelt_st_y_sn`.
+    abgeltungssteuer__betrag_y_sn
+        See :func:`abgeltungssteuer__betrag_y_sn`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -87,7 +87,7 @@ def betrag_y_sn_mit_abgelt_st(
     out = (
         anz_personen_sn
         * solidaritaetszuschlag_tarif(eink_st_per_individual, soli_st_params)
-        + soli_st_params["soli_st"]["rates"][0, -1] * abgelt_st_y_sn
+        + soli_st_params["soli_st"]["rates"][0, -1] * abgeltungssteuer__betrag_y_sn
     )
 
     return out

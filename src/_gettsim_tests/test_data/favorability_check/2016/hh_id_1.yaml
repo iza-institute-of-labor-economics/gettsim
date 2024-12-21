@@ -40,7 +40,7 @@ inputs:
       - 10000.0
       - 10000.0
       - 0.0
-    abgelt_st_y_sn:
+    abgeltungssteuer__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0

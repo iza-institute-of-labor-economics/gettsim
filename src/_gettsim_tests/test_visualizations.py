@@ -132,7 +132,10 @@ def test_one_dot_plot_dag():
 def test_10_dots_plot_dag():
     """Make sure that when No.of nodes is larger than 10 or show_labels is false, the
     graph example doesn't produce an error and hover information works properly."""
-    selector = {"type": "descendants", "node": "geringfügig_beschäftigt"}
+    selector = {
+        "type": "descendants",
+        "node": "einkommensgrenzen__geringfügig_beschäftigt",
+    }
     plot_dag(environment=environment, selectors=selector, orientation="h")
 
 
@@ -141,7 +144,9 @@ def test_horizontal_plot_dag():
     produce an error."""
     plot_dag(
         environment=environment,
-        selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
+        selectors=[
+            {"node": "abgeltungssteuer__kapitaleinkommen_y_sn", "type": "neighbors"}
+        ],
         orientation="h",
     )
 
@@ -151,7 +156,9 @@ def test_hover_source_code_plot_dag():
     produce an error and works properly."""
     plot_dag(
         environment=environment,
-        selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
+        selectors=[
+            {"node": "abgeltungssteuer__kapitaleinkommen_y_sn", "type": "neighbors"}
+        ],
         orientation="h",
         hover_source_code=True,
     )

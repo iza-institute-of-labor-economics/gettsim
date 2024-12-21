@@ -46,7 +46,7 @@ outputs:
     - 0
     - 0
     - 0
-  abgelt_st_y_sn:
+  abgeltungssteuer__betrag_y_sn:
     - 49.5
     - 49.5
     - 0.0

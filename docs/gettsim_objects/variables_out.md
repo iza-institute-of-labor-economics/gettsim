@@ -20,7 +20,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly amount of unemployment assistance
 * - {func}`entgeltp_update <_gettsim.functions.all_functions_for_docs.entgeltp_update>`
   - Updated earning points for pension claim
-* - {func}`abgelt_st_y_sn <_gettsim.functions.all_functions_for_docs.abgelt_st_y_sn>`
+* - {func}`abgeltungssteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.abgeltungssteuer__betrag_y_sn>`
   - Capital income tax on Steuernummer level
 * - {func}`taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn>`
   - Solidarity surcharge on Steuernummer level

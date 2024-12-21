@@ -26,7 +26,7 @@ outputs:
     - 12950
   taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
     - 9830
-  abgelt_st_y_sn:
+  abgeltungssteuer__betrag_y_sn:
     - 424.75
   taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
     - 564.01

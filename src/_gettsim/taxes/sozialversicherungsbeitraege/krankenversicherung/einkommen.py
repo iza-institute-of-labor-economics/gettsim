@@ -3,7 +3,7 @@
 
 def _ges_krankenv_bruttolohn_m(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
-    regulär_beschäftigt: bool,
+    einkommensgrenzen__regulär_beschäftigt: bool,
 ) -> float:
     """Wage subject to public health insurance contributions.
 
@@ -14,8 +14,8 @@ def _ges_krankenv_bruttolohn_m(
     ----------
     bruttolohn_m
         See :func:`bruttolohn_m`.
-    regulär_beschäftigt
-        See :func:`regulär_beschäftigt`.
+    einkommensgrenzen__regulär_beschäftigt
+        See :func:`einkommensgrenzen__regulär_beschäftigt`.
     _ges_krankenv_beitr_bemess_grenze_m
         See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
 
@@ -24,7 +24,7 @@ def _ges_krankenv_bruttolohn_m(
     -------
 
     """
-    if regulär_beschäftigt:
+    if einkommensgrenzen__regulär_beschäftigt:
         out = _ges_krankenv_bruttolohn_reg_beschäftigt_m
     else:
         out = 0.0

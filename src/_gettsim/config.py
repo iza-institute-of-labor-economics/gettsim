@@ -129,7 +129,7 @@ SUPPORTED_TIME_UNITS = {
 DEFAULT_TARGETS = [
     "taxes__einkommensteuer__betrag_y_sn",
     "taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn",
-    "abgelt_st_y_sn",
+    "abgeltungssteuer__betrag_y_sn",
     "elterngeld_m",
     "sozialv_beitr_arbeitnehmer_m",
     "ges_rentenv_beitr_arbeitnehmer_m",

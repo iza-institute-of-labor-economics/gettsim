@@ -39,7 +39,7 @@ outputs:
   taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
     - 62794.0
     - 62794.0
-  abgelt_st_y_sn:
+  abgeltungssteuer__betrag_y_sn:
     - 0.0
     - 0.0
   taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:

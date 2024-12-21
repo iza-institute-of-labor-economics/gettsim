@@ -6,7 +6,7 @@ from _gettsim.shared import policy_info
 @policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_arbeitnehmer_m")
 def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
     _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m: float,
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rentner_m: float,
     ges_pflegev_beitr_selbstständig_m: float,
     selbstständig: bool,
@@ -15,8 +15,8 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     ges_pflegev_beitr_rentner_m
         See :func:`ges_pflegev_beitr_rentner_m`.
     ges_pflegev_beitr_selbstständig_m
@@ -34,7 +34,7 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
 
     if selbstständig:
         out = ges_pflegev_beitr_selbstständig_m
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
         out = _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m
@@ -46,19 +46,19 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
 @policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_arbeitnehmer_m")
 def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m: float,
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     ges_pflegev_beitr_rentner_m: float,
     ges_pflegev_beitr_selbstständig_m: float,
     _ges_pflegev_beitr_midijob_arbeitnehmer_m: float,
-    in_gleitzone: bool,
+    einkommensgrenzen__in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
     """Employee's long-term care insurance contribution since April 2003.
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     ges_pflegev_beitr_rentner_m
         See :func:`ges_pflegev_beitr_rentner_m`.
     ges_pflegev_beitr_selbstständig_m
@@ -67,8 +67,8 @@ def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
         See :func:`_ges_pflegev_beitr_midijob_arbeitnehmer_m`.
     ges_pflegev_beitr_regulär_besch_m
         See :func:`ges_pflegev_beitr_regulär_besch_m`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
 
@@ -80,9 +80,9 @@ def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
 
     if selbstständig:
         out = ges_pflegev_beitr_selbstständig_m
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
-    elif in_gleitzone:
+    elif einkommensgrenzen__in_gleitzone:
         out = _ges_pflegev_beitr_midijob_arbeitnehmer_m
     else:
         out = _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m
@@ -119,7 +119,7 @@ def _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m(
 
 @policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_arbeitgeber_m")
 def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     _ges_krankenv_bruttolohn_m: float,
     sozialv_beitr_params: dict,
     selbstständig: bool,
@@ -130,8 +130,8 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     sozialv_beitr_params
@@ -149,7 +149,7 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
         _ges_krankenv_bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
-    if selbstständig or geringfügig_beschäftigt:
+    if selbstständig or einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
         out = beitr_regulär_beschäftigt_m
@@ -159,11 +159,11 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
 
 @policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_arbeitgeber_m")
 def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     _ges_pflegev_beitr_midijob_arbeitgeber_m: float,
     _ges_krankenv_bruttolohn_m: float,
     sozialv_beitr_params: dict,
-    in_gleitzone: bool,
+    einkommensgrenzen__in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
     """Employer's long-term care insurance contribution.
@@ -172,16 +172,16 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     _ges_pflegev_beitr_midijob_arbeitgeber_m
         See :func:`_ges_pflegev_beitr_midijob_arbeitgeber_m`.
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
 
@@ -196,9 +196,9 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
-    if selbstständig or geringfügig_beschäftigt:
+    if selbstständig or einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
-    elif in_gleitzone:
+    elif einkommensgrenzen__in_gleitzone:
         out = _ges_pflegev_beitr_midijob_arbeitgeber_m
     else:
         out = beitr_regulär_beschäftigt_m
@@ -381,7 +381,7 @@ def ges_pflegev_beitr_rentner_m_zusatz_kinderlos_dummy(
     name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m",
 )
 def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
-    midijob_bemessungsentgelt_m: float,
+    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     ges_pflegev_beitr_satz_arbeitnehmer: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -389,8 +389,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
 
     Parameters
     ----------
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
+    einkommensgrenzen__midijob_bemessungsentgelt_m
+        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     ges_pflegev_beitr_satz_arbeitnehmer
         See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
     sozialv_beitr_params
@@ -403,7 +403,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
 
     """
 
-    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+    gesamtbeitrag_midijob_m = einkommensgrenzen__midijob_bemessungsentgelt_m * (
         ges_pflegev_beitr_satz_arbeitnehmer
         + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
@@ -416,7 +416,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
     name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m",
 )
 def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
-    midijob_bemessungsentgelt_m: float,
+    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     ges_pflegev_beitr_satz_arbeitnehmer: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -424,8 +424,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
 
     Parameters
     ----------
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
+    einkommensgrenzen__midijob_bemessungsentgelt_m
+        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     ges_pflegev_beitr_satz_arbeitnehmer
         See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
     sozialv_beitr_params
@@ -437,7 +437,7 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
 
     """
 
-    gesamtbeitrag_midijob_m = midijob_bemessungsentgelt_m * (
+    gesamtbeitrag_midijob_m = einkommensgrenzen__midijob_bemessungsentgelt_m * (
         ges_pflegev_beitr_satz_arbeitnehmer
         + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
@@ -571,8 +571,8 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_residuum(
 )
 def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     ges_pflegev_zusatz_kinderlos: bool,
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
-    midijob_bemessungsentgelt_m: float,
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution since between October 2022 and
@@ -582,10 +582,10 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     ----------
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m
-        See :func:`_midijob_beitragspfl_einnahme_arbeitnehmer_m`.
+    einkommensgrenzen__midijob_bemessungsentgelt_m
+        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -596,14 +596,14 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     """
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = (
-        _midijob_beitragspfl_einnahme_arbeitnehmer_m
+        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         an_beitr_midijob_m += (
-            midijob_bemessungsentgelt_m
+            einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 
@@ -616,8 +616,8 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
 def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
     ges_pflegev_zusatz_kinderlos: bool,
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
-    midijob_bemessungsentgelt_m: float,
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution since July 2023.
@@ -628,10 +628,10 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
         See :func:`ges_pflegev_anz_kinder_bis_24`.
     ges_pflegev_zusatz_kinderlos
         See :func:`ges_pflegev_zusatz_kinderlos`.
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m
-        See :func:`_midijob_beitragspfl_einnahme_arbeitnehmer_m`.
+    einkommensgrenzen__midijob_bemessungsentgelt_m
+        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -650,12 +650,14 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
         ] * min(ges_pflegev_anz_kinder_bis_24 - 1, 4)
 
     # Calculate the employee care insurance contribution
-    an_beitr_midijob_m = _midijob_beitragspfl_einnahme_arbeitnehmer_m * ges_pflegev_rate
+    an_beitr_midijob_m = (
+        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m * ges_pflegev_rate
+    )
 
     # Add additional contribution for childless individuals
     if ges_pflegev_zusatz_kinderlos:
         an_beitr_midijob_m += (
-            midijob_bemessungsentgelt_m
+            einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
         )
 

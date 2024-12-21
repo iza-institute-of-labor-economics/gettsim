@@ -39,7 +39,7 @@ inputs:
       - '1998'
   assumed: {}
 outputs:
-  geringfügig_beschäftigt:
+  einkommensgrenzen__geringfügig_beschäftigt:
     - true
     - false
   sozialv_beitr_arbeitnehmer_m:

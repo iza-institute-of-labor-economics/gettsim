@@ -5,7 +5,7 @@ from _gettsim.shared import policy_info
 
 @policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rentner_m: float,
     ges_krankenv_beitr_selbstständig_m: float,
     _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m: float,
@@ -17,8 +17,8 @@ def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     ges_krankenv_beitr_rentner_m
         See :func:`ges_krankenv_beitr_rentner_m`.
     ges_krankenv_beitr_selbstständig_m
@@ -35,7 +35,7 @@ def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
     """
     if selbstständig:
         out = ges_krankenv_beitr_selbstständig_m
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
         out = _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m
@@ -46,10 +46,10 @@ def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
 
 @policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rentner_m: float,
     ges_krankenv_beitr_selbstständig_m: float,
-    in_gleitzone: bool,
+    einkommensgrenzen__in_gleitzone: bool,
     _ges_krankenv_beitr_midijob_arbeitnehmer_m: float,
     _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m: float,
     selbstständig: bool,
@@ -60,8 +60,8 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     ges_krankenv_beitr_rentner_m
         See :func:`ges_krankenv_beitr_rentner_m`.
     ges_krankenv_beitr_selbstständig_m
@@ -70,8 +70,8 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
         See :func:`_ges_krankenv_beitr_midijob_arbeitnehmer_m`.
     _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m
         See :func:`_ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
 
@@ -82,9 +82,9 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     """
     if selbstständig:
         out = ges_krankenv_beitr_selbstständig_m
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
-    elif in_gleitzone:
+    elif einkommensgrenzen__in_gleitzone:
         out = _ges_krankenv_beitr_midijob_arbeitnehmer_m
     else:
         out = _ges_krankenv_beitr_arbeitnehmer_reg_beschäftigt_m
@@ -95,7 +95,7 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
 
 @policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
 def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
     bruttolohn_m: float,
     _ges_krankenv_bruttolohn_m: float,
     selbstständig: bool,
@@ -108,8 +108,8 @@ def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     _ges_krankenv_beitr_satz_arbeitgeber
@@ -128,7 +128,7 @@ def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
     """
     if selbstständig:
         out = 0.0
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
     else:
         out = _ges_krankenv_bruttolohn_m * _ges_krankenv_beitr_satz_arbeitgeber
@@ -138,8 +138,8 @@ def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
 
 @policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
 def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
-    geringfügig_beschäftigt: bool,
-    in_gleitzone: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    einkommensgrenzen__in_gleitzone: bool,
     bruttolohn_m: float,
     _ges_krankenv_beitr_midijob_arbeitgeber_m: float,
     _ges_krankenv_bruttolohn_m: float,
@@ -153,16 +153,16 @@ def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
 
     Parameters
     ----------
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     _ges_krankenv_beitr_midijob_arbeitgeber_m
         See :func:`_ges_krankenv_beitr_midijob_arbeitgeber_m`.
     _ges_krankenv_bruttolohn_m
         See :func:`_ges_krankenv_bruttolohn_m`.
     _ges_krankenv_beitr_satz_arbeitgeber
         See :func:`_ges_krankenv_beitr_satz_arbeitgeber`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     selbstständig
@@ -177,9 +177,9 @@ def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
     """
     if selbstständig:
         out = 0.0
-    elif geringfügig_beschäftigt:
+    elif einkommensgrenzen__geringfügig_beschäftigt:
         out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
-    elif in_gleitzone:
+    elif einkommensgrenzen__in_gleitzone:
         out = _ges_krankenv_beitr_midijob_arbeitgeber_m
     else:
         out = _ges_krankenv_bruttolohn_m * _ges_krankenv_beitr_satz_arbeitgeber
@@ -260,7 +260,7 @@ def ges_krankenv_beitr_rentner_m(
 
 @policy_info(start_date="2003-04-01")
 def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
-    midijob_bemessungsentgelt_m: float,
+    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz_arbeitnehmer: float,
     _ges_krankenv_beitr_satz_arbeitgeber: float,
 ) -> float:
@@ -270,8 +270,8 @@ def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
 
     Parameters
     ----------
-    midijob_bemessungsentgelt_m
-        See :func:`midijob_bemessungsentgelt_m`.
+    einkommensgrenzen__midijob_bemessungsentgelt_m
+        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     ges_krankenv_beitr_satz_arbeitnehmer
         See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
     _ges_krankenv_beitr_satz_arbeitgeber
@@ -283,7 +283,7 @@ def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     """
     return (
         ges_krankenv_beitr_satz_arbeitnehmer + _ges_krankenv_beitr_satz_arbeitgeber
-    ) * midijob_bemessungsentgelt_m
+    ) * einkommensgrenzen__midijob_bemessungsentgelt_m
 
 
 @policy_info(
@@ -292,7 +292,9 @@ def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     name_in_dag="_ges_krankenv_beitr_midijob_arbeitgeber_m",
 )
 def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
-    bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitgeber: float
+    bruttolohn_m: float,
+    einkommensgrenzen__in_gleitzone: bool,
+    _ges_krankenv_beitr_satz_arbeitgeber: float,
 ) -> float:
     """Employers' health insurance contribution for midijobs until September 2022.
 
@@ -302,15 +304,15 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     _ges_krankenv_beitr_satz_arbeitgeber
         See :func:`_ges_krankenv_beitr_satz_arbeitgeber`.
     Returns
     -------
 
     """
-    if in_gleitzone:
+    if einkommensgrenzen__in_gleitzone:
         out = _ges_krankenv_beitr_satz_arbeitgeber * bruttolohn_m
     else:
         out = 0.0
@@ -324,7 +326,7 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
 def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
     _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
     _ges_krankenv_beitr_midijob_arbeitnehmer_m: float,
-    in_gleitzone: bool,
+    einkommensgrenzen__in_gleitzone: bool,
 ) -> float:
     """Employer's health insurance contribution for midijobs since October
     2022.
@@ -335,15 +337,15 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
         See :func:`_ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m`.
     _ges_krankenv_beitr_midijob_arbeitnehmer_m
         See :func:`_ges_krankenv_beitr_midijob_arbeitnehmer_m`.
-    in_gleitzone
-        See :func:`in_gleitzone`.
+    einkommensgrenzen__in_gleitzone
+        See :func:`einkommensgrenzen__in_gleitzone`.
     _ges_krankenv_beitr_satz_arbeitgeber
         See :func:`_ges_krankenv_beitr_satz_arbeitgeber`.
     Returns
     -------
 
     """
-    if in_gleitzone:
+    if einkommensgrenzen__in_gleitzone:
         out = (
             _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
             - _ges_krankenv_beitr_midijob_arbeitnehmer_m
@@ -385,15 +387,15 @@ def _ges_krankenv_beitr_midijob_arbeitnehmer_m_residuum(
     start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitnehmer_m"
 )
 def _ges_krankenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     ges_krankenv_beitr_satz_arbeitnehmer: float,
 ) -> float:
     """Employee's health insurance contribution for midijobs since October 2022.
 
     Parameters
     ----------
-    _midijob_beitragspfl_einnahme_arbeitnehmer_m
-        See :func:`_midijob_beitragspfl_einnahme_arbeitnehmer_m`.
+    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
     ges_krankenv_beitr_satz_arbeitnehmer
         See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
     Returns
@@ -401,6 +403,6 @@ def _ges_krankenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
 
     """
     return (
-        _midijob_beitragspfl_einnahme_arbeitnehmer_m
+        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
         * ges_krankenv_beitr_satz_arbeitnehmer
     )

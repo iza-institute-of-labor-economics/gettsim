@@ -127,7 +127,7 @@ def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
 
 def betrag_aus_abhängiger_beschäftigung_ohne_minijob_y(
     betrag_aus_abhängiger_beschäftigung_y: float,
-    geringfügig_beschäftigt: bool,
+    einkommensgrenzen__geringfügig_beschäftigt: bool,
 ) -> float:
     """Taxable income from dependent employment. In particular, taxable income is set to
     0 for marginally employed persons.
@@ -137,14 +137,14 @@ def betrag_aus_abhängiger_beschäftigung_ohne_minijob_y(
     betrag_aus_abhängiger_beschäftigung_y
         See basic input variable :ref:`betrag_aus_abhängiger_beschäftigung_y
         <betrag_aus_abhängiger_beschäftigung_y>`.
-    geringfügig_beschäftigt
-        See :func:`geringfügig_beschäftigt`.
+    einkommensgrenzen__geringfügig_beschäftigt
+        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
 
     Returns
     -------
 
     """
-    if geringfügig_beschäftigt:
+    if einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
         out = betrag_aus_abhängiger_beschäftigung_y

@@ -81,13 +81,15 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
+def abgeltungssteuer__betrag_y_sn(
+    abgeltungssteuer__kapitaleinkommen_y_sn: float, abgelt_st_params: dict
+) -> float:
     """Calculate Abgeltungssteuer on Steuernummer-level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_y_sn
-        See :func:`zu_verst_kapitaleink_y_sn`.
+    abgeltungssteuer__kapitaleinkommen_y_sn
+        See :func:`abgeltungssteuer__kapitaleinkommen_y_sn`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -95,16 +97,17 @@ def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> 
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_sn
+    return abgelt_st_params["satz"] * abgeltungssteuer__kapitaleinkommen_y_sn
 ```
 
-The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink_y_sn`,
-which is the amount of taxable capital income on the Steuernummer-level (the latter is
-implied by the `_sn` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_sn` must be
-provided by the user as a column of the input data or it has to be the name of another
-function. It is also possible to specify `zu_verst_kapital_eink_y` and aggregation to
-the `sn`-level will happen automatically. `abgelt_st_params` is a dictionary of
-parameters related to the calculation of `abgelt_st_y_sn`.
+The function {func}`abgeltungssteuer__betrag_y_sn` requires the variable
+`zu_verst_kapital_eink_y_sn`, which is the amount of taxable capital income on the
+Steuernummer-level (the latter is implied by the `_sn` suffix, see {ref}`gep-1`).
+`zu_verst_kapital_eink_y_sn` must be provided by the user as a column of the input data
+or it has to be the name of another function. It is also possible to specify
+`zu_verst_kapital_eink_y` and aggregation to the `sn`-level will happen automatically.
+`abgelt_st_params` is a dictionary of parameters related to the calculation of
+`abgeltungssteuer__betrag_y_sn`.
 
 Another function, say
 
@@ -112,13 +115,13 @@ Another function, say
 def taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn(
     taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
-    abgelt_st_y_sn: float,
+    abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float: ...
 ```
 
-may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
-`abgelt_st_y_sn` will be executed first.
+may use `abgeltungssteuer__betrag_y_sn` as an input argument. The DAG backend ensures
+that the function `abgeltungssteuer__betrag_y_sn` will be executed first.
 
 Note that the type annotations (e.g. `float`) indicate the expected type of each input
 and the output of a function, see {ref}`gep-2`.
