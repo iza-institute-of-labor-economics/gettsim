@@ -32,7 +32,7 @@ inputs:
     wohnort_ost:
       - false
 outputs:
-  lohnst_m:
+  lohnsteuer__betrag_m:
     - 804.0
-  soli_st_lohnst_m:
+  lohnsteuer__betrag_soli_m:
     - 44.22916666666666

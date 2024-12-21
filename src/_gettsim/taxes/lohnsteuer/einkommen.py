@@ -1,13 +1,10 @@
 """Income relevant for withholding tax on earnings (Lohnsteuer)."""
 
 from _gettsim.shared import policy_info
-from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import (
-    solidaritaetszuschlag_tarif,
-)
 
 
 @policy_info(params_key_for_rounding="lohnst")
-def lohnst_eink_y(
+def betrag_y(
     bruttolohn_y: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
@@ -55,26 +52,6 @@ def lohnst_eink_y(
     )
 
     return out
-
-
-def soli_st_lohnst_y(lohnst_mit_kinderfreib_y: float, soli_st_params: dict) -> float:
-    """Calculates the monthly Solidarity Surcharge on Lohnsteuer
-    (withholding tax on earnings).
-
-    Parameters
-    ----------
-    lohnst_mit_kinderfreib_y
-        See :func:`lohnst_mit_kinderfreib_y`.
-    soli_st_params
-        See params documentation :ref:`soli_st_params <soli_st_params>`.
-
-    Returns
-        Solidarity Surcharge on Lohnsteuer
-    -------
-
-    """
-
-    return solidaritaetszuschlag_tarif(lohnst_mit_kinderfreib_y, soli_st_params)
 
 
 @policy_info(
@@ -284,39 +261,4 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
-    out = 0.0
-    return out
-
-
-def kinderfreib_für_soli_st_lohnst_y(
-    steuerklasse: int,
-    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
-    eink_st_abzuege_params: dict,
-) -> float:
-    """Calculate Child Allowance for Lohnsteuer-Soli.
-
-    For the purpose of Soli on Lohnsteuer, the child allowance not only depends on the
-    number of children, but also on the steuerklasse
-
-    """
-
-    kinderfreib_basis = (
-        eink_st_abzuege_params["kinderfreib"]["sächl_existenzmin"]
-        + eink_st_abzuege_params["kinderfreib"]["beitr_erz_ausb"]
-    )
-
-    # For certain tax brackets, twice the child allowance can be deducted
-    if steuerklasse in {1, 2, 3}:
-        out = (
-            kinderfreib_basis
-            * 2
-            * einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
-        )
-    elif steuerklasse == 4:
-        out = (
-            kinderfreib_basis
-            * einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
-        )
-    else:
-        out = 0
-    return out
+    return 0.0

@@ -5,8 +5,8 @@ from _gettsim.shared import policy_info
 
 def elterngeld_anrechenbares_nettoeinkommen_m(
     bruttolohn_m: float,
-    lohnst_m: float,
-    soli_st_lohnst_m: float,
+    lohnsteuer__betrag_m: float,
+    lohnsteuer__betrag_soli_m: float,
 ) -> float:
     """Income that reduces the Elterngeld claim.
 
@@ -14,19 +14,19 @@ def elterngeld_anrechenbares_nettoeinkommen_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    lohnst_m
-        See :func:`lohnst_m`.
-    soli_st_lohnst_m
-        See :func:`soli_st_lohnst_m`.
+    lohnsteuer__betrag_m
+        See :func:`lohnsteuer__betrag_m`.
+    lohnsteuer__betrag_soli_m
+        See :func:`lohnsteuer__betrag_soli_m`.
 
     Returns
     -------
 
     """
-    # TODO(@MImmesberger): In this case, lohnst_m should be calculated without taking
-    # into account adaptions to the standard care insurance rate.
+    # TODO(@MImmesberger): In this case, lohnsteuer__betrag_m should be calculated
+    # without taking into account adaptions to the standard care insurance rate.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/792
-    return bruttolohn_m - lohnst_m - soli_st_lohnst_m
+    return bruttolohn_m - lohnsteuer__betrag_m - lohnsteuer__betrag_soli_m
 
 
 @policy_info(params_key_for_rounding="elterngeld")
@@ -139,8 +139,8 @@ def vorjahr_einkommen_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
 @policy_info(params_key_for_rounding="elterngeld")
 def elterngeld_nettolohn_approximation_m(
     bruttolohn_m: float,
-    lohnst_m: float,
-    soli_st_lohnst_m: float,
+    lohnsteuer__betrag_m: float,
+    lohnsteuer__betrag_soli_m: float,
     elterngeld_params: dict,
 ) -> float:
     """Approximation of net wage used to calculate Elterngeld.
@@ -155,12 +155,12 @@ def elterngeld_nettolohn_approximation_m(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    lohnst_m
-        See :func:`lohnst_m`.
-    soli_st_lohnst_m
-        See :func:`soli_st_lohnst_m`.
+    lohnsteuer__betrag_m
+        See :func:`lohnsteuer__betrag_m`.
+    lohnsteuer__betrag_soli_m
+        See :func:`lohnsteuer__betrag_soli_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
     """
     prox_ssc = elterngeld_params["sozialv_pausch"] * bruttolohn_m
-    return bruttolohn_m - prox_ssc - lohnst_m - soli_st_lohnst_m
+    return bruttolohn_m - prox_ssc - lohnsteuer__betrag_m - lohnsteuer__betrag_soli_m

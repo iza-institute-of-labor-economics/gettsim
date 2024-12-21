@@ -5,16 +5,15 @@ from _gettsim.demographic_vars import *  # noqa: F403
 from _gettsim.taxes.abgeltungssteuer import *  # noqa: F403
 from _gettsim.taxes.einkommensgrenzen import *  # noqa: F403
 from _gettsim.taxes.einkommensteuer import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.einkommen import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.einkommen.vorsorgeaufwand import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege.alleinerziehend import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege.altersfreibetrag import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege.kinderfreibetrag import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege.pauschbetrag_behinderung import *  # noqa: F403
+from _gettsim.taxes.einkommensteuer.freibetraege.sonderausgaben import *  # noqa: F403
 from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import *  # noqa: F403
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen import *  # noqa: F403
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.einkommen import *  # noqa: F403
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege import *  # noqa: F403
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege.alleinerziehend import *  # noqa: F403, E501
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege.altersfreibetrag import *  # noqa: F403, E501
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege.behinderungsgrad_pauschbetrag import *  # noqa: F403, E501
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege.kinderfreibetrag import *  # noqa: F403, E501
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.freibetraege.sonderausgaben import *  # noqa: F403, E501
-from _gettsim.taxes.einkommensteuer.zu_versteuerndes_einkommen.vorsorgeaufwand import *  # noqa: F403
 from _gettsim.taxes.lohnsteuer import *  # noqa: F403
 from _gettsim.taxes.lohnsteuer.einkommen import *  # noqa: F403
 from _gettsim.taxes.sozialversicherungsbeitraege import *  # noqa: F403
