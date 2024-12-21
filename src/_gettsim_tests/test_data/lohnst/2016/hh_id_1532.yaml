@@ -13,9 +13,9 @@ inputs:
       - 40.0
     bruttolohn_m:
       - 6006.257142857144
-    ges_krankenv_zusatzbeitr_satz:
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
       - 0.008199999999999999
-    ges_pflegev_zusatz_kinderlos:
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
       - true
     ges_pflegev_hat_kinder:
       - false
@@ -25,14 +25,14 @@ inputs:
       - false
     p_id:
       - 1532
-    regulär_beschäftigt:
+    einkommensgrenzen__regulär_beschäftigt:
       - true
     steuerklasse:
       - 5
     wohnort_ost:
       - true
 outputs:
-  lohnst_m:
+  lohnsteuer__betrag_m:
     - 1915.0
-  soli_st_lohnst_m:
+  lohnsteuer__betrag_soli_m:
     - 105.34285714285714

@@ -13,8 +13,8 @@ from numpy.testing import assert_array_equal
 from _gettsim.functions.loader import _load_internal_functions
 from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
-    elterngeld_geschwisterbonus_m,
 )
+from _gettsim.transfers.elterngeld.geschwisterbonus import elterngeld_geschwisterbonus_m
 from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
 from _gettsim.vectorization import (
     TranslateToVectorizableError,

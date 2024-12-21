@@ -24,14 +24,14 @@ if TYPE_CHECKING:
 
 def test_load_path():
     assert _load_functions(
-        RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py",
+        RESOURCE_DIR / "taxes" / "lohnsteuer" / "einkommen.py",
         RESOURCE_DIR,
     )
 
 
 def test_load_paths():
     assert _load_functions(
-        [RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py"],
+        [RESOURCE_DIR / "taxes" / "lohnsteuer" / "einkommen.py"],
         RESOURCE_DIR,
     )
 
@@ -53,11 +53,11 @@ def test_special_attribute_module_is_set(tmp_path):
 
 def test_special_attribute_module_is_set_for_internal_functions():
     a_few_functions = _load_functions(
-        RESOURCE_DIR / "social_insurance_contributions" / "eink_grenzen.py",
+        RESOURCE_DIR / "taxes" / "lohnsteuer" / "einkommen.py",
         RESOURCE_DIR,
     )
     function = next(iter(a_few_functions))
-    assert function.__module__ == "_gettsim.social_insurance_contributions.eink_grenzen"
+    assert function.__module__ == "lohnsteuer__einkommen"
 
 
 @pytest.mark.parametrize(

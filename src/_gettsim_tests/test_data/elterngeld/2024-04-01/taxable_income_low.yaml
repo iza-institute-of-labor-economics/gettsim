@@ -76,7 +76,7 @@ inputs:
       - 100000.0
       - 100000.0
       - 0.00
-    lohnst_m:
+    lohnsteuer__betrag_m:
       - 0.0
       - 0.0
       - 0.0

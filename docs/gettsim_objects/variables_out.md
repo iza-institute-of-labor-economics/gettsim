@@ -8,29 +8,29 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`ges_rentenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_rentenv_beitr_arbeitnehmer_m>`
+* - {func}`sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m>`
   - Monthly amount employee old-age pensions contributions
-* - {func}`arbeitsl_v_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.arbeitsl_v_beitr_arbeitnehmer_m>`
+* - {func}`sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m>`
   - Monthly amount employee unempl. insurance contributions
-* - {func}`ges_krankenv_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_krankenv_beitr_arbeitnehmer_m>`
+* - {func}`sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m>`
   - Monthly amount employee health insurance contributions
-* - {func}`ges_pflegev_beitr_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.ges_pflegev_beitr_arbeitnehmer_m>`
+* - {func}`sozialversicherungsbeitraege__pflegeversicherung__betrag_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeitraege__pflegeversicherung__betrag_m>`
   - Monthly amount of long term care insurance
 * - {func}`arbeitsl_geld_m <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_m>`
   - Monthly amount of unemployment assistance
 * - {func}`entgeltp_update <_gettsim.functions.all_functions_for_docs.entgeltp_update>`
   - Updated earning points for pension claim
-* - {func}`abgelt_st_y_sn <_gettsim.functions.all_functions_for_docs.abgelt_st_y_sn>`
+* - {func}`abgeltungssteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.abgeltungssteuer__betrag_y_sn>`
   - Capital income tax on Steuernummer level
-* - {func}`soli_st_y_sn <_gettsim.functions.all_functions_for_docs.soli_st_y_sn>`
+* - {func}`taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn>`
   - Solidarity surcharge on Steuernummer level
 * - {func}`kindergeld_m <_gettsim.functions.all_functions_for_docs.kindergeld_m>`
   - Monthly child benefit
-* - {func}`eink_st_y_sn <_gettsim.functions.all_functions_for_docs.eink_st_y_sn>`
+* - {func}`taxes__einkommensteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__betrag_y_sn>`
   - Income Tax on Steuernummer level
-* - {func}`lohnst_m` <_gettsim.functions.all_functions_for_docs.lohnst_m>`
+* - {func}`lohnsteuer__betrag_m` <_gettsim.functions.all_functions_for_docs.lohnsteuer__betrag_m>`
   - Withholding tax
-* - {func}`soli_st_lohnst_m <_gettsim.functions.all_functions_for_docs.soli_st_lohnst_m>`
+* - {func}`lohnsteuer__betrag_soli_m <_gettsim.functions.all_functions_for_docs.lohnsteuer__betrag_soli_m>`
   - Solidarity surcharge on withholding tax
 * - {func}`unterhaltsvors_m <_gettsim.functions.all_functions_for_docs.unterhaltsvors_m>`
   - Alimony advance payment

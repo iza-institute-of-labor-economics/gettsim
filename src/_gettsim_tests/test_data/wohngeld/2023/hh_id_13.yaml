@@ -60,11 +60,11 @@ inputs:
       - 60.0
       - 60.0
       - 60.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -100,7 +100,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0
@@ -128,7 +128,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt_y:
+    einkommensteuer__einkommen__bruttoeinkommen__betrag_aus_abhängiger_beschäftigung_y:
       - 10800.0
       - 12600.0
       - 0.0
@@ -140,11 +140,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 85.71
       - 100.0
       - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 68.57
       - 80.0
       - 0.0
@@ -156,7 +156,7 @@ inputs:
       - 2023
       - 2023
       - 2023
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 585.0
       - 585.0
       - 585.0

@@ -50,15 +50,15 @@ inputs:
       - false
   assumed: {}
 outputs:
-  eink_st_rel_kindergeld_anz_ansprüche_1:
+  taxes__einkommensteuer__anzahl_kindergeld_ansprüche_1:
     - 1
     - 0
     - 0
-  eink_st_rel_kindergeld_anz_ansprüche_2:
+  taxes__einkommensteuer__anzahl_kindergeld_ansprüche_2:
     - 0
     - 1
     - 0
-  eink_st_rel_kindergeld_m:
+  taxes__einkommensteuer__relevantes_kindergeld_m:
     - 97
     - 97
     - 0

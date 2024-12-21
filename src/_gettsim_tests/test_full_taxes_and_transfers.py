@@ -8,13 +8,13 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
-    "eink_st_y_sn",
-    "soli_st_y_sn",
-    "abgelt_st_y_sn",
-    "ges_rentenv_beitr_arbeitnehmer_m",
-    "arbeitsl_v_beitr_arbeitnehmer_m",
-    "ges_krankenv_beitr_arbeitnehmer_m",
-    "ges_pflegev_beitr_arbeitnehmer_m",
+    "taxes__einkommensteuer__betrag_y_sn",
+    "taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn",
+    "abgeltungssteuer__betrag_y_sn",
+    "sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__pflegeversicherung__betrag_m",
     "arbeitsl_geld_m",
     "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
@@ -39,7 +39,7 @@ def test_full_taxes_and_transfers(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_sn")
+        out.remove("abgeltungssteuer__betrag_y_sn")
 
     compute_taxes_and_transfers(
         data=df,
@@ -60,7 +60,7 @@ def test_data_types(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_sn")
+        out.remove("abgeltungssteuer__betrag_y_sn")
 
     df = test_data.input_df
     environment = cached_set_up_policy_environment(date=test_data.date)

@@ -29,7 +29,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
     bruttolohn_vorj_m: float,
     eink_selbst_y: float,
     eink_vermietung_y: float,
-    kapitaleink_y: float,
+    einkommensteuer__einkommen__bruttoeinkommen__kapitaleinkommen_y: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
@@ -46,7 +46,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
       year, and other income on the current year instead of the year two years ago to
       avoid the need for several new input variables.
     - Warning: Freibeträge for income are currently not considered as `freibeträge_y`
-      depends on pension income through `ges_krankenv_beitr_arbeitnehmer_m` ->
+      depends on pension income through
+      `sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m` ->
       `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
@@ -61,8 +62,8 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         See :func:`eink_selbst_y`.
     eink_vermietung_y
         See :func:`eink_vermietung_y`.
-    kapitaleink_y
-        See :func:`kapitaleink_y`.
+    einkommensteuer__einkommen__bruttoeinkommen__kapitaleinkommen_y
+        See :func:`einkommensteuer__einkommen__bruttoeinkommen__kapitaleinkommen_y`.
 
     Returns
     -------
@@ -75,7 +76,7 @@ def _grundr_zuschlag_eink_vor_freibetrag_m(
         + bruttolohn_vorj_m
         + eink_selbst_y / 12  # income from self-employment
         + eink_vermietung_y / 12  # rental income
-        + kapitaleink_y / 12
+        + einkommensteuer__einkommen__bruttoeinkommen__kapitaleinkommen_y / 12
     )
 
     return out

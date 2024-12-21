@@ -1,4 +1,4 @@
-"""This module provides functions to compute alimony payments (Unterhalt)."""
+"""Alimony payments (Unterhalt)."""
 
 
 def kind_unterh_zahlbetr_m(

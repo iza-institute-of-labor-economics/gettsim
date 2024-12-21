@@ -39,7 +39,6 @@ GEP_01_CHARACTER_LIMIT_OTHER_COLUMNS = 32
 # List of paths to internal functions.
 # If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    RESOURCE_DIR / "social_insurance_contributions",
     RESOURCE_DIR / "transfers",
     RESOURCE_DIR / "taxes",
     RESOURCE_DIR / "demographic_vars.py",
@@ -128,15 +127,15 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_y_sn",
-    "soli_st_y_sn",
-    "abgelt_st_y_sn",
+    "taxes__einkommensteuer__betrag_y_sn",
+    "taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn",
+    "abgeltungssteuer__betrag_y_sn",
     "elterngeld_m",
-    "sozialv_beitr_arbeitnehmer_m",
-    "ges_rentenv_beitr_arbeitnehmer_m",
-    "arbeitsl_v_beitr_arbeitnehmer_m",
-    "ges_krankenv_beitr_arbeitnehmer_m",
-    "ges_pflegev_beitr_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m",
+    "sozialversicherungsbeitraege__pflegeversicherung__betrag_m",
     "arbeitsl_geld_m",
     "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
@@ -184,7 +183,7 @@ TYPES_INPUT_VARIABLES = {
     "entgeltp_west": float,
     "kind": bool,
     "rentner": bool,
-    "betreuungskost_m": float,
+    "betreuungskosten_m": float,
     "p_id_betreuungsk_träger": int,
     "kapitaleink_brutto_m": float,
     "eink_vermietung_m": float,

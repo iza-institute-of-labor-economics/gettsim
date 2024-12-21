@@ -30,9 +30,9 @@ inputs:
       - 50.0
     wohnfläche_hh:
       - 40.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
     bewohnt_eigentum_hh:
       - false
@@ -52,7 +52,7 @@ inputs:
       - 1050.0
     sum_ges_rente_priv_rente_m:
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
     elterngeld_m:
       - 0.0
@@ -66,21 +66,21 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-    eink_abhängig_beschäftigt_y:
+    einkommensteuer__einkommen__bruttoeinkommen__betrag_aus_abhängiger_beschäftigung_y:
       - 12600.0
     kapitaleink_brutto_y:
       - 0.0
     eink_vermietung_m:
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 100.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 80.0
     behinderungsgrad:
       - 0
     jahr:
       - 2023
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 300.0
     vermögen_bedürft:
       - 5000.0
