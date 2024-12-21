@@ -46,7 +46,7 @@ inputs:
     taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     bewohnt_eigentum_hh:
@@ -103,10 +103,10 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 100.0
       - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 80.0
       - 0.0
     behinderungsgrad:

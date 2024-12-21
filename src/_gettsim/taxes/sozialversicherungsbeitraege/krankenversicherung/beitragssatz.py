@@ -6,7 +6,7 @@ from _gettsim.shared import policy_info
 @policy_info(
     end_date="2005-06-30",
 )
-def ges_krankenv_beitr_satz_arbeitnehmer(
+def betrag_arbeitnehmer(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate until June 2005.
@@ -30,7 +30,7 @@ def ges_krankenv_beitr_satz_arbeitnehmer(
 @policy_info(
     end_date="2005-06-30",
 )
-def _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang(
+def betrag_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate for the beginning of the year until
@@ -59,10 +59,10 @@ def _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang(
 @policy_info(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    name_in_dag="betrag_arbeitnehmer",
 )
-def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate.
@@ -73,8 +73,8 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
 
     Parameters
     ----------
-    ges_krankenv_zusatzbeitr_satz
-        See :func:`ges_krankenv_zusatzbeitr_satz`.
+    zusatzbeitrag_satz
+        See :func:`zusatzbeitrag_satz`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -88,16 +88,16 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
         "mean_allgemein"
     ]
 
-    return mean_allgemein / 2 + ges_krankenv_zusatzbeitr_satz
+    return mean_allgemein / 2 + zusatzbeitrag_satz
 
 
 @policy_info(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    name_in_dag="betrag_arbeitnehmer_jahresanfang",
 )
-def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate at the beginning of the year.
@@ -108,8 +108,8 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
 
     Parameters
     ----------
-    ges_krankenv_zusatzbeitr_satz
-        See :func:`ges_krankenv_zusatzbeitr_satz`.
+    zusatzbeitrag_satz
+        See :func:`zusatzbeitrag_satz`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -123,16 +123,16 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
         "mean_allgemein"
     ]
 
-    return mean_allgemein / 2 + ges_krankenv_zusatzbeitr_satz
+    return mean_allgemein / 2 + zusatzbeitrag_satz
 
 
 @policy_info(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    name_in_dag="betrag_arbeitnehmer",
 )
-def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate.
@@ -143,8 +143,8 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
 
     Parameters
     ----------
-    ges_krankenv_zusatzbeitr_satz
-        See :func:`ges_krankenv_zusatzbeitr_satz`.
+    zusatzbeitrag_satz
+        See :func:`zusatzbeitrag_satz`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -156,16 +156,16 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
 
     allgemein = sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"]
 
-    return allgemein / 2 + ges_krankenv_zusatzbeitr_satz
+    return allgemein / 2 + zusatzbeitrag_satz
 
 
 @policy_info(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    name_in_dag="betrag_arbeitnehmer_jahresanfang",
 )
-def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate at the beginning of the year.
@@ -176,8 +176,8 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanf
 
     Parameters
     ----------
-    ges_krankenv_zusatzbeitr_satz
-        See :func:`ges_krankenv_zusatzbeitr_satz`.
+    zusatzbeitrag_satz
+        See :func:`zusatzbeitrag_satz`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -191,15 +191,15 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanf
         "allgemein"
     ]
 
-    return allgemein / 2 + ges_krankenv_zusatzbeitr_satz
+    return allgemein / 2 + zusatzbeitrag_satz
 
 
 @policy_info(
     start_date="2019-01-01",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    name_in_dag="betrag_arbeitnehmer",
 )
-def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch(
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_zusatzbeitrag_arbeitnehmer_paritätisch(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate.
@@ -218,15 +218,15 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     allgemeiner_beitr_satz = sozialv_beitr_params["beitr_satz"]["ges_krankenv"][
         "allgemein"
     ]
-    return (allgemeiner_beitr_satz + ges_krankenv_zusatzbeitr_satz) / 2
+    return (allgemeiner_beitr_satz + zusatzbeitrag_satz) / 2
 
 
 @policy_info(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    name_in_dag="betrag_arbeitnehmer_jahresanfang",
 )
-def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
-    ges_krankenv_zusatzbeitr_satz: float,
+def satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
+    zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's health insurance contribution rate at the beginning of the year.
@@ -245,14 +245,14 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang
     allgemeiner_beitr_satz = sozialv_beitr_params["beitr_satz_jahresanfang"][
         "ges_krankenv"
     ]["allgemein"]
-    return (allgemeiner_beitr_satz + ges_krankenv_zusatzbeitr_satz) / 2
+    return (allgemeiner_beitr_satz + zusatzbeitrag_satz) / 2
 
 
 @policy_info(
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    name_in_dag="betrag_arbeitgeber",
 )
-def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(  # noqa: E501
+def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate.
@@ -274,9 +274,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
 
 @policy_info(
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    name_in_dag="betrag_arbeitgeber_jahresanfang",
 )
-def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
+def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate at the begging of the year.
@@ -304,9 +304,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
 @policy_info(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    name_in_dag="betrag_arbeitgeber",
 )
-def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
+def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate.
@@ -330,9 +330,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
 @policy_info(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    name_in_dag="betrag_arbeitgeber_jahresanfang",
 )
-def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
+def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate at the beginning of the year.
@@ -357,10 +357,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
 
 @policy_info(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    name_in_dag="betrag_arbeitgeber",
 )
-def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
-    ges_krankenv_beitr_satz_arbeitnehmer: float,
+def satz_arbeitgeber_zusatzbeitrag_paritätisch(
+    betrag_arbeitnehmer: float,
 ) -> float:
     """Employer's health insurance contribution rate.
 
@@ -369,22 +369,22 @@ def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
 
     Parameters
     ----------
-    ges_krankenv_beitr_satz_arbeitnehmer
-        See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
+    betrag_arbeitnehmer
+        See :func:`betrag_arbeitnehmer`.
 
     Returns
     -------
 
     """
-    return ges_krankenv_beitr_satz_arbeitnehmer
+    return betrag_arbeitnehmer
 
 
 @policy_info(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    name_in_dag="betrag_arbeitgeber_jahresanfang",
 )
-def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
-    _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
+def satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
+    betrag_arbeitnehmer_jahresanfang: float,
 ) -> float:
     """Employer's health insurance contribution rate at the beginning of the year.
 
@@ -393,22 +393,22 @@ def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang
 
     Parameters
     ----------
-    ges_krankenv_beitr_satz_arbeitnehmer
-        See :func:`ges_krankenv_beitr_satz_arbeitnehmer`.
+    betrag_arbeitnehmer
+        See :func:`betrag_arbeitnehmer`.
 
     Returns
     -------
 
     """
-    return _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang
+    return betrag_arbeitnehmer_jahresanfang
 
 
 @policy_info(
     start_date="2005-07-01",
     end_date="2014-12-31",
-    name_in_dag="ges_krankenv_zusatzbeitr_satz",
+    name_in_dag="zusatzbeitrag_satz",
 )
-def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
+def satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance top-up (Zusatzbeitrag) rate until December 2014.
@@ -429,9 +429,9 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
 
 @policy_info(
     start_date="2015-01-01",
-    name_in_dag="ges_krankenv_zusatzbeitr_satz",
+    name_in_dag="zusatzbeitrag_satz",
 )
-def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
+def zusatzbeitrag_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance top-up rate (Zusatzbeitrag) since January 2015.

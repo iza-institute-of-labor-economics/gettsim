@@ -104,7 +104,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0

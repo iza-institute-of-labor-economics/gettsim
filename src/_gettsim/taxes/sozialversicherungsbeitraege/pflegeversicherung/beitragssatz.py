@@ -6,9 +6,9 @@ from _gettsim.shared import policy_info
 @policy_info(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    name_in_dag="ges_pflegev_beitr_satz_arbeitnehmer",
+    name_in_dag="betrag",
 )
-def ges_pflegev_beitr_satz_arbeitnehmer_ohne_zusatz_fuer_kinderlose(
+def betrag_ohne_zusatz_fuer_kinderlose(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution rate.
@@ -31,10 +31,10 @@ def ges_pflegev_beitr_satz_arbeitnehmer_ohne_zusatz_fuer_kinderlose(
 @policy_info(
     start_date="2005-01-01",
     end_date="2023-06-30",
-    name_in_dag="ges_pflegev_beitr_satz_arbeitnehmer",
+    name_in_dag="betrag",
 )
-def ges_pflegev_beitr_satz_arbeitnehmer_zusatz_kinderlos_dummy(
-    ges_pflegev_zusatz_kinderlos: bool,
+def betrag_zusatz_kinderlos_dummy(
+    zusatzbetrag_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution rate.
@@ -43,8 +43,8 @@ def ges_pflegev_beitr_satz_arbeitnehmer_zusatz_kinderlos_dummy(
 
     Parameters
     ----------
-    ges_pflegev_zusatz_kinderlos
-        See :func:`ges_pflegev_zusatz_kinderlos`.
+    zusatzbetrag_kinderlos
+        See :func:`zusatzbetrag_kinderlos`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -55,16 +55,16 @@ def ges_pflegev_beitr_satz_arbeitnehmer_zusatz_kinderlos_dummy(
     out = sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
 
     # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
+    if zusatzbetrag_kinderlos:
         out += sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
 
     return out
 
 
-@policy_info(start_date="2023-07-01", name_in_dag="ges_pflegev_beitr_satz_arbeitnehmer")
-def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
+@policy_info(start_date="2023-07-01", name_in_dag="betrag")
+def betrag_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
-    ges_pflegev_zusatz_kinderlos: bool,
+    zusatzbetrag_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution rate.
@@ -76,8 +76,8 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
     ----------
     ges_pflegev_anz_kinder_bis_24: int,
         See :func:`ges_pflegev_anz_kinder_bis_24`.
-    ges_pflegev_zusatz_kinderlos
-        See :func:`ges_pflegev_zusatz_kinderlos`.
+    zusatzbetrag_kinderlos
+        See :func:`zusatzbetrag_kinderlos`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -88,7 +88,7 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
     out = sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
 
     # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
+    if zusatzbetrag_kinderlos:
         out += sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
 
     # Reduced contribution for individuals with two or more children under 25
@@ -101,7 +101,7 @@ def ges_pflegev_beitr_satz_arbeitnehmer_mit_kinder_abschlag(
 
 
 @policy_info(start_date="2005-01-01")
-def ges_pflegev_zusatz_kinderlos(
+def zusatzbetrag_kinderlos(
     ges_pflegev_hat_kinder: bool,
     alter: int,
     sozialv_beitr_params: dict,

@@ -1,8 +1,8 @@
 """Income relevant for public health insurance contributions."""
 
 
-def _ges_krankenv_bruttolohn_m(
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
+def betrag_m(
+    betrag_regulär_beschäftigt_m: float,
     einkommensgrenzen__regulär_beschäftigt: bool,
 ) -> float:
     """Wage subject to public health insurance contributions.
@@ -16,8 +16,8 @@ def _ges_krankenv_bruttolohn_m(
         See :func:`bruttolohn_m`.
     einkommensgrenzen__regulär_beschäftigt
         See :func:`einkommensgrenzen__regulär_beschäftigt`.
-    _ges_krankenv_beitr_bemess_grenze_m
-        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+    beitragsbemessungsgrenze_m
+        See :func:`beitragsbemessungsgrenze_m`.
 
 
     Returns
@@ -25,15 +25,15 @@ def _ges_krankenv_bruttolohn_m(
 
     """
     if einkommensgrenzen__regulär_beschäftigt:
-        out = _ges_krankenv_bruttolohn_reg_beschäftigt_m
+        out = betrag_regulär_beschäftigt_m
     else:
         out = 0.0
     return out
 
 
-def _ges_krankenv_bruttolohn_reg_beschäftigt_m(
+def betrag_regulär_beschäftigt_m(
     bruttolohn_m: float,
-    _ges_krankenv_beitr_bemess_grenze_m: float,
+    beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Income subject to public health insurance contributions.
 
@@ -44,23 +44,23 @@ def _ges_krankenv_bruttolohn_reg_beschäftigt_m(
     ----------
     bruttolohn_m
         See :func:`bruttolohn_m`.
-    _ges_krankenv_beitr_bemess_grenze_m
-        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+    beitragsbemessungsgrenze_m
+        See :func:`beitragsbemessungsgrenze_m`.
 
     Returns
     -------
     Income subject to public health insurance contributions.
     """
 
-    return min(bruttolohn_m, _ges_krankenv_beitr_bemess_grenze_m)
+    return min(bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
-def _ges_krankenv_bemessungsgrundlage_eink_selbständig(
+def bemessungsgrundlage_selbständig_m(
     eink_selbst_m: float,
-    _ges_krankenv_bezugsgröße_selbst_m: float,
+    bezugsgröße_selbständig_m: float,
     selbstständig: bool,
     in_priv_krankenv: bool,
-    _ges_krankenv_beitr_bemess_grenze_m: float,
+    beitragsbemessungsgrenze_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Self-employed income which is subject to health insurance contributions.
@@ -74,16 +74,16 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbständig(
     ----------
     eink_selbst_m
         See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
-    _ges_krankenv_bezugsgröße_selbst_m
-        See :func:`_ges_krankenv_bezugsgröße_selbst_m`.
+    bezugsgröße_selbständig_m
+        See :func:`bezugsgröße_selbständig_m`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
     in_priv_krankenv
         See basic input variable :ref:`in_priv_krankenv <in_priv_krankenv>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    _ges_krankenv_beitr_bemess_grenze_m
-        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+    beitragsbemessungsgrenze_m
+        See :func:`beitragsbemessungsgrenze_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -94,9 +94,9 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbständig(
     # Calculate if self employed insures via public health insurance.
     if selbstständig and not in_priv_krankenv:
         out = min(
-            _ges_krankenv_beitr_bemess_grenze_m,
+            beitragsbemessungsgrenze_m,
             max(
-                _ges_krankenv_bezugsgröße_selbst_m
+                bezugsgröße_selbständig_m
                 * sozialv_beitr_params[
                     "mindestanteil_bezugsgröße_beitragspf_einnahme_selbst"
                 ],
@@ -109,9 +109,7 @@ def _ges_krankenv_bemessungsgrundlage_eink_selbständig(
     return out
 
 
-def _ges_krankenv_beitr_bemess_grenze_m(
-    wohnort_ost: bool, sozialv_beitr_params: dict
-) -> float:
+def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
     """Income threshold up to which health insurance payments apply.
 
     Parameters
@@ -133,9 +131,7 @@ def _ges_krankenv_beitr_bemess_grenze_m(
     return float(out)
 
 
-def _ges_krankenv_bezugsgröße_selbst_m(
-    wohnort_ost: bool, sozialv_beitr_params: dict
-) -> float:
+def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the
@@ -161,9 +157,9 @@ def _ges_krankenv_bezugsgröße_selbst_m(
     return float(out)
 
 
-def _ges_krankenv_bemessungsgrundlage_rente_m(
+def bemessungsgrundlage_rente_m(
     sum_ges_rente_priv_rente_m: float,
-    _ges_krankenv_beitr_bemess_grenze_m: float,
+    beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Pension income which is subject to health insurance contribution.
 
@@ -171,11 +167,11 @@ def _ges_krankenv_bemessungsgrundlage_rente_m(
     ----------
     sum_ges_rente_priv_rente_m
         See :func:`sum_ges_rente_priv_rente_m`.
-    _ges_krankenv_beitr_bemess_grenze_m
-        See :func:`_ges_krankenv_beitr_bemess_grenze_m`.
+    beitragsbemessungsgrenze_m
+        See :func:`beitragsbemessungsgrenze_m`.
 
     Returns
     -------
 
     """
-    return min(sum_ges_rente_priv_rente_m, _ges_krankenv_beitr_bemess_grenze_m)
+    return min(sum_ges_rente_priv_rente_m, beitragsbemessungsgrenze_m)

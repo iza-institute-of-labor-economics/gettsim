@@ -13,9 +13,9 @@ inputs:
       - 40.0
     bruttolohn_m:
       - 2973.4216666666666
-    ges_krankenv_zusatzbeitr_satz:
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
       - 0.0144
-    ges_pflegev_zusatz_kinderlos:
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
       - false
     ges_pflegev_hat_kinder:
       - false

@@ -28,17 +28,17 @@ inputs:
       - '2010'
   assumed: {}
 outputs:
-  sozialv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
     - 182.025
-  sozialv_beitr_arbeitgeber_m:
+  sozialversicherungsbeitraege__betrag_arbeitgeber_m:
     - 173.93
-  _sozialv_beitr_summe_m:
+  sozialversicherungsbeitraege__betrag_gesamt_m:
     - 355.96
-  ges_rentenv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
     - 89.55
-  arbeitsl_v_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
     - 12.6
-  ges_krankenv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
     - 71.1
-  ges_pflegev_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
     - 8.775

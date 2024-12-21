@@ -3,12 +3,12 @@
 from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_arbeitnehmer_m")
-def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
-    _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m: float,
+@policy_info(end_date="2003-03-31", name_in_dag="betrag_m")
+def betrag_vor_midijob_m(
+    betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    ges_pflegev_beitr_rentner_m: float,
-    ges_pflegev_beitr_selbstständig_m: float,
+    betrag_rentner_m: float,
+    betrag_selbständig_m: float,
     selbstständig: bool,
 ) -> float:
     """Employee's long-term care insurance contribution until March 2003.
@@ -17,10 +17,10 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    ges_pflegev_beitr_rentner_m
-        See :func:`ges_pflegev_beitr_rentner_m`.
-    ges_pflegev_beitr_selbstständig_m
-        See :func:`ges_pflegev_beitr_selbstständig_m`.
+    betrag_rentner_m
+        See :func:`betrag_rentner_m`.
+    betrag_selbständig_m
+        See :func:`betrag_selbständig_m`.
     ges_pflegev_beitr_regulär_besch_m
         See :func:`ges_pflegev_beitr_regulär_besch_m`.
     selbstständig
@@ -33,23 +33,23 @@ def ges_pflegev_beitr_arbeitnehmer_m_vor_midijob(
     """
 
     if selbstständig:
-        out = ges_pflegev_beitr_selbstständig_m
+        out = betrag_selbständig_m
     elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m
+        out = betrag_arbeitnehmer_regulär_beschäftigt_m
 
     # Add the care insurance contribution for pensions
-    return out + ges_pflegev_beitr_rentner_m
+    return out + betrag_rentner_m
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_arbeitnehmer_m")
-def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
-    _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m: float,
+@policy_info(start_date="2003-04-01", name_in_dag="betrag_m")
+def betrag_mit_midijob_m(  # noqa: PLR0913
+    betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    ges_pflegev_beitr_rentner_m: float,
-    ges_pflegev_beitr_selbstständig_m: float,
-    _ges_pflegev_beitr_midijob_arbeitnehmer_m: float,
+    betrag_rentner_m: float,
+    betrag_selbständig_m: float,
+    betrag_arbeitnehmer_m: float,
     einkommensgrenzen__in_gleitzone: bool,
     selbstständig: bool,
 ) -> float:
@@ -59,12 +59,12 @@ def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    ges_pflegev_beitr_rentner_m
-        See :func:`ges_pflegev_beitr_rentner_m`.
-    ges_pflegev_beitr_selbstständig_m
-        See :func:`ges_pflegev_beitr_selbstständig_m`.
-    _ges_pflegev_beitr_midijob_arbeitnehmer_m
-        See :func:`_ges_pflegev_beitr_midijob_arbeitnehmer_m`.
+    betrag_rentner_m
+        See :func:`betrag_rentner_m`.
+    betrag_selbständig_m
+        See :func:`betrag_selbständig_m`.
+    betrag_arbeitnehmer_m
+        See :func:`betrag_arbeitnehmer_m`.
     ges_pflegev_beitr_regulär_besch_m
         See :func:`ges_pflegev_beitr_regulär_besch_m`.
     einkommensgrenzen__in_gleitzone
@@ -79,30 +79,32 @@ def ges_pflegev_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     """
 
     if selbstständig:
-        out = ges_pflegev_beitr_selbstständig_m
+        out = betrag_selbständig_m
     elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     elif einkommensgrenzen__in_gleitzone:
-        out = _ges_pflegev_beitr_midijob_arbeitnehmer_m
+        out = betrag_arbeitnehmer_m
     else:
-        out = _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m
+        out = betrag_arbeitnehmer_regulär_beschäftigt_m
 
     # Add the care insurance contribution for pensions
-    return out + ges_pflegev_beitr_rentner_m
+    return out + betrag_rentner_m
 
 
-def _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m(
-    _ges_krankenv_bruttolohn_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+def betrag_arbeitnehmer_regulär_beschäftigt_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Employee's long-term care insurance contribution if regularly employed.
 
     Parameters
     ----------
-    _ges_krankenv_bruttolohn_m:
-        See :func:`_ges_krankenv_bruttolohn_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer:
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m:
+        See :func:
+        `sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag:
+        See :func:
+        `sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
     Returns
     -------
@@ -110,17 +112,16 @@ def _ges_pflegev_beitr_arbeitnehmer_reg_beschäftigt_m(
 
     """
 
-    beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_bruttolohn_m * ges_pflegev_beitr_satz_arbeitnehmer
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m
+        * sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
 
-    return beitr_regulär_beschäftigt_m
 
-
-@policy_info(end_date="2003-03-31", name_in_dag="ges_pflegev_beitr_arbeitgeber_m")
-def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
+@policy_info(end_date="2003-03-31", name_in_dag="betrag_arbeitgeber_m")
+def betrag_arbeitgeber_vor_midijob_m(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    _ges_krankenv_bruttolohn_m: float,
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m: float,
     sozialv_beitr_params: dict,
     selbstständig: bool,
 ) -> float:
@@ -132,8 +133,9 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    _ges_krankenv_bruttolohn_m
-        See :func:`_ges_krankenv_bruttolohn_m`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m
+        See :func:
+        `sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     selbstständig
@@ -146,7 +148,8 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
     """
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m
+        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
     if selbstständig or einkommensgrenzen__geringfügig_beschäftigt:
@@ -157,11 +160,11 @@ def ges_pflegev_beitr_arbeitgeber_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_pflegev_beitr_arbeitgeber_m")
-def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
+@policy_info(start_date="2003-04-01", name_in_dag="betrag_arbeitgeber_m")
+def betrag_arbeitgeber_mit_midijob_m(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    _ges_pflegev_beitr_midijob_arbeitgeber_m: float,
-    _ges_krankenv_bruttolohn_m: float,
+    betrag_arbeitgeber_midijob: float,
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m: float,
     sozialv_beitr_params: dict,
     einkommensgrenzen__in_gleitzone: bool,
     selbstständig: bool,
@@ -174,10 +177,10 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    _ges_pflegev_beitr_midijob_arbeitgeber_m
-        See :func:`_ges_pflegev_beitr_midijob_arbeitgeber_m`.
-    _ges_krankenv_bruttolohn_m
-        See :func:`_ges_krankenv_bruttolohn_m`.
+    betrag_arbeitgeber_midijob
+        See :func:`betrag_arbeitgeber_midijob`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     einkommensgrenzen__in_gleitzone
@@ -192,14 +195,14 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
     """
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        _ges_krankenv_bruttolohn_m
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
     if selbstständig or einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     elif einkommensgrenzen__in_gleitzone:
-        out = _ges_pflegev_beitr_midijob_arbeitgeber_m
+        out = betrag_arbeitgeber_midijob
     else:
         out = beitr_regulär_beschäftigt_m
 
@@ -209,11 +212,11 @@ def ges_pflegev_beitr_arbeitgeber_m_mit_midijob(
 @policy_info(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    name_in_dag="ges_pflegev_beitr_selbstständig_m",
+    name_in_dag="betrag_selbständig_m",
 )
-def ges_pflegev_beitr_selbstständig_m_ohne_zusatz_fuer_kinderlose(
-    _ges_krankenv_bemessungsgrundlage_eink_selbständig: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution until 2004.
 
@@ -223,28 +226,27 @@ def ges_pflegev_beitr_selbstständig_m_ohne_zusatz_fuer_kinderlose(
     Parameters
     ----------
 
-    _ges_krankenv_bemessungsgrundlage_eink_selbständig
-        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbständig`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m`.
 
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
     Returns
     -------
     Self-employed long-term care insurance contributions.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
-        ges_pflegev_beitr_satz_arbeitnehmer * 2
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m
+        * (sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag * 2)
     )
 
-    return out
 
-
-@policy_info(start_date="2005-01-01", name_in_dag="ges_pflegev_beitr_selbstständig_m")
-def ges_pflegev_beitr_selbstständig_m_zusatz_kinderlos_dummy(
-    _ges_krankenv_bemessungsgrundlage_eink_selbständig: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+@policy_info(start_date="2005-01-01", name_in_dag="betrag_selbständig_m")
+def betrag_selbständig_zusatz_kinderlos_dummy_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution since 2005.
@@ -255,11 +257,11 @@ def ges_pflegev_beitr_selbstständig_m_zusatz_kinderlos_dummy(
     Parameters
     ----------
 
-    _ges_krankenv_bemessungsgrundlage_eink_selbständig
-        See :func:`_ges_krankenv_bemessungsgrundlage_eink_selbständig`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m`.
 
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
@@ -269,22 +271,23 @@ def ges_pflegev_beitr_selbstständig_m_zusatz_kinderlos_dummy(
     Self-employed long-term care insurance contributions.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_eink_selbständig * (
-        ges_pflegev_beitr_satz_arbeitnehmer
-        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m
+        * (
+            sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        )
     )
-
-    return out
 
 
 @policy_info(
     start_date="1995-01-01",
     end_date="2004-03-31",
-    name_in_dag="ges_pflegev_beitr_rentner_m",
+    name_in_dag="betrag_rentner_m",
 )
-def ges_pflegev_beitr_rentner_m_reduz_beitrag(
-    _ges_krankenv_bemessungsgrundlage_rente_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+def betrag_rentner_reduz_beitrag_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Long-term care insurance contribution from pension income from 1995 until March
     2004.
@@ -293,31 +296,30 @@ def ges_pflegev_beitr_rentner_m_reduz_beitrag(
 
     Parameters
     ----------
-    _ges_krankenv_bemessungsgrundlage_rente_m
-        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
     Returns
     -------
     Retiree's long-term care insurance contributions.
 
     """
-    out = (
-        _ges_krankenv_bemessungsgrundlage_rente_m * ges_pflegev_beitr_satz_arbeitnehmer
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        * sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
-
-    return out
 
 
 @policy_info(
     start_date="2004-04-01",
     end_date="2004-12-31",
-    name_in_dag="ges_pflegev_beitr_rentner_m",
+    name_in_dag="betrag_rentner_m",
 )
-def ges_pflegev_beitr_rentner_m_ohne_zusatz_für_kinderlose(
-    _ges_krankenv_bemessungsgrundlage_rente_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+def betrag_rentner_ohne_zusatz_für_kinderlose_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Health insurance contribution from pension income from April until December 2004.
 
@@ -325,27 +327,26 @@ def ges_pflegev_beitr_rentner_m_ohne_zusatz_für_kinderlose(
 
     Parameters
     ----------
-    _ges_krankenv_bemessungsgrundlage_rente_m
-        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
     Returns
     -------
     Retiree's long-term care insurance contributions.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_rente_m * (
-        ges_pflegev_beitr_satz_arbeitnehmer * 2
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        * (sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag * 2)
     )
 
-    return out
 
-
-@policy_info(start_date="2005-01-01", name_in_dag="ges_pflegev_beitr_rentner_m")
-def ges_pflegev_beitr_rentner_m_zusatz_kinderlos_dummy(
-    _ges_krankenv_bemessungsgrundlage_rente_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+@policy_info(start_date="2005-01-01", name_in_dag="betrag_rentner_m")
+def betrag_rentner_zusatz_kinderlos_dummy_m(
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance contribution from pension income since 2005.
@@ -355,10 +356,10 @@ def ges_pflegev_beitr_rentner_m_zusatz_kinderlos_dummy(
 
     Parameters
     ----------
-    _ges_krankenv_bemessungsgrundlage_rente_m
-        See :func:`_ges_krankenv_bemessungsgrundlage_rente_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -367,22 +368,23 @@ def ges_pflegev_beitr_rentner_m_zusatz_kinderlos_dummy(
     Retiree's long-term care insurance contributions.
 
     """
-    out = _ges_krankenv_bemessungsgrundlage_rente_m * (
-        ges_pflegev_beitr_satz_arbeitnehmer
-        + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+    return (
+        sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m
+        * (
+            sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+            + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
+        )
     )
-
-    return out
 
 
 @policy_info(
     start_date="2003-04-01",
     end_date="2004-12-31",
-    name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m",
+    name_in_dag="betrag_gesamt_m",
 )
-def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
+def betrag_gesamt_bis_2004_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Sum of employee and employer long-term care insurance contributions until 2004.
@@ -391,8 +393,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
     ----------
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -403,21 +405,19 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_bis_2004(
 
     """
 
-    gesamtbeitrag_midijob_m = einkommensgrenzen__midijob_bemessungsentgelt_m * (
-        ges_pflegev_beitr_satz_arbeitnehmer
+    return einkommensgrenzen__midijob_bemessungsentgelt_m * (
+        sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
         + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
-
-    return gesamtbeitrag_midijob_m
 
 
 @policy_info(
     start_date="2005-01-01",
-    name_in_dag="_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m",
+    name_in_dag="betrag_gesamt_m",
 )
-def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
+def betrag_gesamty_ab_2005_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Sum of employee and employer long-term care insurance contributions since 2005.
@@ -426,8 +426,8 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
     ----------
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
-    ges_pflegev_beitr_satz_arbeitnehmer
-        See :func:`ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -437,19 +437,17 @@ def _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m_ab_2005(
 
     """
 
-    gesamtbeitrag_midijob_m = einkommensgrenzen__midijob_bemessungsentgelt_m * (
-        ges_pflegev_beitr_satz_arbeitnehmer
+    return einkommensgrenzen__midijob_bemessungsentgelt_m * (
+        sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
         + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
-
-    return gesamtbeitrag_midijob_m
 
 
 @policy_info(
     end_date="2004-12-31",
-    name_in_dag="_ges_pflegev_beitr_midijob_arbeitgeber_m",
+    name_in_dag="betrag_arbeitgeber_midijob",
 )
-def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_bis_2004(
+def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -478,9 +476,9 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_bis_2004(
 @policy_info(
     start_date="2005-01-01",
     end_date="2022-09-30",
-    name_in_dag="_ges_pflegev_beitr_midijob_arbeitgeber_m",
+    name_in_dag="betrag_arbeitgeber_midijob",
 )
-def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_ab_2005(
+def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -504,21 +502,19 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_anteil_bruttolohn_ab_2005(
     return out
 
 
-@policy_info(
-    start_date="2022-10-01", name_in_dag="_ges_pflegev_beitr_midijob_arbeitgeber_m"
-)
-def _ges_pflegev_beitr_midijob_arbeitgeber_m_residuum(
-    _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
-    _ges_pflegev_beitr_midijob_arbeitnehmer_m: float,
+@policy_info(start_date="2022-10-01", name_in_dag="betrag_arbeitgeber_midijob")
+def betrag_arbeitgeber_midijob_residuum(
+    betrag_gesamt_m: float,
+    betrag_arbeitnehmer_m: float,
 ) -> float:
     """Employer's long-term care insurance contribution since October 2022.
 
     Parameters
     ----------
-    _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
-        See :func:`_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m`.
-    _ges_pflegev_beitr_midijob_arbeitnehmer_m
-        See :func:`_ges_pflegev_beitr_midijob_arbeitnehmer_m`.
+    betrag_gesamt_m
+        See :func:`betrag_gesamt_m`.
+    betrag_arbeitnehmer_m
+        See :func:`betrag_arbeitnehmer_m`.
 
 
     Returns
@@ -526,40 +522,34 @@ def _ges_pflegev_beitr_midijob_arbeitgeber_m_residuum(
     Employer's long-term care insurance contributions.
 
     """
-    out = (
-        _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
-        - _ges_pflegev_beitr_midijob_arbeitnehmer_m
-    )
+    out = betrag_gesamt_m - betrag_arbeitnehmer_m
     return out
 
 
 @policy_info(
     end_date="2022-09-30",
-    name_in_dag="_ges_pflegev_beitr_midijob_arbeitnehmer_m",
+    name_in_dag="betrag_arbeitnehmer_m",
 )
-def _ges_pflegev_beitr_midijob_arbeitnehmer_m_residuum(
-    _ges_pflegev_beitr_midijob_arbeitgeber_m: float,
-    _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
+def betrag_arbeitnehmer_residuum_m(
+    betrag_arbeitgeber_midijob: float,
+    betrag_gesamt_m: float,
 ) -> float:
     """Employee's long-term care insurance contribution for Midijobs
     until September 2022.
 
     Parameters
     ----------
-    _ges_pflegev_beitr_midijob_arbeitgeber_m
-        See :func:`_ges_pflegev_beitr_midijob_arbeitgeber_m`.
-    _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
-        See :func:`_ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m`.
+    betrag_arbeitgeber_midijob
+        See :func:`betrag_arbeitgeber_midijob`.
+    betrag_gesamt_m
+        See :func:`betrag_gesamt_m`.
 
     Returns
     -------
     Employee's long-term care insurance contributions.
 
     """
-    out = (
-        _ges_pflegev_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m
-        - _ges_pflegev_beitr_midijob_arbeitgeber_m
-    )
+    out = betrag_gesamt_m - betrag_arbeitgeber_midijob
 
     return out
 
@@ -567,10 +557,10 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_residuum(
 @policy_info(
     start_date="2022-10-01",
     end_date="2023-06-30",
-    name_in_dag="_ges_pflegev_beitr_midijob_arbeitnehmer_m",
+    name_in_dag="betrag_arbeitnehmer_m",
 )
-def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
-    ges_pflegev_zusatz_kinderlos: bool,
+def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -580,8 +570,8 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
 
     Parameters
     ----------
-    ges_pflegev_zusatz_kinderlos
-        See :func:`ges_pflegev_zusatz_kinderlos`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos`.
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
@@ -601,7 +591,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     )
 
     # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
+    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
@@ -610,12 +600,10 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     return an_beitr_midijob_m
 
 
-@policy_info(
-    start_date="2023-07-01", name_in_dag="_ges_pflegev_beitr_midijob_arbeitnehmer_m"
-)
-def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
+@policy_info(start_date="2023-07-01", name_in_dag="betrag_arbeitnehmer_m")
+def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
-    ges_pflegev_zusatz_kinderlos: bool,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -626,8 +614,8 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ----------
     ges_pflegev_anz_kinder_bis_24
         See :func:`ges_pflegev_anz_kinder_bis_24`.
-    ges_pflegev_zusatz_kinderlos
-        See :func:`ges_pflegev_zusatz_kinderlos`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos`.
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
@@ -655,7 +643,7 @@ def _ges_pflegev_beitr_midijob_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     )
 
     # Add additional contribution for childless individuals
-    if ges_pflegev_zusatz_kinderlos:
+    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]

@@ -62,7 +62,7 @@ inputs:
       - 0.0
     taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 94.0
     kindergeld_m_eg:
       - 0.0

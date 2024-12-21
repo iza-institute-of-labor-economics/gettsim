@@ -87,8 +87,8 @@ def wohngeld_eink_m_bg(
 
 def wohngeld_abzüge_st_sozialv_m(
     taxes__einkommensteuer__betrag_y_sn: float,
-    ges_rentenv_beitr_arbeitnehmer_m: float,
-    ges_krankenv_beitr_arbeitnehmer_m: float,
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
     kind: bool,
     wohngeld_params: dict,
 ) -> float:
@@ -100,11 +100,14 @@ def wohngeld_abzüge_st_sozialv_m(
     Parameters
     ----------
     taxes__einkommensteuer__betrag_y_sn
-        See :func:`taxes__einkommensteuer__betrag_y_sn`.
-    ges_rentenv_beitr_arbeitnehmer_m
-        See :func:`ges_rentenv_beitr_arbeitnehmer_m`.
-    ges_krankenv_beitr_arbeitnehmer_m
-        See :func:`ges_krankenv_beitr_arbeitnehmer_m`.
+        See :func:
+        `taxes__einkommensteuer__betrag_y_sn`.
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m
+        See :func:
+        `sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m`.
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m
+        See :func:
+        `sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m`.
     kind
         See basic input variable :ref:`kind <kind>`.
     wohngeld_params
@@ -116,8 +119,8 @@ def wohngeld_abzüge_st_sozialv_m(
     """
     abzug_stufen = (
         (taxes__einkommensteuer__betrag_y_sn > 0)
-        + (ges_rentenv_beitr_arbeitnehmer_m > 0)
-        + (ges_krankenv_beitr_arbeitnehmer_m > 0)
+        + (sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m > 0)
+        + (sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m > 0)
     )
     if kind:
         out = 0.0

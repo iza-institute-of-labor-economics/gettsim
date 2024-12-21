@@ -200,7 +200,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -452,7 +452,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 400.0
       - 0.0
       - 0.0
@@ -466,7 +466,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 350.0
       - 0.0
       - 0.0

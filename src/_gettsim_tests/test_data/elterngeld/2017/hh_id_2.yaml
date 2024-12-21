@@ -46,7 +46,7 @@ inputs:
       - 218.96
     taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 12.04
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 378.0
     geburtsjahr:
       - 1974

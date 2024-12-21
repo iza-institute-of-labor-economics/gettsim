@@ -34,17 +34,17 @@ inputs:
       - 2023-07
   assumed: {}
 outputs:
-  sozialv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
     - 137.67
-  sozialv_beitr_arbeitgeber_m:
+  sozialversicherungsbeitraege__betrag_arbeitgeber_m:
     - 231.54
-  _sozialv_beitr_summe_m:
+  sozialversicherungsbeitraege__betrag_gesamt_m:
     - 369.21
-  ges_rentenv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
     - 60.32
-  arbeitsl_v_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
     - 8.43
-  ges_krankenv_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
     - 52.54
-  ges_pflegev_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
     - 16.38

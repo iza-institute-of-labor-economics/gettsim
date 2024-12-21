@@ -61,9 +61,9 @@ def betrag_y(
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
-    ges_krankenv_zusatzbeitr_satz: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deductions: "Option a" and "Option b".
@@ -74,10 +74,10 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     ----------
     _ges_krankenv_bruttolohn_reg_beschäftigt_y:
         See :func:`_ges_krankenv_bruttolohn_reg_beschäftigt_y`.
-    ges_krankenv_zusatzbeitr_satz
-        See :func:ges_krankenv_zusatzbeitr_satz`.
-    ges_pflegev_beitr_satz_arbeitnehmer:
-        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        See :func:sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag:
+        See :func:sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
 
     Returns
@@ -88,8 +88,8 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
     out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz
-        + ges_pflegev_beitr_satz_arbeitnehmer
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
 
     return out
@@ -101,9 +101,9 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 )
 def vorsorge_krankenv_option_b_ab_2019(
     _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
-    ges_krankenv_zusatzbeitr_satz: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
-    ges_pflegev_beitr_satz_arbeitnehmer: float,
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deductions: "Option a" and "Option b".
@@ -114,12 +114,12 @@ def vorsorge_krankenv_option_b_ab_2019(
     ----------
     _ges_krankenv_bruttolohn_reg_beschäftigt_y:
         See :func:`_ges_krankenv_bruttolohn_reg_beschäftigt_y`.
-    ges_krankenv_zusatzbeitr_satz
-        See :func:ges_krankenv_zusatzbeitr_satz`.
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        See :func:sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
-    ges_pflegev_beitr_satz_arbeitnehmer:
-        See :func:ges_pflegev_beitr_satz_arbeitnehmer`.
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag:
+        See :func:sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
 
     Returns
@@ -130,8 +130,9 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + ges_krankenv_zusatzbeitr_satz / 2
-        + ges_pflegev_beitr_satz_arbeitnehmer
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        / 2
+        + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
 
     return out
@@ -149,8 +150,8 @@ def vorsorge_krankenv_option_a(
 
     Parameters
     ----------
-    _ges_krankenv_bruttolohn_reg_beschäftigt_m:
-        See basic input variable :ref:`_ges_krankenv_bruttolohn_reg_beschäftigt_m`
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_regulär_beschäftigt_m:
+        See basic input variable :ref:`sozialversicherungsbeitraege__krankenversicherung__einkommen__betrag_regulär_beschäftigt_m`
     eink_st_abzuege_params:
         See params documentation :ref:`eink_st_abzuege_params`
     steuerklasse:
