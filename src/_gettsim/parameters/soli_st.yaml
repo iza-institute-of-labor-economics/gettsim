@@ -92,3 +92,11 @@ soli_st:
       upper_threshold: 18130
     1:
       upper_threshold: 33710.47
+  2025-01-01:
+    deviation_from: previous
+    0:
+      upper_threshold: 19950
+  2026-01-01:
+    deviation_from: previous
+    0:
+      upper_treshold: 20350

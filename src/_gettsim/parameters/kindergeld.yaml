@@ -171,6 +171,14 @@ kindergeld:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Inflationsausgleichsgesetz
     scalar: 250
+  2025-01-01:
+    scalar: 255
+    note: 2. Jahressteuergesetz 2024
+    reference: TODO
+  2026-01-01:
+    scalar: 259
+    note: 2. Jahressteuergesetz 2024
+    reference: TODO
 einkommensgrenze:
   name:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch

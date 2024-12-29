@@ -92,6 +92,14 @@ kinderfreib:
     deviation_from: previous
     sächl_existenzmin: 3306
     reference: Art. 1 G. v. 05.12.2024 BGBl. 2024 I Nr. 386.
+  2025-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3366
+    reference: TODO
+  2026-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3522
+    reference: TODO
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
