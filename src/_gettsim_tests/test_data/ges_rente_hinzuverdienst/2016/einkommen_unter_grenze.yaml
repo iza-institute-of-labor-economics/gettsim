@@ -9,7 +9,7 @@ inputs:
     hh_id:
       - 0
     bruttolohn_m:
-      - 0.0
+      - 440.0
     wohnort_ost:
       - false
     geburtsjahr:
