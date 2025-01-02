@@ -272,6 +272,11 @@ beitr_satz:
     ges_krankenv:
       mean_zusatzbeitrag: 0.017
     reference: BAnz AT 31.10.2023 B3
+  2025-01-01:
+    deviation_from: previous
+    ges_krankenv:
+      mean_zusatzbeitrag: 0.025
+    reference: BAnz AT 07.11.2024 B4
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
@@ -565,6 +570,14 @@ beitr_bemess_grenze_m:
       west: 7550
       ost: 7450
     reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
+  2025-01-01:
+    ges_krankenv:
+      west: 6150
+      ost: 6150
+    ges_rentenv:
+      west: 8050
+      ost: 8050
+    reference: V. v. 25.11.2024 BGBl. 2024 I Nr. 365
 bezugsgröße_selbst_m:
   name:
     de: Monatliche Bezugsgröße
@@ -699,7 +712,11 @@ bezugsgröße_selbst_m:
   2024-01-01:
     west: 3535
     ost: 3465
-    reference: V. v.  29.11.2023 BGBl. 2023 I Nr. 322.
+    reference: V. v. 29.11.2023 BGBl. 2023 I Nr. 322.
+  2025-01-01:
+    west: 3745
+    ost: 3745
+    reference: V. v. 25.11.2024 BGBl. 2024 I Nr. 365.
 mindestanteil_bezugsgröße_beitragspf_einnahme_selbst:
   name:
     de: Mindestberechungsbeitrag für Selbstständige als Anteil der Bezugsgröße
