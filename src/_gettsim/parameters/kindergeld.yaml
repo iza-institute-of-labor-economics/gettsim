@@ -174,11 +174,11 @@ kindergeld:
   2025-01-01:
     scalar: 255
     note: 2. Jahressteuergesetz 2024
-    reference: TODO
+    reference: Art. 5 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
   2026-01-01:
     scalar: 259
     note: 2. Jahressteuergesetz 2024
-    reference: TODO
+    reference: Art. 6 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
 einkommensgrenze:
   name:
     de: Einkommensgrenze der Kinder für Kindergeldanspruch

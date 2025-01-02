@@ -94,9 +94,11 @@ soli_st:
       upper_threshold: 33710.47
   2025-01-01:
     deviation_from: previous
+    reference: Art. 3 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
     0:
       upper_threshold: 19950
   2026-01-01:
     deviation_from: previous
+    reference: Art. 4 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
     0:
       upper_treshold: 20350
