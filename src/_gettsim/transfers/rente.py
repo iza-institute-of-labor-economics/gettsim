@@ -205,8 +205,7 @@ def _ges_rente_zahlbetrag_ohne_deckel_m(
 
 
 @policy_info(
-    end_date="2016-12-31",
-    name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y"
+    end_date="2016-12-31", name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y"
 )
 def _differenz_bruttolohn_monatliche_hinzuverdienstgrenze_y(
     bruttolohn_y: float,
@@ -233,7 +232,7 @@ def _differenz_bruttolohn_monatliche_hinzuverdienstgrenze_y(
 @policy_info(
     start_date="2017-01-01",
     end_date="2022-12-31",
-    name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y"
+    name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y",
 )
 def _differenz_bruttolohn_jährliche_hinzuverdienstgrenze_y(
     bruttolohn_y: float,
