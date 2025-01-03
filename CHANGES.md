@@ -6,6 +6,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`807` Implement changes from 2. Jahressteuergesetz 2024 ({ghuser}`Eric-Sommer`)
 - {gh}`803` Apply correct rounding rules for Ehegattensplitting and update EStG
   parameters ({ghuser}`MImmesberger`, `mjbloemer`).
 - {gh}`797` Update infrastructure to use pixi and modern pre-commit hooks
