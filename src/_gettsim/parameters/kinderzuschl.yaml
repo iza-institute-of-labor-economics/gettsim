@@ -30,26 +30,26 @@ maximum:
     scalar: 292
     reference: null
     note: >-
-      There is no law or decree that explicitly sets this parameter; hence, it must be calculated
-      according to § 6a (2) BKGG.
-      Satz 1 und 2: (6604-340)/12-250=272. KiZ Höchstbetrag
-      nach Satz 3: max(272,224)=272. Plus KiZ Sofortzuschlag nach Satz 4: 20.
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6604-340)/12-250=272. KiZ
+      Höchstbetrag nach Satz 3: max(272,224)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      20.
   2025-01-01:
     scalar: 297
     reference: null
     note: >-
-      There is no law or decree that explicitly sets this parameter; hence, it must be calculated
-      according to § 6a (2) BKGG. Satz 1 und 2:
-      (6648-348)/12-255=270. KiZ Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ
-      Sofortzuschlag nach Satz 4: 25.
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6648-348)/12-255=270. KiZ
+      Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      25.
   2026-01-01:
     scalar: 297
     reference: null
     note: >-
-      There is no law or decree that explicitly sets this parameter; hence, it must be calculated
-      according to § 6a (2) BKGG.
-      Satz 1 und 2: (6696-348)/12-259=270. KiZ Höchstbetrag nach Satz 3:
-      max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4: 25.
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6696-348)/12-259=270. KiZ
+      Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      25.
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
