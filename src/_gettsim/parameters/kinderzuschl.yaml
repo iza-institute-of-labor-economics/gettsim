@@ -30,10 +30,23 @@ maximum:
     scalar: 292
     reference: null
     note: >-
-      No law, should be calculated from other parameters (as 2021/2022),
-      but parameters are not known yet.
-    # TODO(@MImmesberger): Add reference or parameters to calculate the max kinderzuschl
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/682
+      No overwriting law/decree, should be calculated according to § 6a (2) from other
+      parameters (as 2021/2022). Satz 1 und 2: (6604-340)/12-250=272. KiZ Höchstbetrag
+      nach Satz 3: max(272,224)=272. Plus KiZ Sofortzuschlag nach Satz 4: 20.
+  2025-01-01:
+    scalar: 297
+    reference: null
+    note: >-
+      No overwriting law/decree, calculated according to § 6a (2). Satz 1 und 2:
+      (6648-348)/12-255=270. KiZ Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ
+      Sofortzuschlag nach Satz 4: 25.
+  2025-01-01:
+    scalar: 297
+    reference: null
+    note: >-
+      No overwriting law/decree, calculated according to § 6a (2). nach § 6a (2):
+      Satz 1 und 2: (6696-348)/12-259=270. KiZ Höchstbetrag nach Satz 3:
+      max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4: 25.
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
