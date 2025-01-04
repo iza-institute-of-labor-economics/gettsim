@@ -62,7 +62,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     alter: int,
     ges_rente_regelaltersgrenze: float,
     bruttorente_basisbetrag_m: float,
-    _diff_bruttolohn_hinzuverdienstgrenze_y: float,
+    _differenz_bruttolohn_hinzuverdienstgrenze_y: float,
 ) -> float:
     """Pension benefits after earnings test for early retirees.
 
@@ -88,7 +88,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (alter >= ges_rente_regelaltersgrenze) or (
-        _diff_bruttolohn_hinzuverdienstgrenze_y == 0.0
+        _differenz_bruttolohn_hinzuverdienstgrenze_y == 0.0
     ):
         out = bruttorente_basisbetrag_m
     else:
