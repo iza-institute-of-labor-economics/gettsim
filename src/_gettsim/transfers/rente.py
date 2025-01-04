@@ -205,14 +205,42 @@ def _ges_rente_zahlbetrag_ohne_deckel_m(
 
 
 @policy_info(
-    start_date="2017-01-01",
-    end_date="2022-12-31",
+    end_date="2016-12-31", name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y"
 )
-def _differenz_bruttolohn_hinzuverdienstgrenze_y(
+def _differenz_bruttolohn_monatliche_hinzuverdienstgrenze_y(
     bruttolohn_y: float,
     ges_rente_params: dict,
 ) -> float:
     """Earnings that are subject to pension deductions.
+
+    Earnings cap is denoted in law in terms of monthly wage.
+
+    Parameters
+    ----------
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    ges_rente_params
+        See params documentation :ref:`ges_rente_params <ges_rente_params>`.
+
+    Returns
+    -------
+
+    """
+    return max(bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"] * 12, 0.0)
+
+
+@policy_info(
+    start_date="2017-01-01",
+    end_date="2022-12-31",
+    name_in_dag="_differenz_bruttolohn_hinzuverdienstgrenze_y",
+)
+def _differenz_bruttolohn_jährliche_hinzuverdienstgrenze_y(
+    bruttolohn_y: float,
+    ges_rente_params: dict,
+) -> float:
+    """Earnings that are subject to pension deductions.
+
+    Earnings cap is denoted in law in terms of yearly wage.
 
     Parameters
     ----------
