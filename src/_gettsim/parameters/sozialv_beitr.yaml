@@ -276,7 +276,11 @@ beitr_satz:
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.025
-    reference: BAnz AT 07.11.2024 B4
+      reference: BAnz AT 07.11.2024 B4
+    ges_pflegev:
+      standard: 0.018
+      reference: >-
+        Pflege-Beitragssatz-Anpassungsverordnung 2025, Bundestag-Drucksache 20/1371
 beitr_bemess_grenze_m:
   name:
     de: Beitragsbemessungsgrenzen für die Sozialversicherungsbeiträge
