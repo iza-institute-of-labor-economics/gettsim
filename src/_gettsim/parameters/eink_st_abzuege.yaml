@@ -94,11 +94,11 @@ kinderfreib:
     reference: Art. 1 G. v. 05.12.2024 BGBl. 2024 I Nr. 386.
   2025-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3366
+    sächl_existenzmin: 3336
     reference: Art. 1 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
   2026-01-01:
     deviation_from: previous
-    sächl_existenzmin: 3522
+    sächl_existenzmin: 3414
     reference: Art. 2 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
 vorsorge2004_vorwegabzug:
   name:
