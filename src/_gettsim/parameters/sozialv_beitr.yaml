@@ -572,8 +572,8 @@ beitr_bemess_grenze_m:
     reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 322
   2025-01-01:
     ges_krankenv:
-      west: 6150
-      ost: 6150
+      west: 5512.5
+      ost: 5512.5
     ges_rentenv:
       west: 8050
       ost: 8050
