@@ -115,6 +115,7 @@ toml = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
+pixi-pycharm = ">=0.0.8,<0.0.9"
 
 
 # Development Dependencies (pypi)

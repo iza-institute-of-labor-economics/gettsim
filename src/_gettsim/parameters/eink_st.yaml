@@ -227,6 +227,26 @@ eink_st_tarif:
       upper_threshold: 66760
     3:
       upper_threshold: 277825
+  2025-01-01:
+    deviation_from: previous
+    reference: Art. 1 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
+    0:
+      upper_threshold: 12096
+    1:
+      upper_threshold: 17443
+    2:
+      upper_threshold: 68480
+    3:
+      upper_threshold: 277825
+  2026-01-01:
+    deviation_from: previous
+    reference: Art. 2 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
+    0:
+      upper_threshold: 12348
+    1:
+      upper_threshold: 17799
+    2:
+      upper_threshold: 69878
 rente_ertragsanteil:
   name:
     de: >-
