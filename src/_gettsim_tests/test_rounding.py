@@ -260,9 +260,9 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions, _ = tree_flatten(
+        year_functions = tree_flatten(
             load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
-        )
+        )[0]
         function_name_to_name_in_dag_dict = {
             func.function.__name__: func.name_in_dag for func in year_functions
         }

@@ -231,7 +231,7 @@ def test_convert_function_to_correct_type(tree, expected_module_name):
         _convert_function_to_correct_type,
         tree,
     )
-    func_list, _ = tree_flatten(funcs_with_correct_type)
+    func_list = tree_flatten(funcs_with_correct_type)[0]
     for func in func_list:
         assert func.module_name == expected_module_name
         assert isinstance(func, PolicyFunction)

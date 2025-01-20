@@ -132,11 +132,12 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
     ).nodes
-    # Select functions that are nodes of the DAG.
-    _, necessary_functions = _filter_tree_by_name_list(functions_not_overridden, nodes)
-    # Round and partial parameters into functions.
+
+    # Round and partial parameters into functions that are nodes in the DAG.
     processed_functions = _round_and_partial_parameters_to_functions(
-        necessary_functions, environment.params, rounding
+        _filter_tree_by_name_list(functions_not_overridden, nodes)[1],
+        environment.params,
+        rounding,
     )
 
     # Input structure for final DAG.
@@ -189,7 +190,7 @@ def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTar
     if isinstance(targets, str):
         targets = [targets]
 
-    flattened_targets, _ = tree_flatten(targets)
+    flattened_targets = tree_flatten(targets)[0]
     all_leafs_none = all(el is None for el in flattened_targets)
     all_leafs_str_or_list = all(isinstance(el, str | list) for el in flattened_targets)
 

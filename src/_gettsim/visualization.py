@@ -92,10 +92,10 @@ def plot_dag(
         targets=targets,
         names_of_columns_in_data=names_of_columns_overriding_functions,
     )
-    functions_not_overridden, _ = _filter_tree_by_name_list(
+    functions_not_overridden = _filter_tree_by_name_list(
         tree=all_functions,
         qualified_names_list=names_of_columns_overriding_functions,
-    )
+    )[0]
 
     # Create parameter input structure.
     input_structure = dags.dag_tree.create_input_structure_tree(
@@ -112,11 +112,8 @@ def plot_dag(
         check_minimal_specification=check_minimal_specification,
     )
 
-    _, necessary_functions = _filter_tree_by_name_list(
-        functions_not_overridden, dag.nodes
-    )
     processed_functions = _round_and_partial_parameters_to_functions(
-        necessary_functions,
+        _filter_tree_by_name_list(functions_not_overridden, dag.nodes)[1],
         environment.params,
         rounding=False,
     )
