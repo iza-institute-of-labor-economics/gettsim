@@ -5,14 +5,18 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 from types import ModuleType
-from typing import Literal, TypeAlias
+from typing import Any, Literal, TypeAlias
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedFunctionDict
+from _gettsim.shared import (
+    get_path_from_qualified_name,
+    tree_update,
+)
 
-from .policy_function import PolicyFunction
 
-
-def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
+def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     """
     Load policy functions that are active at a specific date.
 
@@ -26,7 +30,9 @@ def load_functions_for_date(date: datetime.date) -> list[PolicyFunction]:
     functions:
         The policy functions that are active at the given date.
     """
-    return [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    return _build_functions_tree(
+        [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+    )
 
 
 def _load_internal_functions() -> list[PolicyFunction]:
@@ -76,6 +82,32 @@ def _load_functions(
         )
 
     return result
+
+
+def _build_functions_tree(functions: list[PolicyFunction]) -> NestedFunctionDict:
+    """Build the function tree.
+
+    Takes the list of active policy functions and builds a tree using the module names.
+
+    Parameters
+    ----------
+    functions:
+        A list of PolicyFunctions.
+
+    Returns
+    -------
+    tree:
+        A tree of PolicyFunctions.
+    """
+    # Build module_name - functions dictionary
+    tree = {}
+    for function in functions:
+        tree_keys = [
+            *get_path_from_qualified_name(function.module_name),
+            function.name_in_dag,
+        ]
+        tree = tree_update(tree, tree_keys, function)
+    return tree
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
@@ -161,7 +193,7 @@ def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
-        .replace("/", ".")
+        .replace("/", "__")
     )
 
 
@@ -186,10 +218,12 @@ def _create_policy_function_from_decorated_callable(
     """
 
     # Only needed until the directory structure is cleaned up
+    # TODO(@MImmesberger): Remove the removeprefix calls once the directory
+    # structure is cleaned up
     clean_module_name = (
-        module_name.removeprefix("_gettsim.")
-        .removeprefix("taxes.")
-        .removeprefix("transfers.")
+        module_name.removeprefix("_gettsim__")
+        .removeprefix("taxes__")
+        .removeprefix("transfers__")
     )
 
     return PolicyFunction(
@@ -206,7 +240,7 @@ def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bo
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
-def load_internal_aggregation_dict(variant: _AggregationVariant):
+def load_internal_aggregation_dict(variant: _AggregationVariant) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person that are defined for
     internal functions.
@@ -216,7 +250,7 @@ def load_internal_aggregation_dict(variant: _AggregationVariant):
 
 def _load_aggregation_dict(
     roots: list[Path], package_root: Path, variant: _AggregationVariant
-):
+) -> dict[str, Any]:
     """
     Load a dictionary with all aggregations by group or person reachable from the given
     roots.
@@ -224,32 +258,37 @@ def _load_aggregation_dict(
     roots = roots if isinstance(roots, list) else [roots]
     paths = _find_python_files_recursively(roots)
 
-    # Load dictionaries
-    dicts = []
+    tree = {}
 
     for path in paths:
-        dicts.extend(_load_dicts_in_module(path, package_root, f"{variant}_"))
-
-    # Check for duplicate keys
-    all_keys = [k for dict_ in dicts for k in dict_]
-    if len(all_keys) != len(set(all_keys)):
-        duplicate_keys = list({x for x in all_keys if all_keys.count(x) > 1})
-        raise ValueError(
-            "The following column names are used more "
-            f"than once in the {variant} dictionaries: {duplicate_keys}"
+        module_name = _convert_path_to_module_name(path, package_root)
+        # TODO(@MImmesberger): Remove the removeprefix calls once the directory
+        # structure is cleaned up
+        clean_module_name = (
+            module_name.removeprefix("_gettsim__")
+            .removeprefix("taxes__")
+            .removeprefix("transfers__")
         )
+        tree_keys = get_path_from_qualified_name(clean_module_name)
+        derived_function_specs = load_functions_to_derive(
+            path, package_root, f"{variant}_"
+        )
+        tree = tree_update(tree, tree_keys, *derived_function_specs)
 
-    # Combine dictionaries
-    return {k: v for dict_ in dicts for k, v in dict_.items()}
+    return tree
 
 
-def _load_dicts_in_module(
+def load_functions_to_derive(
     path: Path,
     package_root: Path,
     prefix_filter: str,
 ) -> list[dict]:
     """
-    Load dictionaries defined in a module.
+    Load the dictionary that specifies which functions to derive from the module.
+
+    Returns one aggregation dictionary where keys are the names of the functions to
+    derive and values are dictionaries with the aggregation specifications ('aggr',
+    'source_col', 'p_id_to_aggregate_by').
 
     Parameters
     ----------
@@ -264,9 +303,19 @@ def _load_dicts_in_module(
         Loaded dictionaries.
     """
     module = _load_module(path, package_root)
-
-    return [
+    module_name = _convert_path_to_module_name(path, package_root)
+    dicts_in_module = [
         member
         for name, member in inspect.getmembers(module)
         if isinstance(member, dict) and name.startswith(prefix_filter)
     ]
+
+    _fail_if_more_than_one_dict_loaded(dicts_in_module, module_name)
+    return dicts_in_module
+
+
+def _fail_if_more_than_one_dict_loaded(dicts: list[dict], module_name: str) -> None:
+    if len(dicts) > 1:
+        raise ValueError(
+            "More than one dictionary found in the module:\n\n" f"{module_name}\n\n"
+        )

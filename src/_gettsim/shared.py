@@ -1,13 +1,19 @@
+import functools
 import inspect
+import operator
 import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
-from typing import TypeVar
+from typing import Any, TypeVar
 
 import numpy
+from dags.signature import rename_arguments
+from optree import tree_flatten_with_path
 
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
 
 class KeyErrorMessage(str):
@@ -181,24 +187,116 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def parse_to_list_of_strings(user_input, name):
-    """Parse None, str, and list of strings to list of strings.
+def tree_update(
+    tree: dict[str, Any], path: list[str], value: Any = None
+) -> dict[str, Any]:
+    """Update tree with a path and value.
 
-    Note that the function automatically removes duplicates.
+    The path is a list of strings that represent the keys in the nested dictionary. If
+    the path does not exist, it will be created. If the path already exists, the value
+    will be updated.
+    """
+    update_dict = create_dict_from_list(path)
+    set_by_path(update_dict, path, value)
+    return merge_nested_dicts(tree, update_dict)
+
+
+def create_dict_from_list(keys: list[str]) -> dict:
+    """Create a nested dict from a list of strings.
+
+    Example:
+        Input:
+            keys = ["a", "b", "c"]
+        Result:
+            {"a": {"b": {"c": None}}}
 
     """
-    if user_input is None:
-        user_input = []
-    elif isinstance(user_input, str):
-        user_input = [user_input]
-    elif isinstance(user_input, list) and all(isinstance(i, str) for i in user_input):
-        pass
-    else:
-        raise NotImplementedError(
-            f"{name!r} needs to be None, a string or a list of strings."
-        )
+    nested_dict = None
+    for key in reversed(keys):
+        nested_dict = {key: nested_dict}
+    return nested_dict
 
-    return sorted(set(user_input))
+
+def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
+    """
+    Recursively merge nested dictionaries.
+
+    Example:
+        Input:
+            base_dict = {"a": {"b": {"c": None}}}
+            update_dict = {"a": {"b": {"d": None}}}
+        Output:
+            {"a": {"b": {"c": None, "d": None}}}
+
+    Parameters
+    ----------
+    base_dict : dict
+        The base dictionary.
+    update_dict : dict
+        The dictionary to update the base dictionary.
+
+    Returns
+    -------
+    dict
+        The merged dictionary.
+    """
+    result = base_dict.copy()
+
+    for key, value in update_dict.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = merge_nested_dicts(result[key], value)
+        else:
+            result[key] = value
+
+    return result
+
+
+def _filter_tree_by_name_list(
+    tree: NestedFunctionDict | NestedDataDict,
+    qualified_names_list: list[str],
+) -> tuple[NestedFunctionDict, NestedFunctionDict]:
+    """Filter a tree by name.
+
+    Splits the functions tree in two parts: functions whose qualified name is in the
+    qualified_names_list and functions whose qualified name is not in
+    qualified_names_list.
+
+    Parameters
+    ----------
+    tree : NestedFunctionDict | NestedDataDict
+        Dictionary containing functions to build the DAG.
+    qualified_names_list : list[str]
+        List of qualified names.
+
+    Returns
+    -------
+    not_in_names_list : NestedFunctionDict
+        All functions except the ones that are overridden by an input column.
+    in_names_list : NestedFunctionDict
+        Functions that are overridden by an input column.
+
+    """
+    not_in_names_list = {}
+    in_names_list = {}
+
+    paths, leafs, _ = tree_flatten_with_path(tree)
+
+    for name, leaf in zip(paths, leafs):
+        qualified_name = "__".join(name)
+        if qualified_name in qualified_names_list:
+            in_names_list = tree_update(
+                in_names_list,
+                name,
+                leaf,
+            )
+        else:
+            not_in_names_list = tree_update(
+                not_in_names_list,
+                name,
+                leaf,
+            )
+
+    return not_in_names_list, in_names_list
 
 
 def format_errors_and_warnings(text, width=79):
@@ -232,7 +330,7 @@ def format_errors_and_warnings(text, width=79):
     return formatted_text
 
 
-def get_names_of_arguments_without_defaults(function):
+def get_names_of_arguments_without_defaults(function: PolicyFunction) -> list[str]:
     """Get argument names without defaults.
 
     The detection of argument names also works for partialed functions.
@@ -250,11 +348,7 @@ def get_names_of_arguments_without_defaults(function):
     """
     parameters = inspect.signature(function).parameters
 
-    argument_names_without_defaults = [
-        p for p in parameters if parameters[p].default == parameters[p].empty
-    ]
-
-    return argument_names_without_defaults
+    return [p for p in parameters if parameters[p].default == parameters[p].empty]
 
 
 def remove_group_suffix(col):
@@ -326,3 +420,53 @@ def join_numpy(
 
     # Return the target at the index of the first matching primary key
     return padded_targets.take(indices)
+
+
+def rename_arguments_and_add_annotations(
+    function: Callable | None = None,
+    *,
+    mapper: dict | None = None,
+    annotations: dict | None = None,
+):
+    wrapper = rename_arguments(function, mapper=mapper)
+
+    if annotations:
+        wrapper.__annotations__ = annotations
+
+    return wrapper
+
+
+def get_by_path(data_dict, key_list):
+    """Access a nested object in root by item sequence."""
+    return functools.reduce(operator.getitem, key_list, data_dict)
+
+
+def set_by_path(data_dict, key_list, value):
+    """Set a value in a nested object in root by item sequence."""
+    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+
+
+def get_path_from_qualified_name(qualified_name: str) -> list[str]:
+    return qualified_name.split("__")
+
+
+def tree_to_dict_with_qualified_name(
+    tree: dict[str, Any], none_is_leaf: bool = True
+) -> dict[str, Any]:
+    """Flatten a nested dictionary and return a dictionary with qualified names."""
+    qualified_names, flattened_tree, _ = tree_flatten_with_qualified_name(
+        tree, none_is_leaf=none_is_leaf
+    )
+    return dict(zip(qualified_names, flattened_tree))
+
+
+def tree_flatten_with_qualified_name(
+    tree: dict[str, Any],
+    none_is_leaf: bool = True,
+) -> tuple[list[list[str]], list[Any], list[str]]:
+    """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
+    paths, flattened_tree, tree_spec = tree_flatten_with_path(
+        tree, none_is_leaf=none_is_leaf
+    )
+    qualified_names = ["__".join(path) for path in paths]
+    return qualified_names, flattened_tree, tree_spec
