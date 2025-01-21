@@ -4,8 +4,6 @@ import functools
 import inspect
 from typing import TYPE_CHECKING
 
-import numpy
-
 from _gettsim.aggregation import (
     all_by_p_id,
     any_by_p_id,
@@ -25,6 +23,7 @@ from _gettsim.aggregation import (
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
+    USE_JAX,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
@@ -35,6 +34,7 @@ from _gettsim.shared import (
     remove_group_suffix,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
+from _gettsim.vectorization import make_vectorizable
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -588,17 +588,8 @@ def _vectorize_func(func):
     if isinstance(func, PolicyFunction):
         return func
 
-    # What should work once that Jax backend is fully supported
-    signature = inspect.signature(func)
-    func_vec = numpy.vectorize(func)
-
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
-
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func
+    backend = "jax" if USE_JAX else "numpy"
+    return make_vectorizable(func, backend=backend)
 
 
 def _fail_if_targets_are_not_among_functions(functions, targets):
