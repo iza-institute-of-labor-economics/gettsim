@@ -50,6 +50,29 @@ def test_full_taxes_and_transfers(
 
 @pytest.mark.parametrize(
     "test_data",
+    data.test_data[:1],
+    ids=str,
+)
+def test_full_taxes_and_transfers_jitted(
+    test_data: PolicyTestData,
+):
+    df = test_data.input_df
+    environment = cached_set_up_policy_environment(date=test_data.date)
+
+    out = OUT_COLS.copy()
+    if test_data.date.year <= 2008:
+        out.remove("abgelt_st_y_sn")
+
+    compute_taxes_and_transfers(
+        data=df,
+        environment=environment,
+        targets=out,
+        jit=True,
+    )
+
+
+@pytest.mark.parametrize(
+    "test_data",
     data.test_data,
     ids=str,
 )
