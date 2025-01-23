@@ -15,9 +15,21 @@ from _gettsim.policy_environment import (
 from _gettsim_tests import TEST_DIR
 
 
+def return_one():
+    return 1
+
+
+def return_two():
+    return 2
+
+
+def return_three():
+    return 3
+
+
 class TestPolicyEnvironment:
     def test_get_function_by_name_exists(self):
-        function = PolicyFunction(lambda: 1, function_name="foo")
+        function = PolicyFunction(return_one, function_name="foo")
         environment = PolicyEnvironment([function])
 
         assert environment.get_function_by_name("foo") == function
@@ -33,19 +45,19 @@ class TestPolicyEnvironment:
             PolicyEnvironment([], {}),
             PolicyEnvironment(
                 [
-                    PolicyFunction(lambda: 1, function_name="foo"),
+                    PolicyFunction(return_one, function_name="foo"),
                 ]
             ),
             PolicyEnvironment(
                 [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                    PolicyFunction(lambda: 2, function_name="bar"),
+                    PolicyFunction(return_one, function_name="foo"),
+                    PolicyFunction(return_two, function_name="bar"),
                 ]
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3, function_name="foo")
+        new_function = PolicyFunction(return_three, function_name="foo")
         new_environment = environment.upsert_functions(new_function)
 
         assert new_environment.get_function_by_name("foo") == new_function

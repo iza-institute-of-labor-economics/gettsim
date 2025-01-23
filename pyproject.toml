@@ -148,11 +148,26 @@ jaxlib = ">=0.4.20"
 jax = { version = ">=0.4.20", extras = ["cpu"] }
 jaxlib = ">=0.4.20"
 
+[tool.pixi.feature.cuda]
+platforms = ["linux-64"]
+system-requirements = {cuda = "12"}
+
+[tool.pixi.feature.cuda.target.linux-64.dependencies]
+cuda-nvcc = ">=12"
+jax = ">=0.4.34"
+jaxlib = { version = ">=0.4.34", build = "cuda12*" }
+
 # Tasks
 # --------------------------------------------------------------------------------------
 
 [tool.pixi.feature.test.tasks]
 tests = "pytest"
+
+[tool.pixi.feature.jax.tasks]
+tests = "pytest --use-jax"
+
+[tool.pixi.feature.cuda.tasks]
+tests = "pytest --use-jax"
 
 # Environments
 # --------------------------------------------------------------------------------------
@@ -161,6 +176,7 @@ tests = "pytest"
 py311 = ["test", "py311"]
 py312 = ["test", "py312"]
 py312-jax = ["py312", "jax"]
+py312-jax-cuda = ["py312", "cuda"]
 
 
 # ======================================================================================

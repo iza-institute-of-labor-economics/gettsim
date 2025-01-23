@@ -39,6 +39,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     check_minimal_specification="ignore",
     rounding=True,
     debug=False,
+    jit=False,
 ):
     """Compute taxes and transfers.
 
@@ -126,6 +127,11 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         aggregator=None,
         enforce_signature=True,
     )
+
+    if jit:
+        from jax import jit
+
+        tax_transfer_function = jit(tax_transfer_function)
 
     results = tax_transfer_function(**input_data)
 

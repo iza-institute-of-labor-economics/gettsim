@@ -4,8 +4,6 @@ import functools
 import inspect
 from typing import TYPE_CHECKING
 
-import numpy
-
 from _gettsim.aggregation import (
     all_by_p_id,
     any_by_p_id,
@@ -27,7 +25,6 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
@@ -39,6 +36,7 @@ from _gettsim.time_conversion import create_time_conversion_functions
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from _gettsim.functions.policy_function import PolicyFunction
     from _gettsim.policy_environment import PolicyEnvironment
 
 
@@ -578,27 +576,6 @@ def _create_one_aggregate_by_p_id_func(
         function_name=agg_col,
         derived_from=derived_from,
     )
-
-
-def _vectorize_func(func):
-    # If the function is already vectorized, return it as is
-    if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
-        return func
-
-    if isinstance(func, PolicyFunction):
-        return func
-
-    # What should work once that Jax backend is fully supported
-    signature = inspect.signature(func)
-    func_vec = numpy.vectorize(func)
-
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
-
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func
 
 
 def _fail_if_targets_are_not_among_functions(functions, targets):
