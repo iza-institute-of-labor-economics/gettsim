@@ -5,7 +5,6 @@ import warnings
 from typing import Literal, get_args
 
 import dags
-import jax
 import pandas as pd
 
 from _gettsim.config import (
@@ -130,7 +129,9 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
 
     if jit:
-        tax_transfer_function = jax.jit(tax_transfer_function)
+        from jax import jit
+
+        tax_transfer_function = jit(tax_transfer_function)
 
     results = tax_transfer_function(**input_data)
 

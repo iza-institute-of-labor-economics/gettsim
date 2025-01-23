@@ -23,10 +23,8 @@ from _gettsim.aggregation import (
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
-    USE_JAX,
 )
 from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
@@ -34,11 +32,11 @@ from _gettsim.shared import (
     remove_group_suffix,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
-from _gettsim.vectorization import make_vectorizable
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from _gettsim.functions.policy_function import PolicyFunction
     from _gettsim.policy_environment import PolicyEnvironment
 
 
@@ -578,18 +576,6 @@ def _create_one_aggregate_by_p_id_func(
         function_name=agg_col,
         derived_from=derived_from,
     )
-
-
-def _vectorize_func(func):
-    # If the function is already vectorized, return it as is
-    if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
-        return func
-
-    if isinstance(func, PolicyFunction):
-        return func
-
-    backend = "jax" if USE_JAX else "numpy"
-    return make_vectorizable(func, backend=backend)
 
 
 def _fail_if_targets_are_not_among_functions(functions, targets):

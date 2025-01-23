@@ -10,11 +10,10 @@ from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.loader import (
     _load_functions,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction, _vectorize_func
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
     _create_derived_functions,
-    _vectorize_func,
 )
 from _gettsim.shared import policy_info
 

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import functools
 import inspect
 from collections.abc import Callable
 from datetime import date
 from typing import Any, TypeVar
 
-import numpy
+from _gettsim.config import USE_JAX
+from _gettsim.vectorization import make_vectorizable
 
 T = TypeVar("T")
 
@@ -109,17 +109,15 @@ class PolicyFunction(Callable):
 
 
 def _vectorize_func(func: Callable) -> Callable:
-    # What should work once that Jax backend is fully supported
-    signature = inspect.signature(func)
-    func_vec = numpy.vectorize(func)
+    # If the function is already vectorized, return it as is
+    if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
+        return func
 
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
+    if isinstance(func, PolicyFunction):
+        return func
 
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func
+    backend = "jax" if USE_JAX else "numpy"
+    return make_vectorizable(func, backend=backend)
 
 
 def _first_not_none(*values: T) -> T:
