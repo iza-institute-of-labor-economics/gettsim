@@ -8,6 +8,8 @@ from typing import Any, TypeVar
 
 import numpy
 
+from _gettsim.config import QUALIFIED_NAME_DELIMITER
+
 T = TypeVar("T")
 
 
@@ -39,8 +41,7 @@ class PolicyFunction(Callable):
         self,
         function: Callable,
         *,
-        module_name: str = "",
-        function_name: str | None = None,
+        qualified_name: str,
         start_date: date | None = None,
         end_date: date | None = None,
         params_key_for_rounding: str | None = None,
@@ -55,13 +56,8 @@ class PolicyFunction(Callable):
         self.function = (
             function if self.skip_vectorization else _vectorize_func(function)
         )
-        self.module_name = module_name
 
-        self.name_in_dag: str = _first_not_none(
-            function_name,
-            info.get("name_in_dag"),
-            function.__name__,
-        )
+        self.qualified_name = qualified_name
 
         self.start_date: date = _first_not_none(
             start_date,
@@ -102,6 +98,16 @@ class PolicyFunction(Callable):
     def original_function_name(self) -> str:
         """The name of the wrapped function."""
         return self.function.__name__
+
+    @property
+    def simple_name(self) -> str:
+        """The name of the wrapped function."""
+        return self.qualified_name.split(QUALIFIED_NAME_DELIMITER)[-1]
+
+    @property
+    def branches_of_namespace(self) -> list[str]:
+        """The branches of the wrapped function."""
+        return self.qualified_name.split(QUALIFIED_NAME_DELIMITER)[:-1]
 
     def is_active_at_date(self, date: date) -> bool:
         """Check if the function is active at a given date."""
