@@ -2,7 +2,7 @@
 
 import numpy
 
-from _gettsim.shared import join_numpy, policy_info
+from _gettsim.shared import join_numpy, policy_function
 
 aggregate_by_p_id_kindergeldübertrag = {
     "kindergeldübertrag_m": {
@@ -13,7 +13,7 @@ aggregate_by_p_id_kindergeldübertrag = {
 }
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="_mean_kindergeld_per_child_m")
+@policy_function(end_date="2022-12-31", leaf_name="_mean_kindergeld_per_child_m")
 def _mean_kindergeld_per_child_gestaffelt_m(
     kindergeld_m: float,
     kindergeld_anz_ansprüche: int,
@@ -41,7 +41,7 @@ def _mean_kindergeld_per_child_gestaffelt_m(
     return out
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="_mean_kindergeld_per_child_m")
+@policy_function(start_date="2023-01-01", leaf_name="_mean_kindergeld_per_child_m")
 def _mean_kindergeld_per_child_ohne_staffelung_m(
     kindergeld_params: dict,
     kindergeld_anz_ansprüche: int,
@@ -65,7 +65,7 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] if kindergeld_anz_ansprüche > 0 else 0.0
 
 
-@policy_info(skip_vectorization=True)
+@policy_function(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
     _mean_kindergeld_per_child_m: float,
     p_id_kindergeld_empf: numpy.ndarray[int],
@@ -160,7 +160,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     return out
 
 
-@policy_info(skip_vectorization=True)
+@policy_function(skip_vectorization=True)
 def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
     p_id: numpy.ndarray[int],
     p_id_kindergeld_empf: numpy.ndarray[int],

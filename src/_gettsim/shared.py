@@ -28,24 +28,24 @@ class KeyErrorMessage(str):
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
-def create_policy_function(
+def policy_function(
     *,
     start_date: str = "0001-01-01",
     end_date: str = "9999-12-31",
-    simple_name: str | None = None,
+    leaf_name: str | None = None,
     params_key_for_rounding: str | None = None,
     skip_vectorization: bool = False,
 ) -> PolicyFunction:
     """
     Decorator that wraps a callable into a `PolicyFunction`.
 
-    **Dates active (start_date, end_date, simple_name):**
+    **Dates active (start_date, end_date, leaf_name):**
 
     Specifies that a PolicyFunction is only active between two dates, `start` and `end`.
-    By using the `simple_name` argument, you can specify a different name for the
+    By using the `leaf_name` argument, you can specify a different name for the
     PolicyFunction in the functions tree.
 
-    Note that even if you use this decorator with the `simple_name` argument, you must
+    Note that even if you use this decorator with the `leaf_name` argument, you must
     ensure that the function name is unique in the file where it is defined. Otherwise,
     the function would be overwritten by the last function with the same name.
 
@@ -59,8 +59,8 @@ def create_policy_function(
         The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     end_date
         The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    simple_name
-        The name that should be used as the PolicyFunction's simple name in the DAG. If
+    leaf_name
+        The name that should be used as the PolicyFunction's leaf name in the DAG. If
         omitted, we use the name of the function as defined.
     params_key_for_rounding
         Key of the parameters dictionary where rounding specifications are found. For
@@ -87,7 +87,7 @@ def create_policy_function(
     def inner(func: Callable) -> PolicyFunction:
         return PolicyFunction(
             func,
-            simple_name=simple_name if simple_name else func.__name__,
+            leaf_name=leaf_name if leaf_name else func.__name__,
             start_date=start_date,
             end_date=end_date,
             params_key_for_rounding=params_key_for_rounding,

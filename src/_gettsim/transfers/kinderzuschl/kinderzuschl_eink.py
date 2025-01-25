@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_info
+from _gettsim.shared import policy_function
 
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
@@ -43,7 +43,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     return out
 
 
-@policy_info(params_key_for_rounding="kinderzuschl_eink")
+@policy_function(params_key_for_rounding="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
     kindergeld_anspruch: bool,
@@ -75,7 +75,7 @@ def kinderzuschl_eink_eltern_m(
     return out
 
 
-@policy_info(end_date="2010-12-31", name_in_dag="kinderzuschl_eink_regel_m_bg")
+@policy_function(end_date="2010-12-31", leaf_name="kinderzuschl_eink_regel_m_bg")
 def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
@@ -110,7 +110,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     return float(out)
 
 
-@policy_info(start_date="2011-01-01")
+@policy_function(start_date="2011-01-01")
 def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
@@ -160,7 +160,7 @@ def kinderzuschl_eink_relev_m_bg(
     return kinderzuschl_eink_regel_m_bg + kinderzuschl_kost_unterk_m_bg
 
 
-@policy_info(end_date="2019-06-30")
+@policy_function(end_date="2019-06-30")
 def kinderzuschl_eink_max_m_bg(
     kinderzuschl_eink_relev_m_bg: float,
     _kinderzuschl_anz_kinder_anspruch_bg: int,

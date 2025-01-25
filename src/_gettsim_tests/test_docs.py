@@ -32,7 +32,7 @@ def default_input_variables():
 @pytest.fixture(scope="module")
 def all_function_names():
     functions = _load_internal_functions()
-    return sorted([func.name_in_dag for func in functions])
+    return sorted([func.leaf_name for func in functions])
 
 
 @pytest.fixture(scope="module")
@@ -47,7 +47,7 @@ def time_indep_function_names(all_function_names):
         year_functions = load_functions_tree_for_date(
             datetime.date(year=year, month=1, day=1)
         )
-        new_dict = {func.function.__name__: func.name_in_dag for func in year_functions}
+        new_dict = {func.function.__name__: func.leaf_name for func in year_functions}
         time_dependent_functions = {**time_dependent_functions, **new_dict}
 
     # Only use time dependent function names
@@ -79,7 +79,7 @@ def test_all_input_vars_documented(
         i
         for f in functions
         for i in list(inspect.signature(f).parameters)
-        if not f.name_in_dag.startswith("_")
+        if not f.leaf_name.startswith("_")
     ]
 
     # Remove duplicates
@@ -103,7 +103,7 @@ def test_all_input_vars_documented(
 
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = {
-        f.name_in_dag
+        f.leaf_name
         for f in _load_functions(
             RESOURCE_DIR / "functions" / "all_functions_for_docs.py",
             package_root=RESOURCE_DIR,
@@ -116,7 +116,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     ]
 
     internal_functions = {
-        f.name_in_dag
+        f.leaf_name
         for f in _load_functions(
             internal_function_files,
             package_root=RESOURCE_DIR,
@@ -136,7 +136,7 @@ def test_type_hints():  # noqa: PLR0912
         if func.skip_vectorization:
             continue
 
-        name = func.name_in_dag
+        name = func.leaf_name
 
         for var, internal_type in func.__annotations__.items():
             if var == "return":

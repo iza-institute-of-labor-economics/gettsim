@@ -15,8 +15,8 @@ class DerivedFunction(PolicyFunction):
     Parameters
     ----------
     function:
-        The function to wrap. Argument values of the `@policy_info` are reused unless
-        explicitly overwritten.
+        The function to wrap. Argument values of the `@policy_function` are reused
+        unless explicitly overwritten.
     function_name:
         The name of the function in the DAG
     derived_from:

@@ -1,6 +1,6 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
 
-from _gettsim.shared import policy_info
+from _gettsim.shared import policy_function
 
 aggregate_by_group_elterngeld = {
     "kind_anspruchsberechtigt_fg": {
@@ -21,7 +21,7 @@ aggregate_by_p_id_elterngeld = {
 }
 
 
-@policy_info(start_date="2011-01-01", params_key_for_rounding="elterngeld")
+@policy_function(start_date="2011-01-01", params_key_for_rounding="elterngeld")
 def elterngeld_m(
     elterngeld_anspruchsbedingungen_erfüllt: bool,
     elterngeld_anspruchshöhe_m: float,
@@ -46,9 +46,9 @@ def elterngeld_m(
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="2010-12-31",
-    name_in_dag="elterngeld_m",
+    leaf_name="elterngeld_m",
     params_key_for_rounding="elterngeld",
 )
 def eltergeld_not_implemented() -> float:
@@ -174,7 +174,9 @@ def monate_elterngeldbezug_unter_grenze_fg(
     return out
 
 
-@policy_info(end_date="2024-03-31", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze")
+@policy_function(
+    end_date="2024-03-31", leaf_name="vorjahr_einkommen_unter_bezugsgrenze"
+)
 def vorjahr_einkommen_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     alleinerz: bool,
     elterngeld_zu_verst_eink_vorjahr_y_sn: float,
@@ -208,8 +210,8 @@ def vorjahr_einkommen_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     return out
 
 
-@policy_info(
-    start_date="2024-04-01", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze"
+@policy_function(
+    start_date="2024-04-01", leaf_name="vorjahr_einkommen_unter_bezugsgrenze"
 )
 def vorjahr_einkommen_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
     elterngeld_zu_verst_eink_vorjahr_y_sn: float,
@@ -284,7 +286,7 @@ def elterngeld_basisbetrag_m(
     ) * elterngeld_lohnersatzanteil
 
 
-@policy_info(start_date="2011-01-01")
+@policy_function(start_date="2011-01-01")
 def elterngeld_lohnersatzanteil(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     _untere_lohnersatzanteil_grenze_minus_nettoeinkommen: float,
@@ -344,7 +346,7 @@ def elterngeld_lohnersatzanteil(
     return out
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def _untere_lohnersatzanteil_grenze_minus_nettoeinkommen(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -369,7 +371,7 @@ def _untere_lohnersatzanteil_grenze_minus_nettoeinkommen(
     )
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def _nettoeinkommen_minus_obere_lohnersatzanteil_grenze(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -552,7 +554,7 @@ def anrechenbares_elterngeld_m(
     return out
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def elterngeld_nettolohn_approximation_m(
     bruttolohn_m: float,
     lohnst_m: float,

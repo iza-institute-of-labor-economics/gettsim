@@ -21,7 +21,7 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     merge_nested_dicts,
-    policy_info,
+    policy_function,
     tree_flatten_with_qualified_name,
 )
 
@@ -121,7 +121,7 @@ def scalar_func(x: int) -> int:
     return x * 2
 
 
-@policy_info(skip_vectorization=True)
+@policy_function(skip_vectorization=True)
 def already_vectorized_func(x: numpy.ndarray) -> numpy.ndarray:
     return numpy.asarray([xi * 2 for xi in x])
 

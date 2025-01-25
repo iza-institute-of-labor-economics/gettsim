@@ -23,7 +23,7 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.shared import policy_info
+from _gettsim.shared import policy_function
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -447,7 +447,7 @@ def test_partial_parameters_to_functions_removes_argument():
 def test_partial_parameters_to_functions_keep_decorator():
     """Make sure that rounding decorator is kept for partial function."""
 
-    @policy_info(params_key_for_rounding="params_key_test")
+    @policy_function(params_key_for_rounding="params_key_test")
     def test_func(arg_1, arbeitsl_geld_2_params):
         return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 

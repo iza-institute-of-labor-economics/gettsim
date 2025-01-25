@@ -56,7 +56,7 @@ def test_full_taxes_and_transfers(
 def test_data_types(
     test_data: PolicyTestData,
 ):
-    functions = {f.name_in_dag: f.function for f in _load_internal_functions()}
+    functions = {f.leaf_name: f.function for f in _load_internal_functions()}
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:

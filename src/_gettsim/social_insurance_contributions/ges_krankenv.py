@@ -1,7 +1,7 @@
-from _gettsim.shared import policy_info
+from _gettsim.shared import policy_function
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
+@policy_function(end_date="2003-03-31", leaf_name="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rentner_m: float,
@@ -43,7 +43,7 @@ def ges_krankenv_beitr_arbeitnehmer_m_vor_midijob(
     return out + ges_krankenv_beitr_rentner_m
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitnehmer_m")
+@policy_function(start_date="2003-04-01", leaf_name="ges_krankenv_beitr_arbeitnehmer_m")
 def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     geringfügig_beschäftigt: bool,
     ges_krankenv_beitr_rentner_m: float,
@@ -93,7 +93,7 @@ def ges_krankenv_beitr_arbeitnehmer_m_mit_midijob(  # noqa: PLR0913
     return out + ges_krankenv_beitr_rentner_m
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
+@policy_function(end_date="2003-03-31", leaf_name="ges_krankenv_beitr_arbeitgeber_m")
 def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     bruttolohn_m: float,
@@ -137,7 +137,7 @@ def ges_krankenv_beitr_arbeitgeber_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="ges_krankenv_beitr_arbeitgeber_m")
+@policy_function(start_date="2003-04-01", leaf_name="ges_krankenv_beitr_arbeitgeber_m")
 def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
@@ -189,10 +189,10 @@ def ges_krankenv_beitr_arbeitgeber_m_mit_midijob(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2014-12-31",
-    name_in_dag="ges_krankenv_zusatzbeitr_satz",
+    leaf_name="ges_krankenv_zusatzbeitr_satz",
 )
 def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
@@ -213,9 +213,9 @@ def ges_krankenv_zusatzbeitr_satz_from_sonderbeitr_satz(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["sonderbeitrag"]
 
 
-@policy_info(
+@policy_function(
     start_date="2015-01-01",
-    name_in_dag="ges_krankenv_zusatzbeitr_satz",
+    leaf_name="ges_krankenv_zusatzbeitr_satz",
 )
 def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,
@@ -236,7 +236,7 @@ def ges_krankenv_zusatzbeitr_satz_from_mean_zusatzbeitrag(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["mean_zusatzbeitrag"]
 
 
-@policy_info(
+@policy_function(
     end_date="2005-06-30",
 )
 def ges_krankenv_beitr_satz_arbeitnehmer(
@@ -260,7 +260,7 @@ def ges_krankenv_beitr_satz_arbeitnehmer(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["mean_allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2005-06-30",
 )
 def _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang(
@@ -289,10 +289,10 @@ def _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    leaf_name="ges_krankenv_beitr_satz_arbeitnehmer",
 )
 def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     ges_krankenv_zusatzbeitr_satz: float,
@@ -324,10 +324,10 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
     return mean_allgemein / 2 + ges_krankenv_zusatzbeitr_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
 )
 def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     ges_krankenv_zusatzbeitr_satz: float,
@@ -359,10 +359,10 @@ def ges_krankenv_beitr_satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer
     return mean_allgemein / 2 + ges_krankenv_zusatzbeitr_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    leaf_name="ges_krankenv_beitr_satz_arbeitnehmer",
 )
 def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     ges_krankenv_zusatzbeitr_satz: float,
@@ -392,10 +392,10 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     return allgemein / 2 + ges_krankenv_zusatzbeitr_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
 )
 def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     ges_krankenv_zusatzbeitr_satz: float,
@@ -427,9 +427,9 @@ def ges_krankenv_beitr_satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanf
     return allgemein / 2 + ges_krankenv_zusatzbeitr_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
-    name_in_dag="ges_krankenv_beitr_satz_arbeitnehmer",
+    leaf_name="ges_krankenv_beitr_satz_arbeitnehmer",
 )
 def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     ges_krankenv_zusatzbeitr_satz: float,
@@ -454,9 +454,9 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     return (allgemeiner_beitr_satz + ges_krankenv_zusatzbeitr_satz) / 2
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang",
 )
 def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
     ges_krankenv_zusatzbeitr_satz: float,
@@ -481,9 +481,9 @@ def ges_krankenv_beitr_satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang
     return (allgemeiner_beitr_satz + ges_krankenv_zusatzbeitr_satz) / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber",
 )
 def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(  # noqa: E501
     sozialv_beitr_params: dict,
@@ -505,9 +505,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["mean_allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2008-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
 def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
@@ -534,10 +534,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber",
 )
 def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
@@ -560,10 +560,10 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
 def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(  # noqa: E501
     sozialv_beitr_params: dict,
@@ -588,9 +588,9 @@ def ges_krankenv_beitr_satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehm
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber",
 )
 def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
     ges_krankenv_beitr_satz_arbeitnehmer: float,
@@ -612,9 +612,9 @@ def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch(
     return ges_krankenv_beitr_satz_arbeitnehmer
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
-    name_in_dag="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
+    leaf_name="_ges_krankenv_beitr_satz_arbeitgeber_jahresanfang",
 )
 def _ges_krankenv_beitr_satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
     _ges_krankenv_beitr_satz_arbeitnehmer_jahresanfang: float,
@@ -840,7 +840,7 @@ def ges_krankenv_beitr_rentner_m(
     )
 
 
-@policy_info(start_date="2003-04-01")
+@policy_function(start_date="2003-04-01")
 def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     midijob_bemessungsentgelt_m: float,
     ges_krankenv_beitr_satz_arbeitnehmer: float,
@@ -869,10 +869,10 @@ def _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_ges_krankenv_beitr_midijob_arbeitgeber_m",
+    leaf_name="_ges_krankenv_beitr_midijob_arbeitgeber_m",
 )
 def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     bruttolohn_m: float, in_gleitzone: bool, _ges_krankenv_beitr_satz_arbeitgeber: float
@@ -901,8 +901,8 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     return out
 
 
-@policy_info(
-    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitgeber_m"
+@policy_function(
+    start_date="2022-10-01", leaf_name="_ges_krankenv_beitr_midijob_arbeitgeber_m"
 )
 def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
     _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
@@ -937,10 +937,10 @@ def _ges_krankenv_beitr_midijob_arbeitgeber_m_residuum(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_ges_krankenv_beitr_midijob_arbeitnehmer_m",
+    leaf_name="_ges_krankenv_beitr_midijob_arbeitnehmer_m",
 )
 def _ges_krankenv_beitr_midijob_arbeitnehmer_m_residuum(
     _ges_krankenv_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
@@ -964,8 +964,8 @@ def _ges_krankenv_beitr_midijob_arbeitnehmer_m_residuum(
     )
 
 
-@policy_info(
-    start_date="2022-10-01", name_in_dag="_ges_krankenv_beitr_midijob_arbeitnehmer_m"
+@policy_function(
+    start_date="2022-10-01", leaf_name="_ges_krankenv_beitr_midijob_arbeitnehmer_m"
 )
 def _ges_krankenv_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,

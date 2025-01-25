@@ -21,10 +21,10 @@ class PolicyFunction(Callable):
     Parameters
     ----------
     function:
-        The function to wrap. Argument values of the `@policy_info` are reused unless
-        explicitly overwritten.
-    simple_name:
-        The simple name of the function in the functions tree.
+        The function to wrap. Argument values of the `@policy_function` are reused
+        unless explicitly overwritten.
+    leaf_name:
+        The leaf name of the function in the functions tree.
     start_date:
         The date from which the function is active (inclusive).
     end_date:
@@ -39,7 +39,7 @@ class PolicyFunction(Callable):
         self,
         function: Callable,
         *,
-        simple_name: str,
+        leaf_name: str,
         start_date: date,
         end_date: date,
         params_key_for_rounding: str | None,
@@ -49,7 +49,7 @@ class PolicyFunction(Callable):
         self.function = (
             function if self.skip_vectorization else _vectorize_func(function)
         )
-        self.simple_name: str = simple_name
+        self.leaf_name: str = leaf_name
         self.qualified_name: str = None
         self.start_date: date = start_date
         self.end_date: date = end_date

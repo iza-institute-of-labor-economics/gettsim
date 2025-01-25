@@ -1,15 +1,15 @@
 import pytest
 
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.shared import create_policy_function
+from _gettsim.shared import policy_function
 
 
-@create_policy_function()
+@policy_function()
 def simple_policy_function(x):
     return x
 
 
-@create_policy_function(simple_name="simple_policy_function")
+@policy_function(simple_name="simple_policy_function")
 def policy_function_with_internal_name(x):
     return x
 

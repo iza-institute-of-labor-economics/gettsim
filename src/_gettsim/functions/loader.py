@@ -104,7 +104,7 @@ def _build_functions_tree(functions: list[PolicyFunction]) -> NestedFunctionDict
     for function in functions:
         tree_keys = [
             *get_path_from_qualified_name(function.module_name),
-            function.name_in_dag,
+            function.leaf_name,
         ]
         tree = tree_update(tree, tree_keys, function)
     return tree
@@ -161,7 +161,7 @@ def _load_functions_in_module(
     module = _load_module(path, package_root)
 
     result = [
-        _create_policy_function_from_decorated_callable(function, module.__name__)
+        _policy_function_from_decorated_callable(function, module.__name__)
         for name, function in inspect.getmembers(module, inspect.isfunction)
         if include_imported_functions
         or _is_function_defined_in_module(function, module)
@@ -197,12 +197,12 @@ def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
     )
 
 
-def _create_policy_function_from_decorated_callable(
+def _policy_function_from_decorated_callable(
     function: Callable,
     module_name: str,
 ) -> PolicyFunction:
     """
-    Create a policy function from a callable with a `@policy_info` decorator.
+    Create a policy function from a callable with a `@policy_function` decorator.
 
     Parameters
     ----------

@@ -34,7 +34,7 @@ def all_functions() -> list[PolicyFunction]:
 
 @pytest.fixture(scope="module")
 def function_names(all_functions: list[PolicyFunction]) -> list[str]:
-    return sorted({func.name_in_dag for func in all_functions})
+    return sorted({func.leaf_name for func in all_functions})
 
 
 def check_length(column_names, limit):
