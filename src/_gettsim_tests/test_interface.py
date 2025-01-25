@@ -7,7 +7,7 @@ from optree import tree_flatten, tree_paths
 
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
@@ -23,7 +23,6 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.shared import policy_function
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 

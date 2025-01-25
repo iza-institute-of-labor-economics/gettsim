@@ -1,5 +1,5 @@
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_function
 
 
 @policy_function(end_date="2008-12-31", leaf_name="soli_st_y_sn")

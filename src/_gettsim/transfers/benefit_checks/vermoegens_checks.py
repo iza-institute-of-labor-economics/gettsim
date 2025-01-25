@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 
 def _kinderzuschl_nach_vermög_check_m_bg(

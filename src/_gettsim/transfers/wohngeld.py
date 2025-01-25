@@ -17,8 +17,8 @@ priority check, but cannot cover their needs with the Wohngeld calculated in poi
 """
 
 from _gettsim.config import numpy_or_jax as np
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_function
 
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {

@@ -1,5 +1,5 @@
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_function
 
 
 def eink_selbst_y(eink_selbst_m: float) -> float:

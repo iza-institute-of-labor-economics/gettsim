@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function(end_date="2022-12-31", leaf_name="arbeitsl_geld_2_kost_unterk_m")

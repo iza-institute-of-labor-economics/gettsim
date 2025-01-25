@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 
 def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float:

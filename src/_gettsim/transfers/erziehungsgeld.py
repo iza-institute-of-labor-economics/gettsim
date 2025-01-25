@@ -1,6 +1,6 @@
 """Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_p_id_erziehungsgeld = {
     "erziehungsgeld_eltern_m": {

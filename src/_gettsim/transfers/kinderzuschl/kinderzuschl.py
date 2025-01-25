@@ -1,6 +1,6 @@
 """Kinderzuschlag / Additional Child Benefit."""
 
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 
 def kinderzuschl_m_bg(

@@ -1,7 +1,6 @@
 import functools
 import inspect
 import operator
-import re
 import textwrap
 from collections.abc import Callable
 from datetime import date
@@ -26,88 +25,6 @@ class KeyErrorMessage(str):
 
 
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
-
-
-def policy_function(
-    *,
-    start_date: str = "0001-01-01",
-    end_date: str = "9999-12-31",
-    leaf_name: str | None = None,
-    params_key_for_rounding: str | None = None,
-    skip_vectorization: bool = False,
-) -> PolicyFunction:
-    """
-    Decorator that wraps a callable into a `PolicyFunction`.
-
-    **Dates active (start_date, end_date, leaf_name):**
-
-    Specifies that a PolicyFunction is only active between two dates, `start` and `end`.
-    By using the `leaf_name` argument, you can specify a different name for the
-    PolicyFunction in the functions tree.
-
-    Note that even if you use this decorator with the `leaf_name` argument, you must
-    ensure that the function name is unique in the file where it is defined. Otherwise,
-    the function would be overwritten by the last function with the same name.
-
-    **Rounding spec (params_key_for_rounding):**
-
-    Adds the location of the rounding specification to a PolicyFunction.
-
-    Parameters
-    ----------
-    start_date
-        The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    end_date
-        The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    leaf_name
-        The name that should be used as the PolicyFunction's leaf name in the DAG. If
-        omitted, we use the name of the function as defined.
-    params_key_for_rounding
-        Key of the parameters dictionary where rounding specifications are found. For
-        functions that are not user-written this is just the name of the respective
-        .yaml file.
-    skip_vectorization
-        Whether the function is already vectorized and, thus, should not be vectorized
-        again.
-
-    Returns
-    -------
-    PolicyFunction
-        A PolicyFunction object.
-    """
-
-    _validate_dashed_iso_date(start_date)
-    _validate_dashed_iso_date(end_date)
-
-    start_date = date.fromisoformat(start_date)
-    end_date = date.fromisoformat(end_date)
-
-    _validate_date_range(start_date, end_date)
-
-    def inner(func: Callable) -> PolicyFunction:
-        return PolicyFunction(
-            func,
-            leaf_name=leaf_name if leaf_name else func.__name__,
-            start_date=start_date,
-            end_date=end_date,
-            params_key_for_rounding=params_key_for_rounding,
-            skip_vectorization=skip_vectorization,
-        )
-
-    return inner
-
-
-_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
-
-
-def _validate_dashed_iso_date(date_str: str):
-    if not _dashed_iso_date.match(date_str):
-        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
-
-
-def _validate_date_range(start: date, end: date):
-    if start > end:
-        raise ValueError(f"The start date {start} must be before the end date {end}.")
 
 
 def _check_for_conflicts_in_time_dependent_functions(

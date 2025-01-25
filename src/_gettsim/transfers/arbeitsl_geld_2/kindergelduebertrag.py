@@ -2,7 +2,8 @@
 
 import numpy
 
-from _gettsim.shared import join_numpy, policy_function
+from _gettsim.functions.policy_function import policy_function
+from _gettsim.shared import join_numpy
 
 aggregate_by_p_id_kindergeldübertrag = {
     "kindergeldübertrag_m": {

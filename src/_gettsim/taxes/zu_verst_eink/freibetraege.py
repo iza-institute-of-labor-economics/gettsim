@@ -1,5 +1,5 @@
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_p_id_freibeträge = {
     "_eink_st_kinderfreib_anz_anspruch_1": {

@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 

@@ -13,7 +13,7 @@ from _gettsim.functions.loader import (
     _build_functions_tree,
     _load_functions,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.policy_environment_postprocessor import (
     _create_derived_functions,
@@ -21,7 +21,6 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     merge_nested_dicts,
-    policy_function,
     tree_flatten_with_qualified_name,
 )
 

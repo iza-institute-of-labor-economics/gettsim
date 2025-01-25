@@ -11,13 +11,13 @@ from _gettsim.config import (
     RESOURCE_DIR,
 )
 from _gettsim.functions.loader import _load_internal_functions
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.interface import (
     _add_rounding_to_function,
     _apply_rounding_spec,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment, load_functions_tree_for_date
-from _gettsim.shared import policy_function
 
 rounding_specs_and_exp_results = [
     (1, "up", None, [100.24, 100.78], [101.0, 101.0]),

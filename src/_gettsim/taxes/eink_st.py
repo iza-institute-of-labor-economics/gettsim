@@ -1,5 +1,5 @@
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_function
 
 aggregate_by_p_id_eink_st = {
     "eink_st_rel_kindergeld_anz_ansprüche_1": {

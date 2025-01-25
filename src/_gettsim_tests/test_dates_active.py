@@ -2,10 +2,10 @@ import datetime
 
 import pytest
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import (
     TIME_DEPENDENT_FUNCTIONS,
     ConflictingTimeDependentFunctionsError,
-    policy_function,
 )
 
 

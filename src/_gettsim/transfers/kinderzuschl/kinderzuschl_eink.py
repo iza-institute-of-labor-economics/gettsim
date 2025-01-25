@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {

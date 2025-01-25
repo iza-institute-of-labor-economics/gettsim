@@ -1,6 +1,6 @@
 """This module provides functions to compute parental leave benefits (Elterngeld)."""
 
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_group_elterngeld = {
     "kind_anspruchsberechtigt_fg": {

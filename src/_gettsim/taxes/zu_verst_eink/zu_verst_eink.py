@@ -14,7 +14,7 @@ It's always the most favorable for the taxpayer, but you know that only after
 applying the tax schedule.
 """
 
-from _gettsim.shared import policy_function
+from _gettsim.functions.policy_function import policy_function
 
 
 def freibeträge_ind_y(
