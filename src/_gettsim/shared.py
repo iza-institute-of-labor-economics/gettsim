@@ -28,30 +28,30 @@ class KeyErrorMessage(str):
 TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
 
 
-def policy_info(
+def create_policy_function(
     *,
     start_date: str = "0001-01-01",
     end_date: str = "9999-12-31",
-    name_in_dag: str | None = None,
+    simple_name: str | None = None,
     params_key_for_rounding: str | None = None,
     skip_vectorization: bool = False,
-) -> Callable:
+) -> PolicyFunction:
     """
-    A decorator to attach additional information to a policy function.
+    Decorator that wraps a callable into a `PolicyFunction`.
 
-    **Dates active (start_date, end_date, name_in_dag):**
+    **Dates active (start_date, end_date, simple_name):**
 
-    Specifies that a function is only active between two dates, `start` and `end`. By
-    using the `change_name` argument, you can specify a different name for the function
-    in the DAG.
+    Specifies that a PolicyFunction is only active between two dates, `start` and `end`.
+    By using the `simple_name` argument, you can specify a different name for the
+    PolicyFunction in the functions tree.
 
-    Note that even if you use this decorator with the `change_name` argument, you must
+    Note that even if you use this decorator with the `simple_name` argument, you must
     ensure that the function name is unique in the file where it is defined. Otherwise,
     the function would be overwritten by the last function with the same name.
 
     **Rounding spec (params_key_for_rounding):**
 
-    Adds the location of the rounding specification to a function.
+    Adds the location of the rounding specification to a PolicyFunction.
 
     Parameters
     ----------
@@ -59,9 +59,9 @@ def policy_info(
         The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
     end_date
         The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    name_in_dag
-        The name that should be used as the key for the function in the DAG.
-        If omitted, we use the name of the function as defined.
+    simple_name
+        The name that should be used as the PolicyFunction's simple name in the DAG. If
+        omitted, we use the name of the function as defined.
     params_key_for_rounding
         Key of the parameters dictionary where rounding specifications are found. For
         functions that are not user-written this is just the name of the respective
@@ -72,9 +72,8 @@ def policy_info(
 
     Returns
     -------
-        The function with attributes __info__["start_date"],
-        __info__["end_date"], __info__["name_in_dag"], and
-        __info__["params_key_for_rounding"].
+    PolicyFunction
+        A PolicyFunction object.
     """
 
     _validate_dashed_iso_date(start_date)
@@ -85,29 +84,15 @@ def policy_info(
 
     _validate_date_range(start_date, end_date)
 
-    def inner(func: Callable) -> Callable:
-        dag_key = name_in_dag if name_in_dag else func.__name__
-
-        _check_for_conflicts_in_time_dependent_functions(
-            dag_key, func.__name__, start_date, end_date
+    def inner(func: Callable) -> PolicyFunction:
+        return PolicyFunction(
+            func,
+            simple_name=simple_name if simple_name else func.__name__,
+            start_date=start_date,
+            end_date=end_date,
+            params_key_for_rounding=params_key_for_rounding,
+            skip_vectorization=skip_vectorization,
         )
-
-        # Remember data from decorator
-        if not hasattr(func, "__info__"):
-            func.__info__ = {}
-        func.__info__["start_date"] = start_date
-        func.__info__["end_date"] = end_date
-        func.__info__["name_in_dag"] = dag_key
-        if params_key_for_rounding is not None:
-            func.__info__["params_key_for_rounding"] = params_key_for_rounding
-        func.__info__["skip_vectorization"] = skip_vectorization
-
-        # Register time-dependent function
-        if dag_key not in TIME_DEPENDENT_FUNCTIONS:
-            TIME_DEPENDENT_FUNCTIONS[dag_key] = []
-        TIME_DEPENDENT_FUNCTIONS[dag_key].append(func)
-
-        return func
 
     return inner
 
