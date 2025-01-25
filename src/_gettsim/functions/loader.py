@@ -2,12 +2,15 @@ import datetime
 import importlib.util
 import inspect
 import sys
-from collections.abc import Callable
 from pathlib import Path
 from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
-from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
+from _gettsim.config import (
+    PATHS_TO_INTERNAL_FUNCTIONS,
+    QUALIFIED_NAME_SEPARATOR,
+    RESOURCE_DIR,
+)
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.shared import (
@@ -31,83 +34,88 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
         The policy functions that are active at the given date.
     """
     return _build_functions_tree(
-        [f for f in _load_internal_functions() if f.is_active_at_date(date)]
+        date=date, package_root=RESOURCE_DIR, roots=PATHS_TO_INTERNAL_FUNCTIONS
     )
 
 
-def _load_internal_functions() -> list[PolicyFunction]:
+def _build_functions_tree(
+    date: datetime.date, package_root: Path, roots: list[Path]
+) -> NestedFunctionDict:
     """
-    Load all internal policy functions.
+    Build the function tree.
 
-    Returns
-    -------
-    functions:
-        All internal policy functions.
-    """
-    return _load_functions(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR)
-
-
-def _load_functions(
-    roots: Path | list[Path],
-    package_root: Path,
-    include_imported_functions=False,
-) -> list[PolicyFunction]:
-    """
-    Load policy functions reachable from the given roots.
+    Takes the list of root paths and searches for all modules containing
+    PolicyFunctions. Then it loads all PolicyFunctions that are active at the given date
+    and parses them into the functions tree.
 
     Parameters
     ----------
-    roots:
-        The roots from which to start the search for policy functions.
+    date:
+        The date for which policy functions should be loaded.
     package_root:
         The root of the package that contains the functions. This is required to assign
         qualified names to the functions. It must contain all roots.
-    include_imported_functions:
-        Whether to load functions that are imported into the modules passed via
-        sources.
+    roots:
+        The roots from which to start the search for policy functions.
 
     Returns
     -------
-    functions:
-        Loaded policy functions.
+    NestedFunctionDict:
+        A tree of PolicyFunctions.
     """
-    roots = roots if isinstance(roots, list) else [roots]
-    paths = _find_python_files_recursively(roots)
+    tree = {}
 
-    result = []
+    # TODO{@MImmesberger}: Remove upper level of loop once the directory structure is
+    # cleaned up
+    for root in roots:
+        paths = _find_python_files_recursively(root)
+        for path in paths:
+            active_functions_dict = get_active_functions_from_module(
+                module_path=path, date=date
+            )
+            module_name = _convert_path_to_module_name(path, package_root)
+            active_functions_dict = {
+                func_name: func.set_qualified_name(module_name + func_name)
+                for func_name, func in active_functions_dict.items()
+            }
+            tree = tree_update(
+                tree=tree,
+                path=module_name.split(QUALIFIED_NAME_SEPARATOR),
+                value=active_functions_dict,
+            )
 
-    for path in paths:
-        result.extend(
-            _load_functions_in_module(path, package_root, include_imported_functions)
-        )
-
-    return result
+    return tree
 
 
-def _build_functions_tree(functions: list[PolicyFunction]) -> NestedFunctionDict:
-    """Build the function tree.
-
-    Takes the list of active policy functions and builds a tree using the module names.
+def get_active_functions_from_module(
+    module_path: Path,
+    package_root: Path,
+    date: datetime.date,
+) -> NestedFunctionDict:
+    """Extract all active PolicyFunctions from a module.
 
     Parameters
     ----------
-    functions:
-        A list of PolicyFunctions.
+    module_path : Path
+        The path to the module from which to extract the active functions.
 
     Returns
     -------
-    tree:
-        A tree of PolicyFunctions.
+    NestedFunctionDict
+        A dictionary of PolicyFunctions with their leaf names as keys.
     """
-    # Build module_name - functions dictionary
-    tree = {}
-    for function in functions:
-        tree_keys = [
-            *get_path_from_qualified_name(function.module_name),
-            function.leaf_name,
-        ]
-        tree = tree_update(tree, tree_keys, function)
-    return tree
+    module = _load_module(module_path, package_root)
+    module_name = _convert_path_to_module_name(module_path, package_root)
+
+    functions_in_module = [
+        func.set_qualified_name(module_name + func.leaf_name)
+        for _, func in inspect.getmembers(
+            module,
+            lambda x: isinstance(x, PolicyFunction) and x.is_activate_at_date(date),
+        )
+    ]
+
+    return {func.leaf_name: func for func in functions_in_module}
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
@@ -137,39 +145,6 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
     return result
 
 
-def _load_functions_in_module(
-    path: Path,
-    package_root: Path,
-    include_imported_functions: bool,
-) -> list[PolicyFunction]:
-    """
-    Load policy functions defined in a module.
-
-    Parameters
-    ----------
-    path:
-        The path to the module in which to search for policy functions.
-    include_imported_functions:
-        Whether to load functions that are imported into the modules passed via
-        sources.
-
-    Returns
-    -------
-    functions:
-        Loaded policy functions.
-    """
-    module = _load_module(path, package_root)
-
-    result = [
-        _policy_function_from_decorated_callable(function, module.__name__)
-        for name, function in inspect.getmembers(module, inspect.isfunction)
-        if include_imported_functions
-        or _is_function_defined_in_module(function, module)
-    ]
-
-    return result
-
-
 def _load_module(path: Path, package_root: Path) -> ModuleType:
     module_name = _convert_path_to_module_name(path, package_root)
     spec = importlib.util.spec_from_file_location(module_name, path)
@@ -187,54 +162,14 @@ def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
     Examples
     --------
     >>> _convert_path_to_module_name(RESOURCE_DIR / "taxes" / "functions.py")
-    "taxes.functions"
+    "taxes__functions"
     """
     return (
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
-        .replace("/", "__")
+        .replace("/", QUALIFIED_NAME_SEPARATOR)
     )
-
-
-def _policy_function_from_decorated_callable(
-    function: Callable,
-    module_name: str,
-) -> PolicyFunction:
-    """
-    Create a policy function from a callable with a `@policy_function` decorator.
-
-    Parameters
-    ----------
-    function:
-        The callable to wrap.
-    module_name:
-        The name of the module in which the callable is defined.
-
-    Returns
-    -------
-    policy_function:
-        The policy function.
-    """
-
-    # Only needed until the directory structure is cleaned up
-    # TODO(@MImmesberger): Remove the removeprefix calls once the directory
-    # structure is cleaned up
-    clean_module_name = (
-        module_name.removeprefix("_gettsim__")
-        .removeprefix("taxes__")
-        .removeprefix("transfers__")
-    )
-
-    return PolicyFunction(
-        function=function,
-        module_name=clean_module_name,
-    )
-
-
-def _is_function_defined_in_module(function: Callable, module: ModuleType) -> bool:
-    """Check if a function is defined in a specific module or only imported."""
-    return function.__module__ == module.__name__
 
 
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
