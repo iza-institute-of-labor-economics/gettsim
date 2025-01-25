@@ -115,7 +115,30 @@ def get_active_functions_from_module(
         )
     ]
 
+    _fail_if_multiple_active_functions_with_same_qualified_name(functions_in_module)
+
     return {func.leaf_name: func for func in functions_in_module}
+
+
+def _fail_if_multiple_active_functions_with_same_qualified_name(
+    functions: list[PolicyFunction],
+) -> None:
+    qualified_names = [func.qualified_name for func in functions]
+    duplicated_func_specs = (
+        (func.original_function_name, func.start_date, func.end_date)
+        for func in functions
+        if qualified_names.count(func.qualified_name) > 1
+    )
+    if duplicated_func_specs:
+        functions_and_dates = [
+            f"{func_name} (start_date: {start_date}), end_date: {end_date})\n"
+            for func_name, start_date, end_date in duplicated_func_specs
+        ]
+        msg = """
+        Some functions are active at the same time and have the same qualified name.
+        This is likely due to overlapping start and end dates. The following functions
+        are affected: \n\n""" + "; ".join(functions_and_dates)
+        raise ValueError(msg)
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:

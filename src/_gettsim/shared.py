@@ -3,7 +3,6 @@ import inspect
 import operator
 import textwrap
 from collections.abc import Callable
-from datetime import date
 from typing import Any, TypeVar
 
 import numpy
@@ -22,60 +21,6 @@ class KeyErrorMessage(str):
 
     def __repr__(self):
         return str(self)
-
-
-TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
-
-
-def _check_for_conflicts_in_time_dependent_functions(
-    dag_key: str, function_name: str, start: date, end: date
-):
-    """
-    Raises an error if a different time-dependent function has already been registered
-    for the given dag_key and their date ranges overlap.
-    """
-
-    if dag_key not in TIME_DEPENDENT_FUNCTIONS:
-        return
-
-    for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
-        # A function is not conflicting with itself. We compare names instead of
-        # identities since functions might get wrapped, which would change their
-        # identity but not their name.
-        if f.__name__ != function_name and (
-            start <= f.__info__["start_date"] <= end
-            or f.__info__["start_date"] <= start <= f.__info__["end_date"]
-        ):
-            raise ConflictingTimeDependentFunctionsError(
-                dag_key,
-                function_name,
-                start,
-                end,
-                f.__name__,
-                f.__info__["start_date"],
-                f.__info__["end_date"],
-            )
-
-
-class ConflictingTimeDependentFunctionsError(Exception):
-    """Raised when two time-dependent functions have overlapping time ranges."""
-
-    def __init__(  # noqa: PLR0913
-        self,
-        dag_key: str,
-        function_name_1: str,
-        start_1: date,
-        end_1: date,
-        function_name_2: str,
-        start_2: date,
-        end_2: date,
-    ):
-        super().__init__(
-            f"Conflicting functions for key {dag_key!r}: "
-            f"{function_name_1!r} ({start_1} to {end_1}) vs. "
-            f"{function_name_2!r} ({start_2} to {end_2}).\n\n"
-            f"Overlapping from {max(start_1, start_2)} to {min(end_1, end_2)}."
-        )
 
 
 def format_list_linewise(list_):
