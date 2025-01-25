@@ -130,15 +130,26 @@ def _fail_if_multiple_active_functions_with_same_qualified_name(
         if qualified_names.count(func.qualified_name) > 1
     )
     if duplicated_func_specs:
+        raise ConflictingTimeDependentFunctionsError(functions)
+
+
+class ConflictingTimeDependentFunctionsError:
+    """Error raised when multiple functions with the same qualified name are active at
+    the same time."""
+
+    def __init__(self, functions: list[PolicyFunction]):
+        self.functions = functions
+
+    def __str__(self):
         functions_and_dates = [
-            f"{func_name} (start_date: {start_date}), end_date: {end_date})\n"
-            for func_name, start_date, end_date in duplicated_func_specs
+            f"{func.original_function_name} (start_date: {func.start_date}, "
+            f"end_date: {func.end_date})"
+            for func in self.functions
         ]
-        msg = """
-        Some functions are active at the same time and have the same qualified name.
-        This is likely due to overlapping start and end dates. The following functions
-        are affected: \n\n""" + "; ".join(functions_and_dates)
-        raise ValueError(msg)
+        return """
+            Some functions are active at the same time and have the same qualified name.
+            This is likely due to overlapping start and end dates. The following
+            functions are affected: \n\n""" + "; ".join(functions_and_dates)
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
