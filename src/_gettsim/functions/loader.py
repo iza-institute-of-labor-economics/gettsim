@@ -123,33 +123,34 @@ def get_active_functions_from_module(
 def _fail_if_multiple_active_functions_with_same_qualified_name(
     functions: list[PolicyFunction],
 ) -> None:
-    qualified_names = [func.qualified_name for func in functions]
-    duplicated_func_specs = (
-        (func.original_function_name, func.start_date, func.end_date)
-        for func in functions
-        if qualified_names.count(func.qualified_name) > 1
-    )
-    if duplicated_func_specs:
-        raise ConflictingTimeDependentFunctionsError(functions)
+    qualified_names = []
+
+    for func in functions:
+        if func.qualified_name in qualified_names:
+            raise ConflictingTimeDependentFunctionsError(functions, func.qualified_name)
+        qualified_names.append(func.qualified_name)
 
 
 class ConflictingTimeDependentFunctionsError:
     """Error raised when multiple functions with the same qualified name are active at
     the same time."""
 
-    def __init__(self, functions: list[PolicyFunction]):
+    def __init__(self, functions: list[PolicyFunction], qualified_name: str):
         self.functions = functions
+        self.qualified_name = qualified_name
 
     def __str__(self):
-        functions_and_dates = [
-            f"{func.original_function_name} (start_date: {func.start_date}, "
-            f"end_date: {func.end_date})"
+        overlapping_functions = [
+            func
             for func in self.functions
+            if func.qualified_name == self.qualified_name
         ]
-        return """
-            Some functions are active at the same time and have the same qualified name.
-            This is likely due to overlapping start and end dates. The following
-            functions are affected: \n\n""" + "; ".join(functions_and_dates)
+        return f"""
+        Some functions with the same qualified name have overlapping start and end
+        dates. The following functions are affected: \n\n
+        {"; ".join([func.leaf_name for func in overlapping_functions])} \n
+        Overlapping from {min([func.start_date for func in overlapping_functions])}
+        to {max([func.end_date for func in overlapping_functions])}."""
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
