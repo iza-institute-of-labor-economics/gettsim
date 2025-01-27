@@ -14,7 +14,6 @@ from _gettsim.config import (
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.shared import (
-    get_path_from_qualified_name,
     tree_update,
 )
 
@@ -210,6 +209,8 @@ def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> st
         / "functions.py")
     "dir__functions"
     """
+    # TODO(@MImmesberger): Remove the removeprefix calls once directory structure is
+    #  changed.
     return (
         path.relative_to(package_root.parent)
         .with_suffix("")
@@ -246,20 +247,23 @@ def _load_aggregation_dict(
 
     for path in paths:
         module_name = _convert_path_to_qualified_module_name(path, package_root)
-        tree_keys = get_path_from_qualified_name(module_name)
-        derived_function_specs = load_functions_to_derive(
+        derived_function_specs = _load_functions_to_derive(
             path, package_root, f"{variant}_"
         )
-        tree = tree_update(tree, tree_keys, *derived_function_specs)
+        tree = tree_update(
+            tree=tree,
+            path=module_name.split(QUALIFIED_NAME_SEPARATOR),
+            value=derived_function_specs,
+        )
 
     return tree
 
 
-def load_functions_to_derive(
+def _load_functions_to_derive(
     path: Path,
     package_root: Path,
     prefix_filter: str,
-) -> list[dict]:
+) -> dict:
     """
     Load the dictionary that specifies which functions to derive from the module.
 
@@ -288,7 +292,7 @@ def load_functions_to_derive(
     ]
 
     _fail_if_more_than_one_dict_loaded(dicts_in_module, module_name)
-    return dicts_in_module
+    return dicts_in_module[0]
 
 
 def _fail_if_more_than_one_dict_loaded(dicts: list[dict], module_name: str) -> None:

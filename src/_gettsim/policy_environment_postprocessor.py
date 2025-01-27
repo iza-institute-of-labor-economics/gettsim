@@ -448,7 +448,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
     return DerivedFunction(
         aggregate_by_group_func,
-        function_name=new_function_name,
+        leaf_name=new_function_name,
         derived_from=derived_from,
     )
 
@@ -636,7 +636,7 @@ def _create_one_aggregate_by_p_id_func(
 
     return DerivedFunction(
         aggregate_by_p_id_func,
-        function_name=new_function_name,
+        leaf_name=new_function_name,
         derived_from=derived_from,
     )
 

@@ -17,8 +17,8 @@ class DerivedFunction(PolicyFunction):
     function:
         The function to wrap. Argument values of the `@policy_function` are reused
         unless explicitly overwritten.
-    function_name:
-        The name of the function in the DAG
+    leaf_name:
+        The leaf name of the function in the functions tree.
     derived_from:
         The function from which the new function is derived. If the function is derived
         from a data column, this should be the column name.
@@ -27,18 +27,13 @@ class DerivedFunction(PolicyFunction):
     def __init__(
         self,
         function: Callable,
-        function_name: str,
+        leaf_name: str,
         *,
         derived_from: PolicyFunction | str | tuple[str, str],
     ):
         super().__init__(
             function,
-            module_name=(
-                derived_from.module_name
-                if isinstance(derived_from, PolicyFunction)
-                else ""
-            ),
-            function_name=function_name,
+            leaf_name=leaf_name,
             start_date=(
                 derived_from.start_date
                 if isinstance(derived_from, PolicyFunction)

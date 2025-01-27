@@ -1,17 +1,14 @@
 from __future__ import annotations
 
-import textwrap
 from functools import reduce
 from typing import TYPE_CHECKING
 
 import numpy
 import pytest
-from optree import tree_paths
 
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.loader import (
-    _build_functions_tree,
-    _load_functions,
+    _load_module,
 )
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment import PolicyEnvironment
@@ -29,42 +26,9 @@ if TYPE_CHECKING:
 
 
 def test_load_path():
-    assert _load_functions(
+    assert _load_module(
         RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py",
         RESOURCE_DIR,
-    )
-
-
-def test_load_paths():
-    assert _load_functions(
-        [RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py"],
-        RESOURCE_DIR,
-    )
-
-
-def test_special_attribute_module_is_set(tmp_path):
-    py_file = """
-    def func():
-        pass
-    """
-
-    file_path = tmp_path.joinpath("functions.py")
-    file_path.write_text(textwrap.dedent(py_file))
-
-    out = _load_functions(file_path, file_path)
-    assert len(out) == 1
-    assert out[0].__name__ == "func"
-    assert out[0].__module__ == "functions"
-
-
-def test_special_attribute_module_is_set_for_internal_functions():
-    a_few_functions = _load_functions(
-        RESOURCE_DIR / "social_insurance_contributions" / "eink_grenzen.py",
-        RESOURCE_DIR,
-    )
-    function = next(iter(a_few_functions))
-    assert (
-        function.__module__ == "_gettsim__social_insurance_contributions__eink_grenzen"
     )
 
 
@@ -82,7 +46,7 @@ def test_create_derived_functions(
         {
             "module": {
                 name: PolicyFunction(
-                    function_name=name,
+                    leaf_name=name,
                     function=func,
                 )
                 for name, func in functions.items()
@@ -138,37 +102,3 @@ def test_vectorize_func(function: Callable) -> None:
     assert numpy.array_equal(
         vectorized_func(numpy.array([1, 2, 3])), numpy.array([2, 4, 6])
     )
-
-
-@pytest.mark.parametrize(
-    "functions_list, expected",
-    [
-        (
-            [
-                PolicyFunction(lambda: 1, module_name="a", function_name="foo"),
-                PolicyFunction(lambda: 1, module_name="a", function_name="bar"),
-                PolicyFunction(lambda: 3, module_name="a__b", function_name="foo"),
-                PolicyFunction(lambda: 4, module_name="a__b__c", function_name="foo"),
-                PolicyFunction(lambda: 2, module_name="b", function_name="foo"),
-            ],
-            {
-                "a": {
-                    "foo": None,
-                    "bar": None,
-                    "b": {
-                        "foo": None,
-                        "c": {
-                            "foo": None,
-                        },
-                    },
-                },
-                "b": {
-                    "foo": None,
-                },
-            },
-        ),
-    ],
-)
-def test_build_functions_tree(functions_list, expected):
-    tree = _build_functions_tree(functions_list)
-    assert tree_paths(tree) == tree_paths(expected, none_is_leaf=True)
