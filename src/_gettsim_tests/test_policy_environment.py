@@ -4,12 +4,10 @@ from datetime import date, timedelta
 
 import pandas as pd
 import pytest
-from optree import tree_flatten, tree_map_with_path
 
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment import (
     PolicyEnvironment,
-    _convert_function_to_correct_type,
     _load_parameter_group_from_yaml,
     load_functions_tree_for_date,
     set_up_policy_environment,
@@ -200,38 +198,3 @@ def test_load_functions_tree_for_date(
 )
 def test_get_aggregation_dicts(input_tree, expected):
     assert _get_aggregation_dicts(input_tree) == expected
-
-
-@pytest.mark.parametrize(
-    "tree, expected_module_name",
-    [
-        (
-            {
-                "module1": {
-                    "f": PolicyFunction(
-                        lambda: 1,
-                        module_name="module1",
-                    )
-                }
-            },
-            "module1",
-        ),
-        (
-            {
-                "module1": {
-                    "f": lambda: 1,
-                }
-            },
-            "module1",
-        ),
-    ],
-)
-def test_convert_function_to_correct_type(tree, expected_module_name):
-    funcs_with_correct_type = tree_map_with_path(
-        _convert_function_to_correct_type,
-        tree,
-    )
-    func_list = tree_flatten(funcs_with_correct_type)[0]
-    for func in func_list:
-        assert func.module_name == expected_module_name
-        assert isinstance(func, PolicyFunction)

@@ -38,17 +38,17 @@ class PolicyFunction(Callable):
         self,
         function: Callable,
         *,
-        leaf_name: str,
-        start_date: date,
-        end_date: date,
-        params_key_for_rounding: str | None,
-        skip_vectorization: bool | None,
+        leaf_name: str | None = None,
+        start_date: date = "0001-01-01",
+        end_date: date = "9999-12-31",
+        params_key_for_rounding: str | None = None,
+        skip_vectorization: bool | None = False,
     ):
         self.skip_vectorization: bool = skip_vectorization
         self.function = (
             function if self.skip_vectorization else _vectorize_func(function)
         )
-        self.leaf_name: str = leaf_name
+        self.leaf_name: str = leaf_name if leaf_name else function.__name__
         self.qualified_name: str = None
         self.start_date: date = start_date
         self.end_date: date = end_date

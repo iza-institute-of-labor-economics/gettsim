@@ -64,25 +64,18 @@ def _build_functions_tree(
         A tree of PolicyFunctions.
     """
     tree = {}
+    paths = _find_python_files_recursively(roots)
 
-    # TODO{@MImmesberger}: Remove upper level of loop once the directory structure is
-    # cleaned up
-    for root in roots:
-        paths = _find_python_files_recursively(root)
-        for path in paths:
-            active_functions_dict = get_active_functions_from_module(
-                module_path=path, date=date
-            )
-            module_name = _convert_path_to_module_name(path, package_root)
-            active_functions_dict = {
-                func_name: func.set_qualified_name(module_name + func_name)
-                for func_name, func in active_functions_dict.items()
-            }
-            tree = tree_update(
-                tree=tree,
-                path=module_name.split(QUALIFIED_NAME_SEPARATOR),
-                value=active_functions_dict,
-            )
+    for path in paths:
+        active_functions_dict = get_active_functions_from_module(
+            module_path=path, date=date, package_root=package_root
+        )
+        module_name = _convert_path_to_qualified_module_name(path, package_root)
+        tree = tree_update(
+            tree=tree,
+            path=module_name.split(QUALIFIED_NAME_SEPARATOR),
+            value=active_functions_dict,
+        )
 
     return tree
 
@@ -105,15 +98,15 @@ def get_active_functions_from_module(
         A dictionary of PolicyFunctions with their leaf names as keys.
     """
     module = _load_module(module_path, package_root)
-    module_name = _convert_path_to_module_name(module_path, package_root)
+    module_name = _convert_path_to_qualified_module_name(module_path, package_root)
 
-    functions_in_module = [
-        func.set_qualified_name(module_name + func.leaf_name)
-        for _, func in inspect.getmembers(
-            module,
-            lambda x: isinstance(x, PolicyFunction) and x.is_activate_at_date(date),
-        )
-    ]
+    _all_functions = inspect.getmembers(module)
+    functions_in_module = []
+
+    for _, func in _all_functions:
+        if isinstance(func, PolicyFunction) and func.is_active_at_date(date):
+            func.set_qualified_name(module_name + func.leaf_name)
+            functions_in_module.append(func)
 
     _fail_if_multiple_active_functions_with_same_qualified_name(functions_in_module)
 
@@ -181,7 +174,7 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
 
 
 def _load_module(path: Path, package_root: Path) -> ModuleType:
-    module_name = _convert_path_to_module_name(path, package_root)
+    module_name = _convert_path_to_importable_module_name(path, package_root)
     spec = importlib.util.spec_from_file_location(module_name, path)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
@@ -190,19 +183,40 @@ def _load_module(path: Path, package_root: Path) -> ModuleType:
     return module
 
 
-def _convert_path_to_module_name(path: Path, package_root: Path) -> str:
+def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> str:
     """
     Convert an absolute path to a Python module name.
 
     Examples
     --------
-    >>> _convert_path_to_module_name(RESOURCE_DIR / "taxes" / "functions.py")
-    "taxes__functions"
+    >>> _convert_path_to_importable_module_name(RESOURCE_DIR / "taxes" / "functions.py")
+    "taxes.functions"
     """
     return (
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
+        .replace("/", ".")
+    )
+
+
+def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> str:
+    """
+    Convert an absolute path to a qualified module name.
+
+    Examples
+    --------
+    >>> _convert_path_to_qualified_module_name(RESOURCE_DIR / "taxes" / "dir"
+        / "functions.py")
+    "dir__functions"
+    """
+    return (
+        path.relative_to(package_root.parent)
+        .with_suffix("")
+        .as_posix()
+        .removeprefix("_gettsim/")
+        .removeprefix("taxes/")
+        .removeprefix("transfers/")
         .replace("/", QUALIFIED_NAME_SEPARATOR)
     )
 
@@ -231,15 +245,8 @@ def _load_aggregation_dict(
     tree = {}
 
     for path in paths:
-        module_name = _convert_path_to_module_name(path, package_root)
-        # TODO(@MImmesberger): Remove the removeprefix calls once the directory
-        # structure is cleaned up
-        clean_module_name = (
-            module_name.removeprefix("_gettsim__")
-            .removeprefix("taxes__")
-            .removeprefix("transfers__")
-        )
-        tree_keys = get_path_from_qualified_name(clean_module_name)
+        module_name = _convert_path_to_qualified_module_name(path, package_root)
+        tree_keys = get_path_from_qualified_name(module_name)
         derived_function_specs = load_functions_to_derive(
             path, package_root, f"{variant}_"
         )
@@ -273,7 +280,7 @@ def load_functions_to_derive(
         Loaded dictionaries.
     """
     module = _load_module(path, package_root)
-    module_name = _convert_path_to_module_name(path, package_root)
+    module_name = _convert_path_to_importable_module_name(path, package_root)
     dicts_in_module = [
         member
         for name, member in inspect.getmembers(module)
