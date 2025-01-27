@@ -19,6 +19,8 @@ class DerivedFunction(PolicyFunction):
         unless explicitly overwritten.
     leaf_name:
         The leaf name of the function in the functions tree.
+    qualified_name:
+        The qualified name of the function in the functions tree.
     derived_from:
         The function from which the new function is derived. If the function is derived
         from a data column, this should be the column name.

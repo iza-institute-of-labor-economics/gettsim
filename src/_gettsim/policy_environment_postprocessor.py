@@ -24,6 +24,7 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
+    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -130,22 +131,22 @@ def _create_derived_functions(
     )
 
     # Create functions for different time units
-    funcs_with_p_id_aggregation = merge_nested_dicts(
+    all_functions = merge_nested_dicts(
         environment.functions_tree,
         aggregate_by_p_id_functions,
     )
     time_conversion_functions = create_time_conversion_functions(
-        funcs_with_p_id_aggregation,
+        all_functions,
         names_of_columns_in_data,
     )
 
     # Create aggregation functions
-    funcs_with_time_conversion = merge_nested_dicts(
-        funcs_with_p_id_aggregation,
+    all_functions = merge_nested_dicts(
+        all_functions,
         time_conversion_functions,
     )
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
-        funcs_with_time_conversion,
+        all_functions,
         targets,
         names_of_columns_in_data,
         environment.aggregate_by_group_specs,
@@ -196,6 +197,10 @@ def _create_aggregate_by_group_functions(
             )
             module_path = get_path_from_qualified_name(module_name)
             function_path = [*module_path, func_name]
+            # TODO(@MImmesberger): Let derived functions inherit namespace from source
+            # function or source column.
+            qualified_name = QUALIFIED_NAME_SEPARATOR.join(function_path)
+            derived_func.set_qualified_name(qualified_name)
             derived_functions = tree_update(
                 derived_functions, function_path, derived_func
             )
@@ -472,6 +477,10 @@ def _create_aggregate_by_p_id_functions(
             )
             module_path = get_path_from_qualified_name(module_name)
             function_path = [*module_path, func_name]
+            # TODO(@MImmesberger): Let derived functions inherit namespace from source
+            # function or source column.
+            qualified_name = QUALIFIED_NAME_SEPARATOR.join(function_path)
+            derived_func.set_qualified_name(qualified_name)
             derived_functions = tree_update(
                 derived_functions, function_path, derived_func
             )

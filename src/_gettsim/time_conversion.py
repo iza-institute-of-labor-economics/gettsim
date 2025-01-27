@@ -5,7 +5,11 @@ from typing import Any
 
 from optree import tree_flatten_with_path
 
-from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
+from _gettsim.config import (
+    QUALIFIED_NAME_SEPARATOR,
+    SUPPORTED_GROUPINGS,
+    SUPPORTED_TIME_UNITS,
+)
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.shared import (
@@ -298,6 +302,10 @@ def create_time_conversion_functions(
         for k, v in new_funcs_dict.items():
             stem = path[:-1] if len(path) > 1 else None
             new_path = [*stem, k] if stem else [k]
+            # TODO(@MImmesberger): Let derived functions inherit namespace from source
+            # function or source column.
+            qualified_name = QUALIFIED_NAME_SEPARATOR.join(new_path)
+            v.set_qualified_name(qualified_name)
             converted_functions = tree_update(converted_functions, new_path, v)
 
     # Create time-conversions for data columns
@@ -315,6 +323,10 @@ def create_time_conversion_functions(
                 else None
             )
             new_path = [*stem, k] if stem else [k]
+            # TODO(@MImmesberger): Let derived functions inherit namespace from source
+            # function or source column.
+            qualified_name = QUALIFIED_NAME_SEPARATOR.join(new_path)
+            v.set_qualified_name(qualified_name)
             converted_functions = tree_update(converted_functions, new_path, v)
 
     return converted_functions
@@ -361,7 +373,7 @@ def _create_time_conversion_functions(
                     name,
                     _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
                 ),
-                function_name=new_name,
+                leaf_name=new_name,
                 derived_from=func or name,
             )
 

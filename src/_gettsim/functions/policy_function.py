@@ -39,6 +39,7 @@ class PolicyFunction(Callable):
         function: Callable,
         *,
         leaf_name: str | None = None,
+        qualified_name: str | None = None,
         start_date: date = "0001-01-01",
         end_date: date = "9999-12-31",
         params_key_for_rounding: str | None = None,
@@ -49,7 +50,7 @@ class PolicyFunction(Callable):
             function if self.skip_vectorization else _vectorize_func(function)
         )
         self.leaf_name: str = leaf_name if leaf_name else function.__name__
-        self.qualified_name: str = None
+        self.qualified_name: str = qualified_name
         self.start_date: date = start_date
         self.end_date: date = end_date
         self.params_key_for_rounding: str | None = params_key_for_rounding

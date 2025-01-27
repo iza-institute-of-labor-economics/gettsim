@@ -5,9 +5,13 @@ from typing import TYPE_CHECKING
 
 import numpy
 import pytest
+from optree import tree_flatten
 
 from _gettsim.config import RESOURCE_DIR
+from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.loader import (
+    ConflictingTimeDependentFunctionsError,
+    _fail_if_multiple_active_functions_with_same_qualified_name,
     _load_module,
 )
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
@@ -60,7 +64,7 @@ def test_create_derived_functions(
         aggregate_by_p_id_functions,
     ) = _create_derived_functions(environment, targets, [])
 
-    derived_functions = reduce(
+    derived_functions_tree = reduce(
         merge_nested_dicts,
         [
             time_conversion_functions,
@@ -70,11 +74,36 @@ def test_create_derived_functions(
         environment.functions_tree,
     )
 
-    target_names = tree_flatten_with_qualified_name(targets)[0]
-    potential_targets = tree_flatten_with_qualified_name(derived_functions)[0]
+    derived_functions = tree_flatten(derived_functions_tree)[0]
+    qualified_names_derived_functions = [
+        func.qualified_name for func in derived_functions
+    ]
 
-    for name in target_names:
-        assert name in potential_targets
+    qualified_target_names = tree_flatten_with_qualified_name(targets)[0]
+
+    for name in qualified_target_names:
+        assert name in qualified_names_derived_functions
+
+    for func in derived_functions:
+        assert isinstance(func, DerivedFunction | PolicyFunction)
+
+
+def test_fail_if_multiple_active_functions_with_same_qualified_name():
+    active_functions = [
+        PolicyFunction(
+            leaf_name="foo",
+            qualified_name="foo",
+            function=lambda: 1,
+        ),
+        PolicyFunction(
+            leaf_name="foo",
+            qualified_name="foo",
+            function=lambda: 2,
+        ),
+    ]
+
+    with pytest.raises(ConflictingTimeDependentFunctionsError):
+        _fail_if_multiple_active_functions_with_same_qualified_name(active_functions)
 
 
 # vectorize_func --------------------------------------------------------------

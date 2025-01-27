@@ -90,6 +90,10 @@ def get_active_functions_from_module(
     ----------
     module_path : Path
         The path to the module from which to extract the active functions.
+    package_root : Path
+        The root of the package that contains the functions.
+    date : datetime.date
+        The date for which to extract the active functions.
 
     Returns
     -------
@@ -99,17 +103,48 @@ def get_active_functions_from_module(
     module = _load_module(module_path, package_root)
     module_name = _convert_path_to_qualified_module_name(module_path, package_root)
 
-    _all_functions = inspect.getmembers(module)
-    functions_in_module = []
+    all_functions = inspect.getmembers(module)
 
-    for _, func in _all_functions:
+    active_policy_functions = get_active_policy_functions(
+        all_functions=all_functions,
+        module_name=module_name,
+        date=date,
+    )
+
+    _fail_if_multiple_active_functions_with_same_qualified_name(active_policy_functions)
+
+    return {func.leaf_name: func for func in active_policy_functions}
+
+
+def get_active_policy_functions(
+    all_functions: list[callable | PolicyFunction],
+    module_name: str,
+    date: datetime.date,
+) -> list[PolicyFunction]:
+    """Extract all active PolicyFunctions from a module.
+
+    Parameters
+    ----------
+    all_functions : list[callable]
+        List of all functions in the module.
+    module_name : str
+        The name of the module.
+    date : datetime.date
+        The date for which to extract the active functions.
+
+    Returns
+    -------
+    list[PolicyFunction]
+        A list of active PolicyFunctions.
+    """
+    active_policy_functions = []
+
+    for _, func in all_functions:
         if isinstance(func, PolicyFunction) and func.is_active_at_date(date):
             func.set_qualified_name(module_name + func.leaf_name)
-            functions_in_module.append(func)
+            active_policy_functions.append(func)
 
-    _fail_if_multiple_active_functions_with_same_qualified_name(functions_in_module)
-
-    return {func.leaf_name: func for func in functions_in_module}
+    return active_policy_functions
 
 
 def _fail_if_multiple_active_functions_with_same_qualified_name(
@@ -123,7 +158,7 @@ def _fail_if_multiple_active_functions_with_same_qualified_name(
         qualified_names.append(func.qualified_name)
 
 
-class ConflictingTimeDependentFunctionsError:
+class ConflictingTimeDependentFunctionsError(Exception):
     """Error raised when multiple functions with the same qualified name are active at
     the same time."""
 
