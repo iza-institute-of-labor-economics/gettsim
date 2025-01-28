@@ -48,7 +48,8 @@ def minimal_input_data_as_df():
     )
 
 
-# Create a partial function which is used by some tests below
+# Create a function which is used by some tests below
+@policy_function()
 def func_before_partial(arg_1, arbeitsl_geld_2_params):
     return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
@@ -65,7 +66,7 @@ def test_output_as_tree(minimal_input_data):
         {
             "module": {
                 "test_func": PolicyFunction(
-                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                    lambda groupings__p_id: groupings__p_id, leaf_name="test_func"
                 )
             }
         }
@@ -87,7 +88,7 @@ def test_output_as_dataframe(minimal_input_data):
         {
             "module": {
                 "test_func": PolicyFunction(
-                    lambda groupings__p_id: groupings__p_id, function_name="test_func"
+                    lambda groupings__p_id: groupings__p_id, leaf_name="test_func"
                 )
             }
         }
@@ -106,7 +107,7 @@ def test_output_as_dataframe(minimal_input_data):
 
 def test_warn_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(lambda x: x, function_name="dupl")}
+        {"dupl": PolicyFunction(lambda x: x, leaf_name="dupl")}
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
@@ -118,7 +119,7 @@ def test_warn_if_functions_and_columns_overlap():
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     environment = PolicyEnvironment(
-        {"some_func": PolicyFunction(lambda x: x, function_name="some_func")}
+        {"some_func": PolicyFunction(lambda x: x, leaf_name="some_func")}
     )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
@@ -131,7 +132,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
 
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(lambda x: x, function_name="dupl")}
+        {"dupl": PolicyFunction(lambda x: x, leaf_name="dupl")}
     )
     with warnings.catch_warnings(
         category=FunctionsAndColumnsOverlapWarning, record=True
@@ -456,7 +457,7 @@ def test_partial_parameters_to_functions_keep_decorator():
         rounding=False,
     )["test_func"]
 
-    assert partial_func.__info__["params_key_for_rounding"] == "params_key_test"
+    assert partial_func.params_key_for_rounding == "params_key_test"
 
 
 def test_user_provided_aggregate_by_group_specs():
@@ -528,7 +529,7 @@ def test_user_provided_aggregate_by_group_specs_function(aggregate_by_group_spec
             "module_name": {
                 "betrag_m_double": PolicyFunction(
                     betrag_m_double,
-                    function_name="betrag_m_double",
+                    leaf_name="betrag_m_double",
                 )
             },
         },

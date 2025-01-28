@@ -22,7 +22,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PartialPolicyFunction, PolicyFunction
 from _gettsim.gettsim_typing import (
     NestedDataDict,
     NestedFunctionDict,
@@ -836,13 +836,8 @@ def _round_and_partial_parameters_to_functions(
             if i.endswith("_params") and i[:-7] in params
         }
         if partial_params:
-            partial_func = functools.partial(function, **partial_params)
-
-            # Make sure any GETTSIM metadata is transferred to partial
-            # function. Otherwise, this information would get lost.
-            if hasattr(function, "__info__"):
-                partial_func.__info__ = function.__info__
-
+            # Partial parameters into function.
+            partial_func = PartialPolicyFunction(function, **partial_params)
             processed_functions.append(partial_func)
         else:
             processed_functions.append(function)
@@ -871,26 +866,27 @@ def _add_rounding_to_function(
     """
     func = copy.deepcopy(input_function)
 
-    if hasattr(func, "__info__") and "params_key_for_rounding" in func.__info__:
-        params_key = func.__info__["params_key_for_rounding"]
-        func_name = func.__name__
+    if input_function.params_key_for_rounding:
+        params_key = func.params_key_for_rounding
+        qualified_name = func.qualified_name
         # Check if there are any rounding specifications.
         if not (
             params_key in params
             and "rounding" in params[params_key]
-            and func_name in params[params_key]["rounding"]
+            and qualified_name in params[params_key]["rounding"]
         ):
             raise KeyError(
                 KeyErrorMessage(
-                    f"Rounding specifications for function {func_name} are expected"
-                    " in the parameter dictionary \n"
-                    f" at [{params_key!r}]['rounding'][{func_name!r}]. These nested"
-                    " keys do not exist. \n"
-                    " If this function should not be rounded,"
-                    " remove the respective decorator."
+                    f"""
+                    Rounding specifications for function {qualified_name} are expected
+                    in the parameter dictionary \n at
+                    [{params_key!r}]['rounding'][{qualified_name!r}]. These nested keys
+                    do not exist. \n If this function should not be rounded, remove the
+                    respective decorator.
+                    """
                 )
             )
-        rounding_spec = params[params_key]["rounding"][func_name]
+        rounding_spec = params[params_key]["rounding"][qualified_name]
         # Check if expected parameters are present in rounding specifications.
         if not ("base" in rounding_spec and "direction" in rounding_spec):
             raise KeyError(
@@ -898,7 +894,7 @@ def _add_rounding_to_function(
                     "Both 'base' and 'direction' are expected as rounding "
                     "parameters in the parameter dictionary. \n "
                     "At least one of them "
-                    f"is missing at [{params_key!r}]['rounding'][{func_name!r}]."
+                    f"is missing at [{params_key!r}]['rounding'][{qualified_name!r}]."
                 )
             )
         # Add rounding.
@@ -943,12 +939,13 @@ def _apply_rounding_spec(
             # Check inputs.
             if type(base) not in [int, float]:
                 raise ValueError(
-                    f"base needs to be a number, got {base!r} for {func.__name__!r}"
+                    f"base needs to be a number, got {base!r} for "
+                    f"{func.qualified_name!r}"
                 )
             if type(to_add_after_rounding) not in [int, float]:
                 raise ValueError(
                     f"Additive part needs to be a number, got"
-                    f" {to_add_after_rounding!r} for {func.__name__!r}"
+                    f" {to_add_after_rounding!r} for {func.qualified_name!r}"
                 )
 
             if direction == "up":
@@ -960,7 +957,7 @@ def _apply_rounding_spec(
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got {direction!r} for {func.__name__!r}"
+                    f", got {direction!r} for {func.qualified_name!r}"
                 )
 
             rounded_out += to_add_after_rounding

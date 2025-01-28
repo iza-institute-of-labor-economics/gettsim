@@ -5,6 +5,7 @@ import inspect
 import re
 from collections.abc import Callable
 from datetime import date
+from functools import partial
 from typing import TypeVar
 
 import numpy
@@ -150,6 +151,52 @@ def policy_function(
         )
 
     return inner
+
+
+class PartialPolicyFunction(PolicyFunction):
+    """A policy function with parameters partialled out.
+
+    Parameters
+    ----------
+    function
+        The PolicyFunction to wrap.
+    **partial_params
+        The parameters to partial out.
+
+    Returns
+    -------
+    PartialPolicyFunction
+        A PartialPolicyFunction object.
+    """
+
+    def __init__(self, function, **partial_params):
+        if not isinstance(function, PolicyFunction):
+            raise TypeError("The function must be a PolicyFunction.")
+
+        # Create a partial function
+        _partial_function = partial(function, **partial_params)
+
+        _partial_function.__annotations__ = function.__annotations__
+        _partial_function.__module__ = function.__module__
+        _partial_function.__name__ = function.__name__
+        _partial_function.__signature__ = inspect.signature(function)
+
+        self._partial_function = _partial_function
+
+        # Copy attributes from the original function
+        super().__init__(
+            self._partial_function,
+            leaf_name=function.leaf_name,
+            qualified_name=function.qualified_name,
+            start_date=function.start_date,
+            end_date=function.end_date,
+            params_key_for_rounding=function.params_key_for_rounding,
+            skip_vectorization=function.skip_vectorization,
+        )
+
+    def __call__(self, *args, **kwargs):
+        """Ensure the instance remains callable like the original function."""
+        return self._partial_function(*args, **kwargs)
 
 
 _dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
