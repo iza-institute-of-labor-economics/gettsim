@@ -2,6 +2,7 @@ import datetime
 import importlib.util
 import inspect
 import sys
+from collections.abc import Callable
 from pathlib import Path
 from types import ModuleType
 from typing import Any, Literal, TypeAlias
@@ -117,7 +118,7 @@ def get_active_functions_from_module(
 
 
 def get_active_policy_functions(
-    all_functions: list[callable | PolicyFunction],
+    all_functions: list[Callable | PolicyFunction],
     module_name: str,
     date: datetime.date,
 ) -> list[PolicyFunction]:
@@ -125,7 +126,7 @@ def get_active_policy_functions(
 
     Parameters
     ----------
-    all_functions : list[callable]
+    all_functions : list[Union[callable | PolicyFunction]]
         List of all functions in the module.
     module_name : str
         The name of the module.
