@@ -153,8 +153,8 @@ def policy_function(
     return inner
 
 
-class PartialPolicyFunction(PolicyFunction):
-    """A policy function with parameters partialled out.
+class PartialPolicyFunction(partial, PolicyFunction):
+    """A PolicyFunction with parameters partialled out.
 
     Parameters
     ----------
