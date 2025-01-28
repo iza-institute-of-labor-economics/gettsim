@@ -99,62 +99,65 @@ def get_active_functions_from_module(
     Returns
     -------
     NestedFunctionDict
-        A dictionary of PolicyFunctions with their leaf names as keys.
+        A dictionary of active PolicyFunctions with their leaf names as keys.
     """
     module = _load_module(module_path, package_root)
     module_name = _convert_path_to_qualified_module_name(module_path, package_root)
 
     all_functions = inspect.getmembers(module)
 
-    active_policy_functions = get_active_policy_functions(
-        all_functions=all_functions,
+    policy_functions = get_policy_functions(
         module_name=module_name,
-        date=date,
+        all_functions=all_functions,
     )
 
-    # Check that qualified names are unique on the module level; else, there must be
-    # overlapping start and end dates for time-dependent functions.
-    _fail_if_multiple_active_functions_with_same_qualified_name(active_policy_functions)
+    return {
+        func.leaf_name: func
+        for func in policy_functions
+        if func.is_active_at_date(date)
+    }
 
-    return {func.leaf_name: func for func in active_policy_functions}
 
-
-def get_active_policy_functions(
-    all_functions: list[Callable | PolicyFunction],
+def get_policy_functions(
     module_name: str,
-    date: datetime.date,
+    all_functions: list[Callable | PolicyFunction],
 ) -> list[PolicyFunction]:
-    """Extract all active PolicyFunctions from a module.
+    """Extract all PolicyFunctions from a module.
 
     Parameters
     ----------
+    module_name : str
+        The name of the module from which to extract the PolicyFunctions.
     all_functions : list[Union[callable | PolicyFunction]]
         List of all functions in the module.
-    module_name : str
-        The name of the module.
-    date : datetime.date
-        The date for which to extract the active functions.
 
     Returns
     -------
     list[PolicyFunction]
-        A list of active PolicyFunctions.
+        A list of PolicyFunctions.
     """
-    active_policy_functions = []
+    policy_functions = []
 
     for _, func in all_functions:
-        if isinstance(func, PolicyFunction) and func.is_active_at_date(date):
-            func.set_qualified_name(module_name + func.leaf_name)
-            active_policy_functions.append(func)
+        if isinstance(func, PolicyFunction):
+            func.set_qualified_name(
+                module_name + QUALIFIED_NAME_SEPARATOR + func.leaf_name
+            )
+            policy_functions.append(func)
 
-    return active_policy_functions
+    # Check that qualified names are unique on the module level; else, there must be
+    # overlapping start and end dates for time-dependent functions.
+    _fail_if_active_functions_overlap(policy_functions, module_name)
+
+    return policy_functions
 
 
-def _fail_if_multiple_active_functions_with_same_qualified_name(
+def _fail_if_active_functions_overlap(
     functions: list[PolicyFunction],
+    module_name: str,
 ) -> None:
     """Raises an ConflictingTimeDependentFunctionsError if multiple functions with the
-    same qualified name are active at the same time.
+    same leaf name are active at the same time.
 
     Parameters
     ----------
@@ -164,33 +167,36 @@ def _fail_if_multiple_active_functions_with_same_qualified_name(
     Raises
     ------
     ConflictingTimeDependentFunctionsError
-        If multiple functions with the same qualified name are active at the same time.
+        If multiple functions with the same name are active at the same time.
     """
-    qualified_names = []
+    names = []
 
     for func in functions:
-        if func.qualified_name in qualified_names:
-            raise ConflictingTimeDependentFunctionsError(functions, func.qualified_name)
-        qualified_names.append(func.qualified_name)
+        if func.leaf_name in names:
+            raise ConflictingTimeDependentFunctionsError(
+                functions, func.leaf_name, module_name
+            )
+        names.append(func.leaf_name)
 
 
 class ConflictingTimeDependentFunctionsError(Exception):
-    def __init__(self, functions: list[PolicyFunction], qualified_name: str):
+    def __init__(
+        self, functions: list[PolicyFunction], leaf_name: str, module_name: str
+    ):
         self.functions = functions
-        self.qualified_name = qualified_name
+        self.leaf_name = leaf_name
+        self.module_name = module_name
 
     def __str__(self):
         overlapping_functions = [
-            func
-            for func in self.functions
-            if func.qualified_name == self.qualified_name
+            func for func in self.functions if func.leaf_name == self.leaf_name
         ]
         return f"""
-        Some functions with the same qualified name have overlapping start and end
-        dates. The following functions are affected: \n\n
-        {"; ".join([func.leaf_name for func in overlapping_functions])} \n
-        Overlapping from {min([func.start_date for func in overlapping_functions])}
-        to {max([func.end_date for func in overlapping_functions])}."""
+        Some functions with the same leaf name in module {self.module_name} have
+        overlapping start and end dates. The following functions are affected: \n\n
+        {"; ".join([func.leaf_name for func in overlapping_functions])} \n Overlapping
+        from {min([func.start_date for func in overlapping_functions])} to
+        {max([func.end_date for func in overlapping_functions])}."""
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:

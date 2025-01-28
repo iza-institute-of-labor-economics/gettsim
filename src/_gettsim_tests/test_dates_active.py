@@ -4,7 +4,7 @@ import pytest
 
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
-    _fail_if_multiple_active_functions_with_same_qualified_name,
+    _fail_if_active_functions_overlap,
 )
 from _gettsim.functions.policy_function import policy_function
 
@@ -175,4 +175,4 @@ def test_dates_active_conflict(
 
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_multiple_active_functions_with_same_qualified_name([func_1, func_2])
+        _fail_if_active_functions_overlap([func_1, func_2])

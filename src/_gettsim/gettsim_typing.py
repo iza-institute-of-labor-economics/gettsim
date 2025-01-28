@@ -12,11 +12,10 @@ from pandas.api.types import (
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PartialPolicyFunction, PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction
 
 NestedFunctionDict = dict[
-    str,
-    Union[PolicyFunction, DerivedFunction, PartialPolicyFunction, "NestedFunctionDict"],
+    str, Union[PolicyFunction, DerivedFunction, "NestedFunctionDict"]
 ]
 NestedTargetDict = dict[str, Union[None, "NestedTargetDict"]]
 NestedInputStructureDict = dict[str, Union[None, "NestedInputStructureDict"]]
