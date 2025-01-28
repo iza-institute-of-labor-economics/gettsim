@@ -112,6 +112,8 @@ def get_active_functions_from_module(
         date=date,
     )
 
+    # Check that qualified names are unique on the module level; else, there must be
+    # overlapping start and end dates for time-dependent functions.
     _fail_if_multiple_active_functions_with_same_qualified_name(active_policy_functions)
 
     return {func.leaf_name: func for func in active_policy_functions}
@@ -151,6 +153,19 @@ def get_active_policy_functions(
 def _fail_if_multiple_active_functions_with_same_qualified_name(
     functions: list[PolicyFunction],
 ) -> None:
+    """Raises an ConflictingTimeDependentFunctionsError if multiple functions with the
+    same qualified name are active at the same time.
+
+    Parameters
+    ----------
+    functions : list[PolicyFunction]
+        List of functions to check for conflicts.
+
+    Raises
+    ------
+    ConflictingTimeDependentFunctionsError
+        If multiple functions with the same qualified name are active at the same time.
+    """
     qualified_names = []
 
     for func in functions:
@@ -160,9 +175,6 @@ def _fail_if_multiple_active_functions_with_same_qualified_name(
 
 
 class ConflictingTimeDependentFunctionsError(Exception):
-    """Error raised when multiple functions with the same qualified name are active at
-    the same time."""
-
     def __init__(self, functions: list[PolicyFunction], qualified_name: str):
         self.functions = functions
         self.qualified_name = qualified_name
@@ -328,7 +340,7 @@ def _load_functions_to_derive(
     ]
 
     _fail_if_more_than_one_dict_loaded(dicts_in_module, module_name)
-    return dicts_in_module[0]
+    return dicts_in_module[0] if dicts_in_module else {}
 
 
 def _fail_if_more_than_one_dict_loaded(dicts: list[dict], module_name: str) -> None:

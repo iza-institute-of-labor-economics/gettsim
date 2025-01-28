@@ -2,21 +2,11 @@ import datetime
 
 import pytest
 
-from _gettsim.functions.policy_function import policy_function
-from _gettsim.shared import (
-    TIME_DEPENDENT_FUNCTIONS,
+from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
+    _fail_if_multiple_active_functions_with_same_qualified_name,
 )
-
-
-@pytest.fixture(autouse=True)
-def _setup_and_teardown():
-    # Invoke test
-    yield
-
-    # Tear down
-    TIME_DEPENDENT_FUNCTIONS.clear()
-
+from _gettsim.functions.policy_function import policy_function
 
 # Start date -----------------------------------------------
 
@@ -32,7 +22,7 @@ def test_start_date_valid(date_string: str, expected: datetime.date):
     def test_func():
         pass
 
-    assert test_func.__info__["start_date"] == expected
+    assert test_func.start_date == expected
 
 
 @pytest.mark.parametrize(
@@ -56,7 +46,7 @@ def test_start_date_missing():
     def test_func():
         pass
 
-    assert test_func.__info__["start_date"] == datetime.date(1, 1, 1)
+    assert test_func.start_date == datetime.date(1, 1, 1)
 
 
 # End date -------------------------------------------------
@@ -73,7 +63,7 @@ def test_end_date_valid(date_string: str, expected: datetime.date):
     def test_func():
         pass
 
-    assert test_func.__info__["end_date"] == expected
+    assert test_func.end_date == expected
 
 
 @pytest.mark.parametrize(
@@ -97,7 +87,7 @@ def test_end_date_missing():
     def test_func():
         pass
 
-    assert test_func.__info__["end_date"] == datetime.date(9999, 12, 31)
+    assert test_func.end_date == datetime.date(9999, 12, 31)
 
 
 # Change name ----------------------------------------------
@@ -108,7 +98,7 @@ def test_dates_active_change_name_given():
     def test_func():
         pass
 
-    assert test_func.__info__["leaf_name"] == "renamed_func"
+    assert test_func.leaf_name == "renamed_func"
 
 
 def test_dates_active_change_name_missing():
@@ -116,7 +106,7 @@ def test_dates_active_change_name_missing():
     def test_func():
         pass
 
-    assert test_func.__info__["leaf_name"] == "test_func"
+    assert test_func.leaf_name == "test_func"
 
 
 # Empty interval -------------------------------------------
@@ -179,9 +169,10 @@ def test_dates_active_conflict(
     def func_1():
         pass
 
+    @policy_function(leaf_name="func_1", start_date=start_2, end_date=end_2)
+    def func_2():
+        pass
+
     # Using the decorator again should raise an error
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-
-        @policy_function(leaf_name="func_1", start_date=start_2, end_date=end_2)
-        def func_2():
-            pass
+        _fail_if_multiple_active_functions_with_same_qualified_name([func_1, func_2])
