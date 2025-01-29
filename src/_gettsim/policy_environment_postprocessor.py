@@ -6,9 +6,9 @@ from typing import TYPE_CHECKING, Any
 
 import numpy
 import optree
-from optree import tree_flatten_with_path
 
 from _gettsim.aggregation import (
+    AggregationSpec,
     all_by_p_id,
     any_by_p_id,
     count_by_p_id,
@@ -25,7 +25,6 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
-    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -35,7 +34,6 @@ from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    get_path_from_qualified_name,
     merge_nested_dicts,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
@@ -166,11 +164,9 @@ def _create_aggregate_by_group_functions(
     functions_tree: NestedFunctionDict,
     targets: NestedTargetDict,
     data: NestedDataDict,
-    aggregate_by_group_specs: dict[str, Any],
+    aggregation_dicts_provided_by_env: dict[str, Any],
 ) -> dict[str, DerivedFunction]:
     """Create aggregation functions."""
-
-    aggregation_dicts_provided_by_env = _get_aggregation_dicts(aggregate_by_group_specs)
     automatically_created_aggregation_dicts = (
         _create_derived_aggregation_specifications(
             functions_tree=functions_tree,
@@ -182,31 +178,32 @@ def _create_aggregate_by_group_functions(
     # Add automated aggregation specs.
     # Note: For duplicate keys, explicitly set specs are treated with higher priority
     # than automated specs.
-    full_aggregate_by_group_spec = merge_nested_dicts(
+    all_aggregate_by_group_specs = merge_nested_dicts(
         automatically_created_aggregation_dicts,
         aggregation_dicts_provided_by_env,
     )
 
     derived_functions = {}
-    for module_name, agg_dicts_of_module in full_aggregate_by_group_spec.items():
-        for func_name, agg_spec in agg_dicts_of_module.items():
-            _check_agg_specs_validity(
-                agg_specs=agg_spec, agg_col=func_name, module=module_name
-            )
-            derived_func = _create_one_aggregate_by_group_func(
-                new_function_name=func_name,
-                agg_specs=agg_spec,
-                functions_tree=functions_tree,
-            )
-            module_path = get_path_from_qualified_name(module_name)
-            function_path = [*module_path, func_name]
-            # TODO(@MImmesberger): Let derived functions inherit namespace from source
-            # function or source column.
-            qualified_name = QUALIFIED_NAME_SEPARATOR.join(function_path)
-            derived_func.set_qualified_name(qualified_name)
-            derived_functions = tree_update(
-                derived_functions, function_path, derived_func
-            )
+    _all_paths, _all_aggregation_specs, _ = optree.tree_flatten_with_path(
+        all_aggregate_by_group_specs
+    )
+    for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+        module_name = ".".join(path)
+        _check_agg_specs_validity(
+            agg_specs=aggregation_spec,
+            agg_col=aggregation_spec.target_name,
+            module=module_name,
+        )
+        derived_func = _create_one_aggregate_by_group_func(
+            new_function_name=aggregation_spec.target_name,
+            agg_specs=aggregation_spec,
+            functions_tree=functions_tree,
+        )
+        derived_functions = tree_update(
+            derived_functions,
+            path,
+            derived_func,
+        )
 
     return derived_functions
 
@@ -262,10 +259,13 @@ def _create_derived_aggregation_specifications(
             # targets that already exist in the source tree.
             continue
         else:
-            agg_specs_single_function = {
-                "aggr": "sum",
-                "source_col": remove_group_suffix(leaf_name),
-            }
+            agg_specs_single_function = AggregationSpec(
+                {
+                    "aggr": "sum",
+                    "source_col": remove_group_suffix(leaf_name),
+                },
+                target_name="leaf_name",
+            )
 
             all_agg_specs = tree_update(
                 tree=all_agg_specs,
@@ -474,72 +474,23 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
 def _create_aggregate_by_p_id_functions(
     functions_tree: NestedFunctionDict,
-    aggregate_by_p_id_specs: dict[str, Any],
+    aggregation_dicts_provided_by_env: dict[str, Any],
 ) -> NestedFunctionDict:
     """Create function dict with functions that link variables across persons."""
-
-    aggregation_dicts = _get_aggregation_dicts(aggregate_by_p_id_specs)
-
     derived_functions = {}
 
-    for module_name, module_aggregation_dicts in aggregation_dicts.items():
-        for func_name, aggregation_dict in module_aggregation_dicts.items():
-            derived_func = _create_one_aggregate_by_p_id_func(
-                new_function_name=func_name,
-                agg_specs=aggregation_dict,
-                functions_tree=functions_tree,
-            )
-            module_path = get_path_from_qualified_name(module_name)
-            function_path = [*module_path, func_name]
-            # TODO(@MImmesberger): Let derived functions inherit namespace from source
-            # function or source column.
-            qualified_name = QUALIFIED_NAME_SEPARATOR.join(function_path)
-            derived_func.set_qualified_name(qualified_name)
-            derived_functions = tree_update(
-                derived_functions, function_path, derived_func
-            )
+    _all_paths, _all_aggregation_specs, _ = optree.tree_flatten_with_path(
+        aggregation_dicts_provided_by_env
+    )
+    for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+        derived_func = _create_one_aggregate_by_p_id_func(
+            new_function_name=aggregation_spec.target_name,
+            agg_specs=aggregation_spec,
+            functions_tree=functions_tree,
+        )
+        derived_functions = tree_update(derived_functions, path, derived_func)
 
     return derived_functions
-
-
-def _get_aggregation_dicts(aggregate_by_p_id_specs: dict[str, Any]) -> dict[str, Any]:
-    """Get aggregation dictionaries from the specs.
-
-    Reduces the tree to a dict with qualified module names as keys and the aggregation
-    dict as values.
-
-    Example:
-    {"module1": {"module2": {"func": {"source_col": "col", "p_id_to_aggregate_by":
-    "groupings__xx_id"}}},
-    Result: {"module1__module2": {"func": {
-    "source_col": "module1__module2__col", "p_id_to_aggregate_by": "groupings__xx_id"}}}
-    """
-
-    out = {}
-    paths, leafs, _ = tree_flatten_with_path(aggregate_by_p_id_specs)
-    for path, leaf in zip(paths, leafs):
-        # Qualified name of module
-        module_name = "__".join(path[:-2])
-
-        # Simple name of aggregation target
-        aggregation_func_name = path[-2]
-
-        # Key word of the aggregation dict (e.g. "source_col", "aggr",
-        # "p_id_to_aggregate_by", ...)
-        aggregation_spec_key = path[-1]
-
-        # Transform source cols and IDs to qualified names if not already done
-        if aggregation_spec_key == "p_id_to_aggregate_by":
-            value = f"groupings__{leaf}" if "__" not in leaf else leaf
-        elif aggregation_spec_key == "source_col":
-            value = f"{module_name}__{leaf}" if "__" not in leaf else leaf
-        else:
-            value = leaf
-
-        keys = [module_name, aggregation_func_name, aggregation_spec_key]
-        out = tree_update(out, keys, value)
-
-    return out
 
 
 def _create_one_aggregate_by_p_id_func(

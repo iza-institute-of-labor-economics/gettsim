@@ -8,6 +8,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
+from _gettsim.aggregation import AggregationSpec
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     QUALIFIED_NAME_SEPARATOR,
@@ -15,9 +16,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedFunctionDict
-from _gettsim.shared import (
-    tree_update,
-)
+from _gettsim.shared import tree_update
 
 
 def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
@@ -389,7 +388,15 @@ def _load_functions_to_derive(
     ]
 
     _fail_if_more_than_one_dict_loaded(dicts_in_module, module_name)
-    return dicts_in_module[0] if dicts_in_module else {}
+
+    return (
+        {
+            name: AggregationSpec(aggregation_specs=spec, target_name=name)
+            for name, spec in dicts_in_module[0].items()
+        }
+        if dicts_in_module
+        else {}
+    )
 
 
 def _fail_if_more_than_one_dict_loaded(dicts: list[dict], module_name: str) -> None:
