@@ -279,20 +279,48 @@ def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> st
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
-def load_internal_aggregation_dict(variant: _AggregationVariant) -> dict[str, Any]:
+def load_internal_aggregation_tree(variant: _AggregationVariant) -> dict[str, Any]:
     """
-    Load a dictionary with all aggregations by group or person that are defined for
-    internal functions.
+    Load the aggregation tree.
+
+    The aggregation pytree is a dictionary that specifies how to aggregate the results
+    of functions. It is used to derive new functions from existing ones.
+
+    Parameters
+    ----------
+    variant:
+        The variant of the aggregation tree to load. Can be either 'aggregate_by_group'
+        or 'aggregate_by_p_id'.
+
+    Returns
+    -------
+    dict:
+        The aggregation tree.
     """
-    return _load_aggregation_dict(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR, variant)
+    return _build_aggregations_tree(PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR, variant)
 
 
-def _load_aggregation_dict(
+def _build_aggregations_tree(
     roots: list[Path], package_root: Path, variant: _AggregationVariant
 ) -> dict[str, Any]:
     """
-    Load a dictionary with all aggregations by group or person reachable from the given
-    roots.
+    Build the aggregation tree.
+
+    Parameters
+    ----------
+    roots:
+        The roots from which to start the search for dictionaries.
+    package_root:
+        The root of the package that contains the functions. This is required to assign
+        qualified names to the functions. It must contain all roots.
+    variant:
+        The variant of the aggregation tree to load. Can be either 'aggregate_by_group'
+        or 'aggregate_by_p_id'.
+
+    Returns
+    -------
+    dict:
+        The aggregation tree.
     """
     roots = roots if isinstance(roots, list) else [roots]
     paths = _find_python_files_recursively(roots)

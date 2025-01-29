@@ -13,7 +13,7 @@ from _gettsim.config import (
 from _gettsim.functions.loader import (
     _load_functions,
     _load_internal_functions,
-    load_internal_aggregation_dict,
+    load_internal_aggregation_tree,
 )
 from _gettsim.policy_environment import load_functions_tree_for_date
 from _gettsim.shared import remove_group_suffix
@@ -37,7 +37,7 @@ def all_function_names():
 
 @pytest.fixture(scope="module")
 def aggregation_dict():
-    return load_internal_aggregation_dict()
+    return load_internal_aggregation_tree()
 
 
 @pytest.fixture(scope="module")

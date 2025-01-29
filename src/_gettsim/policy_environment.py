@@ -12,7 +12,7 @@ from optree import tree_map_with_path, tree_paths
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
     load_functions_tree_for_date,
-    load_internal_aggregation_dict,
+    load_internal_aggregation_tree,
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
@@ -89,8 +89,8 @@ class PolicyEnvironment:
         functions_tree = load_functions_tree_for_date(date)
 
         # Load aggregation specs
-        aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
-        aggregate_by_p_id_specs = load_internal_aggregation_dict("aggregate_by_p_id")
+        aggregate_by_group_specs = load_internal_aggregation_tree("aggregate_by_group")
+        aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
 
         return PolicyEnvironment(
             functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
