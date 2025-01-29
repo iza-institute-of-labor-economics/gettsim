@@ -189,6 +189,7 @@ def _create_aggregate_by_group_functions(
         all_aggregate_by_group_specs
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+        _fail_if_aggregation_target_is_namespaced(target=path[-1])
         _check_agg_specs_validity(
             agg_specs=aggregation_spec,
             agg_col=aggregation_spec.target_name,
@@ -218,10 +219,9 @@ def _create_derived_aggregation_specifications(
     Aggregation specifications are created automatically for summation aggregations.
 
     Example: If
-        - `func_hh` is an argument of the functions in `functions_tree`, or
-          a target
-        - and not represented by a function in `functions_tree` or a data
-          column in the input data
+        - `func_hh` is an argument of the functions in `functions_tree`, or a target
+        - and not represented by a function in `functions_tree` or a data column in the
+          input data
     then an automatic aggregation specification is created for the sum aggregation of
     `func` by household.
     """
@@ -514,6 +514,7 @@ def _create_aggregate_by_p_id_functions(
         aggregation_dicts_provided_by_env
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+        _fail_if_aggregation_target_is_namespaced(target=path[-1])
         derived_func = _create_one_aggregate_by_p_id_func(
             new_function_name=aggregation_spec.target_name,
             agg_specs=aggregation_spec,
@@ -696,4 +697,33 @@ def _fail_if_targets_are_not_among_functions(
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
             f"The following targets have no corresponding function:\n{formatted}"
+        )
+
+
+def _fail_if_aggregation_target_is_namespaced(target: str) -> None:
+    """Fail if aggregation target is namespaced.
+
+    The namespace of aggregation targets is automatically determined by either
+    - the position of the aggregation specification in the user-provided aggregation
+    tree or
+    - the position of the aggregation specification in GETTSIM's module tree.
+
+    Parameters
+    ----------
+    target : str
+        The target to check.
+
+    Raises
+    ------
+    ValueError
+        Raised if the target is namespaced.
+
+    """
+    if QUALIFIED_NAME_SEPARATOR in target:
+        raise ValueError(
+            f"""
+            Aggregation target {target} must not be namespaced. Please provide a simple
+            name. The qualified name of the target is determined by the position of the
+            aggregation specification in the tree.
+            """
         )
