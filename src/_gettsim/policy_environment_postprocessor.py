@@ -5,6 +5,7 @@ import inspect
 from typing import TYPE_CHECKING, Any
 
 import numpy
+import optree
 from optree import tree_flatten_with_path
 
 from _gettsim.aggregation import (
@@ -39,6 +40,7 @@ from _gettsim.shared import (
     remove_group_suffix,
     rename_arguments_and_add_annotations,
     tree_flatten_with_qualified_name,
+    tree_path_exists,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
@@ -46,6 +48,7 @@ from _gettsim.time_conversion import create_time_conversion_functions
 
 if TYPE_CHECKING:
     from _gettsim.gettsim_typing import (
+        NestedDataDict,
         NestedFunctionDict,
         NestedTargetDict,
     )
@@ -55,7 +58,7 @@ if TYPE_CHECKING:
 def add_derived_functions_to_functions_tree(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
-    names_of_columns_in_data: list[str],
+    data: NestedDataDict,
 ) -> NestedFunctionDict:
     """Create the functions tree including derived functions.
 
@@ -72,7 +75,7 @@ def add_derived_functions_to_functions_tree(
     targets : NestedTargetDict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    names_of_columns_in_data : list
+    data : NestedDataDict
         Names of columns in the input data.
 
     Returns
@@ -89,7 +92,7 @@ def add_derived_functions_to_functions_tree(
     ) = _create_derived_functions(
         environment,
         targets,
-        names_of_columns_in_data,
+        data,
     )
 
     # Create groupings
@@ -114,7 +117,7 @@ def add_derived_functions_to_functions_tree(
 def _create_derived_functions(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
-    names_of_columns_in_data: list[str],
+    data: NestedDataDict,
 ) -> tuple[NestedFunctionDict, NestedFunctionDict, NestedFunctionDict]:
     """
     Create functions that are derived from the user and internal functions.
@@ -137,7 +140,7 @@ def _create_derived_functions(
     )
     time_conversion_functions = create_time_conversion_functions(
         all_functions,
-        names_of_columns_in_data,
+        data,
     )
 
     # Create aggregation functions
@@ -148,7 +151,7 @@ def _create_derived_functions(
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
         all_functions,
         targets,
-        names_of_columns_in_data,
+        data,
         environment.aggregate_by_group_specs,
     )
 
@@ -162,7 +165,7 @@ def _create_derived_functions(
 def _create_aggregate_by_group_functions(
     functions_tree: NestedFunctionDict,
     targets: NestedTargetDict,
-    data_cols: list[str],
+    data: NestedDataDict,
     aggregate_by_group_specs: dict[str, Any],
 ) -> dict[str, DerivedFunction]:
     """Create aggregation functions."""
@@ -171,8 +174,8 @@ def _create_aggregate_by_group_functions(
     automatically_created_aggregation_dicts = (
         _create_derived_aggregation_specifications(
             functions_tree=functions_tree,
-            targets=targets,
-            data_cols=data_cols,
+            user_targets=targets,
+            data=data,
         )
     )
 
@@ -210,8 +213,8 @@ def _create_aggregate_by_group_functions(
 
 def _create_derived_aggregation_specifications(
     functions_tree: NestedFunctionDict,
-    targets: NestedTargetDict,
-    data_cols: list[str],
+    user_targets: NestedTargetDict,
+    data: NestedDataDict,
 ) -> dict[str, Any]:
     """Create automatic aggregation specs.
 
@@ -225,41 +228,52 @@ def _create_derived_aggregation_specifications(
     then an automatic aggregation specification is created for the sum aggregation of
     `func` by household.
     """
-    # Make specs for automated sum aggregation
-    names_to_functions = tree_to_dict_with_qualified_name(functions_tree)
-    names_to_targets = tree_to_dict_with_qualified_name(targets)
-
-    potential_source_cols = list(names_to_functions.keys()) + data_cols
-    potential_agg_targets = set(
-        [
-            arg
-            for func in names_to_functions.values()
-            for arg in get_names_of_arguments_without_defaults(func)
-        ]
-        + list(names_to_targets.keys())
+    # Create target tree for aggregations. Aggregation target can be any target provided
+    # by the user or any function argument.
+    potential_target_tree = user_targets.copy()
+    paths_of_functions_tree, flat_functions_tree, _ = optree.tree_flatten_with_path(
+        functions_tree
     )
-
-    automated_sum_aggregate_by_group_cols = [
-        col
-        for col in potential_agg_targets
-        if (col not in names_to_functions)
-        and any(col.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
-        and (remove_group_suffix(col) in potential_source_cols)
-    ]
-
-    automated_sum_aggregate_by_group_specs = {}
-    for agg_col in automated_sum_aggregate_by_group_cols:
-        path = get_path_from_qualified_name(agg_col)
-        func_name = path[-1]
-        module_name = "__".join(path[:-1])
-        update_dict = {"aggr": "sum", "source_col": remove_group_suffix(func_name)}
-        automated_sum_aggregate_by_group_specs = tree_update(
-            automated_sum_aggregate_by_group_specs,
-            [module_name, func_name],
-            update_dict,
+    for func, path in zip(flat_functions_tree, paths_of_functions_tree):
+        functions_args = {
+            name: None for name in get_names_of_arguments_without_defaults(func)
+        }
+        potential_target_tree = tree_update(
+            potential_target_tree,
+            path,
+            functions_args,
         )
 
-    return automated_sum_aggregate_by_group_specs
+    # Create potential source tree for aggregations. Source can be any already existing
+    # function or data column.
+    aggregation_source_tree = merge_nested_dicts(
+        base_dict=functions_tree,
+        update_dict=data,
+    )
+
+    # Create aggregation specs.
+    all_agg_specs = {}
+    for path in optree.tree_paths(potential_target_tree):
+        leaf_name = path[-1]
+        if not any(
+            leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS
+        ) or tree_path_exists(aggregation_source_tree, path):
+            # Don't create aggregation specs for targets that aren't groupings or
+            # targets that already exist in the source tree.
+            continue
+        else:
+            agg_specs_single_function = {
+                "aggr": "sum",
+                "source_col": remove_group_suffix(leaf_name),
+            }
+
+            all_agg_specs = tree_update(
+                tree=all_agg_specs,
+                path=path,
+                update_dict=agg_specs_single_function,
+            )
+
+    return all_agg_specs
 
 
 def _check_agg_specs_validity(agg_specs, agg_col, module):

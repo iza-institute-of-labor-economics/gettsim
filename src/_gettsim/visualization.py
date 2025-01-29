@@ -90,7 +90,7 @@ def plot_dag(
     all_functions = add_derived_functions_to_functions_tree(
         environment=environment,
         targets=targets,
-        names_of_columns_in_data=names_of_columns_overriding_functions,
+        data=names_of_columns_overriding_functions,
     )
     functions_not_overridden = _filter_tree_by_name_list(
         tree=all_functions,

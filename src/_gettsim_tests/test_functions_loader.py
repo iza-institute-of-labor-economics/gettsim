@@ -62,7 +62,7 @@ def test_create_derived_functions(
         time_conversion_functions,
         aggregate_by_group_functions,
         aggregate_by_p_id_functions,
-    ) = _create_derived_functions(environment, targets, [])
+    ) = _create_derived_functions(environment, targets, {})
 
     derived_functions_tree = reduce(
         merge_nested_dicts,

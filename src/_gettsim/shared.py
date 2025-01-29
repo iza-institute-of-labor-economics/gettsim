@@ -297,6 +297,31 @@ def get_path_from_qualified_name(qualified_name: str) -> list[str]:
     return qualified_name.split("__")
 
 
+def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:
+    """True if path exists in tree.
+
+    Parameters
+    ----------
+    tree : dict[str, Any]
+        The tree to check.
+    path : list[str]
+        The path to check.
+
+    Returns
+    -------
+    bool
+        True if path exists in tree.
+    """
+
+    try:
+        get_by_path(tree, path)
+        out = True
+    except KeyError:
+        out = False
+
+    return out
+
+
 def tree_to_dict_with_qualified_name(
     tree: dict[str, Any], none_is_leaf: bool = True
 ) -> dict[str, Any]:

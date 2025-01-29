@@ -22,7 +22,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import PartialPolicyFunction, PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import (
     NestedDataDict,
     NestedFunctionDict,
@@ -100,7 +100,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     all_functions = add_derived_functions_to_functions_tree(
         environment=environment,
         targets=targets,
-        names_of_columns_in_data=names_of_cols_in_data,
+        data=data,
     )
     functions_not_overridden, functions_overridden = _filter_tree_by_name_list(
         tree=all_functions,
@@ -837,7 +837,13 @@ def _round_and_partial_parameters_to_functions(
         }
         if partial_params:
             # Partial parameters into function.
-            partial_func = PartialPolicyFunction(function, **partial_params)
+            partial_func = functools.partial(function, **partial_params)
+
+            # Make sure any GETTSIM metadata is transferred to partial
+            # function. Otherwise, this information would get lost.
+            if hasattr(function, "__info__"):
+                partial_func.__info__ = function.__info__
+
             processed_functions.append(partial_func)
         else:
             processed_functions.append(function)
