@@ -11,7 +11,7 @@ from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
-    _fail_if_active_functions_overlap,
+    _fail_if_dates_active_overlap,
     _load_module,
 )
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
@@ -88,7 +88,7 @@ def test_create_derived_functions(
         assert isinstance(func, DerivedFunction | PolicyFunction)
 
 
-def test_fail_if_active_functions_overlap():
+def test_fail_if_dates_active_overlap():
     active_functions = [
         PolicyFunction(
             leaf_name="foo",
@@ -103,7 +103,7 @@ def test_fail_if_active_functions_overlap():
     ]
 
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_active_functions_overlap(active_functions)
+        _fail_if_dates_active_overlap(active_functions)
 
 
 # vectorize_func --------------------------------------------------------------

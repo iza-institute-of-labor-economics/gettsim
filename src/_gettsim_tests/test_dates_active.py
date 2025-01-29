@@ -4,9 +4,9 @@ import pytest
 
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
-    _fail_if_active_functions_overlap,
+    _fail_if_dates_active_overlap,
 )
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 
 # Start date -----------------------------------------------
 
@@ -124,55 +124,89 @@ def test_dates_active_empty_interval():
 
 
 @pytest.mark.parametrize(
-    "dag_key_1, start_1, end_1, dag_key_2, start_2, end_2",
+    "functions",
     [
-        ("func_1", "2023-01-01", "2023-01-31", "func_2", "2023-01-01", "2023-01-31"),
-        ("func_1", "2023-01-01", "2023-01-31", "func_1", "2023-02-01", "2023-02-28"),
-        ("func_1", "2023-02-01", "2023-02-28", "func_1", "2023-01-01", "2023-01-31"),
+        [
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 2, 1),
+                end_date=datetime.date(2023, 2, 28),
+                leaf_name="f",
+            ),
+        ],
+        [
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 2, 28),
+                leaf_name="g",
+            ),
+        ],
     ],
 )
-def test_dates_active_no_conflict(  # noqa: PLR0913
-    dag_key_1: str,
-    start_1: str,
-    end_1: str,
-    dag_key_2: str,
-    start_2: str,
-    end_2: str,
-):
-    @policy_function(leaf_name=dag_key_1, start_date=start_1, end_date=end_1)
-    def func_1():
-        pass
-
-    # Using the decorator again should not raise an error
-    @policy_function(leaf_name=dag_key_2, start_date=start_2, end_date=end_2)
-    def func_2():
-        pass
+def test_dates_active_no_conflicts(functions):
+    _fail_if_dates_active_overlap(functions=functions, module_name="")
 
 
 @pytest.mark.parametrize(
-    "start_1, end_1, start_2, end_2",
+    "functions",
     [
-        ("2023-01-01", "2023-01-31", "2023-01-01", "2023-01-31"),
-        ("2023-01-01", "2023-01-31", "2022-01-02", "2023-01-30"),
-        ("2023-01-02", "2023-01-30", "2022-01-01", "2023-01-31"),
-        ("2023-01-01", "2023-01-31", "2022-01-02", "2023-02-01"),
-        ("2023-01-02", "2023-02-01", "2022-01-01", "2023-01-31"),
+        [
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+        ],
+        [
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2021, 1, 2),
+                end_date=datetime.date(2023, 2, 1),
+                leaf_name="f",
+            ),
+        ],
+        [
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2023, 1, 2),
+                end_date=datetime.date(2023, 2, 1),
+                leaf_name="f",
+            ),
+            PolicyFunction(
+                lambda x: x,
+                start_date=datetime.date(2022, 1, 1),
+                end_date=datetime.date(2023, 1, 31),
+                leaf_name="f",
+            ),
+        ],
     ],
 )
-def test_dates_active_conflict(
-    start_1: str,
-    end_1: str,
-    start_2: str,
-    end_2: str,
-):
-    @policy_function(leaf_name="func_1", start_date=start_1, end_date=end_1)
-    def func_1():
-        pass
-
-    @policy_function(leaf_name="func_1", start_date=start_2, end_date=end_2)
-    def func_2():
-        pass
-
-    # Using the decorator again should raise an error
+def test_dates_active_with_conflicts(functions):
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_active_functions_overlap([func_1, func_2])
+        _fail_if_dates_active_overlap(functions=functions, module_name="")

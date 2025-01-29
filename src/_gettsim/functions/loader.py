@@ -1,6 +1,7 @@
 import datetime
 import importlib.util
 import inspect
+import itertools
 import sys
 from collections.abc import Callable
 from pathlib import Path
@@ -147,12 +148,12 @@ def get_policy_functions(
 
     # Check that qualified names are unique on the module level; else, there must be
     # overlapping start and end dates for time-dependent functions.
-    _fail_if_active_functions_overlap(policy_functions, module_name)
+    _fail_if_dates_active_overlap(policy_functions, module_name)
 
     return policy_functions
 
 
-def _fail_if_active_functions_overlap(
+def _fail_if_dates_active_overlap(
     functions: list[PolicyFunction],
     module_name: str,
 ) -> None:
@@ -169,34 +170,48 @@ def _fail_if_active_functions_overlap(
     ConflictingTimeDependentFunctionsError
         If multiple functions with the same name are active at the same time.
     """
-    names = []
-
+    leaf_names_to_funcs = {}
     for func in functions:
-        if func.leaf_name in names:
-            raise ConflictingTimeDependentFunctionsError(
-                functions, func.leaf_name, module_name
-            )
-        names.append(func.leaf_name)
+        if func.leaf_name in leaf_names_to_funcs:
+            leaf_names_to_funcs[func.leaf_name].append(func)
+        else:
+            leaf_names_to_funcs[func.leaf_name] = [func]
+
+    for leaf_name, funcs in leaf_names_to_funcs.items():
+        dates_active = [(f.start_date, f.end_date) for f in funcs]
+        for (start1, end1), (start2, end2) in itertools.combinations(dates_active, 2):
+            if start1 <= end2 and start2 <= end1:
+                raise ConflictingTimeDependentFunctionsError(
+                    functions=funcs,
+                    leaf_name=leaf_name,
+                    module_name=module_name,
+                    overlap_start=max(start1, start2),
+                    overlap_end=min(end1, end2),
+                )
 
 
 class ConflictingTimeDependentFunctionsError(Exception):
     def __init__(
-        self, functions: list[PolicyFunction], leaf_name: str, module_name: str
+        self,
+        functions: list[PolicyFunction],
+        leaf_name: str,
+        module_name: str,
+        overlap_start: datetime.date,
+        overlap_end: datetime.date,
     ):
         self.functions = functions
         self.leaf_name = leaf_name
         self.module_name = module_name
+        self.overlap_start = overlap_start
+        self.overlap_end = overlap_end
 
     def __str__(self):
-        overlapping_functions = [
-            func for func in self.functions if func.leaf_name == self.leaf_name
-        ]
+        overlapping_functions = [func.original_function_name for func in self.functions]
         return f"""
-        Some functions with the same leaf name in module {self.module_name} have
+        Functions with leaf name {self.leaf_name} in module {self.module_name} have
         overlapping start and end dates. The following functions are affected: \n\n
-        {"; ".join([func.leaf_name for func in overlapping_functions])} \n Overlapping
-        from {min([func.start_date for func in overlapping_functions])} to
-        {max([func.end_date for func in overlapping_functions])}."""
+        {", ".join(overlapping_functions)} \n Overlapping
+        from {self.overlap_start} to {self.overlap_end}."""
 
 
 def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
