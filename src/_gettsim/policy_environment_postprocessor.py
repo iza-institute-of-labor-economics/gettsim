@@ -25,6 +25,7 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
+    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -188,11 +189,10 @@ def _create_aggregate_by_group_functions(
         all_aggregate_by_group_specs
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
-        module_name = ".".join(path)
         _check_agg_specs_validity(
             agg_specs=aggregation_spec,
             agg_col=aggregation_spec.target_name,
-            module=module_name,
+            module=".".join(path),
         )
         derived_func = _create_one_aggregate_by_group_func(
             new_function_name=aggregation_spec.target_name,
@@ -227,19 +227,10 @@ def _create_derived_aggregation_specifications(
     """
     # Create target tree for aggregations. Aggregation target can be any target provided
     # by the user or any function argument.
-    potential_target_tree = user_targets.copy()
-    paths_of_functions_tree, flat_functions_tree, _ = optree.tree_flatten_with_path(
-        functions_tree
+    potential_target_tree = merge_nested_dicts(
+        user_targets,
+        get_potential_aggregation_targets_from_function_arguments(functions_tree),
     )
-    for func, path in zip(flat_functions_tree, paths_of_functions_tree):
-        functions_args = {
-            name: None for name in get_names_of_arguments_without_defaults(func)
-        }
-        potential_target_tree = tree_update(
-            potential_target_tree,
-            path,
-            functions_args,
-        )
 
     # Create potential source tree for aggregations. Source can be any already existing
     # function or data column.
@@ -252,13 +243,14 @@ def _create_derived_aggregation_specifications(
     all_agg_specs = {}
     for path in optree.tree_paths(potential_target_tree):
         leaf_name = path[-1]
-        if not any(
+
+        # Don't create aggregation specs for targets that aren't groupings or
+        # targets that already exist in the source tree.
+        aggregation_specs_needed = any(
             leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS
-        ) or tree_path_exists(aggregation_source_tree, path):
-            # Don't create aggregation specs for targets that aren't groupings or
-            # targets that already exist in the source tree.
-            continue
-        else:
+        ) and not tree_path_exists(aggregation_source_tree, path)
+
+        if aggregation_specs_needed:
             agg_specs_single_function = AggregationSpec(
                 {
                     "aggr": "sum",
@@ -272,8 +264,47 @@ def _create_derived_aggregation_specifications(
                 path=path,
                 update_dict=agg_specs_single_function,
             )
+        else:
+            continue
 
     return all_agg_specs
+
+
+def get_potential_aggregation_targets_from_function_arguments(
+    functions_tree: NestedFunctionDict,
+) -> dict[str, Any]:
+    """Get potential aggregation targets from function arguments.
+
+    Note: Function accounts for namespaced function arguments, i.e. function arguments
+    that are specified via their qualified instead of their simple name.
+
+    Parameters
+    ----------
+    functions_tree : dict
+        Dictionary containing functions to build the DAG.
+
+    Returns
+    -------
+    potential_aggregation_targets : dict
+        Dictionary containing potential aggregation targets.
+    """
+    out = {}
+    paths_of_functions_tree, flat_functions_tree, _ = optree.tree_flatten_with_path(
+        functions_tree
+    )
+    for func, path in zip(flat_functions_tree, paths_of_functions_tree):
+        for name in get_names_of_arguments_without_defaults(func):
+            if QUALIFIED_NAME_SEPARATOR in name:
+                # namespaced function argument
+                func_path = name.split(QUALIFIED_NAME_SEPARATOR)
+            else:
+                # simple function argument
+                func_path = (*path, name)
+            out = tree_update(
+                out,
+                func_path,
+            )
+    return out
 
 
 def _check_agg_specs_validity(agg_specs, agg_col, module):
