@@ -70,10 +70,22 @@ def _build_functions_tree(
         active_functions_dict = get_active_functions_from_module(
             module_path=path, date=date, package_root=package_root
         )
-        module_name = _convert_path_to_qualified_module_name(path, package_root)
+
+        # Remove recurring branch names in last two branches of path
+        # This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if
+        # the file structure looks like this:
+        # arbeitslosengeld
+        #           |- arbeitslosengeld.py
+        #           |- ...
+
+        if len(path) >= 2:
+            qualified_name_path = path[:-1] if path[-1] == path[-2] else path
+        else:
+            qualified_name_path = path
+
         tree = tree_update(
             tree=tree,
-            path=module_name.split(QUALIFIED_NAME_SEPARATOR),
+            path=qualified_name_path,
             value=active_functions_dict,
         )
 
@@ -342,13 +354,25 @@ def _build_aggregations_tree(
     tree = {}
 
     for path in paths:
-        module_name = _convert_path_to_qualified_module_name(path, package_root)
         derived_function_specs = _load_functions_to_derive(
             path, package_root, f"{variant}_"
         )
+
+        # Remove recurring branch names in last two branches of path
+        # This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if
+        # the file structure looks like this:
+        # arbeitslosengeld
+        #           |- arbeitslosengeld.py
+        #           |- ...
+
+        if len(path) >= 2:
+            qualified_name_path = path[:-1] if path[-1] == path[-2] else path
+        else:
+            qualified_name_path = path
+
         tree = tree_update(
             tree=tree,
-            path=module_name.split(QUALIFIED_NAME_SEPARATOR),
+            path=qualified_name_path,
             value=derived_function_specs,
         )
 
