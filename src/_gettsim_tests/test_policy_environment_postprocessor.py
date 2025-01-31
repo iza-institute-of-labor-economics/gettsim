@@ -2,10 +2,11 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.aggregation import AggregationSpec
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.policy_environment_postprocessor import (
     _create_aggregate_by_group_functions,
+    _get_qualified_source_col_name,
 )
 
 
@@ -101,11 +102,9 @@ from _gettsim.policy_environment_postprocessor import (
             },
             {
                 "namespace1": {
-                    "y_hh": AggregationSpec(
-                        {
-                            "source_col": "x",
-                            "aggr": "sum",
-                        },
+                    "y_hh": AggregateByGroupSpec(
+                        source_col="namespace1__x",
+                        aggr="sum",
                         target_name="y_hh",
                     ),
                 },
@@ -133,11 +132,9 @@ from _gettsim.policy_environment_postprocessor import (
             },
             {
                 "namespace1": {
-                    "y_hh": AggregationSpec(
-                        {
-                            "source_col": "inputs__x",
-                            "aggr": "sum",
-                        },
+                    "y_hh": AggregateByGroupSpec(
+                        source_col="inputs__x",
+                        aggr="sum",
                         target_name="y_hh",
                     ),
                 },
@@ -171,3 +168,8 @@ def test_create_aggregate_by_group_functions(
     leafs = [acc(derived_functions) for acc in accessors]
 
     assert all(optree.tree_is_leaf(leaf) for leaf in leafs)
+
+
+def test_get_qualified_source_col_name():
+    assert _get_qualified_source_col_name(["foo", "bar", "baz_hh"]) == "foo__bar__baz"
+    assert _get_qualified_source_col_name(["foo", "bar", "baz_eg"]) == "foo__bar__baz"

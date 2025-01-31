@@ -8,7 +8,7 @@ import numpy
 import optree
 
 from _gettsim.aggregation import (
-    AggregationSpec,
+    AggregateByGroupSpec,
     all_by_p_id,
     any_by_p_id,
     count_by_p_id,
@@ -250,12 +250,13 @@ def _create_derived_aggregation_specifications(
         ) and not tree_path_exists(aggregation_source_tree, path)
 
         if aggregation_specs_needed:
-            agg_specs_single_function = AggregationSpec(
-                {
-                    "aggr": "sum",
-                    "source_col": remove_group_suffix(leaf_name),
-                },
-                target_name="leaf_name",
+            # Use qualified name to identify source in the functions tree later.
+            source_col = _get_qualified_source_col_name(path)
+
+            agg_specs_single_function = AggregateByGroupSpec(
+                target_name=leaf_name,
+                aggr="sum",
+                source_col=source_col,
             )
 
             all_agg_specs = tree_update(
@@ -663,6 +664,12 @@ def _vectorize_func(func):
     wrapper_vectorize_func.__signature__ = signature
 
     return wrapper_vectorize_func
+
+
+def _get_qualified_source_col_name(
+    path: list[str],
+) -> str:
+    return QUALIFIED_NAME_SEPARATOR.join(path[:-1] + [remove_group_suffix(path[-1])])
 
 
 def _fail_if_targets_are_not_among_functions(

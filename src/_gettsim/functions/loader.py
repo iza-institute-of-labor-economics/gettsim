@@ -8,7 +8,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any, Literal, TypeAlias
 
-from _gettsim.aggregation import AggregationSpec
+from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     QUALIFIED_NAME_SEPARATOR,
@@ -419,7 +419,12 @@ def _load_functions_to_derive(
 
     return (
         {
-            name: AggregationSpec(aggregation_specs=spec, target_name=name)
+            # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to
+            # all modules in the renaming PR.
+            # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
+            name: AggregateByGroupSpec(target_name=name, **spec)
+            if prefix_filter == "aggregate_by_group_"
+            else AggregateByPIDSpec(target_name=name, **spec)
             for name, spec in dicts_in_module[0].items()
         }
         if dicts_in_module
