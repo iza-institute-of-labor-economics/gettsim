@@ -13,6 +13,7 @@ from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
     _fail_if_dates_active_overlap,
     _load_module,
+    _remove_recurring_branch_names,
 )
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment import PolicyEnvironment
@@ -131,3 +132,19 @@ def test_vectorize_func(function: Callable) -> None:
     assert numpy.array_equal(
         vectorized_func(numpy.array([1, 2, 3])), numpy.array([2, 4, 6])
     )
+
+
+@pytest.mark.parametrize(
+    (
+        "path",
+        "expected_string",
+    ),
+    [
+        ("foo__bar__bar", "foo__bar"),
+        ("foo__bar__baz", "foo__bar__baz"),
+        ("foo__bar__bar__bar", "foo__bar__bar"),
+        ("foo__bar__bar__baz", "foo__bar__bar__baz"),
+    ],
+)
+def test_remove_recurring_branch_names(path: str, expected_string: str) -> None:
+    assert _remove_recurring_branch_names(path) == expected_string

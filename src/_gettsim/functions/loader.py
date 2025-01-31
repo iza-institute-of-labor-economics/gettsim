@@ -71,21 +71,13 @@ def _build_functions_tree(
             module_path=path, date=date, package_root=package_root
         )
 
-        # Remove recurring branch names in last two branches of path
-        # This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if
-        # the file structure looks like this:
-        # arbeitslosengeld
-        #           |- arbeitslosengeld.py
-        #           |- ...
-
-        if len(path) >= 2:
-            qualified_name_path = path[:-1] if path[-1] == path[-2] else path
-        else:
-            qualified_name_path = path
+        tree_branches = _convert_path_to_qualified_module_name(
+            path, package_root
+        ).split(QUALIFIED_NAME_SEPARATOR)
 
         tree = tree_update(
             tree=tree,
-            path=qualified_name_path,
+            path=tree_branches,
             value=active_functions_dict,
         )
 
@@ -291,7 +283,7 @@ def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> st
     """
     # TODO(@MImmesberger): Remove the removeprefix calls once directory structure is
     #  changed.
-    return (
+    path = (
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
@@ -300,6 +292,7 @@ def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> st
         .removeprefix("transfers/")
         .replace("/", QUALIFIED_NAME_SEPARATOR)
     )
+    return _remove_recurring_branch_names(path)
 
 
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
@@ -358,25 +351,36 @@ def _build_aggregations_tree(
             path, package_root, f"{variant}_"
         )
 
-        # Remove recurring branch names in last two branches of path
-        # This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if
-        # the file structure looks like this:
-        # arbeitslosengeld
-        #           |- arbeitslosengeld.py
-        #           |- ...
-
-        if len(path) >= 2:
-            qualified_name_path = path[:-1] if path[-1] == path[-2] else path
-        else:
-            qualified_name_path = path
+        tree_branches = _convert_path_to_qualified_module_name(
+            path, package_root
+        ).split(QUALIFIED_NAME_SEPARATOR)
 
         tree = tree_update(
             tree=tree,
-            path=qualified_name_path,
+            path=tree_branches,
             value=derived_function_specs,
         )
 
     return tree
+
+
+def _remove_recurring_branch_names(path: Path) -> str:
+    """
+    Remove recurring branch names in the last two branches of the path.
+
+    This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if the
+    file structure looks like this:
+    arbeitslosengeld
+    |           |- arbeitslosengeld.py
+    |           |- ...
+    """
+    path = str(path).split(QUALIFIED_NAME_SEPARATOR)
+    if len(path) >= 2:
+        out = path[:-1] if path[-1] == path[-2] else path
+    else:
+        out = path
+
+    return QUALIFIED_NAME_SEPARATOR.join(out)
 
 
 def _load_functions_to_derive(

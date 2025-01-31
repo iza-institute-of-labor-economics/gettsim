@@ -27,7 +27,6 @@ from _gettsim.aggregation import (
 from _gettsim.config import (
     QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
-    TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
@@ -324,15 +323,14 @@ def _check_agg_specs_validity(agg_specs, agg_col, module):
 def _annotations_for_aggregation(
     aggregation_type: str,
     source_col: str | None,
-    qualified_names_to_functions_dict: dict[str, PolicyFunction],
+    functions_tree: NestedFunctionDict,
 ):
     """Create annotations for derived aggregation functions."""
 
     annotations = {}
 
-    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
-        TYPES_INPUT_VARIABLES
-    )
+    # Determine source annotations
+    # Use accessors to get function; source col should probably be namespaced for this!
 
     if aggregation_type == "count":
         annotations["return"] = int
@@ -402,7 +400,6 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     aggregate_by_group_func : The aggregation func with the expected signature
 
     """
-    qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
     aggregation_type = agg_specs["aggr"]
     source_col = agg_specs["source_col"] if aggregation_type != "count" else None
 
@@ -421,7 +418,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     annotations = _annotations_for_aggregation(
         aggregation_type=aggregation_type,
         source_col=source_col,
-        qualified_names_to_functions_dict=qualified_names_to_functions_dict,
+        functions_tree=functions_tree,
     )
 
     if aggregation_type == "count":
