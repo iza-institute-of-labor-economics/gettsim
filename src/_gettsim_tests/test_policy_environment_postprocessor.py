@@ -7,7 +7,8 @@ from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment_postprocessor import (
     _annotations_for_aggregation,
     _create_aggregate_by_group_functions,
-    _get_qualified_source_col_name,
+    _fail_if_targets_are_not_among_functions,
+    _get_path_from_argument_name,
 )
 
 
@@ -39,7 +40,7 @@ def function_with_float_return(x: int) -> float:
     ),
     [
         (
-            # Aggregations derived from namespaced function arguments
+            # Aggregations derived from simple function arguments
             {
                 "namespace1": {
                     "f": PolicyFunction(
@@ -61,7 +62,7 @@ def function_with_float_return(x: int) -> float:
             },
         ),
         (
-            # Aggregations derived from simple function arguments
+            # Aggregations derived from namespaced function arguments
             {
                 "namespace1": {
                     "f": PolicyFunction(
@@ -188,15 +189,14 @@ def test_create_aggregate_by_group_functions(
 
 
 @pytest.mark.parametrize(
-    "source_col, path, expected",
+    "argument_name, current_namespace, expected",
     [
-        ("foo", ["dir", "module", "target"], "dir__module__foo"),
-        ("foo", ["dir", "module", "target_hh"], "dir__module__foo"),
-        ("dir__module__foo", ["dir", "module", "target_hh"], "dir__module__foo"),
+        ("foo", ["dir", "module"], ("dir", "module", "foo")),
+        ("dir__module__foo", ["dir", "module"], ("dir", "module", "foo")),
     ],
 )
-def test_get_qualified_source_col_name(source_col, path, expected):
-    assert _get_qualified_source_col_name(source_col, path) == expected
+def test_get_path_from_argument_name(argument_name, current_namespace, expected):
+    assert _get_path_from_argument_name(argument_name, current_namespace) == expected
 
 
 @pytest.mark.parametrize(
@@ -230,3 +230,18 @@ def test_annotations_for_aggregation(
         )["return"]
         == expected_return_type
     )
+
+
+@pytest.mark.parametrize(
+    "functions, targets, expected_error_match",
+    [
+        ({"foo": lambda x: x}, {"bar": None}, "bar"),
+        ({"foo": {"baz": lambda x: x}}, {"foo": {"bar": None}}, "foo__bar"),
+    ],
+)
+def test_fail_if_targets_are_not_among_functions(
+    functions, targets, expected_error_match
+):
+    with pytest.raises(ValueError) as e:
+        _fail_if_targets_are_not_among_functions(functions, targets)
+    assert expected_error_match in str(e.value)

@@ -36,7 +36,6 @@ from _gettsim.shared import (
     merge_nested_dicts,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
-    tree_flatten_with_qualified_name,
     tree_path_exists,
     tree_update,
 )
@@ -189,9 +188,11 @@ def _create_aggregate_by_group_functions(
         # Unpack aggregation specification
         aggregation_target = path[-1]
         aggregation_method = aggregation_spec.aggr
-        qualified_name_source_col = _get_qualified_source_col_name(
-            source_col=aggregation_spec.source_col,
-            path=path,
+        qualified_name_source_col = QUALIFIED_NAME_SEPARATOR.join(
+            _get_path_from_argument_name(
+                argument_name=aggregation_spec.source_col,
+                current_namespace=path[:-1],
+            )
         )
         _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
 
@@ -243,7 +244,7 @@ def _create_derived_aggregation_specifications(
 
     # Create aggregation specs.
     all_agg_specs = {}
-    for path in optree.tree_paths(potential_target_tree):
+    for path in optree.tree_paths(potential_target_tree, none_is_leaf=True):
         leaf_name = path[-1]
 
         # Don't create aggregation specs for targets that aren't groupings or
@@ -263,7 +264,7 @@ def _create_derived_aggregation_specifications(
             all_agg_specs = tree_update(
                 tree=all_agg_specs,
                 path=path,
-                update_dict=agg_specs_single_function,
+                value=agg_specs_single_function,
             )
         else:
             continue
@@ -289,23 +290,21 @@ def get_potential_aggregation_targets_from_function_arguments(
     potential_aggregation_targets : dict
         Dictionary containing potential aggregation targets.
     """
-    out = {}
+    current_tree = {}
     paths_of_functions_tree, flat_functions_tree, _ = optree.tree_flatten_with_path(
         functions_tree
     )
     for func, path in zip(flat_functions_tree, paths_of_functions_tree):
         for name in get_names_of_arguments_without_defaults(func):
-            if QUALIFIED_NAME_SEPARATOR in name:
-                # namespaced function argument
-                func_path = name.split(QUALIFIED_NAME_SEPARATOR)
-            else:
-                # simple function argument
-                func_path = (*path, name)
-            out = tree_update(
-                out,
-                func_path,
+            path_of_function_argument = _get_path_from_argument_name(
+                argument_name=name,
+                current_namespace=path[:-1],
             )
-    return out
+            current_tree = tree_update(
+                current_tree,
+                path_of_function_argument,
+            )
+    return current_tree
 
 
 def _annotations_for_aggregation(
@@ -503,9 +502,11 @@ def _create_aggregate_by_p_id_functions(
         aggregation_target = path[-1]
         p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
         aggregation_method = aggregation_spec.aggr
-        qualified_name_source_col = _get_qualified_source_col_name(
-            source_col=aggregation_spec.source_col,
-            path=path,
+        qualified_name_source_col = QUALIFIED_NAME_SEPARATOR.join(
+            _get_path_from_argument_name(
+                argument_name=aggregation_spec.source_col,
+                current_namespace=path[:-1],
+            )
         )
         _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
 
@@ -646,33 +647,35 @@ def _create_one_aggregate_by_p_id_func(
     )
 
 
-def _get_qualified_source_col_name(
-    source_col: str,
-    path: list[str],
-) -> str:
-    """Get the qualified source column name.
+def _get_path_from_argument_name(
+    argument_name: str,
+    current_namespace: list[str] | tuple[str],
+) -> tuple[str]:
+    """Get a path from an argument name that may or may not be namespaced.
 
-    If the source column is already namespaced, return it as is.
-    Otherwise, return the qualified source column name.
+    If the argument name is namespaced, the path implied by the argument name is
+    returned. Else, the current path plus the argument nameis returned.
 
     Parameters
     ----------
-    source_col : str
-        The source column name.
-    path : list[str]
-        The path to the source column.
+    argument_name : str
+        The argument name.
+    current_namespace : list[str]
+        The current namespace candidate for 'argument_name'.
 
     Returns
     -------
-    qualified_source_col : str
-        The qualified source column name.
+    path : tuple[str]
+        The path.
     """
-    if QUALIFIED_NAME_SEPARATOR in source_col:
+    if QUALIFIED_NAME_SEPARATOR in argument_name:
         # Source col is already namespaced.
-        return source_col
+        new_path = argument_name.split(QUALIFIED_NAME_SEPARATOR)
     else:
         # Source col is not namespaced.
-        return QUALIFIED_NAME_SEPARATOR.join(path[:-1] + [source_col])
+        new_path = [*current_namespace, argument_name]
+
+    return tuple(new_path)
 
 
 def _fail_if_targets_are_not_among_functions(
@@ -694,12 +697,15 @@ def _fail_if_targets_are_not_among_functions(
         Raised if any member of `targets` is not among functions.
 
     """
-    qualified_names_targets = tree_flatten_with_qualified_name(targets)[0]
-    qualified_names_functions = tree_flatten_with_qualified_name(functions)[0]
+    accessors = optree.tree_accessors(targets, none_is_leaf=True)
+    targets_not_in_functions = []
+    for acc in accessors:
+        try:
+            acc(functions)
+        except KeyError:
+            qualified_name = QUALIFIED_NAME_SEPARATOR.join(acc.path)
+            targets_not_in_functions.append(qualified_name)
 
-    targets_not_in_functions = set(qualified_names_targets) - set(
-        qualified_names_functions
-    )
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
