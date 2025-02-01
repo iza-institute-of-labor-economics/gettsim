@@ -12,7 +12,6 @@ from _gettsim.policy_environment import (
     load_functions_tree_for_date,
     set_up_policy_environment,
 )
-from _gettsim.policy_environment_postprocessor import _get_aggregation_dicts
 from _gettsim.shared import (
     tree_to_dict_with_qualified_name,
 )
@@ -143,58 +142,3 @@ def test_load_functions_tree_for_date(
 
     assert functions_last_day[qualified_name].__name__ == function_name_last_day
     assert functions_next_day[qualified_name].__name__ == function_name_next_day
-
-
-@pytest.mark.parametrize(
-    "input_tree, expected",
-    [
-        (
-            {"module1": {"module2": {"func_name": {"source_col": "some_spec"}}}},
-            {
-                "module1__module2": {
-                    "func_name": {"source_col": "module1__module2__some_spec"}
-                }
-            },
-        ),
-        (
-            {
-                "module1__module2": {
-                    "func_name": {"source_col": "module1__module2__some_spec"}
-                }
-            },
-            {
-                "module1__module2": {
-                    "func_name": {"source_col": "module1__module2__some_spec"}
-                }
-            },
-        ),
-        (
-            {"module1": {"module2": {"func_name": {"p_id_to_aggregate_by": "hh_id"}}}},
-            {
-                "module1__module2": {
-                    "func_name": {"p_id_to_aggregate_by": "groupings__hh_id"}
-                }
-            },
-        ),
-        (
-            {
-                "module1": {"module2": {"func_name": {"source_col": "some_spec"}}},
-                "module3": {
-                    "func_name": {"source_col": "some_spec"},
-                    "func_name2": {"source_col": "some_spec2"},
-                },
-            },
-            {
-                "module1__module2": {
-                    "func_name": {"source_col": "module1__module2__some_spec"}
-                },
-                "module3": {
-                    "func_name": {"source_col": "module3__some_spec"},
-                    "func_name2": {"source_col": "module3__some_spec2"},
-                },
-            },
-        ),
-    ],
-)
-def test_get_aggregation_dicts(input_tree, expected):
-    assert _get_aggregation_dicts(input_tree) == expected
