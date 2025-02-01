@@ -3,6 +3,7 @@ import pandas as pd
 import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec
+from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment_postprocessor import (
     _annotations_for_aggregation,
@@ -186,6 +187,7 @@ def test_create_aggregate_by_group_functions(
     leafs = [acc(derived_functions) for acc in accessors]
 
     assert all(optree.tree_is_leaf(leaf) for leaf in leafs)
+    assert all(isinstance(func, PolicyFunction | DerivedFunction) for func in leafs)
 
 
 @pytest.mark.parametrize(
