@@ -176,7 +176,7 @@ class TestCreateFunctionsForTimeUnits:
         self, name: str, expected: list[str]
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {name: PolicyFunction(lambda: 1, leaf_name="test")}, []
+            {name: PolicyFunction(lambda: 1, leaf_name="test")}, {}
         )
 
         for expected_name in expected:
@@ -202,14 +202,15 @@ class TestCreateFunctionsForTimeUnits:
     def test_should_create_functions_for_other_time_units_for_data_cols(
         self, name: str, expected: list[str]
     ) -> None:
-        time_conversion_functions = create_time_conversion_functions({}, [name])
+        time_conversion_functions = create_time_conversion_functions({}, {name: None})
 
         for expected_name in expected:
             assert expected_name in time_conversion_functions
 
     def test_should_not_create_functions_automatically_that_exist_already(self) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test1_d": PolicyFunction(lambda: 1, leaf_name="test1_d")}, ["test2_y"]
+            {"test1_d": PolicyFunction(lambda: 1, leaf_name="test1_d")},
+            {"test2_y": None},
         )
 
         assert "test1_d" not in time_conversion_functions
@@ -219,7 +220,8 @@ class TestCreateFunctionsForTimeUnits:
         self,
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test_d": PolicyFunction(lambda: 1, leaf_name="test_d")}, ["test_y"]
+            {"test_d": PolicyFunction(lambda: 1, leaf_name="test_d")},
+            {"test_y": None},
         )
 
         assert "test_d" in time_conversion_functions
@@ -252,7 +254,7 @@ class TestCreateFunctionsForTimeUnits:
         ],
     )
     def test_should_return_nested_dict(self, functions_tree, expected) -> None:
-        time_conversion_functions = create_time_conversion_functions(functions_tree, [])
+        time_conversion_functions = create_time_conversion_functions(functions_tree, {})
 
         expected_path = tree_paths(expected)
         result_path = tree_paths(time_conversion_functions)
@@ -281,7 +283,7 @@ class TestCreateFunctionForTimeUnit:
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
 def test_should_not_create_cycle():
     time_conversion_functions = create_time_conversion_functions(
-        {"test_d": PolicyFunction(lambda test_m: test_m, leaf_name="test")}, []
+        {"test_d": PolicyFunction(lambda test_m: test_m, leaf_name="test")}, {}
     )
 
     assert "test_m" not in time_conversion_functions

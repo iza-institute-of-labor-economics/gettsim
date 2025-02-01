@@ -286,7 +286,8 @@ def create_time_conversion_functions(
     converted_functions = {}
 
     # Create time-conversions for existing functions
-    for path, function in optree.tree_flatten_with_path(functions_tree):
+    _all_paths, _all_functions, _ = optree.tree_flatten_with_path(functions_tree)
+    for path, function in zip(_all_paths, _all_functions):
         leaf_name = path[-1]
         all_time_conversions_for_this_function = _create_time_conversion_functions(
             name=leaf_name, func=function
@@ -304,7 +305,7 @@ def create_time_conversion_functions(
                 )
 
     # Create time-conversions for data columns
-    for path in optree.tree_paths(data):
+    for path in optree.tree_paths(data, none_is_leaf=True):
         leaf_name = path[-1]
         all_time_conversions_for_this_data_column = _create_time_conversion_functions(
             name=leaf_name
