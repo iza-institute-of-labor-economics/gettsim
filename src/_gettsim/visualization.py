@@ -22,9 +22,9 @@ from _gettsim.policy_environment_postprocessor import (
     add_derived_functions_to_functions_tree,
 )
 from _gettsim.shared import (
-    _filter_tree_by_name_list,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    partition_tree_by_reference_tree,
     tree_to_dict_with_qualified_name,
 )
 
@@ -92,7 +92,7 @@ def plot_dag(
         targets=targets,
         data=names_of_columns_overriding_functions,
     )
-    functions_not_overridden = _filter_tree_by_name_list(
+    functions_not_overridden = partition_tree_by_reference_tree(
         tree=all_functions,
         qualified_names_list=names_of_columns_overriding_functions,
     )[0]
@@ -113,7 +113,7 @@ def plot_dag(
     )
 
     processed_functions = _round_and_partial_parameters_to_functions(
-        _filter_tree_by_name_list(functions_not_overridden, dag.nodes)[1],
+        partition_tree_by_reference_tree(functions_not_overridden, dag.nodes)[1],
         environment.params,
         rounding=False,
     )

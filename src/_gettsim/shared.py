@@ -6,6 +6,7 @@ from collections.abc import Callable
 from typing import Any, TypeVar
 
 import numpy
+import optree
 from dags.signature import rename_arguments
 from optree import tree_flatten_with_path
 
@@ -98,52 +99,54 @@ def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
     return result
 
 
-def _filter_tree_by_name_list(
-    tree: NestedFunctionDict | NestedDataDict,
-    qualified_names_list: list[str],
+def partition_tree_by_reference_tree(
+    target_tree: NestedFunctionDict | NestedDataDict,
+    reference_tree: NestedDataDict,
 ) -> tuple[NestedFunctionDict, NestedFunctionDict]:
-    """Filter a tree by name.
-
-    Splits the functions tree in two parts: functions whose qualified name is in the
-    qualified_names_list and functions whose qualified name is not in
-    qualified_names_list.
+    """
+    Partition a tree into two separate trees based on the presence of its leaves in a
+    reference tree.
 
     Parameters
     ----------
-    tree : NestedFunctionDict | NestedDataDict
-        Dictionary containing functions to build the DAG.
-    qualified_names_list : list[str]
-        List of qualified names.
+    target_tree : NestedFunctionDict | NestedDataDict
+        The tree to be partitioned.
+    reference_tree : NestedDataDict
+        The reference tree used to determine the partitioning.
 
     Returns
     -------
-    not_in_names_list : NestedFunctionDict
-        All functions except the ones that are overridden by an input column.
-    in_names_list : NestedFunctionDict
-        Functions that are overridden by an input column.
-
+    tuple[NestedFunctionDict, NestedFunctionDict]
+        A tuple containing:
+        - The first tree with leaves present in the reference tree.
+        - The second tree with leaves absent in the reference tree.
     """
-    not_in_names_list = {}
-    in_names_list = {}
+    # Obtain accessors and tree specifications for the target and reference trees
+    tree_accessors = optree.tree_accessors(target_tree)
 
-    paths, leafs, _ = tree_flatten_with_path(tree)
+    # New trees
+    tree_with_present_leaves = {}
+    tree_with_absent_leaves = {}
 
-    for name, leaf in zip(paths, leafs):
-        qualified_name = "__".join(name)
-        if qualified_name in qualified_names_list:
-            in_names_list = tree_update(
-                in_names_list,
-                name,
-                leaf,
+    # Iterate over each accessor and its corresponding tree specification accessor
+    for current_accessor in tree_accessors:
+        try:
+            # Attempt to access the leaf in the reference tree
+            tree_with_present_leaves = tree_update(
+                tree_with_present_leaves,
+                current_accessor.path,
+                current_accessor(reference_tree),
             )
-        else:
-            not_in_names_list = tree_update(
-                not_in_names_list,
-                name,
-                leaf,
+        except KeyError:
+            # If the leaf is not present in the reference tree, access it from the
+            # target tree
+            tree_with_absent_leaves = tree_update(
+                tree_with_absent_leaves,
+                current_accessor.path,
+                current_accessor(target_tree),
             )
 
-    return not_in_names_list, in_names_list
+    return tree_with_absent_leaves, tree_with_present_leaves
 
 
 def format_errors_and_warnings(text, width=79):

@@ -38,7 +38,6 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     KeyErrorMessage,
-    _filter_tree_by_name_list,
     create_dict_from_list,
     format_errors_and_warnings,
     format_list_linewise,
@@ -46,6 +45,7 @@ from _gettsim.shared import (
     get_names_of_arguments_without_defaults,
     get_path_from_qualified_name,
     merge_nested_dicts,
+    partition_tree_by_reference_tree,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
@@ -96,15 +96,14 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
-    names_of_cols_in_data = list(tree_to_dict_with_qualified_name(data).keys())
     all_functions = add_derived_functions_to_functions_tree(
         environment=environment,
         targets=targets,
         data=data,
     )
-    functions_not_overridden, functions_overridden = _filter_tree_by_name_list(
-        tree=all_functions,
-        qualified_names_list=names_of_cols_in_data,
+    functions_not_overridden, functions_overridden = partition_tree_by_reference_tree(
+        tree_to_split=all_functions,
+        other_tree=data,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 
@@ -135,7 +134,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     # Round and partial parameters into functions that are nodes in the DAG.
     processed_functions = _round_and_partial_parameters_to_functions(
-        _filter_tree_by_name_list(functions_not_overridden, nodes)[1],
+        partition_tree_by_reference_tree(functions_not_overridden, nodes)[1],
         environment.params,
         rounding,
     )
@@ -557,7 +556,7 @@ def _create_input_data(  # noqa: PLR0913
     )
 
     # Check that only necessary data is passed
-    unnecessary_data, input_data = _filter_tree_by_name_list(
+    unnecessary_data, input_data = partition_tree_by_reference_tree(
         tree=data,
         qualified_names_list=root_nodes,
     )
