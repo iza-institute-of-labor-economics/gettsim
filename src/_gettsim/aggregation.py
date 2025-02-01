@@ -37,8 +37,8 @@ class AggregateByGroupSpec:
     A container for aggregate by group specifications.
     """
 
-    source_col: str | None
     aggr: str
+    source_col: str | None = None
 
 
 @dataclass
