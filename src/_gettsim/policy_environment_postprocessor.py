@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 import functools
-import inspect
 from typing import TYPE_CHECKING, Any
 
-import numpy
 import optree
 
 from _gettsim.aggregation import (
@@ -30,7 +28,6 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
@@ -647,27 +644,6 @@ def _create_one_aggregate_by_p_id_func(
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
-
-
-def _vectorize_func(func):
-    # If the function is already vectorized, return it as is
-    if hasattr(func, "__info__") and func.__info__.get("skip_vectorization", False):
-        return func
-
-    if isinstance(func, PolicyFunction):
-        return func
-
-    # What should work once that Jax backend is fully supported
-    signature = inspect.signature(func)
-    func_vec = numpy.vectorize(func)
-
-    @functools.wraps(func)
-    def wrapper_vectorize_func(*args, **kwargs):
-        return func_vec(*args, **kwargs)
-
-    wrapper_vectorize_func.__signature__ = signature
-
-    return wrapper_vectorize_func
 
 
 def _get_qualified_source_col_name(
