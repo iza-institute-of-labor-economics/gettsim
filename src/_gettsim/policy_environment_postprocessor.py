@@ -41,7 +41,6 @@ from _gettsim.shared import (
     rename_arguments_and_add_annotations,
     tree_flatten_with_qualified_name,
     tree_path_exists,
-    tree_to_dict_with_qualified_name,
     tree_update,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
@@ -190,9 +189,10 @@ def _create_aggregate_by_group_functions(
         all_aggregate_by_group_specs
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+        # Unpack aggregation specification
         aggregation_target = path[-1]
         aggregation_method = aggregation_spec.aggr
-        source_col = _get_qualified_source_col_name(
+        qualified_name_source_col = _get_qualified_source_col_name(
             source_col=aggregation_spec.source_col,
             path=path,
         )
@@ -201,7 +201,7 @@ def _create_aggregate_by_group_functions(
         derived_func = _create_one_aggregate_by_group_func(
             aggregation_target=aggregation_target,
             aggregation_method=aggregation_method,
-            source_col=source_col,
+            qualified_name_source_col=qualified_name_source_col,
             functions_tree=functions_tree,
         )
 
@@ -366,7 +366,7 @@ def _select_return_type(aggregation_method: str, source_col_type: type) -> type:
 def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     aggregation_target: str,
     aggregation_method: str,
-    source_col: str,
+    qualified_name_source_col: str,
     functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
@@ -377,8 +377,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
         Name of the aggregation target.
     aggregation_method : str
         The aggregation method.
-    source_col : str
-        The source column.
+    qualified_name_source_col : str
+        The qualified source column name.
     functions_tree: NestedFunctionDict
         Functions tree.
 
@@ -402,7 +402,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
     annotations = _annotations_for_aggregation(
         aggregation_method=aggregation_method,
-        source_col=source_col,
+        source_col=qualified_name_source_col,
         functions_tree=functions_tree,
         types_input_variables=TYPES_INPUT_VARIABLES,
     )
@@ -416,7 +416,10 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             return grouped_count(group_id)
 
     else:
-        mapper = {"source_col": source_col, "group_id": group_id}
+        mapper = {
+            "source_col": qualified_name_source_col,
+            "group_id": group_id,
+        }
         if aggregation_method == "sum":
 
             @rename_arguments_and_add_annotations(
@@ -479,7 +482,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     if aggregation_method == "count":
         derived_from = group_id
     else:
-        derived_from = (source_col, group_id)
+        derived_from = (qualified_name_source_col, group_id)
 
     return DerivedFunction(
         aggregate_by_group_func,
@@ -499,10 +502,21 @@ def _create_aggregate_by_p_id_functions(
         aggregation_dicts_provided_by_env
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
-        _fail_if_aggregation_target_is_namespaced(target=path[-1])
+        # Unpack aggregation specification
+        aggregation_target = path[-1]
+        p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
+        aggregation_method = aggregation_spec.aggr
+        qualified_name_source_col = _get_qualified_source_col_name(
+            source_col=aggregation_spec.source_col,
+            path=path,
+        )
+        _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
+
         derived_func = _create_one_aggregate_by_p_id_func(
-            new_function_name=path[-1],
-            agg_specs=aggregation_spec,
+            aggregation_target=aggregation_target,
+            p_id_to_aggregate_by=p_id_to_aggregate_by,
+            qualified_name_source_col=qualified_name_source_col,
+            aggregation_method=aggregation_method,
             functions_tree=functions_tree,
         )
         derived_functions = tree_update(derived_functions, path, derived_func)
@@ -511,40 +525,42 @@ def _create_aggregate_by_p_id_functions(
 
 
 def _create_one_aggregate_by_p_id_func(
-    new_function_name: str,
-    agg_specs: dict[str, str],
+    aggregation_target: str,
+    p_id_to_aggregate_by: str,
+    qualified_name_source_col: str,
+    aggregation_method: str,
     functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
     Parameters
     ----------
-    new_function_name : str
-        Name of the new function.
-    agg_specs : dict
-        Dictionary of aggregation specifications. Must contain the aggregation type
-        ("aggr") and the column to aggregate ("source_col").
+    aggregation_target : str
+        Name of the aggregation target.
+    p_id_to_aggregate_by : str
+        The column to aggregate by.
+    qualified_name_source_col : str
+        The qualified source column name.
+    aggregation_method : str
+        The aggregation method.
     functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
     -------
-    aggregate_by_p_id_func : The aggregation func with the expected signature
+    derived_function : DerivedFunction
+        The derived function.
 
     """
-    qualified_names_to_functions_dict = tree_to_dict_with_qualified_name(functions_tree)
-    aggregation_type = agg_specs["aggr"]
-    p_id_to_aggregate_by = agg_specs["p_id_to_aggregate_by"]
-    source_col = agg_specs["source_col"] if aggregation_type != "count" else None
-
     annotations = _annotations_for_aggregation(
-        aggregation_type=aggregation_type,
-        source_col=source_col,
-        qualified_names_to_functions_dict=qualified_names_to_functions_dict,
+        aggregation_method=aggregation_method,
+        source_col=qualified_name_source_col,
+        functions_tree=functions_tree,
+        types_input_variables=TYPES_INPUT_VARIABLES,
     )
 
     # Define aggregation func
-    if aggregation_type == "count":
+    if aggregation_method == "count":
 
         @rename_arguments_and_add_annotations(
             mapper={
@@ -560,10 +576,10 @@ def _create_one_aggregate_by_p_id_func(
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
             "p_id_to_store_by": "groupings__p_id",
-            "column": source_col,
+            "column": qualified_name_source_col,
         }
 
-        if aggregation_type == "sum":
+        if aggregation_method == "sum":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -572,7 +588,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif aggregation_type == "mean":
+        elif aggregation_method == "mean":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -581,7 +597,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif aggregation_type == "max":
+        elif aggregation_method == "max":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -590,7 +606,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif aggregation_type == "min":
+        elif aggregation_method == "min":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -599,7 +615,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif aggregation_type == "any":
+        elif aggregation_method == "any":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -608,7 +624,7 @@ def _create_one_aggregate_by_p_id_func(
             def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
-        elif aggregation_type == "all":
+        elif aggregation_method == "all":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -618,16 +634,17 @@ def _create_one_aggregate_by_p_id_func(
                 return all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         else:
-            raise ValueError(f"Aggr {aggregation_type} is not implemented.")
+            msg = f"Aggregation method {aggregation_method} is not implemented."
+            raise ValueError(msg)
 
-    if aggregation_type == "count":
+    if aggregation_method == "count":
         derived_from = p_id_to_aggregate_by
     else:
-        derived_from = (source_col, p_id_to_aggregate_by)
+        derived_from = (qualified_name_source_col, p_id_to_aggregate_by)
 
     return DerivedFunction(
         aggregate_by_p_id_func,
-        leaf_name=new_function_name,
+        leaf_name=aggregation_target,
         derived_from=derived_from,
     )
 
