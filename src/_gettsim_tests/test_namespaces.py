@@ -2,6 +2,7 @@
 
 import pandas as pd
 
+from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim_tests.test_data.namespaces.module1 import FUNCTIONS_MODULE1
@@ -27,20 +28,20 @@ PARAMETERS = {
 
 AGGREGATION_BY_GROUP_SPEC = {
     "module1": {
-        "group_mean_bg": {
-            "source_col": "f",
-            "aggr": "sum",
-        },
+        "group_mean_bg": AggregateByGroupSpec(
+            source_col="f",
+            aggr="sum",
+        ),
     },
 }
 
 AGGREGATION_BY_PID_SPEC = {
     "module2": {
-        "p_id_aggregation_target": {
-            "p_id_to_aggregate_by": "groupings__some_foreign_keys",
-            "source_col": "g_hh",
-            "aggr": "sum",
-        },
+        "p_id_aggregation_target": AggregateByPIDSpec(
+            p_id_to_aggregate_by="groupings__some_foreign_keys",
+            source_col="g_hh",
+            aggr="sum",
+        ),
     },
 }
 

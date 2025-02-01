@@ -2,7 +2,6 @@ import copy
 import functools
 import inspect
 import warnings
-from functools import reduce
 from typing import Any, Literal, get_args
 
 import dags
@@ -38,7 +37,7 @@ from _gettsim.policy_environment_postprocessor import (
 )
 from _gettsim.shared import (
     KeyErrorMessage,
-    create_dict_from_list,
+    create_tree_from_list_of_qualified_names,
     format_errors_and_warnings,
     format_list_linewise,
     get_by_path,
@@ -102,8 +101,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         data=data,
     )
     functions_not_overridden, functions_overridden = partition_tree_by_reference_tree(
-        tree_to_split=all_functions,
-        other_tree=data,
+        target_tree=all_functions,
+        reference_tree=data,
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
 
@@ -195,7 +194,7 @@ def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTar
 
     if isinstance(targets, list):
         # Build targets tree from list of strings
-        targets_tree = _build_targets_tree_from_list(targets)
+        targets_tree = create_tree_from_list_of_qualified_names(targets)
     elif isinstance(targets, dict) and all_leafs_none:
         # Input is already the correct targets tree
         targets_tree = targets
@@ -207,28 +206,6 @@ def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTar
             "Targets must be either a list of strings or a dictionary."
         )
 
-    return targets_tree
-
-
-def _build_targets_tree_from_list(targets: list[str]) -> NestedTargetDict:
-    """Build a tree from a list of targets.
-
-    Parameters
-    ----------
-    targets : list[str]
-        List of strings with names of functions whose output is actually needed by the
-        user.
-        Example: ["a__b__c", "a__b__d", "a__e"]
-
-    Returns
-    -------
-    tree : dict
-        Dictionary representing the tree.
-        Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
-
-    """
-    paths = [create_dict_from_list(get_path_from_qualified_name(el)) for el in targets]
-    targets_tree = reduce(lambda x, y: merge_nested_dicts(x, y), paths, {})
     return targets_tree
 
 
@@ -257,7 +234,7 @@ def _build_targets_tree_from_dict(targets: dict[str, dict | str]) -> NestedTarge
         elif isinstance(v, str):
             targets[k] = {v: None}
         elif isinstance(v, list):
-            targets[k] = _build_targets_tree_from_list(v)
+            targets[k] = create_tree_from_list_of_qualified_names(v)
 
     return targets
 

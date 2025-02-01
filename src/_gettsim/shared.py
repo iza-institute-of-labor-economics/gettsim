@@ -35,6 +35,28 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
+def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict:
+    """Create a tree from a list of qualified names.
+
+    Parameters
+    ----------
+    qualified_names : list[str]
+        List of qualified names.
+        Example: ["a__b__c", "a__b__d", "a__e"]
+
+    Returns
+    -------
+    dict
+        Tree with qualified names as keys.
+        Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
+    """
+    paths = [
+        create_dict_from_list(get_path_from_qualified_name(el))
+        for el in qualified_names
+    ]
+    return functools.reduce(lambda x, y: merge_nested_dicts(x, y), paths, {})
+
+
 def tree_update(
     tree: dict[str, Any], path: list[str], value: Any = None
 ) -> dict[str, Any]:
