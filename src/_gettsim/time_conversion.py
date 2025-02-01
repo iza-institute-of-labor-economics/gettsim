@@ -1,20 +1,19 @@
 import inspect
 import re
 from collections.abc import Callable
-from typing import Any
 
-from optree import tree_flatten_with_path
+import optree
 
 from _gettsim.config import (
-    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     SUPPORTED_TIME_UNITS,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
-    get_path_from_qualified_name,
     rename_arguments_and_add_annotations,
+    tree_path_exists,
     tree_update,
 )
 
@@ -244,9 +243,9 @@ _time_conversion_functions = {
 
 
 def create_time_conversion_functions(
-    functions_tree: dict[str, Any],
-    data_cols: list[str],
-) -> dict[str, Any]:
+    functions_tree: NestedFunctionDict,
+    data: NestedDataDict,
+) -> NestedFunctionDict:
     """
      Create functions that convert variables to different time units.
 
@@ -274,60 +273,53 @@ def create_time_conversion_functions(
     Parameters
     ----------
     functions_tree:
-        Dictionary of functions.
-    data_cols:
-        List of data columns.
+        The functions tree.
+    data:
+        The data tree.
 
     Returns
     -------
     derived_functions:
-        Dictionary of created functions.
+        The functions tree with the new time conversion functions.
     """
 
     converted_functions = {}
 
-    paths, funcs, _ = tree_flatten_with_path(functions_tree)
-    qualified_names = ["__".join(path) for path in paths]
-
     # Create time-conversions for existing functions
-    for path, func in zip(paths, funcs):
-        function_name = path[-1]
-        new_funcs_dict = {
-            der_name: der_func
-            for der_name, der_func in _create_time_conversion_functions(
-                function_name, func
-            ).items()
-            if der_name not in qualified_names and der_name not in data_cols
-        }
-        for k, v in new_funcs_dict.items():
-            stem = path[:-1] if len(path) > 1 else None
-            new_path = [*stem, k] if stem else [k]
-            # TODO(@MImmesberger): Let derived functions inherit namespace from source
-            # function or source column.
-            qualified_name = QUALIFIED_NAME_SEPARATOR.join(new_path)
-            v.set_qualified_name(qualified_name)
-            converted_functions = tree_update(converted_functions, new_path, v)
+    for path, function in optree.tree_flatten_with_path(functions_tree):
+        leaf_name = path[-1]
+        all_time_conversions_for_this_function = _create_time_conversion_functions(
+            name=leaf_name, func=function
+        )
+        for der_name, der_func in all_time_conversions_for_this_function.items():
+            new_path = [*path[:-1], der_name]
+            if tree_path_exists(converted_functions, new_path) or tree_path_exists(
+                data, new_path
+            ):
+                # Skip if the function already exists or the data column exists
+                continue
+            else:
+                converted_functions = tree_update(
+                    converted_functions, new_path, der_func
+                )
 
     # Create time-conversions for data columns
-    for qualified_name in data_cols:
-        name = get_path_from_qualified_name(qualified_name)[-1]
-        new_funcs_dict = {
-            der_name: der_func
-            for der_name, der_func in _create_time_conversion_functions(name).items()
-            if der_name not in data_cols
-        }
-        for k, v in new_funcs_dict.items():
-            stem = (
-                get_path_from_qualified_name(qualified_name)[:-1]
-                if "__" in qualified_name
-                else None
-            )
-            new_path = [*stem, k] if stem else [k]
-            # TODO(@MImmesberger): Let derived functions inherit namespace from source
-            # function or source column.
-            qualified_name = QUALIFIED_NAME_SEPARATOR.join(new_path)
-            v.set_qualified_name(qualified_name)
-            converted_functions = tree_update(converted_functions, new_path, v)
+    for path in optree.tree_paths(data):
+        leaf_name = path[-1]
+        all_time_conversions_for_this_data_column = _create_time_conversion_functions(
+            name=leaf_name
+        )
+        for der_name, der_func in all_time_conversions_for_this_data_column.items():
+            new_path = [*path[:-1], der_name]
+            if tree_path_exists(converted_functions, new_path) or tree_path_exists(
+                data, new_path
+            ):
+                # Skip if the function already exists or the data column exists
+                continue
+            else:
+                converted_functions = tree_update(
+                    converted_functions, new_path, der_func
+                )
 
     return converted_functions
 
