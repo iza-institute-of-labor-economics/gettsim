@@ -37,8 +37,7 @@ class AggregateByGroupSpec:
     A container for aggregate by group specifications.
     """
 
-    target_name: str
-    source_col: str
+    source_col: str | None
     aggr: str
 
 
@@ -48,7 +47,6 @@ class AggregateByPIDSpec:
     A container for aggregate by p_id specifications.
     """
 
-    target_name: str
     p_id_to_aggregate_by: str
     source_col: str
     aggr: str

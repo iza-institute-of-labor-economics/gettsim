@@ -27,12 +27,14 @@ from _gettsim.aggregation import (
 from _gettsim.config import (
     QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_list_linewise,
+    get_by_path,
     get_names_of_arguments_without_defaults,
     merge_nested_dicts,
     remove_group_suffix,
@@ -188,17 +190,21 @@ def _create_aggregate_by_group_functions(
         all_aggregate_by_group_specs
     )
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
-        _fail_if_aggregation_target_is_namespaced(target=path[-1])
-        _check_agg_specs_validity(
-            agg_specs=aggregation_spec,
-            agg_col=aggregation_spec.target_name,
-            module=".".join(path),
+        aggregation_target = path[-1]
+        aggregation_method = aggregation_spec.aggr
+        source_col = _get_qualified_source_col_name(
+            source_col=aggregation_spec.source_col,
+            path=path,
         )
+        _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
+
         derived_func = _create_one_aggregate_by_group_func(
-            new_function_name=aggregation_spec.target_name,
-            agg_specs=aggregation_spec,
+            aggregation_target=aggregation_target,
+            aggregation_method=aggregation_method,
+            source_col=source_col,
             functions_tree=functions_tree,
         )
+
         derived_functions = tree_update(
             derived_functions,
             path,
@@ -251,12 +257,10 @@ def _create_derived_aggregation_specifications(
 
         if aggregation_specs_needed:
             # Use qualified name to identify source in the functions tree later.
-            source_col = _get_qualified_source_col_name(path)
 
             agg_specs_single_function = AggregateByGroupSpec(
-                target_name=leaf_name,
                 aggr="sum",
-                source_col=source_col,
+                source_col=remove_group_suffix(leaf_name),
             )
 
             all_agg_specs = tree_update(
@@ -307,71 +311,51 @@ def get_potential_aggregation_targets_from_function_arguments(
     return out
 
 
-def _check_agg_specs_validity(agg_specs, agg_col, module):
-    if "aggr" not in agg_specs:
-        raise KeyError(
-            f"""`aggr` key is missing for aggregation column {agg_col} in module
-             {module}."""
-        )
-    if agg_specs["aggr"] != "count":
-        if "source_col" not in agg_specs:
-            raise KeyError(
-                f"""`source_col` key is missing for aggregation column {agg_col} in
-                 module {module}."""
-            )
-
-
 def _annotations_for_aggregation(
-    aggregation_type: str,
-    source_col: str | None,
+    aggregation_method: str,
+    source_col: str,
     functions_tree: NestedFunctionDict,
-):
+    types_input_variables: dict[str, Any],
+) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
-
     annotations = {}
+    path_source_col = source_col.split(QUALIFIED_NAME_SEPARATOR)
 
-    # Determine source annotations
-    # Use accessors to get function; source col should probably be namespaced for this!
-
-    if aggregation_type == "count":
+    if aggregation_method == "count":
         annotations["return"] = int
-    else:
-        if (
-            source_col in qualified_names_to_functions_dict
-            and "return"
-            in qualified_names_to_functions_dict[source_col].__annotations__
-        ):
-            # Find out source col type to infer return type
-            annotations[source_col] = qualified_names_to_functions_dict[
-                source_col
-            ].__annotations__["return"]
-
-            # Find out return type
+    elif tree_path_exists(functions_tree, path_source_col):
+        # Source col is a function in the functions tree
+        source_function = get_by_path(functions_tree, path_source_col)
+        if "return" in source_function.__annotations__:
+            annotations[source_col] = source_function.__annotations__["return"]
             annotations["return"] = _select_return_type(
-                aggregation_type, annotations[source_col]
-            )
-        elif source_col in types_input_variables_with_qualified_names:
-            annotations[source_col] = types_input_variables_with_qualified_names[
-                source_col
-            ]
-
-            # Find out return type
-            annotations["return"] = _select_return_type(
-                aggregation_type, annotations[source_col]
+                aggregation_method, annotations[source_col]
             )
         else:
-            # TODO(@hmgaudecker): Think about how type annotations of aggregations of
-            #     user-provided input variables are handled
+            # TODO(@hmgaudecker): Think about how type annotations of aggregations
+            # of user-provided input variables are handled
             # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
+    elif tree_path_exists(types_input_variables, path_source_col):
+        # Source col is a basic input variable
+        annotations[source_col] = get_by_path(types_input_variables, path_source_col)
+        annotations["return"] = _select_return_type(
+            aggregation_method, annotations[source_col]
+        )
+    else:
+        # TODO(@hmgaudecker): Think about how type annotations of aggregations of
+        # user-provided input variables are handled
+        # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
+        pass
+
     return annotations
 
 
-def _select_return_type(aggr, source_col_type):
+def _select_return_type(aggregation_method: str, source_col_type: type) -> type:
     # Find out return type
-    if (source_col_type == int) and (aggr in ["any", "all"]):
+    if (source_col_type == int) and (aggregation_method in ["any", "all"]):
         return_type = bool
-    elif (source_col_type == bool) and (aggr in ["sum"]):
+    elif (source_col_type == bool) and (aggregation_method in ["sum"]):
         return_type = int
     else:
         return_type = source_col_type
@@ -380,49 +364,50 @@ def _select_return_type(aggr, source_col_type):
 
 
 def _create_one_aggregate_by_group_func(  # noqa: PLR0912
-    new_function_name: str,
-    agg_specs: dict[str, str],
+    aggregation_target: str,
+    aggregation_method: str,
+    source_col: str,
     functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
     ----------
-    new_function_name : str
-        Name of the new function.
-    agg_specs : dict
-        Dictionary of aggregation specifications. Must contain the aggregation type
-        ("aggr") and the column to aggregate ("source_col").
+    aggregation_target : str
+        Name of the aggregation target.
+    aggregation_method : str
+        The aggregation method.
+    source_col : str
+        The source column.
     functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
     -------
-    aggregate_by_group_func : The aggregation func with the expected signature
+    derived_function : DerivedFunction
+        The derived function.
 
     """
-    aggregation_type = agg_specs["aggr"]
-    source_col = agg_specs["source_col"] if aggregation_type != "count" else None
-
     # Identify grouping level
     group_id = None
     for g in SUPPORTED_GROUPINGS:
-        if new_function_name.endswith(f"_{g}"):
+        if aggregation_target.endswith(f"_{g}"):
             group_id = f"groupings__{g}_id"
     if not group_id:
         raise ValueError(
             "Name of aggregated column needs to have a suffix "
             "indicating the group over which it is aggregated. "
-            f"The name {new_function_name} does not do so."
+            f"The name {aggregation_target} does not do so."
         )
 
     annotations = _annotations_for_aggregation(
-        aggregation_type=aggregation_type,
+        aggregation_method=aggregation_method,
         source_col=source_col,
         functions_tree=functions_tree,
+        types_input_variables=TYPES_INPUT_VARIABLES,
     )
 
-    if aggregation_type == "count":
+    if aggregation_method == "count":
 
         @rename_arguments_and_add_annotations(
             mapper={"group_id": group_id}, annotations=annotations
@@ -432,7 +417,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
     else:
         mapper = {"source_col": source_col, "group_id": group_id}
-        if aggregation_type == "sum":
+        if aggregation_method == "sum":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -441,7 +426,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_sum(source_col, group_id)
 
-        elif aggregation_type == "mean":
+        elif aggregation_method == "mean":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -450,7 +435,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_mean(source_col, group_id)
 
-        elif aggregation_type == "max":
+        elif aggregation_method == "max":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -459,7 +444,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_max(source_col, group_id)
 
-        elif aggregation_type == "min":
+        elif aggregation_method == "min":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -468,7 +453,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_min(source_col, group_id)
 
-        elif aggregation_type == "any":
+        elif aggregation_method == "any":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -477,7 +462,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             def aggregate_by_group_func(source_col, group_id):
                 return grouped_any(source_col, group_id)
 
-        elif aggregation_type == "all":
+        elif aggregation_method == "all":
 
             @rename_arguments_and_add_annotations(
                 mapper=mapper,
@@ -487,16 +472,18 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 return grouped_all(source_col, group_id)
 
         else:
-            raise ValueError(f"Aggr {aggregation_type} is not implemented.")
+            raise ValueError(
+                f"Aggregation method {aggregation_method} is not implemented."
+            )
 
-    if aggregation_type == "count":
+    if aggregation_method == "count":
         derived_from = group_id
     else:
         derived_from = (source_col, group_id)
 
     return DerivedFunction(
         aggregate_by_group_func,
-        leaf_name=new_function_name,
+        leaf_name=aggregation_target,
         derived_from=derived_from,
     )
 
@@ -514,7 +501,7 @@ def _create_aggregate_by_p_id_functions(
     for path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
         _fail_if_aggregation_target_is_namespaced(target=path[-1])
         derived_func = _create_one_aggregate_by_p_id_func(
-            new_function_name=aggregation_spec.target_name,
+            new_function_name=path[-1],
             agg_specs=aggregation_spec,
             functions_tree=functions_tree,
         )
@@ -667,9 +654,32 @@ def _vectorize_func(func):
 
 
 def _get_qualified_source_col_name(
+    source_col: str,
     path: list[str],
 ) -> str:
-    return QUALIFIED_NAME_SEPARATOR.join(path[:-1] + [remove_group_suffix(path[-1])])
+    """Get the qualified source column name.
+
+    If the source column is already namespaced, return it as is.
+    Otherwise, return the qualified source column name.
+
+    Parameters
+    ----------
+    source_col : str
+        The source column name.
+    path : list[str]
+        The path to the source column.
+
+    Returns
+    -------
+    qualified_source_col : str
+        The qualified source column name.
+    """
+    if QUALIFIED_NAME_SEPARATOR in source_col:
+        # Source col is already namespaced.
+        return source_col
+    else:
+        # Source col is not namespaced.
+        return QUALIFIED_NAME_SEPARATOR.join(path[:-1] + [source_col])
 
 
 def _fail_if_targets_are_not_among_functions(
@@ -707,10 +717,8 @@ def _fail_if_targets_are_not_among_functions(
 def _fail_if_aggregation_target_is_namespaced(target: str) -> None:
     """Fail if aggregation target is namespaced.
 
-    The namespace of aggregation targets is automatically determined by either
-    - the position of the aggregation specification in the user-provided aggregation
-    tree or
-    - the position of the aggregation specification in GETTSIM's module tree.
+    The namespace of aggregation targets is automatically determined by the position of
+    the aggregation specification in the tree.
 
     Parameters
     ----------

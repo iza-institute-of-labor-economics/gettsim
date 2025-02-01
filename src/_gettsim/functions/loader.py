@@ -422,9 +422,9 @@ def _load_functions_to_derive(
             # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to
             # all modules in the renaming PR.
             # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-            name: AggregateByGroupSpec(target_name=name, **spec)
+            name: AggregateByGroupSpec(**spec)
             if prefix_filter == "aggregate_by_group_"
-            else AggregateByPIDSpec(target_name=name, **spec)
+            else AggregateByPIDSpec(**spec)
             for name, spec in dicts_in_module[0].items()
         }
         if dicts_in_module

@@ -3,11 +3,30 @@ import pandas as pd
 import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.policy_environment_postprocessor import (
+    _annotations_for_aggregation,
     _create_aggregate_by_group_functions,
     _get_qualified_source_col_name,
 )
+
+
+@pytest.fixture
+@policy_function(leaf_name="foo")
+def function_with_bool_return(x: bool) -> bool:
+    return x
+
+
+@pytest.fixture
+@policy_function(leaf_name="bar")
+def function_with_int_return(x: int) -> int:
+    return x
+
+
+@pytest.fixture
+@policy_function(leaf_name="baz")
+def function_with_float_return(x: int) -> float:
+    return x
 
 
 @pytest.mark.parametrize(
@@ -103,9 +122,8 @@ from _gettsim.policy_environment_postprocessor import (
             {
                 "namespace1": {
                     "y_hh": AggregateByGroupSpec(
-                        source_col="namespace1__x",
+                        source_col="x",
                         aggr="sum",
-                        target_name="y_hh",
                     ),
                 },
             },
@@ -135,7 +153,6 @@ from _gettsim.policy_environment_postprocessor import (
                     "y_hh": AggregateByGroupSpec(
                         source_col="inputs__x",
                         aggr="sum",
-                        target_name="y_hh",
                     ),
                 },
             },
@@ -170,6 +187,46 @@ def test_create_aggregate_by_group_functions(
     assert all(optree.tree_is_leaf(leaf) for leaf in leafs)
 
 
-def test_get_qualified_source_col_name():
-    assert _get_qualified_source_col_name(["foo", "bar", "baz_hh"]) == "foo__bar__baz"
-    assert _get_qualified_source_col_name(["foo", "bar", "baz_eg"]) == "foo__bar__baz"
+@pytest.mark.parametrize(
+    "source_col, path, expected",
+    [
+        ("foo", ["dir", "module", "target"], "dir__module__foo"),
+        ("foo", ["dir", "module", "target_hh"], "dir__module__foo"),
+        ("dir__module__foo", ["dir", "module", "target_hh"], "dir__module__foo"),
+    ],
+)
+def test_get_qualified_source_col_name(source_col, path, expected):
+    assert _get_qualified_source_col_name(source_col, path) == expected
+
+
+@pytest.mark.parametrize(
+    (
+        "aggregation_method",
+        "source_col",
+        "functions_tree",
+        "types_input_variables",
+        "expected_return_type",
+    ),
+    [
+        ("count", "foo", {}, {}, int),
+        ("sum", "foo", {}, {"foo": float}, float),
+        ("sum", "foo", {}, {"foo": int}, int),
+        ("sum", "foo", {}, {"foo": bool}, int),
+        ("sum", "foo", {"foo": function_with_bool_return}, {}, int),
+        ("sum", "foo", {"foo": function_with_int_return}, {}, int),
+        ("sum", "foo", {"foo": function_with_float_return}, {}, float),
+    ],
+)
+def test_annotations_for_aggregation(
+    aggregation_method,
+    source_col,
+    functions_tree,
+    types_input_variables,
+    expected_return_type,
+):
+    assert (
+        _annotations_for_aggregation(
+            aggregation_method, source_col, functions_tree, types_input_variables
+        )["return"]
+        == expected_return_type
+    )
