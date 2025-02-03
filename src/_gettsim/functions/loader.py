@@ -33,12 +33,12 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     functions:
         The policy functions that are active at the given date.
     """
-    return _build_functions_tree(
+    return _build_functions_tree_for_date(
         date=date, package_root=RESOURCE_DIR, roots=PATHS_TO_INTERNAL_FUNCTIONS
     )
 
 
-def _build_functions_tree(
+def _build_functions_tree_for_date(
     date: datetime.date, package_root: Path, roots: list[Path]
 ) -> NestedFunctionDict:
     """

@@ -154,10 +154,11 @@ def partition_tree_by_reference_tree(
     for current_accessor in tree_accessors:
         try:
             # Attempt to access the leaf in the reference tree
+            current_accessor(reference_tree)
             tree_with_present_leaves = tree_update(
                 tree_with_present_leaves,
                 current_accessor.path,
-                current_accessor(reference_tree),
+                current_accessor(target_tree),
             )
         except KeyError:
             # If the leaf is not present in the reference tree, access it from the

@@ -100,6 +100,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         targets=targets,
         data=data,
     )
+
     functions_not_overridden, functions_overridden = partition_tree_by_reference_tree(
         target_tree=all_functions,
         reference_tree=data,
@@ -123,14 +124,14 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     )
 
     # Select necessary nodes by creating a preliminary DAG.
-    nodes = set_up_dag(
+    preliminary_dag = set_up_dag(
         all_functions=functions_not_overridden,
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
         check_minimal_specification=check_minimal_specification,
-    ).nodes
-
+    )
+    nodes = create_tree_from_list_of_qualified_names(preliminary_dag.nodes)
     # Round and partial parameters into functions that are nodes in the DAG.
     processed_functions = _round_and_partial_parameters_to_functions(
         partition_tree_by_reference_tree(functions_not_overridden, nodes)[1],
