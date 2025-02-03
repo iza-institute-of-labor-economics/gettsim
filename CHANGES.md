@@ -158,10 +158,8 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 - {gh}`470` Execute notebooks as part of the documentation build on readthedocs
   ({ghuser}`hmgaudecker`).
 
-- {gh}`440` Implement Bürgergeld, which reforms
-  <span
-  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023
-  ({ghuser}`LauraGergeleit`).
+- {gh}`440` Implement Bürgergeld, which reforms <span
+  class="title-ref">arbeitsl_geld_2</span> from 01/01/2023 ({ghuser}`LauraGergeleit`).
 
 - {gh}`399` Use dags package to create the DAG ({ghuser}`ChristianZimpelmann`).
 
@@ -182,8 +180,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   cases in <span class="title-ref">test_interface.py</span> ({ghuser}`LauraGergeleit`,
   {ghuser}`ChristianZimpelmann`).
 
-- {gh}`403` Replace <span class="title-ref">Bokeh</span> with
-  <span
+- {gh}`403` Replace <span class="title-ref">Bokeh</span> with <span
   class="title-ref">plotly</span> for visualization.
   ({ghuser}`effieHAN`,{ghuser}`sofyaakimova`).
 
@@ -196,8 +193,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 - {gh}`385` Make `altersentlastungsbetrag` dependent on age not on current date
   ({ghuser}`m-pannier`, {ghuser}`lillyfischer`).
 
-- {gh}`392` Fix relative tolerance which was set too high for some tests. Rename
-  <span
+- {gh}`392` Fix relative tolerance which was set too high for some tests. Rename <span
   class="title-ref">vorsorge</span> to <span class="title-ref">vorsorgeaufw</span>
   ({ghuser}`LauraGergeleit`, {ghuser}`ChristianZimpelmann`).
 
@@ -222,18 +218,13 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   when calling <span class="title-ref">set_up_policy_environment</span>
   ({ghuser}`ChristianZimpelmann`).
 
-- {gh}`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
-  <span
-  class="title-ref">ges_rente_m</span> as input. Rename
-  <span
-  class="title-ref">gettsim.renten_anspr</span> to
-  <span
-  class="title-ref">gettsim.transfers.rente</span>. Rename
-  <span
-  class="title-ref">gettsim.social_insurance</span> to
-  <span
-  class="title-ref">gettsim.social_insurance_contributions</span>
-  ({ghuser}`davpahl`, {ghuser}`ChristianZimpelmann`).
+- {gh}`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove <span
+  class="title-ref">ges_rente_m</span> as input. Rename <span
+  class="title-ref">gettsim.renten_anspr</span> to <span
+  class="title-ref">gettsim.transfers.rente</span>. Rename <span
+  class="title-ref">gettsim.social_insurance</span> to <span
+  class="title-ref">gettsim.social_insurance_contributions</span> ({ghuser}`davpahl`,
+  {ghuser}`ChristianZimpelmann`).
 
 - {gh}`307` Allow to specify order up to which ancestors and descendants are shown when
   plotting a dag ({ghuser}`ChristianZimpelmann`).
@@ -254,31 +245,25 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
   adjustments for DAG backend ({ghuser}`hmgaudecker`).
 
 - {gh}`314` Enforce character limits from GEP-01 for all function names and input
-  variables. Make variable names more precise (e.g.,
-  <span
-  class="title-ref">ges\_</span> in front of all social insurance parameters that
-  have private counterparts, <span class="title-ref">eink_st</span> everywhere the
-  income tax is meant). Make variables consistent (e.g.
-  <span
-  class="title-ref">kinderfreibetrag</span> had different abbreviations, now
-  <span
+  variables. Make variable names more precise (e.g., <span
+  class="title-ref">ges\_</span> in front of all social insurance parameters that have
+  private counterparts, <span class="title-ref">eink_st</span> everywhere the income tax
+  is meant). Make variables consistent (e.g. <span
+  class="title-ref">kinderfreibetrag</span> had different abbreviations, now <span
   class="title-ref">kinderfreib</span> everywhere). ({ghuser}`hmgaudecker`,
   {ghuser}`ChristianZimpelmann`)
 
-- {gh}`343` New argument for \`compute_taxes_and_transfers\`:
-  <span
-  class="title-ref">rounding</span>. If set to False, rounding of outputs is
-  disabled. Add rounding for <span class="title-ref">eink_st_tu</span>. Rounding for
-  other functions will be introduced in future PRs. ({ghuser}`ChristianZimpelmann`).
+- {gh}`343` New argument for \`compute_taxes_and_transfers\`: <span
+  class="title-ref">rounding</span>. If set to False, rounding of outputs is disabled.
+  Add rounding for <span class="title-ref">eink_st_tu</span>. Rounding for other
+  functions will be introduced in future PRs. ({ghuser}`ChristianZimpelmann`).
 
 - {gh}`349` Create parameters for several hard coded numbers in code.
   ({ghuser}`LauraGergeleit`).
 
 - {gh}`355` Major renaming based on GEP 01, e.g.: correct use of `_m`-suffix;
-  `alleinerziehend` becomes `alleinerz`; rename
-  <span
-  class="title-ref">ges_rentenv.yaml</span> to
-  <span
+  `alleinerziehend` becomes `alleinerz`; rename <span
+  class="title-ref">ges_rentenv.yaml</span> to <span
   class="title-ref">ges_rente.yaml</span> ({ghuser}`hmgaudecker`,
   {ghuser}`ChristianZimpelmann`)
 
@@ -318,14 +303,10 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 ## v0.4.0 — 2020-11-11
 
 - {gh}`241` Renaming of directories: <span class="title-ref">gettsim.benefits</span> to
-  <span class="title-ref">gettsim.transfers</span>;
-  <span
-  class="title-ref">gettsim.soz_vers</span> to
-  <span
-  class="title-ref">gettsim.social_insurance</span>;
-  <span
-  class="title-ref">gettsim.data</span> to
-  <span
+  <span class="title-ref">gettsim.transfers</span>; <span
+  class="title-ref">gettsim.soz_vers</span> to <span
+  class="title-ref">gettsim.social_insurance</span>; <span
+  class="title-ref">gettsim.data</span> to <span
   class="title-ref">gettsim.parameters</span> ({ghuser}`MaxBlesch`,
   {ghuser}`ChristianZimpelmann`).
 

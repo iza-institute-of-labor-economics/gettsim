@@ -208,8 +208,7 @@ def test_wrong_data_type():
     with pytest.raises(
         NotImplementedError,
         match=(
-            "'data' is not a pd.DataFrame or a "
-            "pd.Series or a dictionary of pd.Series."
+            "'data' is not a pd.DataFrame or a pd.Series or a dictionary of pd.Series."
         ),
     ):
         compute_taxes_and_transfers(data, PolicyEnvironment([]), ["c"])
