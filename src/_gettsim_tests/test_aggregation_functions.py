@@ -453,9 +453,9 @@ def test_sum_by_p_id(
         )
     )
     numpy.testing.assert_array_almost_equal(result, expected_res)
-    assert numpy.issubdtype(
-        result.dtype.type, expected_type
-    ), "The dtype of the result is not as expected."
+    assert numpy.issubdtype(result.dtype.type, expected_type), (
+        "The dtype of the result is not as expected."
+    )
 
 
 @parameterize_based_on_dict(
