@@ -11,6 +11,9 @@ import plotly.graph_objects as go
 from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
+from _gettsim.combine_functions_in_tree import (
+    combine_policy_functions_and_derived_functions,
+)
 from _gettsim.config import DEFAULT_TARGETS
 from _gettsim.interface import (
     _round_and_partial_parameters_to_functions,
@@ -18,9 +21,6 @@ from _gettsim.interface import (
     set_up_dag,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.policy_environment_postprocessor import (
-    add_derived_functions_to_functions_tree,
-)
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -87,7 +87,7 @@ def plot_dag(
         names_of_columns_overriding_functions = columns_overriding_functions
 
     # Load functions.
-    all_functions = add_derived_functions_to_functions_tree(
+    all_functions = combine_policy_functions_and_derived_functions(
         environment=environment,
         targets=targets,
         data=names_of_columns_overriding_functions,

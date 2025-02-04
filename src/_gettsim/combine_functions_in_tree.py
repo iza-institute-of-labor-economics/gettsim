@@ -50,7 +50,7 @@ if TYPE_CHECKING:
     from _gettsim.policy_environment import PolicyEnvironment
 
 
-def add_derived_functions_to_functions_tree(
+def combine_policy_functions_and_derived_functions(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
     data: NestedDataDict,
@@ -232,7 +232,7 @@ def _create_derived_aggregation_specifications(
     # by the user or any function argument.
     potential_target_tree = merge_nested_dicts(
         user_targets,
-        get_potential_aggregation_targets_from_function_arguments(functions_tree),
+        _get_potential_aggregation_targets_from_function_arguments(functions_tree),
     )
 
     # Create potential source tree for aggregations. Source can be any already existing
@@ -272,7 +272,7 @@ def _create_derived_aggregation_specifications(
     return all_agg_specs
 
 
-def get_potential_aggregation_targets_from_function_arguments(
+def _get_potential_aggregation_targets_from_function_arguments(
     functions_tree: NestedFunctionDict,
 ) -> dict[str, Any]:
     """Get potential aggregation targets from function arguments.
