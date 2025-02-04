@@ -33,7 +33,7 @@ class PolicyEnvironment:
     """
     A container for policy functions and parameters.
 
-    Almost always, instances are created with :set_up_policy_environment()`.
+    Almost always, instances are created with `set_up_policy_environment()`.
 
     Parameters
     ----------
@@ -62,7 +62,7 @@ class PolicyEnvironment:
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(functions_tree)
-        self._functions_tree = tree_map_with_path(
+        self._policy_functions_tree = tree_map_with_path(
             _convert_function_to_correct_type,
             functions_tree,
         )
@@ -77,9 +77,9 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions_tree(self) -> NestedFunctionDict:
-        """The functions of the policy environment."""
-        return self._functions_tree
+    def policy_functions_tree(self) -> NestedFunctionDict:
+        """The policy functions. Does not include aggregations or time conversions."""
+        return self._policy_functions_tree
 
     @property
     def params(self) -> dict[str, Any]:
@@ -120,7 +120,7 @@ class PolicyEnvironment:
         new_environment: PolicyEnvironment
             The policy environment with the new functions.
         """
-        new_functions_tree = {**self._functions_tree}
+        new_functions_tree = {**self._policy_functions_tree}
         functions_tree_to_upsert = tree_map_with_path(
             _convert_function_to_correct_type, functions_tree_update
         )
@@ -129,7 +129,7 @@ class PolicyEnvironment:
         )
 
         result = object.__new__(PolicyEnvironment)
-        result._functions_tree = new_functions_tree  # noqa: SLF001
+        result._policy_functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -154,7 +154,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._functions_tree = self._functions_tree  # noqa: SLF001
+        result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -182,21 +182,19 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     # Check policy date for correct format and convert to datetime.date
     date = _parse_date(date)
 
+    functions_tree = load_functions_tree_for_date(date)
+
     params = {}
     for group in INTERNAL_PARAMS_GROUPS:
         params_one_group = _load_parameter_group_from_yaml(date, group)
 
         # Align parameters for piecewise polynomial functions
         params[group] = _parse_piecewise_parameters(params_one_group)
-
     # Extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
-    functions_tree = load_functions_tree_for_date(date)
-
-    # Load aggregation specs
     aggregate_by_group_specs = load_internal_aggregation_tree("aggregate_by_group")
     aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
 

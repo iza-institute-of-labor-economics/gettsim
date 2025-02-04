@@ -101,7 +101,7 @@ def add_derived_functions_to_functions_tree(
             aggregate_by_group_functions,
             groupings,
         ],
-        environment.functions_tree,
+        environment.policy_functions_tree,
     )
 
     _fail_if_targets_are_not_among_functions(all_functions, targets)
@@ -124,13 +124,13 @@ def _create_derived_functions(
     """
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
-        environment.functions_tree,
+        environment.policy_functions_tree,
         environment.aggregate_by_p_id_specs,
     )
 
     # Create functions for different time units
     all_functions = merge_nested_dicts(
-        environment.functions_tree,
+        environment.policy_functions_tree,
         aggregate_by_p_id_functions,
     )
     time_conversion_functions = create_time_conversion_functions(

@@ -959,12 +959,12 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
 
     Parameters
     ----------
-    dag : networkx.DiGraph
+    dag
         The DAG which is limited to targets and their ancestors.
-    names_of_columns_overriding_functions : list of str
+    names_of_columns_overriding_functions
         The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+    check_minimal_specification
         Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.
 

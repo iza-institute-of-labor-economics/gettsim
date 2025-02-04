@@ -23,12 +23,12 @@ class TestPolicyEnvironment:
         function = PolicyFunction(lambda: 1)
         environment = PolicyEnvironment({"foo": function})
 
-        assert environment.functions_tree["foo"] == function
+        assert environment.policy_functions_tree["foo"] == function
 
     def test_func_does_not_exist_in_tree(self):
         environment = PolicyEnvironment({}, {})
 
-        assert "foo" not in environment.functions_tree
+        assert "foo" not in environment.policy_functions_tree
 
     @pytest.mark.parametrize(
         "environment",
@@ -47,7 +47,7 @@ class TestPolicyEnvironment:
         new_function = PolicyFunction(lambda: 3)
         new_environment = environment.upsert_functions({"foo": new_function})
 
-        assert new_environment.functions_tree["foo"] == new_function
+        assert new_environment.policy_functions_tree["foo"] == new_function
 
     @pytest.mark.parametrize(
         "environment",
