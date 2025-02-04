@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Any
 import numpy
 import pandas as pd
 import yaml
-from optree import tree_map_with_path, tree_paths
+from optree import tree_map_with_path
 
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
 from _gettsim.functions.loader import (
@@ -21,8 +21,6 @@ from _gettsim.piecewise_functions import (
     piecewise_polynomial,
 )
 from _gettsim.shared import (
-    get_by_path,
-    get_path_from_qualified_name,
     merge_nested_dicts,
     set_by_path,
 )
@@ -35,7 +33,7 @@ class PolicyEnvironment:
     """
     A container for policy functions and parameters.
 
-    Almost always, instances are created with :PolicyEnvironment.for_date()`.
+    Almost always, instances are created with `set_up_policy_environment()`.
 
     Parameters
     ----------
@@ -55,47 +53,6 @@ class PolicyEnvironment:
         4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
     """
 
-    @staticmethod
-    def for_date(date: datetime.date | str | int) -> PolicyEnvironment:
-        """
-        Set up the policy environment for a particular date.
-
-        Parameters
-        ----------
-        date:
-            The date for which the policy system is set up. An integer is
-            interpreted as the year.
-
-        Returns
-        -------
-        environment:
-            The policy environment for the specified date.
-        """
-        # Check policy date for correct format and convert to datetime.date
-        date = _parse_date(date)
-
-        params = {}
-        for group in INTERNAL_PARAMS_GROUPS:
-            params_one_group = _load_parameter_group_from_yaml(date, group)
-
-            # Align parameters for piecewise polynomial functions
-            params[group] = _parse_piecewise_parameters(params_one_group)
-
-        # Extend dictionary with date-specific values which do not need an own function
-        params = _parse_kinderzuschl_max(date, params)
-        params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-        params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
-
-        functions_tree = load_functions_tree_for_date(date)
-
-        # Load aggregation specs
-        aggregate_by_group_specs = load_internal_aggregation_tree("aggregate_by_group")
-        aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
-
-        return PolicyEnvironment(
-            functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
-        )
-
     def __init__(
         self,
         functions_tree: NestedFunctionDict,
@@ -105,7 +62,7 @@ class PolicyEnvironment:
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(functions_tree)
-        self._functions_tree = tree_map_with_path(
+        self._policy_functions_tree = tree_map_with_path(
             _convert_function_to_correct_type,
             functions_tree,
         )
@@ -120,9 +77,9 @@ class PolicyEnvironment:
         )
 
     @property
-    def functions_tree(self) -> NestedFunctionDict:
-        """The functions of the policy environment."""
-        return self._functions_tree
+    def policy_functions_tree(self) -> NestedFunctionDict:
+        """The policy functions. Does not include aggregations or time conversions."""
+        return self._policy_functions_tree
 
     @property
     def params(self) -> dict[str, Any]:
@@ -145,47 +102,6 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
-    def get_function_by_path(
-        self, function_path: dict[str, str | dict] | list[str] | str
-    ) -> PolicyFunction | None:
-        """
-        Return the function with a specific path in the function tree or `None` if no
-        such function exists.
-
-        Parameters
-        ----------
-        function_path:
-            The path to the function in the function tree.
-            Example 1: {"level_1": {"level_2": {"function_name": None}}}
-            Example 2: ["level_1", "level_2", "function_name"]
-
-        Returns
-        -------
-        function:
-            The functions with the specified tree path, if it exists.
-        """
-        if isinstance(function_path, dict):
-            path_list = tree_paths(function_path, none_is_leaf=True)
-            _fail_if_more_than_one_path(path_list)
-            keys = path_list[0]
-        elif isinstance(function_path, list) and all(
-            isinstance(s, str) for s in function_path
-        ):
-            keys = function_path
-        elif isinstance(function_path, str):
-            keys = get_path_from_qualified_name(function_path)
-        else:
-            raise NotImplementedError(
-                "The function_path must be a dictionary or a list."
-            )
-
-        try:
-            out = get_by_path(self._functions_tree, keys)
-        except KeyError:
-            out = None
-
-        return out
-
     def upsert_functions(
         self, functions_tree_update: NestedFunctionDict
     ) -> PolicyEnvironment:
@@ -204,7 +120,7 @@ class PolicyEnvironment:
         new_environment: PolicyEnvironment
             The policy environment with the new functions.
         """
-        new_functions_tree = {**self._functions_tree}
+        new_functions_tree = {**self._policy_functions_tree}
         functions_tree_to_upsert = tree_map_with_path(
             _convert_function_to_correct_type, functions_tree_update
         )
@@ -213,7 +129,7 @@ class PolicyEnvironment:
         )
 
         result = object.__new__(PolicyEnvironment)
-        result._functions_tree = new_functions_tree  # noqa: SLF001
+        result._policy_functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -238,7 +154,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._functions_tree = self._functions_tree  # noqa: SLF001
+        result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
         result._aggregate_by_group_specs = (  # noqa: SLF001
             self._aggregate_by_group_specs
@@ -263,7 +179,28 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     environment:
         The policy environment for the specified date.
     """
-    return PolicyEnvironment.for_date(date)
+    # Check policy date for correct format and convert to datetime.date
+    date = _parse_date(date)
+
+    functions_tree = load_functions_tree_for_date(date)
+
+    params = {}
+    for group in INTERNAL_PARAMS_GROUPS:
+        params_one_group = _load_parameter_group_from_yaml(date, group)
+
+        # Align parameters for piecewise polynomial functions
+        params[group] = _parse_piecewise_parameters(params_one_group)
+    # Extend dictionary with date-specific values which do not need an own function
+    params = _parse_kinderzuschl_max(date, params)
+    params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
+    params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
+
+    aggregate_by_group_specs = load_internal_aggregation_tree("aggregate_by_group")
+    aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
+
+    return PolicyEnvironment(
+        functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
+    )
 
 
 def _parse_date(date):

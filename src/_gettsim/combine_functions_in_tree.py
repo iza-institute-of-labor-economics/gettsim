@@ -50,7 +50,7 @@ if TYPE_CHECKING:
     from _gettsim.policy_environment import PolicyEnvironment
 
 
-def add_derived_functions_to_functions_tree(
+def combine_policy_functions_and_derived_functions(
     environment: PolicyEnvironment,
     targets: NestedTargetDict,
     data: NestedDataDict,
@@ -101,7 +101,7 @@ def add_derived_functions_to_functions_tree(
             aggregate_by_group_functions,
             groupings,
         ],
-        environment.functions_tree,
+        environment.policy_functions_tree,
     )
 
     _fail_if_targets_are_not_among_functions(all_functions, targets)
@@ -124,13 +124,13 @@ def _create_derived_functions(
     """
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
-        environment.functions_tree,
+        environment.policy_functions_tree,
         environment.aggregate_by_p_id_specs,
     )
 
     # Create functions for different time units
     all_functions = merge_nested_dicts(
-        environment.functions_tree,
+        environment.policy_functions_tree,
         aggregate_by_p_id_functions,
     )
     time_conversion_functions = create_time_conversion_functions(
@@ -232,7 +232,7 @@ def _create_derived_aggregation_specifications(
     # by the user or any function argument.
     potential_target_tree = merge_nested_dicts(
         user_targets,
-        get_potential_aggregation_targets_from_function_arguments(functions_tree),
+        _get_potential_aggregation_targets_from_function_arguments(functions_tree),
     )
 
     # Create potential source tree for aggregations. Source can be any already existing
@@ -272,7 +272,7 @@ def _create_derived_aggregation_specifications(
     return all_agg_specs
 
 
-def get_potential_aggregation_targets_from_function_arguments(
+def _get_potential_aggregation_targets_from_function_arguments(
     functions_tree: NestedFunctionDict,
 ) -> dict[str, Any]:
     """Get potential aggregation targets from function arguments.

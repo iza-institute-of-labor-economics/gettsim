@@ -14,6 +14,9 @@ from optree import (
     tree_unflatten,
 )
 
+from _gettsim.combine_functions_in_tree import (
+    combine_policy_functions_and_derived_functions,
+)
 from _gettsim.config import (
     DEFAULT_TARGETS,
     FOREIGN_KEYS,
@@ -32,9 +35,6 @@ from _gettsim.gettsim_typing import (
 )
 from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.policy_environment_postprocessor import (
-    add_derived_functions_to_functions_tree,
-)
 from _gettsim.shared import (
     KeyErrorMessage,
     create_tree_from_list_of_qualified_names,
@@ -95,7 +95,7 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
-    all_functions = add_derived_functions_to_functions_tree(
+    all_functions = combine_policy_functions_and_derived_functions(
         environment=environment,
         targets=targets,
         data=data,
@@ -960,12 +960,12 @@ def _fail_if_columns_overriding_functions_are_not_in_dag(
 
     Parameters
     ----------
-    dag : networkx.DiGraph
+    dag
         The DAG which is limited to targets and their ancestors.
-    names_of_columns_overriding_functions : list of str
+    names_of_columns_overriding_functions
         The nodes which are provided by columns in the data and do not need to be
         computed. These columns limit the depth of the DAG.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
+    check_minimal_specification
         Indicator for whether checks which ensure the most minimalistic configuration
         should be silenced, emitted as warnings or errors.
 

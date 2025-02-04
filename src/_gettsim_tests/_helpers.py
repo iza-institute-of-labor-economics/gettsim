@@ -3,7 +3,11 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import TYPE_CHECKING
 
-from _gettsim.policy_environment import PolicyEnvironment, _parse_date
+from _gettsim.policy_environment import (
+    PolicyEnvironment,
+    _parse_date,
+    set_up_policy_environment,
+)
 
 if TYPE_CHECKING:
     import datetime
@@ -18,4 +22,4 @@ def cached_set_up_policy_environment(
 
 @lru_cache(maxsize=100)
 def _cached_set_up_policy_environment(date: datetime.date) -> PolicyEnvironment:
-    return PolicyEnvironment.for_date(date)
+    return set_up_policy_environment(date)

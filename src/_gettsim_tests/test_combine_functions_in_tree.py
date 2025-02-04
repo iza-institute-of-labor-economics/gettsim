@@ -3,14 +3,14 @@ import pandas as pd
 import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
-from _gettsim.policy_environment_postprocessor import (
+from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
     _create_aggregate_by_group_functions,
     _fail_if_targets_are_not_among_functions,
     _get_path_from_argument_name,
 )
+from _gettsim.functions.derived_function import DerivedFunction
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 
 
 @pytest.fixture
