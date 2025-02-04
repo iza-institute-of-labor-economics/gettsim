@@ -10,7 +10,7 @@ from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
     _fail_if_dates_active_overlap,
     _load_module,
-    _remove_recurring_branch_names,
+    _simplify_path_when_module_name_equals_dir_name,
 )
 from _gettsim.functions.policy_function import (
     PolicyFunction,
@@ -82,4 +82,4 @@ def test_vectorize_func(vectorized_function: Callable) -> None:
     ],
 )
 def test_remove_recurring_branch_names(path: str, expected_string: str) -> None:
-    assert _remove_recurring_branch_names(path) == expected_string
+    assert _simplify_path_when_module_name_equals_dir_name(path) == expected_string

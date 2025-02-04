@@ -292,7 +292,7 @@ def _convert_path_to_qualified_module_name(path: Path, package_root: Path) -> st
         .removeprefix("transfers/")
         .replace("/", QUALIFIED_NAME_SEPARATOR)
     )
-    return _remove_recurring_branch_names(path)
+    return _simplify_path_when_module_name_equals_dir_name(path)
 
 
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
@@ -364,12 +364,12 @@ def _build_aggregations_tree(
     return tree
 
 
-def _remove_recurring_branch_names(path: Path) -> str:
+def _simplify_path_when_module_name_equals_dir_name(path: Path) -> str:
     """
-    Remove recurring branch names in the last two branches of the path.
+    Shorten path when a module lives a directory named the same way.
 
     This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if the
-    file structure looks like this:
+    file structure looks like:
     arbeitslosengeld
     |           |- arbeitslosengeld.py
     |           |- ...
