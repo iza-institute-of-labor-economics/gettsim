@@ -10,14 +10,14 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import _load_internal_functions
+from _gettsim.functions.loader import load_functions_tree_for_date
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.interface import (
     _add_rounding_to_function,
     _apply_rounding_spec,
     compute_taxes_and_transfers,
 )
-from _gettsim.policy_environment import PolicyEnvironment, load_functions_tree_for_date
+from _gettsim.policy_environment import PolicyEnvironment
 
 rounding_specs_and_exp_results = [
     (1, "up", None, [100.24, 100.78], [101.0, 101.0]),
@@ -293,8 +293,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
     for f in functions_to_check:
         assert f.params_key_for_rounding, (
             f"For the function {f.original_function_name}, rounding parameters are"
-            f" specified. But the function is missing the policy_function decorator or "
-            "its params_key_for_rounding parameter is not set."
+            f" specified. However, its `params_key_for_rounding` attribute is not set."
         )
 
 
