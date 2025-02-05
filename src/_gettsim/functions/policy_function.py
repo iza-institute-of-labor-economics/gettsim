@@ -39,7 +39,6 @@ class PolicyFunction(Callable):
         function: Callable,
         *,
         leaf_name: str,
-        qualified_name: str | None = None,
         start_date: date = "0001-01-01",
         end_date: date = "9999-12-31",
         params_key_for_rounding: str | None = None,
@@ -50,7 +49,6 @@ class PolicyFunction(Callable):
             function if self.skip_vectorization else _vectorize_func(function)
         )
         self.leaf_name: str = leaf_name if leaf_name else function.__name__
-        self.qualified_name: str = qualified_name
         self.start_date: date = start_date
         self.end_date: date = end_date
         self.params_key_for_rounding: str | None = params_key_for_rounding
@@ -73,10 +71,6 @@ class PolicyFunction(Callable):
     def original_function_name(self) -> str:
         """The name of the wrapped function."""
         return self.function.__name__
-
-    def set_qualified_name(self, qualified_name: str) -> None:
-        """Set the qualified name of the function in the functions tree."""
-        self.qualified_name = qualified_name
 
     def is_active_at_date(self, date: date) -> bool:
         """Check if the function is active at a given date."""
