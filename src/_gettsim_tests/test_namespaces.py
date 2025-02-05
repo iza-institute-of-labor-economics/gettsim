@@ -49,7 +49,7 @@ AGGREGATION_BY_PID_SPEC = {
 def test_compute_taxes_and_transfers_with_tree():
     """Test compute_taxes_and_transfers with function tree input."""
     policy_env = PolicyEnvironment(
-        functions_tree=FUNCTIONS_TREE,
+        policy_functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,
         aggregate_by_group_specs=AGGREGATION_BY_GROUP_SPEC,
         aggregate_by_p_id_specs=AGGREGATION_BY_PID_SPEC,
