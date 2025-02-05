@@ -4,7 +4,7 @@ import pytest
 
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
-    _fail_if_dates_active_overlap,
+    _fail_if_multiple_policy_functions_are_active_at_the_same_time,
 )
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
 
@@ -157,7 +157,9 @@ def test_dates_active_empty_interval():
     ],
 )
 def test_dates_active_no_conflicts(functions):
-    _fail_if_dates_active_overlap(functions=functions, module_name="")
+    _fail_if_multiple_policy_functions_are_active_at_the_same_time(
+        functions=functions, module_name=""
+    )
 
 
 @pytest.mark.parametrize(
@@ -209,4 +211,6 @@ def test_dates_active_no_conflicts(functions):
 )
 def test_dates_active_with_conflicts(functions):
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_dates_active_overlap(functions=functions, module_name="")
+        _fail_if_multiple_policy_functions_are_active_at_the_same_time(
+            functions=functions, module_name=""
+        )

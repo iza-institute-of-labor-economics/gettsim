@@ -8,9 +8,9 @@ import pytest
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
-    _fail_if_dates_active_overlap,
+    _fail_if_multiple_policy_functions_are_active_at_the_same_time,
     _load_module,
-    _simplify_path_when_module_name_equals_dir_name,
+    _simplify_tree_path_when_module_name_equals_dir_name,
 )
 from _gettsim.functions.policy_function import (
     PolicyFunction,
@@ -29,7 +29,7 @@ def test_load_path():
     )
 
 
-def test_fail_if_dates_active_overlap():
+def test_fail_if_multiple_policy_functions_are_active_at_the_same_time():
     active_functions = [
         PolicyFunction(
             leaf_name="foo",
@@ -44,7 +44,9 @@ def test_fail_if_dates_active_overlap():
     ]
 
     with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_dates_active_overlap(active_functions, module_name="")
+        _fail_if_multiple_policy_functions_are_active_at_the_same_time(
+            active_functions, module_name=""
+        )
 
 
 def scalar_func(x: int) -> int:
@@ -72,14 +74,18 @@ def test_vectorize_func(vectorized_function: Callable) -> None:
 @pytest.mark.parametrize(
     (
         "path",
-        "expected_string",
+        "expected_tree_path",
     ),
     [
-        ("foo__bar__bar", "foo__bar"),
-        ("foo__bar__baz", "foo__bar__baz"),
-        ("foo__bar__bar__bar", "foo__bar__bar"),
-        ("foo__bar__bar__baz", "foo__bar__bar__baz"),
+        (("foo", "bar", "bar"), ("foo", "bar")),
+        (("foo", "bar", "baz"), ("foo", "bar", "baz")),
+        (("foo", "bar", "bar", "bar"), ("foo", "bar", "bar")),
+        (("foo", "bar", "bar", "baz"), ("foo", "bar", "bar", "baz")),
     ],
 )
-def test_remove_recurring_branch_names(path: str, expected_string: str) -> None:
-    assert _simplify_path_when_module_name_equals_dir_name(path) == expected_string
+def test_remove_recurring_branch_names(
+    path: str, expected_tree_path: tuple[str, ...]
+) -> None:
+    assert (
+        _simplify_tree_path_when_module_name_equals_dir_name(path) == expected_tree_path
+    )
