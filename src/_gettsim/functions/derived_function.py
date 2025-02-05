@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 class DerivedFunction(PolicyFunction):
     """
-    A function that is derived from other functions.
+    A function that is derived from another via aggregation, time conversion, etc.
 
     Parameters
     ----------
