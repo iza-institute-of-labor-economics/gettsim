@@ -9,7 +9,11 @@ import pandas as pd
 import yaml
 from optree import tree_map_with_path
 
-from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
+from _gettsim.config import (
+    INTERNAL_PARAMS_GROUPS,
+    QUALIFIED_NAME_SEPARATOR,
+    RESOURCE_DIR,
+)
 from _gettsim.functions.loader import (
     load_functions_tree_for_date,
     load_internal_aggregation_tree,
@@ -26,6 +30,9 @@ from _gettsim.shared import (
 )
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
+    from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
     from _gettsim.gettsim_typing import NestedFunctionDict
 
 
@@ -37,8 +44,8 @@ class PolicyEnvironment:
 
     Parameters
     ----------
-    functions:
-        A list of policy functions.
+    policy_functions_tree:
+        The policy functions tree.
     params:
         A dictionary with policy parameters.
     aggregate_by_group_specs:
@@ -57,8 +64,8 @@ class PolicyEnvironment:
         self,
         policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, str | dict] | None = None,
-        aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
+        aggregate_by_group_specs: dict[str, AggregateByGroupSpec] | None = None,
+        aggregate_by_p_id_specs: dict[str, AggregateByPIDSpec] | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(policy_functions_tree)
@@ -87,7 +94,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs(self) -> dict[str, str | dict]:
+    def aggregate_by_group_specs(self) -> dict[str, AggregateByGroupSpec]:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
@@ -95,7 +102,7 @@ class PolicyEnvironment:
         return self._aggregate_by_group_specs
 
     @property
-    def aggregate_by_p_id_specs(self) -> dict[str, str | dict]:
+    def aggregate_by_p_id_specs(self) -> dict[str, AggregateByPIDSpec]:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
@@ -103,7 +110,7 @@ class PolicyEnvironment:
         return self._aggregate_by_p_id_specs
 
     def upsert_policy_functions(
-        self, policy_functions_tree: NestedFunctionDict
+        self, functions_tree_to_upsert: NestedFunctionDict
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
@@ -119,12 +126,19 @@ class PolicyEnvironment:
         -------
         The policy environment with the new functions.
         """
+        new_functions_tree = {}
+
+        # Add old functions tree to new functions tree
         new_functions_tree = {**self._policy_functions_tree}
-        functions_tree_to_upsert = tree_map_with_path(
-            func=_convert_all_functions_to_policy_functions, tree=policy_functions_tree
+
+        policy_functions_tree_to_upsert = tree_map_with_path(
+            func=_convert_all_functions_to_policy_functions,
+            tree=functions_tree_to_upsert,
         )
+
+        # Add functions tree to upsert to new functions tree
         new_functions_tree = merge_nested_dicts(
-            new_functions_tree, functions_tree_to_upsert
+            new_functions_tree, policy_functions_tree_to_upsert
         )
 
         result = object.__new__(PolicyEnvironment)
@@ -181,7 +195,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     # Check policy date for correct format and convert to datetime.date
     date = _parse_date(date)
 
-    functions_tree = load_functions_tree_for_date(date)
+    policy_functions_tree = load_functions_tree_for_date(date)
 
     params = {}
     for group in INTERNAL_PARAMS_GROUPS:
@@ -198,21 +212,24 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
 
     return PolicyEnvironment(
-        functions_tree, params, aggregate_by_group_specs, aggregate_by_p_id_specs
+        policy_functions_tree,
+        params,
+        aggregate_by_group_specs,
+        aggregate_by_p_id_specs,
     )
 
 
-def _parse_date(date):
+def _parse_date(date: datetime.date | str | int) -> datetime.date:
     """Check the policy date for different input formats.
 
     Parameters
     ----------
-    date : datetime.date, str, int
+    date :
         The date for which the policy system is set up.
 
     Returns
     -------
-    date : datetime.date
+    date :
         The date for which the policy system is set up.
 
     """
@@ -224,7 +241,7 @@ def _parse_date(date):
 
 
 def _convert_all_functions_to_policy_functions(
-    path: tuple[str],
+    tree_path: tuple[str],
     function: callable,
 ) -> PolicyFunction:
     """Add module name if missing.
@@ -233,9 +250,9 @@ def _convert_all_functions_to_policy_functions(
 
     Parameters
     ----------
-    path : tuple[str]
+    tree_path :
         Path to the function in the functions tree.
-    function : callable
+    function :
         The function to convert.
 
     Returns
@@ -244,7 +261,7 @@ def _convert_all_functions_to_policy_functions(
         The converted function.
 
     """
-    new_module_name = "__".join(path[:-1])
+    new_module_name = QUALIFIED_NAME_SEPARATOR.join(tree_path[:-1])
 
     if not isinstance(function, PolicyFunction):
         converted_function = PolicyFunction(function)
@@ -403,24 +420,27 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
 
 
 def _load_parameter_group_from_yaml(
-    date, group, parameters=None, yaml_path=RESOURCE_DIR / "parameters"
-):
+    date: datetime.date,
+    group: str,
+    parameters: list[str] | None = None,
+    yaml_path: Path = RESOURCE_DIR / "parameters",
+) -> dict[str, Any]:
     """Load data from raw yaml group file.
 
     Parameters
     ----------
-    date : datetime.date
+    date :
         The date for which the policy system is set up.
-    group : string
+    group :
         Policy system compartment.
-    parameters : list
+    parameters :
         List of parameters to be loaded. Only relevant for in function calls.
-    yaml_path : path
+    yaml_path :
         Path to directory of yaml_file. (Used for testing of this function).
 
     Returns
     -------
-    out_params : dict
+    dict[str, Any]:
         Dictionary of parameters loaded from raw yaml file and striped of
         unnecessary keys.
 
@@ -564,21 +584,25 @@ def _load_parameter_group_from_yaml(
     return out_params
 
 
-def _load_rounding_parameters(date, rounding_spec):
+def _load_rounding_parameters(
+    date: datetime.date,
+    rounding_spec: dict[str, Any],
+) -> dict[str, Any]:
     """Load rounding parameters for a specific date from a dictionary.
 
     Parameters
     ----------
-    date : datetime.date
+    date :
         The date for which the policy system is set up.
-    rounding_spec : dictionary
+    rounding_spec :
           - Keys: Functions to be rounded.
           - Values: Rounding parameters for all dates
 
-    Returns:
-        dictionary:
-          - Keys: Functions to be rounded.
-          - Values: Rounding parameters for the specified date
+    Returns
+    -------
+    dict[str, Any]:
+        - Keys: Functions to be rounded.
+        - Values: Rounding parameters for the specified date
 
     """
     out = {}
@@ -622,15 +646,6 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
         # Now remaining dict is just a scalar
         set_by_path(new_dict, key_list, remaining_dict)
     return new_dict
-
-
-def _fail_if_more_than_one_path(path_list):
-    """Raise error if more than one path is found."""
-    if len(path_list) > 1:
-        raise ValueError(
-            "The functions_path must point to exactly one function in the functions "
-            "tree."
-        )
 
 
 def _fail_if_functions_tree_not_dict(obj):
