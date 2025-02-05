@@ -31,8 +31,7 @@ from _gettsim.shared import (
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
-    from _gettsim.gettsim_typing import NestedFunctionDict
+    from _gettsim.gettsim_typing import NestedAggregationDict, NestedFunctionDict
 
 
 class PolicyEnvironment:
@@ -61,8 +60,8 @@ class PolicyEnvironment:
         self,
         policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs_tree: dict[str, AggregateByGroupSpec] | None = None,
-        aggregate_by_p_id_specs_tree: dict[str, AggregateByPIDSpec] | None = None,
+        aggregate_by_group_specs_tree: NestedAggregationDict | None = None,
+        aggregate_by_p_id_specs_tree: NestedAggregationDict | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(policy_functions_tree)
@@ -95,7 +94,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs_tree(self) -> dict[str, AggregateByGroupSpec]:
+    def aggregate_by_group_specs_tree(self) -> NestedAggregationDict:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
@@ -103,7 +102,7 @@ class PolicyEnvironment:
         return self._aggregate_by_group_specs_tree
 
     @property
-    def aggregate_by_p_id_specs_tree(self) -> dict[str, AggregateByPIDSpec]:
+    def aggregate_by_p_id_specs_tree(self) -> NestedAggregationDict:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
