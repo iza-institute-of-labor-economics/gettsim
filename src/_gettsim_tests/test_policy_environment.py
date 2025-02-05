@@ -45,7 +45,7 @@ class TestPolicyEnvironment:
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
         new_function = PolicyFunction(lambda: 3)
-        new_environment = environment.upsert_functions({"foo": new_function})
+        new_environment = environment.upsert_policy_functions({"foo": new_function})
 
         assert new_environment.policy_functions_tree["foo"] == new_function
 

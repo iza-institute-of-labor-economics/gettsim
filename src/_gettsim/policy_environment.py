@@ -55,16 +55,16 @@ class PolicyEnvironment:
 
     def __init__(
         self,
-        functions_tree: NestedFunctionDict,
+        policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
         aggregate_by_group_specs: dict[str, str | dict] | None = None,
         aggregate_by_p_id_specs: dict[str, str | dict] | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
-        _fail_if_functions_tree_not_dict(functions_tree)
+        _fail_if_functions_tree_not_dict(policy_functions_tree)
         self._policy_functions_tree = tree_map_with_path(
-            _convert_function_to_correct_type,
-            functions_tree,
+            func=_convert_all_functions_to_policy_functions,
+            tree=policy_functions_tree,
         )
 
         # Read in parameters and aggregation specs
@@ -102,8 +102,8 @@ class PolicyEnvironment:
         """
         return self._aggregate_by_p_id_specs
 
-    def upsert_functions(
-        self, functions_tree_update: NestedFunctionDict
+    def upsert_policy_functions(
+        self, policy_functions_tree: NestedFunctionDict
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
@@ -112,17 +112,16 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        functions_tree_update: NestedFunctionDict
+        policy_functions_tree
             The functions to add or overwrite.
 
         Returns
         -------
-        new_environment: PolicyEnvironment
-            The policy environment with the new functions.
+        The policy environment with the new functions.
         """
         new_functions_tree = {**self._policy_functions_tree}
         functions_tree_to_upsert = tree_map_with_path(
-            _convert_function_to_correct_type, functions_tree_update
+            func=_convert_all_functions_to_policy_functions, tree=policy_functions_tree
         )
         new_functions_tree = merge_nested_dicts(
             new_functions_tree, functions_tree_to_upsert
@@ -224,7 +223,7 @@ def _parse_date(date):
     return date
 
 
-def _convert_function_to_correct_type(
+def _convert_all_functions_to_policy_functions(
     path: tuple[str],
     function: callable,
 ) -> PolicyFunction:
