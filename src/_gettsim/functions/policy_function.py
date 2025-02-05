@@ -38,7 +38,7 @@ class PolicyFunction(Callable):
         self,
         function: Callable,
         *,
-        leaf_name: str | None = None,
+        leaf_name: str,
         qualified_name: str | None = None,
         start_date: date = "0001-01-01",
         end_date: date = "9999-12-31",

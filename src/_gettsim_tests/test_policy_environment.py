@@ -6,8 +6,10 @@ import pandas as pd
 import pytest
 
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
+    _fail_if_name_of_last_branch_not_leaf_name_of_function,
     _load_parameter_group_from_yaml,
     load_functions_tree_for_date,
     set_up_policy_environment,
@@ -20,7 +22,7 @@ from _gettsim_tests import TEST_DIR
 
 class TestPolicyEnvironment:
     def test_func_exists_in_tree(self):
-        function = PolicyFunction(lambda: 1)
+        function = PolicyFunction(lambda: 1, leaf_name="foo")
         environment = PolicyEnvironment({"foo": function})
 
         assert environment.policy_functions_tree["foo"] == function
@@ -34,17 +36,17 @@ class TestPolicyEnvironment:
         "environment",
         [
             PolicyEnvironment({}, {}),
-            PolicyEnvironment({"foo": PolicyFunction(lambda: 1)}),
+            PolicyEnvironment({"foo": PolicyFunction(lambda: 1, leaf_name="foo")}),
             PolicyEnvironment(
                 {
-                    "foo": PolicyFunction(lambda: 1),
-                    "bar": PolicyFunction(lambda: 2),
+                    "foo": PolicyFunction(lambda: 1, leaf_name="foo"),
+                    "bar": PolicyFunction(lambda: 2, leaf_name="bar"),
                 }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3)
+        new_function = PolicyFunction(lambda: 3, leaf_name="foo")
         new_environment = environment.upsert_policy_functions({"foo": new_function})
 
         assert new_environment.policy_functions_tree["foo"] == new_function
@@ -142,3 +144,16 @@ def test_load_functions_tree_for_date(
 
     assert functions_last_day[qualified_name].__name__ == function_name_last_day
     assert functions_next_day[qualified_name].__name__ == function_name_next_day
+
+
+@pytest.mark.parametrize(
+    "policy_functions_tree",
+    [
+        {"foo": PolicyFunction(lambda: 1, leaf_name="bar")},
+    ],
+)
+def test_fail_if_name_of_last_branch_not_leaf_name_of_function(
+    policy_functions_tree: NestedFunctionDict,
+):
+    with pytest.raises(KeyError):
+        _fail_if_name_of_last_branch_not_leaf_name_of_function(policy_functions_tree)

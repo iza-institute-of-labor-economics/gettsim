@@ -5,13 +5,12 @@ import datetime
 from typing import TYPE_CHECKING, Any
 
 import numpy
+import optree
 import pandas as pd
 import yaml
-from optree import tree_map_with_path
 
 from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
-    QUALIFIED_NAME_SEPARATOR,
     RESOURCE_DIR,
 )
 from _gettsim.functions.loader import (
@@ -69,7 +68,7 @@ class PolicyEnvironment:
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(policy_functions_tree)
-        self._policy_functions_tree = tree_map_with_path(
+        self._policy_functions_tree = optree.tree_map(
             func=_convert_all_functions_to_policy_functions,
             tree=policy_functions_tree,
         )
@@ -131,9 +130,12 @@ class PolicyEnvironment:
         # Add old functions tree to new functions tree
         new_functions_tree = {**self._policy_functions_tree}
 
-        policy_functions_tree_to_upsert = tree_map_with_path(
+        policy_functions_tree_to_upsert = optree.tree_map(
             func=_convert_all_functions_to_policy_functions,
             tree=functions_tree_to_upsert,
+        )
+        _fail_if_name_of_last_branch_not_leaf_name_of_function(
+            policy_functions_tree_to_upsert
         )
 
         # Add functions tree to upsert to new functions tree
@@ -241,7 +243,6 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
 
 
 def _convert_all_functions_to_policy_functions(
-    tree_path: tuple[str],
     function: callable,
 ) -> PolicyFunction:
     """Add module name if missing.
@@ -261,15 +262,10 @@ def _convert_all_functions_to_policy_functions(
         The converted function.
 
     """
-    new_module_name = QUALIFIED_NAME_SEPARATOR.join(tree_path[:-1])
-
-    if not isinstance(function, PolicyFunction):
-        converted_function = PolicyFunction(function)
-    else:
+    if isinstance(function, PolicyFunction):
         converted_function = function
-
-    if not hasattr(function, "module_name") or function.module_name == "":
-        converted_function.module_name = new_module_name
+    else:
+        converted_function = PolicyFunction(function, leaf_name=function.__name__)
 
     return converted_function
 
@@ -652,6 +648,22 @@ def _fail_if_functions_tree_not_dict(obj):
     """Raise error if functions are not passed as tree."""
     if not isinstance(obj, dict):
         raise TypeError("Functions must be passed as a tree.")
+
+
+def _fail_if_name_of_last_branch_not_leaf_name_of_function(
+    policy_functions_tree: NestedFunctionDict,
+) -> None:
+    """Raise error if name of last branch is not leaf name of PolicyFunction."""
+    tree_paths, functions, _ = optree.tree_flatten_with_path(policy_functions_tree)
+    for tree_path, function in zip(tree_paths, functions):
+        if tree_path[-1] != function.leaf_name:
+            raise KeyError(
+                f"""
+                The name of the last branch of the functions tree must be the same as
+                the leaf name of the PolicyFunction. The tree path {tree_path} is not
+                compatible with the PolicyFunction {function.leaf_name}.
+                """
+            )
 
 
 def add_progressionsfaktor(params_dict, parameter):
