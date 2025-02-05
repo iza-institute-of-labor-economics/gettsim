@@ -33,10 +33,3 @@ def test_function_type(function):
 )
 def test_function_name(function):
     assert function.leaf_name == "simple_policy_function"
-
-
-def test_set_qualified_name():
-    function = simple_policy_function
-    leaf_name = function.leaf_name
-    function.set_qualified_name(f"module__{leaf_name}")
-    assert function.qualified_name == f"module__{leaf_name}"

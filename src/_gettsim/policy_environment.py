@@ -107,7 +107,7 @@ class PolicyEnvironment:
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
         """
-        return self._aggregate_by_p_id_tree
+        return self._aggregate_by_p_id_specs_tree
 
     def upsert_policy_functions(
         self, functions_tree_to_upsert: NestedFunctionDict
@@ -150,7 +150,7 @@ class PolicyEnvironment:
         result._aggregate_by_group_specs_tree = (  # noqa: SLF001
             self._aggregate_by_group_specs_tree
         )
-        result._aggregate_by_p_id_tree = self._aggregate_by_p_id_tree  # noqa: SLF001
+        result._aggregate_by_p_id_specs_tree = self._aggregate_by_p_id_specs_tree  # noqa: SLF001
 
         return result
 
@@ -175,7 +175,7 @@ class PolicyEnvironment:
         result._aggregate_by_group_specs_tree = (  # noqa: SLF001
             self._aggregate_by_group_specs_tree
         )
-        result._aggregate_by_p_id_tree = self._aggregate_by_p_id_tree  # noqa: SLF001
+        result._aggregate_by_p_id_specs_tree = self._aggregate_by_p_id_specs_tree  # noqa: SLF001
 
         return result
 

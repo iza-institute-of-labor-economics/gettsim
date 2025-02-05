@@ -33,12 +33,10 @@ def test_fail_if_multiple_policy_functions_are_active_at_the_same_time():
     active_functions = [
         PolicyFunction(
             leaf_name="foo",
-            qualified_name="foo",
             function=lambda: 1,
         ),
         PolicyFunction(
             leaf_name="foo",
-            qualified_name="foo",
             function=lambda: 2,
         ),
     ]
