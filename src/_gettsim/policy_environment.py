@@ -47,24 +47,22 @@ class PolicyEnvironment:
         The policy functions tree.
     params:
         A dictionary with policy parameters.
-    aggregate_by_group_specs:
-        A dictionary which contains specs for functions which aggregate variables on the
-        aggregation levels specified in config.py. The syntax is the same as for
-        aggregation specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
-    aggregate_by_p_id_specs:
-        A dictionary which contains specs for linking aggregating taxes and by another
-        individual (for example, a parent). The syntax is the same as for aggregation
-        specs in the code base and as specified in [GEP
-        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+    aggregate_by_group_specs_tree:
+        The tree with aggregation specifications for aggregations on group levels
+        defined in config.py. The aggregation tree is a nested dictionary with
+        AggregateByGroupSpec dataclasses as leafs.
+    aggregate_by_p_id_specs_tree:
+        The tree with aggregation specifications for aggregations on individual levels
+        defined in config.py. The aggregation tree is a nested dictionary with
+        AggregateByPIDSpec dataclasses as leafs.
     """
 
     def __init__(
         self,
         policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregate_by_group_specs: dict[str, AggregateByGroupSpec] | None = None,
-        aggregate_by_p_id_specs: dict[str, AggregateByPIDSpec] | None = None,
+        aggregate_by_group_specs_tree: dict[str, AggregateByGroupSpec] | None = None,
+        aggregate_by_p_id_specs_tree: dict[str, AggregateByPIDSpec] | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         _fail_if_functions_tree_not_dict(policy_functions_tree)
@@ -75,11 +73,15 @@ class PolicyEnvironment:
 
         # Read in parameters and aggregation specs
         self._params = params if params is not None else {}
-        self._aggregate_by_group_specs = (
-            aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
+        self._aggregate_by_group_specs_tree = (
+            aggregate_by_group_specs_tree
+            if aggregate_by_group_specs_tree is not None
+            else {}
         )
-        self._aggregate_by_p_id_specs = (
-            aggregate_by_p_id_specs if aggregate_by_p_id_specs is not None else {}
+        self._aggregate_by_p_id_specs_tree = (
+            aggregate_by_p_id_specs_tree
+            if aggregate_by_p_id_specs_tree is not None
+            else {}
         )
 
     @property
@@ -93,20 +95,20 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregate_by_group_specs(self) -> dict[str, AggregateByGroupSpec]:
+    def aggregate_by_group_specs_tree(self) -> dict[str, AggregateByGroupSpec]:
         """
         The specs for functions which aggregate variables on the aggregation levels
         specified in config.py.
         """
-        return self._aggregate_by_group_specs
+        return self._aggregate_by_group_specs_tree
 
     @property
-    def aggregate_by_p_id_specs(self) -> dict[str, AggregateByPIDSpec]:
+    def aggregate_by_p_id_specs_tree(self) -> dict[str, AggregateByPIDSpec]:
         """
         The specs for linking aggregating taxes and by another individual (for example,
         a parent).
         """
-        return self._aggregate_by_p_id_specs
+        return self._aggregate_by_p_id_tree
 
     def upsert_policy_functions(
         self, functions_tree_to_upsert: NestedFunctionDict
@@ -146,10 +148,10 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._policy_functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
-        result._aggregate_by_group_specs = (  # noqa: SLF001
-            self._aggregate_by_group_specs
+        result._aggregate_by_group_specs_tree = (  # noqa: SLF001
+            self._aggregate_by_group_specs_tree
         )
-        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
+        result._aggregate_by_p_id_tree = self._aggregate_by_p_id_tree  # noqa: SLF001
 
         return result
 
@@ -171,10 +173,10 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
-        result._aggregate_by_group_specs = (  # noqa: SLF001
-            self._aggregate_by_group_specs
+        result._aggregate_by_group_specs_tree = (  # noqa: SLF001
+            self._aggregate_by_group_specs_tree
         )
-        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
+        result._aggregate_by_p_id_tree = self._aggregate_by_p_id_tree  # noqa: SLF001
 
         return result
 
@@ -210,14 +212,14 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
-    aggregate_by_group_specs = load_internal_aggregation_tree("aggregate_by_group")
-    aggregate_by_p_id_specs = load_internal_aggregation_tree("aggregate_by_p_id")
+    aggregate_by_group_specs_tree = load_internal_aggregation_tree("aggregate_by_group")
+    aggregate_by_p_id_specs_tree = load_internal_aggregation_tree("aggregate_by_p_id")
 
     return PolicyEnvironment(
         policy_functions_tree,
         params,
-        aggregate_by_group_specs,
-        aggregate_by_p_id_specs,
+        aggregate_by_group_specs_tree,
+        aggregate_by_p_id_specs_tree,
     )
 
 

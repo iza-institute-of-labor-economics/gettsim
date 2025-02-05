@@ -125,7 +125,7 @@ def _create_derived_functions(
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
         environment.policy_functions_tree,
-        environment.aggregate_by_p_id_specs,
+        environment.aggregate_by_p_id_specs_tree,
     )
 
     # Create functions for different time units
@@ -147,7 +147,7 @@ def _create_derived_functions(
         all_functions,
         targets,
         data,
-        environment.aggregate_by_group_specs,
+        environment.aggregate_by_group_specs_tree,
     )
 
     return (

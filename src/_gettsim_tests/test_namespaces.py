@@ -51,8 +51,8 @@ def test_compute_taxes_and_transfers_with_tree():
     policy_env = PolicyEnvironment(
         policy_functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,
-        aggregate_by_group_specs=AGGREGATION_BY_GROUP_SPEC,
-        aggregate_by_p_id_specs=AGGREGATION_BY_PID_SPEC,
+        aggregate_by_group_specs_tree=AGGREGATION_BY_GROUP_SPEC,
+        aggregate_by_p_id_specs_tree=AGGREGATION_BY_PID_SPEC,
     )
     targets = {
         "module1": {
