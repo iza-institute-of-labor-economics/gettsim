@@ -15,7 +15,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.loader import (
     load_functions_tree_for_date,
-    load_internal_aggregation_tree,
+    load_one_aggregation_specs_tree,
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
@@ -211,8 +211,10 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
-    aggregate_by_group_specs_tree = load_internal_aggregation_tree("aggregate_by_group")
-    aggregate_by_p_id_specs_tree = load_internal_aggregation_tree("aggregate_by_p_id")
+    aggregate_by_group_specs_tree = load_one_aggregation_specs_tree(
+        "aggregate_by_group"
+    )
+    aggregate_by_p_id_specs_tree = load_one_aggregation_specs_tree("aggregate_by_p_id")
 
     return PolicyEnvironment(
         policy_functions_tree,

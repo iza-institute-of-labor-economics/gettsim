@@ -265,7 +265,7 @@ def _convert_system_path_to_tree_path(
 _AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
 
 
-def load_internal_aggregation_tree(
+def load_one_aggregation_specs_tree(
     variant: _AggregationVariant,
 ) -> NestedAggregationDict:
     """

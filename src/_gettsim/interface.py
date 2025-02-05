@@ -51,25 +51,23 @@ from _gettsim.shared import (
 
 
 def compute_taxes_and_transfers(  # noqa: PLR0913
-    data: NestedDataDict | pd.DataFrame,
+    data: NestedDataDict,
     environment: PolicyEnvironment,
-    targets: NestedTargetDict | list[str] = None,
+    targets: NestedTargetDict | None = None,
     check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
     rounding: bool = True,
     debug: bool = False,
-    return_dataframe: bool = False,
 ) -> NestedDataDict:
     """Compute taxes and transfers.
 
     Parameters
     ----------
-    data : NestedDataDict | pd.DataFrame
+    data : NestedDataDict
         Data provided by the user.
     environment: PolicyEnvironment
         The policy environment which contains all necessary functions and parameters.
-    targets : NestedTargetDict | list[str] | str, default None
-        String or list of strings with names of functions whose output is actually
-        needed by the user. By default, ``targets`` is ``None`` and all key outputs as
+    targets : NestedTargetDict | None
+        The targets tree. By default, ``targets`` is ``None`` and all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS` are returned.
     check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
         Indicator for whether checks which ensure the most minimal configuration should
@@ -81,13 +79,11 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         1. All necessary inputs and all computed variables are returned.
         2. If an exception occurs while computing one variable, the exception is
            skipped.
-    return_dataframe : bool
-        Indicator for whether the result should be returned as a DataFrame.
 
     Returns
     -------
-    results : pandas.DataFrame
-        DataFrame containing computed variables.
+    results : NestedDataDict
+        The computed variables as a tree.
 
     """
 
