@@ -1,3 +1,4 @@
+import re
 import warnings
 
 import numpy
@@ -11,6 +12,7 @@ from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
+    _assert_valid_pytree,
     _convert_data_to_correct_types,
     _fail_if_data_not_dict_with_sequence_leafs_or_dataframe,
     _fail_if_foreign_keys_are_invalid,
@@ -938,3 +940,33 @@ def test_use_correct_series_names(input_object, expected_output):
         sr.name for sr in tree_flatten(_use_correct_series_names(input_object))[0]
     ]
     assert result == expected_output
+
+
+@pytest.mark.parametrize(
+    ("tree", "leaf_checker", "err_substr"),
+    [
+        (
+            {"a": 1, "b": 2},
+            lambda leaf: leaf is None,
+            "Leaf at tree[a] is invalid: got 1 of type <class 'int'>.",
+        ),
+        (
+            {"a": None, "b": {"c": None, "d": 1}},
+            lambda leaf: leaf is None,
+            "Leaf at tree[b][d] is invalid: got 1 of type <class 'int'>.",
+        ),
+        (
+            [1, 2, 3],
+            lambda leaf: leaf is None,
+            "tree must be a dict, got <class 'list'>.",
+        ),
+        (
+            {1: 2},
+            lambda leaf: leaf is None,
+            "Key 1 in tree must be a string but got <class 'int'>.",
+        ),
+    ],
+)
+def test_assert_valid_pytree(tree, leaf_checker, err_substr):
+    with pytest.raises(TypeError, match=re.escape(err_substr)):
+        _assert_valid_pytree(tree, leaf_checker, "tree")

@@ -6,18 +6,14 @@ from typing import Any, Literal, get_args
 
 import dags
 import networkx
+import optree
 import pandas as pd
-from optree import (
-    tree_flatten,
-    tree_map,
-    tree_map_with_path,
-    tree_unflatten,
-)
 
 from _gettsim.combine_functions_in_tree import (
     combine_policy_functions_and_derived_functions,
 )
 from _gettsim.config import (
+    DEFAULT_TARGETS,
     FOREIGN_KEYS,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
@@ -85,6 +81,13 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         The computed variables as a tree.
 
     """
+    # Check user inputs
+    _fail_if_targets_tree_not_valid(targets)
+    _fail_if_data_tree_not_valid(data)
+    _fail_if_environment_not_valid(environment)
+
+    targets = targets if targets else DEFAULT_TARGETS
+
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
@@ -182,7 +185,7 @@ def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTar
     if isinstance(targets, str):
         targets = [targets]
 
-    flattened_targets = tree_flatten(targets)[0]
+    flattened_targets = optree.tree_flatten(targets)[0]
     all_leafs_none = all(el is None for el in flattened_targets)
     all_leafs_str_or_list = all(isinstance(el, str | list) for el in flattened_targets)
 
@@ -300,7 +303,7 @@ def _use_correct_series_names(data: NestedDataDict) -> NestedDataDict:
         Dictionary representing the tree.
 
     """
-    return tree_map_with_path(
+    return optree.tree_map_with_path(
         lambda path, x: x.rename(path[-1])
         if isinstance(x, pd.Series)
         else pd.Series(x, name=path[-1]),
@@ -432,7 +435,7 @@ def _convert_data_to_correct_types(
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
                 internal_type = get_args(func.__annotations__["return"])[0]
-            elif func in tree_flatten(create_groupings())[0]:
+            elif func in optree.tree_flatten(create_groupings())[0]:
                 # Functions that create a grouping ID
                 internal_type = get_args(func.__annotations__["return"])[0]
             else:
@@ -536,7 +539,9 @@ def _create_input_data(  # noqa: PLR0913
         names_unnecessary_data, check_minimal_specification
     )
 
-    return tree_to_dict_with_qualified_name(tree_map(lambda x: x.values, input_data))
+    return tree_to_dict_with_qualified_name(
+        optree.tree_map(lambda x: x.values, input_data)
+    )
 
 
 class FunctionsAndColumnsOverlapWarning(UserWarning):
@@ -630,7 +635,7 @@ def _round_and_partial_parameters_to_functions(
     """
     # Add rounding to functions.
     if rounding:
-        functions = tree_map(
+        functions = optree.tree_map(
             lambda x: _add_rounding_to_function(x, params),
             functions,
         )
@@ -638,7 +643,7 @@ def _round_and_partial_parameters_to_functions(
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
     # parameters.
-    function_leafs, tree_spec = tree_flatten(functions)
+    function_leafs, tree_spec = optree.tree_flatten(functions)
     processed_functions = []
     for function in function_leafs:
         arguments = get_names_of_arguments_without_defaults(function)
@@ -660,7 +665,7 @@ def _round_and_partial_parameters_to_functions(
         else:
             processed_functions.append(function)
 
-    return tree_unflatten(tree_spec, processed_functions)
+    return optree.tree_unflatten(tree_spec, processed_functions)
 
 
 def _add_rounding_to_function(
@@ -833,6 +838,88 @@ def _reorder_columns(results):
     return results[sorted_ids + remaining_columns]
 
 
+def _fail_if_environment_not_valid(environment: PolicyEnvironment) -> None:
+    """
+    Validate that the environment is a PolicyEnvironment.
+    """
+    if not isinstance(environment, PolicyEnvironment):
+        raise TypeError(
+            "The environment must be a PolicyEnvironment, got" f" {type(environment)}."
+        )
+
+
+def _fail_if_targets_tree_not_valid(targets: NestedTargetDict) -> None:
+    """
+    Validate that the targets tree is a dictionary with string keys and None leaves.
+    """
+    _assert_valid_pytree(targets, lambda leaf: leaf is None, "targets")
+
+
+def _fail_if_data_tree_not_valid(data: NestedDataDict) -> None:
+    """
+    Validate that the data tree is a dictionary with string keys and pd.Series leaves.
+    """
+    _assert_valid_pytree(data, lambda leaf: isinstance(leaf, pd.Series), "data")
+
+
+def _assert_valid_pytree(
+    tree: any, leaf_checker, tree_name: str, current_key: tuple[str, ...] = ()
+) -> None:
+    """
+    Recursively assert that a pytree (nested dict) meets the following conditions:
+      - The tree is a dictionary.
+      - All keys are strings.
+      - All leaves satisfy a provided condition (leaf_checker).
+
+    Parameters
+    ----------
+    tree :
+         The tree to validate.
+    leaf_checker :
+         A function that takes a leaf and returns True if it is valid.
+    tree_name :
+         The name of the tree (used for error messages).
+    current_key : tuple[str, ...], optional
+         The tuple that accumulates keys for the current path in the tree.
+
+    Raises
+    ------
+    ValueError
+         If any branch or leaf does not meet the expected requirements.
+    """
+
+    def format_key_path(key_tuple: tuple[str, ...]) -> str:
+        # Format the current key path as [key1][key2]...
+        return "".join(f"[{k}]" for k in key_tuple)
+
+    # Check that the current tree is a dict.
+    if not isinstance(tree, dict):
+        path_str = format_key_path(current_key)
+        msg = f"{tree_name}{path_str} must be a dict, got {type(tree)}."
+        raise TypeError(msg)
+
+    for key, value in tree.items():
+        new_key_path = (*current_key, key)
+        # Check that the key is a string.
+        if not isinstance(key, str):
+            msg = (
+                f"Key {key} in {tree_name}{format_key_path(current_key)} must be a "
+                f"string but got {type(key)}."
+            )
+            raise TypeError(msg)
+        # Check that the value is a dict.
+        if isinstance(value, dict):
+            _assert_valid_pytree(value, leaf_checker, tree_name, new_key_path)
+        else:
+            # Check that the value satisfies the leaf_checker.
+            if not leaf_checker(value):
+                msg = (
+                    f"Leaf at {tree_name}{format_key_path(new_key_path)} is invalid: "
+                    f"got {value} of type {type(value)}."
+                )
+                raise TypeError(msg)
+
+
 def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
     """Check that all column names are unique."""
     if any(data.columns.duplicated()):
@@ -979,7 +1066,7 @@ def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
     not_dict = not isinstance(data, dict)
     not_sequence_leafs = any(
         not isinstance(el, pd.Series | np.ndarray | list)
-        for el in tree_flatten(data)[0]
+        for el in optree.tree_flatten(data)[0]
     )
 
     if not_df and (not_dict or not_sequence_leafs):
