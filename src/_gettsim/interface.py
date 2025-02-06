@@ -82,10 +82,8 @@ def compute_taxes_and_transfers(
     _fail_if_data_tree_not_valid(data)
     _fail_if_environment_not_valid(environment)
 
+    # Use default targets if no targets are provided.
     targets = targets if targets else DEFAULT_TARGETS
-
-    # Process data and load dictionaries with functions.
-    data = _process_and_check_data(data=data)
 
     all_functions = combine_policy_functions_and_derived_functions(
         environment=environment,
@@ -338,32 +336,6 @@ def set_up_dag(
         input_structure=input_structure,
         name_clashes="raise",
     )
-
-
-def _process_and_check_data(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
-    """Process data and perform several checks.
-
-    Data needs to be provided in tree form with leafs being pandas.Series, or as a
-    pandas.DataFrame.
-
-    Parameters
-    ----------
-    data : dict or pd.DataFrame
-        Data provided by the user.
-
-    Returns
-    -------
-    data_tree : dict
-
-    """
-    data_tree = build_data_tree(data)
-
-    # Check that group variables are constant within groups
-    _fail_if_group_variables_not_constant_within_groups(data_tree)
-    _fail_if_pid_is_non_unique(data_tree)
-    _fail_if_foreign_keys_are_invalid(data_tree)
-
-    return data_tree
 
 
 def _convert_data_to_correct_types(
@@ -808,18 +780,23 @@ def _fail_if_environment_not_valid(environment: PolicyEnvironment) -> None:
         )
 
 
-def _fail_if_targets_tree_not_valid(targets: NestedTargetDict) -> None:
+def _fail_if_targets_tree_not_valid(targets_tree: NestedTargetDict) -> None:
     """
     Validate that the targets tree is a dictionary with string keys and None leaves.
     """
-    _assert_valid_pytree(targets, lambda leaf: leaf is None, "targets")
+    _assert_valid_pytree(targets_tree, lambda leaf: leaf is None, "targets_tree")
 
 
-def _fail_if_data_tree_not_valid(data: NestedDataDict) -> None:
+def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     """
     Validate that the data tree is a dictionary with string keys and pd.Series leaves.
     """
-    _assert_valid_pytree(data, lambda leaf: isinstance(leaf, pd.Series), "data")
+    _assert_valid_pytree(
+        data_tree, lambda leaf: isinstance(leaf, pd.Series), "data_tree"
+    )
+    _fail_if_pid_is_non_unique(data_tree)
+    _fail_if_group_variables_not_constant_within_groups(data_tree)
+    _fail_if_foreign_keys_are_invalid(data_tree)
 
 
 def _assert_valid_pytree(
@@ -889,16 +866,18 @@ def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
         )
 
 
-def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:
+def _fail_if_group_variables_not_constant_within_groups(
+    data_tree: NestedDataDict,
+) -> None:
     """Check whether group variables have the same value within each group.
 
     Parameters
     ----------
-    data : dict[str, Any]
-        Data provided by the user.
+    data_tree :
+        Data tree provided by the user.
 
     """
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
+    names_leafs_dict = tree_to_dict_with_qualified_name(data_tree)
 
     grouped_data_cols = {
         name: col
@@ -932,6 +911,49 @@ def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) ->
             raise ValueError(message)
 
 
+def _fail_if_group_variables_not_constant_within_groups(
+    data_tree: NestedDataDict,
+) -> None:
+    """
+    Check that group variables are constant within each group.
+
+    If the user provides a supported grouping ID (see SUPPORTED_GROUPINGS in config.py),
+    the function checks that the corresponding data is constant within each group.
+
+    Parameters
+    ----------
+    data_tree :
+        Nested dictionary with pandas.Series as leaf nodes.
+    """
+    # Extract group IDs from the 'groupings' branch.
+    grouping_ids_in_data_tree = data_tree.get("groupings", {})
+
+    def check_leaf(path, leaf):
+        leaf_name = path[-1]
+        for grouping in SUPPORTED_GROUPINGS:
+            id_name = f"{grouping}_id"
+            if leaf_name.endswith(grouping) and id_name in grouping_ids_in_data_tree:
+                # Retrieve the corresponding group ID series from the data tree.
+                group_id_series = grouping_ids_in_data_tree.get(id_name)
+                # Group the leaf's series by the group ID and count unique values.
+                unique_counts = leaf.groupby(group_id_series).nunique(dropna=False)
+                if not (unique_counts == 1).all():
+                    msg = format_errors_and_warnings(
+                        f"""Data input {leaf_name!r} does not have a unique value within
+                        each group defined by grouping '{grouping}'.
+
+                        To fix this error, assign the same value to each group.
+                        """
+                    )
+                    raise ValueError(msg)
+                # No further check is needed for this leaf.
+                break
+        return leaf
+
+    # Traverse the complete tree with optree; check_leaf is called for every leaf.
+    optree.tree_map_with_path(check_leaf, data_tree)
+
+
 def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
     """Check that pid is unique."""
     try:
@@ -958,39 +980,45 @@ def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
         raise ValueError(message)
 
 
-def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
+def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
     """
     Check that all foreign keys are valid.
 
-    They must point to an existing `p_id` in the input data and may not refer to
-    the `p_id` of the same row.
+    Foreign keys must point to an existing `p_id` in the input data and must not refer
+    to the `p_id` of the same row.
     """
-    p_id_col = get_by_path(data, ["groupings", "p_id"])
+    p_id_col = get_by_path(data_tree, ["groupings", "p_id"])
     valid_ids = set(p_id_col) | {-1}
+    grouping_ids = data_tree.get("groupings", {})
 
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
-    for name, col in names_leafs_dict.items():
-        foreign_key_col = any(name.endswith(group) for group in FOREIGN_KEYS)
-
+    def check_leaf(path, leaf):
+        leaf_name = path[-1]
+        foreign_key_col = leaf_name in FOREIGN_KEYS
         if not foreign_key_col:
-            continue
+            return leaf
 
         # Referenced `p_id` must exist in the input data
-        if not all(i in valid_ids for i in col):
-            message = f"""
-                The following {name}s are not a valid p_id in the input
-                data: {[i for i in col if i not in valid_ids]}
+        if not all(i in valid_ids for i in leaf):
+            message = format_errors_and_warnings(
+                f"""
+                The following {leaf_name}s are not a valid p_id in the input
+                data: {[i for i in leaf if i not in valid_ids]}.
                 """
+            )
             raise ValueError(message)
 
         # Referenced `p_id` must not be the same as the `p_id` of the same row
-        equal_to_pid_in_same_row = [i for i, j in zip(col, p_id_col) if i == j]
+        equal_to_pid_in_same_row = [i for i, j in zip(leaf, p_id_col) if i == j]
         if any(equal_to_pid_in_same_row):
-            message = f"""
-                The following {name}s are equal to the p_id in the same
-                row: {equal_to_pid_in_same_row}
+            message = format_errors_and_warnings(
+                f"""
+                The following {leaf_name}s are equal to the p_id in the same
+                row: {[i for i, j in zip(leaf, p_id_col) if i == j]}.
                 """
+            )
             raise ValueError(message)
+
+    optree.tree_map_with_path(check_leaf, grouping_ids)
 
 
 def _fail_if_root_nodes_are_missing(

@@ -77,34 +77,11 @@ def test_output_as_tree(minimal_input_data):
         minimal_input_data,
         environment,
         targets={"module": {"test_func": None}},
-        return_dataframe=False,
     )
 
     assert isinstance(out, dict)
     assert "test_func" in out["module"]
     assert isinstance(out["module"]["test_func"], np.ndarray)
-
-
-def test_output_as_dataframe(minimal_input_data):
-    environment = PolicyEnvironment(
-        {
-            "module": {
-                "test_func": PolicyFunction(
-                    lambda groupings__p_id: groupings__p_id, leaf_name="test_func"
-                )
-            }
-        }
-    )
-    out = compute_taxes_and_transfers(
-        minimal_input_data,
-        environment,
-        targets="module__test_func",
-        return_dataframe=True,
-    )
-
-    assert isinstance(out, pd.DataFrame)
-    assert "module__test_func" in out.columns
-    assert isinstance(out["module__test_func"], pd.Series)
 
 
 def test_warn_if_functions_and_columns_overlap():
@@ -115,7 +92,7 @@ def test_warn_if_functions_and_columns_overlap():
         compute_taxes_and_transfers(
             data=pd.DataFrame({"groupings__p_id": [0], "dupl": [1]}),
             environment=environment,
-            targets=[],
+            targets={},
         )
 
 
@@ -128,7 +105,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
         compute_taxes_and_transfers(
             data=pd.DataFrame({"groupings__p_id": [0]}),
             environment=environment,
-            targets=[],
+            targets={},
         )
 
 
@@ -143,7 +120,7 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
         compute_taxes_and_transfers(
             data=pd.DataFrame({"groupings__p_id": [0], "dupl": [1]}),
             environment=environment,
-            targets=[],
+            targets={},
         )
 
     assert len(warning_list) == 0
@@ -233,142 +210,6 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         compute_taxes_and_transfers(minimal_input_data, environment, targets="c")
 
 
-def test_data_as_dict(minimal_input_data):
-    def c(b):
-        return b
-
-    data = minimal_input_data.copy()
-    data["b"] = pd.Series([1, 2, 3], name="b")
-
-    environment = PolicyEnvironment({"c": c})
-    compute_taxes_and_transfers(data, environment, targets="c")
-
-
-def test_data_as_df(minimal_input_data_as_df):
-    def c(b):
-        return b
-
-    data = minimal_input_data_as_df.copy()
-    data["b"] = pd.Series([1, 2, 3], name="b")
-
-    environment = PolicyEnvironment({"c": c})
-    compute_taxes_and_transfers(data, environment, targets="c")
-
-
-def test_wrong_data_type():
-    def c(b):
-        return b
-
-    data = "not_a_data_object"
-    with pytest.raises(
-        TypeError,
-        match=("Data must be provided as a tree with sequence leaves"),
-    ):
-        compute_taxes_and_transfers(data, PolicyEnvironment({}), ["c"])
-
-
-def test_check_minimal_spec_data():
-    def c(b):
-        return b
-
-    data = pd.DataFrame(
-        {
-            "groupings__p_id": [1, 2, 3],
-            "groupings__hh_id": [1, 1, 2],
-            "a": [100, 200, 300],
-            "b": [1, 2, 3],
-        }
-    )
-    environment = PolicyEnvironment({"c": c})
-    with pytest.raises(
-        ValueError,
-        match="The following columns in 'data' are unused",
-    ):
-        compute_taxes_and_transfers(
-            data,
-            environment,
-            targets="c",
-        )
-
-
-def test_check_minimal_spec_data_warn():
-    def c(b):
-        return b
-
-    data = pd.DataFrame(
-        {
-            "groupings__p_id": [1, 2, 3],
-            "groupings__hh_id": [1, 1, 2],
-            "a": [100, 200, 300],
-            "b": [1, 2, 3],
-        }
-    )
-    environment = PolicyEnvironment({"c": c})
-    with pytest.warns(
-        UserWarning,
-        match="The following columns in 'data' are unused",
-    ):
-        compute_taxes_and_transfers(
-            data,
-            environment,
-            targets="c",
-        )
-
-
-def test_check_minimal_spec_columns_overriding():
-    def b(a):
-        return a
-
-    def c(a):
-        return a
-
-    data = pd.DataFrame(
-        {
-            "groupings__p_id": [1, 2, 3],
-            "groupings__hh_id": [1, 1, 2],
-            "a": [100, 200, 300],
-            "b": [1, 2, 3],
-        }
-    )
-    environment = PolicyEnvironment({"b": b, "c": c})
-    with pytest.raises(
-        ValueError,
-        match="The following 'columns_overriding_functions' are unused",
-    ):
-        compute_taxes_and_transfers(
-            data,
-            environment,
-            targets="c",
-        )
-
-
-def test_check_minimal_spec_columns_overriding_warn():
-    def b(a):
-        return a
-
-    def c(a):
-        return a
-
-    data = pd.DataFrame(
-        {
-            "groupings__p_id": [1, 2, 3],
-            "groupings__hh_id": [1, 1, 2],
-            "a": [100, 200, 300],
-            "b": [1, 2, 3],
-        }
-    )
-    environment = PolicyEnvironment({"b": b, "c": c})
-    with pytest.warns(
-        UserWarning,
-        match="The following 'columns_overriding_functions' are unused",
-    ):
-        compute_taxes_and_transfers(
-            data,
-            environment,
-            targets="c",
-        )
-
-
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     def a():
         return pd.Series(range(minimal_input_data["groupings"]["p_id"].size))
@@ -400,7 +241,7 @@ def test_fail_if_missing_pid():
         ValueError,
         match="The input data must contain the p_id",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets={})
 
 
 def test_fail_if_non_unique_pid(minimal_input_data):
@@ -411,21 +252,7 @@ def test_fail_if_non_unique_pid(minimal_input_data):
         ValueError,
         match="The following p_ids are non-unique",
     ):
-        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
-
-
-def test_fail_if_non_unique_cols():
-    data = pd.DataFrame(
-        {
-            "groupings__p_id": pd.Series([1, 2, 3], name="p_id"),
-        }
-    )
-    data = pd.concat([data, data], axis=1)
-    with pytest.raises(
-        ValueError,
-        match="The following columns are non-unique",
-    ):
-        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment({}), targets={})
 
 
 def test_consecutive_internal_test_runs():
@@ -494,7 +321,6 @@ def test_user_provided_aggregate_by_group_specs():
             {}, aggregate_by_group_specs_tree=aggregate_by_group_specs_tree
         ),
         targets="module_name__betrag_m_hh",
-        return_dataframe=True,
     )
 
     numpy.testing.assert_array_almost_equal(
@@ -552,7 +378,6 @@ def test_user_provided_aggregate_by_group_specs_function(aggregate_by_group_spec
         data,
         environment,
         targets="module_name__betrag_double_m_hh",
-        return_dataframe=True,
     )
 
     numpy.testing.assert_array_almost_equal(
@@ -614,7 +439,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             PolicyEnvironment(
                 {}, aggregate_by_group_specs_tree=aggregate_by_group_specs_tree
             ),
-            targets="module_name__betrag_m_hh",
+            targets={"module_name": {"betrag_m_hh": None}},
         )
 
 
@@ -702,7 +527,6 @@ def test_user_provided_aggregate_by_p_id_specs(
         df,
         environment,
         targets=target,
-        return_dataframe=True,
     )
 
     numpy.testing.assert_array_almost_equal(out[target], expected)
