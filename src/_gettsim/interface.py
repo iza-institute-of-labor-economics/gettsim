@@ -18,7 +18,6 @@ from _gettsim.combine_functions_in_tree import (
     combine_policy_functions_and_derived_functions,
 )
 from _gettsim.config import (
-    DEFAULT_TARGETS,
     FOREIGN_KEYS,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
@@ -86,8 +85,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         The computed variables as a tree.
 
     """
-
-    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
 
@@ -596,164 +593,6 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
         super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
-def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
-    """Check that all column names are unique."""
-    if any(data.columns.duplicated()):
-        raise ValueError(
-            "The following columns are non-unique in the input data:\n\n"
-            f"{data.columns[data.columns.duplicated()]}"
-        )
-
-
-def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:
-    """Check whether group variables have the same value within each group.
-
-    Parameters
-    ----------
-    data : dict[str, Any]
-        Data provided by the user.
-
-    """
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
-
-    grouped_data_cols = {
-        name: col
-        for name, col in names_leafs_dict.items()
-        if any(name.endswith(grouping) for grouping in SUPPORTED_GROUPINGS)
-    }
-    group_ids_in_data = {
-        name: col
-        for name, col in names_leafs_dict.items()
-        if name.endswith("_id") and name.split("_")[-2] in SUPPORTED_GROUPINGS
-    }
-
-    for name, col in grouped_data_cols.items():
-        group_id_name = f"groupings__{name.split('_')[-1]}_id"
-
-        try:
-            group_id_array = group_ids_in_data[group_id_name]
-        except KeyError:
-            continue
-
-        max_value = col.groupby(group_id_array).transform("max")
-        if not (max_value == col).all():
-            message = format_errors_and_warnings(
-                f"""
-                Data input {name!r} has not one unique value per group defined by
-                {group_id_name!r}.
-
-                To fix the error, assign the same value to each group.
-                """
-            )
-            raise ValueError(message)
-
-
-def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
-    """Check that pid is unique."""
-    try:
-        p_id_col = get_by_path(data, ["groupings", "p_id"])
-    except KeyError as e:
-        message = "The input data must contain the p_id."
-        raise ValueError(message) from e
-
-    # Check for non-unique p_ids
-    p_id_counts = {}
-    for p_id in p_id_col:
-        if p_id in p_id_counts:
-            p_id_counts[p_id] += 1
-        else:
-            p_id_counts[p_id] = 1
-
-    non_unique_p_ids = [p_id for p_id, count in p_id_counts.items() if count > 1]
-
-    if non_unique_p_ids:
-        message = (
-            "The following p_ids are non-unique in the input data:"
-            f"{non_unique_p_ids}"
-        )
-        raise ValueError(message)
-
-
-def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
-    """
-    Check that all foreign keys are valid.
-
-    They must point to an existing `p_id` in the input data and may not refer to
-    the `p_id` of the same row.
-    """
-    p_id_col = get_by_path(data, ["groupings", "p_id"])
-    valid_ids = set(p_id_col) | {-1}
-
-    names_leafs_dict = tree_to_dict_with_qualified_name(data)
-    for name, col in names_leafs_dict.items():
-        foreign_key_col = any(name.endswith(group) for group in FOREIGN_KEYS)
-
-        if not foreign_key_col:
-            continue
-
-        # Referenced `p_id` must exist in the input data
-        if not all(i in valid_ids for i in col):
-            message = f"""
-                The following {name}s are not a valid p_id in the input
-                data: {[i for i in col if i not in valid_ids]}
-                """
-            raise ValueError(message)
-
-        # Referenced `p_id` must not be the same as the `p_id` of the same row
-        equal_to_pid_in_same_row = [i for i, j in zip(col, p_id_col) if i == j]
-        if any(equal_to_pid_in_same_row):
-            message = f"""
-                The following {name}s are equal to the p_id in the same
-                row: {equal_to_pid_in_same_row}
-                """
-            raise ValueError(message)
-
-
-def _fail_if_root_nodes_are_missing(
-    functions: NestedFunctionDict,
-    root_nodes: list[str],
-    data_cols: list[str],
-) -> None:
-    # Identify functions that are part of the DAG, but do not depend
-    # on any other function
-    names_to_functions_dict = tree_to_dict_with_qualified_name(functions)
-    funcs_based_on_params_only = [
-        func_name
-        for func_name, func in names_to_functions_dict.items()
-        if len(
-            [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
-        )
-        == 0
-    ]
-
-    missing_nodes = [
-        c
-        for c in root_nodes
-        if (c not in data_cols and c not in funcs_based_on_params_only)
-    ]
-    if missing_nodes:
-        formatted = format_list_linewise(missing_nodes)
-        raise ValueError(f"The following data columns are missing.\n{formatted}")
-
-
-def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
-    """Fail if data is not a tree with sequence leaves or a DataFrame."""
-    not_df = not isinstance(data, pd.DataFrame)
-    not_dict = not isinstance(data, dict)
-    not_sequence_leafs = any(
-        not isinstance(el, pd.Series | np.ndarray | list)
-        for el in tree_flatten(data)[0]
-    )
-
-    if not_df and (not_dict or not_sequence_leafs):
-        raise TypeError(
-            """
-            Data must be provided as a tree with sequence leaves (pd.Series, np.ndarray,
-            or list) or as a DataFrame.
-            """
-        )
-
-
 def _warn_or_raise_if_unnecessary_data(
     names_unnecessary_data: list[str],
     check_minimal_specification: Literal["ignore", "warn", "raise"],
@@ -947,49 +786,6 @@ def _apply_rounding_spec(
     return inner
 
 
-def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag: networkx.DiGraph,
-    names_of_columns_overriding_functions: list[str],
-    check_minimal_specification: Literal["ignore", "warn", "raise"],
-) -> None:
-    """Fail if ``names_of_columns_overriding_functions`` are not in the DAG.
-
-    Parameters
-    ----------
-    dag
-        The DAG which is limited to targets and their ancestors.
-    names_of_columns_overriding_functions
-        The nodes which are provided by columns in the data and do not need to be
-        computed. These columns limit the depth of the DAG.
-    check_minimal_specification
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
-
-    Warnings
-    --------
-    UserWarning
-        Warns if there are columns in 'names_of_columns_overriding_functions' which are
-        not necessary and ``check_minimal_specification`` is set to "warn".
-    Raises
-    ------
-    ValueError
-        Raised if there are columns in 'names_of_columns_overriding_functions' which are
-        not necessary and ``check_minimal_specification`` is set to "raise".
-
-    """
-    unused_columns = set(names_of_columns_overriding_functions) - set(dag.nodes)
-    formatted = format_list_linewise(unused_columns)
-    if unused_columns and check_minimal_specification == "warn":
-        warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
-            stacklevel=2,
-        )
-    elif unused_columns and check_minimal_specification == "raise":
-        raise ValueError(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
-        )
-
-
 def _prepare_results(
     results: NestedDataDict,
     data: NestedDataDict,
@@ -1035,3 +831,204 @@ def _reorder_columns(results):
     remaining_columns = [i for i in results if i not in sorted_ids]
 
     return results[sorted_ids + remaining_columns]
+
+
+def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
+    """Check that all column names are unique."""
+    if any(data.columns.duplicated()):
+        raise ValueError(
+            "The following columns are non-unique in the input data:\n\n"
+            f"{data.columns[data.columns.duplicated()]}"
+        )
+
+
+def _fail_if_group_variables_not_constant_within_groups(data: NestedDataDict) -> None:
+    """Check whether group variables have the same value within each group.
+
+    Parameters
+    ----------
+    data : dict[str, Any]
+        Data provided by the user.
+
+    """
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
+
+    grouped_data_cols = {
+        name: col
+        for name, col in names_leafs_dict.items()
+        if any(name.endswith(grouping) for grouping in SUPPORTED_GROUPINGS)
+    }
+    group_ids_in_data = {
+        name: col
+        for name, col in names_leafs_dict.items()
+        if name.endswith("_id") and name.split("_")[-2] in SUPPORTED_GROUPINGS
+    }
+
+    for name, col in grouped_data_cols.items():
+        group_id_name = f"groupings__{name.split('_')[-1]}_id"
+
+        try:
+            group_id_array = group_ids_in_data[group_id_name]
+        except KeyError:
+            continue
+
+        max_value = col.groupby(group_id_array).transform("max")
+        if not (max_value == col).all():
+            message = format_errors_and_warnings(
+                f"""
+                Data input {name!r} has not one unique value per group defined by
+                {group_id_name!r}.
+
+                To fix the error, assign the same value to each group.
+                """
+            )
+            raise ValueError(message)
+
+
+def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
+    """Check that pid is unique."""
+    try:
+        p_id_col = get_by_path(data, ["groupings", "p_id"])
+    except KeyError as e:
+        message = "The input data must contain the p_id."
+        raise ValueError(message) from e
+
+    # Check for non-unique p_ids
+    p_id_counts = {}
+    for p_id in p_id_col:
+        if p_id in p_id_counts:
+            p_id_counts[p_id] += 1
+        else:
+            p_id_counts[p_id] = 1
+
+    non_unique_p_ids = [p_id for p_id, count in p_id_counts.items() if count > 1]
+
+    if non_unique_p_ids:
+        message = (
+            "The following p_ids are non-unique in the input data:"
+            f"{non_unique_p_ids}"
+        )
+        raise ValueError(message)
+
+
+def _fail_if_foreign_keys_are_invalid(data: NestedDataDict) -> None:
+    """
+    Check that all foreign keys are valid.
+
+    They must point to an existing `p_id` in the input data and may not refer to
+    the `p_id` of the same row.
+    """
+    p_id_col = get_by_path(data, ["groupings", "p_id"])
+    valid_ids = set(p_id_col) | {-1}
+
+    names_leafs_dict = tree_to_dict_with_qualified_name(data)
+    for name, col in names_leafs_dict.items():
+        foreign_key_col = any(name.endswith(group) for group in FOREIGN_KEYS)
+
+        if not foreign_key_col:
+            continue
+
+        # Referenced `p_id` must exist in the input data
+        if not all(i in valid_ids for i in col):
+            message = f"""
+                The following {name}s are not a valid p_id in the input
+                data: {[i for i in col if i not in valid_ids]}
+                """
+            raise ValueError(message)
+
+        # Referenced `p_id` must not be the same as the `p_id` of the same row
+        equal_to_pid_in_same_row = [i for i, j in zip(col, p_id_col) if i == j]
+        if any(equal_to_pid_in_same_row):
+            message = f"""
+                The following {name}s are equal to the p_id in the same
+                row: {equal_to_pid_in_same_row}
+                """
+            raise ValueError(message)
+
+
+def _fail_if_root_nodes_are_missing(
+    functions: NestedFunctionDict,
+    root_nodes: list[str],
+    data_cols: list[str],
+) -> None:
+    # Identify functions that are part of the DAG, but do not depend
+    # on any other function
+    names_to_functions_dict = tree_to_dict_with_qualified_name(functions)
+    funcs_based_on_params_only = [
+        func_name
+        for func_name, func in names_to_functions_dict.items()
+        if len(
+            [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
+        )
+        == 0
+    ]
+
+    missing_nodes = [
+        c
+        for c in root_nodes
+        if (c not in data_cols and c not in funcs_based_on_params_only)
+    ]
+    if missing_nodes:
+        formatted = format_list_linewise(missing_nodes)
+        raise ValueError(f"The following data columns are missing.\n{formatted}")
+
+
+def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
+    """Fail if data is not a tree with sequence leaves or a DataFrame."""
+    not_df = not isinstance(data, pd.DataFrame)
+    not_dict = not isinstance(data, dict)
+    not_sequence_leafs = any(
+        not isinstance(el, pd.Series | np.ndarray | list)
+        for el in tree_flatten(data)[0]
+    )
+
+    if not_df and (not_dict or not_sequence_leafs):
+        raise TypeError(
+            """
+            Data must be provided as a tree with sequence leaves (pd.Series, np.ndarray,
+            or list) or as a DataFrame.
+            """
+        )
+
+
+def _fail_if_columns_overriding_functions_are_not_in_dag(
+    dag: networkx.DiGraph,
+    names_of_columns_overriding_functions: list[str],
+    check_minimal_specification: Literal["ignore", "warn", "raise"],
+) -> None:
+    """Fail if ``names_of_columns_overriding_functions`` are not in the DAG.
+
+    Parameters
+    ----------
+    dag
+        The DAG which is limited to targets and their ancestors.
+    names_of_columns_overriding_functions
+        The nodes which are provided by columns in the data and do not need to be
+        computed. These columns limit the depth of the DAG.
+    check_minimal_specification
+        Indicator for whether checks which ensure the most minimalistic configuration
+        should be silenced, emitted as warnings or errors.
+
+    Warnings
+    --------
+    UserWarning
+        Warns if there are columns in 'names_of_columns_overriding_functions' which are
+        not necessary and ``check_minimal_specification`` is set to "warn".
+    Raises
+    ------
+    ValueError
+        Raised if there are columns in 'names_of_columns_overriding_functions' which are
+        not necessary and ``check_minimal_specification`` is set to "raise".
+
+    """
+    unused_columns = set(names_of_columns_overriding_functions) - set(dag.nodes)
+    formatted = format_list_linewise(unused_columns)
+    if unused_columns and check_minimal_specification == "warn":
+        warnings.warn(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
+            stacklevel=2,
+        )
+    elif unused_columns and check_minimal_specification == "raise":
+        raise ValueError(
+            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
+        )
