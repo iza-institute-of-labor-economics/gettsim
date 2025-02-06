@@ -45,11 +45,10 @@ from _gettsim.shared import (
 )
 
 
-def compute_taxes_and_transfers(  # noqa: PLR0913
+def compute_taxes_and_transfers(
     data: NestedDataDict,
     environment: PolicyEnvironment,
     targets: NestedTargetDict | None = None,
-    check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
     rounding: bool = True,
     debug: bool = False,
 ) -> NestedDataDict:
@@ -64,9 +63,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     targets : NestedTargetDict | None
         The targets tree. By default, ``targets`` is ``None`` and all key outputs as
         defined by `gettsim.config.DEFAULT_TARGETS` are returned.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
     rounding : bool, default True
         Indicator for whether rounding should be applied as specified in the law.
     debug : bool
@@ -125,7 +121,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
-        check_minimal_specification=check_minimal_specification,
     )
     nodes = create_tree_from_list_of_qualified_names(preliminary_dag.nodes)
     # Round and partial parameters into functions that are nodes in the DAG.
@@ -156,7 +151,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
-        check_minimal_specification=check_minimal_specification,
     )
 
     results = tax_transfer_function(input_data)
@@ -314,9 +308,7 @@ def _use_correct_series_names(data: NestedDataDict) -> NestedDataDict:
 def set_up_dag(
     all_functions: NestedFunctionDict,
     targets: NestedTargetDict,
-    names_of_columns_overriding_functions: list[str],
     input_structure: NestedInputStructureDict,
-    check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
 ) -> networkx.DiGraph:
     """Set up the DAG. Partial functions before that and add rounding afterwards.
 
@@ -329,14 +321,8 @@ def set_up_dag(
         Tree names of functions whose output is actually needed by the user as leafs. By
         default, ``targets`` contains all key outputs as defined by
         `gettsim.config.DEFAULT_TARGETS`.
-    names_of_columns_overriding_functions : dict
-        Names of columns in the data which are preferred over function defined in the
-        tax and transfer system.
     input_structure : dict
         Tree representing the input structure.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
 
     Returns
     -------
@@ -346,16 +332,12 @@ def set_up_dag(
     """
     # Create DAG and perform checks which depend on data which is not part of the DAG
     # interface.
-    dag = dags.dag_tree.create_dag_tree(
+    return dags.dag_tree.create_dag_tree(
         functions=all_functions,
         targets=targets,
         input_structure=input_structure,
         name_clashes="raise",
     )
-    _fail_if_columns_overriding_functions_are_not_in_dag(
-        dag, names_of_columns_overriding_functions, check_minimal_specification
-    )
-    return dag
 
 
 def _process_and_check_data(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
@@ -478,13 +460,12 @@ def _convert_data_to_correct_types(
     return data
 
 
-def _create_input_data(  # noqa: PLR0913
+def _create_input_data(
     processed_functions: NestedFunctionDict,
     data: NestedDataDict,
     targets: NestedTargetDict,
     names_of_columns_overriding_functions: list[str],
     input_structure: NestedInputStructureDict,
-    check_minimal_specification: Literal["ignore", "warn", "raise"] = "ignore",
 ):
     """Create input data for use in the calculation of taxes and transfers by:
 
@@ -503,9 +484,6 @@ def _create_input_data(  # noqa: PLR0913
         Names of columns in the data that override hard-coded functions.
     input_structure : NestedInputStructureDict
         Tree representing the input structure.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
 
     Returns
     -------
@@ -519,7 +497,6 @@ def _create_input_data(  # noqa: PLR0913
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
         input_structure=input_structure,
-        check_minimal_specification=check_minimal_specification,
     )
     root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
     data_cols = tree_to_dict_with_qualified_name(data).keys()
@@ -530,13 +507,9 @@ def _create_input_data(  # noqa: PLR0913
     )
 
     # Check that only necessary data is passed
-    unnecessary_data, input_data = partition_tree_by_reference_tree(
+    _, input_data = partition_tree_by_reference_tree(
         tree=data,
         qualified_names_list=root_nodes,
-    )
-    names_unnecessary_data = tree_to_dict_with_qualified_name(unnecessary_data).keys()
-    _warn_or_raise_if_unnecessary_data(
-        names_unnecessary_data, check_minimal_specification
     )
 
     return tree_to_dict_with_qualified_name(
@@ -596,19 +569,6 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
             """
         )
         super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
-
-
-def _warn_or_raise_if_unnecessary_data(
-    names_unnecessary_data: list[str],
-    check_minimal_specification: Literal["ignore", "warn", "raise"],
-) -> None:
-    # Produce warning or fail if more than necessary data is given.
-    formatted = format_list_linewise(names_unnecessary_data)
-    message = f"The following columns in 'data' are unused.\n\n{formatted}"
-    if names_unnecessary_data and check_minimal_specification == "warn":
-        warnings.warn(message, stacklevel=2)
-    elif names_unnecessary_data and check_minimal_specification == "raise":
-        raise ValueError(message)
 
 
 def _round_and_partial_parameters_to_functions(
@@ -1075,47 +1035,4 @@ def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
             Data must be provided as a tree with sequence leaves (pd.Series, np.ndarray,
             or list) or as a DataFrame.
             """
-        )
-
-
-def _fail_if_columns_overriding_functions_are_not_in_dag(
-    dag: networkx.DiGraph,
-    names_of_columns_overriding_functions: list[str],
-    check_minimal_specification: Literal["ignore", "warn", "raise"],
-) -> None:
-    """Fail if ``names_of_columns_overriding_functions`` are not in the DAG.
-
-    Parameters
-    ----------
-    dag
-        The DAG which is limited to targets and their ancestors.
-    names_of_columns_overriding_functions
-        The nodes which are provided by columns in the data and do not need to be
-        computed. These columns limit the depth of the DAG.
-    check_minimal_specification
-        Indicator for whether checks which ensure the most minimalistic configuration
-        should be silenced, emitted as warnings or errors.
-
-    Warnings
-    --------
-    UserWarning
-        Warns if there are columns in 'names_of_columns_overriding_functions' which are
-        not necessary and ``check_minimal_specification`` is set to "warn".
-    Raises
-    ------
-    ValueError
-        Raised if there are columns in 'names_of_columns_overriding_functions' which are
-        not necessary and ``check_minimal_specification`` is set to "raise".
-
-    """
-    unused_columns = set(names_of_columns_overriding_functions) - set(dag.nodes)
-    formatted = format_list_linewise(unused_columns)
-    if unused_columns and check_minimal_specification == "warn":
-        warnings.warn(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}",
-            stacklevel=2,
-        )
-    elif unused_columns and check_minimal_specification == "raise":
-        raise ValueError(
-            f"The following 'columns_overriding_functions' are unused:\n{formatted}"
         )

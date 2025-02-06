@@ -285,7 +285,9 @@ def test_check_minimal_spec_data():
         match="The following columns in 'data' are unused",
     ):
         compute_taxes_and_transfers(
-            data, environment, targets="c", check_minimal_specification="raise"
+            data,
+            environment,
+            targets="c",
         )
 
 
@@ -307,7 +309,9 @@ def test_check_minimal_spec_data_warn():
         match="The following columns in 'data' are unused",
     ):
         compute_taxes_and_transfers(
-            data, environment, targets="c", check_minimal_specification="warn"
+            data,
+            environment,
+            targets="c",
         )
 
 
@@ -332,7 +336,9 @@ def test_check_minimal_spec_columns_overriding():
         match="The following 'columns_overriding_functions' are unused",
     ):
         compute_taxes_and_transfers(
-            data, environment, targets="c", check_minimal_specification="raise"
+            data,
+            environment,
+            targets="c",
         )
 
 
@@ -357,7 +363,9 @@ def test_check_minimal_spec_columns_overriding_warn():
         match="The following 'columns_overriding_functions' are unused",
     ):
         compute_taxes_and_transfers(
-            data, environment, targets="c", check_minimal_specification="warn"
+            data,
+            environment,
+            targets="c",
         )
 
 
