@@ -193,9 +193,9 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
     return result
 
 
-def _load_module(path: Path, package_root: Path) -> ModuleType:
-    module_name = _convert_path_to_importable_module_name(path, package_root)
-    spec = importlib.util.spec_from_file_location(module_name, path)
+def _load_module(system_path: Path, package_root: Path) -> ModuleType:
+    module_name = _convert_path_to_importable_module_name(system_path, package_root)
+    spec = importlib.util.spec_from_file_location(module_name, system_path)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
     spec.loader.exec_module(module)
@@ -203,7 +203,9 @@ def _load_module(path: Path, package_root: Path) -> ModuleType:
     return module
 
 
-def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> str:
+def _convert_path_to_importable_module_name(
+    system_path: Path, package_root: Path
+) -> str:
     """
     Convert an absolute path to a Python module name.
 
@@ -213,7 +215,7 @@ def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> s
     "taxes.functions"
     """
     return (
-        path.relative_to(package_root.parent)
+        system_path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
         .replace("/", ".")
@@ -281,7 +283,7 @@ def load_aggregations_tree() -> NestedAggregationDict:
 
     for system_path in system_paths_to_aggregation_specs:
         derived_function_specs = _load_aggregation_specs_from_module(
-            path=system_path,
+            system_path=system_path,
             package_root=RESOURCE_DIR,
         )
 
@@ -299,7 +301,7 @@ def load_aggregations_tree() -> NestedAggregationDict:
 
 
 def _load_aggregation_specs_from_module(
-    path: Path,
+    system_path: Path,
     package_root: Path,
 ) -> dict[str, AggregateByGroupSpec | AggregateByPIDSpec]:
     """
@@ -322,7 +324,7 @@ def _load_aggregation_specs_from_module(
     # modules in the renaming PR. Then, 'aggregation_specs_in_module' will be a list of
     # dictionaries.
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-    module = _load_module(path, package_root)
+    module = _load_module(system_path, package_root)
     aggregation_specs_in_module = {  # Will become a list in renamings PR
         name: member
         for name, member in inspect.getmembers(module)
