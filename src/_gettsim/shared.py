@@ -172,7 +172,7 @@ def partition_tree_by_reference_tree(
     return tree_with_absent_leaves, tree_with_present_leaves
 
 
-def format_errors_and_warnings(text, width=79):
+def format_errors_and_warnings(text: str, width: int = 79) -> str:
     """Format our own exception messages and warnings by dedenting paragraphs and
     wrapping at the specified width. Mainly required because of messages are written as
     part of indented blocks in our source code.
@@ -368,3 +368,57 @@ def tree_flatten_with_qualified_name(
     )
     qualified_names = ["__".join(path) for path in paths]
     return qualified_names, flattened_tree, tree_spec
+
+
+def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> None:
+    """
+    Recursively assert that a pytree (nested dict) meets the following conditions:
+      - The tree is a dictionary.
+      - All keys are strings.
+      - All leaves satisfy a provided condition (leaf_checker).
+
+    Parameters
+    ----------
+    tree : Any
+         The tree to validate.
+    leaf_checker : Callable
+         A function that takes a leaf and returns True if it is valid.
+    tree_name : str
+         The name of the tree (used for error messages).
+
+    Raises
+    ------
+    TypeError
+         If any branch or leaf does not meet the expected requirements.
+    """
+
+    def _assert_valid_pytree(subtree: Any, current_key: tuple[str, ...]) -> None:
+        def format_key_path(key_tuple: tuple[str, ...]) -> str:
+            return "".join(f"[{k}]" for k in key_tuple)
+
+        if not isinstance(subtree, dict):
+            path_str = format_key_path(current_key)
+            msg = format_errors_and_warnings(
+                f"{tree_name}{path_str} must be a dict, got {type(subtree)}."
+            )
+            raise TypeError(msg)
+
+        for key, value in subtree.items():
+            new_key_path = (*current_key, key)
+            if not isinstance(key, str):
+                msg = format_errors_and_warnings(
+                    f"Key {key} in {tree_name}{format_key_path(current_key)} must be a "
+                    f"string but got {type(key)}."
+                )
+                raise TypeError(msg)
+            if isinstance(value, dict):
+                _assert_valid_pytree(value, new_key_path)
+            else:
+                if not leaf_checker(value):
+                    msg = format_errors_and_warnings(
+                        f"Leaf at {tree_name}{format_key_path(new_key_path)} is "
+                        f"invalid: got {value} of type {type(value)}."
+                    )
+                    raise TypeError(msg)
+
+    _assert_valid_pytree(tree, current_key=())

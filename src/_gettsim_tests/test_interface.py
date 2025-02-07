@@ -12,7 +12,6 @@ from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
-    _assert_valid_pytree,
     _convert_data_to_correct_types,
     _fail_if_data_not_dict_with_sequence_leafs_or_dataframe,
     _fail_if_foreign_keys_are_invalid,
@@ -25,6 +24,7 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.shared import assert_valid_pytree
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -801,4 +801,4 @@ def test_use_correct_series_names(input_object, expected_output):
 )
 def test_assert_valid_pytree(tree, leaf_checker, err_substr):
     with pytest.raises(TypeError, match=re.escape(err_substr)):
-        _assert_valid_pytree(tree, leaf_checker, "tree")
+        assert_valid_pytree(tree, leaf_checker, "tree")

@@ -32,6 +32,7 @@ from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
+    assert_valid_pytree,
     create_tree_from_list_of_qualified_names,
     format_errors_and_warnings,
     format_list_linewise,
@@ -784,77 +785,19 @@ def _fail_if_targets_tree_not_valid(targets_tree: NestedTargetDict) -> None:
     """
     Validate that the targets tree is a dictionary with string keys and None leaves.
     """
-    _assert_valid_pytree(targets_tree, lambda leaf: leaf is None, "targets_tree")
+    assert_valid_pytree(targets_tree, lambda leaf: leaf is None, "targets_tree")
 
 
 def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     """
     Validate that the data tree is a dictionary with string keys and pd.Series leaves.
     """
-    _assert_valid_pytree(
+    assert_valid_pytree(
         data_tree, lambda leaf: isinstance(leaf, pd.Series), "data_tree"
     )
     _fail_if_pid_is_non_unique(data_tree)
     _fail_if_group_variables_not_constant_within_groups(data_tree)
     _fail_if_foreign_keys_are_invalid(data_tree)
-
-
-def _assert_valid_pytree(
-    tree: any, leaf_checker, tree_name: str, current_key: tuple[str, ...] = ()
-) -> None:
-    """
-    Recursively assert that a pytree (nested dict) meets the following conditions:
-      - The tree is a dictionary.
-      - All keys are strings.
-      - All leaves satisfy a provided condition (leaf_checker).
-
-    Parameters
-    ----------
-    tree :
-         The tree to validate.
-    leaf_checker :
-         A function that takes a leaf and returns True if it is valid.
-    tree_name :
-         The name of the tree (used for error messages).
-    current_key : tuple[str, ...], optional
-         The tuple that accumulates keys for the current path in the tree.
-
-    Raises
-    ------
-    ValueError
-         If any branch or leaf does not meet the expected requirements.
-    """
-
-    def format_key_path(key_tuple: tuple[str, ...]) -> str:
-        # Format the current key path as [key1][key2]...
-        return "".join(f"[{k}]" for k in key_tuple)
-
-    # Check that the current tree is a dict.
-    if not isinstance(tree, dict):
-        path_str = format_key_path(current_key)
-        msg = f"{tree_name}{path_str} must be a dict, got {type(tree)}."
-        raise TypeError(msg)
-
-    for key, value in tree.items():
-        new_key_path = (*current_key, key)
-        # Check that the key is a string.
-        if not isinstance(key, str):
-            msg = (
-                f"Key {key} in {tree_name}{format_key_path(current_key)} must be a "
-                f"string but got {type(key)}."
-            )
-            raise TypeError(msg)
-        # Check that the value is a dict.
-        if isinstance(value, dict):
-            _assert_valid_pytree(value, leaf_checker, tree_name, new_key_path)
-        else:
-            # Check that the value satisfies the leaf_checker.
-            if not leaf_checker(value):
-                msg = (
-                    f"Leaf at {tree_name}{format_key_path(new_key_path)} is invalid: "
-                    f"got {value} of type {type(value)}."
-                )
-                raise TypeError(msg)
 
 
 def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
