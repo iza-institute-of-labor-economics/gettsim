@@ -52,8 +52,8 @@ if TYPE_CHECKING:
 
 def combine_policy_functions_and_derived_functions(
     environment: PolicyEnvironment,
-    targets: NestedTargetDict,
-    data: NestedDataDict,
+    targets_tree: NestedTargetDict,
+    data_tree: NestedDataDict,
 ) -> NestedFunctionDict:
     """Create the functions tree including derived functions.
 
@@ -67,10 +67,10 @@ def combine_policy_functions_and_derived_functions(
     ----------
     environment : PolicyEnvironment
         The environment containing the functions tree and the specs for aggregation.
-    targets : NestedTargetDict
+    targets_tree : NestedTargetDict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    data : NestedDataDict
+    data_tree : NestedDataDict
         Names of columns in the input data.
 
     Returns
@@ -85,14 +85,15 @@ def combine_policy_functions_and_derived_functions(
         aggregate_by_group_functions,
         aggregate_by_p_id_functions,
     ) = _create_derived_functions(
-        environment,
-        targets,
-        data,
+        environment=environment,
+        targets_tree=targets_tree,
+        data_tree=data_tree,
     )
 
     # Create groupings
     groupings = create_groupings()
 
+    # Put all functions into a functions tree
     all_functions = functools.reduce(
         merge_nested_dicts,
         [
@@ -104,38 +105,40 @@ def combine_policy_functions_and_derived_functions(
         environment.policy_functions_tree,
     )
 
-    _fail_if_targets_are_not_among_functions(all_functions, targets)
+    _fail_if_targets_not_in_functions_tree(all_functions, targets_tree)
 
     return all_functions
 
 
 def _create_derived_functions(
     environment: PolicyEnvironment,
-    targets: NestedTargetDict,
-    data: NestedDataDict,
+    targets_tree: NestedTargetDict,
+    data_tree: NestedDataDict,
 ) -> tuple[NestedFunctionDict, NestedFunctionDict, NestedFunctionDict]:
     """
     Create functions that are derived from the user and internal functions.
 
-    This includes:
-    - functions for converting to different time units
-    - aggregation functions
-    - combinations of these
+    These include:
+        - functions for converting to different time units
+        - aggregation functions
+        - combinations of these
     """
+    all_functions = environment.policy_functions_tree
+
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
-        environment.policy_functions_tree,
-        environment.aggregate_by_p_id_specs_tree,
+        functions_tree=all_functions,
+        aggregation_dicts_provided_by_env=environment.aggregate_by_p_id_specs_tree,
     )
 
     # Create functions for different time units
     all_functions = merge_nested_dicts(
-        environment.policy_functions_tree,
+        all_functions,
         aggregate_by_p_id_functions,
     )
     time_conversion_functions = create_time_conversion_functions(
-        all_functions,
-        data,
+        functions_tree=all_functions,
+        data_tree=data_tree,
     )
 
     # Create aggregation functions
@@ -144,10 +147,10 @@ def _create_derived_functions(
         time_conversion_functions,
     )
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
-        all_functions,
-        targets,
-        data,
-        environment.aggregate_by_group_specs_tree,
+        functions_tree=all_functions,
+        targets_tree=targets_tree,
+        data_tree=data_tree,
+        aggregation_dicts_provided_by_env=environment.aggregate_by_group_specs_tree,
     )
 
     return (
@@ -194,7 +197,6 @@ def _create_aggregate_by_group_functions(
                 current_namespace=path[:-1],
             )
         )
-        _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
 
         derived_func = _create_one_aggregate_by_group_func(
             aggregation_target=aggregation_target,
@@ -508,7 +510,6 @@ def _create_aggregate_by_p_id_functions(
                 current_namespace=path[:-1],
             )
         )
-        _fail_if_aggregation_target_is_namespaced(target=aggregation_target)
 
         derived_func = _create_one_aggregate_by_p_id_func(
             aggregation_target=aggregation_target,
@@ -678,16 +679,16 @@ def _get_path_from_argument_name(
     return tuple(new_path)
 
 
-def _fail_if_targets_are_not_among_functions(
-    functions: NestedFunctionDict, targets: NestedTargetDict
+def _fail_if_targets_not_in_functions_tree(
+    functions_tree: NestedFunctionDict, targets_tree: NestedTargetDict
 ) -> None:
     """Fail if some target is not among functions.
 
     Parameters
     ----------
-    functions : dict
+    functions_tree : dict
         Dictionary containing functions to build the DAG.
-    targets : dict
+    targets_tree : dict
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
 
@@ -697,44 +698,16 @@ def _fail_if_targets_are_not_among_functions(
         Raised if any member of `targets` is not among functions.
 
     """
-    accessors = optree.tree_accessors(targets, none_is_leaf=True)
+    accessors = optree.tree_accessors(targets_tree, none_is_leaf=True)
     targets_not_in_functions = []
     for acc in accessors:
         try:
-            acc(functions)
+            acc(functions_tree)
         except KeyError:
-            qualified_name = QUALIFIED_NAME_SEPARATOR.join(acc.path)
-            targets_not_in_functions.append(qualified_name)
+            targets_not_in_functions.append(".".join(acc.path))
 
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         raise ValueError(
             f"The following targets have no corresponding function:\n{formatted}"
-        )
-
-
-def _fail_if_aggregation_target_is_namespaced(target: str) -> None:
-    """Fail if aggregation target is namespaced.
-
-    The namespace of aggregation targets is automatically determined by the position of
-    the aggregation specification in the tree.
-
-    Parameters
-    ----------
-    target : str
-        The target to check.
-
-    Raises
-    ------
-    ValueError
-        Raised if the target is namespaced.
-
-    """
-    if QUALIFIED_NAME_SEPARATOR in target:
-        raise ValueError(
-            f"""
-            Aggregation target {target} must not be namespaced. Please provide a simple
-            name. The qualified name of the target is determined by the position of the
-            aggregation specification in the tree.
-            """
         )

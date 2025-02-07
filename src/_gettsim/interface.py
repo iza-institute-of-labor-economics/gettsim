@@ -46,9 +46,9 @@ from _gettsim.shared import (
 
 
 def compute_taxes_and_transfers(
-    data: NestedDataDict,
+    data_tree: NestedDataDict,
     environment: PolicyEnvironment,
-    targets: NestedTargetDict | None = None,
+    targets_tree: NestedTargetDict | None = None,
     rounding: bool = True,
     debug: bool = False,
 ) -> NestedDataDict:
@@ -56,20 +56,20 @@ def compute_taxes_and_transfers(
 
     Parameters
     ----------
-    data : NestedDataDict
+    data_tree : NestedDataDict
         Data provided by the user.
     environment: PolicyEnvironment
         The policy environment which contains all necessary functions and parameters.
-    targets : NestedTargetDict | None
-        The targets tree. By default, ``targets`` is ``None`` and all key outputs as
-        defined by `gettsim.config.DEFAULT_TARGETS` are returned.
+    targets_tree : NestedTargetDict | None
+        The targets tree. By default, ``targets_tree`` is ``None`` and all key outputs
+        as defined by `gettsim.config.DEFAULT_TARGETS` are returned.
     rounding : bool, default True
         Indicator for whether rounding should be applied as specified in the law.
     debug : bool
         The debug mode does the following:
-        1. All necessary inputs and all computed variables are returned.
-        2. If an exception occurs while computing one variable, the exception is
-           skipped.
+            1. All necessary inputs and all computed variables are returned.
+            2. If an exception occurs while computing one variable, the exception is
+                skipped.
 
     Returns
     -------
@@ -78,17 +78,17 @@ def compute_taxes_and_transfers(
 
     """
     # Check user inputs
-    _fail_if_targets_tree_not_valid(targets)
-    _fail_if_data_tree_not_valid(data)
+    _fail_if_targets_tree_not_valid(targets_tree)
+    _fail_if_data_tree_not_valid(data_tree)
     _fail_if_environment_not_valid(environment)
 
     # Use default targets if no targets are provided.
-    targets = targets if targets else DEFAULT_TARGETS
+    targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
 
     all_functions = combine_policy_functions_and_derived_functions(
         environment=environment,
-        targets=targets,
-        data=data,
+        targets_tree=targets_tree,
+        data_tree=data_tree,
     )
 
     functions_not_overridden, functions_overridden = partition_tree_by_reference_tree(
