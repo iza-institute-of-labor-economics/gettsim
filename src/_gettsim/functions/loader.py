@@ -5,7 +5,6 @@ import itertools
 import sys
 from pathlib import Path
 from types import ModuleType
-from typing import Literal, TypeAlias
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import (
@@ -262,23 +261,12 @@ def _convert_system_path_to_tree_path(
     return _simplify_tree_path_when_module_name_equals_dir_name(branches)
 
 
-_AggregationVariant: TypeAlias = Literal["aggregate_by_group", "aggregate_by_p_id"]
-
-
-def load_one_aggregation_specs_tree(
-    variant: _AggregationVariant,
-) -> NestedAggregationDict:
+def load_aggregations_tree() -> NestedAggregationDict:
     """
     Load the aggregation tree.
 
     This function loads the aggregation tree from the internal functions by searching
     and loading all aggregation specifications from GETTSIM's modules.
-
-    Parameters
-    ----------
-    variant:
-        The variant of the aggregation tree to load. Can be either 'aggregate_by_group'
-        or 'aggregate_by_p_id'.
 
     Returns
     -------
@@ -289,31 +277,31 @@ def load_one_aggregation_specs_tree(
         PATHS_TO_INTERNAL_FUNCTIONS
     )
 
-    aggregation_tree = {}
+    aggregations_tree = {}
 
     for system_path in system_paths_to_aggregation_specs:
         derived_function_specs = _load_aggregation_specs_from_module(
-            path=system_path, package_root=RESOURCE_DIR, prefix_filter=f"{variant}_"
+            path=system_path,
+            package_root=RESOURCE_DIR,
         )
 
         tree_path = _convert_system_path_to_tree_path(
             system_path=system_path, package_root=RESOURCE_DIR
         )
 
-        aggregation_tree = tree_update(
-            tree=aggregation_tree,
+        aggregations_tree = tree_update(
+            tree=aggregations_tree,
             path=tree_path,
             value=derived_function_specs,
         )
 
-    return aggregation_tree
+    return aggregations_tree
 
 
 def _load_aggregation_specs_from_module(
     path: Path,
     package_root: Path,
-    prefix_filter: str,
-) -> dict:
+) -> dict[str, AggregateByGroupSpec | AggregateByPIDSpec]:
     """
     Load aggregation specifications from one module.
 
@@ -324,37 +312,36 @@ def _load_aggregation_specs_from_module(
     ----------
     path:
         The path to the module in which to search for dictionaries.
-    prefix_filter:
-        The prefix that the names of the dictionaries must have.
 
     Returns
     -------
     dictionaries:
         Loaded dictionaries.
     """
+    # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to all
+    # modules in the renaming PR. Then, 'aggregation_specs_in_module' will be a list of
+    # dictionaries.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
     module = _load_module(path, package_root)
-    module_name = _convert_path_to_importable_module_name(path, package_root)
-    aggregation_specs_in_module = [
-        member
+    aggregation_specs_in_module = {  # Will become a list in renamings PR
+        name: member
         for name, member in inspect.getmembers(module)
-        if isinstance(member, dict) and name.startswith(prefix_filter)
-    ]
+        if isinstance(member, dict)
+        and name.startswith(("aggregate_by_group_", "aggregate_by_p_id_"))
+    }
 
-    _fail_if_more_than_one_dict_loaded(aggregation_specs_in_module, module_name)
+    aggregations_from_module = {}
 
-    return (
-        {
-            # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to
-            # all modules in the renaming PR.
-            # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-            name: AggregateByGroupSpec(**spec)
-            if prefix_filter == "aggregate_by_group_"
-            else AggregateByPIDSpec(**spec)
-            for name, spec in aggregation_specs_in_module[0].items()
-        }
-        if aggregation_specs_in_module
-        else {}
-    )
+    # Temporary solution.
+    for type_name, specs_for_type in aggregation_specs_in_module.items():
+        for name, spec in specs_for_type.items():
+            aggregations_from_module[name] = (
+                AggregateByGroupSpec(**spec)
+                if type_name.startswith("aggregate_by_group_")
+                else AggregateByPIDSpec(**spec)
+            )
+
+    return aggregations_from_module
 
 
 def _simplify_tree_path_when_module_name_equals_dir_name(

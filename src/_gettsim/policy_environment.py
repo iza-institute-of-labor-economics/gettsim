@@ -155,10 +155,7 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
-        result._aggregate_by_group_specs_tree = (  # noqa: SLF001
-            self._aggregate_by_group_specs_tree
-        )
-        result._aggregate_by_p_id_specs_tree = self._aggregate_by_p_id_specs_tree  # noqa: SLF001
+        result._aggregations_tree = self._aggregations_tree  # noqa: SLF001
 
         return result
 
