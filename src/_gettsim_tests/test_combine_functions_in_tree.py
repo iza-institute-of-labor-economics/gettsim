@@ -7,7 +7,7 @@ from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
     _create_aggregate_by_group_functions,
     _fail_if_targets_not_in_functions_tree,
-    _get_path_from_argument_name,
+    _get_tree_path_from_source_col_name,
 )
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction, policy_function
@@ -175,9 +175,9 @@ def test_create_aggregate_by_group_functions(
 ):
     derived_functions = _create_aggregate_by_group_functions(
         functions_tree=functions_tree,
-        targets=targets_tree,
-        data=data_tree,
-        aggregation_dicts_provided_by_env=aggregations_specs_from_env,
+        targets_tree=targets_tree,
+        data_tree=data_tree,
+        aggregations_tree_provided_by_env=aggregations_specs_from_env,
     )
 
     # Verify structure
@@ -197,8 +197,11 @@ def test_create_aggregate_by_group_functions(
         ("dir__module__foo", ["dir", "module"], ("dir", "module", "foo")),
     ],
 )
-def test_get_path_from_argument_name(argument_name, current_namespace, expected):
-    assert _get_path_from_argument_name(argument_name, current_namespace) == expected
+def test_get_tree_path_from_source_col_name(argument_name, current_namespace, expected):
+    assert (
+        _get_tree_path_from_source_col_name(argument_name, current_namespace)
+        == expected
+    )
 
 
 @pytest.mark.parametrize(
@@ -238,7 +241,7 @@ def test_annotations_for_aggregation(
     "functions, targets, expected_error_match",
     [
         ({"foo": lambda x: x}, {"bar": None}, "bar"),
-        ({"foo": {"baz": lambda x: x}}, {"foo": {"bar": None}}, "foo__bar"),
+        ({"foo": {"baz": lambda x: x}}, {"foo": {"bar": None}}, "foo.bar"),
     ],
 )
 def test_fail_if_targets_are_not_among_functions(

@@ -58,7 +58,7 @@ def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict
 
 
 def tree_update(
-    tree: dict[str, Any], path: list[str], value: Any = None
+    tree: dict[str, Any], tree_path: list[str], value: Any = None
 ) -> dict[str, Any]:
     """Update tree with a path and value.
 
@@ -66,8 +66,8 @@ def tree_update(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_dict_from_list(path)
-    set_by_path(update_dict, path, value)
+    update_dict = create_dict_from_list(tree_path)
+    tree_set_by_path(update_dict, tree_path, value)
     return merge_nested_dicts(tree, update_dict)
 
 
@@ -265,14 +265,20 @@ def join_numpy(
     if len(numpy.unique(primary_key)) != len(primary_key):
         keys, counts = numpy.unique(primary_key, return_counts=True)
         duplicate_primary_keys = keys[counts > 1]
-        raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
+        msg = format_errors_and_warnings(
+            f"Duplicate primary keys: {duplicate_primary_keys}",
+        )
+        raise ValueError(msg)
 
     invalid_foreign_keys = foreign_key[
         (foreign_key >= 0) & (~numpy.isin(foreign_key, primary_key))
     ]
 
     if len(invalid_foreign_keys) > 0:
-        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}")
+        msg = format_errors_and_warnings(
+            f"Invalid foreign keys: {invalid_foreign_keys}",
+        )
+        raise ValueError(msg)
 
     # For each foreign key and for each primary key, check if they match
     matches_foreign_key = foreign_key[:, None] == primary_key
@@ -309,14 +315,14 @@ def rename_arguments_and_add_annotations(
     return wrapper
 
 
-def get_by_path(data_dict, key_list):
+def tree_get_by_path(data_dict, key_list):
     """Access a nested object in root by item sequence."""
     return functools.reduce(operator.getitem, key_list, data_dict)
 
 
-def set_by_path(data_dict, key_list, value):
+def tree_set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
-    get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
+    tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
 def get_path_from_qualified_name(qualified_name: str) -> list[str]:
@@ -340,7 +346,7 @@ def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:
     """
 
     try:
-        get_by_path(tree, path)
+        tree_get_by_path(tree, path)
         out = True
     except KeyError:
         out = False

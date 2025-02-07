@@ -51,7 +51,7 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
 
         functions_tree = tree_update(
             tree=functions_tree,
-            path=tree_path,
+            tree_path=tree_path,
             value=active_functions_dict,
         )
 
@@ -291,7 +291,7 @@ def load_aggregations_tree() -> NestedAggregationDict:
 
         aggregations_tree = tree_update(
             tree=aggregations_tree,
-            path=tree_path,
+            tree_path=tree_path,
             value=derived_function_specs,
         )
 

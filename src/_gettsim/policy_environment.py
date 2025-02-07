@@ -26,7 +26,7 @@ from _gettsim.piecewise_functions import (
 from _gettsim.shared import (
     assert_valid_pytree,
     merge_nested_dicts,
-    set_by_path,
+    tree_set_by_path,
 )
 
 if TYPE_CHECKING:
@@ -619,7 +619,7 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
         return remaining_dict
     else:
         # Now remaining dict is just a scalar
-        set_by_path(new_dict, key_list, remaining_dict)
+        tree_set_by_path(new_dict, key_list, remaining_dict)
     return new_dict
 
 

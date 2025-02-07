@@ -15,7 +15,7 @@ from _gettsim.policy_environment import (
     set_up_policy_environment,
 )
 from _gettsim.shared import (
-    get_by_path,
+    tree_get_by_path,
 )
 from _gettsim_tests import TEST_DIR
 
@@ -138,8 +138,14 @@ def test_load_functions_tree_for_date(
     functions_last_day = load_functions_tree_for_date(date=last_day)
     functions_next_day = load_functions_tree_for_date(date=last_day + timedelta(days=1))
 
-    assert get_by_path(functions_last_day, tree_path).__name__ == function_name_last_day
-    assert get_by_path(functions_next_day, tree_path).__name__ == function_name_next_day
+    assert (
+        tree_get_by_path(functions_last_day, tree_path).__name__
+        == function_name_last_day
+    )
+    assert (
+        tree_get_by_path(functions_next_day, tree_path).__name__
+        == function_name_next_day
+    )
 
 
 @pytest.mark.parametrize(

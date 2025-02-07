@@ -36,11 +36,11 @@ from _gettsim.shared import (
     create_tree_from_list_of_qualified_names,
     format_errors_and_warnings,
     format_list_linewise,
-    get_by_path,
     get_names_of_arguments_without_defaults,
     get_path_from_qualified_name,
     merge_nested_dicts,
     partition_tree_by_reference_tree,
+    tree_get_by_path,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
@@ -900,7 +900,7 @@ def _fail_if_group_variables_not_constant_within_groups(
 def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
     """Check that pid is unique."""
     try:
-        p_id_col = get_by_path(data, ["groupings", "p_id"])
+        p_id_col = tree_get_by_path(data, ["groupings", "p_id"])
     except KeyError as e:
         message = "The input data must contain the p_id."
         raise ValueError(message) from e
@@ -930,7 +930,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
     Foreign keys must point to an existing `p_id` in the input data and must not refer
     to the `p_id` of the same row.
     """
-    p_id_col = get_by_path(data_tree, ["groupings", "p_id"])
+    p_id_col = tree_get_by_path(data_tree, ["groupings", "p_id"])
     valid_ids = set(p_id_col) | {-1}
     grouping_ids = data_tree.get("groupings", {})
 
