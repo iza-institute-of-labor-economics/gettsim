@@ -26,16 +26,13 @@ PARAMETERS = {
     },
 }
 
-AGGREGATION_BY_GROUP_SPEC = {
+AGGREGATION_TREE = {
     "module1": {
         "group_mean_bg": AggregateByGroupSpec(
             source_col="f",
             aggr="sum",
         ),
     },
-}
-
-AGGREGATION_BY_PID_SPEC = {
     "module2": {
         "p_id_aggregation_target": AggregateByPIDSpec(
             p_id_to_aggregate_by="groupings__some_foreign_keys",
@@ -51,8 +48,7 @@ def test_compute_taxes_and_transfers_with_tree():
     policy_env = PolicyEnvironment(
         policy_functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,
-        aggregate_by_group_specs_tree=AGGREGATION_BY_GROUP_SPEC,
-        aggregate_by_p_id_specs_tree=AGGREGATION_BY_PID_SPEC,
+        aggregations_tree=AGGREGATION_TREE,
     )
     targets = {
         "module1": {
