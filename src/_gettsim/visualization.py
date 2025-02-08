@@ -17,8 +17,6 @@ from _gettsim.combine_functions_in_tree import (
 from _gettsim.config import DEFAULT_TARGETS
 from _gettsim.interface import (
     _round_and_partial_parameters_to_functions,
-    build_targets_tree,
-    set_up_dag,
 )
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
