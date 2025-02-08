@@ -87,9 +87,9 @@ def plot_dag(
         data=names_of_columns_overriding_functions,
     )
     functions_not_overridden = partition_tree_by_reference_tree(
-        tree=all_functions,
-        qualified_names_list=names_of_columns_overriding_functions,
-    )[0]
+        tree_to_partition=all_functions,
+        reference_tree=names_of_columns_overriding_functions,
+    )[1]
 
     # Create parameter input structure.
     input_structure = dags.dag_tree.create_input_structure_tree(
@@ -106,8 +106,10 @@ def plot_dag(
     )
 
     processed_functions = _round_and_partial_parameters_to_functions(
-        partition_tree_by_reference_tree(functions_not_overridden, dag.nodes)[1],
-        environment.params,
+        functions=partition_tree_by_reference_tree(
+            tree_to_partition=functions_not_overridden, reference_tree=dag.nodes
+        )[0],
+        params=environment.params,
         rounding=False,
     )
 

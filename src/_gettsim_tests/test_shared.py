@@ -70,7 +70,7 @@ def test_tree_flatten_with_qualified_name(tree, expected):
 
 
 @pytest.mark.parametrize(
-    "target_tree, reference_tree, expected",
+    "tree_to_partition, reference_tree, expected",
     [
         (
             {
@@ -87,8 +87,8 @@ def test_tree_flatten_with_qualified_name(tree, expected):
                 "b": 1,
             },
             (
-                {"a": {"c": 1}},
                 {"a": {"b": 1}, "b": 1},
+                {"a": {"c": 1}},
             ),
         ),
         (
@@ -99,16 +99,16 @@ def test_tree_flatten_with_qualified_name(tree, expected):
             },
             {},
             (
-                {"a": {"c": 1}},
                 {},
+                {"a": {"c": 1}},
             ),
         ),
     ],
 )
-def test_partition_tree_by_reference_tree(target_tree, reference_tree, expected):
+def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, expected):
     in_reference_tree, not_in_reference_tree = partition_tree_by_reference_tree(
-        target_tree, reference_tree
+        tree_to_partition=tree_to_partition, reference_tree=reference_tree
     )
 
-    assert not_in_reference_tree == expected[0]
-    assert in_reference_tree == expected[1]
+    assert in_reference_tree == expected[0]
+    assert not_in_reference_tree == expected[1]

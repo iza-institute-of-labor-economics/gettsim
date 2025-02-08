@@ -9,9 +9,8 @@ from typing import Any, TypeVar
 import numpy
 import optree
 from dags.signature import rename_arguments
-from optree import tree_flatten_with_path
 
-from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
+from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -36,14 +35,14 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_from_list_of_qualified_names(qualified_names: set[str]) -> dict:
+def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict:
     """Create a tree from a list of qualified names.
 
     Parameters
     ----------
-    qualified_names : set[str]
-        Set of qualified names.
-        Example: {"a__b__c", "a__b__d", "a__e"}
+    qualified_names : list[str]
+        List of qualified names.
+        Example: ["a__b__c", "a__b__d", "a__e"]
 
     Returns
     -------
@@ -52,7 +51,7 @@ def create_tree_from_list_of_qualified_names(qualified_names: set[str]) -> dict:
         Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
     """
     paths = [
-        create_dict_from_list(el.split(QUALIFIED_NAME_SEPARATOR))
+        create_dict_from_list(get_path_from_qualified_name(el))
         for el in qualified_names
     ]
     return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
@@ -131,7 +130,7 @@ def tree_update(
 
 
 def partition_tree_by_reference_tree(
-    target_tree: NestedFunctionDict | NestedDataDict,
+    tree_to_partition: NestedFunctionDict | NestedDataDict,
     reference_tree: NestedDataDict,
 ) -> tuple[NestedFunctionDict, NestedFunctionDict]:
     """
@@ -140,45 +139,29 @@ def partition_tree_by_reference_tree(
 
     Parameters
     ----------
-    target_tree : NestedFunctionDict | NestedDataDict
+    tree_to_partition
         The tree to be partitioned.
-    reference_tree : NestedDataDict
+    reference_tree
         The reference tree used to determine the partitioning.
 
     Returns
     -------
-    tuple[NestedFunctionDict, NestedFunctionDict]
-        A tuple containing:
-        - The first tree with leaves present in the reference tree.
-        - The second tree with leaves absent in the reference tree.
+    A tuple containing:
+    - The first tree with leaves present in both trees.
+    - The second tree with leaves absent in the reference tree.
     """
-    # Obtain accessors and tree specifications for the target and reference trees
-    tree_accessors = optree.tree_accessors(target_tree)
 
-    # New trees
-    tree_with_present_leaves = {}
-    tree_with_absent_leaves = {}
-
-    # Iterate over each accessor and its corresponding tree specification accessor
-    for current_accessor in tree_accessors:
-        try:
-            # Attempt to access the leaf in the reference tree
-            current_accessor(reference_tree)
-            tree_with_present_leaves = tree_update(
-                tree_with_present_leaves,
-                current_accessor.path,
-                current_accessor(target_tree),
-            )
-        except KeyError:
-            # If the leaf is not present in the reference tree, access it from the
-            # target tree
-            tree_with_absent_leaves = tree_update(
-                tree_with_absent_leaves,
-                current_accessor.path,
-                current_accessor(target_tree),
-            )
-
-    return tree_with_present_leaves, tree_with_absent_leaves
+    # Get reference paths once to avoid repeated tree traversal
+    ref_paths = set(optree.tree_paths(reference_tree))
+    intersection = {}
+    difference = {}
+    # Use tree_flatten_with_path to get paths and leaves in a single pass
+    for path, leaf in zip(*optree.tree_flatten_with_path(tree_to_partition)[:2]):
+        if path in ref_paths:
+            intersection = tree_update(intersection, path, leaf)
+        else:
+            difference = tree_update(difference, path, leaf)
+    return intersection, difference
 
 
 def format_errors_and_warnings(text: str, width: int = 79) -> str:
@@ -334,6 +317,10 @@ def tree_set_by_path(data_dict, key_list, value):
     tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
+def get_path_from_qualified_name(qualified_name: str) -> list[str]:
+    return qualified_name.split("__")
+
+
 def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:
     """True if path exists in tree.
 
@@ -375,7 +362,7 @@ def tree_flatten_with_qualified_name(
     none_is_leaf: bool = True,
 ) -> tuple[list[list[str]], list[Any], list[str]]:
     """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
-    paths, flattened_tree, tree_spec = tree_flatten_with_path(
+    paths, flattened_tree, tree_spec = optree.tree_flatten_with_path(
         tree, none_is_leaf=none_is_leaf
     )
     qualified_names = ["__".join(path) for path in paths]
