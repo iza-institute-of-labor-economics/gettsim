@@ -28,7 +28,6 @@ from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
     convert_series_to_internal_type,
 )
-from _gettsim.groupings import create_groupings
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
@@ -86,59 +85,46 @@ def compute_taxes_and_transfers(
     # Use default targets if no targets are provided.
     targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
 
-    all_functions = combine_policy_functions_and_derived_functions(
+    # Add derived functions to the functions tree.
+    functions_tree = combine_policy_functions_and_derived_functions(
         environment=environment,
         targets_tree=targets_tree,
         data_tree=data_tree,
     )
 
-    functions_not_overridden, functions_overridden = partition_tree_by_reference_tree(
-        target_tree=all_functions,
-        reference_tree=data,
+    # Round and partial parameters into functions.
+    functions_tree_with_partial_parameters = _round_and_partial_parameters_to_functions(
+        functions_tree=functions_tree,
+        params=environment.params,
+        rounding=rounding,
     )
-    data = _convert_data_to_correct_types(data, functions_overridden)
 
-    # Warn if columns override functions.
-    names_of_columns_overriding_functions = set(
-        tree_to_dict_with_qualified_name(functions_overridden).keys()
+    # Remove functions from functions tree that are overridden by data.
+    (
+        functions_tree_overridden,
+        functions_tree_not_overridden,
+    ) = partition_tree_by_reference_tree(
+        target_tree=functions_tree_with_partial_parameters,
+        reference_tree=data_tree,
     )
-    if len(names_of_columns_overriding_functions) > 0:
-        warnings.warn(
-            FunctionsAndColumnsOverlapWarning(names_of_columns_overriding_functions),
-            stacklevel=2,
-        )
 
-    # Create parameter input structure.
+    # Warn if data overrides functions and infer correct types from functions.
+    _warn_if_functions_overridden_by_data(functions_tree_overridden)
+    data_tree_with_correct_types = _convert_data_to_correct_types(
+        data_tree=data_tree,
+        functions_tree_overridden=functions_tree_overridden,
+    )
+
+    # Create input structure.
     input_structure = dags.dag_tree.create_input_structure_tree(
-        functions=functions_not_overridden,
-        targets=None,  # None because no functions should be filtered out
-    )
-
-    # Select necessary nodes by creating a preliminary DAG.
-    preliminary_dag = set_up_dag(
-        all_functions=functions_not_overridden,
-        targets=targets,
-        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
-        input_structure=input_structure,
-    )
-    nodes = create_tree_from_list_of_qualified_names(preliminary_dag.nodes)
-    # Round and partial parameters into functions that are nodes in the DAG.
-    processed_functions = _round_and_partial_parameters_to_functions(
-        partition_tree_by_reference_tree(functions_not_overridden, nodes)[1],
-        environment.params,
-        rounding,
-    )
-
-    # Input structure for final DAG.
-    input_structure = dags.dag_tree.create_input_structure_tree(
-        functions=processed_functions,
-        targets=targets,
+        functions=functions_tree_not_overridden,
+        targets=targets_tree,
     )
 
     # Calculate results.
     tax_transfer_function = dags.concatenate_functions_tree(
-        functions=processed_functions,
-        targets=targets,
+        functions=functions_tree_not_overridden,
+        targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
     )
@@ -340,25 +326,26 @@ def set_up_dag(
 
 
 def _convert_data_to_correct_types(
-    data: NestedDataDict, functions_overridden: NestedFunctionDict
+    data_tree: NestedDataDict, functions_tree_overridden: NestedFunctionDict
 ) -> NestedDataDict:
-    """Convert all series of data to the type that is expected by GETTSIM.
+    """Convert all leafs of the data tree to the type that is expected by GETTSIM.
 
     Parameters
     ----------
-    data : dict tree with pandas.Series as leafs
+    data_tree :
         Data provided by the user.
-    functions_overridden : dict tree with PolicyFunction as leafs
-        Functions to be overridden.
+    functions_tree_overridden :
+        Functions that are overridden by data.
 
     Returns
     -------
-    data : dict tree with pandas.Series as leafs
+    data_tree :
+        Data with correct types.
 
     """
-    collected_errors = ["The data types of the following columns are invalid: \n"]
+    collected_errors = ["The data types of the following columns are invalid:"]
     collected_conversions = [
-        "The data types of the following input variables have been converted: \n"
+        "The data types of the following input variables have been converted:"
     ]
     general_warning = (
         "Note that the automatic conversion of data types is unsafe and that"
@@ -367,70 +354,80 @@ def _convert_data_to_correct_types(
         " types yourself."
     )
 
-    data_dict = tree_to_dict_with_qualified_name(data)
-    names_to_functions_dict = tree_to_dict_with_qualified_name(functions_overridden)
+    data_tree_paths = optree.tree_accessors(data_tree)
+    data_tree_with_correct_types = {}
 
-    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
-        TYPES_INPUT_VARIABLES
-    )
-
-    data_with_correct_types = []
-    for column_name, series in data_dict.items():
-        # Find out if internal_type is defined
+    for accessor in data_tree_paths:
+        qualified_column_name = ".".join(accessor.path)
+        data_leaf = accessor(data_tree)
         internal_type = None
-        if column_name in types_input_variables_with_qualified_names:
-            internal_type = types_input_variables_with_qualified_names[column_name]
-        elif (
-            column_name in names_to_functions_dict
-            and "return" in names_to_functions_dict[column_name].__annotations__
-        ):
-            func = names_to_functions_dict[column_name]
-            if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
+
+        # Look for column in TYPES_INPUT_VARIABLES
+        try:  # noqa: SIM105
+            internal_type = accessor(TYPES_INPUT_VARIABLES)
+        except KeyError:
+            pass
+
+        # Look for column in functions_tree_overridden
+        try:
+            func = accessor(functions_tree_overridden)
+            if hasattr(func, "__annotations__") and func.skip_vectorization:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
                 internal_type = get_args(func.__annotations__["return"])[0]
-            elif func in optree.tree_flatten(create_groupings())[0]:
-                # Functions that create a grouping ID
-                internal_type = get_args(func.__annotations__["return"])[0]
             else:
                 internal_type = func.__annotations__["return"]
+        except KeyError:
+            pass
 
         # Make conversion if necessary
-        if internal_type and not check_series_has_expected_type(series, internal_type):
+        if internal_type and not check_series_has_expected_type(
+            data_leaf, internal_type
+        ):
             try:
-                data_with_correct_types.append(
-                    convert_series_to_internal_type(series, internal_type)
+                converted_leaf = convert_series_to_internal_type(
+                    data_leaf, internal_type
+                )
+                data_tree_with_correct_types = tree_update(
+                    data_tree_with_correct_types,
+                    accessor.path,
+                    converted_leaf,
                 )
                 collected_conversions.append(
-                    f" - {column_name} from {series.dtype} "
+                    f" - {qualified_column_name} from {data_leaf.dtype} "
                     f"to {internal_type.__name__}"
                 )
             except ValueError as e:
-                collected_errors.append(f" - {column_name}: {e}")
+                collected_errors.append(f" - {qualified_column_name}: {e}")
         else:
-            data_with_correct_types.append(series)
+            data_tree_with_correct_types = tree_update(
+                data_tree_with_correct_types,
+                accessor.path,
+                data_leaf,
+            )
 
     # If any error occured raise Error
     if len(collected_errors) > 1:
-        raise ValueError(
-            "\n".join(collected_errors) + "\n" + "\n" + "Note that conversion"
-            " from floating point to integers or Booleans inherently suffers from"
-            " approximation error. It might well be that your data seemingly obey the"
-            " restrictions when scrolling through them, but in fact they do not"
-            " (for example, because 1e-15 is displayed as 0.0)."
-            + "\n"
-            + "The best solution is to convert all columns"
-            " to the expected data types yourself."
-        )
+        msg = """
+            Note that conversion from floating point to integers or Booleans inherently
+            suffers from approximation error. It might well be that your data seemingly
+            obey the restrictions when scrolling through them, but in fact they do not
+            (for example, because 1e-15 is displayed as 0.0). \n The best solution is to
+            convert all columns to the expected data types yourself.
+            """
+        collected_errors = format_list_linewise(collected_errors)
+        raise ValueError(format_errors_and_warnings(collected_errors + msg))
 
     # Otherwise raise warning which lists all successful conversions
     elif len(collected_conversions) > 1:
+        collected_conversions = format_list_linewise(collected_conversions)
         warnings.warn(
-            "\n".join(collected_conversions) + "\n" + "\n" + general_warning,
+            collected_conversions + "\n" + "\n" + general_warning,
             stacklevel=2,
         )
-    return data
+
+    return data_tree_with_correct_types
 
 
 def _create_input_data(
@@ -488,60 +485,6 @@ def _create_input_data(
     return tree_to_dict_with_qualified_name(
         optree.tree_map(lambda x: x.values, input_data)
     )
-
-
-class FunctionsAndColumnsOverlapWarning(UserWarning):
-    """
-    Warning that functions which compute columns overlap with existing columns.
-
-    Parameters
-    ----------
-    columns_overriding_functions : set[str]
-        Names of columns in the data that override hard-coded functions.
-    """
-
-    def __init__(self, columns_overriding_functions: set[str]) -> None:
-        n_cols = len(columns_overriding_functions)
-        if n_cols == 1:
-            first_part = format_errors_and_warnings("Your data provides the column:")
-            second_part = format_errors_and_warnings(
-                """
-                This is already present among the hard-coded functions of the taxes and
-                transfers system. If you want this data column to be used instead of
-                calculating it within GETTSIM you need not do anything. If you want this
-                data column to be calculated by hard-coded functions, remove it from the
-                *data* you pass to GETTSIM. You need to pick one option for each column
-                that appears in the list above.
-                """
-            )
-        else:
-            first_part = format_errors_and_warnings("Your data provides the columns:")
-            second_part = format_errors_and_warnings(
-                """
-                These are already present among the hard-coded functions of the taxes
-                and transfers system. If you want a data column to be used instead of
-                calculating it within GETTSIM you do not need to do anything. If you
-                want data columns to be calculated by hard-coded functions, remove them
-                from the *data* you pass to GETTSIM. You need to pick one option for
-                each column that appears in the list above.
-                """
-            )
-        formatted = format_list_linewise(list(columns_overriding_functions))
-        how_to_ignore = format_errors_and_warnings(
-            """
-            If you want to ignore this warning, add the following code to your script
-            before calling GETTSIM:
-
-                import warnings
-                from gettsim import FunctionsAndColumnsOverlapWarning
-
-                warnings.filterwarnings(
-                    "ignore",
-                    category=FunctionsAndColumnsOverlapWarning
-                )
-            """
-        )
-        super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
 def _round_and_partial_parameters_to_functions(
@@ -771,7 +714,7 @@ def _reorder_columns(results):
     return results[sorted_ids + remaining_columns]
 
 
-def _fail_if_environment_not_valid(environment: PolicyEnvironment) -> None:
+def _fail_if_environment_not_valid(environment: Any) -> None:
     """
     Validate that the environment is a PolicyEnvironment.
     """
@@ -790,10 +733,11 @@ def _fail_if_targets_tree_not_valid(targets_tree: NestedTargetDict) -> None:
 
 def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     """
-    Validate that the data tree is a dictionary with string keys and pd.Series leaves.
+    Validate that the data tree is a dictionary with string keys and pd.Series or
+    np.ndarray leaves.
     """
     assert_valid_pytree(
-        data_tree, lambda leaf: isinstance(leaf, pd.Series), "data_tree"
+        data_tree, lambda leaf: isinstance(leaf, pd.Series | np.ndarray), "data_tree"
     )
     _fail_if_pid_is_non_unique(data_tree)
     _fail_if_group_variables_not_constant_within_groups(data_tree)
@@ -807,51 +751,6 @@ def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
             "The following columns are non-unique in the input data:\n\n"
             f"{data.columns[data.columns.duplicated()]}"
         )
-
-
-def _fail_if_group_variables_not_constant_within_groups(
-    data_tree: NestedDataDict,
-) -> None:
-    """Check whether group variables have the same value within each group.
-
-    Parameters
-    ----------
-    data_tree :
-        Data tree provided by the user.
-
-    """
-    names_leafs_dict = tree_to_dict_with_qualified_name(data_tree)
-
-    grouped_data_cols = {
-        name: col
-        for name, col in names_leafs_dict.items()
-        if any(name.endswith(grouping) for grouping in SUPPORTED_GROUPINGS)
-    }
-    group_ids_in_data = {
-        name: col
-        for name, col in names_leafs_dict.items()
-        if name.endswith("_id") and name.split("_")[-2] in SUPPORTED_GROUPINGS
-    }
-
-    for name, col in grouped_data_cols.items():
-        group_id_name = f"groupings__{name.split('_')[-1]}_id"
-
-        try:
-            group_id_array = group_ids_in_data[group_id_name]
-        except KeyError:
-            continue
-
-        max_value = col.groupby(group_id_array).transform("max")
-        if not (max_value == col).all():
-            message = format_errors_and_warnings(
-                f"""
-                Data input {name!r} has not one unique value per group defined by
-                {group_id_name!r}.
-
-                To fix the error, assign the same value to each group.
-                """
-            )
-            raise ValueError(message)
 
 
 def _fail_if_group_variables_not_constant_within_groups(
@@ -962,6 +861,73 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
             raise ValueError(message)
 
     optree.tree_map_with_path(check_leaf, grouping_ids)
+
+
+def _warn_if_functions_overridden_by_data(
+    functions_tree_overridden: NestedFunctionDict,
+) -> None:
+    """Warn if functions are overridden by data."""
+    tree_paths = optree.tree_paths(functions_tree_overridden)
+    formatted_list = format_list_linewise([".".join(path) for path in tree_paths])
+    if len(formatted_list) > 0:
+        warnings.warn(
+            FunctionsAndColumnsOverlapWarning(formatted_list),
+            stacklevel=3,
+        )
+
+
+class FunctionsAndColumnsOverlapWarning(UserWarning):
+    """
+    Warning that functions which compute columns overlap with existing columns.
+
+    Parameters
+    ----------
+    columns_overriding_functions : set[str]
+        Names of columns in the data that override hard-coded functions.
+    """
+
+    def __init__(self, columns_overriding_functions: set[str]) -> None:
+        n_cols = len(columns_overriding_functions)
+        if n_cols == 1:
+            first_part = format_errors_and_warnings("Your data provides the column:")
+            second_part = format_errors_and_warnings(
+                """
+                This is already present among the hard-coded functions of the taxes and
+                transfers system. If you want this data column to be used instead of
+                calculating it within GETTSIM you need not do anything. If you want this
+                data column to be calculated by hard-coded functions, remove it from the
+                *data* you pass to GETTSIM. You need to pick one option for each column
+                that appears in the list above.
+                """
+            )
+        else:
+            first_part = format_errors_and_warnings("Your data provides the columns:")
+            second_part = format_errors_and_warnings(
+                """
+                These are already present among the hard-coded functions of the taxes
+                and transfers system. If you want a data column to be used instead of
+                calculating it within GETTSIM you do not need to do anything. If you
+                want data columns to be calculated by hard-coded functions, remove them
+                from the *data* you pass to GETTSIM. You need to pick one option for
+                each column that appears in the list above.
+                """
+            )
+        formatted = format_list_linewise(list(columns_overriding_functions))
+        how_to_ignore = format_errors_and_warnings(
+            """
+            If you want to ignore this warning, add the following code to your script
+            before calling GETTSIM:
+
+                import warnings
+                from gettsim import FunctionsAndColumnsOverlapWarning
+
+                warnings.filterwarnings(
+                    "ignore",
+                    category=FunctionsAndColumnsOverlapWarning
+                )
+            """
+        )
+        super().__init__(f"{first_part}\n{formatted}\n{second_part}\n{how_to_ignore}")
 
 
 def _fail_if_root_nodes_are_missing(
