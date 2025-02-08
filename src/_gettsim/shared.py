@@ -10,7 +10,7 @@ import optree
 from dags.signature import rename_arguments
 from optree import tree_flatten_with_path
 
-from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -35,14 +35,14 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict:
+def create_tree_from_list_of_qualified_names(qualified_names: set[str]) -> dict:
     """Create a tree from a list of qualified names.
 
     Parameters
     ----------
-    qualified_names : list[str]
-        List of qualified names.
-        Example: ["a__b__c", "a__b__d", "a__e"]
+    qualified_names : set[str]
+        Set of qualified names.
+        Example: {"a__b__c", "a__b__d", "a__e"}
 
     Returns
     -------
@@ -51,7 +51,7 @@ def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict
         Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
     """
     paths = [
-        create_dict_from_list(get_path_from_qualified_name(el))
+        create_dict_from_list(el.split(QUALIFIED_NAME_SEPARATOR))
         for el in qualified_names
     ]
     return functools.reduce(lambda x, y: merge_nested_dicts(x, y), paths, {})
@@ -323,10 +323,6 @@ def tree_get_by_path(data_dict, key_list):
 def tree_set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
     tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
-
-
-def get_path_from_qualified_name(qualified_name: str) -> list[str]:
-    return qualified_name.split("__")
 
 
 def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:

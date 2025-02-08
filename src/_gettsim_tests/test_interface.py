@@ -4,7 +4,6 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
-from optree import tree_flatten, tree_paths
 
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
@@ -13,14 +12,10 @@ from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
-    _fail_if_data_not_dict_with_sequence_leafs_or_dataframe,
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
-    _use_correct_series_names,
-    build_data_tree,
-    build_targets_tree,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
@@ -638,23 +633,6 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 
 
 @pytest.mark.parametrize(
-    "type_error_obj",
-    [
-        1,
-        "a",
-        {"a": 1},
-        {"a": "b"},
-    ],
-)
-def test_fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj):
-    with pytest.raises(
-        TypeError,
-        match="Data must be provided as a tree with sequence",
-    ):
-        _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(type_error_obj)
-
-
-@pytest.mark.parametrize(
     "data, functions_overridden",
     [
         (
@@ -730,48 +708,6 @@ def test_fail_if_cannot_be_converted_to_correct_type(
 ):
     with pytest.raises(ValueError, match=error_match):
         _convert_data_to_correct_types(data, functions_overridden)
-
-
-@pytest.mark.parametrize(
-    "input_object, expected_output",
-    [
-        ("a", {"a": None}),
-        ("a__b", {"a": {"b": None}}),
-        (["a", "b"], {"a": None, "b": None}),
-        (["a__b", "c__d"], {"a": {"b": None}, "c": {"d": None}}),
-        (["a__b", "a__c"], {"a": {"b": None, "c": None}}),
-        ({"a": {"b": None}}, {"a": {"b": None}}),
-    ],
-)
-def test_build_targets_tree(input_object, expected_output):
-    assert build_targets_tree(input_object) == expected_output
-
-
-@pytest.mark.parametrize(
-    "input_object, expected_output",
-    [
-        (pd.DataFrame({"a": [1, 2, 3]}), {"a": pd.Series([1, 2, 3])}),
-        (pd.DataFrame({"a__b": [1, 2, 3]}), {"a": {"b": pd.Series([1, 2, 3])}}),
-        ({"a": pd.Series([1, 2, 3])}, {"a": pd.Series([1, 2, 3])}),
-    ],
-)
-def test_build_data_tree(input_object, expected_output):
-    assert tree_paths(build_data_tree(input_object)) == tree_paths(expected_output)
-
-
-@pytest.mark.parametrize(
-    "input_object, expected_output",
-    [
-        ({"a": pd.Series([1, 2, 3])}, ["a"]),
-        ({"a": {"b": pd.Series([1, 2, 3])}}, ["b"]),
-        ({"a": pd.Series([1, 2, 3], name="c"), "b": pd.Series([1, 2, 3])}, ["a", "b"]),
-    ],
-)
-def test_use_correct_series_names(input_object, expected_output):
-    result = [
-        sr.name for sr in tree_flatten(_use_correct_series_names(input_object))[0]
-    ]
-    assert result == expected_output
 
 
 @pytest.mark.parametrize(

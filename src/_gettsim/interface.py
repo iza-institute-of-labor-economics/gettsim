@@ -5,7 +5,6 @@ import warnings
 from typing import Any, Literal, get_args
 
 import dags
-import networkx
 import optree
 import pandas as pd
 
@@ -15,6 +14,7 @@ from _gettsim.combine_functions_in_tree import (
 from _gettsim.config import (
     DEFAULT_TARGETS,
     FOREIGN_KEYS,
+    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -36,11 +36,9 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    get_path_from_qualified_name,
     merge_nested_dicts,
     partition_tree_by_reference_tree,
     tree_get_by_path,
-    tree_to_dict_with_qualified_name,
     tree_update,
 )
 
@@ -121,7 +119,7 @@ def compute_taxes_and_transfers(
         targets=targets_tree,
     )
 
-    # Calculate results.
+    # Create tax and transfer function.
     tax_transfer_function = dags.concatenate_functions_tree(
         functions=functions_tree_not_overridden,
         targets=targets_tree,
@@ -129,200 +127,20 @@ def compute_taxes_and_transfers(
         name_clashes="raise",
     )
 
-    # Create input data.
-    input_data = _create_input_data(
-        data=data,
-        processed_functions=processed_functions,
-        targets=targets,
-        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+    # Create input data: Remove unnecessary data.
+    input_data = _create_input_data_for_concatenated_function(
+        data_tree=data_tree_with_correct_types,
+        functions_tree=functions_tree_not_overridden,
+        targets_tree=targets_tree,
         input_structure=input_structure,
     )
 
     results = tax_transfer_function(input_data)
-    # Prepare results.
-    prepared_results = _prepare_results(
-        results, data, debug, return_dataframe=return_dataframe
-    )
 
-    return prepared_results
+    if debug:
+        results = merge_nested_dicts(results, data_tree_with_correct_types)
 
-
-def build_targets_tree(targets: NestedTargetDict | list[str] | str) -> NestedTargetDict:
-    """Build a tree from a list or dictionary of targets.
-
-    Parameters
-    ----------
-    targets : dict[str, Any] | list[str] | str
-        Targets provided by the user.
-
-    Returns
-    -------
-    targets_tree : dict[str, Any]
-        Dictionary representing the tree.
-
-    """
-    if isinstance(targets, str):
-        targets = [targets]
-
-    flattened_targets = optree.tree_flatten(targets)[0]
-    all_leafs_none = all(el is None for el in flattened_targets)
-    all_leafs_str_or_list = all(isinstance(el, str | list) for el in flattened_targets)
-
-    if isinstance(targets, list):
-        # Build targets tree from list of strings
-        targets_tree = create_tree_from_list_of_qualified_names(targets)
-    elif isinstance(targets, dict) and all_leafs_none:
-        # Input is already the correct targets tree
-        targets_tree = targets
-    elif isinstance(targets, dict) and all_leafs_str_or_list:
-        # Build targets tree if leafs are strings or lists of strings
-        targets_tree = _build_targets_tree_from_dict(targets)
-    else:
-        raise NotImplementedError(
-            "Targets must be either a list of strings or a dictionary."
-        )
-
-    return targets_tree
-
-
-def _build_targets_tree_from_dict(targets: dict[str, dict | str]) -> NestedTargetDict:
-    """Build a tree from a dictionary of targets.
-
-    The dictionary follows the tree structure but the leafs are strings or lists, not
-    None. This function is used to convert the dictionary to the correct tree structure.
-
-    Parameters
-    ----------
-    targets : dict[str, Union[dict, str]]
-        Dictionary of targets.
-        Example: {"a": {"b": {"c": ["d", "e"]}}}
-
-    Returns
-    -------
-    tree : NestedTargetDict
-        Dictionary representing the tree.
-        Example: {"a": {"b": {"c": {"d": None, "e": None}}}}
-
-    """
-    for k, v in targets.items():
-        if isinstance(v, dict):
-            targets[k] = _build_targets_tree_from_dict(v)
-        elif isinstance(v, str):
-            targets[k] = {v: None}
-        elif isinstance(v, list):
-            targets[k] = create_tree_from_list_of_qualified_names(v)
-
-    return targets
-
-
-def build_data_tree(data: NestedDataDict | pd.DataFrame) -> NestedDataDict:
-    """Build a tree from a dictionary or DataFrame of data.
-
-    Parameters
-    ----------
-    data : NestedDataDict | pd.DataFrame
-        Data provided by the user.
-
-    Returns
-    -------
-    data_tree : NestedDataDict
-        Dictionary representing the tree.
-
-    """
-    _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data)
-
-    if isinstance(data, pd.DataFrame):
-        _fail_if_duplicates_in_columns(data)
-        data_tree = _build_data_tree_from_df(data)
-    else:
-        data_tree = _use_correct_series_names(data)
-
-    return data_tree
-
-
-def _build_data_tree_from_df(data: pd.DataFrame) -> NestedDataDict:
-    """Build a tree from a DataFrame of data.
-
-    Parameters
-    ----------
-    data : pd.DataFrame
-        Data provided by the user.
-
-    Returns
-    -------
-    tree : dict
-        Dictionary representing the tree.
-
-    """
-    tree = {}
-    cols_to_paths = [get_path_from_qualified_name(cols) for cols in data.columns]
-    for path, column in zip(cols_to_paths, data.columns):
-        series = data[column].copy()
-        series.name = path[-1]
-        tree = tree_update(
-            tree,
-            path,
-            series,
-        )
-
-    return tree
-
-
-def _use_correct_series_names(data: NestedDataDict) -> NestedDataDict:
-    """Use correct series names for the tree.
-
-    Parameters
-    ----------
-    data : NestedDataDict
-        Data provided by the user.
-
-    Returns
-    -------
-    tree : NestedDataDict
-        Dictionary representing the tree.
-
-    """
-    return optree.tree_map_with_path(
-        lambda path, x: x.rename(path[-1])
-        if isinstance(x, pd.Series)
-        else pd.Series(x, name=path[-1]),
-        data,
-    )
-
-
-def set_up_dag(
-    all_functions: NestedFunctionDict,
-    targets: NestedTargetDict,
-    input_structure: NestedInputStructureDict,
-) -> networkx.DiGraph:
-    """Set up the DAG. Partial functions before that and add rounding afterwards.
-
-    Parameters
-    ----------
-    all_functions : dict
-        All internal and user functions except the ones that are overridden by an input
-        column.
-    targets : dict
-        Tree names of functions whose output is actually needed by the user as leafs. By
-        default, ``targets`` contains all key outputs as defined by
-        `gettsim.config.DEFAULT_TARGETS`.
-    input_structure : dict
-        Tree representing the input structure.
-
-    Returns
-    -------
-    dag : networkx.DiGraph
-        The DAG of the tax and transfer system.
-
-    """
-    # Create DAG and perform checks which depend on data which is not part of the DAG
-    # interface.
-    return dags.dag_tree.create_dag_tree(
-        functions=all_functions,
-        targets=targets,
-        input_structure=input_structure,
-        name_clashes="raise",
-    )
+    return results
 
 
 def _convert_data_to_correct_types(
@@ -358,12 +176,12 @@ def _convert_data_to_correct_types(
     data_tree_with_correct_types = {}
 
     for accessor in data_tree_paths:
-        qualified_column_name = ".".join(accessor.path)
+        qualified_column_name = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
         data_leaf = accessor(data_tree)
         internal_type = None
 
         # Look for column in TYPES_INPUT_VARIABLES
-        try:  # noqa: SIM105
+        try:  # noqa: SIM105ga
             internal_type = accessor(TYPES_INPUT_VARIABLES)
         except KeyError:
             pass
@@ -430,61 +248,59 @@ def _convert_data_to_correct_types(
     return data_tree_with_correct_types
 
 
-def _create_input_data(
-    processed_functions: NestedFunctionDict,
-    data: NestedDataDict,
-    targets: NestedTargetDict,
-    names_of_columns_overriding_functions: list[str],
+def _create_input_data_for_concatenated_function(
+    data_tree: NestedDataDict,
+    functions_tree: NestedFunctionDict,
+    targets_tree: NestedTargetDict,
     input_structure: NestedInputStructureDict,
-):
-    """Create input data for use in the calculation of taxes and transfers by:
+) -> NestedDataDict:
+    """Create input data for the concatenated function.
 
-    - reducing to necessary data
-    - convert pandas.Series to numpy.array
+    1. Check that all root nodes are present in the input data tree.
+    2. Get only part of the data tree that is needed for the concatenated function.
+    3. Convert pandas.Series to numpy.array.
 
     Parameters
     ----------
-    processed_functions : NestedFunctionDict
-        Nested function dictionary.
-    data : NestedDataDict
+    data_tree :
         Data provided by the user.
-    targets : NestedTargetDict
+    functions_tree :
+        Nested function dictionary.
+    targets_tree :
         Targets provided by the user.
-    names_of_columns_overriding_functions : list[str]
-        Names of columns in the data that override hard-coded functions.
-    input_structure : NestedInputStructureDict
+    input_structure :
         Tree representing the input structure.
 
     Returns
     -------
-    input_data : NestedDataDict
+    input_data :
         Data which can be used to calculate taxes and transfers.
 
     """
     # Create dag using processed functions
-    dag = set_up_dag(
-        all_functions=processed_functions,
-        targets=targets,
-        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+    dag = dags.dag_tree.create_dag_tree(
+        functions=functions_tree,
+        targets=targets_tree,
         input_structure=input_structure,
+        name_clashes="raise",
     )
     root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
-    data_cols = tree_to_dict_with_qualified_name(data).keys()
+    root_nodes_tree = create_tree_from_list_of_qualified_names(root_nodes)
+
     _fail_if_root_nodes_are_missing(
-        functions=processed_functions,
-        root_nodes=root_nodes,
-        data_cols=data_cols,
+        functions_tree=functions_tree,
+        data_tree=data_tree,
+        root_nodes_tree=root_nodes_tree,
     )
 
-    # Check that only necessary data is passed
+    # Get only part of the data tree that is needed
     _, input_data = partition_tree_by_reference_tree(
-        tree=data,
-        qualified_names_list=root_nodes,
+        tree=data_tree,
+        reference_tree=root_nodes_tree,
     )
 
-    return tree_to_dict_with_qualified_name(
-        optree.tree_map(lambda x: x.values, input_data)
-    )
+    # Convert to numpy.ndarray
+    return optree.tree_map(lambda x: x.values, input_data)
 
 
 def _round_and_partial_parameters_to_functions(
@@ -511,8 +327,8 @@ def _round_and_partial_parameters_to_functions(
     """
     # Add rounding to functions.
     if rounding:
-        functions = optree.tree_map(
-            lambda x: _add_rounding_to_function(x, params),
+        functions = optree.tree_map_with_path(
+            lambda path, x: _add_rounding_to_function(x, params, path),
             functions,
         )
 
@@ -547,6 +363,7 @@ def _round_and_partial_parameters_to_functions(
 def _add_rounding_to_function(
     input_function: PolicyFunction,
     params: dict[str, Any],
+    path: list[str],
 ) -> PolicyFunction:
     """Add appropriate rounding of outputs to function.
 
@@ -564,28 +381,29 @@ def _add_rounding_to_function(
 
     """
     func = copy.deepcopy(input_function)
+    qualified_name = QUALIFIED_NAME_SEPARATOR.join(path)
+    leaf_name = path[-1]
 
     if input_function.params_key_for_rounding:
         params_key = func.params_key_for_rounding
-        qualified_name = func.qualified_name
         # Check if there are any rounding specifications.
         if not (
             params_key in params
             and "rounding" in params[params_key]
-            and qualified_name in params[params_key]["rounding"]
+            and leaf_name in params[params_key]["rounding"]
         ):
             raise KeyError(
                 KeyErrorMessage(
                     f"""
                     Rounding specifications for function {qualified_name} are expected
                     in the parameter dictionary \n at
-                    [{params_key!r}]['rounding'][{qualified_name!r}]. These nested keys
+                    [{params_key!r}]['rounding'][{leaf_name!r}]. These nested keys
                     do not exist. \n If this function should not be rounded, remove the
                     respective decorator.
                     """
                 )
             )
-        rounding_spec = params[params_key]["rounding"][qualified_name]
+        rounding_spec = params[params_key]["rounding"][leaf_name]
         # Check if expected parameters are present in rounding specifications.
         if not ("base" in rounding_spec and "direction" in rounding_spec):
             raise KeyError(
@@ -593,7 +411,7 @@ def _add_rounding_to_function(
                     "Both 'base' and 'direction' are expected as rounding "
                     "parameters in the parameter dictionary. \n "
                     "At least one of them "
-                    f"is missing at [{params_key!r}]['rounding'][{qualified_name!r}]."
+                    f"is missing at [{params_key!r}]['rounding'][{leaf_name!r}]."
                 )
             )
         # Add rounding.
@@ -665,53 +483,6 @@ def _apply_rounding_spec(
         return wrapper
 
     return inner
-
-
-def _prepare_results(
-    results: NestedDataDict,
-    data: NestedDataDict,
-    debug: bool,
-    return_dataframe: bool = False,
-) -> pd.DataFrame | NestedDataDict:
-    """Prepare results after DAG was executed.
-
-    Parameters
-    ----------
-    results : NestedDataDict
-        Nested dictionary of results.
-    data : NestedDataDict
-        Nested dictionary of data.
-    debug : bool
-        Indicates debug mode.
-    return_dataframe : bool, default False
-        Indicates whether the results should be returned as a DataFrame.
-
-    Returns
-    -------
-    results : pandas.DataFrame
-        Nicely formatted DataFrame of the results.
-
-    """
-    if debug:
-        out = merge_nested_dicts(data, results)
-    else:
-        out = results
-
-    if return_dataframe:
-        out = pd.DataFrame(tree_to_dict_with_qualified_name(out))
-        out = _reorder_columns(out)
-
-    return out
-
-
-def _reorder_columns(results):
-    order_ids = {f"{g}_id": i for i, g in enumerate(SUPPORTED_GROUPINGS)}
-    order_ids["groupings__p_id"] = len(order_ids)
-    ids_in_data = order_ids.keys() & set(results.columns)
-    sorted_ids = sorted(ids_in_data, key=lambda x: order_ids[x])
-    remaining_columns = [i for i in results if i not in sorted_ids]
-
-    return results[sorted_ids + remaining_columns]
 
 
 def _fail_if_environment_not_valid(environment: Any) -> None:
@@ -868,7 +639,9 @@ def _warn_if_functions_overridden_by_data(
 ) -> None:
     """Warn if functions are overridden by data."""
     tree_paths = optree.tree_paths(functions_tree_overridden)
-    formatted_list = format_list_linewise([".".join(path) for path in tree_paths])
+    formatted_list = format_list_linewise(
+        [QUALIFIED_NAME_SEPARATOR.join(path) for path in tree_paths]
+    )
     if len(formatted_list) > 0:
         warnings.warn(
             FunctionsAndColumnsOverlapWarning(formatted_list),
@@ -931,45 +704,55 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
 
 def _fail_if_root_nodes_are_missing(
-    functions: NestedFunctionDict,
-    root_nodes: list[str],
-    data_cols: list[str],
+    functions_tree: NestedFunctionDict,
+    root_nodes_tree: dict[str, Any],
+    data_tree: NestedDataDict,
 ) -> None:
-    # Identify functions that are part of the DAG, but do not depend
-    # on any other function
-    names_to_functions_dict = tree_to_dict_with_qualified_name(functions)
-    funcs_based_on_params_only = [
-        func_name
-        for func_name, func in names_to_functions_dict.items()
-        if len(
-            [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
-        )
-        == 0
-    ]
+    """Fail if root nodes are missing.
 
-    missing_nodes = [
-        c
-        for c in root_nodes
-        if (c not in data_cols and c not in funcs_based_on_params_only)
-    ]
+    Fails if there are root nodes in the DAG (i.e. nodes without predecessors that do
+    not depend on parameters only) that are not present in the data tree.
+
+    Parameters
+    ----------
+    functions_tree : NestedFunctionDict
+        Dictionary of functions.
+    root_nodes_tree : dict[str, Any]
+        Dictionary of root nodes.
+    data_tree : NestedDataDict
+        Dictionary of data.
+
+    Raises
+    ------
+    ValueError
+        If root nodes are missing.
+    """
+    accessors_root_nodes_tree = optree.tree_paths(root_nodes_tree, none_is_leaf=True)
+    missing_nodes = []
+
+    for accessor in accessors_root_nodes_tree:
+        func = accessor(functions_tree)
+        if (
+            len(
+                [
+                    a
+                    for a in inspect.signature(func).parameters
+                    if not a.endswith("_params")
+                ]
+            )
+            == 0
+        ):
+            # If functions depends on parameters only, it does not have to exist in the
+            # data
+            continue
+
+        try:
+            accessor(data_tree)
+        except KeyError:
+            # Root node is not present in the data tree
+            node = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
+            missing_nodes.append(node)
+
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
         raise ValueError(f"The following data columns are missing.\n{formatted}")
-
-
-def _fail_if_data_not_dict_with_sequence_leafs_or_dataframe(data: Any) -> None:
-    """Fail if data is not a tree with sequence leaves or a DataFrame."""
-    not_df = not isinstance(data, pd.DataFrame)
-    not_dict = not isinstance(data, dict)
-    not_sequence_leafs = any(
-        not isinstance(el, pd.Series | np.ndarray | list)
-        for el in optree.tree_flatten(data)[0]
-    )
-
-    if not_df and (not_dict or not_sequence_leafs):
-        raise TypeError(
-            """
-            Data must be provided as a tree with sequence leaves (pd.Series, np.ndarray,
-            or list) or as a DataFrame.
-            """
-        )
