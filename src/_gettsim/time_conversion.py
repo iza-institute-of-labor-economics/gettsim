@@ -13,7 +13,6 @@ from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
     rename_arguments_and_add_annotations,
-    tree_path_exists,
     tree_update,
 )
 
@@ -284,20 +283,20 @@ def create_time_conversion_functions(
     """
 
     converted_functions = {}
+    data_tree_paths = optree.tree_paths(data_tree, none_is_leaf=True)
 
     # Create time-conversions for existing functions
-    _all_paths, _all_functions, _ = optree.tree_flatten_with_path(policy_functions_tree)
-    for path, function in zip(_all_paths, _all_functions):
+    for path, function in zip(
+        *optree.tree_flatten_with_path(policy_functions_tree)[:2]
+    ):
         leaf_name = path[-1]
         all_time_conversions_for_this_function = _create_time_conversion_functions(
             name=leaf_name, func=function
         )
         for der_name, der_func in all_time_conversions_for_this_function.items():
             new_path = [*path[:-1], der_name]
-            if tree_path_exists(converted_functions, new_path) or tree_path_exists(
-                data_tree, new_path
-            ):
-                # Skip if the function already exists or the data column exists
+            # Skip if the function already exists or the data column exists
+            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
                 converted_functions = tree_update(
@@ -305,17 +304,15 @@ def create_time_conversion_functions(
                 )
 
     # Create time-conversions for data columns
-    for path in optree.tree_paths(data_tree, none_is_leaf=True):
+    for path in data_tree_paths:
         leaf_name = path[-1]
         all_time_conversions_for_this_data_column = _create_time_conversion_functions(
             name=leaf_name
         )
         for der_name, der_func in all_time_conversions_for_this_data_column.items():
             new_path = [*path[:-1], der_name]
-            if tree_path_exists(converted_functions, new_path) or tree_path_exists(
-                data_tree, new_path
-            ):
-                # Skip if the function already exists or the data column exists
+            # Skip if the function already exists or the data column exists
+            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
                 converted_functions = tree_update(

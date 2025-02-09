@@ -3,7 +3,8 @@ from dataclasses import dataclass
 import pytest
 
 from _gettsim.shared import (
-    create_dict_from_list,
+    create_tree_from_path,
+    create_tree_from_qualified_names,
     partition_tree_by_reference_tree,
     tree_merge,
     tree_to_dict_with_qualified_name,
@@ -14,6 +15,12 @@ from _gettsim.shared import (
 @dataclass
 class SampleDataclass:
     a: int
+
+
+def test_create_tree_from_qualified_names():
+    qualified_names = {"a__b__c", "a__b__d", "a__e"}
+    tree = create_tree_from_qualified_names(qualified_names)
+    assert tree == {"a": {"b": {"c": None, "d": None}, "e": None}}
 
 
 @pytest.mark.parametrize(
@@ -31,15 +38,15 @@ def test_tree_update(tree, path, value, expected):
 
 
 @pytest.mark.parametrize(
-    "keys, expected",
+    "paths, expected",
     [
         ("a", {"a": None}),
-        (["a", "b"], {"a": {"b": None}}),
-        (["a", "b", "c"], {"a": {"b": {"c": None}}}),
+        (("a", "b"), {"a": {"b": None}}),
+        (("a", "b", "c"), {"a": {"b": {"c": None}}}),
     ],
 )
-def test_create_dict_from_list(keys, expected):
-    assert create_dict_from_list(keys=keys) == expected
+def test_create_tree_from_path(paths, expected):
+    assert create_tree_from_path(paths) == expected
 
 
 @pytest.mark.parametrize(
@@ -70,7 +77,7 @@ def test_tree_flatten_with_qualified_name(tree, expected):
 
 
 @pytest.mark.parametrize(
-    "target_tree, reference_tree, expected",
+    "tree_to_partition, reference_tree, expected",
     [
         (
             {
@@ -87,8 +94,8 @@ def test_tree_flatten_with_qualified_name(tree, expected):
                 "b": 1,
             },
             (
-                {"a": {"c": 1}},
                 {"a": {"b": 1}, "b": 1},
+                {"a": {"c": 1}},
             ),
         ),
         (
@@ -99,16 +106,16 @@ def test_tree_flatten_with_qualified_name(tree, expected):
             },
             {},
             (
-                {"a": {"c": 1}},
                 {},
+                {"a": {"c": 1}},
             ),
         ),
     ],
 )
-def test_partition_tree_by_reference_tree(target_tree, reference_tree, expected):
+def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, expected):
     in_reference_tree, not_in_reference_tree = partition_tree_by_reference_tree(
-        target_tree, reference_tree
+        tree_to_partition=tree_to_partition, reference_tree=reference_tree
     )
 
-    assert not_in_reference_tree == expected[0]
-    assert in_reference_tree == expected[1]
+    assert in_reference_tree == expected[0]
+    assert not_in_reference_tree == expected[1]

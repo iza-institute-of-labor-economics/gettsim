@@ -9,7 +9,6 @@ from typing import Any, TypeVar
 import numpy
 import optree
 from dags.signature import rename_arguments
-from optree import tree_flatten_with_path
 
 from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
@@ -36,41 +35,42 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_from_list_of_qualified_names(qualified_names: set[str]) -> dict:
-    """Create a tree from a list of qualified names.
+def create_tree_from_qualified_names(qualified_names: set[str]) -> dict:
+    """Create a tree from a set of qualified names.
 
     Parameters
     ----------
-    qualified_names : set[str]
+    qualified_names
         Set of qualified names.
-        Example: {"a__b__c", "a__b__d", "a__e"}
+
+            Example: {"a__b__c", "a__b__d", "a__e"}
 
     Returns
     -------
-    dict
-        Tree with qualified names as keys.
-        Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
+    Tree with qualified names as keys, all leaves are None.
+
+    Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
     """
     paths = [
-        create_dict_from_list(el.split(QUALIFIED_NAME_SEPARATOR))
-        for el in qualified_names
+        create_tree_from_path(get_path_from_qualified_name(qn))
+        for qn in qualified_names
     ]
     return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
 
 
-def create_dict_from_list(keys: list[str]) -> dict:
+def create_tree_from_path(path: tuple[str]) -> dict:
     """Create a nested dict from a list of strings.
 
     Example:
         Input:
-            keys = ["a", "b", "c"]
+            keys = ("a", "b", "c")
         Result:
             {"a": {"b": {"c": None}}}
 
     """
     nested_dict = None
-    for key in reversed(keys):
-        nested_dict = {key: nested_dict}
+    for entry in reversed(path):
+        nested_dict = {entry: nested_dict}
     return nested_dict
 
 
@@ -125,13 +125,13 @@ def tree_update(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_dict_from_list(tree_path)
+    update_dict = create_tree_from_path(tree_path)
     tree_set_by_path(update_dict, tree_path, value)
     return tree_merge(tree, update_dict)
 
 
 def partition_tree_by_reference_tree(
-    target_tree: NestedFunctionDict | NestedDataDict,
+    tree_to_partition: NestedFunctionDict | NestedDataDict,
     reference_tree: NestedDataDict,
 ) -> tuple[NestedFunctionDict, NestedFunctionDict]:
     """
@@ -140,45 +140,29 @@ def partition_tree_by_reference_tree(
 
     Parameters
     ----------
-    target_tree : NestedFunctionDict | NestedDataDict
+    tree_to_partition
         The tree to be partitioned.
-    reference_tree : NestedDataDict
+    reference_tree
         The reference tree used to determine the partitioning.
 
     Returns
     -------
-    tuple[NestedFunctionDict, NestedFunctionDict]
-        A tuple containing:
-        - The first tree with leaves present in the reference tree.
-        - The second tree with leaves absent in the reference tree.
+    A tuple containing:
+    - The first tree with leaves present in both trees.
+    - The second tree with leaves absent in the reference tree.
     """
-    # Obtain accessors and tree specifications for the target and reference trees
-    tree_accessors = optree.tree_accessors(target_tree)
 
-    # New trees
-    tree_with_present_leaves = {}
-    tree_with_absent_leaves = {}
-
-    # Iterate over each accessor and its corresponding tree specification accessor
-    for current_accessor in tree_accessors:
-        try:
-            # Attempt to access the leaf in the reference tree
-            current_accessor(reference_tree)
-            tree_with_present_leaves = tree_update(
-                tree_with_present_leaves,
-                current_accessor.path,
-                current_accessor(target_tree),
-            )
-        except KeyError:
-            # If the leaf is not present in the reference tree, access it from the
-            # target tree
-            tree_with_absent_leaves = tree_update(
-                tree_with_absent_leaves,
-                current_accessor.path,
-                current_accessor(target_tree),
-            )
-
-    return tree_with_present_leaves, tree_with_absent_leaves
+    # Get reference paths once to avoid repeated tree traversal
+    ref_paths = set(optree.tree_paths(reference_tree))
+    intersection = {}
+    difference = {}
+    # Use tree_flatten_with_path to get paths and leaves in a single pass
+    for path, leaf in zip(*optree.tree_flatten_with_path(tree_to_partition)[:2]):
+        if path in ref_paths:
+            intersection = tree_update(intersection, path, leaf)
+        else:
+            difference = tree_update(difference, path, leaf)
+    return intersection, difference
 
 
 def format_errors_and_warnings(text: str, width: int = 79) -> str:
@@ -334,29 +318,8 @@ def tree_set_by_path(data_dict, key_list, value):
     tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
-def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:
-    """True if path exists in tree.
-
-    Parameters
-    ----------
-    tree : dict[str, Any]
-        The tree to check.
-    path : list[str]
-        The path to check.
-
-    Returns
-    -------
-    bool
-        True if path exists in tree.
-    """
-
-    try:
-        tree_get_by_path(tree, path)
-        out = True
-    except KeyError:
-        out = False
-
-    return out
+def get_path_from_qualified_name(qualified_name: str) -> tuple[str]:
+    return tuple(qualified_name.split(QUALIFIED_NAME_SEPARATOR))
 
 
 # TODO(@MImmesberger): Remove.
@@ -375,10 +338,10 @@ def tree_flatten_with_qualified_name(
     none_is_leaf: bool = True,
 ) -> tuple[list[list[str]], list[Any], list[str]]:
     """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
-    paths, flattened_tree, tree_spec = tree_flatten_with_path(
+    paths, flattened_tree, tree_spec = optree.tree_flatten_with_path(
         tree, none_is_leaf=none_is_leaf
     )
-    qualified_names = ["__".join(path) for path in paths]
+    qualified_names = [QUALIFIED_NAME_SEPARATOR.join(path) for path in paths]
     return qualified_names, flattened_tree, tree_spec
 
 

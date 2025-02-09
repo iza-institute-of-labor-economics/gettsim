@@ -32,7 +32,7 @@ from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
     assert_valid_pytree,
-    create_tree_from_list_of_qualified_names,
+    create_tree_from_qualified_names,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -95,7 +95,7 @@ def compute_taxes_and_transfers(
         policy_functions_tree_overridden,
         policy_functions_tree_not_overridden,
     ) = partition_tree_by_reference_tree(
-        target_tree=policy_functions_tree,
+        tree_to_partition=policy_functions_tree,
         reference_tree=data_tree,
     )
 
@@ -286,7 +286,7 @@ def _create_input_data_for_concatenated_function(
         name_clashes="raise",
     )
     root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
-    root_nodes_tree = create_tree_from_list_of_qualified_names(root_nodes)
+    root_nodes_tree = create_tree_from_qualified_names(root_nodes)
 
     _fail_if_root_nodes_are_missing(
         policy_functions_tree=policy_functions_tree,
@@ -295,10 +295,10 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Get only part of the data tree that is needed
-    input_data, _ = partition_tree_by_reference_tree(
-        target_tree=data_tree,
+    input_data = partition_tree_by_reference_tree(
+        tree_to_partition=data_tree,
         reference_tree=root_nodes_tree,
-    )
+    )[0]
 
     # Convert to numpy.ndarray
     return optree.tree_map(lambda x: x.values, input_data)
