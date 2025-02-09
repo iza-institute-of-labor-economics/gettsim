@@ -38,7 +38,6 @@ from _gettsim.shared import (
     rename_arguments_and_add_annotations,
     tree_get_by_path,
     tree_merge,
-    tree_path_exists,
     tree_update,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
@@ -325,7 +324,7 @@ def _create_derived_aggregations_tree(
         # targets that already exist in the source tree.
         aggregation_specs_needed = any(
             leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS
-        ) and not tree_path_exists(aggregation_source_tree, tree_path)
+        ) and tree_path not in optree.tree_paths(aggregation_source_tree)
 
         if aggregation_specs_needed:
             # Use qualified name to identify source in the functions tree later.
@@ -391,11 +390,10 @@ def _annotations_for_aggregation(
 ) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
     annotations = {}
-    path_source_col = qualified_name_source_col.split(QUALIFIED_NAME_SEPARATOR)
-
+    path_source_col = tuple(qualified_name_source_col.split(QUALIFIED_NAME_SEPARATOR))
     if aggregation_method == "count":
         annotations["return"] = int
-    elif tree_path_exists(policy_functions_tree, path_source_col):
+    elif path_source_col in optree.tree_paths(policy_functions_tree):
         # Source col is a function in the functions tree
         source_function = tree_get_by_path(policy_functions_tree, path_source_col)
         if "return" in source_function.__annotations__:
@@ -410,7 +408,7 @@ def _annotations_for_aggregation(
             # of user-provided input variables are handled
             # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
-    elif tree_path_exists(types_input_variables, path_source_col):
+    elif path_source_col in optree.tree_paths(types_input_variables):
         # Source col is a basic input variable
         annotations[qualified_name_source_col] = tree_get_by_path(
             types_input_variables, path_source_col
