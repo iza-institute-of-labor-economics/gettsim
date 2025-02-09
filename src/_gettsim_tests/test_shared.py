@@ -98,7 +98,7 @@ def test_tree_flatten_with_qualified_name(tree, expected):
     ],
 )
 def test_partition_tree_by_reference_tree(target_tree, reference_tree, expected):
-    not_in_reference_tree, in_reference_tree = partition_tree_by_reference_tree(
+    in_reference_tree, not_in_reference_tree = partition_tree_by_reference_tree(
         target_tree, reference_tree
     )
 

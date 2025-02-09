@@ -304,7 +304,7 @@ def _create_input_data_for_concatenated_function(
 
 
 def _round_and_partial_parameters_to_functions(
-    functions: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     params: dict[str, Any],
     rounding: bool,
 ) -> NestedFunctionDict:
@@ -312,8 +312,8 @@ def _round_and_partial_parameters_to_functions(
 
     Parameters
     ----------
-    functions: NestedFunctionDict
-        Dictionary of functions which are either internal or user provided functions.
+    functions_tree: NestedFunctionDict
+        The functions tree.
     params: dict[str, Any]
         Dictionary of parameters.
     rounding: bool
@@ -327,15 +327,15 @@ def _round_and_partial_parameters_to_functions(
     """
     # Add rounding to functions.
     if rounding:
-        functions = optree.tree_map_with_path(
+        functions_tree = optree.tree_map_with_path(
             lambda path, x: _add_rounding_to_function(x, params, path),
-            functions,
+            functions_tree,
         )
 
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
     # parameters.
-    function_leafs, tree_spec = optree.tree_flatten(functions)
+    function_leafs, tree_spec = optree.tree_flatten(functions_tree)
     processed_functions = []
     for function in function_leafs:
         arguments = get_names_of_arguments_without_defaults(function)

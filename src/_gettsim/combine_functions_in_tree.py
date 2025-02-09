@@ -595,7 +595,7 @@ def _create_one_aggregate_by_p_id_func(
     """
     annotations = _annotations_for_aggregation(
         aggregation_method=aggregation_method,
-        source_col=qualified_name_source_col,
+        qualified_name_source_col=qualified_name_source_col,
         functions_tree=functions_tree,
         types_input_variables=TYPES_INPUT_VARIABLES,
     )

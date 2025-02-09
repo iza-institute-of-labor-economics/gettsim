@@ -169,7 +169,7 @@ def partition_tree_by_reference_tree(
                 current_accessor(target_tree),
             )
 
-    return tree_with_absent_leaves, tree_with_present_leaves
+    return tree_with_present_leaves, tree_with_absent_leaves
 
 
 def format_errors_and_warnings(text: str, width: int = 79) -> str:

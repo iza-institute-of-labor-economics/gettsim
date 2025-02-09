@@ -244,7 +244,7 @@ _time_conversion_functions = {
 
 def create_time_conversion_functions(
     functions_tree: NestedFunctionDict,
-    data: NestedDataDict,
+    data_tree: NestedDataDict,
 ) -> NestedFunctionDict:
     """
      Create functions that convert variables to different time units.
@@ -295,7 +295,7 @@ def create_time_conversion_functions(
         for der_name, der_func in all_time_conversions_for_this_function.items():
             new_path = [*path[:-1], der_name]
             if tree_path_exists(converted_functions, new_path) or tree_path_exists(
-                data, new_path
+                data_tree, new_path
             ):
                 # Skip if the function already exists or the data column exists
                 continue
@@ -305,7 +305,7 @@ def create_time_conversion_functions(
                 )
 
     # Create time-conversions for data columns
-    for path in optree.tree_paths(data, none_is_leaf=True):
+    for path in optree.tree_paths(data_tree, none_is_leaf=True):
         leaf_name = path[-1]
         all_time_conversions_for_this_data_column = _create_time_conversion_functions(
             name=leaf_name
@@ -313,7 +313,7 @@ def create_time_conversion_functions(
         for der_name, der_func in all_time_conversions_for_this_data_column.items():
             new_path = [*path[:-1], der_name]
             if tree_path_exists(converted_functions, new_path) or tree_path_exists(
-                data, new_path
+                data_tree, new_path
             ):
                 # Skip if the function already exists or the data column exists
                 continue
