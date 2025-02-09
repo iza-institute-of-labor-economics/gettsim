@@ -15,7 +15,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.loader import (
     load_aggregations_tree,
-    load_functions_tree_for_date,
+    load_policy_functions_tree_for_date,
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
@@ -96,7 +96,7 @@ class PolicyEnvironment:
         return self._aggregations_tree
 
     def upsert_policy_functions(
-        self, functions_tree_to_upsert: NestedFunctionDict
+        self, policy_functions_tree_to_upsert: NestedFunctionDict
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
@@ -112,26 +112,26 @@ class PolicyEnvironment:
         -------
         The policy environment with the new functions.
         """
-        new_functions_tree = {}
+        new_policy_functions_tree = {}
 
         # Add old functions tree to new functions tree
-        new_functions_tree = {**self._policy_functions_tree}
+        new_policy_functions_tree = {**self._policy_functions_tree}
 
         policy_functions_tree_to_upsert = optree.tree_map(
             func=_convert_all_functions_to_policy_functions,
-            tree=functions_tree_to_upsert,
+            tree=policy_functions_tree_to_upsert,
         )
         _fail_if_name_of_last_branch_not_leaf_name_of_function(
             policy_functions_tree_to_upsert
         )
 
         # Add functions tree to upsert to new functions tree
-        new_functions_tree = merge_nested_dicts(
-            new_functions_tree, policy_functions_tree_to_upsert
+        new_policy_functions_tree = merge_nested_dicts(
+            new_policy_functions_tree, policy_functions_tree_to_upsert
         )
 
         result = object.__new__(PolicyEnvironment)
-        result._policy_functions_tree = new_functions_tree  # noqa: SLF001
+        result._policy_functions_tree = new_policy_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregations_tree = self._aggregations_tree  # noqa: SLF001
 
@@ -178,7 +178,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     # Check policy date for correct format and convert to datetime.date
     date = _parse_date(date)
 
-    policy_functions_tree = load_functions_tree_for_date(date)
+    policy_functions_tree = load_policy_functions_tree_for_date(date)
 
     params = {}
     for group in INTERNAL_PARAMS_GROUPS:
@@ -623,7 +623,7 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
     return new_dict
 
 
-def _fail_if_functions_tree_not_dict(obj):
+def _fail_if_policy_functions_tree_not_dict(obj):
     """Raise error if functions are not passed as tree."""
     if not isinstance(obj, dict):
         raise TypeError("Functions must be passed as a tree.")

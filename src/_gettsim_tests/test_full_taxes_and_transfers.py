@@ -1,7 +1,7 @@
 import pytest
 
 from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.functions.loader import load_functions_tree_for_date
+from _gettsim.functions.loader import load_policy_functions_tree_for_date
 from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
@@ -57,7 +57,8 @@ def test_data_types(
     test_data: PolicyTestData,
 ):
     functions = {
-        f.leaf_name: f.function for f in load_functions_tree_for_date(test_data.date)
+        f.leaf_name: f.function
+        for f in load_policy_functions_tree_for_date(test_data.date)
     }
 
     out = OUT_COLS.copy()

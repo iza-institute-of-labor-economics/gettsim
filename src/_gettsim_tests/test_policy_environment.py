@@ -11,7 +11,7 @@ from _gettsim.policy_environment import (
     PolicyEnvironment,
     _fail_if_name_of_last_branch_not_leaf_name_of_function,
     _load_parameter_group_from_yaml,
-    load_functions_tree_for_date,
+    load_policy_functions_tree_for_date,
     set_up_policy_environment,
 )
 from _gettsim.shared import (
@@ -129,14 +129,16 @@ def test_access_different_date_jahresanfang():
         ),
     ],
 )
-def test_load_functions_tree_for_date(
+def test_load_policy_functions_tree_for_date(
     tree_path: tuple[str, ...],
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = load_functions_tree_for_date(date=last_day)
-    functions_next_day = load_functions_tree_for_date(date=last_day + timedelta(days=1))
+    functions_last_day = load_policy_functions_tree_for_date(date=last_day)
+    functions_next_day = load_policy_functions_tree_for_date(
+        date=last_day + timedelta(days=1)
+    )
 
     assert (
         tree_get_by_path(functions_last_day, tree_path).__name__

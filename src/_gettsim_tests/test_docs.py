@@ -13,7 +13,7 @@ from _gettsim.config import (
 from _gettsim.functions.loader import (
     load_one_aggregation_specs_tree,
 )
-from _gettsim.policy_environment import load_functions_tree_for_date
+from _gettsim.policy_environment import load_policy_functions_tree_for_date
 from _gettsim.shared import remove_group_suffix
 
 
@@ -42,7 +42,7 @@ def aggregation_dict():
 def time_indep_function_names(all_function_names):
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = load_functions_tree_for_date(
+        year_functions = load_policy_functions_tree_for_date(
             datetime.date(year=year, month=1, day=1)
         )
         new_dict = {func.function.__name__: func.leaf_name for func in year_functions}

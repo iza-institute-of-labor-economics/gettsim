@@ -12,7 +12,7 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
-from _gettsim.functions.loader import load_functions_tree_for_date
+from _gettsim.functions.loader import load_policy_functions_tree_for_date
 from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
     elterngeld_geschwisterbonus_m,
@@ -376,7 +376,9 @@ for year in range(1990, 2023):
         [
             pf.function
             for pf in tree_flatten(
-                load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
+                load_policy_functions_tree_for_date(
+                    datetime.date(year=year, month=1, day=1)
+                )
             )[0]
         ],
     )

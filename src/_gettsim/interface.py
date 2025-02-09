@@ -84,44 +84,46 @@ def compute_taxes_and_transfers(
     targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
 
     # Add derived functions to the functions tree.
-    functions_tree = combine_policy_functions_and_derived_functions(
+    policy_functions_tree = combine_policy_functions_and_derived_functions(
         environment=environment,
         targets_tree=targets_tree,
         data_tree=data_tree,
     )
 
     # Round and partial parameters into functions.
-    functions_tree_with_partial_parameters = _round_and_partial_parameters_to_functions(
-        functions_tree=functions_tree,
-        params=environment.params,
-        rounding=rounding,
+    policy_functions_tree_with_partial_parameters = (
+        _round_and_partial_parameters_to_functions(
+            policy_functions_tree=policy_functions_tree,
+            params=environment.params,
+            rounding=rounding,
+        )
     )
 
     # Remove functions from functions tree that are overridden by data.
     (
-        functions_tree_overridden,
-        functions_tree_not_overridden,
+        policy_functions_tree_overridden,
+        policy_functions_tree_not_overridden,
     ) = partition_tree_by_reference_tree(
-        target_tree=functions_tree_with_partial_parameters,
+        target_tree=policy_functions_tree_with_partial_parameters,
         reference_tree=data_tree,
     )
 
     # Warn if data overrides functions and infer correct types from functions.
-    _warn_if_functions_overridden_by_data(functions_tree_overridden)
+    _warn_if_functions_overridden_by_data(policy_functions_tree_overridden)
     data_tree_with_correct_types = _convert_data_to_correct_types(
         data_tree=data_tree,
-        functions_tree_overridden=functions_tree_overridden,
+        policy_functions_tree_overridden=policy_functions_tree_overridden,
     )
 
     # Create input structure.
     input_structure = dags.dag_tree.create_input_structure_tree(
-        functions=functions_tree_not_overridden,
+        functions=policy_functions_tree_not_overridden,
         targets=targets_tree,
     )
 
     # Create tax and transfer function.
     tax_transfer_function = dags.concatenate_functions_tree(
-        functions=functions_tree_not_overridden,
+        functions=policy_functions_tree_not_overridden,
         targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
@@ -130,7 +132,7 @@ def compute_taxes_and_transfers(
     # Create input data: Remove unnecessary data.
     input_data = _create_input_data_for_concatenated_function(
         data_tree=data_tree_with_correct_types,
-        functions_tree=functions_tree_not_overridden,
+        policy_functions_tree=policy_functions_tree_not_overridden,
         targets_tree=targets_tree,
         input_structure=input_structure,
     )
@@ -144,7 +146,7 @@ def compute_taxes_and_transfers(
 
 
 def _convert_data_to_correct_types(
-    data_tree: NestedDataDict, functions_tree_overridden: NestedFunctionDict
+    data_tree: NestedDataDict, policy_functions_tree_overridden: NestedFunctionDict
 ) -> NestedDataDict:
     """Convert all leafs of the data tree to the type that is expected by GETTSIM.
 
@@ -152,7 +154,7 @@ def _convert_data_to_correct_types(
     ----------
     data_tree :
         Data provided by the user.
-    functions_tree_overridden :
+    policy_functions_tree_overridden :
         Functions that are overridden by data.
 
     Returns
@@ -186,9 +188,9 @@ def _convert_data_to_correct_types(
         except KeyError:
             pass
 
-        # Look for column in functions_tree_overridden
+        # Look for column in policy_functions_tree_overridden
         try:
-            func = accessor(functions_tree_overridden)
+            func = accessor(policy_functions_tree_overridden)
             if hasattr(func, "__annotations__") and func.skip_vectorization:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
@@ -250,7 +252,7 @@ def _convert_data_to_correct_types(
 
 def _create_input_data_for_concatenated_function(
     data_tree: NestedDataDict,
-    functions_tree: NestedFunctionDict,
+    policy_functions_tree: NestedFunctionDict,
     targets_tree: NestedTargetDict,
     input_structure: NestedInputStructureDict,
 ) -> NestedDataDict:
@@ -264,7 +266,7 @@ def _create_input_data_for_concatenated_function(
     ----------
     data_tree :
         Data provided by the user.
-    functions_tree :
+    policy_policy_functions_tree :
         Nested function dictionary.
     targets_tree :
         Targets provided by the user.
@@ -279,7 +281,7 @@ def _create_input_data_for_concatenated_function(
     """
     # Create dag using processed functions
     dag = dags.dag_tree.create_dag_tree(
-        functions=functions_tree,
+        functions=policy_functions_tree,
         targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
@@ -288,7 +290,7 @@ def _create_input_data_for_concatenated_function(
     root_nodes_tree = create_tree_from_list_of_qualified_names(root_nodes)
 
     _fail_if_root_nodes_are_missing(
-        functions_tree=functions_tree,
+        policy_functions_tree=policy_functions_tree,
         data_tree=data_tree,
         root_nodes_tree=root_nodes_tree,
     )
@@ -304,7 +306,7 @@ def _create_input_data_for_concatenated_function(
 
 
 def _round_and_partial_parameters_to_functions(
-    functions_tree: NestedFunctionDict,
+    policy_functions_tree: NestedFunctionDict,
     params: dict[str, Any],
     rounding: bool,
 ) -> NestedFunctionDict:
@@ -327,15 +329,15 @@ def _round_and_partial_parameters_to_functions(
     """
     # Add rounding to functions.
     if rounding:
-        functions_tree = optree.tree_map_with_path(
+        policy_functions_tree = optree.tree_map_with_path(
             lambda path, x: _add_rounding_to_function(x, params, path),
-            functions_tree,
+            policy_functions_tree,
         )
 
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
     # parameters.
-    function_leafs, tree_spec = optree.tree_flatten(functions_tree)
+    function_leafs, tree_spec = optree.tree_flatten(policy_functions_tree)
     processed_functions = []
     for function in function_leafs:
         arguments = get_names_of_arguments_without_defaults(function)
@@ -635,10 +637,10 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
 
 
 def _warn_if_functions_overridden_by_data(
-    functions_tree_overridden: NestedFunctionDict,
+    policy_functions_tree_overridden: NestedFunctionDict,
 ) -> None:
     """Warn if functions are overridden by data."""
-    tree_paths = optree.tree_paths(functions_tree_overridden)
+    tree_paths = optree.tree_paths(policy_functions_tree_overridden)
     formatted_list = format_list_linewise(
         [QUALIFIED_NAME_SEPARATOR.join(path) for path in tree_paths]
     )
@@ -704,7 +706,7 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
 
 def _fail_if_root_nodes_are_missing(
-    functions_tree: NestedFunctionDict,
+    policy_functions_tree: NestedFunctionDict,
     root_nodes_tree: dict[str, Any],
     data_tree: NestedDataDict,
 ) -> None:
@@ -715,7 +717,7 @@ def _fail_if_root_nodes_are_missing(
 
     Parameters
     ----------
-    functions_tree : NestedFunctionDict
+    policy_functions_tree : NestedFunctionDict
         Dictionary of functions.
     root_nodes_tree : dict[str, Any]
         Dictionary of root nodes.
@@ -731,7 +733,7 @@ def _fail_if_root_nodes_are_missing(
     missing_nodes = []
 
     for accessor in accessors_root_nodes_tree:
-        func = accessor(functions_tree)
+        func = accessor(policy_functions_tree)
         if (
             len(
                 [

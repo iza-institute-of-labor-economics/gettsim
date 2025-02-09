@@ -10,7 +10,7 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import load_functions_tree_for_date
+from _gettsim.functions.loader import load_policy_functions_tree_for_date
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.interface import (
     _add_rounding_to_function,
@@ -261,7 +261,9 @@ def test_decorator_for_all_functions_with_rounding_spec():
     time_dependent_functions = {}
     for year in range(1990, 2023):
         year_functions = tree_flatten(
-            load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
+            load_policy_functions_tree_for_date(
+                datetime.date(year=year, month=1, day=1)
+            )
         )[0]
         function_name_to_leaf_name_dict = {
             func.function.__name__: func.leaf_name for func in year_functions

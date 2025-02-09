@@ -16,7 +16,7 @@ from _gettsim.gettsim_typing import NestedAggregationDict, NestedFunctionDict
 from _gettsim.shared import tree_update
 
 
-def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
+def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     """
     Load the functions tree for a given date.
 
@@ -38,7 +38,7 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
         PATHS_TO_INTERNAL_FUNCTIONS
     )
 
-    functions_tree = {}
+    policy_functions_tree = {}
 
     for system_path in system_paths_to_policy_functions:
         active_functions_dict = get_active_policy_functions_from_module(
@@ -49,13 +49,13 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
             system_path=system_path, package_root=RESOURCE_DIR
         )
 
-        functions_tree = tree_update(
-            tree=functions_tree,
+        policy_functions_tree = tree_update(
+            tree=policy_functions_tree,
             tree_path=tree_path,
             value=active_functions_dict,
         )
 
-    return functions_tree
+    return policy_functions_tree
 
 
 def get_active_policy_functions_from_module(

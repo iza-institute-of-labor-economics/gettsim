@@ -6,7 +6,7 @@ from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
     _create_aggregate_by_group_functions,
-    _fail_if_targets_not_in_functions_tree,
+    _fail_if_targets_not_in_policy_functions_tree,
     _get_tree_path_from_source_col_name,
 )
 from _gettsim.functions.derived_function import DerivedFunction
@@ -33,7 +33,7 @@ def function_with_float_return(x: int) -> float:
 
 @pytest.mark.parametrize(
     (
-        "functions_tree",
+        "policy_functions_tree",
         "targets_tree",
         "data_tree",
         "aggregations_specs_from_env",
@@ -167,14 +167,14 @@ def function_with_float_return(x: int) -> float:
     ],
 )
 def test_create_aggregate_by_group_functions(
-    functions_tree,
+    policy_functions_tree,
     targets_tree,
     data_tree,
     aggregations_specs_from_env,
     expected_tree_structure,
 ):
     derived_functions = _create_aggregate_by_group_functions(
-        functions_tree=functions_tree,
+        policy_functions_tree=policy_functions_tree,
         targets_tree=targets_tree,
         data_tree=data_tree,
         aggregations_tree_provided_by_env=aggregations_specs_from_env,
@@ -248,5 +248,5 @@ def test_fail_if_targets_are_not_among_functions(
     functions, targets, expected_error_match
 ):
     with pytest.raises(ValueError) as e:
-        _fail_if_targets_not_in_functions_tree(functions, targets)
+        _fail_if_targets_not_in_policy_functions_tree(functions, targets)
     assert expected_error_match in str(e.value)
