@@ -90,21 +90,12 @@ def compute_taxes_and_transfers(
         data_tree=data_tree,
     )
 
-    # Round and partial parameters into functions.
-    policy_functions_tree_with_partial_parameters = (
-        _round_and_partial_parameters_to_functions(
-            policy_functions_tree=policy_functions_tree,
-            params=environment.params,
-            rounding=rounding,
-        )
-    )
-
     # Remove functions from functions tree that are overridden by data.
     (
         policy_functions_tree_overridden,
         policy_functions_tree_not_overridden,
     ) = partition_tree_by_reference_tree(
-        target_tree=policy_functions_tree_with_partial_parameters,
+        target_tree=policy_functions_tree,
         reference_tree=data_tree,
     )
 
@@ -121,9 +112,18 @@ def compute_taxes_and_transfers(
         targets=targets_tree,
     )
 
+    # Round and partial parameters into functions.
+    policy_functions_tree_with_partial_parameters = (
+        _round_and_partial_parameters_to_functions(
+            policy_functions_tree=policy_functions_tree_not_overridden,
+            params=environment.params,
+            rounding=rounding,
+        )
+    )
+
     # Create tax and transfer function.
     tax_transfer_function = dags.concatenate_functions_tree(
-        functions=policy_functions_tree_not_overridden,
+        functions=policy_functions_tree_with_partial_parameters,
         targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
@@ -132,7 +132,7 @@ def compute_taxes_and_transfers(
     # Create input data: Remove unnecessary data.
     input_data = _create_input_data_for_concatenated_function(
         data_tree=data_tree_with_correct_types,
-        policy_functions_tree=policy_functions_tree_not_overridden,
+        policy_functions_tree=policy_functions_tree_with_partial_parameters,
         targets_tree=targets_tree,
         input_structure=input_structure,
     )
@@ -296,8 +296,8 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Get only part of the data tree that is needed
-    _, input_data = partition_tree_by_reference_tree(
-        tree=data_tree,
+    input_data, _ = partition_tree_by_reference_tree(
+        target_tree=data_tree,
         reference_tree=root_nodes_tree,
     )
 
@@ -349,12 +349,6 @@ def _round_and_partial_parameters_to_functions(
         if partial_params:
             # Partial parameters into function.
             partial_func = functools.partial(function, **partial_params)
-
-            # Make sure any GETTSIM metadata is transferred to partial
-            # function. Otherwise, this information would get lost.
-            if hasattr(function, "__info__"):
-                partial_func.__info__ = function.__info__
-
             processed_functions.append(partial_func)
         else:
             processed_functions.append(function)
@@ -729,24 +723,20 @@ def _fail_if_root_nodes_are_missing(
     ValueError
         If root nodes are missing.
     """
-    accessors_root_nodes_tree = optree.tree_paths(root_nodes_tree, none_is_leaf=True)
+    accessors_root_nodes_tree = optree.tree_accessors(
+        root_nodes_tree, none_is_leaf=True
+    )
     missing_nodes = []
 
     for accessor in accessors_root_nodes_tree:
-        func = accessor(policy_functions_tree)
-        if (
-            len(
-                [
-                    a
-                    for a in inspect.signature(func).parameters
-                    if not a.endswith("_params")
-                ]
-            )
-            == 0
-        ):
-            # If functions depends on parameters only, it does not have to exist in the
-            # data
-            continue
+        # Root nodes that are functions that depend on parameters only do not have to
+        # exist in the data tree.
+        try:
+            func = accessor(policy_functions_tree)
+            if _func_depends_on_parameters_only(func):
+                continue
+        except KeyError:
+            pass
 
         try:
             accessor(data_tree)
@@ -758,3 +748,13 @@ def _fail_if_root_nodes_are_missing(
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
         raise ValueError(f"The following data columns are missing.\n{formatted}")
+
+
+def _func_depends_on_parameters_only(func: PolicyFunction) -> bool:
+    """Check if a function depends on parameters only."""
+    return (
+        len(
+            [a for a in inspect.signature(func).parameters if not a.endswith("_params")]
+        )
+        == 0
+    )
