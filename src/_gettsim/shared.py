@@ -10,7 +10,7 @@ import numpy
 import optree
 from dags.signature import rename_arguments
 
-from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -35,29 +35,30 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_from_list_of_qualified_names(qualified_names: list[str]) -> dict:
-    """Create a tree from a list of qualified names.
+def create_tree_from_qualified_names(qualified_names: set[str]) -> dict:
+    """Create a tree from a set of qualified names.
 
     Parameters
     ----------
-    qualified_names : list[str]
-        List of qualified names.
-        Example: ["a__b__c", "a__b__d", "a__e"]
+    qualified_names
+        Set of qualified names.
+
+            Example: {"a__b__c", "a__b__d", "a__e"}
 
     Returns
     -------
-    dict
-        Tree with qualified names as keys.
-        Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
+    Tree with qualified names as keys, all leaves are None.
+
+    Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
     """
     paths = [
-        create_dict_from_list(get_path_from_qualified_name(el))
-        for el in qualified_names
+        create_tree_from_path(get_path_from_qualified_name(qn))
+        for qn in qualified_names
     ]
     return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
 
 
-def create_dict_from_list(keys: list[str]) -> dict:
+def create_tree_from_path(path: tuple[str]) -> dict:
     """Create a nested dict from a list of strings.
 
     Example:
@@ -68,8 +69,8 @@ def create_dict_from_list(keys: list[str]) -> dict:
 
     """
     nested_dict = None
-    for key in reversed(keys):
-        nested_dict = {key: nested_dict}
+    for entry in reversed(path):
+        nested_dict = {entry: nested_dict}
     return nested_dict
 
 
@@ -124,7 +125,7 @@ def tree_update(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_dict_from_list(tree_path)
+    update_dict = create_tree_from_path(tree_path)
     tree_set_by_path(update_dict, tree_path, value)
     return tree_merge(tree, update_dict)
 
@@ -317,8 +318,8 @@ def tree_set_by_path(data_dict, key_list, value):
     tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
-def get_path_from_qualified_name(qualified_name: str) -> list[str]:
-    return qualified_name.split("__")
+def get_path_from_qualified_name(qualified_name: str) -> tuple[str]:
+    return tuple(qualified_name.split(QUALIFIED_NAME_SEPARATOR))
 
 
 # TODO(@MImmesberger): Remove.
@@ -340,7 +341,7 @@ def tree_flatten_with_qualified_name(
     paths, flattened_tree, tree_spec = optree.tree_flatten_with_path(
         tree, none_is_leaf=none_is_leaf
     )
-    qualified_names = ["__".join(path) for path in paths]
+    qualified_names = [QUALIFIED_NAME_SEPARATOR.join(path) for path in paths]
     return qualified_names, flattened_tree, tree_spec
 
 

@@ -32,7 +32,7 @@ from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
     assert_valid_pytree,
-    create_tree_from_list_of_qualified_names,
+    create_tree_from_qualified_names,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -286,7 +286,7 @@ def _create_input_data_for_concatenated_function(
         name_clashes="raise",
     )
     root_nodes = {node for node in dag.nodes if list(dag.predecessors(node)) == []}
-    root_nodes_tree = create_tree_from_list_of_qualified_names(root_nodes)
+    root_nodes_tree = create_tree_from_qualified_names(root_nodes)
 
     _fail_if_root_nodes_are_missing(
         policy_functions_tree=policy_functions_tree,
