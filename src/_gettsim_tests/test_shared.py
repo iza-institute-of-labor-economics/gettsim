@@ -1,12 +1,19 @@
+from dataclasses import dataclass
+
 import pytest
 
 from _gettsim.shared import (
     create_dict_from_list,
-    merge_nested_dicts,
     partition_tree_by_reference_tree,
+    tree_merge,
     tree_to_dict_with_qualified_name,
     tree_update,
 )
+
+
+@dataclass
+class SampleDataclass:
+    a: int
 
 
 @pytest.mark.parametrize(
@@ -42,10 +49,11 @@ def test_create_dict_from_list(keys, expected):
         ({"a": 1}, {"b": 2}, {"a": 1, "b": 2}),
         ({"a": 1}, {"a": 2}, {"a": 2}),
         ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
+        ({"a": SampleDataclass(a=1)}, {}, {"a": SampleDataclass(a=1)}),
     ],
 )
-def test_merge_nested_dicts(base_dict, update_dict, expected):
-    assert merge_nested_dicts(base_dict, update_dict) == expected
+def test_tree_merge(base_dict, update_dict, expected):
+    assert tree_merge(base_dict, update_dict) == expected
 
 
 @pytest.mark.parametrize(

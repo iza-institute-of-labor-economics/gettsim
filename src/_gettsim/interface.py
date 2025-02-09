@@ -36,9 +36,9 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    merge_nested_dicts,
     partition_tree_by_reference_tree,
     tree_get_by_path,
+    tree_merge,
     tree_update,
 )
 
@@ -139,7 +139,7 @@ def compute_taxes_and_transfers(
     results = tax_transfer_function(input_data)
 
     if debug:
-        results = merge_nested_dicts(results, data_tree_with_correct_types)
+        results = tree_merge(results, data_tree_with_correct_types)
 
     return results
 

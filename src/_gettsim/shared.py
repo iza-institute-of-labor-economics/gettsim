@@ -3,6 +3,7 @@ import inspect
 import operator
 import textwrap
 from collections.abc import Callable
+from dataclasses import is_dataclass
 from typing import Any, TypeVar
 
 import numpy
@@ -54,21 +55,7 @@ def create_tree_from_list_of_qualified_names(qualified_names: set[str]) -> dict:
         create_dict_from_list(el.split(QUALIFIED_NAME_SEPARATOR))
         for el in qualified_names
     ]
-    return functools.reduce(lambda x, y: merge_nested_dicts(x, y), paths, {})
-
-
-def tree_update(
-    tree: dict[str, Any], tree_path: list[str], value: Any = None
-) -> dict[str, Any]:
-    """Update tree with a path and value.
-
-    The path is a list of strings that represent the keys in the nested dictionary. If
-    the path does not exist, it will be created. If the path already exists, the value
-    will be updated.
-    """
-    update_dict = create_dict_from_list(tree_path)
-    tree_set_by_path(update_dict, tree_path, value)
-    return merge_nested_dicts(tree, update_dict)
+    return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
 
 
 def create_dict_from_list(keys: list[str]) -> dict:
@@ -87,22 +74,24 @@ def create_dict_from_list(keys: list[str]) -> dict:
     return nested_dict
 
 
-def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
+def tree_merge(base_tree: dict, update_tree: dict) -> dict:
     """
-    Recursively merge nested dictionaries.
+    Recursively merge trees.
+
+    Dataclasses are treated as leaves and not merged.
 
     Example:
         Input:
-            base_dict = {"a": {"b": {"c": None}}}
-            update_dict = {"a": {"b": {"d": None}}}
+            base_tree = {"a": {"b": {"c": None}}}
+            update_tree = {"a": {"b": {"d": None}}}
         Output:
             {"a": {"b": {"c": None, "d": None}}}
 
     Parameters
     ----------
-    base_dict : dict
+    base_tree : dict
         The base dictionary.
-    update_dict : dict
+    update_tree : dict
         The dictionary to update the base dictionary.
 
     Returns
@@ -110,15 +99,35 @@ def merge_nested_dicts(base_dict: dict, update_dict: dict) -> dict:
     dict
         The merged dictionary.
     """
-    result = base_dict.copy()
+    result = base_tree.copy()
 
-    for key, value in update_dict.items():
-        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
-            result[key] = merge_nested_dicts(result[key], value)
+    for key, value in update_tree.items():
+        base_value = result.get(key)
+        if (
+            key in result
+            and isinstance(base_value, dict)
+            and isinstance(value, dict)
+            and not is_dataclass(value)
+        ):
+            result[key] = tree_merge(base_value, value)
         else:
             result[key] = value
 
     return result
+
+
+def tree_update(
+    tree: dict[str, Any], tree_path: list[str], value: Any = None
+) -> dict[str, Any]:
+    """Update tree with a path and value.
+
+    The path is a list of strings that represent the keys in the nested dictionary. If
+    the path does not exist, it will be created. If the path already exists, the value
+    will be updated.
+    """
+    update_dict = create_dict_from_list(tree_path)
+    tree_set_by_path(update_dict, tree_path, value)
+    return tree_merge(tree, update_dict)
 
 
 def partition_tree_by_reference_tree(
@@ -350,6 +359,7 @@ def tree_path_exists(tree: dict[str, Any], path: list[str]) -> bool:
     return out
 
 
+# TODO(@MImmesberger): Remove.
 def tree_to_dict_with_qualified_name(
     tree: dict[str, Any], none_is_leaf: bool = True
 ) -> dict[str, Any]:

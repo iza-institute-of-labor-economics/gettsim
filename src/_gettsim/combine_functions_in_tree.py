@@ -34,10 +34,10 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    merge_nested_dicts,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
     tree_get_by_path,
+    tree_merge,
     tree_path_exists,
     tree_update,
 )
@@ -98,7 +98,7 @@ def combine_policy_functions_and_derived_functions(
 
     # Put all functions into a functions tree
     all_functions = functools.reduce(
-        merge_nested_dicts,
+        tree_merge,
         [
             aggregate_by_p_id_functions,
             time_conversion_functions,
@@ -135,7 +135,7 @@ def _create_derived_functions(
     )
 
     # Create functions for different time units
-    current_policy_functions_tree = merge_nested_dicts(
+    current_policy_functions_tree = tree_merge(
         current_policy_functions_tree,
         aggregate_by_p_id_functions,
     )
@@ -145,7 +145,7 @@ def _create_derived_functions(
     )
 
     # Create aggregation functions
-    current_policy_functions_tree = merge_nested_dicts(
+    current_policy_functions_tree = tree_merge(
         current_policy_functions_tree,
         time_conversion_functions,
     )
@@ -199,7 +199,7 @@ def _create_aggregate_by_group_functions(
     )
 
     # Add automated aggregation specs to aggregations tree
-    full_aggregations_tree = merge_nested_dicts(
+    full_aggregations_tree = tree_merge(
         automatically_created_aggregations_tree,
         aggregations_tree_provided_by_env,
     )
@@ -302,7 +302,7 @@ def _create_derived_aggregations_tree(
     """
     # Create target tree for aggregations. Aggregation target can be any target provided
     # by the user or any function argument.
-    potential_target_tree = merge_nested_dicts(
+    potential_target_tree = tree_merge(
         target_tree,
         _get_potential_aggregation_targets_from_function_arguments(
             policy_functions_tree
@@ -311,9 +311,9 @@ def _create_derived_aggregations_tree(
 
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
-    aggregation_source_tree = merge_nested_dicts(
-        base_dict=policy_functions_tree,
-        update_dict=data_tree,
+    aggregation_source_tree = tree_merge(
+        base_tree=policy_functions_tree,
+        update_tree=data_tree,
     )
 
     # Create aggregation specs.

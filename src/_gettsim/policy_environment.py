@@ -25,7 +25,7 @@ from _gettsim.piecewise_functions import (
 )
 from _gettsim.shared import (
     assert_valid_pytree,
-    merge_nested_dicts,
+    tree_merge,
     tree_set_by_path,
 )
 
@@ -126,7 +126,7 @@ class PolicyEnvironment:
         )
 
         # Add functions tree to upsert to new functions tree
-        new_policy_functions_tree = merge_nested_dicts(
+        new_policy_functions_tree = tree_merge(
             new_policy_functions_tree, policy_functions_tree_to_upsert
         )
 
