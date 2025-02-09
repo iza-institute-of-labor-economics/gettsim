@@ -18,10 +18,16 @@ def h():
     return 1
 
 
+@policy_function()
+def some_unused_function(some_unused_param):
+    return some_unused_param
+
+
 FUNCTIONS_MODULE1 = {
     "module1": {
         "f": f,
         "g": g,
         "h": h,
+        "some_unused_function": some_unused_function,
     }
 }

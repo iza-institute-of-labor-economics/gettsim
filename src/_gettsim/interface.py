@@ -107,9 +107,8 @@ def compute_taxes_and_transfers(
     )
 
     # Create input structure.
-    input_structure = dags.dag_tree.create_input_structure_tree(
-        functions=policy_functions_tree_not_overridden,
-        targets=targets_tree,
+    input_structure = dags.create_input_structure_tree(
+        policy_functions_tree_not_overridden,
     )
 
     # Round and partial parameters into functions.

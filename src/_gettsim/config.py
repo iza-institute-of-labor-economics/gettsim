@@ -131,34 +131,30 @@ SUPPORTED_TIME_UNITS = {
 
 DEFAULT_TARGETS = {
     "taxes": {
-        "eink_st": ["eink_st_y_sn"],
-        "soli_st": ["soli_st_y_sn"],
-        "abgelt_st": ["abgelt_st_y_sn"],
+        "eink_st": {"eink_st_y_sn": None},
+        "soli_st": {"soli_st_y_sn": None},
+        "abgelt_st": {"abgelt_st_y_sn": None},
     },
     "transfers": {
-        "elterngeld": ["elterngeld_m"],
-        "arbeitsl_geld": ["arbeitsl_geld_m"],
-        "kindergeld": ["kindergeld_m"],
-        "arbeitsl_geld_2": {
-            "arbeitsl_geld_2": ["arbeitsl_geld_2_m_bg"],
-        },
-        "kinderzuschl": {
-            "kinderzuschl": ["kinderzuschl_m_bg"],
-        },
-        "wohngeld": ["wohngeld_m_wthh"],
-        "unterhaltsvors": ["unterhaltsvors_m"],
-        "grunds_im_alter": ["grunds_im_alter_m_eg"],
-        "rente": ["ges_rente_m"],
-        "erwerbsm_rente": ["erwerbsm_rente_m"],
+        "elterngeld": {"elterngeld_m": None},
+        "arbeitsl_geld": {"arbeitsl_geld_m": None},
+        "kindergeld": {"kindergeld_m": None},
+        "arbeitsl_geld_2": {"arbeitsl_geld_2_m_bg": None},
+        "kinderzuschl": {"kinderzuschl_m_bg": None},
+        "wohngeld": {"wohngeld_m_wthh": None},
+        "unterhaltsvors": {"unterhaltsvors_m": None},
+        "grunds_im_alter": {"grunds_im_alter_m_eg": None},
+        "rente": {"ges_rente_m": None},
+        "erwerbsm_rente": {"erwerbsm_rente_m": None},
     },
     "social_insurance_contributions": {
-        "arbeitsl_v": [
-            "sozialv_beitr_arbeitnehmer_m",
-            "arbeitsl_v_beitr_arbeitnehmer_m",
-        ],
-        "ges_rentenv": ["ges_rentenv_beitr_arbeitnehmer_m"],
-        "ges_krankenv": ["ges_krankenv_beitr_arbeitnehmer_m"],
-        "ges_pflegev": ["ges_pflegev_beitr_arbeitnehmer_m"],
+        "arbeitsl_v": {
+            "sozialv_beitr_arbeitnehmer_m": None,
+            "arbeitsl_v_beitr_arbeitnehmer_m": None,
+        },
+        "ges_rentenv": {"ges_rentenv_beitr_arbeitnehmer_m": None},
+        "ges_krankenv": {"ges_krankenv_beitr_arbeitnehmer_m": None},
+        "ges_pflegev": {"ges_pflegev_beitr_arbeitnehmer_m": None},
     },
 }
 

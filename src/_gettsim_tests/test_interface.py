@@ -35,16 +35,6 @@ def minimal_input_data():
     return out
 
 
-@pytest.fixture(scope="module")
-def minimal_input_data_as_df():
-    return pd.DataFrame(
-        {
-            "groupings__p_id": pd.Series([1, 2, 3], name="p_id"),
-            "groupings__hh_id": pd.Series([1, 1, 2], name="hh_id"),
-        }
-    )
-
-
 # Create a function which is used by some tests below
 @policy_function()
 def func_before_partial(arg_1, arbeitsl_geld_2_params):
@@ -69,9 +59,9 @@ def test_output_as_tree(minimal_input_data):
         }
     )
     out = compute_taxes_and_transfers(
-        minimal_input_data,
-        environment,
-        targets={"module": {"test_func": None}},
+        data_tree=minimal_input_data,
+        environment=environment,
+        targets_tree={"module": {"test_func": None}},
     )
 
     assert isinstance(out, dict)
@@ -85,9 +75,9 @@ def test_warn_if_functions_and_columns_overlap():
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
-            data=pd.DataFrame({"groupings__p_id": [0], "dupl": [1]}),
+            data_tree={"groupings": {"p_id": pd.Series([0])}, "dupl": pd.Series([1])},
             environment=environment,
-            targets={},
+            targets_tree={},
         )
 
 
