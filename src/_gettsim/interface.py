@@ -511,15 +511,6 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     _fail_if_foreign_keys_are_invalid(data_tree)
 
 
-def _fail_if_duplicates_in_columns(data: pd.DataFrame) -> None:
-    """Check that all column names are unique."""
-    if any(data.columns.duplicated()):
-        raise ValueError(
-            "The following columns are non-unique in the input data:\n\n"
-            f"{data.columns[data.columns.duplicated()]}"
-        )
-
-
 def _fail_if_group_variables_not_constant_within_groups(
     data_tree: NestedDataDict,
 ) -> None:
@@ -701,7 +692,7 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
 def _fail_if_root_nodes_are_missing(
     policy_functions_tree: NestedFunctionDict,
-    root_nodes_tree: dict[str, Any],
+    root_nodes_tree: NestedTargetDict,
     data_tree: NestedDataDict,
 ) -> None:
     """Fail if root nodes are missing.
@@ -711,11 +702,11 @@ def _fail_if_root_nodes_are_missing(
 
     Parameters
     ----------
-    policy_functions_tree : NestedFunctionDict
+    policy_functions_tree :
         Dictionary of functions.
-    root_nodes_tree : dict[str, Any]
+    root_nodes_tree :
         Dictionary of root nodes.
-    data_tree : NestedDataDict
+    data_tree :
         Dictionary of data.
 
     Raises
