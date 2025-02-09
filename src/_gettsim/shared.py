@@ -63,7 +63,7 @@ def create_tree_from_path(path: tuple[str]) -> dict:
 
     Example:
         Input:
-            keys = ["a", "b", "c"]
+            keys = ("a", "b", "c")
         Result:
             {"a": {"b": {"c": None}}}
 
