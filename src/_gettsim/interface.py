@@ -162,7 +162,7 @@ def _convert_data_to_correct_types(
         Data with correct types.
 
     """
-    collected_errors = ["The data types of the following columns are invalid:"]
+    collected_errors = ["The data types of the following columns are invalid:\n"]
     collected_conversions = [
         "The data types of the following input variables have been converted:"
     ]
@@ -218,7 +218,7 @@ def _convert_data_to_correct_types(
                     f"to {internal_type.__name__}"
                 )
             except ValueError as e:
-                collected_errors.append(f" - {qualified_column_name}: {e}")
+                collected_errors.append(f"\n - {qualified_column_name}: {e}")
         else:
             data_tree_with_correct_types = tree_update(
                 data_tree_with_correct_types,
@@ -235,7 +235,7 @@ def _convert_data_to_correct_types(
             (for example, because 1e-15 is displayed as 0.0). \n The best solution is to
             convert all columns to the expected data types yourself.
             """
-        collected_errors = format_list_linewise(collected_errors)
+        collected_errors = "\n".join(collected_errors)
         raise ValueError(format_errors_and_warnings(collected_errors + msg))
 
     # Otherwise raise warning which lists all successful conversions
