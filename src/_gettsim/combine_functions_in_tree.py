@@ -719,10 +719,10 @@ def _get_tree_path_from_source_col_name(
     """
     if QUALIFIED_NAME_SEPARATOR in name:
         # 'name' is already namespaced.
-        new_tree_path = tuple(name.split(QUALIFIED_NAME_SEPARATOR))
+        new_tree_path = name.split(QUALIFIED_NAME_SEPARATOR)
     else:
         # 'name' is not namespaced.
-        new_tree_path = tuple(*current_namespace, name)
+        new_tree_path = [*current_namespace, name]
 
     return tuple(new_tree_path)
 

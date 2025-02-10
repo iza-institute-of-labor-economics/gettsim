@@ -194,8 +194,8 @@ def test_create_aggregate_by_group_functions(
 @pytest.mark.parametrize(
     "argument_name, current_namespace, expected",
     [
-        ("foo", ["dir", "module"], ("dir", "module", "foo")),
-        ("dir__module__foo", ["dir", "module"], ("dir", "module", "foo")),
+        ("foo", ("dir", "module"), ("dir", "module", "foo")),
+        ("dir__module__foo", ("dir", "module"), ("dir", "module", "foo")),
     ],
 )
 def test_get_tree_path_from_source_col_name(argument_name, current_namespace, expected):

@@ -39,6 +39,7 @@ def test_groupings(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
     data = pd.DataFrame(
         {

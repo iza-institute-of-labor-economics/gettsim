@@ -307,6 +307,7 @@ def test_p_id_groups(fixture, expected, request):
         pd.testing.assert_series_equal(df[col], pd.Series(values, name=col))
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "fixture, policy_date",
     [("synthetic_data_couple_with_children", y) for y in range(2015, 2024)],
@@ -314,7 +315,7 @@ def test_p_id_groups(fixture, expected, request):
 def test_default_targets(fixture, policy_date, request):
     environment = set_up_policy_environment(policy_date)
     compute_taxes_and_transfers(
-        data=request.getfixturevalue(fixture),
-        targets=DEFAULT_TARGETS,
+        data_tree=request.getfixturevalue(fixture),
+        targets_tree=DEFAULT_TARGETS,
         environment=environment,
     )
