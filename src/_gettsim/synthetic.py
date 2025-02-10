@@ -7,7 +7,6 @@ import pandas as pd
 
 from _gettsim.config import RESOURCE_DIR, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
 from _gettsim.policy_environment import _load_parameter_group_from_yaml
-from _gettsim.shared import tree_to_dict_with_qualified_name
 
 current_year = datetime.datetime.today().year
 

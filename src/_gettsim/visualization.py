@@ -23,7 +23,6 @@ from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
-    tree_to_dict_with_qualified_name,
 )
 
 

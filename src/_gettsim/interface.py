@@ -37,7 +37,6 @@ from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
-    tree_get_by_path,
     tree_merge,
     tree_update,
 )
@@ -556,13 +555,11 @@ def _fail_if_group_variables_not_constant_within_groups(
     optree.tree_map_with_path(check_leaf, data_tree)
 
 
-def _fail_if_pid_is_non_unique(data: NestedDataDict) -> None:
+def _fail_if_pid_is_non_unique(data_tree: NestedDataDict) -> None:
     """Check that pid is unique."""
-    try:
-        p_id_col = tree_get_by_path(data, ["groupings", "p_id"])
-    except KeyError as e:
-        message = "The input data must contain the p_id."
-        raise ValueError(message) from e
+    p_id_col = data_tree.get("groupings", {}).get("p_id", None)
+    if p_id_col is None:
+        raise ValueError("The input data must contain the p_id.")
 
     # Check for non-unique p_ids
     p_id_counts = {}
@@ -589,9 +586,11 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
     Foreign keys must point to an existing `p_id` in the input data and must not refer
     to the `p_id` of the same row.
     """
-    p_id_col = tree_get_by_path(data_tree, ["groupings", "p_id"])
-    valid_ids = set(p_id_col) | {-1}
     grouping_ids = data_tree.get("groupings", {})
+    p_id_col = grouping_ids.get("p_id", None)
+    if p_id_col is None:
+        raise ValueError("The input data must contain the p_id.")
+    valid_ids = set(p_id_col) | {-1}
 
     def check_leaf(path, leaf):
         leaf_name = path[-1]

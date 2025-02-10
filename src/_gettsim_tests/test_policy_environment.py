@@ -1,7 +1,9 @@
 """Some tests for the policy_environment module."""
 
 from datetime import date, timedelta
+from typing import Any
 
+import optree
 import pandas as pd
 import pytest
 
@@ -13,9 +15,6 @@ from _gettsim.policy_environment import (
     _load_parameter_group_from_yaml,
     load_policy_functions_tree_for_date,
     set_up_policy_environment,
-)
-from _gettsim.shared import (
-    tree_get_by_path,
 )
 from _gettsim_tests import TEST_DIR
 
@@ -107,22 +106,22 @@ def test_access_different_date_jahresanfang():
 
 
 @pytest.mark.parametrize(
-    "tree_path, last_day, function_name_last_day, function_name_next_day",
+    "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            ("zu_verst_eink", "freibetraege", "eink_st_altersfreib_y"),
+            {"zu_verst_eink": {"freibetraege": {"eink_st_altersfreib_y": None}}},
             date(2004, 12, 31),
             "eink_st_altersfreib_y_bis_2004",
             "eink_st_altersfreib_y_ab_2005",
         ),
         (
-            ("zu_verst_eink", "freibetraege", "alleinerz_freib_y_sn"),
+            {"zu_verst_eink": {"freibetraege": {"alleinerz_freib_y_sn": None}}},
             date(2014, 12, 31),
             "eink_st_alleinerz_freib_y_sn_pauschal",
             "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
         ),
         (
-            ("zu_verst_eink", "eink", "sum_eink_y"),
+            {"zu_verst_eink": {"eink": {"sum_eink_y": None}}},
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",
@@ -130,7 +129,7 @@ def test_access_different_date_jahresanfang():
     ],
 )
 def test_load_policy_functions_tree_for_date(
-    tree_path: tuple[str, ...],
+    tree: dict[str, Any],
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
@@ -140,14 +139,10 @@ def test_load_policy_functions_tree_for_date(
         date=last_day + timedelta(days=1)
     )
 
-    assert (
-        tree_get_by_path(functions_last_day, tree_path).__name__
-        == function_name_last_day
-    )
-    assert (
-        tree_get_by_path(functions_next_day, tree_path).__name__
-        == function_name_next_day
-    )
+    accessor = optree.tree_accessors(tree, none_is_leaf=True)[0]
+
+    assert accessor(functions_last_day).__name__ == function_name_last_day
+    assert accessor(functions_next_day).__name__ == function_name_next_day
 
 
 @pytest.mark.parametrize(

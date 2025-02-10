@@ -26,7 +26,7 @@ from _gettsim.piecewise_functions import (
 from _gettsim.shared import (
     assert_valid_pytree,
     tree_merge,
-    tree_set_by_path,
+    tree_update,
 )
 
 if TYPE_CHECKING:
@@ -619,14 +619,8 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
         return remaining_dict
     else:
         # Now remaining dict is just a scalar
-        tree_set_by_path(new_dict, key_list, remaining_dict)
+        new_dict = tree_update(tree=new_dict, tree_path=key_list, value=remaining_dict)
     return new_dict
-
-
-def _fail_if_policy_functions_tree_not_dict(obj):
-    """Raise error if functions are not passed as tree."""
-    if not isinstance(obj, dict):
-        raise TypeError("Functions must be passed as a tree.")
 
 
 def _fail_if_name_of_last_branch_not_leaf_name_of_function(

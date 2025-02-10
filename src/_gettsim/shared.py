@@ -1,6 +1,5 @@
 import functools
 import inspect
-import operator
 import textwrap
 from collections.abc import Callable
 from dataclasses import is_dataclass
@@ -58,7 +57,7 @@ def create_tree_from_qualified_names(qualified_names: set[str]) -> dict:
     return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
 
 
-def create_tree_from_path(path: tuple[str]) -> dict:
+def create_tree_from_path(path: tuple[str], value: Any = None) -> dict:
     """Create a nested dict from a list of strings.
 
     Example:
@@ -68,7 +67,7 @@ def create_tree_from_path(path: tuple[str]) -> dict:
             {"a": {"b": {"c": None}}}
 
     """
-    nested_dict = None
+    nested_dict = value
     for entry in reversed(path):
         nested_dict = {entry: nested_dict}
     return nested_dict
@@ -125,8 +124,7 @@ def tree_update(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_tree_from_path(tree_path)
-    tree_set_by_path(update_dict, tree_path, value)
+    update_dict = create_tree_from_path(tree_path, value)
     return tree_merge(tree, update_dict)
 
 
@@ -308,16 +306,6 @@ def rename_arguments_and_add_annotations(
         wrapper.__annotations__ = annotations
 
     return wrapper
-
-
-def tree_get_by_path(data_dict, key_list):
-    """Access a nested object in root by item sequence."""
-    return functools.reduce(operator.getitem, key_list, data_dict)
-
-
-def tree_set_by_path(data_dict, key_list, value):
-    """Set a value in a nested object in root by item sequence."""
-    tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
 
 
 def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> None:
