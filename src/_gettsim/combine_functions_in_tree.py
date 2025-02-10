@@ -34,6 +34,7 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    partition_tree_by_reference_tree,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
     tree_get_by_path,
@@ -745,14 +746,10 @@ def _fail_if_targets_not_in_policy_functions_tree(
         Raised if any member of `targets` is not among functions.
 
     """
-    accessors = optree.tree_accessors(targets_tree, none_is_leaf=True)
-    targets_not_in_functions = []
-    for acc in accessors:
-        try:
-            acc(policy_functions_tree)
-        except KeyError:
-            targets_not_in_functions.append(".".join(acc.path))
-
+    targets_not_in_functions = partition_tree_by_reference_tree(
+        tree_to_partition=targets_tree,
+        reference_tree=policy_functions_tree,
+    )[1]
     if targets_not_in_functions:
         formatted = format_list_linewise(targets_not_in_functions)
         msg = format_errors_and_warnings(

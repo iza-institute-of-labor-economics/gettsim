@@ -72,6 +72,7 @@ def test_output_as_tree(minimal_input_data):
             }
         }
     )
+
     out = compute_taxes_and_transfers(
         data_tree=minimal_input_data,
         environment=environment,

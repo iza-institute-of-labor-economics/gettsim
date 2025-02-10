@@ -153,11 +153,13 @@ def partition_tree_by_reference_tree(
     """
 
     # Get reference paths once to avoid repeated tree traversal
-    ref_paths = set(optree.tree_paths(reference_tree))
+    ref_paths = set(optree.tree_paths(reference_tree, none_is_leaf=True))
     intersection = {}
     difference = {}
     # Use tree_flatten_with_path to get paths and leaves in a single pass
-    for path, leaf in zip(*optree.tree_flatten_with_path(tree_to_partition)[:2]):
+    for path, leaf in zip(
+        *optree.tree_flatten_with_path(tree_to_partition, none_is_leaf=True)[:2]
+    ):
         if path in ref_paths:
             intersection = tree_update(intersection, path, leaf)
         else:

@@ -713,27 +713,25 @@ def _fail_if_root_nodes_are_missing(
     ValueError
         If root nodes are missing.
     """
-    accessors_root_nodes_tree = optree.tree_accessors(
-        root_nodes_tree, none_is_leaf=True
-    )
+    root_nodes_accessors = optree.tree_accessors(root_nodes_tree, none_is_leaf=True)
+    data_paths_list = optree.tree_paths(data_tree)
+    functions_list = optree.tree_paths(policy_functions_tree)
     missing_nodes = []
 
-    for accessor in accessors_root_nodes_tree:
-        # Root nodes that are functions that depend on parameters only do not have to
-        # exist in the data tree.
-        try:
+    for accessor in root_nodes_accessors:
+        if accessor.path in functions_list:
             func = accessor(policy_functions_tree)
             if _func_depends_on_parameters_only(func):
+                # Function depends on parameters only, so it does not have to be present
+                # in the data tree.
                 continue
-        except KeyError:
-            pass
 
-        try:
-            accessor(data_tree)
-        except KeyError:
-            # Root node is not present in the data tree
-            node = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
-            missing_nodes.append(node)
+        if accessor.path in data_paths_list:
+            # Root node is present in the data tree.
+            continue
+
+        qualified_name = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
+        missing_nodes.append(qualified_name)
 
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)

@@ -181,13 +181,14 @@ def test_create_aggregate_by_group_functions(
     )
 
     # Verify structure
-    accessors = optree.tree_accessors(expected_tree_structure, none_is_leaf=True)
+    existing_paths = optree.tree_paths(derived_functions)
+    expected_paths = optree.tree_paths(expected_tree_structure, none_is_leaf=True)
+    assert set(existing_paths) == set(expected_paths)
 
-    # Raises key error if path does not exist
-    leafs = [acc(derived_functions) for acc in accessors]
-
-    assert all(optree.tree_is_leaf(leaf) for leaf in leafs)
-    assert all(isinstance(func, PolicyFunction | DerivedFunction) for func in leafs)
+    assert all(
+        isinstance(func, PolicyFunction | DerivedFunction)
+        for func in optree.tree_leaves(derived_functions)
+    )
 
 
 @pytest.mark.parametrize(

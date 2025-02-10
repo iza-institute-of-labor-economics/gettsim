@@ -110,6 +110,25 @@ def test_tree_flatten_with_qualified_name(tree, expected):
                 {"a": {"c": 1}},
             ),
         ),
+        (
+            {
+                "a": {
+                    "b": None,
+                    "c": None,
+                },
+                "b": None,
+            },
+            {
+                "a": {
+                    "b": None,
+                },
+                "b": None,
+            },
+            (
+                {"a": {"b": None}, "b": None},
+                {"a": {"c": None}},
+            ),
+        ),
     ],
 )
 def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, expected):
