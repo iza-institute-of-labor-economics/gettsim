@@ -8,6 +8,7 @@ import pytest
 from _gettsim.config import RESOURCE_DIR
 from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
+    _fail_if_leaf_name_is_module_name,
     _fail_if_multiple_policy_functions_are_active_at_the_same_time,
     _load_module,
     _simplify_tree_path_when_module_name_equals_dir_name,
@@ -87,3 +88,10 @@ def test_remove_recurring_branch_names(
     assert (
         _simplify_tree_path_when_module_name_equals_dir_name(path) == expected_tree_path
     )
+
+
+def test_fail_if_leaf_name_is_module_name():
+    with pytest.raises(ValueError):
+        _fail_if_leaf_name_is_module_name(
+            [PolicyFunction(leaf_name="foo", function=lambda: 1)], "foo"
+        )

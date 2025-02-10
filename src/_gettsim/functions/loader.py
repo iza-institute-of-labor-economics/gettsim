@@ -13,7 +13,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationDict, NestedFunctionDict
-from _gettsim.shared import tree_update
+from _gettsim.shared import format_errors_and_warnings, tree_update
 
 
 def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
@@ -88,6 +88,7 @@ def get_active_policy_functions_from_module(
         func for _, func in all_functions_in_module if isinstance(func, PolicyFunction)
     ]
 
+    _fail_if_leaf_name_is_module_name(policy_functions, module_name)
     _fail_if_multiple_policy_functions_are_active_at_the_same_time(
         policy_functions, module_name
     )
@@ -366,8 +367,15 @@ def _simplify_tree_path_when_module_name_equals_dir_name(
     return out
 
 
-def _fail_if_more_than_one_dict_loaded(dicts: list[dict], module_name: str) -> None:
-    if len(dicts) > 1:
-        raise ValueError(
-            "More than one dictionary found in the module:\n\n" f"{module_name}\n\n"
+def _fail_if_leaf_name_is_module_name(
+    policy_functions: list[PolicyFunction],
+    module_name: str,
+) -> None:
+    """No PolicyFunction should have the same leaf name as its module name."""
+    leaf_names = [func.leaf_name for func in policy_functions]
+    if module_name in leaf_names:
+        msg = format_errors_and_warnings(
+            f"PolicyFunctions in module {module_name} have the same leaf name as their "
+            "module name."
         )
+        raise ValueError(msg)
