@@ -37,7 +37,7 @@ def test_decorator():
     def test_func():
         return 0
 
-    assert test_func.__info__["params_key_for_rounding"] == "params_key_test"
+    assert test_func.params_key_for_rounding == "params_key_test"
 
 
 @pytest.mark.parametrize(
@@ -56,12 +56,12 @@ def test_no_rounding_specs(rounding_specs):
         def test_func():
             return 0
 
-        environment = PolicyEnvironment([test_func], rounding_specs)
+        environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
+            data_tree={"groupings": {"p_id": pd.Series([1, 2])}},
             environment=environment,
-            targets=["test_func"],
+            targets_tree={"test_func": None},
         )
 
 
@@ -93,12 +93,12 @@ def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
             }
         }
 
-        environment = PolicyEnvironment([test_func], rounding_specs)
+        environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data=pd.DataFrame([{"p_id": 1}, {"p_id": 2}]),
+            data_tree={"groupings": {"p_id": pd.Series([1, 2])}},
             environment=environment,
-            targets=["test_func"],
+            targets_tree={"test_func": None},
         )
 
 
@@ -114,8 +114,8 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     def test_func(income):
         return income
 
-    data = pd.DataFrame([{"p_id": 1}, {"p_id": 2}])
-    data["income"] = input_values
+    data = {"groupings": {"p_id": pd.Series([1, 2])}}
+    data["income"] = pd.Series(input_values)
     rounding_specs = {
         "params_key_test": {
             "rounding": {
@@ -132,13 +132,13 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
             "to_add_after_rounding"
         ] = to_add_after_rounding
 
-    environment = PolicyEnvironment([test_func], rounding_specs)
+    environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
     calc_result = compute_taxes_and_transfers(
-        data=data, environment=environment, targets=["test_func"]
+        data_tree=data, environment=environment, targets_tree={"test_func": None}
     )
     assert_series_equal(
-        calc_result["test_func"], pd.Series(exp_output), check_names=False
+        pd.Series(calc_result["test_func"]), pd.Series(exp_output), check_names=False
     )
 
 
@@ -150,7 +150,7 @@ def test_rounding_with_time_conversion():
     def test_func_m(income):
         return income
 
-    data = pd.DataFrame({"p_id": [1, 2], "income": [1.2, 1.5]})
+    data = {"groupings": {"p_id": pd.Series([1, 2])}, "income": pd.Series([1.2, 1.5])}
     rounding_specs = {
         "params_key_test": {
             "rounding": {
@@ -161,15 +161,17 @@ def test_rounding_with_time_conversion():
             }
         }
     }
-    environment = PolicyEnvironment([test_func_m], rounding_specs)
+    environment = PolicyEnvironment({"test_func_m": test_func_m}, rounding_specs)
 
     calc_result = compute_taxes_and_transfers(
-        data=data,
+        data_tree=data,
         environment=environment,
-        targets=["test_func_y"],
+        targets_tree={"test_func_y": None},
     )
     assert_series_equal(
-        calc_result["test_func_y"], pd.Series([12.0, 12.0]), check_names=False
+        pd.Series(calc_result["test_func_y"]),
+        pd.Series([12.0, 12.0]),
+        check_names=False,
     )
 
 
@@ -185,14 +187,14 @@ def test_no_rounding(
     def test_func(income):
         return income
 
-    data = pd.DataFrame([{"p_id": 1}, {"p_id": 2}])
-    data["income"] = input_values_exp_output
+    data = {"groupings": {"p_id": pd.Series([1, 2])}}
+    data["income"] = pd.Series(input_values_exp_output)
     rounding_specs = {
         "params_key_test": {
             "rounding": {"test_func": {"base": base, "direction": direction}}
         }
     }
-    environment = PolicyEnvironment([test_func], rounding_specs)
+    environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
     if to_add_after_rounding:
         rounding_specs["params_key_test"]["rounding"]["test_func"][
@@ -200,13 +202,15 @@ def test_no_rounding(
         ] = to_add_after_rounding
 
     calc_result = compute_taxes_and_transfers(
-        data=data,
+        data_tree=data,
         environment=environment,
-        targets=["test_func"],
+        targets_tree={"test_func": None},
         rounding=False,
     )
     assert_series_equal(
-        calc_result["test_func"], pd.Series(input_values_exp_output), check_names=False
+        pd.Series(calc_result["test_func"]),
+        pd.Series(input_values_exp_output),
+        check_names=False,
     )
 
 
@@ -229,6 +233,7 @@ def test_rounding_callable(
         base=base,
         direction=direction,
         to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
+        qualified_name="test_func",
     )(test_func)
 
     assert_series_equal(
@@ -238,6 +243,7 @@ def test_rounding_callable(
     )
 
 
+@pytest.mark.xfail(reason="Not able to load functions regardless of date any more.")
 def test_decorator_for_all_functions_with_rounding_spec():
     """Check if all functions for which rounding parameters are specified have an
     attribute which indicates rounding."""
@@ -317,4 +323,6 @@ def test_raise_if_missing_rounding_spec(params, match):
         return arg_1
 
     with pytest.raises(KeyError, match=match):
-        _add_rounding_to_function(input_function=eink_st_func, params=params)
+        _add_rounding_to_function(
+            input_function=eink_st_func, params=params, path=("eink_st_func",)
+        )

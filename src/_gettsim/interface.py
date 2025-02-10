@@ -358,7 +358,7 @@ def _round_and_partial_parameters_to_functions(
 def _add_rounding_to_function(
     input_function: PolicyFunction,
     params: dict[str, Any],
-    path: list[str],
+    path: set[str],
 ) -> PolicyFunction:
     """Add appropriate rounding of outputs to function.
 
@@ -414,6 +414,7 @@ def _add_rounding_to_function(
             base=rounding_spec["base"],
             direction=rounding_spec["direction"],
             to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
+            qualified_name=qualified_name,
         )(func)
 
     return func
@@ -423,17 +424,20 @@ def _apply_rounding_spec(
     base: float,
     direction: Literal["up", "down", "nearest"],
     to_add_after_rounding: float,
+    qualified_name: str,
 ) -> callable:
     """Decorator to round the output of a function.
 
     Parameters
     ----------
-    base : float
+    base :
         Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    direction : str
+    direction :
         Whether the series should be rounded up, down or to the nearest number
-    to_add_after_rounding : float
+    to_add_after_rounding :
         Number to be added after the rounding step
+    qualified_name:
+        Qualified name of the function to be rounded.
 
     Returns
     -------
@@ -451,13 +455,12 @@ def _apply_rounding_spec(
             # Check inputs.
             if type(base) not in [int, float]:
                 raise ValueError(
-                    f"base needs to be a number, got {base!r} for "
-                    f"{func.qualified_name!r}"
+                    f"base needs to be a number, got {base!r} for " f"{qualified_name}"
                 )
             if type(to_add_after_rounding) not in [int, float]:
                 raise ValueError(
                     f"Additive part needs to be a number, got"
-                    f" {to_add_after_rounding!r} for {func.qualified_name!r}"
+                    f" {to_add_after_rounding!r} for {qualified_name}"
                 )
 
             if direction == "up":
@@ -469,7 +472,7 @@ def _apply_rounding_spec(
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got {direction!r} for {func.qualified_name!r}"
+                    f", got {direction!r} for {qualified_name}"
                 )
 
             rounded_out += to_add_after_rounding

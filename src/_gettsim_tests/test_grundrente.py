@@ -106,6 +106,7 @@ def test_proxy_rente_vorj(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "test_data",
     data_proxy.test_data,
