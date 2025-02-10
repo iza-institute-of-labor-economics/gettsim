@@ -746,12 +746,16 @@ def _fail_if_targets_not_in_policy_functions_tree(
         Raised if any member of `targets` is not among functions.
 
     """
-    targets_not_in_functions = partition_tree_by_reference_tree(
+    targets_not_in_functions_tree = partition_tree_by_reference_tree(
         tree_to_partition=targets_tree,
         reference_tree=policy_functions_tree,
     )[1]
-    if targets_not_in_functions:
-        formatted = format_list_linewise(targets_not_in_functions)
+    names_of_targets_not_in_functions = [
+        ".".join(path)
+        for path in optree.tree_paths(targets_not_in_functions_tree, none_is_leaf=True)
+    ]
+    if names_of_targets_not_in_functions:
+        formatted = format_list_linewise(names_of_targets_not_in_functions)
         msg = format_errors_and_warnings(
             f"The following targets have no corresponding function:\n{formatted}"
         )
