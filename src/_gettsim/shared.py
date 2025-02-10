@@ -1,4 +1,3 @@
-import functools
 import inspect
 import textwrap
 from collections.abc import Callable
@@ -9,7 +8,7 @@ import numpy
 import optree
 from dags.signature import rename_arguments
 
-from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
+from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -32,29 +31,6 @@ def format_list_linewise(list_):
         ]
         """
     ).format(formatted_list=formatted_list)
-
-
-def create_tree_from_qualified_names(qualified_names: set[str]) -> dict:
-    """Create a tree from a set of qualified names.
-
-    Parameters
-    ----------
-    qualified_names
-        Set of qualified names.
-
-            Example: {"a__b__c", "a__b__d", "a__e"}
-
-    Returns
-    -------
-    Tree with qualified names as keys, all leaves are None.
-
-    Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
-    """
-    paths = [
-        create_tree_from_path(qn.split(QUALIFIED_NAME_SEPARATOR))
-        for qn in qualified_names
-    ]
-    return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
 
 
 def create_tree_from_path(path: tuple[str], value: Any = None) -> dict:

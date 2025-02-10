@@ -4,7 +4,6 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path,
-    create_tree_from_qualified_names,
     partition_tree_by_reference_tree,
     tree_merge,
     tree_update,
@@ -14,12 +13,6 @@ from _gettsim.shared import (
 @dataclass
 class SampleDataclass:
     a: int
-
-
-def test_create_tree_from_qualified_names():
-    qualified_names = {"a__b__c", "a__b__d", "a__e"}
-    tree = create_tree_from_qualified_names(qualified_names)
-    assert tree == {"a": {"b": {"c": None, "d": None}, "e": None}}
 
 
 @pytest.mark.parametrize(

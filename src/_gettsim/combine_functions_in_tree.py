@@ -391,13 +391,17 @@ def _annotations_for_aggregation(
 ) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
     annotations = {}
+    tree_path_source_col = tuple(
+        qualified_name_source_col.split(QUALIFIED_NAME_SEPARATOR)
+    )
     accessor_source_col = optree.tree_accessors(
-        create_tree_from_path(qualified_name_source_col),
+        create_tree_from_path(tree_path_source_col),
         none_is_leaf=True,
     )[0]
+
     if aggregation_method == "count":
         annotations["return"] = int
-    elif accessor_source_col.path in optree.tree_paths(policy_functions_tree):
+    elif tree_path_source_col in optree.tree_paths(policy_functions_tree):
         # Source col is a function in the functions tree
         source_function = accessor_source_col(policy_functions_tree)
         if "return" in source_function.__annotations__:
@@ -412,7 +416,7 @@ def _annotations_for_aggregation(
             # of user-provided input variables are handled
             # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
-    elif accessor_source_col.path in optree.tree_paths(types_input_variables):
+    elif tree_path_source_col in optree.tree_paths(types_input_variables):
         # Source col is a basic input variable
         annotations[qualified_name_source_col] = accessor_source_col(
             types_input_variables
