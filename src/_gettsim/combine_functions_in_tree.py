@@ -697,7 +697,7 @@ def _create_one_aggregate_by_p_id_func(
 
 def _get_tree_path_from_source_col_name(
     name: str,
-    current_namespace: list[str] | tuple[str],
+    current_namespace: tuple[str],
 ) -> tuple[str]:
     """Get the tree path of a source column name that may be qualified or simple.
 
@@ -707,9 +707,9 @@ def _get_tree_path_from_source_col_name(
 
     Parameters
     ----------
-    name : str
+    name :
         The qualified or simple name.
-    current_namespace : list[str]
+    current_namespace :
         The current namespace candidate for 'name'.
 
     Returns
@@ -719,10 +719,10 @@ def _get_tree_path_from_source_col_name(
     """
     if QUALIFIED_NAME_SEPARATOR in name:
         # 'name' is already namespaced.
-        new_tree_path = name.split(QUALIFIED_NAME_SEPARATOR)
+        new_tree_path = tuple(name.split(QUALIFIED_NAME_SEPARATOR))
     else:
         # 'name' is not namespaced.
-        new_tree_path = [*current_namespace, name]
+        new_tree_path = tuple(*current_namespace, name)
 
     return tuple(new_tree_path)
 

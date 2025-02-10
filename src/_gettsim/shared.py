@@ -117,7 +117,7 @@ def tree_merge(base_tree: dict, update_tree: dict) -> dict:
 
 
 def tree_update(
-    tree: dict[str, Any], tree_path: list[str], value: Any = None
+    tree: dict[str, Any], tree_path: tuple[str], value: Any = None
 ) -> dict[str, Any]:
     """Update tree with a path and value.
 
