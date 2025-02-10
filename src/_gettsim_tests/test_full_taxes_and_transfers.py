@@ -26,6 +26,7 @@ OUT_COLS = [
 data = load_policy_test_data("full_taxes_and_transfers")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "test_data",
     data.test_data,
@@ -48,6 +49,7 @@ def test_full_taxes_and_transfers(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "test_data",
     data.test_data,

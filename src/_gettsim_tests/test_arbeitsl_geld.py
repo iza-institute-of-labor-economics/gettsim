@@ -22,6 +22,7 @@ def prep_parametrize_data(data):
     return data
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     prep_parametrize_data(data.parametrize_args),

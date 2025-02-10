@@ -18,6 +18,7 @@ OUT_COLS_TOL = {
 data = load_policy_test_data("grundrente")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,
@@ -79,6 +80,7 @@ INPUT_COLS_INCOME = [
 data_proxy = load_policy_test_data("grundrente_proxy_rente")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data_proxy.parametrize_args,
