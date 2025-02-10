@@ -7,7 +7,6 @@ from _gettsim.shared import (
     create_tree_from_qualified_names,
     partition_tree_by_reference_tree,
     tree_merge,
-    tree_to_dict_with_qualified_name,
     tree_update,
 )
 
@@ -61,19 +60,6 @@ def test_create_tree_from_path(paths, expected):
 )
 def test_tree_merge(base_dict, update_dict, expected):
     assert tree_merge(base_dict, update_dict) == expected
-
-
-@pytest.mark.parametrize(
-    "tree, expected",
-    [
-        ({"a": 1}, {"a": 1}),
-        ({"a": {"b": 1}}, {"a__b": 1}),
-        ({"a": {"b": {"c": 1}, "d": 2}}, {"a__b__c": 1, "a__d": 2}),
-    ],
-)
-def test_tree_flatten_with_qualified_name(tree, expected):
-    leafs_names_dict = tree_to_dict_with_qualified_name(tree)
-    assert leafs_names_dict == expected
 
 
 @pytest.mark.parametrize(

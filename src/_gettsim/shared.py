@@ -52,7 +52,7 @@ def create_tree_from_qualified_names(qualified_names: set[str]) -> dict:
     Example: {"a": {"b": {"c": None, "d": None}, "e": None}}
     """
     paths = [
-        create_tree_from_path(get_path_from_qualified_name(qn))
+        create_tree_from_path(qn.split(QUALIFIED_NAME_SEPARATOR))
         for qn in qualified_names
     ]
     return functools.reduce(lambda x, y: tree_merge(x, y), paths, {})
@@ -318,33 +318,6 @@ def tree_get_by_path(data_dict, key_list):
 def tree_set_by_path(data_dict, key_list, value):
     """Set a value in a nested object in root by item sequence."""
     tree_get_by_path(data_dict, key_list[:-1])[key_list[-1]] = value
-
-
-def get_path_from_qualified_name(qualified_name: str) -> tuple[str]:
-    return tuple(qualified_name.split(QUALIFIED_NAME_SEPARATOR))
-
-
-# TODO(@MImmesberger): Remove.
-def tree_to_dict_with_qualified_name(
-    tree: dict[str, Any], none_is_leaf: bool = True
-) -> dict[str, Any]:
-    """Flatten a nested dictionary and return a dictionary with qualified names."""
-    qualified_names, flattened_tree, _ = tree_flatten_with_qualified_name(
-        tree, none_is_leaf=none_is_leaf
-    )
-    return dict(zip(qualified_names, flattened_tree))
-
-
-def tree_flatten_with_qualified_name(
-    tree: dict[str, Any],
-    none_is_leaf: bool = True,
-) -> tuple[list[list[str]], list[Any], list[str]]:
-    """Flatten a nested dictionary and qualified names, tree_spec, and leafs."""
-    paths, flattened_tree, tree_spec = optree.tree_flatten_with_path(
-        tree, none_is_leaf=none_is_leaf
-    )
-    qualified_names = [QUALIFIED_NAME_SEPARATOR.join(path) for path in paths]
-    return qualified_names, flattened_tree, tree_spec
 
 
 def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> None:
