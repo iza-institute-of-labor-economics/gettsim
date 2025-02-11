@@ -66,10 +66,10 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
-    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)
+    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)  # noqa: F821
 
     if isinstance(columns_overriding_functions, dict):
-        names_of_columns_overriding_functions = tree_to_dict_with_qualified_name(
+        names_of_columns_overriding_functions = tree_to_dict_with_qualified_name(  # noqa: F821
             columns_overriding_functions
         ).keys()
     elif isinstance(columns_overriding_functions, str):
@@ -97,7 +97,7 @@ def plot_dag(
     )
 
     # Select necessary nodes by creating a preliminary DAG.
-    dag = set_up_dag(
+    dag = set_up_dag(  # noqa: F821
         all_functions=functions_not_overridden,
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,
@@ -118,7 +118,7 @@ def plot_dag(
     )
 
     # Calculate results.
-    dag = set_up_dag(
+    dag = set_up_dag(  # noqa: F821
         all_functions=processed_functions,
         targets=targets,
         names_of_columns_overriding_functions=names_of_columns_overriding_functions,

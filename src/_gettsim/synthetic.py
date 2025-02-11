@@ -349,7 +349,7 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     }
 
     # Set default values for new columns.
-    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(
+    types_input_variables_with_qualified_names = tree_to_dict_with_qualified_name(  # noqa: F821
         TYPES_INPUT_VARIABLES
     )
     for input_col, col_type in types_input_variables_with_qualified_names.items():

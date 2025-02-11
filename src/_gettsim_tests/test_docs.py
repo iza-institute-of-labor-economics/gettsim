@@ -29,7 +29,7 @@ def default_input_variables():
 
 @pytest.fixture(scope="module")
 def all_function_names():
-    functions = _load_internal_functions()
+    functions = _load_internal_functions()  # noqa: F821
     return sorted([func.leaf_name for func in functions])
 
 
@@ -70,7 +70,7 @@ def test_all_input_vars_documented(
 ):
     """Test if arguments of all non-internal functions are either the name of another
     function, a documented input variable, or a parameter dictionary."""
-    functions = _load_internal_functions()
+    functions = _load_internal_functions()  # noqa: F821
 
     # Collect arguments of all non-internal functions (do not start with underscore)
     arguments = [
@@ -103,7 +103,7 @@ def test_all_input_vars_documented(
 def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
     documented_functions = {
         f.leaf_name
-        for f in _load_functions(
+        for f in _load_functions(  # noqa: F821
             RESOURCE_DIR / "functions" / "all_functions_for_docs.py",
             package_root=RESOURCE_DIR,
             include_imported_functions=True,
@@ -116,7 +116,7 @@ def test_funcs_in_doc_module_and_func_from_internal_files_are_the_same():
 
     internal_functions = {
         f.leaf_name
-        for f in _load_functions(
+        for f in _load_functions(  # noqa: F821
             internal_function_files,
             package_root=RESOURCE_DIR,
             include_imported_functions=True,
@@ -132,7 +132,7 @@ def test_type_hints():  # noqa: PLR0912
     """Check if output and input types of all functions coincide."""
     types = {}
 
-    for func in _load_internal_functions():
+    for func in _load_internal_functions():  # noqa: F821
         if func.skip_vectorization:
             continue
 

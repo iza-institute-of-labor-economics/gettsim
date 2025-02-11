@@ -250,8 +250,8 @@ def _convert_system_path_to_tree_path(
         / "functions.py")
     ("dir", "functions")
     """
-    # TODO(@MImmesberger): Remove the removeprefix calls once directory structure is
-    #  changed.
+    # TODO(@MImmesberger): Delete removeprefix calls after changing directory structure
+    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
     branches = tuple(
         system_path.relative_to(package_root.parent)
         .with_suffix("")
