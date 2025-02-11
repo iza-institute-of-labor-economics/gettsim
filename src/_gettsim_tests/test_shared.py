@@ -11,7 +11,7 @@ from _gettsim.shared import (
 
 
 @dataclass
-class SampleDataclass:
+class SampleDataClass:
     a: int
 
 
@@ -48,7 +48,9 @@ def test_create_tree_from_path(paths, expected):
         ({"a": 1}, {"b": 2}, {"a": 1, "b": 2}),
         ({"a": 1}, {"a": 2}, {"a": 2}),
         ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
-        ({"a": SampleDataclass(a=1)}, {}, {"a": SampleDataclass(a=1)}),
+        ({"a": {"b": 1}}, {"a": 3}, {"a": 3}),
+        ({"a": 3}, {"a": {"b": 1}}, {"a": {"b": 1}}),
+        ({"a": SampleDataClass(a=1)}, {}, {"a": SampleDataClass(a=1)}),
     ],
 )
 def test_tree_merge(base_dict, update_dict, expected):
