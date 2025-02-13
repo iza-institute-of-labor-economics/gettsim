@@ -5,6 +5,7 @@ import warnings
 from typing import Any, Literal, get_args
 
 import dags
+import networkx as nx
 import optree
 import pandas as pd
 
@@ -34,11 +35,11 @@ from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
     assert_valid_gettsim_pytree,
-    create_tree_structure_from_paths,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
+    tree_structure_from_paths,
     upsert_path_and_value,
     upsert_tree,
 )
@@ -126,7 +127,10 @@ def compute_taxes_and_transfers(
     )
 
     _fail_if_group_variables_not_constant_within_groups(input_data_tree)
-    _fail_if_foreign_keys_are_invalid(input_data_tree)
+    _fail_if_foreign_keys_are_invalid(
+        data_tree=input_data_tree,
+        p_ids=data_tree_with_correct_types.get("groupings", {}).get("p_id", {}),
+    )
 
     tax_transfer_function = dags.concatenate_functions_tree(
         functions=functions_tree_with_partialled_parameters,
@@ -287,12 +291,10 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Create root nodes tree
-    root_nodes_paths = [
-        node.split(QUALIFIED_NAME_SEPARATOR)
-        for node in dag.nodes
-        if list(dag.predecessors(node)) == []
-    ]
-    root_nodes_tree = create_tree_structure_from_paths(root_nodes_paths)
+    root_nodes_view = nx.subgraph_view(dag, filter_node=lambda n: dag.in_degree(n) == 0)
+    root_nodes_tree = tree_structure_from_paths(
+        [tuple(node.split(QUALIFIED_NAME_SEPARATOR)) for node in root_nodes_view.nodes]
+    )
 
     _fail_if_root_nodes_are_missing(
         functions_tree=functions_tree,
@@ -589,7 +591,10 @@ def _fail_if_pid_is_non_unique(data_tree: NestedDataDict) -> None:
         raise ValueError(message)
 
 
-def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
+def _fail_if_foreign_keys_are_invalid(
+    data_tree: NestedDataDict,
+    p_ids: pd.Series,
+) -> None:
     """
     Check that all foreign keys are valid.
 
@@ -597,10 +602,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
     to the `p_id` of the same row.
     """
     grouping_ids = data_tree.get("groupings", {})
-    p_id_col = grouping_ids.get("p_id", None)
-    if p_id_col is None:
-        raise ValueError("The input data must contain the p_id.")
-    valid_ids = set(p_id_col) | {-1}
+    valid_ids = set(p_ids) | {-1}
 
     def faulty_leaf(path, leaf):
         leaf_name = path[-1]
@@ -619,12 +621,12 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
             raise ValueError(message)
 
         # Referenced `p_id` must not be the same as the `p_id` of the same row
-        equal_to_pid_in_same_row = [i for i, j in zip(leaf, p_id_col) if i == j]
+        equal_to_pid_in_same_row = [i for i, j in zip(leaf, p_ids) if i == j]
         if any(equal_to_pid_in_same_row):
             message = format_errors_and_warnings(
                 f"""
                 The following {".".join(path)}s are equal to the p_id in the same
-                row: {[i for i, j in zip(leaf, p_id_col) if i == j]}.
+                row: {[i for i, j in zip(leaf, p_ids) if i == j]}.
                 """
             )
             raise ValueError(message)

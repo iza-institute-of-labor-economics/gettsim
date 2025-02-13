@@ -4,8 +4,8 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
-    create_tree_structure_from_paths,
     partition_tree_by_reference_tree,
+    tree_structure_from_paths,
     upsert_path_and_value,
     upsert_tree,
 )
@@ -129,5 +129,5 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
         ([("a", "b"), ("a")], {"a": None}),
     ],
 )
-def test_create_tree_structure_from_paths(paths, expected):
-    assert create_tree_structure_from_paths(paths) == expected
+def test_tree_structure_from_paths(paths, expected):
+    assert tree_structure_from_paths(paths) == expected

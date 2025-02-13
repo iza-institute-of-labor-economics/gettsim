@@ -153,7 +153,10 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
     }
 
     with pytest.raises(ValueError, match="not a valid p_id"):
-        _fail_if_foreign_keys_are_invalid(data)
+        _fail_if_foreign_keys_are_invalid(
+            data_tree=data,
+            p_ids=data["groupings"]["p_id"],
+        )
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
@@ -165,7 +168,10 @@ def test_allow_minus_one_as_foreign_key(foreign_key):
         },
     }
 
-    _fail_if_foreign_keys_are_invalid(data)
+    _fail_if_foreign_keys_are_invalid(
+        data_tree=data,
+        p_ids=data["groupings"]["p_id"],
+    )
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
@@ -178,7 +184,10 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
     }
 
     with pytest.raises(ValueError, match="are equal to the p_id in the same"):
-        _fail_if_foreign_keys_are_invalid(data)
+        _fail_if_foreign_keys_are_invalid(
+            data_tree=data,
+            p_ids=data["groupings"]["p_id"],
+        )
 
 
 @pytest.mark.parametrize(

@@ -32,7 +32,7 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
+def tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
     """Create a tree structure from a list of paths with 'None' as leaves.
 
     Note: In case of conflicting paths, the last path takes precedence.
