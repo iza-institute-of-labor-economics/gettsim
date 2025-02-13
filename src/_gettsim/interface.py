@@ -105,10 +105,6 @@ def compute_taxes_and_transfers(
         functions_tree_overridden=functions_tree_overridden,
     )
 
-    input_structure = dags.create_input_structure_tree(
-        functions_tree_not_overridden,
-    )
-
     functions_tree_with_partialled_parameters = (
         _round_and_partial_parameters_to_functions(
             functions_tree=functions_tree_not_overridden,
@@ -117,11 +113,8 @@ def compute_taxes_and_transfers(
         )
     )
 
-    tax_transfer_function = dags.concatenate_functions_tree(
-        functions=functions_tree_with_partialled_parameters,
-        targets=targets_tree,
-        input_structure=input_structure,
-        name_clashes="raise",
+    input_structure = dags.create_input_structure_tree(
+        functions_tree_not_overridden,
     )
 
     # Remove unnecessary elements from user-provided data.
@@ -134,6 +127,13 @@ def compute_taxes_and_transfers(
 
     _fail_if_group_variables_not_constant_within_groups(input_data_tree)
     _fail_if_foreign_keys_are_invalid(input_data_tree)
+
+    tax_transfer_function = dags.concatenate_functions_tree(
+        functions=functions_tree_with_partialled_parameters,
+        targets=targets_tree,
+        input_structure=input_structure,
+        name_clashes="raise",
+    )
 
     results = tax_transfer_function(input_data_tree)
 
