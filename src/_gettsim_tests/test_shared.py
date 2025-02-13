@@ -25,7 +25,7 @@ class SampleDataClass:
     ],
 )
 def test_tree_update(tree, path, value, expected):
-    result = tree_update(tree, path, value)
+    result = tree_update(tree=tree, tree_path=path, value=value)
     assert result == expected
 
 
@@ -54,7 +54,7 @@ def test_create_tree_from_path(paths, expected):
     ],
 )
 def test_tree_merge(base_dict, update_dict, expected):
-    assert tree_merge(base_dict, update_dict) == expected
+    assert tree_merge(base_tree=base_dict, update_tree=update_dict) == expected
 
 
 @pytest.mark.parametrize(

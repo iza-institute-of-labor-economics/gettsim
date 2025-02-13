@@ -111,7 +111,7 @@ def _soli_st_tarif(st_per_individual: float, soli_st_params: dict) -> float:
     ----------
     st_per_individual:
         the tax amount to be topped up
-    soli_st_params :
+    soli_st_params
         See params documentation :ref:`soli_st_params <solo_st_params>`
     Returns
         solidarity surcharge

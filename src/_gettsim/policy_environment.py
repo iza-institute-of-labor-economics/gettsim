@@ -32,7 +32,7 @@ from _gettsim.shared import (
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from _gettsim.gettsim_typing import NestedAggregationDict, NestedFunctionDict
+    from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 
 
 class PolicyEnvironment:
@@ -58,7 +58,7 @@ class PolicyEnvironment:
         self,
         policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregations_tree: NestedAggregationDict | None = None,
+        aggregations_tree: NestedAggregationSpecDict | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         assert_valid_pytree(
@@ -88,7 +88,7 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregations_tree(self) -> NestedAggregationDict:
+    def aggregations_tree(self) -> NestedAggregationSpecDict:
         """
         The tree with aggregation specifications for aggregations on group levels
         (defined in config.py) or aggregations by p_id.
@@ -127,7 +127,8 @@ class PolicyEnvironment:
 
         # Add functions tree to upsert to new functions tree
         new_policy_functions_tree = tree_merge(
-            new_policy_functions_tree, policy_functions_tree_to_upsert
+            base_tree=new_policy_functions_tree,
+            update_tree=policy_functions_tree_to_upsert,
         )
 
         result = object.__new__(PolicyEnvironment)
@@ -205,12 +206,12 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
 
     Parameters
     ----------
-    date :
+    date
         The date for which the policy system is set up.
 
     Returns
     -------
-    date :
+    date
         The date for which the policy system is set up.
 
     """
@@ -230,9 +231,9 @@ def _convert_all_functions_to_policy_functions(
 
     Parameters
     ----------
-    tree_path :
+    tree_path
         Path to the function in the functions tree.
-    function :
+    function
         The function to convert.
 
     Returns
@@ -404,13 +405,13 @@ def _load_parameter_group_from_yaml(
 
     Parameters
     ----------
-    date :
+    date
         The date for which the policy system is set up.
-    group :
+    group
         Policy system compartment.
-    parameters :
+    parameters
         List of parameters to be loaded. Only relevant for in function calls.
-    yaml_path :
+    yaml_path
         Path to directory of yaml_file. (Used for testing of this function).
 
     Returns
@@ -567,9 +568,9 @@ def _load_rounding_parameters(
 
     Parameters
     ----------
-    date :
+    date
         The date for which the policy system is set up.
-    rounding_spec :
+    rounding_spec
           - Keys: Functions to be rounded.
           - Values: Rounding parameters for all dates
 

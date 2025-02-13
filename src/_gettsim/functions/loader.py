@@ -12,7 +12,7 @@ from _gettsim.config import (
     RESOURCE_DIR,
 )
 from _gettsim.functions.policy_function import PolicyFunction
-from _gettsim.gettsim_typing import NestedAggregationDict, NestedFunctionDict
+from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 from _gettsim.shared import format_errors_and_warnings, tree_update
 
 
@@ -264,7 +264,7 @@ def _convert_system_path_to_tree_path(
     return _simplify_tree_path_when_module_name_equals_dir_name(branches)
 
 
-def load_aggregations_tree() -> NestedAggregationDict:
+def load_aggregations_tree() -> NestedAggregationSpecDict:
     """
     Load the aggregation tree.
 
@@ -273,7 +273,7 @@ def load_aggregations_tree() -> NestedAggregationDict:
 
     Returns
     -------
-    NestedAggregationDict:
+    NestedAggregationSpecDict:
         The aggregation tree.
     """
     system_paths_to_aggregation_specs = _find_python_files_recursively(

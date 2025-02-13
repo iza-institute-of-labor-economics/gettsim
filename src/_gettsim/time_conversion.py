@@ -300,7 +300,9 @@ def create_time_conversion_functions(
                 continue
             else:
                 converted_functions = tree_update(
-                    converted_functions, new_path, der_func
+                    tree=converted_functions,
+                    tree_path=new_path,
+                    value=der_func,
                 )
 
     # Create time-conversions for data columns
@@ -316,7 +318,9 @@ def create_time_conversion_functions(
                 continue
             else:
                 converted_functions = tree_update(
-                    converted_functions, new_path, der_func
+                    tree=converted_functions,
+                    tree_path=new_path,
+                    value=der_func,
                 )
 
     return converted_functions

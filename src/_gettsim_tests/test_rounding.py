@@ -233,7 +233,7 @@ def test_rounding_callable(
         base=base,
         direction=direction,
         to_add_after_rounding=to_add_after_rounding if to_add_after_rounding else 0,
-        qualified_name="test_func",
+        path=("test_func",),
     )(test_func)
 
     assert_series_equal(
@@ -294,7 +294,7 @@ def test_decorator_for_all_functions_with_rounding_spec():
 
     functions_to_check = [
         f
-        for f in _load_internal_functions()
+        for f in _load_internal_functions()  # noqa: F821
         if f.original_function_name in function_names_to_check
     ]
 

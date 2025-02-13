@@ -21,9 +21,11 @@ from _gettsim.config import (
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import (
+    NestedArrayDict,
     NestedDataDict,
     NestedFunctionDict,
     NestedInputStructureDict,
+    NestedSeriesDict,
     NestedTargetDict,
     check_series_has_expected_type,
     convert_series_to_internal_type,
@@ -89,75 +91,73 @@ def compute_taxes_and_transfers(
         data_tree=data_tree,
     )
 
-    # Remove functions from functions tree that are overridden by data.
     (
-        policy_functions_tree_overridden,
-        policy_functions_tree_not_overridden,
+        functions_tree_overridden,
+        functions_tree_not_overridden,
     ) = partition_tree_by_reference_tree(
         tree_to_partition=policy_functions_tree,
         reference_tree=data_tree,
     )
 
-    # Warn if data overrides functions and infer correct types from functions.
-    _warn_if_functions_overridden_by_data(policy_functions_tree_overridden)
+    _warn_if_functions_overridden_by_data(functions_tree_overridden)
     data_tree_with_correct_types = _convert_data_to_correct_types(
         data_tree=data_tree,
-        policy_functions_tree_overridden=policy_functions_tree_overridden,
+        functions_tree_overridden=functions_tree_overridden,
     )
 
-    # Create input structure.
     input_structure = dags.create_input_structure_tree(
-        policy_functions_tree_not_overridden,
+        functions_tree_not_overridden,
     )
 
-    # Round and partial parameters into functions.
-    policy_functions_tree_with_partial_parameters = (
+    functions_tree_with_partialled_parameters = (
         _round_and_partial_parameters_to_functions(
-            policy_functions_tree=policy_functions_tree_not_overridden,
+            functions_tree=functions_tree_not_overridden,
             params=environment.params,
             rounding=rounding,
         )
     )
 
-    # Create tax and transfer function.
     tax_transfer_function = dags.concatenate_functions_tree(
-        functions=policy_functions_tree_with_partial_parameters,
+        functions=functions_tree_with_partialled_parameters,
         targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
     )
 
-    # Create input data: Remove unnecessary data.
-    input_data = _create_input_data_for_concatenated_function(
+    # Remove unnecessary elements from user-provided data.
+    input_data_tree = _create_input_data_for_concatenated_function(
         data_tree=data_tree_with_correct_types,
-        policy_functions_tree=policy_functions_tree_with_partial_parameters,
+        functions_tree=functions_tree_with_partialled_parameters,
         targets_tree=targets_tree,
         input_structure=input_structure,
     )
 
-    results = tax_transfer_function(input_data)
+    results = tax_transfer_function(input_data_tree)
 
     if debug:
-        results = tree_merge(results, data_tree_with_correct_types)
+        results = tree_merge(
+            base_tree=results,
+            update_tree=data_tree_with_correct_types,
+        )
 
     return results
 
 
 def _convert_data_to_correct_types(
-    data_tree: NestedDataDict, policy_functions_tree_overridden: NestedFunctionDict
+    data_tree: NestedDataDict, functions_tree_overridden: NestedFunctionDict
 ) -> NestedDataDict:
     """Convert all leafs of the data tree to the type that is expected by GETTSIM.
 
     Parameters
     ----------
-    data_tree :
+    data_tree
         Data provided by the user.
-    policy_functions_tree_overridden :
+    functions_tree_overridden
         Functions that are overridden by data.
 
     Returns
     -------
-    data_tree :
+    data_tree
         Data with correct types.
 
     """
@@ -186,9 +186,9 @@ def _convert_data_to_correct_types(
         except KeyError:
             pass
 
-        # Look for column in policy_functions_tree_overridden
+        # Look for column in functions_tree_overridden
         try:
-            func = accessor(policy_functions_tree_overridden)
+            func = accessor(functions_tree_overridden)
             if hasattr(func, "__annotations__") and func.skip_vectorization:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
@@ -201,16 +201,16 @@ def _convert_data_to_correct_types(
 
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(
-            data_leaf, internal_type
+            series=data_leaf, internal_type=internal_type
         ):
             try:
                 converted_leaf = convert_series_to_internal_type(
-                    data_leaf, internal_type
+                    series=data_leaf, internal_type=internal_type
                 )
                 data_tree_with_correct_types = tree_update(
-                    data_tree_with_correct_types,
-                    accessor.path,
-                    converted_leaf,
+                    tree=data_tree_with_correct_types,
+                    tree_path=accessor.path,
+                    value=converted_leaf,
                 )
                 collected_conversions.append(
                     f" - {qualified_column_name} from {data_leaf.dtype} "
@@ -220,9 +220,9 @@ def _convert_data_to_correct_types(
                 collected_errors.append(f"\n - {qualified_column_name}: {e}")
         else:
             data_tree_with_correct_types = tree_update(
-                data_tree_with_correct_types,
-                accessor.path,
-                data_leaf,
+                tree=data_tree_with_correct_types,
+                tree_path=accessor.path,
+                value=data_leaf,
             )
 
     # If any error occured raise Error
@@ -249,37 +249,37 @@ def _convert_data_to_correct_types(
 
 
 def _create_input_data_for_concatenated_function(
-    data_tree: NestedDataDict,
-    policy_functions_tree: NestedFunctionDict,
+    data_tree: NestedSeriesDict,
+    functions_tree: NestedFunctionDict,
     targets_tree: NestedTargetDict,
     input_structure: NestedInputStructureDict,
-) -> NestedDataDict:
+) -> NestedArrayDict:
     """Create input data for the concatenated function.
 
-    1. Check that all root nodes are present in the input data tree.
+    1. Check that all root nodes are present in the user-provided data tree.
     2. Get only part of the data tree that is needed for the concatenated function.
     3. Convert pandas.Series to numpy.array.
 
     Parameters
     ----------
-    data_tree :
+    data_tree
         Data provided by the user.
-    policy_policy_functions_tree :
+    functions_tree
         Nested function dictionary.
-    targets_tree :
+    targets_tree
         Targets provided by the user.
-    input_structure :
+    input_structure
         Tree representing the input structure.
 
     Returns
     -------
-    input_data :
+    input_data
         Data which can be used to calculate taxes and transfers.
 
     """
     # Create dag using processed functions
     dag = dags.dag_tree.create_dag_tree(
-        functions=policy_functions_tree,
+        functions=functions_tree,
         targets=targets_tree,
         input_structure=input_structure,
         name_clashes="raise",
@@ -298,23 +298,23 @@ def _create_input_data_for_concatenated_function(
     )
 
     _fail_if_root_nodes_are_missing(
-        policy_functions_tree=policy_functions_tree,
+        functions_tree=functions_tree,
         data_tree=data_tree,
         root_nodes_tree=root_nodes_tree,
     )
 
     # Get only part of the data tree that is needed
-    input_data = partition_tree_by_reference_tree(
+    input_data_tree = partition_tree_by_reference_tree(
         tree_to_partition=data_tree,
         reference_tree=root_nodes_tree,
     )[0]
 
     # Convert to numpy.ndarray
-    return optree.tree_map(lambda x: x.values, input_data)
+    return optree.tree_map(lambda x: x.to_numpy(), input_data_tree)
 
 
 def _round_and_partial_parameters_to_functions(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     params: dict[str, Any],
     rounding: bool,
 ) -> NestedFunctionDict:
@@ -322,30 +322,30 @@ def _round_and_partial_parameters_to_functions(
 
     Parameters
     ----------
-    functions_tree: NestedFunctionDict
+    functions_tree
         The functions tree.
-    params: dict[str, Any]
+    params
         Dictionary of parameters.
-    rounding: bool
+    rounding
         Indicator for whether rounding should be applied as specified in the law.
 
     Returns
     -------
-    processed_functions : NestedFunctionDict
+    processed_functions
         Dictionary of rounded functions with parameters.
 
     """
     # Add rounding to functions.
     if rounding:
-        policy_functions_tree = optree.tree_map_with_path(
+        functions_tree = optree.tree_map_with_path(
             lambda path, x: _add_rounding_to_function(x, params, path),
-            policy_functions_tree,
+            functions_tree,
         )
 
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
     # parameters.
-    function_leafs, tree_spec = optree.tree_flatten(policy_functions_tree)
+    function_leafs, tree_spec = optree.tree_flatten(functions_tree)
     processed_functions = []
     for function in function_leafs:
         arguments = get_names_of_arguments_without_defaults(function)
@@ -355,9 +355,7 @@ def _round_and_partial_parameters_to_functions(
             if i.endswith("_params") and i[:-7] in params
         }
         if partial_params:
-            # Partial parameters into function.
-            partial_func = functools.partial(function, **partial_params)
-            processed_functions.append(partial_func)
+            processed_functions.append(functools.partial(function, **partial_params))
         else:
             processed_functions.append(function)
 
@@ -385,7 +383,7 @@ def _add_rounding_to_function(
 
     """
     func = copy.deepcopy(input_function)
-    qualified_name = QUALIFIED_NAME_SEPARATOR.join(path)
+    qualified_name = ".".join(path)
     leaf_name = path[-1]
 
     if input_function.params_key_for_rounding:
@@ -400,10 +398,10 @@ def _add_rounding_to_function(
                 KeyErrorMessage(
                     f"""
                     Rounding specifications for function {qualified_name} are expected
-                    in the parameter dictionary \n at
-                    [{params_key!r}]['rounding'][{leaf_name!r}]. These nested keys
-                    do not exist. \n If this function should not be rounded, remove the
-                    respective decorator.
+                    in the parameter dictionary at:\n
+                    [{params_key!r}]['rounding'][{leaf_name!r}].\n
+                    These nested keys do not exist. If this function should not be
+                    rounded, remove the respective decorator.
                     """
                 )
             )
@@ -414,8 +412,8 @@ def _add_rounding_to_function(
                 KeyErrorMessage(
                     "Both 'base' and 'direction' are expected as rounding "
                     "parameters in the parameter dictionary. \n "
-                    "At least one of them "
-                    f"is missing at [{params_key!r}]['rounding'][{leaf_name!r}]."
+                    "At least one of them is missing at:\n"
+                    f"[{params_key!r}]['rounding'][{leaf_name!r}]."
                 )
             )
         # Add rounding.
@@ -423,7 +421,7 @@ def _add_rounding_to_function(
             base=rounding_spec["base"],
             direction=rounding_spec["direction"],
             to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
-            qualified_name=qualified_name,
+            path=path,
         )(func)
 
     return func
@@ -433,20 +431,20 @@ def _apply_rounding_spec(
     base: float,
     direction: Literal["up", "down", "nearest"],
     to_add_after_rounding: float,
-    qualified_name: str,
+    path: set[str],
 ) -> callable:
     """Decorator to round the output of a function.
 
     Parameters
     ----------
-    base :
+    base
         Precision of rounding (e.g. 0.1 to round to the first decimal place)
-    direction :
+    direction
         Whether the series should be rounded up, down or to the nearest number
-    to_add_after_rounding :
+    to_add_after_rounding
         Number to be added after the rounding step
-    qualified_name:
-        Qualified name of the function to be rounded.
+    path:
+        Path to the function to be rounded.
 
     Returns
     -------
@@ -454,6 +452,7 @@ def _apply_rounding_spec(
         Series with (potentially) rounded numbers
 
     """
+    qualified_name = ".".join(path)
 
     def inner(func):
         # Make sure that signature is preserved.
@@ -506,7 +505,11 @@ def _fail_if_targets_tree_not_valid(targets_tree: NestedTargetDict) -> None:
     """
     Validate that the targets tree is a dictionary with string keys and None leaves.
     """
-    assert_valid_pytree(targets_tree, lambda leaf: leaf is None, "targets_tree")
+    assert_valid_pytree(
+        tree=targets_tree,
+        leaf_checker=lambda leaf: leaf is None,
+        tree_name="targets_tree",
+    )
 
 
 def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
@@ -515,7 +518,9 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     np.ndarray leaves.
     """
     assert_valid_pytree(
-        data_tree, lambda leaf: isinstance(leaf, pd.Series | np.ndarray), "data_tree"
+        tree=data_tree,
+        leaf_checker=lambda leaf: isinstance(leaf, pd.Series | np.ndarray),
+        tree_name="data_tree",
     )
     _fail_if_pid_is_non_unique(data_tree)
     _fail_if_group_variables_not_constant_within_groups(data_tree)
@@ -533,13 +538,13 @@ def _fail_if_group_variables_not_constant_within_groups(
 
     Parameters
     ----------
-    data_tree :
+    data_tree
         Nested dictionary with pandas.Series as leaf nodes.
     """
     # Extract group IDs from the 'groupings' branch.
     grouping_ids_in_data_tree = data_tree.get("groupings", {})
 
-    def check_leaf(path, leaf):
+    def faulty_leaf(path, leaf):
         leaf_name = path[-1]
         for grouping in SUPPORTED_GROUPINGS:
             id_name = f"{grouping}_id"
@@ -549,20 +554,23 @@ def _fail_if_group_variables_not_constant_within_groups(
                 # Group the leaf's series by the group ID and count unique values.
                 unique_counts = leaf.groupby(group_id_series).nunique(dropna=False)
                 if not (unique_counts == 1).all():
-                    msg = format_errors_and_warnings(
-                        f"""Data input {leaf_name!r} does not have a unique value within
-                        each group defined by grouping '{grouping}'.
-
-                        To fix this error, assign the same value to each group.
-                        """
-                    )
-                    raise ValueError(msg)
+                    return True
                 # No further check is needed for this leaf.
                 break
-        return leaf
+        return False
 
-    # Traverse the complete tree with optree; check_leaf is called for every leaf.
-    optree.tree_map_with_path(check_leaf, data_tree)
+    faulty_leaves_tree = optree.tree_map_with_path(faulty_leaf, data_tree)
+    if optree.tree_any(faulty_leaves_tree):
+        paths, leaves = optree.tree_flatten_with_path(faulty_leaves_tree)
+        faulty = [f"{'.'.join(paths[i])}" for i, leaf in enumerate(leaves) if leaf]
+        msg = format_errors_and_warnings(
+            f"""The following data inputs do not have a unique value within
+                each group defined by the provided grouping IDs:\n
+                {'\n'.join(faulty)}
+                To fix this error, assign the same value to each group.
+                """
+        )
+        raise ValueError(msg)
 
 
 def _fail_if_pid_is_non_unique(data_tree: NestedDataDict) -> None:
@@ -602,7 +610,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
         raise ValueError("The input data must contain the p_id.")
     valid_ids = set(p_id_col) | {-1}
 
-    def check_leaf(path, leaf):
+    def faulty_leaf(path, leaf):
         leaf_name = path[-1]
         foreign_key_col = leaf_name in FOREIGN_KEYS
         if not foreign_key_col:
@@ -629,7 +637,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
             )
             raise ValueError(message)
 
-    optree.tree_map_with_path(check_leaf, grouping_ids)
+    optree.tree_map_with_path(faulty_leaf, grouping_ids)
 
 
 def _warn_if_functions_overridden_by_data(
@@ -702,7 +710,7 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
 
 def _fail_if_root_nodes_are_missing(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     root_nodes_tree: NestedTargetDict,
     data_tree: NestedDataDict,
 ) -> None:
@@ -713,11 +721,11 @@ def _fail_if_root_nodes_are_missing(
 
     Parameters
     ----------
-    policy_functions_tree :
+    functions_tree
         Dictionary of functions.
-    root_nodes_tree :
+    root_nodes_tree
         Dictionary of root nodes.
-    data_tree :
+    data_tree
         Dictionary of data.
 
     Raises
@@ -726,19 +734,19 @@ def _fail_if_root_nodes_are_missing(
         If root nodes are missing.
     """
     root_nodes_accessors = optree.tree_accessors(root_nodes_tree, none_is_leaf=True)
-    data_paths_list = optree.tree_paths(data_tree)
-    functions_list = optree.tree_paths(policy_functions_tree)
+    data_paths = optree.tree_paths(data_tree)
+    functions = optree.tree_paths(functions_tree)
     missing_nodes = []
 
     for accessor in root_nodes_accessors:
-        if accessor.path in functions_list:
-            func = accessor(policy_functions_tree)
+        if accessor.path in functions:
+            func = accessor(functions_tree)
             if _func_depends_on_parameters_only(func):
                 # Function depends on parameters only, so it does not have to be present
                 # in the data tree.
                 continue
 
-        if accessor.path in data_paths_list:
+        if accessor.path in data_paths:
             # Root node is present in the data tree.
             continue
 

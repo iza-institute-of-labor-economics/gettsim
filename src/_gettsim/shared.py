@@ -84,7 +84,7 @@ def tree_merge(base_tree: dict, update_tree: dict) -> dict:
             and isinstance(value, dict)
             and not is_dataclass(value)
         ):
-            result[key] = tree_merge(base_value, value)
+            result[key] = tree_merge(base_tree=base_value, update_tree=value)
         else:
             result[key] = value
 
@@ -101,7 +101,7 @@ def tree_update(
     will be updated.
     """
     update_dict = create_tree_from_path(tree_path, value)
-    return tree_merge(tree, update_dict)
+    return tree_merge(base_tree=tree, update_tree=update_dict)
 
 
 def partition_tree_by_reference_tree(
@@ -135,9 +135,9 @@ def partition_tree_by_reference_tree(
         *optree.tree_flatten_with_path(tree_to_partition, none_is_leaf=True)[:2]
     ):
         if path in ref_paths:
-            intersection = tree_update(intersection, path, leaf)
+            intersection = tree_update(tree=intersection, tree_path=path, value=leaf)
         else:
-            difference = tree_update(difference, path, leaf)
+            difference = tree_update(tree=difference, tree_path=path, value=leaf)
     return intersection, difference
 
 

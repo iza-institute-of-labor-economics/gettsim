@@ -21,8 +21,10 @@ NestedFunctionDict = dict[
 NestedTargetDict = dict[str, Union[None, "NestedTargetDict"]]
 NestedInputStructureDict = dict[str, Union[None, "NestedInputStructureDict"]]
 NestedDataDict = dict[str, Union[pd.Series, "NestedDataDict"]]
-NestedAggregationDict = dict[
-    str, Union[AggregateByGroupSpec, AggregateByPIDSpec, "NestedAggregationDict"]
+NestedSeriesDict = dict[str, Union[pd.Series, "NestedSeriesDict"]]
+NestedArrayDict = dict[str, Union[np.ndarray, "NestedArrayDict"]]
+NestedAggregationSpecDict = dict[
+    str, Union[AggregateByGroupSpec, AggregateByPIDSpec, "NestedAggregationSpecDict"]
 ]
 
 
