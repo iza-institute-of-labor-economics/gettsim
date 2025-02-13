@@ -1,6 +1,7 @@
 """Test namespace-specific function processing."""
 
 import pandas as pd
+import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.interface import compute_taxes_and_transfers
@@ -8,47 +9,58 @@ from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim_tests.test_data.namespaces.module1 import FUNCTIONS_MODULE1
 from _gettsim_tests.test_data.namespaces.module2 import FUNCTIONS_MODULE2
 
-FUNCTIONS_TREE = {
-    **FUNCTIONS_MODULE1,
-    **FUNCTIONS_MODULE2,
-}
 
-PARAMETERS = {
-    "module1": {
-        "a": 1,
-        "b": 1,
-        "c": 1,
-    },
-    "module2": {
-        "a": 1,
-        "b": 1,
-        "c": 1,
-    },
-}
-
-AGGREGATION_TREE = {
-    "module1": {
-        "group_mean_bg": AggregateByGroupSpec(
-            source_col="f",
-            aggr="sum",
-        ),
-    },
-    "module2": {
-        "p_id_aggregation_target": AggregateByPIDSpec(
-            p_id_to_aggregate_by="groupings__some_foreign_keys",
-            source_col="g_hh",
-            aggr="sum",
-        ),
-    },
-}
+@pytest.fixture
+def functions_tree():
+    return {
+        **FUNCTIONS_MODULE1,
+        **FUNCTIONS_MODULE2,
+    }
 
 
-def test_compute_taxes_and_transfers_with_tree():
+@pytest.fixture
+def parameters():
+    return {
+        "module1": {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+        },
+        "module2": {
+            "a": 1,
+            "b": 1,
+            "c": 1,
+        },
+    }
+
+
+@pytest.fixture
+def aggregation_tree():
+    return {
+        "module1": {
+            "group_mean_bg": AggregateByGroupSpec(
+                source_col="f",
+                aggr="sum",
+            ),
+        },
+        "module2": {
+            "p_id_aggregation_target": AggregateByPIDSpec(
+                p_id_to_aggregate_by="groupings__some_foreign_keys",
+                source_col="g_hh",
+                aggr="sum",
+            ),
+        },
+    }
+
+
+def test_compute_taxes_and_transfers_with_tree(
+    functions_tree, parameters, aggregation_tree
+):
     """Test compute_taxes_and_transfers with function tree input."""
     policy_env = PolicyEnvironment(
-        functions_tree=FUNCTIONS_TREE,
-        params=PARAMETERS,
-        aggregation_specs_tree=AGGREGATION_TREE,
+        functions_tree=functions_tree,
+        params=parameters,
+        aggregation_specs_tree=aggregation_tree,
     )
     targets = {
         "module1": {

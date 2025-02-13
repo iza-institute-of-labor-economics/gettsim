@@ -132,6 +132,9 @@ def compute_taxes_and_transfers(
         input_structure=input_structure,
     )
 
+    _fail_if_group_variables_not_constant_within_groups(input_data_tree)
+    _fail_if_foreign_keys_are_invalid(input_data_tree)
+
     results = tax_transfer_function(input_data_tree)
 
     if debug:
@@ -514,8 +517,6 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
         tree_name="data_tree",
     )
     _fail_if_pid_is_non_unique(data_tree)
-    _fail_if_group_variables_not_constant_within_groups(data_tree)
-    _fail_if_foreign_keys_are_invalid(data_tree)
 
 
 def _fail_if_group_variables_not_constant_within_groups(
@@ -611,7 +612,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
         if not all(i in valid_ids for i in leaf):
             message = format_errors_and_warnings(
                 f"""
-                The following {leaf_name}s are not a valid p_id in the input
+                The following {".".join(path)}s are not a valid p_id in the input
                 data: {[i for i in leaf if i not in valid_ids]}.
                 """
             )
@@ -622,7 +623,7 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
         if any(equal_to_pid_in_same_row):
             message = format_errors_and_warnings(
                 f"""
-                The following {leaf_name}s are equal to the p_id in the same
+                The following {".".join(path)}s are equal to the p_id in the same
                 row: {[i for i, j in zip(leaf, p_id_col) if i == j]}.
                 """
             )
