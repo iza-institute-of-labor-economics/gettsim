@@ -14,7 +14,7 @@ from _gettsim.config import (
     RESOURCE_DIR,
 )
 from _gettsim.functions.loader import (
-    load_aggregations_tree,
+    load_aggregation_specs_tree,
     load_policy_functions_tree_for_date,
 )
 from _gettsim.functions.policy_function import PolicyFunction
@@ -43,11 +43,11 @@ class PolicyEnvironment:
 
     Parameters
     ----------
-    policy_functions_tree:
+    policy_functions_tree
         The policy functions tree.
-    params:
+    params
         A dictionary with policy parameters.
-    aggregations_tree:
+    aggregation_specs_tree
         The tree with aggregation specifications for aggregations on group levels
         (defined in config.py) or aggregations by p_id (defined in config.py). The
         aggregation tree is a nested dictionary with AggregateByGroupSpec or
@@ -58,7 +58,7 @@ class PolicyEnvironment:
         self,
         policy_functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
-        aggregations_tree: NestedAggregationSpecDict | None = None,
+        aggregation_specs_tree: NestedAggregationSpecDict | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         assert_valid_gettsim_pytree(
@@ -67,14 +67,14 @@ class PolicyEnvironment:
             "policy_functions_tree",
         )
         self._policy_functions_tree = optree.tree_map(
-            func=_convert_all_functions_to_policy_functions,
+            func=_convert_function_to_policy_function,
             tree=policy_functions_tree,
         )
 
         # Read in parameters and aggregation specs
         self._params = params if params is not None else {}
-        self._aggregations_tree = (
-            aggregations_tree if aggregations_tree is not None else {}
+        self._aggregation_specs_tree = (
+            aggregation_specs_tree if aggregation_specs_tree is not None else {}
         )
 
     @property
@@ -88,12 +88,12 @@ class PolicyEnvironment:
         return self._params
 
     @property
-    def aggregations_tree(self) -> NestedAggregationSpecDict:
+    def aggregation_specs_tree(self) -> NestedAggregationSpecDict:
         """
         The tree with aggregation specifications for aggregations on group levels
         (defined in config.py) or aggregations by p_id.
         """
-        return self._aggregations_tree
+        return self._aggregation_specs_tree
 
     def upsert_policy_functions(
         self, policy_functions_tree_to_upsert: NestedFunctionDict
@@ -118,10 +118,10 @@ class PolicyEnvironment:
         new_policy_functions_tree = {**self._policy_functions_tree}
 
         policy_functions_tree_to_upsert = optree.tree_map(
-            func=_convert_all_functions_to_policy_functions,
+            func=_convert_function_to_policy_function,
             tree=policy_functions_tree_to_upsert,
         )
-        _fail_if_name_of_last_branch_not_leaf_name_of_function(
+        _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
             policy_functions_tree_to_upsert
         )
 
@@ -134,7 +134,7 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._policy_functions_tree = new_policy_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
-        result._aggregations_tree = self._aggregations_tree  # noqa: SLF001
+        result._aggregation_specs_tree = self._aggregation_specs_tree  # noqa: SLF001
 
         return result
 
@@ -156,7 +156,7 @@ class PolicyEnvironment:
         result = object.__new__(PolicyEnvironment)
         result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
-        result._aggregations_tree = self._aggregations_tree  # noqa: SLF001
+        result._aggregation_specs_tree = self._aggregation_specs_tree  # noqa: SLF001
 
         return result
 
@@ -167,13 +167,13 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
 
     Parameters
     ----------
-    date:
+    date
         The date for which the policy system is set up. An integer is
         interpreted as the year.
 
     Returns
     -------
-    environment:
+    environment
         The policy environment for the specified date.
     """
     # Check policy date for correct format and convert to datetime.date
@@ -192,12 +192,12 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
-    aggregations_tree = load_aggregations_tree()
+    aggregation_specs_tree = load_aggregation_specs_tree()
 
     return PolicyEnvironment(
         policy_functions_tree,
         params,
-        aggregations_tree,
+        aggregation_specs_tree,
     )
 
 
@@ -212,7 +212,7 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
     Returns
     -------
     date
-        The date for which the policy system is set up.
+        The date for which the policy system is set up as datetime.date.
 
     """
     if isinstance(date, str):
@@ -222,23 +222,19 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
     return date
 
 
-def _convert_all_functions_to_policy_functions(
+def _convert_function_to_policy_function(
     function: callable,
 ) -> PolicyFunction:
-    """Add module name if missing.
-
-    Module name derived from the function's position in the functions tree.
+    """Convert a function to a PolicyFunction.
 
     Parameters
     ----------
-    tree_path
-        Path to the function in the functions tree.
     function
         The function to convert.
 
     Returns
     -------
-    function : PolicyFunction
+    function
         The converted function.
 
     """
@@ -256,12 +252,12 @@ def _parse_piecewise_parameters(tax_data):
 
     Parameters
     ----------
-    tax_data : dict
+    tax_data
         Loaded raw tax data.
 
     Returns
     -------
-    tax_data : dict
+    tax_data
         Parsed parameters ready to use in gettsim.
 
     """
@@ -296,14 +292,14 @@ def _parse_kinderzuschl_max(date, params):
 
     Parameters
     ----------
-    date: datetime.date
+    date
         The date for which the policy parameters are set up.
-    params: dict
+    params
         A dictionary with parameters from the policy environment.
 
     Returns
     -------
-    params: dict
+    params
         updated dictionary
 
     """
@@ -332,14 +328,14 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
 
     Parameters
     ----------
-    date: datetime.date
+    date
         The date for which the policy parameters are set up.
-    params: dict
+    params
         A dictionary with parameters from the policy environment.
 
     Returns
     -------
-    params: dict
+    params
         updated dictionary
 
     """
@@ -365,14 +361,14 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
 
     Parameters
     ----------
-    date: datetime.date
+    date
         The date for which the policy parameters are set up.
-    params: dict
+    params
         A dictionary with parameters from the policy environment.
 
     Returns
     -------
-    out: dict
+    out
 
     """
 
@@ -626,18 +622,20 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
     return new_dict
 
 
-def _fail_if_name_of_last_branch_not_leaf_name_of_function(
+def _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
     policy_functions_tree: NestedFunctionDict,
 ) -> None:
-    """Raise error if name of last branch is not leaf name of PolicyFunction."""
+    """Raise error if a PolicyFunction does not have the same leaf name as the last
+    branch element of the tree path.
+    """
     tree_paths, functions, _ = optree.tree_flatten_with_path(policy_functions_tree)
     for tree_path, function in zip(tree_paths, functions):
         if tree_path[-1] != function.leaf_name:
             raise KeyError(
                 f"""
-                The name of the last branch of the functions tree must be the same as
-                the leaf name of the PolicyFunction. The tree path {tree_path} is not
-                compatible with the PolicyFunction {function.leaf_name}.
+                The name of the last branch element of the functions tree must be the
+                same as the leaf name of the PolicyFunction. The tree path {tree_path}
+                is not compatible with the PolicyFunction {function.leaf_name}.
                 """
             )
 

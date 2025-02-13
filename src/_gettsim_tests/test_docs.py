@@ -11,7 +11,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.loader import (
-    load_aggregations_tree,
+    load_aggregation_specs_tree,
     load_policy_functions_tree_for_date,
 )
 from _gettsim.shared import remove_group_suffix
@@ -35,7 +35,7 @@ def all_function_names():
 
 @pytest.fixture(scope="module")
 def aggregation_dict():
-    return load_aggregations_tree()
+    return load_aggregation_specs_tree()
 
 
 @pytest.fixture(scope="module")

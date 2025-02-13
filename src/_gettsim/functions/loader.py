@@ -13,7 +13,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
-from _gettsim.shared import format_errors_and_warnings, upsert_path_and_value
+from _gettsim.shared import upsert_path_and_value
 
 
 def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
@@ -34,20 +34,18 @@ def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDi
     NestedFunctionDict:
         A tree of active PolicyFunctions.
     """
-    system_paths_to_policy_functions = _find_python_files_recursively(
+    paths_to_policy_functions = _find_python_files_recursively(
         PATHS_TO_INTERNAL_FUNCTIONS
     )
 
     policy_functions_tree = {}
 
-    for system_path in system_paths_to_policy_functions:
+    for path in paths_to_policy_functions:
         active_functions_dict = get_active_policy_functions_from_module(
-            system_path=system_path, date=date, package_root=RESOURCE_DIR
+            path=path, date=date, package_root=RESOURCE_DIR
         )
 
-        tree_path = _convert_system_path_to_tree_path(
-            system_path=system_path, package_root=RESOURCE_DIR
-        )
+        tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
         policy_functions_tree = upsert_path_and_value(
             tree=policy_functions_tree,
@@ -59,7 +57,7 @@ def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDi
 
 
 def get_active_policy_functions_from_module(
-    system_path: Path,
+    path: Path,
     package_root: Path,
     date: datetime.date,
 ) -> dict[str, PolicyFunction]:
@@ -67,7 +65,7 @@ def get_active_policy_functions_from_module(
 
     Parameters
     ----------
-    system_path
+    path
         The path to the module from which to extract the active functions.
     package_root
         The root of the package that contains the functions.
@@ -79,8 +77,8 @@ def get_active_policy_functions_from_module(
     dict[str, PolicyFunction]
         A dictionary of active PolicyFunctions with their leaf names as keys.
     """
-    module = _load_module(system_path, package_root)
-    module_name = _convert_path_to_importable_module_name(system_path, package_root)
+    module = _load_module(path, package_root)
+    module_name = _convert_path_to_importable_module_name(path, package_root)
 
     all_functions_in_module = inspect.getmembers(module)
 
@@ -88,7 +86,6 @@ def get_active_policy_functions_from_module(
         func for _, func in all_functions_in_module if isinstance(func, PolicyFunction)
     ]
 
-    _fail_if_leaf_name_is_module_name(policy_functions, module_name)
     _fail_if_multiple_policy_functions_are_active_at_the_same_time(
         policy_functions, module_name
     )
@@ -185,7 +182,9 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
 
     for root in roots:
         if root.is_dir():
-            modules = list(root.rglob("*.py"))
+            modules = [
+                file for file in root.rglob("*.py") if file.name != "__init__.py"
+            ]
             result.extend(modules)
 
         else:
@@ -194,9 +193,9 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
     return result
 
 
-def _load_module(system_path: Path, package_root: Path) -> ModuleType:
-    module_name = _convert_path_to_importable_module_name(system_path, package_root)
-    spec = importlib.util.spec_from_file_location(module_name, system_path)
+def _load_module(path: Path, package_root: Path) -> ModuleType:
+    module_name = _convert_path_to_importable_module_name(path, package_root)
+    spec = importlib.util.spec_from_file_location(module_name, path)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
     spec.loader.exec_module(module)
@@ -204,9 +203,7 @@ def _load_module(system_path: Path, package_root: Path) -> ModuleType:
     return module
 
 
-def _convert_path_to_importable_module_name(
-    system_path: Path, package_root: Path
-) -> str:
+def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> str:
     """
     Convert an absolute path to a Python module name.
 
@@ -216,16 +213,14 @@ def _convert_path_to_importable_module_name(
     "taxes.functions"
     """
     return (
-        system_path.relative_to(package_root.parent)
+        path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
         .replace("/", ".")
     )
 
 
-def _convert_system_path_to_tree_path(
-    system_path: Path, package_root: Path
-) -> tuple[str, ...]:
+def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...]:
     """
     Convert a system path to a tree path.
 
@@ -234,7 +229,7 @@ def _convert_system_path_to_tree_path(
 
     Parameters
     ----------
-    system_path:
+    path:
         The path to the python module on the user's system.
     package_root:
         The root of the package that contains the functions.
@@ -246,14 +241,14 @@ def _convert_system_path_to_tree_path(
 
     Examples
     --------
-    >>> _convert_system_path_to_tree_path(RESOURCE_DIR / "taxes" / "dir"
+    >>> _convert_path_to_tree_path(RESOURCE_DIR / "taxes" / "dir"
         / "functions.py")
     ("dir", "functions")
     """
     # TODO(@MImmesberger): Delete removeprefix calls after changing directory structure
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
     branches = tuple(
-        system_path.relative_to(package_root.parent)
+        path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
         .removeprefix("_gettsim/")
@@ -264,45 +259,44 @@ def _convert_system_path_to_tree_path(
     return _simplify_tree_path_when_module_name_equals_dir_name(branches)
 
 
-def load_aggregations_tree() -> NestedAggregationSpecDict:
+def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
     """
-    Load the aggregation tree.
+    Load the tree with aggregation specifications.
 
-    This function loads the aggregation tree from the internal functions by searching
-    and loading all aggregation specifications from GETTSIM's modules.
+    This function loads the tree with aggregation specifications from the internal
+    functions by searching and loading all aggregation specifications from GETTSIM's
+    modules.
 
     Returns
     -------
     NestedAggregationSpecDict:
         The aggregation tree.
     """
-    system_paths_to_aggregation_specs = _find_python_files_recursively(
+    paths_to_aggregation_specs = _find_python_files_recursively(
         PATHS_TO_INTERNAL_FUNCTIONS
     )
 
-    aggregations_tree = {}
+    aggregation_specs_tree = {}
 
-    for system_path in system_paths_to_aggregation_specs:
-        derived_function_specs = _load_aggregation_specs_from_module(
-            system_path=system_path,
+    for path in paths_to_aggregation_specs:
+        aggregation_specs = _load_aggregation_specs_from_module(
+            path=path,
             package_root=RESOURCE_DIR,
         )
 
-        tree_path = _convert_system_path_to_tree_path(
-            system_path=system_path, package_root=RESOURCE_DIR
-        )
+        tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
-        aggregations_tree = upsert_path_and_value(
-            tree=aggregations_tree,
+        aggregation_specs_tree = upsert_path_and_value(
+            tree=aggregation_specs_tree,
             tree_path=tree_path,
-            value=derived_function_specs,
+            value=aggregation_specs,
         )
 
-    return aggregations_tree
+    return aggregation_specs_tree
 
 
 def _load_aggregation_specs_from_module(
-    system_path: Path,
+    path: Path,
     package_root: Path,
 ) -> dict[str, AggregateByGroupSpec | AggregateByPIDSpec]:
     """
@@ -325,7 +319,7 @@ def _load_aggregation_specs_from_module(
     # modules in the renaming PR. Then, 'aggregation_specs_in_module' will be a list of
     # dictionaries.
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-    module = _load_module(system_path, package_root)
+    module = _load_module(path, package_root)
     aggregation_specs_in_module = {  # Will become a list in renamings PR
         name: member
         for name, member in inspect.getmembers(module)
@@ -333,18 +327,18 @@ def _load_aggregation_specs_from_module(
         and name.startswith(("aggregate_by_group_", "aggregate_by_p_id_"))
     }
 
-    aggregations_from_module = {}
+    out = {}
 
     # Temporary solution.
     for type_name, specs_for_type in aggregation_specs_in_module.items():
         for name, spec in specs_for_type.items():
-            aggregations_from_module[name] = (
+            out[name] = (
                 AggregateByGroupSpec(**spec)
                 if type_name.startswith("aggregate_by_group_")
                 else AggregateByPIDSpec(**spec)
             )
 
-    return aggregations_from_module
+    return out
 
 
 def _simplify_tree_path_when_module_name_equals_dir_name(
@@ -365,17 +359,3 @@ def _simplify_tree_path_when_module_name_equals_dir_name(
         out = tree_path
 
     return out
-
-
-def _fail_if_leaf_name_is_module_name(
-    policy_functions: list[PolicyFunction],
-    module_name: str,
-) -> None:
-    """No PolicyFunction should have the same leaf name as its module name."""
-    leaf_names = [func.leaf_name for func in policy_functions]
-    if module_name in leaf_names:
-        msg = format_errors_and_warnings(
-            f"PolicyFunctions in module {module_name} have the same leaf name as their "
-            "module name."
-        )
-        raise ValueError(msg)

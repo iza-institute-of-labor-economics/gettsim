@@ -11,7 +11,7 @@ from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
-    _fail_if_name_of_last_branch_not_leaf_name_of_function,
+    _fail_if_name_of_last_branch_element_not_leaf_name_of_function,
     _load_parameter_group_from_yaml,
     load_policy_functions_tree_for_date,
     set_up_policy_environment,
@@ -151,8 +151,10 @@ def test_load_policy_functions_tree_for_date(
         {"foo": PolicyFunction(lambda: 1, leaf_name="bar")},
     ],
 )
-def test_fail_if_name_of_last_branch_not_leaf_name_of_function(
+def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
     policy_functions_tree: NestedFunctionDict,
 ):
     with pytest.raises(KeyError):
-        _fail_if_name_of_last_branch_not_leaf_name_of_function(policy_functions_tree)
+        _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
+            policy_functions_tree
+        )

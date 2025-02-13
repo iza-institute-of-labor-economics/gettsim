@@ -5,16 +5,13 @@ from typing import TYPE_CHECKING
 import numpy
 import pytest
 
-from _gettsim.config import RESOURCE_DIR
+from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 from _gettsim.functions.loader import (
-    ConflictingTimeDependentFunctionsError,
-    _fail_if_leaf_name_is_module_name,
-    _fail_if_multiple_policy_functions_are_active_at_the_same_time,
+    _find_python_files_recursively,
     _load_module,
     _simplify_tree_path_when_module_name_equals_dir_name,
 )
 from _gettsim.functions.policy_function import (
-    PolicyFunction,
     _vectorize_func,
     policy_function,
 )
@@ -30,22 +27,11 @@ def test_load_path():
     )
 
 
-def test_fail_if_multiple_policy_functions_are_active_at_the_same_time():
-    active_functions = [
-        PolicyFunction(
-            leaf_name="foo",
-            function=lambda: 1,
-        ),
-        PolicyFunction(
-            leaf_name="foo",
-            function=lambda: 2,
-        ),
-    ]
-
-    with pytest.raises(ConflictingTimeDependentFunctionsError):
-        _fail_if_multiple_policy_functions_are_active_at_the_same_time(
-            active_functions, module_name=""
-        )
+def test_dont_load_init_py():
+    """Don't load __init__.py files as sources for PolicyFunctions and
+    AggregationSpecs."""
+    all_files = _find_python_files_recursively(PATHS_TO_INTERNAL_FUNCTIONS)
+    assert "init.py" not in [file.name for file in all_files]
 
 
 def scalar_func(x: int) -> int:
@@ -88,10 +74,3 @@ def test_remove_recurring_branch_names(
     assert (
         _simplify_tree_path_when_module_name_equals_dir_name(path) == expected_tree_path
     )
-
-
-def test_fail_if_leaf_name_is_module_name():
-    with pytest.raises(ValueError):
-        _fail_if_leaf_name_is_module_name(
-            [PolicyFunction(leaf_name="foo", function=lambda: 1)], "foo"
-        )

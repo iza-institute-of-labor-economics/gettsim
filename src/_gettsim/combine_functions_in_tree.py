@@ -85,7 +85,7 @@ def combine_policy_functions_and_derived_functions(
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregation_functions(
         policy_functions_tree=environment.policy_functions_tree,
-        aggregations_tree=environment.aggregations_tree,
+        aggregations_tree=environment.aggregation_specs_tree,
         aggregation_type="p_id",
     )
 
@@ -108,7 +108,7 @@ def combine_policy_functions_and_derived_functions(
         policy_functions_tree=current_policy_functions_tree,
         targets_tree=targets_tree,
         data_tree=data_tree,
-        aggregations_tree_provided_by_env=environment.aggregations_tree,
+        aggregations_tree_provided_by_env=environment.aggregation_specs_tree,
     )
 
     # Create groupings
