@@ -13,7 +13,7 @@ from _gettsim.policy_environment import (
     PolicyEnvironment,
     _fail_if_name_of_last_branch_element_not_leaf_name_of_function,
     _load_parameter_group_from_yaml,
-    load_policy_functions_tree_for_date,
+    load_functions_tree_for_date,
     set_up_policy_environment,
 )
 from _gettsim_tests import TEST_DIR
@@ -24,12 +24,12 @@ class TestPolicyEnvironment:
         function = PolicyFunction(lambda: 1, leaf_name="foo")
         environment = PolicyEnvironment({"foo": function})
 
-        assert environment.policy_functions_tree["foo"] == function
+        assert environment.functions_tree["foo"] == function
 
     def test_func_does_not_exist_in_tree(self):
         environment = PolicyEnvironment({}, {})
 
-        assert "foo" not in environment.policy_functions_tree
+        assert "foo" not in environment.functions_tree
 
     @pytest.mark.parametrize(
         "environment",
@@ -48,7 +48,7 @@ class TestPolicyEnvironment:
         new_function = PolicyFunction(lambda: 3, leaf_name="foo")
         new_environment = environment.upsert_policy_functions({"foo": new_function})
 
-        assert new_environment.policy_functions_tree["foo"] == new_function
+        assert new_environment.functions_tree["foo"] == new_function
 
     @pytest.mark.parametrize(
         "environment",
@@ -128,16 +128,14 @@ def test_access_different_date_jahresanfang():
         ),
     ],
 )
-def test_load_policy_functions_tree_for_date(
+def test_load_functions_tree_for_date(
     tree: dict[str, Any],
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = load_policy_functions_tree_for_date(date=last_day)
-    functions_next_day = load_policy_functions_tree_for_date(
-        date=last_day + timedelta(days=1)
-    )
+    functions_last_day = load_functions_tree_for_date(date=last_day)
+    functions_next_day = load_functions_tree_for_date(date=last_day + timedelta(days=1))
 
     accessor = optree.tree_accessors(tree, none_is_leaf=True)[0]
 
@@ -146,15 +144,13 @@ def test_load_policy_functions_tree_for_date(
 
 
 @pytest.mark.parametrize(
-    "policy_functions_tree",
+    "functions_tree",
     [
         {"foo": PolicyFunction(lambda: 1, leaf_name="bar")},
     ],
 )
 def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
 ):
     with pytest.raises(KeyError):
-        _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
-            policy_functions_tree
-        )
+        _fail_if_name_of_last_branch_element_not_leaf_name_of_function(functions_tree)

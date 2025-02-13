@@ -84,28 +84,28 @@ def combine_policy_functions_and_derived_functions(
     """
     # Create parent-child relationships
     aggregate_by_p_id_functions = _create_aggregation_functions(
-        policy_functions_tree=environment.policy_functions_tree,
+        functions_tree=environment.functions_tree,
         aggregations_tree=environment.aggregation_specs_tree,
         aggregation_type="p_id",
     )
 
     # Create functions for different time units
-    current_policy_functions_tree = upsert_tree(
-        base_tree=environment.policy_functions_tree,
+    current_functions_tree = upsert_tree(
+        base_tree=environment.functions_tree,
         update_tree=aggregate_by_p_id_functions,
     )
     time_conversion_functions = create_time_conversion_functions(
-        policy_functions_tree=current_policy_functions_tree,
+        functions_tree=current_functions_tree,
         data_tree=data_tree,
     )
 
     # Create aggregation functions
-    current_policy_functions_tree = upsert_tree(
-        base_tree=current_policy_functions_tree,
+    current_functions_tree = upsert_tree(
+        base_tree=current_functions_tree,
         update_tree=time_conversion_functions,
     )
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
-        policy_functions_tree=current_policy_functions_tree,
+        functions_tree=current_functions_tree,
         targets_tree=targets_tree,
         data_tree=data_tree,
         aggregations_tree_provided_by_env=environment.aggregation_specs_tree,
@@ -123,16 +123,16 @@ def combine_policy_functions_and_derived_functions(
             aggregate_by_group_functions,
             groupings,
         ],
-        environment.policy_functions_tree,
+        environment.functions_tree,
     )
 
-    _fail_if_targets_not_in_policy_functions_tree(all_functions, targets_tree)
+    _fail_if_targets_not_in_functions_tree(all_functions, targets_tree)
 
     return all_functions
 
 
 def _create_aggregate_by_group_functions(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     targets_tree: NestedTargetDict,
     data_tree: NestedDataDict,
     aggregations_tree_provided_by_env: dict[str, Any],
@@ -141,7 +141,7 @@ def _create_aggregate_by_group_functions(
 
     # Add automated aggregation specs to aggregations tree
     automatically_created_aggregations_tree = _create_derived_aggregations_tree(
-        policy_functions_tree=policy_functions_tree,
+        functions_tree=functions_tree,
         target_tree=targets_tree,
         data_tree=data_tree,
     )
@@ -153,14 +153,14 @@ def _create_aggregate_by_group_functions(
     )
 
     return _create_aggregation_functions(
-        policy_functions_tree=policy_functions_tree,
+        functions_tree=functions_tree,
         aggregations_tree=full_aggregations_tree,
         aggregation_type="group",
     )
 
 
 def _create_aggregation_functions(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     aggregations_tree: NestedAggregationSpecDict,
     aggregation_type: Literal["group", "p_id"],
 ) -> NestedFunctionDict:
@@ -195,7 +195,7 @@ def _create_aggregation_functions(
                 aggregation_target=aggregation_target,
                 aggregation_method=aggregation_method,
                 qualified_name_source_col=qualified_name_source_col,
-                policy_functions_tree=policy_functions_tree,
+                functions_tree=functions_tree,
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -204,7 +204,7 @@ def _create_aggregation_functions(
                 p_id_to_aggregate_by=p_id_to_aggregate_by,
                 qualified_name_source_col=qualified_name_source_col,
                 aggregation_method=aggregation_method,
-                policy_functions_tree=policy_functions_tree,
+                functions_tree=functions_tree,
             )
 
         out_tree = upsert_path_and_value(
@@ -217,7 +217,7 @@ def _create_aggregation_functions(
 
 
 def _create_derived_aggregations_tree(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     target_tree: NestedTargetDict,
     data_tree: NestedDataDict,
 ) -> NestedAggregationSpecDict:
@@ -227,7 +227,7 @@ def _create_derived_aggregations_tree(
 
     Parameters
     ----------
-    policy_functions_tree
+    functions_tree
         The functions tree.
     target_tree
         The target tree.
@@ -242,8 +242,8 @@ def _create_derived_aggregations_tree(
     Example
     -------
     If
-    - `func_hh` is an argument of the functions in `policy_functions_tree`, or a target
-    - and not represented by a function in `policy_functions_tree` or a data column in
+    - `func_hh` is an argument of the functions in `functions_tree`, or a target
+    - and not represented by a function in `functions_tree` or a data column in
         the input data
     then an automatic aggregation specification is created for the sum aggregation of
     `func` by household.
@@ -252,14 +252,14 @@ def _create_derived_aggregations_tree(
     potential_aggregation_function_names = upsert_tree(
         base_tree=target_tree,
         update_tree=_get_potential_aggregation_function_names_from_function_arguments(
-            policy_functions_tree
+            functions_tree
         ),
     )
 
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
     aggregation_source_tree = upsert_tree(
-        base_tree=policy_functions_tree,
+        base_tree=functions_tree,
         update_tree=data_tree,
     )
 
@@ -293,7 +293,7 @@ def _create_derived_aggregations_tree(
 
 
 def _get_potential_aggregation_function_names_from_function_arguments(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
 ) -> dict[str, Any]:
     """Get potential aggregation function names from function arguments.
 
@@ -302,7 +302,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
 
     Parameters
     ----------
-    policy_functions_tree : dict
+    functions_tree : dict
         Dictionary containing functions to build the DAG.
 
     Returns
@@ -311,12 +311,10 @@ def _get_potential_aggregation_function_names_from_function_arguments(
         Dictionary containing potential aggregation targets.
     """
     current_tree = {}
-    paths_of_policy_functions_tree, flat_policy_functions_tree = (
-        optree.tree_flatten_with_path(policy_functions_tree)
+    paths_of_functions_tree, flat_functions_tree = (
+        optree.tree_flatten_with_path(functions_tree)
     )[:2]
-    for func, tree_path in zip(
-        flat_policy_functions_tree, paths_of_policy_functions_tree
-    ):
+    for func, tree_path in zip(flat_functions_tree, paths_of_functions_tree):
         for name in get_names_of_arguments_without_defaults(func):
             path_of_function_argument = _get_tree_path_from_source_col_name(
                 name=name,
@@ -332,7 +330,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
 def _annotations_for_aggregation(
     aggregation_method: str,
     qualified_name_source_col: str,
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     types_input_variables: dict[str, Any],
 ) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
@@ -347,9 +345,9 @@ def _annotations_for_aggregation(
 
     if aggregation_method == "count":
         annotations["return"] = int
-    elif tree_path_source_col in optree.tree_paths(policy_functions_tree):
+    elif tree_path_source_col in optree.tree_paths(functions_tree):
         # Source col is a function in the functions tree
-        source_function = accessor_source_col(policy_functions_tree)
+        source_function = accessor_source_col(functions_tree)
         if "return" in source_function.__annotations__:
             annotations[qualified_name_source_col] = source_function.__annotations__[
                 "return"
@@ -394,24 +392,24 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     aggregation_target: str,
     aggregation_method: str,
     qualified_name_source_col: str,
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
     ----------
-    aggregation_target : str
+    aggregation_target
         Name of the aggregation target.
-    aggregation_method : str
+    aggregation_method
         The aggregation method.
-    qualified_name_source_col : str
+    qualified_name_source_col
         The qualified source column name.
-    policy_functions_tree: NestedFunctionDict
+    functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
     -------
-    derived_function : DerivedFunction
+    derived_function
         The derived function.
 
     """
@@ -431,7 +429,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
     annotations = _annotations_for_aggregation(
         aggregation_method=aggregation_method,
         qualified_name_source_col=qualified_name_source_col,
-        policy_functions_tree=policy_functions_tree,
+        functions_tree=functions_tree,
         types_input_variables=TYPES_INPUT_VARIABLES,
     )
 
@@ -525,33 +523,33 @@ def _create_one_aggregate_by_p_id_func(
     p_id_to_aggregate_by: str,
     qualified_name_source_col: str,
     aggregation_method: str,
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
 ) -> DerivedFunction:
     """Create one function that links variables across persons.
 
     Parameters
     ----------
-    aggregation_target : str
+    aggregation_target
         Name of the aggregation target.
-    p_id_to_aggregate_by : str
+    p_id_to_aggregate_by
         The column to aggregate by.
-    qualified_name_source_col : str
+    qualified_name_source_col
         The qualified source column name.
-    aggregation_method : str
+    aggregation_method
         The aggregation method.
-    policy_functions_tree: NestedFunctionDict
+    functions_tree: NestedFunctionDict
         Functions tree.
 
     Returns
     -------
-    derived_function : DerivedFunction
+    derived_function
         The derived function.
 
     """
     annotations = _annotations_for_aggregation(
         aggregation_method=aggregation_method,
         qualified_name_source_col=qualified_name_source_col,
-        policy_functions_tree=policy_functions_tree,
+        functions_tree=functions_tree,
         types_input_variables=TYPES_INPUT_VARIABLES,
     )
 
@@ -679,16 +677,16 @@ def _get_tree_path_from_source_col_name(
     return tuple(new_tree_path)
 
 
-def _fail_if_targets_not_in_policy_functions_tree(
-    policy_functions_tree: NestedFunctionDict, targets_tree: NestedTargetDict
+def _fail_if_targets_not_in_functions_tree(
+    functions_tree: NestedFunctionDict, targets_tree: NestedTargetDict
 ) -> None:
     """Fail if some target is not among functions.
 
     Parameters
     ----------
-    policy_functions_tree : dict
+    functions_tree
         Dictionary containing functions to build the DAG.
-    targets_tree : dict
+    targets_tree
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
 
@@ -700,7 +698,7 @@ def _fail_if_targets_not_in_policy_functions_tree(
     """
     targets_not_in_functions_tree = partition_tree_by_reference_tree(
         tree_to_partition=targets_tree,
-        reference_tree=policy_functions_tree,
+        reference_tree=functions_tree,
     )[1]
     names_of_targets_not_in_functions = [
         ".".join(path)

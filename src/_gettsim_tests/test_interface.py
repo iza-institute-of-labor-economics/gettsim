@@ -303,7 +303,7 @@ def test_user_provided_aggregate_by_group_specs():
         },
     }
 
-    aggregations_tree = {
+    aggregation_specs_tree = {
         "module_name": {
             "betrag_m_hh": AggregateByGroupSpec(
                 source_col="betrag_m",
@@ -315,7 +315,7 @@ def test_user_provided_aggregate_by_group_specs():
 
     out = compute_taxes_and_transfers(
         data,
-        PolicyEnvironment({}, aggregations_tree=aggregations_tree),
+        PolicyEnvironment({}, aggregation_specs_tree=aggregation_specs_tree),
         targets_tree={"module_name": {"betrag_m_hh": None}},
     )
 
@@ -325,7 +325,7 @@ def test_user_provided_aggregate_by_group_specs():
 
 
 @pytest.mark.parametrize(
-    "aggregations_tree",
+    "aggregation_specs_tree",
     [
         {
             "module_name": {
@@ -345,7 +345,7 @@ def test_user_provided_aggregate_by_group_specs():
         },
     ],
 )
-def test_user_provided_aggregate_by_group_specs_function(aggregations_tree):
+def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree):
     data = {
         "groupings": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
@@ -369,7 +369,7 @@ def test_user_provided_aggregate_by_group_specs_function(aggregations_tree):
                 )
             },
         },
-        aggregations_tree=aggregations_tree,
+        aggregation_specs_tree=aggregation_specs_tree,
     )
 
     out = compute_taxes_and_transfers(
@@ -393,7 +393,7 @@ def test_aggregate_by_group_specs_missing_group_sufix():
             "betrag_m": pd.Series([100, 100, 100], name="betrag_m"),
         },
     }
-    aggregations_tree = {
+    aggregation_specs_tree = {
         "module_name": {
             "betrag_agg_m": AggregateByGroupSpec(
                 source_col="betrag_m",
@@ -407,7 +407,7 @@ def test_aggregate_by_group_specs_missing_group_sufix():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment({}, aggregations_tree=aggregations_tree),
+            PolicyEnvironment({}, aggregation_specs_tree=aggregation_specs_tree),
             targets_tree={"module_name": {"betrag_agg_m": None}},
         )
 
@@ -422,7 +422,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             "betrag_m": pd.Series([100, 100, 100], name="betrag_m"),
         },
     }
-    aggregations_tree = {
+    aggregation_specs_tree = {
         "module_name": {
             "betrag_m_hh": AggregateByGroupSpec(
                 source_col="betrag_m",
@@ -436,13 +436,13 @@ def test_aggregate_by_group_specs_agg_not_impl():
     ):
         compute_taxes_and_transfers(
             data,
-            PolicyEnvironment({}, aggregations_tree=aggregations_tree),
+            PolicyEnvironment({}, aggregation_specs_tree=aggregation_specs_tree),
             targets_tree={"module_name": {"betrag_m_hh": None}},
         )
 
 
 @pytest.mark.parametrize(
-    ("aggregations_tree, leaf_name, target_tree, expected"),
+    ("aggregation_specs_tree, leaf_name, target_tree, expected"),
     [
         (
             {
@@ -489,7 +489,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
     ],
 )
 def test_user_provided_aggregate_by_p_id_specs(
-    aggregations_tree,
+    aggregation_specs_tree,
     leaf_name,
     target_tree,
     expected,
@@ -505,7 +505,7 @@ def test_user_provided_aggregate_by_p_id_specs(
 
     environment = PolicyEnvironment(
         functions_tree,
-        aggregations_tree=aggregations_tree,
+        aggregation_specs_tree=aggregation_specs_tree,
     )
     out = compute_taxes_and_transfers(
         minimal_input_data_shared_hh,

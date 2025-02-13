@@ -16,7 +16,7 @@ from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDic
 from _gettsim.shared import upsert_path_and_value
 
 
-def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
+def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     """
     Load the functions tree for a given date.
 
@@ -38,7 +38,7 @@ def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDi
         PATHS_TO_INTERNAL_FUNCTIONS
     )
 
-    policy_functions_tree = {}
+    functions_tree = {}
 
     for path in paths_to_policy_functions:
         active_functions_dict = get_active_policy_functions_from_module(
@@ -47,13 +47,13 @@ def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDi
 
         tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
-        policy_functions_tree = upsert_path_and_value(
-            tree=policy_functions_tree,
+        functions_tree = upsert_path_and_value(
+            tree=functions_tree,
             tree_path=tree_path,
             value=active_functions_dict,
         )
 
-    return policy_functions_tree
+    return functions_tree
 
 
 def get_active_policy_functions_from_module(
@@ -90,11 +90,7 @@ def get_active_policy_functions_from_module(
         policy_functions, module_name
     )
 
-    return {
-        func.leaf_name: func
-        for func in policy_functions
-        if func.is_active_at_date(date)
-    }
+    return {func.leaf_name: func for func in policy_functions if func.is_active(date)}
 
 
 def _fail_if_multiple_policy_functions_are_active_at_the_same_time(

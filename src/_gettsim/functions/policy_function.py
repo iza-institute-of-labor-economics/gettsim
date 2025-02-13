@@ -72,7 +72,7 @@ class PolicyFunction(Callable):
         """The name of the wrapped function."""
         return self.function.__name__
 
-    def is_active_at_date(self, date: date) -> bool:
+    def is_active(self, date: date) -> bool:
         """Check if the function is active at a given date."""
         return self.start_date <= date <= self.end_date
 

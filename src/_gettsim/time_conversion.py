@@ -242,7 +242,7 @@ _time_conversion_functions = {
 
 
 def create_time_conversion_functions(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
     data_tree: NestedDataDict,
 ) -> NestedFunctionDict:
     """
@@ -271,7 +271,7 @@ def create_time_conversion_functions(
 
     Parameters
     ----------
-    policy_functions_tree:
+    functions_tree:
         The functions tree.
     data:
         The data tree.
@@ -286,9 +286,7 @@ def create_time_conversion_functions(
     data_tree_paths = optree.tree_paths(data_tree, none_is_leaf=True)
 
     # Create time-conversions for existing functions
-    for path, function in zip(
-        *optree.tree_flatten_with_path(policy_functions_tree)[:2]
-    ):
+    for path, function in zip(*optree.tree_flatten_with_path(functions_tree)[:2]):
         leaf_name = path[-1]
         all_time_conversions_for_this_function = _create_time_conversion_functions(
             name=leaf_name, func=function

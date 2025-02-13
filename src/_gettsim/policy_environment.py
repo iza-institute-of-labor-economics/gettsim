@@ -15,7 +15,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.loader import (
     load_aggregation_specs_tree,
-    load_policy_functions_tree_for_date,
+    load_functions_tree_for_date,
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
@@ -43,7 +43,7 @@ class PolicyEnvironment:
 
     Parameters
     ----------
-    policy_functions_tree
+    functions_tree
         The policy functions tree.
     params
         A dictionary with policy parameters.
@@ -56,19 +56,19 @@ class PolicyEnvironment:
 
     def __init__(
         self,
-        policy_functions_tree: NestedFunctionDict,
+        functions_tree: NestedFunctionDict,
         params: dict[str, Any] | None = None,
         aggregation_specs_tree: NestedAggregationSpecDict | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
         assert_valid_gettsim_pytree(
-            policy_functions_tree,
+            functions_tree,
             lambda leaf: isinstance(leaf, PolicyFunction),
-            "policy_functions_tree",
+            "functions_tree",
         )
-        self._policy_functions_tree = optree.tree_map(
+        self._functions_tree = optree.tree_map(
             func=_convert_function_to_policy_function,
-            tree=policy_functions_tree,
+            tree=functions_tree,
         )
 
         # Read in parameters and aggregation specs
@@ -78,9 +78,9 @@ class PolicyEnvironment:
         )
 
     @property
-    def policy_functions_tree(self) -> NestedFunctionDict:
+    def functions_tree(self) -> NestedFunctionDict:
         """The policy functions. Does not include aggregations or time conversions."""
-        return self._policy_functions_tree
+        return self._functions_tree
 
     @property
     def params(self) -> dict[str, Any]:
@@ -96,7 +96,7 @@ class PolicyEnvironment:
         return self._aggregation_specs_tree
 
     def upsert_policy_functions(
-        self, policy_functions_tree_to_upsert: NestedFunctionDict
+        self, functions_tree_to_upsert: NestedFunctionDict
     ) -> PolicyEnvironment:
         """Upsert GETTSIM's function tree with (parts of) a new function tree.
 
@@ -105,34 +105,34 @@ class PolicyEnvironment:
 
         Parameters
         ----------
-        policy_functions_tree
+        functions_tree
             The functions to add or overwrite.
 
         Returns
         -------
         The policy environment with the new functions.
         """
-        new_policy_functions_tree = {}
+        new_functions_tree = {}
 
         # Add old functions tree to new functions tree
-        new_policy_functions_tree = {**self._policy_functions_tree}
+        new_functions_tree = {**self._functions_tree}
 
-        policy_functions_tree_to_upsert = optree.tree_map(
+        functions_tree_to_upsert = optree.tree_map(
             func=_convert_function_to_policy_function,
-            tree=policy_functions_tree_to_upsert,
+            tree=functions_tree_to_upsert,
         )
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
-            policy_functions_tree_to_upsert
+            functions_tree_to_upsert
         )
 
         # Add functions tree to upsert to new functions tree
-        new_policy_functions_tree = upsert_tree(
-            base_tree=new_policy_functions_tree,
-            update_tree=policy_functions_tree_to_upsert,
+        new_functions_tree = upsert_tree(
+            base_tree=new_functions_tree,
+            update_tree=functions_tree_to_upsert,
         )
 
         result = object.__new__(PolicyEnvironment)
-        result._policy_functions_tree = new_policy_functions_tree  # noqa: SLF001
+        result._functions_tree = new_functions_tree  # noqa: SLF001
         result._params = self._params  # noqa: SLF001
         result._aggregation_specs_tree = self._aggregation_specs_tree  # noqa: SLF001
 
@@ -154,7 +154,7 @@ class PolicyEnvironment:
             The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
-        result._policy_functions_tree = self._policy_functions_tree  # noqa: SLF001
+        result._functions_tree = self._functions_tree  # noqa: SLF001
         result._params = params  # noqa: SLF001
         result._aggregation_specs_tree = self._aggregation_specs_tree  # noqa: SLF001
 
@@ -179,7 +179,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     # Check policy date for correct format and convert to datetime.date
     date = _parse_date(date)
 
-    policy_functions_tree = load_policy_functions_tree_for_date(date)
+    functions_tree = load_functions_tree_for_date(date)
 
     params = {}
     for group in INTERNAL_PARAMS_GROUPS:
@@ -195,7 +195,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
     aggregation_specs_tree = load_aggregation_specs_tree()
 
     return PolicyEnvironment(
-        policy_functions_tree,
+        functions_tree,
         params,
         aggregation_specs_tree,
     )
@@ -623,12 +623,12 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
 
 
 def _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
-    policy_functions_tree: NestedFunctionDict,
+    functions_tree: NestedFunctionDict,
 ) -> None:
     """Raise error if a PolicyFunction does not have the same leaf name as the last
     branch element of the tree path.
     """
-    tree_paths, functions, _ = optree.tree_flatten_with_path(policy_functions_tree)
+    tree_paths, functions, _ = optree.tree_flatten_with_path(functions_tree)
     for tree_path, function in zip(tree_paths, functions):
         if tree_path[-1] != function.leaf_name:
             raise KeyError(

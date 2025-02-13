@@ -46,9 +46,9 @@ AGGREGATION_TREE = {
 def test_compute_taxes_and_transfers_with_tree():
     """Test compute_taxes_and_transfers with function tree input."""
     policy_env = PolicyEnvironment(
-        policy_functions_tree=FUNCTIONS_TREE,
+        functions_tree=FUNCTIONS_TREE,
         params=PARAMETERS,
-        aggregations_tree=AGGREGATION_TREE,
+        aggregation_specs_tree=AGGREGATION_TREE,
     )
     targets = {
         "module1": {

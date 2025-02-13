@@ -85,7 +85,7 @@ def compute_taxes_and_transfers(
     targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
 
     # Add derived functions to the functions tree.
-    policy_functions_tree = combine_policy_functions_and_derived_functions(
+    functions_tree = combine_policy_functions_and_derived_functions(
         environment=environment,
         targets_tree=targets_tree,
         data_tree=data_tree,
@@ -95,7 +95,7 @@ def compute_taxes_and_transfers(
         functions_tree_overridden,
         functions_tree_not_overridden,
     ) = partition_tree_by_reference_tree(
-        tree_to_partition=policy_functions_tree,
+        tree_to_partition=functions_tree,
         reference_tree=data_tree,
     )
 
@@ -637,10 +637,10 @@ def _fail_if_foreign_keys_are_invalid(data_tree: NestedDataDict) -> None:
 
 
 def _warn_if_functions_overridden_by_data(
-    policy_functions_tree_overridden: NestedFunctionDict,
+    functions_tree_overridden: NestedFunctionDict,
 ) -> None:
     """Warn if functions are overridden by data."""
-    tree_paths = optree.tree_paths(policy_functions_tree_overridden)
+    tree_paths = optree.tree_paths(functions_tree_overridden)
     formatted_list = format_list_linewise(
         [QUALIFIED_NAME_SEPARATOR.join(path) for path in tree_paths]
     )
