@@ -176,7 +176,7 @@ class TestCreateFunctionsForTimeUnits:
         self, name: str, expected: list[str]
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {name: PolicyFunction(lambda: 1, leaf_name="test")}, {}
+            {name: PolicyFunction(function=lambda: 1, leaf_name="test")}, {}
         )
 
         for expected_name in expected:
@@ -209,7 +209,7 @@ class TestCreateFunctionsForTimeUnits:
 
     def test_should_not_create_functions_automatically_that_exist_already(self) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test1_d": PolicyFunction(lambda: 1, leaf_name="test1_d")},
+            {"test1_d": PolicyFunction(function=lambda: 1, leaf_name="test1_d")},
             {"test2_y": None},
         )
 
@@ -220,7 +220,7 @@ class TestCreateFunctionsForTimeUnits:
         self,
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test_d": PolicyFunction(lambda: 1, leaf_name="test_d")},
+            {"test_d": PolicyFunction(function=lambda: 1, leaf_name="test_d")},
             {"test_y": None},
         )
 
@@ -233,20 +233,20 @@ class TestCreateFunctionsForTimeUnits:
                 {
                     "module1": {
                         "function1_y": PolicyFunction(
-                            lambda: 1, leaf_name="function1_y"
+                            function=lambda: 1, leaf_name="function1_y"
                         )
                     }
                 },
                 {
                     "module1": {
                         "function1_m": PolicyFunction(
-                            lambda: 1, leaf_name="function1_m"
+                            function=lambda: 1, leaf_name="function1_m"
                         ),
                         "function1_w": PolicyFunction(
-                            lambda: 1, leaf_name="function1_w"
+                            function=lambda: 1, leaf_name="function1_w"
                         ),
                         "function1_d": PolicyFunction(
-                            lambda: 1, leaf_name="function1_d"
+                            function=lambda: 1, leaf_name="function1_d"
                         ),
                     },
                 },
@@ -256,7 +256,7 @@ class TestCreateFunctionsForTimeUnits:
                     "module1": {
                         "module2": {
                             "function1_y_hh": PolicyFunction(
-                                lambda: 1, leaf_name="function1_y_hh"
+                                function=lambda: 1, leaf_name="function1_y_hh"
                             )
                         }
                     }
@@ -265,13 +265,13 @@ class TestCreateFunctionsForTimeUnits:
                     "module1": {
                         "module2": {
                             "function1_m_hh": PolicyFunction(
-                                lambda: 1, leaf_name="function1_m_hh"
+                                function=lambda: 1, leaf_name="function1_m_hh"
                             ),
                             "function1_w_hh": PolicyFunction(
-                                lambda: 1, leaf_name="function1_w_hh"
+                                function=lambda: 1, leaf_name="function1_w_hh"
                             ),
                             "function1_d_hh": PolicyFunction(
-                                lambda: 1, leaf_name="function1_d_hh"
+                                function=lambda: 1, leaf_name="function1_d_hh"
                             ),
                         },
                     },
@@ -309,7 +309,8 @@ class TestCreateFunctionForTimeUnit:
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
 def test_should_not_create_cycle():
     time_conversion_functions = create_time_conversion_functions(
-        {"test_d": PolicyFunction(lambda test_m: test_m, leaf_name="test_d")}, {}
+        {"test_d": PolicyFunction(function=lambda test_m: test_m, leaf_name="test_d")},
+        {},
     )
 
     assert "test_m" not in time_conversion_functions

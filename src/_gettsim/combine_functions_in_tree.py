@@ -508,7 +508,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
         derived_from = (qualified_name_source_col, group_id)
 
     return DerivedFunction(
-        aggregate_by_group_func,
+        function=aggregate_by_group_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
@@ -634,7 +634,7 @@ def _create_one_aggregate_by_p_id_func(
         derived_from = (qualified_name_source_col, p_id_to_aggregate_by)
 
     return DerivedFunction(
-        aggregate_by_p_id_func,
+        function=aggregate_by_p_id_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )

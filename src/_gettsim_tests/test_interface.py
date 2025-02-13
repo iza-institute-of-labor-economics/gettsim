@@ -67,7 +67,8 @@ def test_output_as_tree(minimal_input_data):
         {
             "module": {
                 "test_func": PolicyFunction(
-                    lambda groupings__p_id: groupings__p_id, leaf_name="test_func"
+                    function=lambda groupings__p_id: groupings__p_id,
+                    leaf_name="test_func",
                 )
             }
         }
@@ -87,7 +88,7 @@ def test_output_as_tree(minimal_input_data):
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_warn_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(lambda x: x, leaf_name="dupl")}
+        {"dupl": PolicyFunction(function=lambda x: x, leaf_name="dupl")}
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
@@ -100,7 +101,7 @@ def test_warn_if_functions_and_columns_overlap():
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     environment = PolicyEnvironment(
-        {"some_func": PolicyFunction(lambda x: x, leaf_name="some_func")}
+        {"some_func": PolicyFunction(function=lambda x: x, leaf_name="some_func")}
     )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
@@ -114,7 +115,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(lambda x: x, leaf_name="dupl")}
+        {"dupl": PolicyFunction(function=lambda x: x, leaf_name="dupl")}
     )
     with warnings.catch_warnings(
         category=FunctionsAndColumnsOverlapWarning, record=True
@@ -214,7 +215,10 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
         return b
 
     environment = PolicyEnvironment(
-        {"b": PolicyFunction(b, leaf_name="b"), "c": PolicyFunction(c, leaf_name="c")}
+        {
+            "b": PolicyFunction(function=b, leaf_name="b"),
+            "c": PolicyFunction(function=c, leaf_name="c"),
+        }
     )
 
     with pytest.raises(
@@ -373,7 +377,7 @@ def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree)
         {
             "module_name": {
                 "betrag_m_double": PolicyFunction(
-                    betrag_m_double,
+                    function=betrag_m_double,
                     leaf_name="betrag_m_double",
                 )
             },

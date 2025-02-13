@@ -11,6 +11,9 @@ import numpy
 
 T = TypeVar("T")
 
+DEFAULT_START_DATE = "1900-01-01"
+DEFAULT_END_DATE = "2100-12-31"
+
 
 class PolicyFunction(Callable):
     """
@@ -36,11 +39,11 @@ class PolicyFunction(Callable):
 
     def __init__(  # noqa: PLR0913
         self,
-        function: Callable,
         *,
+        function: Callable,
         leaf_name: str,
-        start_date: date = "0001-01-01",
-        end_date: date = "9999-12-31",
+        start_date: date = DEFAULT_START_DATE,
+        end_date: date = DEFAULT_END_DATE,
         params_key_for_rounding: str | None = None,
         skip_vectorization: bool | None = False,
     ):
@@ -79,8 +82,8 @@ class PolicyFunction(Callable):
 
 def policy_function(
     *,
-    start_date: str = "0001-01-01",
-    end_date: str = "9999-12-31",
+    start_date: str = DEFAULT_START_DATE,
+    end_date: str = DEFAULT_END_DATE,
     leaf_name: str | None = None,
     params_key_for_rounding: str | None = None,
     skip_vectorization: bool = False,
@@ -134,7 +137,7 @@ def policy_function(
 
     def inner(func: Callable) -> PolicyFunction:
         return PolicyFunction(
-            func,
+            function=func,
             leaf_name=leaf_name if leaf_name else func.__name__,
             start_date=start_date,
             end_date=end_date,

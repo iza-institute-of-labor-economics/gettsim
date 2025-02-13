@@ -348,7 +348,7 @@ def _create_time_conversion_functions(
                 continue
 
             result[new_name] = DerivedFunction(
-                _create_function_for_time_unit(
+                function=_create_function_for_time_unit(
                     name,
                     _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
                 ),

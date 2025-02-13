@@ -238,7 +238,9 @@ def _convert_function_to_policy_function(
     if isinstance(function, PolicyFunction):
         converted_function = function
     else:
-        converted_function = PolicyFunction(function, leaf_name=function.__name__)
+        converted_function = PolicyFunction(
+            function=function, leaf_name=function.__name__
+        )
 
     return converted_function
 

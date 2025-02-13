@@ -45,7 +45,7 @@ def function_with_float_return(x: int) -> float:
             {
                 "namespace1": {
                     "f": PolicyFunction(
-                        lambda x_hh: x_hh,
+                        function=lambda x_hh: x_hh,
                         leaf_name="f",
                     )
                 }
@@ -67,7 +67,7 @@ def function_with_float_return(x: int) -> float:
             {
                 "namespace1": {
                     "f": PolicyFunction(
-                        lambda inputs__x_hh: inputs__x_hh,
+                        function=lambda inputs__x_hh: inputs__x_hh,
                         leaf_name="f",
                     )
                 }
@@ -89,7 +89,7 @@ def function_with_float_return(x: int) -> float:
             {
                 "namespace1": {
                     "f": PolicyFunction(
-                        lambda x: x,
+                        function=lambda x: x,
                         leaf_name="f",
                     )
                 }
@@ -111,7 +111,7 @@ def function_with_float_return(x: int) -> float:
             {
                 "namespace1": {
                     "f": PolicyFunction(
-                        lambda y_hh: y_hh,
+                        function=lambda y_hh: y_hh,
                         leaf_name="f",
                     )
                 }
@@ -140,7 +140,7 @@ def function_with_float_return(x: int) -> float:
             {
                 "namespace1": {
                     "f": PolicyFunction(
-                        lambda y_hh: y_hh,
+                        function=lambda y_hh: y_hh,
                         leaf_name="f",
                     )
                 }

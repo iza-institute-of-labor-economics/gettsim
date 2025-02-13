@@ -46,7 +46,7 @@ def test_start_date_missing():
     def test_func():
         pass
 
-    assert test_func.start_date == datetime.date(1, 1, 1)
+    assert test_func.start_date == datetime.date(1900, 1, 1)
 
 
 # End date -------------------------------------------------
@@ -87,7 +87,7 @@ def test_end_date_missing():
     def test_func():
         pass
 
-    assert test_func.end_date == datetime.date(9999, 12, 31)
+    assert test_func.end_date == datetime.date(2100, 12, 31)
 
 
 # Change name ----------------------------------------------
@@ -128,13 +128,13 @@ def test_dates_active_empty_interval():
     [
         [
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",
             ),
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 2, 1),
                 end_date=datetime.date(2023, 2, 28),
                 leaf_name="f",
@@ -142,13 +142,13 @@ def test_dates_active_empty_interval():
         ],
         [
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",
             ),
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 2, 28),
                 leaf_name="g",
@@ -167,13 +167,13 @@ def test_dates_active_no_conflicts(functions):
     [
         [
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",
             ),
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",
@@ -181,13 +181,13 @@ def test_dates_active_no_conflicts(functions):
         ],
         [
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",
             ),
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2021, 1, 2),
                 end_date=datetime.date(2023, 2, 1),
                 leaf_name="f",
@@ -195,13 +195,13 @@ def test_dates_active_no_conflicts(functions):
         ],
         [
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2023, 1, 2),
                 end_date=datetime.date(2023, 2, 1),
                 leaf_name="f",
             ),
             PolicyFunction(
-                lambda x: x,
+                function=lambda x: x,
                 start_date=datetime.date(2022, 1, 1),
                 end_date=datetime.date(2023, 1, 31),
                 leaf_name="f",

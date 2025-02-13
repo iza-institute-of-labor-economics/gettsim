@@ -26,13 +26,13 @@ class DerivedFunction(PolicyFunction):
 
     def __init__(
         self,
+        *,
         function: Callable,
         leaf_name: str,
-        *,
         derived_from: PolicyFunction | str | tuple[str, str],
     ):
         super().__init__(
-            function,
+            function=function,
             leaf_name=leaf_name,
             start_date=(
                 derived_from.start_date

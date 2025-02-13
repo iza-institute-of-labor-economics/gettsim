@@ -21,7 +21,7 @@ from _gettsim_tests import TEST_DIR
 
 class TestPolicyEnvironment:
     def test_func_exists_in_tree(self):
-        function = PolicyFunction(lambda: 1, leaf_name="foo")
+        function = PolicyFunction(function=lambda: 1, leaf_name="foo")
         environment = PolicyEnvironment({"foo": function})
 
         assert environment.functions_tree["foo"] == function
@@ -35,17 +35,19 @@ class TestPolicyEnvironment:
         "environment",
         [
             PolicyEnvironment({}, {}),
-            PolicyEnvironment({"foo": PolicyFunction(lambda: 1, leaf_name="foo")}),
+            PolicyEnvironment(
+                {"foo": PolicyFunction(function=lambda: 1, leaf_name="foo")}
+            ),
             PolicyEnvironment(
                 {
-                    "foo": PolicyFunction(lambda: 1, leaf_name="foo"),
-                    "bar": PolicyFunction(lambda: 2, leaf_name="bar"),
+                    "foo": PolicyFunction(function=lambda: 1, leaf_name="foo"),
+                    "bar": PolicyFunction(function=lambda: 2, leaf_name="bar"),
                 }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3, leaf_name="foo")
+        new_function = PolicyFunction(function=lambda: 3, leaf_name="foo")
         new_environment = environment.upsert_policy_functions({"foo": new_function})
 
         assert new_environment.functions_tree["foo"] == new_function
@@ -146,7 +148,7 @@ def test_load_functions_tree_for_date(
 @pytest.mark.parametrize(
     "functions_tree",
     [
-        {"foo": PolicyFunction(lambda: 1, leaf_name="bar")},
+        {"foo": PolicyFunction(function=lambda: 1, leaf_name="bar")},
     ],
 )
 def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
