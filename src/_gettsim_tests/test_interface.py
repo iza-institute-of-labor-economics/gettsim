@@ -21,7 +21,7 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.shared import assert_valid_pytree
+from _gettsim.shared import assert_valid_gettsim_pytree
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -724,6 +724,6 @@ def test_fail_if_cannot_be_converted_to_correct_type(
         ),
     ],
 )
-def test_assert_valid_pytree(tree, leaf_checker, err_substr):
+def test_assert_valid_gettsim_pytree(tree, leaf_checker, err_substr):
     with pytest.raises(TypeError, match=re.escape(err_substr)):
-        assert_valid_pytree(tree, leaf_checker, "tree")
+        assert_valid_gettsim_pytree(tree, leaf_checker, "tree")

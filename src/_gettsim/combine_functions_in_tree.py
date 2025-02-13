@@ -31,15 +31,15 @@ from _gettsim.config import (
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
-    create_tree_from_path,
+    create_tree_from_path_and_value,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
-    tree_merge,
-    tree_update,
+    upsert_path_and_value,
+    upsert_tree,
 )
 from _gettsim.time_conversion import create_time_conversion_functions
 
@@ -83,13 +83,14 @@ def combine_policy_functions_and_derived_functions(
 
     """
     # Create parent-child relationships
-    aggregate_by_p_id_functions = _create_aggregate_by_p_id_functions(
+    aggregate_by_p_id_functions = _create_aggregation_functions(
         policy_functions_tree=environment.policy_functions_tree,
-        aggregations_tree_provided_by_env=environment.aggregations_tree,
+        aggregations_tree=environment.aggregations_tree,
+        aggregation_type="p_id",
     )
 
     # Create functions for different time units
-    current_policy_functions_tree = tree_merge(
+    current_policy_functions_tree = upsert_tree(
         base_tree=environment.policy_functions_tree,
         update_tree=aggregate_by_p_id_functions,
     )
@@ -99,7 +100,7 @@ def combine_policy_functions_and_derived_functions(
     )
 
     # Create aggregation functions
-    current_policy_functions_tree = tree_merge(
+    current_policy_functions_tree = upsert_tree(
         base_tree=current_policy_functions_tree,
         update_tree=time_conversion_functions,
     )
@@ -115,7 +116,7 @@ def combine_policy_functions_and_derived_functions(
 
     # Put all functions into a functions tree
     all_functions = functools.reduce(
-        tree_merge,
+        upsert_tree,
         [
             aggregate_by_p_id_functions,
             time_conversion_functions,
@@ -128,26 +129,6 @@ def combine_policy_functions_and_derived_functions(
     _fail_if_targets_not_in_policy_functions_tree(all_functions, targets_tree)
 
     return all_functions
-
-
-def _create_aggregate_by_p_id_functions(
-    policy_functions_tree: NestedFunctionDict,
-    aggregations_tree_provided_by_env: NestedAggregationSpecDict,
-) -> NestedFunctionDict:
-    """Create aggregation functions for linking variables across persons.
-
-    Parameters
-    ----------
-    policy_functions_tree : NestedFunctionDict
-        The functions tree.
-    aggregations_tree_provided_by_env
-        The aggregations tree provided by the environment.
-    """
-    return _create_aggregation_functions(
-        policy_functions_tree=policy_functions_tree,
-        aggregations_tree=aggregations_tree_provided_by_env,
-        aggregation_type="p_id",
-    )
 
 
 def _create_aggregate_by_group_functions(
@@ -166,7 +147,7 @@ def _create_aggregate_by_group_functions(
     )
 
     # Add automated aggregation specs to aggregations tree
-    full_aggregations_tree = tree_merge(
+    full_aggregations_tree = upsert_tree(
         base_tree=automatically_created_aggregations_tree,
         update_tree=aggregations_tree_provided_by_env,
     )
@@ -226,7 +207,7 @@ def _create_aggregation_functions(
                 policy_functions_tree=policy_functions_tree,
             )
 
-        out_tree = tree_update(
+        out_tree = upsert_path_and_value(
             tree=out_tree,
             tree_path=tree_path,
             value=derived_func,
@@ -268,7 +249,7 @@ def _create_derived_aggregations_tree(
     `func` by household.
     """
     # Create tree of potential aggregation function names
-    potential_aggregation_function_names = tree_merge(
+    potential_aggregation_function_names = upsert_tree(
         base_tree=target_tree,
         update_tree=_get_potential_aggregation_function_names_from_function_arguments(
             policy_functions_tree
@@ -277,7 +258,7 @@ def _create_derived_aggregations_tree(
 
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
-    aggregation_source_tree = tree_merge(
+    aggregation_source_tree = upsert_tree(
         base_tree=policy_functions_tree,
         update_tree=data_tree,
     )
@@ -297,16 +278,13 @@ def _create_derived_aggregations_tree(
 
         if aggregation_specs_needed:
             # Use qualified name to identify source in the functions tree later.
-
-            agg_specs_single_function = AggregateByGroupSpec(
-                aggr="sum",
-                source_col=remove_group_suffix(leaf_name),
-            )
-
-            derived_aggregations_tree = tree_update(
+            derived_aggregations_tree = upsert_path_and_value(
                 tree=derived_aggregations_tree,
                 tree_path=tree_path,
-                value=agg_specs_single_function,
+                value=AggregateByGroupSpec(
+                    aggr="sum",
+                    source_col=remove_group_suffix(leaf_name),
+                ),
             )
         else:
             continue
@@ -344,7 +322,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
                 name=name,
                 current_namespace=tree_path[:-1],
             )
-            current_tree = tree_update(
+            current_tree = upsert_path_and_value(
                 tree=current_tree,
                 tree_path=path_of_function_argument,
             )
@@ -363,7 +341,7 @@ def _annotations_for_aggregation(
         qualified_name_source_col.split(QUALIFIED_NAME_SEPARATOR)
     )
     accessor_source_col = optree.tree_accessors(
-        create_tree_from_path(tree_path_source_col),
+        create_tree_from_path_and_value(tree_path_source_col),
         none_is_leaf=True,
     )[0]
 

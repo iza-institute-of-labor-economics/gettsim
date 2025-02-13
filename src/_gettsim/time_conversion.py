@@ -13,7 +13,7 @@ from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
     rename_arguments_and_add_annotations,
-    tree_update,
+    upsert_path_and_value,
 )
 
 _M_PER_Y = 12
@@ -299,7 +299,7 @@ def create_time_conversion_functions(
             if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
-                converted_functions = tree_update(
+                converted_functions = upsert_path_and_value(
                     tree=converted_functions,
                     tree_path=new_path,
                     value=der_func,
@@ -317,7 +317,7 @@ def create_time_conversion_functions(
             if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
-                converted_functions = tree_update(
+                converted_functions = upsert_path_and_value(
                     tree=converted_functions,
                     tree_path=new_path,
                     value=der_func,

@@ -24,9 +24,9 @@ from _gettsim.piecewise_functions import (
     piecewise_polynomial,
 )
 from _gettsim.shared import (
-    assert_valid_pytree,
-    tree_merge,
-    tree_update,
+    assert_valid_gettsim_pytree,
+    upsert_path_and_value,
+    upsert_tree,
 )
 
 if TYPE_CHECKING:
@@ -61,7 +61,7 @@ class PolicyEnvironment:
         aggregations_tree: NestedAggregationSpecDict | None = None,
     ):
         # Check functions tree and convert functions to PolicyFunction if necessary
-        assert_valid_pytree(
+        assert_valid_gettsim_pytree(
             policy_functions_tree,
             lambda leaf: isinstance(leaf, PolicyFunction),
             "policy_functions_tree",
@@ -126,7 +126,7 @@ class PolicyEnvironment:
         )
 
         # Add functions tree to upsert to new functions tree
-        new_policy_functions_tree = tree_merge(
+        new_policy_functions_tree = upsert_tree(
             base_tree=new_policy_functions_tree,
             update_tree=policy_functions_tree_to_upsert,
         )
@@ -620,7 +620,9 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
         return remaining_dict
     else:
         # Now remaining dict is just a scalar
-        new_dict = tree_update(tree=new_dict, tree_path=key_list, value=remaining_dict)
+        new_dict = upsert_path_and_value(
+            tree=new_dict, tree_path=key_list, value=remaining_dict
+        )
     return new_dict
 
 

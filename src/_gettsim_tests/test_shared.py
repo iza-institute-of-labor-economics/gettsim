@@ -3,10 +3,11 @@ from dataclasses import dataclass
 import pytest
 
 from _gettsim.shared import (
-    create_tree_from_path,
+    create_tree_from_path_and_value,
+    create_tree_structure_from_paths,
     partition_tree_by_reference_tree,
-    tree_merge,
-    tree_update,
+    upsert_path_and_value,
+    upsert_tree,
 )
 
 
@@ -24,8 +25,8 @@ class SampleDataClass:
         ({"a": {"b": 1}}, ["a", "c"], 2, {"a": {"b": 1, "c": 2}}),
     ],
 )
-def test_tree_update(tree, path, value, expected):
-    result = tree_update(tree=tree, tree_path=path, value=value)
+def test_upsert_path_and_value(tree, path, value, expected):
+    result = upsert_path_and_value(tree=tree, tree_path=path, value=value)
     assert result == expected
 
 
@@ -37,8 +38,8 @@ def test_tree_update(tree, path, value, expected):
         (("a", "b", "c"), {"a": {"b": {"c": None}}}),
     ],
 )
-def test_create_tree_from_path(paths, expected):
-    assert create_tree_from_path(paths) == expected
+def test_create_tree_from_path_and_value(paths, expected):
+    assert create_tree_from_path_and_value(paths) == expected
 
 
 @pytest.mark.parametrize(
@@ -53,8 +54,8 @@ def test_create_tree_from_path(paths, expected):
         ({"a": SampleDataClass(a=1)}, {}, {"a": SampleDataClass(a=1)}),
     ],
 )
-def test_tree_merge(base_dict, update_dict, expected):
-    assert tree_merge(base_tree=base_dict, update_tree=update_dict) == expected
+def test_upsert_tree(base_dict, update_dict, expected):
+    assert upsert_tree(base_tree=base_dict, update_tree=update_dict) == expected
 
 
 @pytest.mark.parametrize(
@@ -119,3 +120,14 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
 
     assert in_reference_tree == expected[0]
     assert not_in_reference_tree == expected[1]
+
+
+@pytest.mark.parametrize(
+    "paths, expected",
+    [
+        ([("a", "b", "c"), ("a", "b", "d")], {"a": {"b": {"c": None, "d": None}}}),
+        ([("a", "b"), ("a")], {"a": None}),
+    ],
+)
+def test_create_tree_structure_from_paths(paths, expected):
+    assert create_tree_structure_from_paths(paths) == expected

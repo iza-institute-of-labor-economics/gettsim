@@ -33,14 +33,14 @@ from _gettsim.gettsim_typing import (
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     KeyErrorMessage,
-    assert_valid_pytree,
-    create_tree_from_path,
+    assert_valid_gettsim_pytree,
+    create_tree_structure_from_paths,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
-    tree_merge,
-    tree_update,
+    upsert_path_and_value,
+    upsert_tree,
 )
 
 
@@ -135,7 +135,7 @@ def compute_taxes_and_transfers(
     results = tax_transfer_function(input_data_tree)
 
     if debug:
-        results = tree_merge(
+        results = upsert_tree(
             base_tree=results,
             update_tree=data_tree_with_correct_types,
         )
@@ -207,7 +207,7 @@ def _convert_data_to_correct_types(
                 converted_leaf = convert_series_to_internal_type(
                     series=data_leaf, internal_type=internal_type
                 )
-                data_tree_with_correct_types = tree_update(
+                data_tree_with_correct_types = upsert_path_and_value(
                     tree=data_tree_with_correct_types,
                     tree_path=accessor.path,
                     value=converted_leaf,
@@ -219,7 +219,7 @@ def _convert_data_to_correct_types(
             except ValueError as e:
                 collected_errors.append(f"\n - {qualified_column_name}: {e}")
         else:
-            data_tree_with_correct_types = tree_update(
+            data_tree_with_correct_types = upsert_path_and_value(
                 tree=data_tree_with_correct_types,
                 tree_path=accessor.path,
                 value=data_leaf,
@@ -286,16 +286,12 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Create root nodes tree
-    _all_root_nodes_as_trees = [
-        create_tree_from_path(node.split(QUALIFIED_NAME_SEPARATOR))
+    root_nodes_paths = [
+        node.split(QUALIFIED_NAME_SEPARATOR)
         for node in dag.nodes
         if list(dag.predecessors(node)) == []
     ]
-    root_nodes_tree = functools.reduce(
-        lambda x, y: tree_merge(x, y),
-        _all_root_nodes_as_trees,
-        {},
-    )
+    root_nodes_tree = create_tree_structure_from_paths(root_nodes_paths)
 
     _fail_if_root_nodes_are_missing(
         functions_tree=functions_tree,
@@ -505,7 +501,7 @@ def _fail_if_targets_tree_not_valid(targets_tree: NestedTargetDict) -> None:
     """
     Validate that the targets tree is a dictionary with string keys and None leaves.
     """
-    assert_valid_pytree(
+    assert_valid_gettsim_pytree(
         tree=targets_tree,
         leaf_checker=lambda leaf: leaf is None,
         tree_name="targets_tree",
@@ -517,7 +513,7 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     Validate that the data tree is a dictionary with string keys and pd.Series or
     np.ndarray leaves.
     """
-    assert_valid_pytree(
+    assert_valid_gettsim_pytree(
         tree=data_tree,
         leaf_checker=lambda leaf: isinstance(leaf, pd.Series | np.ndarray),
         tree_name="data_tree",

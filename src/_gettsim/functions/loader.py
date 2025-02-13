@@ -13,7 +13,7 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
-from _gettsim.shared import format_errors_and_warnings, tree_update
+from _gettsim.shared import format_errors_and_warnings, upsert_path_and_value
 
 
 def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
@@ -49,7 +49,7 @@ def load_policy_functions_tree_for_date(date: datetime.date) -> NestedFunctionDi
             system_path=system_path, package_root=RESOURCE_DIR
         )
 
-        policy_functions_tree = tree_update(
+        policy_functions_tree = upsert_path_and_value(
             tree=policy_functions_tree,
             tree_path=tree_path,
             value=active_functions_dict,
@@ -292,7 +292,7 @@ def load_aggregations_tree() -> NestedAggregationSpecDict:
             system_path=system_path, package_root=RESOURCE_DIR
         )
 
-        aggregations_tree = tree_update(
+        aggregations_tree = upsert_path_and_value(
             tree=aggregations_tree,
             tree_path=tree_path,
             value=derived_function_specs,

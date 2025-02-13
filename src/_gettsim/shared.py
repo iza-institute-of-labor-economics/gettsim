@@ -1,7 +1,6 @@
 import inspect
 import textwrap
 from collections.abc import Callable
-from dataclasses import is_dataclass
 from typing import Any, TypeVar
 
 import numpy
@@ -33,12 +32,44 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def create_tree_from_path(path: tuple[str], value: Any = None) -> dict:
-    """Create a nested dict from a list of strings.
+def create_tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
+    """Create a tree structure from a list of paths with 'None' as leaves.
+
+    Note: In case of conflicting paths, the last path takes precedence.
 
     Example:
         Input:
-            keys = ("a", "b", "c")
+            paths = [("a", "b", "c"), ("a", "b", "d")]
+        Output:
+            {"a": {"b": {"c": None, "d": None}}}
+
+    Parameters
+    ----------
+    paths : list[tuple[str]]
+        The paths to create the tree structure from.
+
+    Returns
+    -------
+    dict
+        The tree structure.
+    """
+    tree_structure = {}
+    for path in paths:
+        tree_structure_from_path = create_tree_from_path_and_value(path)
+        tree_structure = upsert_tree(
+            base_tree=tree_structure,
+            update_tree=tree_structure_from_path,
+        )
+    return tree_structure
+
+
+def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict:
+    """Create a nested dict with 'path' as keys and 'value' as leaf.
+
+    Example:
+        Input:
+            path = ("a", "b", "c")
+            value = None
         Result:
             {"a": {"b": {"c": None}}}
 
@@ -49,11 +80,13 @@ def create_tree_from_path(path: tuple[str], value: Any = None) -> dict:
     return nested_dict
 
 
-def tree_merge(base_tree: dict, update_tree: dict) -> dict:
+def upsert_tree(base_tree: dict, update_tree: dict) -> dict:
     """
-    Recursively merge trees.
+    Upsert a tree into another tree for trees defined by dictionaries only.
 
     Dataclasses are treated as leaves and not merged.
+
+    Note: In case of conflicting trees, the update_tree takes precedence.
 
     Example:
         Input:
@@ -78,20 +111,15 @@ def tree_merge(base_tree: dict, update_tree: dict) -> dict:
 
     for key, value in update_tree.items():
         base_value = result.get(key)
-        if (
-            key in result
-            and isinstance(base_value, dict)
-            and isinstance(value, dict)
-            and not is_dataclass(value)
-        ):
-            result[key] = tree_merge(base_tree=base_value, update_tree=value)
+        if key in result and isinstance(base_value, dict) and isinstance(value, dict):
+            result[key] = upsert_tree(base_tree=base_value, update_tree=value)
         else:
             result[key] = value
 
     return result
 
 
-def tree_update(
+def upsert_path_and_value(
     tree: dict[str, Any], tree_path: tuple[str], value: Any = None
 ) -> dict[str, Any]:
     """Update tree with a path and value.
@@ -100,14 +128,17 @@ def tree_update(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_tree_from_path(tree_path, value)
-    return tree_merge(base_tree=tree, update_tree=update_dict)
+    update_dict = create_tree_from_path_and_value(tree_path, value)
+    return upsert_tree(base_tree=tree, update_tree=update_dict)
 
 
 def partition_tree_by_reference_tree(
     tree_to_partition: NestedFunctionDict | NestedDataDict,
-    reference_tree: NestedDataDict,
-) -> tuple[NestedFunctionDict, NestedFunctionDict]:
+    reference_tree: NestedFunctionDict | NestedDataDict,
+) -> tuple[
+    NestedFunctionDict | NestedDataDict,
+    NestedFunctionDict | NestedDataDict,
+]:
     """
     Partition a tree into two separate trees based on the presence of its leaves in a
     reference tree.
@@ -135,9 +166,13 @@ def partition_tree_by_reference_tree(
         *optree.tree_flatten_with_path(tree_to_partition, none_is_leaf=True)[:2]
     ):
         if path in ref_paths:
-            intersection = tree_update(tree=intersection, tree_path=path, value=leaf)
+            intersection = upsert_path_and_value(
+                tree=intersection, tree_path=path, value=leaf
+            )
         else:
-            difference = tree_update(tree=difference, tree_path=path, value=leaf)
+            difference = upsert_path_and_value(
+                tree=difference, tree_path=path, value=leaf
+            )
     return intersection, difference
 
 
@@ -284,9 +319,11 @@ def rename_arguments_and_add_annotations(
     return wrapper
 
 
-def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> None:
+def assert_valid_gettsim_pytree(
+    tree: Any, leaf_checker: Callable, tree_name: str
+) -> None:
     """
-    Recursively assert that a pytree (nested dict) meets the following conditions:
+    Recursively assert that a pytree meets the following conditions:
       - The tree is a dictionary.
       - All keys are strings.
       - All leaves satisfy a provided condition (leaf_checker).
@@ -306,7 +343,9 @@ def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> No
          If any branch or leaf does not meet the expected requirements.
     """
 
-    def _assert_valid_pytree(subtree: Any, current_key: tuple[str, ...]) -> None:
+    def _assert_valid_gettsim_pytree(
+        subtree: Any, current_key: tuple[str, ...]
+    ) -> None:
         def format_key_path(key_tuple: tuple[str, ...]) -> str:
             return "".join(f"[{k}]" for k in key_tuple)
 
@@ -326,7 +365,7 @@ def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> No
                 )
                 raise TypeError(msg)
             if isinstance(value, dict):
-                _assert_valid_pytree(value, new_key_path)
+                _assert_valid_gettsim_pytree(value, new_key_path)
             else:
                 if not leaf_checker(value):
                     msg = format_errors_and_warnings(
@@ -335,4 +374,4 @@ def assert_valid_pytree(tree: Any, leaf_checker: Callable, tree_name: str) -> No
                     )
                     raise TypeError(msg)
 
-    _assert_valid_pytree(tree, current_key=())
+    _assert_valid_gettsim_pytree(tree, current_key=())
