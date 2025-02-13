@@ -157,8 +157,7 @@ def _convert_data_to_correct_types(
 
     Returns
     -------
-    data_tree
-        Data with correct types.
+    Data with correct types.
 
     """
     collected_errors = ["The data types of the following columns are invalid:\n"]
@@ -273,8 +272,7 @@ def _create_input_data_for_concatenated_function(
 
     Returns
     -------
-    input_data
-        Data which can be used to calculate taxes and transfers.
+    Data which can be used to calculate taxes and transfers.
 
     """
     # Create dag using processed functions
@@ -327,8 +325,7 @@ def _round_and_partial_parameters_to_functions(
 
     Returns
     -------
-    processed_functions
-        Dictionary of rounded functions with parameters.
+    Dictionary of rounded functions with parameters.
 
     """
     # Add rounding to functions.
@@ -374,8 +371,7 @@ def _add_rounding_to_function(
 
     Returns
     -------
-    functions_new : PolicyFunction
-        Function with rounding added.
+    Function with rounding added.
 
     """
     func = copy.deepcopy(input_function)
@@ -444,8 +440,7 @@ def _apply_rounding_spec(
 
     Returns
     -------
-    results : pandas.Series
-        Series with (potentially) rounded numbers
+    Series with (potentially) rounded numbers
 
     """
     qualified_name = ".".join(path)

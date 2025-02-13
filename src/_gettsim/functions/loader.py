@@ -31,8 +31,7 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
 
     Returns
     -------
-    NestedFunctionDict:
-        A tree of active PolicyFunctions.
+    A tree of active PolicyFunctions.
     """
     paths_to_policy_functions = _find_python_files_recursively(
         PATHS_TO_INTERNAL_FUNCTIONS
@@ -74,8 +73,7 @@ def get_active_policy_functions_from_module(
 
     Returns
     -------
-    dict[str, PolicyFunction]
-        A dictionary of active PolicyFunctions with their leaf names as keys.
+    A dictionary of active PolicyFunctions with their leaf names as keys.
     """
     module = _load_module(path, package_root)
     module_name = _convert_path_to_importable_module_name(path, package_root)
@@ -171,8 +169,7 @@ def _find_python_files_recursively(roots: list[Path]) -> list[Path]:
 
     Returns
     -------
-    list[Path]
-        Absolute paths to all discovered Python files.
+    Absolute paths to all discovered Python files.
     """
     result = []
 
@@ -232,8 +229,7 @@ def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...
 
     Returns
     -------
-    tuple[str, ...]:
-        The tree path.
+    The tree path.
 
     Examples
     --------
@@ -265,8 +261,7 @@ def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
 
     Returns
     -------
-    NestedAggregationSpecDict:
-        The aggregation tree.
+    The aggregation tree.
     """
     paths_to_aggregation_specs = _find_python_files_recursively(
         PATHS_TO_INTERNAL_FUNCTIONS
@@ -308,8 +303,7 @@ def _load_aggregation_specs_from_module(
 
     Returns
     -------
-    dictionaries:
-        Loaded dictionaries.
+    Loaded dictionaries.
     """
     # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to all
     # modules in the renaming PR. Then, 'aggregation_specs_in_module' will be a list of

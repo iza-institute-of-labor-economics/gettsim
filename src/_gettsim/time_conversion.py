@@ -32,8 +32,7 @@ def y_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value / _M_PER_Y
 
@@ -49,8 +48,7 @@ def y_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value / _W_PER_Y
 
@@ -66,8 +64,7 @@ def y_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value / _D_PER_Y
 
@@ -83,8 +80,7 @@ def m_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _M_PER_Y
 
@@ -100,8 +96,7 @@ def m_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value * _M_PER_Y / _W_PER_Y
 
@@ -117,8 +112,7 @@ def m_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value * _M_PER_Y / _D_PER_Y
 
@@ -134,8 +128,7 @@ def w_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _W_PER_Y
 
@@ -151,8 +144,7 @@ def w_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value * _W_PER_Y / _M_PER_Y
 
@@ -168,8 +160,7 @@ def w_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value * _W_PER_Y / _D_PER_Y
 
@@ -185,8 +176,7 @@ def d_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _D_PER_Y
 
@@ -202,8 +192,7 @@ def d_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value * _D_PER_Y / _M_PER_Y
 
@@ -219,8 +208,7 @@ def d_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value * _D_PER_Y / _W_PER_Y
 
@@ -271,15 +259,14 @@ def create_time_conversion_functions(
 
     Parameters
     ----------
-    functions_tree:
+    functions_tree
         The functions tree.
-    data:
+    data
         The data tree.
 
     Returns
     -------
-    derived_functions:
-        The functions tree with the new time conversion functions.
+    The functions tree with the new time conversion functions.
     """
 
     converted_functions = {}

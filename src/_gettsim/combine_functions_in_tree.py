@@ -68,18 +68,17 @@ def combine_policy_functions_and_derived_functions(
 
     Parameters
     ----------
-    environment : PolicyEnvironment
+    environment
         The environment containing the functions tree and the specs for aggregation.
-    targets_tree : NestedTargetDict
+    targets_tree
         The targets which should be computed. They limit the DAG in the way that only
         ancestors of these nodes need to be considered.
-    data_tree : NestedDataDict
+    data_tree
         Names of columns in the input data.
 
     Returns
     -------
-    all_functions : NestedFunctionDict
-        The functions tree including derived functions.
+    The functions tree including derived functions.
 
     """
     # Create parent-child relationships
@@ -236,8 +235,7 @@ def _create_derived_aggregations_tree(
 
     Returns
     -------
-    derived_aggregations_tree
-        The aggregation specifications derived from the functions and data tree.
+    The aggregation specifications derived from the functions and data tree.
 
     Example
     -------
@@ -302,13 +300,12 @@ def _get_potential_aggregation_function_names_from_function_arguments(
 
     Parameters
     ----------
-    functions_tree : dict
+    functions_tree
         Dictionary containing functions to build the DAG.
 
     Returns
     -------
-    potential_aggregation_targets : dict
-        Dictionary containing potential aggregation targets.
+    Dictionary containing potential aggregation targets.
     """
     current_tree = {}
     paths_of_functions_tree, flat_functions_tree = (
@@ -409,8 +406,7 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
 
     Returns
     -------
-    derived_function
-        The derived function.
+    The derived function.
 
     """
     # Identify grouping level
@@ -542,8 +538,7 @@ def _create_one_aggregate_by_p_id_func(
 
     Returns
     -------
-    derived_function
-        The derived function.
+    The derived function.
 
     """
     annotations = _annotations_for_aggregation(
@@ -664,8 +659,7 @@ def _get_tree_path_from_source_col_name(
 
     Returns
     -------
-    path : tuple[str]
-        The path of 'name' in the tree.
+    The path of 'name' in the tree.
     """
     if QUALIFIED_NAME_SEPARATOR in name:
         # 'name' is already namespaced.

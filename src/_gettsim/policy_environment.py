@@ -150,8 +150,7 @@ class PolicyEnvironment:
 
         Returns
         -------
-        new_environment:
-            The policy environment with the new parameters.
+        The policy environment with the new parameters.
         """
         result = object.__new__(PolicyEnvironment)
         result._functions_tree = self._functions_tree  # noqa: SLF001
@@ -173,8 +172,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
 
     Returns
     -------
-    environment
-        The policy environment for the specified date.
+    The policy environment for the specified date.
     """
     # Check policy date for correct format and convert to datetime.date
     date = _parse_date(date)
@@ -211,8 +209,7 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
 
     Returns
     -------
-    date
-        The date for which the policy system is set up as datetime.date.
+    The date for which the policy system is set up as datetime.date.
 
     """
     if isinstance(date, str):
@@ -257,8 +254,7 @@ def _parse_piecewise_parameters(tax_data):
 
     Returns
     -------
-    tax_data
-        Parsed parameters ready to use in gettsim.
+    Parsed parameters ready to use in gettsim.
 
     """
     for param in tax_data:
@@ -299,8 +295,7 @@ def _parse_kinderzuschl_max(date, params):
 
     Returns
     -------
-    params
-        updated dictionary
+    updated dictionary
 
     """
 
@@ -335,8 +330,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
 
     Returns
     -------
-    params
-        updated dictionary
+    Updated dictionary.
 
     """
     jahr = float(date.year)
@@ -412,9 +406,7 @@ def _load_parameter_group_from_yaml(
 
     Returns
     -------
-    dict[str, Any]:
-        Dictionary of parameters loaded from raw yaml file and striped of
-        unnecessary keys.
+    Dictionary of parameters loaded from raw yaml file and striped of unnecessary keys.
 
     """
 
@@ -572,7 +564,7 @@ def _load_rounding_parameters(
 
     Returns
     -------
-    dict[str, Any]:
+    Loaded rounding parameters.
         - Keys: Functions to be rounded.
         - Values: Rounding parameters for the specified date
 

@@ -50,8 +50,7 @@ def create_tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
 
     Returns
     -------
-    dict
-        The tree structure.
+    The tree structure.
     """
     tree_structure = {}
     for path in paths:
@@ -73,6 +72,16 @@ def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict
         Result:
             {"a": {"b": {"c": None}}}
 
+    Parameters
+    ----------
+    path
+        The path to create the tree structure from.
+    value (Optional)
+        The value to insert into the tree structure.
+
+    Returns
+    -------
+    The tree structure.
     """
     nested_dict = value
     for entry in reversed(path):
@@ -97,15 +106,14 @@ def upsert_tree(base_tree: dict, update_tree: dict) -> dict:
 
     Parameters
     ----------
-    base_tree : dict
+    base_tree
         The base dictionary.
-    update_tree : dict
+    update_tree
         The dictionary to update the base dictionary.
 
     Returns
     -------
-    dict
-        The merged dictionary.
+    The merged dictionary.
     """
     result = base_tree.copy()
 
@@ -190,8 +198,7 @@ def format_errors_and_warnings(text: str, width: int = 79) -> str:
 
     Returns
     -------
-    formatted_text : str
-        Correctly dedented, wrapped text.
+    Correctly dedented, wrapped text.
 
     """
     text = text.lstrip("\n")
@@ -263,8 +270,7 @@ def join_numpy(
 
     Returns
     -------
-    numpy.ndarray[Out]
-        The joined array.
+    The joined array.
     """
     if len(numpy.unique(primary_key)) != len(primary_key):
         keys, counts = numpy.unique(primary_key, return_counts=True)
@@ -340,7 +346,7 @@ def assert_valid_gettsim_pytree(
     Raises
     ------
     TypeError
-         If any branch or leaf does not meet the expected requirements.
+        If any branch or leaf does not meet the expected requirements.
     """
 
     def _assert_valid_gettsim_pytree(

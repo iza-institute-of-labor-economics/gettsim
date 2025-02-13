@@ -121,8 +121,7 @@ def policy_function(
 
     Returns
     -------
-    PolicyFunction
-        A PolicyFunction object.
+    A PolicyFunction object.
     """
 
     _validate_dashed_iso_date(start_date)
