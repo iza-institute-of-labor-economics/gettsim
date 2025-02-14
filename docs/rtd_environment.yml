@@ -33,4 +33,4 @@ dependencies:
   - pip:
       - -e ../
       - git+https://github.com/OpenSourceEconomics/dags
-      - flatten_dict  # only for development version of dags
+      - flatten_dict

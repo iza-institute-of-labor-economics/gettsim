@@ -243,12 +243,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-1.3.1-hb9d3cd8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstandard-0.23.0-py312hef9b889_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.6-ha6fb4c9_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ae/b3/a0f0f4faac229b0011d8c4a7ee6da7c2dca0b6fd08039c95920846f23ca4/kaleido-0.2.1-py2.py3-none-manylinux1_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -471,12 +472,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.1-hd23fc13_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstandard-0.23.0-py312h7122b0e_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.6-h915ae27_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e0/f7/0ccaa596ec341963adbb4f839774c36d5659e75a0812d946732b927d480e/kaleido-0.2.1-py2.py3-none-macosx_10_11_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -699,12 +701,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.1-h8359307_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstandard-0.23.0-py312h15fbf35_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.6-hb46c0d2_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/45/8e/4297556be5a07b713bb42dde0f748354de9a6918dee251c0e6bdcda341e7/kaleido-0.2.1-py2.py3-none-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
@@ -937,13 +940,14 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/zlib-1.3.1-h2466b09_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstandard-0.23.0-py312h7606c53_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.6-h0ea2cb4_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/41/90/51523adbedc808e03271c7448fd71da1660cc02603eaaf10b9ab4f102146/kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
   py311:
     channels:
@@ -1188,12 +1192,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-1.3.1-hb9d3cd8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstandard-0.23.0-py311hbc35293_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.6-ha6fb4c9_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ae/b3/a0f0f4faac229b0011d8c4a7ee6da7c2dca0b6fd08039c95920846f23ca4/kaleido-0.2.1-py2.py3-none-manylinux1_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -1416,12 +1421,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.1-hd23fc13_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstandard-0.23.0-py311hdf6fcd6_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.6-h915ae27_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e0/f7/0ccaa596ec341963adbb4f839774c36d5659e75a0812d946732b927d480e/kaleido-0.2.1-py2.py3-none-macosx_10_11_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -1644,12 +1650,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.1-h8359307_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstandard-0.23.0-py311ha60cc69_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.6-hb46c0d2_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/45/8e/4297556be5a07b713bb42dde0f748354de9a6918dee251c0e6bdcda341e7/kaleido-0.2.1-py2.py3-none-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
@@ -1882,13 +1889,14 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/zlib-1.3.1-h2466b09_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstandard-0.23.0-py311h53056dc_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.6-h0ea2cb4_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/41/90/51523adbedc808e03271c7448fd71da1660cc02603eaaf10b9ab4f102146/kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
   py312:
     channels:
@@ -2133,12 +2141,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-1.3.1-hb9d3cd8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstandard-0.23.0-py312hef9b889_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.6-ha6fb4c9_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ae/b3/a0f0f4faac229b0011d8c4a7ee6da7c2dca0b6fd08039c95920846f23ca4/kaleido-0.2.1-py2.py3-none-manylinux1_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -2361,12 +2370,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.1-hd23fc13_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstandard-0.23.0-py312h7122b0e_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.6-h915ae27_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e0/f7/0ccaa596ec341963adbb4f839774c36d5659e75a0812d946732b927d480e/kaleido-0.2.1-py2.py3-none-macosx_10_11_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -2589,12 +2599,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.1-h8359307_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstandard-0.23.0-py312h15fbf35_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.6-hb46c0d2_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/45/8e/4297556be5a07b713bb42dde0f748354de9a6918dee251c0e6bdcda341e7/kaleido-0.2.1-py2.py3-none-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
@@ -2827,13 +2838,14 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/zlib-1.3.1-h2466b09_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstandard-0.23.0-py312h7606c53_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.6-h0ea2cb4_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/41/90/51523adbedc808e03271c7448fd71da1660cc02603eaaf10b9ab4f102146/kaleido-0.1.0.post1-py2.py3-none-win_amd64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
   py312-jax:
     channels:
@@ -3090,12 +3102,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zlib-1.3.1-hb9d3cd8_2.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstandard-0.23.0-py312hef9b889_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.6-ha6fb4c9_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ae/b3/a0f0f4faac229b0011d8c4a7ee6da7c2dca0b6fd08039c95920846f23ca4/kaleido-0.2.1-py2.py3-none-manylinux1_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -3330,12 +3343,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zlib-1.3.1-hd23fc13_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstandard-0.23.0-py312h7122b0e_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-64/zstd-1.5.6-h915ae27_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e0/f7/0ccaa596ec341963adbb4f839774c36d5659e75a0812d946732b927d480e/kaleido-0.2.1-py2.py3-none-macosx_10_11_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/noarch/alabaster-1.0.0-pyhd8ed1ab_0.conda
@@ -3570,12 +3584,13 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zlib-1.3.1-h8359307_2.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstandard-0.23.0-py312h15fbf35_1.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zstd-1.5.6-hb46c0d2_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/45/8e/4297556be5a07b713bb42dde0f748354de9a6918dee251c0e6bdcda341e7/kaleido-0.2.1-py2.py3-none-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/b9/54/dd730b32ea14ea797530a4479b2ed46a6fb250f682a9cfb997e968bf0261/networkx-3.4.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
@@ -3808,7 +3823,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/zlib-1.3.1-h2466b09_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstandard-0.23.0-py312h7606c53_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.6-h0ea2cb4_0.conda
-      - pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+      - pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
       - pypi: https://files.pythonhosted.org/packages/43/f5/ee39c6e92acc742c052f137b47c210cd0a1b72dcd3f98495528bb4d27761/flatten_dict-0.4.2-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/f4/58/cc0721a1030fcbab0984beea0bf3c4610ec103f738423cdfa9c4ceb40598/jax-0.5.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2d/cb/11bb92324afb6ba678f388e10b78d6b02196bc8887eb5aa0d85ce398edf9/jaxlib-0.5.0-cp312-cp312-win_amd64.whl
@@ -3820,6 +3835,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ff/ba/31c7a8131152822b3a2cdeba76398ffb404d81d640de98287d236da90c49/scipy-1.15.1-cp312-cp312-win_amd64.whl
       - pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
       - pypi: .
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
@@ -4829,12 +4845,13 @@ packages:
   purls: []
   size: 44632
   timestamp: 1728057282977
-- pypi: git+https://github.com/OpenSourceEconomics/dags@25ababa904da4c206faf14ff30c81711c5e82741
+- pypi: git+https://github.com/OpenSourceEconomics/dags@d4e4b0b268be13472444cd9e291202513d0b1bcb
   name: dags
-  version: 0.2.4.dev5+g25ababa
+  version: 0.2.4.dev6+gd4e4b0b
   requires_dist:
   - flatten-dict
   - networkx
+  - types-networkx
   requires_python: '>=3.10'
 - conda: https://conda.anaconda.org/conda-forge/linux-64/debugpy-1.8.9-py311hfdbb021_0.conda
   sha256: cc2e120f53571e19ee6ea062e85e256fce6550ee139d8127cfb24d7ba015f2ae
@@ -5329,8 +5346,8 @@ packages:
   timestamp: 1694400856979
 - pypi: .
   name: gettsim
-  version: 0.7.1.dev297+gc93eb979.d20250214
-  sha256: 1de36dd2ddd2ba07e1066e3fb599ce719eddcac8f25dc0c36f5f536f7319ea18
+  version: 0.7.1.dev304+gd5ce43f7.d20250214
+  sha256: 468d7ee73fd31c448cd102912b902342be58fb2b7298aacca19f8f4eca97a50d
   requires_dist:
   - astor
   - ipywidgets
@@ -11505,6 +11522,13 @@ packages:
   - pkg:pypi/traitlets?source=hash-mapping
   size: 110187
   timestamp: 1713535244513
+- pypi: https://files.pythonhosted.org/packages/31/c1/d73ff5900c6b462879039ac92f89424ad1eb544b1f6bd77f12f9c3013e20/types_networkx-3.4.2.20241227-py3-none-any.whl
+  name: types-networkx
+  version: 3.4.2.20241227
+  sha256: adb0e3f0a16c1481a2cfa97772a0b925b220dcf857f0def1c5ab4c4f349e309d
+  requires_dist:
+  - numpy>=1.20
+  requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/noarch/types-python-dateutil-2.9.0.20241003-pyhff2d567_0.conda
   sha256: 8489af986daebfbcd13d3748ba55431259206e37f184ab42a57e107fecd85e02
   md5: 3d326f8a2aa2d14d51d8c513426b5def
