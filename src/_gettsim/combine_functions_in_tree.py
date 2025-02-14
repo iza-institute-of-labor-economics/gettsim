@@ -87,8 +87,8 @@ def combine_policy_functions_and_derived_functions(
         aggregation_type="p_id",
     )
     current_functions_tree = upsert_tree(
-        base_tree=environment.functions_tree,
-        update_tree=aggregate_by_p_id_functions,
+        base=environment.functions_tree,
+        to_upsert=aggregate_by_p_id_functions,
     )
 
     # Create functions for different time units
@@ -97,8 +97,8 @@ def combine_policy_functions_and_derived_functions(
         data_tree=data_tree,
     )
     current_functions_tree = upsert_tree(
-        base_tree=current_functions_tree,
-        update_tree=time_conversion_functions,
+        base=current_functions_tree,
+        to_upsert=time_conversion_functions,
     )
 
     # Create aggregation functions
@@ -109,15 +109,15 @@ def combine_policy_functions_and_derived_functions(
         aggregations_tree_provided_by_env=environment.aggregation_specs_tree,
     )
     current_functions_tree = upsert_tree(
-        base_tree=current_functions_tree,
-        update_tree=aggregate_by_group_functions,
+        base=current_functions_tree,
+        to_upsert=aggregate_by_group_functions,
     )
 
     # Create groupings
     groupings = create_groupings()
     current_functions_tree = upsert_tree(
-        base_tree=current_functions_tree,
-        update_tree=groupings,
+        base=current_functions_tree,
+        to_upsert=groupings,
     )
 
     _fail_if_targets_not_in_functions_tree(current_functions_tree, targets_tree)
@@ -142,8 +142,8 @@ def _create_aggregate_by_group_functions(
 
     # Add automated aggregation specs to aggregations tree
     full_aggregations_tree = upsert_tree(
-        base_tree=automatically_created_aggregations_tree,
-        update_tree=aggregations_tree_provided_by_env,
+        base=automatically_created_aggregations_tree,
+        to_upsert=aggregations_tree_provided_by_env,
     )
 
     return _create_aggregation_functions(
@@ -201,9 +201,9 @@ def _create_aggregation_functions(
             )
 
         out_tree = upsert_path_and_value(
-            tree=out_tree,
-            tree_path=tree_path,
-            value=derived_func,
+            base=out_tree,
+            path_to_upsert=tree_path,
+            value_to_upsert=derived_func,
         )
 
     return out_tree
@@ -242,8 +242,8 @@ def _create_derived_aggregations_tree(
     """
     # Create tree of potential aggregation function names
     potential_aggregation_function_names = upsert_tree(
-        base_tree=target_tree,
-        update_tree=_get_potential_aggregation_function_names_from_function_arguments(
+        base=target_tree,
+        to_upsert=_get_potential_aggregation_function_names_from_function_arguments(
             functions_tree
         ),
     )
@@ -251,8 +251,8 @@ def _create_derived_aggregations_tree(
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
     aggregation_source_tree = upsert_tree(
-        base_tree=functions_tree,
-        update_tree=data_tree,
+        base=functions_tree,
+        to_upsert=data_tree,
     )
 
     # Create aggregation specs.
@@ -270,9 +270,9 @@ def _create_derived_aggregations_tree(
 
         if aggregation_specs_needed:
             derived_aggregations_tree = upsert_path_and_value(
-                tree=derived_aggregations_tree,
-                tree_path=tree_path,
-                value=AggregateByGroupSpec(
+                base=derived_aggregations_tree,
+                path_to_upsert=tree_path,
+                value_to_upsert=AggregateByGroupSpec(
                     aggr="sum",
                     source_col=remove_group_suffix(leaf_name),
                 ),
@@ -311,8 +311,8 @@ def _get_potential_aggregation_function_names_from_function_arguments(
                 current_namespace=tree_path[:-1],
             )
             current_tree = upsert_path_and_value(
-                tree=current_tree,
-                tree_path=path_of_function_argument,
+                base=current_tree,
+                path_to_upsert=path_of_function_argument,
             )
     return current_tree
 

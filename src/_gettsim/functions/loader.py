@@ -47,9 +47,9 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
         tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
         functions_tree = upsert_path_and_value(
-            tree=functions_tree,
-            tree_path=tree_path,
-            value=active_functions_dict,
+            base=functions_tree,
+            path_to_upsert=tree_path,
+            value_to_upsert=active_functions_dict,
         )
 
     return functions_tree
@@ -277,9 +277,9 @@ def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
         tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
         aggregation_specs_tree = upsert_path_and_value(
-            tree=aggregation_specs_tree,
-            tree_path=tree_path,
-            value=aggregation_specs,
+            base=aggregation_specs_tree,
+            path_to_upsert=tree_path,
+            value_to_upsert=aggregation_specs,
         )
 
     return aggregation_specs_tree

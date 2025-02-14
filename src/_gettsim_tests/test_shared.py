@@ -17,7 +17,7 @@ class SampleDataClass:
 
 
 @pytest.mark.parametrize(
-    "tree, path, value, expected",
+    "base, path_to_upsert, value_to_upsert, expected",
     [
         ({}, ["a"], 1, {"a": 1}),
         ({"a": 1}, ["a"], 2, {"a": 2}),
@@ -25,8 +25,10 @@ class SampleDataClass:
         ({"a": {"b": 1}}, ["a", "c"], 2, {"a": {"b": 1, "c": 2}}),
     ],
 )
-def test_upsert_path_and_value(tree, path, value, expected):
-    result = upsert_path_and_value(tree=tree, tree_path=path, value=value)
+def test_upsert_path_and_value(base, path_to_upsert, value_to_upsert, expected):
+    result = upsert_path_and_value(
+        base=base, path_to_upsert=path_to_upsert, value_to_upsert=value_to_upsert
+    )
     assert result == expected
 
 
@@ -55,7 +57,7 @@ def test_create_tree_from_path_and_value(paths, expected):
     ],
 )
 def test_upsert_tree(base_dict, update_dict, expected):
-    assert upsert_tree(base_tree=base_dict, update_tree=update_dict) == expected
+    assert upsert_tree(base=base_dict, to_upsert=update_dict) == expected
 
 
 @pytest.mark.parametrize(

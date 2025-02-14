@@ -143,8 +143,8 @@ def compute_taxes_and_transfers(
 
     if debug:
         results = upsert_tree(
-            base_tree=results,
-            update_tree=data_tree_with_correct_types,
+            base=results,
+            to_upsert=data_tree_with_correct_types,
         )
 
     return results
@@ -214,9 +214,9 @@ def _convert_data_to_correct_types(
                     series=data_leaf, internal_type=internal_type
                 )
                 data_tree_with_correct_types = upsert_path_and_value(
-                    tree=data_tree_with_correct_types,
-                    tree_path=accessor.path,
-                    value=converted_leaf,
+                    base=data_tree_with_correct_types,
+                    path_to_upsert=accessor.path,
+                    value_to_upsert=converted_leaf,
                 )
                 collected_conversions.append(
                     f" - {qualified_column_name} from {data_leaf.dtype} "
@@ -226,9 +226,9 @@ def _convert_data_to_correct_types(
                 collected_errors.append(f"\n - {qualified_column_name}: {e}")
         else:
             data_tree_with_correct_types = upsert_path_and_value(
-                tree=data_tree_with_correct_types,
-                tree_path=accessor.path,
-                value=data_leaf,
+                base=data_tree_with_correct_types,
+                path_to_upsert=accessor.path,
+                value_to_upsert=data_leaf,
             )
 
     # If any error occured raise Error

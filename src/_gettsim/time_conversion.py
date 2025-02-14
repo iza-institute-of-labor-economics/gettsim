@@ -285,9 +285,9 @@ def create_time_conversion_functions(
                 continue
             else:
                 converted_functions = upsert_path_and_value(
-                    tree=converted_functions,
-                    tree_path=new_path,
-                    value=der_func,
+                    base=converted_functions,
+                    path_to_upsert=new_path,
+                    value_to_upsert=der_func,
                 )
 
     # Create time-conversions for data columns
@@ -303,9 +303,9 @@ def create_time_conversion_functions(
                 continue
             else:
                 converted_functions = upsert_path_and_value(
-                    tree=converted_functions,
-                    tree_path=new_path,
-                    value=der_func,
+                    base=converted_functions,
+                    path_to_upsert=new_path,
+                    value_to_upsert=der_func,
                 )
 
     return converted_functions

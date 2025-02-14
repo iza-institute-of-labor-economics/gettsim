@@ -127,8 +127,8 @@ class PolicyEnvironment:
 
         # Add functions tree to upsert to new functions tree
         new_functions_tree = upsert_tree(
-            base_tree=new_functions_tree,
-            update_tree=functions_tree_to_upsert,
+            base=new_functions_tree,
+            to_upsert=functions_tree_to_upsert,
         )
 
         result = object.__new__(PolicyEnvironment)
@@ -609,7 +609,7 @@ def transfer_dictionary(remaining_dict, new_dict, key_list):
     else:
         # Now remaining dict is just a scalar
         new_dict = upsert_path_and_value(
-            tree=new_dict, tree_path=key_list, value=remaining_dict
+            base=new_dict, path_to_upsert=key_list, value_to_upsert=remaining_dict
         )
     return new_dict
 

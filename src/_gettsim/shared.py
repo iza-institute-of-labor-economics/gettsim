@@ -56,8 +56,8 @@ def tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
     for path in paths:
         tree_structure_from_path = create_tree_from_path_and_value(path)
         tree_structure = upsert_tree(
-            base_tree=tree_structure,
-            update_tree=tree_structure_from_path,
+            base=tree_structure,
+            to_upsert=tree_structure_from_path,
         )
     return tree_structure
 
@@ -89,38 +89,38 @@ def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict
     return nested_dict
 
 
-def upsert_tree(base_tree: dict, update_tree: dict) -> dict:
+def upsert_tree(base: dict, to_upsert: dict) -> dict:
     """
     Upsert a tree into another tree for trees defined by dictionaries only.
 
     Dataclasses are treated as leaves and not merged.
 
-    Note: In case of conflicting trees, the update_tree takes precedence.
+    Note: In case of conflicting trees, the to_upsert takes precedence.
 
     Example:
         Input:
-            base_tree = {"a": {"b": {"c": None}}}
-            update_tree = {"a": {"b": {"d": None}}}
+            base = {"a": {"b": {"c": None}}}
+            to_upsert = {"a": {"b": {"d": None}}}
         Output:
             {"a": {"b": {"c": None, "d": None}}}
 
     Parameters
     ----------
-    base_tree
+    base
         The base dictionary.
-    update_tree
+    to_upsert
         The dictionary to update the base dictionary.
 
     Returns
     -------
     The merged dictionary.
     """
-    result = base_tree.copy()
+    result = base.copy()
 
-    for key, value in update_tree.items():
+    for key, value in to_upsert.items():
         base_value = result.get(key)
         if key in result and isinstance(base_value, dict) and isinstance(value, dict):
-            result[key] = upsert_tree(base_tree=base_value, update_tree=value)
+            result[key] = upsert_tree(base=base_value, to_upsert=value)
         else:
             result[key] = value
 
@@ -128,7 +128,7 @@ def upsert_tree(base_tree: dict, update_tree: dict) -> dict:
 
 
 def upsert_path_and_value(
-    tree: dict[str, Any], tree_path: tuple[str], value: Any = None
+    base: dict[str, Any], path_to_upsert: tuple[str], value_to_upsert: Any = None
 ) -> dict[str, Any]:
     """Update tree with a path and value.
 
@@ -136,8 +136,10 @@ def upsert_path_and_value(
     the path does not exist, it will be created. If the path already exists, the value
     will be updated.
     """
-    update_dict = create_tree_from_path_and_value(tree_path, value)
-    return upsert_tree(base_tree=tree, update_tree=update_dict)
+    to_upsert = create_tree_from_path_and_value(
+        path=path_to_upsert, value=value_to_upsert
+    )
+    return upsert_tree(base=base, to_upsert=to_upsert)
 
 
 def partition_tree_by_reference_tree(
@@ -175,11 +177,11 @@ def partition_tree_by_reference_tree(
     ):
         if path in ref_paths:
             intersection = upsert_path_and_value(
-                tree=intersection, tree_path=path, value=leaf
+                base=intersection, path_to_upsert=path, value_to_upsert=leaf
             )
         else:
             difference = upsert_path_and_value(
-                tree=difference, tree_path=path, value=leaf
+                base=difference, path_to_upsert=path, value_to_upsert=leaf
             )
     return intersection, difference
 
