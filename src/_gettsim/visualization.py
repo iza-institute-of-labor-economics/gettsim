@@ -16,7 +16,7 @@ from _gettsim.combine_functions_in_tree import (
 )
 from _gettsim.config import DEFAULT_TARGETS
 from _gettsim.interface import (
-    _round_and_partial_parameters_to_functions,
+    _partial_parameters_to_functions,
 )
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
@@ -104,7 +104,7 @@ def plot_dag(
         input_structure=input_structure,
     )
 
-    processed_functions = _round_and_partial_parameters_to_functions(
+    processed_functions = _partial_parameters_to_functions(
         functions=partition_tree_by_reference_tree(
             tree_to_partition=functions_not_overridden, reference_tree=dag.nodes
         )[0],

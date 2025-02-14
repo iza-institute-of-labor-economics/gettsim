@@ -106,12 +106,16 @@ def compute_taxes_and_transfers(
         functions_tree_overridden=functions_tree_overridden,
     )
 
-    functions_tree_with_partialled_parameters = (
-        _round_and_partial_parameters_to_functions(
-            functions_tree=functions_tree_not_overridden,
-            params=environment.params,
-            rounding=rounding,
-        )
+    functions_tree_with_partialled_parameters = _partial_parameters_to_functions(
+        functions_tree=(
+            optree.tree_map_with_path(
+                lambda path, x: _add_rounding_to_function(x, environment.params, path),
+                functions_tree_not_overridden,
+            )
+            if rounding
+            else functions_tree_not_overridden
+        ),
+        params=environment.params,
     )
 
     input_structure = dags.create_input_structure_tree(
@@ -312,10 +316,9 @@ def _create_input_data_for_concatenated_function(
     return optree.tree_map(lambda x: x.to_numpy(), input_data_tree)
 
 
-def _round_and_partial_parameters_to_functions(
+def _partial_parameters_to_functions(
     functions_tree: NestedFunctionDict,
     params: dict[str, Any],
-    rounding: bool,
 ) -> NestedFunctionDict:
     """Round and partial parameters into functions.
 
@@ -325,21 +328,12 @@ def _round_and_partial_parameters_to_functions(
         The functions tree.
     params
         Dictionary of parameters.
-    rounding
-        Indicator for whether rounding should be applied as specified in the law.
 
     Returns
     -------
-    Dictionary of rounded functions with parameters.
+    Functions tree with parameters partialled.
 
     """
-    # Add rounding to functions.
-    if rounding:
-        functions_tree = optree.tree_map_with_path(
-            lambda path, x: _add_rounding_to_function(x, params, path),
-            functions_tree,
-        )
-
     # Partial parameters to functions such that they disappear in the DAG.
     # Note: Needs to be done after rounding such that dags recognizes partialled
     # parameters.

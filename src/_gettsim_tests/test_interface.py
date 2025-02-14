@@ -17,7 +17,7 @@ from _gettsim.interface import (
     _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
-    _round_and_partial_parameters_to_functions,
+    _partial_parameters_to_functions,
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
@@ -55,7 +55,7 @@ def func_before_partial(arg_1, arbeitsl_geld_2_params):
     return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
 
-func_after_partial = _round_and_partial_parameters_to_functions(
+func_after_partial = _partial_parameters_to_functions(
     {"test_func": func_before_partial},
     {"arbeitsl_geld_2": {"test_param_1": 1}},
     rounding=False,
