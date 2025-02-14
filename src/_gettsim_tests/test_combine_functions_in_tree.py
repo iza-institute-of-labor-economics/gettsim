@@ -180,30 +180,65 @@ def test_get_tree_path_from_source_col_name(argument_name, current_namespace, ex
     (
         "aggregation_method",
         "source_col",
+        "namespace_of_function_to_derive",
         "functions_tree",
         "types_input_variables",
         "expected_return_type",
     ),
     [
-        ("count", "foo", {}, {}, int),
-        ("sum", "foo", {}, {"foo": float}, float),
-        ("sum", "foo", {}, {"foo": int}, int),
-        ("sum", "foo", {}, {"foo": bool}, int),
-        ("sum", "foo", {"foo": function_with_bool_return}, {}, int),
-        ("sum", "foo", {"foo": function_with_int_return}, {}, int),
-        ("sum", "foo", {"foo": function_with_float_return}, {}, float),
+        ("count", "foo", ("",), {}, {}, int),
+        ("sum", "foo", ("namespace",), {}, {"namespace": {"foo": float}}, float),
+        ("sum", "foo", ("namespace",), {}, {"namespace": {"foo": int}}, int),
+        ("sum", "foo", ("namespace",), {}, {"namespace": {"foo": bool}}, int),
+        (
+            "sum",
+            "foo",
+            ("namespace",),
+            {"namespace": {"foo": function_with_bool_return}},
+            {},
+            int,
+        ),
+        (
+            "sum",
+            "foo",
+            ("namespace",),
+            {"namespace": {"foo": function_with_int_return}},
+            {},
+            int,
+        ),
+        (
+            "sum",
+            "foo",
+            ("namespace",),
+            {"namespace": {"foo": function_with_float_return}},
+            {},
+            float,
+        ),
+        (
+            "sum",
+            "other_namespace__foo",
+            ("namespace",),
+            {"other_namespace": {"foo": function_with_bool_return}},
+            {},
+            int,
+        ),
     ],
 )
-def test_annotations_for_aggregation(
+def test_annotations_for_aggregation(  # noqa: PLR0913
     aggregation_method,
     source_col,
+    namespace_of_function_to_derive,
     functions_tree,
     types_input_variables,
     expected_return_type,
 ):
     assert (
         _annotations_for_aggregation(
-            aggregation_method, source_col, functions_tree, types_input_variables
+            aggregation_method=aggregation_method,
+            source_col=source_col,
+            namespace_of_function_to_derive=namespace_of_function_to_derive,
+            functions_tree=functions_tree,
+            types_input_variables=types_input_variables,
         )["return"]
         == expected_return_type
     )
