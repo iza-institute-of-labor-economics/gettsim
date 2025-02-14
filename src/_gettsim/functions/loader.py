@@ -202,15 +202,13 @@ def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> s
 
     Examples
     --------
-    >>> _convert_path_to_importable_module_name(RESOURCE_DIR / "taxes" / "functions.py")
+    >>> _convert_path_to_importable_module_name(
+        path=Path("/usr/gettsim/src/_gettsim/taxes/functions.py"),
+        package_root=Path("/usr/gettsim/src/_gettsim"),
+    )
     "taxes.functions"
     """
-    return (
-        path.relative_to(package_root.parent)
-        .with_suffix("")
-        .as_posix()
-        .replace("/", ".")
-    )
+    return path.relative_to(package_root).with_suffix("").as_posix().replace("/", ".")
 
 
 def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...]:
