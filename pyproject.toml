@@ -106,7 +106,7 @@ openpyxl = "*"
 astor = "*"
 ipywidgets = "*"
 jupyterlab = "*"
-networkx = "*"
+networkx = "*" # Remove once dags is a proper dependency
 plotly = ">=5.24,<6"
 optree = "*"
 pygments = "*"
@@ -124,7 +124,7 @@ pytest-xdist = "*"
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
 pdbp = "*"
-dags = {git = "https://github.com/lars-reimann/dags.git", rev = "7d77adbd6b61c58bfd91b0b16873807a523b3022"}
+dags = {git = "https://github.com/OpenSourceEconomics/dags"}
 flatten_dict = "*"
 
 

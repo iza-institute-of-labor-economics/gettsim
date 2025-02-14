@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import functools
 from typing import TYPE_CHECKING, Any, Literal
 
 import optree
@@ -87,47 +86,43 @@ def combine_policy_functions_and_derived_functions(
         aggregations_tree=environment.aggregation_specs_tree,
         aggregation_type="p_id",
     )
-
-    # Create functions for different time units
     current_functions_tree = upsert_tree(
         base_tree=environment.functions_tree,
         update_tree=aggregate_by_p_id_functions,
     )
+
+    # Create functions for different time units
     time_conversion_functions = create_time_conversion_functions(
         functions_tree=current_functions_tree,
         data_tree=data_tree,
     )
-
-    # Create aggregation functions
     current_functions_tree = upsert_tree(
         base_tree=current_functions_tree,
         update_tree=time_conversion_functions,
     )
+
+    # Create aggregation functions
     aggregate_by_group_functions = _create_aggregate_by_group_functions(
         functions_tree=current_functions_tree,
         targets_tree=targets_tree,
         data_tree=data_tree,
         aggregations_tree_provided_by_env=environment.aggregation_specs_tree,
     )
+    current_functions_tree = upsert_tree(
+        base_tree=current_functions_tree,
+        update_tree=aggregate_by_group_functions,
+    )
 
     # Create groupings
     groupings = create_groupings()
-
-    # Put all functions into a functions tree
-    all_functions = functools.reduce(
-        upsert_tree,
-        [
-            aggregate_by_p_id_functions,
-            time_conversion_functions,
-            aggregate_by_group_functions,
-            groupings,
-        ],
-        environment.functions_tree,
+    current_functions_tree = upsert_tree(
+        base_tree=current_functions_tree,
+        update_tree=groupings,
     )
 
-    _fail_if_targets_not_in_functions_tree(all_functions, targets_tree)
+    _fail_if_targets_not_in_functions_tree(current_functions_tree, targets_tree)
 
-    return all_functions
+    return current_functions_tree
 
 
 def _create_aggregate_by_group_functions(
