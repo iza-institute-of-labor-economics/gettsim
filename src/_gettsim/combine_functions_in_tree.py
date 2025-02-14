@@ -274,7 +274,6 @@ def _create_derived_aggregations_tree(
         ) and tree_path not in optree.tree_paths(aggregation_source_tree)
 
         if aggregation_specs_needed:
-            # Use qualified name to identify source in the functions tree later.
             derived_aggregations_tree = upsert_path_and_value(
                 tree=derived_aggregations_tree,
                 tree_path=tree_path,
