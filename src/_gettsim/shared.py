@@ -3,11 +3,13 @@ import textwrap
 from collections.abc import Callable
 from typing import Any, TypeVar
 
+import flatten_dict
 import numpy
-import optree
 from dags.signature import rename_arguments
+from flatten_dict.reducers import make_reducer
+from flatten_dict.splitters import make_splitter
 
-from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -32,34 +34,8 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def tree_structure_from_paths(paths: list[tuple[str]]) -> dict:
-    """Create a tree structure from a list of paths with 'None' as leaves.
-
-    Note: In case of conflicting paths, the last path takes precedence.
-
-    Example:
-        Input:
-            paths = [("a", "b", "c"), ("a", "b", "d")]
-        Output:
-            {"a": {"b": {"c": None, "d": None}}}
-
-    Parameters
-    ----------
-    paths : list[tuple[str]]
-        The paths to create the tree structure from.
-
-    Returns
-    -------
-    The tree structure.
-    """
-    tree_structure = {}
-    for path in paths:
-        tree_structure_from_path = create_tree_from_path_and_value(path)
-        tree_structure = upsert_tree(
-            base=tree_structure,
-            to_upsert=tree_structure_from_path,
-        )
-    return tree_structure
+qualified_name_reducer = make_reducer(delimiter=QUALIFIED_NAME_SEPARATOR)
+qualified_name_splitter = make_splitter(delimiter=QUALIFIED_NAME_SEPARATOR)
 
 
 def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict:
@@ -163,23 +139,15 @@ def partition_tree_by_reference_tree(
     - The first tree with leaves present in both trees.
     - The second tree with leaves absent in the reference tree.
     """
+    ref_paths = set(flatten_dict.flatten(reference_tree).keys())
+    flat = flatten_dict.flatten(tree_to_partition)
+    intersection = flatten_dict.unflatten(
+        {path: leaf for path, leaf in flat.items() if path in ref_paths}
+    )
+    difference = flatten_dict.unflatten(
+        {path: leaf for path, leaf in flat.items() if path not in ref_paths}
+    )
 
-    # Get reference paths once to avoid repeated tree traversal
-    ref_paths = set(optree.tree_paths(reference_tree, none_is_leaf=True))
-    intersection = {}
-    difference = {}
-    # Use tree_flatten_with_path to get paths and leaves in a single pass
-    for path, leaf in zip(
-        *optree.tree_flatten_with_path(tree_to_partition, none_is_leaf=True)[:2]
-    ):
-        if path in ref_paths:
-            intersection = upsert_path_and_value(
-                base=intersection, path_to_upsert=path, value_to_upsert=leaf
-            )
-        else:
-            difference = upsert_path_and_value(
-                base=difference, path_to_upsert=path, value_to_upsert=leaf
-            )
     return intersection, difference
 
 

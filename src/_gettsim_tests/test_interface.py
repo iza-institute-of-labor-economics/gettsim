@@ -58,7 +58,6 @@ def func_before_partial(arg_1, arbeitsl_geld_2_params):
 func_after_partial = _partial_parameters_to_functions(
     {"test_func": func_before_partial},
     {"arbeitsl_geld_2": {"test_param_1": 1}},
-    rounding=False,
 )["test_func"]
 
 
@@ -695,11 +694,11 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__bruttolohn_m: Conversion from input type object to"
+            "\n - groupings__hh_id: Conversion from input type object to int failed. "
+            "Object\ntype is not supported as input."
+            "\n\n- basic_inputs__bruttolohn_m: Conversion from input type object to"
             " float\nfailed."
-            " Object type is not supported as input."
-            "\n\n- groupings__hh_id: Conversion from input type object to int failed. "
-            "Object\ntype is not supported as input.",
+            " Object type is not supported as input.",
         ),
     ],
 )

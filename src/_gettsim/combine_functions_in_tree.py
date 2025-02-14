@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Literal
 
+import flatten_dict
 import optree
 
 from _gettsim.aggregation import (
@@ -30,11 +31,11 @@ from _gettsim.config import (
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
-    create_tree_from_path_and_value,
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
+    qualified_name_reducer,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
     upsert_path_and_value,
@@ -327,20 +328,24 @@ def _annotations_for_aggregation(
     """Create annotations for derived aggregation functions."""
     annotations = {}
 
-    path_of_source_col = _get_tree_path_from_source_col_name(
-        name=source_col,
-        current_namespace=namespace_of_function_to_derive,
+    qualified_name_of_source_col = QUALIFIED_NAME_SEPARATOR.join(
+        _get_tree_path_from_source_col_name(
+            name=source_col,
+            current_namespace=namespace_of_function_to_derive,
+        )
     )
-    accessor_source_col = optree.tree_accessors(
-        create_tree_from_path_and_value(path_of_source_col),
-        none_is_leaf=True,
-    )[0]
+    flat_functions = flatten_dict.flatten(
+        functions_tree, reducer=qualified_name_reducer
+    )
+    flat_types_input_variables = flatten_dict.flatten(
+        types_input_variables, reducer=qualified_name_reducer
+    )
 
     if aggregation_method == "count":
         annotations["return"] = int
-    elif path_of_source_col in optree.tree_paths(functions_tree):
+    elif qualified_name_of_source_col in flat_functions:
         # Source col is a function in the functions tree
-        source_function = accessor_source_col(functions_tree)
+        source_function = flat_functions[qualified_name_of_source_col]
         if "return" in source_function.__annotations__:
             annotations[source_col] = source_function.__annotations__["return"]
             annotations["return"] = _select_return_type(
@@ -351,9 +356,11 @@ def _annotations_for_aggregation(
             # of user-provided input variables are handled
             # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
-    elif path_of_source_col in optree.tree_paths(types_input_variables):
+    elif qualified_name_of_source_col in flat_types_input_variables:
         # Source col is a basic input variable
-        annotations[source_col] = accessor_source_col(types_input_variables)
+        annotations[source_col] = flat_types_input_variables[
+            qualified_name_of_source_col
+        ]
         annotations["return"] = _select_return_type(
             aggregation_method, annotations[source_col]
         )

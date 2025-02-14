@@ -109,7 +109,6 @@ def plot_dag(
             tree_to_partition=functions_not_overridden, reference_tree=dag.nodes
         )[0],
         params=environment.params,
-        rounding=False,
     )
 
     input_structure = dags.dag_tree.create_input_structure_tree(

@@ -5,7 +5,6 @@ import pytest
 from _gettsim.shared import (
     create_tree_from_path_and_value,
     partition_tree_by_reference_tree,
-    tree_structure_from_paths,
     upsert_path_and_value,
     upsert_tree,
 )
@@ -122,14 +121,3 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
 
     assert in_reference_tree == expected[0]
     assert not_in_reference_tree == expected[1]
-
-
-@pytest.mark.parametrize(
-    "paths, expected",
-    [
-        ([("a", "b", "c"), ("a", "b", "d")], {"a": {"b": {"c": None, "d": None}}}),
-        ([("a", "b"), ("a")], {"a": None}),
-    ],
-)
-def test_tree_structure_from_paths(paths, expected):
-    assert tree_structure_from_paths(paths) == expected

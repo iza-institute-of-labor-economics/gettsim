@@ -5,6 +5,7 @@ import warnings
 from typing import Any, Literal, get_args
 
 import dags
+import flatten_dict
 import networkx as nx
 import optree
 import pandas as pd
@@ -39,8 +40,8 @@ from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
-    tree_structure_from_paths,
-    upsert_path_and_value,
+    qualified_name_reducer,
+    qualified_name_splitter,
     upsert_tree,
 )
 
@@ -182,23 +183,25 @@ def _convert_data_to_correct_types(
         " types yourself."
     )
 
-    data_tree_paths = optree.tree_accessors(data_tree)
-    data_tree_with_correct_types = {}
+    flat_data = flatten_dict.flatten(data_tree, reducer=qualified_name_reducer)
+    flat_internal_types = flatten_dict.flatten(
+        TYPES_INPUT_VARIABLES, reducer=qualified_name_reducer
+    )
+    flat_functions = flatten_dict.flatten(
+        functions_tree_overridden, reducer=qualified_name_reducer
+    )
 
-    for accessor in data_tree_paths:
-        qualified_column_name = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
-        data_leaf = accessor(data_tree)
+    flat_data_with_correct_types = {}
+
+    for qualified_name, series in flat_data.items():
         internal_type = None
 
         # Look for column in TYPES_INPUT_VARIABLES
-        try:  # noqa: SIM105ga
-            internal_type = accessor(TYPES_INPUT_VARIABLES)
-        except KeyError:
-            pass
-
+        if qualified_name in flat_internal_types:
+            internal_type = flat_internal_types[qualified_name]
         # Look for column in functions_tree_overridden
-        try:
-            func = accessor(functions_tree_overridden)
+        elif qualified_name in flat_functions:
+            func = flat_functions[qualified_name]
             if hasattr(func, "__annotations__") and func.skip_vectorization:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
@@ -206,34 +209,26 @@ def _convert_data_to_correct_types(
                 internal_type = get_args(func.__annotations__["return"])[0]
             else:
                 internal_type = func.__annotations__["return"]
-        except KeyError:
+        else:
             pass
 
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(
-            series=data_leaf, internal_type=internal_type
+            series=series, internal_type=internal_type
         ):
             try:
                 converted_leaf = convert_series_to_internal_type(
-                    series=data_leaf, internal_type=internal_type
+                    series=series, internal_type=internal_type
                 )
-                data_tree_with_correct_types = upsert_path_and_value(
-                    base=data_tree_with_correct_types,
-                    path_to_upsert=accessor.path,
-                    value_to_upsert=converted_leaf,
-                )
+                flat_data_with_correct_types[qualified_name] = converted_leaf
                 collected_conversions.append(
-                    f" - {qualified_column_name} from {data_leaf.dtype} "
+                    f" - {qualified_name} from {series.dtype} "
                     f"to {internal_type.__name__}"
                 )
             except ValueError as e:
-                collected_errors.append(f"\n - {qualified_column_name}: {e}")
+                collected_errors.append(f"\n - {qualified_name}: {e}")
         else:
-            data_tree_with_correct_types = upsert_path_and_value(
-                base=data_tree_with_correct_types,
-                path_to_upsert=accessor.path,
-                value_to_upsert=data_leaf,
-            )
+            flat_data_with_correct_types[qualified_name] = series
 
     # If any error occured raise Error
     if len(collected_errors) > 1:
@@ -255,7 +250,10 @@ def _convert_data_to_correct_types(
             stacklevel=2,
         )
 
-    return data_tree_with_correct_types
+    return flatten_dict.unflatten(
+        flat_data_with_correct_types,
+        splitter=qualified_name_splitter,
+    )
 
 
 def _create_input_data_for_concatenated_function(
@@ -296,8 +294,9 @@ def _create_input_data_for_concatenated_function(
 
     # Create root nodes tree
     root_nodes_view = nx.subgraph_view(dag, filter_node=lambda n: dag.in_degree(n) == 0)
-    root_nodes_tree = tree_structure_from_paths(
-        [tuple(node.split(QUALIFIED_NAME_SEPARATOR)) for node in root_nodes_view.nodes]
+    root_nodes_tree = flatten_dict.unflatten(
+        {node: None for node in root_nodes_view.nodes},
+        splitter=qualified_name_splitter,
     )
 
     _fail_if_root_nodes_are_missing(
@@ -723,25 +722,27 @@ def _fail_if_root_nodes_are_missing(
     ValueError
         If root nodes are missing.
     """
-    root_nodes_accessors = optree.tree_accessors(root_nodes_tree, none_is_leaf=True)
-    data_paths = optree.tree_paths(data_tree)
-    functions = optree.tree_paths(functions_tree)
+    flat_root_nodes = flatten_dict.flatten(
+        root_nodes_tree, reducer=qualified_name_reducer
+    )
+    flat_data = flatten_dict.flatten(data_tree, reducer=qualified_name_reducer)
+    flat_functions = flatten_dict.flatten(
+        functions_tree, reducer=qualified_name_reducer
+    )
     missing_nodes = []
 
-    for accessor in root_nodes_accessors:
-        if accessor.path in functions:
-            func = accessor(functions_tree)
+    for node in flat_root_nodes:
+        if node in flat_functions:
+            func = flat_functions[node]
             if _func_depends_on_parameters_only(func):
                 # Function depends on parameters only, so it does not have to be present
                 # in the data tree.
                 continue
-
-        if accessor.path in data_paths:
+        elif node in flat_data:
             # Root node is present in the data tree.
             continue
-
-        qualified_name = QUALIFIED_NAME_SEPARATOR.join(accessor.path)
-        missing_nodes.append(qualified_name)
+        else:
+            missing_nodes.append(node)
 
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)
