@@ -1,18 +1,15 @@
 from __future__ import annotations
 
+import datetime
 import functools
 import inspect
 import re
 from collections.abc import Callable
-from datetime import date
 from typing import TypeVar
 
 import numpy
 
 T = TypeVar("T")
-
-DEFAULT_START_DATE = "1900-01-01"
-DEFAULT_END_DATE = "2100-12-31"
 
 
 class PolicyFunction(Callable):
@@ -42,18 +39,18 @@ class PolicyFunction(Callable):
         *,
         function: Callable,
         leaf_name: str,
-        start_date: date = DEFAULT_START_DATE,
-        end_date: date = DEFAULT_END_DATE,
-        params_key_for_rounding: str | None = None,
-        skip_vectorization: bool | None = False,
+        start_date: datetime.date,
+        end_date: datetime.date,
+        params_key_for_rounding: str | None,
+        skip_vectorization: bool | None,
     ):
         self.skip_vectorization: bool = skip_vectorization
         self.function = (
             function if self.skip_vectorization else _vectorize_func(function)
         )
         self.leaf_name: str = leaf_name if leaf_name else function.__name__
-        self.start_date: date = start_date
-        self.end_date: date = end_date
+        self.start_date: datetime.date = start_date
+        self.end_date: datetime.date = end_date
         self.params_key_for_rounding: str | None = params_key_for_rounding
 
         # Expose the signature of the wrapped function for dependency resolution
@@ -75,15 +72,15 @@ class PolicyFunction(Callable):
         """The name of the wrapped function."""
         return self.function.__name__
 
-    def is_active(self, date: date) -> bool:
+    def is_active(self, date: datetime.date) -> bool:
         """Check if the function is active at a given date."""
         return self.start_date <= date <= self.end_date
 
 
 def policy_function(
     *,
-    start_date: str = DEFAULT_START_DATE,
-    end_date: str = DEFAULT_END_DATE,
+    start_date: str | datetime.date = "1900-01-01",
+    end_date: str | datetime.date = "2100-12-31",
     leaf_name: str | None = None,
     params_key_for_rounding: str | None = None,
     skip_vectorization: bool = False,
@@ -130,8 +127,8 @@ def policy_function(
     _validate_dashed_iso_date(start_date)
     _validate_dashed_iso_date(end_date)
 
-    start_date = date.fromisoformat(start_date)
-    end_date = date.fromisoformat(end_date)
+    start_date = datetime.date.fromisoformat(start_date)
+    end_date = datetime.date.fromisoformat(end_date)
 
     _validate_date_range(start_date, end_date)
 
@@ -148,15 +145,15 @@ def policy_function(
     return inner
 
 
-_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
+_DASHED_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
-def _validate_dashed_iso_date(date_str: str):
-    if not _dashed_iso_date.match(date_str):
-        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
+def _validate_dashed_iso_date(date: str | datetime.date):
+    if not _DASHED_ISO_DATE.match(date):
+        raise ValueError(f"Date {date} does not match the format YYYY-MM-DD.")
 
 
-def _validate_date_range(start: date, end: date):
+def _validate_date_range(start: datetime.date, end: datetime.date):
     if start > end:
         raise ValueError(f"The start date {start} must be before the end date {end}.")
 

@@ -3,7 +3,7 @@ import inspect
 import pytest
 from optree import tree_paths
 
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
     create_time_conversion_functions,
@@ -176,7 +176,7 @@ class TestCreateFunctionsForTimeUnits:
         self, name: str, expected: list[str]
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {name: PolicyFunction(function=lambda: 1, leaf_name="test")}, {}
+            {name: policy_function(leaf_name="test")(lambda: 1)}, {}
         )
 
         for expected_name in expected:
@@ -209,7 +209,7 @@ class TestCreateFunctionsForTimeUnits:
 
     def test_should_not_create_functions_automatically_that_exist_already(self) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test1_d": PolicyFunction(function=lambda: 1, leaf_name="test1_d")},
+            {"test1_d": policy_function(leaf_name="test1_d")(lambda: 1)},
             {"test2_y": None},
         )
 
@@ -220,7 +220,7 @@ class TestCreateFunctionsForTimeUnits:
         self,
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test_d": PolicyFunction(function=lambda: 1, leaf_name="test_d")},
+            {"test_d": policy_function(leaf_name="test_d")(lambda: 1)},
             {"test_y": None},
         )
 
@@ -232,21 +232,21 @@ class TestCreateFunctionsForTimeUnits:
             (
                 {
                     "module1": {
-                        "function1_y": PolicyFunction(
-                            function=lambda: 1, leaf_name="function1_y"
+                        "function1_y": policy_function(leaf_name="function1_y")(
+                            lambda: 1
                         )
                     }
                 },
                 {
                     "module1": {
-                        "function1_m": PolicyFunction(
-                            function=lambda: 1, leaf_name="function1_m"
+                        "function1_m": policy_function(leaf_name="function1_m")(
+                            lambda: 1
                         ),
-                        "function1_w": PolicyFunction(
-                            function=lambda: 1, leaf_name="function1_w"
+                        "function1_w": policy_function(leaf_name="function1_w")(
+                            lambda: 1
                         ),
-                        "function1_d": PolicyFunction(
-                            function=lambda: 1, leaf_name="function1_d"
+                        "function1_d": policy_function(leaf_name="function1_d")(
+                            lambda: 1
                         ),
                     },
                 },
@@ -255,24 +255,24 @@ class TestCreateFunctionsForTimeUnits:
                 {
                     "module1": {
                         "module2": {
-                            "function1_y_hh": PolicyFunction(
-                                function=lambda: 1, leaf_name="function1_y_hh"
-                            )
+                            "function1_y_hh": policy_function(
+                                leaf_name="function1_y_hh"
+                            )(lambda: 1)
                         }
                     }
                 },
                 {
                     "module1": {
                         "module2": {
-                            "function1_m_hh": PolicyFunction(
-                                function=lambda: 1, leaf_name="function1_m_hh"
-                            ),
-                            "function1_w_hh": PolicyFunction(
-                                function=lambda: 1, leaf_name="function1_w_hh"
-                            ),
-                            "function1_d_hh": PolicyFunction(
-                                function=lambda: 1, leaf_name="function1_d_hh"
-                            ),
+                            "function1_m_hh": policy_function(
+                                leaf_name="function1_m_hh"
+                            )(lambda: 1),
+                            "function1_w_hh": policy_function(
+                                leaf_name="function1_w_hh"
+                            )(lambda: 1),
+                            "function1_d_hh": policy_function(
+                                leaf_name="function1_d_hh"
+                            )(lambda: 1),
                         },
                     },
                 },
@@ -309,7 +309,7 @@ class TestCreateFunctionForTimeUnit:
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
 def test_should_not_create_cycle():
     time_conversion_functions = create_time_conversion_functions(
-        {"test_d": PolicyFunction(function=lambda test_m: test_m, leaf_name="test_d")},
+        {"test_d": policy_function(leaf_name="test_d")(lambda test_m: test_m)},
         {},
     )
 

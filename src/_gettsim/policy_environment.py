@@ -17,7 +17,7 @@ from _gettsim.functions.loader import (
     load_aggregation_specs_tree,
     load_functions_tree_for_date,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -238,9 +238,7 @@ def _convert_function_to_policy_function(
     if isinstance(function, PolicyFunction):
         converted_function = function
     else:
-        converted_function = PolicyFunction(
-            function=function, leaf_name=function.__name__
-        )
+        converted_function = policy_function(leaf_name=function.__name__)(function)
 
     return converted_function
 

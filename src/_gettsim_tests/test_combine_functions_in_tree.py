@@ -42,14 +42,7 @@ def function_with_float_return(x: int) -> float:
     [
         (
             # Aggregations derived from simple function arguments
-            {
-                "namespace1": {
-                    "f": PolicyFunction(
-                        function=lambda x_hh: x_hh,
-                        leaf_name="f",
-                    )
-                }
-            },
+            {"namespace1": {"f": policy_function(leaf_name="f")(lambda x_hh: x_hh)}},
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
@@ -66,9 +59,8 @@ def function_with_float_return(x: int) -> float:
             # Aggregations derived from namespaced function arguments
             {
                 "namespace1": {
-                    "f": PolicyFunction(
-                        function=lambda inputs__x_hh: inputs__x_hh,
-                        leaf_name="f",
+                    "f": policy_function(leaf_name="f")(
+                        lambda inputs__x_hh: inputs__x_hh
                     )
                 }
             },
@@ -86,14 +78,7 @@ def function_with_float_return(x: int) -> float:
         ),
         (
             # Aggregations derived from target
-            {
-                "namespace1": {
-                    "f": PolicyFunction(
-                        function=lambda x: x,
-                        leaf_name="f",
-                    )
-                }
-            },
+            {"namespace1": {"f": policy_function(leaf_name="f")(lambda x: x)}},
             {"namespace1": {"f_hh": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
@@ -108,14 +93,7 @@ def function_with_float_return(x: int) -> float:
         ),
         (
             # Aggregations derived from simple environment specification
-            {
-                "namespace1": {
-                    "f": PolicyFunction(
-                        function=lambda y_hh: y_hh,
-                        leaf_name="f",
-                    )
-                }
-            },
+            {"namespace1": {"f": policy_function(leaf_name="f")(lambda y_hh: y_hh)}},
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
@@ -137,14 +115,7 @@ def function_with_float_return(x: int) -> float:
         ),
         (
             # Aggregations derived from namespaced environment specification
-            {
-                "namespace1": {
-                    "f": PolicyFunction(
-                        function=lambda y_hh: y_hh,
-                        leaf_name="f",
-                    )
-                }
-            },
+            {"namespace1": {"f": policy_function(leaf_name="f")(lambda y_hh: y_hh)}},
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},

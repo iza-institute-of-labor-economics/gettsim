@@ -6,7 +6,7 @@ from _gettsim.functions.loader import (
     ConflictingTimeDependentFunctionsError,
     _fail_if_multiple_policy_functions_are_active_at_the_same_time,
 )
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
+from _gettsim.functions.policy_function import policy_function
 
 # Start date -----------------------------------------------
 
@@ -127,32 +127,28 @@ def test_dates_active_empty_interval():
     "functions",
     [
         [
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 2, 1),
-                end_date=datetime.date(2023, 2, 28),
+            )(lambda x: x),
+            policy_function(
+                start_date="2023-02-01",
+                end_date="2023-02-28",
                 leaf_name="f",
-            ),
+            )(lambda x: x),
         ],
         [
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 2, 28),
+            )(lambda x: x),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-02-28",
                 leaf_name="g",
-            ),
+            )(lambda x: x),
         ],
     ],
 )
@@ -166,46 +162,40 @@ def test_dates_active_no_conflicts(functions):
     "functions",
     [
         [
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            )(lambda x: x),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
+            )(lambda x: x),
         ],
         [
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            policy_function(
+                start_date="2023-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2021, 1, 2),
-                end_date=datetime.date(2023, 2, 1),
+            )(lambda x: x),
+            policy_function(
+                start_date="2021-01-02",
+                end_date="2023-02-01",
                 leaf_name="f",
-            ),
+            )(lambda x: x),
         ],
         [
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2023, 1, 2),
-                end_date=datetime.date(2023, 2, 1),
+            policy_function(
+                start_date="2023-01-02",
+                end_date="2023-02-01",
                 leaf_name="f",
-            ),
-            PolicyFunction(
-                function=lambda x: x,
-                start_date=datetime.date(2022, 1, 1),
-                end_date=datetime.date(2023, 1, 31),
+            )(lambda x: x),
+            policy_function(
+                start_date="2022-01-01",
+                end_date="2023-01-31",
                 leaf_name="f",
-            ),
+            )(lambda x: x),
         ],
     ],
 )

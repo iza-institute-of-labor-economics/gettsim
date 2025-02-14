@@ -7,7 +7,7 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
@@ -21,7 +21,7 @@ from _gettsim_tests import TEST_DIR
 
 class TestPolicyEnvironment:
     def test_func_exists_in_tree(self):
-        function = PolicyFunction(function=lambda: 1, leaf_name="foo")
+        function = policy_function(leaf_name="foo")(lambda: 1)
         environment = PolicyEnvironment({"foo": function})
 
         assert environment.functions_tree["foo"] == function
@@ -35,19 +35,17 @@ class TestPolicyEnvironment:
         "environment",
         [
             PolicyEnvironment({}, {}),
-            PolicyEnvironment(
-                {"foo": PolicyFunction(function=lambda: 1, leaf_name="foo")}
-            ),
+            PolicyEnvironment({"foo": policy_function(leaf_name="foo")(lambda: 1)}),
             PolicyEnvironment(
                 {
-                    "foo": PolicyFunction(function=lambda: 1, leaf_name="foo"),
-                    "bar": PolicyFunction(function=lambda: 2, leaf_name="bar"),
+                    "foo": policy_function(leaf_name="foo")(lambda: 1),
+                    "bar": policy_function(leaf_name="bar")(lambda: 2),
                 }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(function=lambda: 3, leaf_name="foo")
+        new_function = policy_function(leaf_name="foo")(lambda: 3)
         new_environment = environment.upsert_policy_functions({"foo": new_function})
 
         assert new_environment.functions_tree["foo"] == new_function
@@ -148,7 +146,7 @@ def test_load_functions_tree_for_date(
 @pytest.mark.parametrize(
     "functions_tree",
     [
-        {"foo": PolicyFunction(function=lambda: 1, leaf_name="bar")},
+        {"foo": policy_function(leaf_name="bar")(lambda: 1)},
     ],
 )
 def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(

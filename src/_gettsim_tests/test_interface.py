@@ -9,7 +9,7 @@ import pytest
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
@@ -66,9 +66,8 @@ def test_output_as_tree(minimal_input_data):
     environment = PolicyEnvironment(
         {
             "module": {
-                "test_func": PolicyFunction(
-                    function=lambda groupings__p_id: groupings__p_id,
-                    leaf_name="test_func",
+                "test_func": policy_function(leaf_name="test_func")(
+                    lambda groupings__p_id: groupings__p_id
                 )
             }
         }
@@ -88,7 +87,7 @@ def test_output_as_tree(minimal_input_data):
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_warn_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(function=lambda x: x, leaf_name="dupl")}
+        {"dupl": policy_function(leaf_name="dupl")(lambda x: x)}
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
@@ -101,7 +100,7 @@ def test_warn_if_functions_and_columns_overlap():
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     environment = PolicyEnvironment(
-        {"some_func": PolicyFunction(function=lambda x: x, leaf_name="some_func")}
+        {"some_func": policy_function(leaf_name="some_func")(lambda x: x)}
     )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
@@ -115,7 +114,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
 @pytest.mark.xfail(reason="Needs renamings PR.")
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": PolicyFunction(function=lambda x: x, leaf_name="dupl")}
+        {"dupl": policy_function(leaf_name="dupl")(lambda x: x)}
     )
     with warnings.catch_warnings(
         category=FunctionsAndColumnsOverlapWarning, record=True
@@ -216,8 +215,8 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
 
     environment = PolicyEnvironment(
         {
-            "b": PolicyFunction(function=b, leaf_name="b"),
-            "c": PolicyFunction(function=c, leaf_name="c"),
+            "b": policy_function(leaf_name="b")(b),
+            "c": policy_function(leaf_name="c")(c),
         }
     )
 
@@ -376,9 +375,8 @@ def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree)
     environment = PolicyEnvironment(
         {
             "module_name": {
-                "betrag_m_double": PolicyFunction(
-                    function=betrag_m_double,
-                    leaf_name="betrag_m_double",
+                "betrag_m_double": policy_function(leaf_name="betrag_m_double")(
+                    betrag_m_double
                 )
             },
         },
