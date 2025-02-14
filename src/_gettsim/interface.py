@@ -556,11 +556,13 @@ def _fail_if_group_variables_not_constant_within_groups(
     faulty_leaves_tree = optree.tree_map_with_path(faulty_leaf, data_tree)
     if optree.tree_any(faulty_leaves_tree):
         paths, leaves = optree.tree_flatten_with_path(faulty_leaves_tree)
-        faulty = [f"{'.'.join(paths[i])}" for i, leaf in enumerate(leaves) if leaf]
+        faulty = "\n".join(
+            f"{'.'.join(paths[i])}" for i, leaf in enumerate(leaves) if leaf
+        )
         msg = format_errors_and_warnings(
             f"""The following data inputs do not have a unique value within
                 each group defined by the provided grouping IDs:\n
-                {'\n'.join(faulty)}
+                {faulty}
                 To fix this error, assign the same value to each group.
                 """
         )

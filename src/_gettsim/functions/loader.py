@@ -237,9 +237,10 @@ def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...
         / "functions.py")
     ("dir", "functions")
     """
-    # TODO(@MImmesberger): Delete removeprefix calls after changing directory structure
+    # TODO(@MImmesberger): Simplify after changing directory structure
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-    branches = tuple(
+    # tree_path = path.relative_to(package_root.parent).parts[1:] # noqa: ERA001
+    tree_path = tuple(
         path.relative_to(package_root.parent)
         .with_suffix("")
         .as_posix()
@@ -248,7 +249,7 @@ def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...
         .removeprefix("transfers/")
         .split("/")
     )
-    return _simplify_tree_path_when_module_name_equals_dir_name(branches)
+    return _simplify_tree_path_when_module_name_equals_dir_name(tree_path)
 
 
 def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
