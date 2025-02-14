@@ -150,8 +150,7 @@ def partition_tree_by_reference_tree(
     NestedFunctionDict | NestedDataDict,
 ]:
     """
-    Partition a tree into two separate trees based on the presence of its leaves in a
-    reference tree.
+    Partition a tree into two based on the presence of its paths in a reference tree.
 
     Parameters
     ----------

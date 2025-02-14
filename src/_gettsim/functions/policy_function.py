@@ -86,7 +86,7 @@ def policy_function(
     skip_vectorization: bool = False,
 ) -> PolicyFunction:
     """
-    Decorator that wraps a callable into a `PolicyFunction`.
+    Decorator that makes a `PolicyFunction` from a function.
 
     **Dates active (start_date, end_date, leaf_name):**
 
