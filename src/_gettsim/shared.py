@@ -93,8 +93,6 @@ def upsert_tree(base: dict, to_upsert: dict) -> dict:
     """
     Upsert a tree into another tree for trees defined by dictionaries only.
 
-    Dataclasses are treated as leaves and not merged.
-
     Note: In case of conflicting trees, the to_upsert takes precedence.
 
     Example:

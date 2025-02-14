@@ -31,7 +31,7 @@ def test_dont_load_init_py():
     """Don't load __init__.py files as sources for PolicyFunctions and
     AggregationSpecs."""
     all_files = _find_python_files_recursively(PATHS_TO_INTERNAL_FUNCTIONS)
-    assert "init.py" not in [file.name for file in all_files]
+    assert "__init__.py" not in [file.name for file in all_files]
 
 
 def scalar_func(x: int) -> int:
