@@ -2,11 +2,19 @@ import inspect
 import re
 from collections.abc import Callable
 
-from dags.signature import rename_arguments
+import optree
 
-from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
+from _gettsim.config import (
+    SUPPORTED_GROUPINGS,
+    SUPPORTED_TIME_UNITS,
+)
 from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
+from _gettsim.shared import (
+    rename_arguments_and_add_annotations,
+    upsert_path_and_value,
+)
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -24,8 +32,7 @@ def y_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value / _M_PER_Y
 
@@ -41,8 +48,7 @@ def y_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value / _W_PER_Y
 
@@ -58,8 +64,7 @@ def y_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value / _D_PER_Y
 
@@ -75,8 +80,7 @@ def m_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _M_PER_Y
 
@@ -92,8 +96,7 @@ def m_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value * _M_PER_Y / _W_PER_Y
 
@@ -109,8 +112,7 @@ def m_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value * _M_PER_Y / _D_PER_Y
 
@@ -126,8 +128,7 @@ def w_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _W_PER_Y
 
@@ -143,8 +144,7 @@ def w_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value * _W_PER_Y / _M_PER_Y
 
@@ -160,8 +160,7 @@ def w_to_d(value: float) -> float:
 
     Returns
     -------
-    float
-        Daily value.
+    Daily value.
     """
     return value * _W_PER_Y / _D_PER_Y
 
@@ -177,8 +176,7 @@ def d_to_y(value: float) -> float:
 
     Returns
     -------
-    float
-        Yearly value.
+    Yearly value.
     """
     return value * _D_PER_Y
 
@@ -194,8 +192,7 @@ def d_to_m(value: float) -> float:
 
     Returns
     -------
-    float
-        Monthly value.
+    Monthly value.
     """
     return value * _D_PER_Y / _M_PER_Y
 
@@ -211,8 +208,7 @@ def d_to_w(value: float) -> float:
 
     Returns
     -------
-    float
-        Weekly value.
+    Weekly value.
     """
     return value * _D_PER_Y / _W_PER_Y
 
@@ -234,9 +230,9 @@ _time_conversion_functions = {
 
 
 def create_time_conversion_functions(
-    functions: dict[str, PolicyFunction],
-    data_cols: list[str],
-) -> dict[str, DerivedFunction]:
+    functions_tree: NestedFunctionDict,
+    data_tree: NestedDataDict,
+) -> NestedFunctionDict:
     """
      Create functions that convert variables to different time units.
 
@@ -263,44 +259,56 @@ def create_time_conversion_functions(
 
     Parameters
     ----------
-    functions:
-        Dictionary of functions.
-    data_cols:
-        List of data columns.
+    functions_tree
+        The functions tree.
+    data
+        The data tree.
 
     Returns
     -------
-    derived_functions:
-        Dictionary of created functions.
+    The functions tree with the new time conversion functions.
     """
 
-    result: dict[str, DerivedFunction] = {}
+    converted_functions = {}
+    data_tree_paths = optree.tree_paths(data_tree, none_is_leaf=True)
 
     # Create time-conversions for existing functions
-    for name, func in functions.items():
-        result.update(
-            {
-                der_name: der_func
-                for der_name, der_func in _create_time_conversion_functions(
-                    name, func
-                ).items()
-                if der_name not in functions and der_name not in data_cols
-            }
+    for path, function in zip(*optree.tree_flatten_with_path(functions_tree)[:2]):
+        leaf_name = path[-1]
+        all_time_conversions_for_this_function = _create_time_conversion_functions(
+            name=leaf_name, func=function
         )
+        for der_name, der_func in all_time_conversions_for_this_function.items():
+            new_path = [*path[:-1], der_name]
+            # Skip if the function already exists or the data column exists
+            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
+                continue
+            else:
+                converted_functions = upsert_path_and_value(
+                    base=converted_functions,
+                    path_to_upsert=new_path,
+                    value_to_upsert=der_func,
+                )
 
-    # Create time-conversions for data columns and overwrite existing functions
-    for name in data_cols:
-        result.update(
-            {
-                der_name: der_func
-                for der_name, der_func in _create_time_conversion_functions(
-                    name
-                ).items()
-                if der_name not in data_cols
-            }
+    # Create time-conversions for data columns
+    for path in data_tree_paths:
+        leaf_name = path[-1]
+        all_time_conversions_for_this_data_column = _create_time_conversion_functions(
+            name=leaf_name
         )
+        for der_name, der_func in all_time_conversions_for_this_data_column.items():
+            new_path = [*path[:-1], der_name]
+            # Skip if the function already exists or the data column exists
+            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
+                continue
+            else:
+                converted_functions = upsert_path_and_value(
+                    base=converted_functions,
+                    path_to_upsert=new_path,
+                    value_to_upsert=der_func,
+                )
 
-    return result
+    return converted_functions
 
 
 def _create_time_conversion_functions(
@@ -340,11 +348,11 @@ def _create_time_conversion_functions(
                 continue
 
             result[new_name] = DerivedFunction(
-                _create_function_for_time_unit(
+                function=_create_function_for_time_unit(
                     name,
                     _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
                 ),
-                function_name=new_name,
+                leaf_name=new_name,
                 derived_from=func or name,
             )
 
@@ -354,7 +362,7 @@ def _create_time_conversion_functions(
 def _create_function_for_time_unit(
     function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
-    @rename_arguments(mapper={"x": function_name})
+    @rename_arguments_and_add_annotations(mapper={"x": function_name})
     def func(x: float) -> float:
         return converter(x)
 

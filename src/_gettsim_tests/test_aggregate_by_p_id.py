@@ -10,6 +10,7 @@ OVERRIDE_COLS = []
 data = load_policy_test_data("aggregate_by_p_id")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,

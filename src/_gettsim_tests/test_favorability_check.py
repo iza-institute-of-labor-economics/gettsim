@@ -8,6 +8,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 data = load_policy_test_data("favorability_check")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,

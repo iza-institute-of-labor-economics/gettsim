@@ -3,7 +3,8 @@
 
 import numpy
 
-from _gettsim.shared import join_numpy, policy_info
+from _gettsim.functions.policy_function import policy_function
+from _gettsim.shared import join_numpy
 
 aggregate_by_p_id_unterhaltsvors = {
     "unterhaltsvors_zahlbetrag_eltern_m": {
@@ -14,7 +15,7 @@ aggregate_by_p_id_unterhaltsvors = {
 }
 
 
-@policy_info(start_date="2009-01-01", params_key_for_rounding="unterhaltsvors")
+@policy_function(start_date="2009-01-01", params_key_for_rounding="unterhaltsvors")
 def unterhaltsvors_m(
     kind_unterh_erhalt_m: float,
     _unterhaltsvors_anspruch_kind_m: float,
@@ -58,9 +59,9 @@ def unterhaltsvors_m(
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="2008-12-31",
-    name_in_dag="unterhaltsvors_m",
+    leaf_name="unterhaltsvors_m",
     params_key_for_rounding="unterhaltsvors",
 )
 def unterhaltsvors_not_implemented_m() -> float:
@@ -71,7 +72,7 @@ def unterhaltsvors_not_implemented_m() -> float:
     )
 
 
-@policy_info(skip_vectorization=True)
+@policy_function(skip_vectorization=True)
 def parent_alleinerz(
     p_id_kindergeld_empf: numpy.ndarray[int],
     p_id: numpy.ndarray[int],
@@ -99,7 +100,7 @@ def parent_alleinerz(
     )
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="_kindergeld_erstes_kind_m")
+@policy_function(start_date="2023-01-01", leaf_name="_kindergeld_erstes_kind_m")
 def _kindergeld_erstes_kind_ohne_staffelung_m(
     kindergeld_params: dict,
     alter: int,  # noqa: ARG001
@@ -121,7 +122,7 @@ def _kindergeld_erstes_kind_ohne_staffelung_m(
     return kindergeld_params["kindergeld"]
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="_kindergeld_erstes_kind_m")
+@policy_function(end_date="2022-12-31", leaf_name="_kindergeld_erstes_kind_m")
 def _kindergeld_erstes_kind_gestaffelt_m(
     kindergeld_params: dict,
     alter: int,  # noqa: ARG001
@@ -143,10 +144,10 @@ def _kindergeld_erstes_kind_gestaffelt_m(
     return kindergeld_params["kindergeld"][1]
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2014-12-31",
-    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+    leaf_name="_unterhaltsvors_anspruch_kind_m",
 )
 def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
     alter: int,
@@ -201,10 +202,10 @@ def _unterhaltsvors_anspruch_kind_m_2009_bis_2014(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2015-01-01",
     end_date="2015-12-31",
-    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+    leaf_name="_unterhaltsvors_anspruch_kind_m",
 )
 def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
     alter: int,
@@ -241,10 +242,10 @@ def _unterhaltsvors_anspruch_kind_m_anwendungsvors(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2016-01-01",
     end_date="2017-06-30",
-    name_in_dag="_unterhaltsvors_anspruch_kind_m",
+    leaf_name="_unterhaltsvors_anspruch_kind_m",
 )
 def _unterhaltsvors_anspruch_kind_m_2016_bis_201706(
     alter: int,
@@ -284,7 +285,7 @@ def _unterhaltsvors_anspruch_kind_m_2016_bis_201706(
     return out
 
 
-@policy_info(start_date="2017-07-01", name_in_dag="_unterhaltsvors_anspruch_kind_m")
+@policy_function(start_date="2017-07-01", leaf_name="_unterhaltsvors_anspruch_kind_m")
 def _unterhaltsvors_anspruch_kind_m_ab_201707(
     alter: int,
     _unterhaltsvorschuss_empf_eink_above_income_threshold: bool,
@@ -328,7 +329,7 @@ def _unterhaltsvors_anspruch_kind_m_ab_201707(
     return out
 
 
-@policy_info(start_date="2017-01-01", skip_vectorization=True)
+@policy_function(start_date="2017-01-01", skip_vectorization=True)
 def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     p_id_kindergeld_empf: numpy.ndarray[int],
     p_id: numpy.ndarray[int],
@@ -357,7 +358,7 @@ def _unterhaltsvorschuss_empf_eink_above_income_threshold(
     )
 
 
-@policy_info(start_date="2017-01-01")
+@policy_function(start_date="2017-01-01")
 def _unterhaltsvorschuss_eink_above_income_threshold(
     unterhaltsvorschuss_eink_m: float,
     unterhaltsvors_params: dict,
@@ -378,7 +379,7 @@ def _unterhaltsvorschuss_eink_above_income_threshold(
     return unterhaltsvorschuss_eink_m >= unterhaltsvors_params["mindesteinkommen"]
 
 
-@policy_info(start_date="2017-01-01")
+@policy_function(start_date="2017-01-01")
 def unterhaltsvorschuss_eink_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,

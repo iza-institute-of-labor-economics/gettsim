@@ -1,5 +1,5 @@
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 
 def grunds_im_alter_m_eg(  # noqa: PLR0913
@@ -306,7 +306,7 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-@policy_info(end_date="2020-12-31", name_in_dag="grunds_im_alter_ges_rente_m")
+@policy_function(end_date="2020-12-31", leaf_name="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_bis_2020(
     ges_rente_m: float,
 ) -> float:
@@ -327,7 +327,7 @@ def grunds_im_alter_ges_rente_m_bis_2020(
     return ges_rente_m
 
 
-@policy_info(start_date="2021-01-01", name_in_dag="grunds_im_alter_ges_rente_m")
+@policy_function(start_date="2021-01-01", leaf_name="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_ab_2021(
     ges_rente_m: float,
     grundr_berechtigt: bool,

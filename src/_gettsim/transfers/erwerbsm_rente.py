@@ -1,7 +1,7 @@
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def erwerbsm_rente_m(  # noqa: PLR0913
     erwerbsm_rente_zugangsfaktor: float,
     entgeltp_west_erwerbsm_rente: float,
@@ -49,7 +49,7 @@ def erwerbsm_rente_m(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def ges_rente_vorauss_erwerbsm(
     voll_erwerbsgemind: bool,
     teilw_erwerbsgemind: bool,
@@ -85,7 +85,7 @@ def ges_rente_vorauss_erwerbsm(
     return anspruch_erwerbsm_rente
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def entgeltp_west_erwerbsm_rente(
     entgeltp_west: float,
     entgeltp_zurechnungszeit: float,
@@ -118,7 +118,7 @@ def entgeltp_west_erwerbsm_rente(
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def entgeltp_ost_erwerbsm_rente(
     entgeltp_ost: float,
     entgeltp_zurechnungszeit: float,
@@ -151,7 +151,7 @@ def entgeltp_ost_erwerbsm_rente(
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def entgeltp_zurechnungszeit(
     durchschn_entgeltp: float,
     age_of_retirement: float,
@@ -186,7 +186,7 @@ def entgeltp_zurechnungszeit(
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def rentenartfaktor(
     teilw_erwerbsgemind: bool,
     erwerbsm_rente_params: dict,
@@ -218,7 +218,7 @@ def rentenartfaktor(
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def erwerbsm_rente_zugangsfaktor(
     age_of_retirement: float,
     _erwerbsm_rente_langj_versicherte_wartezeit: bool,
@@ -277,7 +277,7 @@ def erwerbsm_rente_zugangsfaktor(
     return out
 
 
-@policy_info(start_date="2001-01-01")
+@policy_function(start_date="2001-01-01")
 def _erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,

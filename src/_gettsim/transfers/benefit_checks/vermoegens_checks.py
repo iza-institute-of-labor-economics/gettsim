@@ -1,4 +1,4 @@
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def _kinderzuschl_nach_vermög_check_m_bg(
@@ -33,7 +33,7 @@ def _kinderzuschl_nach_vermög_check_m_bg(
     return out
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="kinderzuschl_vermög_freib_bg")
+@policy_function(end_date="2022-12-31", leaf_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_bis_2022(
     arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
@@ -52,7 +52,7 @@ def kinderzuschl_vermög_freib_bg_bis_2022(
     return arbeitsl_geld_2_vermög_freib_bg
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="kinderzuschl_vermög_freib_bg")
+@policy_function(start_date="2023-01-01", leaf_name="kinderzuschl_vermög_freib_bg")
 def kinderzuschl_vermög_freib_bg_ab_2023(
     _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
 ) -> float:
@@ -160,7 +160,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
     return float(out)
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
+@policy_function(end_date="2022-12-31", leaf_name="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     _arbeitsl_geld_2_grundfreib_vermög_bg: float,
     anz_kinder_bis_17_bg: int,
@@ -195,7 +195,7 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     return out
 
 
-@policy_info(start_date="2023-01-01")
+@policy_function(start_date="2023-01-01")
 def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     arbeitsl_geld_2_params: dict,
     anz_personen_bg: int,
@@ -226,7 +226,7 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     return out
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
+@policy_function(start_date="2023-01-01", leaf_name="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     anz_personen_bg: int,

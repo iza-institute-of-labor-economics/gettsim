@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from _gettsim.aggregation_jax import all_by_p_id as all_by_p_id_jax
 from _gettsim.aggregation_jax import any_by_p_id as any_by_p_id_jax
 from _gettsim.aggregation_jax import count_by_p_id as count_by_p_id_jax
@@ -27,6 +29,27 @@ from _gettsim.aggregation_numpy import mean_by_p_id as mean_by_p_id_numpy
 from _gettsim.aggregation_numpy import min_by_p_id as min_by_p_id_numpy
 from _gettsim.aggregation_numpy import sum_by_p_id as sum_by_p_id_numpy
 from _gettsim.config import USE_JAX
+
+
+@dataclass
+class AggregateByGroupSpec:
+    """
+    A container for aggregate by group specifications.
+    """
+
+    aggr: str
+    source_col: str | None = None
+
+
+@dataclass
+class AggregateByPIDSpec:
+    """
+    A container for aggregate by p_id specifications.
+    """
+
+    p_id_to_aggregate_by: str
+    source_col: str
+    aggr: str
 
 
 def grouped_count(group_id):

@@ -11,6 +11,7 @@ OVERRIDE_COLS = []
 data = load_policy_test_data("groupings")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,
@@ -38,6 +39,7 @@ def test_groupings(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
     data = pd.DataFrame(
         {

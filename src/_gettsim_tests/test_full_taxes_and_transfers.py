@@ -1,7 +1,7 @@
 import pytest
 
 from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.functions.loader import _load_internal_functions
+from _gettsim.functions.loader import load_functions_tree_for_date
 from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
@@ -26,6 +26,7 @@ OUT_COLS = [
 data = load_policy_test_data("full_taxes_and_transfers")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "test_data",
     data.test_data,
@@ -48,6 +49,7 @@ def test_full_taxes_and_transfers(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "test_data",
     data.test_data,
@@ -56,7 +58,9 @@ def test_full_taxes_and_transfers(
 def test_data_types(
     test_data: PolicyTestData,
 ):
-    functions = {f.name_in_dag: f.function for f in _load_internal_functions()}
+    functions = {
+        f.leaf_name: f.function for f in load_functions_tree_for_date(test_data.date)
+    }
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:

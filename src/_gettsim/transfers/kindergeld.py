@@ -1,6 +1,7 @@
 import numpy
 
-from _gettsim.shared import join_numpy, policy_info
+from _gettsim.functions.policy_function import policy_function
+from _gettsim.shared import join_numpy
 
 aggregate_by_group_kindergeld = {
     "anz_kinder_mit_kindergeld_fg": {
@@ -18,7 +19,7 @@ aggregate_by_p_id_kindergeld = {
 }
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="kindergeld_m")
+@policy_function(start_date="2023-01-01", leaf_name="kindergeld_m")
 def kindergeld_ohne_staffelung_m(
     kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
@@ -43,7 +44,7 @@ def kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_anz_ansprüche
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="kindergeld_m")
+@policy_function(end_date="2022-12-31", leaf_name="kindergeld_m")
 def kindergeld_gestaffelt_m(
     kindergeld_anz_ansprüche: int,
     kindergeld_params: dict,
@@ -78,7 +79,7 @@ def kindergeld_gestaffelt_m(
     return sum_kindergeld
 
 
-@policy_info(end_date="2011-12-31", name_in_dag="kindergeld_anspruch")
+@policy_function(end_date="2011-12-31", leaf_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_lohn(
     alter: int,
     in_ausbildung: bool,
@@ -115,7 +116,7 @@ def kindergeld_anspruch_nach_lohn(
     return out
 
 
-@policy_info(start_date="2012-01-01", name_in_dag="kindergeld_anspruch")
+@policy_function(start_date="2012-01-01", leaf_name="kindergeld_anspruch")
 def kindergeld_anspruch_nach_stunden(
     alter: int,
     in_ausbildung: bool,
@@ -174,7 +175,7 @@ def kind_bis_10_mit_kindergeld(
     return out
 
 
-@policy_info(skip_vectorization=True)
+@policy_function(skip_vectorization=True)
 def same_fg_as_kindergeldempfänger(
     p_id: numpy.ndarray[int],
     p_id_kindergeld_empf: numpy.ndarray[int],

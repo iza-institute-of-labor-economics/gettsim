@@ -1,3 +1,5 @@
+from typing import Union
+
 import numpy
 import pandas as pd
 from pandas.api.types import (
@@ -8,7 +10,22 @@ from pandas.api.types import (
     is_object_dtype,
 )
 
+from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import numpy_or_jax as np
+from _gettsim.functions.derived_function import DerivedFunction
+from _gettsim.functions.policy_function import PolicyFunction
+
+NestedFunctionDict = dict[
+    str, Union[PolicyFunction, DerivedFunction, "NestedFunctionDict"]
+]
+NestedTargetDict = dict[str, Union[None, "NestedTargetDict"]]
+NestedInputStructureDict = dict[str, Union[None, "NestedInputStructureDict"]]
+NestedDataDict = dict[str, Union[pd.Series, "NestedDataDict"]]
+NestedSeriesDict = dict[str, Union[pd.Series, "NestedSeriesDict"]]
+NestedArrayDict = dict[str, Union[np.ndarray, "NestedArrayDict"]]
+NestedAggregationSpecDict = dict[
+    str, Union[AggregateByGroupSpec, AggregateByPIDSpec, "NestedAggregationSpecDict"]
+]
 
 
 def check_series_has_expected_type(series: pd.Series, internal_type: np.dtype) -> bool:

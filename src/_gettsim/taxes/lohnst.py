@@ -1,8 +1,8 @@
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.taxes.eink_st import _eink_st_tarif
 
 
-@policy_info(params_key_for_rounding="lohnst")
+@policy_function(params_key_for_rounding="lohnst")
 def lohnst_eink_y(
     bruttolohn_m: float,
     steuerklasse: int,
@@ -93,9 +93,9 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
-    name_in_dag="vorsorge_krankenv_option_b",
+    leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2019(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
@@ -139,10 +139,10 @@ def vorsorge_krankenv_option_b_ab_2019(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2015-01-01",
     end_date="2018-12-31",
-    name_in_dag="vorsorge_krankenv_option_b",
+    leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_m: float,
@@ -229,9 +229,9 @@ def vorsorge_krankenv_option_a(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2010-01-01",
-    name_in_dag="vorsorgepauschale_y",
+    leaf_name="vorsorgepauschale_y",
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
@@ -301,10 +301,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2009-12-31",
-    name_in_dag="vorsorgepauschale_y",
+    leaf_name="vorsorgepauschale_y",
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2005_bis_2009() -> float:
