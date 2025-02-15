@@ -16,7 +16,6 @@ from _gettsim.combine_functions_in_tree import (
 from _gettsim.config import (
     DEFAULT_TARGETS,
     FOREIGN_KEYS,
-    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -373,7 +372,7 @@ def _add_rounding_to_function(
 
     """
     func = copy.deepcopy(input_function)
-    qualified_name = ".".join(path)
+    nice_name = ".".join(path)
     leaf_name = path[-1]
 
     if input_function.params_key_for_rounding:
@@ -387,7 +386,7 @@ def _add_rounding_to_function(
             raise KeyError(
                 KeyErrorMessage(
                     f"""
-                    Rounding specifications for function {qualified_name} are expected
+                    Rounding specifications for function {nice_name} are expected
                     in the parameter dictionary at:\n
                     [{params_key!r}]['rounding'][{leaf_name!r}].\n
                     These nested keys do not exist. If this function should not be
@@ -441,7 +440,7 @@ def _apply_rounding_spec(
     Series with (potentially) rounded numbers
 
     """
-    qualified_name = ".".join(path)
+    nice_name = ".".join(path)
 
     def inner(func):
         # Make sure that signature is preserved.
@@ -452,12 +451,12 @@ def _apply_rounding_spec(
             # Check inputs.
             if type(base) not in [int, float]:
                 raise ValueError(
-                    f"base needs to be a number, got {base!r} for " f"{qualified_name}"
+                    f"base needs to be a number, got {base!r} for " f"{nice_name}"
                 )
             if type(to_add_after_rounding) not in [int, float]:
                 raise ValueError(
                     f"Additive part needs to be a number, got"
-                    f" {to_add_after_rounding!r} for {qualified_name}"
+                    f" {to_add_after_rounding!r} for {nice_name}"
                 )
 
             if direction == "up":
@@ -469,7 +468,7 @@ def _apply_rounding_spec(
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got {direction!r} for {qualified_name}"
+                    f", got {direction!r} for {nice_name}"
                 )
 
             rounded_out += to_add_after_rounding
@@ -634,9 +633,7 @@ def _warn_if_functions_overridden_by_data(
 ) -> None:
     """Warn if functions are overridden by data."""
     tree_paths = optree.tree_paths(functions_tree_overridden)
-    formatted_list = format_list_linewise(
-        [QUALIFIED_NAME_SEPARATOR.join(path) for path in tree_paths]
-    )
+    formatted_list = format_list_linewise([".".join(path) for path in tree_paths])
     if len(formatted_list) > 0:
         warnings.warn(
             FunctionsAndColumnsOverlapWarning(formatted_list),
@@ -722,13 +719,9 @@ def _fail_if_root_nodes_are_missing(
     ValueError
         If root nodes are missing.
     """
-    flat_root_nodes = flatten_dict.flatten(
-        root_nodes_tree, reducer=qualified_name_reducer
-    )
-    flat_data = flatten_dict.flatten(data_tree, reducer=qualified_name_reducer)
-    flat_functions = flatten_dict.flatten(
-        functions_tree, reducer=qualified_name_reducer
-    )
+    flat_root_nodes = flatten_dict.flatten(root_nodes_tree)
+    flat_data = flatten_dict.flatten(data_tree)
+    flat_functions = flatten_dict.flatten(functions_tree)
     missing_nodes = []
 
     for node in flat_root_nodes:
@@ -742,7 +735,7 @@ def _fail_if_root_nodes_are_missing(
             # Root node is present in the data tree.
             continue
         else:
-            missing_nodes.append(node)
+            missing_nodes.append(".".join(node))
 
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)

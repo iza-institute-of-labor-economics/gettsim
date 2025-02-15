@@ -35,7 +35,6 @@ from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
     partition_tree_by_reference_tree,
-    qualified_name_reducer,
     remove_group_suffix,
     rename_arguments_and_add_annotations,
     upsert_path_and_value,
@@ -179,7 +178,7 @@ def _create_aggregation_functions(
         annotations = _annotations_for_aggregation(
             aggregation_method=aggregation_spec.aggr,
             source_col=aggregation_spec.source_col,
-            namespace_of_function_to_derive=tree_path[:-1],
+            namespace=tree_path[:-1],
             functions_tree=functions_tree,
             types_input_variables=TYPES_INPUT_VARIABLES,
         )
@@ -309,7 +308,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
         for name in get_names_of_arguments_without_defaults(func):
             path_of_function_argument = _get_tree_path_from_source_col_name(
                 name=name,
-                current_namespace=tree_path[:-1],
+                namespace=tree_path[:-1],
             )
             current_tree = upsert_path_and_value(
                 base=current_tree,
@@ -321,31 +320,25 @@ def _get_potential_aggregation_function_names_from_function_arguments(
 def _annotations_for_aggregation(
     aggregation_method: str,
     source_col: str,
-    namespace_of_function_to_derive: tuple[str],
+    namespace: tuple[str],
     functions_tree: NestedFunctionDict,
     types_input_variables: dict[str, Any],
 ) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
     annotations = {}
 
-    qualified_name_of_source_col = QUALIFIED_NAME_SEPARATOR.join(
-        _get_tree_path_from_source_col_name(
-            name=source_col,
-            current_namespace=namespace_of_function_to_derive,
-        )
+    path_to_source_col = _get_tree_path_from_source_col_name(
+        name=source_col,
+        namespace=namespace,
     )
-    flat_functions = flatten_dict.flatten(
-        functions_tree, reducer=qualified_name_reducer
-    )
-    flat_types_input_variables = flatten_dict.flatten(
-        types_input_variables, reducer=qualified_name_reducer
-    )
+    flat_functions = flatten_dict.flatten(functions_tree)
+    flat_types_input_variables = flatten_dict.flatten(types_input_variables)
 
     if aggregation_method == "count":
         annotations["return"] = int
-    elif qualified_name_of_source_col in flat_functions:
+    elif path_to_source_col in flat_functions:
         # Source col is a function in the functions tree
-        source_function = flat_functions[qualified_name_of_source_col]
+        source_function = flat_functions[path_to_source_col]
         if "return" in source_function.__annotations__:
             annotations[source_col] = source_function.__annotations__["return"]
             annotations["return"] = _select_return_type(
@@ -356,11 +349,9 @@ def _annotations_for_aggregation(
             # of user-provided input variables are handled
             # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
             pass
-    elif qualified_name_of_source_col in flat_types_input_variables:
+    elif path_to_source_col in flat_types_input_variables:
         # Source col is a basic input variable
-        annotations[source_col] = flat_types_input_variables[
-            qualified_name_of_source_col
-        ]
+        annotations[source_col] = flat_types_input_variables[path_to_source_col]
         annotations["return"] = _select_return_type(
             aggregation_method, annotations[source_col]
         )
@@ -627,7 +618,7 @@ def _create_one_aggregate_by_p_id_func(
 
 def _get_tree_path_from_source_col_name(
     name: str,
-    current_namespace: tuple[str],
+    namespace: tuple[str],
 ) -> tuple[str]:
     """Get the tree path of a source column name that may be qualified or simple.
 
@@ -639,8 +630,8 @@ def _get_tree_path_from_source_col_name(
     ----------
     name
         The qualified or simple name.
-    current_namespace
-        The current namespace candidate for 'name'.
+    namespace
+        The namespace where 'name' is located.
 
     Returns
     -------
@@ -651,7 +642,7 @@ def _get_tree_path_from_source_col_name(
         new_tree_path = name.split(QUALIFIED_NAME_SEPARATOR)
     else:
         # 'name' is not namespaced.
-        new_tree_path = [*current_namespace, name]
+        new_tree_path = [*namespace, name]
 
     return tuple(new_tree_path)
 

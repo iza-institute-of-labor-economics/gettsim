@@ -236,7 +236,7 @@ def test_annotations_for_aggregation(  # noqa: PLR0913
         _annotations_for_aggregation(
             aggregation_method=aggregation_method,
             source_col=source_col,
-            namespace_of_function_to_derive=namespace_of_function_to_derive,
+            namespace=namespace_of_function_to_derive,
             functions_tree=functions_tree,
             types_input_variables=types_input_variables,
         )["return"]
