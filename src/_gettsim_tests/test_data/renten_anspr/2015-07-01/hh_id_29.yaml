@@ -8,8 +8,6 @@ inputs:
       - 18
     hh_id:
       - 18
-    tu_id:
-      - 18
     bruttolohn_m:
       - 1500.0
     wohnort_ost:
@@ -66,9 +64,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_west_update:
+  entgeltp_west_updated:
     - 39.88850659
-  entgeltp_ost_update:
+  entgeltp_ost_updated:
     - 0.0
   entgeltp_update_lohn:
     - 0.509006589
@@ -76,7 +74,7 @@ outputs:
     - 65.0
   ges_rente_vorauss_vorzeitig:
     - true
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - true
   _ges_rente_altersgrenze_vorzeitig:
     - 60.0

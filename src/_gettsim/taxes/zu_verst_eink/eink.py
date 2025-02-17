@@ -1,5 +1,5 @@
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import dates_active
+from _gettsim.shared import policy_info
 
 
 def eink_selbst_y(eink_selbst_m: float) -> float:
@@ -41,7 +41,7 @@ def eink_abhängig_beschäftigt_y(
 
     out = 12 * bruttolohn_m - abzug
 
-    return out
+    return max(out, 0.0)
 
 
 def _zu_verst_eink_abhängig_beschäftigt_y(
@@ -138,7 +138,7 @@ def eink_rente_zu_verst_y(
     return eink_rente_zu_verst_m * 12
 
 
-@dates_active(start="2009-01-01", change_name="sum_eink_y")
+@policy_info(start_date="2009-01-01", name_in_dag="sum_eink_y")
 def sum_eink_ohne_kapital_eink_y(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,
@@ -198,7 +198,7 @@ def kapitaleink_y(
     return max(out, 0.0)
 
 
-@dates_active(end="2008-12-31", change_name="sum_eink_y")
+@policy_info(end_date="2008-12-31", name_in_dag="sum_eink_y")
 def sum_eink_mit_kapital_eink_y(
     eink_selbst_y: float,
     _zu_verst_eink_abhängig_beschäftigt_y: float,

@@ -1,59 +1,239 @@
+from __future__ import annotations
+
 import copy
 import datetime
 import operator
-from collections.abc import Callable
 from functools import reduce
+from typing import TYPE_CHECKING, Any
 
 import numpy
 import pandas as pd
 import yaml
 
-import _gettsim.functions  # Execute all decorators # noqa: F401
 from _gettsim.config import INTERNAL_PARAMS_GROUPS, RESOURCE_DIR
-from _gettsim.functions_loader import load_internal_functions
+from _gettsim.functions.loader import (
+    load_functions_for_date,
+    load_internal_aggregation_dict,
+)
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
     piecewise_polynomial,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
-def set_up_policy_environment(date):
-    """Set up the policy environment for a particular date.
+
+class PolicyEnvironment:
+    """
+    A container for policy functions and parameters.
+
+    Almost always, instances are created with :PolicyEnvironment.for_date()`.
 
     Parameters
     ----------
-    date : int, str, datetime.date
-        The date for which the policy system is set up.
+    functions:
+        A list of policy functions.
+    params:
+        A dictionary with policy parameters.
+    aggregate_by_group_specs:
+        A dictionary which contains specs for functions which aggregate variables on the
+        aggregation levels specified in config.py. The syntax is the same as for
+        aggregation specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
+    aggregate_by_p_id_specs:
+        A dictionary which contains specs for linking aggregating taxes and by another
+        individual (for example, a parent). The syntax is the same as for aggregation
+        specs in the code base and as specified in [GEP
+        4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html)
+    """
 
+    @staticmethod
+    def for_date(date: datetime.date | str | int) -> PolicyEnvironment:
+        """
+        Set up the policy environment for a particular date.
+
+        Parameters
+        ----------
+        date:
+            The date for which the policy system is set up. An integer is
+            interpreted as the year.
+
+        Returns
+        -------
+        environment:
+            The policy environment for the specified date.
+        """
+        # Check policy date for correct format and convert to datetime.date
+        date = _parse_date(date)
+
+        params = {}
+        for group in INTERNAL_PARAMS_GROUPS:
+            params_one_group = _load_parameter_group_from_yaml(date, group)
+
+            # Align parameters for piecewise polynomial functions
+            params[group] = _parse_piecewise_parameters(params_one_group)
+
+        # Extend dictionary with date-specific values which do not need an own function
+        params = _parse_kinderzuschl_max(date, params)
+        params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
+        params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
+        functions = load_functions_for_date(date)
+
+        # Load aggregation specs
+        aggregate_by_group_specs = load_internal_aggregation_dict("aggregate_by_group")
+        aggregate_by_p_id_specs = load_internal_aggregation_dict("aggregate_by_p_id")
+
+        return PolicyEnvironment(
+            functions, params, aggregate_by_group_specs, aggregate_by_p_id_specs
+        )
+
+    def __init__(
+        self,
+        functions: list[PolicyFunction | Callable],
+        params: dict[str, Any] | None = None,
+        aggregate_by_group_specs: dict[str, dict[str, str]] | None = None,
+        aggregate_by_p_id_specs: dict[str, dict[str, str]] | None = None,
+    ):
+        self._functions = {}
+        for function in functions:
+            f = (
+                function
+                if isinstance(function, PolicyFunction)
+                else PolicyFunction(function)
+            )
+            self._functions[f.name_in_dag] = f
+
+        self._params = params if params is not None else {}
+        self._aggregate_by_group_specs = (
+            aggregate_by_group_specs if aggregate_by_group_specs is not None else {}
+        )
+        self._aggregate_by_p_id_specs = (
+            aggregate_by_p_id_specs if aggregate_by_p_id_specs is not None else {}
+        )
+
+    @property
+    def functions(self) -> dict[str, PolicyFunction]:
+        """The functions of the policy environment."""
+        return self._functions
+
+    @property
+    def params(self) -> dict[str, Any]:
+        """The parameters of the policy environment."""
+        return self._params
+
+    @property
+    def aggregate_by_group_specs(self) -> dict[str, dict[str, str]]:
+        """
+        The specs for functions which aggregate variables on the aggregation levels
+        specified in config.py.
+        """
+        return self._aggregate_by_group_specs
+
+    @property
+    def aggregate_by_p_id_specs(self) -> dict[str, dict[str, str]]:
+        """
+        The specs for linking aggregating taxes and by another individual (for example,
+        a parent).
+        """
+        return self._aggregate_by_p_id_specs
+
+    def get_function_by_name(self, name: str) -> PolicyFunction | None:
+        """
+        Return the function with a specific name or `None` if no such function exists.
+
+        Parameters
+        ----------
+        name:
+            The name of the functions.
+
+        Returns
+        -------
+        function:
+            The functions with the specified name, if it exists.
+        """
+        return self._functions.get(name)
+
+    def upsert_functions(
+        self, *functions: PolicyFunction | Callable
+    ) -> PolicyEnvironment:
+        """
+        Adds to or overwrites functions of the policy environment. Note that this
+        method does not modify the current policy environment but returns a new one.
+
+        Parameters
+        ----------
+        functions:
+            The functions to add or overwrite.
+
+        Returns
+        -------
+        new_environment:
+            The policy environment with the new functions.
+        """
+        new_functions = {**self._functions}
+        for function in functions:
+            f = (
+                function
+                if isinstance(function, PolicyFunction)
+                else PolicyFunction(function)
+            )
+            new_functions[f.name_in_dag] = f
+
+        result = object.__new__(PolicyEnvironment)
+        result._functions = new_functions  # noqa: SLF001
+        result._params = self._params  # noqa: SLF001
+        result._aggregate_by_group_specs = (  # noqa: SLF001
+            self._aggregate_by_group_specs
+        )
+        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
+
+        return result
+
+    def replace_all_parameters(self, params: dict[str, Any]):
+        """
+        Replace all parameters of the policy environment. Note that this
+        method does not modify the current policy environment but returns a new one.
+
+        Parameters
+        ----------
+        params:
+            The new parameters.
+
+        Returns
+        -------
+        new_environment:
+            The policy environment with the new parameters.
+        """
+        result = object.__new__(PolicyEnvironment)
+        result._functions = self._functions  # noqa: SLF001
+        result._params = params  # noqa: SLF001
+        result._aggregate_by_group_specs = (  # noqa: SLF001
+            self._aggregate_by_group_specs
+        )
+        result._aggregate_by_p_id_specs = self._aggregate_by_p_id_specs  # noqa: SLF001
+
+        return result
+
+
+def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironment:
+    """
+    Set up the policy environment for a particular date.
+
+    Parameters
+    ----------
+    date:
+        The date for which the policy system is set up. An integer is
+        interpreted as the year.
 
     Returns
     -------
-    params : dict
-        A dictionary with parameters from the policy environment. For more
-        information see the documentation of the :ref:`params_files`.
-    functions : dict
-        Dictionary mapping column names to functions creating the respective
-        data.
-
+    environment:
+        The policy environment for the specified date.
     """
-    # Check policy date for correct format and transfer to datetime.date
-    date = _parse_date(date)
-
-    params = {}
-    for group in INTERNAL_PARAMS_GROUPS:
-        params_one_group = _load_parameter_group_from_yaml(date, group)
-
-        # Align parameters for piecewise polynomial functions
-        params[group] = _parse_piecewise_parameters(params_one_group)
-
-    # extend dictionary with date-specific values which do not need an own function
-    params = _parse_kinderzuschl_max(date, params)
-    params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
-    params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
-    functions = load_functions_for_date(date)
-
-    return params, functions
+    return PolicyEnvironment.for_date(date)
 
 
 def _parse_date(date):
@@ -130,12 +310,12 @@ def _parse_kinderzuschl_max(date, params):
 
     Returns
     -------
-    params: dic
+    params: dict
         updated dictionary
 
     """
 
-    if (date.year >= 2024) or (2023 > date.year >= 2021):
+    if 2023 > date.year >= 2021:
         assert {"kinderzuschl", "kindergeld"} <= params.keys()
         params["kinderzuschl"]["maximum"] = (
             params["kinderzuschl"]["existenzminimum"]["regelsatz"]["kinder"]
@@ -166,7 +346,7 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
 
     Returns
     -------
-    params: dic
+    params: dict
         updated dictionary
 
     """
@@ -180,9 +360,9 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"][
-            "einführungsfaktor_vorsorgeaufw_alter_ab_2005"
-        ] = out.loc[0]
+        params["eink_st_abzuege"]["einführungsfaktor_vorsorgeaufw_alter_ab_2005"] = (
+            out.loc[0]
+        )
     return params
 
 
@@ -199,7 +379,7 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
 
     Returns
     -------
-    out: float
+    out: dict
 
     """
 
@@ -220,41 +400,6 @@ def _parse_vorsorgepauschale_rentenv_anteil(date, params):
         params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] = out.loc[0]
 
     return params
-
-
-def load_functions_for_date(date):
-    """Load time-dependent policy reforms.
-
-    Parameters
-    ----------
-    date : datetime.date
-        The date for which the policy system is set up.
-
-    Returns
-    -------
-    functions : dict
-        Dictionary mapping column names to functions creating the respective
-        data.
-
-    """
-
-    # Using TIME_DEPENDENT_FUNCTIONS here leads to failing tests.
-    functions = {}
-    for f in load_internal_functions().values():
-        if not is_time_dependent(f) or is_active_at_date(f, date):
-            info = f.__info__ if hasattr(f, "__info__") else {}
-            name = info.get("dates_active_dag_key", f.__name__)
-            functions[name] = f
-
-    return functions
-
-
-def is_time_dependent(f: Callable) -> bool:
-    return hasattr(f, "__info__") and "dates_active_dag_key" in f.__info__
-
-
-def is_active_at_date(f: Callable, date: datetime.date) -> bool:
-    return f.__info__["dates_active_start"] <= date <= f.__info__["dates_active_end"]
 
 
 def _load_parameter_group_from_yaml(
@@ -398,9 +543,9 @@ def _load_parameter_group_from_yaml(
                             yaml_path=yaml_path,
                         )
                         if param in params_beginning_of_year:
-                            out_params[
-                                f"{param}_jahresanfang"
-                            ] = params_beginning_of_year[param]
+                            out_params[f"{param}_jahresanfang"] = (
+                                params_beginning_of_year[param]
+                            )
                 else:
                     raise ValueError(
                         "Currently, access_different_date is only implemented for "

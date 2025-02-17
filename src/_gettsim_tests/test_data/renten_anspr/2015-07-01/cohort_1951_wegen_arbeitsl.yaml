@@ -8,8 +8,6 @@ inputs:
       - 1
     hh_id:
       - 1
-    tu_id:
-      - 1
     geburtsjahr:
       - 1951
     geburtsmonat:
@@ -50,5 +48,5 @@ inputs:
 outputs:
   _ges_rente_arbeitsl_altersgrenze:
     - 65.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 63.0

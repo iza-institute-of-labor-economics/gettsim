@@ -9,21 +9,51 @@ inputs:
       - 1
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
-      - 1
-      - 1
     p_id:
       - 1
       - 2
       - 3
       - 4
-    vermögen_bedürft_hh:
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - -1
+      - -1
+    vermögen_bedürft:
       - 5500.0
-      - 5500.0
-      - 5500.0
-      - 5500.0
+      - 0.0
+      - 0.0
+      - 0.0
     bruttolohn_m:
       - 300.0
       - 600.0
@@ -49,7 +79,7 @@ inputs:
       - false
       - false
       - true
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
       - false
       - false
@@ -74,6 +104,21 @@ inputs:
       - 2000.0
       - 3000.0
       - 4000.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 1000.0
+      - 2000.0
+      - 3000.0
+      - 4000.0
+    elterngeld_claimed:
+      - true
+      - true
+      - true
+      - true
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
+      - 013176.0
+      - 025188.0
+      - 037200.0
+      - 049212.0
     arbeitsstunden_w:
       - 0.0
       - 0.0
@@ -124,6 +169,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    p_id_betreuungsk_träger:
+      - -1
+      - -1
+      - -1
+      - -1
     kapitaleink_brutto_m:
       - 200.0
       - 200.0
@@ -159,17 +209,7 @@ inputs:
       - 50.0
       - 50.0
       - 50.0
-    m_elterngeld:
-      - 0
-      - 0
-      - 0
-      - 0
-    m_elterngeld_vat_hh:
-      - 0
-      - 0
-      - 0
-      - 0
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug:
       - 0
       - 0
       - 0

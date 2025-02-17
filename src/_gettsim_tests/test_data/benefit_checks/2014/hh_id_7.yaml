@@ -10,9 +10,18 @@ inputs:
     hh_id:
       - 7
       - 7
-    tu_id:
-      - 7
-      - 7
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - 19
+      - 18
+    eigenbedarf_gedeckt:
+      - false
+      - false
     kind:
       - false
       - false
@@ -22,30 +31,36 @@ inputs:
     alter:
       - 75
       - 50
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 78000.0
-      - 78000.0
-    _kinderzuschl_vor_vermög_check_m_tu:
+      - 0.0
+    _kinderzuschl_vor_vermög_check_m_bg:
       - 0.0
       - 0.0
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_anspruchshöhe_m_wthh:
+      - 0.0
+      - 0.0
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
     arbeitsl_geld_2_regelbedarf_m_bg:
       - 1046.0
       - 1046.0
-    kindergeld_m_hh:
+    kindergeld_zur_bedarfsdeckung_m:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m_hh:
+    kindergeldübertrag_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m_hh:
+    kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_m_hh:
+    unterhaltsvors_m:
+      - 0.0
+      - 0.0
+    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 300.0
-      - 300.0
+      - 0.0
     geburtsjahr:
       - 1939
       - 1964
@@ -57,7 +72,7 @@ outputs:
   kinderzuschl_m_bg:
     - 0
     - 0
-  wohngeld_m_vg:
+  wohngeld_m_wthh:
     - 0
     - 0
   arbeitsl_geld_2_m_bg:

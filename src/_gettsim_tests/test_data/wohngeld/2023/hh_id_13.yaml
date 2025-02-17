@@ -1,6 +1,6 @@
 ---
 info:
-  note: ''
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
   source: https://www.bmwsb.bund.de/SiteGlobals/Forms/wohngeldrechner/wohngeldrechner-2023-formular.html?resourceId=18737268&input_=18737272&pageLocale=de&householdMembers=3&housingbenefitRecipients=3&income=1365&rent=700&rentLevelZIPCode=73434&rentLevelTown=3&rentLevelTown.GROUP=1&rentLevel=3&rentLevel.GROUP=3&update=Berechnen&result=425%2C00
 inputs:
   provided:
@@ -12,10 +12,38 @@ inputs:
       - 13
       - 13
       - 13
-    tu_id:
-      - 13
-      - 13
-      - 13
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 57
+    p_id_ehepartner:
+      - 58
+      - 57
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 57
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 58
+    p_id_einstandspartner:
+      - 58
+      - 57
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+    bürgerg_bezug_vorj:
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -24,6 +52,26 @@ inputs:
       - 700.0
       - 700.0
       - 700.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 60.0
+      - 60.0
+      - 60.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -92,11 +140,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 85.71
       - 100.0
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 68.57
       - 80.0
       - 0.0
@@ -108,15 +156,15 @@ inputs:
       - 2023
       - 2023
       - 2023
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 585.0
       - 585.0
       - 585.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 45000.0
-      - 45000.0
-      - 45000.0
-    haushaltsgröße_hh:
+      - 0.0
+      - 0.0
+    anz_personen_hh:
       - 3
       - 3
       - 3
@@ -132,13 +180,29 @@ inputs:
       - 1984
       - 1988
       - 2013
+    wohngeld_vorrang_bg:
+      - true
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
+    wohngeld_mindesteinkommen_erreicht_wthh:
+      - true
+      - true
+      - true
+    wohngeld_mindesteinkommen_erreicht_bg:
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
+  wohngeld_anspruchshöhe_m_bg:
     - 469.0
     - 469.0
     - 469.0
-  wohngeld_nach_vermög_check_m_vg:
+  wohngeld_anspruchshöhe_m_wthh:
     - 469.0
     - 469.0
     - 469.0

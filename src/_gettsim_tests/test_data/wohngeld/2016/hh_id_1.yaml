@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -12,10 +12,34 @@ inputs:
       - 1
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
-      - 1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 15
+    p_id_ehepartner:
+      - 16
+      - 15
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 15
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 16
+    p_id_einstandspartner:
+      - 16
+      - 15
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
     kind:
       - false
       - false
@@ -24,6 +48,26 @@ inputs:
       - 700.0
       - 700.0
       - 700.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 50.0
+      - 50.0
+      - 50.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -92,11 +136,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 100.0
       - 0.0
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 80.0
       - 0.0
       - 0.0
@@ -108,15 +152,15 @@ inputs:
       - 2016
       - 2016
       - 2016
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 1000.0
       - 1000.0
       - 1000.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 120000.0
-      - 120000.0
-      - 120000.0
-    haushaltsgröße_hh:
+      - 0.0
+      - 0.0
+    anz_personen_hh:
       - 3
       - 3
       - 3
@@ -132,13 +176,21 @@ inputs:
       - 1971
       - 1970
       - 2007
+    wohngeld_vorrang_bg:
+      - true
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
+  wohngeld_anspruchshöhe_m_bg:
     - 75.0
     - 75.0
     - 75.0
-  wohngeld_nach_vermög_check_m_vg:
+  wohngeld_anspruchshöhe_m_wthh:
     - 75.0
     - 75.0
     - 75.0

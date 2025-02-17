@@ -3,35 +3,86 @@
 These information are used throughout modules of gettsim.
 
 """
+
 import datetime
 
 import numpy
 
-aggregation_demographic_vars = {
-    "anz_erwachsene_tu": {"source_col": "erwachsen", "aggr": "sum"},
-    "anz_erwachsene_hh": {"source_col": "erwachsen", "aggr": "sum"},
-    "anz_rentner_hh": {"source_col": "rentner", "aggr": "sum"},
-    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
-    "anz_kinder_tu": {"source_col": "kind", "aggr": "sum"},
-    "anz_kinder_bis_5_hh": {"source_col": "kind_bis_5", "aggr": "sum"},
-    "anz_kinder_bis_6_hh": {"source_col": "kind_bis_6", "aggr": "sum"},
-    "anz_kinder_bis_15_hh": {"source_col": "kind_bis_15", "aggr": "sum"},
-    "anz_kinder_bis_17_hh": {"source_col": "kind_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_6_bis_13_hh": {"source_col": "kind_ab_6_bis_13", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_24_hh": {"source_col": "kind_ab_14_bis_24", "aggr": "sum"},
-    "anz_kinder_ab_14_bis_17_hh": {"source_col": "kind_ab_14_bis_17", "aggr": "sum"},
-    "anz_kinder_ab_18_bis_24_hh": {"source_col": "kind_ab_18_bis_24", "aggr": "sum"},
-    "anz_kinder_bis_10_tu": {"source_col": "kind_bis_10", "aggr": "sum"},
-    "alleinerz_tu": {"source_col": "alleinerz", "aggr": "any"},
-    "alleinerz_hh": {"source_col": "alleinerz", "aggr": "any"},
-    "haushaltsgröße_hh": {"aggr": "count"},
-    "tax_unit_größe_tu": {"aggr": "count"},
-    "alter_monate_jüngstes_mitglied_hh": {"source_col": "alter_monate", "aggr": "min"},
-    "anz_mehrlinge_jüngstes_kind_hh": {
-        "source_col": "jüngstes_kind_oder_mehrling",
+from _gettsim.config import SUPPORTED_GROUPINGS
+
+aggregate_by_p_id_demographic_vars = {
+    "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
+        "source_col": "kind_bis_24",
+        "aggr": "sum",
+    },
+    "ges_pflegev_anz_kinder_bis_24_elternteil_2": {
+        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "source_col": "kind_bis_24",
         "aggr": "sum",
     },
 }
+
+
+def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
+    """Add grouping suffixes to keys of a dictionary.
+
+    Parameters
+    ----------
+    group_dict
+        Dictionary with keys to be suffixed.
+
+    Returns
+    -------
+    Dictionary with suffixed keys.
+    """
+    out = {}
+
+    for key, value in group_dict.items():
+        for suffix in SUPPORTED_GROUPINGS:
+            new_key = key + "_" + suffix
+            out[new_key] = value
+
+    return out
+
+
+aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
+    {
+        "anz_erwachsene": {"source_col": "erwachsen", "aggr": "sum"},
+        "anz_rentner": {"source_col": "rentner", "aggr": "sum"},
+        "anz_kinder": {"source_col": "kind", "aggr": "sum"},
+        "anz_personen": {"aggr": "count"},
+        "anz_kinder_bis_2": {"source_col": "kind_bis_2", "aggr": "sum"},
+        "anz_kinder_bis_5": {"source_col": "kind_bis_5", "aggr": "sum"},
+        "anz_kinder_bis_6": {"source_col": "kind_bis_6", "aggr": "sum"},
+        "anz_kinder_bis_15": {"source_col": "kind_bis_15", "aggr": "sum"},
+        "anz_kinder_bis_17": {"source_col": "kind_bis_17", "aggr": "sum"},
+        "alleinerz": {"source_col": "alleinerz", "aggr": "any"},
+        "alter_monate_jüngstes_mitglied": {"source_col": "alter_monate", "aggr": "min"},
+        "anz_mehrlinge_jüngstes_kind": {
+            "source_col": "jüngstes_kind_oder_mehrling",
+            "aggr": "sum",
+        },
+    }
+)
+
+
+def kind_bis_2(alter: int, kind: bool) -> bool:
+    """Calculate if child under the age of 3.
+
+    Parameters
+    ----------
+    alter
+        See basic input variable :ref:`alter <alter>`.
+    kind
+        See basic input variable :ref:`kind <kind>`.
+
+    Returns
+    -------
+
+    """
+    out = kind and (alter <= 2)
+    return out
 
 
 def kind_bis_5(alter: int, kind: bool) -> bool:
@@ -67,24 +118,6 @@ def kind_bis_6(alter: int, kind: bool) -> bool:
 
     """
     out = kind and (alter <= 6)
-    return out
-
-
-def kind_bis_10(alter: int, kind: bool) -> bool:
-    """Calculate if child under the age of 11.
-
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = kind and (alter <= 10)
     return out
 
 
@@ -124,70 +157,42 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
     return out
 
 
-def kind_ab_6_bis_13(alter: int, kind: bool) -> bool:
-    """Calculate if child between 6 and 13 years old.
+def kind_bis_24(alter: int) -> bool:
+    """Child below the age of 25.
+
+    Relevant for the calculation of the long-term care insurance contribution. It does
+    not matter whether children have a claim on Kindergeld.
 
     Parameters
     ----------
     alter
         See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
 
     Returns
     -------
-
     """
-    out = kind and (6 <= alter <= 13)
-    return out
+    return alter <= 24
 
 
-def kind_ab_14_bis_24(alter: int, kind: bool) -> bool:
-    """Calculate if child between 14 and 24 years old.
-
+def ges_pflegev_anz_kinder_bis_24(
+    ges_pflegev_anz_kinder_bis_24_elternteil_1: int,
+    ges_pflegev_anz_kinder_bis_24_elternteil_2: int,
+) -> int:
+    """Number of children under 25 years of age.
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    ges_pflegev_anz_kinder_bis_24_elternteil_1
+        See :func:`ges_pflegev_anz_kinder_bis_24_elternteil_1`.
+    ges_pflegev_anz_kinder_bis_24_elternteil_2
+        See :func:`ges_pflegev_anz_kinder_bis_24_elternteil_2`.
 
     Returns
     -------
-
     """
-    out = kind and (14 <= alter <= 24)
-    return out
-
-
-def kind_ab_14_bis_17(alter: int, kind: bool) -> bool:
-    """Calculate if child between 14 and 17 years old.
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    Returns
-    -------
-    """
-    out = kind and (14 <= alter <= 17)
-    return out
-
-
-def kind_ab_18_bis_24(alter: int, kind: bool) -> bool:
-    """Calculate if child between 18 and 24 years old.
-    Parameters
-    ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    Returns
-    -------
-    """
-    out = kind and (18 <= alter <= 24)
-    return out
+    return (
+        ges_pflegev_anz_kinder_bis_24_elternteil_1
+        + ges_pflegev_anz_kinder_bis_24_elternteil_2
+    )
 
 
 def erwachsen(kind: bool) -> bool:
@@ -206,23 +211,6 @@ def erwachsen(kind: bool) -> bool:
     """
     out = not kind
     return out
-
-
-def gemeinsam_veranlagt_tu(anz_erwachsene_tu: int) -> bool:
-    """Check if the tax unit consists of two wage earners.
-
-    Parameters
-    ----------
-    tu_id
-        See basic input variable :ref:`tu_id <tu_id>`.
-    anz_erwachsene_tu
-        See :func:`anz_erwachsene_tu`.
-    Returns
-    -------
-    Boolean indicating two wage earners in tax unit.
-
-    """
-    return anz_erwachsene_tu == 2
 
 
 def erwachsene_alle_rentner_hh(anz_erwachsene_hh: int, anz_rentner_hh: int) -> bool:
@@ -292,7 +280,7 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
 def jüngstes_kind_oder_mehrling(
     alter_monate: float,
-    alter_monate_jüngstes_mitglied_hh: float,
+    alter_monate_jüngstes_mitglied_fg: float,
     kind: bool,
 ) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
@@ -306,8 +294,8 @@ def jüngstes_kind_oder_mehrling(
     ----------
     alter_monate
         See :func:`alter_monate`.
-    alter_monate_jüngstes_mitglied_hh
-        See :func:`alter_monate_jüngstes_mitglied_hh`.
+    alter_monate_jüngstes_mitglied_fg
+        See :func:`alter_monate_jüngstes_mitglied_fg`.
     kind
         See basic input variable :ref:`kind <kind>`.
 
@@ -315,29 +303,7 @@ def jüngstes_kind_oder_mehrling(
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_hh < 0.1) and kind
-    return out
-
-
-def eltern(
-    erwachsen: bool,
-    kindergeld_anspruch: bool,
-) -> bool:
-    """Check if person in the tax unit is considered a parent or the parent's spouse.
-
-    Parameters
-    ----------
-    erwachsen
-        See :func:`erwachsen`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
-
-    Returns
-    -------
-
-    """
-
-    out = (erwachsen) and (not kindergeld_anspruch)
+    out = (alter_monate - alter_monate_jüngstes_mitglied_fg < 0.1) and kind
     return out
 
 

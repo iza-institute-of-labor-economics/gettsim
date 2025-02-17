@@ -241,7 +241,8 @@ This document has been placed in the public domain.
     revisions, and can also be browsed on
     [GitHub](https://github.com/iza-institute-of-labor-economics/gettsim/tree/main/docs/geps).
 
-[^id4]: The URL for viewing GEPs on the web is <https://gettsim.readthedocs.io/en/latest/geps>.
+[^id4]: The URL for viewing GEPs on the web is
+    <https://gettsim.readthedocs.io/en/latest/geps>.
 
 [#geps]: https://gettsim.zulipchat.com/#narrow/stream/309998-GEPs
 [github pull request]: https://github.com/iza-institute-of-labor-economics/gettsim/pulls

@@ -20,8 +20,23 @@ höchstbetrag:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 1800
+    scalar: 1800.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+max_zu_berücksichtigendes_einkommen:
+  name:
+    de: Maximal zu berücksichtigendes Einkommen vor Geburt.
+    en: Maximum income to be considered before birth.
+  description:
+    de: § 2 (3) BEEG
+    en: null
+  unit: Euro
+  reference_period: Month
+  2007-01-01:
+    scalar: 2700.0
+    reference: BGBl. I S. 2748 Art. 1 G. v. 05.12.2006
+  2012-09-18:
+    scalar: 2770.0
+    reference: Artikel 1 G. v. 10.09.2012 BGBl. I S. 1878
 nettoeinkommen_stufen:
   name:
     de: Nettoeinkommen an 1. und 2. Stufe
@@ -34,12 +49,12 @@ nettoeinkommen_stufen:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    lower_threshold: 1000
-    upper_threshold: 1001
+    lower_threshold: 1000.0
+    upper_threshold: 1001.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
   2011-01-01:
-    lower_threshold: 1000
-    upper_threshold: 1201
+    lower_threshold: 1000.0
+    upper_threshold: 1201.0
   reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
 mindestbetrag:
   name:
@@ -90,7 +105,7 @@ eink_schritt_korrektur:
   2007-01-01:
     scalar: 2
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-geschw_bonus_altersgrenzen_kinder:
+geschwisterbonus_altersgrenzen:
   name:
     de: Altersgrenzen für Geschwisterbonus
     en: Age limit for sibling bonus
@@ -105,7 +120,7 @@ geschw_bonus_altersgrenzen_kinder:
   2007-01-01:
     3: 2
     6: 3
-geschw_bonus_aufschlag:
+geschwisterbonus_aufschlag:
   name:
     de: Geschwisterbonus als prozentualer Aufschlag
     en: Sibling Bonus, percentage top-up
@@ -116,7 +131,7 @@ geschw_bonus_aufschlag:
   2007-01-01:
     scalar: 0.1
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-geschw_bonus_minimum:
+geschwisterbonus_minimum:
   name:
     de: Minimaler Geschwisterbonus als Euro-Betrag
     en: Sibling Bonus, minimal amount
@@ -126,7 +141,7 @@ geschw_bonus_minimum:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 75
+    scalar: 75.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 mehrlingbonus:
   name:
@@ -138,7 +153,7 @@ mehrlingbonus:
   unit: Euro
   reference_period: Month
   2007-01-01:
-    scalar: 300
+    scalar: 300.0
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
 sozialv_pausch:
   name:
@@ -152,23 +167,92 @@ sozialv_pausch:
     scalar: 0.21
     reference: Art. 1 G. v. 10.09.2012 BGBl. I S. 1878
     note: .09 + .1 + .02
-max_monate_paar:
+max_monate_mit_partnermonate:
   name:
-    de: Maximale Anzahl an Monaten, in denen ein Paar Elterngeld erhält
-    en: Maximum number of months a couple may receive parental benefit.
+    de: Maximale Anzahl an Monaten, inklusiver Partnermonate.
+    en: Maximum number of months, including "Partnermonate".
   description:
-    de: § 4 (3) BEEG
-    en: null
+    de: >-
+      Basismonate plus "Partnermonate" bei gleichzeitiger Inanspruchnahme von Elterngeld
+      bei Paaren. Basismonate bei Alleinerziehenden.
+  reference: § 4 (3) BEEG
   2007-01-01:
     scalar: 14
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
-max_monate_ind:
+max_monate_ohne_partnermonate:
   name:
-    de: Maximale Anzahl an Monaten, die jedes Elternteil Elterngeld erhält
-    en: Maximum number of months an individual parent may receive parental benefit.
+    de: >-
+      Maximale Anzahl an Monaten bei Paaren, die nicht gleichzeitig Elterngeld beziehen.
+    en: Maximum number of months for couples not receiving Elterngeld simultaneously.
   description:
-    de: § 4 (3) BEEG
+    de: Basismonate ohne Partnermonate.
     en: null
+  reference: § 4 (3) BEEG
   2007-01-01:
     scalar: 12
     reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+max_eink_vorj:
+  description:
+    de: >-
+      Maximales zu versteuerndes Einkommen im letzten Veranlagungszeitraum vor Geburt
+      des Kindes. Einkommen über dieser Grenze schließt den Bezug von Elterngeld aus (§
+      1 (8) BEEG).
+    en: >-
+      Maximum taxable income in the year before the birth of the child. Income above
+      this threshold disqualifies the parent from receiving Elterngeld.
+  reference:
+    de: null
+    en: null
+  unit: Euro
+  2011-01-01:
+    single: 250000.0
+    paar: 500000.0
+    reference: Art. 14 G. v. 09.12.2010 BGBl. I S. 1885
+  2021-09-01:
+    deviation_from: previous
+    paar: 300000.0
+    reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
+  2024-04-01:
+    scalar: 200000.0
+    reference: >-
+      Single: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107, Paar: Art. 1 G. v.
+      22.12.2023 BGBl. 2023 I Nr. 412
+  2025-04-01:
+    scalar: 175000.0
+    reference: >-
+      Single: Art. 7 G. v. 27.03.2024 BGBl. 2024 I Nr. 107, Paar: Art. 1 G. v.
+      22.12.2023 BGBl. 2023 I Nr. 412
+max_arbeitsstunden_w:
+  name:
+    de: >-
+      Maximale Wochenstunden die bei Elterngeldbezug gearbeitet werden dürfen
+    en: >-
+      Maximum amount of weekly hours one is allowed to work, when receiving Elterngeld
+  description:
+    de: §1 (6) BEEG
+    en: null
+  2007-01-01:
+    scalar: 30.0
+    reference: Art. 1 G. v. 05.12.2006 BGBl. I S. 2748
+  2021-09-01:
+    scalar: 32.0
+    reference: Art. 1 G. v. 15.02.2021 BGBl. I S. 239
+rounding:
+  elterngeld_m:
+    1980-01-01:
+      base: 0.01
+      direction: down
+  _untere_lohnersatzanteil_grenze_minus_nettoeinkommen:
+    1980-01-01:
+      base: 2
+      direction: down
+      reference: §2 (2) BEEG
+  _nettoeinkommen_minus_obere_lohnersatzanteil_grenze:
+    1980-01-01:
+      base: 2
+      direction: down
+      reference: §2 (2) BEEG
+  elterngeld_nettolohn_approximation_m:
+    1980-01-01:
+      base: 0.01
+      direction: down

@@ -1,6 +1,8 @@
 import inspect
 
 import pytest
+
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
     create_time_conversion_functions,
@@ -157,23 +159,23 @@ class TestCreateFunctionsForTimeUnits:
         [
             ("test_y", ["test_m", "test_w", "test_d"]),
             ("test_y_hh", ["test_m_hh", "test_w_hh", "test_d_hh"]),
-            ("test_y_tu", ["test_m_tu", "test_w_tu", "test_d_tu"]),
+            ("test_y_sn", ["test_m_sn", "test_w_sn", "test_d_sn"]),
             ("test_m", ["test_y", "test_w", "test_d"]),
             ("test_m_hh", ["test_y_hh", "test_w_hh", "test_d_hh"]),
-            ("test_m_tu", ["test_y_tu", "test_w_tu", "test_d_tu"]),
+            ("test_m_sn", ["test_y_sn", "test_w_sn", "test_d_sn"]),
             ("test_w", ["test_y", "test_m", "test_d"]),
             ("test_w_hh", ["test_y_hh", "test_m_hh", "test_d_hh"]),
-            ("test_w_tu", ["test_y_tu", "test_m_tu", "test_d_tu"]),
+            ("test_w_sn", ["test_y_sn", "test_m_sn", "test_d_sn"]),
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
-            ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
+            ("test_d_sn", ["test_y_sn", "test_m_sn", "test_w_sn"]),
         ],
     )
     def test_should_create_functions_for_other_time_units_for_functions(
         self, name: str, expected: list[str]
     ) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {name: lambda: 1}, []
+            {name: PolicyFunction(lambda: 1, function_name="test")}, []
         )
 
         for expected_name in expected:
@@ -184,16 +186,16 @@ class TestCreateFunctionsForTimeUnits:
         [
             ("test_y", ["test_m", "test_w", "test_d"]),
             ("test_y_hh", ["test_m_hh", "test_w_hh", "test_d_hh"]),
-            ("test_y_tu", ["test_m_tu", "test_w_tu", "test_d_tu"]),
+            ("test_y_sn", ["test_m_sn", "test_w_sn", "test_d_sn"]),
             ("test_m", ["test_y", "test_w", "test_d"]),
             ("test_m_hh", ["test_y_hh", "test_w_hh", "test_d_hh"]),
-            ("test_m_tu", ["test_y_tu", "test_w_tu", "test_d_tu"]),
+            ("test_m_sn", ["test_y_sn", "test_w_sn", "test_d_sn"]),
             ("test_w", ["test_y", "test_m", "test_d"]),
             ("test_w_hh", ["test_y_hh", "test_m_hh", "test_d_hh"]),
-            ("test_w_tu", ["test_y_tu", "test_m_tu", "test_d_tu"]),
+            ("test_w_sn", ["test_y_sn", "test_m_sn", "test_d_sn"]),
             ("test_d", ["test_y", "test_m", "test_w"]),
             ("test_d_hh", ["test_y_hh", "test_m_hh", "test_w_hh"]),
-            ("test_d_tu", ["test_y_tu", "test_m_tu", "test_w_tu"]),
+            ("test_d_sn", ["test_y_sn", "test_m_sn", "test_w_sn"]),
         ],
     )
     def test_should_create_functions_for_other_time_units_for_data_cols(
@@ -204,36 +206,38 @@ class TestCreateFunctionsForTimeUnits:
         for expected_name in expected:
             assert expected_name in time_conversion_functions
 
-    def test_should_not_create_functions_that_exist_already(self) -> None:
+    def test_should_not_create_functions_automatically_that_exist_already(self) -> None:
         time_conversion_functions = create_time_conversion_functions(
-            {"test_d": lambda: 1}, ["test_y"]
+            {"test1_d": PolicyFunction(lambda: 1, function_name="test1_d")}, ["test2_y"]
         )
 
-        assert "test_y" not in time_conversion_functions
-        assert "test_d" not in time_conversion_functions
+        assert "test1_d" not in time_conversion_functions
+        assert "test2_y" not in time_conversion_functions
+
+    def test_should_overwrite_functions_with_data_cols_that_only_differ_in_time_period(
+        self,
+    ) -> None:
+        time_conversion_functions = create_time_conversion_functions(
+            {"test_d": PolicyFunction(lambda: 1, function_name="test_d")}, ["test_y"]
+        )
+
+        assert "test_d" in time_conversion_functions
 
 
 class TestCreateFunctionForTimeUnit:
     def test_should_rename_parameter(self):
-        function = _create_function_for_time_unit("test", None, d_to_m)
+        function = _create_function_for_time_unit("test", d_to_m)
 
         parameter_spec = inspect.getfullargspec(function)
         assert parameter_spec.args == ["test"]
 
-    def test_should_set_info_if_not_none(self):
-        info = {}
-        function = _create_function_for_time_unit("test", info, d_to_m)
-
-        assert hasattr(function, "__info__")
-        assert function.__info__ == info
-
     def test_should_not_set_info_if_none(self):
-        function = _create_function_for_time_unit("test", None, d_to_m)
+        function = _create_function_for_time_unit("test", d_to_m)
 
         assert not hasattr(function, "__info__")
 
     def test_should_apply_converter(self):
-        function = _create_function_for_time_unit("test", None, d_to_w)
+        function = _create_function_for_time_unit("test", d_to_w)
 
         assert function(1) == 7
 
@@ -241,7 +245,7 @@ class TestCreateFunctionForTimeUnit:
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/621
 def test_should_not_create_cycle():
     time_conversion_functions = create_time_conversion_functions(
-        {"test_d": lambda test_m: test_m}, []
+        {"test_d": PolicyFunction(lambda test_m: test_m, function_name="test")}, []
     )
 
     assert "test_m" not in time_conversion_functions

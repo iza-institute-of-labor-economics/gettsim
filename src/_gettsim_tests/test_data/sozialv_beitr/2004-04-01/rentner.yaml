@@ -8,8 +8,6 @@ inputs:
       - 111
     hh_id:
       - 13
-    tu_id:
-      - 13
     bruttolohn_m:
       - 0.0
     wohnort_ost:
@@ -18,7 +16,7 @@ inputs:
       - 70
     selbstständig:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
     eink_selbst_m:
       - 0.0
@@ -30,5 +28,5 @@ inputs:
       - '2004-04-01'
   assumed: {}
 outputs:
-  ges_pflegev_beitr_m:
+  ges_pflegev_beitr_arbeitnehmer_m:
     - 17.0

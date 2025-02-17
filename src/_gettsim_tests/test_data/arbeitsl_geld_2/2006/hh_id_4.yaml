@@ -16,12 +16,48 @@ inputs:
       - 4
       - 4
       - 4
-    tu_id:
-      - 4
-      - 4
-      - 4
-      - 4
-      - 4
+    p_id_ehepartner:
+      - 6
+      - 5
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - -1
+      - 5
+      - 5
+      - 5
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - 6
+      - 6
+      - 6
+    p_id_einstandspartner:
+      - 6
+      - 5
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 5
+      - 5
+      - 5
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+      - false
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - false
@@ -106,25 +142,25 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m_bg:
       - 462.0
       - 462.0
       - 462.0
@@ -154,13 +190,13 @@ inputs:
       - '2006'
       - '2006'
       - '2006'
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 0.0
       - 0.0
       - 0.0
@@ -204,8 +240,14 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  _mean_kindergeld_per_child_m:
+    - 154.0
     - 0.0
     - 0.0
     - 0.0

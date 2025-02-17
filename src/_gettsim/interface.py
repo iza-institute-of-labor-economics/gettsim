@@ -2,17 +2,26 @@ import copy
 import functools
 import inspect
 import warnings
-from typing import Literal
+from typing import Literal, get_args
 
 import dags
 import pandas as pd
 
-from _gettsim.config import DEFAULT_TARGETS, SUPPORTED_GROUPINGS, TYPES_INPUT_VARIABLES
+from _gettsim.config import (
+    DEFAULT_TARGETS,
+    FOREIGN_KEYS,
+    SUPPORTED_GROUPINGS,
+    TYPES_INPUT_VARIABLES,
+)
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions_loader import load_and_check_functions
 from _gettsim.gettsim_typing import (
     check_series_has_expected_type,
     convert_series_to_internal_type,
+)
+from _gettsim.groupings import create_groupings
+from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.policy_environment_postprocessor import (
+    check_functions_and_differentiate_types,
 )
 from _gettsim.shared import (
     KeyErrorMessage,
@@ -25,9 +34,7 @@ from _gettsim.shared import (
 
 def compute_taxes_and_transfers(  # noqa: PLR0913
     data,
-    params,
-    functions,
-    aggregation_specs=None,
+    environment: PolicyEnvironment,
     targets=None,
     check_minimal_specification="ignore",
     rounding=True,
@@ -39,19 +46,8 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
     ----------
     data : pandas.Series or pandas.DataFrame or dict of pandas.Series
         Data provided by the user.
-    params : dict
-        A dictionary with parameters from the policy environment. For more information
-        see the documentation of the :ref:`params_files`.
-    functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions from the policy environment. Functions can be anything of the
-        specified types and a list of the same objects. If the object is a dictionary,
-        the keys of the dictionary are used as a name instead of the function name. For
-        all other objects, the name is inferred from the function name.
-    aggregation_specs : dict, default None
-        A dictionary which contains specs for functions which aggregate variables on
-        the tax unit or household level. The syntax is the same as for aggregation
-        specs in the code base and as specified in
-        [GEP 4](https://gettsim.readthedocs.io/en/stable/geps/gep-04.html).
+    environment:
+        The policy environment which contains all necessary functions and parameters.
     targets : str, list of str, default None
         String or list of strings with names of functions whose output is actually
         needed by the user. By default, ``targets`` is ``None`` and all key outputs as
@@ -77,16 +73,16 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
 
     targets = DEFAULT_TARGETS if targets is None else targets
     targets = parse_to_list_of_strings(targets, "targets")
-    params = {} if params is None else params
-    aggregation_specs = {} if aggregation_specs is None else aggregation_specs
+    params = environment.params
 
     # Process data and load dictionaries with functions.
     data = _process_and_check_data(data=data)
-    functions_not_overridden, functions_overridden = load_and_check_functions(
-        functions_raw=functions,
-        targets=targets,
-        data_cols=list(data),
-        aggregation_specs=aggregation_specs,
+    functions_not_overridden, functions_overridden = (
+        check_functions_and_differentiate_types(
+            environment=environment,
+            targets=targets,
+            data_cols=list(data),
+        )
     )
     data = _convert_data_to_correct_types(data, functions_overridden)
     columns_overriding_functions = set(functions_overridden)
@@ -130,19 +126,6 @@ def compute_taxes_and_transfers(  # noqa: PLR0913
         aggregator=None,
         enforce_signature=True,
     )
-
-    if "unterhalt" in params:
-        if (
-            "mindestunterhalt" not in params["unterhalt"]
-            and "unterhaltsvors_m" in processed_functions
-        ):
-            raise NotImplementedError(
-                """
-Unterhaltsvorschuss is not implemented yet prior to 2016, see
-https://github.com/iza-institute-of-labor-economics/gettsim/issues/479.
-
-        """
-            )
 
     results = tax_transfer_function(**input_data)
 
@@ -224,19 +207,8 @@ def _process_and_check_data(data):
         )
     # Check that group variables are constant within groups
     _fail_if_group_variables_not_constant_within_groups(data)
-
-    # Check that tu_id and hh_id are matching. As long as we have not fixed the
-    # Günstigerprüfung between Kinderzuschlag (calculated on tax unit level) and
-    # Wohngeld/ALG 2 (calculated on hh level), we do not allow for more than one tax
-    # unit within a household.
-    # TODO (@hmgaudecker): Remove check once groupings allow for it.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/601
-    if ("tu_id" in data) and ("hh_id" in data):
-        assert (
-            not data["tu_id"].groupby(data["hh_id"]).std().max() > 0
-        ), "We currently allow for only one tax unit within each household"
-
     _fail_if_pid_is_non_unique(data)
+    _fail_if_foreign_keys_are_invalid(data)
 
     return data
 
@@ -275,7 +247,17 @@ def _convert_data_to_correct_types(data, functions_overridden):
             column_name in functions_overridden
             and "return" in functions_overridden[column_name].__annotations__
         ):
-            internal_type = functions_overridden[column_name].__annotations__["return"]
+            func = functions_overridden[column_name]
+            if hasattr(func, "__info__") and func.__info__["skip_vectorization"]:
+                # Assumes that things are annotated with numpy.ndarray([dtype]), might
+                # require a change if using proper numpy.typing. Not changing for now
+                # as we will likely switch to JAX completely.
+                internal_type = get_args(func.__annotations__["return"])[0]
+            elif func in create_groupings().values():
+                # Functions that create a grouping ID
+                internal_type = get_args(func.__annotations__["return"])[0]
+            else:
+                internal_type = func.__annotations__["return"]
 
         # Make conversion if necessary
         if internal_type and not check_series_has_expected_type(series, internal_type):
@@ -378,23 +360,31 @@ class FunctionsAndColumnsOverlapWarning(UserWarning):
 
     def __init__(self, columns_overriding_functions: set[str]) -> None:
         n_cols = len(columns_overriding_functions)
-        first_part = format_errors_and_warnings(
-            f"Your data provides the column{'' if n_cols == 1 else 's'}:"
-        )
+        if n_cols == 1:
+            first_part = format_errors_and_warnings("Your data provides the column:")
+            second_part = format_errors_and_warnings(
+                """
+                This is already present among the hard-coded functions of the taxes and
+                transfers system. If you want this data column to be used instead of
+                calculating it within GETTSIM you need not do anything. If you want this
+                data column to be calculated by hard-coded functions, remove it from the
+                *data* you pass to GETTSIM. You need to pick one option for each column
+                that appears in the list above.
+                """
+            )
+        else:
+            first_part = format_errors_and_warnings("Your data provides the columns:")
+            second_part = format_errors_and_warnings(
+                """
+                These are already present among the hard-coded functions of the taxes
+                and transfers system. If you want a data column to be used instead of
+                calculating it within GETTSIM you do not need to do anything. If you
+                want data columns to be calculated by hard-coded functions, remove them
+                from the *data* you pass to GETTSIM. You need to pick one option for
+                each column that appears in the list above.
+                """
+            )
         formatted = format_list_linewise(list(columns_overriding_functions))
-        second_part = format_errors_and_warnings(
-            f"""
-            {'This is' if n_cols == 1 else 'These are'} already present among the
-            hard-coded functions of the taxes and transfers system.
-            If you want {'this' if n_cols == 1 else 'a'} data column to be used
-            instead of calculating it within GETTSIM you need not do anything.
-            If you want {'this' if n_cols == 1 else 'a'} data column to be
-            calculated by hard-coded functions, remove
-            {'it' if n_cols == 1 else 'them'} from the *data* you pass to GETTSIM.
-            {'' if n_cols == 1 else '''You need to pick one option for each column
-            that appears in the list above.'''}
-            """
-        )
         how_to_ignore = format_errors_and_warnings(
             """
             If you want to ignore this warning, add the following code to your script
@@ -430,8 +420,11 @@ def _fail_if_group_variables_not_constant_within_groups(data):
         Dictionary containing a series for each column.
 
     """
+    exogenous_groupings = [
+        level for level in SUPPORTED_GROUPINGS if f"{level}_id" in data
+    ]
     for name, col in data.items():
-        for level in SUPPORTED_GROUPINGS:
+        for level in exogenous_groupings:
             if name.endswith(f"_{level}"):
                 max_value = col.groupby(data[f"{level}_id"]).transform("max")
                 if not (max_value == col).all():
@@ -462,6 +455,37 @@ def _fail_if_pid_is_non_unique(data):
             f"{list_of_nunique_ids}"
         )
         raise ValueError(message)
+
+
+def _fail_if_foreign_keys_are_invalid(data):
+    """
+    Check that all foreign keys are valid.
+
+    They must point to an existing `p_id` in the input data and may not refer to
+    the `p_id` of the same row.
+    """
+
+    p_ids = set(data["p_id"]) | {-1}
+
+    for foreign_key in FOREIGN_KEYS:
+        if foreign_key not in data:
+            continue
+
+        # Referenced `p_id` must exist in the input data
+        if not data[foreign_key].isin(p_ids).all():
+            message = (
+                f"The following {foreign_key}s are not a valid p_id in the input data:"
+                f" {list(data[foreign_key].loc[~data[foreign_key].isin(p_ids)])}"
+            )
+            raise ValueError(message)
+
+        # Referenced `p_id` must not be the same as the `p_id` of the same row
+        if (data[foreign_key] == data["p_id"]).any():
+            message = (
+                f"The following {foreign_key}s are equal to the p_id in the same row:"
+                f" {list(data[foreign_key].loc[data[foreign_key] == data['p_id']])}"
+            )
+            raise ValueError(message)
 
 
 def _fail_if_root_nodes_are_missing(root_nodes, data, functions):
@@ -568,8 +592,8 @@ def _add_rounding_to_functions(functions, params):
     for func_name, func in functions.items():
         # If function has rounding params attribute, look for rounding specs in
         # params dict.
-        if hasattr(func, "__info__") and "rounding_params_key" in func.__info__:
-            params_key = func.__info__["rounding_params_key"]
+        if hasattr(func, "__info__") and "params_key_for_rounding" in func.__info__:
+            params_key = func.__info__["params_key_for_rounding"]
 
             # Check if there are any rounding specifications.
             if not (
@@ -605,9 +629,7 @@ def _add_rounding_to_functions(functions, params):
             functions_new[func_name] = _add_rounding_to_one_function(
                 base=rounding_spec["base"],
                 direction=rounding_spec["direction"],
-                to_add_after_rounding=rounding_spec["to_add_after_rounding"]
-                if "to_add_after_rounding" in rounding_spec
-                else 0,
+                to_add_after_rounding=rounding_spec.get("to_add_after_rounding", 0),
             )(func)
 
     return functions_new

@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
@@ -10,15 +10,48 @@ inputs:
     hh_id:
       - 2
       - 2
-    tu_id:
-      - 2
-      - 2
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    p_id_ehepartner:
+      - 19
+      - 18
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - 19
+      - 18
+    eigenbedarf_gedeckt:
+      - false
+      - false
+    gemeinsam_veranlagt:
+      - true
+      - true
     kind:
       - false
       - false
     bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
+    heizkosten_m_hh:
+      - 50.0
+      - 50.0
+    wohnfläche_hh:
+      - 50.0
+      - 50.0
+    soli_st_y_sn:
+      - 0.0
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
+      - false
     alleinerz:
       - false
       - false
@@ -35,7 +68,7 @@ inputs:
       - 3
       - 3
     bruttolohn_m:
-      - 800.0
+      - 1300.0
       - 0.0
     sum_ges_rente_priv_rente_m:
       - 0.0
@@ -61,19 +94,16 @@ inputs:
     eink_selbst_m:
       - 0.0
       - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 10000.0
-      - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
     eink_vermietung_m:
       - 0.0
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 100.0
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 80.0
       - 0.0
     behinderungsgrad:
@@ -82,13 +112,13 @@ inputs:
     jahr:
       - 2013
       - 2013
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 30000.0
-      - 30000.0
-    haushaltsgröße_hh:
+      - 0.0
+    anz_personen_hh:
       - 2
       - 2
     geburtstag:
@@ -100,11 +130,17 @@ inputs:
     geburtsjahr:
       - 1973
       - 1958
+    wohngeld_vorrang_bg:
+      - true
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
-    - 202.0
-    - 202.0
-  wohngeld_nach_vermög_check_m_vg:
-    - 202.0
-    - 202.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 73.0
+    - 73.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 73.0
+    - 73.0

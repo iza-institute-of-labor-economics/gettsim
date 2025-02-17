@@ -3,15 +3,21 @@ import warnings
 import numpy
 import pandas as pd
 import pytest
+
+from _gettsim.config import FOREIGN_KEYS
+from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import convert_series_to_internal_type
+from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
+    _fail_if_foreign_keys_are_invalid,
     _fail_if_group_variables_not_constant_within_groups,
     _fail_if_pid_is_non_unique,
     _round_and_partial_parameters_to_functions,
     compute_taxes_and_transfers,
 )
-from _gettsim.shared import add_rounding_spec
+from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.shared import policy_info
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -21,12 +27,21 @@ def minimal_input_data():
     out = pd.DataFrame(
         {
             "p_id": numpy.arange(n_individuals),
-            "tu_id": numpy.arange(n_individuals),
             "hh_id": numpy.arange(n_individuals),
         },
         index=numpy.arange(n_individuals),
     )
     return out
+
+
+@pytest.fixture
+def input_data_aggregate_by_p_id():
+    return pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            "hh_id": [1, 1, 2],
+        }
+    )
 
 
 # Create a partial function which is used by some tests below
@@ -42,35 +57,37 @@ func_after_partial = _round_and_partial_parameters_to_functions(
 
 
 def test_warn_if_functions_and_columns_overlap():
+    environment = PolicyEnvironment([PolicyFunction(lambda x: x, function_name="dupl")])
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
             data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
-            params={},
-            functions={"dupl": lambda x: x},
+            environment=environment,
             targets=[],
         )
 
 
 def test_dont_warn_if_functions_and_columns_dont_overlap():
+    environment = PolicyEnvironment(
+        [PolicyFunction(lambda x: x, function_name="some_func")]
+    )
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
             data=pd.DataFrame({"p_id": [0]}),
-            params={},
-            functions={"some_func": lambda x: x},
+            environment=environment,
             targets=[],
         )
 
 
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
+    environment = PolicyEnvironment([PolicyFunction(lambda x: x, function_name="dupl")])
     with warnings.catch_warnings(
         category=FunctionsAndColumnsOverlapWarning, record=True
     ) as warning_list:
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
             data=pd.DataFrame({"p_id": [0], "dupl": [1]}),
-            params={},
-            functions={"dupl": lambda x: x},
+            environment=environment,
             targets=[],
         )
 
@@ -89,6 +106,44 @@ def test_fail_if_pid_is_non_unique():
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
+
+
+@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [0, 1, 4],
+        }
+    )
+
+    with pytest.raises(ValueError, match="not a valid p_id"):
+        _fail_if_foreign_keys_are_invalid(data)
+
+
+@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
+def test_allow_minus_one_as_foreign_key(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [-1, 1, 2],
+        }
+    )
+
+    _fail_if_foreign_keys_are_invalid(data)
+
+
+@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
+    data = pd.DataFrame(
+        {
+            "p_id": [1, 2, 3],
+            foreign_key: [1, 3, 3],
+        }
+    )
+
+    with pytest.raises(ValueError, match="are equal to the p_id in the same row"):
+        _fail_if_foreign_keys_are_invalid(data)
 
 
 def test_fail_if_group_variables_not_constant_within_groups():
@@ -111,13 +166,13 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
     def c(b):
         return b
 
+    environment = PolicyEnvironment([PolicyFunction(b), PolicyFunction(c)])
+
     with pytest.raises(
         ValueError,
         match="The following data columns are missing",
     ):
-        compute_taxes_and_transfers(
-            minimal_input_data, {}, functions=[b, c], targets="c"
-        )
+        compute_taxes_and_transfers(minimal_input_data, environment, targets="c")
 
 
 def test_data_as_series():
@@ -127,7 +182,8 @@ def test_data_as_series():
     data = pd.Series([1, 2, 3])
     data.name = "p_id"
 
-    compute_taxes_and_transfers(data, {}, functions=[c], targets="c")
+    environment = PolicyEnvironment([c])
+    compute_taxes_and_transfers(data, environment, targets="c")
 
 
 def test_data_as_dict():
@@ -140,7 +196,8 @@ def test_data_as_dict():
         "b": pd.Series([100, 200, 300]),
     }
 
-    compute_taxes_and_transfers(data, {}, functions=[c], targets="c")
+    environment = PolicyEnvironment([c])
+    compute_taxes_and_transfers(data, environment, targets="c")
 
 
 def test_wrong_data_type():
@@ -155,7 +212,7 @@ def test_wrong_data_type():
             "pd.Series or a dictionary of pd.Series."
         ),
     ):
-        compute_taxes_and_transfers(data, {}, [c])
+        compute_taxes_and_transfers(data, PolicyEnvironment([]), ["c"])
 
 
 def test_check_minimal_spec_data():
@@ -170,12 +227,13 @@ def test_check_minimal_spec_data():
             "b": [1, 2, 3],
         }
     )
+    environment = PolicyEnvironment([c])
     with pytest.raises(
         ValueError,
         match="The following columns in 'data' are unused",
     ):
         compute_taxes_and_transfers(
-            data, {}, functions=[c], targets="c", check_minimal_specification="raise"
+            data, environment, targets="c", check_minimal_specification="raise"
         )
 
 
@@ -191,12 +249,13 @@ def test_check_minimal_spec_data_warn():
             "b": [1, 2, 3],
         }
     )
+    environment = PolicyEnvironment([c])
     with pytest.warns(
         UserWarning,
         match="The following columns in 'data' are unused",
     ):
         compute_taxes_and_transfers(
-            data, {}, functions=[c], targets="c", check_minimal_specification="warn"
+            data, environment, targets="c", check_minimal_specification="warn"
         )
 
 
@@ -215,12 +274,13 @@ def test_check_minimal_spec_columns_overriding():
             "b": [1, 2, 3],
         }
     )
+    environment = PolicyEnvironment([b, c])
     with pytest.raises(
         ValueError,
         match="The following 'columns_overriding_functions' are unused",
     ):
         compute_taxes_and_transfers(
-            data, {}, functions=[b, c], targets="c", check_minimal_specification="raise"
+            data, environment, targets="c", check_minimal_specification="raise"
         )
 
 
@@ -239,12 +299,13 @@ def test_check_minimal_spec_columns_overriding_warn():
             "b": [1, 2, 3],
         }
     )
+    environment = PolicyEnvironment([b, c])
     with pytest.warns(
         UserWarning,
         match="The following 'columns_overriding_functions' are unused",
     ):
         compute_taxes_and_transfers(
-            data, {}, functions=[b, c], targets="c", check_minimal_specification="warn"
+            data, environment, targets="c", check_minimal_specification="warn"
         )
 
 
@@ -255,29 +316,31 @@ def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input
     def b(a):
         return a
 
-    compute_taxes_and_transfers(minimal_input_data, {}, functions=[a, b], targets="b")
+    environment = PolicyEnvironment([a, b])
+    compute_taxes_and_transfers(minimal_input_data, environment, targets="b")
 
 
 def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions(
     minimal_input_data,
 ):
+    environment = PolicyEnvironment([])
+
     with pytest.raises(
         ValueError,
         match="The following targets have no corresponding function",
     ):
         compute_taxes_and_transfers(
-            minimal_input_data, {}, functions=[], targets="unknown_target"
+            minimal_input_data, environment, targets="unknown_target"
         )
 
 
 def test_fail_if_missing_pid(minimal_input_data):
     data = minimal_input_data.drop("p_id", axis=1).copy()
-
     with pytest.raises(
         ValueError,
         match="The input data must contain the column p_id",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
 
 
 def test_fail_if_non_unique_pid(minimal_input_data):
@@ -288,7 +351,7 @@ def test_fail_if_non_unique_pid(minimal_input_data):
         ValueError,
         match="The following p_ids are non-unique",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
 
 
 def test_fail_if_non_unique_cols(minimal_input_data):
@@ -299,7 +362,7 @@ def test_fail_if_non_unique_cols(minimal_input_data):
         ValueError,
         match="The following columns are non-unique",
     ):
-        compute_taxes_and_transfers(data, {}, functions=[], targets=[])
+        compute_taxes_and_transfers(data, PolicyEnvironment([]), targets=[])
 
 
 def test_consecutive_internal_test_runs():
@@ -331,7 +394,7 @@ def test_partial_parameters_to_functions_removes_argument():
 def test_partial_parameters_to_functions_keep_decorator():
     """Make sure that rounding decorator is kept for partial function."""
 
-    @add_rounding_spec(params_key="params_key_test")
+    @policy_info(params_key_for_rounding="params_key_test")
     def test_func(arg_1, arbeitsl_geld_2_params):
         return arg_1 + arbeitsl_geld_2_params["test_param_1"]
 
@@ -341,10 +404,10 @@ def test_partial_parameters_to_functions_keep_decorator():
         rounding=False,
     )["test_func"]
 
-    assert partial_func.__info__["rounding_params_key"] == "params_key_test"
+    assert partial_func.__info__["params_key_for_rounding"] == "params_key_test"
 
 
-def test_user_provided_aggregation_specs():
+def test_user_provided_aggregate_by_group_specs():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -352,7 +415,7 @@ def test_user_provided_aggregation_specs():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
@@ -362,16 +425,14 @@ def test_user_provided_aggregation_specs():
 
     out = compute_taxes_and_transfers(
         data,
-        {},
-        functions=[],
-        aggregation_specs=aggregation_specs,
+        PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
         targets="arbeitsl_geld_2_m_hh",
     )
 
     numpy.testing.assert_array_almost_equal(out["arbeitsl_geld_2_m_hh"], expected_res)
 
 
-def test_user_provided_aggregation_specs_function():
+def test_user_provided_aggregate_by_group_specs_function():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -379,7 +440,7 @@ def test_user_provided_aggregation_specs_function():
             "arbeitsl_geld_2_m": [200, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_double_m_hh": {
             "source_col": "arbeitsl_geld_2_m_double",
             "aggr": "max",
@@ -390,11 +451,14 @@ def test_user_provided_aggregation_specs_function():
     def arbeitsl_geld_2_m_double(arbeitsl_geld_2_m):
         return 2 * arbeitsl_geld_2_m
 
+    environment = PolicyEnvironment(
+        [arbeitsl_geld_2_m_double],
+        aggregate_by_group_specs=aggregate_by_group_specs,
+    )
+
     out = compute_taxes_and_transfers(
         data,
-        {},
-        functions=[arbeitsl_geld_2_m_double],
-        aggregation_specs=aggregation_specs,
+        environment,
         targets="arbeitsl_geld_2_double_m_hh",
     )
 
@@ -403,7 +467,7 @@ def test_user_provided_aggregation_specs_function():
     )
 
 
-def test_aggregation_specs_missing_group_sufix():
+def test_aggregate_by_group_specs_missing_group_sufix():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -411,7 +475,7 @@ def test_aggregation_specs_missing_group_sufix():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_agg_m": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "sum",
@@ -423,14 +487,12 @@ def test_aggregation_specs_missing_group_sufix():
     ):
         compute_taxes_and_transfers(
             data,
-            {},
-            functions=[],
-            aggregation_specs=aggregation_specs,
+            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
             targets="arbeitsl_geld_2_agg_m",
         )
 
 
-def test_aggregation_specs_agg_not_impl():
+def test_aggregate_by_group_specs_agg_not_impl():
     data = pd.DataFrame(
         {
             "p_id": [1, 2, 3],
@@ -438,7 +500,7 @@ def test_aggregation_specs_agg_not_impl():
             "arbeitsl_geld_2_m": [100, 100, 100],
         }
     )
-    aggregation_specs = {
+    aggregate_by_group_specs = {
         "arbeitsl_geld_2_m_hh": {
             "source_col": "arbeitsl_geld_2_m",
             "aggr": "aggr_not_implemented",
@@ -446,15 +508,90 @@ def test_aggregation_specs_agg_not_impl():
     }
     with pytest.raises(
         ValueError,
-        match="Aggr aggr_not_implemented is not implemented, yet.",
+        match="Aggr aggr_not_implemented is not implemented.",
     ):
         compute_taxes_and_transfers(
             data,
-            {},
-            functions=[],
-            aggregation_specs=aggregation_specs,
+            PolicyEnvironment([], aggregate_by_group_specs=aggregate_by_group_specs),
             targets="arbeitsl_geld_2_m_hh",
         )
+
+
+@pytest.mark.parametrize(
+    ("df, aggregate_by_p_id_spec, target, expected"),
+    [
+        (
+            "input_data_aggregate_by_p_id",
+            {
+                "target_func": {
+                    "p_id_to_aggregate_by": "hh_id",
+                    "source_col": "source_func",
+                    "aggr": "sum",
+                    "func_return": 100,
+                }
+            },
+            "target_func",
+            pd.Series([200, 100, 0]),
+        ),
+        (
+            "input_data_aggregate_by_p_id",
+            {
+                "target_func_m": {
+                    "p_id_to_aggregate_by": "hh_id",
+                    "source_col": "source_func_m",
+                    "aggr": "sum",
+                    "func_return": 100,
+                }
+            },
+            "target_func_y",
+            pd.Series([2400, 1200, 0]),
+        ),
+        (
+            "input_data_aggregate_by_p_id",
+            {
+                "target_func_m": {
+                    "p_id_to_aggregate_by": "hh_id",
+                    "source_col": "source_func_m",
+                    "aggr": "sum",
+                    "func_return": 100,
+                }
+            },
+            "target_func_y_hh",
+            pd.Series([3600, 3600, 0]),
+        ),
+    ],
+)
+def test_user_provided_aggregate_by_p_id_specs(
+    df, aggregate_by_p_id_spec, target, expected, request
+):
+    df = request.getfixturevalue(df)
+
+    target_aggregate_by_p_id_spec = next(iter(aggregate_by_p_id_spec.keys()))
+
+    def source_func():
+        return numpy.array(
+            [aggregate_by_p_id_spec[target_aggregate_by_p_id_spec]["func_return"]]
+            * len(df)
+        )
+
+    environment = PolicyEnvironment(
+        [
+            PolicyFunction(
+                source_func,
+                function_name=aggregate_by_p_id_spec[target_aggregate_by_p_id_spec][
+                    "source_col"
+                ],
+            ),
+        ],
+        aggregate_by_p_id_specs=aggregate_by_p_id_spec,
+    )
+    out = compute_taxes_and_transfers(
+        df,
+        environment,
+        targets=target,
+    )
+
+    numpy.testing.assert_array_almost_equal(out[target], expected)
 
 
 @pytest.mark.parametrize(
@@ -560,6 +697,25 @@ def test_fail_if_cannot_be_converted_to_internal_type(
 ):
     with pytest.raises(ValueError, match=error_match):
         convert_series_to_internal_type(input_data, expected_type)
+
+
+@pytest.mark.parametrize(
+    "data, functions_overridden",
+    [
+        (
+            pd.DataFrame({"bg_id": [1, 2, 3]}),
+            {"bg_id": bg_id_numpy},
+        ),
+        (
+            pd.DataFrame({"wthh_id": [1, 2, 3]}),
+            {"wthh_id": wthh_id_numpy},
+        ),
+    ],
+)
+def test_provide_endogenous_groupings(data, functions_overridden):
+    """Test whether GETTSIM handles user-provided grouping IDs, which would otherwise be
+    set endogenously."""
+    _convert_data_to_correct_types(data, functions_overridden)
 
 
 @pytest.mark.parametrize(

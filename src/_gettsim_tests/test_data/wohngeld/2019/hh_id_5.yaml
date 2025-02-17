@@ -1,19 +1,41 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     p_id:
       - 27
     hh_id:
       - 5
-    tu_id:
-      - 5
+    p_id_kindergeld_empf:
+      - -1
+    p_id_ehepartner:
+      - -1
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_einstandspartner:
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+    gemeinsam_veranlagt:
+      - false
     kind:
       - false
     bruttokaltmiete_m_hh:
       - 1200.0
+    heizkosten_m_hh:
+      - 50.0
+    wohnfläche_hh:
+      - 40.0
+    soli_st_y_sn:
+      - 0.0
+    sozialv_beitr_arbeitnehmer_m:
+      - 0.0
+    bewohnt_eigentum_hh:
+      - false
     alleinerz:
       - false
     alter:
@@ -25,7 +47,7 @@ inputs:
     mietstufe:
       - 5
     bruttolohn_m:
-      - 0.0
+      - 1000.0
     sum_ges_rente_priv_rente_m:
       - 0.0
     rente_ertragsanteil:
@@ -42,25 +64,23 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-    eink_abhängig_beschäftigt_y:
-      - 0.0
     kapitaleink_brutto_y:
       - 0.0
     eink_vermietung_m:
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 0.0
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 0.0
     behinderungsgrad:
       - 0
     jahr:
       - 2019
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 55000.0
-    haushaltsgröße_hh:
+    anz_personen_hh:
       - 1
     geburtstag:
       - 1
@@ -68,9 +88,13 @@ inputs:
       - 1
     geburtsjahr:
       - 1967
+    wohngeld_vorrang_bg:
+      - true
+    wohngeld_kinderzuschl_vorrang_bg:
+      - true
   assumed: {}
 outputs:
-  wohngeld_vor_vermög_check_m_vg:
-    - 451.0
-  wohngeld_nach_vermög_check_m_vg:
-    - 451.0
+  wohngeld_anspruchshöhe_m_bg:
+    - 59.0
+  wohngeld_anspruchshöhe_m_wthh:
+    - 59.0

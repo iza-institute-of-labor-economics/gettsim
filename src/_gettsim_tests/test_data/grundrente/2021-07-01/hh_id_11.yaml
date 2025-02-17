@@ -10,10 +10,10 @@ inputs:
   provided:
     p_id:
       - 11
-    tu_id:
-      - 11
     hh_id:
       - 11
+    p_id_ehepartner:
+      - -1
     grundr_zeiten:
       - 516
     grundr_bew_zeiten:
@@ -37,6 +37,8 @@ inputs:
     geburtsjahr:
       - 1951
     bruttolohn_m:
+      - 0.0
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
     entgeltp_west:
       - 18.5

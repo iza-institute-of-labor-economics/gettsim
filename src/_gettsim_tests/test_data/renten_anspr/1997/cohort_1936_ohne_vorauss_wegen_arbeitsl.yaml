@@ -8,8 +8,6 @@ inputs:
       - 13
     hh_id:
       - 13
-    tu_id:
-      - 13
     geburtsjahr:
       - 1936
     geburtsmonat:
@@ -52,7 +50,7 @@ outputs:
     - 65.0
   _ges_rente_altersgrenze_vorzeitig:
     - 65.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 60.0
   _ges_rente_arbeitsl_altersgrenze:
     - 60.0
@@ -60,7 +58,7 @@ outputs:
     - 60.0
   ges_rente_vorauss_vorzeitig:
     - false
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - false
   ges_rente_vorauss_frauen:
     - false

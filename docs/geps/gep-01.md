@@ -42,7 +42,7 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
+   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
    (i.e., the tax or transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
@@ -108,19 +108,51 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_y_tu`). This makes searching for identifiers easier and
+`_zu_verst_eink_ohne_kinderfreib_y_sn`). This makes searching for identifiers easier and
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_vg`), the group
+`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
 (i.e., the tax or transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
 
-The default unit a column refers to is an individual. In case a household or tax unit is
-the relevant unit, an underscore plus one of {`hh`, `tu`} will indicate the level of
-aggregation.
+The default unit a column refers to is an individual. In case of groupings of
+individuals, an underscore plus one of {`sn`, `hh`, `fg`, `bg`, `eg`, `ehe`} will
+indicate the level of aggregation.
+
+GETTSIM knows about the following units:
+
+- `p_id`: person identifier
+- `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
+  (§5 WoGG).
+- `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
+  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This unit is
+  based on the priority check via `wohngeld_vorrang_bg` and
+  `wohngeld_kinderzuschl_vorrang_bg`.
+- `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
+  Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
+  Bedarfsgemeinschaft before making checks for whether children have enough income fend
+  for themselves. Subset of `hh`.
+- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding children who have
+  enough income to fend for themselves (they will form separate `bg`s). Subset of
+  `fg_id`.
+- `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
+  for each other. This includes couples that live together and may or may not be married
+  or in a civil union.
+- `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
+- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
+  Germany-wide Steuer-ID)
+
+Note that households do not include flat shares etc.. Such broader definition are
+currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
+for costs of dwelling in SGB II depend on this).
+
+Open questions:
+
+- Can we use bg_id for both SGB II and SGB XII at the same time or do we need to
+  differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
 `arbeitsl_geld_2_m_bg`).
@@ -136,7 +168,7 @@ general naming considerations here.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_nach_vermög_check_m_vg` for a column derived from it).
+  and `wohngeld_anspruchshöhe_m_wthh` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 
@@ -148,9 +180,10 @@ comprehension or a short loop, `i` might be an acceptable name for the running v
 A function that is used in many different places should have a descriptive name.
 
 The name of variables should reflect the content or meaning of the variable and not the
-type (i.e., int, dict, list, df, array ...). As for column names and parameters, in some
-cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to indicate
-the time unit and one of {`hh`, `tu`} to indicate the unit of aggregation.
+type (i.e., float, int, dict, list, df, array ...). As for column names and parameters,
+in some cases it might be useful to append an underscore plus one of {`m`, `w`, `d`} to
+indicate the time unit and one of {`sn`, `hh`, `fg`, `bg`, `eg`, `ehe`} to indicate the
+unit of aggregation.
 
 ## Examples
 

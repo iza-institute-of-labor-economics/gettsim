@@ -1,49 +1,85 @@
 ---
 info:
   note: ''
-  source: ''
+  source: Regression test.
 inputs:
   provided:
     hh_id:
       - 6
       - 6
       - 6
-    tu_id:
-      - 19
-      - 19
-      - 19
     p_id:
       - 20
       - 21
       - 19
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - 19
+      - 19
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    steuerklasse:
+      - 1
+      - 1
+      - 1
+    ges_pflegev_hat_kinder:
+      - false
+      - false
+      - true
+    alter:
+      - 2
+      - 0
+      - 37
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    alleinerz:
+      - false
+      - false
+      - true
     kind:
       - true
       - true
       - false
+    elterngeld_claimed:
+      - false
+      - false
+      - true
+    in_ausbildung:
+      - false
+      - false
+      - false
+    arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
     bruttolohn_m:
       - 0.0
       - 0.0
       - 0.0
-    bruttolohn_vorj_m:
+    elterngeld_nettoeinkommen_vorjahr_m:
       - 0.0
       - 0.0
       - 900.0
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
+      - 0.0
+      - 0.0
+      - 5760.0
     wohnort_ost:
       - false
       - false
       - false
-    eink_st_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    soli_st_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialv_beitr_m:
-      - 0.0
-      - 0.0
-      - 0.0
     geburtsjahr:
       - 2017
       - 2018
@@ -56,15 +92,7 @@ inputs:
       - 12
       - 12
       - 13
-    m_elterngeld_mut_hh:
-      - 2
-      - 2
-      - 2
-    m_elterngeld_vat_hh:
-      - 2
-      - 2
-      - 2
-    m_elterngeld:
+    monate_elterngeldbezug:
       - 0
       - 0
       - 2
@@ -77,16 +105,20 @@ outputs:
   elterngeld_m:
     - 0.0
     - 0.0
-    - 650.554889
-  elterngeld_geschw_bonus_anspruch:
+    - 723.0
+  geschwisterbonus_anspruchsberechtigt_fg:
+    - true
+    - true
+    - true
+  _elterngeld_anz_mehrlinge_fg:
+    - 0
+    - 0
+    - 0
+  elterngeld_anspruchsbedingungen_erfüllt:
     - false
     - false
     - true
-  _elterngeld_anz_mehrlinge_anspruch:
-    - 0
-    - 0
-    - 0
-  elternzeit_anspruch:
-    - false
-    - false
-    - true
+  elterngeld_basisbetrag_m:
+    - 0.0
+    - 0.0
+    - 648.0

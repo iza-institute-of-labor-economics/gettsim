@@ -10,8 +10,10 @@ inputs:
       - 2
     hh_id:
       - 2
-    tu_id:
-      - 2
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
     bruttolohn_vorj_m:
       - 2000.0
     wohnort_ost:
@@ -31,10 +33,12 @@ inputs:
       - true
     arbeitssuchend:
       - true
+    kindergeld_anspruch:
+      - false
     m_durchg_alg1_bezug:
       - 0.0
     sozialv_pflicht_5j:
       - 12.0
 outputs:
   arbeitsl_geld_m:
-    - 789.772
+    - 789.76

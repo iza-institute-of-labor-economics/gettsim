@@ -1,20 +1,19 @@
 import pytest
-from _gettsim.interface import compute_taxes_and_transfers
-from _gettsim.policy_environment import set_up_policy_environment
 from pandas.testing import assert_series_equal
 
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 INPUT_COLS = [
     "hh_id",
-    "tu_id",
     "p_id",
     "wohnort_ost",
     "steuerklasse",
     "bruttolohn_m",
     "alter",
-    "hat_kinder",
+    "ges_pflegev_hat_kinder",
     "arbeitsstunden_w",
     "in_ausbildung",
     "ges_krankenv_zusatzbeitr_satz",
@@ -36,12 +35,10 @@ def test_lohnsteuer(
     column: str,
 ):
     df = test_data.input_df
-    policy_params, policy_functions = cached_set_up_policy_environment(
-        date=test_data.date
-    )
+    environment = cached_set_up_policy_environment(date=test_data.date)
 
     result = compute_taxes_and_transfers(
-        data=df, params=policy_params, functions=policy_functions, targets=column
+        data=df, environment=environment, targets=column
     )
 
     assert_series_equal(
@@ -50,10 +47,15 @@ def test_lohnsteuer(
 
 
 def test_lohnsteuer_rv_anteil():
-    policy_params, policy_functions = set_up_policy_environment(2018)
+    environment = set_up_policy_environment(2018)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 0.72
+    assert (
+        environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"]
+        == 0.72
+    )
 
-    policy_params, policy_functions = set_up_policy_environment(2023)
+    environment = set_up_policy_environment(2023)
 
-    assert policy_params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1
+    assert (
+        environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1
+    )

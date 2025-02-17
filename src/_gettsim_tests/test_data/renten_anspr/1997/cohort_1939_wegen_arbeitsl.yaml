@@ -8,8 +8,6 @@ inputs:
       - 4
     hh_id:
       - 4
-    tu_id:
-      - 4
     geburtsjahr:
       - 1939
     geburtsmonat:
@@ -54,7 +52,7 @@ outputs:
     - 62.083333
   _ges_rente_altersgrenze_vorzeitig:
     - 60.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 60.0
   _ges_rente_arbeitsl_altersgrenze:
     - 62.083333
@@ -62,7 +60,7 @@ outputs:
     - 62.083333
   ges_rente_vorauss_vorzeitig:
     - true
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - true
   ges_rente_vorauss_frauen:
     - false

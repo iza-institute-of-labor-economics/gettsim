@@ -11,8 +11,6 @@ inputs:
       - 7
     hh_id:
       - 7
-    tu_id:
-      - 7
     bruttolohn_m:
       - 8000.0
     wohnort_ost:
@@ -69,9 +67,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_west_update:
+  entgeltp_west_updated:
     - 0.0
-  entgeltp_ost_update:
+  entgeltp_ost_updated:
     - 36.99837737
   entgeltp_update_lohn:
     - 1.79167737

@@ -16,12 +16,48 @@ inputs:
       - 9
       - 9
       - 9
-    tu_id:
-      - 9
-      - 9
-      - 9
-      - 9
-      - 9
+    p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_elternteil_1:
+      - -1
+      - 17
+      - 17
+      - 17
+      - 17
+    p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - 17
+      - 17
+      - 17
+      - 17
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
+      - false
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
     kind:
       - false
       - true
@@ -106,30 +142,30 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 136.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld_m:
       - 388.0
-      - 388.0
-      - 388.0
-      - 388.0
-      - 388.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -154,13 +190,13 @@ inputs:
       - '2018'
       - '2018'
       - '2018'
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 0.0
       - 0.0
       - 0.0
@@ -204,7 +240,7 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  arbeitsl_geld_2_eink_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 796.0
     - 0.0
     - 0.0

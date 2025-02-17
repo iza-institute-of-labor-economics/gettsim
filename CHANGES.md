@@ -6,10 +6,65 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`807` Implement changes from 2. Jahressteuergesetz 2024 ({ghuser}`Eric-Sommer`)
+- {gh}`809` implement 2025 changes to pensions and social security contributions
+  ({ghuser}`Eric-Sommer`).
+- {gh}`803` Apply correct rounding rules for Ehegattensplitting and update EStG
+  parameters ({ghuser}`MImmesberger`, `mjbloemer`).
+- {gh}`797` Update infrastructure to use pixi and modern pre-commit hooks
+  ({ghuser}`timmens`).
+- {gh}`787` Model classes for policy functions and policy environments
+  ({ghuser}`lars-reimann`).
+- {gh}`756` Refactor Elterngeld module and some small fixes ({ghuser}`MImmesberger`,
+  {ghuser}`ThOrtmann`).
+- {gh}`790` Add unterhaltsvors implementation 2009 to 2016 ({ghuser}`mjbloemer`).
+- {gh}`788` Pension benefit earnings test for early retirees ({ghuser}`MImmesberger`).
+- {gh}`786` Check directly whether child and parent are in same Bedarfsgemeinschaft for
+  Kindergeldübertrag ({ghuser}`MImmesberger`).
+- {gh}`785` Add NotImplementedError to Unterhaltsvorschuss and test whether output from
+  `create_synthetic_data` is enough to compute default targets ({ghuser}`MImmesberger`).
+- {gh}`772` Add Mindesteinkommen check to Wohngeld, calculate anz_eig_kind_bis_24
+  instead of requiring it as an input variable ({ghuser}`MImmesberger`).
+- {gh}`771` Move SGB II Regelsatz calculation from BG to individual level
+  ({ghuser}`MImmesberger`).
+- {gh}`765` Kinderzuschlag only paid out if parents are in the same BG as the child
+  ({ghuser}`MImmesberger`).
+- {gh}`766` Allow for user-provided grouping IDs. ({ghuser}`MImmesberger`).
+- {gh}`717` Switch from cohort-based policy to date-based policy in retirement module
+  ({ghuser}`MImmesberger`).
+- {gh}`753` Vorrangprüfung of Wohngeld and ALG2 on bg level ({ghuser}`MImmesberger`).
+- {gh}`759` Unify function names in Sozialversicherung modules ({ghuser}`MImmesberger`).
+- {gh}`755` Allow array returns when `skip_vectorization` is being used, enforce import
+  convention ({ghuser}`hmgaudecker`).
+- {gh}`751` Kindergeldübertrag ({ghuser}`MImmesberger`).
+- {gh}`739` Unterhaltsvorschuss calculation on child level ({ghuser}`MImmesberger`).
+- {gh}`725` KdU calculation on bg level and other small fixes ({ghuser}`MImmesberger`,
+  {ghuser}`ChristianZimpelmann`).
+- {gh}`722` Join columns to make target columns available at source level
+  ({ghuser}`lars-reimann`).
+- {gh}`732` Change wealth input variable to individual-level (`vermögen_bedürft`)
+  ({ghuser}`ChristianZimpelmann`).
+- {gh}`730` Add argument to create_synthetic_data on whether adults are married.
+  ({ghuser}`ChristianZimpelmann`).
+- {gh}`729` Fix bugs in calculation of Unterhaltsvorschuss and Grundsicherung im Alter
+  ({ghuser}`ChristianZimpelmann`).
+- {gh}`721` Optionally skip vectorization of a policy function ({ghuser}`lars-reimann`).
+- {gh}`720` Combined decorator for policy information ({ghuser}`lars-reimann`).
+- {gh}`700` Data columns overwrite functions regardless of time unit
+  ({ghuser}`lars-reimann`).
+- {gh}`694` Replace `tu` groupings with correct groupings. ({ghuser}`MImmesberger`,
+  {ghuser}`lars-reimann`, {ghuser}`hmgaudecker`).
+- {gh}`676` Add explicit parent-child links. ({ghuser}`MImmesberger`).
+- {gh}`684` New Issue template for yearly parameter updates. ({ghuser}`MImmesberger`).
+- {gh}`680` 2024 Parameter Update ({ghuser}`Eric-Sommer`, {ghuser}`MImmesberger`)
+- {gh}`662`, {gh}`675` Replace `hh` in function names by `bg`/`fg`
+  ({ghuser}`lars-reimann`, {ghuser}`MImmesberger`).
+- {gh}`577` Implement Erwerbsminderungsrente (public disability insurance)
+  ({ghuser}`nafetsk`)
+- {gh}`601` Add groupings `sn_id`, `fg_id`, and `bg_id` ({ghuser}`lars-reimann`).
 - {gh}`642` Vertrauensschutz for pension for unemployed ({ghuser}`TeBackh`,
   {ghuser}`MImmesberger`)
 - {gh}`660` Entgeltpunkte Ost/West ({ghuser}`nafetsk`).
-- {gh}`662` Replace `hh` in function names by `bg`/`fg`/`vg` ({ghuser}`lars-reimann`).
 - {gh}`659` Add rounding to Unterhaltsvorschuss, ESt, Wohngeld, Kinderzuschlag.
   ({ghuser}`MImmesberger`).
 - {gh}`655` Correct calculation of Lohnsteuer for 2015 to 2023 ({ghuser}`JakobWegmann`).

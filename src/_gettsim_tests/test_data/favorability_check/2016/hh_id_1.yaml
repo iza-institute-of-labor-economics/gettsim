@@ -8,10 +8,6 @@ inputs:
       - 1
       - 1
       - 1
-    tu_id:
-      - 1
-      - 1
-      - 1
     p_id:
       - 1
       - 2
@@ -20,41 +16,49 @@ inputs:
       - false
       - false
       - true
-    eink_st_ohne_kinderfreib_y_tu:
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+    p_id_ehepartner:
+      - 2
+      - 1
+      - -1
+    eink_st_ohne_kinderfreib_y_sn:
       - 10000.0
       - 10000.0
-      - 10000.0
-    eink_st_mit_kinderfreib_y_tu:
+      - 0.0
+    eink_st_mit_kinderfreib_y_sn:
       - 7000.0
       - 7000.0
-      - 7000.0
-    _zu_verst_eink_mit_kinderfreib_y_tu:
+      - 0.0
+    _zu_verst_eink_mit_kinderfreib_y_sn:
       - 92752.0
       - 92752.0
-      - 92752.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+      - 0.0
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 10000.0
       - 10000.0
-      - 10000.0
-    abgelt_st_y_tu:
+      - 0.0
+    abgelt_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m:
+    eink_st_rel_kindergeld_m:
+      - 97.0
+      - 97.0
       - 0.0
-      - 0.0
-      - 194.0
     jahr:
       - 2016
       - 2016
       - 2016
   assumed: {}
 outputs:
-  eink_st_y_tu:
+  eink_st_y_sn:
     - 9328
     - 9328
-    - 9328
-  zu_verst_eink_y_tu:
+    - 0
+  zu_verst_eink_y_sn:
     - 92752
     - 92752
-    - 92752
+    - 0

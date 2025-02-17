@@ -3,34 +3,34 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed:
+    p_id_elternteil_1: -1
+    p_id_elternteil_2: -1
   provided:
+    alter:
+      - 25
+    arbeitsstunden_w:
+      - 40.0
+    bruttolohn_m:
+      - 7376.400000000001
+    ges_krankenv_zusatzbeitr_satz:
+      - 0.0141
+    ges_pflegev_zusatz_kinderlos:
+      - true
+    ges_pflegev_hat_kinder:
+      - false
     hh_id:
       - 111
-    tu_id:
-      - 111
+    in_ausbildung:
+      - false
     p_id:
       - 111
-    wohnort_ost:
+    regulär_beschäftigt:
       - true
     steuerklasse:
       - 6
-    bruttolohn_m:
-      - 7376.400000000001
-    alter:
-      - 25
-    hat_kinder:
-      - false
-    arbeitsstunden_w:
-      - 40.0
-    in_ausbildung:
-      - false
-    ges_krankenv_zusatzbeitr_satz:
-      - 1.41
-    ges_pflegev_zusatz_kinderlos:
+    wohnort_ost:
       - true
-    regulär_beschäftigt:
-      - true
-  assumed: {}
 outputs:
   lohnst_m:
     - 2452.0

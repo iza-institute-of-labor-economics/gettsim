@@ -8,8 +8,6 @@ inputs:
       - 20
     hh_id:
       - 20
-    tu_id:
-      - 20
     geburtsjahr:
       - 1955
     geburtsmonat:
@@ -52,7 +50,7 @@ outputs:
     - 65.0
   _ges_rente_altersgrenze_vorzeitig:
     - 62.0
-  ges_rente_arbeitsl_vorzeitig:
+  _ges_rente_arbeitsl_vorzeitig:
     - 62.0
   _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss:
     - 62.0
@@ -62,7 +60,7 @@ outputs:
     - 65.0
   ges_rente_vorauss_vorzeitig:
     - true
-  _ges_rente_vorauss_arbeitsl:
+  ges_rente_vorauss_arbeitsl:
     - true
   ges_rente_vorauss_frauen:
     - false

@@ -5,6 +5,8 @@ from collections.abc import Callable
 from dags.signature import rename_arguments
 
 from _gettsim.config import SUPPORTED_GROUPINGS, SUPPORTED_TIME_UNITS
+from _gettsim.functions.derived_function import DerivedFunction
+from _gettsim.functions.policy_function import PolicyFunction
 
 _M_PER_Y = 12
 _W_PER_Y = 365.25 / 7
@@ -232,17 +234,21 @@ _time_conversion_functions = {
 
 
 def create_time_conversion_functions(
-    functions: dict[str, Callable],
+    functions: dict[str, PolicyFunction],
     data_cols: list[str],
-) -> dict[str, Callable]:
+) -> dict[str, DerivedFunction]:
     """
      Create functions that convert variables to different time units.
 
     The time unit of a function is determined by a naming convention:
-    * Functions referring to yearly values end with "_y", "_y_hh" or "_y_tu".
-    * Functions referring to monthly values end with "_m", "_m_hh" or "_m_tu".
-    * Functions referring to weekly values end with "_w", "_w_hh" or "_w_tu".
-    * Functions referring to daily values end with "_d", "_d_hh" or "_d_tu".
+    * Functions referring to yearly values end with "_y", or "_y_x" where "x" is a
+        grouping level.
+    * Functions referring to monthly values end with "_m", or "_m_x" where "x" is a
+        grouping level.
+    * Functions referring to weekly values end with "_w", or "_w_x" where "x" is a
+        grouping level.
+    * Functions referring to daily values end with "_d", or "_d_x" where "x" is a
+        grouping level.
 
     Unless the corresponding function already exists, the following functions are
     created:
@@ -257,37 +263,50 @@ def create_time_conversion_functions(
 
     Parameters
     ----------
-    functions
+    functions:
         Dictionary of functions.
-    data_cols
+    data_cols:
         List of data columns.
 
     Returns
     -------
-    dict[str, Callable]
+    derived_functions:
         Dictionary of created functions.
     """
 
-    result = {}
+    result: dict[str, DerivedFunction] = {}
 
+    # Create time-conversions for existing functions
     for name, func in functions.items():
-        result.update(_create_time_conversion_functions(name, func))
+        result.update(
+            {
+                der_name: der_func
+                for der_name, der_func in _create_time_conversion_functions(
+                    name, func
+                ).items()
+                if der_name not in functions and der_name not in data_cols
+            }
+        )
 
+    # Create time-conversions for data columns and overwrite existing functions
     for name in data_cols:
-        result.update(_create_time_conversion_functions(name))
+        result.update(
+            {
+                der_name: der_func
+                for der_name, der_func in _create_time_conversion_functions(
+                    name
+                ).items()
+                if der_name not in data_cols
+            }
+        )
 
-    return {
-        name: func
-        for name, func in result.items()
-        if name not in functions and name not in data_cols
-    }
+    return result
 
 
 def _create_time_conversion_functions(
-    name: str, func: Callable | None = None
-) -> dict[str, Callable]:
-    result = {}
-    info = getattr(func, "__info__", None)
+    name: str, func: PolicyFunction | None = None
+) -> dict[str, DerivedFunction]:
+    result: dict[str, DerivedFunction] = {}
 
     all_time_units = list(SUPPORTED_TIME_UNITS)
 
@@ -320,23 +339,23 @@ def _create_time_conversion_functions(
             if new_name in dependencies:
                 continue
 
-            result[new_name] = _create_function_for_time_unit(
-                name,
-                info,
-                _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
+            result[new_name] = DerivedFunction(
+                _create_function_for_time_unit(
+                    name,
+                    _time_conversion_functions[f"{time_unit}_to_{missing_time_unit}"],
+                ),
+                function_name=new_name,
+                derived_from=func or name,
             )
 
     return result
 
 
 def _create_function_for_time_unit(
-    function_name: str, info: dict | None, converter: Callable[[float], float]
+    function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
     @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:
         return converter(x)
-
-    if info is not None:
-        func.__info__ = info
 
     return func

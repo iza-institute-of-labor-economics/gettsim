@@ -4,14 +4,18 @@ import operator
 from functools import reduce
 
 import networkx as nx
-import numpy as np
+import numpy
 import pandas as pd
 import plotly.graph_objects as go
 from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
 from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import load_and_check_functions, set_up_dag
+from _gettsim.interface import set_up_dag
+from _gettsim.policy_environment import PolicyEnvironment
+from _gettsim.policy_environment_postprocessor import (
+    check_functions_and_differentiate_types,
+)
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
@@ -20,7 +24,7 @@ from _gettsim.shared import (
 
 
 def plot_dag(
-    functions,
+    environment: PolicyEnvironment,
     targets=None,
     columns_overriding_functions=None,
     check_minimal_specification="ignore",
@@ -34,11 +38,8 @@ def plot_dag(
 
     Parameters
     ----------
-    functions : str, pathlib.Path, callable, module, imports statements, dict
-        Functions can be anything of the specified types and a list of the same
-        objects. If the object is a dictionary, the keys of the dictionary are used as
-        a name instead of the function name. For all other objects, the name is
-        inferred from the function name.
+    environment:
+        The policy environment.
     targets : str, list of str
         String or list of strings with names of functions whose output is actually
         needed by the user.
@@ -74,11 +75,12 @@ def plot_dag(
     )
 
     # Load functions.
-    functions_not_overridden, functions_overridden = load_and_check_functions(
-        functions_raw=functions,
-        targets=targets,
-        data_cols=list(TYPES_INPUT_VARIABLES),
-        aggregation_specs={},
+    functions_not_overridden, functions_overridden = (
+        check_functions_and_differentiate_types(
+            environment,
+            targets=targets,
+            data_cols=list(TYPES_INPUT_VARIABLES),
+        )
     )
 
     # Select necessary nodes by creating a preliminary DAG.
@@ -112,7 +114,7 @@ def plot_dag(
     names = layout_df.index
     node_x_coord = layout_df[0].values
     node_y_coord = layout_df[1].values
-    url = np.array([dag.nodes[x]["url"] for x in names])
+    url = numpy.array([dag.nodes[x]["url"] for x in names])
     codes = [dag.nodes[x]["source_code"] for x in names]
 
     combo = pd.DataFrame(
@@ -308,7 +310,7 @@ def _add_url_to_dag(dag):
             try:
                 name = dag.nodes[node]["function"].__name__
             except AttributeError:
-                name = name = dag.nodes[node]["function"].func.__name__
+                name = dag.nodes[node]["function"].func.__name__
         else:
             name = node
         dag.nodes[node]["url"] = _create_url(name)
@@ -388,26 +390,26 @@ def _create_pygraphviz_layout(dag, orientation):
     # Remap layout from integers to labels.
     integer_to_labels = dict(zip(dag_w_integer_nodes.nodes, dag.nodes))
     layout = {
-        integer_to_labels[i]: np.array(integer_layout[i]) for i in integer_to_labels
+        integer_to_labels[i]: numpy.array(integer_layout[i]) for i in integer_to_labels
     }
 
     # Convert nonnegative integer coordinates from the layout to unit cube.
     min_x = min(i[0] for i in layout.values())
     min_y = min(i[1] for i in layout.values())
-    min_ = np.array([min_x, min_y])
+    min_ = numpy.array([min_x, min_y])
 
     max_x = max(i[0] for i in layout.values())
     max_y = max(i[1] for i in layout.values())
-    max_ = np.array([max_x, max_y])
+    max_ = numpy.array([max_x, max_y])
 
     for k, v in layout.items():
         layout[k] = (v - (max_ + min_) / 2) / ((max_ - min_) / 2).clip(1)
 
     if orientation == "v":
-        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
+        layout_df = numpy.transpose(pd.DataFrame.from_dict(layout))
 
     elif orientation == "h":
-        layout_df = np.transpose(pd.DataFrame.from_dict(layout))
+        layout_df = numpy.transpose(pd.DataFrame.from_dict(layout))
         layout_df[[0, 1]] = layout_df[[1, 0]]
         layout_df[0] = layout_df[0] * (-1)
 

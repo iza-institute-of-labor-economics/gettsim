@@ -10,9 +10,21 @@ inputs:
     hh_id:
       - 2
       - 2
-    tu_id:
-      - 2
-      - 2
+    p_id_elternteil_1:
+      - -1
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - -1
+    p_id_einstandspartner:
+      - -1
+      - -1
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+      - false
     kind:
       - false
       - false
@@ -67,7 +79,7 @@ inputs:
     geburtsjahr:
       - 1973
       - 1973
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 0.0
       - 0.0
     bürgerg_bezug_vorj:
@@ -75,9 +87,9 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_vor_vermög_check_m_tu:
+  _kinderzuschl_vor_vermög_check_m_bg:
     - 0.0
     - 0.0
-  _kinderzuschl_nach_vermög_check_m_tu:
+  _kinderzuschl_nach_vermög_check_m_bg:
     - 0.0
     - 0.0

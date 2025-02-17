@@ -6,11 +6,23 @@ inputs:
   provided:
     hh_id:
       - 5
-    tu_id:
-      - 7
     p_id:
       - 11
-    vermögen_bedürft_hh:
+    p_id_elternteil_1:
+      - -1
+    p_id_elternteil_2:
+      - -1
+    p_id_ehepartner:
+      - -1
+    p_id_einstandspartner:
+      - -1
+    eigenbedarf_gedeckt:
+      - false
+    gemeinsam_veranlagt:
+      - false
+    p_id_kindergeld_empf:
+      - -1
+    vermögen_bedürft:
       - 5500.0
     bruttolohn_m:
       - 1500.0
@@ -22,7 +34,7 @@ inputs:
       - false
     wohnort_ost:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - true
     eink_selbst_m:
       - 0.0
@@ -32,6 +44,12 @@ inputs:
       - 0.0
     bruttolohn_vorj_m:
       - 4000.0
+    elterngeld_nettoeinkommen_vorjahr_m:
+      - 4000.0
+    elterngeld_claimed:
+      - true
+    elterngeld_zu_verst_eink_vorjahr_y_sn:
+      - 048798.0
     arbeitsstunden_w:
       - 20.0
     geburtsjahr:
@@ -52,6 +70,8 @@ inputs:
       - false
     betreuungskost_m:
       - 0.0
+    p_id_betreuungsk_träger:
+      - -1
     kapitaleink_brutto_m:
       - 206.0
     eink_vermietung_m:
@@ -66,11 +86,7 @@ inputs:
       - 0
     wohnfläche_hh:
       - 50.0
-    m_elterngeld:
-      - 0
-    m_elterngeld_vat_hh:
-      - 0
-    m_elterngeld_mut_hh:
+    monate_elterngeldbezug:
       - 0
     in_ausbildung:
       - false

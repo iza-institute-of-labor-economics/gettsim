@@ -132,8 +132,8 @@ def load_policy_test_data(policy_name: str) -> PolicyTestSet:
         test_name = test_file.stem
 
         inputs: dict[str, dict] = test_data["inputs"]
-        inputs_provided: _ValueDict = inputs["provided"]
-        inputs_assumed: _ValueDict = inputs["assumed"]
+        inputs_provided: _ValueDict = inputs.get("provided", {})
+        inputs_assumed: _ValueDict = inputs.get("assumed", {})
         outputs: _ValueDict = test_data["outputs"]
 
         out.append(

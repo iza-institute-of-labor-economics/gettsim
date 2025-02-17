@@ -7,12 +7,15 @@ inputs:
     p_id:
       - 18
       - 19
-    tu_id:
-      - 17
-      - 17
     hh_id:
       - 17
       - 17
+    p_id_ehepartner:
+      - 19
+      - 18
+    gemeinsam_veranlagt:
+      - true
+      - true
     bruttolohn_m:
       - 8333.333333
       - 1250.0
@@ -22,23 +25,23 @@ inputs:
     priv_rentenv_beitr_m:
       - 416.666667
       - 0.0
-    ges_rentenv_beitr_m:
+    ges_rentenv_beitr_arbeitnehmer_m:
       - 660.333333
       - 0.0
-    arbeitsl_v_beitr_m:
+    arbeitsl_v_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
-    ges_pflegev_beitr_m:
+    ges_pflegev_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
     jahr:
       - 2022
       - 2022
-    ges_krankenv_beitr_m:
+    ges_krankenv_beitr_arbeitnehmer_m:
       - 0.0
       - 0.0
   assumed: {}
 outputs:
-  vorsorgeaufw_y_tu:
+  vorsorgeaufw_y_sn:
     - 11674
     - 11674

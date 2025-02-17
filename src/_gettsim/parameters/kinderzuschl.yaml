@@ -27,9 +27,29 @@ maximum:
     reference: Art. 6 G. v. 08.12.2022 BGBl. I S. 2230.
     note: Regelung für das Kalenderjahr 2023, abweichend von § 6a Absatz 2.
   2024-01-01:
-    scalar: null
-    reference: § 6a (2) BKGG
-    note: Ab 2024 wird der Betrag wieder aus anderen Parametern berechnet.
+    scalar: 292
+    reference: null
+    note: >-
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6604-340)/12-250=272. KiZ
+      Höchstbetrag nach Satz 3: max(272,224)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      20.
+  2025-01-01:
+    scalar: 297
+    reference: null
+    note: >-
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6648-348)/12-255=270. KiZ
+      Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      25.
+  2026-01-01:
+    scalar: 297
+    reference: null
+    note: >-
+      There is no law or decree that explicitly sets this parameter; hence, it must be
+      calculated according to § 6a (2) BKGG. Satz 1 und 2: (6696-348)/12-259=270. KiZ
+      Höchstbetrag nach Satz 3: max(270,272)=272. Plus KiZ Sofortzuschlag nach Satz 4:
+      25.
 kindersofortzuschl:
   name:
     de: Kindersofortzuschlag für Kinderzuschlag
@@ -47,8 +67,7 @@ kindersofortzuschl:
     scalar: 20
   2023-01-01:
     scalar: null
-  2024-01-01:
-    scalar: 20
+    note: Included in maximum Kinderzuschlag since 2023.
 min_eink_paare:
   name:
     de: Mindesteinkommen für Paare
@@ -377,7 +396,7 @@ existenzminimum:
     bildung_und_teilhabe:
       kinder: 336
     kosten_der_unterkunft:
-      single: 3684
+      single: 3924
       paare: 5892
       kinder: 1188
     heizkosten:

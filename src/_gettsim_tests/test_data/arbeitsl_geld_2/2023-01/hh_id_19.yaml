@@ -14,10 +14,34 @@ inputs:
       - 19
       - 19
       - 19
-    tu_id:
-      - 19
-      - 19
-      - 19
+    p_id_ehepartner:
+      - 48
+      - -1
+      - 46
+    p_id_elternteil_1:
+      - -1
+      - 46
+      - -1
+    p_id_elternteil_2:
+      - -1
+      - 48
+      - -1
+    p_id_einstandspartner:
+      - 48
+      - -1
+      - 46
+    p_id_kindergeld_empf:
+      - -1
+      - 46
+      - -1
+    gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
     kind:
       - false
       - true
@@ -74,22 +98,26 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_y_tu:
+    eink_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    soli_st_y_tu:
+    soli_st_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_m:
+    sozialv_beitr_arbeitnehmer_m:
       - 204.0
       - 0.0
       - 140.0
-    kindergeld_m_hh:
+    kindergeld_m:
       - 0.0
       - 0.0
       - 0.0
+    kindergeld_anz_ansprüche:
+      - 0
+      - 0
+      - 0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
@@ -106,11 +134,11 @@ inputs:
       - 2023-01
       - 2023-01
       - 2023-01
-    wohngeld_vor_vermög_check_m_vg:
+    wohngeld_anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft_hh:
+    vermögen_bedürft:
       - 0.0
       - 0.0
       - 0.0
@@ -140,7 +168,7 @@ outputs:
     - 300.0
     - 0.0
     - 220.0
-  arbeitsl_geld_2_eink_m:
+  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
     - 696.0
     - 0.0
     - 340.0

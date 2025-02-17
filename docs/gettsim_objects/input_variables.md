@@ -10,15 +10,7 @@ household.
 
 ## `hh_id`
 
-Household identifier
-
-Type: int
-
-(tu_id)=
-
-## `tu_id`
-
-Tax Unit identifier (married couples + kids)
+Household identifier following §5 WoGG
 
 Type: int
 
@@ -26,7 +18,7 @@ Type: int
 
 ## `kind`
 
-Dummy: Dependent child living with parents
+Dependent child living with parents
 
 Type: bool
 
@@ -50,7 +42,7 @@ Type: int
 
 ## `weiblich`
 
-Dummy: female
+Female
 
 Type: bool
 
@@ -58,7 +50,7 @@ Type: bool
 
 ## `rentner`
 
-Dummy: Pensioner employment status
+Pensioner employment status
 
 Type: bool
 
@@ -66,15 +58,63 @@ Type: bool
 
 ## `alleinerz`
 
-Dummy: Single parent
+Single parent
 
 Type: bool
+
+(gemeinsam_veranlagt)=
+
+## `gemeinsam_veranlagt`
+
+Taxes are filed jointly
+
+Type: bool
+
+(p_id_elternteil_1)=
+
+## `p_id_elternteil_1`
+
+Identifier of the first parent
+
+Type: int
+
+(p_id_elternteil_2)=
+
+## `p_id_elternteil_2`
+
+Identifier of the second parent
+
+Type: int
+
+(p_id_ehepartner)=
+
+## `p_id_ehepartner`
+
+Identifier of married partner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_einstandspartner`
+
+Identifier of Einstandspartner
+
+Type: int
+
+(p_id_einstandspartner)=
+
+## `p_id_kindergeld_empf`
+
+Identifier of person that claims Kindergeld for the particular child
+
+Type: int
 
 (wohnort_ost)=
 
 ## `wohnort_ost`
 
-Dummy: Living in former East Germany
+Living in former East Germany
 
 Type: bool
 
@@ -82,7 +122,7 @@ Type: bool
 
 ## `in_priv_krankenv`
 
-Dummy: In private health insurance
+In private health insurance
 
 Type: bool
 
@@ -98,7 +138,7 @@ Type: float
 
 ## `in_ausbildung`
 
-Dummy: Employment status “in education”
+Employment status “in education”
 
 Type: bool
 
@@ -106,15 +146,15 @@ Type: bool
 
 ## `selbstständig`
 
-Dummy: Self-employed (main profession)
+Self-employed (main profession)
 
 Type: bool
 
-(hat_kinder)=
+(ges_pflegev_hat_kinder)=
 
-## `hat_kinder`
+## `ges_pflegev_hat_kinder`
 
-Dummy: Has kids (incl. not in hh)
+Has kids (incl. not in hh)
 
 Type: bool
 
@@ -123,6 +163,14 @@ Type: bool
 ## `betreuungskost_m`
 
 Monthly childcare expenses for a particular child under the age of 14
+
+Type: float
+
+(p_id_betreuungsk_träger)=
+
+## `p_id_betreuungsk_träger`
+
+Identifier of the person who paid childcare expenses.
 
 Type: float
 
@@ -175,8 +223,11 @@ Monthly heating expenses for household
 
 Type: float
 
-- - `wohnfläche_hh`
-  - Size of household dwelling in square meters
+(wohnfläche_hh)=
+
+## `wohnfläche_hh`
+
+Size of household dwelling in square meters
 
 Type: float
 
@@ -184,7 +235,7 @@ Type: float
 
 ## `bewohnt_eigentum_hh`
 
-Dummy: Owner-occupied housing
+Owner-occupied housing
 
 Type: bool
 
@@ -196,11 +247,40 @@ Weekly working hours of individual
 
 Type: float
 
+(elterngeld_claimed)=
+
+## `elterngeld_claimed`
+
+Individual claims Elterngeld
+
+Type: bool
+
+(elterngeld_nettoeinkommen_vorjahr_m)=
+
+## `elterngeld_nettoeinkommen_vorjahr_m`
+
+Approximation of the net wage in the 12 months before birth of youngest child (according
+to simplified calculation rules). You may let GETTSIM compute this variable via the
+`elterngeld_nettolohn_approximation_m` target in a separate run, which would typically
+be for the previous calendar year.
+
+Type: float
+
+(elterngeld_zu_verst_eink_vorjahr_y_sn)=
+
+## `elterngeld_zu_verst_eink_vorjahr_y_sn`
+
+Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
+compute this variable via the `_zu_verst_eink_mit_kinderfreib_y_sn` target in a separate
+run, which would typically be for the previous calendar year.
+
+Type: float
+
 (bruttolohn_vorj_m)=
 
 ## `bruttolohn_vorj_m`
 
-Monthly wage, previous year
+Gross wage in the previous year
 
 Type: float
 
@@ -244,27 +324,11 @@ Month of retirement
 
 Type: int
 
-(m_elterngeld)=
+(monate_elterngeldbezug)=
 
-## `m_elterngeld`
+## `monate_elterngeldbezug`
 
-Number of months hh received elterngeld
-
-Type: int
-
-(m_elterngeld_vat_hh)=
-
-## `m_elterngeld_vat_hh`
-
-Number of months father received elterngeld
-
-Type: int
-
-(m_elterngeld_mut_hh)=
-
-## `m_elterngeld_mut_hh`
-
-Number of months mother received elterngeld
+Number of months the individual received Elterngeld for the current youngest child.
 
 Type: int
 
@@ -300,12 +364,12 @@ Construction year of dwelling
 
 Type: int
 
-(vermögen_bedürft_hh)=
+(vermögen_bedürft)=
 
-## `vermögen_bedürft_hh`
+## `vermögen_bedürft`
 
-Assets for means testing of
-household.{ref}`See this page for more details. <means_testing>`
+Assets for means testing on individual
+level.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
@@ -426,7 +490,7 @@ Type: float
 ## `m_alg1_übergang`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
-Arbeitslosengeld, Unterhaltsgeld,Übergangsgeld
+Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
 
 Type: float
 
@@ -434,8 +498,7 @@ Type: float
 
 ## `m_geringf_beschäft`
 
-Total month of marginal employment (w/omandatory contributions) (computed after§ 244a
-SGB VI - earningspoints/0,0313)
+Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
@@ -443,7 +506,7 @@ Type: float
 
 ## `m_ersatzzeit`
 
-Months during military, persecution/escape,internment and consecutive sickness
+Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
@@ -459,7 +522,7 @@ Type: float
 
 ## `m_pfleg_berücks_zeit`
 
-Total months of home care(01.01.1992-31.03.1995)
+Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
@@ -467,7 +530,7 @@ Type: float
 
 ## `y_pflichtbeitr_ab_40`
 
-Total years of mandat. contributions after age 40
+Total years of mandatory contributions after age 40
 
 Type: float
 
@@ -505,6 +568,14 @@ implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 
+(höchster_bruttolohn_letzte_15_jahre_vor_rente_y)=
+
+## `höchster_bruttolohn_letzte_15_jahre_vor_rente_y`
+
+Highest gross income from regular employment in the last 15 years before pension benefit
+claiming. Relevant to determine pension benefit deductions for retirees in early
+retirement.
+
 (bürgerg_bezug_vorj)=
 
 ## `bürgerg_bezug_vorj`
@@ -517,7 +588,7 @@ Type: bool
 
 ## `anwartschaftszeit`
 
-Dummy: at least 12 months of unemployment contributions in the 30 months before claiming
+At least 12 months of unemployment contributions in the 30 months before claiming
 unemployment insurance
 
 Type: bool
@@ -526,7 +597,7 @@ Type: bool
 
 ## `arbeitssuchend`
 
-Dummy: looking for employment
+Looking for employment
 
 Type: bool
 
@@ -549,13 +620,14 @@ Type: float
 
 ## `kind_unterh_anspr_m`
 
-Monthly gross child alimony payments to be received as determined by the court
+Monthly gross child alimony payments to be received as determined by the court on child
+level
 
 Type: float
 
 ## `kind_unterh_erhalt_m`
 
-Monthly actual child alimony payments received
+Monthly actual child alimony payments received on child level
 
 Type: float
 
@@ -567,8 +639,20 @@ Tax Bracket (1 to 5) for withholding tax
 
 Type: int
 
-## `anz_eig_kind_bis_24`
+## `budgetsatz_erzieh`
 
-Number of own children below the age of 25 (incl. not in hh)
+Applied for "Budgetsatz" of parental leave benefit
 
-Type: int
+Type: bool
+
+## `voll_erwerbsgemind`
+
+Unable to provide more than 3 hours of market labor per day.
+
+Type: bool
+
+## `teilw_erwerbsgemind`
+
+Able to provide at least 3 but no more than 6 hours of market labor per day.
+
+Type: bool

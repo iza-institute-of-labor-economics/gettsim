@@ -10,18 +10,18 @@ inputs:
       - 13
       - 13
       - 13
-    tu_id:
-      - 13
-      - 13
-      - 13
-      - 13
-      - 13
     p_id:
       - 40
       - 41
       - 43
       - 44
       - 45
+    p_id_kindergeld_empf:
+      - -1
+      - -1
+      - 40
+      - 40
+      - 40
     alter:
       - 45
       - 40
@@ -52,7 +52,7 @@ inputs:
       - 200.0
       - 0.0
       - 0.0
-    _zu_verst_eink_ohne_kinderfreib_y_tu:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 3000.0
       - 3000.0
       - 3000.0
@@ -60,13 +60,13 @@ inputs:
       - 3000.0
   assumed: {}
 outputs:
-  kindergeld_m_tu:
+  kindergeld_m:
     - 750
-    - 750
-    - 750
-    - 750
-    - 750
-  kinderbonus_m_tu:
+    - 0
+    - 0
+    - 0
+    - 0
+  kinderbonus_m:
     - 0.0
     - 0.0
     - 0.0

@@ -60,20 +60,55 @@ INTERNAL_PARAMS_GROUPS = [
     "kindergeld",
     "elterngeld",
     "ges_rente",
+    "erwerbsm_rente",
     "arbeitsl_geld_2",
     "grunds_im_alter",
     "lohnst",
+    "erziehungsgeld",
 ]
 
 SUPPORTED_GROUPINGS = {
     "hh": {
-        "name": "household",
-        "description": "all individuals living in the same household.",
+        "name": "Haushalt",
+        "description": "Individuals living together in a household in the Wohngeld"
+        " sense (§5 WoGG).",
+        "potentially_endogenous": False,
     },
-    "tu": {
-        "name": "tax unit",
-        "description": "one or two persons that file their taxes together.",
-        "nested_by": "hh",
+    "wthh": {
+        "name": "wohngeldrechtlicher Teilhaushalt",
+        "description": "The relevant unit for Wohngeld. Members of a household for whom"
+        " the Wohngeld priority check compared to Bürgergeld yields the same result"
+        " ∈ {True, False}.",
+        "potentially_endogenous": True,
+    },
+    "fg": {
+        "name": "Familiengemeinschaft",
+        "description": "Maximum of two generations, the relevant base unit for"
+        " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
+        " income fend for themselves.",
+        "potentially_endogenous": True,
+    },
+    "bg": {
+        "name": "Bedarfsgemeinschaft",
+        "description": "Familiengemeinschaft except for children who have enough income"
+        " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
+        "potentially_endogenous": True,
+    },
+    "eg": {
+        "name": "Einstandsgemeinschaft / Einstandspartner",
+        "description": "A couple whose members are deemed to be responsible for each"
+        " other.",
+        "potentially_endogenous": True,
+    },
+    "ehe": {
+        "name": "Ehepartner",
+        "description": "Couples that are either married or in a civil union.",
+        "potentially_endogenous": True,
+    },
+    "sn": {
+        "name": "Steuernummer",
+        "description": "Spouses filing taxes jointly or individuals.",
+        "potentially_endogenous": True,
     },
 }
 
@@ -93,38 +128,52 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = [
-    "eink_st_y_tu",
-    "soli_st_y_tu",
-    "abgelt_st_y_tu",
-    "sozialv_beitr_m",
-    "ges_rentenv_beitr_m",
-    "arbeitsl_v_beitr_m",
-    "ges_krankenv_beitr_m",
-    "ges_pflegev_beitr_m",
+    "eink_st_y_sn",
+    "soli_st_y_sn",
+    "abgelt_st_y_sn",
+    "elterngeld_m",
+    "sozialv_beitr_arbeitnehmer_m",
+    "ges_rentenv_beitr_arbeitnehmer_m",
+    "arbeitsl_v_beitr_arbeitnehmer_m",
+    "ges_krankenv_beitr_arbeitnehmer_m",
+    "ges_pflegev_beitr_arbeitnehmer_m",
     "arbeitsl_geld_m",
-    "kindergeld_m_tu",
+    "kindergeld_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_vg",
-    "unterhaltsvors_m_hh",
-    "grunds_im_alter_m_vg",
+    "wohngeld_m_wthh",
+    "unterhaltsvors_m",
+    "grunds_im_alter_m_eg",
     "ges_rente_m",
+    "erwerbsm_rente_m",
 ]
 
 TYPES_INPUT_VARIABLES = {
     "hh_id": int,
-    "tu_id": int,
     "p_id": int,
-    "vermögen_bedürft_hh": float,
+    "p_id_elternteil_1": int,
+    "p_id_elternteil_2": int,
+    "p_id_kindergeld_empf": int,
+    "p_id_erziehgeld_empf": int,
+    "p_id_ehepartner": int,
+    "p_id_einstandspartner": int,
+    "vermögen_bedürft": float,
+    "eigenbedarf_gedeckt": bool,
+    # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
+    # Bedarfsgemeinschaften are fully endogenous
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
+    "gemeinsam_veranlagt": bool,
     "bruttolohn_m": float,
     "alter": int,
     "weiblich": bool,
     "selbstständig": bool,
     "wohnort_ost": bool,
-    "hat_kinder": bool,
+    "ges_pflegev_hat_kinder": bool,
     "eink_selbst_m": float,
     "in_priv_krankenv": bool,
     "priv_rentenv_beitr_m": float,
+    "elterngeld_nettoeinkommen_vorjahr_m": float,
+    "elterngeld_zu_verst_eink_vorjahr_y_sn": float,
     "bruttolohn_vorj_m": float,
     "arbeitsstunden_w": float,
     "geburtsjahr": int,
@@ -136,6 +185,7 @@ TYPES_INPUT_VARIABLES = {
     "kind": bool,
     "rentner": bool,
     "betreuungskost_m": float,
+    "p_id_betreuungsk_träger": int,
     "kapitaleink_brutto_m": float,
     "eink_vermietung_m": float,
     "bruttokaltmiete_m_hh": float,
@@ -144,9 +194,8 @@ TYPES_INPUT_VARIABLES = {
     "monat_renteneintr": int,
     "behinderungsgrad": int,
     "wohnfläche_hh": float,
-    "m_elterngeld": int,
-    "m_elterngeld_vat_hh": int,
-    "m_elterngeld_mut_hh": int,
+    "monate_elterngeldbezug": int,
+    "elterngeld_claimed": bool,
     "in_ausbildung": bool,
     "alleinerz": bool,
     "bewohnt_eigentum_hh": bool,
@@ -175,6 +224,7 @@ TYPES_INPUT_VARIABLES = {
     "arbeitsl_1y_past_585": bool,
     "vertra_arbeitsl_1997": bool,
     "vertra_arbeitsl_2006": bool,
+    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y": float,
     "anwartschaftszeit": bool,
     "arbeitssuchend": bool,
     "m_durchg_alg1_bezug": float,
@@ -183,5 +233,14 @@ TYPES_INPUT_VARIABLES = {
     "kind_unterh_anspr_m": float,
     "kind_unterh_erhalt_m": float,
     "steuerklasse": int,
-    "anz_eig_kind_bis_24": int,
+    "budgetsatz_erzieh": bool,
+    "voll_erwerbsgemind": bool,
+    "teilw_erwerbsgemind": bool,
 }
+
+FOREIGN_KEYS = [
+    "p_id_ehepartner",
+    "p_id_einstandspartner",
+    "p_id_elternteil_1",
+    "p_id_elternteil_2",
+]

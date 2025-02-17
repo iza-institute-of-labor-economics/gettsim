@@ -12,8 +12,6 @@ inputs:
       - 27
     hh_id:
       - 27
-    tu_id:
-      - 27
     bruttolohn_m:
       - 1000.0
     wohnort_ost:
@@ -22,9 +20,9 @@ inputs:
       - 50
     selbstständig:
       - false
-    hat_kinder:
+    ges_pflegev_hat_kinder:
       - false
-    anz_eig_kind_bis_24:
+    ges_pflegev_anz_kinder_bis_24:
       - 0
     eink_selbst_m:
       - 0.0
@@ -36,17 +34,17 @@ inputs:
       - 2023-07
   assumed: {}
 outputs:
-  sozialv_beitr_m:
+  sozialv_beitr_arbeitnehmer_m:
     - 137.67
-  sozialv_beitr_arbeitg_m:
+  sozialv_beitr_arbeitgeber_m:
     - 231.54
-  _sozialv_beitr_arbeitn_arbeitg_m:
+  _sozialv_beitr_summe_m:
     - 369.21
-  ges_rentenv_beitr_m:
+  ges_rentenv_beitr_arbeitnehmer_m:
     - 60.32
-  arbeitsl_v_beitr_m:
+  arbeitsl_v_beitr_arbeitnehmer_m:
     - 8.43
-  ges_krankenv_beitr_m:
+  ges_krankenv_beitr_arbeitnehmer_m:
     - 52.54
-  ges_pflegev_beitr_m:
+  ges_pflegev_beitr_arbeitnehmer_m:
     - 16.38

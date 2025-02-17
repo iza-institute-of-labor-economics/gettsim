@@ -12,19 +12,23 @@ inputs:
       - 2
       - 2
       - 2
-    tu_id:
+    p_id_ehepartner:
+      - 32
       - 2
-      - 2
-      - 2
+      - -1
+    gemeinsam_veranlagt:
+      - true
+      - true
+      - false
     kind:
       - false
       - false
       - true
-    zu_verst_eink_kein_kinderfreib:
+    _zu_verst_eink_ohne_kinderfreib_y_sn:
       - 5000.0
       - 5000.0
       - 0.0
-    zu_verst_eink_kinderfreib:
+    _zu_verst_eink_mit_kinderfreib_y_sn:
       - 5000.0
       - 5000.0
       - 0.0
@@ -34,19 +38,19 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_tu:
+  eink_st_ohne_kinderfreib_y_sn:
     - 0
     - 0
     - 0
-  eink_st_mit_kinderfreib_y_tu:
+  eink_st_mit_kinderfreib_y_sn:
     - 0
     - 0
     - 0
-  abgelt_st_y_tu:
+  abgelt_st_y_sn:
     - 49.5
     - 49.5
-    - 49.5
-  soli_st_y_tu:
+    - 0.0
+  soli_st_y_sn:
     - 2.72
     - 2.72
-    - 2.72
+    - 0.0

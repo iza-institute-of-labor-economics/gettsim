@@ -1,16 +1,179 @@
+# ======================================================================================
+# Project metadata
+# ======================================================================================
+
+[project]
+# Basic information
+name = "gettsim"
+dynamic = ["version"]
+# About the project
+authors = [
+    { name = "The GETTSIM team", email = "gaudecker@iza.org" },
+]
+description = "The German Taxes and Transfers SIMulator"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+keywords = [
+    "Economics",
+    "Taxes",
+    "Benefits",
+    "Transfers",
+    "Pensions",
+    "Germany",
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+]
+# Dependencies and requirements
+requires-python = ">=3.11"
+dependencies = [
+    "astor",
+    "dags",
+    "ipywidgets",
+    "networkx",
+    "numpy",
+    "numpy-groupies",
+    "pandas",
+    "openpyxl",
+    "plotly",
+    "pygments",
+    "pygraphviz",
+    "pytest",
+    "pyyaml",
+]
+
+[project.urls]
+Repository = "https://github.com/iza-institute-of-labor-economics/gettsim"
+Changelog = "https://gettsim.readthedocs.io/en/stable/changes.html"
+Documentation = "https://gettsim.readthedocs.io"
+Github = "https://github.com/iza-institute-of-labor-economics/gettsim"
+Tracker = "https://github.com/iza-institute-of-labor-economics/gettsim/issues"
+
+
+# ======================================================================================
+# Build system configuration
+# ======================================================================================
+
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.0"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling", "hatch_vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/_gettsim/_version.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests"]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src"]
+sources = ["src"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 
-[tool.setuptools_scm]
-write_to = "src/_gettsim/_version.py"
+# ======================================================================================
+# Pixi
+# ======================================================================================
 
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64", "win-64"]
+
+# Development Dependencies (conda)
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.dependencies]
+python = ">=3.11,<3.13"
+pre-commit = "*"
+pandas = ">=2.1"
+numpy_groupies = "*"
+numpydoc = "*"
+openpyxl = "*"
+astor = "*"
+dags = "*"
+ipywidgets = "*"
+jupyterlab = "*"
+networkx = "*"
+plotly = ">=5.24,<6"
+pygments = "*"
+pygraphviz = "*"
+pyyaml = "*"
+toml = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+pixi-pycharm = ">=0.0.8,<0.0.9"
+
+
+# Development Dependencies (pypi)
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.pypi-dependencies]
+gettsim = {path = ".", editable = true}
+pdbp = "*"
+
+[tool.pixi.target.unix.pypi-dependencies]
+kaleido = "*"
+
+[tool.pixi.target.win-64.pypi-dependencies]
+kaleido = ">=0.1.0.post1,<=0.1.0.post1"
+
+# Features
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.feature.py311.dependencies]
+python = "3.11.*"
+
+[tool.pixi.feature.py312.dependencies]
+python = "3.12.*"
+
+[tool.pixi.feature.jax.target.unix.dependencies]
+jax = ">=0.4.20"
+jaxlib = ">=0.4.20"
+
+[tool.pixi.feature.jax.target.win-64.pypi-dependencies]
+jax = { version = ">=0.4.20", extras = ["cpu"] }
+jaxlib = ">=0.4.20"
+
+# Tasks
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.feature.test.tasks]
+tests = "pytest"
+
+# Environments
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.environments]
+py311 = ["test", "py311"]
+py312 = ["test", "py312"]
+py312-jax = ["py312", "jax"]
+
+
+# ======================================================================================
+# Ruff configuration
+# ======================================================================================
 
 [tool.ruff]
-target-version = "py311"
-select = ["ALL"]
+target-version = "py311" # Replace by [project] requires-python = ">=3.11" above
 fix = true
+unsafe-fixes = false
+
+[tool.ruff.lint]
+select = ["ALL"]
 extend-ignore = [
     "ICN001", # numpy should be np, but different convention here.
     # Docstrings
@@ -25,18 +188,18 @@ extend-ignore = [
     "D416",
     "D417",
     # Others.
-    "D404",  # Do not start module docstring with "This".
-    "RET504",  # unnecessary variable assignment before return.
-    "S101",  # raise errors for asserts.
-    "B905",  # strict parameter for zip that was implemented in py310.
+    "D404", # Do not start module docstring with "This".
+    "RET504", # unnecessary variable assignment before return.
+    "S101", # raise errors for asserts.
+    "B905", # strict parameter for zip that was implemented in py310.
 
-    "ANN101",  # type annotating self
-    "ANN102",  # type annotating cls
-    "FBT",  # flake8-boolean-trap
-    "EM",  # flake8-errmsg
-    "ANN401",  # flake8-annotate typing.Any
-    "PD",  # pandas-vet
-    "E731",  # do not assign a lambda expression, use a def
+    "ANN101", # type annotating self
+    "ANN102", # type annotating cls
+    "FBT", # flake8-boolean-trap
+    "EM", # flake8-errmsg
+    "ANN401", # flake8-annotate typing.Any
+    "PD", # pandas-vet
+    "E731", # do not assign a lambda expression, use a def
     "RET", # unnecessary elif or else statements after return, rais, continue, ...
     "S324", # Probable use of insecure hash function.
     "COM812", # trailing comma missing, but black takes care of that
@@ -47,6 +210,7 @@ extend-ignore = [
     "PLR5501", # elif not supported by Jax converter
     "TRY003", # Avoid specifying long messages outside the exception class
     "FIX002", # Line contains TODO -- Use stuff from TD area.
+    "PLC2401", # Allow non-ASCII characters in variable names.
 
     # Things we are not sure we want
     # ==============================
@@ -59,21 +223,26 @@ extend-ignore = [
 
     # Things ignored during transition phase
     # ======================================
-    "D",  # docstrings
-    "ANN",  # missing annotations
-    "C901",  # function too complex
+    "D", # docstrings
+    "ANN", # missing annotations
+    "C901", # function too complex
     "PT011", # pytest raises without match statement
     "INP001", # implicit namespace packages without init.
+    "E721", # Use `is` and `is not` for type comparisons
+
+    # Things ignored to avoid conflicts with ruff-format
+    # ==================================================
+    "ISC001",
 ]
 exclude = []
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "src/_gettsim_tests/test_rounding.py" = ["PT019"]
 "src/_gettsim/benefits/elterngeld.py" = ["E501"]
 "src/_gettsim/benefits/kinderzuschl.py" = ["ARG001"]
 "src/_gettsim/benefits/unterhalt.py" = ["E501"]
 "src/_gettsim/benefits/wohngeld.py" = ["ARG001"]
-"src/_gettsim/functions.py" = ["F401"]
+"src/_gettsim/functions/all_functions_for_docs.py" = ["F401"]
 "src/_gettsim/gettsim_typing.py" = ["PGH", "PLR", "SIM114"]
 "src/_gettsim/piecewise_functions.py" = ["PLR"]
 "src/_gettsim/policy_environment.py" = ["S506", "PLR"]
@@ -83,10 +252,15 @@ exclude = []
 "src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
+"docs/**/*.ipynb" = ["T201"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"
 
+
+# ======================================================================================
+# mypy configuration
+# ======================================================================================
 
 [tool.mypy]
 files = ["src"]
@@ -112,13 +286,24 @@ module = "_gettsim.*"
 ignore_errors = true
 
 
-[tool.nbqa.config]
-black = "pyproject.toml"
+[tool.check-manifest]
+ignore = ["src/_gettsim/_version.py"]
 
-[tool.nbqa.mutate]
-black = 1
+
+[tool.doc8]
+max-line-length = 88
+ignore = [
+    "D002",
+    "D004"
+]
+
+
+# ======================================================================================
+# pytest configuration
+# ======================================================================================
 
 [tool.pytest.ini_options]
+addopts = ["--pdbcls=pdbp:Pdb"]
 filterwarnings = [
     "ignore:.*XMLParser*:DeprecationWarning",
     "ignore:.*'tree.iter()'*:PendingDeprecationWarning",
@@ -126,7 +311,6 @@ filterwarnings = [
     "ignore:The TerminalReporter.writer attribute is",
     "ignore:Repeated execution of the test suite",
     "ignore:Using or importing the ABCs from 'collections'",
-    "ignore:'grouped_cumsum' is deprecated.",
     "ignore::_gettsim.interface.FunctionsAndColumnsOverlapWarning"
 ]
 markers = [
@@ -139,6 +323,11 @@ norecursedirs = ["docs"]
 testpaths = [
     "src/_gettsim_tests",
 ]
+
+
+# ======================================================================================
+# yamlfix configuration
+# ======================================================================================
 
 [tool.yamlfix]
 line_length = 88
