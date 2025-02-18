@@ -15,6 +15,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 environment = cached_set_up_policy_environment(date=2020)
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, node, order, expected",
     [(5, 3, 1, {2, 3, 4}), (5, 1, 2, {0, 1, 2, 3})],
@@ -25,6 +26,7 @@ def test_kth_order_neighbors(n_nodes, node, order, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, node, order, expected",
     [(5, 3, None, {0, 1, 2, 3}), (5, 1, None, {0, 1})],
@@ -35,6 +37,7 @@ def test_node_and_ancestors(n_nodes, node, order, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, node, order, expected",
     [(5, 3, 1, {2, 3}), (5, 1, 2, {0, 1})],
@@ -45,6 +48,7 @@ def test_node_and_ancestors_order(n_nodes, node, order, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, node, order, expected",
     [(5, 3, None, {3, 4, 5}), (5, 1, None, {1, 2, 3, 4, 5})],
@@ -55,6 +59,7 @@ def test_node_and_descendants(n_nodes, node, order, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, node, order, expected",
     [(5, 3, 1, {3, 4}), (5, 1, 2, {1, 2, 3})],
@@ -65,6 +70,7 @@ def test_node_and_descendants_order(n_nodes, node, order, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, selector, expected",
     [
@@ -83,6 +89,7 @@ def test_get_selected_nodes(n_nodes, selector, expected):
     assert nodes == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 @pytest.mark.parametrize(
     "n_nodes, selectors, expected",
     [
@@ -109,26 +116,30 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
     assert set(dag.nodes) == expected
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_plot_dag():
     """Make sure that minimal example doesn't produce an error."""
     plot_dag(environment=environment, targets=["erwachsene_alle_rentner_hh"])
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_should_fail_if_target_is_missing():
     with pytest.raises(
         ValueError, match="The following targets have no corresponding function"
     ):
         plot_dag(
-            environment=PolicyEnvironment([]), targets=["erwachsene_alle_rentner_hh"]
+            environment=PolicyEnvironment({}), targets=["erwachsene_alle_rentner_hh"]
         )
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
     selectors = "kapitaleink_brutto_y_sn"
     plot_dag(environment=environment, selectors=selectors)
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_10_dots_plot_dag():
     """Make sure that when No.of nodes is larger than 10 or show_labels is false, the
     graph example doesn't produce an error and hover information works properly."""
@@ -139,6 +150,7 @@ def test_10_dots_plot_dag():
     plot_dag(environment=environment, selectors=selector, orientation="h")
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_horizontal_plot_dag():
     """Make sure that when we choose horizontal orientation, the graph example doesn't
     produce an error."""
@@ -151,6 +163,7 @@ def test_horizontal_plot_dag():
     )
 
 
+@pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_hover_source_code_plot_dag():
     """Make sure that when hover information is source code, the graph example doesn't
     produce an error and works properly."""

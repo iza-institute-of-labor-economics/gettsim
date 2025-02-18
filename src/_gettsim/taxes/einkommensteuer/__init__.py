@@ -1,7 +1,6 @@
 """Income taxes."""
 
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 aggregate_by_p_id_eink_st = {
     "anzahl_kindergeld_ansprüche_1": {

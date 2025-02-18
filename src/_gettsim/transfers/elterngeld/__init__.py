@@ -1,6 +1,6 @@
 """Parental leave benefits."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_group_elterngeld = {
     "kind_anspruchsberechtigt_fg": {
@@ -21,7 +21,7 @@ aggregate_by_p_id_elterngeld = {
 }
 
 
-@policy_info(start_date="2011-01-01", params_key_for_rounding="elterngeld")
+@policy_function(start_date="2011-01-01", params_key_for_rounding="elterngeld")
 def elterngeld_m(
     elterngeld_anspruchsbedingungen_erfüllt: bool,
     elterngeld_anspruchshöhe_m: float,
@@ -81,7 +81,7 @@ def elterngeld_basisbetrag_m(
 
 @policy_info(
     end_date="2010-12-31",
-    name_in_dag="elterngeld_m",
+    leaf_name="elterngeld_m",
     params_key_for_rounding="elterngeld",
 )
 def eltergeld_not_implemented() -> float:

@@ -1,8 +1,10 @@
+import datetime
 import inspect
 import string
 
 import numpy
 import pytest
+from optree import tree_flatten
 
 from _gettsim.config import USE_JAX
 
@@ -10,7 +12,7 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
-from _gettsim.functions.loader import _load_internal_functions
+from _gettsim.functions.loader import load_functions_tree_for_date
 from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
 )
@@ -367,16 +369,20 @@ def test_unallowed_operation_wrapper(func):
 # ======================================================================================
 
 
-gettsim_functions = _load_internal_functions()
+for year in range(1990, 2023):
 
-
-@pytest.mark.parametrize(
-    "func",
-    [policy_function.function for policy_function in gettsim_functions],
-)
-@pytest.mark.parametrize("backend", backends)
-def test_convertible(func, backend):
-    make_vectorizable(func, backend=backend)
+    @pytest.mark.parametrize(
+        "func",
+        [
+            pf.function
+            for pf in tree_flatten(
+                load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
+            )[0]
+        ],
+    )
+    @pytest.mark.parametrize("backend", backends)
+    def test_convertible(func, backend):
+        make_vectorizable(func, backend=backend)
 
 
 # ======================================================================================

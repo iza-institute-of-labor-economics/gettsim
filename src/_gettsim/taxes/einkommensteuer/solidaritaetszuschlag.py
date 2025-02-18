@@ -1,7 +1,6 @@
 """Solidarity Surcharge (Solidaritätszuschlag)."""
 
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 
 @policy_info(end_date="2008-12-31", name_in_dag="betrag_y_sn")
@@ -102,7 +101,7 @@ def solidaritaetszuschlag_tarif(
     ----------
     st_per_individual:
         the tax amount to be topped up
-    soli_st_params :
+    soli_st_params
         See params documentation :ref:`soli_st_params <solo_st_params>`
     Returns
         solidarity surcharge

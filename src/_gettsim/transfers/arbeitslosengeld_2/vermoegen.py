@@ -158,7 +158,7 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
     return out
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
+@policy_function(start_date="2023-01-01", leaf_name="arbeitsl_geld_2_vermög_freib_bg")
 def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     anz_personen_bg: int,

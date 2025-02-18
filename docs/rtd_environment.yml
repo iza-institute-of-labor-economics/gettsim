@@ -32,3 +32,5 @@ dependencies:
   - sphinx-copybutton
   - pip:
       - -e ../
+      - git+https://github.com/OpenSourceEconomics/dags
+      - flatten_dict

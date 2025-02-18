@@ -45,7 +45,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     return out
 
 
-@policy_info(params_key_for_rounding="kinderzuschl_eink")
+@policy_function(params_key_for_rounding="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
     kindergeld_anspruch: bool,
@@ -77,7 +77,7 @@ def kinderzuschl_eink_eltern_m(
     return out
 
 
-@policy_info(end_date="2019-06-30")
+@policy_function(end_date="2019-06-30")
 def kinderzuschl_eink_max_m_bg(
     kinderzuschl_eink_relev_m_bg: float,
     _kinderzuschl_anz_kinder_anspruch_bg: int,

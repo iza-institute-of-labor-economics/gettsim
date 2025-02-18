@@ -3,6 +3,7 @@ import inspect
 import operator
 from functools import reduce
 
+import dags
 import networkx as nx
 import numpy
 import pandas as pd
@@ -10,16 +11,18 @@ import plotly.graph_objects as go
 from pygments import highlight, lexers
 from pygments.formatters import HtmlFormatter
 
-from _gettsim.config import DEFAULT_TARGETS, TYPES_INPUT_VARIABLES
-from _gettsim.interface import set_up_dag
-from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.policy_environment_postprocessor import (
-    check_functions_and_differentiate_types,
+from _gettsim.combine_functions_in_tree import (
+    combine_policy_functions_and_derived_functions,
 )
+from _gettsim.config import DEFAULT_TARGETS
+from _gettsim.interface import (
+    _partial_parameters_to_functions,
+)
+from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import (
     format_list_linewise,
     get_names_of_arguments_without_defaults,
-    parse_to_list_of_strings,
+    partition_tree_by_reference_tree,
 )
 
 
@@ -27,7 +30,6 @@ def plot_dag(
     environment: PolicyEnvironment,
     targets=None,
     columns_overriding_functions=None,
-    check_minimal_specification="ignore",
     selectors=None,
     orientation="v",
     show_labels=None,
@@ -46,9 +48,6 @@ def plot_dag(
     columns_overriding_functions : str list of str
         Names of columns in the data which are preferred over function defined in the
         tax and transfer system.
-    check_minimal_specification : {"ignore", "warn", "raise"}, default "ignore"
-        Indicator for whether checks which ensure the most minimal configuration should
-        be silenced, emitted as warnings or errors.
     selectors : str or list of str or dict or list of dict or list of str and dict
         Selectors allow to you to select and de-select nodes in the graph for
         visualization. For the full list of options, see the tutorial about
@@ -67,41 +66,62 @@ def plot_dag(
         a hover information. Sometimes, the tooltip is not properly displayed.
 
     """
+    targets = build_targets_tree(DEFAULT_TARGETS if targets is None else targets)  # noqa: F821
 
-    targets = DEFAULT_TARGETS if targets is None else targets
-    targets = parse_to_list_of_strings(targets, "targets")
-    columns_overriding_functions = parse_to_list_of_strings(
-        columns_overriding_functions, "columns_overriding_functions"
-    )
+    if isinstance(columns_overriding_functions, dict):
+        names_of_columns_overriding_functions = tree_to_dict_with_qualified_name(  # noqa: F821
+            columns_overriding_functions
+        ).keys()
+    elif isinstance(columns_overriding_functions, str):
+        names_of_columns_overriding_functions = [columns_overriding_functions]
+    elif columns_overriding_functions is None:
+        names_of_columns_overriding_functions = []
+    else:
+        names_of_columns_overriding_functions = columns_overriding_functions
 
     # Load functions.
-    functions_not_overridden, functions_overridden = (
-        check_functions_and_differentiate_types(
-            environment,
-            targets=targets,
-            data_cols=list(TYPES_INPUT_VARIABLES),
-        )
+    all_functions = combine_policy_functions_and_derived_functions(
+        environment=environment,
+        targets=targets,
+        data=names_of_columns_overriding_functions,
+    )
+    functions_not_overridden = partition_tree_by_reference_tree(
+        tree_to_partition=all_functions,
+        reference_tree=names_of_columns_overriding_functions,
+    )[1]
+
+    # Create parameter input structure.
+    input_structure = dags.dag_tree.create_input_structure_tree(
+        functions=functions_not_overridden,
+        targets=None,  # None because no functions should be filtered out
     )
 
     # Select necessary nodes by creating a preliminary DAG.
-    nodes = set_up_dag(
+    dag = set_up_dag(  # noqa: F821
         all_functions=functions_not_overridden,
         targets=targets,
-        columns_overriding_functions=columns_overriding_functions,
-        check_minimal_specification=check_minimal_specification,
-    ).nodes
-    necessary_functions = {
-        f_name: f for f_name, f in functions_not_overridden.items() if (f_name in nodes)
-    }
+        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+        input_structure=input_structure,
+    )
 
-    # Params should not show up in DAG.
-    processed_functions = _mock_parameters_arguments(necessary_functions)
+    processed_functions = _partial_parameters_to_functions(
+        functions=partition_tree_by_reference_tree(
+            tree_to_partition=functions_not_overridden, reference_tree=dag.nodes
+        )[0],
+        params=environment.params,
+    )
 
-    dag = set_up_dag(
-        processed_functions,
-        targets,
-        columns_overriding_functions,
-        check_minimal_specification,
+    input_structure = dags.dag_tree.create_input_structure_tree(
+        functions=processed_functions,
+        targets=None,
+    )
+
+    # Calculate results.
+    dag = set_up_dag(  # noqa: F821
+        all_functions=processed_functions,
+        targets=targets,
+        names_of_columns_overriding_functions=names_of_columns_overriding_functions,
+        input_structure=input_structure,
     )
 
     selectors = [] if selectors is None else _to_list(selectors)

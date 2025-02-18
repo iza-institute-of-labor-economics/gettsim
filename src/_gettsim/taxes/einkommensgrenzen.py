@@ -78,7 +78,7 @@ def regulär_beschäftigt_mit_midijob(
 
 @policy_info(
     end_date="1999-12-31",
-    name_in_dag="minijob_grenze",
+    leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_unterscheidung_ost_west(
@@ -104,10 +104,10 @@ def minijob_grenze_unterscheidung_ost_west(
     return float(out)
 
 
-@policy_info(
+@policy_function(
     start_date="2000-01-01",
     end_date="2022-09-30",
-    name_in_dag="minijob_grenze",
+    leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
@@ -127,9 +127,9 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     return float(sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"])
 
 
-@policy_info(
+@policy_function(
     start_date="2022-10-01",
-    name_in_dag="minijob_grenze",
+    leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
@@ -192,10 +192,10 @@ def beitragspfl_einnahmen_arbeitnehmer_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2004-12-31",
-    name_in_dag="midijob_faktor_f",
+    leaf_name="midijob_faktor_f",
     params_key_for_rounding="sozialv_beitr",
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
@@ -254,10 +254,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2022-09-30",
-    name_in_dag="midijob_faktor_f",
+    leaf_name="midijob_faktor_f",
     params_key_for_rounding="sozialv_beitr",
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
@@ -318,9 +318,9 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2022-10-01",
-    name_in_dag="midijob_faktor_f",
+    leaf_name="midijob_faktor_f",
     params_key_for_rounding="sozialv_beitr",
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
@@ -382,10 +382,10 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="midijob_bemessungsentgelt_m",
+    leaf_name="midijob_bemessungsentgelt_m",
 )
 def midijob_bemessungsentgelt_m_bis_09_2022(
     bruttolohn_m: float,
@@ -440,7 +440,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     return minijob_anteil + lohn_über_mini * gewichtete_midijob_rate
 
 
-@policy_info(start_date="2022-10-01", name_in_dag="midijob_bemessungsentgelt_m")
+@policy_function(start_date="2022-10-01", leaf_name="midijob_bemessungsentgelt_m")
 def midijob_bemessungsentgelt_m_ab_10_2022(
     bruttolohn_m: float,
     midijob_faktor_f: float,

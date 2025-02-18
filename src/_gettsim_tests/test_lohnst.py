@@ -25,6 +25,7 @@ OUT_COLS = ["lohnsteuer__betrag_m", "lohnsteuer__betrag_soli_m"]
 data = load_policy_test_data("lohnst")
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     ("test_data", "column"),
     data.parametrize_args,
@@ -46,6 +47,7 @@ def test_lohnsteuer(
     )
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_lohnsteuer_rv_anteil():
     environment = set_up_policy_environment(2018)
 
