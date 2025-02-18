@@ -1,7 +1,5 @@
 """Income relevant for calculation of Kinderzuschlag."""
 
-from _gettsim.shared import policy_info
-
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
         "source_col": "kindergeld_anz_ansprüche",

@@ -1,7 +1,5 @@
 """Public pension benefits for retirement due to reduced earnings potential."""
 
-from _gettsim.shared import policy_info
-
 
 @policy_function(start_date="2001-01-01")
 def erwerbsm_rente_m(  # noqa: PLR0913
