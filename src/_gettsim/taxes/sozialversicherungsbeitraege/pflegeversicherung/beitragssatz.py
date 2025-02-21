@@ -1,9 +1,9 @@
 """Contribution rate to public long-term care insurance."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(
+@policy_function(
     start_date="1995-01-01",
     end_date="2004-12-31",
     name_in_dag="betrag",
@@ -28,7 +28,7 @@ def betrag_ohne_zusatz_fuer_kinderlose(
     return sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2023-06-30",
     name_in_dag="betrag",
@@ -61,7 +61,7 @@ def betrag_zusatz_kinderlos_dummy(
     return out
 
 
-@policy_info(start_date="2023-07-01", name_in_dag="betrag")
+@policy_function(start_date="2023-07-01", name_in_dag="betrag")
 def betrag_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
     zusatzbetrag_kinderlos: bool,
@@ -100,7 +100,7 @@ def betrag_mit_kinder_abschlag(
     return out
 
 
-@policy_info(start_date="2005-01-01")
+@policy_function(start_date="2005-01-01")
 def zusatzbetrag_kinderlos(
     ges_pflegev_hat_kinder: bool,
     alter: int,

@@ -1,9 +1,9 @@
 """Pathway for the long-term insured."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
+@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
 def _ges_rente_langj_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -38,7 +38,7 @@ def _ges_rente_langj_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]
 
 
-@policy_info(
+@policy_function(
     start_date="1989-12-18",
     end_date="2007-04-19",
     name_in_dag="_ges_rente_langj_altersgrenze",
@@ -99,7 +99,7 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
     return out
 
 
-@policy_info(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
+@policy_function(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
 def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -156,7 +156,7 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     return out
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_langj_vorzeitig")
+@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_langj_vorzeitig")
 def _ges_rente_langj_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -186,7 +186,7 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
-@policy_info(
+@policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
     name_in_dag="_ges_rente_langj_vorzeitig",
@@ -230,7 +230,7 @@ def _ges_rente_langj_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_info(start_date="1996-09-27", name_in_dag="_ges_rente_langj_vorzeitig")
+@policy_function(start_date="1996-09-27", name_in_dag="_ges_rente_langj_vorzeitig")
 def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,

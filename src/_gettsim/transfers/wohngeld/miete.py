@@ -1,7 +1,7 @@
 """Renting costs relevant for housing benefit calculation."""
 
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def wohngeld_miete_m_wthh(
@@ -76,7 +76,7 @@ def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> floa
     return float(out)
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
+@policy_function(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
 def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
@@ -138,7 +138,7 @@ def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_hh")
+@policy_function(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_hh")
 def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen_hh: int,
@@ -186,7 +186,7 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     # Calc heating allowance. Until 2020, heating allowance was not
     # introduced yet. For this time frame, the respective parameter is
     # not part of wohngeld_params and heating allowance is set to 0.
-    # TODO(@MImmesberger): Apply policy_info decorator.
+    # TODO(@MImmesberger): Apply policy_function decorator.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/711
     if "heizkostenentlastung_m" in wohngeld_params:
         max_def_hh_größe_heating = max(

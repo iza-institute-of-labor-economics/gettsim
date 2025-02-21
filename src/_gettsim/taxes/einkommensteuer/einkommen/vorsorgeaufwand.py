@@ -1,7 +1,7 @@
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(
+@policy_function(
     end_date="2004-12-31",
     name_in_dag="betrag_y_sn",
     params_key_for_rounding="eink_st_abzuege",
@@ -41,7 +41,7 @@ def betrag_y_sn_bis_2004(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2019-12-31",
     name_in_dag="betrag_y_sn",
@@ -79,7 +79,7 @@ def betrag_mit_günstigerprüfung_y_sn(
     return max(betrag_regime_bis_2004_y_sn, betrag_vor_günstigerprüfung_y_sn)
 
 
-@policy_info(
+@policy_function(
     start_date="2020-01-01",
     name_in_dag="betrag_y_sn",
     params_key_for_rounding="eink_st_abzuege",
@@ -88,7 +88,7 @@ def betrag_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
     sozialversicherungsbeitraege__pflegeversicherung__betrag_m_sn: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m_sn: float,
-    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn: float,
+    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn: float,  # noqa: E501
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -105,7 +105,7 @@ def betrag_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2009-12-31",
     name_in_dag="betrag_vor_günstigerprüfung_y_sn",
@@ -113,7 +113,7 @@ def betrag_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
 def betrag_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn: float,  # noqa: E501
     sozialversicherungsbeitraege__pflegeversicherung__betrag_y_sn: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -141,7 +141,7 @@ def betrag_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     """
     sum_vorsorge = (
         sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_y_sn
-        + sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn
+        + sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn  # noqa: E501
         + sozialversicherungsbeitraege__pflegeversicherung__betrag_y_sn
     )
     max_value = anz_personen_sn * eink_st_abzuege_params["vorsorge_sonstige_aufw_max"]
@@ -152,7 +152,7 @@ def betrag_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2010-01-01",
     end_date="2019-12-31",
     name_in_dag="betrag_vor_günstigerprüfung_y_sn",
@@ -192,7 +192,7 @@ def betrag_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2022-12-31",
     name_in_dag="altersvorsorge_y_sn",
@@ -238,7 +238,7 @@ def altersvorsorge_phase_in_y_sn(
     return out
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="altersvorsorge_y_sn")
+@policy_function(start_date="2023-01-01", name_in_dag="altersvorsorge_y_sn")
 def altersvorsorge_volle_anrechnung_y_sn(
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
     priv_rentenv_beitr_y_sn: float,
@@ -271,7 +271,7 @@ def altersvorsorge_volle_anrechnung_y_sn(
     return min(out, max_value)
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2019-12-31",
 )
@@ -291,7 +291,7 @@ def betrag_regime_bis_2004_y_sn(
     )
 
 
-@policy_info(end_date="2019-12-31")
+@policy_function(end_date="2019-12-31")
 def vorwegabzug_lohnsteuer_2004er_regime_y_sn(
     bruttolohn_y_sn: float,
     anz_personen_sn: int,

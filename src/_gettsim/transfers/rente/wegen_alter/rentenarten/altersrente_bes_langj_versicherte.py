@@ -1,9 +1,9 @@
 """Pathway for the very long-term insured."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(
+@policy_function(
     start_date="2012-01-01",
     end_date="2014-06-22",
     name_in_dag="_ges_rente_besond_langj_altersgrenze",
@@ -40,7 +40,7 @@ def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_besond_langj_versicherte"]
 
 
-@policy_info(
+@policy_function(
     start_date="2014-06-23", name_in_dag="_ges_rente_besond_langj_altersgrenze"
 )
 def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
@@ -93,7 +93,7 @@ def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
     return out
 
 
-@policy_info(start_date="2012-01-01")
+@policy_function(start_date="2012-01-01")
 def ges_rente_vorauss_besond_langj(
     ges_rente_wartezeit_45: bool,
 ) -> bool:

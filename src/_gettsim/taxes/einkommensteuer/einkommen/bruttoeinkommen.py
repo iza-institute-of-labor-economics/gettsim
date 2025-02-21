@@ -1,10 +1,10 @@
 """Income components for income tax calculation."""
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="betrag_y")
+@policy_function(end_date="2008-12-31", name_in_dag="betrag_y")
 def betrag_mit_kapitaleinkommen_y(
     eink_selbst_y: float,
     betrag_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
@@ -41,7 +41,7 @@ def betrag_mit_kapitaleinkommen_y(
     return out
 
 
-@policy_info(start_date="2009-01-01", name_in_dag="betrag_y")
+@policy_function(start_date="2009-01-01", name_in_dag="betrag_y")
 def betrag_ohne_kapitaleinkommen_y(
     eink_selbst_y: float,
     betrag_aus_abhängiger_beschäftigung_ohne_minijob_y: float,

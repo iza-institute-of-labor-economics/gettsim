@@ -1,6 +1,6 @@
 """Relevant income for parental leave benefits."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def elterngeld_anrechenbares_nettoeinkommen_m(
@@ -29,7 +29,7 @@ def elterngeld_anrechenbares_nettoeinkommen_m(
     return bruttolohn_m - lohnsteuer__betrag_m - lohnsteuer__betrag_soli_m
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def _untere_lohnersatzanteil_grenze_minus_nettoeinkommen(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -54,7 +54,7 @@ def _untere_lohnersatzanteil_grenze_minus_nettoeinkommen(
     )
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def _nettoeinkommen_minus_obere_lohnersatzanteil_grenze(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -79,7 +79,9 @@ def _nettoeinkommen_minus_obere_lohnersatzanteil_grenze(
     )
 
 
-@policy_info(end_date="2024-03-31", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze")
+@policy_function(
+    end_date="2024-03-31", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze"
+)
 def vorjahr_einkommen_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     alleinerz: bool,
     elterngeld_zu_verst_eink_vorjahr_y_sn: float,
@@ -113,7 +115,7 @@ def vorjahr_einkommen_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2024-04-01", name_in_dag="vorjahr_einkommen_unter_bezugsgrenze"
 )
 def vorjahr_einkommen_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
@@ -136,7 +138,7 @@ def vorjahr_einkommen_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
     return elterngeld_zu_verst_eink_vorjahr_y_sn <= elterngeld_params["max_eink_vorj"]
 
 
-@policy_info(params_key_for_rounding="elterngeld")
+@policy_function(params_key_for_rounding="elterngeld")
 def elterngeld_nettolohn_approximation_m(
     bruttolohn_m: float,
     lohnsteuer__betrag_m: float,

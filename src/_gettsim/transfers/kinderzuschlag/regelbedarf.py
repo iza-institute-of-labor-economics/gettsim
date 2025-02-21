@@ -1,6 +1,6 @@
 """Basic needs of children in the calculation of Kinderzuschlag."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def kinderzuschl_kost_unterk_m_bg(
@@ -80,7 +80,7 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     return out
 
 
-@policy_info(end_date="2010-12-31", name_in_dag="kinderzuschl_eink_regel_m_bg")
+@policy_function(end_date="2010-12-31", name_in_dag="kinderzuschl_eink_regel_m_bg")
 def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
@@ -115,7 +115,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
     return float(out)
 
 
-@policy_info(start_date="2011-01-01")
+@policy_function(start_date="2011-01-01")
 def kinderzuschl_eink_regel_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,

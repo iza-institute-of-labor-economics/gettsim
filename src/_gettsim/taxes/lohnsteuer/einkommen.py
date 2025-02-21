@@ -1,9 +1,9 @@
 """Income relevant for withholding tax on earnings (Lohnsteuer)."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(params_key_for_rounding="lohnst")
+@policy_function(params_key_for_rounding="lohnst")
 def betrag_y(
     bruttolohn_y: float,
     steuerklasse: int,
@@ -54,14 +54,14 @@ def betrag_y(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2015-01-01",
     end_date="2018-12-31",
     name_in_dag="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,  # noqa: E501
     sozialv_beitr_params: dict,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
@@ -75,9 +75,11 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     _ges_krankenv_bruttolohn_reg_beschäftigt_y:
         See :func:`_ges_krankenv_bruttolohn_reg_beschäftigt_y`.
     sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
-        See :func:sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
+        See
+        :func:sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag:
-        See :func:sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
+        See
+        :func:sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag`.
 
 
     Returns
@@ -88,20 +90,20 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
     out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz  # noqa: E501
         + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
 
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
     name_in_dag="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2019(
     _ges_krankenv_bruttolohn_reg_beschäftigt_y: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,  # noqa: E501
     sozialv_beitr_params: dict,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
@@ -130,7 +132,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz  # noqa: E501
         / 2
         + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag
     )
@@ -183,7 +185,7 @@ def vorsorge_krankenv_option_a(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2010-01-01",
     name_in_dag="vorsorgepauschale_y",
     params_key_for_rounding="lohnst",
@@ -255,7 +257,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2005-01-01",
     end_date="2009-12-31",
     name_in_dag="vorsorgepauschale_y",

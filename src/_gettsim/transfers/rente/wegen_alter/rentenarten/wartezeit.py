@@ -1,6 +1,6 @@
 """Pension-relevant periods."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def ges_rente_wartezeit_5(
@@ -118,7 +118,7 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2012-01-01")
+@policy_function(start_date="2012-01-01")
 def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
@@ -221,7 +221,7 @@ def ges_rente_anrechnungszeit(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2012-01-01")
+@policy_function(start_date="2012-01-01")
 def ges_rente_anrechnungszeit_45(
     m_arbeitsunfähig: float,
     m_alg1_übergang: float,

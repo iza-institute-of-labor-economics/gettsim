@@ -1,6 +1,6 @@
 """Income tresholds for taxes and deductions."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
@@ -26,7 +26,7 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     return bruttolohn_m <= minijob_grenze
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
+@policy_function(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
 def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
     """Regular employment check until March 2003.
 
@@ -50,7 +50,7 @@ def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
+@policy_function(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
 def regulär_beschäftigt_mit_midijob(
     bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:
@@ -76,7 +76,7 @@ def regulär_beschäftigt_mit_midijob(
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="1999-12-31",
     leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
@@ -200,8 +200,8 @@ def beitragspfl_einnahmen_arbeitnehmer_m(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
 ) -> float:
     """Midijob Faktor F until December 2004.
 
@@ -234,11 +234,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -262,8 +262,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
 ) -> float:
     """Midijob Faktor F between 2005 and September 2025.
 
@@ -298,11 +298,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -325,8 +325,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
 ) -> float:
     """Midijob Faktor F since October 2022.
 
@@ -361,11 +361,11 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -488,7 +488,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
     return out
 
 
-@policy_info(start_date="2003-04-01")
+@policy_function(start_date="2003-04-01")
 def in_gleitzone(
     bruttolohn_m: float,
     geringfügig_beschäftigt: bool,

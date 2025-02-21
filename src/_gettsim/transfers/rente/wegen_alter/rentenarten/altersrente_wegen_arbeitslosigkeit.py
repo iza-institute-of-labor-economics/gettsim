@@ -3,10 +3,10 @@
 Revoked for birth cohorts after 1951.
 """
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_altersgrenze")
+@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_altersgrenze")
 def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -35,7 +35,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]
 
 
-@policy_info(
+@policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
     name_in_dag="_ges_rente_arbeitsl_altersgrenze",
@@ -60,7 +60,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
-@policy_info(
+@policy_function(
     start_date="1996-07-29",
     end_date="2009-12-31",
     name_in_dag="_ges_rente_arbeitsl_altersgrenze",
@@ -118,7 +118,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2010-01-01",
     end_date="2017-12-31",
     name_in_dag="_ges_rente_arbeitsl_altersgrenze",
@@ -146,7 +146,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_vorzeitig")
+@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_vorzeitig")
 def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -175,7 +175,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
-@policy_info(
+@policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
     name_in_dag="_ges_rente_arbeitsl_vorzeitig",
@@ -200,7 +200,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
 
 
-@policy_info(
+@policy_function(
     start_date="1996-07-29",
     end_date="1996-09-26",
     name_in_dag="_ges_rente_arbeitsl_vorzeitig",
@@ -241,7 +241,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     return arbeitsl_vorzeitig
 
 
-@policy_info(
+@policy_function(
     start_date="1996-09-27",
     end_date="2004-07-25",
     name_in_dag="_ges_rente_arbeitsl_vorzeitig",
@@ -274,7 +274,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
     return ges_rente_params["altersgrenze_arbeitsl_vorzeitig"]
 
 
-@policy_info(
+@policy_function(
     start_date="2004-07-26",
     end_date="2017-12-31",
     name_in_dag="_ges_rente_arbeitsl_vorzeitig",
@@ -316,7 +316,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     return arbeitsl_vorzeitig
 
 
-@policy_info(end_date="2017-12-31")
+@policy_function(end_date="2017-12-31")
 def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -369,7 +369,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
     return out
 
 
-@policy_info(end_date="2017-12-31")
+@policy_function(end_date="2017-12-31")
 def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -421,7 +421,7 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     return arbeitsl_vorzeitig
 
 
-@policy_info(end_date="2007-04-29", name_in_dag="ges_rente_vorauss_arbeitsl")
+@policy_function(end_date="2007-04-29", name_in_dag="ges_rente_vorauss_arbeitsl")
 def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     ges_rente_wartezeit_15: bool,
@@ -456,7 +456,7 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2007-04-30",
     end_date="2017-12-31",
     name_in_dag="ges_rente_vorauss_arbeitsl",

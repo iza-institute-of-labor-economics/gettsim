@@ -1,10 +1,10 @@
 """Tax allowances for the elderly."""
 
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="2004-12-31", name_in_dag="betrag_y")
+@policy_function(end_date="2004-12-31", name_in_dag="betrag_y")
 def betrag_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
@@ -51,7 +51,7 @@ def betrag_y_bis_2004(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2005-01-01", name_in_dag="betrag_y")
+@policy_function(start_date="2005-01-01", name_in_dag="betrag_y")
 def betrag_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,

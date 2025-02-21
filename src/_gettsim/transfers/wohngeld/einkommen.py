@@ -1,8 +1,8 @@
 """Income relevant for housing benefit calculation."""
 
 from _gettsim.config import numpy_or_jax as np
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
@@ -129,7 +129,7 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-@policy_info(end_date="2006-12-31", name_in_dag="wohngeld_eink_vor_freib_m")
+@policy_function(end_date="2006-12-31", name_in_dag="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst_m: float,
     eink_abhängig_beschäftigt_m: float,
@@ -192,7 +192,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2007-01-01", name_in_dag="wohngeld_eink_vor_freib_m")
+@policy_function(start_date="2007-01-01", name_in_dag="wohngeld_eink_vor_freib_m")
 def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst_m: float,
     eink_abhängig_beschäftigt_m: float,
@@ -262,7 +262,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     return out
 
 
-@policy_info(end_date="2015-12-31", name_in_dag="wohngeld_eink_freib_m")
+@policy_function(end_date="2015-12-31", name_in_dag="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
@@ -320,7 +320,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-@policy_info(start_date="2016-01-01", name_in_dag="wohngeld_eink_freib_m")
+@policy_function(start_date="2016-01-01", name_in_dag="wohngeld_eink_freib_m")
 def wohngeld_eink_freib_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,

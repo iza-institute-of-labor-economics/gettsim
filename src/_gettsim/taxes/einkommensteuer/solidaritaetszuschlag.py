@@ -1,9 +1,10 @@
 """Solidarity Surcharge (Solidaritätszuschlag)."""
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="betrag_y_sn")
+@policy_function(end_date="2008-12-31", name_in_dag="betrag_y_sn")
 def betrag_y_sn_ohne_abgelt_st(
     taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
@@ -45,7 +46,7 @@ def betrag_y_sn_ohne_abgelt_st(
     return out
 
 
-@policy_info(start_date="2009-01-01", name_in_dag="betrag_y_sn")
+@policy_function(start_date="2009-01-01", name_in_dag="betrag_y_sn")
 def betrag_y_sn_mit_abgelt_st(
     taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,

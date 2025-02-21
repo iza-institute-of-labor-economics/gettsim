@@ -79,7 +79,7 @@ def elterngeld_basisbetrag_m(
     ) * elterngeld_lohnersatzanteil
 
 
-@policy_info(
+@policy_function(
     end_date="2010-12-31",
     leaf_name="elterngeld_m",
     params_key_for_rounding="elterngeld",
@@ -227,7 +227,7 @@ def kind_anspruchsberechtigt(
     return alter <= elterngeld_params["max_monate_mit_partnermonate"]
 
 
-@policy_info(start_date="2011-01-01")
+@policy_function(start_date="2011-01-01")
 def elterngeld_lohnersatzanteil(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     _untere_lohnersatzanteil_grenze_minus_nettoeinkommen: float,

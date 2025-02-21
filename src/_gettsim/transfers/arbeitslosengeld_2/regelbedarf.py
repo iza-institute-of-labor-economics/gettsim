@@ -288,7 +288,7 @@ def arbeitsl_geld_2_regelsatz_m(
     return arbeitsl_geld_2_erwachsenensatz_m + arbeitsl_geld_2_kindersatz_m
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
+@policy_function(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
 def arbeitsl_geld_2_kost_unterk_m_bis_2022(
     _arbeitsl_geld_2_berechtigte_wohnfläche: float,
     _arbeitsl_geld_2_warmmiete_pro_qm_m: float,
@@ -311,7 +311,7 @@ def arbeitsl_geld_2_kost_unterk_m_bis_2022(
     return _arbeitsl_geld_2_berechtigte_wohnfläche * _arbeitsl_geld_2_warmmiete_pro_qm_m
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
+@policy_function(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
 def arbeitsl_geld_2_kost_unterk_m_ab_2023(
     bruttokaltmiete_m: float,
     heizkosten_m: float,

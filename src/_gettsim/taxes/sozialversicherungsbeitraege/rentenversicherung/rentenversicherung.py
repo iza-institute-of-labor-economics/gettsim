@@ -1,9 +1,9 @@
 """Public pension insurance contributions."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="betrag_arbeitnehmer_m")
+@policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_vor_midijob(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     einkommen_m: float,
@@ -38,7 +38,7 @@ def betrag_arbeitnehmer_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="betrag_arbeitnehmer_m")
+@policy_function(start_date="2003-04-01", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_mit_midijob(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     betrag_midijob_arbeitnehmer_m: float,
@@ -81,7 +81,7 @@ def betrag_arbeitnehmer_m_mit_midijob(
     return out
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="betrag_arbeitgeber_m")
+@policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_m_vor_midijob(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     einkommen_m: float,
@@ -119,7 +119,7 @@ def betrag_arbeitgeber_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="betrag_arbeitgeber_m")
+@policy_function(start_date="2003-04-01", name_in_dag="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     betrag_midijob_arbeitgeber_m: float,
@@ -206,7 +206,7 @@ def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) ->
     return float(out)
 
 
-@policy_info(start_date="2003-04-01")
+@policy_function(start_date="2003-04-01")
 def betrag_midijob_gesamt_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -232,7 +232,7 @@ def betrag_midijob_gesamt_m(
     )
 
 
-@policy_info(
+@policy_function(
     end_date="2022-09-30",
     name_in_dag="betrag_midijob_arbeitgeber_m",
 )
@@ -256,7 +256,7 @@ def betrag_midijob_arbeitgeber_m_anteil_bruttolohn(
     return bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
 
 
-@policy_info(start_date="2022-10-01", name_in_dag="betrag_midijob_arbeitgeber_m")
+@policy_function(start_date="2022-10-01", name_in_dag="betrag_midijob_arbeitgeber_m")
 def betrag_midijob_arbeitgeber_m_residuum(
     betrag_midijob_gesamt_m: float,
     betrag_midijob_arbeitnehmer_m: float,
@@ -277,7 +277,7 @@ def betrag_midijob_arbeitgeber_m_residuum(
     return betrag_midijob_gesamt_m - betrag_midijob_arbeitnehmer_m
 
 
-@policy_info(
+@policy_function(
     end_date="2022-09-30",
     name_in_dag="betrag_midijob_arbeitnehmer_m",
 )
@@ -301,7 +301,7 @@ def betrag_midijob_arbeitnehmer_m_residuum(
     return betrag_midijob_gesamt_m - betrag_midijob_arbeitgeber_m
 
 
-@policy_info(start_date="2022-10-01", name_in_dag="betrag_midijob_arbeitnehmer_m")
+@policy_function(start_date="2022-10-01", name_in_dag="betrag_midijob_arbeitnehmer_m")
 def betrag_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,

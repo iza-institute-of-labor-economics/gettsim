@@ -1,9 +1,9 @@
 """Contribution rate for health insurance."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(
+@policy_function(
     end_date="2005-06-30",
 )
 def betrag_arbeitnehmer(
@@ -27,7 +27,7 @@ def betrag_arbeitnehmer(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["mean_allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2005-06-30",
 )
 def betrag_arbeitnehmer_jahresanfang(
@@ -56,7 +56,7 @@ def betrag_arbeitnehmer_jahresanfang(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
     name_in_dag="betrag_arbeitnehmer",
@@ -91,7 +91,7 @@ def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     return mean_allgemein / 2 + zusatzbeitrag_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
     name_in_dag="betrag_arbeitnehmer_jahresanfang",
@@ -126,7 +126,7 @@ def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     return mean_allgemein / 2 + zusatzbeitrag_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
     name_in_dag="betrag_arbeitnehmer",
@@ -159,7 +159,7 @@ def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     return allgemein / 2 + zusatzbeitrag_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
     name_in_dag="betrag_arbeitnehmer_jahresanfang",
@@ -194,7 +194,7 @@ def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     return allgemein / 2 + zusatzbeitrag_satz
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
     name_in_dag="betrag_arbeitnehmer",
 )
@@ -221,7 +221,7 @@ def satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     return (allgemeiner_beitr_satz + zusatzbeitrag_satz) / 2
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
     name_in_dag="betrag_arbeitnehmer_jahresanfang",
 )
@@ -248,7 +248,7 @@ def satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
     return (allgemeiner_beitr_satz + zusatzbeitrag_satz) / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2008-12-31",
     name_in_dag="betrag_arbeitgeber",
 )
@@ -272,7 +272,7 @@ def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["mean_allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     end_date="2008-12-31",
     name_in_dag="betrag_arbeitgeber_jahresanfang",
 )
@@ -301,7 +301,7 @@ def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahres
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
     name_in_dag="betrag_arbeitgeber",
@@ -327,7 +327,7 @@ def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["allgemein"] / 2
 
 
-@policy_info(
+@policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
     name_in_dag="betrag_arbeitgeber_jahresanfang",
@@ -355,7 +355,7 @@ def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
     name_in_dag="betrag_arbeitgeber",
 )
@@ -379,7 +379,7 @@ def satz_arbeitgeber_zusatzbeitrag_paritätisch(
     return betrag_arbeitnehmer
 
 
-@policy_info(
+@policy_function(
     start_date="2019-01-01",
     name_in_dag="betrag_arbeitgeber_jahresanfang",
 )
@@ -403,7 +403,7 @@ def satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
     return betrag_arbeitnehmer_jahresanfang
 
 
-@policy_info(
+@policy_function(
     start_date="2005-07-01",
     end_date="2014-12-31",
     name_in_dag="zusatzbeitrag_satz",
@@ -427,7 +427,7 @@ def satz_from_sonderbeitr_satz(
     return sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["sonderbeitrag"]
 
 
-@policy_info(
+@policy_function(
     start_date="2015-01-01",
     name_in_dag="zusatzbeitrag_satz",
 )

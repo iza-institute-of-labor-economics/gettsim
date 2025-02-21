@@ -1,9 +1,9 @@
 """Tax allowances for single parents."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="2014-12-31", name_in_dag="betrag_y")
+@policy_function(end_date="2014-12-31", name_in_dag="betrag_y")
 def betrag_y_pauschal(alleinerz_sn: bool, eink_st_abzuege_params: dict) -> float:
     """Calculate tax deduction allowance for single parents until 2014.
 
@@ -28,7 +28,7 @@ def betrag_y_pauschal(alleinerz_sn: bool, eink_st_abzuege_params: dict) -> float
     return out
 
 
-@policy_info(start_date="2015-01-01", name_in_dag="betrag_y")
+@policy_function(start_date="2015-01-01", name_in_dag="betrag_y")
 def betrag_y_nach_kinderzahl(
     alleinerz_sn: bool,
     kindergeld_anz_ansprüche_sn: int,

@@ -1,5 +1,6 @@
 """Income taxes."""
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 aggregate_by_p_id_eink_st = {
@@ -16,7 +17,7 @@ aggregate_by_p_id_eink_st = {
 }
 
 
-@policy_info(
+@policy_function(
     end_date="1996-12-31", name_in_dag="betrag_y_sn", params_key_for_rounding="eink_st"
 )
 def betrag_y_sn_kindergeld_kinderfreib_parallel(
@@ -37,7 +38,7 @@ def betrag_y_sn_kindergeld_kinderfreib_parallel(
     return betrag_mit_kinderfreib_y_sn
 
 
-@policy_info(
+@policy_function(
     start_date="1997-01-01",
     name_in_dag="betrag_y_sn",
     params_key_for_rounding="eink_st",
@@ -98,12 +99,12 @@ def kinderfreib_günstiger_sn(
     return out
 
 
-@policy_info(end_date="2001-12-31", name_in_dag="betrag_mit_kinderfreib_y_sn")
+@policy_function(end_date="2001-12-31", name_in_dag="betrag_mit_kinderfreib_y_sn")
 def betrag_mit_kinderfreib_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@policy_info(start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreib_y_sn")
+@policy_function(start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreib_y_sn")
 def betrag_mit_kinderfreib_y_sn_ab_2002(
     _zu_verst_eink_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
@@ -162,7 +163,7 @@ def betrag_ohne_kinderfreib_y_sn(
     return out
 
 
-@policy_info(end_date="2022-12-31", name_in_dag="relevantes_kindergeld_m")
+@policy_function(end_date="2022-12-31", name_in_dag="relevantes_kindergeld_m")
 def relevantes_kindergeld_mit_staffelung_m(
     anzahl_kindergeld_ansprüche_1: int,
     anzahl_kindergeld_ansprüche_2: int,
@@ -200,7 +201,7 @@ def relevantes_kindergeld_mit_staffelung_m(
     return relevantes_kindergeld / 2
 
 
-@policy_info(start_date="2023-01-01", name_in_dag="relevantes_kindergeld_m")
+@policy_function(start_date="2023-01-01", name_in_dag="relevantes_kindergeld_m")
 def relevantes_kindergeld_ohne_staffelung_m(
     anzahl_kindergeld_ansprüche_1: int,
     anzahl_kindergeld_ansprüche_2: int,

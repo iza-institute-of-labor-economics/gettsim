@@ -1,9 +1,9 @@
 """Taxes on capital income (Abgeltungssteuer)."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(start_date="2009-01-01")
+@policy_function(start_date="2009-01-01")
 def betrag_y_sn(kapitaleinkommen_y_sn: float, abgelt_st_params: dict) -> float:
     """Abgeltungssteuer on Steuernummer level.
 

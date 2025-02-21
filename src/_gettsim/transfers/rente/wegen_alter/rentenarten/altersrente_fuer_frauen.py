@@ -3,10 +3,10 @@
 Revoked for birth cohorts after 1951.
 """
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze")
+@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -35,7 +35,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
 
 
-@policy_info(start_date="1989-12-18", name_in_dag="_ges_rente_frauen_altersgrenze")
+@policy_function(start_date="1989-12-18", name_in_dag="_ges_rente_frauen_altersgrenze")
 def ges_rente_frauen_altersgrenze_mit_staffelung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -87,7 +87,7 @@ def ges_rente_frauen_altersgrenze_mit_staffelung(
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
 )
 def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
@@ -119,7 +119,7 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
-@policy_info(
+@policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
     name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig",
@@ -175,7 +175,7 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="1996-09-27", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
 )
 def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
@@ -207,7 +207,7 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
-@policy_info(end_date="1997-12-15", name_in_dag="ges_rente_vorauss_frauen")
+@policy_function(end_date="1997-12-15", name_in_dag="ges_rente_vorauss_frauen")
 def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
     weiblich: bool,
     ges_rente_wartezeit_15: bool,
@@ -248,7 +248,7 @@ def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="1997-12-16",
     end_date="2017-12-31",
     name_in_dag="ges_rente_vorauss_frauen",

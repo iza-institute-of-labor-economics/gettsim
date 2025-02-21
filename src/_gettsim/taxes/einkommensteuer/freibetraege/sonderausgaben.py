@@ -1,6 +1,6 @@
 """Tax allowances for special expenses."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_p_id_sonderausgaben = {
     "betreuungskosten_elternteil_m": {
@@ -11,7 +11,7 @@ aggregate_by_p_id_sonderausgaben = {
 }
 
 
-@policy_info(end_date="2011-12-31", name_in_dag="betrag_y_sn")
+@policy_function(end_date="2011-12-31", name_in_dag="betrag_y_sn")
 def betrag_y_sn_nur_pauschale(
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -40,7 +40,7 @@ def betrag_y_sn_nur_pauschale(
     return float(out)
 
 
-@policy_info(start_date="2012-01-01", name_in_dag="betrag_y_sn")
+@policy_function(start_date="2012-01-01", name_in_dag="betrag_y_sn")
 def betrag_y_sn_mit_betreuung(
     absetzbare_betreuungskosten: float,
     anz_personen_sn: int,
@@ -98,7 +98,7 @@ def ausgaben_für_betreuung_y(
     return out
 
 
-@policy_info(params_key_for_rounding="eink_st_abzuege")
+@policy_function(params_key_for_rounding="eink_st_abzuege")
 def absetzbare_betreuungskosten_y_sn(
     ausgaben_für_betreuung_y_sn: float,
     eink_st_abzuege_params: dict,

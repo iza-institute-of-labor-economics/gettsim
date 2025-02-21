@@ -1,5 +1,6 @@
 """Income considered in the calculation of Grundsicherung im Alter."""
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
@@ -183,7 +184,7 @@ def grunds_im_alter_priv_rente_m(
     return out
 
 
-@policy_info(end_date="2020-12-31", name_in_dag="grunds_im_alter_ges_rente_m")
+@policy_function(end_date="2020-12-31", name_in_dag="grunds_im_alter_ges_rente_m")
 def grunds_im_alter_ges_rente_m_bis_2020(
     ges_rente_m: float,
 ) -> float:

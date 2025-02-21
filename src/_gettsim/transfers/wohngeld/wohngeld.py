@@ -16,7 +16,7 @@ priority check, but cannot cover their needs with the Wohngeld calculated in poi
 3. In this sense, this implementation is an approximation of the actual Wohngeld.
 """
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def wohngeld_m_wthh(
@@ -63,7 +63,7 @@ def wohngeld_m_wthh(
     return out
 
 
-@policy_info(params_key_for_rounding="wohngeld")
+@policy_function(params_key_for_rounding="wohngeld")
 def wohngeld_anspruchshöhe_m_wthh(
     anz_personen_wthh: int,
     wohngeld_eink_m_wthh: float,
@@ -107,7 +107,7 @@ def wohngeld_anspruchshöhe_m_wthh(
     return out
 
 
-@policy_info(params_key_for_rounding="wohngeld")
+@policy_function(params_key_for_rounding="wohngeld")
 def wohngeld_anspruchshöhe_m_bg(
     anz_personen_bg: int,
     wohngeld_eink_m_bg: float,

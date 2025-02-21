@@ -1,14 +1,14 @@
 """Public pension benefits for retirement due to age."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
-@policy_info(end_date="2020-12-31")
+@policy_function(end_date="2020-12-31")
 def ges_rente_m(bruttorente_m: float, rentner: bool) -> float:
     return bruttorente_m if rentner else 0.0
 
 
-@policy_info(
+@policy_function(
     start_date="2021-01-01",
     params_key_for_rounding="ges_rente",
     name_in_dag="ges_rente_m",
@@ -55,7 +55,7 @@ def sum_ges_rente_priv_rente_m(priv_rente_m: float, ges_rente_m: float) -> float
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="2016-12-31",
     name_in_dag="bruttorente_m",
     params_key_for_rounding="ges_rente",
@@ -100,7 +100,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2017-01-01",
     end_date="2022-12-31",
     name_in_dag="bruttorente_m",
@@ -153,7 +153,7 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2017-01-01",
     end_date="2022-12-31",
 )
@@ -206,7 +206,7 @@ def _ges_rente_zahlbetrag_ohne_deckel_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2017-01-01",
     end_date="2022-12-31",
 )
@@ -230,7 +230,7 @@ def _differenz_bruttolohn_hinzuverdienstgrenze_y(
     return max(bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
 
 
-@policy_info(
+@policy_function(
     start_date="2017-01-01",
     end_date="2022-12-31",
 )
@@ -263,7 +263,7 @@ def _differenz_bruttolohn_hinzuverdienstdeckel_y(
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2023-01-01",
     name_in_dag="bruttorente_m",
     params_key_for_rounding="ges_rente",
@@ -285,7 +285,7 @@ def bruttorente_ohne_einkommensanrechnung_m(
     return bruttorente_basisbetrag_m
 
 
-@policy_info(start_date="1992-01-01")
+@policy_function(start_date="1992-01-01")
 def bruttorente_basisbetrag_m(
     ges_rente_zugangsfaktor: float,
     entgeltp_ost: float,
