@@ -221,7 +221,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """
+    """  # noqa: E501
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
@@ -283,7 +283,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """
+    """  # noqa: E501
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
@@ -346,7 +346,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """
+    """  # noqa: E501
     # Calculate the Gesamtsozialversicherungsbeitragssatz by summing social
     # insurance contributions for employer and employee and
     # adding the mean Zusatzbeitrag

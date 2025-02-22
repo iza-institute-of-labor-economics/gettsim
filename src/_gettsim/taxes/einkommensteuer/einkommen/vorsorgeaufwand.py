@@ -31,7 +31,7 @@ def betrag_y_sn_bis_2004(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return formel_2004er_regime(
         vorwegabzug_lohnsteuer=vorwegabzug_lohnsteuer_2004er_regime_y_sn,
         krankenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_y_sn,
@@ -138,7 +138,7 @@ def betrag_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     Returns
     -------
 
-    """
+    """  # noqa: E501
     sum_vorsorge = (
         sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_y_sn
         + sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn  # noqa: E501
@@ -182,7 +182,7 @@ def betrag_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return formel_2004er_regime(
         vorwegabzug_lohnsteuer=vorwegabzug_lohnsteuer_2004er_regime_y_sn,
         krankenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_y_sn,
@@ -222,7 +222,7 @@ def altersvorsorge_phase_in_y_sn(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = (
         eink_st_abzuege_params["einführungsfaktor_vorsorgeaufwand_alter_ab_2005"]
         * (
@@ -261,7 +261,7 @@ def altersvorsorge_volle_anrechnung_y_sn(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = (
         sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn
         + priv_rentenv_beitr_y_sn

@@ -5,7 +5,7 @@ def betrag_arbeitnehmer_m(
     sozialversicherungsbeitraege__pflegeversicherung__betrag_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
-    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m: float,
+    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m: float,  # noqa: E501
 ) -> float:
     """Sum of employee's social insurance contributions.
 
@@ -24,7 +24,7 @@ def betrag_arbeitnehmer_m(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return (
         sozialversicherungsbeitraege__pflegeversicherung__betrag_m
         + sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m
@@ -55,7 +55,7 @@ def betrag_arbeitgeber_m(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return (
         sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitgeber_m
         + sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitgeber_m

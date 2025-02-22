@@ -128,7 +128,7 @@ def vorsorge_krankenv_option_b_ab_2019(
     -------
     Health care deductions for withholding taxes option b
 
-    """
+    """  # noqa: E501
 
     out = _ges_krankenv_bruttolohn_reg_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
@@ -164,7 +164,7 @@ def vorsorge_krankenv_option_a(
     -------
     Health care deductions for withholding taxes option a
 
-    """
+    """  # noqa: E501
 
     vorsorge_krankenv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]

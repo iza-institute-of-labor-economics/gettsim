@@ -216,7 +216,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     name_in_dag="betrag_selbständig_m",
 )
 def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution until 2004.
@@ -248,7 +248,7 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
 
 @policy_function(start_date="2005-01-01", name_in_dag="betrag_selbständig_m")
 def betrag_selbständig_zusatz_kinderlos_dummy_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_selbständig_m: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -290,7 +290,7 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
     name_in_dag="betrag_rentner_m",
 )
 def betrag_rentner_reduz_beitrag_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Long-term care insurance contribution from pension income from 1995 until March
@@ -323,7 +323,7 @@ def betrag_rentner_reduz_beitrag_m(
     name_in_dag="betrag_rentner_m",
 )
 def betrag_rentner_ohne_zusatz_für_kinderlose_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
 ) -> float:
     """Health insurance contribution from pension income from April until December 2004.
@@ -351,7 +351,7 @@ def betrag_rentner_ohne_zusatz_für_kinderlose_m(
 
 @policy_function(start_date="2005-01-01", name_in_dag="betrag_rentner_m")
 def betrag_rentner_zusatz_kinderlos_dummy_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen__bemessungsgrundlage_rente_m: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__betrag: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -568,7 +568,7 @@ def betrag_arbeitnehmer_residuum_m(
     name_in_dag="betrag_arbeitnehmer_m",
 )
 def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
-    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,  # noqa: E501
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -600,7 +600,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     )
 
     # Add additional contribution for childless individuals
-    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:  # noqa: E501
+    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
@@ -612,7 +612,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
 @policy_function(start_date="2023-07-01", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
-    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,  # noqa: E501
+    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -653,7 +653,7 @@ def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     )
 
     # Add additional contribution for childless individuals
-    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:  # noqa: E501
+    if sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             einkommensgrenzen__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]

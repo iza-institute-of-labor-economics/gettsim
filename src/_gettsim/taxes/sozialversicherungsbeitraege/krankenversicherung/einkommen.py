@@ -55,7 +55,7 @@ def betrag_regulär_beschäftigt_m(
     return min(bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
-def bemessungsgrundlage_selbständig_m(
+def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     eink_selbst_m: float,
     bezugsgröße_selbständig_m: float,
     selbstständig: bool,
