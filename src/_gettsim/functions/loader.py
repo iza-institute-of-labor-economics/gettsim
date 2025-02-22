@@ -213,10 +213,10 @@ def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> s
 
 def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...]:
     """
-    Convert a system path to a tree path.
+    Convert a path to a tree path.
 
-    The system path is the path to the python module on the user's system. The tree path
-    are the branches of the tree.
+    The path points to a python module on the user's system. The returned tree path is
+    the branch of the tree.
 
     Parameters
     ----------
