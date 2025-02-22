@@ -15,8 +15,8 @@ from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 from _gettsim.shared import (
     create_tree_from_path_and_value,
+    insert_path_and_value,
     merge_trees,
-    upsert_path_and_value,
 )
 
 
@@ -280,10 +280,10 @@ def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
 
         tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
 
-        aggregation_specs_tree = upsert_path_and_value(
+        aggregation_specs_tree = insert_path_and_value(
             base=aggregation_specs_tree,
-            path_to_upsert=tree_path,
-            value_to_upsert=aggregation_specs,
+            path_to_insert=tree_path,
+            value_to_insert=aggregation_specs,
         )
 
     return aggregation_specs_tree

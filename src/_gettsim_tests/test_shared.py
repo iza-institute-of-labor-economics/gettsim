@@ -4,6 +4,7 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
+    insert_path_and_value,
     merge_trees,
     partition_tree_by_reference_tree,
     upsert_path_and_value,
@@ -30,6 +31,33 @@ def test_upsert_path_and_value(base, path_to_upsert, value_to_upsert, expected):
         base=base, path_to_upsert=path_to_upsert, value_to_upsert=value_to_upsert
     )
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "base, path_to_insert, value_to_insert, expected",
+    [
+        ({}, ("a",), 1, {"a": 1}),
+        ({"a": 1}, ("b",), 2, {"a": 1, "b": 2}),
+    ],
+)
+def test_insert_path_and_value(base, path_to_insert, value_to_insert, expected):
+    result = insert_path_and_value(
+        base=base, path_to_insert=path_to_insert, value_to_insert=value_to_insert
+    )
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "base, path_to_insert, value_to_insert",
+    [
+        ({"a": 1}, ("a",), 2),
+    ],
+)
+def test_insert_path_and_value_invalid(base, path_to_insert, value_to_insert):
+    with pytest.raises(ValueError, match="Conflicting paths in trees to merge."):
+        insert_path_and_value(
+            base=base, path_to_insert=path_to_insert, value_to_insert=value_to_insert
+        )
 
 
 @pytest.mark.parametrize(

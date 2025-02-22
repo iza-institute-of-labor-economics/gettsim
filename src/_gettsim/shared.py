@@ -139,6 +139,20 @@ def upsert_path_and_value(
     return upsert_tree(base=base, to_upsert=to_upsert)
 
 
+def insert_path_and_value(
+    base: dict[str, Any], path_to_insert: tuple[str], value_to_insert: Any = None
+) -> dict[str, Any]:
+    """Insert a path and value into a tree.
+
+    The path is a list of strings that represent the keys in the nested dictionary. The
+    path must not exist in base.
+    """
+    to_insert = create_tree_from_path_and_value(
+        path=path_to_insert, value=value_to_insert
+    )
+    return merge_trees(left=base, right=to_insert)
+
+
 def partition_tree_by_reference_tree(
     tree_to_partition: NestedFunctionDict | NestedDataDict,
     reference_tree: NestedFunctionDict | NestedDataDict,
