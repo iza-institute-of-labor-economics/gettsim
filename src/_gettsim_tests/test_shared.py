@@ -4,6 +4,7 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
+    merge_trees,
     partition_tree_by_reference_tree,
     upsert_path_and_value,
     upsert_tree,
@@ -41,6 +42,22 @@ def test_upsert_path_and_value(base, path_to_upsert, value_to_upsert, expected):
 )
 def test_create_tree_from_path_and_value(paths, expected):
     assert create_tree_from_path_and_value(paths) == expected
+
+
+@pytest.mark.parametrize(
+    "base_dict, update_dict, expected",
+    [
+        ({}, {"a": 1}, {"a": 1}),
+        ({"a": 1}, {"b": 2}, {"a": 1, "b": 2}),
+        ({"a": 1}, {"a": 2}, {"a": 2}),
+        ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
+        ({"a": {"b": 1}}, {"a": 3}, {"a": 3}),
+        ({"a": 3}, {"a": {"b": 1}}, {"a": {"b": 1}}),
+        ({"a": SampleDataClass(a=1)}, {}, {"a": SampleDataClass(a=1)}),
+    ],
+)
+def test_merge_trees(left, right, expected):
+    assert merge_trees(left=left, right=right) == expected
 
 
 @pytest.mark.parametrize(

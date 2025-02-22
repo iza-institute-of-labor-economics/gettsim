@@ -5,6 +5,7 @@ from typing import Any, TypeVar
 
 import flatten_dict
 import numpy
+import optree
 from dags.signature import rename_arguments
 from flatten_dict.reducers import make_reducer
 from flatten_dict.splitters import make_splitter
@@ -63,6 +64,28 @@ def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict
     for entry in reversed(path):
         nested_dict = {entry: nested_dict}
     return nested_dict
+
+
+def merge_trees(left: dict, right: dict) -> dict:
+    """
+    Merge two pytrees, raising an error if a path is present in both trees.
+
+    Parameters
+    ----------
+    left
+        The first tree to be merged.
+    right
+        The second tree to be merged.
+
+    Returns
+    -------
+    The merged pytree.
+    """
+
+    if set(optree.tree_paths(left)) & set(optree.tree_paths(right)):
+        raise ValueError("Conflicting paths in trees to merge.")
+
+    return upsert_tree(base=left, to_upsert=right)
 
 
 def upsert_tree(base: dict, to_upsert: dict) -> dict:

@@ -13,7 +13,11 @@ from _gettsim.config import (
 )
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
-from _gettsim.shared import upsert_path_and_value
+from _gettsim.shared import (
+    create_tree_from_path_and_value,
+    merge_trees,
+    upsert_path_and_value,
+)
 
 
 def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
@@ -22,7 +26,9 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
 
     This function takes the list of root paths and searches for all modules containing
     PolicyFunctions. Then it loads all PolicyFunctions that are active at the given date
-    and parses them into the functions tree.
+    and constructs the functions tree.
+
+    Namespaces are at the directory level.
 
     Parameters
     ----------
@@ -40,22 +46,19 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     functions_tree = {}
 
     for path in paths_to_policy_functions:
-        active_functions_dict = get_active_policy_functions_from_module(
+        new_functions_tree = get_active_policy_functions_tree_from_module(
             path=path, date=date, package_root=RESOURCE_DIR
         )
 
-        tree_path = _convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR)
-
-        functions_tree = upsert_path_and_value(
-            base=functions_tree,
-            path_to_upsert=tree_path,
-            value_to_upsert=active_functions_dict,
+        functions_tree = merge_trees(
+            left=functions_tree,
+            right=new_functions_tree,
         )
 
     return functions_tree
 
 
-def get_active_policy_functions_from_module(
+def get_active_policy_functions_tree_from_module(
     path: Path,
     package_root: Path,
     date: datetime.date,
@@ -73,7 +76,7 @@ def get_active_policy_functions_from_module(
 
     Returns
     -------
-    A dictionary of active PolicyFunctions with their leaf names as keys.
+    A nested dictionary of active PolicyFunctions with their leaf names as keys.
     """
     module = _load_module(path, package_root)
     module_name = _convert_path_to_importable_module_name(path, package_root)
@@ -88,7 +91,13 @@ def get_active_policy_functions_from_module(
         policy_functions, module_name
     )
 
-    return {func.leaf_name: func for func in policy_functions if func.is_active(date)}
+    active_policy_functions = {
+        func.leaf_name: func for func in policy_functions if func.is_active(date)
+    }
+    return create_tree_from_path_and_value(
+        path=_convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR),
+        value=active_policy_functions,
+    )
 
 
 def _fail_if_multiple_policy_functions_are_active_at_the_same_time(
@@ -213,33 +222,33 @@ def _convert_path_to_importable_module_name(path: Path, package_root: Path) -> s
 
 def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...]:
     """
-    Convert a path to a tree path.
+    Convert the path from the package root to a tree path.
 
-    The path points to a python module on the user's system. The returned tree path is
-    the branch of the tree.
+    Removes the package root and module name from the path.
 
     Parameters
     ----------
     path:
-        The path to the python module on the user's system.
+        The path to a Python module.
     package_root:
-        The root of the package that contains the functions.
+        GETTSIM's package root.
 
     Returns
     -------
-    The tree path.
+    The tree path, to be used as a key in the functions tree.
 
     Examples
     --------
-    >>> _convert_path_to_tree_path(RESOURCE_DIR / "taxes" / "dir"
-        / "functions.py")
-    ("dir", "functions")
+    >>> _convert_path_to_tree_path(
+    ...     path=RESOURCE_DIR / "taxes" / "dir" / "functions.py",
+    ...     package_root=RESOURCE_DIR,
+    ... )
+    ("dir")
     """
     parts = path.relative_to(package_root.parent / "_gettsim").parts
 
-    # TODO(@MImmesberger): Simplify after changing directory structure
+    # TODO(@MImmesberger): Remove the subsequent line after changing directory structure
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
-    # tree_path = path.relative_to(package_root.parent).parts[1:] # noqa: ERA001
     parts = parts[1:] if parts[0] in {"taxes", "transfers"} else parts
 
     return parts[:-1]
