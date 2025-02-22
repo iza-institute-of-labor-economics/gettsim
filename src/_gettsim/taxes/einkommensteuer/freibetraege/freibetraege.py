@@ -1,10 +1,10 @@
 """Tax allowances."""
 
 
-def freibeträge_y_sn(
+def betrag_y_sn(
     einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn: float,
     einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn: float,
-    freibeträge_ind_y_sn: float,
+    betrag_ind_y_sn: float,
 ) -> float:
     """Calculate total allowances on Steuernummer level.
 
@@ -16,8 +16,8 @@ def freibeträge_y_sn(
         `einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn`.
     einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn
         See :func:`einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn`.
-    freibeträge_ind_y_sn
-        See :func:`freibeträge_ind_y_sn`.
+    betrag_ind_y_sn
+        See :func:`betrag_ind_y_sn`.
 
     Returns
     -------
@@ -26,13 +26,13 @@ def freibeträge_y_sn(
     out = (
         einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn
         + einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn
-        + freibeträge_ind_y_sn
+        + betrag_ind_y_sn
     )
 
     return out
 
 
-def freibeträge_ind_y(
+def betrag_ind_y(
     einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y: float,
     einkommensteuer__freibetraege__altersfreibetrag__betrag_y: float,
     einkommensteuer__freibetraege__alleinerziehend__betrag_y: float,

@@ -200,8 +200,8 @@ def beitragspfl_einnahmen_arbeitnehmer_m(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F until December 2004.
 
@@ -221,7 +221,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """  # noqa: E501
+    """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
@@ -234,11 +234,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -262,8 +262,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F between 2005 and September 2025.
 
@@ -283,7 +283,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """  # noqa: E501
+    """
     # First calculate the factor F from the formula in § 163 (10) SGB VI
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
@@ -298,11 +298,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -325,8 +325,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,  # noqa: E501
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F since October 2022.
 
@@ -346,7 +346,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     -------
     Income subject to social insurance contributions for midijob.
 
-    """  # noqa: E501
+    """
     # Calculate the Gesamtsozialversicherungsbeitragssatz by summing social
     # insurance contributions for employer and employee and
     # adding the mean Zusatzbeitrag
@@ -361,11 +361,11 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang  # noqa: E501
+        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__betrag_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.

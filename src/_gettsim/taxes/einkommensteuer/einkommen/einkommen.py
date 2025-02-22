@@ -60,7 +60,7 @@ def _zu_verst_eink_mit_kinderfreib_y_sn(
 
 def _zu_verst_eink_ohne_kinderfreib_y_sn(
     einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn: float,
-    freibeträge_y_sn: float,
+    einkommensteuer_freibetraege_betrag_y_sn: float,
 ) -> float:
     """Calculate taxable income without child allowance on Steuernummer level.
 
@@ -68,14 +68,17 @@ def _zu_verst_eink_ohne_kinderfreib_y_sn(
     ----------
     einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn
         See :func:`einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn`.
-    freibeträge_y_sn
-        See :func:`freibeträge_y_sn`.
+    einkommensteuer_freibetraege_betrag_y_sn
+        See :func:`einkommensteuer_freibetraege_betrag_y_sn`.
 
 
     Returns
     -------
 
     """
-    out = einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn - freibeträge_y_sn
+    out = (
+        einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn
+        - einkommensteuer_freibetraege_betrag_y_sn
+    )
 
     return max(out, 0.0)

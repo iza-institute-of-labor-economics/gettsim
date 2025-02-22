@@ -160,7 +160,7 @@ def betrag_arbeitgeber_m_mit_midijob(
 
 
 @policy_function(start_date="2003-04-01")
-def betrag_gesamt_midijob_(
+def betrag_gesamt_midijob_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -213,15 +213,15 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitgeber_midijob_m")
 def betrag_arbeitgeber_midijob_m_residuum(
-    betrag_gesamt_midijob_: float,
+    betrag_gesamt_midijob_m: float,
     betrag_arbeitnehmer_midijob_m: float,
 ) -> float:
     """Employer's unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
-    betrag_gesamt_midijob_
-        See :func:`betrag_gesamt_midijob_`.
+    betrag_gesamt_midijob_m
+        See :func:`betrag_gesamt_midijob_m`.
     betrag_arbeitnehmer_midijob_m
         See :func:`betrag_arbeitnehmer_midijob_m`.
 
@@ -229,7 +229,7 @@ def betrag_arbeitgeber_midijob_m_residuum(
     -------
 
     """
-    return betrag_gesamt_midijob_ - betrag_arbeitnehmer_midijob_m
+    return betrag_gesamt_midijob_m - betrag_arbeitnehmer_midijob_m
 
 
 @policy_function(
@@ -238,7 +238,7 @@ def betrag_arbeitgeber_midijob_m_residuum(
     name_in_dag="betrag_arbeitnehmer_midijob_m",
 )
 def betrag_arbeitnehmer_midijob_m_residuum(
-    betrag_gesamt_midijob_: float,
+    betrag_gesamt_midijob_m: float,
     betrag_arbeitgeber_midijob_m: float,
 ) -> float:
     """Employee's unemployment insurance contribution for Midijobs until September
@@ -246,8 +246,8 @@ def betrag_arbeitnehmer_midijob_m_residuum(
 
     Parameters
     ----------
-    betrag_gesamt_midijob_
-        See :func:`betrag_gesamt_midijob_`.
+    betrag_gesamt_midijob_m
+        See :func:`betrag_gesamt_midijob_m`.
     betrag_arbeitgeber_midijob_m
         See :func:`betrag_arbeitgeber_midijob_m`.
 
@@ -255,7 +255,7 @@ def betrag_arbeitnehmer_midijob_m_residuum(
     -------
 
     """
-    return betrag_gesamt_midijob_ - betrag_arbeitgeber_midijob_m
+    return betrag_gesamt_midijob_m - betrag_arbeitgeber_midijob_m
 
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitnehmer_midijob_m")

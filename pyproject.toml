@@ -256,6 +256,7 @@ exclude = []
 "src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
 "src/_gettsim/taxes/sozialversicherungsbeitraege/krankenversicherung/krankenversicherung.py" = ["E501"]
 "src/_gettsim/taxes/sozialversicherungsbeitraege/pflegeversicherung/pflegeversicherung.py" = ["E501"]
+"src/_gettsim/taxes/einkommensgrenzen.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
 "docs/**/*.ipynb" = ["T201"]
 
