@@ -87,8 +87,8 @@ def combine_policy_functions_and_derived_functions(
         aggregation_type="p_id",
     )
     current_functions_tree = upsert_tree(
-        base=environment.functions_tree,
-        to_upsert=aggregate_by_p_id_functions,
+        base=aggregate_by_p_id_functions,
+        to_upsert=environment.functions_tree,
     )
 
     # Create functions for different time units
@@ -97,8 +97,8 @@ def combine_policy_functions_and_derived_functions(
         data_tree=data_tree,
     )
     current_functions_tree = upsert_tree(
-        base=current_functions_tree,
-        to_upsert=time_conversion_functions,
+        base=time_conversion_functions,
+        to_upsert=current_functions_tree,
     )
 
     # Create aggregation functions
@@ -109,15 +109,15 @@ def combine_policy_functions_and_derived_functions(
         aggregations_tree_provided_by_env=environment.aggregation_specs_tree,
     )
     current_functions_tree = upsert_tree(
-        base=current_functions_tree,
-        to_upsert=aggregate_by_group_functions,
+        base=aggregate_by_group_functions,
+        to_upsert=current_functions_tree,
     )
 
     # Create groupings
     groupings = create_groupings()
     current_functions_tree = upsert_tree(
-        base=current_functions_tree,
-        to_upsert=groupings,
+        base=groupings,
+        to_upsert=current_functions_tree,
     )
 
     _fail_if_targets_not_in_functions_tree(current_functions_tree, targets_tree)
