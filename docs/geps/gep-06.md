@@ -41,30 +41,27 @@ in at least three directions:
    which a function resides already provides sufficient context—such as Arbeitslosengeld
    2 and Elterngeld in the examples above.
 1. Handling functions that change over the years is not robust (examples in
-   [Issue 449](https://github.com/iza-institute-of-labor-economics/gettsim/issues/449)
+   [Issue 449](https://github.com/iza-institute-of-labor-economics/gettsim/issues/449)).
 1. Parameters files do not handle cases well when functions expect parameters in a
    different form than the law specifies them (example:
    [Issue 444](https://github.com/iza-institute-of-labor-economics/gettsim/issues/444)).
 
 These issues severely limit the development of GETTSIM. We have been spending far too
-much time finding names that adhere to our self-imposed character limits. Adding
-parameters is sometimes awkward as there is no obvious way for pre-processing them.
-Functions with changing interfaces over the years are a constant pain.
-
-The proposed changes will enhance GETTSIMs DAG in multiple dimensions. First, we extend
-the DAG to the parameters of the taxes and transfers system, thereby allowing for
-pre-processing of parameters. Second, building the DAG will depend on the date for which
-the user wants to perform calculations. Third, the DAG will account for the namespace of
-GETTSIMs policy functions, which allows for non-unqiue function names across GETTSIMs
-modules.
+much time finding names that adhere to our self-imposed character limits. Functions with
+changing interfaces over the years are a constant pain. Adding parameters is sometimes
+awkward as there is no obvious way for pre-processing them.
 
 The proposed changes will affect all areas of GETTSIM
 
-1. Namespaces will affect how GETTSIM expects and returns input and output data.
-1. Instead of a long list of if-statements in the `policy_functions` module, picking
-   functions by year will be done in a more natural and more robust way.
-1. A clear way to pre-process parameters will allow specifying parameters exactly as
-   they are written into the law.
+1. The DAG will account for the namespace of GETTSIM's policy functions, which allows
+   for non-unqiue function names across GETTSIM's modules. Namespaces will affect how
+   GETTSIM expects and returns input and output data.
+1. Building the DAG will depend on the date for which the user wants to perform
+   calculations. Instead of a long list of if-statements in the `policy_functions`
+   module, picking functions by year will be done in a more natural and more robust way.
+1. We extend the DAG to the parameters of the taxes and transfers system, thereby
+   allowing for pre-processing of parameters. This clear way to pre-process parameters
+   will allow specifying parameters exactly as they are written into the law.
 
 ## Usage and Impact
 
@@ -73,62 +70,68 @@ The proposed changes will affect all areas of GETTSIM
    have this structure already for the parameters (think about each `[x]_param`
    dictionary as a namespace).
 
-Currently, for example, `erziehungsgeld_eink_relev_kind_y` is used as the relevant
-income for the pre-2009 parental leave benefit (Erziehungsgeld). Similarly,
-`kinderzuschl_eink_relev_m_bg` is the income relevant for means-testing the additional
-child benefit (Kinderzuschlag), and `arbeitsl_geld_2_eink_m` is the income used for
-means-testing the monthly subsistence payment (Bürgergeld).
+   Currently, for example, `erziehungsgeld_eink_relev_kind_y` is used as the relevant
+   income for the parental leave benefit that was in place before 2009 (Erziehungsgeld).
+   It is calculated at the level of the child and later aggregated to the level of the
+   receiving parent. Similarly, `kinderzuschl_eink_relev_m_bg` is the income relevant
+   for means-testing the additional child benefit (Kinderzuschlag), and
+   `arbeitsl_geld_2_eink_m` is the income used for means-testing the monthly subsistence
+   payment (Bürgergeld).
 
-Having all of these concepts in the same namespace forces us to distinguish them by
-including the name of the main transfer (e.g. `kinderzuschl_`) in the function's name.
-Given the self-imposed character limit of 20 for user-facing columns, this requires
-abbreviating words in the function name to a great extent, making it difficult for new
-users of GETTSIM to read and understand. Even then `kinderzuschl_eink_relev_m_bg` is 8
-characters too long.
+   Having all of these concepts in the same namespace forces us to distinguish them by
+   including the potentially shortened name of the main transfer—`erziehungsgeld`,
+   `kinderzuschl`, and `arbeitsl_geld_2` in the examples—in the function's name. Given
+   the self-imposed character limit of 20 for user-facing columns, this requires
+   abbreviating words in the function name to a great extent, making it difficult for to
+   read, search, and understand the codebase Even so, `kinderzuschl_eink_relev_m_bg` is
+   8 characters too long.
 
-These issues go beyond naming and could impact how future developers create tax and
-transfer functions. Suppose you want to create a function that checks whether
-`erziehungsgeld_eink_relev_kind_y` exceeds a certain threshold (see for example
-`erziehungsgeld_ohne_abzug_m`). Given the strict 32-character limit for function names,
-making the function's purpose clear would be challenging. This constraint may lead
-developers to incorporate such checks in downstream functions of the DAG, potentially
-violating our law-to-code approach.
+   These issues go beyond naming and could impact how future developers create policy
+   functions. Suppose you want to create a function that checks whether
+   `erziehungsgeld_eink_relev_kind_y` exceeds a certain threshold (see for example
+   `erziehungsgeld_ohne_abzug_m`). Given the strict 32-character limit for function
+   names, making the function's purpose clear would be challenging. This constraint may
+   lead developers to incorporate such checks in downstream functions of the DAG,
+   potentially violating our law-to-code approach.
 
-With namespaces, we would have:
+   With namespaces, we would have:
 
-```
-└── gettsim
- ├── kinderzuschlag
- │   ├── einkommen
- │       |── betrag_m_bg
- ├── arbeitslosengeld_2
- │   └── einkommen
- │       └── betrag_m_bg
- └── erziehungsgeld
-     └── einkommen_kind
-         └── betrag_m
-```
+   ```
+   └── erziehungsgeld
+   │   ├── einkommen_kind_m
+   │   ├── betrag_kind_m
+   │   └── betrag_m
+   └── kinderzuschlag
+   │   ├── einkommen_m_bg
+   │   └── betrag_m_bg
+   └── arbeitslosengeld_2
+       ├── einkommen_m_bg
+       └── betrag_m_bg
+   ```
 
-- Names are unique within a namespace. It will be possible to have an `betrag` function
-  within the Kinderzuschlag Namespace and a similar-named function within
-  `arbeitslosengeld_2`. Hence, there is no ambiguity about which income is meant.
+   This means that:
 
-- The namespace will generally be represented as a tuple in GETTSIMs internal
-  infrastructure. This will be the node identifier in the DAG, the value is the
-  function. Along with pytree terminology, we will call the tuple the "path" and the
-  function the "leaf". The last element of the path will be called the "leaf name".
+   - Names are unique within a namespace. It will be possible to have a `betrag_m_bg`
+     function within the `kinderzuschlag` namespace and a similar-named function within
+     `arbeitslosengeld_2`. Hence, there is no ambiguity about which income is meant.
 
-- GETTSIM will take data inputs in the form of nested dictionaries. This structure
-  allows users to define the namespace of a given data leaf via the dictionary keys
-  (which, taken together as a tuple, represent the path of GETTSIMs DAG). GETTSIM will
-  return outputs as nested dictionaries as well.
+   - The namespace will generally be represented as a tuple in GETTSIMs internal
+     infrastructure. This will be the node identifier in the DAG, the value is the
+     function. Along with pytree terminology, we will call the tuple the "path" and the
+     function the "leaf". The last element of the path will be called the "leaf name".
 
-- Within the code, it will be possible to refer to other functions residing in the same
-  namespace without having to prefix them with the entire path. For functions residing
-  in other modules, the namespace will be a prefix with the tuple elements separated by
-  double underscores, e.g., `arbeitslosengeld_2__einkommen__betrag_m_bg`. _(Note that
-  the most readable separator would be a dot, but that does not work. In order to use
-  the identifier as a function argument, it must be a valid Python identifier)_
+   - GETTSIM will take data inputs in the form of nested dictionaries. This structure
+     allows users to define the namespace of a given data leaf via the dictionary keys
+     (which, taken together as a tuple, represent the path of GETTSIMs DAG). GETTSIM
+     will return outputs as nested dictionaries as well.
+
+   - Within the code, it will be possible to refer to other functions residing in the
+     same namespace without having to prefix them with the entire path. For functions
+     residing in other modules, the namespace will be a prefix with the tuple elements
+     separated by double underscores, e.g.,
+     `arbeitslosengeld_2__einkommen__betrag_m_bg`. _(Note that the most readable
+     separator would be a dot, but that does not work. In order to use the identifier as
+     a function argument, it must be a valid Python identifier)_
 
 1. A current example for functions changing over the years would be
    `midijob_bemessungsentgelt_m`. The relevant code in `policy_environment` is:
