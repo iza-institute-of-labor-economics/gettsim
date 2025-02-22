@@ -4,9 +4,9 @@
 def grunds_im_alter_m_eg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg: float,
-    kindergeld_m_eg: float,
+    kindergeld__betrag_m_eg: float,
     kind_unterh_erhalt_m_eg: float,
-    unterhaltsvors_m_eg: float,
+    unterhaltsvorschuss__betrag_m_eg: float,
     grunds_im_alter_eink_m_eg: float,
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_eg: float,
@@ -25,13 +25,13 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
     _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
         See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg`.
-    kindergeld_m_eg
-        See :func:`kindergeld_m_eg`.
+    kindergeld__betrag_m_eg
+        See :func:`kindergeld__betrag_m_eg`.
     kind_unterh_erhalt_m_eg
         See basic input variable
         :ref:`kind_unterh_erhalt_m_eg <kind_unterh_erhalt_m_eg>`.
-    unterhaltsvors_m_eg
-        See :func:`unterhaltsvors_m_eg`.
+    unterhaltsvorschuss__betrag_m_eg
+        See :func:`unterhaltsvorschuss__betrag_m_eg`.
     grunds_im_alter_eink_m_eg
         See :func:`grunds_im_alter_eink_m_eg`.
     erwachsene_alle_rentner_hh
@@ -76,8 +76,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
             + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
             - grunds_im_alter_eink_m_eg
             - kind_unterh_erhalt_m_eg
-            - unterhaltsvors_m_eg
-            - kindergeld_m_eg
+            - unterhaltsvorschuss__betrag_m_eg
+            - kindergeld__betrag_m_eg
         )
 
     return max(out, 0.0)

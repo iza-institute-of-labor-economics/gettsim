@@ -42,19 +42,19 @@ inputs:
       - 200000.0
   assumed: {}
 outputs:
-  kindergeld_m:
+  kindergeld__betrag_m:
     - 219
     - 0
     - 0
-  kinderbonus_m:
+  kinderbonus__betrag_m:
     - 12.5
     - 0
     - 0
-  kindergeld_m_hh:
+  kindergeld__betrag_m_hh:
     - 219
     - 219
     - 219
-  kinderbonus_m_hh:
+  kinderbonus__betrag_m_hh:
     - 12.5
     - 12.5
     - 12.5

@@ -1,9 +1,9 @@
 """Alimony payments (Unterhalt)."""
 
 
-def kind_unterh_zahlbetr_m(
+def unterhalt__betrag_m(
     kind_unterh_anspr_m: float,
-    kindergeld_m: float,
+    kindergeld__betrag_m: float,
     unterhalt_params: dict,
     kind: bool,
 ) -> float:
@@ -13,8 +13,8 @@ def kind_unterh_zahlbetr_m(
     ----------
     kind_unterh_anspr_m
         See basic input variable :ref:`kind_unterh_anspr_m <kind_unterh_anspr_m>`.
-    kindergeld_m
-        See :func:`kindergeld_m`.
+    kindergeld__betrag_m
+        See :func:`kindergeld__betrag_m`.
     unterhalt_params
         See params documentation :ref:`unterhalt_params <unterhalt_params>`.
     kind
@@ -28,4 +28,4 @@ def kind_unterh_zahlbetr_m(
     else:
         abzugsrate = unterhalt_params["abzugsrate_kindergeld"]["erwachsener"]
 
-    return kind_unterh_anspr_m - abzugsrate * kindergeld_m
+    return kind_unterh_anspr_m - abzugsrate * kindergeld__betrag_m

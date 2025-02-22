@@ -44,7 +44,7 @@ inputs:
       - 0.0
     kapitaleink_brutto_m:
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
     sonstig_eink_m:
       - 0.0
@@ -56,11 +56,11 @@ inputs:
       - 0.0
     taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
-    kindergeld_m_bg:
+    kindergeld__betrag_m_bg:
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
     elterngeld_m:
       - 0.0

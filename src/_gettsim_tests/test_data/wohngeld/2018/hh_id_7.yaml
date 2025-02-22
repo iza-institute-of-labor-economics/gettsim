@@ -270,7 +270,7 @@ inputs:
       - 1995
       - 1995
       - 1995
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - false
@@ -354,7 +354,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -396,7 +396,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -592,7 +592,7 @@ inputs:
       - 1998
       - 2009
       - 2011
-    wohngeld_vorrang_bg:
+    vorrangpruefungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
@@ -606,7 +606,7 @@ inputs:
       - true
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

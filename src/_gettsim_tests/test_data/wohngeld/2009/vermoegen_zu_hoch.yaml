@@ -61,7 +61,7 @@ inputs:
     immobilie_baujahr_hh:
       - 1995
       - 1995
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - true
     mietstufe:
@@ -79,7 +79,7 @@ inputs:
     elterngeld_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
     sonstig_eink_m:
@@ -88,7 +88,7 @@ inputs:
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
     eink_selbst_m:
@@ -133,10 +133,10 @@ inputs:
     geburtsjahr:
       - 1972
       - 2001
-    wohngeld_vorrang_bg:
+    vorrangpruefungen__wohngeld_vorrang_bg:
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
   assumed: {}

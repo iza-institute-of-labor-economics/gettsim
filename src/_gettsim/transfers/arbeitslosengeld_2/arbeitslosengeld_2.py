@@ -6,9 +6,9 @@ Note: Since 2023, Arbeitslosengeld II is referred to as Bürgergeld.
 
 def arbeitsl_geld_2_m_bg(
     arbeitsl_geld_2_vor_vorrang_m_bg: float,
-    wohngeld_vorrang_bg: bool,
-    kinderzuschl_vorrang_bg: bool,
-    wohngeld_kinderzuschl_vorrang_bg: bool,
+    vorrangpruefungen__wohngeld_vorrang_bg: bool,
+    vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
     erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -19,12 +19,12 @@ def arbeitsl_geld_2_m_bg(
     ----------
     arbeitsl_geld_2_vor_vorrang_m_bg
         See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
-    wohngeld_vorrang_bg
-        See :func:`wohngeld_vorrang_bg`.
-    kinderzuschl_vorrang_bg
-        See :func:`kinderzuschl_vorrang_bg`.
-    wohngeld_kinderzuschl_vorrang_bg
-        See :func:`wohngeld_kinderzuschl_vorrang_bg`.
+    vorrangpruefungen__wohngeld_vorrang_bg
+        See :func:`vorrangpruefungen__wohngeld_vorrang_bg`.
+    vorrangpruefungen__kinderzuschlag_vorrang_bg
+        See :func:`vorrangpruefungen__kinderzuschlag_vorrang_bg`.
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg
+        See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
 
@@ -40,9 +40,9 @@ def arbeitsl_geld_2_m_bg(
     # resolved, remove the `erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
     if (
-        wohngeld_vorrang_bg
-        or kinderzuschl_vorrang_bg
-        or wohngeld_kinderzuschl_vorrang_bg
+        vorrangpruefungen__wohngeld_vorrang_bg
+        or vorrangpruefungen__kinderzuschlag_vorrang_bg
+        or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg
         or erwachsene_alle_rentner_hh
     ):
         out = 0.0

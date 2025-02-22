@@ -15,12 +15,12 @@ OUT_COLS = [
     "sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m",
     "sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m",
     "sozialversicherungsbeitraege__pflegeversicherung__betrag_m",
-    "arbeitsl_geld_m",
-    "kindergeld_m",
+    "arbeitslosengeld__betrag_m",
+    "kindergeld__betrag_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
     "wohngeld_m_wthh",
-    "unterhaltsvors_m_hh",
+    "unterhaltsvorschuss__betrag_m_hh",
 ]
 
 data = load_policy_test_data("full_taxes_and_transfers")

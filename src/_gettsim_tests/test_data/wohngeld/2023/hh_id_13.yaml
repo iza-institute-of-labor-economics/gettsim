@@ -84,7 +84,7 @@ inputs:
       - 1970
       - 1970
       - 1970
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - true
@@ -108,7 +108,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -120,7 +120,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -180,11 +180,11 @@ inputs:
       - 1984
       - 1988
       - 2013
-    wohngeld_vorrang_bg:
+    vorrangpruefungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

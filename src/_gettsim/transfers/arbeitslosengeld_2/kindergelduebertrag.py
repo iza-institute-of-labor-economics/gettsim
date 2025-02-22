@@ -16,8 +16,8 @@ aggregate_by_p_id_kindergeldübertrag = {
 
 @policy_function(end_date="2022-12-31", leaf_name="_mean_kindergeld_per_child_m")
 def _mean_kindergeld_per_child_gestaffelt_m(
-    kindergeld_m: float,
-    kindergeld_anz_ansprüche: int,
+    kindergeld__betrag_m: float,
+    kindergeld__anzahl_ansprüche: int,
 ) -> float:
     """Kindergeld per child.
 
@@ -26,17 +26,17 @@ def _mean_kindergeld_per_child_gestaffelt_m(
 
     Parameters
     ----------
-    kindergeld_m
-        See :func:`kindergeld_m`.
-    kindergeld_anz_ansprüche
-        See :func:`kindergeld_anz_ansprüche`.
+    kindergeld__betrag_m
+        See :func:`kindergeld__betrag_m`.
+    kindergeld__anzahl_ansprüche
+        See :func:`kindergeld__anzahl_ansprüche`.
 
     Returns
     -------
 
     """
-    if kindergeld_anz_ansprüche > 0:
-        out = kindergeld_m / kindergeld_anz_ansprüche
+    if kindergeld__anzahl_ansprüche > 0:
+        out = kindergeld__betrag_m / kindergeld__anzahl_ansprüche
     else:
         out = 0.0
     return out
@@ -45,7 +45,7 @@ def _mean_kindergeld_per_child_gestaffelt_m(
 @policy_function(start_date="2023-01-01", leaf_name="_mean_kindergeld_per_child_m")
 def _mean_kindergeld_per_child_ohne_staffelung_m(
     kindergeld_params: dict,
-    kindergeld_anz_ansprüche: int,
+    kindergeld__anzahl_ansprüche: int,
 ) -> float:
     """Kindergeld per child.
 
@@ -63,7 +63,7 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
     -------
 
     """
-    return kindergeld_params["kindergeld"] if kindergeld_anz_ansprüche > 0 else 0.0
+    return kindergeld_params["kindergeld"] if kindergeld__anzahl_ansprüche > 0 else 0.0
 
 
 @policy_function(skip_vectorization=True)
@@ -75,16 +75,16 @@ def kindergeld_zur_bedarfsdeckung_m(
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
     Even though the Kindergeld is paid to the parent (see function
-    :func:`kindergeld_m`), the child that gives rise to the Kindergeld claim is entitled
-    to it to cover its needs (§ 11 Abs. 1 Satz 5 SGB II). The amount of Kindergeld for
-    which the child is entitled to is the sum of the Kindergeld for all children divided
-    by the amount of children. Hence, the age of the child (in comparison to siblings)
-    does not matter.
+    :func:`kindergeld__betrag_m`), the child that gives rise to the Kindergeld claim is
+    entitled to it to cover its needs (§ 11 Abs. 1 Satz 5 SGB II). The amount of
+    Kindergeld for which the child is entitled to is the sum of the Kindergeld for all
+    children divided by the amount of children. Hence, the age of the child (in
+    comparison to siblings) does not matter.
 
     Parameters
     ----------
-    kindergeld_m
-        See :func:`kindergeld_m`.
+    kindergeld__betrag_m
+        See :func:`kindergeld__betrag_m`.
     p_id_kindergeld_empf
         See :func:`p_id_kindergeld_empf`.
     p_id
@@ -108,7 +108,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
     wohngeld_anspruchshöhe_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    unterhaltsvorschuss__betrag_m: float,
     _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
@@ -132,8 +132,8 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
     _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
         See :func:`_in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger`.
 
@@ -146,7 +146,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         - wohngeld_anspruchshöhe_m_bg
         - arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
         - kind_unterh_erhalt_m
-        - unterhaltsvors_m,
+        - unterhaltsvorschuss__betrag_m,
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents

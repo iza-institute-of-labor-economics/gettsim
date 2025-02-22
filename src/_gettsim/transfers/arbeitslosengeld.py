@@ -5,10 +5,10 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.einkommensteuer import einkommensteuer_tarif
 
 
-def arbeitsl_geld_m(
+def betrag_m(
     einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
-    arbeitsl_geld_berechtigt: bool,
-    arbeitsl_geld_eink_vorj_proxy_m: float,
+    anspruchsberechtigt: bool,
+    einkommen_vorjahr_proxy_m: float,
     arbeitsl_geld_params: dict,
 ) -> float:
     """Calculate individual unemployment benefit.
@@ -18,10 +18,10 @@ def arbeitsl_geld_m(
     einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
         See :func:
         `einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche`.
-    arbeitsl_geld_berechtigt
-        See :func:`arbeitsl_geld_berechtigt`.
-    arbeitsl_geld_eink_vorj_proxy_m
-        See :func:`arbeitsl_geld_eink_vorj_proxy_m`.
+    anspruchsberechtigt
+        See :func:`anspruchsberechtigt`.
+    einkommen_vorjahr_proxy_m
+        See :func:`einkommen_vorjahr_proxy_m`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -35,15 +35,15 @@ def arbeitsl_geld_m(
     elif einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-    if arbeitsl_geld_berechtigt:
-        out = arbeitsl_geld_eink_vorj_proxy_m * arbeitsl_geld_satz
+    if anspruchsberechtigt:
+        out = einkommen_vorjahr_proxy_m * arbeitsl_geld_satz
     else:
         out = 0.0
 
     return out
 
 
-def arbeitsl_geld_restl_anspruchsd(
+def verbleibende_anspruchsdauer(
     alter: int,
     sozialv_pflicht_5j: float,
     anwartschaftszeit: bool,
@@ -120,10 +120,10 @@ def arbeitsl_geld_restl_anspruchsd(
     return out
 
 
-def arbeitsl_geld_berechtigt(  # noqa: PLR0913
+def anspruchsberechtigt(  # noqa: PLR0913
     alter: int,
     arbeitssuchend: bool,
-    arbeitsl_geld_restl_anspruchsd: int,
+    verbleibende_anspruchsdauer: int,
     arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
     ges_rente_regelaltersgrenze: float,
@@ -136,8 +136,8 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
         See basic input variable :ref:`alter <alter>`.
     arbeitssuchend
         See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
-    arbeitsl_geld_restl_anspruchsd
-        See :func:`arbeitsl_geld_restl_anspruchsd`.
+    verbleibende_anspruchsdauer
+        See :func:`verbleibende_anspruchsdauer`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
@@ -153,7 +153,7 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
 
     out = (
         arbeitssuchend
-        and (arbeitsl_geld_restl_anspruchsd > 0)
+        and (verbleibende_anspruchsdauer > 0)
         and (alter < regelaltersgrenze)
         and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
@@ -161,7 +161,7 @@ def arbeitsl_geld_berechtigt(  # noqa: PLR0913
     return out
 
 
-def arbeitsl_geld_eink_vorj_proxy_m(  # noqa: PLR0913
+def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
     bruttolohn_vorj_m: float,
     arbeitsl_geld_params: dict,

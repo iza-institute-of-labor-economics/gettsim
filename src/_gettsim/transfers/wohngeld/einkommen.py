@@ -7,7 +7,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 aggregate_by_p_id_wohngeld = {
     "_wohngeld_eink_freib_alleinerz_bonus": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kind_bis_10_mit_kindergeld",
+        "source_col": "kindergeld__kind_bis_10_mit_kindergeld",
         "aggr": "sum",
     },
 }
@@ -135,11 +135,11 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     eink_abhängig_beschäftigt_m: float,
     kapitaleink_brutto_m: float,
     eink_vermietung_m: float,
-    arbeitsl_geld_m: float,
+    arbeitslosengeld__betrag_m: float,
     sonstig_eink_m: float,
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    unterhaltsvorschuss__betrag_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -156,16 +156,16 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
         See :func:`kapitaleink_brutto_m`.
     eink_vermietung_m
         See :func:`eink_vermietung_m`.
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
+    arbeitslosengeld__betrag_m
+        See :func:`arbeitslosengeld__betrag_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
     wohngeld_abzüge_st_sozialv_m
         See :func:`wohngeld_abzüge_st_sozialv_m`.
 
@@ -181,10 +181,10 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     transfers = (
-        arbeitsl_geld_m
+        arbeitslosengeld__betrag_m
         + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         + kind_unterh_erhalt_m
-        + unterhaltsvors_m
+        + unterhaltsvorschuss__betrag_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
@@ -198,11 +198,11 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     eink_abhängig_beschäftigt_m: float,
     kapitaleink_brutto_m: float,
     eink_vermietung_m: float,
-    arbeitsl_geld_m: float,
+    arbeitslosengeld__betrag_m: float,
     sonstig_eink_m: float,
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    unterhaltsvorschuss__betrag_m: float,
     anrechenbares_elterngeld_m: float,
     wohngeld_abzüge_st_sozialv_m: float,
 ) -> float:
@@ -220,16 +220,16 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`kapitaleink_brutto_m`.
     eink_vermietung_m
         See :func:`eink_vermietung_m`.
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
+    arbeitslosengeld__betrag_m
+        See :func:`arbeitslosengeld__betrag_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
     anrechenbares_elterngeld_m
         See :func:`anrechenbares_elterngeld_m`.
     wohngeld_abzüge_st_sozialv_m
@@ -239,8 +239,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     -------
 
     """
-    # TODO(@MImmesberger): Find out whether kind_unterh_erhalt_m and unterhaltsvors_m
-    # are counted as income for Wohngeld income check.
+    # TODO(@MImmesberger): Find out whether kind_unterh_erhalt_m and
+    # unterhaltsvorschuss__betrag_m are counted as income for Wohngeld income check.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/357
     einkommen = (
         eink_selbst_m
@@ -250,10 +250,10 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     transfers = (
-        arbeitsl_geld_m
+        arbeitslosengeld__betrag_m
         + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         + kind_unterh_erhalt_m
-        + unterhaltsvors_m
+        + unterhaltsvorschuss__betrag_m
         + anrechenbares_elterngeld_m
     )
 
@@ -364,21 +364,23 @@ def wohngeld_eink_freib_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-def wohngeld_arbeitendes_kind(bruttolohn_m: float, kindergeld_anspruch: bool) -> bool:
+def wohngeld_arbeitendes_kind(
+    bruttolohn_m: float, kindergeld__anspruchsberechtigt: bool
+) -> bool:
     """Check if children are working.
 
     Parameters
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    kindergeld__anspruchsberechtigt
+        See :func:`kindergeld__anspruchsberechtigt`.
 
     Returns
     -------
 
     """
-    out = (bruttolohn_m > 0) and kindergeld_anspruch
+    out = (bruttolohn_m > 0) and kindergeld__anspruchsberechtigt
     return out
 
 

@@ -90,7 +90,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
 @policy_function(end_date="2010-12-31", leaf_name="arbeitsl_geld_2_kindersatz_m")
 def arbeitsl_geld_2_kindersatz_m_bis_2010(
     alter: int,
-    same_fg_as_kindergeldempfänger: bool,
+    kindergeld__gleiche_fg_wie_empfänger: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs of children until 2010.
@@ -99,8 +99,8 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     ----------
     alter
         See basic input variable :ref:`alter`.
-    same_fg_as_kindergeldempfänger
-        See :func:`same_fg_as_kindergeldempfänger`.
+    kindergeld__gleiche_fg_wie_empfänger
+        See :func:`kindergeld__gleiche_fg_wie_empfänger`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -115,19 +115,19 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     if (
         alter >= anteile["kind_zwischen_14_und_24"]["min_alter"]
         and alter <= anteile["kind_zwischen_14_und_24"]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out = regelsatz * anteile["kind_zwischen_14_und_24"]["anteil"]
     elif (
         alter >= anteile["kind_zwischen_6_und_13"]["min_alter"]
         and alter <= anteile["kind_zwischen_6_und_13"]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out = regelsatz * anteile["kind_zwischen_6_und_13"]["anteil"]
     elif (
         alter >= anteile["kind_bis_5"]["min_alter"]
         and alter <= anteile["kind_bis_5"]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out = regelsatz * anteile["kind_bis_5"]["anteil"]
     else:
@@ -139,7 +139,7 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
 @policy_function(start_date="2011-01-01", leaf_name="arbeitsl_geld_2_kindersatz_m")
 def arbeitsl_geld_2_kindersatz_m_ab_2011(
     alter: int,
-    same_fg_as_kindergeldempfänger: bool,
+    kindergeld__gleiche_fg_wie_empfänger: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs of children since 2011.
@@ -150,8 +150,8 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
     ----------
     alter
         See basic input variable :ref:`alter`.
-    same_fg_as_kindergeldempfänger
-        See :func:`same_fg_as_kindergeldempfänger`.
+    kindergeld__gleiche_fg_wie_empfänger
+        See :func:`kindergeld__gleiche_fg_wie_empfänger`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -166,22 +166,22 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
     if (
         alter >= arbeitsl_geld_2_params["regelsatz"][6]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][6]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out += arbeitsl_geld_2_params["regelsatz"][6]["betrag"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][5]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][5]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out += arbeitsl_geld_2_params["regelsatz"][5]["betrag"]
     elif (
         alter >= arbeitsl_geld_2_params["regelsatz"][4]["min_alter"]
         and alter <= arbeitsl_geld_2_params["regelsatz"][4]["max_alter"]
-        and same_fg_as_kindergeldempfänger
+        and kindergeld__gleiche_fg_wie_empfänger
     ):
         out += arbeitsl_geld_2_params["regelsatz"][4]["betrag"]
-    elif same_fg_as_kindergeldempfänger:  # adult children with parents in FG
+    elif kindergeld__gleiche_fg_wie_empfänger:  # adult children with parents in FG
         out += arbeitsl_geld_2_params["regelsatz"][3]
     else:
         out = 0.0

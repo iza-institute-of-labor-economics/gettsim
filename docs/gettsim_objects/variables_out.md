@@ -16,7 +16,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly amount employee health insurance contributions
 * - {func}`sozialversicherungsbeitraege__pflegeversicherung__betrag_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeitraege__pflegeversicherung__betrag_m>`
   - Monthly amount of long term care insurance
-* - {func}`arbeitsl_geld_m <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_m>`
+* - {func}`arbeitslosengeld__betrag_m <_gettsim.functions.all_functions_for_docs.arbeitslosengeld__betrag_m>`
   - Monthly amount of unemployment assistance
 * - {func}`entgeltp_update <_gettsim.functions.all_functions_for_docs.entgeltp_update>`
   - Updated earning points for pension claim
@@ -24,7 +24,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Capital income tax on Steuernummer level
 * - {func}`taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn>`
   - Solidarity surcharge on Steuernummer level
-* - {func}`kindergeld_m <_gettsim.functions.all_functions_for_docs.kindergeld_m>`
+* - {func}`kindergeld__betrag_m <_gettsim.functions.all_functions_for_docs.kindergeld__betrag_m>`
   - Monthly child benefit
 * - {func}`taxes__einkommensteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__betrag_y_sn>`
   - Income Tax on Steuernummer level
@@ -32,7 +32,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Withholding tax
 * - {func}`lohnsteuer__betrag_soli_m <_gettsim.functions.all_functions_for_docs.lohnsteuer__betrag_soli_m>`
   - Solidarity surcharge on withholding tax
-* - {func}`unterhaltsvors_m <_gettsim.functions.all_functions_for_docs.unterhaltsvors_m>`
+* - {func}`unterhaltsvorschuss__betrag_m <_gettsim.functions.all_functions_for_docs.unterhaltsvorschuss__betrag_m>`
   - Alimony advance payment
 * - {func}`arbeitsl_geld_2_m_bg <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_2_m_bg>`
   - Monthly subsistence payment on household level

@@ -6,24 +6,24 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import join_numpy
 
 aggregate_by_group_kindergeld = {
-    "anz_kinder_mit_kindergeld_fg": {
-        "source_col": "kindergeld_anspruch",
+    "anzahl_kinder_fg": {
+        "source_col": "anspruchsberechtigt",
         "aggr": "sum",
     },
 }
 
 aggregate_by_p_id_kindergeld = {
-    "kindergeld_anz_ansprüche": {
+    "anzahl_ansprüche": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kindergeld_anspruch",
+        "source_col": "anspruchsberechtigt",
         "aggr": "sum",
     },
 }
 
 
-@policy_function(start_date="2023-01-01", leaf_name="kindergeld_m")
-def kindergeld_ohne_staffelung_m(
-    kindergeld_anz_ansprüche: int,
+@policy_function(start_date="2023-01-01", leaf_name="betrag_m")
+def betrag_ohne_staffelung_m(
+    anzahl_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
@@ -33,8 +33,8 @@ def kindergeld_ohne_staffelung_m(
 
     Parameters
     ----------
-    kindergeld_anz_ansprüche
-        See :func:`kindergeld_anz_ansprüche`.
+    anzahl_ansprüche
+        See :func:`anzahl_ansprüche`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -43,12 +43,12 @@ def kindergeld_ohne_staffelung_m(
 
     """
 
-    return kindergeld_params["kindergeld"] * kindergeld_anz_ansprüche
+    return kindergeld_params["kindergeld"] * anzahl_ansprüche
 
 
-@policy_function(end_date="2022-12-31", leaf_name="kindergeld_m")
-def kindergeld_gestaffelt_m(
-    kindergeld_anz_ansprüche: int,
+@policy_function(end_date="2022-12-31", leaf_name="betrag_m")
+def betrag_gestaffelt_m(
+    anzahl_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
     """Sum of Kindergeld for eligible children.
@@ -58,8 +58,8 @@ def kindergeld_gestaffelt_m(
 
     Parameters
     ----------
-    kindergeld_anz_ansprüche
-        See :func:`kindergeld_anz_ansprüche`.
+    anzahl_ansprüche
+        See :func:`anzahl_ansprüche`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
 
@@ -68,21 +68,21 @@ def kindergeld_gestaffelt_m(
 
     """
 
-    if kindergeld_anz_ansprüche == 0:
+    if anzahl_ansprüche == 0:
         sum_kindergeld = 0.0
     else:
         sum_kindergeld = sum(
             kindergeld_params["kindergeld"][
                 (min(i, max(kindergeld_params["kindergeld"])))
             ]
-            for i in range(1, kindergeld_anz_ansprüche + 1)
+            for i in range(1, anzahl_ansprüche + 1)
         )
 
     return sum_kindergeld
 
 
-@policy_function(end_date="2011-12-31", leaf_name="kindergeld_anspruch")
-def kindergeld_anspruch_nach_lohn(
+@policy_function(end_date="2011-12-31", leaf_name="anspruchsberechtigt")
+def anspruchsberechtigt_nach_lohn(
     alter: int,
     in_ausbildung: bool,
     bruttolohn_m: float,
@@ -118,8 +118,8 @@ def kindergeld_anspruch_nach_lohn(
     return out
 
 
-@policy_function(start_date="2012-01-01", leaf_name="kindergeld_anspruch")
-def kindergeld_anspruch_nach_stunden(
+@policy_function(start_date="2012-01-01", leaf_name="anspruchsberechtigt")
+def anspruchsberechtigt_nach_stunden(
     alter: int,
     in_ausbildung: bool,
     arbeitsstunden_w: float,
@@ -158,7 +158,7 @@ def kindergeld_anspruch_nach_stunden(
 
 def kind_bis_10_mit_kindergeld(
     alter: int,
-    kindergeld_anspruch: bool,
+    anspruchsberechtigt: bool,
 ) -> bool:
     """Child under the age of 11 and eligible for Kindergeld.
 
@@ -166,19 +166,19 @@ def kind_bis_10_mit_kindergeld(
     ----------
     alter
         See basic input variable :ref:`alter <alter>`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch_nach_stunden`.
+    anspruchsberechtigt
+        See :func:`anspruchsberechtigt_nach_stunden`.
 
     Returns
     -------
 
     """
-    out = kindergeld_anspruch and (alter <= 10)
+    out = anspruchsberechtigt and (alter <= 10)
     return out
 
 
 @policy_function(skip_vectorization=True)
-def same_fg_as_kindergeldempfänger(
+def gleiche_fg_wie_empfänger(
     p_id: numpy.ndarray[int],
     p_id_kindergeld_empf: numpy.ndarray[int],
     fg_id: numpy.ndarray[int],

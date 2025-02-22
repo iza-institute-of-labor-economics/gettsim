@@ -30,6 +30,6 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  unterhaltsvors_m:
+  unterhaltsvorschuss__betrag_m:
     - 0.0
     - 192.0

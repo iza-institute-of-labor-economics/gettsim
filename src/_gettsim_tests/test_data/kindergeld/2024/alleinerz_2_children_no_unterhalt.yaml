@@ -34,7 +34,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  kindergeld_m:
+  kindergeld__betrag_m:
     - 500.0
     - 0.0
     - 0.0

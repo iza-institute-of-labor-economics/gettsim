@@ -56,7 +56,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -82,7 +82,7 @@ outputs:
     - false
     - true
     - true
-  unterhaltsvors_m:
+  unterhaltsvorschuss__betrag_m:
     - 0.0
     - 160.0
     - 212.0

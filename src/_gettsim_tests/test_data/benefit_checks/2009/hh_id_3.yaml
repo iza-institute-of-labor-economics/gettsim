@@ -58,7 +58,7 @@ inputs:
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
@@ -72,13 +72,13 @@ inputs:
       - 2009
   assumed: {}
 outputs:
-  wohngeld_vorrang_bg:
+  vorrangpruefungen__wohngeld_vorrang_bg:
     - false
     - false
-  kinderzuschl_vorrang_bg:
+  vorrangpruefungen__kinderzuschlag_vorrang_bg:
     - false
     - false
-  wohngeld_kinderzuschl_vorrang_bg:
+  vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
     - true
     - true
   kinderzuschl_m_bg:

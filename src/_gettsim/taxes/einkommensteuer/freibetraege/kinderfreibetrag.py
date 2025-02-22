@@ -3,12 +3,12 @@
 aggregate_by_p_id_freibeträge = {
     "anzahl_anspruch_1": {
         "p_id_to_aggregate_by": "p_id_empfänger_1",
-        "source_col": "kindergeld_anspruch",
+        "source_col": "kindergeld__anspruchsberechtigt",
         "aggr": "sum",
     },
     "anzahl_anspruch_2": {
         "p_id_to_aggregate_by": "p_id_empfänger_2",
-        "source_col": "kindergeld_anspruch",
+        "source_col": "kindergeld__anspruchsberechtigt",
         "aggr": "sum",
     },
 }

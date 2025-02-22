@@ -28,7 +28,7 @@ inputs:
       - false
       - false
       - true
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - true

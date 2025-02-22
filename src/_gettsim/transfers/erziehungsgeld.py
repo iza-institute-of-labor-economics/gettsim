@@ -347,7 +347,7 @@ def erziehungsgeld_eink_relev_kind_y(
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def _erziehungsgeld_einkommensgrenze_kind_y(
     _erziehungsgeld_einkommensgrenze_vor_aufschl: float,
-    anz_kinder_mit_kindergeld_fg: float,
+    kindergeld__anzahl_kinder_fg: float,
     erziehungsgeld_anspruch_kind: bool,
     erziehungsgeld_params: dict,
 ) -> float:
@@ -359,8 +359,8 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
     ----------
     _erziehungsgeld_einkommensgrenze_vor_aufschl
         See :func:`_erziehungsgeld_einkommensgrenze_vor_aufschl`.
-    anz_kinder_mit_kindergeld_fg
-        See :func:`anz_kinder_mit_kindergeld_fg`.
+    kindergeld__anzahl_kinder_fg
+        See :func:`kindergeld__anzahl_kinder_fg`.
     erziehungsgeld_anspruch_kind
         See :func:`erziehungsgeld_anspruch_kind`.
     erziehungsgeld_params
@@ -373,7 +373,7 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
 
     out = (
         _erziehungsgeld_einkommensgrenze_vor_aufschl
-        + (anz_kinder_mit_kindergeld_fg - 1)
+        + (kindergeld__anzahl_kinder_fg - 1)
         * erziehungsgeld_params["aufschlag_einkommen"]
     )
     if not erziehungsgeld_anspruch_kind:

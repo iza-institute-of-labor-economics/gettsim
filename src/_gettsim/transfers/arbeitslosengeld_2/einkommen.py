@@ -7,7 +7,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 def arbeitsl_geld_2_eink_m(
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    unterhaltsvorschuss__betrag_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
 ) -> float:
@@ -27,8 +27,8 @@ def arbeitsl_geld_2_eink_m(
         See :func:`arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
     kindergeldübertrag_m
@@ -42,7 +42,7 @@ def arbeitsl_geld_2_eink_m(
     return (
         arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
         + kind_unterh_erhalt_m
-        + unterhaltsvors_m
+        + unterhaltsvorschuss__betrag_m
         + kindergeld_zur_bedarfsdeckung_m
         + kindergeldübertrag_m
     )
@@ -120,7 +120,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     eink_vermietung_m: float,
     kapitaleink_brutto_m: float,
     sum_ges_rente_priv_rente_m: float,
-    arbeitsl_geld_m: float,
+    arbeitslosengeld__betrag_m: float,
     elterngeld_m: float,
 ) -> float:
     """Sum up the gross income for calculation of basic subsistence.
@@ -142,8 +142,8 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     sum_ges_rente_priv_rente_m
         See basic input variable :ref:`sum_ges_rente_priv_rente_m
         <sum_ges_rente_priv_rente_m>`.
-    arbeitsl_geld_m
-        See :func:`arbeitsl_geld_m`.
+    arbeitslosengeld__betrag_m
+        See :func:`arbeitslosengeld__betrag_m`.
     elterngeld_m
         See :func:`elterngeld_m`.
 
@@ -159,7 +159,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
         + eink_vermietung_m
         + kapitaleink_brutto_m
         + sum_ges_rente_priv_rente_m
-        + arbeitsl_geld_m
+        + arbeitslosengeld__betrag_m
         + elterngeld_m
     )
 

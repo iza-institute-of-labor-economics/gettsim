@@ -27,7 +27,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  kindergeld_m:
+  kindergeld__betrag_m:
     - 250.0
     - 0.0
   kindergeld_zur_bedarfsdeckung_m:

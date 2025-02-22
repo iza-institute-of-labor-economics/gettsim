@@ -5,8 +5,8 @@ aggregate_by_group_benefit_checks = {
         "source_col": "wohngeld_vorrang_bg",
         "aggr": "any",
     },
-    "wohngeld_kinderzuschl_vorrang_wthh": {
-        "source_col": "wohngeld_kinderzuschl_vorrang_bg",
+    "wohngeld_kinderzuschlag_vorrang_wthh": {
+        "source_col": "wohngeld_kinderzuschlag_vorrang_bg",
         "aggr": "any",
     },
 }
@@ -41,7 +41,7 @@ def wohngeld_vorrang_bg(
     )
 
 
-def kinderzuschl_vorrang_bg(
+def kinderzuschlag_vorrang_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
     _kinderzuschl_nach_vermög_check_m_bg: float,
@@ -67,7 +67,7 @@ def kinderzuschl_vorrang_bg(
     )
 
 
-def wohngeld_kinderzuschl_vorrang_bg(
+def wohngeld_kinderzuschlag_vorrang_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
     arbeitsl_geld_2_eink_m_bg: float,
     _kinderzuschl_nach_vermög_check_m_bg: float,

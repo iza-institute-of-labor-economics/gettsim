@@ -76,7 +76,7 @@ inputs:
       - -1
       - 0
       - 0
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - true
@@ -102,12 +102,12 @@ outputs:
     - -1
     - 1
     - 1
-  kindergeld_anz_ansprüche:
+  kindergeld__anzahl_ansprüche:
     - 2
     - 0
     - 0
     - 0
-  kindergeld_m:
+  kindergeld__betrag_m:
     - 308.0
     - 0.0
     - 0.0

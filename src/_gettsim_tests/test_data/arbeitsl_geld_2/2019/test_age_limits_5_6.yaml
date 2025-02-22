@@ -80,7 +80,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -108,7 +108,7 @@ inputs:
       - 136.0
       - 0.0
       - 0.0
-    kindergeld_m_bg:
+    kindergeld__betrag_m_bg:
       - 388.0
       - 388.0
       - 388.0
@@ -116,7 +116,7 @@ inputs:
       - 0.0
       - 212.0
       - 160.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0

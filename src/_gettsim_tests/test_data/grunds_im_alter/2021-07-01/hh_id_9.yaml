@@ -75,7 +75,7 @@ inputs:
     bewohnt_eigentum_hh:
       - false
       - false
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
     sonstig_eink_m:
@@ -96,13 +96,13 @@ inputs:
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
-    kindergeld_m_eg:
+    kindergeld__betrag_m_eg:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m_eg:
+    unterhaltsvorschuss__betrag_m_eg:
       - 0.0
       - 0.0
     elterngeld_m:

@@ -176,8 +176,8 @@ def wohngeld_mindesteinkommen_erreicht_bg(
 def wohngeld_einkommen_für_mindesteinkommen_check_m(
     arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
-    kindergeld_m: float,
+    unterhaltsvorschuss__betrag_m: float,
+    kindergeld__betrag_m: float,
     _kinderzuschl_nach_vermög_check_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
@@ -193,10 +193,10 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
         See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
-    kindergeld_m
-        See :func:`kindergeld_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
+    kindergeld__betrag_m
+        See :func:`kindergeld__betrag_m`.
     _kinderzuschl_nach_vermög_check_m
         See :func:`_kinderzuschl_nach_vermög_check_m`.
 
@@ -208,8 +208,8 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     return (
         arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
         + kind_unterh_erhalt_m
-        + unterhaltsvors_m
-        + kindergeld_m
+        + unterhaltsvorschuss__betrag_m
+        + kindergeld__betrag_m
         + _kinderzuschl_nach_vermög_check_m
     )
 

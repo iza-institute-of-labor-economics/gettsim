@@ -253,27 +253,28 @@ Automatic summation will only happen in case no column `my_col_hh` is explicitly
 Using a different reduction function than the sum is as easy as explicitly specifying
 `my_col_hh`.
 
-Consider the following example: the function `kindergeld_m` calculates the
+Consider the following example: the function `kindergeld__betrag_m` calculates the
 individual-level child benefit payment. `arbeitsl_geld_2_m_bg` calculates
 Arbeitslosengeld 2 on the Bedarfsgemeinschaft (bg) level (as indicated by the suffix).
 One necessary input of this function is the sum of all child benefits on the
-Bedarfsgemeinschaft level. There is no function or input column `kindergeld_m_bg`.
+Bedarfsgemeinschaft level. There is no function or input column
+`kindergeld__betrag_m_bg`.
 
-By including `kindergeld_m_bg` as an argument in the definition of
+By including `kindergeld__betrag_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld__betrag_m_bg, other_arguments): ...
 ```
 
-a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`
-will be automatically added to the graph. Its parents in the graph will be
-`kindergeld_m` and `bg_id`. This is the same as specifying:
+a node `kindergeld__betrag_m_bg` containing the Bedarfsgemeinschaft-level sum of
+`kindergeld__betrag_m` will be automatically added to the graph. Its parents in the
+graph will be `kindergeld__betrag_m` and `bg_id`. This is the same as specifying:
 
 ```
 aggregate_by_group_kindergeld =  = {
-    "kindergeld_m_bg": {
-        "source_col": "kindergeld_m",
+    "kindergeld__betrag_m_bg": {
+        "source_col": "kindergeld__betrag_m",
         "aggr": "sum"
     }
 }
@@ -305,17 +306,18 @@ For example, in `kindergeld.py`, we could have:
 
 ```
 aggregate_by_p_id_kindergeld = {
-    "kindergeld_anz_ansprüche": {
+    "kindergeld__anzahl_ansprüche": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kindergeld_anspruch",
+        "source_col": "kindergeld__anspruchsberechtigt",
         "aggr": "sum",
     },
 }
 ```
 
-This dict creates a target function `kindergeld_anz_ansprüche` which gives the amount of
-claims that a person has on Kindergeld, based on the `kindergeld_anspruch` function
-which returns Booleans, which show whether a child is a reason for a Kindergeld claim.
+This dict creates a target function `kindergeld__anzahl_ansprüche` which gives the
+amount of claims that a person has on Kindergeld, based on the
+`kindergeld__anspruchsberechtigt` function which returns Booleans, which show whether a
+child is a reason for a Kindergeld claim.
 
 The output type will be the same as the input type. Exceptions:
 

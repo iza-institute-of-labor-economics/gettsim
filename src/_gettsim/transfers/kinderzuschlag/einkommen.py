@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_group_kinderzuschl_eink = {
     "_kinderzuschl_anz_kinder_anspruch_bg": {
-        "source_col": "kindergeld_anz_ansprüche",
+        "source_col": "kindergeld__anzahl_ansprüche",
         "aggr": "sum",
     },
 }
@@ -12,7 +12,7 @@ aggregate_by_group_kinderzuschl_eink = {
 
 def kinderzuschl_bruttoeink_eltern_m(
     arbeitsl_geld_2_bruttoeink_m: float,
-    kindergeld_anspruch: bool,
+    kindergeld__anspruchsberechtigt: bool,
     erwachsen: bool,
 ) -> float:
     """Calculate parental gross income for calculation of child benefit.
@@ -24,8 +24,8 @@ def kinderzuschl_bruttoeink_eltern_m(
     ----------
     arbeitsl_geld_2_bruttoeink_m
         See :func:`arbeitsl_geld_2_bruttoeink_m`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    kindergeld__anspruchsberechtigt
+        See :func:`kindergeld__anspruchsberechtigt`.
     erwachsen
         See basic input variable :ref:`erwachsen <erwachsen>`.
 
@@ -37,7 +37,7 @@ def kinderzuschl_bruttoeink_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if erwachsen and (not kindergeld_anspruch):
+    if erwachsen and (not kindergeld__anspruchsberechtigt):
         out = arbeitsl_geld_2_bruttoeink_m
     else:
         out = 0.0
@@ -48,7 +48,7 @@ def kinderzuschl_bruttoeink_eltern_m(
 @policy_function(params_key_for_rounding="kinderzuschl_eink")
 def kinderzuschl_eink_eltern_m(
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
-    kindergeld_anspruch: bool,
+    kindergeld__anspruchsberechtigt: bool,
     erwachsen: bool,
 ) -> float:
     """Parental income (after deduction of taxes, social insurance contributions, and
@@ -58,8 +58,8 @@ def kinderzuschl_eink_eltern_m(
     ----------
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
         See :func:`arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m`.
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    kindergeld__anspruchsberechtigt
+        See :func:`kindergeld__anspruchsberechtigt`.
     erwachsen
         See basic input variable :ref:`erwachsen <erwachsen>`.
 
@@ -70,7 +70,7 @@ def kinderzuschl_eink_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if erwachsen and (not kindergeld_anspruch):
+    if erwachsen and (not kindergeld__anspruchsberechtigt):
         out = arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
     else:
         out = 0.0
@@ -177,10 +177,10 @@ def kinderzuschl_eink_anrechn_m_bg(
 
 
 def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
-    kindergeld_anspruch: bool,
+    kindergeld__anspruchsberechtigt: bool,
     bruttolohn_m: float,
     kind_unterh_erhalt_m: float,
-    unterhaltsvors_m: float,
+    unterhaltsvorschuss__betrag_m: float,
     arbeitsl_geld_2_eink_anr_frei_m: float,
     kinderzuschl_params: dict,
 ) -> float:
@@ -190,14 +190,14 @@ def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    kindergeld_anspruch
-        See :func:`kindergeld_anspruch`.
+    kindergeld__anspruchsberechtigt
+        See :func:`kindergeld__anspruchsberechtigt`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     kind_unterh_erhalt_m
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
-    unterhaltsvors_m
-        See :func:`unterhaltsvors_m`.
+    unterhaltsvorschuss__betrag_m
+        See :func:`unterhaltsvorschuss__betrag_m`.
     arbeitsl_geld_2_eink_anr_frei_m
         See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
     kinderzuschl_params
@@ -207,13 +207,13 @@ def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
     -------
 
     """
-    out = kindergeld_anspruch * (
+    out = kindergeld__anspruchsberechtigt * (
         kinderzuschl_params["maximum"]
         - kinderzuschl_params["entzugsrate_kind"]
         * (
             bruttolohn_m
             + kind_unterh_erhalt_m
-            + unterhaltsvors_m
+            + unterhaltsvorschuss__betrag_m
             - arbeitsl_geld_2_eink_anr_frei_m
         )
     )

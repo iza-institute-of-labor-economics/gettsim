@@ -31,7 +31,7 @@ def betrag_y_pauschal(alleinerz_sn: bool, eink_st_abzuege_params: dict) -> float
 @policy_function(start_date="2015-01-01", name_in_dag="betrag_y")
 def betrag_y_nach_kinderzahl(
     alleinerz_sn: bool,
-    kindergeld_anz_ansprüche_sn: int,
+    kindergeld__anzahl_ansprüche_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate tax deduction allowance for single parents since 2015.
@@ -43,8 +43,8 @@ def betrag_y_nach_kinderzahl(
     ----------
     alleinerz_sn
         See :func:`alleinerz_sn`.
-    kindergeld_anz_ansprüche_sn
-        See :func:`kindergeld_anz_ansprüche_sn`.
+    kindergeld__anzahl_ansprüche_sn
+        See :func:`kindergeld__anzahl_ansprüche_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -54,7 +54,7 @@ def betrag_y_nach_kinderzahl(
     """
     betrag_y = (
         eink_st_abzuege_params["alleinerz_freibetrag"]
-        + (kindergeld_anz_ansprüche_sn - 1)
+        + (kindergeld__anzahl_ansprüche_sn - 1)
         * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
     )
     if alleinerz_sn:
