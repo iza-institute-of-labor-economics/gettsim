@@ -45,19 +45,27 @@ def test_create_tree_from_path_and_value(paths, expected):
 
 
 @pytest.mark.parametrize(
-    "base_dict, update_dict, expected",
+    "left, right, expected",
     [
         ({}, {"a": 1}, {"a": 1}),
         ({"a": 1}, {"b": 2}, {"a": 1, "b": 2}),
-        ({"a": 1}, {"a": 2}, {"a": 2}),
         ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
         ({"a": {"b": 1}}, {"a": 3}, {"a": 3}),
         ({"a": 3}, {"a": {"b": 1}}, {"a": {"b": 1}}),
         ({"a": SampleDataClass(a=1)}, {}, {"a": SampleDataClass(a=1)}),
     ],
 )
-def test_merge_trees(left, right, expected):
+def test_merge_trees_valid(left, right, expected):
     assert merge_trees(left=left, right=right) == expected
+
+
+@pytest.mark.parametrize(
+    "left, right",
+    [({"a": 1}, {"a": 2}), ({"a": 1}, {"a": 1}), ({"a": {"b": 1}}, {"a": {"b": 5}})],
+)
+def test_merge_trees_invalid(left, right):
+    with pytest.raises(ValueError, match="Conflicting paths in trees to merge."):
+        merge_trees(left=left, right=right)
 
 
 @pytest.mark.parametrize(
