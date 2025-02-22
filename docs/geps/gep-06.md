@@ -94,6 +94,11 @@ The proposed changes will affect all areas of GETTSIM
    lead developers to incorporate such checks in downstream functions of the DAG,
    potentially violating our law-to-code approach.
 
+   Another thing that has been a source of confusion is that something like
+   `kinderzuschl` is overloaded. It is both the name of the transfer, i.e., a function
+   with a monetary amount once the appropriate suffixes are added, and a prefix for all
+   kinds of related functions that are required to calculate that transfer.
+
    With namespaces, we would have:
 
    ```
@@ -111,13 +116,16 @@ The proposed changes will affect all areas of GETTSIM
 
    This means that:
 
+   - `betrag` is the convention for the monetary amount of a tax/transfer.
+
    - Names are unique within a namespace. It will be possible to have a `betrag_m_bg`
      function within the `kinderzuschlag` namespace and a similar-named function within
-     `arbeitslosengeld_2`. Hence, there is no ambiguity about which income is meant.
+     `arbeitslosengeld_2`. Same for `einkommen_m_bg`. Hence, there is no ambiguity about
+     which income is meant.
 
    - The namespace will generally be represented as a tuple in GETTSIMs internal
-     infrastructure. This will be the node identifier in the DAG, the value is the
-     function. Along with pytree terminology, we will call the tuple the "path" and the
+     infrastructure. This will be the node identifier passed to the DAG, the value is
+     the function. In pytree terminology, we will call the tuple the "path" and the
      function the "leaf". The last element of the path will be called the "leaf name".
 
    - GETTSIM will take data inputs in the form of nested dictionaries. This structure
@@ -127,11 +135,13 @@ The proposed changes will affect all areas of GETTSIM
 
    - Within the code, it will be possible to refer to other functions residing in the
      same namespace without having to prefix them with the entire path. For functions
-     residing in other modules, the namespace will be a prefix with the tuple elements
-     separated by double underscores, e.g.,
+     residing in other directories, the namespace will be a prefix with the tuple
+     elements separated by double underscores, e.g.,
      `arbeitslosengeld_2__einkommen__betrag_m_bg`. _(Note that the most readable
      separator would be a dot, but that does not work. In order to use the identifier as
      a function argument, it must be a valid Python identifier)_
+
+   - In internal ...
 
 1. A current example for functions changing over the years would be
    `midijob_bemessungsentgelt_m`. The relevant code in `policy_environment` is:
