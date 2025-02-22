@@ -235,19 +235,14 @@ def _convert_path_to_tree_path(path: Path, package_root: Path) -> tuple[str, ...
         / "functions.py")
     ("dir", "functions")
     """
+    parts = path.relative_to(package_root.parent / "_gettsim").parts
+
     # TODO(@MImmesberger): Simplify after changing directory structure
     # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
     # tree_path = path.relative_to(package_root.parent).parts[1:] # noqa: ERA001
-    tree_path = tuple(
-        path.relative_to(package_root.parent)
-        .with_suffix("")
-        .as_posix()
-        .removeprefix("_gettsim/")
-        .removeprefix("taxes/")
-        .removeprefix("transfers/")
-        .split("/")
-    )
-    return _simplify_tree_path_when_module_name_equals_dir_name(tree_path)
+    parts = parts[1:] if parts[0] in {"taxes", "transfers"} else parts
+
+    return parts[:-1]
 
 
 def load_aggregation_specs_tree() -> NestedAggregationSpecDict:
@@ -326,25 +321,5 @@ def _load_aggregation_specs_from_module(
                 if type_name.startswith("aggregate_by_group_")
                 else AggregateByPIDSpec(**spec)
             )
-
-    return out
-
-
-def _simplify_tree_path_when_module_name_equals_dir_name(
-    tree_path: tuple[str, ...],
-) -> tuple[str, ...]:
-    """
-    Shorten path when a module lives a directory named the same way.
-
-    This is done to avoid namespaces like arbeitslosengeld__arbeitslosengeld if the
-    file structure looks like:
-    arbeitslosengeld
-    |           |- arbeitslosengeld.py
-    |           |- ...
-    """
-    if len(tree_path) >= 2:
-        out = tree_path[:-1] if tree_path[-1] == tree_path[-2] else tree_path
-    else:
-        out = tree_path
 
     return out
