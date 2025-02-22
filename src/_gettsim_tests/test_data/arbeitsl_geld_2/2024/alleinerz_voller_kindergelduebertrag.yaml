@@ -80,7 +80,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -96,15 +96,15 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -112,7 +112,7 @@ inputs:
       - 0.0
       - 0.0
       - 800.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0

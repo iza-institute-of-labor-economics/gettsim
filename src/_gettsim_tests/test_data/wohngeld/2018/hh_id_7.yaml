@@ -186,7 +186,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -200,7 +200,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -270,7 +270,7 @@ inputs:
       - 1995
       - 1995
       - 1995
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - false
@@ -326,7 +326,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0
@@ -354,7 +354,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -396,7 +396,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -452,7 +452,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 400.0
       - 0.0
       - 0.0
@@ -466,7 +466,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 350.0
       - 0.0
       - 0.0
@@ -508,7 +508,7 @@ inputs:
       - 2018
       - 2018
       - 2018
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 1000.0
       - 1000.0
       - 1000.0
@@ -592,7 +592,7 @@ inputs:
       - 1998
       - 2009
       - 2011
-    wohngeld_vorrang_bg:
+    vorrangpruefungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
@@ -606,7 +606,7 @@ inputs:
       - true
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

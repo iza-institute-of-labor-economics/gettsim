@@ -226,7 +226,7 @@ eink_st_tarif:
       upper_threshold: 66761
     3:
       upper_threshold: 277826
-rente_ertragsanteil:
+einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
   name:
     de: >-
       Ertragsanteil-Funktion für den Anteil an sozialversicherungspflichtigen
@@ -265,7 +265,7 @@ rente_ertragsanteil:
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
 rounding:
-  eink_st_y_sn:
+  taxes__einkommensteuer__betrag_y_sn:
     note:
       en: Starting date unclear
     1984-01-01:

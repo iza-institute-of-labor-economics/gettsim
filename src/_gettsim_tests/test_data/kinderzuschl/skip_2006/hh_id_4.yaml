@@ -91,7 +91,7 @@ inputs:
       - false
       - false
       - false
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
       - true
@@ -115,7 +115,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld__betrag_m_hh:
       - 462.0
       - 462.0
       - 462.0
@@ -127,7 +127,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
       - 0.0

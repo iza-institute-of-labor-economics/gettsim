@@ -52,7 +52,7 @@ inputs:
     alleinerz:
       - true
       - false
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - true
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
@@ -64,13 +64,13 @@ inputs:
     kinderzuschl_eink_eltern_m:
       - 719.0
       - 0.0
-    kindergeld_m_hh:
+    kindergeld__betrag_m_hh:
       - 204.0
       - 204.0
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
     jahr:

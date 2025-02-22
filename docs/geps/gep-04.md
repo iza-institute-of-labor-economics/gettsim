@@ -63,7 +63,8 @@ GETTSIM; this is irrelevant for the DAG.
 Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `bruttolohn_m`).
-- Outputs of other functions in the taxes and transfers system (e.g., `eink_st_y_sn`).
+- Outputs of other functions in the taxes and transfers system (e.g.,
+  `taxes__einkommensteuer__betrag_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 
@@ -80,13 +81,15 @@ is able to replace this function with her own version.
 See the following example for capital income taxes.
 
 ```python
-def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> float:
+def abgeltungssteuer__betrag_y_sn(
+    abgeltungssteuer__kapitaleinkommen_y_sn: float, abgelt_st_params: dict
+) -> float:
     """Calculate Abgeltungssteuer on Steuernummer-level.
 
     Parameters
     ----------
-    zu_verst_kapitaleink_y_sn
-        See :func:`zu_verst_kapitaleink_y_sn`.
+    abgeltungssteuer__kapitaleinkommen_y_sn
+        See :func:`abgeltungssteuer__kapitaleinkommen_y_sn`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -94,30 +97,31 @@ def abgelt_st_y_sn(zu_verst_kapitaleink_y_sn: float, abgelt_st_params: dict) -> 
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_verst_kapitaleink_y_sn
+    return abgelt_st_params["satz"] * abgeltungssteuer__kapitaleinkommen_y_sn
 ```
 
-The function {func}`abgelt_st_y_sn` requires the variable `zu_verst_kapital_eink_y_sn`,
-which is the amount of taxable capital income on the Steuernummer-level (the latter is
-implied by the `_sn` suffix, see {ref}`gep-1`). `zu_verst_kapital_eink_y_sn` must be
-provided by the user as a column of the input data or it has to be the name of another
-function. It is also possible to specify `zu_verst_kapital_eink_y` and aggregation to
-the `sn`-level will happen automatically. `abgelt_st_params` is a dictionary of
-parameters related to the calculation of `abgelt_st_y_sn`.
+The function {func}`abgeltungssteuer__betrag_y_sn` requires the variable
+`zu_verst_kapital_eink_y_sn`, which is the amount of taxable capital income on the
+Steuernummer-level (the latter is implied by the `_sn` suffix, see {ref}`gep-1`).
+`zu_verst_kapital_eink_y_sn` must be provided by the user as a column of the input data
+or it has to be the name of another function. It is also possible to specify
+`zu_verst_kapital_eink_y` and aggregation to the `sn`-level will happen automatically.
+`abgelt_st_params` is a dictionary of parameters related to the calculation of
+`abgeltungssteuer__betrag_y_sn`.
 
 Another function, say
 
 ```python
-def soli_st_y_sn(
-    eink_st_mit_kinderfreib_y_sn: float,
+def taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn(
+    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
-    abgelt_st_y_sn: float,
+    abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float: ...
 ```
 
-may use `abgelt_st_y_sn` as an input argument. The DAG backend ensures that the function
-`abgelt_st_y_sn` will be executed first.
+may use `abgeltungssteuer__betrag_y_sn` as an input argument. The DAG backend ensures
+that the function `abgeltungssteuer__betrag_y_sn` will be executed first.
 
 Note that the type annotations (e.g. `float`) indicate the expected type of each input
 and the output of a function, see {ref}`gep-2`.
@@ -249,27 +253,28 @@ Automatic summation will only happen in case no column `my_col_hh` is explicitly
 Using a different reduction function than the sum is as easy as explicitly specifying
 `my_col_hh`.
 
-Consider the following example: the function `kindergeld_m` calculates the
+Consider the following example: the function `kindergeld__betrag_m` calculates the
 individual-level child benefit payment. `arbeitsl_geld_2_m_bg` calculates
 Arbeitslosengeld 2 on the Bedarfsgemeinschaft (bg) level (as indicated by the suffix).
 One necessary input of this function is the sum of all child benefits on the
-Bedarfsgemeinschaft level. There is no function or input column `kindergeld_m_bg`.
+Bedarfsgemeinschaft level. There is no function or input column
+`kindergeld__betrag_m_bg`.
 
-By including `kindergeld_m_bg` as an argument in the definition of
+By including `kindergeld__betrag_m_bg` as an argument in the definition of
 `arbeitsl_geld_2_m_bg` as follows:
 
 ```python
-def arbeitsl_geld_2_m_bg(kindergeld_m_bg, other_arguments): ...
+def arbeitsl_geld_2_m_bg(kindergeld__betrag_m_bg, other_arguments): ...
 ```
 
-a node `kindergeld_m_bg` containing the Bedarfsgemeinschaft-level sum of `kindergeld_m`
-will be automatically added to the graph. Its parents in the graph will be
-`kindergeld_m` and `bg_id`. This is the same as specifying:
+a node `kindergeld__betrag_m_bg` containing the Bedarfsgemeinschaft-level sum of
+`kindergeld__betrag_m` will be automatically added to the graph. Its parents in the
+graph will be `kindergeld__betrag_m` and `bg_id`. This is the same as specifying:
 
 ```
 aggregate_by_group_kindergeld =  = {
-    "kindergeld_m_bg": {
-        "source_col": "kindergeld_m",
+    "kindergeld__betrag_m_bg": {
+        "source_col": "kindergeld__betrag_m",
         "aggr": "sum"
     }
 }
@@ -301,17 +306,18 @@ For example, in `kindergeld.py`, we could have:
 
 ```
 aggregate_by_p_id_kindergeld = {
-    "kindergeld_anz_ansprüche": {
+    "kindergeld__anzahl_ansprüche": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kindergeld_anspruch",
+        "source_col": "kindergeld__anspruchsberechtigt",
         "aggr": "sum",
     },
 }
 ```
 
-This dict creates a target function `kindergeld_anz_ansprüche` which gives the amount of
-claims that a person has on Kindergeld, based on the `kindergeld_anspruch` function
-which returns Booleans, which show whether a child is a reason for a Kindergeld claim.
+This dict creates a target function `kindergeld__anzahl_ansprüche` which gives the
+amount of claims that a person has on Kindergeld, based on the
+`kindergeld__anspruchsberechtigt` function which returns Booleans, which show whether a
+child is a reason for a Kindergeld claim.
 
 The output type will be the same as the input type. Exceptions:
 

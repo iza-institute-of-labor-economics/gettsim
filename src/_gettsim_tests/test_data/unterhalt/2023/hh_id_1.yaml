@@ -10,7 +10,7 @@ inputs:
       - 1
     kind_unterh_anspr_m:
       - 528.0
-    kindergeld_m:
+    kindergeld__betrag_m:
       - 250.0
     jahr:
       - 2023
@@ -18,5 +18,5 @@ inputs:
       - true
   assumed: {}
 outputs:
-  kind_unterh_zahlbetr_m:
+  unterhalt__betrag_m:
     - 403.0

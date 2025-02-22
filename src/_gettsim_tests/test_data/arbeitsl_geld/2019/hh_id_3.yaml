@@ -46,7 +46,7 @@ inputs:
     arbeitssuchend:
       - false
       - true
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - true
       - false
     m_durchg_alg1_bezug:
@@ -56,6 +56,6 @@ inputs:
       - 0.0
       - 0.0
 outputs:
-  arbeitsl_geld_m:
+  arbeitslosengeld__betrag_m:
     - 0.0
     - 0.0

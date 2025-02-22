@@ -43,10 +43,10 @@ inputs:
     wohnfläche_hh:
       - 50.0
       - 50.0
-    soli_st_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     bewohnt_eigentum_hh:
@@ -61,7 +61,7 @@ inputs:
     immobilie_baujahr_hh:
       - 2005
       - 2005
-    kindergeld_anspruch:
+    kindergeld__anspruchsberechtigt:
       - false
       - false
     mietstufe:
@@ -73,13 +73,13 @@ inputs:
     sum_ges_rente_priv_rente_m:
       - 0.0
       - 0.0
-    rente_ertragsanteil:
+    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
     elterngeld_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
     sonstig_eink_m:
@@ -88,7 +88,7 @@ inputs:
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
     eink_selbst_m:
@@ -100,10 +100,10 @@ inputs:
     eink_vermietung_m:
       - 0.0
       - 0.0
-    ges_rentenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 100.0
       - 0.0
-    ges_krankenv_beitr_arbeitnehmer_m:
+    sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 80.0
       - 0.0
     behinderungsgrad:
@@ -112,7 +112,7 @@ inputs:
     jahr:
       - 2013
       - 2013
-    eink_st_y_sn:
+    taxes__einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
     vermögen_bedürft:
@@ -130,10 +130,10 @@ inputs:
     geburtsjahr:
       - 1963
       - 1958
-    wohngeld_vorrang_bg:
+    vorrangpruefungen__wohngeld_vorrang_bg:
       - true
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
   assumed: {}

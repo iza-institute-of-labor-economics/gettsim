@@ -16,11 +16,11 @@ INPUT_COLS = [
     "ges_pflegev_hat_kinder",
     "arbeitsstunden_w",
     "in_ausbildung",
-    "ges_krankenv_zusatzbeitr_satz",
-    "ges_pflegev_zusatz_kinderlos",
+    "sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz",
+    "sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos",
 ]
 
-OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
+OUT_COLS = ["lohnsteuer__betrag_m", "lohnsteuer__betrag_soli_m"]
 
 data = load_policy_test_data("lohnst")
 

@@ -41,7 +41,6 @@ QUALIFIED_NAME_SEPARATOR = "__"
 # List of paths to internal functions.
 # If a path is a directory, all Python files are recursively collected from that folder.
 PATHS_TO_INTERNAL_FUNCTIONS = [
-    RESOURCE_DIR / "social_insurance_contributions",
     RESOURCE_DIR / "transfers",
     RESOURCE_DIR / "taxes",
     RESOURCE_DIR / "demographic_vars.py",
@@ -137,12 +136,12 @@ DEFAULT_TARGETS = {
     },
     "transfers": {
         "elterngeld": {"elterngeld_m": None},
-        "arbeitsl_geld": {"arbeitsl_geld_m": None},
-        "kindergeld": {"kindergeld_m": None},
+        "arbeitsl_geld": {"arbeitslosengeld__betrag_m": None},
+        "kindergeld": {"kindergeld__betrag_m": None},
         "arbeitsl_geld_2": {"arbeitsl_geld_2_m_bg": None},
         "kinderzuschl": {"kinderzuschl_m_bg": None},
         "wohngeld": {"wohngeld_m_wthh": None},
-        "unterhaltsvors": {"unterhaltsvors_m": None},
+        "unterhaltsvors": {"unterhaltsvorschuss__betrag_m": None},
         "grunds_im_alter": {"grunds_im_alter_m_eg": None},
         "rente": {"ges_rente_m": None},
         "erwerbsm_rente": {"erwerbsm_rente_m": None},

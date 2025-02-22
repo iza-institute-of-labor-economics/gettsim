@@ -229,15 +229,18 @@ def sn_id_numpy(
 @policy_function(skip_vectorization=True, leaf_name="wthh_id")
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
-    wohngeld_vorrang_bg: numpy.ndarray[bool],
-    wohngeld_kinderzuschl_vorrang_bg: numpy.ndarray[bool],
+    vorrangpruefungen__wohngeld_vorrang_bg: numpy.ndarray[bool],
+    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
     Compute the ID of the wohngeldrechtlicher Teilhaushalt.
     """
     result = []
     for index, current_hh_id in enumerate(hh_id):
-        if wohngeld_vorrang_bg[index] or wohngeld_kinderzuschl_vorrang_bg[index]:
+        if (
+            vorrangpruefungen__wohngeld_vorrang_bg[index]
+            or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg[index]
+        ):
             result.append(current_hh_id * 100 + 1)
         else:
             result.append(current_hh_id * 100)

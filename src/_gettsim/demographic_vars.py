@@ -9,15 +9,21 @@ import datetime
 import numpy
 
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.functions.policy_function import policy_function
+from _gettsim.shared import join_numpy
 
 aggregate_by_p_id_demographic_vars = {
     "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
-        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_1",
+        "p_id_to_aggregate_by": (
+            "einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_1"
+        ),
         "source_col": "kind_bis_24",
         "aggr": "sum",
     },
     "ges_pflegev_anz_kinder_bis_24_elternteil_2": {
-        "p_id_to_aggregate_by": "p_id_kinderfreib_empfänger_2",
+        "p_id_to_aggregate_by": (
+            "einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_2"
+        ),
         "source_col": "kind_bis_24",
         "aggr": "sum",
     },
@@ -330,3 +336,31 @@ def birthdate_decimal(
     out = geburtsjahr + (geburtsmonat - 1) / 12
 
     return out
+
+
+@policy_function(skip_vectorization=True)
+def parent_alleinerz(
+    p_id_kindergeld_empf: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
+    alleinerz: numpy.ndarray[bool],
+) -> numpy.ndarray[bool]:
+    """Check if parent that receives Unterhaltsvorschuss is a single parent.
+
+    Only single parents receive Unterhaltsvorschuss.
+
+    Parameters
+    ----------
+    p_id_kindergeld_empf
+        See basic input variable :ref:`p_id_kindergeld_empf`.
+    p_id
+        See basic input variable :ref:`p_id`.
+    alleinerz
+        See basic input variable :ref:`alleinerz`.
+
+    Returns
+    -------
+
+    """
+    return join_numpy(
+        p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
+    )

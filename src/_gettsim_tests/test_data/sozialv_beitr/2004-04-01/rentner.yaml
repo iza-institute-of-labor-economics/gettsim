@@ -28,5 +28,5 @@ inputs:
       - '2004-04-01'
   assumed: {}
 outputs:
-  ges_pflegev_beitr_arbeitnehmer_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
     - 17.0

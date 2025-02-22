@@ -55,7 +55,7 @@ inputs:
     kind_unterh_erhalt_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:

@@ -28,7 +28,7 @@ inputs:
     bruttolohn_m:
       - 3000.0
       - 2000.0
-    betreuungskost_m:
+    betreuungskosten_m:
       - 0.0
       - 0.0
     p_id_betreuungsk_träger:
@@ -88,7 +88,7 @@ inputs:
     geburtsjahr:
       - 1975
       - 1975
-    vorsorgeaufw_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn:
       - 7700.0
       - 7700.0
   assumed: {}
@@ -99,18 +99,18 @@ outputs:
   _zu_verst_eink_mit_kinderfreib_y_sn:
     - 50228.0
     - 50228.0
-  eink_st_kinderfreib_y_sn:
+  einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn:
     - 0
     - 0
-  eink_st_altersfreib_y:
+  einkommensteuer__freibetraege__altersfreibetrag__betrag_y:
     - 0
     - 0
-  alleinerz_freib_y_sn:
+  einkommensteuer__freibetraege__alleinerziehend__betrag_y:
     - 0
     - 0
-  sum_eink_y:
+  einkommensteuer__einkommen__bruttoeinkommen__betrag_y:
     - 35000
     - 23000
-  _eink_st_behinderungsgrad_pauschbetrag_y:
+  einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y:
     - 0
     - 0
