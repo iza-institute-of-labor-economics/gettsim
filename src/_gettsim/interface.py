@@ -38,10 +38,10 @@ from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    merge_trees,
     partition_tree_by_reference_tree,
     qualified_name_reducer,
     qualified_name_splitter,
-    upsert_tree,
 )
 
 
@@ -146,9 +146,9 @@ def compute_taxes_and_transfers(
     results = tax_transfer_function(input_data_tree)
 
     if debug:
-        results = upsert_tree(
-            base=results,
-            to_upsert=data_tree_with_correct_types,
+        results = merge_trees(
+            left=results,
+            right=data_tree_with_correct_types,
         )
 
     return results

@@ -12,6 +12,7 @@ from _gettsim.functions.derived_function import DerivedFunction
 from _gettsim.functions.policy_function import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
+    insert_path_and_value,
     rename_arguments_and_add_annotations,
     upsert_path_and_value,
 )
@@ -284,10 +285,10 @@ def create_time_conversion_functions(
             if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
-                converted_functions = upsert_path_and_value(
+                converted_functions = insert_path_and_value(
                     base=converted_functions,
-                    path_to_upsert=new_path,
-                    value_to_upsert=der_func,
+                    path_to_insert=new_path,
+                    value_to_insert=der_func,
                 )
 
     # Create time-conversions for data columns
@@ -302,6 +303,8 @@ def create_time_conversion_functions(
             if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
+                # Upsert because derived functions based on data should overwrite
+                # derived functions based on other functions.
                 converted_functions = upsert_path_and_value(
                     base=converted_functions,
                     path_to_upsert=new_path,

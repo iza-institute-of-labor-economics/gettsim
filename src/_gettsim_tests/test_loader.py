@@ -7,9 +7,9 @@ import pytest
 
 from _gettsim.config import PATHS_TO_INTERNAL_FUNCTIONS, RESOURCE_DIR
 from _gettsim.functions.loader import (
+    _convert_path_to_tree_path,
     _find_python_files_recursively,
     _load_module,
-    _simplify_tree_path_when_module_name_equals_dir_name,
 )
 from _gettsim.functions.policy_function import (
     _vectorize_func,
@@ -18,6 +18,7 @@ from _gettsim.functions.policy_function import (
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+    from pathlib import Path
 
 
 def test_load_path():
@@ -59,18 +60,20 @@ def test_vectorize_func(vectorized_function: Callable) -> None:
 @pytest.mark.parametrize(
     (
         "path",
+        "package_root",
         "expected_tree_path",
     ),
     [
-        (("foo", "bar", "bar"), ("foo", "bar")),
-        (("foo", "bar", "baz"), ("foo", "bar", "baz")),
-        (("foo", "bar", "bar", "bar"), ("foo", "bar", "bar")),
-        (("foo", "bar", "bar", "baz"), ("foo", "bar", "bar", "baz")),
+        (RESOURCE_DIR / "foo" / "bar.py", RESOURCE_DIR, ("foo",)),
+        (RESOURCE_DIR / "foo" / "spam" / "bar.py", RESOURCE_DIR, ("foo", "spam")),
+        (RESOURCE_DIR / "taxes" / "foo" / "bar.py", RESOURCE_DIR, ("foo",)),
+        (RESOURCE_DIR / "transfers" / "foo" / "bar.py", RESOURCE_DIR, ("foo",)),
     ],
 )
-def test_remove_recurring_branch_names(
-    path: str, expected_tree_path: tuple[str, ...]
+def test_convert_path_to_tree_path(
+    path: Path, package_root: Path, expected_tree_path: tuple[str, ...]
 ) -> None:
     assert (
-        _simplify_tree_path_when_module_name_equals_dir_name(path) == expected_tree_path
+        _convert_path_to_tree_path(path=path, package_root=package_root)
+        == expected_tree_path
     )

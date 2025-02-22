@@ -4,6 +4,8 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
+    insert_path_and_value,
+    merge_trees,
     partition_tree_by_reference_tree,
     upsert_path_and_value,
     upsert_tree,
@@ -32,6 +34,33 @@ def test_upsert_path_and_value(base, path_to_upsert, value_to_upsert, expected):
 
 
 @pytest.mark.parametrize(
+    "base, path_to_insert, value_to_insert, expected",
+    [
+        ({}, ("a",), 1, {"a": 1}),
+        ({"a": 1}, ("b",), 2, {"a": 1, "b": 2}),
+    ],
+)
+def test_insert_path_and_value(base, path_to_insert, value_to_insert, expected):
+    result = insert_path_and_value(
+        base=base, path_to_insert=path_to_insert, value_to_insert=value_to_insert
+    )
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "base, path_to_insert, value_to_insert",
+    [
+        ({"a": 1}, ("a",), 2),
+    ],
+)
+def test_insert_path_and_value_invalid(base, path_to_insert, value_to_insert):
+    with pytest.raises(ValueError, match="Conflicting paths in trees to merge."):
+        insert_path_and_value(
+            base=base, path_to_insert=path_to_insert, value_to_insert=value_to_insert
+        )
+
+
+@pytest.mark.parametrize(
     "paths, expected",
     [
         ("a", {"a": None}),
@@ -41,6 +70,30 @@ def test_upsert_path_and_value(base, path_to_upsert, value_to_upsert, expected):
 )
 def test_create_tree_from_path_and_value(paths, expected):
     assert create_tree_from_path_and_value(paths) == expected
+
+
+@pytest.mark.parametrize(
+    "left, right, expected",
+    [
+        ({}, {"a": 1}, {"a": 1}),
+        ({"a": 1}, {"b": 2}, {"a": 1, "b": 2}),
+        ({"a": {"b": 1}}, {"a": {"c": 2}}, {"a": {"b": 1, "c": 2}}),
+        ({"a": {"b": 1}}, {"a": 3}, {"a": 3}),
+        ({"a": 3}, {"a": {"b": 1}}, {"a": {"b": 1}}),
+        ({"a": SampleDataClass(a=1)}, {}, {"a": SampleDataClass(a=1)}),
+    ],
+)
+def test_merge_trees_valid(left, right, expected):
+    assert merge_trees(left=left, right=right) == expected
+
+
+@pytest.mark.parametrize(
+    "left, right",
+    [({"a": 1}, {"a": 2}), ({"a": 1}, {"a": 1}), ({"a": {"b": 1}}, {"a": {"b": 5}})],
+)
+def test_merge_trees_invalid(left, right):
+    with pytest.raises(ValueError, match="Conflicting paths in trees to merge."):
+        merge_trees(left=left, right=right)
 
 
 @pytest.mark.parametrize(
