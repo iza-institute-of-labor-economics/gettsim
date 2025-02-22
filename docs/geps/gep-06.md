@@ -99,19 +99,21 @@ With namespaces, we would have:
 ```
 └── gettsim
  ├── kinderzuschlag
- │   ├── einkommen
+ │   ├── einkommen.py
  │       |── betrag_m_bg
  ├── arbeitslosengeld_2
- │   └── einkommen
+ │   └── einkommen.py
  │       └── betrag_m_bg
  └── erziehungsgeld
-     └── einkommen_kind
-         └── betrag_m
+     └── einkommen.py
+         └── betrag_kind_m
 ```
 
 - Names are unique within a namespace. It will be possible to have an `betrag` function
   within the Kinderzuschlag Namespace and a similar-named function within
-  `arbeitslosengeld_2`. Hence, there is no ambiguity about which income is meant.
+  `arbeitslosengeld_2`. Hence, there is no ambiguity about which income is meant. The
+  namespace is derived from the directory structure. In the example above, the namespace
+  of the income relevant for Arbeitslosengeld 2 (`betrag_m_bg`) is `arbeitslosengeld_2`.
 
 - The namespace will generally be represented as a tuple in GETTSIMs internal
   infrastructure. This will be the node identifier in the DAG, the value is the
@@ -126,9 +128,9 @@ With namespaces, we would have:
 - Within the code, it will be possible to refer to other functions residing in the same
   namespace without having to prefix them with the entire path. For functions residing
   in other modules, the namespace will be a prefix with the tuple elements separated by
-  double underscores, e.g., `arbeitslosengeld_2__einkommen__betrag_m_bg`. _(Note that
-  the most readable separator would be a dot, but that does not work. In order to use
-  the identifier as a function argument, it must be a valid Python identifier)_
+  double underscores, e.g., `arbeitslosengeld_2__betrag_m_bg`. _(Note that the most
+  readable separator would be a dot, but that does not work. In order to use the
+  identifier as a function argument, it must be a valid Python identifier)_
 
 1. A current example for functions changing over the years would be
    `midijob_bemessungsentgelt_m`. The relevant code in `policy_environment` is:
