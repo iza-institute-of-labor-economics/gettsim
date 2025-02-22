@@ -106,7 +106,7 @@ The proposed changes will affect all areas of GETTSIM
    │   ├── einkommen_kind_m
    │   ├── betrag_kind_m
    │   └── betrag_m
-   └── kinderzuschlag
+   ├── kinderzuschlag
    │   ├── einkommen_m_bg
    │   └── betrag_m_bg
    └── arbeitslosengeld_2
@@ -128,20 +128,44 @@ The proposed changes will affect all areas of GETTSIM
      the function. In pytree terminology, we will call the tuple the "path" and the
      function the "leaf". The last element of the path will be called the "leaf name".
 
-   - GETTSIM will take data inputs in the form of nested dictionaries. This structure
-     allows users to define the namespace of a given data leaf via the dictionary keys
-     (which, taken together as a tuple, represent the path of GETTSIMs DAG). GETTSIM
-     will return outputs as nested dictionaries as well.
-
    - Within the code, it will be possible to refer to other functions residing in the
-     same namespace without having to prefix them with the entire path. For functions
-     residing in other directories, the namespace will be a prefix with the tuple
-     elements separated by double underscores, e.g.,
-     `arbeitslosengeld_2__einkommen__betrag_m_bg`. _(Note that the most readable
-     separator would be a dot, but that does not work. In order to use the identifier as
-     a function argument, it must be a valid Python identifier)_
+     same namespace without having to prefix them with the entire path. For example,
+     within the `arbeitslosengeld_2` namespace, it will be possible use `einkommen_m_bg`
+     as an argument to `betrag_m_bg` and it is clear that the namespace-local version is
+     meant. In case this is needed within the `kinderzuschlag` namespace, we need a
+     "qualified name", which uses the entire path where elements are separated by double
+     underscores. In this case, it would be `arbeitslosengeld_2__einkommen_m_bg`. _(Note
+     that the most readable separator would be a dot, but that does not work. In order
+     to use the identifier as a function argument, it must be a valid Python
+     identifier)_
 
-   - In internal ...
+     For functions defined in GETTSIM itself, the function loader will work by creating
+     namespaces at the directory level . E.g., the above examples for `kinderzuschlag`
+     and `arbeitslosengeld_2` may be generated from the following package structure:
+
+     ```
+     ├── kinderzuschlag
+     │   └── kinderzuschlag.py
+     |       ├── betrag_m_bg
+     |       └── einkommen_m_bg
+     └── arbeitslosengeld_2
+         ├── arbeitslosengeld_2.py
+         |   └── betrag_m_bg
+         ├── einkommen.py
+             └── einkommen_m_bg
+     ```
+
+     where the innermost level are functions defined in the module. This balances the
+     size of the namespace (reasonably large to avoid having lots of qualified names)
+     with distributing code across multiple files.
+
+   - Interacting with the policy environment in GETTSIM works with nested dictionaries.
+     Paths are as defined above, leafs could be functions (for overriding / expanding
+     the policy envionment) or data columns (inputs and outputs).
+
+     There will be built-in renaming functionality to make interaction with any data set
+     on the user side very easy. Some details are described below, but there will be a
+     separate GEP on the user facing interface.
 
 1. A current example for functions changing over the years would be
    `midijob_bemessungsentgelt_m`. The relevant code in `policy_environment` is:
@@ -208,9 +232,10 @@ The proposed changes will affect all areas of GETTSIM
    `piecewise_polynomial`.
 
    The namespace makes clear we are talking about, say, the function `beitrag` in the
-   namespace `arbeitsl_v` will have an input `beitragssatz`. If we need parameters which
-   are external to the current namespace, we will need the same verbose syntax as in 1.
-   (`ges_rentenv__beitragsbemessungsgrenze`).
+   namespace `arbeitslosenversicherung` will have an input `beitragssatz`. If we need
+   parameters which are external to the current namespace, we will need the same verbose
+   syntax as in 1.
+   (`sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m`).
 
 ## Backward compatibility
 
