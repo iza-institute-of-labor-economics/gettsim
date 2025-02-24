@@ -74,7 +74,7 @@ lohnst_einkommensgrenzen:
     1: 31404
     2: 222260
 rounding:
-  lohnsteuer__einkommen__betrag_y:
+  lohnsteuer__einkommen_y:
     1990-01-01:
       base: 1
       direction: down

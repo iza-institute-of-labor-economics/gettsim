@@ -30,7 +30,7 @@ inputs:
       - 50.0
     wohnfläche_hh:
       - 40.0
-    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
       - 0.0
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
@@ -52,7 +52,7 @@ inputs:
       - 1050.0
     sum_ges_rente_priv_rente_m:
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
+    einkommensteuer__einkommen__rente_ertragsanteil:
       - 0.0
     elterngeld_m:
       - 0.0
@@ -66,7 +66,7 @@ inputs:
       - 0.0
     eink_selbst_m:
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen__betrag_aus_abhängiger_beschäftigung_y:
+    einkommensteuer__einkommen__bruttoeinkommen_aus_abhängiger_beschäftigung_y:
       - 12600.0
     kapitaleink_brutto_y:
       - 0.0

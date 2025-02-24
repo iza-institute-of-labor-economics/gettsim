@@ -4,8 +4,8 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2004-12-31", name_in_dag="betrag_y")
-def betrag_y_bis_2004(  # noqa: PLR0913
+@policy_function(end_date="2004-12-31", name_in_dag="altersfreibetrag_y")
+def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
     bruttolohn_m: float,
     alter: int,
     kapitaleink_brutto_m: float,
@@ -51,8 +51,8 @@ def betrag_y_bis_2004(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2005-01-01", name_in_dag="betrag_y")
-def betrag_y_ab_2005(  # noqa: PLR0913
+@policy_function(start_date="2005-01-01", name_in_dag="altersfreibetrag_y")
+def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     bruttolohn_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     alter: int,

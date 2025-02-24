@@ -44,7 +44,7 @@ inputs:
       - false
     taxes__einkommensteuer__betrag_y_sn:
       - 218.96
-    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
       - 12.04
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 378.0

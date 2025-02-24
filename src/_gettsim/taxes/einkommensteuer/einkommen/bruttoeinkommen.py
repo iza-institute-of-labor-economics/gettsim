@@ -4,10 +4,10 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="betrag_y")
-def betrag_mit_kapitaleinkommen_y(
+@policy_function(end_date="2008-12-31", name_in_dag="bruttoeinkommen_y")
+def bruttoeinkommen_mit_kapitaleinkommen_y(
     eink_selbst_y: float,
-    betrag_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
+    bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
     bruttoeinkommen_renteneinkommen_y: float,
     kapitaleinkommen_y: float,
@@ -18,8 +18,8 @@ def betrag_mit_kapitaleinkommen_y(
     ----------
     eink_selbst_y
         See :func:`eink_selbst_y`.
-    betrag_aus_abhängiger_beschäftigung_ohne_minijob_y
-        See :func:`betrag_aus_abhängiger_beschäftigung_ohne_minijob_y`.
+    bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
+        See :func:`bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y`.
     eink_vermietung_y
         See :func:`eink_vermietung_y`.
     bruttoeinkommen_renteneinkommen_y
@@ -33,7 +33,7 @@ def betrag_mit_kapitaleinkommen_y(
     """
     out = (
         eink_selbst_y
-        + betrag_aus_abhängiger_beschäftigung_ohne_minijob_y
+        + bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         + eink_vermietung_y
         + bruttoeinkommen_renteneinkommen_y
         + kapitaleinkommen_y
@@ -41,10 +41,10 @@ def betrag_mit_kapitaleinkommen_y(
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="betrag_y")
-def betrag_ohne_kapitaleinkommen_y(
+@policy_function(start_date="2009-01-01", name_in_dag="bruttoeinkommen_y")
+def bruttoeinkommen_ohne_kapitaleinkommen_y(
     eink_selbst_y: float,
-    betrag_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
+    bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
     bruttoeinkommen_renteneinkommen_y: float,
 ) -> float:
@@ -55,8 +55,8 @@ def betrag_ohne_kapitaleinkommen_y(
     ----------
     eink_selbst_y
         See :func:`eink_selbst_y`.
-    betrag_aus_abhängiger_beschäftigung_ohne_minijob_y
-        See :func:`betrag_aus_abhängiger_beschäftigung_ohne_minijob_y`.
+    bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
+        See :func:`bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y`.
     eink_vermietung_y
         See :func:`eink_vermietung_y`.
     bruttoeinkommen_renteneinkommen_y
@@ -68,7 +68,7 @@ def betrag_ohne_kapitaleinkommen_y(
     """
     out = (
         eink_selbst_y
-        + betrag_aus_abhängiger_beschäftigung_ohne_minijob_y
+        + bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         + eink_vermietung_y
         + bruttoeinkommen_renteneinkommen_y
     )
@@ -125,8 +125,8 @@ def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
     return out
 
 
-def betrag_aus_abhängiger_beschäftigung_ohne_minijob_y(
-    betrag_aus_abhängiger_beschäftigung_y: float,
+def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
+    bruttoeinkommen_aus_abhängiger_beschäftigung_y: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
 ) -> float:
     """Taxable income from dependent employment. In particular, taxable income is set to
@@ -134,9 +134,8 @@ def betrag_aus_abhängiger_beschäftigung_ohne_minijob_y(
 
     Parameters
     ----------
-    betrag_aus_abhängiger_beschäftigung_y
-        See basic input variable :ref:`betrag_aus_abhängiger_beschäftigung_y
-        <betrag_aus_abhängiger_beschäftigung_y>`.
+    bruttoeinkommen_aus_abhängiger_beschäftigung_y
+        See :func:`bruttoeinkommen_aus_abhängiger_beschäftigung_y`.
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
 
@@ -147,12 +146,12 @@ def betrag_aus_abhängiger_beschäftigung_ohne_minijob_y(
     if einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = betrag_aus_abhängiger_beschäftigung_y
+        out = bruttoeinkommen_aus_abhängiger_beschäftigung_y
 
     return out
 
 
-def betrag_aus_abhängiger_beschäftigung_y(
+def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     bruttolohn_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -187,8 +186,7 @@ def bruttoeinkommen_renteneinkommen_m(
     Parameters
     ----------
     sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
+        See :func:`sum_ges_rente_priv_rente_m`.
     rente_ertragsanteil
         See :func:`rente_ertragsanteil`.
 

@@ -15,7 +15,7 @@ inputs:
       - 5888.61
     sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
       - 0.01
-    sozialversicherungsbeitraege__pflegeversicherung__beitragssatz__zusatzbetrag_kinderlos:
+    sozialversicherungsbeitraege__pflegeversicherung__zusatzbetrag_kinderlos:
       - true
     ges_pflegev_hat_kinder:
       - false

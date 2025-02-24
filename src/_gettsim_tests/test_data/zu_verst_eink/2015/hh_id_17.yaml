@@ -88,7 +88,7 @@ inputs:
     geburtsjahr:
       - 1975
       - 1975
-    einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwand_y_sn:
       - 7700.0
       - 7700.0
   assumed: {}
@@ -99,18 +99,18 @@ outputs:
   _zu_verst_eink_mit_kinderfreib_y_sn:
     - 50228.0
     - 50228.0
-  einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn:
+  einkommensteuer__freibetraege__kinderfreibetrag_y_sn:
     - 0
     - 0
-  einkommensteuer__freibetraege__altersfreibetrag__betrag_y:
+  einkommensteuer__freibetraege__altersfreibetrag_y:
     - 0
     - 0
-  einkommensteuer__freibetraege__alleinerziehend__betrag_y:
+  einkommensteuer__freibetraege__alleinerziehend_y:
     - 0
     - 0
-  einkommensteuer__einkommen__bruttoeinkommen__betrag_y:
+  einkommensteuer__einkommen__bruttoeinkommen_y:
     - 35000
     - 23000
-  einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y:
+  einkommensteuer__freibetraege__pauschbetrag_behinderung_y:
     - 0
     - 0

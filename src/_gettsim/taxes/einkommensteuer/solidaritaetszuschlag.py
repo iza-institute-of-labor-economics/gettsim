@@ -4,9 +4,9 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="betrag_y_sn")
-def betrag_y_sn_ohne_abgelt_st(
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
+@policy_function(end_date="2008-12-31", name_in_dag="solidaritaetszuschlag_y_sn")
+def solidaritaetszuschlag_y_sn_ohne_abgelt_st(
+    betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     soli_st_params: dict,
 ) -> float:
@@ -25,8 +25,8 @@ def betrag_y_sn_ohne_abgelt_st(
 
     Parameters
     ----------
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn
-        See :func:`taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn`.
+    betrag_mit_kinderfreib_y_sn
+        See :func:`betrag_mit_kinderfreib_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     soli_st_params
@@ -36,9 +36,7 @@ def betrag_y_sn_ohne_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = (
-        taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn / anz_personen_sn
-    )
+    eink_st_per_individual = betrag_mit_kinderfreib_y_sn / anz_personen_sn
     out = anz_personen_sn * solidaritaetszuschlag_tarif(
         eink_st_per_individual, soli_st_params
     )
@@ -46,9 +44,9 @@ def betrag_y_sn_ohne_abgelt_st(
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="betrag_y_sn")
-def betrag_y_sn_mit_abgelt_st(
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
+@policy_function(start_date="2009-01-01", name_in_dag="solidaritaetszuschlag_y_sn")
+def solidaritaetszuschlag_y_sn_mit_abgelt_st(
+    betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
@@ -68,8 +66,8 @@ def betrag_y_sn_mit_abgelt_st(
 
     Parameters
     ----------
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn
-        See :func:`taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn`.
+    betrag_mit_kinderfreib_y_sn
+        See :func:`betrag_mit_kinderfreib_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     abgeltungssteuer__betrag_y_sn
@@ -81,9 +79,7 @@ def betrag_y_sn_mit_abgelt_st(
     -------
 
     """
-    eink_st_per_individual = (
-        taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn / anz_personen_sn
-    )
+    eink_st_per_individual = betrag_mit_kinderfreib_y_sn / anz_personen_sn
     out = (
         anz_personen_sn
         * solidaritaetszuschlag_tarif(eink_st_per_individual, soli_st_params)

@@ -226,7 +226,7 @@ eink_st_tarif:
       upper_threshold: 66761
     3:
       upper_threshold: 277826
-einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
+einkommensteuer__einkommen__rente_ertragsanteil:
   name:
     de: >-
       Ertragsanteil-Funktion für den Anteil an sozialversicherungspflichtigen

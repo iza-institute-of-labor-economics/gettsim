@@ -11,8 +11,8 @@ aggregate_by_p_id_sonderausgaben = {
 }
 
 
-@policy_function(end_date="2011-12-31", name_in_dag="betrag_y_sn")
-def betrag_y_sn_nur_pauschale(
+@policy_function(end_date="2011-12-31", name_in_dag="sonderausgaben_y_sn")
+def sonderausgaben_y_sn_nur_pauschale(
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -40,8 +40,8 @@ def betrag_y_sn_nur_pauschale(
     return float(out)
 
 
-@policy_function(start_date="2012-01-01", name_in_dag="betrag_y_sn")
-def betrag_y_sn_mit_betreuung(
+@policy_function(start_date="2012-01-01", name_in_dag="sonderausgaben_y_sn")
+def sonderausgaben_y_sn_mit_betreuung(
     absetzbare_betreuungskosten: float,
     anz_personen_sn: int,
     eink_st_abzuege_params: dict,

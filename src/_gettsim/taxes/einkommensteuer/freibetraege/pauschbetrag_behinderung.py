@@ -3,7 +3,9 @@
 from _gettsim.config import numpy_or_jax as np
 
 
-def betrag_y(behinderungsgrad: int, eink_st_abzuege_params: dict) -> float:
+def pauschbetrag_behinderung_y(
+    behinderungsgrad: int, eink_st_abzuege_params: dict
+) -> float:
     """Assign tax deduction allowance for handicaped to different handicap degrees.
 
     Parameters

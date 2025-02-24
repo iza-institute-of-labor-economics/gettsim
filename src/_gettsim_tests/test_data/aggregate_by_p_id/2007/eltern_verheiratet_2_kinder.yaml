@@ -92,12 +92,12 @@ inputs:
       - 150.0
       - 150.0
 outputs:
-  einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_1:
+  einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_1:
     - -1
     - -1
     - 0
     - 0
-  einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_2:
+  einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_2:
     - -1
     - -1
     - 1
@@ -112,12 +112,12 @@ outputs:
     - 0.0
     - 0.0
     - 0.0
-  einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche:
+  einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche:
     - 2
     - 2
     - 0
     - 0
-  einkommensteuer__freibetraege__kinderfreibetrag__betrag_y:
+  einkommensteuer__freibetraege__kinderfreibetrag_y:
     - 5808.0
     - 5808.0
     - 0.0

@@ -6,9 +6,9 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    name_in_dag="betrag",
+    name_in_dag="beitragssatz",
 )
-def betrag_ohne_zusatz_fuer_kinderlose(
+def beitragssatz_ohne_zusatz_fuer_kinderlose(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution rate.
@@ -31,9 +31,9 @@ def betrag_ohne_zusatz_fuer_kinderlose(
 @policy_function(
     start_date="2005-01-01",
     end_date="2023-06-30",
-    name_in_dag="betrag",
+    name_in_dag="beitragssatz",
 )
-def betrag_zusatz_kinderlos_dummy(
+def beitragssatz_zusatz_kinderlos_dummy(
     zusatzbetrag_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -61,8 +61,8 @@ def betrag_zusatz_kinderlos_dummy(
     return out
 
 
-@policy_function(start_date="2023-07-01", name_in_dag="betrag")
-def betrag_mit_kinder_abschlag(
+@policy_function(start_date="2023-07-01", name_in_dag="beitragssatz")
+def beitragssatz_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
     zusatzbetrag_kinderlos: bool,
     sozialv_beitr_params: dict,

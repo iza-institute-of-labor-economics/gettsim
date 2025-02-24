@@ -6,7 +6,7 @@ from _gettsim.taxes.einkommensteuer import einkommensteuer_tarif
 
 
 def betrag_m(
-    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche: int,
+    einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
     anspruchsberechtigt: bool,
     einkommen_vorjahr_proxy_m: float,
     arbeitsl_geld_params: dict,
@@ -15,9 +15,9 @@ def betrag_m(
 
     Parameters
     ----------
-    einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche
+    einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche
         See :func:
-        `einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche`.
+        `einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche`.
     anspruchsberechtigt
         See :func:`anspruchsberechtigt`.
     einkommen_vorjahr_proxy_m
@@ -30,9 +30,9 @@ def betrag_m(
 
     """
 
-    if einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche == 0:
+    if einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche == 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-    elif einkommensteuer__freibetraege__kinderfreibetrag__anzahl_ansprüche > 0:
+    elif einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
     if anspruchsberechtigt:

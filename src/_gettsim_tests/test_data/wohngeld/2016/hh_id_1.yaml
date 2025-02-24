@@ -56,7 +56,7 @@ inputs:
       - 50.0
       - 50.0
       - 50.0
-    taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
+    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
       - 0.0
       - 0.0
       - 0.0
@@ -96,7 +96,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen__rente_ertragsanteil:
+    einkommensteuer__einkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0
@@ -124,7 +124,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen__betrag_aus_abhängiger_beschäftigung_y:
+    einkommensteuer__einkommen__bruttoeinkommen_aus_abhängiger_beschäftigung_y:
       - 25000.0
       - 0.0
       - 0.0

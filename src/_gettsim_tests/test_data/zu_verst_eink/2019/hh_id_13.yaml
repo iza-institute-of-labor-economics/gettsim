@@ -88,7 +88,7 @@ inputs:
     geburtsjahr:
       - 1984
       - 2014
-    einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwand_y_sn:
       - 3119.94
       - 3119.94
   assumed: {}
@@ -99,18 +99,18 @@ outputs:
   _zu_verst_eink_mit_kinderfreib_y_sn:
     - 8126.06
     - 0.0
-  einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn:
+  einkommensteuer__freibetraege__kinderfreibetrag_y_sn:
     - 3810
     - 0.0
-  einkommensteuer__freibetraege__altersfreibetrag__betrag_y:
+  einkommensteuer__freibetraege__altersfreibetrag_y:
     - 0
     - 0
-  einkommensteuer__freibetraege__alleinerziehend__betrag_y:
+  einkommensteuer__freibetraege__alleinerziehend_y:
     - 1908
     - 0
-  einkommensteuer__einkommen__bruttoeinkommen__betrag_y:
+  einkommensteuer__einkommen__bruttoeinkommen_y:
     - 17000
     - 0
-  einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y:
+  einkommensteuer__freibetraege__pauschbetrag_behinderung_y:
     - 0
     - 0

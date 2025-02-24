@@ -14,7 +14,7 @@ aggregate_by_p_id_freibeträge = {
 }
 
 
-def betrag_y(
+def kinderfreibetrag_y(
     anzahl_ansprüche: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -35,7 +35,7 @@ def betrag_y(
     return float(sum(eink_st_abzuege_params["kinderfreib"].values()) * anzahl_ansprüche)
 
 
-def anzahl_ansprüche(
+def kinderfreibetrag_anzahl_ansprüche(
     anzahl_anspruch_1: int,
     anzahl_anspruch_2: int,
 ) -> int:
@@ -56,7 +56,7 @@ def anzahl_ansprüche(
     return anzahl_anspruch_1 + anzahl_anspruch_2
 
 
-def p_id_empfänger_1(
+def p_id_kinderfreibetragempfänger_1(
     p_id_elternteil_1: int,
 ) -> int:
     """Assigns child allowance to parent 1.
@@ -73,7 +73,7 @@ def p_id_empfänger_1(
     return p_id_elternteil_1
 
 
-def p_id_empfänger_2(
+def p_id_kinderfreibetragempfänger_2(
     p_id_elternteil_2: int,
 ) -> int:
     """Assigns child allowance to parent 2.

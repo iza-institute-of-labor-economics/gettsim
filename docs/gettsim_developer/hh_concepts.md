@@ -52,8 +52,8 @@ The units are:
 
 #### Pointers
 
-- `einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_1` and
-  `einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_2` (either set by the
+- `einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_1` and
+  `einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_2` (either set by the
   user or calculated endogenously via `p_id_elternteil_1` and `p_id_elternteil_2`)
 
 ## Kindergeld

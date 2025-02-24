@@ -20,5 +20,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn:
+  taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
     - 275.0

@@ -24,7 +24,7 @@ inputs:
       - 0.0
     eink_vermietung_y:
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen__kapitaleinkommen_y:
+    einkommensteuer__einkommen__kapitaleinkommen_y:
       - 0.0
     alter:
       - 70

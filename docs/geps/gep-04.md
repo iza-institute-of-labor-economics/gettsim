@@ -112,7 +112,7 @@ or it has to be the name of another function. It is also possible to specify
 Another function, say
 
 ```python
-def taxes__einkommensteuer__solidaritaetszuschlag__betrag_y_sn(
+def taxes__einkommensteuer__solidaritaetszuschlag_y_sn(
     taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,

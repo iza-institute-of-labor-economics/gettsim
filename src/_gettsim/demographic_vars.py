@@ -15,14 +15,14 @@ from _gettsim.shared import join_numpy
 aggregate_by_p_id_demographic_vars = {
     "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
         "p_id_to_aggregate_by": (
-            "einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_1"
+            "einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_1"
         ),
         "source_col": "kind_bis_24",
         "aggr": "sum",
     },
     "ges_pflegev_anz_kinder_bis_24_elternteil_2": {
         "p_id_to_aggregate_by": (
-            "einkommensteuer__freibetraege__kinderfreibetrag__p_id_empfänger_2"
+            "einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_2"
         ),
         "source_col": "kind_bis_24",
         "aggr": "sum",

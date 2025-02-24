@@ -2,8 +2,8 @@
 
 
 def betrag_y_sn(
-    einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn: float,
-    einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn: float,
+    sonderausgaben_y_sn: float,
+    einkommensteuer__einkommen__vorsorgeaufwand_y_sn: float,
     betrag_ind_y_sn: float,
 ) -> float:
     """Calculate total allowances on Steuernummer level.
@@ -11,11 +11,10 @@ def betrag_y_sn(
     Parameters
     ----------
 
-    einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn
-        See :func:
-        `einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn`.
-    einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn
-        See :func:`einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn`.
+    sonderausgaben_y_sn
+        See :func:`sonderausgaben_y_sn`.
+    einkommensteuer__einkommen__vorsorgeaufwand_y_sn
+        See :func:`einkommensteuer__einkommen__vorsorgeaufwand_y_sn`.
     betrag_ind_y_sn
         See :func:`betrag_ind_y_sn`.
 
@@ -24,8 +23,8 @@ def betrag_y_sn(
 
     """
     out = (
-        einkommensteuer__freibetraege__sonderausgaben__betrag_y_sn
-        + einkommensteuer__einkommen__vorsorgeaufwand__betrag_y_sn
+        sonderausgaben_y_sn
+        + einkommensteuer__einkommen__vorsorgeaufwand_y_sn
         + betrag_ind_y_sn
     )
 
@@ -33,9 +32,9 @@ def betrag_y_sn(
 
 
 def betrag_ind_y(
-    einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y: float,
-    einkommensteuer__freibetraege__altersfreibetrag__betrag_y: float,
-    einkommensteuer__freibetraege__alleinerziehend__betrag_y: float,
+    pauschbetrag_behinderung_y: float,
+    altersfreibetrag__betrag_y: float,
+    alleinerziehend__betrag_y: float,
 ) -> float:
     """Sum up all tax-deductible allowances applicable at the individual level.
 
@@ -43,22 +42,22 @@ def betrag_ind_y(
     Parameters
     ----------
 
-    einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y
+    pauschbetrag_behinderung_y
         See :func:
-        `einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y`.
-    einkommensteuer__freibetraege__altersfreibetrag__betrag_y
+        `pauschbetrag_behinderung_y`.
+    altersfreibetrag__betrag_y
         See :func:
-        `einkommensteuer__freibetraege__altersfreibetrag__betrag_y`.
-    einkommensteuer__freibetraege__alleinerziehend__betrag_y
-        See :func:`einkommensteuer__freibetraege__alleinerziehend__betrag_y`.
+        `altersfreibetrag__betrag_y`.
+    alleinerziehend__betrag_y
+        See :func:`alleinerziehend__betrag_y`.
 
     Returns
     -------
 
     """
     out = (
-        einkommensteuer__freibetraege__pauschbetrag_behinderung__betrag_y
-        + einkommensteuer__freibetraege__altersfreibetrag__betrag_y
-        + einkommensteuer__freibetraege__alleinerziehend__betrag_y
+        pauschbetrag_behinderung_y
+        + altersfreibetrag__betrag_y
+        + alleinerziehend__betrag_y
     )
     return out

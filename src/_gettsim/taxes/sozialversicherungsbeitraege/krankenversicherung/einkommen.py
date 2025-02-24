@@ -1,8 +1,8 @@
 """Income relevant for public health insurance contributions."""
 
 
-def betrag_m(
-    betrag_regulär_beschäftigt_m: float,
+def einkommen_m(
+    einkommen_regulär_beschäftigt_m: float,
     einkommensgrenzen__regulär_beschäftigt: bool,
 ) -> float:
     """Wage subject to public health insurance contributions.
@@ -25,13 +25,13 @@ def betrag_m(
 
     """
     if einkommensgrenzen__regulär_beschäftigt:
-        out = betrag_regulär_beschäftigt_m
+        out = einkommen_regulär_beschäftigt_m
     else:
         out = 0.0
     return out
 
 
-def betrag_regulär_beschäftigt_m(
+def einkommen_regulär_beschäftigt_m(
     bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:

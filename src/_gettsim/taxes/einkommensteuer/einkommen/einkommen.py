@@ -34,7 +34,7 @@ def zu_verst_eink_y_sn(
 
 def _zu_verst_eink_mit_kinderfreib_y_sn(
     _zu_verst_eink_ohne_kinderfreib_y_sn: float,
-    einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn: float,
+    einkommensteuer__freibetraege__kinderfreibetrag_y_sn: float,
 ) -> float:
     """Calculate taxable income with child allowance on Steuernummer level.
 
@@ -42,9 +42,9 @@ def _zu_verst_eink_mit_kinderfreib_y_sn(
     ----------
     _zu_verst_eink_ohne_kinderfreib_y_sn
         See :func:`_zu_verst_eink_ohne_kinderfreib_y_sn`.
-    einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn
+    einkommensteuer__freibetraege__kinderfreibetrag_y_sn
         See :func:
-        `einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn`.
+        `einkommensteuer__freibetraege__kinderfreibetrag_y_sn`.
 
     Returns
     -------
@@ -53,21 +53,21 @@ def _zu_verst_eink_mit_kinderfreib_y_sn(
 
     out = (
         _zu_verst_eink_ohne_kinderfreib_y_sn
-        - einkommensteuer__freibetraege__kinderfreibetrag__betrag_y_sn
+        - einkommensteuer__freibetraege__kinderfreibetrag_y_sn
     )
     return max(out, 0.0)
 
 
 def _zu_verst_eink_ohne_kinderfreib_y_sn(
-    einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn: float,
+    einkommensteuer__einkommen__bruttoeinkommen_y_sn: float,
     einkommensteuer_freibetraege_betrag_y_sn: float,
 ) -> float:
     """Calculate taxable income without child allowance on Steuernummer level.
 
     Parameters
     ----------
-    einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn
-        See :func:`einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn`.
+    einkommensteuer__einkommen__bruttoeinkommen_y_sn
+        See :func:`einkommensteuer__einkommen__bruttoeinkommen_y_sn`.
     einkommensteuer_freibetraege_betrag_y_sn
         See :func:`einkommensteuer_freibetraege_betrag_y_sn`.
 
@@ -77,7 +77,7 @@ def _zu_verst_eink_ohne_kinderfreib_y_sn(
 
     """
     out = (
-        einkommensteuer__einkommen__bruttoeinkommen__betrag_y_sn
+        einkommensteuer__einkommen__bruttoeinkommen_y_sn
         - einkommensteuer_freibetraege_betrag_y_sn
     )
 
