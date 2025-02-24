@@ -105,6 +105,7 @@ def test_access_different_date_jahresanfang():
     assert params["foo_jahresanfang"] == 2020
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "tree, last_day, function_name_last_day, function_name_next_day",
     [

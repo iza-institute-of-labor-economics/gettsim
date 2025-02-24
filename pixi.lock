@@ -5346,6 +5346,46 @@ packages:
   timestamp: 1694400856979
 - pypi: .
   name: gettsim
+  version: 0.7.1.dev82+g6c6c0155.d20250222
+  sha256: 468d7ee73fd31c448cd102912b902342be58fb2b7298aacca19f8f4eca97a50d
+  requires_dist:
+  - astor
+  - ipywidgets
+  - networkx
+  - numpy
+  - numpy-groupies
+  - openpyxl
+  - optree
+  - pandas
+  - plotly
+  - pygments
+  - pygraphviz
+  - pytest
+  - pyyaml
+  requires_python: '>=3.11'
+  editable: true
+- pypi: .
+  name: gettsim
+  version: 0.7.1.dev305+gb67bbac0.d20250215
+  sha256: 468d7ee73fd31c448cd102912b902342be58fb2b7298aacca19f8f4eca97a50d
+  requires_dist:
+  - astor
+  - ipywidgets
+  - networkx
+  - numpy
+  - numpy-groupies
+  - openpyxl
+  - optree
+  - pandas
+  - plotly
+  - pygments
+  - pygraphviz
+  - pytest
+  - pyyaml
+  requires_python: '>=3.11'
+  editable: true
+- pypi: .
+  name: gettsim
   version: 0.7.1.dev99+gd5f514d3.d20250222
   sha256: f29b189aa4b6516e2fe3f7527ef0ca334da92a139620a515f31fbca86c358899
   requires_dist:
@@ -9375,6 +9415,15 @@ packages:
   - tabcompleter>=1.4.0
   - colorama>=0.4.6 ; platform_system == 'Windows'
   requires_python: '>=3.8'
+- pypi: https://files.pythonhosted.org/packages/29/93/d56fb9ba5569dc29d8263c72e46d21a2fd38741339ebf03f54cf7561828c/pdbp-1.6.1-py3-none-any.whl
+  name: pdbp
+  version: 1.6.1
+  sha256: f10bad2ee044c0e5c168cb0825abfdbdc01c50013e9755df5261b060bdd35c22
+  requires_dist:
+  - pygments>=2.18.0
+  - tabcompleter>=1.4.0
+  - colorama>=0.4.6 ; sys_platform == 'win32'
+  requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/noarch/pexpect-4.9.0-pyhd8ed1ab_0.conda
   sha256: 90a09d134a4a43911b716d4d6eb9d169238aff2349056f7323d9db613812667e
   md5: 629f3203c99b32e0988910c93e77f3b6
@@ -11245,6 +11294,13 @@ packages:
   sha256: d744aa735b49c0a6cc2fb8fcd40077fec47425e4388301010b14e6ce3311368b
   requires_dist:
   - pyreadline3 ; platform_system == 'Windows'
+  requires_python: '>=3.8'
+- pypi: https://files.pythonhosted.org/packages/65/44/bb509c3d2c0b5a87e7a5af1d5917a402a32ff026f777a6d7cb6990746cbb/tabcompleter-1.4.0-py3-none-any.whl
+  name: tabcompleter
+  version: 1.4.0
+  sha256: d744aa735b49c0a6cc2fb8fcd40077fec47425e4388301010b14e6ce3311368b
+  requires_dist:
+  - pyreadline3 ; sys_platform == 'win32'
   requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/noarch/tabulate-0.9.0-pyhd8ed1ab_1.tar.bz2
   sha256: f6e4a0dd24ba060a4af69ca79d32361a6678e61d78c73eb5e357909b025b4620

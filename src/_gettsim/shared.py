@@ -5,6 +5,7 @@ from typing import Any, TypeVar
 
 import flatten_dict
 import numpy
+import optree
 from dags.signature import rename_arguments
 from flatten_dict.reducers import make_reducer
 from flatten_dict.splitters import make_splitter
@@ -65,6 +66,28 @@ def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict
     return nested_dict
 
 
+def merge_trees(left: dict, right: dict) -> dict:
+    """
+    Merge two pytrees, raising an error if a path is present in both trees.
+
+    Parameters
+    ----------
+    left
+        The first tree to be merged.
+    right
+        The second tree to be merged.
+
+    Returns
+    -------
+    The merged pytree.
+    """
+
+    if set(optree.tree_paths(left)) & set(optree.tree_paths(right)):
+        raise ValueError("Conflicting paths in trees to merge.")
+
+    return upsert_tree(base=left, to_upsert=right)
+
+
 def upsert_tree(base: dict, to_upsert: dict) -> dict:
     """
     Upsert a tree into another tree for trees defined by dictionaries only.
@@ -114,6 +137,20 @@ def upsert_path_and_value(
         path=path_to_upsert, value=value_to_upsert
     )
     return upsert_tree(base=base, to_upsert=to_upsert)
+
+
+def insert_path_and_value(
+    base: dict[str, Any], path_to_insert: tuple[str], value_to_insert: Any = None
+) -> dict[str, Any]:
+    """Insert a path and value into a tree.
+
+    The path is a list of strings that represent the keys in the nested dictionary. The
+    path must not exist in base.
+    """
+    to_insert = create_tree_from_path_and_value(
+        path=path_to_insert, value=value_to_insert
+    )
+    return merge_trees(left=base, right=to_insert)
 
 
 def partition_tree_by_reference_tree(
