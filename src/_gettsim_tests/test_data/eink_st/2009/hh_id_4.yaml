@@ -14,9 +14,9 @@ inputs:
       - false
     kind:
       - false
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
       - 50000.0
-    _zu_verst_eink_mit_kinderfreib_y_sn:
+    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
       - 42000.0
     kapitaleink_brutto_y:
       - 2500.0

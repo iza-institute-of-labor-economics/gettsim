@@ -106,7 +106,7 @@ def betrag_mit_kinderfreib_y_sn_bis_2001() -> float:
 
 @policy_function(start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreib_y_sn")
 def betrag_mit_kinderfreib_y_sn_ab_2002(
-    _zu_verst_eink_mit_kinderfreib_y_sn: float,
+    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
@@ -115,8 +115,8 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
 
     Parameters
     ----------
-    _zu_verst_eink_mit_kinderfreib_y_sn
-        See :func:`_zu_verst_eink_mit_kinderfreib_y_sn`.
+    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn
+        See :func:`einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_params
@@ -126,7 +126,10 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_mit_kinderfreib_y_sn / anz_personen_sn
+    zu_verst_eink_per_indiv = (
+        einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn
+        / anz_personen_sn
+    )
     out = anz_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
@@ -135,7 +138,7 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
 
 
 def betrag_ohne_kinderfreib_y_sn(
-    _zu_verst_eink_ohne_kinderfreib_y_sn: float,
+    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn: float,
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
@@ -144,8 +147,8 @@ def betrag_ohne_kinderfreib_y_sn(
 
     Parameters
     ----------
-    _zu_verst_eink_ohne_kinderfreib_y_sn
-        See :func:`_zu_verst_eink_ohne_kinderfreib_y_sn`.
+    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn
+        See :func:`einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_params
@@ -155,7 +158,10 @@ def betrag_ohne_kinderfreib_y_sn(
     -------
 
     """
-    zu_verst_eink_per_indiv = _zu_verst_eink_ohne_kinderfreib_y_sn / anz_personen_sn
+    zu_verst_eink_per_indiv = (
+        einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn
+        / anz_personen_sn
+    )
     out = anz_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )

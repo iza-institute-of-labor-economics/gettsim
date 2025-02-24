@@ -2,11 +2,11 @@
 in the documentation."""
 
 from _gettsim.demographic_vars import *
-from _gettsim.taxes.abgeltungssteuer import *
-from _gettsim.taxes.einkommensgrenzen import *
+from _gettsim.taxes.abgeltungssteuer.abgeltungssteuer import *
+from _gettsim.taxes.einkommensgrenzen.einkommensgrenzen import *
 from _gettsim.taxes.einkommensteuer.einkommen.bruttoeinkommen import *
-from _gettsim.taxes.einkommensteuer.einkommen.einkommen import *
 from _gettsim.taxes.einkommensteuer.einkommen.vorsorgeaufwand import *
+from _gettsim.taxes.einkommensteuer.einkommen.zu_versteuerndes_einkommen import *
 from _gettsim.taxes.einkommensteuer.einkommensteuer import *
 from _gettsim.taxes.einkommensteuer.freibetraege.alleinerziehend import *
 from _gettsim.taxes.einkommensteuer.freibetraege.altersfreibetrag import *
@@ -25,7 +25,7 @@ from _gettsim.taxes.sozialversicherungsbeitraege.pflegeversicherung.beitragssatz
 from _gettsim.taxes.sozialversicherungsbeitraege.pflegeversicherung.pflegeversicherung import *
 from _gettsim.taxes.sozialversicherungsbeitraege.rentenversicherung.rentenversicherung import *
 from _gettsim.taxes.sozialversicherungsbeitraege.sozialversicherungsbeitraege import *
-from _gettsim.transfers.arbeitslosengeld import *
+from _gettsim.transfers.arbeitslosengeld.arbeitslosengeld import *
 from _gettsim.transfers.arbeitslosengeld_2.arbeitslosengeld_2 import *
 from _gettsim.transfers.arbeitslosengeld_2.einkommen import *
 from _gettsim.transfers.arbeitslosengeld_2.kindergelduebertrag import *
@@ -34,13 +34,12 @@ from _gettsim.transfers.arbeitslosengeld_2.vermoegen import *
 from _gettsim.transfers.elterngeld.einkommen import *
 from _gettsim.transfers.elterngeld.elterngeld import *
 from _gettsim.transfers.elterngeld.geschwisterbonus import *
-from _gettsim.transfers.erziehungsgeld import *
-from _gettsim.transfers.grundrente import *
+from _gettsim.transfers.erziehungsgeld.erziehungsgeld import *
 from _gettsim.transfers.grundsicherung.grundsicherung import *
 from _gettsim.transfers.grundsicherung.im_alter.einkommen import *
 from _gettsim.transfers.grundsicherung.im_alter.im_alter import *
-from _gettsim.transfers.kinderbonus import *
-from _gettsim.transfers.kindergeld import *
+from _gettsim.transfers.kinderbonus.kinderbonus import *
+from _gettsim.transfers.kindergeld.kindergeld import *
 from _gettsim.transfers.kinderzuschlag.einkommen import *
 from _gettsim.transfers.kinderzuschlag.kinderzuschlag import *
 from _gettsim.transfers.kinderzuschlag.regelbedarf import *
@@ -55,9 +54,9 @@ from _gettsim.transfers.rente.wegen_alter.rentenarten.rentenarten import *
 from _gettsim.transfers.rente.wegen_alter.rentenarten.wartezeit import *
 from _gettsim.transfers.rente.wegen_alter.wegen_alter import *
 from _gettsim.transfers.rente.wegen_erwerbsminderung import *
-from _gettsim.transfers.unterhalt import *
-from _gettsim.transfers.unterhaltsvorschuss import *
-from _gettsim.transfers.vorrangpruefungen import *
+from _gettsim.transfers.unterhalt.unterhalt import *
+from _gettsim.transfers.unterhaltsvorschuss.unterhaltsvorschuss import *
+from _gettsim.transfers.vorrangpruefungen.vorrangpruefungen import *
 from _gettsim.transfers.wohngeld.einkommen import *
 from _gettsim.transfers.wohngeld.miete import *
 from _gettsim.transfers.wohngeld.voraussetzungen import *

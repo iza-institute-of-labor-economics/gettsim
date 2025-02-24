@@ -151,12 +151,12 @@ inputs:
       - 10901.0
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_sn:
+  einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
     - 53027.0
     - 53027.0
     - 0.0
     - 0.0
-  _zu_verst_eink_mit_kinderfreib_y_sn:
+  einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
     - 37403.0
     - 37403.0
     - 0.0

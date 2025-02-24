@@ -24,11 +24,11 @@ inputs:
       - false
       - false
       - true
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
       - 5000.0
       - 5000.0
       - 0.0
-    _zu_verst_eink_mit_kinderfreib_y_sn:
+    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
       - 5000.0
       - 5000.0
       - 0.0

@@ -64,9 +64,9 @@ inputs:
       - 1910.41
   assumed: {}
 outputs:
-  _zu_verst_eink_ohne_kinderfreib_y_sn:
+  einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
     - 7853.59
-  _zu_verst_eink_mit_kinderfreib_y_sn:
+  einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
     - 7853.59
   einkommensteuer__freibetraege__kinderfreibetrag_y_sn:
     - 0

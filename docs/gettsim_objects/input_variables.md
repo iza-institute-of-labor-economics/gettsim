@@ -271,7 +271,8 @@ Type: float
 ## `elterngeld_zu_verst_eink_vorjahr_y_sn`
 
 Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
-compute this variable via the `_zu_verst_eink_mit_kinderfreib_y_sn` target in a separate
+compute this variable via the
+`einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn` target in a separate
 run, which would typically be for the previous calendar year.
 
 Type: float

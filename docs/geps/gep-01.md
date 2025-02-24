@@ -108,8 +108,8 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_y_sn`). This makes searching for identifiers easier and
-less error-prone.
+`einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn`). This makes
+searching for identifiers easier and less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
 `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group

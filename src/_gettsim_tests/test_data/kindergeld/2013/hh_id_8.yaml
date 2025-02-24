@@ -52,7 +52,7 @@ inputs:
       - 0.0
       - 800.0
       - 300.0
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
       - 200000.0
       - 200000.0
       - 200000.0
