@@ -2,7 +2,7 @@
 
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.taxes.einkommensteuer import einkommensteuer_tarif
+from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 
 
 def betrag_m(
