@@ -62,9 +62,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_west_updated:
+  rente__altersrente__entgeltp_west_updated:
     - 31.0625
-  entgeltp_update_lohn:
+  rente__altersrente__entgeltp_update:
     - 0.0
   _ges_rente_langj_altersgrenze:
     - 65.0

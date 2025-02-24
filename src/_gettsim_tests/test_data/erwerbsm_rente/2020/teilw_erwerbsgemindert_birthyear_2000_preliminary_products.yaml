@@ -4,7 +4,7 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    _erwerbsm_rente_langj_versicherte_wartezeit:
+    rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
       - false
     entgeltp_ost:
       - 0.0
@@ -37,13 +37,13 @@ inputs:
     wohnort_ost:
       - true
 outputs:
-  entgeltp_ost_erwerbsm_rente:
+  rente__erwerbsminderung__entgeltpunkte_ost:
     - 0.0
-  entgeltp_west_erwerbsm_rente:
+  rente__erwerbsminderung__entgeltpunkte_west:
     - 61.23076923
-  erwerbsm_rente_zugangsfaktor:
+  rente__erwerbsminderung__zugangsfaktor:
     - 0.892
-  ges_rente_vorauss_erwerbsm:
+  rente__erwerbsminderung__anspruchsbedingungen_erfüllt:
     - true
-  rentenartfaktor:
+  rente__erwerbsminderung__rentenartfaktor:
     - 0.5

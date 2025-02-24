@@ -14,7 +14,7 @@ inputs:
       - false
     alter:
       - 64
-    ges_rente_zugangsfaktor:
+    rente__altersrente__zugangsfaktor:
       - 1.0
     entgeltp_west:
       - 40.0
@@ -22,11 +22,11 @@ inputs:
       - 0.0
     rentner:
       - true
-    grundr_zuschlag_m:
+    rente__grundrente__betrag_m:
       - 0.0
   assumed: {}
 outputs:
-  ges_rente_m:
+  rente__altersrente__betrag_m:
     - 1440.8
-  bruttorente_basisbetrag_m:
+  rente__altersrente__bruttorente_basisbetrag_m:
     - 1440.8

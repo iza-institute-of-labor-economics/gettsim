@@ -13,5 +13,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  anteil_entgeltp_ost:
+  rente__altersrente__anteil_entgeltp_ost:
     - 0.0

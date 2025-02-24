@@ -19,8 +19,8 @@ priority check, but cannot cover their needs with the Wohngeld calculated in poi
 from _gettsim.functions.policy_function import policy_function
 
 
-def wohngeld_m_wthh(
-    wohngeld_anspruchshöhe_m_wthh: float,
+def betrag_m_wthh(
+    anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh: bool,
     vorrangpruefungen__wohngeld_vorrang_wthh: bool,
@@ -29,8 +29,8 @@ def wohngeld_m_wthh(
 
     Parameters
     ----------
-    wohngeld_anspruchshöhe_m_wthh
-        See :func:`wohngeld_anspruchshöhe_m_wthh`.
+    anspruchshöhe_m_wthh
+        See :func:`anspruchshöhe_m_wthh`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
@@ -57,7 +57,7 @@ def wohngeld_m_wthh(
         vorrangpruefungen__wohngeld_vorrang_wthh
         or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
     ):
-        out = wohngeld_anspruchshöhe_m_wthh
+        out = anspruchshöhe_m_wthh
     else:
         out = 0.0
 
@@ -65,11 +65,11 @@ def wohngeld_m_wthh(
 
 
 @policy_function(params_key_for_rounding="wohngeld")
-def wohngeld_anspruchshöhe_m_wthh(
+def anspruchshöhe_m_wthh(
     anz_personen_wthh: int,
-    wohngeld_eink_m_wthh: float,
-    wohngeld_miete_m_wthh: float,
-    wohngeld_anspruchsbedingungen_erfüllt_wthh: bool,
+    einkommen_m_wthh: float,
+    miete_m_wthh: float,
+    anspruchsbedingungen_erfüllt_wthh: bool,
     wohngeld_params: dict,
 ) -> float:
     """Housing benefit after wealth and income check.
@@ -82,12 +82,12 @@ def wohngeld_anspruchshöhe_m_wthh(
     ----------
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
-    wohngeld_eink_m_wthh
-        See :func:`wohngeld_eink_m_wthh`.
-    wohngeld_miete_m_wthh
-        See :func:`wohngeld_miete_m_wthh`.
-    wohngeld_anspruchsbedingungen_erfüllt_wthh
-        See :func:`wohngeld_anspruchsbedingungen_erfüllt_wthh`.
+    einkommen_m_wthh
+        See :func:`einkommen_m_wthh`.
+    miete_m_wthh
+        See :func:`miete_m_wthh`.
+    anspruchsbedingungen_erfüllt_wthh
+        See :func:`anspruchsbedingungen_erfüllt_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -95,11 +95,11 @@ def wohngeld_anspruchshöhe_m_wthh(
     -------
 
     """
-    if wohngeld_anspruchsbedingungen_erfüllt_wthh:
-        out = _wohngeld_basisformel(
+    if anspruchsbedingungen_erfüllt_wthh:
+        out = basisformel(
             anz_personen=anz_personen_wthh,
-            einkommen_m=wohngeld_eink_m_wthh,
-            miete_m=wohngeld_miete_m_wthh,
+            einkommen_m=einkommen_m_wthh,
+            miete_m=miete_m_wthh,
             params=wohngeld_params,
         )
     else:
@@ -109,11 +109,11 @@ def wohngeld_anspruchshöhe_m_wthh(
 
 
 @policy_function(params_key_for_rounding="wohngeld")
-def wohngeld_anspruchshöhe_m_bg(
+def anspruchshöhe_m_bg(
     anz_personen_bg: int,
-    wohngeld_eink_m_bg: float,
-    wohngeld_miete_m_bg: float,
-    wohngeld_anspruchsbedingungen_erfüllt_bg: bool,
+    einkommen_m_bg: float,
+    miete_m_bg: float,
+    anspruchsbedingungen_erfüllt_bg: bool,
     wohngeld_params: dict,
 ) -> float:
     """Housing benefit after wealth and income check.
@@ -124,12 +124,12 @@ def wohngeld_anspruchshöhe_m_bg(
     ----------
     anz_personen_bg
         See :func:`anz_personen_bg`.
-    wohngeld_eink_m_bg
-        See :func:`wohngeld_eink_m_bg`.
-    wohngeld_miete_m_bg
-        See :func:`wohngeld_miete_m_bg`.
-    wohngeld_anspruchsbedingungen_erfüllt_bg
-        See :func:`wohngeld_anspruchsbedingungen_erfüllt_bg`.
+    einkommen_m_bg
+        See :func:`einkommen_m_bg`.
+    miete_m_bg
+        See :func:`miete_m_bg`.
+    anspruchsbedingungen_erfüllt_bg
+        See :func:`anspruchsbedingungen_erfüllt_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -137,11 +137,11 @@ def wohngeld_anspruchshöhe_m_bg(
     -------
 
     """
-    if wohngeld_anspruchsbedingungen_erfüllt_bg:
-        out = _wohngeld_basisformel(
+    if anspruchsbedingungen_erfüllt_bg:
+        out = basisformel(
             anz_personen=anz_personen_bg,
-            einkommen_m=wohngeld_eink_m_bg,
-            miete_m=wohngeld_miete_m_bg,
+            einkommen_m=einkommen_m_bg,
+            miete_m=miete_m_bg,
             params=wohngeld_params,
         )
     else:
@@ -150,7 +150,7 @@ def wohngeld_anspruchshöhe_m_bg(
     return out
 
 
-def _wohngeld_basisformel(
+def basisformel(
     anz_personen: int,
     einkommen_m: float,
     miete_m: float,

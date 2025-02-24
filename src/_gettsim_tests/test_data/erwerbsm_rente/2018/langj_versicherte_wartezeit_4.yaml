@@ -1,6 +1,6 @@
 ---
 info:
-  note: test for _erwerbsm_rente_langj_versicherte_wartezeit
+  note: test for rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt
   source: Own calculations
 inputs:
   assumed:
@@ -23,5 +23,5 @@ inputs:
     p_id:
       - 24
 outputs:
-  _erwerbsm_rente_langj_versicherte_wartezeit:
+  rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
     - false

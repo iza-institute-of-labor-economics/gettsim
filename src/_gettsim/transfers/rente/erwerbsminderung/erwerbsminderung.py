@@ -4,12 +4,12 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function(start_date="2001-01-01")
-def erwerbsm_rente_m(  # noqa: PLR0913
-    erwerbsm_rente_zugangsfaktor: float,
-    entgeltp_west_erwerbsm_rente: float,
-    entgeltp_ost_erwerbsm_rente: float,
+def betrag_m(  # noqa: PLR0913
+    zugangsfaktor: float,
+    entgeltpunkte_west: float,
+    entgeltpunkte_ost: float,
     rentenartfaktor: float,
-    ges_rente_vorauss_erwerbsm: bool,
+    anspruchsbedingungen_erfüllt: bool,
     ges_rente_params: dict,
 ) -> float:
     """Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
@@ -19,31 +19,31 @@ def erwerbsm_rente_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    erwerbsm_rente_zugangsfaktor
-        See :func:`erwerbsm_rente_zugangsfaktor`.
-    entgeltp_west_erwerbsm_rente
-        See :func:`entgeltp_west_erwerbsm_rente`.
-    entgeltp_ost_erwerbsm_rente
-        See :func:`entgeltp_ost_erwerbsm_rente`.
+    zugangsfaktor
+        See :func:`zugangsfaktor`.
+    entgeltpunkte_west
+        See :func:`entgeltpunkte_west`.
+    entgeltpunkte_ost
+        See :func:`entgeltpunkte_ost`.
     rentenwert
         See :func:`rentenwert`.
     rentenartfaktor
         See :func:`rentenartfaktor`.
-    ges_rente_vorauss_erwerbsm
-        See :func:`ges_rente_vorauss_erwerbsm`.
+    anspruchsbedingungen_erfüllt
+        See :func:`anspruchsbedingungen_erfüllt`.
     Returns
     -------
     Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
 
     """
 
-    if ges_rente_vorauss_erwerbsm:
+    if anspruchsbedingungen_erfüllt:
         out = (
             (
-                entgeltp_west_erwerbsm_rente * ges_rente_params["rentenwert"]["west"]
-                + entgeltp_ost_erwerbsm_rente * ges_rente_params["rentenwert"]["ost"]
+                entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
+                + entgeltpunkte_ost * ges_rente_params["rentenwert"]["ost"]
             )
-            * erwerbsm_rente_zugangsfaktor
+            * zugangsfaktor
             * rentenartfaktor
         )
     else:
@@ -52,7 +52,7 @@ def erwerbsm_rente_m(  # noqa: PLR0913
 
 
 @policy_function(start_date="2001-01-01")
-def ges_rente_vorauss_erwerbsm(
+def anspruchsbedingungen_erfüllt(
     voll_erwerbsgemind: bool,
     teilw_erwerbsgemind: bool,
     m_pflichtbeitrag: float,
@@ -88,10 +88,10 @@ def ges_rente_vorauss_erwerbsm(
 
 
 @policy_function(start_date="2001-01-01")
-def entgeltp_west_erwerbsm_rente(
+def entgeltpunkte_west(
     entgeltp_west: float,
-    entgeltp_zurechnungszeit: float,
-    anteil_entgeltp_ost: float,
+    zurechnungszeit: float,
+    rente__altersrente__anteil_entgeltp_ost: float,
 ) -> float:
     """Entgeltpunkte accumulated in Western Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
@@ -104,10 +104,10 @@ def entgeltp_west_erwerbsm_rente(
     ----------
     entgeltp_west
         See basic input variable :ref:`entgeltp_west <entgeltp_west>
-    entgeltp_zurechnungszeit
-        See :func:`entgeltp_zurechnungszeit`.
-    anteil_entgeltp_ost
-        See :func:`anteil_entgeltp_ost`.
+    zurechnungszeit
+        See :func:`zurechnungszeit`.
+    rente__altersrente__anteil_entgeltp_ost
+        See :func:`rente__altersrente__anteil_entgeltp_ost`.
 
     Returns
     -------
@@ -115,16 +115,18 @@ def entgeltp_west_erwerbsm_rente(
 
     """
 
-    out = entgeltp_west + (entgeltp_zurechnungszeit * (1 - anteil_entgeltp_ost))
+    out = entgeltp_west + (
+        zurechnungszeit * (1 - rente__altersrente__anteil_entgeltp_ost)
+    )
 
     return out
 
 
 @policy_function(start_date="2001-01-01")
-def entgeltp_ost_erwerbsm_rente(
+def entgeltpunkte_ost(
     entgeltp_ost: float,
-    entgeltp_zurechnungszeit: float,
-    anteil_entgeltp_ost: float,
+    zurechnungszeit: float,
+    rente__altersrente__anteil_entgeltp_ost: float,
 ) -> float:
     """Entgeltpunkte accumulated in Eastern Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
@@ -137,10 +139,10 @@ def entgeltp_ost_erwerbsm_rente(
     ----------
     entgeltp_ost
         See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
-    entgeltp_zurechnungszeit
-        See :func:`entgeltp_zurechnungszeit`.
-    anteil_entgeltp_ost
-        See :func:`anteil_entgeltp_ost`.
+    zurechnungszeit
+        See :func:`zurechnungszeit`.
+    rente__altersrente__anteil_entgeltp_ost
+        See :func:`rente__altersrente__anteil_entgeltp_ost`.
 
     Returns
     -------
@@ -148,15 +150,15 @@ def entgeltp_ost_erwerbsm_rente(
 
     """
 
-    out = entgeltp_ost + (entgeltp_zurechnungszeit * anteil_entgeltp_ost)
+    out = entgeltp_ost + (zurechnungszeit * rente__altersrente__anteil_entgeltp_ost)
 
     return out
 
 
 @policy_function(start_date="2001-01-01")
-def entgeltp_zurechnungszeit(
-    durchschn_entgeltp: float,
-    age_of_retirement: float,
+def zurechnungszeit(
+    durchschnittliche_entgeltpunkte: float,
+    rente__alter_bei_renteneintritt: float,
     erwerbsm_rente_params: dict,
 ) -> float:
     """Additional Entgeltpunkte accumulated through "Zurechnungszeit" for
@@ -168,10 +170,10 @@ def entgeltp_zurechnungszeit(
 
     Parameters
     ----------
-    durchschn_entgeltp
-        See :func:`durchschn_entgeltp`.
-    age_of_retirement
-        See :func:`age_of_retirement`.
+    durchschnittliche_entgeltpunkte
+        See :func:`durchschnittliche_entgeltpunkte`.
+    rente__alter_bei_renteneintritt
+        See :func:`rente__alter_bei_renteneintritt`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
@@ -183,7 +185,9 @@ def entgeltp_zurechnungszeit(
     """
     zurechnungszeitgrenze = erwerbsm_rente_params["zurechnungszeitgrenze"]
 
-    out = (zurechnungszeitgrenze - (age_of_retirement)) * durchschn_entgeltp
+    out = (
+        zurechnungszeitgrenze - (rente__alter_bei_renteneintritt)
+    ) * durchschnittliche_entgeltpunkte
 
     return out
 
@@ -193,10 +197,10 @@ def rentenartfaktor(
     teilw_erwerbsgemind: bool,
     erwerbsm_rente_params: dict,
 ) -> float:
-    """Rentenartfaktor for Erwerbsminderungsrente
+    """rentenartfaktor for Erwerbsminderungsrente
     (public disability insurance)
 
-    Legal reference: SGB VI § 67: Rentenartfaktor
+    Legal reference: SGB VI § 67: rentenartfaktor
 
     Parameters
     ----------
@@ -207,7 +211,7 @@ def rentenartfaktor(
 
     Returns
     -------
-    Rentenartfaktor
+    rentenartfaktor
 
     """
 
@@ -221,9 +225,9 @@ def rentenartfaktor(
 
 
 @policy_function(start_date="2001-01-01")
-def erwerbsm_rente_zugangsfaktor(
-    age_of_retirement: float,
-    _erwerbsm_rente_langj_versicherte_wartezeit: bool,
+def zugangsfaktor(
+    rente__alter_bei_renteneintritt: float,
+    wartezeit_langjährig_versichert_erfüllt: bool,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> float:
@@ -242,10 +246,10 @@ def erwerbsm_rente_zugangsfaktor(
 
     Parameters
     ----------
-    age_of_retirement
-        See :func:`age_of_retirement`.
-    _erwerbsm_rente_langj_versicherte_wartezeit
-        See :func:`_erwerbsm_rente_langj_versicherte_wartezeit`.
+    rente__alter_bei_renteneintritt
+        See :func:`rente__alter_bei_renteneintritt`.
+    wartezeit_langjährig_versichert_erfüllt
+        See :func:`wartezeit_langjährig_versichert_erfüllt`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>.
     erwerbsm_rente_params
@@ -258,7 +262,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     """
 
-    if _erwerbsm_rente_langj_versicherte_wartezeit:
+    if wartezeit_langjährig_versichert_erfüllt:
         altersgrenze_abschlagsfrei = erwerbsm_rente_params[
             "altersgrenze_langj_versicherte_abschlagsfrei"
         ]
@@ -267,7 +271,7 @@ def erwerbsm_rente_zugangsfaktor(
 
     zugangsfaktor = (
         1
-        + (age_of_retirement - altersgrenze_abschlagsfrei)
+        + (rente__alter_bei_renteneintritt - altersgrenze_abschlagsfrei)
         * (
             ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                 "vorzeitiger_renteneintritt"
@@ -280,7 +284,7 @@ def erwerbsm_rente_zugangsfaktor(
 
 
 @policy_function(start_date="2001-01-01")
-def _erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
+def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     ges_rente_anrechnungszeit_45: float,
@@ -338,10 +342,10 @@ def _erwerbsm_rente_langj_versicherte_wartezeit(  # noqa: PLR0913
     return out
 
 
-def durchschn_entgeltp(
+def durchschnittliche_entgeltpunkte(
     entgeltp_west: float,
     entgeltp_ost: float,
-    age_of_retirement: float,
+    rente__alter_bei_renteneintritt: float,
     erwerbsm_rente_params: dict,
 ) -> float:
     """Average earning points as part of the "Grundbewertung".
@@ -356,8 +360,8 @@ def durchschn_entgeltp(
         See basic input variable :ref:`entgeltp_west <entgeltp_west>
     entgeltp_ost
         See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
-    age_of_retirement
-        See :func:`age_of_retirement`.
+    rente__alter_bei_renteneintritt
+        See :func:`rente__alter_bei_renteneintritt`.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
@@ -367,9 +371,10 @@ def durchschn_entgeltp(
     """
 
     beleg_gesamtzeitr = (
-        age_of_retirement - erwerbsm_rente_params["altersgrenze_grundbewertung"]
+        rente__alter_bei_renteneintritt
+        - erwerbsm_rente_params["altersgrenze_grundbewertung"]
     )
 
-    durchschn_entgeltp = (entgeltp_west + entgeltp_ost) / beleg_gesamtzeitr
+    durchschnittliche_entgeltpunkte = (entgeltp_west + entgeltp_ost) / beleg_gesamtzeitr
 
-    return durchschn_entgeltp
+    return durchschnittliche_entgeltpunkte

@@ -168,7 +168,7 @@ general naming considerations here.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_anspruchshöhe_m_wthh` for a column derived from it).
+  and `wohngeld__anspruchshöhe_m_wthh` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 

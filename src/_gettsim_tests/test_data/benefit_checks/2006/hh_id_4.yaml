@@ -70,13 +70,13 @@ inputs:
       - 280.0
       - 280.0
       - 280.0
-    wohngeld_anspruchshöhe_m_wthh:
+    wohngeld__anspruchshöhe_m_wthh:
       - 650.0
       - 650.0
       - 650.0
       - 650.0
       - 650.0
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld__anspruchshöhe_m_bg:
       - 650.0
       - 650.0
       - 650.0
@@ -138,7 +138,7 @@ outputs:
     - 0
     - 0
     - 0
-  wohngeld_m_wthh:
+  wohngeld__betrag_m_wthh:
     - 0
     - 0
     - 0

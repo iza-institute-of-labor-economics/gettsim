@@ -109,7 +109,7 @@ inputs:
     priv_rente_m:
       - 0.0
       - 0.0
-    ges_rente_m:
+    rente__altersrente__betrag_m:
       - 360.0
       - 120.0
     geburtstag:

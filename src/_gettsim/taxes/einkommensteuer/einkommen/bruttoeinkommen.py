@@ -179,14 +179,14 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
 
 
 def bruttoeinkommen_renteneinkommen_m(
-    sum_ges_rente_priv_rente_m: float, rente_ertragsanteil: float
+    rente__altersrente__sum_private_gesetzl_rente_m: float, rente_ertragsanteil: float
 ) -> float:
     """Calculate monthly pension payment subject to taxation.
 
     Parameters
     ----------
-    sum_ges_rente_priv_rente_m
-        See :func:`sum_ges_rente_priv_rente_m`.
+    rente__altersrente__sum_private_gesetzl_rente_m
+        See :func:`rente__altersrente__sum_private_gesetzl_rente_m`.
     rente_ertragsanteil
         See :func:`rente_ertragsanteil`.
 
@@ -194,4 +194,4 @@ def bruttoeinkommen_renteneinkommen_m(
     -------
 
     """
-    return rente_ertragsanteil * sum_ges_rente_priv_rente_m
+    return rente_ertragsanteil * rente__altersrente__sum_private_gesetzl_rente_m

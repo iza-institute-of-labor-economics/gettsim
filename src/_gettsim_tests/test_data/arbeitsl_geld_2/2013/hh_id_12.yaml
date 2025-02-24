@@ -55,7 +55,7 @@ inputs:
     bruttolohn_m:
       - 0.0
       - 0.0
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 300.0
       - 300.0
     kapitaleink_brutto_m:
@@ -97,7 +97,7 @@ inputs:
     jahr:
       - '2013'
       - '2013'
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
     vermögen_bedürft:

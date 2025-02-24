@@ -3,10 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(
-    end_date="2011-12-31", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei"
-)
-def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
+@policy_function(end_date="2011-12-31", name_in_dag="altersgrenze_abschlagsfrei")
+def altersgrenze_abschlagsfrei_ohne_besond_langj(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -58,9 +56,9 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_besond_langj(
 @policy_function(
     start_date="2012-01-01",
     end_date="2017-12-31",
-    name_in_dag="_ges_rente_altersgrenze_abschlagsfrei",
+    name_in_dag="altersgrenze_abschlagsfrei",
 )
-def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
+def altersgrenze_abschlagsfrei_mit_besond_langj(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -123,10 +121,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_mit_besond_langj(
     return out
 
 
-@policy_function(
-    start_date="2018-01-01", name_in_dag="_ges_rente_altersgrenze_abschlagsfrei"
-)
-def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
+@policy_function(start_date="2018-01-01", name_in_dag="altersgrenze_abschlagsfrei")
+def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     _ges_rente_besond_langj_altersgrenze: float,
@@ -168,8 +164,8 @@ def _ges_rente_altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     return out
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="_ges_rente_altersgrenze_vorzeitig")
-def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
+@policy_function(end_date="2017-12-31", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_arbeitsl: bool,
@@ -225,10 +221,8 @@ def _ges_rente_altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(
-    start_date="2018-01-01", name_in_dag="_ges_rente_altersgrenze_vorzeitig"
-)
-def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
+@policy_function(start_date="2018-01-01", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_vorzeitig: float,
@@ -263,8 +257,8 @@ def _ges_rente_altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="ges_rente_vorauss_vorzeitig")
-def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
+@policy_function(end_date="2017-12-31", name_in_dag="voraussetzung_vorzeitig_erfüllt")
+def voraussetzung_vorzeitig_erfüllt_mit_rente_arbeitsl_frauen(
     ges_rente_vorauss_frauen: bool,
     ges_rente_vorauss_langj: bool,
     ges_rente_vorauss_arbeitsl: bool,
@@ -301,8 +295,8 @@ def ges_rente_vorauss_vorzeitig_mit_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="ges_rente_vorauss_vorzeitig")
-def ges_rente_vorauss_vorzeitig_ohne_rente_arbeitsl_frauen(
+@policy_function(start_date="2018-01-01", name_in_dag="voraussetzung_vorzeitig_erfüllt")
+def voraussetzung_vorzeitig_erfüllt_vorzeitig_ohne_rente_arbeitsl_frauen(
     ges_rente_vorauss_langj: bool,
 ) -> bool:
     """Eligibility for early retirement.
@@ -324,7 +318,7 @@ def ges_rente_vorauss_vorzeitig_ohne_rente_arbeitsl_frauen(
 
 
 @policy_function(end_date="2017-12-31", name_in_dag="referenzalter_abschlag")
-def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
+def referenzalter_abschlag_mit_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_frauen_altersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
@@ -391,7 +385,7 @@ def _referenzalter_abschlag_mit_rente_arbeitsl_frauen(
 
 
 @policy_function(start_date="2018-01-01", name_in_dag="referenzalter_abschlag")
-def _referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
+def referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     ges_rente_regelaltersgrenze: float,
     _ges_rente_langj_altersgrenze: float,
     ges_rente_vorauss_langj: bool,

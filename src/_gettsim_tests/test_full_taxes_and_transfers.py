@@ -19,7 +19,7 @@ OUT_COLS = [
     "kindergeld__betrag_m",
     "arbeitsl_geld_2_m_bg",
     "kinderzuschl_m_bg",
-    "wohngeld_m_wthh",
+    "wohngeld__betrag_m_wthh",
     "unterhaltsvorschuss__betrag_m_hh",
 ]
 

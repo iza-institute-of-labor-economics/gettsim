@@ -96,7 +96,7 @@ inputs:
       - 900.0
       - 1050.0
       - 0.0
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
       - 0.0
@@ -188,21 +188,21 @@ inputs:
       - true
       - true
       - true
-    wohngeld_mindesteinkommen_erreicht_wthh:
+    wohngeld__mindesteinkommen_erreicht_wthh:
       - true
       - true
       - true
-    wohngeld_mindesteinkommen_erreicht_bg:
+    wohngeld__mindesteinkommen_erreicht_bg:
       - true
       - true
       - true
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld__anspruchshöhe_m_bg:
     - 469.0
     - 469.0
     - 469.0
-  wohngeld_anspruchshöhe_m_wthh:
+  wohngeld__anspruchshöhe_m_wthh:
     - 469.0
     - 469.0
     - 469.0

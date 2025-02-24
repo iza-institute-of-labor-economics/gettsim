@@ -328,7 +328,7 @@ The following goes through the details using an example from the basic pension a
 (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
-Grundrentenzuschlag `grundr_zuschlag_höchstwert_m` be rounded to the nearest fourth
+Grundrentenzuschlag `rente__grundrente__höchstbetrag_m` be rounded to the nearest fourth
 decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für langjährige Versicherung).
 The example below contains GETTSIM's encoding of this fact.
 
@@ -336,7 +336,7 @@ The snippet is taken from `ges_rente.yaml`, which contains the following code:
 
 ```yaml
 rounding:
-  grundr_zuschlag_höchstwert_m:
+  rente__grundrente__höchstbetrag_m:
     2020-01-01:
       base: 0.0001
       direction: nearest

@@ -70,7 +70,7 @@ inputs:
     bruttolohn_m:
       - 1300.0
       - 0.0
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
     einkommensteuer__einkommen__rente_ertragsanteil:
@@ -138,9 +138,9 @@ inputs:
       - true
   assumed: {}
 outputs:
-  wohngeld_anspruchshöhe_m_wthh:
+  wohngeld__anspruchshöhe_m_wthh:
     - 73.0
     - 73.0
-  wohngeld_anspruchshöhe_m_bg:
+  wohngeld__anspruchshöhe_m_bg:
     - 73.0
     - 73.0

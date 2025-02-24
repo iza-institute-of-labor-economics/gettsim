@@ -39,7 +39,7 @@ inputs:
       - false
     bruttolohn_m:
       - 1200.0
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
     kapitaleink_brutto_m:
       - 0.0
@@ -67,7 +67,7 @@ inputs:
       - 0.0
     jahr:
       - 2023-07
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld__anspruchshöhe_m_bg:
       - 0.0
     vermögen_bedürft:
       - 40000.0

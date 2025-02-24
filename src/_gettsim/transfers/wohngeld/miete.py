@@ -4,8 +4,8 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 
 
-def wohngeld_miete_m_wthh(
-    wohngeld_miete_m_hh: float,
+def miete_m_wthh(
+    miete_m_hh: float,
     anz_personen_wthh: int,
     anz_personen_hh: int,
 ) -> float:
@@ -17,8 +17,8 @@ def wohngeld_miete_m_wthh(
 
     Parameters
     ----------
-    wohngeld_miete_m_hh
-        See :func:`wohngeld_miete_m_hh`.
+    miete_m_hh
+        See :func:`miete_m_hh`.
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
     anz_personen_hh
@@ -28,11 +28,11 @@ def wohngeld_miete_m_wthh(
     -------
 
     """
-    return wohngeld_miete_m_hh * (anz_personen_wthh / anz_personen_hh)
+    return miete_m_hh * (anz_personen_wthh / anz_personen_hh)
 
 
-def wohngeld_miete_m_bg(
-    wohngeld_miete_m_hh: float,
+def miete_m_bg(
+    miete_m_hh: float,
     anz_personen_bg: int,
     anz_personen_hh: int,
 ) -> float:
@@ -43,8 +43,8 @@ def wohngeld_miete_m_bg(
 
     Parameters
     ----------
-    wohngeld_miete_m_hh
-        See :func:`wohngeld_miete_m_hh`.
+    miete_m_hh
+        See :func:`miete_m_hh`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
     anz_personen_hh
@@ -54,10 +54,10 @@ def wohngeld_miete_m_bg(
     -------
 
     """
-    return wohngeld_miete_m_hh * (anz_personen_bg / anz_personen_hh)
+    return miete_m_hh * (anz_personen_bg / anz_personen_hh)
 
 
-def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
+def min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
     """Minimum rent considered in Wohngeld calculation.
 
     Parameters
@@ -76,13 +76,13 @@ def wohngeld_min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> floa
     return float(out)
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="wohngeld_miete_m_hh")
-def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
+@policy_function(end_date="2008-12-31", name_in_dag="miete_m_hh")
+def miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     anz_personen_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Rent considered in housing benefit calculation on household level until 2008.
@@ -97,8 +97,8 @@ def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
         See :func:`anz_personen_hh`.
     bruttokaltmiete_m_hh
         See :func:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    min_miete_m_hh
+        See :func:`min_miete_m_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -133,17 +133,17 @@ def wohngeld_miete_bis_2008_m_hh(  # noqa: PLR0913
         )
 
     out = min(bruttokaltmiete_m_hh, max_miete_m)
-    out = max(out, wohngeld_min_miete_m_hh)
+    out = max(out, min_miete_m_hh)
 
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="wohngeld_miete_m_hh")
-def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
+@policy_function(start_date="2009-01-01", name_in_dag="miete_m_hh")
+def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen_hh: int,
     bruttokaltmiete_m_hh: float,
-    wohngeld_min_miete_m_hh: float,
+    min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
     """Rent considered in housing benefit since 2009.
@@ -156,8 +156,8 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
         See :func:`anz_personen_hh`.
     bruttokaltmiete_m_hh
         See :func:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    wohngeld_min_miete_m_hh
-        See :func:`wohngeld_min_miete_m_hh`.
+    min_miete_m_hh
+        See :func:`min_miete_m_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -255,6 +255,6 @@ def wohngeld_miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
         climate_component_m = 0
 
     out = min(bruttokaltmiete_m_hh, max_miete_m + climate_component_m)
-    out = max(out, wohngeld_min_miete_m_hh) + heating_allowance_m + heating_component_m
+    out = max(out, min_miete_m_hh) + heating_allowance_m + heating_component_m
 
     return out

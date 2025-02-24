@@ -1,9 +1,9 @@
 """Eligibility checks for housing benefits (Wohngeld)."""
 
 
-def wohngeld_anspruchsbedingungen_erfüllt_wthh(
-    wohngeld_mindesteinkommen_erreicht_wthh: bool,
-    wohngeld_vermögensgrenze_unterschritten_wthh: bool,
+def anspruchsbedingungen_erfüllt_wthh(
+    mindesteinkommen_erreicht_wthh: bool,
+    vermögensgrenze_unterschritten_wthh: bool,
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
@@ -12,24 +12,21 @@ def wohngeld_anspruchsbedingungen_erfüllt_wthh(
 
     Parameters
     ----------
-    wohngeld_mindesteinkommen_erreicht_wthh
-        See :func:`wohngeld_mindesteinkommen_erreicht_wthh`.
-    wohngeld_vermögensgrenze_unterschritten_wthh
-        See :func:`wohngeld_vermögensgrenze_unterschritten_wthh`.
+    mindesteinkommen_erreicht_wthh
+        See :func:`mindesteinkommen_erreicht_wthh`.
+    vermögensgrenze_unterschritten_wthh
+        See :func:`vermögensgrenze_unterschritten_wthh`.
 
     Returns
     -------
 
     """
-    return (
-        wohngeld_vermögensgrenze_unterschritten_wthh
-        and wohngeld_mindesteinkommen_erreicht_wthh
-    )
+    return vermögensgrenze_unterschritten_wthh and mindesteinkommen_erreicht_wthh
 
 
-def wohngeld_anspruchsbedingungen_erfüllt_bg(
-    wohngeld_mindesteinkommen_erreicht_bg: bool,
-    wohngeld_vermögensgrenze_unterschritten_bg: bool,
+def anspruchsbedingungen_erfüllt_bg(
+    mindesteinkommen_erreicht_bg: bool,
+    vermögensgrenze_unterschritten_bg: bool,
 ) -> bool:
     """Check whether the household meets the conditions for Wohngeld.
 
@@ -38,22 +35,19 @@ def wohngeld_anspruchsbedingungen_erfüllt_bg(
 
     Parameters
     ----------
-    wohngeld_mindesteinkommen_erreicht_bg
-        See :func:`wohngeld_mindesteinkommen_erreicht_bg`.
-    wohngeld_vermögensgrenze_unterschritten_bg
-        See :func:`wohngeld_vermögensgrenze_unterschritten_bg`.
+    mindesteinkommen_erreicht_bg
+        See :func:`mindesteinkommen_erreicht_bg`.
+    vermögensgrenze_unterschritten_bg
+        See :func:`vermögensgrenze_unterschritten_bg`.
 
     Returns
     -------
 
     """
-    return (
-        wohngeld_mindesteinkommen_erreicht_bg
-        and wohngeld_vermögensgrenze_unterschritten_bg
-    )
+    return mindesteinkommen_erreicht_bg and vermögensgrenze_unterschritten_bg
 
 
-def wohngeld_vermögensgrenze_unterschritten_wthh(
+def vermögensgrenze_unterschritten_wthh(
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
     wohngeld_params: dict,
@@ -74,14 +68,14 @@ def wohngeld_vermögensgrenze_unterschritten_wthh(
 
     """
 
-    return _wohngeld_vermögensprüfung_formel(
+    return vermögensprüfung_formel(
         vermögen=vermögen_bedürft_wthh,
         anz_personen=anz_personen_wthh,
         params=wohngeld_params,
     )
 
 
-def wohngeld_vermögensgrenze_unterschritten_bg(
+def vermögensgrenze_unterschritten_bg(
     vermögen_bedürft_bg: float,
     anz_personen_bg: int,
     wohngeld_params: dict,
@@ -102,16 +96,16 @@ def wohngeld_vermögensgrenze_unterschritten_bg(
 
     """
 
-    return _wohngeld_vermögensprüfung_formel(
+    return vermögensprüfung_formel(
         vermögen=vermögen_bedürft_bg,
         anz_personen=anz_personen_bg,
         params=wohngeld_params,
     )
 
 
-def wohngeld_mindesteinkommen_erreicht_wthh(
+def mindesteinkommen_erreicht_wthh(
     arbeitsl_geld_2_regelbedarf_m_wthh: float,
-    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh: float,
+    einkommen_für_mindesteinkommen_check_m_wthh: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
 
@@ -128,22 +122,22 @@ def wohngeld_mindesteinkommen_erreicht_wthh(
     ----------
     arbeitsl_geld_2_regelbedarf_m_wthh
         See :func:`arbeitsl_geld_2_regelbedarf_m_wthh`.
-    wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
-        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_wthh`.
+    einkommen_für_mindesteinkommen_check_m_wthh
+        See :func:`einkommen_für_mindesteinkommen_check_m_wthh`.
 
     Returns
     -------
 
     """
     return (
-        wohngeld_einkommen_für_mindesteinkommen_check_m_wthh
+        einkommen_für_mindesteinkommen_check_m_wthh
         >= arbeitsl_geld_2_regelbedarf_m_wthh
     )
 
 
-def wohngeld_mindesteinkommen_erreicht_bg(
+def mindesteinkommen_erreicht_bg(
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    wohngeld_einkommen_für_mindesteinkommen_check_m_bg: float,
+    einkommen_für_mindesteinkommen_check_m_bg: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
 
@@ -160,20 +154,17 @@ def wohngeld_mindesteinkommen_erreicht_bg(
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    wohngeld_einkommen_für_mindesteinkommen_check_m_bg
-        See :func:`wohngeld_einkommen_für_mindesteinkommen_check_m_bg`.
+    einkommen_für_mindesteinkommen_check_m_bg
+        See :func:`einkommen_für_mindesteinkommen_check_m_bg`.
 
     Returns
     -------
 
     """
-    return (
-        wohngeld_einkommen_für_mindesteinkommen_check_m_bg
-        >= arbeitsl_geld_2_regelbedarf_m_bg
-    )
+    return einkommen_für_mindesteinkommen_check_m_bg >= arbeitsl_geld_2_regelbedarf_m_bg
 
 
-def wohngeld_einkommen_für_mindesteinkommen_check_m(
+def einkommen_für_mindesteinkommen_check_m(
     arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
@@ -214,7 +205,7 @@ def wohngeld_einkommen_für_mindesteinkommen_check_m(
     )
 
 
-def _wohngeld_vermögensprüfung_formel(
+def vermögensprüfung_formel(
     vermögen: float,
     anz_personen: int,
     params: dict,

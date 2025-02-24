@@ -7,7 +7,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 def grunds_im_alter_eink_m(  # noqa: PLR0913
     grunds_im_alter_erwerbseink_m: float,
     grunds_im_alter_priv_rente_m: float,
-    grunds_im_alter_ges_rente_m: float,
+    grunds_im_alter_rente__altersrente__betrag_m: float,
     sonstig_eink_m: float,
     eink_vermietung_m: float,
     _grunds_im_alter_kapitaleink_brutto_m: float,
@@ -26,8 +26,8 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
         See :func:`grunds_im_alter_erwerbseink_m`.
     grunds_im_alter_priv_rente_m
         See :func:`grunds_im_alter_priv_rente_m`.
-    grunds_im_alter_ges_rente_m
-        See :func:`grunds_im_alter_ges_rente_m`.
+    grunds_im_alter_rente__altersrente__betrag_m
+        See :func:`grunds_im_alter_rente__altersrente__betrag_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     eink_vermietung_m
@@ -53,7 +53,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     # Income
     total_income = (
         grunds_im_alter_erwerbseink_m
-        + grunds_im_alter_ges_rente_m
+        + grunds_im_alter_rente__altersrente__betrag_m
         + grunds_im_alter_priv_rente_m
         + sonstig_eink_m
         + eink_vermietung_m
@@ -184,9 +184,11 @@ def grunds_im_alter_priv_rente_m(
     return out
 
 
-@policy_function(end_date="2020-12-31", name_in_dag="grunds_im_alter_ges_rente_m")
-def grunds_im_alter_ges_rente_m_bis_2020(
-    ges_rente_m: float,
+@policy_function(
+    end_date="2020-12-31", name_in_dag="grunds_im_alter_rente__altersrente__betrag_m"
+)
+def grunds_im_alter_rente__altersrente__betrag_m_bis_2020(
+    rente__altersrente__betrag_m: float,
 ) -> float:
     """Calculate individual public pension benefits which are considered in the
     calculation of Grundsicherung im Alter until 2020.
@@ -195,20 +197,22 @@ def grunds_im_alter_ges_rente_m_bis_2020(
 
     Parameters
     ----------
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
+    rente__altersrente__betrag_m
+        See basic input variable :ref:`rente__altersrente__betrag_m <rente__altersrente__betrag_m>`.
 
     Returns
     -------
 
     """
-    return ges_rente_m
+    return rente__altersrente__betrag_m
 
 
-@policy_function(start_date="2021-01-01", leaf_name="grunds_im_alter_ges_rente_m")
-def grunds_im_alter_ges_rente_m_ab_2021(
-    ges_rente_m: float,
-    grundr_berechtigt: bool,
+@policy_function(
+    start_date="2021-01-01", leaf_name="grunds_im_alter_rente__altersrente__betrag_m"
+)
+def grunds_im_alter_rente__altersrente__betrag_m_ab_2021(
+    rente__altersrente__betrag_m: float,
+    rente__grundrente__anspruchsbedingungen_erfüllt: bool,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -220,10 +224,10 @@ def grunds_im_alter_ges_rente_m_ab_2021(
 
     Parameters
     ----------
-    ges_rente_m
-        See basic input variable :ref:`ges_rente_m <ges_rente_m>`.
-    grundr_berechtigt
-        See :func:`grundr_berechtigt`.
+    rente__altersrente__betrag_m
+        See basic input variable :ref:`rente__altersrente__betrag_m <rente__altersrente__betrag_m>`.
+    rente__grundrente__anspruchsbedingungen_erfüllt
+        See :func:`rente__grundrente__anspruchsbedingungen_erfüllt`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
@@ -236,7 +240,7 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     """
 
     angerechnete_rente = piecewise_polynomial(
-        x=ges_rente_m,
+        x=rente__altersrente__betrag_m,
         thresholds=grunds_im_alter_params["ges_rente_anr_frei"]["thresholds"],
         rates=grunds_im_alter_params["ges_rente_anr_frei"]["rates"],
         intercepts_at_lower_thresholds=grunds_im_alter_params["ges_rente_anr_frei"][
@@ -245,9 +249,9 @@ def grunds_im_alter_ges_rente_m_ab_2021(
     )
 
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
-    if grundr_berechtigt:
+    if rente__grundrente__anspruchsbedingungen_erfüllt:
         angerechnete_rente = min(angerechnete_rente, upper)
     else:
         angerechnete_rente = 0.0
 
-    return ges_rente_m - angerechnete_rente
+    return rente__altersrente__betrag_m - angerechnete_rente

@@ -64,11 +64,11 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  entgeltp_west_updated:
+  rente__altersrente__entgeltp_west_updated:
     - 21.71637627
-  entgeltp_ost_updated:
+  rente__altersrente__entgeltp_ost_updated:
     - 0.0
-  entgeltp_update_lohn:
+  rente__altersrente__entgeltp_update:
     - 0.346776265
-  _ges_rente_altersgrenze_abschlagsfrei:
+  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
     - 67.0

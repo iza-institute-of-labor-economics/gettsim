@@ -17,7 +17,9 @@ from _gettsim.transfers.elterngeld import (
     elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
 )
 from _gettsim.transfers.elterngeld.geschwisterbonus import elterngeld_geschwisterbonus_m
-from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
+from _gettsim.transfers.grundrente import (
+    rente__grundrente__durchschnittliche_entgeltpunkte,
+)
 from _gettsim.vectorization import (
     TranslateToVectorizableError,
     make_vectorizable,
@@ -437,7 +439,9 @@ def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
 
 
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
+def test_transfers__grundrente__rente__grundrente__durchschnittliche_entgeltpunkte(
+    backend,
+):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
@@ -445,7 +449,9 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
     grundr_entgeltp = 1.0
     grundr_bew_zeiten = 2
 
-    exp = grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
+    exp = rente__grundrente__durchschnittliche_entgeltpunkte(
+        grundr_entgeltp, grundr_bew_zeiten
+    )
     assert exp == 0.5
 
     # Create array inputs and assert that gettsim functions raises error
@@ -455,11 +461,15 @@ def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
     grundr_bew_zeiten = full(shape, grundr_bew_zeiten)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
-        grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
+        rente__grundrente__durchschnittliche_entgeltpunkte(
+            grundr_entgeltp, grundr_bew_zeiten
+        )
 
     # Call converted function on array input and test result
     # ==================================================================================
-    converted = make_vectorizable(grundr_bew_zeiten_avg_entgeltp, backend=backend)
+    converted = make_vectorizable(
+        rente__grundrente__durchschnittliche_entgeltpunkte, backend=backend
+    )
     got = converted(grundr_entgeltp, grundr_bew_zeiten)
     assert_array_equal(got, full(shape, exp))
 

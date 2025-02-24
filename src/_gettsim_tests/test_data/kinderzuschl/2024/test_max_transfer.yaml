@@ -70,7 +70,7 @@ inputs:
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
       - 1000.0
       - 0.0
-    ges_rente_m:
+    rente__altersrente__betrag_m:
       - 0.0
       - 0.0
     arbeitsl_geld_2_vor_vorrang_m_bg:

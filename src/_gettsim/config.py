@@ -140,11 +140,11 @@ DEFAULT_TARGETS = {
         "kindergeld": {"kindergeld__betrag_m": None},
         "arbeitsl_geld_2": {"arbeitsl_geld_2_m_bg": None},
         "kinderzuschl": {"kinderzuschl_m_bg": None},
-        "wohngeld": {"wohngeld_m_wthh": None},
+        "wohngeld": {"wohngeld__betrag_m_wthh": None},
         "unterhaltsvors": {"unterhaltsvorschuss__betrag_m": None},
         "grunds_im_alter": {"grunds_im_alter_m_eg": None},
-        "rente": {"ges_rente_m": None},
-        "erwerbsm_rente": {"erwerbsm_rente_m": None},
+        "rente": {"rente__altersrente__betrag_m": None},
+        "erwerbsm_rente": {"rente__erwerbsminderung__betrag_m": None},
     },
     "social_insurance_contributions": {
         "arbeitsl_v": {

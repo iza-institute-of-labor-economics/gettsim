@@ -167,7 +167,7 @@ inputs:
       - 750.0
       - 600.0
       - 600.0
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
       - 0.0
@@ -323,14 +323,14 @@ outputs:
     - 1452.0
     - 1452.0
     - 1452.0
-  wohngeld_einkommen_für_mindesteinkommen_check_m_wthh:
+  wohngeld__einkommen_für_mindesteinkommen_check_m_wthh:
     - 1983.33
     - 1983.33
     - 1295.83
     - 1295.83
     - 1200.0
     - 1200.0
-  wohngeld_mindesteinkommen_erreicht_wthh:
+  wohngeld__mindesteinkommen_erreicht_wthh:
     - true
     - true
     - false

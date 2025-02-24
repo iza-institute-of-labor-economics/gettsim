@@ -231,13 +231,13 @@ min_zugangsfaktor:
     "http://www.portal-sozialpolitik.de/index.php?page=rentenversicherung"
   2000-01-01:
     scalar: 0.892
-rentenartfaktor:
+rente__erwerbsminderung__rentenartfaktor:
   name:
-    de: Rentenartfaktor für teilweise Erwerbsminderungsrente
+    de: rente__erwerbsminderung__rentenartfaktor für teilweise Erwerbsminderungsrente
     en: Pension type factor for partial reduction in public disability insurance
   description:
     de: >-
-      Der Rentenartfaktor ist ein festgelegter Faktor für die
+      Der rente__erwerbsminderung__rentenartfaktor ist ein festgelegter Faktor für die
       Rentenberechnung und  bestimmt
       das Sicherungsziel der Rentenart im Verhältnis zu einer Altersrente.
     en: >-
@@ -246,10 +246,10 @@ rentenartfaktor:
       the security target of the pension type in relation to an old-age pension.
   unit: Factor
   reference: >-
-    § 67 SGB VI Rentenartfaktor:
+    § 67 SGB VI rente__erwerbsminderung__rentenartfaktor:
   note: >-
     "https://sozialversicherung-kompetent.de/rentenversicherung/
-    leistungsrecht/1051-rentenartfaktor.html"
+    leistungsrecht/1051-rente__erwerbsminderung__rentenartfaktor.html"
   2001-01-01:
     teilw: 0.5
     voll: 1.0

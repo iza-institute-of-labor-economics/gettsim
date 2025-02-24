@@ -72,5 +72,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  rente_vorj_vor_grundr_proxy_m:
+  rente__grundrente__proxy_rente_vorjahr_m:
     - 1010.31

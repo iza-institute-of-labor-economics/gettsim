@@ -4,20 +4,20 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    entgeltp_ost_erwerbsm_rente:
+    rente__erwerbsminderung__entgeltpunkte_ost:
       - 61.23076923
-    entgeltp_west_erwerbsm_rente:
+    rente__erwerbsminderung__entgeltpunkte_west:
       - 0.0
-    erwerbsm_rente_zugangsfaktor:
+    rente__erwerbsminderung__zugangsfaktor:
       - 0.892
-    ges_rente_vorauss_erwerbsm:
+    rente__erwerbsminderung__anspruchsbedingungen_erfüllt:
       - false
-    rentenartfaktor:
+    rente__erwerbsminderung__rentenartfaktor:
       - 0.5
     p_id:
       - 31
     wohnort_ost:
       - true
 outputs:
-  erwerbsm_rente_m:
+  rente__erwerbsminderung__betrag_m:
     - 0.0

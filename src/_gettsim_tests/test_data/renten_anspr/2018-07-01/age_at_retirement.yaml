@@ -42,7 +42,7 @@ inputs:
       - 1
       - 1
 outputs:
-  age_of_retirement:
+  rente__alter_bei_renteneintritt:
     - 65.916667
     - 65.833333
     - 64.916667

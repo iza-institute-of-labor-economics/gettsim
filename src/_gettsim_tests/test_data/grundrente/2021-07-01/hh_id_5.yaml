@@ -1,7 +1,8 @@
 ---
 info:
   note: >-
-    Adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
+    Adjusted rente__grundrente__entgeltpunkte_zuschlag since test case uses 0.8 as maximum
+    instead
     of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
@@ -19,7 +20,7 @@ inputs:
       - 408
     wohnort_ost:
       - true
-    rente_vorj_vor_grundr_proxy_m:
+    rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
     bruttolohn_vorj_m:
       - 0.0
@@ -43,7 +44,7 @@ inputs:
       - 0.0
     entgeltp_ost:
       - 18.7
-    ges_rente_zugangsfaktor:
+    rente__altersrente__zugangsfaktor:
       - 1.0
     rentner:
       - true
@@ -53,11 +54,11 @@ inputs:
       - false
   assumed: {}
 outputs:
-  grundr_zuschlag_bonus_entgeltp:
+  rente__grundrente__entgeltpunkte_zuschlag:
     - 0.003698333
-  grundr_zuschlag_vor_eink_anr_m:
+  rente__grundrente__basisbetrag_m:
     - 50.98
-  grundr_zuschlag_m:
+  rente__grundrente__betrag_m:
     - 50.98
-  ges_rente_m:
+  rente__altersrente__betrag_m:
     - 677.0

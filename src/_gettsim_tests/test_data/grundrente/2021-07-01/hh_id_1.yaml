@@ -19,7 +19,7 @@ inputs:
       - 420
     wohnort_ost:
       - false
-    rente_vorj_vor_grundr_proxy_m:
+    rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
     bruttolohn_vorj_m:
       - 0.0
@@ -43,7 +43,7 @@ inputs:
       - 14.014
     entgeltp_ost:
       - 0.0
-    ges_rente_zugangsfaktor:
+    rente__altersrente__zugangsfaktor:
       - 1.0
     rentner:
       - true
@@ -53,11 +53,11 @@ inputs:
       - false
   assumed: {}
 outputs:
-  grundr_zuschlag_bonus_entgeltp:
+  rente__grundrente__entgeltpunkte_zuschlag:
     - 0.029166667
-  grundr_zuschlag_vor_eink_anr_m:
+  rente__grundrente__basisbetrag_m:
     - 418.83
-  grundr_zuschlag_m:
+  rente__grundrente__betrag_m:
     - 418.83
-  ges_rente_m:
+  rente__altersrente__betrag_m:
     - 897.97

@@ -1,7 +1,7 @@
 """Public pension benefits."""
 
 
-def age_of_retirement(
+def alter_bei_renteneintritt(
     jahr_renteneintr: int,
     monat_renteneintr: int,
     geburtsjahr: int,

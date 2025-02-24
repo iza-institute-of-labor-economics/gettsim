@@ -90,14 +90,14 @@ outputs:
     - 65.166667
     - 65.166667
     - 65.166667
-  _ges_rente_altersgrenze_abschlagsfrei:
+  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
     - 65.0
     - 65.0
     - 65.166667
     - 65.0
     - 65.0
     - 65.0
-  _ges_rente_altersgrenze_vorzeitig:
+  rente__altersrente__rentenarten__altersgrenze_vorzeitig:
     - 63.0
     - 63.0
     - 65.166667
@@ -139,7 +139,7 @@ outputs:
     - 65.0
     - 65.0
     - 65.0
-  referenzalter_abschlag:
+  rente__altersrente__rentenarten__referenzalter_abschlag:
     - 65.0
     - 65.0
     - 65.166667

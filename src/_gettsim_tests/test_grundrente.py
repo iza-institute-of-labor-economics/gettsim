@@ -10,10 +10,10 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 YEARS = [2021]
 
 OUT_COLS_TOL = {
-    "grundr_zuschlag_bonus_entgeltp": 0.0001,
-    "grundr_zuschlag_vor_eink_anr_m": 1,
-    "grundr_zuschlag_m": 1,
-    "ges_rente_m": 1,
+    "rente__grundrente__entgeltpunkte_zuschlag": 0.0001,
+    "rente__grundrente__basisbetrag_m": 1,
+    "rente__grundrente__betrag_m": 1,
+    "rente__altersrente__betrag_m": 1,
 }
 data = load_policy_test_data("grundrente")
 
@@ -120,7 +120,7 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     calc_result = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets="rente_vorj_vor_grundr_proxy_m",
+        targets="rente__grundrente__proxy_rente_vorjahr_m",
     )
 
     # Calculate pension of last year
@@ -129,11 +129,11 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets=["bruttorente_m"],
+        targets=["rente__altersrente__bruttorente_m"],
     )
     assert_series_equal(
-        calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["bruttorente_m"] + df["priv_rente_m"],
+        calc_result["rente__grundrente__proxy_rente_vorjahr_m"],
+        calc_result_last_year["rente__altersrente__bruttorente_m"] + df["priv_rente_m"],
         check_names=False,
         rtol=0,
     )

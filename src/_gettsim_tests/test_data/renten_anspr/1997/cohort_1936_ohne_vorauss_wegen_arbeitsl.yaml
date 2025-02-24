@@ -46,9 +46,9 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _ges_rente_altersgrenze_abschlagsfrei:
+  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
     - 65.0
-  _ges_rente_altersgrenze_vorzeitig:
+  rente__altersrente__rentenarten__altersgrenze_vorzeitig:
     - 65.0
   _ges_rente_arbeitsl_vorzeitig:
     - 60.0
@@ -56,7 +56,7 @@ outputs:
     - 60.0
   _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung:
     - 60.0
-  ges_rente_vorauss_vorzeitig:
+  rente__altersrente__rentenarten__voraussetzung_vorzeitig_erfüllt:
     - false
   ges_rente_vorauss_arbeitsl:
     - false

@@ -119,7 +119,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     eink_selbst_m: float,
     eink_vermietung_m: float,
     kapitaleink_brutto_m: float,
-    sum_ges_rente_priv_rente_m: float,
+    rente__altersrente__sum_private_gesetzl_rente_m: float,
     arbeitslosengeld__betrag_m: float,
     elterngeld_m: float,
 ) -> float:
@@ -139,9 +139,9 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
         See basic input variable :ref:`eink_vermietung_m <eink_vermietung_m>`.
     kapitaleink_brutto_m
         See basic input variable :ref:`kapitaleink_brutto_m <kapitaleink_brutto_m>`.
-    sum_ges_rente_priv_rente_m
-        See basic input variable :ref:`sum_ges_rente_priv_rente_m
-        <sum_ges_rente_priv_rente_m>`.
+    rente__altersrente__sum_private_gesetzl_rente_m
+        See basic input variable :ref:`rente__altersrente__sum_private_gesetzl_rente_m
+        <rente__altersrente__sum_private_gesetzl_rente_m>`.
     arbeitslosengeld__betrag_m
         See :func:`arbeitslosengeld__betrag_m`.
     elterngeld_m
@@ -158,7 +158,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
         + eink_selbst_m
         + eink_vermietung_m
         + kapitaleink_brutto_m
-        + sum_ges_rente_priv_rente_m
+        + rente__altersrente__sum_private_gesetzl_rente_m
         + arbeitslosengeld__betrag_m
         + elterngeld_m
     )

@@ -158,15 +158,15 @@ def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) 
 
 
 def bemessungsgrundlage_rente_m(
-    sum_ges_rente_priv_rente_m: float,
+    rente__altersrente__sum_private_gesetzl_rente_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Pension income which is subject to health insurance contribution.
 
     Parameters
     ----------
-    sum_ges_rente_priv_rente_m
-        See :func:`sum_ges_rente_priv_rente_m`.
+    rente__altersrente__sum_private_gesetzl_rente_m
+        See :func:`rente__altersrente__sum_private_gesetzl_rente_m`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -174,4 +174,6 @@ def bemessungsgrundlage_rente_m(
     -------
 
     """
-    return min(sum_ges_rente_priv_rente_m, beitragsbemessungsgrenze_m)
+    return min(
+        rente__altersrente__sum_private_gesetzl_rente_m, beitragsbemessungsgrenze_m
+    )

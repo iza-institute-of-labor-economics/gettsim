@@ -5,7 +5,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 aggregate_by_p_id_wohngeld = {
-    "_wohngeld_eink_freib_alleinerz_bonus": {
+    "freibetrag_alleinerziehend_bonus": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
         "source_col": "kindergeld__kind_bis_10_mit_kindergeld",
         "aggr": "sum",
@@ -13,10 +13,10 @@ aggregate_by_p_id_wohngeld = {
 }
 
 
-def wohngeld_eink_m_wthh(
+def einkommen_m_wthh(
     anz_personen_wthh: int,
-    wohngeld_eink_freib_m_wthh: float,
-    wohngeld_eink_vor_freib_m_wthh: float,
+    freibetrag_m_wthh: float,
+    einkommen_vor_freibetrag_m_wthh: float,
     wohngeld_params: dict,
 ) -> float:
     """Income relevant for Wohngeld calculation.
@@ -30,10 +30,10 @@ def wohngeld_eink_m_wthh(
     ----------
     anz_personen_wthh
         See :func:`anz_personen_wthh`.
-    wohngeld_eink_freib_m_wthh
-        See :func:`wohngeld_eink_freib_m_wthh`.
-    wohngeld_eink_vor_freib_m_wthh
-        See :func:`wohngeld_eink_vor_freib_m_wthh`.
+    freibetrag_m_wthh
+        See :func:`freibetrag_m_wthh`.
+    einkommen_vor_freibetrag_m_wthh
+        See :func:`einkommen_vor_freibetrag_m_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -43,16 +43,16 @@ def wohngeld_eink_m_wthh(
     """
     return _wohngeld_einkommen_formel(
         anz_personen=anz_personen_wthh,
-        einkommen_freibetrag=wohngeld_eink_freib_m_wthh,
-        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_wthh,
+        einkommen_freibetrag=freibetrag_m_wthh,
+        einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_wthh,
         params=wohngeld_params,
     )
 
 
-def wohngeld_eink_m_bg(
+def einkommen_m_bg(
     anz_personen_bg: int,
-    wohngeld_eink_freib_m_bg: float,
-    wohngeld_eink_vor_freib_m_bg: float,
+    freibetrag_m_bg: float,
+    einkommen_vor_freibetrag_m_bg: float,
     wohngeld_params: dict,
 ) -> float:
     """Income relevant for Wohngeld calculation.
@@ -66,10 +66,10 @@ def wohngeld_eink_m_bg(
     ----------
     anz_personen_bg
         See :func:`anz_personen_bg`.
-    wohngeld_eink_freib_m_bg
-        See :func:`wohngeld_eink_freib_m_bg`.
-    wohngeld_eink_vor_freib_m_bg
-        See :func:`wohngeld_eink_vor_freib_m_bg`.
+    freibetrag_m_bg
+        See :func:`freibetrag_m_bg`.
+    einkommen_vor_freibetrag_m_bg
+        See :func:`einkommen_vor_freibetrag_m_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -79,13 +79,13 @@ def wohngeld_eink_m_bg(
     """
     return _wohngeld_einkommen_formel(
         anz_personen=anz_personen_bg,
-        einkommen_freibetrag=wohngeld_eink_freib_m_bg,
-        einkommen_vor_freibetrag=wohngeld_eink_vor_freib_m_bg,
+        einkommen_freibetrag=freibetrag_m_bg,
+        einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_bg,
         params=wohngeld_params,
     )
 
 
-def wohngeld_abzüge_st_sozialv_m(
+def abzüge_steuern_sozialversicherung_m(
     taxes__einkommensteuer__betrag_y_sn: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
@@ -129,8 +129,8 @@ def wohngeld_abzüge_st_sozialv_m(
     return out
 
 
-@policy_function(end_date="2006-12-31", name_in_dag="wohngeld_eink_vor_freib_m")
-def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
+@policy_function(end_date="2006-12-31", name_in_dag="einkommen_vor_freibetrag_m")
+def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     eink_selbst_m: float,
     eink_abhängig_beschäftigt_m: float,
     kapitaleink_brutto_m: float,
@@ -140,7 +140,7 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
-    wohngeld_abzüge_st_sozialv_m: float,
+    abzüge_steuern_sozialversicherung_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -166,8 +166,8 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
-    wohngeld_abzüge_st_sozialv_m
-        See :func:`wohngeld_abzüge_st_sozialv_m`.
+    abzüge_steuern_sozialversicherung_m
+        See :func:`abzüge_steuern_sozialversicherung_m`.
 
     Returns
     -------
@@ -188,12 +188,12 @@ def wohngeld_eink_vor_freib_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    out = (1 - abzüge_steuern_sozialversicherung_m) * eink_ind
     return out
 
 
-@policy_function(start_date="2007-01-01", name_in_dag="wohngeld_eink_vor_freib_m")
-def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
+@policy_function(start_date="2007-01-01", name_in_dag="einkommen_vor_freibetrag_m")
+def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     eink_selbst_m: float,
     eink_abhängig_beschäftigt_m: float,
     kapitaleink_brutto_m: float,
@@ -204,7 +204,7 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
     anrechenbares_elterngeld_m: float,
-    wohngeld_abzüge_st_sozialv_m: float,
+    abzüge_steuern_sozialversicherung_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -232,8 +232,8 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`unterhaltsvorschuss__betrag_m`.
     anrechenbares_elterngeld_m
         See :func:`anrechenbares_elterngeld_m`.
-    wohngeld_abzüge_st_sozialv_m
-        See :func:`wohngeld_abzüge_st_sozialv_m`.
+    abzüge_steuern_sozialversicherung_m
+        See :func:`abzüge_steuern_sozialversicherung_m`.
 
     Returns
     -------
@@ -258,18 +258,18 @@ def wohngeld_eink_vor_freib_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m
-    out = (1 - wohngeld_abzüge_st_sozialv_m) * eink_ind
+    out = (1 - abzüge_steuern_sozialversicherung_m) * eink_ind
     return out
 
 
-@policy_function(end_date="2015-12-31", name_in_dag="wohngeld_eink_freib_m")
-def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
+@policy_function(end_date="2015-12-31", name_in_dag="freibetrag_m")
+def freibetrag_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
     alleinerz: bool,
     kind: bool,
-    _wohngeld_eink_freib_alleinerz_bonus: int,
+    freibetrag_alleinerziehend_bonus: int,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions for one individual until 2015.
@@ -286,8 +286,8 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
         See basic input variable :ref:`alleinerz <alleinerz>`.
     kind
         See basic input variable :ref:`kind <kind>`.
-    _wohngeld_eink_freib_alleinerz_bonus
-        See :func:`_wohngeld_eink_freib_alleinerz_bonus`.
+    freibetrag_alleinerziehend_bonus
+        See :func:`freibetrag_alleinerziehend_bonus`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -312,7 +312,7 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
 
     elif alleinerz and (not kind):
         freib_kinder_m = (
-            _wohngeld_eink_freib_alleinerz_bonus
+            freibetrag_alleinerziehend_bonus
             * wohngeld_params["freib_kinder_m"]["alleinerz"]
         )
     else:
@@ -320,8 +320,8 @@ def wohngeld_eink_freib_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-@policy_function(start_date="2016-01-01", name_in_dag="wohngeld_eink_freib_m")
-def wohngeld_eink_freib_m_ab_2016(
+@policy_function(start_date="2016-01-01", name_in_dag="freibetrag_m")
+def freibetrag_m_ab_2016(
     bruttolohn_m: float,
     wohngeld_arbeitendes_kind: bool,
     behinderungsgrad: int,
@@ -362,26 +362,6 @@ def wohngeld_eink_freib_m_ab_2016(
         freib_kinder_m = 0.0
 
     return freib_behinderung_m + freib_kinder_m
-
-
-def wohngeld_arbeitendes_kind(
-    bruttolohn_m: float, kindergeld__anspruchsberechtigt: bool
-) -> bool:
-    """Check if children are working.
-
-    Parameters
-    ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld__anspruchsberechtigt
-        See :func:`kindergeld__anspruchsberechtigt`.
-
-    Returns
-    -------
-
-    """
-    out = (bruttolohn_m > 0) and kindergeld__anspruchsberechtigt
-    return out
 
 
 def _wohngeld_einkommen_formel(

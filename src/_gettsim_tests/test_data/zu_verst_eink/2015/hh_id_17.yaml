@@ -46,7 +46,7 @@ inputs:
     jahr_renteneintr:
       - 2040
       - 2040
-    sum_ges_rente_priv_rente_m:
+    rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
     arbeitsstunden_w:

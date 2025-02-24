@@ -364,3 +364,23 @@ def parent_alleinerz(
     return join_numpy(
         p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
     )
+
+
+def wohngeld_arbeitendes_kind(
+    bruttolohn_m: float, kindergeld__anspruchsberechtigt: bool
+) -> bool:
+    """Check if children are working.
+
+    Parameters
+    ----------
+    bruttolohn_m
+        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    kindergeld__anspruchsberechtigt
+        See :func:`kindergeld__anspruchsberechtigt`.
+
+    Returns
+    -------
+
+    """
+    out = (bruttolohn_m > 0) and kindergeld__anspruchsberechtigt
+    return out
