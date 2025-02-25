@@ -70,17 +70,17 @@ outputs:
     - 0.0
   rente__altersrente__entgeltp_update:
     - 0.509006589
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.0
-  rente__altersrente__rentenarten__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
     - true
-  ges_rente_vorauss_arbeitsl:
+  rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
     - true
-  rente__altersrente__rentenarten__altersgrenze_vorzeitig:
+  rente__altersrente__altersgrenze_vorzeitig:
     - 60.0
-  ges_rente_vorauss_langj:
+  rente__altersrente__langjährig__anspruchsberechtigt:
     - true
-  ges_rente_vorauss_frauen:
+  rente__altersrente__für_frauen__anspruchsberechtigt:
     - true
-  rente__altersrente__rentenarten__referenzalter_abschlag:
+  rente__altersrente__referenzalter_abschlag:
     - 65.0

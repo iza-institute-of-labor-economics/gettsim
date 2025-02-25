@@ -72,5 +72,5 @@ outputs:
     - 36.99837737
   rente__altersrente__entgeltp_update:
     - 1.79167737
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.5

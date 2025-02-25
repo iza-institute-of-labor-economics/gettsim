@@ -64,7 +64,7 @@ inputs:
       - 108.0
     m_pfleg_berücks_zeit:
       - 10.0
-    ges_rente_vorauss_besond_langj:
+    rente__altersrente__besonders_langjährig__anspruchsberechtigt:
       - false
   assumed: {}
 outputs:
@@ -74,5 +74,5 @@ outputs:
     - 0.0
   rente__altersrente__entgeltp_update:
     - 0.577960442
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.0

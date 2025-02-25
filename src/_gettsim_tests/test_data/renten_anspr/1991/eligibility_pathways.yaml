@@ -124,7 +124,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    ges_rente_anrechnungszeit:
+    rente__altersrente__anrechnungszeit:
       - 0.0
       - 0.0
       - 0.0
@@ -227,7 +227,7 @@ inputs:
       - true
       - true
 outputs:
-  ges_rente_vorauss_regelrente:
+  rente__altersrente__regelaltersrente__anspruchsberechtigt:
     - false
     - true
     - true
@@ -244,7 +244,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_langj:
+  rente__altersrente__langjährig__anspruchsberechtigt:
     - false
     - false
     - false
@@ -261,7 +261,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_arbeitsl:
+  rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
     - false
     - false
     - false
@@ -278,7 +278,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_frauen:
+  rente__altersrente__für_frauen__anspruchsberechtigt:
     - false
     - false
     - false

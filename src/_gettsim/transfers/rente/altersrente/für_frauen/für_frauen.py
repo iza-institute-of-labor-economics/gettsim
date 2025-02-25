@@ -6,7 +6,7 @@ Revoked for birth cohorts after 1951.
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze")
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
 def ges_rente_frauen_altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -35,7 +35,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
 
 
-@policy_function(start_date="1989-12-18", name_in_dag="_ges_rente_frauen_altersgrenze")
+@policy_function(start_date="1989-12-18", name_in_dag="altersgrenze")
 def ges_rente_frauen_altersgrenze_mit_staffelung(
     geburtsjahr: int,
     geburtsmonat: int,
@@ -87,10 +87,8 @@ def ges_rente_frauen_altersgrenze_mit_staffelung(
     return out
 
 
-@policy_function(
-    end_date="1989-12-17", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
-)
-def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -122,9 +120,9 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
-    name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
-def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
+def altersgrenze_vorzeitig_mit_staffelung(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -175,10 +173,8 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_function(
-    start_date="1996-09-27", name_in_dag="_ges_rente_frauen_altersgrenze_vorzeitig"
-)
-def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+@policy_function(start_date="1996-09-27", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -207,10 +203,10 @@ def _ges_rente_frauen_altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
-@policy_function(end_date="1997-12-15", name_in_dag="ges_rente_vorauss_frauen")
-def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
+@policy_function(end_date="1997-12-15", name_in_dag="anspruchsberechtigt")
+def anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     weiblich: bool,
-    ges_rente_wartezeit_15: bool,
+    rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     y_pflichtbeitr_ab_40: float,
     ges_rente_params: dict,
 ) -> bool:
@@ -226,8 +222,8 @@ def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
     ----------
     weiblich
         See basic input variable :ref:`weiblich <weiblich>`.
-    ges_rente_wartezeit_15
-        See :func:`ges_rente_wartezeit_15`
+    rente__altersrente__wartezeit_15_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
     y_pflichtbeitr_ab_40
         See basic input variable :ref:`y_pflichtbeitr_ab_40 <y_pflichtbeitr_ab_40>`.
     ges_rente_params
@@ -241,7 +237,7 @@ def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
 
     out = (
         weiblich
-        and ges_rente_wartezeit_15
+        and rente__altersrente__wartezeit_15_jahre_erfüllt
         and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
     )
 
@@ -251,11 +247,11 @@ def ges_rente_vorauss_frauen_ohne_prüfung_geburtsjahr(
 @policy_function(
     start_date="1997-12-16",
     end_date="2017-12-31",
-    name_in_dag="ges_rente_vorauss_frauen",
+    name_in_dag="anspruchsberechtigt",
 )
-def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
+def anspruchsberechtigt_mit_geburtsjahr_prüfung(
     weiblich: bool,
-    ges_rente_wartezeit_15: bool,
+    rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     y_pflichtbeitr_ab_40: float,
     geburtsjahr: int,
     ges_rente_params: dict,
@@ -272,8 +268,8 @@ def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
     ----------
     weiblich
         See basic input variable :ref:`weiblich <weiblich>`.
-    ges_rente_wartezeit_15
-        See :func:`ges_rente_wartezeit_15`
+    rente__altersrente__wartezeit_15_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
     y_pflichtbeitr_ab_40
         See basic input variable :ref:`y_pflichtbeitr_ab_40 <y_pflichtbeitr_ab_40>`.
     geburtsjahr
@@ -289,7 +285,7 @@ def ges_rente_vorauss_frauen_mit_geburtsjahr_prüfung(
 
     out = (
         weiblich
-        and ges_rente_wartezeit_15
+        and rente__altersrente__wartezeit_15_jahre_erfüllt
         and y_pflichtbeitr_ab_40 > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
         and geburtsjahr < ges_rente_params["first_birthyear_without_rente_für_frauen"]
     )

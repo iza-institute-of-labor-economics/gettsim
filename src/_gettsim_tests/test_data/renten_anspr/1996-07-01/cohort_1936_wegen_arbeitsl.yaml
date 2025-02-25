@@ -58,7 +58,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  _ges_rente_langj_altersgrenze:
+  rente__altersrente__langjährig__altersgrenze:
     - 63.0
-  _ges_rente_arbeitsl_altersgrenze:
+  rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
     - 60.0

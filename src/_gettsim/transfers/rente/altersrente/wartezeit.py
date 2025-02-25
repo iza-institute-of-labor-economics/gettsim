@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-def ges_rente_wartezeit_5(
+def mindestwartezeit_erfüllt(
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     m_ersatzzeit: float,
@@ -36,7 +36,7 @@ def ges_rente_wartezeit_5(
     return out
 
 
-def ges_rente_wartezeit_15(
+def wartezeit_15_jahre_erfüllt(
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
     m_ersatzzeit: float,
@@ -69,10 +69,10 @@ def ges_rente_wartezeit_15(
     return out
 
 
-def ges_rente_wartezeit_35(  # noqa: PLR0913
+def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
-    ges_rente_anrechnungszeit: float,
+    anrechnungszeit: float,
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
@@ -91,8 +91,8 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
-    ges_rente_anrechnungszeit
-        See :func:`ges_rente_anrechnungszeit`
+    anrechnungszeit
+        See :func:`anrechnungszeit`
     m_kind_berücks_zeit
         See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
     m_pfleg_berücks_zeit
@@ -108,7 +108,7 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
     m_zeiten = (
         m_pflichtbeitrag
         + m_freiw_beitrag
-        + ges_rente_anrechnungszeit
+        + anrechnungszeit
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
@@ -119,10 +119,10 @@ def ges_rente_wartezeit_35(  # noqa: PLR0913
 
 
 @policy_function(start_date="2012-01-01")
-def ges_rente_wartezeit_45(  # noqa: PLR0913
+def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
-    ges_rente_anrechnungszeit_45: float,
+    anrechnungszeit_45: float,
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
@@ -133,7 +133,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     besonders langjährig Versicherte (pension for very long-term insured). Wartezeit von
     45 Jahren. Not all "rentenrechtliche Zeiten" are considered. Years with voluntary
     contributions are only considered if at least 18 years of mandatory contributions
-    (m_pflichtbeitrag). Not all ges_rente_anrechnungszeiten are considered, but only
+    (m_pflichtbeitrag). Not all anrechnungszeiten are considered, but only
     specific ones (e.g. ALG I, Kurzarbeit but not ALG II).
 
     Parameters
@@ -142,8 +142,8 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
     m_freiw_beitrag
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-    ges_rente_anrechnungszeit_45
-        See :func:`ges_rente_anrechnungszeit_45`.
+    anrechnungszeit_45
+        See :func:`anrechnungszeit_45`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
     m_kind_berücks_zeit
@@ -166,7 +166,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     m_zeiten = (
         m_pflichtbeitrag
         + freiwilligbeitr
-        + ges_rente_anrechnungszeit_45
+        + anrechnungszeit_45
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit
@@ -176,7 +176,7 @@ def ges_rente_wartezeit_45(  # noqa: PLR0913
     return out
 
 
-def ges_rente_anrechnungszeit(  # noqa: PLR0913
+def anrechnungszeit(  # noqa: PLR0913
     m_arbeitsunfähig: float,
     m_krank_ab_16_bis_24: float,
     m_mutterschutz: float,
@@ -222,7 +222,7 @@ def ges_rente_anrechnungszeit(  # noqa: PLR0913
 
 
 @policy_function(start_date="2012-01-01")
-def ges_rente_anrechnungszeit_45(
+def anrechnungszeit_45(
     m_arbeitsunfähig: float,
     m_alg1_übergang: float,
     m_geringf_beschäft: float,

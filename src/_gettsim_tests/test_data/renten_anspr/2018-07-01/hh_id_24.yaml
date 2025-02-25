@@ -66,5 +66,5 @@ outputs:
     - 31.0625
   rente__altersrente__entgeltp_update:
     - 0.0
-  _ges_rente_langj_altersgrenze:
+  rente__altersrente__langjährig__altersgrenze:
     - 65.0

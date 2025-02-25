@@ -3,8 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2007-04-19", name_in_dag="ges_rente_regelaltersgrenze")
-def ges_rente_regelaltersgrenze_ohne_staffelung(
+@policy_function(end_date="2007-04-19", name_in_dag="altersgrenze")
+def altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -39,10 +39,8 @@ def ges_rente_regelaltersgrenze_ohne_staffelung(
     return ges_rente_params["regelaltersgrenze"]
 
 
-@policy_function(start_date="2007-04-20", name_in_dag="ges_rente_regelaltersgrenze")
-def ges_rente_regelaltersgrenze_mit_staffelung(
-    geburtsjahr: int, ges_rente_params: dict
-) -> float:
+@policy_function(start_date="2007-04-20", name_in_dag="altersgrenze")
+def altersgrenze_mit_staffelung(geburtsjahr: int, ges_rente_params: dict) -> float:
     """Normal retirement age (NRA).
 
     NRA differs by birth cohort.
@@ -78,13 +76,13 @@ def ges_rente_regelaltersgrenze_mit_staffelung(
     return out
 
 
-def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
+def anspruchsberechtigt(rente__altersrente__mindestwartezeit_erfüllt: bool) -> bool:
     """Determining the eligibility for the Regelaltersrente.
 
     Parameters
     ----------
-    ges_rente_wartezeit_5
-        See :func:`ges_rente_wartezeit_5`.
+    rente__altersrente__mindestwartezeit_erfüllt
+        See :func:`rente__altersrente__mindestwartezeit_erfüllt`.
 
     Returns
     -------
@@ -92,4 +90,4 @@ def ges_rente_vorauss_regelrente(ges_rente_wartezeit_5: bool) -> bool:
 
     """
 
-    return ges_rente_wartezeit_5
+    return rente__altersrente__mindestwartezeit_erfüllt

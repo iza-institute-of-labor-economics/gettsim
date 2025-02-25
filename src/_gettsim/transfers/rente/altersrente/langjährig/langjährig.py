@@ -3,8 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_langj_altersgrenze")
-def _ges_rente_langj_altersgrenze_ohne_staffelung(
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
+def altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -41,9 +41,9 @@ def _ges_rente_langj_altersgrenze_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="2007-04-19",
-    name_in_dag="_ges_rente_langj_altersgrenze",
+    name_in_dag="altersgrenze",
 )
-def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
+def altersgrenze_mit_staffelung_nach_geburtsmonat(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -99,8 +99,8 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsmonat(
     return out
 
 
-@policy_function(start_date="2007-04-20", name_in_dag="_ges_rente_langj_altersgrenze")
-def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
+@policy_function(start_date="2007-04-20", name_in_dag="altersgrenze")
+def altersgrenze_mit_staffelung_nach_geburtsjahr(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -156,8 +156,8 @@ def _ges_rente_langj_altersgrenze_mit_staffelung_nach_geburtsjahr(
     return out
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_langj_vorzeitig")
-def _ges_rente_langj_vorzeitig_ohne_staffelung(
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -189,9 +189,9 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
-    name_in_dag="_ges_rente_langj_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
-def _ges_rente_langj_vorzeitig_mit_staffelung(
+def altersgrenze_vorzeitig_mit_staffelung(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
@@ -230,8 +230,8 @@ def _ges_rente_langj_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_function(start_date="1996-09-27", name_in_dag="_ges_rente_langj_vorzeitig")
-def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
+@policy_function(start_date="1996-09-27", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -259,8 +259,8 @@ def _ges_rente_langj_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
-def ges_rente_vorauss_langj(
-    ges_rente_wartezeit_35: bool,
+def anspruchsberechtigt(
+    rente__altersrente__wartezeit_35_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für langjährig
     Versicherte (pension for long-term insured). Wartezeit 35 years and
@@ -268,8 +268,8 @@ def ges_rente_vorauss_langj(
 
     Parameters
     ----------
-    ges_rente_wartezeit_35
-        See :func:`ges_rente_wartezeit_35`.
+    rente__altersrente__wartezeit_35_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_35_jahre_erfüllt`.
 
     Returns
     -------
@@ -277,4 +277,4 @@ def ges_rente_vorauss_langj(
 
     """
 
-    return ges_rente_wartezeit_35
+    return rente__altersrente__wartezeit_35_jahre_erfüllt

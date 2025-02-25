@@ -6,8 +6,8 @@ Revoked for birth cohorts after 1951.
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_altersgrenze")
-def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
+def altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -38,10 +38,10 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
+    name_in_dag="altersgrenze",
 )
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
+def altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
+    altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
 
@@ -49,27 +49,27 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
 
     Parameters
     ----------
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
+    altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_ohne_vertrauensschutzprüfung`.
 
     Returns
     -------
     Full retirement age for unemployed.
 
     """
-    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+    return altersgrenze_ohne_vertrauensschutzprüfung
 
 
 @policy_function(
     start_date="1996-07-29",
     end_date="2009-12-31",
-    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
+    name_in_dag="altersgrenze",
 )
-def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
+def altersgrenze_mit_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
     vertra_arbeitsl_1997: bool,
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
+    altersgrenze_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
     """Full retirement age for unemployed with Vertrauensschutz.
@@ -87,8 +87,8 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
         See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
     vertra_arbeitsl_1997
         See basic input variable :ref:`vertra_arbeitsl_1997 <vertra_arbeitsl_1997>`.
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
+    altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_ohne_vertrauensschutzprüfung`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -113,7 +113,7 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
             "vertrauensschutz"
         ][geburtsjahr][geburtsmonat]
     else:
-        out = _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+        out = altersgrenze_ohne_vertrauensschutzprüfung
 
     return out
 
@@ -121,10 +121,10 @@ def _ges_rente_arbeitsl_altersgrenze_mit_vertrauensschutzprüfung(
 @policy_function(
     start_date="2010-01-01",
     end_date="2017-12-31",
-    name_in_dag="_ges_rente_arbeitsl_altersgrenze",
+    name_in_dag="altersgrenze",
 )
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung: float,
+def altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
+    altersgrenze_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Full retirement age for unemployed without Vertrauensschutz.
 
@@ -135,19 +135,19 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
 
     Parameters
     ----------
-    _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
-        See :func:`_ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung`.
+    altersgrenze_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_ohne_vertrauensschutzprüfung`.
 
     Returns
     -------
     Full retirement age for unemployed.
 
     """
-    return _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung
+    return altersgrenze_ohne_vertrauensschutzprüfung
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="_ges_rente_arbeitsl_vorzeitig")
-def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
+@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+def altersgrenze_vorzeitig_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -178,10 +178,10 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
+    altersgrenze_vorzeitig_ohne_vertrauenss: float,
 ) -> float:
     """Early retirement age of pension for unemployed.
 
@@ -189,25 +189,25 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 
     Parameters
     ----------
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauenss
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
 
     Returns
     -------
     Early retirement age for unemployed.
     """
 
-    return _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+    return altersgrenze_vorzeitig_ohne_vertrauenss
 
 
 @policy_function(
     start_date="1996-07-29",
     end_date="1996-09-26",
-    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertra_arbeitsl_1997: bool,
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
+    altersgrenze_vorzeitig_ohne_vertrauenss: float,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age of pension for unemployed.
@@ -221,8 +221,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 
     vertra_arbeitsl_2006
         See basic input variable :ref:`vertra_arbeitsl_2006 <vertra_arbeitsl_2006>`.
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauenss
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -236,7 +236,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
             "vertrauensschutz"
         ]
     else:
-        arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauenss
 
     return arbeitsl_vorzeitig
 
@@ -244,9 +244,9 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 @policy_function(
     start_date="1996-09-27",
     end_date="2004-07-25",
-    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
-def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
+def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -277,11 +277,11 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_staffelung_nach_1997(
 @policy_function(
     start_date="2004-07-26",
     end_date="2017-12-31",
-    name_in_dag="_ges_rente_arbeitsl_vorzeitig",
+    name_in_dag="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006: bool,
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss: float,
+    altersgrenze_vorzeitig_ohne_vertrauenss: float,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age of pension for unemployed.
@@ -296,8 +296,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertra_arbeitsl_2006
         See basic input variable :ref:`vertra_arbeitsl_2006
         <vertra_arbeitsl_2006>`.
-    _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
-        See :func:`_ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauenss
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -311,13 +311,13 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
             "vertrauensschutz"
         ]
     else:
-        arbeitsl_vorzeitig = _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss
+        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauenss
 
     return arbeitsl_vorzeitig
 
 
 @policy_function(end_date="2017-12-31")
-def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
+def altersgrenze_ohne_vertrauensschutzprüfung(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -370,7 +370,7 @@ def _ges_rente_arbeitsl_altersgrenze_ohne_vertrauensschutzprüfung(
 
 
 @policy_function(end_date="2017-12-31")
-def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
+def altersgrenze_vorzeitig_ohne_vertrauenss(
     geburtsjahr: int,
     geburtsmonat: int,
     ges_rente_params: dict,
@@ -421,10 +421,10 @@ def _ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss(
     return arbeitsl_vorzeitig
 
 
-@policy_function(end_date="2007-04-29", name_in_dag="ges_rente_vorauss_arbeitsl")
-def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
+@policy_function(end_date="2007-04-29", name_in_dag="anspruchsberechtigt")
+def _anspruchsberechtigt_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
-    ges_rente_wartezeit_15: bool,
+    rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitr_8_in_10: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
@@ -440,8 +440,8 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
     arbeitsl_1y_past_585
         See basic input variable
         :ref:`arbeitsl_1y_past_585 <arbeitsl_1y_past_585>`.
-    ges_rente_wartezeit_15
-        See :func:`ges_rente_wartezeit_15`
+    rente__altersrente__wartezeit_15_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
     pflichtbeitr_8_in_10
         See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
 
@@ -451,7 +451,11 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 
     """
 
-    out = arbeitsl_1y_past_585 and ges_rente_wartezeit_15 and pflichtbeitr_8_in_10
+    out = (
+        arbeitsl_1y_past_585
+        and rente__altersrente__wartezeit_15_jahre_erfüllt
+        and pflichtbeitr_8_in_10
+    )
 
     return out
 
@@ -459,11 +463,11 @@ def _ges_rente_vorauss_arbeitsl_ohne_2007_reform(
 @policy_function(
     start_date="2007-04-30",
     end_date="2017-12-31",
-    name_in_dag="ges_rente_vorauss_arbeitsl",
+    name_in_dag="anspruchsberechtigt",
 )
-def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
+def _anspruchsberechtigt_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
-    ges_rente_wartezeit_15: bool,
+    rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitr_8_in_10: bool,
     geburtsjahr: int,
     ges_rente_params: dict,
@@ -482,8 +486,8 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
     ----------
     arbeitsl_1y_past_585
         See basic input variable :ref:`arbeitsl_1y_past_585 <arbeitsl_1y_past_585>`.
-    ges_rente_wartezeit_15
-        See :func:`ges_rente_wartezeit_15`
+    rente__altersrente__wartezeit_15_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
     pflichtbeitr_8_in_10
         See basic input variable :ref:`pflichtbeitr_8_in_10 <pflichtbeitr_8_in_10>`.
     geburtsjahr
@@ -499,7 +503,7 @@ def _ges_rente_vorauss_arbeitsl_mit_2007_reform(
 
     out = (
         arbeitsl_1y_past_585
-        and ges_rente_wartezeit_15
+        and rente__altersrente__wartezeit_15_jahre_erfüllt
         and pflichtbeitr_8_in_10
         and geburtsjahr < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )

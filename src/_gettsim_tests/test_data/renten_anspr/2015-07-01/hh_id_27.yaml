@@ -70,7 +70,7 @@ outputs:
     - 0.0
   rente__altersrente__entgeltp_update:
     - 0.509006589
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.5
-  rente__altersrente__rentenarten__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
     - false

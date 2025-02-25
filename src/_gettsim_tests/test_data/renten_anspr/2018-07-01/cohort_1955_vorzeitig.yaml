@@ -48,9 +48,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.75
-  rente__altersrente__rentenarten__altersgrenze_vorzeitig:
+  rente__altersrente__altersgrenze_vorzeitig:
     - 65.75
-  rente__altersrente__rentenarten__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
     - false

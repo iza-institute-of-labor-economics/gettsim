@@ -48,5 +48,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  rente__altersrente__rentenarten__altersgrenze_abschlagsfrei:
+  rente__altersrente__altersgrenze_abschlagsfrei:
     - 63.5

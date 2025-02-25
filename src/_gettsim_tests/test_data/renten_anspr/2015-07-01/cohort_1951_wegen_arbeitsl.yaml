@@ -46,7 +46,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _ges_rente_arbeitsl_altersgrenze:
+  rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
     - 65.0
-  _ges_rente_arbeitsl_vorzeitig:
+  rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
     - 63.0

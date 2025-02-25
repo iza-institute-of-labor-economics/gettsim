@@ -126,7 +126,7 @@ def anspruchsberechtigt(  # noqa: PLR0913
     verbleibende_anspruchsdauer: int,
     arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
-    ges_rente_regelaltersgrenze: float,
+    rente__altersrente__regelaltersrente__altersgrenze: float,
 ) -> bool:
     """Check eligibility for unemployment benefit.
 
@@ -142,14 +142,14 @@ def anspruchsberechtigt(  # noqa: PLR0913
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
-    ges_rente_regelaltersgrenze
-        See :func:`ges_rente_regelaltersgrenze`.
+    rente__altersrente__regelaltersrente__altersgrenze
+        See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
 
     Returns
     -------
 
     """
-    regelaltersgrenze = ges_rente_regelaltersgrenze
+    regelaltersgrenze = rente__altersrente__regelaltersrente__altersgrenze
 
     out = (
         arbeitssuchend

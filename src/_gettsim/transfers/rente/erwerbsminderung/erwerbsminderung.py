@@ -56,7 +56,7 @@ def anspruchsbedingungen_erfüllt(
     voll_erwerbsgemind: bool,
     teilw_erwerbsgemind: bool,
     m_pflichtbeitrag: float,
-    ges_rente_wartezeit_5: bool,
+    rente__altersrente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
     """
     Eligibility for Erwerbsminderungsrente (public disability insurance claim).
@@ -71,8 +71,8 @@ def anspruchsbedingungen_erfüllt(
         See basic input variable :ref:`teilw_erwerbsgemind <teilw_erwerbsgemind>.
     m_pflichtbeitrag
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>.
-    ges_rente_wartezeit_5
-        See :func:`ges_rente_wartezeit_5`.
+    rente__altersrente__mindestwartezeit_erfüllt
+        See :func:`rente__altersrente__mindestwartezeit_erfüllt`.
     Returns
     -------
     Eligibility for Erwerbsminderungsrente (public disability insurance claim) as a bool
@@ -80,7 +80,7 @@ def anspruchsbedingungen_erfüllt(
 
     anspruch_erwerbsm_rente = (
         (voll_erwerbsgemind or teilw_erwerbsgemind)
-        and ges_rente_wartezeit_5
+        and rente__altersrente__mindestwartezeit_erfüllt
         and m_pflichtbeitrag >= 36
     )
 
@@ -287,7 +287,7 @@ def zugangsfaktor(
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     m_pflichtbeitrag: float,
     m_freiw_beitrag: float,
-    ges_rente_anrechnungszeit_45: float,
+    rente__altersrente__anrechnungszeit_45: float,
     m_ersatzzeit: float,
     m_kind_berücks_zeit: float,
     m_pfleg_berücks_zeit: float,
@@ -302,8 +302,8 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
         See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
     m_freiw_beitrag
         See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-    ges_rente_anrechnungszeit_45
-        See :func:`ges_rente_anrechnungszeit_45`.
+    rente__altersrente__anrechnungszeit_45
+        See :func:`rente__altersrente__anrechnungszeit_45`.
     m_ersatzzeit
         See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
     m_kind_berücks_zeit
@@ -328,7 +328,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     m_zeiten = (
         m_pflichtbeitrag
         + freiwilligbeitr
-        + ges_rente_anrechnungszeit_45
+        + rente__altersrente__anrechnungszeit_45
         + m_ersatzzeit
         + m_pfleg_berücks_zeit
         + m_kind_berücks_zeit

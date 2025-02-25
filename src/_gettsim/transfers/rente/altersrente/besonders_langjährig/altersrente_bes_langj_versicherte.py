@@ -6,9 +6,9 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function(
     start_date="2012-01-01",
     end_date="2014-06-22",
-    name_in_dag="_ges_rente_besond_langj_altersgrenze",
+    name_in_dag="altersgrenze",
 )
-def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
+def altersgrenze_ohne_staffelung(
     geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -40,10 +40,8 @@ def _ges_rente_besond_langj_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_besond_langj_versicherte"]
 
 
-@policy_function(
-    start_date="2014-06-23", name_in_dag="_ges_rente_besond_langj_altersgrenze"
-)
-def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
+@policy_function(start_date="2014-06-23", name_in_dag="altersgrenze")
+def altersgrenze_mit_staffelung(
     geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
@@ -94,16 +92,16 @@ def _ges_rente_besond_langj_altersgrenze_mit_staffelung(
 
 
 @policy_function(start_date="2012-01-01")
-def ges_rente_vorauss_besond_langj(
-    ges_rente_wartezeit_45: bool,
+def anspruchsberechtigt(
+    rente__altersrente__wartezeit_45_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte
     (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
 
     Parameters
     ----------
-    ges_rente_wartezeit_45
-        See :func:`ges_rente_wartezeit_45`
+    rente__altersrente__wartezeit_45_jahre_erfüllt
+        See :func:`rente__altersrente__wartezeit_45_jahre_erfüllt`
 
 
     Returns
@@ -112,4 +110,4 @@ def ges_rente_vorauss_besond_langj(
 
     """
 
-    return ges_rente_wartezeit_45
+    return rente__altersrente__wartezeit_45_jahre_erfüllt
