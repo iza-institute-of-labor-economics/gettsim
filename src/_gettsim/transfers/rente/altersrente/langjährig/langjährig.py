@@ -259,6 +259,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
+@policy_function
 def anspruchsberechtigt(
     rente__altersrente__wartezeit_35_jahre_erfüllt: bool,
 ) -> bool:

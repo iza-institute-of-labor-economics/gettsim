@@ -1,5 +1,7 @@
 """Tax allowances for individuals or couples with children."""
 
+from _gettsim.functions.policy_function import policy_function
+
 aggregate_by_p_id_freibeträge = {
     "anzahl_anspruch_1": {
         "p_id_to_aggregate_by": "p_id_empfänger_1",
@@ -14,6 +16,7 @@ aggregate_by_p_id_freibeträge = {
 }
 
 
+@policy_function
 def kinderfreibetrag_y(
     anzahl_ansprüche: int,
     eink_st_abzuege_params: dict,
@@ -35,6 +38,7 @@ def kinderfreibetrag_y(
     return float(sum(eink_st_abzuege_params["kinderfreib"].values()) * anzahl_ansprüche)
 
 
+@policy_function
 def kinderfreibetrag_anzahl_ansprüche(
     anzahl_anspruch_1: int,
     anzahl_anspruch_2: int,
@@ -56,6 +60,7 @@ def kinderfreibetrag_anzahl_ansprüche(
     return anzahl_anspruch_1 + anzahl_anspruch_2
 
 
+@policy_function
 def p_id_kinderfreibetragempfänger_1(
     p_id_elternteil_1: int,
 ) -> int:
@@ -73,6 +78,7 @@ def p_id_kinderfreibetragempfänger_1(
     return p_id_elternteil_1
 
 
+@policy_function
 def p_id_kinderfreibetragempfänger_2(
     p_id_elternteil_2: int,
 ) -> int:

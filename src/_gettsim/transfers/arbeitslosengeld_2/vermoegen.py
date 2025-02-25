@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def grundfreibetrag_vermögen(
     kind: bool,
     alter: int,
@@ -47,6 +48,7 @@ def grundfreibetrag_vermögen(
     return float(min(out, maximaler_grundfreibetrag_vermögen))
 
 
+@policy_function
 def maximaler_grundfreibetrag_vermögen(
     geburtsjahr: int,
     kind: bool,

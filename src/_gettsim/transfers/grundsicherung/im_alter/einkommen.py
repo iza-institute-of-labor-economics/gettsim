@@ -4,6 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
+@policy_function
 def einkommen_m(  # noqa: PLR0913
     erwerbseinkommen_m: float,
     private_rente_m: float,
@@ -71,6 +72,7 @@ def einkommen_m(  # noqa: PLR0913
     return max(out, 0.0)
 
 
+@policy_function
 def erwerbseinkommen_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
@@ -112,6 +114,7 @@ def erwerbseinkommen_m(
     return out
 
 
+@policy_function
 def kapitaleinkommen_brutto_m(
     kapitaleink_brutto_y: float,
     grunds_im_alter_params: dict,
@@ -145,6 +148,7 @@ def kapitaleinkommen_brutto_m(
     return out
 
 
+@policy_function
 def private_rente_m(
     priv_rente_m: float,
     arbeitsl_geld_2_params: dict,

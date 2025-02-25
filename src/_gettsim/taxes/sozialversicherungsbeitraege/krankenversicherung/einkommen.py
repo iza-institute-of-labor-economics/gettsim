@@ -1,6 +1,9 @@
 """Income relevant for public health insurance contributions."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def einkommen_m(
     einkommen_regulär_beschäftigt_m: float,
     einkommensgrenzen__regulär_beschäftigt: bool,
@@ -31,6 +34,7 @@ def einkommen_m(
     return out
 
 
+@policy_function
 def einkommen_regulär_beschäftigt_m(
     bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
@@ -55,6 +59,7 @@ def einkommen_regulär_beschäftigt_m(
     return min(bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
+@policy_function
 def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     eink_selbst_m: float,
     bezugsgröße_selbständig_m: float,
@@ -109,6 +114,7 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
     """Income threshold up to which health insurance payments apply.
 
@@ -131,6 +137,7 @@ def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) ->
     return float(out)
 
 
+@policy_function
 def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
     """Threshold for self employment income subject to health insurance.
 
@@ -157,6 +164,7 @@ def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) 
     return float(out)
 
 
+@policy_function
 def bemessungsgrundlage_rente_m(
     rente__altersrente__sum_private_gesetzl_rente_m: float,
     beitragsbemessungsgrenze_m: float,

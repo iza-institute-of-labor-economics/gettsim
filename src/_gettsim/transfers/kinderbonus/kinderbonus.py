@@ -1,6 +1,9 @@
 """Kinderbonus."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def betrag_m(kindergeld__betrag_m: float, kindergeld_params: dict) -> float:
     """Calculate Kinderbonus for an individual child.
 

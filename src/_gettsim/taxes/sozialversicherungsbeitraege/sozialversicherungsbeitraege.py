@@ -1,6 +1,9 @@
 """Social insurance contributions."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def betrag_arbeitnehmer_m(
     sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
@@ -33,6 +36,7 @@ def betrag_arbeitnehmer_m(
     )
 
 
+@policy_function
 def betrag_arbeitgeber_m(
     sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitgeber_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitgeber_m: float,
@@ -64,6 +68,7 @@ def betrag_arbeitgeber_m(
     )
 
 
+@policy_function
 def betrag_gesamt_m(
     betrag_arbeitnehmer_m: float,
     betrag_arbeitgeber_m: float,

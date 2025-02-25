@@ -165,6 +165,7 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def einkommen_m(
     bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
@@ -186,6 +187,7 @@ def einkommen_m(
     return min(bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
+@policy_function
 def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
     """Income threshold up to which pension insurance payments apply.
 

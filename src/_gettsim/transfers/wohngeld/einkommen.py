@@ -13,6 +13,7 @@ aggregate_by_p_id_wohngeld = {
 }
 
 
+@policy_function
 def einkommen_m_wthh(
     anz_personen_wthh: int,
     freibetrag_m_wthh: float,
@@ -49,6 +50,7 @@ def einkommen_m_wthh(
     )
 
 
+@policy_function
 def einkommen_m_bg(
     anz_personen_bg: int,
     freibetrag_m_bg: float,
@@ -85,6 +87,7 @@ def einkommen_m_bg(
     )
 
 
+@policy_function
 def abzüge_steuern_sozialversicherung_m(
     taxes__einkommensteuer__betrag_y_sn: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
@@ -364,6 +367,7 @@ def freibetrag_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
+@policy_function
 def _wohngeld_einkommen_formel(
     anz_personen: int,
     einkommen_freibetrag: float,

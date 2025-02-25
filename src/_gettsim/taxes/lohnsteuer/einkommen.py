@@ -144,6 +144,7 @@ def vorsorge_krankenv_option_b_ab_2019(
     return out
 
 
+@policy_function
 def vorsorge_krankenv_option_a(
     sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,  # noqa: E501
     steuerklasse: int,

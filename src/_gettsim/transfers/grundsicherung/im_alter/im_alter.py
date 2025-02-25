@@ -1,6 +1,9 @@
 """Subsistence transfer for the elderly (Grundsicherung im Alter)."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def betrag_m_eg(  # noqa: PLR0913
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     mehrbedarf_schwerbehinderung_g_m_eg: float,
@@ -83,6 +86,7 @@ def betrag_m_eg(  # noqa: PLR0913
     return max(out, 0.0)
 
 
+@policy_function
 def mehrbedarf_schwerbehinderung_g_m(
     schwerbeh_g: bool,
     anz_erwachsene_eg: int,
@@ -125,6 +129,7 @@ def mehrbedarf_schwerbehinderung_g_m(
     return out
 
 
+@policy_function
 def vermögen_freibetrag_eg(
     anz_erwachsene_fg: int,
     anz_kinder_fg: int,

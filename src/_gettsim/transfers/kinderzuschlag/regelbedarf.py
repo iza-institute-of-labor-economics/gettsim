@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def kosten_unterkunft_m_bg(
     wohnbedarf_anteil_eltern_bg: float,
     arbeitslosengeld_2__bruttokaltmiete_m_bg: float,
@@ -34,6 +35,7 @@ def kosten_unterkunft_m_bg(
     return out
 
 
+@policy_function
 def wohnbedarf_anteil_eltern_bg(
     anzahl_kinder_bg: int,
     anz_erwachsene_bg: int,
@@ -148,6 +150,7 @@ def regelsatz_m_bg(
     return float(out)
 
 
+@policy_function
 def bedarf_m_bg(regelsatz_m_bg: float, kosten_unterkunft_m_bg: float) -> float:
     """Aggregate relevant income and rental costs.
 

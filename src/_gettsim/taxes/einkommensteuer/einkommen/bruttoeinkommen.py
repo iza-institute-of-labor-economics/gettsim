@@ -75,6 +75,7 @@ def bruttoeinkommen_ohne_kapitaleinkommen_y(
     return out
 
 
+@policy_function
 def kapitaleinkommen_y(
     kapitaleink_brutto_y: float,
     eink_st_abzuege_params: dict,
@@ -101,6 +102,7 @@ def kapitaleinkommen_y(
     return max(out, 0.0)
 
 
+@policy_function
 def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
     """Share of pensions subject to income taxation.
 
@@ -125,6 +127,7 @@ def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
     return out
 
 
+@policy_function
 def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
     bruttoeinkommen_aus_abhängiger_beschäftigung_y: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
@@ -151,6 +154,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
     return out
 
 
+@policy_function
 def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     bruttolohn_y: float,
     eink_st_abzuege_params: dict,
@@ -178,6 +182,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     return max(out, 0.0)
 
 
+@policy_function
 def bruttoeinkommen_renteneinkommen_m(
     rente__altersrente__sum_private_gesetzl_rente_m: float, rente_ertragsanteil: float
 ) -> float:

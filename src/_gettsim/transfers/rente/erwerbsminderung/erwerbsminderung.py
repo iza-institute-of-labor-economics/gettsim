@@ -342,6 +342,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def durchschnittliche_entgeltpunkte(
     entgeltp_west: float,
     entgeltp_ost: float,

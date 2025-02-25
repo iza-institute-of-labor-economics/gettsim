@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def anzurechnendes_nettoeinkommen_m(
     bruttolohn_m: float,
     lohnsteuer__betrag_m: float,

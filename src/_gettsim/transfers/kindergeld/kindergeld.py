@@ -156,6 +156,7 @@ def anspruchsberechtigt_nach_stunden(
     return out
 
 
+@policy_function
 def kind_bis_10_mit_kindergeld(
     alter: int,
     anspruchsberechtigt: bool,

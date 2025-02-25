@@ -1,6 +1,9 @@
 """Eligibility checks for housing benefits (Wohngeld)."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def anspruchsberechtigt_wthh(
     mindesteinkommen_erreicht_wthh: bool,
     vermögensgrenze_unterschritten_wthh: bool,
@@ -24,6 +27,7 @@ def anspruchsberechtigt_wthh(
     return vermögensgrenze_unterschritten_wthh and mindesteinkommen_erreicht_wthh
 
 
+@policy_function
 def anspruchsberechtigt_bg(
     mindesteinkommen_erreicht_bg: bool,
     vermögensgrenze_unterschritten_bg: bool,
@@ -47,6 +51,7 @@ def anspruchsberechtigt_bg(
     return mindesteinkommen_erreicht_bg and vermögensgrenze_unterschritten_bg
 
 
+@policy_function
 def vermögensgrenze_unterschritten_wthh(
     vermögen_bedürft_wthh: float,
     anz_personen_wthh: int,
@@ -75,6 +80,7 @@ def vermögensgrenze_unterschritten_wthh(
     )
 
 
+@policy_function
 def vermögensgrenze_unterschritten_bg(
     vermögen_bedürft_bg: float,
     anz_personen_bg: int,
@@ -103,6 +109,7 @@ def vermögensgrenze_unterschritten_bg(
     )
 
 
+@policy_function
 def mindesteinkommen_erreicht_wthh(
     arbeitslosengeld_2__regelbedarf_m_wthh: float,
     einkommen_für_mindesteinkommen_check_m_wthh: float,
@@ -135,6 +142,7 @@ def mindesteinkommen_erreicht_wthh(
     )
 
 
+@policy_function
 def mindesteinkommen_erreicht_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     einkommen_für_mindesteinkommen_check_m_bg: float,
@@ -167,6 +175,7 @@ def mindesteinkommen_erreicht_bg(
     )
 
 
+@policy_function
 def einkommen_für_mindesteinkommen_check_m(
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
@@ -208,6 +217,7 @@ def einkommen_für_mindesteinkommen_check_m(
     )
 
 
+@policy_function
 def vermögensprüfung_formel(
     vermögen: float,
     anz_personen: int,

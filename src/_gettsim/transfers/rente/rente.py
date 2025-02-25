@@ -1,6 +1,9 @@
 """Public pension benefits."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def alter_bei_renteneintritt(
     jahr_renteneintr: int,
     monat_renteneintr: int,

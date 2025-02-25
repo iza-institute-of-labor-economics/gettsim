@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
     """Individual earns less than marginal employment threshold.
 
@@ -153,6 +154,7 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     )
 
 
+@policy_function
 def beitragspflichtige_einnahmen_arbeitnehmer_m(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,

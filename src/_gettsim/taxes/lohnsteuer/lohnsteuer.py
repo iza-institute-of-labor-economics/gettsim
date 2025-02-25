@@ -1,11 +1,13 @@
 """Withholding tax on earnings (Lohnsteuer)."""
 
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import (
     solidaritaetszuschlag_tarif,
 )
 
 
+@policy_function
 def betrag_m(
     einkommen_y: float,
     eink_st_params: dict,
@@ -30,6 +32,7 @@ def betrag_m(
     return lohnsteuer_formel(einkommen_y, eink_st_params, lohnst_params, steuerklasse)
 
 
+@policy_function
 def betrag_mit_kinderfreibetrag_m(
     einkommen_y: float,
     kinderfreibetrag_soli_y: float,
@@ -62,6 +65,7 @@ def betrag_mit_kinderfreibetrag_m(
     return lohnsteuer_formel(eink, eink_st_params, lohnst_params, steuerklasse)
 
 
+@policy_function
 def betrag_soli_y(betrag_mit_kinderfreibetrag_y: float, soli_st_params: dict) -> float:
     """Solidarity surcharge on Lohnsteuer (withholding tax on earnings).
 
@@ -81,6 +85,7 @@ def betrag_soli_y(betrag_mit_kinderfreibetrag_y: float, soli_st_params: dict) ->
     return solidaritaetszuschlag_tarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
 
 
+@policy_function
 def kinderfreibetrag_soli_y(
     steuerklasse: int,
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
@@ -127,6 +132,7 @@ def kinderfreibetrag_soli_y(
     return out
 
 
+@policy_function
 def lohnsteuer_formel(
     einkommen_y: float,
     eink_st_params: dict,
@@ -213,6 +219,7 @@ def lohnsteuer_formel(
     return max(out, 0.0)
 
 
+@policy_function
 def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> float:
     """Calculate base for Lohnsteuer for Steuerklasse 5 and 6, by applying
     obtaining twice the difference between applying the factors 1.25 and 0.75

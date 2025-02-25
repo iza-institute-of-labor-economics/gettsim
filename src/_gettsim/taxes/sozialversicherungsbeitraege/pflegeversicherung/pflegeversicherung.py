@@ -91,6 +91,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     return out + betrag_rentner_m
 
 
+@policy_function
 def betrag_arbeitnehmer_regulär_beschäftigt_m(
     sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
     beitragssatz: float,

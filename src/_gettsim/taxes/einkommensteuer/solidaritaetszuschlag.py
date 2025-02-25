@@ -89,6 +89,7 @@ def solidaritaetszuschlag_y_sn_mit_abgelt_st(
     return out
 
 
+@policy_function
 def solidaritaetszuschlag_tarif(
     st_per_individual: float, soli_st_params: dict
 ) -> float:

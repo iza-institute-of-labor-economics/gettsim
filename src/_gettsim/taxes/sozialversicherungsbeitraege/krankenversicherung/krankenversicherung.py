@@ -187,6 +187,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def betrag_arbeitnehmer_regulär_beschäftigt_m(
     einkommen_m: float,
     beitragssatz_arbeitnehmer: float,
@@ -206,6 +207,7 @@ def betrag_arbeitnehmer_regulär_beschäftigt_m(
     return beitragssatz_arbeitnehmer * einkommen_m
 
 
+@policy_function
 def betrag_selbständig_m(
     einkommen__bemessungsgrundlage_selbständig_m: float,
     sozialv_beitr_params: dict,
@@ -234,6 +236,7 @@ def betrag_selbständig_m(
     return ges_krankenv_beitr_satz_selbst * einkommen__bemessungsgrundlage_selbständig_m
 
 
+@policy_function
 def betrag_rentner_m(
     einkommen__bemessungsgrundlage_rente_m: float,
     beitragssatz_arbeitnehmer: float,

@@ -4,6 +4,7 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def miete_m_wthh(
     miete_m_hh: float,
     anz_personen_wthh: int,
@@ -31,6 +32,7 @@ def miete_m_wthh(
     return miete_m_hh * (anz_personen_wthh / anz_personen_hh)
 
 
+@policy_function
 def miete_m_bg(
     miete_m_hh: float,
     anz_personen_bg: int,
@@ -57,6 +59,7 @@ def miete_m_bg(
     return miete_m_hh * (anz_personen_bg / anz_personen_hh)
 
 
+@policy_function
 def min_miete_m_hh(anz_personen_hh: int, wohngeld_params: dict) -> float:
     """Minimum rent considered in Wohngeld calculation.
 

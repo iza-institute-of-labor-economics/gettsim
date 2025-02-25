@@ -10,6 +10,7 @@ aggregate_by_group_kinderzuschl_eink = {
 }
 
 
+@policy_function
 def bruttoeinkommen_eltern_m(
     arbeitslosengeld_2__bruttoeinkommen_m: float,
     kindergeld__anspruchsberechtigt: bool,
@@ -110,6 +111,7 @@ def maximales_nettoeinkommen_m_bg(
     return out
 
 
+@policy_function
 def mindestbruttoeinkommen_m_bg(
     anzahl_kinder_bg: int,
     alleinerz_bg: bool,
@@ -144,6 +146,7 @@ def mindestbruttoeinkommen_m_bg(
     return out
 
 
+@policy_function
 def anzurechnendes_einkommen_eltern_m_bg(
     nettoeinkommen_eltern_m_bg: float,
     bedarf_m_bg: float,
@@ -173,6 +176,7 @@ def anzurechnendes_einkommen_eltern_m_bg(
     return max(out, 0.0)
 
 
+@policy_function
 def basisbetrag_kind_m(  # noqa: PLR0913
     kindergeld__anspruchsberechtigt: bool,
     bruttolohn_m: float,

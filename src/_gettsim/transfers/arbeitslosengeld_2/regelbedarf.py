@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def regelbedarf_m(
     regelsatz_m: float,
     kosten_unterkunft_m: float,
@@ -28,6 +29,7 @@ def regelbedarf_m(
     return regelsatz_m + kosten_unterkunft_m
 
 
+@policy_function
 def mehrbedarf_alleinerziehend_m(
     alleinerz: bool,
     anz_kinder_fg: int,
@@ -267,6 +269,7 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     return out * (1 + mehrbedarf_alleinerziehend_m)
 
 
+@policy_function
 def regelsatz_m(
     erwachsenensatz_m: float,
     kindersatz_m: float,
@@ -351,6 +354,7 @@ def kosten_unterkunft_m_ab_2023(
     return out
 
 
+@policy_function
 def warmmiete_je_qm_m(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
@@ -383,6 +387,7 @@ def warmmiete_je_qm_m(
     return out
 
 
+@policy_function
 def berechtigte_wohnfläche(
     wohnfläche: float,
     bewohnt_eigentum_hh: bool,
@@ -431,6 +436,7 @@ def berechtigte_wohnfläche(
     return min(wohnfläche, maximum / anz_personen_hh)
 
 
+@policy_function
 def bruttokaltmiete_m(
     bruttokaltmiete_m_hh: float,
     anz_personen_hh: int,
@@ -455,6 +461,7 @@ def bruttokaltmiete_m(
     return bruttokaltmiete_m_hh / anz_personen_hh
 
 
+@policy_function
 def heizkosten_m(
     heizkosten_m_hh: float,
     anz_personen_hh: int,
@@ -479,6 +486,7 @@ def heizkosten_m(
     return heizkosten_m_hh / anz_personen_hh
 
 
+@policy_function
 def wohnfläche(
     wohnfläche_hh: float,
     anz_personen_hh: int,

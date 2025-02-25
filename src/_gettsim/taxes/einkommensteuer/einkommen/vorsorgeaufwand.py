@@ -322,6 +322,7 @@ def vorwegabzug_lohnsteuer_2004er_regime_y_sn(
     return max(out, 0.0)
 
 
+@policy_function
 def formel_2020er_regime(  # noqa: PLR0913
     alter_aufwendungen: float,
     pv_aufwendungen: float,
@@ -349,6 +350,7 @@ def formel_2020er_regime(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def formel_2004er_regime(
     vorwegabzug_lohnsteuer: float,
     rentenversicherung_beitrag_arbeitnehmer: float,

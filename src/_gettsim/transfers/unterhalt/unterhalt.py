@@ -1,6 +1,9 @@
 """Alimony payments (Unterhalt)."""
 
+from _gettsim.functions.policy_function import policy_function
 
+
+@policy_function
 def betrag_m(
     kind_unterh_anspr_m: float,
     kindergeld__betrag_m: float,

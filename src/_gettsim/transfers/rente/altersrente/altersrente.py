@@ -37,6 +37,7 @@ def betrag_mit_grundrente_m(
     return out
 
 
+@policy_function
 def sum_private_gesetzl_rente_m(priv_rente_m: float, betrag_m: float) -> float:
     """Calculate total individual pension as sum of private and public pension.
 
@@ -332,6 +333,7 @@ def bruttorente_basisbetrag_m(
     return out
 
 
+@policy_function
 def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """Select the rentenwert depending on place of living.
 
@@ -353,6 +355,7 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     return float(out)
 
 
+@policy_function
 def zugangsfaktor(  # noqa: PLR0913
     rente__alter_bei_renteneintritt: float,
     rente__altersrente__regelaltersrente__altersgrenze: float,
@@ -464,6 +467,7 @@ def zugangsfaktor(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def entgeltp_west_updated(
     wohnort_ost: bool, entgeltp_west: float, entgeltp_update: float
 ) -> float:
@@ -494,6 +498,7 @@ def entgeltp_west_updated(
     return out
 
 
+@policy_function
 def entgeltp_ost_updated(
     wohnort_ost: bool, entgeltp_ost: float, entgeltp_update: float
 ) -> float:
@@ -524,6 +529,7 @@ def entgeltp_ost_updated(
     return out
 
 
+@policy_function
 def entgeltp_update(
     bruttolohn_m: float,
     wohnort_ost: bool,
@@ -576,6 +582,7 @@ def entgeltp_update(
     return out
 
 
+@policy_function
 def anteil_entgeltp_ost(
     entgeltp_west: float,
     entgeltp_ost: float,

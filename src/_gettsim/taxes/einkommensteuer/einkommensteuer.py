@@ -74,6 +74,7 @@ def betrag_y_sn_kindergeld_oder_kinderfreib(
     return out
 
 
+@policy_function
 def kinderfreibetrag_günstiger_sn(
     betrag_ohne_kinderfreibetrag_y_sn: float,
     betrag_mit_kinderfreibetrag_y_sn: float,
@@ -141,6 +142,7 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     return out
 
 
+@policy_function
 def betrag_ohne_kinderfreibetrag_y_sn(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,  # noqa: E501
     anz_personen_sn: int,
@@ -239,6 +241,7 @@ def relevantes_kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_ansprüche / 2
 
 
+@policy_function
 def einkommensteuer_tarif(x: float, params: dict) -> float:
     """The German income tax tariff.
 

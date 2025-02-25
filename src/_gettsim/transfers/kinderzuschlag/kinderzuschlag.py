@@ -3,6 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def betrag_m_bg(
     anspruchshöhe_m_bg: float,
     vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
@@ -37,6 +38,7 @@ def betrag_m_bg(
     return out
 
 
+@policy_function
 def anspruchshöhe_m(
     anspruchshöhe_m_bg: float,
     anz_personen_bg: int,
@@ -59,6 +61,7 @@ def anspruchshöhe_m(
     return anspruchshöhe_m_bg / anz_personen_bg
 
 
+@policy_function
 def anspruchshöhe_m_bg(
     basisbetrag_m_bg: float,
     vermögen_bedürft_bg: float,

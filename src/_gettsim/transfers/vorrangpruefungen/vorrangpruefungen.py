@@ -1,5 +1,7 @@
 """Priority checks of transfers against each other."""
 
+from _gettsim.functions.policy_function import policy_function
+
 aggregate_by_group_benefit_checks = {
     "wohngeld_vorrang_wthh": {
         "source_col": "wohngeld_vorrang_bg",
@@ -12,6 +14,7 @@ aggregate_by_group_benefit_checks = {
 }
 
 
+@policy_function
 def wohngeld_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
@@ -41,6 +44,7 @@ def wohngeld_vorrang_bg(
     )
 
 
+@policy_function
 def kinderzuschlag_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
@@ -67,6 +71,7 @@ def kinderzuschlag_vorrang_bg(
     )
 
 
+@policy_function
 def wohngeld_kinderzuschlag_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,

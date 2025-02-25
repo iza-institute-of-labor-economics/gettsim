@@ -21,6 +21,7 @@ def betrag_y_sn(kapitaleinkommen_y_sn: float, abgelt_st_params: dict) -> float:
     return abgelt_st_params["satz"] * kapitaleinkommen_y_sn
 
 
+@policy_function
 def kapitaleinkommen_y_sn(
     kapitaleink_brutto_y_sn: float,
     anz_personen_sn: int,

@@ -32,6 +32,7 @@ def zu_versteuerndes_einkommen_y_sn(
     return out
 
 
+@policy_function
 def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
     zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,
     einkommensteuer__freibetraege__kinderfreibetrag_y_sn: float,
@@ -57,6 +58,7 @@ def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
     return max(out, 0.0)
 
 
+@policy_function
 def zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn(
     bruttoeinkommen_y_sn: float,
     einkommensteuer_freibetraege_betrag_y_sn: float,

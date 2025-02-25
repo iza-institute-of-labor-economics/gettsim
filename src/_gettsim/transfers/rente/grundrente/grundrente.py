@@ -22,6 +22,7 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
     return max(out, 0.0)
 
 
+@policy_function
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
     bruttolohn_vorj_m: float,
@@ -185,6 +186,7 @@ def basisbetrag_m(
     return out
 
 
+@policy_function
 def durchschnittliche_entgeltpunkte(
     grundr_entgeltp: float, grundr_bew_zeiten: int
 ) -> float:
@@ -356,6 +358,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def anspruchsberechtigt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
     """Whether person has accumulated enough insured years to be eligible.
 

@@ -1,10 +1,12 @@
 """Unemployment benefits (Arbeitslosengeld)."""
 
 from _gettsim.config import numpy_or_jax as np
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 
 
+@policy_function
 def betrag_m(
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
     anspruchsberechtigt: bool,
@@ -43,6 +45,7 @@ def betrag_m(
     return out
 
 
+@policy_function
 def verbleibende_anspruchsdauer(
     alter: int,
     sozialv_pflicht_5j: float,
@@ -120,6 +123,7 @@ def verbleibende_anspruchsdauer(
     return out
 
 
+@policy_function
 def anspruchsberechtigt(  # noqa: PLR0913
     alter: int,
     arbeitssuchend: bool,
@@ -161,6 +165,7 @@ def anspruchsberechtigt(  # noqa: PLR0913
     return out
 
 
+@policy_function
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
     bruttolohn_vorj_m: float,

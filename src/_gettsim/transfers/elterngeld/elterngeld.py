@@ -46,6 +46,7 @@ def betrag_m(
     return out
 
 
+@policy_function
 def basisbetrag_m(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     lohnersatzanteil: float,
@@ -88,6 +89,7 @@ def eltergeld_not_implemented() -> float:
     raise NotImplementedError("Elterngeld is not implemented prior to 2011.")
 
 
+@policy_function
 def anspruchshöhe_m(
     basisbetrag_m: float,
     geschwisterbonus_m: float,
@@ -124,6 +126,7 @@ def anspruchshöhe_m(
     )
 
 
+@policy_function
 def anspruchsberechtigt(  # noqa: PLR0913
     elterngeld_claimed: bool,
     arbeitsstunden_w: float,
@@ -162,6 +165,7 @@ def anspruchsberechtigt(  # noqa: PLR0913
     )
 
 
+@policy_function
 def bezugsmonate_unter_grenze_fg(
     monate_elterngeldbezug_fg: int,
     bezugsmonate: int,
@@ -207,6 +211,7 @@ def bezugsmonate_unter_grenze_fg(
     return out
 
 
+@policy_function
 def kind_anspruchsberechtigt(
     alter: int,
     elterngeld_params: dict,
@@ -287,6 +292,7 @@ def lohnersatzanteil(
     return out
 
 
+@policy_function
 def anrechenbarer_betrag_m(
     betrag_m: float,
     anzahl_mehrlinge_fg: int,

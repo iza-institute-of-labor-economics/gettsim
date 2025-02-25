@@ -74,6 +74,7 @@ def sonderausgaben_y_sn_mit_betreuung(
     return float(out)
 
 
+@policy_function
 def ausgaben_für_betreuung_y(
     betreuungskosten_elternteil_y: float,
     eink_st_abzuege_params: dict,

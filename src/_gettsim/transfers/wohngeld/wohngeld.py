@@ -19,6 +19,7 @@ priority check, but cannot cover their needs with the Wohngeld calculated in poi
 from _gettsim.functions.policy_function import policy_function
 
 
+@policy_function
 def betrag_m_wthh(
     anspruchshöhe_m_wthh: float,
     erwachsene_alle_rentner_hh: bool,
@@ -150,6 +151,7 @@ def anspruchshöhe_m_bg(
     return out
 
 
+@policy_function
 def basisformel(
     anz_personen: int,
     einkommen_m: float,
