@@ -3,8 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-def kinderzuschl_m_bg(
-    _kinderzuschl_nach_vermög_check_m_bg: float,
+def betrag_m_bg(
+    anspruchshöhe_m_bg: float,
     vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
     anz_rentner_hh: int,
@@ -13,8 +13,8 @@ def kinderzuschl_m_bg(
 
     Parameters
     ----------
-    _kinderzuschl_nach_vermög_check_m_bg
-        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
+    anspruchshöhe_m_bg
+        See :func:`anspruchshöhe_m_bg`.
     vorrangpruefungen__kinderzuschlag_vorrang_bg
         See :func:`vorrangpruefungen__kinderzuschlag_vorrang_bg`.
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg
@@ -32,13 +32,13 @@ def kinderzuschl_m_bg(
     ) or (anz_rentner_hh > 0):
         out = 0.0
     else:
-        out = _kinderzuschl_nach_vermög_check_m_bg
+        out = anspruchshöhe_m_bg
 
     return out
 
 
-def _kinderzuschl_nach_vermög_check_m(
-    _kinderzuschl_nach_vermög_check_m_bg: float,
+def anspruchshöhe_m(
+    anspruchshöhe_m_bg: float,
     anz_personen_bg: int,
 ) -> float:
     """Kinderzuschlag on individual level.
@@ -47,8 +47,8 @@ def _kinderzuschl_nach_vermög_check_m(
 
     Parameters
     ----------
-    _kinderzuschl_nach_vermög_check_m_bg
-        See :func:`_kinderzuschl_nach_vermög_check_m_bg`.
+    anspruchshöhe_m_bg
+        See :func:`anspruchshöhe_m_bg`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
 
@@ -56,43 +56,42 @@ def _kinderzuschl_nach_vermög_check_m(
     -------
 
     """
-    return _kinderzuschl_nach_vermög_check_m_bg / anz_personen_bg
+    return anspruchshöhe_m_bg / anz_personen_bg
 
 
-def _kinderzuschl_nach_vermög_check_m_bg(
-    _kinderzuschl_vor_vermög_check_m_bg: float,
+def anspruchshöhe_m_bg(
+    basisbetrag_m_bg: float,
     vermögen_bedürft_bg: float,
-    kinderzuschl_vermög_freib_bg: float,
+    vermögen_freibetrag_bg: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
     Parameters
     ----------
-    _kinderzuschl_vor_vermög_check_m_bg
-        See :func:`_kinderzuschl_vor_vermög_check_m_bg`.
+    basisbetrag_m_bg
+        See :func:`basisbetrag_m_bg`.
     vermögen_bedürft_bg
         See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
-    kinderzuschl_vermög_freib_bg
-        See :func:`kinderzuschl_vermög_freib_bg`.
+    vermögen_freibetrag_bg
+        See :func:`vermögen_freibetrag_bg`.
 
     Returns
     -------
 
     """
 
-    if vermögen_bedürft_bg > kinderzuschl_vermög_freib_bg:
+    if vermögen_bedürft_bg > vermögen_freibetrag_bg:
         out = max(
-            _kinderzuschl_vor_vermög_check_m_bg
-            - (vermögen_bedürft_bg - kinderzuschl_vermög_freib_bg),
+            basisbetrag_m_bg - (vermögen_bedürft_bg - vermögen_freibetrag_bg),
             0.0,
         )
     else:
-        out = _kinderzuschl_vor_vermög_check_m_bg
+        out = basisbetrag_m_bg
     return out
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="kinderzuschl_vermög_freib_bg")
-def kinderzuschl_vermög_freib_bg_bis_2022(
+@policy_function(end_date="2022-12-31", name_in_dag="vermögen_freibetrag_bg")
+def vermögen_freibetrag_bg_bis_2022(
     arbeitsl_geld_2_vermög_freib_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag until 2022.
@@ -110,8 +109,8 @@ def kinderzuschl_vermög_freib_bg_bis_2022(
     return arbeitsl_geld_2_vermög_freib_bg
 
 
-@policy_function(start_date="2023-01-01", name_in_dag="kinderzuschl_vermög_freib_bg")
-def kinderzuschl_vermög_freib_bg_ab_2023(
+@policy_function(start_date="2023-01-01", name_in_dag="vermögen_freibetrag_bg")
+def vermögen_freibetrag_bg_ab_2023(
     _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag since 2023.
@@ -131,15 +130,15 @@ def kinderzuschl_vermög_freib_bg_ab_2023(
 
 @policy_function(
     end_date="2019-06-30",
-    leaf_name="_kinderzuschl_vor_vermög_check_m_bg",
+    leaf_name="basisbetrag_m_bg",
 )
-def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
-    kinderzuschl_bruttoeink_eltern_m_bg: float,
-    kinderzuschl_eink_eltern_m_bg: float,
-    kinderzuschl_eink_min_m_bg: float,
-    kinderzuschl_eink_max_m_bg: float,
-    kinderzuschl_kindereink_abzug_m_bg: float,
-    kinderzuschl_eink_anrechn_m_bg: float,
+def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
+    bruttoeinkommen_eltern_m_bg: float,
+    nettoeinkommen_eltern_m_bg: float,
+    mindestbruttoeinkommen_m_bg: float,
+    maximales_nettoeinkommen_m_bg: float,
+    basisbetrag_kind_m_bg: float,
+    anzurechnendes_einkommen_eltern_m_bg: float,
     anz_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
@@ -153,18 +152,18 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
 
     Parameters
     ----------
-    kinderzuschl_bruttoeink_eltern_m_bg
-        See :func:`kinderzuschl_bruttoeink_eltern_m_bg`.
-    kinderzuschl_eink_eltern_m_bg
-        See :func:`kinderzuschl_eink_eltern_m_bg`.
-    kinderzuschl_eink_min_m_bg
-        See :func:`kinderzuschl_eink_min_m_bg`.
-    kinderzuschl_eink_max_m_bg
-        See :func:`kinderzuschl_eink_max_m_bg`.
-    kinderzuschl_kindereink_abzug_m_bg
-        See :func:`kinderzuschl_kindereink_abzug_m_bg`.
-    kinderzuschl_eink_anrechn_m_bg
-        See :func:`kinderzuschl_eink_anrechn_m_bg`.
+    bruttoeinkommen_eltern_m_bg
+        See :func:`bruttoeinkommen_eltern_m_bg`.
+    nettoeinkommen_eltern_m_bg
+        See :func:`nettoeinkommen_eltern_m_bg`.
+    mindestbruttoeinkommen_m_bg
+        See :func:`mindestbruttoeinkommen_m_bg`.
+    maximales_nettoeinkommen_m_bg
+        See :func:`maximales_nettoeinkommen_m_bg`.
+    basisbetrag_kind_m_bg
+        See :func:`basisbetrag_kind_m_bg`.
+    anzurechnendes_einkommen_eltern_m_bg
+        See :func:`anzurechnendes_einkommen_eltern_m_bg`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
 
@@ -175,13 +174,11 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
 
     # Check if parental income is in income range for child benefit.
     if (
-        (kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg)
-        and (kinderzuschl_eink_eltern_m_bg <= kinderzuschl_eink_max_m_bg)
+        (bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg)
+        and (nettoeinkommen_eltern_m_bg <= maximales_nettoeinkommen_m_bg)
         and anz_personen_bg > 1
     ):
-        out = max(
-            kinderzuschl_kindereink_abzug_m_bg - kinderzuschl_eink_anrechn_m_bg, 0.0
-        )
+        out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
         out = 0.0
 
@@ -189,11 +186,11 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
 
 
 @policy_function(start_date="2019-07-01")
-def _kinderzuschl_vor_vermög_check_m_bg(
-    kinderzuschl_bruttoeink_eltern_m_bg: float,
-    kinderzuschl_eink_min_m_bg: float,
-    kinderzuschl_kindereink_abzug_m_bg: float,
-    kinderzuschl_eink_anrechn_m_bg: float,
+def basisbetrag_m_bg(
+    bruttoeinkommen_eltern_m_bg: float,
+    mindestbruttoeinkommen_m_bg: float,
+    basisbetrag_kind_m_bg: float,
+    anzurechnendes_einkommen_eltern_m_bg: float,
     anz_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
@@ -209,14 +206,14 @@ def _kinderzuschl_vor_vermög_check_m_bg(
     ----------
     hh_id
         See basic input variable :ref:`hh_id <hh_id>`.
-    kinderzuschl_bruttoeink_eltern_m_bg
-        See :func:`kinderzuschl_bruttoeink_eltern_m_bg`.
-    kinderzuschl_eink_min_m_bg
-        See :func:`kinderzuschl_eink_min_m_bg`.
-    kinderzuschl_kindereink_abzug_m_bg
-        See :func:`kinderzuschl_kindereink_abzug_m_bg`.
-    kinderzuschl_eink_anrechn_m_bg
-        See :func:`kinderzuschl_eink_anrechn_m_bg`.
+    bruttoeinkommen_eltern_m_bg
+        See :func:`bruttoeinkommen_eltern_m_bg`.
+    mindestbruttoeinkommen_m_bg
+        See :func:`mindestbruttoeinkommen_m_bg`.
+    basisbetrag_kind_m_bg
+        See :func:`basisbetrag_kind_m_bg`.
+    anzurechnendes_einkommen_eltern_m_bg
+        See :func:`anzurechnendes_einkommen_eltern_m_bg`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
 
@@ -225,11 +222,9 @@ def _kinderzuschl_vor_vermög_check_m_bg(
 
     """
     if (
-        kinderzuschl_bruttoeink_eltern_m_bg >= kinderzuschl_eink_min_m_bg
+        bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg
     ) and anz_personen_bg > 1:
-        out = max(
-            kinderzuschl_kindereink_abzug_m_bg - kinderzuschl_eink_anrechn_m_bg, 0.0
-        )
+        out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
         out = 0.0
 

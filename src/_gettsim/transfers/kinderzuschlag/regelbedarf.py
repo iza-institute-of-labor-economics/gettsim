@@ -3,8 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-def kinderzuschl_kost_unterk_m_bg(
-    _kinderzuschl_wohnbedarf_eltern_anteil_bg: float,
+def kosten_unterkunft_m_bg(
+    wohnbedarf_anteil_eltern_bg: float,
     bruttokaltmiete_m_bg: float,
     heizkosten_m_bg: float,
 ) -> float:
@@ -14,8 +14,8 @@ def kinderzuschl_kost_unterk_m_bg(
 
     Parameters
     ----------
-    _kinderzuschl_wohnbedarf_eltern_anteil_bg
-        See :func:`_kinderzuschl_wohnbedarf_eltern_anteil_bg`.
+    wohnbedarf_anteil_eltern_bg
+        See :func:`wohnbedarf_anteil_eltern_bg`.
     bruttokaltmiete_m_bg
         See :func:`bruttokaltmiete_m_bg`.
     heizkosten_m_bg
@@ -27,13 +27,13 @@ def kinderzuschl_kost_unterk_m_bg(
     """
     warmmiete_m_bg = bruttokaltmiete_m_bg + heizkosten_m_bg
 
-    out = _kinderzuschl_wohnbedarf_eltern_anteil_bg * warmmiete_m_bg
+    out = wohnbedarf_anteil_eltern_bg * warmmiete_m_bg
 
     return out
 
 
-def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
-    _kinderzuschl_anz_kinder_anspruch_bg: int,
+def wohnbedarf_anteil_eltern_bg(
+    anzahl_kinder_bg: int,
     anz_erwachsene_bg: int,
     kinderzuschl_params: dict,
 ) -> float:
@@ -45,8 +45,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
 
     Parameters
     ----------
-    _kinderzuschl_anz_kinder_anspruch_bg
-        See :func:`_kinderzuschl_anz_kinder_anspruch_bg`.
+    anzahl_kinder_bg
+        See :func:`anzahl_kinder_bg`.
     anz_erwachsene_bg
         See :func:`anz_erwachsene_bg`.
     kinderzuschl_params
@@ -59,7 +59,7 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     ex_min = kinderzuschl_params["existenzminimum"]
 
     # Up to 10 children are considered
-    considered_children = min(_kinderzuschl_anz_kinder_anspruch_bg, 10)
+    considered_children = min(anzahl_kinder_bg, 10)
     single_oder_paar = "single" if anz_erwachsene_bg == 1 else "paare"
 
     out = (
@@ -80,8 +80,8 @@ def _kinderzuschl_wohnbedarf_eltern_anteil_bg(
     return out
 
 
-@policy_function(end_date="2010-12-31", name_in_dag="kinderzuschl_eink_regel_m_bg")
-def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
+@policy_function(end_date="2010-12-31", name_in_dag="regelsatz_m_bg")
+def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
@@ -116,7 +116,7 @@ def kinderzuschl_eink_regel_m_bg_arbeitsl_geld_2_params_old(
 
 
 @policy_function(start_date="2011-01-01")
-def kinderzuschl_eink_regel_m_bg(
+def regelsatz_m_bg(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
@@ -146,20 +146,18 @@ def kinderzuschl_eink_regel_m_bg(
     return float(out)
 
 
-def kinderzuschl_eink_relev_m_bg(
-    kinderzuschl_eink_regel_m_bg: float, kinderzuschl_kost_unterk_m_bg: float
-) -> float:
+def bedarf_m_bg(regelsatz_m_bg: float, kosten_unterkunft_m_bg: float) -> float:
     """Aggregate relevant income and rental costs.
 
     Parameters
     ----------
-    kinderzuschl_eink_regel_m_bg
-        See :func:`kinderzuschl_eink_regel_m_bg`.
-    kinderzuschl_kost_unterk_m_bg
-        See :func:`kinderzuschl_kost_unterk_m_bg`.
+    regelsatz_m_bg
+        See :func:`regelsatz_m_bg`.
+    kosten_unterkunft_m_bg
+        See :func:`kosten_unterkunft_m_bg`.
 
     Returns
     -------
 
     """
-    return kinderzuschl_eink_regel_m_bg + kinderzuschl_kost_unterk_m_bg
+    return regelsatz_m_bg + kosten_unterkunft_m_bg

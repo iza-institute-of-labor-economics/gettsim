@@ -34,7 +34,7 @@ inputs:
     vermögen_bedürft:
       - 0.0
       - 0.0
-    _kinderzuschl_vor_vermög_check_m_bg:
+    kinderzuschlag__basisbetrag_m_bg:
       - 0.0
       - 0.0
     wohngeld__anspruchshöhe_m_wthh:
@@ -69,7 +69,7 @@ inputs:
       - 2013
   assumed: {}
 outputs:
-  kinderzuschl_m_bg:
+  kinderzuschlag__betrag_m_bg:
     - 0
     - 0
   wohngeld__betrag_m_wthh:

@@ -76,11 +76,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kinderzuschl_bruttoeink_eltern_m:
+    kinderzuschlag__bruttoeinkommen_eltern_m:
       - 1600.0
       - 0.0
       - 0.0
-    kinderzuschl_eink_eltern_m:
+    kinderzuschlag__nettoeinkommen_eltern_m:
       - 1200.0
       - 0.0
       - 0.0
@@ -114,11 +114,11 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_vor_vermög_check_m_bg:
+  kinderzuschlag__basisbetrag_m_bg:
     - 205.0
     - 205.0
     - 205.0
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschlag__anspruchshöhe_m_bg:
     - 205.0
     - 205.0
     - 205.0

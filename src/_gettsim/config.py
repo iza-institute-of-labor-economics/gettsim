@@ -139,7 +139,7 @@ DEFAULT_TARGETS = {
         "arbeitsl_geld": {"arbeitslosengeld__betrag_m": None},
         "kindergeld": {"kindergeld__betrag_m": None},
         "arbeitsl_geld_2": {"arbeitsl_geld_2_m_bg": None},
-        "kinderzuschl": {"kinderzuschl_m_bg": None},
+        "kinderzuschl": {"kinderzuschlag__betrag_m_bg": None},
         "wohngeld": {"wohngeld__betrag_m_wthh": None},
         "unterhaltsvors": {"unterhaltsvorschuss__betrag_m": None},
         "grunds_im_alter": {"grunds_im_alter_m_eg": None},

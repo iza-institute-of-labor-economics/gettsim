@@ -169,7 +169,7 @@ def einkommen_für_mindesteinkommen_check_m(
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld__betrag_m: float,
-    _kinderzuschl_nach_vermög_check_m: float,
+    kinderzuschlag__anspruchshöhe_m: float,
 ) -> float:
     """Income for the Mindesteinkommen check.
 
@@ -188,8 +188,8 @@ def einkommen_für_mindesteinkommen_check_m(
         See :func:`unterhaltsvorschuss__betrag_m`.
     kindergeld__betrag_m
         See :func:`kindergeld__betrag_m`.
-    _kinderzuschl_nach_vermög_check_m
-        See :func:`_kinderzuschl_nach_vermög_check_m`.
+    kinderzuschlag__anspruchshöhe_m
+        See :func:`kinderzuschlag__anspruchshöhe_m`.
 
     Returns
     -------
@@ -201,7 +201,7 @@ def einkommen_für_mindesteinkommen_check_m(
         + kind_unterh_erhalt_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld__betrag_m
-        + _kinderzuschl_nach_vermög_check_m
+        + kinderzuschlag__anspruchshöhe_m
     )
 
 

@@ -1,6 +1,6 @@
 ---
 rounding:
-  kinderzuschl_eink_eltern_m:
+  kinderzuschlag__nettoeinkommen_eltern_m:
     2005-01-01:
       base: 10
       direction: down

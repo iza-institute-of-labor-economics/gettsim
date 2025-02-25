@@ -90,7 +90,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschlag__anspruchshöhe_m_bg:
     - 292.0
     - 292.0
   bruttokaltmiete_m_bg:

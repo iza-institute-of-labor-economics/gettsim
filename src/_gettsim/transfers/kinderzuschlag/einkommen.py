@@ -3,14 +3,14 @@
 from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_group_kinderzuschl_eink = {
-    "_kinderzuschl_anz_kinder_anspruch_bg": {
+    "anzahl_kinder_bg": {
         "source_col": "kindergeld__anzahl_ansprüche",
         "aggr": "sum",
     },
 }
 
 
-def kinderzuschl_bruttoeink_eltern_m(
+def bruttoeinkommen_eltern_m(
     arbeitsl_geld_2_bruttoeink_m: float,
     kindergeld__anspruchsberechtigt: bool,
     erwachsen: bool,
@@ -46,7 +46,7 @@ def kinderzuschl_bruttoeink_eltern_m(
 
 
 @policy_function(params_key_for_rounding="kinderzuschl_eink")
-def kinderzuschl_eink_eltern_m(
+def nettoeinkommen_eltern_m(
     arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
     kindergeld__anspruchsberechtigt: bool,
     erwachsen: bool,
@@ -78,9 +78,9 @@ def kinderzuschl_eink_eltern_m(
 
 
 @policy_function(end_date="2019-06-30")
-def kinderzuschl_eink_max_m_bg(
-    kinderzuschl_eink_relev_m_bg: float,
-    _kinderzuschl_anz_kinder_anspruch_bg: int,
+def maximales_nettoeinkommen_m_bg(
+    bedarf_m_bg: float,
+    anzahl_kinder_bg: int,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate maximum income to be eligible for additional child benefit
@@ -91,10 +91,10 @@ def kinderzuschl_eink_max_m_bg(
 
     Parameters
     ----------
-    kinderzuschl_eink_relev_m_bg
-        See :func:`kinderzuschl_eink_relev_m_bg`.
-    _kinderzuschl_anz_kinder_anspruch_bg
-        See :func:`_kinderzuschl_anz_kinder_anspruch_bg`.
+    bedarf_m_bg
+        See :func:`bedarf_m_bg`.
+    anzahl_kinder_bg
+        See :func:`anzahl_kinder_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -102,19 +102,16 @@ def kinderzuschl_eink_max_m_bg(
     -------
 
     """
-    out = (
-        kinderzuschl_eink_relev_m_bg
-        + kinderzuschl_params["maximum"] * _kinderzuschl_anz_kinder_anspruch_bg
-    )
+    out = bedarf_m_bg + kinderzuschl_params["maximum"] * anzahl_kinder_bg
 
     kindersofortzuschl = kinderzuschl_params.get("kindersofortzuschl", 0.0)
-    out += kindersofortzuschl * _kinderzuschl_anz_kinder_anspruch_bg
+    out += kindersofortzuschl * anzahl_kinder_bg
 
     return out
 
 
-def kinderzuschl_eink_min_m_bg(
-    _kinderzuschl_anz_kinder_anspruch_bg: int,
+def mindestbruttoeinkommen_m_bg(
+    anzahl_kinder_bg: int,
     alleinerz_bg: bool,
     kinderzuschl_params: dict,
 ) -> float:
@@ -125,9 +122,9 @@ def kinderzuschl_eink_min_m_bg(
 
     Parameters
     ----------
-    _kinderzuschl_anz_kinder_anspruch_bg
-        See :func:`_kinderzuschl_anz_kinder_anspruch_bg
-        <_kinderzuschl_anz_kinder_anspruch_bg>`.
+    anzahl_kinder_bg
+        See :func:`anzahl_kinder_bg
+        <anzahl_kinder_bg>`.
     alleinerz_bg
         See basic input variable :ref:`alleinerz_bg <alleinerz_bg>`.
     kinderzuschl_params
@@ -137,7 +134,7 @@ def kinderzuschl_eink_min_m_bg(
     -------
 
     """
-    if _kinderzuschl_anz_kinder_anspruch_bg == 0:
+    if anzahl_kinder_bg == 0:
         out = 0.0
     elif alleinerz_bg:
         out = kinderzuschl_params["min_eink_alleinerz"]
@@ -147,9 +144,9 @@ def kinderzuschl_eink_min_m_bg(
     return out
 
 
-def kinderzuschl_eink_anrechn_m_bg(
-    kinderzuschl_eink_eltern_m_bg: float,
-    kinderzuschl_eink_relev_m_bg: float,
+def anzurechnendes_einkommen_eltern_m_bg(
+    nettoeinkommen_eltern_m_bg: float,
+    bedarf_m_bg: float,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate parental income subtracted from child benefit.
@@ -158,10 +155,10 @@ def kinderzuschl_eink_anrechn_m_bg(
 
     Parameters
     ----------
-    kinderzuschl_eink_eltern_m_bg
-        See :func:`kinderzuschl_eink_eltern_m_bg`.
-    kinderzuschl_eink_relev_m_bg
-        See :func:`kinderzuschl_eink_relev_m_bg`.
+    nettoeinkommen_eltern_m_bg
+        See :func:`nettoeinkommen_eltern_m_bg`.
+    bedarf_m_bg
+        See :func:`bedarf_m_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -170,13 +167,13 @@ def kinderzuschl_eink_anrechn_m_bg(
 
     """
     out = kinderzuschl_params["entzugsrate_eltern"] * (
-        kinderzuschl_eink_eltern_m_bg - kinderzuschl_eink_relev_m_bg
+        nettoeinkommen_eltern_m_bg - bedarf_m_bg
     )
 
     return max(out, 0.0)
 
 
-def kinderzuschl_kindereink_abzug_m(  # noqa: PLR0913
+def basisbetrag_kind_m(  # noqa: PLR0913
     kindergeld__anspruchsberechtigt: bool,
     bruttolohn_m: float,
     kind_unterh_erhalt_m: float,

@@ -44,7 +44,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    _kinderzuschl_vor_vermög_check_m_bg:
+    kinderzuschlag__basisbetrag_m_bg:
       - 140.0
       - 140.0
       - 140.0
@@ -90,7 +90,7 @@ inputs:
       - 2016
   assumed: {}
 outputs:
-  kinderzuschl_m_bg:
+  kinderzuschlag__betrag_m_bg:
     - 140
     - 140
     - 140

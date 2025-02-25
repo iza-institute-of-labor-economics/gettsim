@@ -37,7 +37,7 @@ inputs:
     vermögen_bedürft:
       - 0.0
       - 0.0
-    _kinderzuschl_vor_vermög_check_m_bg:
+    kinderzuschlag__basisbetrag_m_bg:
       - 140.0
       - 140.0
     wohngeld__anspruchshöhe_m_wthh:
@@ -81,7 +81,7 @@ outputs:
   vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
     - true
     - true
-  kinderzuschl_m_bg:
+  kinderzuschlag__betrag_m_bg:
     - 140
     - 140
   wohngeld__betrag_m_wthh:

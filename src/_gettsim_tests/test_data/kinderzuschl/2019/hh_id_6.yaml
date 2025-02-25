@@ -58,10 +58,10 @@ inputs:
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
       - 0.36
       - 0.36
-    kinderzuschl_bruttoeink_eltern_m:
+    kinderzuschlag__bruttoeinkommen_eltern_m:
       - 1000.0
       - 0.0
-    kinderzuschl_eink_eltern_m:
+    kinderzuschlag__nettoeinkommen_eltern_m:
       - 719.0
       - 0.0
     kindergeld__betrag_m_hh:
@@ -87,9 +87,9 @@ inputs:
       - false
   assumed: {}
 outputs:
-  _kinderzuschl_vor_vermög_check_m_bg:
+  kinderzuschlag__basisbetrag_m_bg:
     - 10.0
     - 10.0
-  _kinderzuschl_nach_vermög_check_m_bg:
+  kinderzuschlag__anspruchshöhe_m_bg:
     - 10.0
     - 10.0
