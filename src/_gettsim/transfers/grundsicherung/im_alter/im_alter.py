@@ -1,16 +1,16 @@
 """Subsistence transfer for the elderly (Grundsicherung im Alter)."""
 
 
-def grunds_im_alter_m_eg(  # noqa: PLR0913
+def betrag_m_eg(  # noqa: PLR0913
     arbeitsl_geld_2_regelbedarf_m_bg: float,
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg: float,
+    mehrbedarf_schwerbehinderung_g_m_eg: float,
     kindergeld__betrag_m_eg: float,
     kind_unterh_erhalt_m_eg: float,
     unterhaltsvorschuss__betrag_m_eg: float,
-    grunds_im_alter_eink_m_eg: float,
+    einkommen_m_eg: float,
     erwachsene_alle_rentner_hh: bool,
     vermögen_bedürft_eg: float,
-    grunds_im_alter_vermög_freib_eg: float,
+    vermögen_freibetrag_eg: float,
     anz_kinder_eg: int,
     anz_personen_eg: int,
 ) -> float:
@@ -23,8 +23,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     ----------
     arbeitsl_geld_2_regelbedarf_m_bg
         See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
-        See :func:`_grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg`.
+    mehrbedarf_schwerbehinderung_g_m_eg
+        See :func:`mehrbedarf_schwerbehinderung_g_m_eg`.
     kindergeld__betrag_m_eg
         See :func:`kindergeld__betrag_m_eg`.
     kind_unterh_erhalt_m_eg
@@ -32,14 +32,14 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         :ref:`kind_unterh_erhalt_m_eg <kind_unterh_erhalt_m_eg>`.
     unterhaltsvorschuss__betrag_m_eg
         See :func:`unterhaltsvorschuss__betrag_m_eg`.
-    grunds_im_alter_eink_m_eg
-        See :func:`grunds_im_alter_eink_m_eg`.
+    einkommen_m_eg
+        See :func:`einkommen_m_eg`.
     erwachsene_alle_rentner_hh
         See :func:`erwachsene_alle_rentner_hh`.
     vermögen_bedürft_eg
         See basic input variable :ref:`vermögen_bedürft_eg`.
-    grunds_im_alter_vermög_freib_eg
-        See :func:`grunds_im_alter_vermög_freib_eg`.
+    vermögen_freibetrag_eg
+        See :func:`vermögen_freibetrag_eg`.
     anz_kinder_eg
         See :func:`anz_kinder_eg`.
     anz_personen_eg
@@ -64,7 +64,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
     if (
-        (vermögen_bedürft_eg >= grunds_im_alter_vermög_freib_eg)
+        (vermögen_bedürft_eg >= vermögen_freibetrag_eg)
         or (not erwachsene_alle_rentner_hh)
         or (anz_kinder_eg == anz_personen_eg)
     ):
@@ -73,8 +73,8 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
         # Subtract income
         out = (
             arbeitsl_geld_2_regelbedarf_m_bg
-            + _grunds_im_alter_mehrbedarf_schwerbeh_g_m_eg
-            - grunds_im_alter_eink_m_eg
+            + mehrbedarf_schwerbehinderung_g_m_eg
+            - einkommen_m_eg
             - kind_unterh_erhalt_m_eg
             - unterhaltsvorschuss__betrag_m_eg
             - kindergeld__betrag_m_eg
@@ -83,7 +83,7 @@ def grunds_im_alter_m_eg(  # noqa: PLR0913
     return max(out, 0.0)
 
 
-def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
+def mehrbedarf_schwerbehinderung_g_m(
     schwerbeh_g: bool,
     anz_erwachsene_eg: int,
     grunds_im_alter_params: dict,
@@ -125,7 +125,7 @@ def _grunds_im_alter_mehrbedarf_schwerbeh_g_m(
     return out
 
 
-def grunds_im_alter_vermög_freib_eg(
+def vermögen_freibetrag_eg(
     anz_erwachsene_fg: int,
     anz_kinder_fg: int,
     grunds_im_alter_params: dict,

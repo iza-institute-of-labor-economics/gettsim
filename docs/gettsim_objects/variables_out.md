@@ -42,6 +42,6 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly parental leave benefit
 * - {func}`wohngeld__betrag_m_wthh <_gettsim.functions.all_functions_for_docs.wohngeld__betrag_m_wthh>`
   - Monthly housing benefit on household level
-* - {func}`grunds_im_alter_m_eg <_gettsim.functions.all_functions_for_docs.grunds_im_alter_m_eg>`
+* - {func}`grundsicherung__im_alter__betrag_m_eg <_gettsim.functions.all_functions_for_docs.grundsicherung__im_alter__betrag_m_eg>`
   - Monthly subsistence payment for retirees on household level
 ```

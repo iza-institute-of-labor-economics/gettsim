@@ -4,13 +4,13 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-def grunds_im_alter_eink_m(  # noqa: PLR0913
-    grunds_im_alter_erwerbseink_m: float,
-    grunds_im_alter_priv_rente_m: float,
-    grunds_im_alter_rente__altersrente__betrag_m: float,
+def einkommen_m(  # noqa: PLR0913
+    erwerbseinkommen_m: float,
+    private_rente_m: float,
+    gesetzliche_rente_m: float,
     sonstig_eink_m: float,
     eink_vermietung_m: float,
-    _grunds_im_alter_kapitaleink_brutto_m: float,
+    kapitaleinkommen_brutto_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     anz_personen_sn: int,
@@ -22,18 +22,18 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    grunds_im_alter_erwerbseink_m
-        See :func:`grunds_im_alter_erwerbseink_m`.
-    grunds_im_alter_priv_rente_m
-        See :func:`grunds_im_alter_priv_rente_m`.
-    grunds_im_alter_rente__altersrente__betrag_m
-        See :func:`grunds_im_alter_rente__altersrente__betrag_m`.
+    erwerbseinkommen_m
+        See :func:`erwerbseinkommen_m`.
+    private_rente_m
+        See :func:`private_rente_m`.
+    gesetzliche_rente_m
+        See :func:`gesetzliche_rente_m`.
     sonstig_eink_m
         See :func:`sonstig_eink_m`.
     eink_vermietung_m
         See :func:`eink_vermietung_m`.
-    _grunds_im_alter_kapitaleink_brutto_m
-        See :func:`_grunds_im_alter_kapitaleink_brutto_m`.
+    kapitaleinkommen_brutto_m
+        See :func:`kapitaleinkommen_brutto_m`.
     eink_st_m_sn
         See :func:`eink_st_m_sn`.
     soli_st_m_sn
@@ -52,12 +52,12 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
 
     # Income
     total_income = (
-        grunds_im_alter_erwerbseink_m
-        + grunds_im_alter_rente__altersrente__betrag_m
-        + grunds_im_alter_priv_rente_m
+        erwerbseinkommen_m
+        + gesetzliche_rente_m
+        + private_rente_m
         + sonstig_eink_m
         + eink_vermietung_m
-        + _grunds_im_alter_kapitaleink_brutto_m
+        + kapitaleinkommen_brutto_m
         + anrechenbares_elterngeld_m
     )
 
@@ -71,7 +71,7 @@ def grunds_im_alter_eink_m(  # noqa: PLR0913
     return max(out, 0.0)
 
 
-def grunds_im_alter_erwerbseink_m(
+def erwerbseinkommen_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
     arbeitsl_geld_2_params: dict,
@@ -112,7 +112,7 @@ def grunds_im_alter_erwerbseink_m(
     return out
 
 
-def _grunds_im_alter_kapitaleink_brutto_m(
+def kapitaleinkommen_brutto_m(
     kapitaleink_brutto_y: float,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -145,7 +145,7 @@ def _grunds_im_alter_kapitaleink_brutto_m(
     return out
 
 
-def grunds_im_alter_priv_rente_m(
+def private_rente_m(
     priv_rente_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
@@ -184,10 +184,8 @@ def grunds_im_alter_priv_rente_m(
     return out
 
 
-@policy_function(
-    end_date="2020-12-31", name_in_dag="grunds_im_alter_rente__altersrente__betrag_m"
-)
-def grunds_im_alter_rente__altersrente__betrag_m_bis_2020(
+@policy_function(end_date="2020-12-31", name_in_dag="gesetzliche_rente_m")
+def gesetzliche_rente_m_bis_2020(
     rente__altersrente__betrag_m: float,
 ) -> float:
     """Calculate individual public pension benefits which are considered in the
@@ -203,14 +201,12 @@ def grunds_im_alter_rente__altersrente__betrag_m_bis_2020(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return rente__altersrente__betrag_m
 
 
-@policy_function(
-    start_date="2021-01-01", leaf_name="grunds_im_alter_rente__altersrente__betrag_m"
-)
-def grunds_im_alter_rente__altersrente__betrag_m_ab_2021(
+@policy_function(start_date="2021-01-01", leaf_name="gesetzliche_rente_m")
+def gesetzliche_rente_m_ab_2021(
     rente__altersrente__betrag_m: float,
     rente__grundrente__anspruchsbedingungen_erfüllt: bool,
     arbeitsl_geld_2_params: dict,
@@ -237,7 +233,7 @@ def grunds_im_alter_rente__altersrente__betrag_m_ab_2021(
     Returns
     -------
 
-    """
+    """  # noqa: E501
 
     angerechnete_rente = piecewise_polynomial(
         x=rente__altersrente__betrag_m,

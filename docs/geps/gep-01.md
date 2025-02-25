@@ -42,8 +42,9 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
-   (i.e., the tax or transfer) that a variable refers to appears first.
+   `arbeitsl_geld_2_vermög_freib_bg` vs.
+   `grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
+   transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
    between readability (1.) and variable length (2.). If such conflicts arise, they need
@@ -112,8 +113,9 @@ changed, even if it leads to long variable names (e.g., `kinderfreib`,
 searching for identifiers easier and less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
-(i.e., the tax or transfer) that a variable refers to appears first.
+`arbeitsl_geld_2_vermög_freib_bg` vs.
+`grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
+transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.

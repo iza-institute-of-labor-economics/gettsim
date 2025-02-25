@@ -84,5 +84,5 @@ inputs:
       - 1950
   assumed: {}
 outputs:
-  grunds_im_alter_m_eg:
+  grundsicherung__im_alter__betrag_m_eg:
     - 0.0

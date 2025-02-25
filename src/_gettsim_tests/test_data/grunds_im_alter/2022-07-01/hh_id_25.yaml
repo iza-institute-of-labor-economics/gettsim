@@ -127,6 +127,6 @@ inputs:
 outputs:
   # TODO (@MImmesberger): Unskip this test once the issue is resolved
   # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
-  grunds_im_alter_m_eg:
+  grundsicherung__im_alter__betrag_m_eg:
     - 852.71
     - 0.0

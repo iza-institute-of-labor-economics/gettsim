@@ -142,7 +142,7 @@ DEFAULT_TARGETS = {
         "kinderzuschl": {"kinderzuschlag__betrag_m_bg": None},
         "wohngeld": {"wohngeld__betrag_m_wthh": None},
         "unterhaltsvors": {"unterhaltsvorschuss__betrag_m": None},
-        "grunds_im_alter": {"grunds_im_alter_m_eg": None},
+        "grunds_im_alter": {"grundsicherung__im_alter__betrag_m_eg": None},
         "rente": {"rente__altersrente__betrag_m": None},
         "erwerbsm_rente": {"rente__erwerbsminderung__betrag_m": None},
     },

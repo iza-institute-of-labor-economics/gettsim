@@ -123,6 +123,6 @@ inputs:
       - 1954
   assumed: {}
 outputs:
-  grunds_im_alter_m_eg:
+  grundsicherung__im_alter__betrag_m_eg:
     - 228.0
     - 228.0
