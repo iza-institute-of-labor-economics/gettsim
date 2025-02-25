@@ -4,8 +4,8 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-def arbeitsl_geld_2_eink_m(
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
+def anzurechnendes_einkommen_m(
+    nettoeinkommen_nach_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
@@ -17,14 +17,14 @@ def arbeitsl_geld_2_eink_m(
     (Kindergeldübertrag).
 
     Note: When aggregating this target to the household level, deduct
-    `_diff_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
-    received by the child may enter `arbeitsl_geld_2_eink_m_hh` twice: once as
+    `differenz_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
+    received by the child may enter `anzurechnendes_einkommen_m_hh` twice: once as
     Kindergeld and once as Kindergeldübertrag.
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m`.
+    nettoeinkommen_nach_abzug_freibetrag_m
+        See :func:`nettoeinkommen_nach_abzug_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvorschuss__betrag_m
@@ -40,7 +40,7 @@ def arbeitsl_geld_2_eink_m(
 
     """
     return (
-        arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+        nettoeinkommen_nach_abzug_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld_zur_bedarfsdeckung_m
@@ -48,9 +48,9 @@ def arbeitsl_geld_2_eink_m(
     )
 
 
-def arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m(
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
-    arbeitsl_geld_2_eink_anr_frei_m: float,
+def nettoeinkommen_nach_abzug_freibetrag_m(
+    nettoeinkommen_vor_abzug_freibetrag_m: float,
+    anrechnungsfreies_einkommen_m: float,
 ) -> float:
     """Net income after deductions for calculation of basic subsistence
     (Arbeitslosengeld II / Bürgergeld).
@@ -59,24 +59,21 @@ def arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
-    arbeitsl_geld_2_eink_anr_frei_m
-        See :func:`arbeitsl_geld_2_eink_anr_frei_m`.
+    nettoeinkommen_vor_abzug_freibetrag_m
+        See :func:`nettoeinkommen_vor_abzug_freibetrag_m`.
+    anrechnungsfreies_einkommen_m
+        See :func:`anrechnungsfreies_einkommen_m`.
 
     Returns
     -------
     Income after taxes, social insurance contributions, and other deductions.
 
     """
-    return (
-        arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
-        - arbeitsl_geld_2_eink_anr_frei_m
-    )
+    return nettoeinkommen_vor_abzug_freibetrag_m - anrechnungsfreies_einkommen_m
 
 
-def arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m(
-    arbeitsl_geld_2_bruttoeink_m: float,
+def nettoeinkommen_vor_abzug_freibetrag_m(
+    bruttoeinkommen_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     anz_personen_sn: int,
@@ -89,8 +86,8 @@ def arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_bruttoeink_m
-        See :func:`arbeitsl_geld_2_bruttoeink_m`.
+    bruttoeinkommen_m
+        See :func:`bruttoeinkommen_m`.
     eink_st_m_sn
         See :func:`eink_st_m_sn`.
     soli_st_m_sn
@@ -106,14 +103,14 @@ def arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m(
 
     """
     return (
-        arbeitsl_geld_2_bruttoeink_m
+        bruttoeinkommen_m
         - (eink_st_m_sn / anz_personen_sn)
         - (soli_st_m_sn / anz_personen_sn)
         - sozialversicherungsbeitraege__betrag_arbeitnehmer_m
     )
 
 
-def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
+def bruttoeinkommen_m(  # noqa: PLR0913
     bruttolohn_m: float,
     sonstig_eink_m: float,
     eink_selbst_m: float,
@@ -167,7 +164,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
 
 
 @policy_function(end_date="2005-09-30")
-def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
+def nettoquote_m(  # noqa: PLR0913
     bruttolohn_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
@@ -216,11 +213,11 @@ def arbeitsl_geld_2_nettoquote(  # noqa: PLR0913
 
 @policy_function(
     end_date="2005-09-30",
-    leaf_name="arbeitsl_geld_2_eink_anr_frei_m",
+    leaf_name="anrechnungsfreies_einkommen_m",
 )
-def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
+def anrechnungsfreies_einkommen_m_basierend_auf_nettoquote(
     bruttolohn_m: float,
-    arbeitsl_geld_2_nettoquote: float,
+    nettoquote_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Share of income which remains to the individual.
@@ -229,8 +226,8 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    arbeitsl_geld_2_nettoquote
-        See :func:`arbeitsl_geld_2_nettoquote`.
+    nettoquote_m
+        See :func:`nettoquote_m`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -245,13 +242,13 @@ def arbeitsl_geld_2_eink_anr_frei_m_basierend_auf_nettoquote(
         intercepts_at_lower_thresholds=arbeitsl_geld_2_params["eink_anr_frei"][
             "intercepts_at_lower_thresholds"
         ],
-        rates_multiplier=arbeitsl_geld_2_nettoquote,
+        rates_multiplier=nettoquote_m,
     )
     return out
 
 
 @policy_function(start_date="2005-10-01")
-def arbeitsl_geld_2_eink_anr_frei_m(
+def anrechnungsfreies_einkommen_m(
     bruttolohn_m: float,
     eink_selbst_m: float,
     anz_kinder_bis_17_bg: int,

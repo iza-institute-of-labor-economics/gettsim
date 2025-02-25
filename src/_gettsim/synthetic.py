@@ -340,10 +340,10 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "basic_inputs__wohnfläche_hh": float(
             bg_daten["wohnfläche"][hh_typ_string_lookup]
         ),
-        "basic_inputs__bruttokaltmiete_m_hh": float(
+        "basic_inputs__arbeitslosengeld_2__bruttokaltmiete_m_hh": float(
             bg_daten["bruttokaltmiete"][hh_typ_string_lookup]
         ),
-        "basic_inputs__heizkosten_m_hh": float(
+        "basic_inputs__arbeitslosengeld_2__heizkosten_m_hh": float(
             bg_daten["heizkosten"][hh_typ_string_lookup]
         ),
     }

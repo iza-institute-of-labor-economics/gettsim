@@ -2,7 +2,7 @@
 
 
 def betrag_m_eg(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    arbeitslosengeld_2__regelbedarf_m_bg: float,
     mehrbedarf_schwerbehinderung_g_m_eg: float,
     kindergeld__betrag_m_eg: float,
     kind_unterh_erhalt_m_eg: float,
@@ -21,8 +21,8 @@ def betrag_m_eg(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    arbeitslosengeld_2__regelbedarf_m_bg
+        See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
     mehrbedarf_schwerbehinderung_g_m_eg
         See :func:`mehrbedarf_schwerbehinderung_g_m_eg`.
     kindergeld__betrag_m_eg
@@ -54,7 +54,7 @@ def betrag_m_eg(  # noqa: PLR0913
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
     # TODO(@MImmesberger): Check which variable is the correct Regelbedarf in place of
-    # `arbeitsl_geld_2_regelbedarf_m_bg`
+    # `arbeitslosengeld_2__regelbedarf_m_bg`
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
 
     # TODO (@MImmesberger): Remove `anz_kinder_eg == anz_personen_eg` condition once
@@ -72,7 +72,7 @@ def betrag_m_eg(  # noqa: PLR0913
     else:
         # Subtract income
         out = (
-            arbeitsl_geld_2_regelbedarf_m_bg
+            arbeitslosengeld_2__regelbedarf_m_bg
             + mehrbedarf_schwerbehinderung_g_m_eg
             - einkommen_m_eg
             - kind_unterh_erhalt_m_eg

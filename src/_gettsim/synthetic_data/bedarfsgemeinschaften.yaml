@@ -4,8 +4,10 @@ wohnfläche:
     de: Durchschnittliche Wohnfläche
     en: Average Appartment Size
   description:
-    de: Durchschnittliche Wohnfläche pro SGB II - Bedarfsgemeinschaft
-    en: Average Appartement Size of households living from unemployment benefit
+    de: >-
+      Durchschnittliche Wohnfläche pro SGB II - Bedarfsgemeinschaft
+    en: >-
+      Average Appartement Size of households living from unemployment benefit
   unit: Square Meter
   2018-01-01:
     single_0_children: 44

@@ -43,16 +43,16 @@ inputs:
     wohngeld__anspruchshöhe_m_bg:
       - 356.0
       - 356.0
-    arbeitsl_geld_2_regelbedarf_m_bg:
+    arbeitslosengeld_2__regelbedarf_m_bg:
       - 1183.64
       - 1183.64
     kindergeld__betrag_m:
       - 0.0
       - 0.0
-    kindergeld_zur_bedarfsdeckung_m:
+    arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
       - 0.0
       - 0.0
-    kindergeldübertrag_m:
+    arbeitslosengeld_2__kindergeldübertrag_m:
       - 0.0
       - 0.0
     kind_unterh_erhalt_m:
@@ -61,7 +61,7 @@ inputs:
     unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
+    arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
       - 555.0
       - 0.0
     geburtsjahr:
@@ -78,6 +78,6 @@ outputs:
   wohngeld__betrag_m_wthh:
     - 0
     - 0
-  arbeitsl_geld_2_m_bg:
+  arbeitslosengeld_2__betrag_m_bg:
     - 628.64
     - 628.64

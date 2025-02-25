@@ -34,7 +34,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Solidarity surcharge on withholding tax
 * - {func}`unterhaltsvorschuss__betrag_m <_gettsim.functions.all_functions_for_docs.unterhaltsvorschuss__betrag_m>`
   - Alimony advance payment
-* - {func}`arbeitsl_geld_2_m_bg <_gettsim.functions.all_functions_for_docs.arbeitsl_geld_2_m_bg>`
+* - {func}`arbeitslosengeld_2__betrag_m_bg <_gettsim.functions.all_functions_for_docs.arbeitslosengeld_2__betrag_m_bg>`
   - Monthly subsistence payment on household level
 * - {func}`kinderzuschlag__betrag_m_bg <_gettsim.functions.all_functions_for_docs.kinderzuschlag__betrag_m_bg>`
   - Monthly additional child benefit, household sum

@@ -24,9 +24,9 @@ inputs:
       - false
     kind:
       - false
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 1200.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 50.0
     wohnfläche_hh:
       - 40.0

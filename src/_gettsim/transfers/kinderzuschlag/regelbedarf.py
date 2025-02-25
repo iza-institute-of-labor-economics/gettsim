@@ -5,8 +5,8 @@ from _gettsim.functions.policy_function import policy_function
 
 def kosten_unterkunft_m_bg(
     wohnbedarf_anteil_eltern_bg: float,
-    bruttokaltmiete_m_bg: float,
-    heizkosten_m_bg: float,
+    arbeitslosengeld_2__bruttokaltmiete_m_bg: float,
+    arbeitslosengeld_2__heizkosten_m_bg: float,
 ) -> float:
     """Calculate costs of living eligible to claim.
 
@@ -16,16 +16,18 @@ def kosten_unterkunft_m_bg(
     ----------
     wohnbedarf_anteil_eltern_bg
         See :func:`wohnbedarf_anteil_eltern_bg`.
-    bruttokaltmiete_m_bg
-        See :func:`bruttokaltmiete_m_bg`.
-    heizkosten_m_bg
-        See :func:`heizkosten_m_bg`.
+    arbeitslosengeld_2__bruttokaltmiete_m_bg
+        See :func:`arbeitslosengeld_2__bruttokaltmiete_m_bg`.
+    arbeitslosengeld_2__heizkosten_m_bg
+        See :func:`arbeitslosengeld_2__heizkosten_m_bg`.
 
     Returns
     -------
 
     """
-    warmmiete_m_bg = bruttokaltmiete_m_bg + heizkosten_m_bg
+    warmmiete_m_bg = (
+        arbeitslosengeld_2__bruttokaltmiete_m_bg + arbeitslosengeld_2__heizkosten_m_bg
+    )
 
     out = wohnbedarf_anteil_eltern_bg * warmmiete_m_bg
 
@@ -82,7 +84,7 @@ def wohnbedarf_anteil_eltern_bg(
 
 @policy_function(end_date="2010-12-31", name_in_dag="regelsatz_m_bg")
 def regelsatz_m_bg_arbeitsl_geld_2_params_old(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -90,8 +92,8 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
+        See :func:`arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg`.
     alleinerz_bg
         See :func:`alleinerz_bg`.
     arbeitsl_geld_2_params
@@ -103,7 +105,7 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     """
     if alleinerz_bg:
         out = arbeitsl_geld_2_params["regelsatz"] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+            1 + arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         )
     else:
         out = (
@@ -117,7 +119,7 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
 
 @policy_function(start_date="2011-01-01")
 def regelsatz_m_bg(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg: float,
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg: float,
     alleinerz_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -125,8 +127,8 @@ def regelsatz_m_bg(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg`.
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
+        See :func:`arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg`.
     alleinerz_bg
         See :func:`alleinerz_bg`.
     arbeitsl_geld_2_params
@@ -138,7 +140,7 @@ def regelsatz_m_bg(
     """
     if alleinerz_bg:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
-            1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg
+            1 + arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         )
     else:
         out = arbeitsl_geld_2_params["regelsatz"][2] * 2

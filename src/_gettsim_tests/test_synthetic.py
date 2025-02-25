@@ -95,7 +95,7 @@ synthetic_data_fixtures = [
 )
 def test_positive_rent(df, request):
     df = request.getfixturevalue(df)
-    assert df["basic_inputs__bruttokaltmiete_m_hh"].min() > 0
+    assert df["basic_inputs__arbeitslosengeld_2__bruttokaltmiete_m_hh"].min() > 0
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")
@@ -105,7 +105,9 @@ def test_positive_rent(df, request):
 )
 def test_no_nans(df, request):
     df = request.getfixturevalue(df)
-    assert df["basic_inputs__bruttokaltmiete_m_hh"].notna().all().all()
+    assert (
+        df["basic_inputs__arbeitslosengeld_2__bruttokaltmiete_m_hh"].notna().all().all()
+    )
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")

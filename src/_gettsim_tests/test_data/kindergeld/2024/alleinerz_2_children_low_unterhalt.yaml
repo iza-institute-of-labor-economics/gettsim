@@ -38,7 +38,7 @@ outputs:
     - 500.0
     - 0.0
     - 0.0
-  kindergeld_zur_bedarfsdeckung_m:
+  arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
     - 0.0
     - 250.0
     - 250.0

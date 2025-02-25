@@ -80,19 +80,19 @@ inputs:
       - 19
   provided: {}
 outputs:
-  arbeitsl_geld_2_regelsatz_m:
+  arbeitslosengeld_2__regelsatz_m:
     - 833.24
     - 377.0
     - 410.0
     - 491.0
     - 471.0
-  arbeitsl_geld_2_kindersatz_m:
+  arbeitslosengeld_2__kindersatz_m:
     - 0.0
     - 377.0
     - 410.0
     - 491.0
     - 471.0
-  arbeitsl_geld_2_erwachsenensatz_m:
+  arbeitslosengeld_2__erwachsenensatz_m:
     - 833.24
     - 0.0
     - 0.0

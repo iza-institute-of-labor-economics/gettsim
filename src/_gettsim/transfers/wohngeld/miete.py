@@ -81,7 +81,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
     immobilie_baujahr_hh: int,
     anz_personen_hh: int,
-    bruttokaltmiete_m_hh: float,
+    arbeitslosengeld_2__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -95,8 +95,8 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
         See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
     anz_personen_hh
         See :func:`anz_personen_hh`.
-    bruttokaltmiete_m_hh
-        See :func:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
+    arbeitslosengeld_2__bruttokaltmiete_m_hh
+        See :func:`arbeitslosengeld_2__bruttokaltmiete_m_hh`.
     min_miete_m_hh
         See :func:`min_miete_m_hh`.
     wohngeld_params
@@ -132,7 +132,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
             berücks_personen - max_definierte_hh_größe
         )
 
-    out = min(bruttokaltmiete_m_hh, max_miete_m)
+    out = min(arbeitslosengeld_2__bruttokaltmiete_m_hh, max_miete_m)
     out = max(out, min_miete_m_hh)
 
     return out
@@ -142,7 +142,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     anz_personen_hh: int,
-    bruttokaltmiete_m_hh: float,
+    arbeitslosengeld_2__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -154,8 +154,8 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
         See basic input variable :ref:`mietstufe <mietstufe>`.
     anz_personen_hh
         See :func:`anz_personen_hh`.
-    bruttokaltmiete_m_hh
-        See :func:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
+    arbeitslosengeld_2__bruttokaltmiete_m_hh
+        See :func:`arbeitslosengeld_2__bruttokaltmiete_m_hh`.
     min_miete_m_hh
         See :func:`min_miete_m_hh`.
     wohngeld_params
@@ -254,7 +254,9 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     else:
         climate_component_m = 0
 
-    out = min(bruttokaltmiete_m_hh, max_miete_m + climate_component_m)
+    out = min(
+        arbeitslosengeld_2__bruttokaltmiete_m_hh, max_miete_m + climate_component_m
+    )
     out = max(out, min_miete_m_hh) + heating_allowance_m + heating_component_m
 
     return out

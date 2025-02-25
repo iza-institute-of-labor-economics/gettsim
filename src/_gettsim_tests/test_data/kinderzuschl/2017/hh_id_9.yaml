@@ -69,12 +69,12 @@ inputs:
       - false
       - true
       - true
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 800.0
       - 800.0
       - 800.0
       - 800.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 90.0
       - 90.0
       - 90.0
@@ -89,7 +89,7 @@ inputs:
       - false
       - true
       - true
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m_bg:
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
       - 0.0
       - 0.0
       - 0.0

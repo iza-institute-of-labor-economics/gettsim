@@ -42,7 +42,7 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_bg` vs.
+   `arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
    `grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
    transfer) that a variable refers to appears first.
 
@@ -113,7 +113,7 @@ changed, even if it leads to long variable names (e.g., `kinderfreib`,
 searching for identifiers easier and less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_bg` vs.
+`arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
 `grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
 transfer) that a variable refers to appears first.
 
@@ -157,7 +157,7 @@ Open questions:
   differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
-`arbeitsl_geld_2_m_bg`).
+`arbeitslosengeld_2__betrag_m_bg`).
 
 ## Parameters of the taxes and transfers system
 

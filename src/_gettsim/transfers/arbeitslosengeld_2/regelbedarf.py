@@ -3,9 +3,9 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-def arbeitsl_geld_2_regelbedarf_m(
-    arbeitsl_geld_2_regelsatz_m: float,
-    arbeitsl_geld_2_kost_unterk_m: float,
+def regelbedarf_m(
+    regelsatz_m: float,
+    kosten_unterkunft_m: float,
 ) -> float:
     """Basic monthly subsistence level on individual level.
 
@@ -15,20 +15,20 @@ def arbeitsl_geld_2_regelbedarf_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelsatz_m
-        See :func:`arbeitsl_geld_2_regelsatz_m`.
-    arbeitsl_geld_2_kost_unterk_m
-        See :func:`arbeitsl_geld_2_kost_unterk_m`.
+    regelsatz_m
+        See :func:`regelsatz_m`.
+    kosten_unterkunft_m
+        See :func:`kosten_unterkunft_m`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return arbeitsl_geld_2_regelsatz_m + arbeitsl_geld_2_kost_unterk_m
+    return regelsatz_m + kosten_unterkunft_m
 
 
-def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
+def mehrbedarf_alleinerziehend_m(
     alleinerz: bool,
     anz_kinder_fg: int,
     anz_kinder_bis_6_fg: int,
@@ -87,8 +87,8 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
     return out
 
 
-@policy_function(end_date="2010-12-31", leaf_name="arbeitsl_geld_2_kindersatz_m")
-def arbeitsl_geld_2_kindersatz_m_bis_2010(
+@policy_function(end_date="2010-12-31", leaf_name="kindersatz_m")
+def kindersatz_m_bis_2010(
     alter: int,
     kindergeld__gleiche_fg_wie_empfänger: bool,
     arbeitsl_geld_2_params: dict,
@@ -136,8 +136,8 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     return float(out)
 
 
-@policy_function(start_date="2011-01-01", leaf_name="arbeitsl_geld_2_kindersatz_m")
-def arbeitsl_geld_2_kindersatz_m_ab_2011(
+@policy_function(start_date="2011-01-01", leaf_name="kindersatz_m")
+def kindersatz_m_ab_2011(
     alter: int,
     kindergeld__gleiche_fg_wie_empfänger: bool,
     arbeitsl_geld_2_params: dict,
@@ -189,10 +189,10 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
     return float(out)
 
 
-@policy_function(end_date="2010-12-31", leaf_name="arbeitsl_geld_2_erwachsenensatz_m")
+@policy_function(end_date="2010-12-31", leaf_name="erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
-    arbeitsl_geld_2_kindersatz_m: float,
+    mehrbedarf_alleinerziehend_m: float,
+    kindersatz_m: float,
     p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -200,10 +200,10 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m`.
-    arbeitsl_geld_2_kindersatz_m
-        See :func:`arbeitsl_geld_2_kindersatz_m`.
+    mehrbedarf_alleinerziehend_m
+        See :func:`mehrbedarf_alleinerziehend_m`.
+    kindersatz_m
+        See :func:`kindersatz_m`.
     p_id_einstandspartner
         See basic input variable :ref:`p_id_einstandspartner`.
     arbeitsl_geld_2_params
@@ -220,18 +220,18 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
             * (arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"])
         )
     # This observation is not a child, so BG has 1 adult
-    elif arbeitsl_geld_2_kindersatz_m == 0.0:
+    elif kindersatz_m == 0.0:
         out = arbeitsl_geld_2_params["regelsatz"]
     else:
         out = 0.0
 
-    return out * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m)
+    return out * (1 + mehrbedarf_alleinerziehend_m)
 
 
-@policy_function(start_date="2011-01-01", leaf_name="arbeitsl_geld_2_erwachsenensatz_m")
+@policy_function(start_date="2011-01-01", leaf_name="erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
-    arbeitsl_geld_2_kindersatz_m: float,
+    mehrbedarf_alleinerziehend_m: float,
+    kindersatz_m: float,
     p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -241,10 +241,10 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_alleinerz_mehrbedarf_m
-        See :func:`_arbeitsl_geld_2_alleinerz_mehrbedarf_m`.
-    arbeitsl_geld_2_kindersatz_m
-        See :func:`arbeitsl_geld_2_kindersatz_m`.
+    mehrbedarf_alleinerziehend_m
+        See :func:`mehrbedarf_alleinerziehend_m`.
+    kindersatz_m
+        See :func:`kindersatz_m`.
     p_id_einstandspartner
         See basic input variable :ref:`p_id_einstandspartner`.
     arbeitsl_geld_2_params
@@ -259,65 +259,65 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     if p_id_einstandspartner >= 0:
         out = arbeitsl_geld_2_params["regelsatz"][2]
     # This observation is not a child, so BG has 1 adult
-    elif arbeitsl_geld_2_kindersatz_m == 0.0:
+    elif kindersatz_m == 0.0:
         out = arbeitsl_geld_2_params["regelsatz"][1]
     else:
         out = 0.0
 
-    return out * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m)
+    return out * (1 + mehrbedarf_alleinerziehend_m)
 
 
-def arbeitsl_geld_2_regelsatz_m(
-    arbeitsl_geld_2_erwachsenensatz_m: float,
-    arbeitsl_geld_2_kindersatz_m: float,
+def regelsatz_m(
+    erwachsenensatz_m: float,
+    kindersatz_m: float,
 ) -> float:
     """Calculate basic monthly subsistence without dwelling until 2010.
 
     Parameters
     ----------
-    arbeitsl_geld_2_erwachsenensatz_m
-        See :func:`arbeitsl_geld_2_erwachsenensatz_m`.
-    arbeitsl_geld_2_kindersatz_m
-        See :func:`arbeitsl_geld_2_kindersatz_m`.
+    erwachsenensatz_m
+        See :func:`erwachsenensatz_m`.
+    kindersatz_m
+        See :func:`kindersatz_m`.
 
     Returns
     -------
 
 
     """
-    return arbeitsl_geld_2_erwachsenensatz_m + arbeitsl_geld_2_kindersatz_m
+    return erwachsenensatz_m + kindersatz_m
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
-def arbeitsl_geld_2_kost_unterk_m_bis_2022(
-    _arbeitsl_geld_2_berechtigte_wohnfläche: float,
-    _arbeitsl_geld_2_warmmiete_pro_qm_m: float,
+@policy_function(end_date="2022-12-31", name_in_dag="kosten_unterkunft_m")
+def kosten_unterkunft_m_bis_2022(
+    berechtigte_wohnfläche: float,
+    warmmiete_je_qm_m: float,
 ) -> float:
     """Calculate costs of living eligible to claim until 2022.
 
     Note: Since 2023, Arbeitslosengeld 2 is referred to as Bürgergeld.
     Parameters
     ----------
-    _arbeitsl_geld_2_berechtigte_wohnfläche
-        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche`.
-    _arbeitsl_geld_2_warmmiete_pro_qm_m
-        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m`.
+    berechtigte_wohnfläche
+        See :func:`berechtigte_wohnfläche`.
+    warmmiete_je_qm_m
+        See :func:`warmmiete_je_qm_m`.
 
     Returns
     -------
     float with total monthly cost of rent.
 
     """
-    return _arbeitsl_geld_2_berechtigte_wohnfläche * _arbeitsl_geld_2_warmmiete_pro_qm_m
+    return berechtigte_wohnfläche * warmmiete_je_qm_m
 
 
-@policy_function(start_date="2023-01-01", name_in_dag="arbeitsl_geld_2_kost_unterk_m")
-def arbeitsl_geld_2_kost_unterk_m_ab_2023(
+@policy_function(start_date="2023-01-01", name_in_dag="kosten_unterkunft_m")
+def kosten_unterkunft_m_ab_2023(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
     bürgerg_bezug_vorj: bool,
-    _arbeitsl_geld_2_berechtigte_wohnfläche: float,
-    _arbeitsl_geld_2_warmmiete_pro_qm_m: float,
+    berechtigte_wohnfläche: float,
+    warmmiete_je_qm_m: float,
 ) -> float:
     """Calculate costs of living eligible to claim since 2023. During the first year,
     the waiting period (Karenzzeit), only the appropriateness of the heating costs is
@@ -333,10 +333,10 @@ def arbeitsl_geld_2_kost_unterk_m_ab_2023(
         See :func:`heizkosten_m`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
-    _arbeitsl_geld_2_berechtigte_wohnfläche
-        See :func:`_arbeitsl_geld_2_berechtigte_wohnfläche`.
-    _arbeitsl_geld_2_warmmiete_pro_qm_m
-        See :func:`_arbeitsl_geld_2_warmmiete_pro_qm_m`.
+    berechtigte_wohnfläche
+        See :func:`berechtigte_wohnfläche`.
+    warmmiete_je_qm_m
+        See :func:`warmmiete_je_qm_m`.
 
     Returns
     -------
@@ -344,17 +344,14 @@ def arbeitsl_geld_2_kost_unterk_m_ab_2023(
 
     """
     if bürgerg_bezug_vorj:
-        out = (
-            _arbeitsl_geld_2_berechtigte_wohnfläche
-            * _arbeitsl_geld_2_warmmiete_pro_qm_m
-        )
+        out = berechtigte_wohnfläche * warmmiete_je_qm_m
     else:
         out = bruttokaltmiete_m + heizkosten_m
 
     return out
 
 
-def _arbeitsl_geld_2_warmmiete_pro_qm_m(
+def warmmiete_je_qm_m(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
     wohnfläche: float,
@@ -386,7 +383,7 @@ def _arbeitsl_geld_2_warmmiete_pro_qm_m(
     return out
 
 
-def _arbeitsl_geld_2_berechtigte_wohnfläche(
+def berechtigte_wohnfläche(
     wohnfläche: float,
     bewohnt_eigentum_hh: bool,
     anz_personen_hh: int,

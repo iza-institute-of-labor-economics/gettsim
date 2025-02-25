@@ -40,10 +40,10 @@ inputs:
     alter:
       - 76
       - 70
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 430.0
       - 430.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 70.0
       - 70.0
     wohnfläche_hh:

@@ -3,11 +3,11 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-def _arbeitsl_geld_2_grundfreib_vermög(
+def grundfreibetrag_vermögen(
     kind: bool,
     alter: int,
     geburtsjahr: int,
-    _arbeitsl_geld_2_max_grundfreib_vermög: float,
+    maximaler_grundfreibetrag_vermögen: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate wealth exemptions based on individuals age.
@@ -22,8 +22,8 @@ def _arbeitsl_geld_2_grundfreib_vermög(
         See basic input variable :ref:`alter <alter>`.
     geburtsjahr
         See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    _arbeitsl_geld_2_max_grundfreib_vermög
-        See :func:`_arbeitsl_geld_2_max_grundfreib_vermög`.
+    maximaler_grundfreibetrag_vermögen
+        See :func:`maximaler_grundfreibetrag_vermögen`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -44,10 +44,10 @@ def _arbeitsl_geld_2_grundfreib_vermög(
     else:
         out = 0.0
 
-    return float(min(out, _arbeitsl_geld_2_max_grundfreib_vermög))
+    return float(min(out, maximaler_grundfreibetrag_vermögen))
 
 
-def _arbeitsl_geld_2_max_grundfreib_vermög(
+def maximaler_grundfreibetrag_vermögen(
     geburtsjahr: int,
     kind: bool,
     arbeitsl_geld_2_params: dict,
@@ -93,7 +93,7 @@ def _arbeitsl_geld_2_max_grundfreib_vermög(
 
 
 @policy_function(start_date="2023-01-01")
-def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
+def freibetrag_vermögen_in_karenzzeit_bg(
     arbeitsl_geld_2_params: dict,
     anz_personen_bg: int,
 ) -> float:
@@ -123,9 +123,9 @@ def _arbeitsl_geld_2_vermög_freib_karenzz_bg(
     return out
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="arbeitsl_geld_2_vermög_freib_bg")
-def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
-    _arbeitsl_geld_2_grundfreib_vermög_bg: float,
+@policy_function(end_date="2022-12-31", name_in_dag="freibetrag_vermögen_bg")
+def freibetrag_vermögen_bg_bis_2022(
+    grundfreibetrag_vermögen_bg: float,
     anz_kinder_bis_17_bg: int,
     anz_personen_bg: int,
     arbeitsl_geld_2_params: dict,
@@ -136,8 +136,8 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 
     Parameters
     ----------
-    _arbeitsl_geld_2_grundfreib_vermög_bg
-        See :func:`_arbeitsl_geld_2_grundfreib_vermög_bg`.
+    grundfreibetrag_vermögen_bg
+        See :func:`grundfreibetrag_vermögen_bg`.
     anz_kinder_bis_17_bg
         See :func:`anz_kinder_bis_17_bg`.
     anz_personen_bg
@@ -151,18 +151,18 @@ def arbeitsl_geld_2_vermög_freib_bg_bis_2022(
 
     """
     out = (
-        _arbeitsl_geld_2_grundfreib_vermög_bg
+        grundfreibetrag_vermögen_bg
         + anz_kinder_bis_17_bg * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
         + anz_personen_bg * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     )
     return out
 
 
-@policy_function(start_date="2023-01-01", leaf_name="arbeitsl_geld_2_vermög_freib_bg")
-def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
+@policy_function(start_date="2023-01-01", leaf_name="freibetrag_vermögen_bg")
+def freibetrag_vermögen_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     anz_personen_bg: int,
-    _arbeitsl_geld_2_vermög_freib_karenzz_bg: float,
+    freibetrag_vermögen_in_karenzzeit_bg: float,
     bürgerg_bezug_vorj: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
@@ -177,8 +177,8 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     anz_personen_bg
         See :func:`anz_personen_bg`.
-    _arbeitsl_geld_2_vermög_freib_karenzz_bg
-        See :func:`_arbeitsl_geld_2_vermög_freib_karenzz_bg`.
+    freibetrag_vermögen_in_karenzzeit_bg
+        See :func:`freibetrag_vermögen_in_karenzzeit_bg`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
 
@@ -191,6 +191,6 @@ def arbeitsl_geld_2_vermög_freib_bg_ab_2023(
     if bürgerg_bezug_vorj:
         out = anz_personen_bg * params["normaler_satz"]
     else:
-        out = _arbeitsl_geld_2_vermög_freib_karenzz_bg
+        out = freibetrag_vermögen_in_karenzzeit_bg
 
     return out

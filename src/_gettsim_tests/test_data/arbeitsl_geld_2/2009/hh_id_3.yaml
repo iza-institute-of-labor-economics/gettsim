@@ -37,10 +37,10 @@ inputs:
     alter:
       - 28
       - 1
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 80.0
       - 80.0
     wohnfläche_hh:
@@ -120,18 +120,18 @@ inputs:
       - false
   assumed: {}
 outputs:
-  arbeitsl_geld_2_eink_anr_frei_m:
+  arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
     - 260.0
     - 0.0
-  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
+  arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
     - 684.5
     - 0.0
-  arbeitsl_geld_2_regelsatz_m_bg:
+  arbeitslosengeld_2__regelsatz_m_bg:
     - 687.96
     - 687.96
-  arbeitsl_geld_2_kost_unterk_m_bg:
+  arbeitslosengeld_2__kosten_unterkunft_m_bg:
     - 480.0
     - 480.0
-  arbeitsl_geld_2_m_bg:
+  arbeitslosengeld_2__betrag_m_bg:
     - 319.46
     - 319.46

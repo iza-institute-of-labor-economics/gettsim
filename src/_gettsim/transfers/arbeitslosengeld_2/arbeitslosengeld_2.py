@@ -4,8 +4,8 @@ Note: Since 2023, Arbeitslosengeld II is referred to as Bürgergeld.
 """
 
 
-def arbeitsl_geld_2_m_bg(
-    arbeitsl_geld_2_vor_vorrang_m_bg: float,
+def betrag_m_bg(
+    anspruchshöhe_m_bg: float,
     vorrangpruefungen__wohngeld_vorrang_bg: bool,
     vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
@@ -17,8 +17,8 @@ def arbeitsl_geld_2_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_vor_vorrang_m_bg
-        See :func:`arbeitsl_geld_2_vor_vorrang_m_bg`.
+    anspruchshöhe_m_bg
+        See :func:`anspruchshöhe_m_bg`.
     vorrangpruefungen__wohngeld_vorrang_bg
         See :func:`vorrangpruefungen__wohngeld_vorrang_bg`.
     vorrangpruefungen__kinderzuschlag_vorrang_bg
@@ -47,16 +47,16 @@ def arbeitsl_geld_2_m_bg(
     ):
         out = 0.0
     else:
-        out = arbeitsl_geld_2_vor_vorrang_m_bg
+        out = anspruchshöhe_m_bg
 
     return out
 
 
-def arbeitsl_geld_2_vor_vorrang_m_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    arbeitsl_geld_2_eink_m_bg: float,
+def anspruchshöhe_m_bg(
+    regelbedarf_m_bg: float,
+    anzurechnendes_einkommen_m_bg: float,
     vermögen_bedürft_bg: float,
-    arbeitsl_geld_2_vermög_freib_bg: float,
+    freibetrag_vermögen_bg: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
 
@@ -64,12 +64,12 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    arbeitsl_geld_2_eink_m_bg
-        See :func:`arbeitsl_geld_2_eink_m_bg`.
-    arbeitsl_geld_2_vermög_freib_bg
-        See :func:`arbeitsl_geld_2_vermög_freib_bg`.
+    regelbedarf_m_bg
+        See :func:`regelbedarf_m_bg`.
+    anzurechnendes_einkommen_m_bg
+        See :func:`anzurechnendes_einkommen_m_bg`.
+    freibetrag_vermögen_bg
+        See :func:`freibetrag_vermögen_bg`.
     vermögen_bedürft_bg
         See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
 
@@ -78,13 +78,13 @@ def arbeitsl_geld_2_vor_vorrang_m_bg(
 
     """
     # Check wealth exemption
-    if vermögen_bedürft_bg > arbeitsl_geld_2_vermög_freib_bg:
+    if vermögen_bedürft_bg > freibetrag_vermögen_bg:
         out = 0.0
     else:
         # Deduct income from various sources
         out = max(
             0.0,
-            arbeitsl_geld_2_regelbedarf_m_bg - arbeitsl_geld_2_eink_m_bg,
+            regelbedarf_m_bg - anzurechnendes_einkommen_m_bg,
         )
 
     return out

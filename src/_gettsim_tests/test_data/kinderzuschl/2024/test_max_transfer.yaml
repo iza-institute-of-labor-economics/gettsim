@@ -49,10 +49,10 @@ inputs:
     bruttolohn_m:
       - 1000.0
       - 0.0
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 700.0
       - 700.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 100.0
       - 100.0
     kind_unterh_erhalt_m:
@@ -61,19 +61,19 @@ inputs:
     unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_eink_anr_frei_m:
+    arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_bruttoeink_m:
+    arbeitslosengeld_2__bruttoeinkommen_m:
       - 1000.0
       - 0.0
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
+    arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
       - 1000.0
       - 0.0
     rente__altersrente__betrag_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_2_vor_vorrang_m_bg:
+    arbeitslosengeld_2__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
@@ -93,6 +93,6 @@ outputs:
   kinderzuschlag__anspruchshöhe_m_bg:
     - 292.0
     - 292.0
-  bruttokaltmiete_m_bg:
+  arbeitslosengeld_2__bruttokaltmiete_m_bg:
     - 700.0
     - 700.0

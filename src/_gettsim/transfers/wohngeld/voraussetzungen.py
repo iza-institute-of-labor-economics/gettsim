@@ -104,7 +104,7 @@ def vermögensgrenze_unterschritten_bg(
 
 
 def mindesteinkommen_erreicht_wthh(
-    arbeitsl_geld_2_regelbedarf_m_wthh: float,
+    arbeitslosengeld_2__regelbedarf_m_wthh: float,
     einkommen_für_mindesteinkommen_check_m_wthh: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
@@ -120,8 +120,8 @@ def mindesteinkommen_erreicht_wthh(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_wthh
-        See :func:`arbeitsl_geld_2_regelbedarf_m_wthh`.
+    arbeitslosengeld_2__regelbedarf_m_wthh
+        See :func:`arbeitslosengeld_2__regelbedarf_m_wthh`.
     einkommen_für_mindesteinkommen_check_m_wthh
         See :func:`einkommen_für_mindesteinkommen_check_m_wthh`.
 
@@ -131,12 +131,12 @@ def mindesteinkommen_erreicht_wthh(
     """
     return (
         einkommen_für_mindesteinkommen_check_m_wthh
-        >= arbeitsl_geld_2_regelbedarf_m_wthh
+        >= arbeitslosengeld_2__regelbedarf_m_wthh
     )
 
 
 def mindesteinkommen_erreicht_bg(
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
+    arbeitslosengeld_2__regelbedarf_m_bg: float,
     einkommen_für_mindesteinkommen_check_m_bg: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
@@ -152,8 +152,8 @@ def mindesteinkommen_erreicht_bg(
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
+    arbeitslosengeld_2__regelbedarf_m_bg
+        See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
     einkommen_für_mindesteinkommen_check_m_bg
         See :func:`einkommen_für_mindesteinkommen_check_m_bg`.
 
@@ -161,11 +161,14 @@ def mindesteinkommen_erreicht_bg(
     -------
 
     """
-    return einkommen_für_mindesteinkommen_check_m_bg >= arbeitsl_geld_2_regelbedarf_m_bg
+    return (
+        einkommen_für_mindesteinkommen_check_m_bg
+        >= arbeitslosengeld_2__regelbedarf_m_bg
+    )
 
 
 def einkommen_für_mindesteinkommen_check_m(
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m: float,
+    arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld__betrag_m: float,
@@ -180,8 +183,8 @@ def einkommen_für_mindesteinkommen_check_m(
 
     Parameters
     ----------
-    arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
-        See :func:`arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m`.
+    arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
+        See :func:`arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m`.
     kind_unterh_erhalt_m
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvorschuss__betrag_m
@@ -197,7 +200,7 @@ def einkommen_für_mindesteinkommen_check_m(
     """
 
     return (
-        arbeitsl_geld_2_nettoeink_vor_abzug_freibetrag_m
+        arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
         + kind_unterh_erhalt_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld__betrag_m

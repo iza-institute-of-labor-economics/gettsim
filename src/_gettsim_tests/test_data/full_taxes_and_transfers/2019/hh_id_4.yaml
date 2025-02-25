@@ -76,9 +76,9 @@ inputs:
       - 205.0
     eink_vermietung_m:
       - 9.0
-    bruttokaltmiete_m_hh:
+    arbeitslosengeld_2__bruttokaltmiete_m_hh:
       - 400.0
-    heizkosten_m_hh:
+    arbeitslosengeld_2__heizkosten_m_hh:
       - 80.0
     jahr_renteneintr:
       - 2070

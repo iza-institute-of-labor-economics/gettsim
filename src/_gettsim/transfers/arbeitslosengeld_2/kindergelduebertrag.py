@@ -8,13 +8,13 @@ from _gettsim.shared import join_numpy
 aggregate_by_p_id_kindergeldübertrag = {
     "kindergeldübertrag_m": {
         "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "_diff_kindergeld_kindbedarf_m",
+        "source_col": "differenz_kindergeld_kindbedarf_m",
         "aggr": "sum",
     },
 }
 
 
-@policy_function(end_date="2022-12-31", leaf_name="_mean_kindergeld_per_child_m")
+@policy_function(end_date="2022-12-31", leaf_name="kindergeld_pro_kind_m")
 def _mean_kindergeld_per_child_gestaffelt_m(
     kindergeld__betrag_m: float,
     kindergeld__anzahl_ansprüche: int,
@@ -42,7 +42,7 @@ def _mean_kindergeld_per_child_gestaffelt_m(
     return out
 
 
-@policy_function(start_date="2023-01-01", leaf_name="_mean_kindergeld_per_child_m")
+@policy_function(start_date="2023-01-01", leaf_name="kindergeld_pro_kind_m")
 def _mean_kindergeld_per_child_ohne_staffelung_m(
     kindergeld_params: dict,
     kindergeld__anzahl_ansprüche: int,
@@ -68,7 +68,7 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
 
 @policy_function(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
-    _mean_kindergeld_per_child_m: float,
+    kindergeld_pro_kind_m: float,
     p_id_kindergeld_empf: numpy.ndarray[int],
     p_id: numpy.ndarray[int],
 ) -> numpy.ndarray[float]:
@@ -97,19 +97,19 @@ def kindergeld_zur_bedarfsdeckung_m(
     return join_numpy(
         p_id_kindergeld_empf,
         p_id,
-        _mean_kindergeld_per_child_m,
+        kindergeld_pro_kind_m,
         value_if_foreign_key_is_missing=0.0,
     )
 
 
-def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
-    arbeitsl_geld_2_regelbedarf_m_bg: float,
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m: float,
+def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
+    regelbedarf_m_bg: float,
+    nettoeinkommen_nach_abzug_freibetrag_m: float,
     wohngeld__anspruchshöhe_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
-    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger: bool,
+    in_anderer_bg_als_kindergeldempfänger: bool,
 ) -> float:
     """Kindergeld that is used to cover the needs (SGB II) of the parent.
 
@@ -122,9 +122,9 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    arbeitsl_geld_2_regelbedarf_m_bg
-        See :func:`arbeitsl_geld_2_regelbedarf_m_bg`.
-    arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+    regelbedarf_m_bg
+        See :func:`regelbedarf_m_bg`.
+    nettoeinkommen_nach_abzug_freibetrag_m
         See :func:`_arbeitsl_geld_2
     wohngeld__anspruchshöhe_m_bg
         See :func:`wohngeld__anspruchshöhe_m_bg`.
@@ -134,24 +134,24 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
         See :func:`kind_unterh_erhalt_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
-    _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
-        See :func:`_in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger`.
+    in_anderer_bg_als_kindergeldempfänger
+        See :func:`in_anderer_bg_als_kindergeldempfänger`.
 
     Returns
     -------
 
     """
     fehlbetrag = max(
-        arbeitsl_geld_2_regelbedarf_m_bg
+        regelbedarf_m_bg
         - wohngeld__anspruchshöhe_m_bg
-        - arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m
+        - nettoeinkommen_nach_abzug_freibetrag_m
         - kind_unterh_erhalt_m
         - unterhaltsvorschuss__betrag_m,
         0.0,
     )
     # Bedarf not covered or same Bedarfsgemeinschaft as parents
     if (
-        not _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger
+        not in_anderer_bg_als_kindergeldempfänger
         or fehlbetrag > kindergeld_zur_bedarfsdeckung_m
     ):
         out = 0.0
@@ -162,7 +162,7 @@ def _diff_kindergeld_kindbedarf_m(  # noqa: PLR0913
 
 
 @policy_function(skip_vectorization=True)
-def _in_anderer_bedarfsgemeinschaft_als_kindergeldempfänger(
+def in_anderer_bg_als_kindergeldempfänger(
     p_id: numpy.ndarray[int],
     p_id_kindergeld_empf: numpy.ndarray[int],
     bg_id: numpy.ndarray[int],
