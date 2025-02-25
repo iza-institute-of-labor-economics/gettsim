@@ -3,7 +3,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 
 @policy_function(params_key_for_rounding="ges_rente")
-def betrag_m(basisbetrag_m: float, einkommen_m: float) -> float:
+def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
     """Calculate Grundrentenzuschlag (additional monthly pensions payments resulting
     from Grundrente)
 
@@ -11,18 +11,18 @@ def betrag_m(basisbetrag_m: float, einkommen_m: float) -> float:
     ----------
     basisbetrag_m
         See :func:`basisbetrag_m`.
-    einkommen_m
-        See :func:`einkommen_m`.
+    anzurechnendes_einkommen_m
+        See :func:`anzurechnendes_einkommen_m`.
 
     Returns
     -------
 
     """
-    out = basisbetrag_m - einkommen_m
+    out = basisbetrag_m - anzurechnendes_einkommen_m
     return max(out, 0.0)
 
 
-def einkommen_vor_freibetrag_m(
+def einkommen_m(
     proxy_rente_vorjahr_m: float,
     bruttolohn_vorj_m: float,
     eink_selbst_y: float,
@@ -81,8 +81,8 @@ def einkommen_vor_freibetrag_m(
 
 
 @policy_function(params_key_for_rounding="ges_rente")
-def einkommen_m(
-    einkommen_vor_freibetrag_m_ehe: float,
+def anzurechnendes_einkommen_m(
+    einkommen_m_ehe: float,
     p_id_ehepartner: int,
     rente__altersrente__rentenwert: float,
     ges_rente_params: dict,
@@ -98,8 +98,8 @@ def einkommen_m(
 
     Parameters
     ----------
-    einkommen_vor_freibetrag_m_ehe
-        See :func:`einkommen_vor_freibetrag_m_ehe`.
+    einkommen_m_ehe
+        See :func:`einkommen_m_ehe`.
     p_id_ehepartner
         See :func:`p_id_ehepartner`.
     rente__altersrente__rentenwert
@@ -122,7 +122,7 @@ def einkommen_m(
 
     out = (
         piecewise_polynomial(
-            x=einkommen_vor_freibetrag_m_ehe / rente__altersrente__rentenwert,
+            x=einkommen_m_ehe / rente__altersrente__rentenwert,
             thresholds=einkommensanr_params["thresholds"],
             rates=einkommensanr_params["rates"],
             intercepts_at_lower_thresholds=einkommensanr_params[
@@ -356,7 +356,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     return out
 
 
-def anspruchsbedingungen_erfüllt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
+def anspruchsberechtigt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
     """Whether person has accumulated enough insured years to be eligible.
 
     Parameters

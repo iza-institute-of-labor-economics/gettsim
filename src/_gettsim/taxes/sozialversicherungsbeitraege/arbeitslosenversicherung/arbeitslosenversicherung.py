@@ -260,15 +260,15 @@ def betrag_arbeitnehmer_midijob_m_residuum(
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitnehmer_midijob_m")
 def betrag_arbeitnehmer_midijob_m_anteil_beitragspfl_einnahme(
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's unemployment insurance contribution since October 2022.
 
     Parameters
     ----------
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
-        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -277,6 +277,6 @@ def betrag_arbeitnehmer_midijob_m_anteil_beitragspfl_einnahme(
 
     """
     return (
-        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
         * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
     )

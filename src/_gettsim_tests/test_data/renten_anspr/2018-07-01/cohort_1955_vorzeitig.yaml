@@ -52,5 +52,5 @@ outputs:
     - 65.75
   rente__altersrente__altersgrenze_vorzeitig:
     - 65.75
-  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__vorzeitig_anspruchsberechtigt:
     - false

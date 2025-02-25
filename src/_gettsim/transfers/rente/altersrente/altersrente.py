@@ -359,7 +359,7 @@ def zugangsfaktor(  # noqa: PLR0913
     referenzalter_abschlag: float,
     altersgrenze_abschlagsfrei: float,
     altersgrenze_vorzeitig: float,
-    voraussetzung_vorzeitig_erfüllt: bool,
+    vorzeitig_anspruchsberechtigt: bool,
     rente__altersrente__regelaltersrente__anspruchsberechtigt: bool,
     ges_rente_params: dict,
 ) -> float:
@@ -398,8 +398,8 @@ def zugangsfaktor(  # noqa: PLR0913
         See :func:`altersgrenze_abschlagsfrei`.
     altersgrenze_vorzeitig
         See :func:`altersgrenze_vorzeitig`.
-    voraussetzung_vorzeitig_erfüllt
-        See :func:`voraussetzung_vorzeitig_erfüllt`.
+    vorzeitig_anspruchsberechtigt
+        See :func:`vorzeitig_anspruchsberechtigt`.
     rente__altersrente__regelaltersrente__anspruchsberechtigt
         See :func:`rente__altersrente__regelaltersrente__anspruchsberechtigt`.
     ges_rente_params
@@ -414,7 +414,7 @@ def zugangsfaktor(  # noqa: PLR0913
     if rente__altersrente__regelaltersrente__anspruchsberechtigt:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
         if rente__alter_bei_renteneintritt < altersgrenze_abschlagsfrei:  # [ERA,FRA)
-            if voraussetzung_vorzeitig_erfüllt and (
+            if vorzeitig_anspruchsberechtigt and (
                 rente__alter_bei_renteneintritt >= altersgrenze_vorzeitig
             ):
                 # Calc difference to FRA of pensions with early retirement options

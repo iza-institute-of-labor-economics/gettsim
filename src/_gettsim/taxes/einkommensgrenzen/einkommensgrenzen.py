@@ -153,7 +153,7 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
     )
 
 
-def beitragspfl_einnahmen_arbeitnehmer_m(
+def beitragspflichtige_einnahmen_arbeitnehmer_m(
     bruttolohn_m: float,
     sozialv_beitr_params: dict,
     minijob_grenze: float,

@@ -54,7 +54,7 @@ outputs:
     - 63.083333
   rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
     - 60.083333
-  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__vorzeitig_anspruchsberechtigt:
     - true
   rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
     - true

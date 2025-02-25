@@ -259,8 +259,8 @@ def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="voraussetzung_vorzeitig_erfüllt")
-def voraussetzung_vorzeitig_erfüllt_mit_rente_arbeitsl_frauen(
+@policy_function(end_date="2017-12-31", name_in_dag="vorzeitig_anspruchsberechtigt")
+def vorzeitig_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
     rente__altersrente__für_frauen__anspruchsberechtigt: bool,
     rente__altersrente__langjährig__anspruchsberechtigt: bool,
     rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
@@ -297,8 +297,8 @@ def voraussetzung_vorzeitig_erfüllt_mit_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="voraussetzung_vorzeitig_erfüllt")
-def voraussetzung_vorzeitig_erfüllt_vorzeitig_ohne_rente_arbeitsl_frauen(
+@policy_function(start_date="2018-01-01", name_in_dag="vorzeitig_anspruchsberechtigt")
+def vorzeitig_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
     rente__altersrente__langjährig__anspruchsberechtigt: bool,
 ) -> bool:
     """Eligibility for early retirement.

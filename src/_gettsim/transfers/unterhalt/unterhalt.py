@@ -1,7 +1,7 @@
 """Alimony payments (Unterhalt)."""
 
 
-def unterhalt__betrag_m(
+def betrag_m(
     kind_unterh_anspr_m: float,
     kindergeld__betrag_m: float,
     unterhalt_params: dict,

@@ -69,7 +69,7 @@ def anspruchshöhe_m_wthh(
     anz_personen_wthh: int,
     einkommen_m_wthh: float,
     miete_m_wthh: float,
-    anspruchsbedingungen_erfüllt_wthh: bool,
+    anspruchsberechtigt_wthh: bool,
     wohngeld_params: dict,
 ) -> float:
     """Housing benefit after wealth and income check.
@@ -86,8 +86,8 @@ def anspruchshöhe_m_wthh(
         See :func:`einkommen_m_wthh`.
     miete_m_wthh
         See :func:`miete_m_wthh`.
-    anspruchsbedingungen_erfüllt_wthh
-        See :func:`anspruchsbedingungen_erfüllt_wthh`.
+    anspruchsberechtigt_wthh
+        See :func:`anspruchsberechtigt_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -95,7 +95,7 @@ def anspruchshöhe_m_wthh(
     -------
 
     """
-    if anspruchsbedingungen_erfüllt_wthh:
+    if anspruchsberechtigt_wthh:
         out = basisformel(
             anz_personen=anz_personen_wthh,
             einkommen_m=einkommen_m_wthh,
@@ -113,7 +113,7 @@ def anspruchshöhe_m_bg(
     anz_personen_bg: int,
     einkommen_m_bg: float,
     miete_m_bg: float,
-    anspruchsbedingungen_erfüllt_bg: bool,
+    anspruchsberechtigt_bg: bool,
     wohngeld_params: dict,
 ) -> float:
     """Housing benefit after wealth and income check.
@@ -128,8 +128,8 @@ def anspruchshöhe_m_bg(
         See :func:`einkommen_m_bg`.
     miete_m_bg
         See :func:`miete_m_bg`.
-    anspruchsbedingungen_erfüllt_bg
-        See :func:`anspruchsbedingungen_erfüllt_bg`.
+    anspruchsberechtigt_bg
+        See :func:`anspruchsberechtigt_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -137,7 +137,7 @@ def anspruchshöhe_m_bg(
     -------
 
     """
-    if anspruchsbedingungen_erfüllt_bg:
+    if anspruchsberechtigt_bg:
         out = basisformel(
             anz_personen=anz_personen_bg,
             einkommen_m=einkommen_m_bg,

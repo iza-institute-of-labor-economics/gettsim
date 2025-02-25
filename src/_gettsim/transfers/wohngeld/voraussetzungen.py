@@ -1,7 +1,7 @@
 """Eligibility checks for housing benefits (Wohngeld)."""
 
 
-def anspruchsbedingungen_erfüllt_wthh(
+def anspruchsberechtigt_wthh(
     mindesteinkommen_erreicht_wthh: bool,
     vermögensgrenze_unterschritten_wthh: bool,
 ) -> bool:
@@ -24,7 +24,7 @@ def anspruchsbedingungen_erfüllt_wthh(
     return vermögensgrenze_unterschritten_wthh and mindesteinkommen_erreicht_wthh
 
 
-def anspruchsbedingungen_erfüllt_bg(
+def anspruchsberechtigt_bg(
     mindesteinkommen_erreicht_bg: bool,
     vermögensgrenze_unterschritten_bg: bool,
 ) -> bool:

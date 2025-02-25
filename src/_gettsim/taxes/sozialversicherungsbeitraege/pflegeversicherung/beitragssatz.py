@@ -8,7 +8,7 @@ from _gettsim.functions.policy_function import policy_function
     end_date="2004-12-31",
     name_in_dag="beitragssatz",
 )
-def beitragssatz_ohne_zusatz_fuer_kinderlose(
+def beitragssatz_ohne_zusatz_für_kinderlose(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's long-term care insurance contribution rate.

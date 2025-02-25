@@ -62,7 +62,7 @@ outputs:
     - 60.0
   rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_ohne_vertrauensschutzprüfung:
     - 60.0
-  rente__altersrente__voraussetzung_vorzeitig_erfüllt:
+  rente__altersrente__vorzeitig_anspruchsberechtigt:
     - true
   rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
     - true

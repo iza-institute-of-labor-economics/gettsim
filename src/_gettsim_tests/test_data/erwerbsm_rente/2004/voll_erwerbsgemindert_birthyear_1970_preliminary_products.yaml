@@ -43,7 +43,7 @@ outputs:
     - 34.38139535
   rente__erwerbsminderung__zugangsfaktor:
     - 0.892
-  rente__erwerbsminderung__anspruchsbedingungen_erfüllt:
+  rente__erwerbsminderung__anspruchsberechtigt:
     - true
   rente__erwerbsminderung__rentenartfaktor:
     - 1.0

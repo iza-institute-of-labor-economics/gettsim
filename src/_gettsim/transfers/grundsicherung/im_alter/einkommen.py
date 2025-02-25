@@ -208,7 +208,7 @@ def gesetzliche_rente_m_bis_2020(
 @policy_function(start_date="2021-01-01", leaf_name="gesetzliche_rente_m")
 def gesetzliche_rente_m_ab_2021(
     rente__altersrente__betrag_m: float,
-    rente__grundrente__anspruchsbedingungen_erfüllt: bool,
+    rente__grundrente__anspruchsberechtigt: bool,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -222,8 +222,8 @@ def gesetzliche_rente_m_ab_2021(
     ----------
     rente__altersrente__betrag_m
         See basic input variable :ref:`rente__altersrente__betrag_m <rente__altersrente__betrag_m>`.
-    rente__grundrente__anspruchsbedingungen_erfüllt
-        See :func:`rente__grundrente__anspruchsbedingungen_erfüllt`.
+    rente__grundrente__anspruchsberechtigt
+        See :func:`rente__grundrente__anspruchsberechtigt`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
@@ -245,7 +245,7 @@ def gesetzliche_rente_m_ab_2021(
     )
 
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
-    if rente__grundrente__anspruchsbedingungen_erfüllt:
+    if rente__grundrente__anspruchsberechtigt:
         angerechnete_rente = min(angerechnete_rente, upper)
     else:
         angerechnete_rente = 0.0

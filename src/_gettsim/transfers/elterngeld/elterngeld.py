@@ -49,7 +49,7 @@ def betrag_m(
 def basisbetrag_m(
     elterngeld_nettoeinkommen_vorjahr_m: float,
     lohnersatzanteil: float,
-    anrechenbares_nettoeinkommen_m: float,
+    anzurechnendes_nettoeinkommen_m: float,
     elterngeld_params: dict,
 ) -> float:
     """Base parental leave benefit without accounting for floor and ceiling.
@@ -61,8 +61,8 @@ def basisbetrag_m(
         <elterngeld_nettoeinkommen_vorjahr_m>`.
     lohnersatzanteil
         See :func:`lohnersatzanteil`.
-    anrechenbares_nettoeinkommen_m
-        See :func:`anrechenbares_nettoeinkommen_m`.
+    anzurechnendes_nettoeinkommen_m
+        See :func:`anzurechnendes_nettoeinkommen_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -75,7 +75,7 @@ def basisbetrag_m(
         elterngeld_params["max_zu_berücksichtigendes_einkommen"],
     )
     return (
-        berücksichtigtes_einkommen - anrechenbares_nettoeinkommen_m
+        berücksichtigtes_einkommen - anzurechnendes_nettoeinkommen_m
     ) * lohnersatzanteil
 
 

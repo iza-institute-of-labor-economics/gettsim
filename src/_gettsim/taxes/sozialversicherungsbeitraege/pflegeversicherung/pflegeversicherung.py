@@ -547,7 +547,7 @@ def betrag_arbeitnehmer_residuum_m(
 )
 def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     beitragssatz__zusatzbetrag_kinderlos: bool,
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -560,8 +560,8 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
         See         :func:`beitragssatz__zusatzbetrag_kinderlos`.
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
-        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -572,7 +572,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     """
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = (
-        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
@@ -590,7 +590,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
 def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_anz_kinder_bis_24: int,
     beitragssatz__zusatzbetrag_kinderlos: bool,
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -604,8 +604,8 @@ def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
         See         :func:`beitragssatz__zusatzbetrag_kinderlos`.
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
-        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -625,7 +625,8 @@ def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
 
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = (
-        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m * ges_pflegev_rate
+        einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        * ges_pflegev_rate
     )
 
     # Add additional contribution for childless individuals

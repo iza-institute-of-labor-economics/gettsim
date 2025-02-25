@@ -2369,7 +2369,7 @@ rounding:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__einkommen_m:
+  rente__grundrente__anzurechnendes_einkommen_m:
     2021-01-01:
       base: 0.01
       direction: nearest

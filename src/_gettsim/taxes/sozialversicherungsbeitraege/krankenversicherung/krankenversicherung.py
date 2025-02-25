@@ -377,15 +377,15 @@ def betrag_arbeitnehmer_midijob_residuum_m(
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitnehmer_midijob_m")
 def betrag_arbeitnehmer_midijob_anteil_beitragspfl_einnahme_m(
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m: float,
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     beitragssatz_arbeitnehmer: float,
 ) -> float:
     """Employee's health insurance contribution for midijobs since October 2022.
 
     Parameters
     ----------
-    einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
-        See :func:`einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m`.
+    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        See :func:`einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m`.
     beitragssatz_arbeitnehmer
         See
         :func:`beitragssatz_arbeitnehmer`.
@@ -394,6 +394,6 @@ def betrag_arbeitnehmer_midijob_anteil_beitragspfl_einnahme_m(
 
     """
     return (
-        einkommensgrenzen__beitragspfl_einnahmen_arbeitnehmer_m
+        einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
         * beitragssatz_arbeitnehmer
     )
