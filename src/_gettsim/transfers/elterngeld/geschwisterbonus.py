@@ -1,8 +1,8 @@
 """Parental leave bonus for siblings."""
 
 
-def elterngeld_geschwisterbonus_m(
-    elterngeld_basisbetrag_m: float,
+def geschwisterbonus_m(
+    basisbetrag_m: float,
     geschwisterbonus_anspruchsberechtigt_fg: bool,
     elterngeld_params: dict,
 ) -> float:
@@ -12,8 +12,8 @@ def elterngeld_geschwisterbonus_m(
 
     Parameters
     ----------
-    elterngeld_basisbetrag_m
-        See :func:`elterngeld_basisbetrag_m`.
+    basisbetrag_m
+        See :func:`basisbetrag_m`.
     geschwisterbonus_anspruchsberechtigt_fg
         See :func:`geschwisterbonus_anspruchsberechtigt_fg`.
     elterngeld_params
@@ -25,7 +25,7 @@ def elterngeld_geschwisterbonus_m(
     """
     if geschwisterbonus_anspruchsberechtigt_fg:
         out = max(
-            elterngeld_params["geschwisterbonus_aufschlag"] * elterngeld_basisbetrag_m,
+            elterngeld_params["geschwisterbonus_aufschlag"] * basisbetrag_m,
             elterngeld_params["geschwisterbonus_minimum"],
         )
     else:
@@ -33,15 +33,13 @@ def elterngeld_geschwisterbonus_m(
     return out
 
 
-def elterngeld_mehrlingsbonus_m(
-    _elterngeld_anz_mehrlinge_fg: int, elterngeld_params: dict
-) -> float:
+def mehrlingsbonus_m(anzahl_mehrlinge_fg: int, elterngeld_params: dict) -> float:
     """Elterngeld bonus for multiples.
 
     Parameters
     ----------
-    _elterngeld_anz_mehrlinge_fg
-        See :func:`_elterngeld_anz_mehrlinge_fg`.
+    anzahl_mehrlinge_fg
+        See :func:`anzahl_mehrlinge_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -49,7 +47,7 @@ def elterngeld_mehrlingsbonus_m(
     -------
 
     """
-    return _elterngeld_anz_mehrlinge_fg * elterngeld_params["mehrlingbonus"]
+    return anzahl_mehrlinge_fg * elterngeld_params["mehrlingbonus"]
 
 
 def geschwisterbonus_anspruchsberechtigt_fg(
@@ -80,7 +78,7 @@ def geschwisterbonus_anspruchsberechtigt_fg(
     return geschwister_unter_3 or geschwister_unter_6
 
 
-def _elterngeld_anz_mehrlinge_fg(
+def anzahl_mehrlinge_fg(
     anz_mehrlinge_jüngstes_kind_fg: int,
 ) -> int:
     """Number of multiples of the youngest child.

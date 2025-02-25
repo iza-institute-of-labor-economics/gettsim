@@ -203,7 +203,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
-    anrechenbares_elterngeld_m: float,
+    elterngeld__anrechenbarer_betrag_m: float,
     abzüge_steuern_sozialversicherung_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -230,8 +230,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
-    anrechenbares_elterngeld_m
-        See :func:`anrechenbares_elterngeld_m`.
+    elterngeld__anrechenbarer_betrag_m
+        See :func:`elterngeld__anrechenbarer_betrag_m`.
     abzüge_steuern_sozialversicherung_m
         See :func:`abzüge_steuern_sozialversicherung_m`.
 
@@ -254,7 +254,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
         + kind_unterh_erhalt_m
         + unterhaltsvorschuss__betrag_m
-        + anrechenbares_elterngeld_m
+        + elterngeld__anrechenbarer_betrag_m
     )
 
     eink_ind = einkommen + transfers + sonstig_eink_m

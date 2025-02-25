@@ -121,7 +121,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
     kapitaleink_brutto_m: float,
     rente__altersrente__sum_private_gesetzl_rente_m: float,
     arbeitslosengeld__betrag_m: float,
-    elterngeld_m: float,
+    elterngeld__betrag_m: float,
 ) -> float:
     """Sum up the gross income for calculation of basic subsistence.
 
@@ -144,8 +144,8 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
         <rente__altersrente__sum_private_gesetzl_rente_m>`.
     arbeitslosengeld__betrag_m
         See :func:`arbeitslosengeld__betrag_m`.
-    elterngeld_m
-        See :func:`elterngeld_m`.
+    elterngeld__betrag_m
+        See :func:`elterngeld__betrag_m`.
 
     Returns
     -------
@@ -160,7 +160,7 @@ def arbeitsl_geld_2_bruttoeink_m(  # noqa: PLR0913
         + kapitaleink_brutto_m
         + rente__altersrente__sum_private_gesetzl_rente_m
         + arbeitslosengeld__betrag_m
-        + elterngeld_m
+        + elterngeld__betrag_m
     )
 
     return out

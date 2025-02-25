@@ -261,8 +261,8 @@ Type: bool
 
 Approximation of the net wage in the 12 months before birth of youngest child (according
 to simplified calculation rules). You may let GETTSIM compute this variable via the
-`elterngeld_nettolohn_approximation_m` target in a separate run, which would typically
-be for the previous calendar year.
+`elterngeld__nettoerwerbseinkommen_approximation_m` target in a separate run, which
+would typically be for the previous calendar year.
 
 Type: float
 

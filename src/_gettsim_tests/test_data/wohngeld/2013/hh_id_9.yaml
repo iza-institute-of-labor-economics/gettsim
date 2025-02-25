@@ -76,7 +76,7 @@ inputs:
     einkommensteuer__einkommen__rente_ertragsanteil:
       - 0.0
       - 0.0
-    elterngeld_m:
+    elterngeld__betrag_m:
       - 0.0
       - 0.0
     arbeitslosengeld__betrag_m:

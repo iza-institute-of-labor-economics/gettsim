@@ -106,7 +106,7 @@ inputs:
       - 0
   assumed: {}
 outputs:
-  elterngeld_m:
+  elterngeld__betrag_m:
     - 1300.0
     - 0.0
     - 0.0

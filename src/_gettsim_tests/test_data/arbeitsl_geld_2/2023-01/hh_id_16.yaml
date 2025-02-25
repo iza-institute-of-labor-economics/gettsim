@@ -62,7 +62,7 @@ inputs:
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0
-    elterngeld_m:
+    elterngeld__betrag_m:
       - 0.0
     jahr:
       - 2023-01

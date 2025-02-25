@@ -103,7 +103,7 @@ inputs:
     unterhaltsvorschuss__betrag_m_eg:
       - 0.0
       - 0.0
-    elterngeld_m:
+    elterngeld__betrag_m:
       - 0.0
       - 0.0
     priv_rente_m:

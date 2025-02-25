@@ -98,7 +98,7 @@ inputs:
       - 0
   assumed: {}
 outputs:
-  elterngeld_lohnersatzanteil:
+  elterngeld__lohnersatzanteil:
     - 0.661
     - 0.67
     - 0.67

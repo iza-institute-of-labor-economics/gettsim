@@ -38,7 +38,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly subsistence payment on household level
 * - {func}`kinderzuschlag__betrag_m_bg <_gettsim.functions.all_functions_for_docs.kinderzuschlag__betrag_m_bg>`
   - Monthly additional child benefit, household sum
-* - {func}`elterngeld_m <_gettsim.functions.all_functions_for_docs.elterngeld_m>`
+* - {func}`elterngeld__betrag_m <_gettsim.functions.all_functions_for_docs.elterngeld__betrag_m>`
   - Monthly parental leave benefit
 * - {func}`wohngeld__betrag_m_wthh <_gettsim.functions.all_functions_for_docs.wohngeld__betrag_m_wthh>`
   - Monthly housing benefit on household level

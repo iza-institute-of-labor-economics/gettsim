@@ -54,11 +54,11 @@ inputs:
       - 2018
   assumed: {}
 outputs:
-  elterngeld_m:
+  elterngeld__betrag_m:
     - 0.0
-  geschwisterbonus_anspruchsberechtigt_fg:
+  elterngeld__geschwisterbonus_anspruchsberechtigt_fg:
     - false
-  _elterngeld_anz_mehrlinge_fg:
+  elterngeld__anzahl_mehrlinge_fg:
     - 0
-  elterngeld_anspruchsbedingungen_erfüllt:
+  elterngeld__anspruchsberechtigt:
     - false

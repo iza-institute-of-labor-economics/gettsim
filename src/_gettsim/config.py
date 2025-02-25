@@ -135,7 +135,7 @@ DEFAULT_TARGETS = {
         "abgelt_st": {"abgelt_st_y_sn": None},
     },
     "transfers": {
-        "elterngeld": {"elterngeld_m": None},
+        "elterngeld": {"elterngeld__betrag_m": None},
         "arbeitsl_geld": {"arbeitslosengeld__betrag_m": None},
         "kindergeld": {"kindergeld__betrag_m": None},
         "arbeitsl_geld_2": {"arbeitsl_geld_2_m_bg": None},

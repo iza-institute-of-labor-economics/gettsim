@@ -15,7 +15,7 @@ def einkommen_m(  # noqa: PLR0913
     soli_st_m_sn: float,
     anz_personen_sn: int,
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m: float,
-    anrechenbares_elterngeld_m: float,
+    elterngeld__anrechenbarer_betrag_m: float,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung im
     Alter.
@@ -42,8 +42,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`anz_personen_sn`.
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m
         See :func:`sozialversicherungsbeitraege__betrag_arbeitnehmer_m`.
-    anrechenbares_elterngeld_m
-        See :func:`anrechenbares_elterngeld_m`.
+    elterngeld__anrechenbarer_betrag_m
+        See :func:`elterngeld__anrechenbarer_betrag_m`.
 
     Returns
     -------
@@ -58,7 +58,7 @@ def einkommen_m(  # noqa: PLR0913
         + sonstig_eink_m
         + eink_vermietung_m
         + kapitaleinkommen_brutto_m
-        + anrechenbares_elterngeld_m
+        + elterngeld__anrechenbarer_betrag_m
     )
 
     out = (
