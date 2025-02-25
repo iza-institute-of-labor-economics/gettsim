@@ -62,15 +62,15 @@ inputs:
       - false
       - true
 outputs:
-  erziehungsgeld_eink_relev_kind_y:
+  erziehungsgeld__anzurechnendes_einkommen_y:
     - 0
     - 0.0
-  _erziehungsgeld_einkommensgrenze_kind_y:
+  erziehungsgeld__einkommensgrenze_y:
     - 0
     - 0.0
-  erziehungsgeld_kind_m:
+  erziehungsgeld__anspruchshöhe_kind_m:
     - 0.0
     - 0.0
-  erziehungsgeld_m:
+  erziehungsgeld__betrag_m:
     - 0.0
     - 0.0

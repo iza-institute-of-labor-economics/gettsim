@@ -70,11 +70,11 @@ inputs:
       - false
       - false
       - true
-    erziehungsgeld_anspruch_eltern:
+    erziehungsgeld__eltern_anspruchsberechtigt:
       - true
       - true
       - true
-    erziehungsgeld_kind_m:
+    erziehungsgeld__anspruchshöhe_kind_m:
       - 0.0
       - 0.0
       - 150.0
@@ -103,7 +103,7 @@ outputs:
     - 2904.0
     - 2904.0
     - 0.0
-  erziehungsgeld_m:
+  erziehungsgeld__betrag_m:
     - 150.0
     - 0.0
     - 0.0
