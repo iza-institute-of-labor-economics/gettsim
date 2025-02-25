@@ -14,7 +14,7 @@ inputs:
       - false
     kind:
       - false
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
+    taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
       - 3000.0
     abgeltungssteuer__betrag_y_sn:
       - 0.0

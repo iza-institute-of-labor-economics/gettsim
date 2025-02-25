@@ -148,14 +148,14 @@ DEFAULT_TARGETS = {
             "erwerbsminderung": {"betrag_m": None},
         },
     },
-    "social_insurance_contributions": {
-        "arbeitsl_v": {
-            "sozialv_beitr_arbeitnehmer_m": None,
-            "arbeitsl_v_beitr_arbeitnehmer_m": None,
+    "sozialversicherungsbeitraege": {
+        "arbeitslosenversicherung": {
+            "betrag_arbeitnehmer_m": None,
         },
-        "ges_rentenv": {"ges_rentenv_beitr_arbeitnehmer_m": None},
-        "ges_krankenv": {"ges_krankenv_beitr_arbeitnehmer_m": None},
-        "ges_pflegev": {"ges_pflegev_beitr_arbeitnehmer_m": None},
+        "rentenversicherung": {"betrag_arbeitnehmer_m": None},
+        "krankenversicherung": {"betrag_arbeitnehmer_m": None},
+        "pflegeversicherung": {"betrag_arbeitnehmer_m": None},
+        "betrag_arbeitnehmer_m": None,
     },
 }
 

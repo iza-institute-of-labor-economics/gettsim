@@ -16,10 +16,10 @@ inputs:
     kind:
       - false
       - false
-    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
       - 200000.0
       - 200000.0
-    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 200000.0
       - 200000.0
     kapitaleink_brutto_y:
@@ -33,10 +33,10 @@ outputs:
   anz_personen_sn:
     - 2
     - 2
-  taxes__einkommensteuer__betrag_ohne_kinderfreib_y_sn:
+  taxes__einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
     - 62794.0
     - 62794.0
-  taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
+  taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
     - 62794.0
     - 62794.0
   abgeltungssteuer__betrag_y_sn:

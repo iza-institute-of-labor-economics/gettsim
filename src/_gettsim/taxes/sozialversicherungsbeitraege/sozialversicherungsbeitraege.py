@@ -2,7 +2,7 @@
 
 
 def betrag_arbeitnehmer_m(
-    sozialversicherungsbeitraege__pflegeversicherung__betrag_m: float,
+    sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m: float,  # noqa: E501
@@ -11,8 +11,8 @@ def betrag_arbeitnehmer_m(
 
     Parameters
     ----------
-    sozialversicherungsbeitraege__pflegeversicherung__betrag_m
-        See :func:`sozialversicherungsbeitraege__pflegeversicherung__betrag_m`.
+    sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m
+        See :func:`sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m`.
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m
         See :func:`sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m`.
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m
@@ -26,7 +26,7 @@ def betrag_arbeitnehmer_m(
 
     """  # noqa: E501
     return (
-        sozialversicherungsbeitraege__pflegeversicherung__betrag_m
+        sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m
         + sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m
         + sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m
         + sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m

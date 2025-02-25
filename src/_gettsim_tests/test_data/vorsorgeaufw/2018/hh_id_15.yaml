@@ -22,7 +22,7 @@ inputs:
       - 150.0
     sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
       - 30.0
-    sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
+    sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
       - 22.5
     jahr:
       - 2018

@@ -151,12 +151,12 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
+  einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
     - 52599.0
     - 52599.0
     - 0.0
     - 0.0
-  einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
+  einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
     - 36975.0
     - 36975.0
     - 0.0

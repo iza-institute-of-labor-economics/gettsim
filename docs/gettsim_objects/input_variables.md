@@ -272,8 +272,8 @@ Type: float
 
 Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
 compute this variable via the
-`einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn` target in a separate
-run, which would typically be for the previous calendar year.
+`einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn`
+target in a separate run, which would typically be for the previous calendar year.
 
 Type: float
 

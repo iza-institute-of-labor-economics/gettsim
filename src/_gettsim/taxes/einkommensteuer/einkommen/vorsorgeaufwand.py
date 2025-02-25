@@ -88,7 +88,7 @@ def vorsorgeaufwand_mit_günstigerprüfung_y_sn(
 )
 def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
-    sozialversicherungsbeitraege__pflegeversicherung__betrag_m_sn: float,
+    sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m_sn: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m_sn: float,
     sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn: float,  # noqa: E501
     anz_personen_sn: int,
@@ -96,7 +96,7 @@ def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
 ) -> float:
     return formel_2020er_regime(
         alter_aufwendungen=altersvorsorge_y_sn,
-        pv_aufwendungen=sozialversicherungsbeitraege__pflegeversicherung__betrag_m_sn,
+        pv_aufwendungen=sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m_sn,
         kv_aufwendungen=sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m_sn,
         av_aufwendungen=sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn,
         anz_personen_sn=anz_personen_sn,

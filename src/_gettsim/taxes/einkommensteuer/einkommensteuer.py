@@ -20,22 +20,22 @@ aggregate_by_p_id_eink_st = {
 @policy_function(
     end_date="1996-12-31", name_in_dag="betrag_y_sn", params_key_for_rounding="eink_st"
 )
-def betrag_y_sn_kindergeld_kinderfreib_parallel(
-    betrag_mit_kinderfreib_y_sn: float,
+def betrag_y_sn_kindergeld_kinderfreibetrag_parallel(
+    betrag_mit_kinderfreibetrag_y_sn: float,
 ) -> float:
     """Income tax calculation on Steuernummer level allowing for claiming
     Kinderfreibetrag and receiving Kindergeld at the same time.
 
     Parameters
     ----------
-    betrag_mit_kinderfreib_y_sn
-        See :func:`betrag_mit_kinderfreib_y_sn`.
+    betrag_mit_kinderfreibetrag_y_sn
+        See :func:`betrag_mit_kinderfreibetrag_y_sn`.
 
     Returns
     -------
 
     """
-    return betrag_mit_kinderfreib_y_sn
+    return betrag_mit_kinderfreibetrag_y_sn
 
 
 @policy_function(
@@ -44,21 +44,21 @@ def betrag_y_sn_kindergeld_kinderfreib_parallel(
     params_key_for_rounding="eink_st",
 )
 def betrag_y_sn_kindergeld_oder_kinderfreib(
-    betrag_ohne_kinderfreib_y_sn: float,
-    betrag_mit_kinderfreib_y_sn: float,
-    kinderfreib_günstiger_sn: bool,
+    betrag_ohne_kinderfreibetrag_y_sn: float,
+    betrag_mit_kinderfreibetrag_y_sn: float,
+    kinderfreibetrag_günstiger_sn: bool,
     relevantes_kindergeld_y_sn: float,
 ) -> float:
     """Income tax calculation on Steuernummer level since 1997.
 
     Parameters
     ----------
-    betrag_ohne_kinderfreib_y_sn
-        See :func:`betrag_ohne_kinderfreib_y_sn`.
-    betrag_mit_kinderfreib_y_sn
-        See :func:`betrag_mit_kinderfreib_y_sn`.
-    kinderfreib_günstiger_sn
-        See :func:`kinderfreib_günstiger_sn`.
+    betrag_ohne_kinderfreibetrag_y_sn
+        See :func:`betrag_ohne_kinderfreibetrag_y_sn`.
+    betrag_mit_kinderfreibetrag_y_sn
+        See :func:`betrag_mit_kinderfreibetrag_y_sn`.
+    kinderfreibetrag_günstiger_sn
+        See :func:`kinderfreibetrag_günstiger_sn`.
     relevantes_kindergeld_y_sn
         See :func:`relevantes_kindergeld_y_sn`.
 
@@ -66,47 +66,51 @@ def betrag_y_sn_kindergeld_oder_kinderfreib(
     -------
 
     """
-    if kinderfreib_günstiger_sn:
-        out = betrag_mit_kinderfreib_y_sn + relevantes_kindergeld_y_sn
+    if kinderfreibetrag_günstiger_sn:
+        out = betrag_mit_kinderfreibetrag_y_sn + relevantes_kindergeld_y_sn
     else:
-        out = betrag_ohne_kinderfreib_y_sn
+        out = betrag_ohne_kinderfreibetrag_y_sn
 
     return out
 
 
-def kinderfreib_günstiger_sn(
-    betrag_ohne_kinderfreib_y_sn: float,
-    betrag_mit_kinderfreib_y_sn: float,
+def kinderfreibetrag_günstiger_sn(
+    betrag_ohne_kinderfreibetrag_y_sn: float,
+    betrag_mit_kinderfreibetrag_y_sn: float,
     relevantes_kindergeld_y_sn: float,
 ) -> bool:
     """Kinderfreibetrag more favorable than Kindergeld.
 
     Parameters
     ----------
-    betrag_ohne_kinderfreib_y_sn
-        See :func:`betrag_ohne_kinderfreib_y_sn`.
-    betrag_mit_kinderfreib_y_sn
-        See :func:`betrag_mit_kinderfreib_y_sn`.
+    betrag_ohne_kinderfreibetrag_y_sn
+        See :func:`betrag_ohne_kinderfreibetrag_y_sn`.
+    betrag_mit_kinderfreibetrag_y_sn
+        See :func:`betrag_mit_kinderfreibetrag_y_sn`.
     relevantes_kindergeld_y_sn
         See :func:`relevantes_kindergeld_y_sn`.
     Returns
     -------
 
     """
-    unterschiedsbeitrag = betrag_ohne_kinderfreib_y_sn - betrag_mit_kinderfreib_y_sn
+    unterschiedsbeitrag = (
+        betrag_ohne_kinderfreibetrag_y_sn - betrag_mit_kinderfreibetrag_y_sn
+    )
 
     out = unterschiedsbeitrag > relevantes_kindergeld_y_sn
     return out
 
 
-@policy_function(end_date="2001-12-31", name_in_dag="betrag_mit_kinderfreib_y_sn")
-def betrag_mit_kinderfreib_y_sn_bis_2001() -> float:
+@policy_function(end_date="2001-12-31", name_in_dag="betrag_mit_kinderfreibetrag_y_sn")
+def betrag_mit_kinderfreibetrag_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@policy_function(start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreib_y_sn")
-def betrag_mit_kinderfreib_y_sn_ab_2002(
-    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn: float,
+@policy_function(
+    start_date="2002-01-01", name_in_dag="betrag_mit_kinderfreibetrag_y_sn"
+)
+def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn: float,  # noqa: E501
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
@@ -115,8 +119,8 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
 
     Parameters
     ----------
-    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn
-        See :func:`einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn`.
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
+        See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_params
@@ -125,9 +129,9 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     zu_verst_eink_per_indiv = (
-        einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn
+        einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
         / anz_personen_sn
     )
     out = anz_personen_sn * einkommensteuer_tarif(
@@ -137,8 +141,8 @@ def betrag_mit_kinderfreib_y_sn_ab_2002(
     return out
 
 
-def betrag_ohne_kinderfreib_y_sn(
-    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn: float,
+def betrag_ohne_kinderfreibetrag_y_sn(
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,  # noqa: E501
     anz_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
@@ -147,8 +151,8 @@ def betrag_ohne_kinderfreib_y_sn(
 
     Parameters
     ----------
-    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn
-        See :func:`einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn`.
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
+        See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn`.
     anz_personen_sn
         See :func:`anz_personen_sn`.
     eink_st_params
@@ -157,9 +161,9 @@ def betrag_ohne_kinderfreib_y_sn(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     zu_verst_eink_per_indiv = (
-        einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn
+        einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
         / anz_personen_sn
     )
     out = anz_personen_sn * einkommensteuer_tarif(

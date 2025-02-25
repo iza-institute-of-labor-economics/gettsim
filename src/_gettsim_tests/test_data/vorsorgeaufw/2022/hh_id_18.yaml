@@ -31,7 +31,7 @@ inputs:
     sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
-    sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
+    sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     jahr:

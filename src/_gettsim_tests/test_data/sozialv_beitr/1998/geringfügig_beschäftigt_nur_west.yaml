@@ -60,7 +60,7 @@ outputs:
   sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 20.40
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 2.55
   sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitgeber_m:

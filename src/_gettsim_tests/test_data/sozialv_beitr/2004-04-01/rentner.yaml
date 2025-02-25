@@ -28,5 +28,5 @@ inputs:
       - '2004-04-01'
   assumed: {}
 outputs:
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
     - 17.0

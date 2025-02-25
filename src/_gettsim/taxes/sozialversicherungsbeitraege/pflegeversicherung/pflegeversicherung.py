@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2003-03-31", name_in_dag="betrag_m")
+@policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_vor_midijob_m(
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
@@ -21,8 +21,8 @@ def betrag_vor_midijob_m(
         See :func:`betrag_rentner_m`.
     betrag_selbständig_m
         See :func:`betrag_selbständig_m`.
-    ges_pflegev_beitr_regulär_besch_m
-        See :func:`ges_pflegev_beitr_regulär_besch_m`.
+    betrag_arbeitnehmer_regulär_beschäftigt_m
+        See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
     selbstständig
         See basic input variable :ref:`selbstständig <selbstständig>`.
 
@@ -43,7 +43,7 @@ def betrag_vor_midijob_m(
     return out + betrag_rentner_m
 
 
-@policy_function(start_date="2003-04-01", name_in_dag="betrag_m")
+@policy_function(start_date="2003-04-01", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_mit_midijob_m(  # noqa: PLR0913
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,

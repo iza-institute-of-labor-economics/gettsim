@@ -30,7 +30,7 @@ def betrag_m(
     return lohnsteuer_formel(einkommen_y, eink_st_params, lohnst_params, steuerklasse)
 
 
-def betrag_mit_kinderfreib_m(
+def betrag_mit_kinderfreibetrag_m(
     einkommen_y: float,
     kinderfreibetrag_soli_y: float,
     steuerklasse: int,
@@ -62,13 +62,13 @@ def betrag_mit_kinderfreib_m(
     return lohnsteuer_formel(eink, eink_st_params, lohnst_params, steuerklasse)
 
 
-def betrag_soli_y(betrag_mit_kinderfreib_y: float, soli_st_params: dict) -> float:
+def betrag_soli_y(betrag_mit_kinderfreibetrag_y: float, soli_st_params: dict) -> float:
     """Solidarity surcharge on Lohnsteuer (withholding tax on earnings).
 
     Parameters
     ----------
-    betrag_mit_kinderfreib_y
-        See :func:`betrag_mit_kinderfreib_y`.
+    betrag_mit_kinderfreibetrag_y
+        See :func:`betrag_mit_kinderfreibetrag_y`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -78,7 +78,7 @@ def betrag_soli_y(betrag_mit_kinderfreib_y: float, soli_st_params: dict) -> floa
 
     """
 
-    return solidaritaetszuschlag_tarif(betrag_mit_kinderfreib_y, soli_st_params)
+    return solidaritaetszuschlag_tarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
 
 
 def kinderfreibetrag_soli_y(
@@ -105,7 +105,7 @@ def kinderfreibetrag_soli_y(
     Kinderfreibetrag for Lohnsteuer-Soli.
     """
 
-    kinderfreib_basis = (
+    kinderfreibetrag_basis = (
         eink_st_abzuege_params["kinderfreib"]["sächl_existenzmin"]
         + eink_st_abzuege_params["kinderfreib"]["beitr_erz_ausb"]
     )
@@ -113,13 +113,13 @@ def kinderfreibetrag_soli_y(
     # For certain tax brackets, twice the child allowance can be deducted
     if steuerklasse in {1, 2, 3}:
         out = (
-            kinderfreib_basis
+            kinderfreibetrag_basis
             * 2
             * einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche
         )
     elif steuerklasse == 4:
         out = (
-            kinderfreib_basis
+            kinderfreibetrag_basis
             * einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche
         )
     else:

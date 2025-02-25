@@ -40,5 +40,5 @@ outputs:
     - 15.64
   sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
     - 103.64
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_m:
+  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
     - 19.88

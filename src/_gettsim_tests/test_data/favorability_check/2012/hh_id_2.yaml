@@ -14,13 +14,13 @@ inputs:
       - -1
     kind:
       - false
-    taxes__einkommensteuer__betrag_ohne_kinderfreib_y_sn:
+    taxes__einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
       - 5000.0
-    taxes__einkommensteuer__betrag_mit_kinderfreib_y_sn:
+    taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
       - 5000.0
-    einkommensteuer__einkommen__einkommen_mit_kinderfreibetrag_y_sn:
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 5000.0
-    einkommensteuer__einkommen__einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
       - 5000.0
     abgeltungssteuer__betrag_y_sn:
       - 3000.0
