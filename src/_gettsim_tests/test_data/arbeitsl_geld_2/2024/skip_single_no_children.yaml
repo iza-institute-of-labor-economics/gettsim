@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    Test with new Regelbedarf.  `arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m`
-    is wrong.
+    Test with new Regelbedarf.
+    `arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m` is wrong.
   source: https://www.buerger-geld.org/rechner/ergebnis/index.php
 inputs:
   provided:

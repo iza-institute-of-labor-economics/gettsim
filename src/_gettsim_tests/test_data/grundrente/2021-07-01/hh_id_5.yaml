@@ -1,9 +1,8 @@
 ---
 info:
   note: >-
-    Adjusted rente__grundrente__entgeltpunkte_zuschlag since test case uses 0.8 as maximum
-    instead
-    of 0.8004. Beispiel Martin S.
+    Adjusted rente__grundrente__entgeltpunkte_zuschlag since test case uses 0.8 as
+    maximum instead of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
 inputs:
