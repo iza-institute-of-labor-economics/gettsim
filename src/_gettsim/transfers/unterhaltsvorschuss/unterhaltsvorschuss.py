@@ -2,15 +2,16 @@
 
 import numpy
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import join_numpy
 
-aggregate_by_p_id_unterhaltsvors = {
-    "zahlbetrag_eltern_m": {
-        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "betrag_m",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "zahlbetrag_eltern_m": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        source_col="betrag_m",
+        aggr="sum",
+    ),
 }
 
 

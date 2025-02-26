@@ -220,16 +220,19 @@ data. This section describes how to specify them.
 
 In order to inject aggregation functions at the group level into the graph, scripts with
 functions of the taxes and transfer system should define a dictionary
-`aggregate_by_group_[script_name]` at the module level. This dictionary must specify the
-aggregated columns as keys and a dictionary with keys `source_col` and `aggr` as values.
-If `aggr` is `count`, `source_col` is not needed.
+`aggregation_specs` at the module level. This dictionary must specify the aggregated
+columns as keys and the AggregateByGroupSpec data class as values. The data class
+specifies the `source_col` (i.e. the column which is being aggregated) and the
+aggregation method `aggr`.
 
 For example, in `demographic_vars.py`, we could have:
 
 ```
-aggregate_by_group_demographic_vars = {
-    "anz_kinder_hh": {"source_col": "kind", "aggr": "sum"},
-    "anz_personen_hh": {"aggr": "count"},
+from _gettsim.aggregation import AggregateByGroupSpec
+
+aggregation_specs = {
+    "anz_kinder_hh": AggregateByGroupSpec(source_col="kind", aggr="sum"),
+    "anz_personen_hh": AggregateByGroupSpec(aggr="count"),
 }
 ```
 
@@ -272,11 +275,13 @@ a node `kindergeld__betrag_m_bg` containing the Bedarfsgemeinschaft-level sum of
 graph will be `kindergeld__betrag_m` and `bg_id`. This is the same as specifying:
 
 ```
-aggregate_by_group_kindergeld =  = {
-    "kindergeld__betrag_m_bg": {
-        "source_col": "kindergeld__betrag_m",
-        "aggr": "sum"
-    }
+from _gettsim.aggregation import AggregateByGroupSpec
+
+aggregation_specs = {
+    "kindergeld__betrag_m_bg": AggregateByGroupSpec(
+        source_col="kindergeld__betrag_m",
+        aggr="sum"
+    )
 }
 ```
 
@@ -292,10 +297,10 @@ column. This section describes how to specify such taxes and transfers.
 
 The implementation is similar to aggregations to the level of groupings: In order to
 specify new aggregation functions, scripts with functions of the taxes and transfer
-system should define a dictionary `aggregate_by_p_id_[script_name]` at the module level.
-This dictionary must specify the aggregated columns as keys and a dictionary with keys
-`source_col`, `p_id_to_aggregate_by` and `aggr` as values. If `aggr` is `count`,
-`source_col` is not needed.
+system should define a dictionary `aggregation_specs` at the module level. This
+dictionary must specify the aggregated columns as keys and the `AggregateByPIDSpec` data
+class as values. The class specifies the `source_col`, `p_id_to_aggregate_by`, and
+`aggr`. If `aggr` is `count`, `source_col` is not needed.
 
 The key `source_col` specifies which column is the source of the aggregation operation.
 The key `p_id_to_aggregate_by` specifies the column that indicates to which `p_id` the
@@ -305,12 +310,12 @@ method.
 For example, in `kindergeld.py`, we could have:
 
 ```
-aggregate_by_p_id_kindergeld = {
-    "kindergeld__anzahl_ansprüche": {
-        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kindergeld__anspruchsberechtigt",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "kindergeld__anzahl_ansprüche": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        source_col="kindergeld__anspruchsberechtigt",
+        aggr="sum",
+    ),
 }
 ```
 

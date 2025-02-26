@@ -1,19 +1,20 @@
 """Income taxes."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 aggregate_by_p_id_eink_st = {
-    "anzahl_kindergeld_ansprüche_1": {
-        "p_id_to_aggregate_by": "p_id_elternteil_1",
-        "source_col": "kindergeld__anspruchsberechtigt",
-        "aggr": "sum",
-    },
-    "anzahl_kindergeld_ansprüche_2": {
-        "p_id_to_aggregate_by": "p_id_elternteil_2",
-        "source_col": "kindergeld__anspruchsberechtigt",
-        "aggr": "sum",
-    },
+    "anzahl_kindergeld_ansprüche_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_elternteil_1",
+        source_col="kindergeld__anspruchsberechtigt",
+        aggr="sum",
+    ),
+    "anzahl_kindergeld_ansprüche_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_elternteil_2",
+        source_col="kindergeld__anspruchsberechtigt",
+        aggr="sum",
+    ),
 }
 
 

@@ -2,22 +2,20 @@
 
 import numpy
 
+from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import join_numpy
 
-aggregate_by_group_kindergeld = {
-    "anzahl_kinder_fg": {
-        "source_col": "anspruchsberechtigt",
-        "aggr": "sum",
-    },
-}
-
-aggregate_by_p_id_kindergeld = {
-    "anzahl_ansprüche": {
-        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "anspruchsberechtigt",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "anzahl_kinder_fg": AggregateByGroupSpec(
+        source_col="anspruchsberechtigt",
+        aggr="sum",
+    ),
+    "anzahl_ansprüche": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        source_col="anspruchsberechtigt",
+        aggr="sum",
+    ),
 }
 
 

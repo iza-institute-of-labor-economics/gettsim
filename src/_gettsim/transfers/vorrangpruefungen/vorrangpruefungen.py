@@ -1,16 +1,17 @@
 """Priority checks of transfers against each other."""
 
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.functions.policy_function import policy_function
 
-aggregate_by_group_benefit_checks = {
-    "wohngeld_vorrang_wthh": {
-        "source_col": "wohngeld_vorrang_bg",
-        "aggr": "any",
-    },
-    "wohngeld_kinderzuschlag_vorrang_wthh": {
-        "source_col": "wohngeld_kinderzuschlag_vorrang_bg",
-        "aggr": "any",
-    },
+aggregation_specs = {
+    "wohngeld_vorrang_wthh": AggregateByGroupSpec(
+        source_col="wohngeld_vorrang_bg",
+        aggr="any",
+    ),
+    "wohngeld_kinderzuschlag_vorrang_wthh": AggregateByGroupSpec(
+        source_col="wohngeld_kinderzuschlag_vorrang_bg",
+        aggr="any",
+    ),
 }
 
 

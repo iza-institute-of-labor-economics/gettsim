@@ -1,12 +1,13 @@
 """Income relevant for calculation of Kinderzuschlag."""
 
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.functions.policy_function import policy_function
 
-aggregate_by_group_kinderzuschl_eink = {
-    "anzahl_kinder_bg": {
-        "source_col": "kindergeld__anzahl_ansprüche",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "anzahl_kinder_bg": AggregateByGroupSpec(
+        source_col="kindergeld__anzahl_ansprüche",
+        aggr="sum",
+    ),
 }
 
 

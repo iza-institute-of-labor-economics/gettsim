@@ -8,25 +8,26 @@ import datetime
 
 import numpy
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import join_numpy
 
-aggregate_by_p_id_demographic_vars = {
-    "ges_pflegev_anz_kinder_bis_24_elternteil_1": {
-        "p_id_to_aggregate_by": (
+aggregation_specs = {
+    "ges_pflegev_anz_kinder_bis_24_elternteil_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by=(
             "einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_1"
         ),
-        "source_col": "kind_bis_24",
-        "aggr": "sum",
-    },
-    "ges_pflegev_anz_kinder_bis_24_elternteil_2": {
-        "p_id_to_aggregate_by": (
+        source_col="kind_bis_24",
+        aggr="sum",
+    ),
+    "ges_pflegev_anz_kinder_bis_24_elternteil_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by=(
             "einkommensteuer__freibetraege__p_id_kinderfreibetragempfänger_2"
         ),
-        "source_col": "kind_bis_24",
-        "aggr": "sum",
-    },
+        source_col="kind_bis_24",
+        aggr="sum",
+    ),
 }
 
 

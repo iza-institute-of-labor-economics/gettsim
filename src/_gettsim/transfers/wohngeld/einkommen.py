@@ -1,15 +1,16 @@
 """Income relevant for housing benefit calculation."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
-aggregate_by_p_id_wohngeld = {
-    "freibetrag_alleinerziehend_bonus": {
-        "p_id_to_aggregate_by": "p_id_kindergeld_empf",
-        "source_col": "kindergeld__kind_bis_10_mit_kindergeld",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "freibetrag_alleinerziehend_bonus": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        source_col="kindergeld__kind_bis_10_mit_kindergeld",
+        aggr="sum",
+    ),
 }
 
 

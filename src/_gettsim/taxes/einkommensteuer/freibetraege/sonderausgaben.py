@@ -1,13 +1,14 @@
 """Tax allowances for special expenses."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 
-aggregate_by_p_id_sonderausgaben = {
-    "betreuungskosten_elternteil_m": {
-        "p_id_to_aggregate_by": "p_id_betreuungsk_träger",
-        "source_col": "betreuungskosten_m",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "betreuungskosten_elternteil_m": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_betreuungsk_träger",
+        source_col="betreuungskosten_m",
+        aggr="sum",
+    ),
 }
 
 

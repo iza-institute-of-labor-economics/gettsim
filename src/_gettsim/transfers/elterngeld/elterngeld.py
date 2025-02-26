@@ -1,23 +1,22 @@
 """Parental leave benefits."""
 
+from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 
-aggregate_by_group_elterngeld = {
-    "kind_anspruchsberechtigt_fg": {
-        "source_col": "kind_anspruchsberechtigt",
-        "aggr": "any",
-    },
-    "anzahl_anträge_fg": {
-        "source_col": "elterngeld_claimed",
-        "aggr": "sum",
-    },
-}
-aggregate_by_p_id_elterngeld = {
-    "bezugsmonate": {
-        "p_id_to_aggregate_by": "p_id_einstandspartner",
-        "source_col": "monate_elterngeldbezug",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "kind_anspruchsberechtigt_fg": AggregateByGroupSpec(
+        source_col="kind_anspruchsberechtigt",
+        aggr="any",
+    ),
+    "anzahl_anträge_fg": AggregateByGroupSpec(
+        source_col="elterngeld_claimed",
+        aggr="sum",
+    ),
+    "bezugsmonate": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_einstandspartner",
+        source_col="monate_elterngeldbezug",
+        aggr="sum",
+    ),
 }
 
 

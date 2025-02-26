@@ -1,18 +1,19 @@
 """Tax allowances for individuals or couples with children."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 
-aggregate_by_p_id_freibeträge = {
-    "anzahl_anspruch_1": {
-        "p_id_to_aggregate_by": "p_id_empfänger_1",
-        "source_col": "kindergeld__anspruchsberechtigt",
-        "aggr": "sum",
-    },
-    "anzahl_anspruch_2": {
-        "p_id_to_aggregate_by": "p_id_empfänger_2",
-        "source_col": "kindergeld__anspruchsberechtigt",
-        "aggr": "sum",
-    },
+aggregation_specs = {
+    "anzahl_anspruch_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_empfänger_1",
+        source_col="kindergeld__anspruchsberechtigt",
+        aggr="sum",
+    ),
+    "anzahl_anspruch_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_empfänger_2",
+        source_col="kindergeld__anspruchsberechtigt",
+        aggr="sum",
+    ),
 }
 
 
