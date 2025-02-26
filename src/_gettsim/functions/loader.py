@@ -308,27 +308,5 @@ def _load_aggregation_specs_from_module(
     -------
     Loaded dictionaries.
     """
-    # TODO(@MImmesberger): Temporary solution. Dataclasses will be applied to all
-    # modules in the renaming PR. Then, 'aggregation_specs_in_module' will be a list of
-    # dictionaries.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/pull/805
     module = _load_module(path, package_root)
-    aggregation_specs_in_module = {  # Will become a list in renamings PR
-        name: member
-        for name, member in inspect.getmembers(module)
-        if isinstance(member, dict)
-        and name.startswith(("aggregate_by_group_", "aggregate_by_p_id_"))
-    }
-
-    out = {}
-
-    # Temporary solution.
-    for type_name, specs_for_type in aggregation_specs_in_module.items():
-        for name, spec in specs_for_type.items():
-            out[name] = (
-                AggregateByGroupSpec(**spec)
-                if type_name.startswith("aggregate_by_group_")
-                else AggregateByPIDSpec(**spec)
-            )
-
-    return out
+    return getattr(module, "aggregation_specs", {})
