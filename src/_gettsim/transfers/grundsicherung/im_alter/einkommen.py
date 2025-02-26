@@ -14,7 +14,7 @@ def einkommen_m(  # noqa: PLR0913
     kapitaleinkommen_brutto_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
 ) -> float:
@@ -39,8 +39,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`eink_st_m_sn`.
     soli_st_m_sn
         See :func:`soli_st_m_sn`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
+    demographic_vars__anzahl_personen_sn
+        See :func:`demographic_vars__anzahl_personen_sn`.
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m
         See :func:`sozialversicherungsbeitraege__betrag_arbeitnehmer_m`.
     elterngeld__anrechenbarer_betrag_m
@@ -64,8 +64,8 @@ def einkommen_m(  # noqa: PLR0913
 
     out = (
         total_income
-        - (eink_st_m_sn / anz_personen_sn)
-        - (soli_st_m_sn / anz_personen_sn)
+        - (eink_st_m_sn / demographic_vars__anzahl_personen_sn)
+        - (soli_st_m_sn / demographic_vars__anzahl_personen_sn)
         - sozialversicherungsbeitraege__betrag_arbeitnehmer_m
     )
 

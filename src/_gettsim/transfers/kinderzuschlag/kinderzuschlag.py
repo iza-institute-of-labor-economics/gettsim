@@ -8,7 +8,7 @@ def betrag_m_bg(
     anspruchshöhe_m_bg: float,
     vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
-    anz_rentner_hh: int,
+    demographic_vars__anzahl_rentner_hh: int,
 ) -> float:
     """Aggregate child benefit on household level.
 
@@ -20,8 +20,8 @@ def betrag_m_bg(
         See :func:`vorrangpruefungen__kinderzuschlag_vorrang_bg`.
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg
         See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg`.
-    anz_rentner_hh
-        See :func:`anz_rentner_hh`.
+    demographic_vars__anzahl_rentner_hh
+        See :func:`demographic_vars__anzahl_rentner_hh`.
 
     Returns
     -------
@@ -30,7 +30,7 @@ def betrag_m_bg(
     if (
         (not vorrangpruefungen__kinderzuschlag_vorrang_bg)
         and (not vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg)
-    ) or (anz_rentner_hh > 0):
+    ) or (demographic_vars__anzahl_rentner_hh > 0):
         out = 0.0
     else:
         out = anspruchshöhe_m_bg
@@ -41,7 +41,7 @@ def betrag_m_bg(
 @policy_function
 def anspruchshöhe_m(
     anspruchshöhe_m_bg: float,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
 ) -> float:
     """Kinderzuschlag on individual level.
 
@@ -51,14 +51,14 @@ def anspruchshöhe_m(
     ----------
     anspruchshöhe_m_bg
         See :func:`anspruchshöhe_m_bg`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
 
     Returns
     -------
 
     """
-    return anspruchshöhe_m_bg / anz_personen_bg
+    return anspruchshöhe_m_bg / demographic_vars__anzahl_personen_bg
 
 
 @policy_function
@@ -142,7 +142,7 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     maximales_nettoeinkommen_m_bg: float,
     basisbetrag_kind_m_bg: float,
     anzurechnendes_einkommen_eltern_m_bg: float,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -151,7 +151,8 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     minimum income threshold and net income needs to be below the maximum income
     threshold.
 
-    Kinderzuschlag is only paid out if parents are part of the BG (anz_personen_bg > 1).
+    Kinderzuschlag is only paid out if parents are part of the BG
+    (demographic_vars__anzahl_personen_bg > 1).
 
     Parameters
     ----------
@@ -167,8 +168,8 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
         See :func:`basisbetrag_kind_m_bg`.
     anzurechnendes_einkommen_eltern_m_bg
         See :func:`anzurechnendes_einkommen_eltern_m_bg`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
 
     Returns
     -------
@@ -179,7 +180,7 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     if (
         (bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg)
         and (nettoeinkommen_eltern_m_bg <= maximales_nettoeinkommen_m_bg)
-        and anz_personen_bg > 1
+        and demographic_vars__anzahl_personen_bg > 1
     ):
         out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
@@ -194,7 +195,7 @@ def basisbetrag_m_bg(
     mindestbruttoeinkommen_m_bg: float,
     basisbetrag_kind_m_bg: float,
     anzurechnendes_einkommen_eltern_m_bg: float,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -202,7 +203,8 @@ def basisbetrag_m_bg(
     To be eligible for Kinderzuschlag, gross income of parents needs to exceed the
     minimum income threshold.
 
-    Kinderzuschlag is only paid out if parents are part of the BG (anz_personen_bg > 1).
+    Kinderzuschlag is only paid out if parents are part of the BG
+    (demographic_vars__anzahl_personen_bg > 1).
 
 
     Parameters
@@ -217,8 +219,8 @@ def basisbetrag_m_bg(
         See :func:`basisbetrag_kind_m_bg`.
     anzurechnendes_einkommen_eltern_m_bg
         See :func:`anzurechnendes_einkommen_eltern_m_bg`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
 
     Returns
     -------
@@ -226,7 +228,7 @@ def basisbetrag_m_bg(
     """
     if (
         bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg
-    ) and anz_personen_bg > 1:
+    ) and demographic_vars__anzahl_personen_bg > 1:
         out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
         out = 0.0

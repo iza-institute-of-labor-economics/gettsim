@@ -84,7 +84,7 @@ inputs:
       - 300.0
     vermögen_bedürft:
       - 5000.0
-    anz_personen_hh:
+    demographic_vars__anzahl_personen_hh:
       - 1
     geburtstag:
       - 1

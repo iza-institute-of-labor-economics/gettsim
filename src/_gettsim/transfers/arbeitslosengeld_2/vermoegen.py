@@ -97,7 +97,7 @@ def maximaler_grundfreibetrag_vermögen(
 @policy_function(start_date="2023-01-01")
 def freibetrag_vermögen_in_karenzzeit_bg(
     arbeitsl_geld_2_params: dict,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
 ) -> float:
     """Calculate wealth exemptions since 2023 during Karenzzeit. This variable is also
     reffered to as 'erhebliches Vermögen'.
@@ -109,8 +109,8 @@ def freibetrag_vermögen_in_karenzzeit_bg(
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
     bürgerg_bezug_vorj
         See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
 
@@ -120,7 +120,10 @@ def freibetrag_vermögen_in_karenzzeit_bg(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    out = params["während_karenzzeit"] + (anz_personen_bg - 1) * params["normaler_satz"]
+    out = (
+        params["während_karenzzeit"]
+        + (demographic_vars__anzahl_personen_bg - 1) * params["normaler_satz"]
+    )
 
     return out
 
@@ -128,8 +131,8 @@ def freibetrag_vermögen_in_karenzzeit_bg(
 @policy_function(end_date="2022-12-31", name_in_dag="freibetrag_vermögen_bg")
 def freibetrag_vermögen_bg_bis_2022(
     grundfreibetrag_vermögen_bg: float,
-    anz_kinder_bis_17_bg: int,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_kinder_bis_17_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate actual exemptions until 2022.
@@ -140,10 +143,10 @@ def freibetrag_vermögen_bg_bis_2022(
     ----------
     grundfreibetrag_vermögen_bg
         See :func:`grundfreibetrag_vermögen_bg`.
-    anz_kinder_bis_17_bg
-        See :func:`anz_kinder_bis_17_bg`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_kinder_bis_17_bg
+        See :func:`demographic_vars__anzahl_kinder_bis_17_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
 
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
@@ -154,8 +157,10 @@ def freibetrag_vermögen_bg_bis_2022(
     """
     out = (
         grundfreibetrag_vermögen_bg
-        + anz_kinder_bis_17_bg * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
-        + anz_personen_bg * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
+        + demographic_vars__anzahl_kinder_bis_17_bg
+        * arbeitsl_geld_2_params["vermögensfreibetrag_kind"]
+        + demographic_vars__anzahl_personen_bg
+        * arbeitsl_geld_2_params["vermögensfreibetrag_austattung"]
     )
     return out
 
@@ -163,7 +168,7 @@ def freibetrag_vermögen_bg_bis_2022(
 @policy_function(start_date="2023-01-01", leaf_name="freibetrag_vermögen_bg")
 def freibetrag_vermögen_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
     freibetrag_vermögen_in_karenzzeit_bg: float,
     bürgerg_bezug_vorj: bool,
 ) -> float:
@@ -177,8 +182,8 @@ def freibetrag_vermögen_bg_ab_2023(
     ----------
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
     freibetrag_vermögen_in_karenzzeit_bg
         See :func:`freibetrag_vermögen_in_karenzzeit_bg`.
     bürgerg_bezug_vorj
@@ -191,7 +196,7 @@ def freibetrag_vermögen_bg_ab_2023(
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
     if bürgerg_bezug_vorj:
-        out = anz_personen_bg * params["normaler_satz"]
+        out = demographic_vars__anzahl_personen_bg * params["normaler_satz"]
     else:
         out = freibetrag_vermögen_in_karenzzeit_bg
 

@@ -19,7 +19,7 @@ aggregation_specs = {
 def betrag_m(
     kind_unterh_erhalt_m: float,
     anspruchshöhe_kind_m: float,
-    parent_alleinerz: bool,
+    demographic_vars__elternteil_alleinerziehend: bool,
 ) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
     alimonies.
@@ -44,14 +44,14 @@ def betrag_m(
         See basic input variable `kind_unterh_erhalt_m`.
     anspruchshöhe_kind_m
         See :func:`anspruchshöhe_kind_m`.
-    parent_alleinerz
-        See :func:`parent_alleinerz`.
+    demographic_vars__elternteil_alleinerziehend
+        See :func:`demographic_vars__elternteil_alleinerziehend`.
 
     Returns
     -------
 
     """
-    if parent_alleinerz:
+    if demographic_vars__elternteil_alleinerziehend:
         out = max(anspruchshöhe_kind_m - kind_unterh_erhalt_m, 0.0)
     else:
         out = 0.0

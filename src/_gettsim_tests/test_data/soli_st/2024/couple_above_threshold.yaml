@@ -19,7 +19,7 @@ inputs:
     kind:
       - false
       - false
-    anz_personen_sn:
+    demographic_vars__anzahl_personen_sn:
       - 2
       - 2
     zusammen_veranlagt:

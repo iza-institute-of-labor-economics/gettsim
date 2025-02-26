@@ -113,7 +113,7 @@ def betrag_mit_kinderfreibetrag_y_sn_bis_2001() -> float:
 )
 def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn: float,  # noqa: E501
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes with child allowance on Steuernummer level. Also referred to as "tarifliche
@@ -123,8 +123,8 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     ----------
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
+    demographic_vars__anzahl_personen_sn
+        See :func:`demographic_vars__anzahl_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -134,9 +134,9 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     """  # noqa: E501
     zu_verst_eink_per_indiv = (
         einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
-        / anz_personen_sn
+        / demographic_vars__anzahl_personen_sn
     )
-    out = anz_personen_sn * einkommensteuer_tarif(
+    out = demographic_vars__anzahl_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -146,7 +146,7 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
 @policy_function
 def betrag_ohne_kinderfreibetrag_y_sn(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,  # noqa: E501
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes without child allowance on Steuernummer level. Also referred to as
@@ -156,8 +156,8 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     ----------
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
+    demographic_vars__anzahl_personen_sn
+        See :func:`demographic_vars__anzahl_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -167,9 +167,9 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     """  # noqa: E501
     zu_verst_eink_per_indiv = (
         einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
-        / anz_personen_sn
+        / demographic_vars__anzahl_personen_sn
     )
-    out = anz_personen_sn * einkommensteuer_tarif(
+    out = demographic_vars__anzahl_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -242,7 +242,6 @@ def relevantes_kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_ansprüche / 2
 
 
-@policy_function
 def einkommensteuer_tarif(x: float, params: dict) -> float:
     """The German income tax tariff.
 

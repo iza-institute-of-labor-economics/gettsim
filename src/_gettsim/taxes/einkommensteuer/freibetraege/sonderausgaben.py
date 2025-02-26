@@ -14,7 +14,7 @@ aggregation_specs = {
 
 @policy_function(end_date="2011-12-31", name_in_dag="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_nur_pauschale(
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level until 2011.
@@ -23,10 +23,10 @@ def sonderausgaben_y_sn_nur_pauschale(
 
     Parameters
     ----------
+    demographic_vars__anzahl_personen_sn
+        See :func:`demographic_vars__anzahl_personen_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_personen_sn
-        See func `anz_personen_sn <anz_personen_sn>`.
 
     Returns
     -------
@@ -35,7 +35,8 @@ def sonderausgaben_y_sn_nur_pauschale(
     # so far, only the Sonderausgabenpauschale is considered
 
     out = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_sn
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        * demographic_vars__anzahl_personen_sn
     )
 
     return float(out)
@@ -44,7 +45,7 @@ def sonderausgaben_y_sn_nur_pauschale(
 @policy_function(start_date="2012-01-01", name_in_dag="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_mit_betreuung(
     absetzbare_betreuungskosten: float,
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level since 2012.
@@ -58,8 +59,8 @@ def sonderausgaben_y_sn_mit_betreuung(
         See :func:`absetzbare_betreuungskosten`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    anz_personen_sn
-        See :func:`anz_personen_sn`.
+    demographic_vars__anzahl_personen_sn
+        See :func:`demographic_vars__anzahl_personen_sn`.
 
     Returns
     -------
@@ -67,7 +68,8 @@ def sonderausgaben_y_sn_mit_betreuung(
     """
     sonderausgaben_gesamt = absetzbare_betreuungskosten
     pauschale = (
-        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"] * anz_personen_sn
+        eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
+        * demographic_vars__anzahl_personen_sn
     )
 
     out = max(sonderausgaben_gesamt, pauschale)

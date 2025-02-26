@@ -60,7 +60,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  parent_alleinerz:
+  demographic_vars__elternteil_alleinerziehend:
     - false
     - true
   unterhaltsvorschuss__betrag_m:

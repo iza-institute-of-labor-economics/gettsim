@@ -589,7 +589,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
 
 @policy_function(start_date="2023-07-01", name_in_dag="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
-    ges_pflegev_anz_kinder_bis_24: int,
+    anzahl_kinder_bis_24: int,
     beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
@@ -599,10 +599,10 @@ def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
 
     Parameters
     ----------
-    ges_pflegev_anz_kinder_bis_24
-        See :func:`ges_pflegev_anz_kinder_bis_24`.
+    anzahl_kinder_bis_24
+        See :func:`anzahl_kinder_bis_24`.
     beitragssatz__zusatzbetrag_kinderlos
-        See         :func:`beitragssatz__zusatzbetrag_kinderlos`.
+        See :func:`beitragssatz__zusatzbetrag_kinderlos`.
     einkommensgrenzen__midijob_bemessungsentgelt_m
         See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
     einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
@@ -619,10 +619,10 @@ def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     ges_pflegev_rate = sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
 
     # Reduced contribution for individuals with two or more children under 25
-    if ges_pflegev_anz_kinder_bis_24 >= 2:
+    if anzahl_kinder_bis_24 >= 2:
         ges_pflegev_rate -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "abschlag_kinder"
-        ] * min(ges_pflegev_anz_kinder_bis_24 - 1, 4)
+        ] * min(anzahl_kinder_bis_24 - 1, 4)
 
     # Calculate the employee care insurance contribution
     an_beitr_midijob_m = (

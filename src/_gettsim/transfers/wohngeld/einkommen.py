@@ -16,7 +16,7 @@ aggregation_specs = {
 
 @policy_function
 def einkommen_m_wthh(
-    anz_personen_wthh: int,
+    demographic_vars__anzahl_personen_wthh: int,
     freibetrag_m_wthh: float,
     einkommen_vor_freibetrag_m_wthh: float,
     wohngeld_params: dict,
@@ -30,8 +30,8 @@ def einkommen_m_wthh(
 
     Parameters
     ----------
-    anz_personen_wthh
-        See :func:`anz_personen_wthh`.
+    demographic_vars__anzahl_personen_wthh
+        See :func:`demographic_vars__anzahl_personen_wthh`.
     freibetrag_m_wthh
         See :func:`freibetrag_m_wthh`.
     einkommen_vor_freibetrag_m_wthh
@@ -44,7 +44,7 @@ def einkommen_m_wthh(
 
     """
     return _wohngeld_einkommen_formel(
-        anz_personen=anz_personen_wthh,
+        anzahl_personen=demographic_vars__anzahl_personen_wthh,
         einkommen_freibetrag=freibetrag_m_wthh,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_wthh,
         params=wohngeld_params,
@@ -53,7 +53,7 @@ def einkommen_m_wthh(
 
 @policy_function
 def einkommen_m_bg(
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
     freibetrag_m_bg: float,
     einkommen_vor_freibetrag_m_bg: float,
     wohngeld_params: dict,
@@ -67,8 +67,8 @@ def einkommen_m_bg(
 
     Parameters
     ----------
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
     freibetrag_m_bg
         See :func:`freibetrag_m_bg`.
     einkommen_vor_freibetrag_m_bg
@@ -81,7 +81,7 @@ def einkommen_m_bg(
 
     """
     return _wohngeld_einkommen_formel(
-        anz_personen=anz_personen_bg,
+        anzahl_personen=demographic_vars__anzahl_personen_bg,
         einkommen_freibetrag=freibetrag_m_bg,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_bg,
         params=wohngeld_params,
@@ -269,7 +269,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
 @policy_function(end_date="2015-12-31", name_in_dag="freibetrag_m")
 def freibetrag_m_bis_2015(  # noqa: PLR0913
     bruttolohn_m: float,
-    wohngeld_arbeitendes_kind: bool,
+    demographic_vars__ist_kind_mit_erwerbseinkommen: bool,
     behinderungsgrad: int,
     alleinerz: bool,
     kind: bool,
@@ -282,8 +282,8 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    wohngeld_arbeitendes_kind
-        See :func:`wohngeld_arbeitendes_kind`.
+    demographic_vars__ist_kind_mit_erwerbseinkommen
+        See :func:`demographic_vars__ist_kind_mit_erwerbseinkommen`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerz
@@ -309,7 +309,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     )
 
     # Subtraction for single parents and working children
-    if wohngeld_arbeitendes_kind:
+    if demographic_vars__ist_kind_mit_erwerbseinkommen:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
@@ -327,7 +327,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
 @policy_function(start_date="2016-01-01", name_in_dag="freibetrag_m")
 def freibetrag_m_ab_2016(
     bruttolohn_m: float,
-    wohngeld_arbeitendes_kind: bool,
+    demographic_vars__ist_kind_mit_erwerbseinkommen: bool,
     behinderungsgrad: int,
     alleinerz: bool,
     wohngeld_params: dict,
@@ -338,8 +338,8 @@ def freibetrag_m_ab_2016(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    wohngeld_arbeitendes_kind
-        See :func:`wohngeld_arbeitendes_kind`.
+    demographic_vars__ist_kind_mit_erwerbseinkommen
+        See :func:`demographic_vars__ist_kind_mit_erwerbseinkommen`.
     behinderungsgrad
         See basic input variable :ref:`behinderungsgrad <behinderungsgrad>`.
     alleinerz
@@ -356,7 +356,7 @@ def freibetrag_m_ab_2016(
         wohngeld_params["freib_behinderung"] / 12 if behinderungsgrad > 0 else 0
     )
 
-    if wohngeld_arbeitendes_kind:
+    if demographic_vars__ist_kind_mit_erwerbseinkommen:
         freib_kinder_m = min(
             bruttolohn_m, wohngeld_params["freib_kinder_m"]["arbeitendes_kind"]
         )
@@ -368,9 +368,8 @@ def freibetrag_m_ab_2016(
     return freib_behinderung_m + freib_kinder_m
 
 
-@policy_function
 def _wohngeld_einkommen_formel(
-    anz_personen: int,
+    anzahl_personen: int,
     einkommen_freibetrag: float,
     einkommen_vor_freibetrag: float,
     params: dict,
@@ -381,7 +380,7 @@ def _wohngeld_einkommen_formel(
 
     Parameters
     ----------
-    anz_personen
+    anzahl_personen
         Number of people Wohngeld is being calculated for.
     einkommen_freibetrag
         Income that is not considered for Wohngeld calculation.
@@ -395,7 +394,7 @@ def _wohngeld_einkommen_formel(
 
     """
     eink_nach_abzug_m_hh = einkommen_vor_freibetrag - einkommen_freibetrag
-    unteres_eink = params["min_eink"][min(anz_personen, max(params["min_eink"]))]
+    unteres_eink = params["min_eink"][min(anzahl_personen, max(params["min_eink"]))]
 
     out = max(eink_nach_abzug_m_hh, unteres_eink)
     return float(out)

@@ -284,7 +284,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    anz_personen_hh:
+    demographic_vars__anzahl_personen_hh:
       - 6
       - 6
       - 6

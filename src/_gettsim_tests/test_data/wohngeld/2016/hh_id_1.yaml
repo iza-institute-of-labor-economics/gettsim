@@ -160,7 +160,7 @@ inputs:
       - 120000.0
       - 0.0
       - 0.0
-    anz_personen_hh:
+    demographic_vars__anzahl_personen_hh:
       - 3
       - 3
       - 3

@@ -114,7 +114,7 @@ Another function, say
 ```python
 def taxes__einkommensteuer__solidaritaetszuschlag_y_sn(
     taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
-    anz_personen_sn: int,
+    demographic_vars__anzahl_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float: ...
@@ -231,8 +231,8 @@ For example, in `demographic_vars.py`, we could have:
 from _gettsim.aggregation import AggregateByGroupSpec
 
 aggregation_specs = {
-    "anz_kinder_hh": AggregateByGroupSpec(source_col="kind", aggr="sum"),
-    "anz_personen_hh": AggregateByGroupSpec(aggr="count"),
+    "anzahl_kinder_hh": AggregateByGroupSpec(source_col="kind", aggr="sum"),
+    "anzahl_personen_hh": AggregateByGroupSpec(aggr="count"),
 }
 ```
 

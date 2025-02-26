@@ -86,7 +86,7 @@ inputs:
       - false
     wohnort_ost:
       - false
-    anz_kinder_bis_24:
+    demographic_vars__anzahl_kinder_bis_24:
       - 0
   assumed: {}
 outputs:

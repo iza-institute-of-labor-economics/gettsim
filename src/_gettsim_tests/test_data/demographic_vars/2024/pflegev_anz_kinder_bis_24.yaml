@@ -38,7 +38,7 @@ inputs:
       - false
       - true
 outputs:
-  ges_pflegev_anz_kinder_bis_24:
+  sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24:
     - 2
     - 1
     - 0

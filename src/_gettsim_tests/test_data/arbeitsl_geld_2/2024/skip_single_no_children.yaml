@@ -86,7 +86,7 @@ inputs:
       - false
     wohnort_ost:
       - false
-    ges_pflegev_anz_kinder_bis_24:
+    sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24:
       - 0
   assumed: {}
 outputs:

@@ -22,7 +22,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function
 def betrag_m_wthh(
     anspruchshöhe_m_wthh: float,
-    erwachsene_alle_rentner_hh: bool,
+    demographic_vars__erwachsene_alle_rentner_hh: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh: bool,
     vorrangpruefungen__wohngeld_vorrang_wthh: bool,
 ) -> float:
@@ -32,8 +32,8 @@ def betrag_m_wthh(
     ----------
     anspruchshöhe_m_wthh
         See :func:`anspruchshöhe_m_wthh`.
-    erwachsene_alle_rentner_hh
-        See :func:`erwachsene_alle_rentner_hh <erwachsene_alle_rentner_hh>`.
+    demographic_vars__erwachsene_alle_rentner_hh
+        See :func:`demographic_vars__erwachsene_alle_rentner_hh <demographic_vars__erwachsene_alle_rentner_hh>`.
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
         See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh`.
     vorrangpruefungen__wohngeld_vorrang_wthh
@@ -42,7 +42,7 @@ def betrag_m_wthh(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     # TODO (@MImmesberger): This implementation may be only an approximation of the
     # actual rules for individuals that are on the margin of the priority check.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752
@@ -51,10 +51,10 @@ def betrag_m_wthh(
     # Alter (SGB XII) is implemented yet. We assume for now that households with only
     # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
-    # resolved, remove the `erwachsene_alle_rentner_hh` condition.
+    # resolved, remove the `demographic_vars__erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
-    if not erwachsene_alle_rentner_hh and (
+    if not demographic_vars__erwachsene_alle_rentner_hh and (
         vorrangpruefungen__wohngeld_vorrang_wthh
         or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
     ):
@@ -67,7 +67,7 @@ def betrag_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_wthh(
-    anz_personen_wthh: int,
+    demographic_vars__anzahl_personen_wthh: int,
     einkommen_m_wthh: float,
     miete_m_wthh: float,
     grundsätzlich_anspruchsberechtigt_wthh: bool,
@@ -81,8 +81,8 @@ def anspruchshöhe_m_wthh(
 
     Parameters
     ----------
-    anz_personen_wthh
-        See :func:`anz_personen_wthh`.
+    demographic_vars__anzahl_personen_wthh
+        See :func:`demographic_vars__anzahl_personen_wthh`.
     einkommen_m_wthh
         See :func:`einkommen_m_wthh`.
     miete_m_wthh
@@ -98,7 +98,7 @@ def anspruchshöhe_m_wthh(
     """
     if grundsätzlich_anspruchsberechtigt_wthh:
         out = basisformel(
-            anz_personen=anz_personen_wthh,
+            anzahl_personen=demographic_vars__anzahl_personen_wthh,
             einkommen_m=einkommen_m_wthh,
             miete_m=miete_m_wthh,
             params=wohngeld_params,
@@ -111,7 +111,7 @@ def anspruchshöhe_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_bg(
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
     einkommen_m_bg: float,
     miete_m_bg: float,
     grundsätzlich_anspruchsberechtigt_bg: bool,
@@ -123,8 +123,8 @@ def anspruchshöhe_m_bg(
 
     Parameters
     ----------
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
     einkommen_m_bg
         See :func:`einkommen_m_bg`.
     miete_m_bg
@@ -140,7 +140,7 @@ def anspruchshöhe_m_bg(
     """
     if grundsätzlich_anspruchsberechtigt_bg:
         out = basisformel(
-            anz_personen=anz_personen_bg,
+            anzahl_personen=demographic_vars__anzahl_personen_bg,
             einkommen_m=einkommen_m_bg,
             miete_m=miete_m_bg,
             params=wohngeld_params,
@@ -151,9 +151,8 @@ def anspruchshöhe_m_bg(
     return out
 
 
-@policy_function
 def basisformel(
-    anz_personen: int,
+    anzahl_personen: int,
     einkommen_m: float,
     miete_m: float,
     params: dict,
@@ -165,7 +164,7 @@ def basisformel(
 
     Parameters
     ----------
-    anz_personen
+    anzahl_personen
         Number of people Wohngeld is being calculated for.
     einkommen_m
         Sum of income of people Wohngeld should be calculated for.
@@ -183,7 +182,7 @@ def basisformel(
     ]
 
     koeffizienten = params["koeffizienten_berechnungsformel"][
-        min(anz_personen, max_berücks_personen)
+        min(anzahl_personen, max_berücks_personen)
     ]
     out = params["faktor_berechnungsformel"] * (
         miete_m
@@ -198,13 +197,13 @@ def basisformel(
     )
     out = max(out, 0.0)
 
-    if anz_personen > max_berücks_personen:
+    if anzahl_personen > max_berücks_personen:
         # If more than 12 persons, there is a lump-sum on top.
         # The maximum is still capped at `miete_m`.
         out = min(
             out
             + params["bonus_sehr_große_haushalte"]["bonus_jede_weitere_person"]
-            * (anz_personen - max_berücks_personen),
+            * (anzahl_personen - max_berücks_personen),
             miete_m,
         )
 

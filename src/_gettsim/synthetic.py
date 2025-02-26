@@ -154,7 +154,10 @@ def create_basic_households(
             "basic_inputs__alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
-            "basic_inputs__ges_pflegev_anz_kinder_bis_24": [n_children] * n_adults
+            "basic_inputs__sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24": [  # noqa: E501
+                n_children
+            ]
+            * n_adults
             + [0] * n_children,
             **specs_constant_over_households,
             **{v: k[i] for v, k in specs_heterogeneous.items()},

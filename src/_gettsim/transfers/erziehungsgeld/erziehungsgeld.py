@@ -105,7 +105,7 @@ def basisbetrag_m(
     budgetsatz_erzieh: bool,
     anzurechnendes_einkommen_y: float,
     einkommensgrenze_y: float,
-    alter_monate: float,
+    demographic_vars__alter_monate: float,
     erziehungsgeld_params: dict,
 ) -> float:
     """Parental leave benefit (Erziehungsgeld) without means-test on child level.
@@ -119,8 +119,8 @@ def basisbetrag_m(
         See :func:`anzurechnendes_einkommen_y`.
     einkommensgrenze_y
         See :func:`einkommensgrenze_y`.
-    alter_monate
-        See :func:`alter_monate`.
+    demographic_vars__alter_monate
+        See :func:`demographic_vars__alter_monate`.
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
@@ -131,7 +131,7 @@ def basisbetrag_m(
     # no benefit if income is above threshold and child is younger than threshold
     if (
         anzurechnendes_einkommen_y > einkommensgrenze_y
-        and alter_monate
+        and demographic_vars__alter_monate
         < erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         out = 0.0
@@ -147,7 +147,7 @@ def basisbetrag_m(
 def abzug_durch_einkommen_m(
     anzurechnendes_einkommen_m: float,
     einkommensgrenze_m: float,
-    alter_monate: float,
+    demographic_vars__alter_monate: float,
     erziehungsgeld_params: dict,
 ) -> float:
     """Reduction of parental leave benefits (means-test).
@@ -160,8 +160,8 @@ def abzug_durch_einkommen_m(
         See :func:`anzurechnendes_einkommen_y`.
     einkommensgrenze_m
         See :func:`einkommensgrenze_y`.
-    alter_monate
-        See :func:`alter_monate`.
+    demographic_vars__alter_monate
+        See :func:`demographic_vars__alter_monate`.
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
 
@@ -171,7 +171,7 @@ def abzug_durch_einkommen_m(
     """
     if (
         anzurechnendes_einkommen_m > einkommensgrenze_m
-        and alter_monate
+        and demographic_vars__alter_monate
         >= erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         out = anzurechnendes_einkommen_m * erziehungsgeld_params["abschlag_faktor"]
@@ -187,7 +187,7 @@ def abzug_durch_einkommen_m(
 )
 def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_vor_abschaffung(
     kind: bool,
-    alter_monate: float,
+    demographic_vars__alter_monate: float,
     budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
@@ -199,8 +199,8 @@ def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_vor_abschaffung(
     ----------
     kind
         See :See basic input variable :ref:`kind <kind>`.
-    alter_monate
-        See :func:`alter_monate`.
+    demographic_vars__alter_monate
+        See :func:`demographic_vars__alter_monate`.
     budgetsatz_erzieh
         See :See basic input variable :ref:`budgetsatz_erzieh
         <budgetsatz_erzieh>`.
@@ -213,10 +213,18 @@ def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_vor_abschaffung(
 
     """
     if budgetsatz_erzieh:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_budgetsatz"]
+        out = (
+            kind
+            and demographic_vars__alter_monate
+            <= erziehungsgeld_params["end_age_m_budgetsatz"]
+        )
 
     else:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_regelsatz"]
+        out = (
+            kind
+            and demographic_vars__alter_monate
+            <= erziehungsgeld_params["end_age_m_regelsatz"]
+        )
 
     return out
 
@@ -229,7 +237,7 @@ def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_vor_abschaffung(
 def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_nach_abschaffung(
     kind: bool,
     geburtsjahr: int,
-    alter_monate: float,
+    demographic_vars__alter_monate: float,
     budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> bool:
@@ -244,8 +252,8 @@ def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_nach_abschaffung(
         See :See basic input variable :ref:`kind <kind>`.
     geburtsjahr
         See :func:`geburtsjahr`.
-    alter_monate
-        See :func:`alter_monate`.
+    demographic_vars__alter_monate
+        See :func:`demographic_vars__alter_monate`.
     budgetsatz_erzieh
         See :See basic input variable :ref:`budgetsatz_erzieh
         <budgetsatz_erzieh>`.
@@ -258,10 +266,18 @@ def _elterngeld__kind_grundsätzlich_anspruchsberechtigt_nach_abschaffung(
 
     """
     if budgetsatz_erzieh and geburtsjahr <= erziehungsgeld_params["abolishment_cohort"]:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_budgetsatz"]
+        out = (
+            kind
+            and demographic_vars__alter_monate
+            <= erziehungsgeld_params["end_age_m_budgetsatz"]
+        )
 
     elif geburtsjahr <= erziehungsgeld_params["abolishment_cohort"]:
-        out = kind and alter_monate <= erziehungsgeld_params["end_age_m_regelsatz"]
+        out = (
+            kind
+            and demographic_vars__alter_monate
+            <= erziehungsgeld_params["end_age_m_regelsatz"]
+        )
 
     else:
         out = False
@@ -303,7 +319,7 @@ def eltern_grundsätzlich_anspruchsberechtigt(
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def anzurechnendes_einkommen_y(
     bruttolohn_vorj_y_fg: float,
-    anz_erwachsene_fg: int,
+    demographic_vars__anzahl_erwachsene_fg: int,
     elterngeld__kind_grundsätzlich_anspruchsberechtigt: bool,
     erziehungsgeld_params: dict,
     eink_st_abzuege_params: dict,
@@ -319,8 +335,8 @@ def anzurechnendes_einkommen_y(
     ----------
     bruttolohn_vorj_y_fg
         See :func:`bruttolohn_vorj_y_fg`.
-    anz_erwachsene_fg
-        See :func:`anz_erwachsene_fg`.
+    demographic_vars__anzahl_erwachsene_fg
+        See :func:`demographic_vars__anzahl_erwachsene_fg`.
     elterngeld__kind_grundsätzlich_anspruchsberechtigt
         See :func:`elterngeld__kind_grundsätzlich_anspruchsberechtigt`.
     erziehungsgeld_params
@@ -336,7 +352,8 @@ def anzurechnendes_einkommen_y(
     if elterngeld__kind_grundsätzlich_anspruchsberechtigt:
         out = (
             bruttolohn_vorj_y_fg
-            - eink_st_abzuege_params["werbungskostenpauschale"] * anz_erwachsene_fg
+            - eink_st_abzuege_params["werbungskostenpauschale"]
+            * demographic_vars__anzahl_erwachsene_fg
         ) * erziehungsgeld_params["pauschal_abzug_auf_einkommen"]
     else:
         out = 0.0
@@ -383,7 +400,7 @@ def einkommensgrenze_y(
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def einkommensgrenze_ohne_geschwisterbonus(
     alleinerz_fg: bool,
-    alter_monate: float,
+    demographic_vars__alter_monate: float,
     budgetsatz_erzieh: bool,
     erziehungsgeld_params: dict,
 ) -> float:
@@ -398,8 +415,8 @@ def einkommensgrenze_ohne_geschwisterbonus(
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
     alleinerz_fg
         See :func:`alleinerz_fg`.
-    alter_monate
-        See :func:`alter_monate`.
+    demographic_vars__alter_monate
+        See :func:`demographic_vars__alter_monate`.
     budgetsatz_erzieh
         See :See basic input variable :ref:`budgetsatz_erzieh
         <budgetsatz_erzieh>`.
@@ -412,7 +429,7 @@ def einkommensgrenze_ohne_geschwisterbonus(
     # the fact if a person is a single parent, and if regelsatz or budgetsatz is applied
 
     if (
-        alter_monate
+        demographic_vars__alter_monate
         < erziehungsgeld_params["einkommensgrenze"]["start_age_m_reduced_income_limit"]
     ):
         limit = "limit"

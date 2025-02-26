@@ -54,7 +54,7 @@ def grundsätzlich_anspruchsberechtigt_bg(
 @policy_function
 def vermögensgrenze_unterschritten_wthh(
     vermögen_bedürft_wthh: float,
-    anz_personen_wthh: int,
+    demographic_vars__anzahl_personen_wthh: int,
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the eligibility threshold for housing benefits.
@@ -63,8 +63,8 @@ def vermögensgrenze_unterschritten_wthh(
     ----------
     vermögen_bedürft_wthh
         See :func:`vermögen_bedürft_wthh <vermögen_bedürft_wthh>`.
-    anz_personen_wthh
-        See :func:`anz_personen_wthh`.
+    demographic_vars__anzahl_personen_wthh
+        See :func:`demographic_vars__anzahl_personen_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -75,7 +75,7 @@ def vermögensgrenze_unterschritten_wthh(
 
     return vermögensprüfung_formel(
         vermögen=vermögen_bedürft_wthh,
-        anz_personen=anz_personen_wthh,
+        anzahl_personen=demographic_vars__anzahl_personen_wthh,
         params=wohngeld_params,
     )
 
@@ -83,7 +83,7 @@ def vermögensgrenze_unterschritten_wthh(
 @policy_function
 def vermögensgrenze_unterschritten_bg(
     vermögen_bedürft_bg: float,
-    anz_personen_bg: int,
+    demographic_vars__anzahl_personen_bg: int,
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the eligibility threshold for housing benefits.
@@ -92,8 +92,8 @@ def vermögensgrenze_unterschritten_bg(
     ----------
     vermögen_bedürft_bg
         See :func:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
-    anz_personen_bg
-        See :func:`anz_personen_bg`.
+    demographic_vars__anzahl_personen_bg
+        See :func:`demographic_vars__anzahl_personen_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -104,7 +104,7 @@ def vermögensgrenze_unterschritten_bg(
 
     return vermögensprüfung_formel(
         vermögen=vermögen_bedürft_bg,
-        anz_personen=anz_personen_bg,
+        anzahl_personen=demographic_vars__anzahl_personen_bg,
         params=wohngeld_params,
     )
 
@@ -217,10 +217,9 @@ def einkommen_für_mindesteinkommen_check_m(
     )
 
 
-@policy_function
 def vermögensprüfung_formel(
     vermögen: float,
-    anz_personen: int,
+    anzahl_personen: int,
     params: dict,
 ) -> float:
     """Wealth check for housing benefit calculation.
@@ -235,7 +234,7 @@ def vermögensprüfung_formel(
     ----------
     vermögen
         Relevant wealth of the Wohngeld recipients.
-    anz_personen
+    anzahl_personen
         Number of people Wohngeld is being calculated for.
     params
         See params documentation :ref:`params <params>`.
@@ -245,12 +244,12 @@ def vermögensprüfung_formel(
 
     """
 
-    if anz_personen == 1:
+    if anzahl_personen == 1:
         vermögensfreibetrag = params["vermögensgrundfreibetrag"]
     else:
         vermögensfreibetrag = params["vermögensgrundfreibetrag"] + params[
             "vermögensfreibetrag_pers"
-        ] * (anz_personen - 1)
+        ] * (anzahl_personen - 1)
 
     if vermögen <= vermögensfreibetrag:
         out = True

@@ -22,7 +22,7 @@ inputs:
       - false
     ges_pflegev_hat_kinder:
       - true
-    ges_pflegev_anz_kinder_bis_24:
+    sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24:
       - 0
     eink_selbst_m:
       - 0.0

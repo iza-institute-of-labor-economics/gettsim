@@ -63,7 +63,7 @@ def beitragssatz_zusatz_kinderlos_dummy(
 
 @policy_function(start_date="2023-07-01", name_in_dag="beitragssatz")
 def beitragssatz_mit_kinder_abschlag(
-    ges_pflegev_anz_kinder_bis_24: int,
+    anzahl_kinder_bis_24: int,
     zusatzbetrag_kinderlos: bool,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -74,8 +74,8 @@ def beitragssatz_mit_kinder_abschlag(
 
     Parameters
     ----------
-    ges_pflegev_anz_kinder_bis_24: int,
-        See :func:`ges_pflegev_anz_kinder_bis_24`.
+    anzahl_kinder_bis_24: int,
+        See :func:`anzahl_kinder_bis_24`.
     zusatzbetrag_kinderlos
         See :func:`zusatzbetrag_kinderlos`.
     sozialv_beitr_params
@@ -92,10 +92,10 @@ def beitragssatz_mit_kinder_abschlag(
         out += sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
 
     # Reduced contribution for individuals with two or more children under 25
-    if ges_pflegev_anz_kinder_bis_24 >= 2:
+    if anzahl_kinder_bis_24 >= 2:
         out -= sozialv_beitr_params["beitr_satz"]["ges_pflegev"][
             "abschlag_kinder"
-        ] * min(ges_pflegev_anz_kinder_bis_24 - 1, 4)
+        ] * min(anzahl_kinder_bis_24 - 1, 4)
 
     return out
 
@@ -126,3 +126,25 @@ def zusatzbetrag_kinderlos(
     """
     mindestalter = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
     return (not ges_pflegev_hat_kinder) and alter >= mindestalter
+
+
+@policy_function
+def anzahl_kinder_bis_24(
+    demographic_vars__anzahl_kinder_bis_24_elternteil_1: int,
+    demographic_vars__anzahl_kinder_bis_24_elternteil_2: int,
+) -> int:
+    """Number of children under 25 years of age.
+    Parameters
+    ----------
+    demographic_vars__anzahl_kinder_bis_24_elternteil_1
+        See :func:`demographic_vars__anzahl_kinder_bis_24_elternteil_1`.
+    demographic_vars__anzahl_kinder_bis_24_elternteil_2
+        See :func:`demographic_vars__anzahl_kinder_bis_24_elternteil_2`.
+
+    Returns
+    -------
+    """
+    return (
+        demographic_vars__anzahl_kinder_bis_24_elternteil_1
+        + demographic_vars__anzahl_kinder_bis_24_elternteil_2
+    )

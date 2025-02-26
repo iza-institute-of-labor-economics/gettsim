@@ -132,7 +132,6 @@ def kinderfreibetrag_soli_y(
     return out
 
 
-@policy_function
 def lohnsteuer_formel(
     einkommen_y: float,
     eink_st_params: dict,

@@ -390,7 +390,7 @@ outputs:
     - 685.71
     - 685.71
     - 685.71
-  anz_personen_wthh:
+  demographic_vars__anzahl_personen_wthh:
     - 3
     - 3
     - 3
