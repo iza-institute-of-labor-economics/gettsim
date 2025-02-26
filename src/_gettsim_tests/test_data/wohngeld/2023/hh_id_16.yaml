@@ -104,7 +104,7 @@ inputs:
       - 1970
       - 1970
       - 1970
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true

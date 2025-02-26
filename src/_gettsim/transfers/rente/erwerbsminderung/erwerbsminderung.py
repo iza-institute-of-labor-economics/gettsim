@@ -9,7 +9,7 @@ def betrag_m(  # noqa: PLR0913
     entgeltpunkte_west: float,
     entgeltpunkte_ost: float,
     rentenartfaktor: float,
-    anspruchsberechtigt: bool,
+    grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
 ) -> float:
     """Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
@@ -29,15 +29,15 @@ def betrag_m(  # noqa: PLR0913
         See :func:`rentenwert`.
     rentenartfaktor
         See :func:`rentenartfaktor`.
-    anspruchsberechtigt
-        See :func:`anspruchsberechtigt`.
+    grundsätzlich_anspruchsberechtigt
+        See :func:`grundsätzlich_anspruchsberechtigt`.
     Returns
     -------
     Erwerbsminderungsrente (amount paid by public disability insurance if claimed)
 
     """
 
-    if anspruchsberechtigt:
+    if grundsätzlich_anspruchsberechtigt:
         out = (
             (
                 entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
@@ -52,7 +52,7 @@ def betrag_m(  # noqa: PLR0913
 
 
 @policy_function(start_date="2001-01-01")
-def anspruchsberechtigt(
+def grundsätzlich_anspruchsberechtigt(
     voll_erwerbsgemind: bool,
     teilw_erwerbsgemind: bool,
     m_pflichtbeitrag: float,

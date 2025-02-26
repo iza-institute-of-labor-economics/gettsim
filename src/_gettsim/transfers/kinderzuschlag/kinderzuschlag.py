@@ -236,7 +236,7 @@ def basisbetrag_m_bg(
 
 @policy_function
 def basisbetrag_kind_m(  # noqa: PLR0913
-    kindergeld__anspruchsberechtigt: bool,
+    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
     bruttolohn_m: float,
     kind_unterh_erhalt_m: float,
     unterhaltsvorschuss__betrag_m: float,
@@ -249,8 +249,8 @@ def basisbetrag_kind_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    kindergeld__anspruchsberechtigt
-        See :func:`kindergeld__anspruchsberechtigt`.
+    kindergeld__grundsätzlich_anspruchsberechtigt
+        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
     kind_unterh_erhalt_m
@@ -266,7 +266,7 @@ def basisbetrag_kind_m(  # noqa: PLR0913
     -------
 
     """
-    out = kindergeld__anspruchsberechtigt * (
+    out = kindergeld__grundsätzlich_anspruchsberechtigt * (
         kinderzuschl_params["maximum"]
         - kinderzuschl_params["entzugsrate_kind"]
         * (

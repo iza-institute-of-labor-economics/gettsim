@@ -72,7 +72,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  rente__altersrente__langjährig__anspruchsberechtigt:
+  rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - true
   rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.41666666

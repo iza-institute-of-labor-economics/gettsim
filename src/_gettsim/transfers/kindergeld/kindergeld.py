@@ -8,12 +8,12 @@ from _gettsim.shared import join_numpy
 
 aggregation_specs = {
     "anzahl_kinder_fg": AggregateByGroupSpec(
-        source_col="anspruchsberechtigt",
+        source_col="grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
     "anzahl_ansprüche": AggregateByPIDSpec(
         p_id_to_aggregate_by="p_id_kindergeld_empf",
-        source_col="anspruchsberechtigt",
+        source_col="grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
 }
@@ -79,8 +79,8 @@ def betrag_gestaffelt_m(
     return sum_kindergeld
 
 
-@policy_function(end_date="2011-12-31", leaf_name="anspruchsberechtigt")
-def anspruchsberechtigt_nach_lohn(
+@policy_function(end_date="2011-12-31", leaf_name="grundsätzlich_anspruchsberechtigt")
+def grundsätzlich_anspruchsberechtigt_nach_lohn(
     alter: int,
     in_ausbildung: bool,
     bruttolohn_m: float,
@@ -116,8 +116,8 @@ def anspruchsberechtigt_nach_lohn(
     return out
 
 
-@policy_function(start_date="2012-01-01", leaf_name="anspruchsberechtigt")
-def anspruchsberechtigt_nach_stunden(
+@policy_function(start_date="2012-01-01", leaf_name="grundsätzlich_anspruchsberechtigt")
+def grundsätzlich_anspruchsberechtigt_nach_stunden(
     alter: int,
     in_ausbildung: bool,
     arbeitsstunden_w: float,
@@ -157,7 +157,7 @@ def anspruchsberechtigt_nach_stunden(
 @policy_function
 def kind_bis_10_mit_kindergeld(
     alter: int,
-    anspruchsberechtigt: bool,
+    grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
     """Child under the age of 11 and eligible for Kindergeld.
 
@@ -165,14 +165,14 @@ def kind_bis_10_mit_kindergeld(
     ----------
     alter
         See basic input variable :ref:`alter <alter>`.
-    anspruchsberechtigt
-        See :func:`anspruchsberechtigt_nach_stunden`.
+    grundsätzlich_anspruchsberechtigt
+        See :func:`grundsätzlich_anspruchsberechtigt_nach_stunden`.
 
     Returns
     -------
 
     """
-    out = anspruchsberechtigt and (alter <= 10)
+    out = grundsätzlich_anspruchsberechtigt and (alter <= 10)
     return out
 
 

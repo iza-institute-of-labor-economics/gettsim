@@ -77,7 +77,9 @@ def altersgrenze_mit_staffelung(geburtsjahr: int, ges_rente_params: dict) -> flo
 
 
 @policy_function
-def anspruchsberechtigt(rente__altersrente__mindestwartezeit_erfüllt: bool) -> bool:
+def grundsätzlich_anspruchsberechtigt(
+    rente__altersrente__mindestwartezeit_erfüllt: bool,
+) -> bool:
     """Determining the eligibility for the Regelaltersrente.
 
     Parameters

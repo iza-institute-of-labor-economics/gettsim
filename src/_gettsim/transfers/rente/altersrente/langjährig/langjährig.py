@@ -260,7 +260,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
 
 
 @policy_function
-def anspruchsberechtigt(
+def grundsätzlich_anspruchsberechtigt(
     rente__altersrente__wartezeit_35_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für langjährig

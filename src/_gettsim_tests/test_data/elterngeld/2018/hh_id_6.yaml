@@ -56,9 +56,9 @@ inputs:
 outputs:
   elterngeld__betrag_m:
     - 0.0
-  elterngeld__geschwisterbonus_anspruchsberechtigt_fg:
+  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
     - false
   elterngeld__anzahl_mehrlinge_fg:
     - 0
-  elterngeld__anspruchsberechtigt:
+  elterngeld__grundsätzlich_anspruchsberechtigt:
     - false

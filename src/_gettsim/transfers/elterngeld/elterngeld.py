@@ -4,8 +4,8 @@ from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
 
 aggregation_specs = {
-    "kind_anspruchsberechtigt_fg": AggregateByGroupSpec(
-        source_col="kind_anspruchsberechtigt",
+    "kind_grundsätzlich_anspruchsberechtigt_fg": AggregateByGroupSpec(
+        source_col="kind_grundsätzlich_anspruchsberechtigt",
         aggr="any",
     ),
     "anzahl_anträge_fg": AggregateByGroupSpec(
@@ -22,15 +22,15 @@ aggregation_specs = {
 
 @policy_function(start_date="2011-01-01", params_key_for_rounding="elterngeld")
 def betrag_m(
-    anspruchsberechtigt: bool,
+    grundsätzlich_anspruchsberechtigt: bool,
     anspruchshöhe_m: float,
 ) -> float:
     """Parental leave benefit (Elterngeld).
 
     Parameters
     ----------
-    anspruchsberechtigt
-        See :func:`anspruchsberechtigt`.
+    grundsätzlich_anspruchsberechtigt
+        See :func:`grundsätzlich_anspruchsberechtigt`.
     anspruchshöhe_m
         See :func:`anspruchshöhe_m`.
 
@@ -38,7 +38,7 @@ def betrag_m(
     -------
 
     """
-    if anspruchsberechtigt:
+    if grundsätzlich_anspruchsberechtigt:
         out = anspruchshöhe_m
     else:
         out = 0.0
@@ -126,10 +126,10 @@ def anspruchshöhe_m(
 
 
 @policy_function
-def anspruchsberechtigt(  # noqa: PLR0913
+def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     elterngeld_claimed: bool,
     arbeitsstunden_w: float,
-    kind_anspruchsberechtigt_fg: bool,
+    kind_grundsätzlich_anspruchsberechtigt_fg: bool,
     einkommen_vorjahr_unter_bezugsgrenze: bool,
     bezugsmonate_unter_grenze_fg: bool,
     elterngeld_params: dict,
@@ -142,8 +142,8 @@ def anspruchsberechtigt(  # noqa: PLR0913
         See basic input variable :ref:`elterngeld_claimed <elterngeld_claimed>`.
     arbeitsstunden_w
         See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
-    kind_anspruchsberechtigt_fg
-        See :func:`kind_anspruchsberechtigt_fg`.
+    kind_grundsätzlich_anspruchsberechtigt_fg
+        See :func:`kind_grundsätzlich_anspruchsberechtigt_fg`.
     einkommen_vorjahr_unter_bezugsgrenze
         See :func:`einkommen_vorjahr_unter_bezugsgrenze`.
     bezugsmonate_unter_grenze_fg
@@ -159,7 +159,7 @@ def anspruchsberechtigt(  # noqa: PLR0913
         elterngeld_claimed
         and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
         and einkommen_vorjahr_unter_bezugsgrenze
-        and kind_anspruchsberechtigt_fg
+        and kind_grundsätzlich_anspruchsberechtigt_fg
         and bezugsmonate_unter_grenze_fg
     )
 
@@ -211,7 +211,7 @@ def bezugsmonate_unter_grenze_fg(
 
 
 @policy_function
-def kind_anspruchsberechtigt(
+def kind_grundsätzlich_anspruchsberechtigt(
     alter: int,
     elterngeld_params: dict,
 ) -> bool:

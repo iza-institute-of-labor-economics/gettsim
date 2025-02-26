@@ -32,7 +32,7 @@ inputs:
       - 50
       - 24
       - 24
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - false

@@ -52,7 +52,7 @@ inputs:
     alleinerz:
       - false
       - false
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:

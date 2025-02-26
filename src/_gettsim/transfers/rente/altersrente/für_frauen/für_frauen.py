@@ -203,8 +203,8 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
-@policy_function(end_date="1997-12-15", name_in_dag="anspruchsberechtigt")
-def anspruchsberechtigt_ohne_prüfung_geburtsjahr(
+@policy_function(end_date="1997-12-15", name_in_dag="grundsätzlich_anspruchsberechtigt")
+def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     weiblich: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     y_pflichtbeitr_ab_40: float,
@@ -247,9 +247,9 @@ def anspruchsberechtigt_ohne_prüfung_geburtsjahr(
 @policy_function(
     start_date="1997-12-16",
     end_date="2017-12-31",
-    name_in_dag="anspruchsberechtigt",
+    name_in_dag="grundsätzlich_anspruchsberechtigt",
 )
-def anspruchsberechtigt_mit_geburtsjahr_prüfung(
+def grundsätzlich_anspruchsberechtigt_mit_geburtsjahr_prüfung(
     weiblich: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     y_pflichtbeitr_ab_40: float,

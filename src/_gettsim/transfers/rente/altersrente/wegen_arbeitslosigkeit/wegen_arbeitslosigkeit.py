@@ -421,8 +421,8 @@ def altersgrenze_vorzeitig_ohne_vertrauenss(
     return arbeitsl_vorzeitig
 
 
-@policy_function(end_date="2007-04-29", name_in_dag="anspruchsberechtigt")
-def _anspruchsberechtigt_ohne_2007_reform(
+@policy_function(end_date="2007-04-29", name_in_dag="grundsätzlich_anspruchsberechtigt")
+def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     arbeitsl_1y_past_585: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitr_8_in_10: bool,
@@ -463,9 +463,9 @@ def _anspruchsberechtigt_ohne_2007_reform(
 @policy_function(
     start_date="2007-04-30",
     end_date="2017-12-31",
-    name_in_dag="anspruchsberechtigt",
+    name_in_dag="grundsätzlich_anspruchsberechtigt",
 )
-def _anspruchsberechtigt_mit_2007_reform(
+def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     arbeitsl_1y_past_585: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitr_8_in_10: bool,

@@ -368,7 +368,7 @@ def parent_alleinerz(
 
 
 def wohngeld_arbeitendes_kind(
-    bruttolohn_m: float, kindergeld__anspruchsberechtigt: bool
+    bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
 ) -> bool:
     """Check if children are working.
 
@@ -376,12 +376,12 @@ def wohngeld_arbeitendes_kind(
     ----------
     bruttolohn_m
         See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kindergeld__anspruchsberechtigt
-        See :func:`kindergeld__anspruchsberechtigt`.
+    kindergeld__grundsätzlich_anspruchsberechtigt
+        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
 
     Returns
     -------
 
     """
-    out = (bruttolohn_m > 0) and kindergeld__anspruchsberechtigt
+    out = (bruttolohn_m > 0) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out

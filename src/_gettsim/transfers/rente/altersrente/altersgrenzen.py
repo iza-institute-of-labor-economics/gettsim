@@ -9,9 +9,9 @@ def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
     rente__altersrente__für_frauen__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze: float,
-    rente__altersrente__für_frauen__anspruchsberechtigt: bool,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
 ) -> float:
     """Full retirement age after eligibility checks, assuming eligibility for
     Regelaltersrente.
@@ -30,24 +30,24 @@ def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
         See :func:`rente__altersrente__langjährig__altersgrenze`.
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze
          See :func:`rente__altersrente__wegen_arbeitslosigkeit__altersgrenze`.
-    rente__altersrente__für_frauen__anspruchsberechtigt
-        See :func:`rente__altersrente__für_frauen__anspruchsberechtigt`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
-        See :func:`rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt`.
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
+        See :func:`rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt`.
     Returns
     -------
     Full retirement age.
 
-    """
+    """  # noqa: E501
 
     out = rente__altersrente__regelaltersrente__altersgrenze
-    if rente__altersrente__für_frauen__anspruchsberechtigt:
+    if rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__für_frauen__altersgrenze])
-    if rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+    if rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__wegen_arbeitslosigkeit__altersgrenze])
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__langjährig__altersgrenze])
 
     return out
@@ -64,10 +64,10 @@ def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     rente__altersrente__langjährig__altersgrenze: float,
     rente__altersrente__besonders_langjährig__altersgrenze: float,
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze: float,
-    rente__altersrente__für_frauen__anspruchsberechtigt: bool,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
 ) -> float:
     """Full retirement age after eligibility checks, assuming eligibility for
     Regelaltersrente.
@@ -93,29 +93,29 @@ def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
         See :func:`rente__altersrente__besonders_langjährig__altersgrenze`.
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze
         See :func:`rente__altersrente__wegen_arbeitslosigkeit__altersgrenze`.
-    rente__altersrente__für_frauen__anspruchsberechtigt
-        See :func:`rente__altersrente__für_frauen__anspruchsberechtigt`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__besonders_langjährig__anspruchsberechtigt`.
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
-        See :func:`rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt`.
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt`.
 
     Returns
     -------
     Full retirement age.
 
-    """
+    """  # noqa: E501
 
     out = rente__altersrente__regelaltersrente__altersgrenze
-    if rente__altersrente__für_frauen__anspruchsberechtigt:
+    if rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__für_frauen__altersgrenze])
-    if rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+    if rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__wegen_arbeitslosigkeit__altersgrenze])
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__langjährig__altersgrenze])
-    if rente__altersrente__besonders_langjährig__anspruchsberechtigt:
+    if rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__besonders_langjährig__altersgrenze])
 
     return out
@@ -126,8 +126,8 @@ def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,
     rente__altersrente__besonders_langjährig__altersgrenze: float,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt: bool,
 ) -> float:
     """Full retirement age after eligibility checks, assuming eligibility for
     Regelaltersrente.
@@ -144,21 +144,21 @@ def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
         See :func:`rente__altersrente__langjährig__altersgrenze`.
     rente__altersrente__besonders_langjährig__altersgrenze
         See :func:`rente__altersrente__besonders_langjährig__altersgrenze`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__besonders_langjährig__anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt`.
 
     Returns
     -------
     Full retirement age.
 
-    """
+    """  # noqa: E501
 
     out = rente__altersrente__regelaltersrente__altersgrenze
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__langjährig__altersgrenze])
-    if rente__altersrente__besonders_langjährig__anspruchsberechtigt:
+    if rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
         out = min([out, rente__altersrente__besonders_langjährig__altersgrenze])
 
     return out
@@ -166,9 +166,9 @@ def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
 
 @policy_function(end_date="2017-12-31", name_in_dag="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
-    rente__altersrente__für_frauen__anspruchsberechtigt: bool,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__für_frauen__altersgrenze_vorzeitig: float,
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig: float,
@@ -183,12 +183,12 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
 
     Parameters
     ----------
-    rente__altersrente__für_frauen__anspruchsberechtigt
-        See :func:`rente__altersrente__für_frauen__anspruchsberechtigt`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
-        See :func:`rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt`.
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
+        See :func:`rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt`.
     rente__altersrente__regelaltersrente__altersgrenze
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
     rente__altersrente__für_frauen__altersgrenze_vorzeitig
@@ -202,7 +202,7 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     -------
     Early retirement age (potentially with deductions).
 
-    """
+    """  # noqa: E501
     frauen_vorzeitig = rente__altersrente__für_frauen__altersgrenze_vorzeitig
 
     arbeitsl_vorzeitig = (
@@ -213,11 +213,11 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
 
     out = rente__altersrente__regelaltersrente__altersgrenze
 
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = langjährig_vorzeitig
-    if rente__altersrente__für_frauen__anspruchsberechtigt:
+    if rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
         out = min([out, frauen_vorzeitig])
-    if rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+    if rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
         out = min([out, arbeitsl_vorzeitig])
 
     return out
@@ -225,7 +225,7 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
 
 @policy_function(start_date="2018-01-01", name_in_dag="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze_vorzeitig: float,
 ) -> float:
@@ -236,8 +236,8 @@ def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
 
     Parameters
     ----------
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
     rente__altersrente__regelaltersrente__altersgrenze
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
     rente__altersrente__langjährig__altersgrenze_vorzeitig
@@ -251,7 +251,7 @@ def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
 
     out = rente__altersrente__regelaltersrente__altersgrenze
 
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = rente__altersrente__langjährig__altersgrenze_vorzeitig
     else:
         out = rente__altersrente__regelaltersrente__altersgrenze
@@ -259,11 +259,13 @@ def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     return out
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="vorzeitig_anspruchsberechtigt")
-def vorzeitig_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
-    rente__altersrente__für_frauen__anspruchsberechtigt: bool,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
+@policy_function(
+    end_date="2017-12-31", name_in_dag="vorzeitig_grundsätzlich_anspruchsberechtigt"
+)
+def vorzeitig_grundsätzlich_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
     """Eligibility for early retirement.
 
@@ -274,32 +276,34 @@ def vorzeitig_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
 
     Parameters
     ----------
-    rente__altersrente__für_frauen__anspruchsberechtigt
-        See :func:`rente__altersrente__für_frauen__anspruchsberechtigt`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
-        See :func:`rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt`.
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt`.
 
 
     Returns
     -------
     Eligibility as bool.
 
-    """
+    """  # noqa: E501
 
     out = (
-        rente__altersrente__für_frauen__anspruchsberechtigt
-        or rente__altersrente__langjährig__anspruchsberechtigt
-        or rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
+        rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        or rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        or rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
     )
 
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="vorzeitig_anspruchsberechtigt")
-def vorzeitig_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
+@policy_function(
+    start_date="2018-01-01", name_in_dag="vorzeitig_grundsätzlich_anspruchsberechtigt"
+)
+def vorzeitig_grundsätzlich_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
     """Eligibility for early retirement.
 
@@ -307,8 +311,8 @@ def vorzeitig_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
 
     Parameters
     ----------
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
 
     Returns
     -------
@@ -316,7 +320,7 @@ def vorzeitig_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
 
     """
 
-    return rente__altersrente__langjährig__anspruchsberechtigt
+    return rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
 
 
 @policy_function(end_date="2017-12-31", name_in_dag="referenzalter_abschlag")
@@ -325,9 +329,9 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     rente__altersrente__für_frauen__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze: float,
-    rente__altersrente__für_frauen__anspruchsberechtigt: bool,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt: bool,
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
@@ -346,22 +350,22 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
         See :func:`rente__altersrente__langjährig__altersgrenze`.
     rente__altersrente__wegen_arbeitslosigkeit__altersgrenze
         See :func:`rente__altersrente__wegen_arbeitslosigkeit__altersgrenze`.
-    rente__altersrente__für_frauen__anspruchsberechtigt
-        See :func:`rente__altersrente__für_frauen__anspruchsberechtigt`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
-        See :func:`rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt`.
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt`.
 
      Returns
     -------
     Reference age for deduction calculation.
 
-    """
+    """  # noqa: E501
     if (
-        rente__altersrente__langjährig__anspruchsberechtigt
-        and rente__altersrente__für_frauen__anspruchsberechtigt
-        and rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
+        rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        and rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
+        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt  # noqa: E501
     ):
         out = min(
             [
@@ -371,8 +375,8 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
             ]
         )
     elif (
-        rente__altersrente__langjährig__anspruchsberechtigt
-        and rente__altersrente__für_frauen__anspruchsberechtigt
+        rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        and rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
     ):
         out = min(
             [
@@ -381,8 +385,8 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
             ]
         )
     elif (
-        rente__altersrente__langjährig__anspruchsberechtigt
-        and rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt
+        rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt  # noqa: E501
     ):
         out = min(
             [
@@ -390,11 +394,11 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
                 rente__altersrente__wegen_arbeitslosigkeit__altersgrenze,
             ]
         )
-    elif rente__altersrente__langjährig__anspruchsberechtigt:
+    elif rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = rente__altersrente__langjährig__altersgrenze
-    elif rente__altersrente__für_frauen__anspruchsberechtigt:
+    elif rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
         out = rente__altersrente__für_frauen__altersgrenze
-    elif rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+    elif rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
         out = rente__altersrente__wegen_arbeitslosigkeit__altersgrenze
     else:
         out = rente__altersrente__regelaltersrente__altersgrenze
@@ -406,7 +410,7 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
 def referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,
-    rente__altersrente__langjährig__anspruchsberechtigt: bool,
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
 ) -> float:
     """Reference age for deduction calculation in case of early retirement
     (Zugangsfaktor).
@@ -419,15 +423,15 @@ def referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
     rente__altersrente__langjährig__altersgrenze
         See :func:`rente__altersrente__langjährig__altersgrenze`.
-    rente__altersrente__langjährig__anspruchsberechtigt
-        See :func:`rente__altersrente__langjährig__anspruchsberechtigt`.
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt`.
 
      Returns
     -------
     Reference age for deduction calculation.
 
     """
-    if rente__altersrente__langjährig__anspruchsberechtigt:
+    if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
         out = rente__altersrente__langjährig__altersgrenze
     else:
         out = rente__altersrente__regelaltersrente__altersgrenze

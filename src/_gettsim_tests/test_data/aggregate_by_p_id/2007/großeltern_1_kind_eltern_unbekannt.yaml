@@ -66,7 +66,7 @@ inputs:
       - -1
       - -1
       - 1
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true

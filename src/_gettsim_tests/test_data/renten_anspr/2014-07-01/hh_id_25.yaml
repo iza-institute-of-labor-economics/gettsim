@@ -64,7 +64,7 @@ inputs:
       - 108.0
     m_pfleg_berücks_zeit:
       - 10.0
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt:
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
       - false
   assumed: {}
 outputs:

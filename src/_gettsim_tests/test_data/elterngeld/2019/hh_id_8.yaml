@@ -131,7 +131,7 @@ outputs:
     - 0.0
     - 0.0
     - 1023.0
-  elterngeld__geschwisterbonus_anspruchsberechtigt_fg:
+  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
     - true
     - true
     - true
@@ -141,7 +141,7 @@ outputs:
     - 1
     - 1
     - 1
-  elterngeld__anspruchsberechtigt:
+  elterngeld__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false

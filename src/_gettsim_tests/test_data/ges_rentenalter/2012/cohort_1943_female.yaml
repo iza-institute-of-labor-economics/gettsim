@@ -69,7 +69,7 @@ inputs:
       - true
       - true
       - true
-    rente__altersrente__langjährig__anspruchsberechtigt:
+    rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
       - true
       - true
       - false
@@ -82,7 +82,7 @@ inputs:
       - true
       - true
       - false
-    rente__altersrente__besonders_langjährig__anspruchsberechtigt:
+    rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
       - false
       - true
       - false
@@ -95,7 +95,7 @@ inputs:
       - false
       - true
       - false
-    rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+    rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - false
@@ -108,7 +108,7 @@ inputs:
       - true
       - true
       - true
-    rente__altersrente__für_frauen__anspruchsberechtigt:
+    rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - false

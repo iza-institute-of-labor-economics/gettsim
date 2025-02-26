@@ -6,7 +6,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function
 def geschwisterbonus_m(
     basisbetrag_m: float,
-    geschwisterbonus_anspruchsberechtigt_fg: bool,
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg: bool,
     elterngeld_params: dict,
 ) -> float:
     """Elterngeld bonus for (older) siblings.
@@ -17,8 +17,8 @@ def geschwisterbonus_m(
     ----------
     basisbetrag_m
         See :func:`basisbetrag_m`.
-    geschwisterbonus_anspruchsberechtigt_fg
-        See :func:`geschwisterbonus_anspruchsberechtigt_fg`.
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg
+        See :func:`geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -26,7 +26,7 @@ def geschwisterbonus_m(
     -------
 
     """
-    if geschwisterbonus_anspruchsberechtigt_fg:
+    if geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
         out = max(
             elterngeld_params["geschwisterbonus_aufschlag"] * basisbetrag_m,
             elterngeld_params["geschwisterbonus_minimum"],
@@ -55,7 +55,7 @@ def mehrlingsbonus_m(anzahl_mehrlinge_fg: int, elterngeld_params: dict) -> float
 
 
 @policy_function
-def geschwisterbonus_anspruchsberechtigt_fg(
+def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
     anz_kinder_bis_2_fg: int,
     anz_kinder_bis_5_fg: int,
     elterngeld_params: dict,

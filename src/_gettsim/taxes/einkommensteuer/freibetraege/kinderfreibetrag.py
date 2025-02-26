@@ -6,12 +6,12 @@ from _gettsim.functions.policy_function import policy_function
 aggregation_specs = {
     "anzahl_anspruch_1": AggregateByPIDSpec(
         p_id_to_aggregate_by="p_id_empfänger_1",
-        source_col="kindergeld__anspruchsberechtigt",
+        source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
     "anzahl_anspruch_2": AggregateByPIDSpec(
         p_id_to_aggregate_by="p_id_empfänger_2",
-        source_col="kindergeld__anspruchsberechtigt",
+        source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
 }

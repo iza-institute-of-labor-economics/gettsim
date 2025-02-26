@@ -313,7 +313,7 @@ For example, in `kindergeld.py`, we could have:
 aggregation_specs = {
     "kindergeld__anzahl_ansprüche": AggregateByPIDSpec(
         p_id_to_aggregate_by="p_id_kindergeld_empf",
-        source_col="kindergeld__anspruchsberechtigt",
+        source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
 }
@@ -321,8 +321,8 @@ aggregation_specs = {
 
 This dict creates a target function `kindergeld__anzahl_ansprüche` which gives the
 amount of claims that a person has on Kindergeld, based on the
-`kindergeld__anspruchsberechtigt` function which returns Booleans, which show whether a
-child is a reason for a Kindergeld claim.
+`kindergeld__grundsätzlich_anspruchsberechtigt` function which returns Booleans, which
+show whether a child is a reason for a Kindergeld claim.
 
 The output type will be the same as the input type. Exceptions:
 

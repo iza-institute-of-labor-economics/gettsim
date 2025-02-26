@@ -70,7 +70,7 @@ inputs:
       - false
       - false
       - false
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true

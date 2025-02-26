@@ -92,7 +92,7 @@ def altersgrenze_mit_staffelung(
 
 
 @policy_function(start_date="2012-01-01")
-def anspruchsberechtigt(
+def grundsätzlich_anspruchsberechtigt(
     rente__altersrente__wartezeit_45_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte

@@ -362,8 +362,8 @@ def zugangsfaktor(  # noqa: PLR0913
     referenzalter_abschlag: float,
     altersgrenze_abschlagsfrei: float,
     altersgrenze_vorzeitig: float,
-    vorzeitig_anspruchsberechtigt: bool,
-    rente__altersrente__regelaltersrente__anspruchsberechtigt: bool,
+    vorzeitig_grundsätzlich_anspruchsberechtigt: bool,
+    rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
 ) -> float:
     """Zugangsfaktor (pension adjustment factor).
@@ -387,7 +387,7 @@ def zugangsfaktor(  # noqa: PLR0913
     Returns 0 of the person is not eligible for receiving pension benefits because
     either i) the person is younger than the earliest possible retirement age or ii) the
     person is not eligible for pension benefits because
-    `rente__altersrente__regelaltersrente__anspruchsberechtigt` is False.
+    `rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt` is False.
 
     Parameters
     ----------
@@ -401,10 +401,10 @@ def zugangsfaktor(  # noqa: PLR0913
         See :func:`altersgrenze_abschlagsfrei`.
     altersgrenze_vorzeitig
         See :func:`altersgrenze_vorzeitig`.
-    vorzeitig_anspruchsberechtigt
-        See :func:`vorzeitig_anspruchsberechtigt`.
-    rente__altersrente__regelaltersrente__anspruchsberechtigt
-        See :func:`rente__altersrente__regelaltersrente__anspruchsberechtigt`.
+    vorzeitig_grundsätzlich_anspruchsberechtigt
+        See :func:`vorzeitig_grundsätzlich_anspruchsberechtigt`.
+    rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt
+        See :func:`rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -412,12 +412,12 @@ def zugangsfaktor(  # noqa: PLR0913
     -------
     Zugangsfaktor
 
-    """
+    """  # noqa: E501
 
-    if rente__altersrente__regelaltersrente__anspruchsberechtigt:
+    if rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
         if rente__alter_bei_renteneintritt < altersgrenze_abschlagsfrei:  # [ERA,FRA)
-            if vorzeitig_anspruchsberechtigt and (
+            if vorzeitig_grundsätzlich_anspruchsberechtigt and (
                 rente__alter_bei_renteneintritt >= altersgrenze_vorzeitig
             ):
                 # Calc difference to FRA of pensions with early retirement options
@@ -457,8 +457,8 @@ def zugangsfaktor(  # noqa: PLR0913
             out = 1.0
 
     # Claiming pension is not possible if
-    # rente__altersrente__regelaltersrente__anspruchsberechtigt is 'False'. Return 0 in
-    # this case. Then, the pension payment is 0 as well.
+    # rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt is
+    # 'False'. Return 0 in this case. Then, the pension payment is 0 as well.
     else:
         out = 0.0
 

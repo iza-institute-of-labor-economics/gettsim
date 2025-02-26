@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function
-def anspruchsberechtigt_wthh(
+def grundsätzlich_anspruchsberechtigt_wthh(
     mindesteinkommen_erreicht_wthh: bool,
     vermögensgrenze_unterschritten_wthh: bool,
 ) -> bool:
@@ -28,7 +28,7 @@ def anspruchsberechtigt_wthh(
 
 
 @policy_function
-def anspruchsberechtigt_bg(
+def grundsätzlich_anspruchsberechtigt_bg(
     mindesteinkommen_erreicht_bg: bool,
     vermögensgrenze_unterschritten_bg: bool,
 ) -> bool:

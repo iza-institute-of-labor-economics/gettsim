@@ -44,7 +44,7 @@ inputs:
       - 57
     immobilie_baujahr_hh:
       - 1982
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
     mietstufe:
       - 5

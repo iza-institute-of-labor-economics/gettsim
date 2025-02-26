@@ -359,7 +359,9 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
 
 @policy_function
-def anspruchsberechtigt(grundr_zeiten: int, ges_rente_params: dict) -> bool:
+def grundsätzlich_anspruchsberechtigt(
+    grundr_zeiten: int, ges_rente_params: dict
+) -> bool:
     """Whether person has accumulated enough insured years to be eligible.
 
     Parameters

@@ -46,7 +46,7 @@ inputs:
     arbeitssuchend:
       - false
       - true
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - true
       - false
     m_durchg_alg1_bezug:

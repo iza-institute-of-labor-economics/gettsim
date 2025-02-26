@@ -72,9 +72,9 @@ outputs:
     - 0.509006589
   rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.0
-  rente__altersrente__vorzeitig_anspruchsberechtigt:
+  rente__altersrente__vorzeitig_grundsätzlich_anspruchsberechtigt:
     - true
-  rente__altersrente__wegen_arbeitslosigkeit__anspruchsberechtigt:
+  rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
     - true
   rente__altersrente__altersgrenze_vorzeitig:
     - 63.0

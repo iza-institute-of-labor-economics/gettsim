@@ -9,7 +9,7 @@ from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 @policy_function
 def betrag_m(
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
-    anspruchsberechtigt: bool,
+    grundsätzlich_anspruchsberechtigt: bool,
     einkommen_vorjahr_proxy_m: float,
     arbeitsl_geld_params: dict,
 ) -> float:
@@ -20,8 +20,8 @@ def betrag_m(
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche
         See :func:
         `einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche`.
-    anspruchsberechtigt
-        See :func:`anspruchsberechtigt`.
+    grundsätzlich_anspruchsberechtigt
+        See :func:`grundsätzlich_anspruchsberechtigt`.
     einkommen_vorjahr_proxy_m
         See :func:`einkommen_vorjahr_proxy_m`.
     arbeitsl_geld_params
@@ -37,7 +37,7 @@ def betrag_m(
     elif einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
-    if anspruchsberechtigt:
+    if grundsätzlich_anspruchsberechtigt:
         out = einkommen_vorjahr_proxy_m * arbeitsl_geld_satz
     else:
         out = 0.0
@@ -124,7 +124,7 @@ def verbleibende_anspruchsdauer(
 
 
 @policy_function
-def anspruchsberechtigt(  # noqa: PLR0913
+def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     alter: int,
     arbeitssuchend: bool,
     verbleibende_anspruchsdauer: int,

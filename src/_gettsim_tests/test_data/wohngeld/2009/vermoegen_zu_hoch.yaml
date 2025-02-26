@@ -61,7 +61,7 @@ inputs:
     immobilie_baujahr_hh:
       - 1995
       - 1995
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - true
     mietstufe:

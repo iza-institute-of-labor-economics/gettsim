@@ -87,7 +87,7 @@ inputs:
       - 0.0
       - 120.0
 outputs:
-  rente__altersrente__regelaltersrente__anspruchsberechtigt:
+  rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
     - false
     - true
     - true
@@ -96,7 +96,7 @@ outputs:
     - false
     - true
     - true
-  rente__altersrente__langjährig__anspruchsberechtigt:
+  rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -105,7 +105,7 @@ outputs:
     - true
     - true
     - true
-  rente__altersrente__besonders_langjährig__anspruchsberechtigt:
+  rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false

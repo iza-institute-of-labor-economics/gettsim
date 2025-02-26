@@ -76,12 +76,12 @@ inputs:
       - -1
       - 0
       - 0
-    kindergeld__anspruchsberechtigt:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true
       - true
-    erziehungsgeld__eltern_anspruchsberechtigt:
+    erziehungsgeld__eltern_grundsätzlich_anspruchsberechtigt:
       - true
       - true
       - true

@@ -14,7 +14,7 @@ aggregation_specs = {
 @policy_function
 def bruttoeinkommen_eltern_m(
     arbeitslosengeld_2__bruttoeinkommen_m: float,
-    kindergeld__anspruchsberechtigt: bool,
+    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
     erwachsen: bool,
 ) -> float:
     """Calculate parental gross income for calculation of child benefit.
@@ -26,8 +26,8 @@ def bruttoeinkommen_eltern_m(
     ----------
     arbeitslosengeld_2__bruttoeinkommen_m
         See :func:`arbeitslosengeld_2__bruttoeinkommen_m`.
-    kindergeld__anspruchsberechtigt
-        See :func:`kindergeld__anspruchsberechtigt`.
+    kindergeld__grundsätzlich_anspruchsberechtigt
+        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
     erwachsen
         See basic input variable :ref:`erwachsen <erwachsen>`.
 
@@ -39,7 +39,7 @@ def bruttoeinkommen_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if erwachsen and (not kindergeld__anspruchsberechtigt):
+    if erwachsen and (not kindergeld__grundsätzlich_anspruchsberechtigt):
         out = arbeitslosengeld_2__bruttoeinkommen_m
     else:
         out = 0.0
@@ -50,7 +50,7 @@ def bruttoeinkommen_eltern_m(
 @policy_function(params_key_for_rounding="kinderzuschl_eink")
 def nettoeinkommen_eltern_m(
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m: float,
-    kindergeld__anspruchsberechtigt: bool,
+    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
     erwachsen: bool,
 ) -> float:
     """Parental income (after deduction of taxes, social insurance contributions, and
@@ -60,8 +60,8 @@ def nettoeinkommen_eltern_m(
     ----------
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m
         See :func:`arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m`.
-    kindergeld__anspruchsberechtigt
-        See :func:`kindergeld__anspruchsberechtigt`.
+    kindergeld__grundsätzlich_anspruchsberechtigt
+        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
     erwachsen
         See basic input variable :ref:`erwachsen <erwachsen>`.
 
@@ -72,7 +72,7 @@ def nettoeinkommen_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if erwachsen and (not kindergeld__anspruchsberechtigt):
+    if erwachsen and (not kindergeld__grundsätzlich_anspruchsberechtigt):
         out = arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m
     else:
         out = 0.0

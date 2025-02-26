@@ -214,6 +214,7 @@ extend-ignore = [
     "TRY003", # Avoid specifying long messages outside the exception class
     "FIX002", # Line contains TODO -- Use stuff from TD area.
     "PLC2401", # Allow non-ASCII characters in variable names.
+    "PLC2403", # Allow non-ASCII function names for imports.
     "N999", # Allow non-ASCII characters in file names.
 
     # Things we are not sure we want
