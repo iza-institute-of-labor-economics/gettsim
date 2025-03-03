@@ -142,7 +142,7 @@ post a message with a first line like:
 
 > \## Proposal to accept GEP #\<number>: \<title>
 
-to the Zulip stream GEPs / GEP \[XY\].
+to the Zulip stream GEPs / GEP [XY].
 
 In the body of your message, you should:
 

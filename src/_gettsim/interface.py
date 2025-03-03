@@ -266,8 +266,7 @@ def _convert_data_to_correct_types(data, functions_overridden):
                     series, internal_type
                 )
                 collected_conversions.append(
-                    f" - {column_name} from {series.dtype} "
-                    f"to {internal_type.__name__}"
+                    f" - {column_name} from {series.dtype} to {internal_type.__name__}"
                 )
 
             except ValueError as e:

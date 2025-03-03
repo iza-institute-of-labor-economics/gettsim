@@ -164,7 +164,7 @@ These work differently and they are
 
    The remainder of this section explains this element in much more detail.
 
-### The `reference` key of \[YYYY-MM-DD\]
+### The `reference` key of [YYYY-MM-DD]
 
 - cites the law (Gesetz "G. v."), decree (Verordnung "V. v.") or proclamation
   (Bekanntmachung "B. v.") that changes the law
@@ -188,14 +188,14 @@ eink_anr_frei:
     reference: Artikel 1. G. v. 24.12.2003 BGBl. I S. 2954.
 ```
 
-### The `note` key of \[YYYY-MM-DD\]
+### The `note` key of [YYYY-MM-DD]
 
 This optional key may contain a free-form note holding any information that may be
 relevant for the interpretation of the parameter, the implementer, user, ...
 
 (gep-3-deviation_from)=
 
-### The `deviation_from` key of \[YYYY-MM-DD\]
+### The `deviation_from` key of [YYYY-MM-DD]
 
 Often laws change only part of a parameter. To avoid error-prone code duplication, we
 allow for such cases via the `deviation_from` key. This is the reason why lists are to
@@ -226,7 +226,7 @@ eink_anr_frei:
       upper_threshold: 1000
 ```
 
-### The values of \[YYYY-MM-DD\]
+### The values of [YYYY-MM-DD]
 
 The general idea is to make the replication of the laws very obvious. If the law
 includes a table, we will have a dictionary with keys 0, 1, 2, .... If the law includes

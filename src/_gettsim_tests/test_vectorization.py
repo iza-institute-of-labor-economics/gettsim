@@ -210,7 +210,7 @@ def f14(x):
     b = x > 0
     c = x != 0
     d = True
-    return a and b and c or d
+    return (a and b and c) or d
 
 
 def f14_exp(x):
