@@ -191,7 +191,7 @@ def betrag_gesamt_midijob_m(
     name_in_dag="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employers' unemployment insurance contribution for Midijobs until September
@@ -201,14 +201,14 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
 
     Returns
     -------
 
     """
-    return bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+    return einkommen__bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
 
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitgeber_midijob_m")

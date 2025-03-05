@@ -82,7 +82,9 @@ has to be `"ges_rente"`:
 
 ```python
 @policy_function(params_key_for_rounding="ges_rente")
-def rente__grundrente__höchstbetrag_m(grundr_zeiten: int) -> float:
+def rente__grundrente__höchstbetrag_m(
+    rente__grundrente__grundrentenzeiten_m: int,
+) -> float:
     ...
     return out
 ```

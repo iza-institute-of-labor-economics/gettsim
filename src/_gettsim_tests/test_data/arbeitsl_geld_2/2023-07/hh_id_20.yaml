@@ -5,51 +5,51 @@ info:
   source: https://www.buerger-geld.org/rechner/ergebnis/index.php
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 49
-    hh_id:
+    demographics__hh_id:
       - 20
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
-    kind:
+    demographics__kind:
       - false
-    alter:
+    demographics__alter:
       - 45
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 400.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 50.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 60.0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
-    alleinerz:
+    demographics__alleinerziehend:
       - false
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 1200.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    kapitaleink_brutto_m:
+    einkommen__bruttokapitaleinkommen_m:
       - 0.0
     arbeitslosengeld__betrag_m:
       - 0.0
-    sonstig_eink_m:
+    einkommen__sonstige_m:
       - 0.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
-    eink_vermietung_m:
+    einkommen__aus_vermietung_m:
       - 0.0
     taxes__einkommensteuer__betrag_y_sn:
       - 0.0
@@ -59,7 +59,7 @@ inputs:
       - 204.0
     kindergeld__betrag_m_bg:
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0
@@ -69,17 +69,17 @@ inputs:
       - 2023-07
     wohngeld__anspruchshöhe_m_bg:
       - 0.0
-    vermögen_bedürft:
+    demographics__vermögen:
       - 40000.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1978
-    rentner:
+    rente__altersrente__rentner:
       - false
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 20.0
-    bürgerg_bezug_vorj:
+    arbeitslosengeld_2__in_vorjahr_bezogen:
       - false
   assumed: {}
 outputs:

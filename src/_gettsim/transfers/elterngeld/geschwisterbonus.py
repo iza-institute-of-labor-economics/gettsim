@@ -64,8 +64,8 @@ def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 

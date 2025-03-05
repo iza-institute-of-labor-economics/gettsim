@@ -662,41 +662,47 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             " data are equal to\n0.",
         ),
         (
-            {"basic_inputs": {"wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
+            {"basic_inputs": {"demographics__wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type float64 to bool"
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type float64 to bool"
             "\nfailed. This conversion is only supported if input data exclusively "
             "contains\nthe values 1.0 and 0.0.",
         ),
         (
             {
-                "basic_inputs": {"wohnort_ost": pd.Series([2, 0, 1])},
+                "basic_inputs": {"demographics__wohnort_ost": pd.Series([2, 0, 1])},
                 "groupings": {"hh_id": pd.Series([1.0, 2.0, 3.0])},
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type int64 to bool "
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type int64 to bool "
             "failed.\nThis conversion is only supported if input data exclusively "
             "contains the values\n1 and 0.",
         ),
         (
-            {"basic_inputs": {"wohnort_ost": pd.Series(["True", "False"])}},
+            {
+                "basic_inputs": {
+                    "demographics__wohnort_ost": pd.Series(["True", "False"])
+                }
+            },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type object to bool "
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type object to bool "
             "failed.\nObject type is not supported as input.",
         ),
         (
             {
                 "groupings": {"hh_id": pd.Series([1, "1", 2])},
-                "basic_inputs": {"bruttolohn_m": pd.Series(["2000", 3000, 4000])},
+                "basic_inputs": {
+                    "einkommen__bruttolohn_m": pd.Series(["2000", 3000, 4000])
+                },
             },
             {},
             "The data types of the following columns are invalid:\n"
             "\n - groupings__hh_id: Conversion from input type object to int failed. "
             "Object\ntype is not supported as input."
-            "\n\n- basic_inputs__bruttolohn_m: Conversion from input type object to"
+            "\n\n- basic_inputs__einkommen__bruttolohn_m: Conversion from input type object to"
             " float\nfailed."
             " Object type is not supported as input.",
         ),

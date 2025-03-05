@@ -4,28 +4,28 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 10
       - 10
-    p_id:
+    demographics__p_id:
       - 34
       - 35
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 34
-    alter:
+    demographics__alter:
       - 35
       - 12
-    kind:
+    demographics__kind:
       - false
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - true
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 0.0
       - 0.0
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:

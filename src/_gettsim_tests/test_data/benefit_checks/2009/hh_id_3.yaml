@@ -4,37 +4,37 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 6
       - 7
-    hh_id:
+    demographics__hh_id:
       - 3
       - 3
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - 6
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 6
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
-    kind:
+    demographics__kind:
       - false
       - true
-    rentner:
+    rente__altersrente__rentner:
       - false
       - false
-    alter:
+    demographics__alter:
       - 28
       - 1
-    vermögen_bedürft:
+    demographics__vermögen:
       - 0.0
       - 0.0
     kinderzuschlag__basisbetrag_m_bg:
@@ -55,7 +55,7 @@ inputs:
     arbeitslosengeld_2__kindergeldübertrag_m_bg:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 0.0
     unterhaltsvorschuss__betrag_m:
@@ -64,7 +64,7 @@ inputs:
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
       - 555.0
       - 0.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1981
       - 2008
     jahr:

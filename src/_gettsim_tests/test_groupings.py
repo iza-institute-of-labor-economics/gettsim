@@ -40,19 +40,20 @@ def test_groupings(
 
 
 @pytest.mark.xfail(reason="Needs renamings PR.")
-def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
+def test_fail_to_compute_sn_id_if_married_but_einkommensteuer__gemeinsam_veranlagt_differs():
     data = pd.DataFrame(
         {
             "p_id": [0, 1],
-            "p_id_ehepartner": [1, 0],
-            "gemeinsam_veranlagt": [False, True],
+            "demograpics__p_id_ehepartner": [1, 0],
+            "einkommensteuer__gemeinsam_veranlagt": [False, True],
         }
     )
 
     environment = cached_set_up_policy_environment(date="2023")
 
     with pytest.raises(
-        ValueError, match="have different values for gemeinsam_veranlagt"
+        ValueError,
+        match="have different values for einkommensteuer__gemeinsam_veranlagt",
     ):
         compute_taxes_and_transfers(
             data=data,

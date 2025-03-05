@@ -4,25 +4,25 @@ info:
   source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 20
-    hh_id:
+    demographics__hh_id:
       - 20
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 800.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    alter:
+    demographics__alter:
       - 35
-    selbstständig:
+    einkommen__ist_selbstständig:
       - false
-    ges_pflegev_hat_kinder:
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
       - true
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    in_priv_krankenv:
+    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
       - false
     jahr:
       - 2022-10

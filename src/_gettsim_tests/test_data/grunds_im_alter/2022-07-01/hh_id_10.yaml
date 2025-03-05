@@ -6,59 +6,59 @@ info:
   source: Self-created test case
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 14
-    hh_id:
+    demographics__hh_id:
       - 10
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
     jahr:
       - 2022
-    kind:
+    demographics__kind:
       - false
-    alter:
+    demographics__alter:
       - 73
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 300.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 50.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 45.0
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 0.0
-    kapitaleink_brutto_m:
+    einkommen__bruttokapitaleinkommen_m:
       - 20.0
-    grundr_zeiten:
+    rente__grundrente__grundrentenzeiten_m:
       - 120
-    rentner:
+    rente__altersrente__rentner:
       - true
-    schwerbeh_g:
+    rente__altersrente__schwerbehindert_grad_g:
       - false
-    vermögen_bedürft_eg:
+    demographics__vermögen_eg:
       - 0.0
-    alleinerz:
+    demographics__alleinerziehend:
       - false
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
     arbeitslosengeld__betrag_m:
       - 0.0
-    sonstig_eink_m:
+    einkommen__sonstige_m:
       - 0.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
-    eink_vermietung_m:
+    einkommen__aus_vermietung_m:
       - 0.0
     taxes__einkommensteuer__betrag_y_sn:
       - 0.0
@@ -68,21 +68,21 @@ inputs:
       - 0.0
     kindergeld__betrag_m_eg:
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
     unterhaltsvorschuss__betrag_m_eg:
       - 0.0
     elterngeld__betrag_m:
       - 0.0
-    priv_rente_m:
+    rente__private_rente_m:
       - 0.0
     rente__altersrente__betrag_m:
       - 250.0
-    geburtstag:
+    demographics__geburtstag:
       - 1
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1949
   assumed: {}
 outputs:

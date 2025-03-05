@@ -5,7 +5,7 @@ from _gettsim.functions.policy_function import policy_function
 
 @policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
 def altersgrenze_ohne_staffelung(
-    geburtsjahr: int,  # noqa: ARG001
+    demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
     """
@@ -22,8 +22,8 @@ def altersgrenze_ohne_staffelung(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -32,7 +32,7 @@ def altersgrenze_ohne_staffelung(
     Full retirement age for long term insured.
 
     """
-    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # TODO(@MImmesberger): Remove fake dependency (demographics__geburtsjahr).
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
 
     return ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"]
@@ -44,8 +44,8 @@ def altersgrenze_ohne_staffelung(
     name_in_dag="altersgrenze",
 )
 def altersgrenze_mit_staffelung_nach_geburtsmonat(
-    geburtsjahr: int,
-    geburtsmonat: int,
+    demographics__geburtsjahr: int,
+    demographics__geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """
@@ -62,10 +62,10 @@ def altersgrenze_mit_staffelung_nach_geburtsmonat(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__geburtsmonat
+        See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -74,7 +74,7 @@ def altersgrenze_mit_staffelung_nach_geburtsmonat(
     Full retirement age (without deductions) for long term insured.
     """
     if (
-        geburtsjahr
+        demographics__geburtsjahr
         <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
             "max_birthyear_old_regime"
         ]
@@ -83,7 +83,7 @@ def altersgrenze_mit_staffelung_nach_geburtsmonat(
             "entry_age_old_regime"
         ]
     elif (
-        geburtsjahr
+        demographics__geburtsjahr
         >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
             "min_birthyear_new_regime"
         ]
@@ -93,16 +93,16 @@ def altersgrenze_mit_staffelung_nach_geburtsmonat(
         ]
     else:
         out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-            geburtsjahr
-        ][geburtsmonat]
+            demographics__geburtsjahr
+        ][demographics__geburtsmonat]
 
     return out
 
 
 @policy_function(start_date="2007-04-20", name_in_dag="altersgrenze")
 def altersgrenze_mit_staffelung_nach_geburtsjahr(
-    geburtsjahr: int,
-    geburtsmonat: int,
+    demographics__geburtsjahr: int,
+    demographics__geburtsmonat: int,
     ges_rente_params: dict,
 ) -> float:
     """
@@ -119,10 +119,10 @@ def altersgrenze_mit_staffelung_nach_geburtsjahr(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__geburtsmonat
+        See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -131,7 +131,7 @@ def altersgrenze_mit_staffelung_nach_geburtsjahr(
     Full retirement age (without deductions) for long term insured.
     """
     if (
-        geburtsjahr
+        demographics__geburtsjahr
         <= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
             "max_birthyear_old_regime"
         ]
@@ -140,7 +140,7 @@ def altersgrenze_mit_staffelung_nach_geburtsjahr(
             "entry_age_old_regime"
         ]
     elif (
-        geburtsjahr
+        demographics__geburtsjahr
         >= ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
             "min_birthyear_new_regime"
         ]
@@ -150,15 +150,15 @@ def altersgrenze_mit_staffelung_nach_geburtsjahr(
         ]
     else:
         out = ges_rente_params["altersgrenze_langj_versicherte_abschlagsfrei"][
-            geburtsjahr
-        ][geburtsmonat]
+            demographics__geburtsjahr
+        ][demographics__geburtsmonat]
 
     return out
 
 
 @policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung(
-    geburtsjahr: int,  # noqa: ARG001
+    demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age (ERA) for Rente für langjährig Versicherte.
@@ -169,8 +169,8 @@ def altersgrenze_vorzeitig_ohne_staffelung(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -180,7 +180,7 @@ def altersgrenze_vorzeitig_ohne_staffelung(
 
     """
 
-    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # TODO(@MImmesberger): Remove fake dependency (demographics__geburtsjahr).
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
 
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
@@ -192,7 +192,7 @@ def altersgrenze_vorzeitig_ohne_staffelung(
     name_in_dag="altersgrenze_vorzeitig",
 )
 def altersgrenze_vorzeitig_mit_staffelung(
-    geburtsjahr: int,
+    demographics__geburtsjahr: int,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age (ERA) for Renten für Frauen.
@@ -203,8 +203,8 @@ def altersgrenze_vorzeitig_mit_staffelung(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -214,7 +214,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
 
     """
     if (
-        geburtsjahr
+        demographics__geburtsjahr
         <= ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"][
             "max_birthyear_old_regime"
         ]
@@ -232,7 +232,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
 
 @policy_function(start_date="1996-09-27", name_in_dag="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
-    geburtsjahr: int,  # noqa: ARG001
+    demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age (ERA) for Rente für langjährig Versicherte.
@@ -243,8 +243,8 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -253,7 +253,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     Early retirement age
     """
 
-    # TODO(@MImmesberger): Remove fake dependency (geburtsjahr).
+    # TODO(@MImmesberger): Remove fake dependency (demographics__geburtsjahr).
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
 
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]

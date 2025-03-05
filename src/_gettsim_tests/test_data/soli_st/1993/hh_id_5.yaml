@@ -4,15 +4,15 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 5
-    hh_id:
+    demographics__hh_id:
       - 5
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    kind:
+    demographics__kind:
       - false
     taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
       - 3000.0

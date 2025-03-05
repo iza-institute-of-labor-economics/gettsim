@@ -4,11 +4,11 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 0
-    p_id:
+    demographics__p_id:
       - 0
-    ges_pflegev_hat_kinder:
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
       - false
 outputs:
   einkommensgrenzen__minijob_grenze:

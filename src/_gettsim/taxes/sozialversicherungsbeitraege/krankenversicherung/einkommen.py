@@ -15,8 +15,8 @@ def einkommen_m(
 
     Parameters
     ----------
-    bruttolohn_m
-        See :func:`bruttolohn_m`.
+    einkommen__bruttolohn_m
+        See :func:`einkommen__bruttolohn_m`.
     einkommensgrenzen__regulär_beschäftigt
         See :func:`einkommensgrenzen__regulär_beschäftigt`.
     beitragsbemessungsgrenze_m
@@ -36,7 +36,7 @@ def einkommen_m(
 
 @policy_function
 def einkommen_regulär_beschäftigt_m(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Income subject to public health insurance contributions.
@@ -46,8 +46,8 @@ def einkommen_regulär_beschäftigt_m(
 
     Parameters
     ----------
-    bruttolohn_m
-        See :func:`bruttolohn_m`.
+    einkommen__bruttolohn_m
+        See :func:`einkommen__bruttolohn_m`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -56,15 +56,15 @@ def einkommen_regulär_beschäftigt_m(
     Income subject to public health insurance contributions.
     """
 
-    return min(bruttolohn_m, beitragsbemessungsgrenze_m)
+    return min(einkommen__bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
 @policy_function
 def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
-    eink_selbst_m: float,
+    einkommen__aus_selbstständigkeit_m: float,
     bezugsgröße_selbständig_m: float,
-    selbstständig: bool,
-    in_priv_krankenv: bool,
+    einkommen__ist_selbstständig: bool,
+    sozialversicherungsbeitraege__krankenversicherung__privat_versichert: bool,
     beitragsbemessungsgrenze_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -77,14 +77,14 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    eink_selbst_m
-        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
+    einkommen__aus_selbstständigkeit_m
+        See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
     bezugsgröße_selbständig_m
         See :func:`bezugsgröße_selbständig_m`.
-    selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
-    in_priv_krankenv
-        See basic input variable :ref:`in_priv_krankenv <in_priv_krankenv>`.
+    einkommen__ist_selbstständig
+        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
+    sozialversicherungsbeitraege__krankenversicherung__privat_versichert
+        See basic input variable :ref:`sozialversicherungsbeitraege__krankenversicherung__privat_versichert <sozialversicherungsbeitraege__krankenversicherung__privat_versichert>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     beitragsbemessungsgrenze_m
@@ -97,7 +97,10 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
 
     """
     # Calculate if self employed insures via public health insurance.
-    if selbstständig and not in_priv_krankenv:
+    if (
+        einkommen__ist_selbstständig
+        and not sozialversicherungsbeitraege__krankenversicherung__privat_versichert
+    ):
         out = min(
             beitragsbemessungsgrenze_m,
             max(
@@ -105,7 +108,7 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
                 * sozialv_beitr_params[
                     "mindestanteil_bezugsgröße_beitragspf_einnahme_selbst"
                 ],
-                eink_selbst_m,
+                einkommen__aus_selbstständigkeit_m,
             ),
         )
     else:
@@ -115,13 +118,15 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
 
 
 @policy_function
-def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
+def beitragsbemessungsgrenze_m(
+    demographics__wohnort_ost: bool, sozialv_beitr_params: dict
+) -> float:
     """Income threshold up to which health insurance payments apply.
 
     Parameters
     ----------
-    wohnort_ost
-        See :func:`wohnort_ost`.
+    demographics__wohnort_ost
+        See :func:`demographics__wohnort_ost`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -132,13 +137,15 @@ def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) ->
     """
     params = sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_krankenv"]
 
-    out = params["ost"] if wohnort_ost else params["west"]
+    out = params["ost"] if demographics__wohnort_ost else params["west"]
 
     return float(out)
 
 
 @policy_function
-def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
+def bezugsgröße_selbständig_m(
+    demographics__wohnort_ost: bool, sozialv_beitr_params: dict
+) -> float:
     """Threshold for self employment income subject to health insurance.
 
     Selecting by place of living the income threshold for self employed up to which the
@@ -146,8 +153,8 @@ def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) 
 
     Parameters
     ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    demographics__wohnort_ost
+        See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -157,7 +164,7 @@ def bezugsgröße_selbständig_m(wohnort_ost: bool, sozialv_beitr_params: dict) 
     """
     out = (
         sozialv_beitr_params["bezugsgröße_selbst_m"]["ost"]
-        if wohnort_ost
+        if demographics__wohnort_ost
         else sozialv_beitr_params["bezugsgröße_selbst_m"]["west"]
     )
 

@@ -8,7 +8,7 @@ from _gettsim.shared import join_numpy
 
 aggregation_specs = {
     "kindergeldübertrag_m": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        p_id_to_aggregate_by="kindergeld__p_id_empfänger",
         source_col="differenz_kindergeld_kindbedarf_m",
         aggr="sum",
     ),
@@ -57,8 +57,8 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
     ----------
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
-    alter
-        See basic input variable :ref:`alter`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter`.
 
     Returns
     -------
@@ -70,8 +70,8 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
 @policy_function(skip_vectorization=True)
 def kindergeld_zur_bedarfsdeckung_m(
     kindergeld_pro_kind_m: float,
-    p_id_kindergeld_empf: numpy.ndarray[int],
-    p_id: numpy.ndarray[int],
+    kindergeld__p_id_empfänger: numpy.ndarray[int],
+    demographics__p_id: numpy.ndarray[int],
 ) -> numpy.ndarray[float]:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
@@ -86,18 +86,18 @@ def kindergeld_zur_bedarfsdeckung_m(
     ----------
     kindergeld__betrag_m
         See :func:`kindergeld__betrag_m`.
-    p_id_kindergeld_empf
-        See :func:`p_id_kindergeld_empf`.
-    p_id
-        See :func:`p_id`.
+    kindergeld__p_id_empfänger
+        See :func:`kindergeld__p_id_empfänger`.
+    demographics__p_id
+        See :func:`demographics__p_id`.
 
     Returns
     -------
 
     """
     return join_numpy(
-        p_id_kindergeld_empf,
-        p_id,
+        kindergeld__p_id_empfänger,
+        demographics__p_id,
         kindergeld_pro_kind_m,
         value_if_foreign_key_is_missing=0.0,
     )
@@ -109,7 +109,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
     nettoeinkommen_nach_abzug_freibetrag_m: float,
     wohngeld__anspruchshöhe_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
-    kind_unterh_erhalt_m: float,
+    unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     in_anderer_bg_als_kindergeldempfänger: bool,
 ) -> float:
@@ -132,8 +132,8 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
         See :func:`wohngeld__anspruchshöhe_m_bg`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
-    kind_unterh_erhalt_m
-        See :func:`kind_unterh_erhalt_m`.
+    unterhalt__kind_betrag_m
+        See :func:`unterhalt__kind_betrag_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     in_anderer_bg_als_kindergeldempfänger
@@ -147,7 +147,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
         regelbedarf_m_bg
         - wohngeld__anspruchshöhe_m_bg
         - nettoeinkommen_nach_abzug_freibetrag_m
-        - kind_unterh_erhalt_m
+        - unterhalt__kind_betrag_m
         - unterhaltsvorschuss__betrag_m,
         0.0,
     )
@@ -165,34 +165,34 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
 
 @policy_function(skip_vectorization=True)
 def in_anderer_bg_als_kindergeldempfänger(
-    p_id: numpy.ndarray[int],
-    p_id_kindergeld_empf: numpy.ndarray[int],
-    bg_id: numpy.ndarray[int],
+    demographics__p_id: numpy.ndarray[int],
+    kindergeld__p_id_empfänger: numpy.ndarray[int],
+    arbeitslosengeld_2__bg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
     """True if the person is in a different Bedarfsgemeinschaft than the
     Kindergeldempfänger of that person.
 
     Parameters
     ----------
-    p_id
-        See basic input variable :ref:`p_id <p_id>`
-    p_id_kindergeld_empf
-        See basic input variable :ref:`p_id_kindergeld_empf <p_id_kindergeld_empf>`
-    bg_id
-        See :func:`bg_id`.
+    demographics__p_id
+        See basic input variable :ref:`demographics__p_id <demographics__p_id>`
+    kindergeld__p_id_empfänger
+        See basic input variable :ref:`kindergeld__p_id_empfänger <kindergeld__p_id_empfänger>`
+    arbeitslosengeld_2__bg_id
+        See :func:`arbeitslosengeld_2__bg_id`.
 
     Returns
     -------
 
     """
-    # Create a dictionary to map p_id to bg_id
-    p_id_to_bg_id = dict(zip(p_id, bg_id))
+    # Create a dictionary to map demographics__p_id to arbeitslosengeld_2__bg_id
+    p_id_to_bg_id = dict(zip(demographics__p_id, arbeitslosengeld_2__bg_id))
 
-    # Map each p_id_kindergeld_empf to its corresponding bg_id
+    # Map each kindergeld__p_id_empfänger to its corresponding arbeitslosengeld_2__bg_id
     empf_bg_id = [
         p_id_to_bg_id[empfänger_id] if empfänger_id >= 0 else -1
-        for empfänger_id in p_id_kindergeld_empf
+        for empfänger_id in kindergeld__p_id_empfänger
     ]
 
-    # Compare bg_id array with the mapped bg_ids of p_id_kindergeld_empf
-    return bg_id != empf_bg_id
+    # Compare arbeitslosengeld_2__bg_id array with the mapped bg_ids of kindergeld__p_id_empfänger
+    return arbeitslosengeld_2__bg_id != empf_bg_id

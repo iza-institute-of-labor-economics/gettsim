@@ -62,7 +62,7 @@ GETTSIM; this is irrelevant for the DAG.
 
 Function arguments can be of three kinds:
 
-- User-provided input variables (e.g., `bruttolohn_m`).
+- User-provided input variables (e.g., `einkommen__bruttolohn_m`).
 - Outputs of other functions in the taxes and transfers system (e.g.,
   `taxes__einkommensteuer__betrag_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
@@ -231,13 +231,15 @@ For example, in `demographic_vars.py`, we could have:
 from _gettsim.aggregation import AggregateByGroupSpec
 
 aggregation_specs = {
-    "anzahl_kinder_hh": AggregateByGroupSpec(source_col="kind", aggr="sum"),
+    "anzahl_kinder_hh": AggregateByGroupSpec(source_col="demographics__kind", aggr="sum"),
     "anzahl_personen_hh": AggregateByGroupSpec(aggr="count"),
 }
 ```
 
-The group identifier (`hh_id`, `wthh_id`, `fg_id`, `bg_id`, `eg_id`, `ehe_id`, `sn_id`)
-will be automatically included as an argument; for `count` nothing else is necessary.
+The group identifier (`hh_id`, `wohngeld__wthh_id`, `demographics__fg_id`,
+`arbeitslosengeld_2__bg_id`, `arbeitslosengeld_2__eg_id`, `demographics__ehe_id`,
+`einkommensteuer__sn_id`) will be automatically included as an argument; for `count`
+nothing else is necessary.
 
 The output type will be the same as the input type. Exceptions:
 
@@ -272,7 +274,8 @@ def arbeitslosengeld_2__betrag_m_bg(kindergeld__betrag_m_bg, other_arguments): .
 
 a node `kindergeld__betrag_m_bg` containing the Bedarfsgemeinschaft-level sum of
 `kindergeld__betrag_m` will be automatically added to the graph. Its parents in the
-graph will be `kindergeld__betrag_m` and `bg_id`. This is the same as specifying:
+graph will be `kindergeld__betrag_m` and `arbeitslosengeld_2__bg_id`. This is the same
+as specifying:
 
 ```
 from _gettsim.aggregation import AggregateByGroupSpec
@@ -312,7 +315,7 @@ For example, in `kindergeld.py`, we could have:
 ```
 aggregation_specs = {
     "kindergeld__anzahl_ansprüche": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_kindergeld_empf",
+        p_id_to_aggregate_by="kindergeld__p_id_empfänger",
         source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),

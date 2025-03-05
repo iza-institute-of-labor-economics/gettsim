@@ -53,7 +53,7 @@ def grundsätzlich_anspruchsberechtigt_bg(
 
 @policy_function
 def vermögensgrenze_unterschritten_wthh(
-    vermögen_bedürft_wthh: float,
+    demographics__vermögen_wthh: float,
     demographic_vars__anzahl_personen_wthh: int,
     wohngeld_params: dict,
 ) -> bool:
@@ -61,8 +61,8 @@ def vermögensgrenze_unterschritten_wthh(
 
     Parameters
     ----------
-    vermögen_bedürft_wthh
-        See :func:`vermögen_bedürft_wthh <vermögen_bedürft_wthh>`.
+    demographics__vermögen_wthh
+        See :func:`demographics__vermögen_wthh <demographics__vermögen_wthh>`.
     demographic_vars__anzahl_personen_wthh
         See :func:`demographic_vars__anzahl_personen_wthh`.
     wohngeld_params
@@ -74,7 +74,7 @@ def vermögensgrenze_unterschritten_wthh(
     """
 
     return vermögensprüfung_formel(
-        vermögen=vermögen_bedürft_wthh,
+        vermögen=demographics__vermögen_wthh,
         anzahl_personen=demographic_vars__anzahl_personen_wthh,
         params=wohngeld_params,
     )
@@ -82,7 +82,7 @@ def vermögensgrenze_unterschritten_wthh(
 
 @policy_function
 def vermögensgrenze_unterschritten_bg(
-    vermögen_bedürft_bg: float,
+    demographics__vermögen_bg: float,
     demographic_vars__anzahl_personen_bg: int,
     wohngeld_params: dict,
 ) -> bool:
@@ -90,8 +90,8 @@ def vermögensgrenze_unterschritten_bg(
 
     Parameters
     ----------
-    vermögen_bedürft_bg
-        See :func:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    demographics__vermögen_bg
+        See :func:`demographics__vermögen_bg <demographics__vermögen_bg>`.
     demographic_vars__anzahl_personen_bg
         See :func:`demographic_vars__anzahl_personen_bg`.
     wohngeld_params
@@ -103,7 +103,7 @@ def vermögensgrenze_unterschritten_bg(
     """
 
     return vermögensprüfung_formel(
-        vermögen=vermögen_bedürft_bg,
+        vermögen=demographics__vermögen_bg,
         anzahl_personen=demographic_vars__anzahl_personen_bg,
         params=wohngeld_params,
     )
@@ -178,7 +178,7 @@ def mindesteinkommen_erreicht_bg(
 @policy_function
 def einkommen_für_mindesteinkommen_check_m(
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m: float,
-    kind_unterh_erhalt_m: float,
+    unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld__betrag_m: float,
     kinderzuschlag__anspruchshöhe_m: float,
@@ -194,8 +194,8 @@ def einkommen_für_mindesteinkommen_check_m(
     ----------
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
         See :func:`arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m`.
-    kind_unterh_erhalt_m
-        See :func:`kind_unterh_erhalt_m`.
+    unterhalt__kind_betrag_m
+        See :func:`unterhalt__kind_betrag_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     kindergeld__betrag_m
@@ -210,7 +210,7 @@ def einkommen_für_mindesteinkommen_check_m(
 
     return (
         arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
-        + kind_unterh_erhalt_m
+        + unterhalt__kind_betrag_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld__betrag_m
         + kinderzuschlag__anspruchshöhe_m

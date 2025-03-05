@@ -4,7 +4,7 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 7
       - 7
       - 7
@@ -12,7 +12,7 @@ inputs:
       - 7
       - 7
       - 7
-    p_id:
+    demographics__p_id:
       - 22
       - 23
       - 24
@@ -20,7 +20,7 @@ inputs:
       - 26
       - 27
       - 28
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 22
       - 22
@@ -28,7 +28,7 @@ inputs:
       - 22
       - 22
       - 22
-    alter:
+    demographics__alter:
       - 50
       - 1
       - 2
@@ -36,7 +36,7 @@ inputs:
       - 4
       - 5
       - 6
-    kind:
+    demographics__kind:
       - false
       - true
       - true
@@ -44,7 +44,7 @@ inputs:
       - true
       - true
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
       - 0.0
@@ -52,7 +52,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - true
       - true
@@ -60,7 +60,7 @@ inputs:
       - true
       - true
       - true
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 0.0
       - 0.0
       - 0.0

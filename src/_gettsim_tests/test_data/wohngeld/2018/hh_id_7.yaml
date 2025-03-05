@@ -4,7 +4,7 @@ info:
   source: Regression test.
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 34
       - 35
       - 36
@@ -18,7 +18,7 @@ inputs:
       - 44
       - 45
       - 46
-    hh_id:
+    demographics__hh_id:
       - 7
       - 7
       - 7
@@ -32,7 +32,7 @@ inputs:
       - 7
       - 7
       - 7
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - -1
       - -1
@@ -46,7 +46,7 @@ inputs:
       - 34
       - 34
       - 34
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - 35
       - 34
       - 37
@@ -60,7 +60,7 @@ inputs:
       - -1
       - -1
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - 34
@@ -74,7 +74,7 @@ inputs:
       - 34
       - 34
       - 34
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - 35
@@ -88,7 +88,7 @@ inputs:
       - 35
       - 35
       - 35
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - 35
       - 34
       - 37
@@ -102,7 +102,7 @@ inputs:
       - -1
       - -1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -116,7 +116,7 @@ inputs:
       - false
       - false
       - false
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - true
@@ -130,7 +130,7 @@ inputs:
       - false
       - false
       - false
-    kind:
+    demographics__kind:
       - false
       - false
       - false
@@ -144,7 +144,7 @@ inputs:
       - true
       - true
       - true
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 2000.0
       - 2000.0
       - 2000.0
@@ -158,7 +158,7 @@ inputs:
       - 2000.0
       - 2000.0
       - 2000.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 50.0
       - 50.0
       - 50.0
@@ -172,7 +172,7 @@ inputs:
       - 50.0
       - 50.0
       - 50.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 120.0
       - 120.0
       - 120.0
@@ -214,7 +214,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
       - false
@@ -228,7 +228,7 @@ inputs:
       - false
       - false
       - false
-    alleinerz:
+    demographics__alleinerziehend:
       - false
       - false
       - false
@@ -242,7 +242,7 @@ inputs:
       - false
       - false
       - false
-    alter:
+    demographics__alter:
       - 45
       - 42
       - 55
@@ -256,7 +256,7 @@ inputs:
       - 20
       - 9
       - 7
-    immobilie_baujahr_hh:
+    wohngeld__baujahr_immobilie_hh:
       - 1995
       - 1995
       - 1995
@@ -284,7 +284,7 @@ inputs:
       - false
       - false
       - false
-    mietstufe:
+    wohngeld__mietstufe:
       - 3
       - 3
       - 3
@@ -298,7 +298,7 @@ inputs:
       - 3
       - 3
       - 3
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 2400.0
       - 2400.0
       - 2400.0
@@ -368,7 +368,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sonstig_eink_m:
+    einkommen__sonstige_m:
       - 0.0
       - 0.0
       - 0.0
@@ -382,7 +382,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -410,7 +410,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -438,7 +438,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    eink_vermietung_m:
+    einkommen__aus_vermietung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -480,7 +480,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    behinderungsgrad:
+    demographics__behinderungsgrad:
       - 0
       - 0
       - 0
@@ -522,7 +522,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft:
+    demographics__vermögen:
       - 4100.0
       - 0.0
       - 0.0
@@ -550,7 +550,7 @@ inputs:
       - 13
       - 13
       - 13
-    geburtstag:
+    demographics__geburtstag:
       - 1
       - 1
       - 1
@@ -564,7 +564,7 @@ inputs:
       - 1
       - 1
       - 1
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
@@ -578,7 +578,7 @@ inputs:
       - 1
       - 1
       - 1
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1973
       - 1976
       - 1963

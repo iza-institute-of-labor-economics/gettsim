@@ -4,25 +4,25 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 798
-    hh_id:
+    demographics__hh_id:
       - 24
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 0.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - true
-    alter:
+    demographics__alter:
       - 30
-    selbstständig:
+    einkommen__ist_selbstständig:
       - true
-    ges_pflegev_hat_kinder:
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
       - true
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 4000.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    in_priv_krankenv:
+    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
       - false
     jahr:
       - '2019'

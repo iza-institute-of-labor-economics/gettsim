@@ -47,10 +47,10 @@ def betrag_m(
 
 @policy_function
 def verbleibende_anspruchsdauer(
-    alter: int,
-    sozialv_pflicht_5j: float,
-    anwartschaftszeit: bool,
-    m_durchg_alg1_bezug: float,
+    demographics__alter: int,
+    arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig: float,
+    arbeitslosengeld__anwartschaftszeit: bool,
+    arbeitslosengeld__monate_durchgängiger_alg1_bezug: float,
     arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the remaining amount of months a person can receive unemployment
@@ -58,14 +58,14 @@ def verbleibende_anspruchsdauer(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    sozialv_pflicht_5j
-        See basic input variable :ref:`sozialv_pflicht_5j <sozialv_pflicht_5j>`.
-    anwartschaftszeit
-        See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
-    m_durchg_alg1_bezug
-        See basic input variable :ref:`m_durchg_alg1_bezug <m_durchg_alg1_bezug>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig
+        See basic input variable :ref:`arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig <arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig>`.
+    arbeitslosengeld__anwartschaftszeit
+        See basic input variable :ref:`arbeitslosengeld__anwartschaftszeit <arbeitslosengeld__anwartschaftszeit>`.
+    arbeitslosengeld__monate_durchgängiger_alg1_bezug
+        See basic input variable :ref:`arbeitslosengeld__monate_durchgängiger_alg1_bezug <arbeitslosengeld__monate_durchgängiger_alg1_bezug>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -74,7 +74,7 @@ def verbleibende_anspruchsdauer(
 
     """
     nach_alter = piecewise_polynomial(
-        alter,
+        demographics__alter,
         thresholds=[
             *list(arbeitsl_geld_params["anspruchsdauer"]["nach_alter"]),
             np.inf,
@@ -87,7 +87,7 @@ def verbleibende_anspruchsdauer(
         ),
     )
     nach_versich_pfl = piecewise_polynomial(
-        sozialv_pflicht_5j,
+        arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig,
         thresholds=[
             *list(
                 arbeitsl_geld_params["anspruchsdauer"][
@@ -112,11 +112,13 @@ def verbleibende_anspruchsdauer(
             ].values()
         ),
     )
-    if anwartschaftszeit:
+    if arbeitslosengeld__anwartschaftszeit:
         anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
 
-    if anwartschaftszeit:
-        out = max(anspruchsdauer_gesamt - m_durchg_alg1_bezug, 0)
+    if arbeitslosengeld__anwartschaftszeit:
+        out = max(
+            anspruchsdauer_gesamt - arbeitslosengeld__monate_durchgängiger_alg1_bezug, 0
+        )
     else:
         out = 0
 
@@ -125,10 +127,10 @@ def verbleibende_anspruchsdauer(
 
 @policy_function
 def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
-    alter: int,
-    arbeitssuchend: bool,
+    demographics__alter: int,
+    arbeitslosengeld__arbeitssuchend: bool,
     verbleibende_anspruchsdauer: int,
-    arbeitsstunden_w: float,
+    demographics__arbeitsstunden_w: float,
     arbeitsl_geld_params: dict,
     rente__altersrente__regelaltersrente__altersgrenze: float,
 ) -> bool:
@@ -136,14 +138,14 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    arbeitssuchend
-        See basic input variable :ref:`arbeitssuchend <arbeitssuchend>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    arbeitslosengeld__arbeitssuchend
+        See basic input variable :ref:`arbeitslosengeld__arbeitssuchend <arbeitslosengeld__arbeitssuchend>`.
     verbleibende_anspruchsdauer
         See :func:`verbleibende_anspruchsdauer`.
-    arbeitsstunden_w
-        See basic input variable :ref:`arbeitsstunden_w <arbeitsstunden_w>`.
+    demographics__arbeitsstunden_w
+        See basic input variable :ref:`demographics__arbeitsstunden_w <demographics__arbeitsstunden_w>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     rente__altersrente__regelaltersrente__altersgrenze
@@ -156,10 +158,10 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     regelaltersgrenze = rente__altersrente__regelaltersrente__altersgrenze
 
     out = (
-        arbeitssuchend
+        arbeitslosengeld__arbeitssuchend
         and (verbleibende_anspruchsdauer > 0)
-        and (alter < regelaltersgrenze)
-        and (arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
+        and (demographics__alter < regelaltersgrenze)
+        and (demographics__arbeitsstunden_w < arbeitsl_geld_params["stundengrenze"])
     )
 
     return out
@@ -168,7 +170,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 @policy_function
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
-    bruttolohn_vorj_m: float,
+    einkommen__bruttolohn_vorjahr_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
@@ -181,8 +183,8 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m
         See :func:
         `sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m`.
-    bruttolohn_vorj_m
-        See basic input variable :ref:`bruttolohn_vorj_m <bruttolohn_vorj_m>`.
+    einkommen__bruttolohn_vorjahr_m
+        See basic input variable :ref:`einkommen__bruttolohn_vorjahr_m <einkommen__bruttolohn_vorjahr_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
@@ -198,7 +200,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     """
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(
-        bruttolohn_vorj_m,
+        einkommen__bruttolohn_vorjahr_m,
         sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m,
     )
 

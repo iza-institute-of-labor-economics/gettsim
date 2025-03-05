@@ -4,15 +4,15 @@ info:
   source: https://www.smart-rechner.de/einkommensteuer/rechner.php
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 2
-    hh_id:
+    demographics__hh_id:
       - 2
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    kind:
+    demographics__kind:
       - false
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
       - 100000.0

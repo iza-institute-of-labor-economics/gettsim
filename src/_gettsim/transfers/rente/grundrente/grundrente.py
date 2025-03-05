@@ -25,8 +25,8 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
 @policy_function
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
-    bruttolohn_vorj_m: float,
-    eink_selbst_y: float,
+    einkommen__bruttolohn_vorjahr_m: float,
+    einkommen__aus_selbstständigkeit_y: float,
     eink_vermietung_y: float,
     einkommensteuer__einkommen__kapitaleinkommen_y: float,
 ) -> float:
@@ -55,10 +55,10 @@ def einkommen_m(
     ----------
     proxy_rente_vorjahr_m
         See :func:`proxy_rente_vorjahr_m`.
-    bruttolohn_vorj_m
-        See :func:`bruttolohn_vorj_m`.
-    eink_selbst_y
-        See :func:`eink_selbst_y`.
+    einkommen__bruttolohn_vorjahr_m
+        See :func:`einkommen__bruttolohn_vorjahr_m`.
+    einkommen__aus_selbstständigkeit_y
+        See :func:`einkommen__aus_selbstständigkeit_y`.
     eink_vermietung_y
         See :func:`eink_vermietung_y`.
     einkommensteuer__einkommen__kapitaleinkommen_y
@@ -72,8 +72,8 @@ def einkommen_m(
     # Sum income over different income sources.
     out = (
         proxy_rente_vorjahr_m
-        + bruttolohn_vorj_m
-        + eink_selbst_y / 12  # income from self-employment
+        + einkommen__bruttolohn_vorjahr_m
+        + einkommen__aus_selbstständigkeit_y / 12  # income from self-employment
         + eink_vermietung_y / 12  # rental income
         + einkommensteuer__einkommen__kapitaleinkommen_y / 12
     )
@@ -84,7 +84,7 @@ def einkommen_m(
 @policy_function(params_key_for_rounding="ges_rente")
 def anzurechnendes_einkommen_m(
     einkommen_m_ehe: float,
-    p_id_ehepartner: int,
+    demograpics__p_id_ehepartner: int,
     rente__altersrente__rentenwert: float,
     ges_rente_params: dict,
 ) -> float:
@@ -101,8 +101,8 @@ def anzurechnendes_einkommen_m(
     ----------
     einkommen_m_ehe
         See :func:`einkommen_m_ehe`.
-    p_id_ehepartner
-        See :func:`p_id_ehepartner`.
+    demograpics__p_id_ehepartner
+        See :func:`demograpics__p_id_ehepartner`.
     rente__altersrente__rentenwert
         See :func:`rente__altersrente__rentenwert`.
     ges_rente_params
@@ -116,7 +116,7 @@ def anzurechnendes_einkommen_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    if p_id_ehepartner >= 0:
+    if demograpics__p_id_ehepartner >= 0:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_single"]
@@ -139,7 +139,7 @@ def anzurechnendes_einkommen_m(
 @policy_function(params_key_for_rounding="ges_rente")
 def basisbetrag_m(
     entgeltpunkte_zuschlag: float,
-    grundr_bew_zeiten: int,
+    rente__grundrente__bewertungszeiten_m: int,
     rente__altersrente__rentenwert: float,
     rente__altersrente__zugangsfaktor: float,
     ges_rente_params: dict,
@@ -154,9 +154,9 @@ def basisbetrag_m(
     ----------
     entgeltpunkte_zuschlag
         See :func:`entgeltpunkte_zuschlag`.
-    grundr_bew_zeiten
+    rente__grundrente__bewertungszeiten_m
         See basic input variable
-        :ref:`grundr_bew_zeiten <grundr_bew_zeiten>`.
+        :ref:`rente__grundrente__bewertungszeiten_m <rente__grundrente__bewertungszeiten_m>`.
     rente__altersrente__rentenwert
         See :func:`rente__altersrente__rentenwert`.
     rente__altersrente__zugangsfaktor
@@ -170,8 +170,9 @@ def basisbetrag_m(
     """
 
     # Winsorize Bewertungszeiten and Zugangsfaktor at maximum values
-    grundr_bew_zeiten_wins = min(
-        grundr_bew_zeiten, ges_rente_params["grundr_zeiten"]["max"]
+    rente__grundrente__bewertungszeiten_m_wins = min(
+        rente__grundrente__bewertungszeiten_m,
+        ges_rente_params["grundrentenzeiten_m"]["max"],
     )
     ges_rente_zugangsfaktor_wins = min(
         rente__altersrente__zugangsfaktor, ges_rente_params["grundr_zugangsfaktor_max"]
@@ -179,7 +180,7 @@ def basisbetrag_m(
 
     out = (
         entgeltpunkte_zuschlag
-        * grundr_bew_zeiten_wins
+        * rente__grundrente__bewertungszeiten_m_wins
         * rente__altersrente__rentenwert
         * ges_rente_zugangsfaktor_wins
     )
@@ -188,28 +189,28 @@ def basisbetrag_m(
 
 @policy_function
 def durchschnittliche_entgeltpunkte(
-    grundr_entgeltp: float, grundr_bew_zeiten: int
+    rente__grundrente__entgeltpunkte: float, rente__grundrente__bewertungszeiten_m: int
 ) -> float:
     """Compute average number of Entgeltpunkte earned per month of
     Grundrentenbewertungszeiten.
 
     Parameters
     ----------
-    grundr_entgeltp
+    rente__grundrente__entgeltpunkte
         See basic input variable
-        :ref:`grundr_entgeltp <grundr_entgeltp>`.
-    grundr_bew_zeiten
+        :ref:`rente__grundrente__entgeltpunkte <rente__grundrente__entgeltpunkte>`.
+    rente__grundrente__bewertungszeiten_m
         See basic input variable
-        :ref:`grundr_bew_zeiten <grundr_bew_zeiten>`.
+        :ref:`rente__grundrente__bewertungszeiten_m <rente__grundrente__bewertungszeiten_m>`.
 
     Returns
     -------
 
     """
-    if grundr_bew_zeiten > 0:
-        out = grundr_entgeltp / grundr_bew_zeiten
+    if rente__grundrente__bewertungszeiten_m > 0:
+        out = rente__grundrente__entgeltpunkte / rente__grundrente__bewertungszeiten_m
 
-    # Return 0 if grundr_bew_zeiten is 0. Then, grundr_entgeltp should be 0, too.
+    # Return 0 if rente__grundrente__bewertungszeiten_m is 0. Then, rente__grundrente__entgeltpunkte should be 0, too.
     else:
         out = 0
 
@@ -217,14 +218,16 @@ def durchschnittliche_entgeltpunkte(
 
 
 @policy_function(params_key_for_rounding="ges_rente")
-def höchstbetrag_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
+def höchstbetrag_m(
+    rente__grundrente__grundrentenzeiten_m: int, ges_rente_params: dict
+) -> float:
     """Calculate the maximum allowed number of average Entgeltpunkte (per month) after
     adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
     ----------
-    grundr_zeiten
-        See basic input variable :ref:`grundr_zeiten <grundr_zeiten>`.
+    rente__grundrente__grundrentenzeiten_m
+        See basic input variable :ref:`rente__grundrente__grundrentenzeiten_m <rente__grundrente__grundrentenzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -234,8 +237,11 @@ def höchstbetrag_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
     """
     # Calculate number of months above minimum threshold
     months_above_thresh = (
-        min(grundr_zeiten, ges_rente_params["grundr_zeiten"]["max"])
-        - ges_rente_params["grundr_zeiten"]["min"]
+        min(
+            rente__grundrente__grundrentenzeiten_m,
+            ges_rente_params["grundrentenzeiten_m"]["max"],
+        )
+        - ges_rente_params["grundrentenzeiten_m"]["min"]
     )
 
     # Calculate höchstwert
@@ -251,7 +257,7 @@ def höchstbetrag_m(grundr_zeiten: int, ges_rente_params: dict) -> float:
 def entgeltpunkte_zuschlag(
     durchschnittliche_entgeltpunkte: float,
     höchstbetrag_m: float,
-    grundr_zeiten: int,
+    rente__grundrente__grundrentenzeiten_m: int,
     ges_rente_params: dict,
 ) -> float:
     """Calculate additional Entgeltpunkte for pensioner.
@@ -268,8 +274,8 @@ def entgeltpunkte_zuschlag(
         See :func:`durchschnittliche_entgeltpunkte`.
     höchstbetrag_m
         See :func:`höchstbetrag_m`.
-    grundr_zeiten
-        See basic input variable :ref:`grundr_zeiten <grundr_zeiten>`.
+    rente__grundrente__grundrentenzeiten_m
+        See basic input variable :ref:`rente__grundrente__grundrentenzeiten_m <rente__grundrente__grundrentenzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -279,7 +285,10 @@ def entgeltpunkte_zuschlag(
     """
 
     # Return 0 if Grundrentenzeiten below minimum
-    if grundr_zeiten < ges_rente_params["grundr_zeiten"]["min"]:
+    if (
+        rente__grundrente__grundrentenzeiten_m
+        < ges_rente_params["grundrentenzeiten_m"]["min"]
+    ):
         out = 0.0
     else:
         # Case 1: Entgeltpunkte less than half of Höchstwert
@@ -302,13 +311,13 @@ def entgeltpunkte_zuschlag(
 
 @policy_function(params_key_for_rounding="ges_rente")
 def proxy_rente_vorjahr_m(  # noqa: PLR0913
-    rentner: bool,
-    priv_rente_m: float,
-    jahr_renteneintr: int,
-    geburtsjahr: int,
-    alter: int,
-    entgeltp_west: float,
-    entgeltp_ost: float,
+    rente__altersrente__rentner: bool,
+    rente__private_rente_m: float,
+    rente__jahr_renteneintritt: int,
+    demographics__geburtsjahr: int,
+    demographics__alter: int,
+    rente__altersrente__entgeltpunkte_west: float,
+    rente__altersrente__entgeltpunkte_ost: float,
     rente__altersrente__zugangsfaktor: float,
     ges_rente_params: dict,
 ) -> float:
@@ -316,21 +325,21 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
-    priv_rente_m
-        See basic input variable :ref:`priv_rente_m <priv_rente_m>`. Assume this did not
+    rente__altersrente__rentner
+        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
+    rente__private_rente_m
+        See basic input variable :ref:`rente__private_rente_m <rente__private_rente_m>`. Assume this did not
         change from last year.
-    jahr_renteneintr
-        See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    entgeltp_west
-        See basic input variable :ref:`entgeltp_west <entgeltp_west>`.
-    entgeltp_ost
-        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
+    rente__jahr_renteneintritt
+        See basic input variable :ref:`rente__jahr_renteneintritt <rente__jahr_renteneintritt>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    rente__altersrente__entgeltpunkte_west
+        See basic input variable :ref:`rente__altersrente__entgeltpunkte_west <rente__altersrente__entgeltpunkte_west>`.
+    rente__altersrente__entgeltpunkte_ost
+        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>`.
     rente__altersrente__zugangsfaktor
         See :func:`rente__altersrente__zugangsfaktor`.
     ges_rente_params
@@ -342,16 +351,20 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     """
 
     # Calculate if subect was retired last year
-    if rentner:
-        rentner_vorjahr = jahr_renteneintr < geburtsjahr + alter
+    if rente__altersrente__rentner:
+        rentner_vorjahr = (
+            rente__jahr_renteneintritt < demographics__geburtsjahr + demographics__alter
+        )
     else:
         rentner_vorjahr = False
 
     if rentner_vorjahr:
         out = (
-            entgeltp_west * ges_rente_params["rentenwert_vorjahr"]["west"]
-            + entgeltp_ost * ges_rente_params["rentenwert_vorjahr"]["ost"]
-        ) * rente__altersrente__zugangsfaktor + priv_rente_m
+            rente__altersrente__entgeltpunkte_west
+            * ges_rente_params["rentenwert_vorjahr"]["west"]
+            + rente__altersrente__entgeltpunkte_ost
+            * ges_rente_params["rentenwert_vorjahr"]["ost"]
+        ) * rente__altersrente__zugangsfaktor + rente__private_rente_m
     else:
         out = 0.0
 
@@ -360,14 +373,14 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
 @policy_function
 def grundsätzlich_anspruchsberechtigt(
-    grundr_zeiten: int, ges_rente_params: dict
+    rente__grundrente__grundrentenzeiten_m: int, ges_rente_params: dict
 ) -> bool:
     """Whether person has accumulated enough insured years to be eligible.
 
     Parameters
     ----------
-    grundr_zeiten
-        See :func:`grundr_zeiten`.
+    rente__grundrente__grundrentenzeiten_m
+        See :func:`rente__grundrente__grundrentenzeiten_m`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -375,5 +388,8 @@ def grundsätzlich_anspruchsberechtigt(
     -------
 
     """
-    out = grundr_zeiten >= ges_rente_params["grundr_zeiten"]["min"]
+    out = (
+        rente__grundrente__grundrentenzeiten_m
+        >= ges_rente_params["grundrentenzeiten_m"]["min"]
+    )
     return out

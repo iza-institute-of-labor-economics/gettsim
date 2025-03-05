@@ -5,7 +5,7 @@ info:
 inputs:
   provided: {}
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -14,7 +14,7 @@ inputs:
       - 5
       - 6
       - 7
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -23,7 +23,7 @@ inputs:
       - 5
       - 6
       - 7
-    m_pflichtbeitrag:
+    rente__altersrente__pflichtbeitragszeiten_m:
       - 0.0
       - 60.0
       - 0.0
@@ -32,7 +32,7 @@ inputs:
       - 0.0
       - 120.0
       - 120.0
-    m_freiw_beitrag:
+    rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
       - 0.0
       - 60.0
@@ -41,7 +41,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    m_ersatzzeit:
+    rente__altersrente__ersatzzeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -68,7 +68,7 @@ inputs:
       - 0.0
       - 420.0
       - 120.0
-    m_kind_berücks_zeit:
+    rente__altersrente__kinderberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -77,7 +77,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    m_pfleg_berücks_zeit:
+    rente__altersrente__pflegeberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0

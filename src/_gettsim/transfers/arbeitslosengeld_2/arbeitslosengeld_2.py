@@ -59,7 +59,7 @@ def betrag_m_bg(
 def anspruchshöhe_m_bg(
     regelbedarf_m_bg: float,
     anzurechnendes_einkommen_m_bg: float,
-    vermögen_bedürft_bg: float,
+    demographics__vermögen_bg: float,
     freibetrag_vermögen_bg: float,
 ) -> float:
     """Calculate potential basic subsistence (after income deduction and wealth check).
@@ -74,15 +74,15 @@ def anspruchshöhe_m_bg(
         See :func:`anzurechnendes_einkommen_m_bg`.
     freibetrag_vermögen_bg
         See :func:`freibetrag_vermögen_bg`.
-    vermögen_bedürft_bg
-        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    demographics__vermögen_bg
+        See basic input variable :ref:`demographics__vermögen_bg <demographics__vermögen_bg>`.
 
     Returns
     -------
 
     """
     # Check wealth exemption
-    if vermögen_bedürft_bg > freibetrag_vermögen_bg:
+    if demographics__vermögen_bg > freibetrag_vermögen_bg:
         out = 0.0
     else:
         # Deduct income from various sources

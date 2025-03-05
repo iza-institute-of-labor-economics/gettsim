@@ -6,71 +6,71 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 29
       - 30
       - 31
-    hh_id:
+    demographics__hh_id:
       - 10
       - 10
       - 10
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
       - -1
       - -1
-    p_id_elternteil_1:
-      - -1
-      - 29
-      - 29
-    p_id_elternteil_2:
-      - -1
-      - -1
-      - -1
-    p_id_einstandspartner:
-      - -1
-      - -1
-      - -1
-    p_id_kindergeld_empf:
+    demographics__p_id_elternteil_1:
       - -1
       - 29
       - 29
-    gemeinsam_veranlagt:
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    demograpics__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 29
+      - 29
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
-    kind:
+    demographics__kind:
       - false
       - true
       - true
-    alter:
+    demographics__alter:
       - 30
       - 8
       - 3
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 438.0
       - 438.0
       - 438.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 80.0
       - 80.0
       - 80.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 60.0
       - 60.0
       - 60.0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
       - false
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
       - false
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 800.0
       - 0.0
       - 0.0
@@ -78,7 +78,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kapitaleink_brutto_m:
+    einkommen__bruttokapitaleinkommen_m:
       - 0.0
       - 0.0
       - 0.0
@@ -86,15 +86,15 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sonstig_eink_m:
+    einkommen__sonstige_m:
       - 0.0
       - 0.0
       - 0.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
       - 0.0
-    eink_vermietung_m:
+    einkommen__aus_vermietung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -114,7 +114,7 @@ inputs:
       - 388.0
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 212.0
       - 160.0
@@ -134,27 +134,27 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vermögen_bedürft:
+    demographics__vermögen:
       - 10000.0
       - 0.0
       - 0.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1992
       - 2014
       - 2019
-    rentner:
+    rente__altersrente__rentner:
       - false
       - false
       - false
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - true
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 20.0
       - 0.0
       - 0.0
-    bürgerg_bezug_vorj:
+    arbeitslosengeld_2__in_vorjahr_bezogen:
       - false
       - false
       - false

@@ -87,10 +87,10 @@ def min_miete_m_hh(
 
 @policy_function(end_date="2008-12-31", name_in_dag="miete_m_hh")
 def miete_bis_2008_m_hh(  # noqa: PLR0913
-    mietstufe: int,
-    immobilie_baujahr_hh: int,
+    wohngeld__mietstufe: int,
+    wohngeld__baujahr_immobilie_hh: int,
     demographic_vars__anzahl_personen_hh: int,
-    arbeitslosengeld_2__bruttokaltmiete_m_hh: float,
+    wohnen__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -98,14 +98,14 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 
     Parameters
     ----------
-    mietstufe
-        See basic input variable :ref:`mietstufe <mietstufe>`.
-    immobilie_baujahr_hh
-        See basic input variable :ref:`immobilie_baujahr_hh <immobilie_baujahr_hh>`.
+    wohngeld__mietstufe
+        See basic input variable :ref:`wohngeld__mietstufe <wohngeld__mietstufe>`.
+    wohngeld__baujahr_immobilie_hh
+        See basic input variable :ref:`wohngeld__baujahr_immobilie_hh <wohngeld__baujahr_immobilie_hh>`.
     demographic_vars__anzahl_personen_hh
         See :func:`demographic_vars__anzahl_personen_hh`.
-    arbeitslosengeld_2__bruttokaltmiete_m_hh
-        See :func:`arbeitslosengeld_2__bruttokaltmiete_m_hh`.
+    wohnen__bruttokaltmiete_m_hh
+        See :func:`wohnen__bruttokaltmiete_m_hh`.
     min_miete_m_hh
         See :func:`min_miete_m_hh`.
     wohngeld_params
@@ -125,7 +125,9 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     # size.
     params_max_miete = wohngeld_params["max_miete"]
     selected_bin_index = np.searchsorted(
-        np.asarray(sorted(params_max_miete[1])), immobilie_baujahr_hh, side="left"
+        np.asarray(sorted(params_max_miete[1])),
+        wohngeld__baujahr_immobilie_hh,
+        side="left",
     )
 
     constr_year = list(params_max_miete[1])[selected_bin_index]
@@ -135,15 +137,15 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     if demographic_vars__anzahl_personen_hh <= max_definierte_hh_größe:
         max_miete_m = params_max_miete[demographic_vars__anzahl_personen_hh][
             constr_year
-        ][mietstufe]
+        ][wohngeld__mietstufe]
     else:
         max_miete_m = params_max_miete[max_definierte_hh_größe][constr_year][
-            mietstufe
-        ] + params_max_miete["jede_weitere_person"][constr_year][mietstufe] * (
-            berücks_personen - max_definierte_hh_größe
-        )
+            wohngeld__mietstufe
+        ] + params_max_miete["jede_weitere_person"][constr_year][
+            wohngeld__mietstufe
+        ] * (berücks_personen - max_definierte_hh_größe)
 
-    out = min(arbeitslosengeld_2__bruttokaltmiete_m_hh, max_miete_m)
+    out = min(wohnen__bruttokaltmiete_m_hh, max_miete_m)
     out = max(out, min_miete_m_hh)
 
     return out
@@ -151,9 +153,9 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 
 @policy_function(start_date="2009-01-01", name_in_dag="miete_m_hh")
 def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
-    mietstufe: int,
+    wohngeld__mietstufe: int,
     demographic_vars__anzahl_personen_hh: int,
-    arbeitslosengeld_2__bruttokaltmiete_m_hh: float,
+    wohnen__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
 ) -> float:
@@ -161,12 +163,12 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
 
     Parameters
     ----------
-    mietstufe
-        See basic input variable :ref:`mietstufe <mietstufe>`.
+    wohngeld__mietstufe
+        See basic input variable :ref:`wohngeld__mietstufe <wohngeld__mietstufe>`.
     demographic_vars__anzahl_personen_hh
         See :func:`demographic_vars__anzahl_personen_hh`.
-    arbeitslosengeld_2__bruttokaltmiete_m_hh
-        See :func:`arbeitslosengeld_2__bruttokaltmiete_m_hh`.
+    wohnen__bruttokaltmiete_m_hh
+        See :func:`wohnen__bruttokaltmiete_m_hh`.
     min_miete_m_hh
         See :func:`min_miete_m_hh`.
     wohngeld_params
@@ -186,12 +188,14 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
     if demographic_vars__anzahl_personen_hh <= max_definierte_hh_größe:
-        max_miete_m = params_max_miete[demographic_vars__anzahl_personen_hh][mietstufe]
+        max_miete_m = params_max_miete[demographic_vars__anzahl_personen_hh][
+            wohngeld__mietstufe
+        ]
     else:
         max_miete_m = (
-            params_max_miete[max_definierte_hh_größe][mietstufe]
+            params_max_miete[max_definierte_hh_größe][wohngeld__mietstufe]
             + (berücks_personen - max_definierte_hh_größe)
-            * params_max_miete["jede_weitere_person"][mietstufe]
+            * params_max_miete["jede_weitere_person"][wohngeld__mietstufe]
         )
 
     # Calc heating allowance. Until 2020, heating allowance was not
@@ -267,9 +271,7 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     else:
         climate_component_m = 0
 
-    out = min(
-        arbeitslosengeld_2__bruttokaltmiete_m_hh, max_miete_m + climate_component_m
-    )
+    out = min(wohnen__bruttokaltmiete_m_hh, max_miete_m + climate_component_m)
     out = max(out, min_miete_m_hh) + heating_allowance_m + heating_component_m
 
     return out

@@ -9,7 +9,7 @@ def betrag_arbeitnehmer_vor_midijob_m(
     betrag_rentner_m: float,
     betrag_selbständig_m: float,
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
-    selbstständig: bool,
+    einkommen__ist_selbstständig: bool,
 ) -> float:
     """Employee's public health insurance contribution.
 
@@ -25,15 +25,15 @@ def betrag_arbeitnehmer_vor_midijob_m(
         See :func:`betrag_selbständig_m`.
     betrag_arbeitnehmer_regulär_beschäftigt_m
         See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
-    selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+    einkommen__ist_selbstständig
+        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
 
 
     Returns
     -------
 
     """
-    if selbstständig:
+    if einkommen__ist_selbstständig:
         out = betrag_selbständig_m
     elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
@@ -52,7 +52,7 @@ def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__in_gleitzone: bool,
     betrag_arbeitnehmer_midijob_m: float,
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
-    selbstständig: bool,
+    einkommen__ist_selbstständig: bool,
 ) -> float:
     """Employee's public health insurance contribution.
 
@@ -72,15 +72,15 @@ def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
         See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
     einkommensgrenzen__in_gleitzone
         See :func:`einkommensgrenzen__in_gleitzone`.
-    selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+    einkommen__ist_selbstständig
+        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
 
 
     Returns
     -------
 
     """
-    if selbstständig:
+    if einkommen__ist_selbstständig:
         out = betrag_selbständig_m
     elif einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
@@ -96,9 +96,9 @@ def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
 @policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     einkommen_m: float,
-    selbstständig: bool,
+    einkommen__ist_selbstständig: bool,
     sozialv_beitr_params: dict,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -114,10 +114,10 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
         See :func:`einkommen_m`.
     beitragssatz_arbeitgeber
         See :func:`beitragssatz_arbeitgeber`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einkommen__ist_selbstständig
+        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -126,10 +126,13 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
     -------
 
     """
-    if selbstständig:
+    if einkommen__ist_selbstständig:
         out = 0.0
     elif einkommensgrenzen__geringfügig_beschäftigt:
-        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        out = (
+            einkommen__bruttolohn_m
+            * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        )
     else:
         out = einkommen_m * beitragssatz_arbeitgeber
 
@@ -140,10 +143,10 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
 def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     einkommensgrenzen__in_gleitzone: bool,
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     betrag_arbeitgeber_midijob_m: float,
     einkommen_m: float,
-    selbstständig: bool,
+    einkommen__ist_selbstständig: bool,
     sozialv_beitr_params: dict,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -163,10 +166,10 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
         See :func:`beitragssatz_arbeitgeber`.
     einkommensgrenzen__in_gleitzone
         See :func:`einkommensgrenzen__in_gleitzone`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    selbstständig
-        See basic input variable :ref:`selbstständig <selbstständig>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einkommen__ist_selbstständig
+        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -175,10 +178,13 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     -------
 
     """
-    if selbstständig:
+    if einkommen__ist_selbstständig:
         out = 0.0
     elif einkommensgrenzen__geringfügig_beschäftigt:
-        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        out = (
+            einkommen__bruttolohn_m
+            * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
+        )
     elif einkommensgrenzen__in_gleitzone:
         out = betrag_arbeitgeber_midijob_m
     else:
@@ -292,8 +298,8 @@ def betrag_gesamt_midijob_m(
     end_date="2022-09-30",
     name_in_dag="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_bruttolohn_m(
-    bruttolohn_m: float,
+def betrag_arbeitgeber_midijob_anteil_einkommen__bruttolohn_m(
+    einkommen__bruttolohn_m: float,
     einkommensgrenzen__in_gleitzone: bool,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -303,8 +309,8 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_m(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     einkommensgrenzen__in_gleitzone
         See :func:`einkommensgrenzen__in_gleitzone`.
     beitragssatz_arbeitgeber
@@ -315,7 +321,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_m(
 
     """
     if einkommensgrenzen__in_gleitzone:
-        out = beitragssatz_arbeitgeber * bruttolohn_m
+        out = beitragssatz_arbeitgeber * einkommen__bruttolohn_m
     else:
         out = 0.0
 

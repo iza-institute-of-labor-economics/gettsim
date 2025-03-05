@@ -5,9 +5,9 @@ from _gettsim.functions.policy_function import policy_function
 
 @policy_function
 def grundfreibetrag_vermögen(
-    kind: bool,
-    alter: int,
-    geburtsjahr: int,
+    demographics__kind: bool,
+    demographics__alter: int,
+    demographics__geburtsjahr: int,
     maximaler_grundfreibetrag_vermögen: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -17,12 +17,12 @@ def grundfreibetrag_vermögen(
 
     Parameters
     ----------
-    kind
-        See basic input variable :ref:`kind <kind>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     maximaler_grundfreibetrag_vermögen
         See :func:`maximaler_grundfreibetrag_vermögen`.
     arbeitsl_geld_2_params
@@ -33,14 +33,15 @@ def grundfreibetrag_vermögen(
 
     """
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
-    if geburtsjahr <= threshold_years[0]:
+    if demographics__geburtsjahr <= threshold_years[0]:
         out = (
             next(iter(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values()))
-            * alter
+            * demographics__alter
         )
-    elif (geburtsjahr >= threshold_years[1]) and (not kind):
+    elif (demographics__geburtsjahr >= threshold_years[1]) and (not demographics__kind):
         out = (
-            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1] * alter
+            list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].values())[1]
+            * demographics__alter
         )
     else:
         out = 0.0
@@ -50,8 +51,8 @@ def grundfreibetrag_vermögen(
 
 @policy_function
 def maximaler_grundfreibetrag_vermögen(
-    geburtsjahr: int,
-    kind: bool,
+    demographics__geburtsjahr: int,
+    demographics__kind: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate maximal wealth exemptions by year of birth.
@@ -60,12 +61,12 @@ def maximaler_grundfreibetrag_vermögen(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__hh_id
+        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -79,14 +80,14 @@ def maximaler_grundfreibetrag_vermögen(
     obergrenzen = list(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].values()
     )
-    if kind:
+    if demographics__kind:
         out = 0.0
     else:
-        if geburtsjahr < threshold_years[1]:
+        if demographics__geburtsjahr < threshold_years[1]:
             out = obergrenzen[0]
-        elif geburtsjahr < threshold_years[2]:
+        elif demographics__geburtsjahr < threshold_years[2]:
             out = obergrenzen[1]
-        elif geburtsjahr < threshold_years[3]:
+        elif demographics__geburtsjahr < threshold_years[3]:
             out = obergrenzen[2]
         else:
             out = obergrenzen[3]
@@ -111,8 +112,8 @@ def freibetrag_vermögen_in_karenzzeit_bg(
         <arbeitsl_geld_2_params>`.
     demographic_vars__anzahl_personen_bg
         See :func:`demographic_vars__anzahl_personen_bg`.
-    bürgerg_bezug_vorj
-        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+    arbeitslosengeld_2__in_vorjahr_bezogen
+        See basic input variable :ref:`arbeitslosengeld_2__in_vorjahr_bezogen <arbeitslosengeld_2__in_vorjahr_bezogen>`.
 
 
     Returns
@@ -170,7 +171,7 @@ def freibetrag_vermögen_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     demographic_vars__anzahl_personen_bg: int,
     freibetrag_vermögen_in_karenzzeit_bg: float,
-    bürgerg_bezug_vorj: bool,
+    arbeitslosengeld_2__in_vorjahr_bezogen: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
 
@@ -186,8 +187,8 @@ def freibetrag_vermögen_bg_ab_2023(
         See :func:`demographic_vars__anzahl_personen_bg`.
     freibetrag_vermögen_in_karenzzeit_bg
         See :func:`freibetrag_vermögen_in_karenzzeit_bg`.
-    bürgerg_bezug_vorj
-        See basic input variable :ref:`bürgerg_bezug_vorj <bürgerg_bezug_vorj>`.
+    arbeitslosengeld_2__in_vorjahr_bezogen
+        See basic input variable :ref:`arbeitslosengeld_2__in_vorjahr_bezogen <arbeitslosengeld_2__in_vorjahr_bezogen>`.
 
 
     Returns
@@ -195,7 +196,7 @@ def freibetrag_vermögen_bg_ab_2023(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    if bürgerg_bezug_vorj:
+    if arbeitslosengeld_2__in_vorjahr_bezogen:
         out = demographic_vars__anzahl_personen_bg * params["normaler_satz"]
     else:
         out = freibetrag_vermögen_in_karenzzeit_bg

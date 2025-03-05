@@ -6,55 +6,55 @@ info:
   source: Made up.
 inputs:
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
       - -1
-    p_id_elternteil_1:
-      - -1
-      - 0
-    p_id_elternteil_2:
-      - -1
-      - -1
-    p_id_kindergeld_empf:
+    demographics__p_id_elternteil_1:
       - -1
       - 0
-    bg_id:
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 0
+    arbeitslosengeld_2__bg_id:
       - 0
       - 1
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    bürgerg_bezug_vorj:
+    arbeitslosengeld_2__in_vorjahr_bezogen:
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - true
     jahr:
       - 2005
       - 2005
-    kind:
+    demographics__kind:
       - false
       - true
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
-    alter:
+    demographics__alter:
       - 40
       - 10
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 600.0
       - 600.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 100.0
       - 100.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 40.0
       - 40.0
   provided: {}

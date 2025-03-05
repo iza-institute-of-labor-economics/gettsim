@@ -9,8 +9,8 @@ def einkommen_m(  # noqa: PLR0913
     erwerbseinkommen_m: float,
     private_rente_m: float,
     gesetzliche_rente_m: float,
-    sonstig_eink_m: float,
-    eink_vermietung_m: float,
+    einkommen__sonstige_m: float,
+    einkommen__aus_vermietung_m: float,
     kapitaleinkommen_brutto_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
@@ -29,10 +29,10 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`private_rente_m`.
     gesetzliche_rente_m
         See :func:`gesetzliche_rente_m`.
-    sonstig_eink_m
-        See :func:`sonstig_eink_m`.
-    eink_vermietung_m
-        See :func:`eink_vermietung_m`.
+    einkommen__sonstige_m
+        See :func:`einkommen__sonstige_m`.
+    einkommen__aus_vermietung_m
+        See :func:`einkommen__aus_vermietung_m`.
     kapitaleinkommen_brutto_m
         See :func:`kapitaleinkommen_brutto_m`.
     eink_st_m_sn
@@ -56,8 +56,8 @@ def einkommen_m(  # noqa: PLR0913
         erwerbseinkommen_m
         + gesetzliche_rente_m
         + private_rente_m
-        + sonstig_eink_m
-        + eink_vermietung_m
+        + einkommen__sonstige_m
+        + einkommen__aus_vermietung_m
         + kapitaleinkommen_brutto_m
         + elterngeld__anrechenbarer_betrag_m
     )
@@ -74,8 +74,8 @@ def einkommen_m(  # noqa: PLR0913
 
 @policy_function
 def erwerbseinkommen_m(
-    bruttolohn_m: float,
-    eink_selbst_m: float,
+    einkommen__bruttolohn_m: float,
+    einkommen__aus_selbstständigkeit_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -90,10 +90,10 @@ def erwerbseinkommen_m(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    eink_selbst_m
-        See basic input variable :ref:`eink_selbst_m <eink_selbst_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einkommen__aus_selbstständigkeit_m
+        See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     grunds_im_alter_params
@@ -103,7 +103,7 @@ def erwerbseinkommen_m(
     -------
 
     """
-    earnings = bruttolohn_m + eink_selbst_m
+    earnings = einkommen__bruttolohn_m + einkommen__aus_selbstständigkeit_m
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
@@ -150,7 +150,7 @@ def kapitaleinkommen_brutto_m(
 
 @policy_function
 def private_rente_m(
-    priv_rente_m: float,
+    rente__private_rente_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -161,8 +161,8 @@ def private_rente_m(
 
     Parameters
     ----------
-    priv_rente_m
-        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
+    rente__private_rente_m
+        See basic input variable :ref:`rente__private_rente_m <rente__private_rente_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params
         <arbeitsl_geld_2_params>`.
@@ -173,8 +173,8 @@ def private_rente_m(
     -------
 
     """
-    priv_rente_m_amount_exempt = piecewise_polynomial(
-        x=priv_rente_m,
+    rente__private_rente_m_amount_exempt = piecewise_polynomial(
+        x=rente__private_rente_m,
         thresholds=grunds_im_alter_params["priv_rente_anr_frei"]["thresholds"],
         rates=grunds_im_alter_params["priv_rente_anr_frei"]["rates"],
         intercepts_at_lower_thresholds=grunds_im_alter_params["priv_rente_anr_frei"][
@@ -183,7 +183,7 @@ def private_rente_m(
     )
     upper = arbeitsl_geld_2_params["regelsatz"][1] / 2
 
-    out = priv_rente_m - min(priv_rente_m_amount_exempt, upper)
+    out = rente__private_rente_m - min(rente__private_rente_m_amount_exempt, upper)
 
     return out
 

@@ -6,33 +6,33 @@ inputs:
   assumed:
     rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
       - false
-    entgeltp_ost:
+    rente__altersrente__entgeltpunkte_ost:
       - 0.0
-    entgeltp_west:
+    rente__altersrente__entgeltpunkte_west:
       - 3.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1980
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 8
-    jahr_renteneintr:
+    rente__jahr_renteneintritt:
       - 2001
-    m_ersatzzeit:
+    rente__altersrente__ersatzzeiten_m:
       - 0.0
-    m_freiw_beitrag:
+    rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
-    m_pflichtbeitrag:
+    rente__altersrente__pflichtbeitragszeiten_m:
       - 60.0
-    monat_renteneintr:
+    rente__monat_renteneintritt:
       - 4
-    p_id:
+    demographics__p_id:
       - 4
-    rentner:
+    rente__altersrente__rentner:
       - true
-    teilw_erwerbsgemind:
+    rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false
-    voll_erwerbsgemind:
+    rente__erwerbsminderung__voll_erwerbsgemindert:
       - true
-    wohnort_ost:
+    demographics__wohnort_ost:
       - true
 outputs:
   rente__erwerbsminderung__entgeltpunkte_ost:

@@ -4,43 +4,43 @@ info:
   source: Regression test.
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 53
       - 54
-    hh_id:
+    demographics__hh_id:
       - 9
       - 9
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - -1
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - 54
       - 53
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - 54
       - 53
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
-    kind:
+    demographics__kind:
       - false
       - false
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 50.0
       - 50.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 50.0
       - 50.0
     taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
@@ -49,25 +49,25 @@ inputs:
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    alleinerz:
+    demographics__alleinerziehend:
       - false
       - false
-    alter:
+    demographics__alter:
       - 50
       - 55
-    immobilie_baujahr_hh:
+    wohngeld__baujahr_immobilie_hh:
       - 2005
       - 2005
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
-    mietstufe:
+    wohngeld__mietstufe:
       - 3
       - 3
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 1200.0
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
@@ -82,22 +82,22 @@ inputs:
     arbeitslosengeld__betrag_m:
       - 0.0
       - 0.0
-    sonstig_eink_m:
+    einkommen__sonstige_m:
       - 100.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
-    eink_vermietung_m:
+    einkommen__aus_vermietung_m:
       - 0.0
       - 0.0
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
@@ -106,7 +106,7 @@ inputs:
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
       - 80.0
       - 0.0
-    behinderungsgrad:
+    demographics__behinderungsgrad:
       - 50
       - 0
     jahr:
@@ -115,19 +115,19 @@ inputs:
     taxes__einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
-    vermögen_bedürft:
+    demographics__vermögen:
       - 90000.0
       - 0.0
     demographic_vars__anzahl_personen_hh:
       - 2
       - 2
-    geburtstag:
+    demographics__geburtstag:
       - 1
       - 1
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1963
       - 1958
     vorrangpruefungen__wohngeld_vorrang_bg:

@@ -8,11 +8,11 @@ def betrag_m_eg(  # noqa: PLR0913
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     mehrbedarf_schwerbehinderung_g_m_eg: float,
     kindergeld__betrag_m_eg: float,
-    kind_unterh_erhalt_m_eg: float,
+    unterhalt__kind_betrag_m_eg: float,
     unterhaltsvorschuss__betrag_m_eg: float,
     einkommen_m_eg: float,
     demographic_vars__erwachsene_alle_rentner_hh: bool,
-    vermögen_bedürft_eg: float,
+    demographics__vermögen_eg: float,
     vermögen_freibetrag_eg: float,
     demographic_vars__anzahl_kinder_eg: int,
     demographic_vars__anzahl_personen_eg: int,
@@ -30,17 +30,17 @@ def betrag_m_eg(  # noqa: PLR0913
         See :func:`mehrbedarf_schwerbehinderung_g_m_eg`.
     kindergeld__betrag_m_eg
         See :func:`kindergeld__betrag_m_eg`.
-    kind_unterh_erhalt_m_eg
+    unterhalt__kind_betrag_m_eg
         See basic input variable
-        :ref:`kind_unterh_erhalt_m_eg <kind_unterh_erhalt_m_eg>`.
+        :ref:`unterhalt__kind_betrag_m_eg <unterhalt__kind_betrag_m_eg>`.
     unterhaltsvorschuss__betrag_m_eg
         See :func:`unterhaltsvorschuss__betrag_m_eg`.
     einkommen_m_eg
         See :func:`einkommen_m_eg`.
     demographic_vars__erwachsene_alle_rentner_hh
         See :func:`demographic_vars__erwachsene_alle_rentner_hh`.
-    vermögen_bedürft_eg
-        See basic input variable :ref:`vermögen_bedürft_eg`.
+    demographics__vermögen_eg
+        See basic input variable :ref:`demographics__vermögen_eg`.
     vermögen_freibetrag_eg
         See :func:`vermögen_freibetrag_eg`.
     demographic_vars__anzahl_kinder_eg
@@ -69,7 +69,7 @@ def betrag_m_eg(  # noqa: PLR0913
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
     if (
-        (vermögen_bedürft_eg >= vermögen_freibetrag_eg)
+        (demographics__vermögen_eg >= vermögen_freibetrag_eg)
         or (not demographic_vars__erwachsene_alle_rentner_hh)
         or (demographic_vars__anzahl_kinder_eg == demographic_vars__anzahl_personen_eg)
     ):
@@ -80,7 +80,7 @@ def betrag_m_eg(  # noqa: PLR0913
             arbeitslosengeld_2__regelbedarf_m_bg
             + mehrbedarf_schwerbehinderung_g_m_eg
             - einkommen_m_eg
-            - kind_unterh_erhalt_m_eg
+            - unterhalt__kind_betrag_m_eg
             - unterhaltsvorschuss__betrag_m_eg
             - kindergeld__betrag_m_eg
         )
@@ -90,7 +90,7 @@ def betrag_m_eg(  # noqa: PLR0913
 
 @policy_function
 def mehrbedarf_schwerbehinderung_g_m(
-    schwerbeh_g: bool,
+    rente__altersrente__schwerbehindert_grad_g: bool,
     demographic_vars__anzahl_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -99,8 +99,8 @@ def mehrbedarf_schwerbehinderung_g_m(
 
     Parameters
     ----------
-    schwerbeh_g
-        See basic input variable :ref:`behinderungsgrad <schwerbeh_g>`.
+    rente__altersrente__schwerbehindert_grad_g
+        See basic input variable :ref:`demographics__behinderungsgrad <rente__altersrente__schwerbehindert_grad_g>`.
     demographic_vars__anzahl_erwachsene_eg
         See :func:`demographic_vars__anzahl_erwachsene_eg`.
     ges_rente_params
@@ -114,16 +114,20 @@ def mehrbedarf_schwerbehinderung_g_m(
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_single = (
         (arbeitsl_geld_2_params["regelsatz"][1])
-        * (grunds_im_alter_params["mehrbedarf_schwerbeh_g"])
+        * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
     )
     mehrbedarf_in_couple = (
         (arbeitsl_geld_2_params["regelsatz"][2])
-        * (grunds_im_alter_params["mehrbedarf_schwerbeh_g"])
+        * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
     )
 
-    if (schwerbeh_g) and (demographic_vars__anzahl_erwachsene_eg == 1):
+    if (rente__altersrente__schwerbehindert_grad_g) and (
+        demographic_vars__anzahl_erwachsene_eg == 1
+    ):
         out = mehrbedarf_single
-    elif (schwerbeh_g) and (demographic_vars__anzahl_erwachsene_eg > 1):
+    elif (rente__altersrente__schwerbehindert_grad_g) and (
+        demographic_vars__anzahl_erwachsene_eg > 1
+    ):
         out = mehrbedarf_in_couple
     else:
         out = 0.0

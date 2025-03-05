@@ -6,27 +6,27 @@ info:
   source: Made up.
 inputs:
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
-    hh_id:
+    demographics__hh_id:
       - 0
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
     jahr:
       - 2018
-    kind:
+    demographics__kind:
       - true
-    alleinerz:
+    demographics__alleinerziehend:
       - false
-    alter:
+    demographics__alter:
       - 17
   provided: {}
 outputs:

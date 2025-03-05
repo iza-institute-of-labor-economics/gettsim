@@ -6,7 +6,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 @policy_function(end_date="2008-12-31", name_in_dag="bruttoeinkommen_y")
 def bruttoeinkommen_mit_kapitaleinkommen_y(
-    eink_selbst_y: float,
+    einkommen__aus_selbstständigkeit_y: float,
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
     bruttoeinkommen_renteneinkommen_y: float,
@@ -16,8 +16,8 @@ def bruttoeinkommen_mit_kapitaleinkommen_y(
 
     Parameters
     ----------
-    eink_selbst_y
-        See :func:`eink_selbst_y`.
+    einkommen__aus_selbstständigkeit_y
+        See :func:`einkommen__aus_selbstständigkeit_y`.
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         See :func:`bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y`.
     eink_vermietung_y
@@ -32,7 +32,7 @@ def bruttoeinkommen_mit_kapitaleinkommen_y(
 
     """
     out = (
-        eink_selbst_y
+        einkommen__aus_selbstständigkeit_y
         + bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         + eink_vermietung_y
         + bruttoeinkommen_renteneinkommen_y
@@ -43,7 +43,7 @@ def bruttoeinkommen_mit_kapitaleinkommen_y(
 
 @policy_function(start_date="2009-01-01", name_in_dag="bruttoeinkommen_y")
 def bruttoeinkommen_ohne_kapitaleinkommen_y(
-    eink_selbst_y: float,
+    einkommen__aus_selbstständigkeit_y: float,
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
     bruttoeinkommen_renteneinkommen_y: float,
@@ -53,8 +53,8 @@ def bruttoeinkommen_ohne_kapitaleinkommen_y(
     Since 2009 capital income is not subject to normal taxation.
     Parameters
     ----------
-    eink_selbst_y
-        See :func:`eink_selbst_y`.
+    einkommen__aus_selbstständigkeit_y
+        See :func:`einkommen__aus_selbstständigkeit_y`.
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         See :func:`bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y`.
     eink_vermietung_y
@@ -67,7 +67,7 @@ def bruttoeinkommen_ohne_kapitaleinkommen_y(
 
     """
     out = (
-        eink_selbst_y
+        einkommen__aus_selbstständigkeit_y
         + bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y
         + eink_vermietung_y
         + bruttoeinkommen_renteneinkommen_y
@@ -103,13 +103,13 @@ def kapitaleinkommen_y(
 
 
 @policy_function
-def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
+def rente_ertragsanteil(rente__jahr_renteneintritt: int, eink_st_params: dict) -> float:
     """Share of pensions subject to income taxation.
 
     Parameters
     ----------
-    jahr_renteneintr
-            See basic input variable :ref:`jahr_renteneintr <jahr_renteneintr>`.
+    rente__jahr_renteneintritt
+            See basic input variable :ref:`rente__jahr_renteneintritt <rente__jahr_renteneintritt>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
     Returns
@@ -117,7 +117,7 @@ def rente_ertragsanteil(jahr_renteneintr: int, eink_st_params: dict) -> float:
 
     """
     out = piecewise_polynomial(
-        x=jahr_renteneintr,
+        x=rente__jahr_renteneintritt,
         thresholds=eink_st_params["rente_ertragsanteil"]["thresholds"],
         rates=eink_st_params["rente_ertragsanteil"]["rates"],
         intercepts_at_lower_thresholds=eink_st_params["rente_ertragsanteil"][
@@ -156,7 +156,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
 
 @policy_function
 def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
-    bruttolohn_y: float,
+    einkommen__bruttolohn_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
@@ -166,8 +166,8 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
 
     Parameters
     ----------
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -177,7 +177,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     """
     abzug = eink_st_abzuege_params["werbungskostenpauschale"]
 
-    out = bruttolohn_y - abzug
+    out = einkommen__bruttolohn_y - abzug
 
     return max(out, 0.0)
 

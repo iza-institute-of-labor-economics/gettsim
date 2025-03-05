@@ -1,14 +1,14 @@
 ---
 lohnst_einkommensgrenzen:
   name:
-    de: Einkommensgrenzen für Steuerklasse 5 und 6
-    en: Thresholds for Steuerklasse 5 and 6
+    de: Einkommensgrenzen für lohnsteuer__steuerklasse 5 und 6
+    en: Thresholds for lohnsteuer__steuerklasse 5 and 6
   description:
     de: >-
-      Einkommensgrenzen für Steuerklasse 5 und 6, innerhalb derer
+      Einkommensgrenzen für lohnsteuer__steuerklasse 5 und 6, innerhalb derer
       Mindest- und Maximalsteuern festgelegt sind.
     en: >-
-      Thresholds for Steuerklasse 5 and 6, where
+      Thresholds for lohnsteuer__steuerklasse 5 and 6, where
       minimum and maximum tax rates apply.
   reference: § 39b Absatz 2 Satz 7 EStG
   unit: Euros

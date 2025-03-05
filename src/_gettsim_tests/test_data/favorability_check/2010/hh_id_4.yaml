@@ -4,27 +4,27 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 4
       - 4
       - 4
       - 4
-    p_id:
+    demographics__p_id:
       - 5
       - 6
       - 7
       - 8
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - false
       - false
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - 6
       - 5
       - -1
       - -1
-    kind:
+    demographics__kind:
       - false
       - false
       - true

@@ -448,23 +448,25 @@ def test_transfers__grundrente__rente__grundrente__durchschnittliche_entgeltpunk
 
     # Test original gettsim function on scalar input
     # ==================================================================================
-    grundr_entgeltp = 1.0
-    grundr_bew_zeiten = 2
+    rente__grundrente__entgeltpunkte = 1.0
+    rente__grundrente__bewertungszeiten_m = 2
 
     exp = rente__grundrente__durchschnittliche_entgeltpunkte(
-        grundr_entgeltp, grundr_bew_zeiten
+        rente__grundrente__entgeltpunkte, rente__grundrente__bewertungszeiten_m
     )
     assert exp == 0.5
 
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
     shape = (10, 2)
-    grundr_entgeltp = full(shape, grundr_entgeltp)
-    grundr_bew_zeiten = full(shape, grundr_bew_zeiten)
+    rente__grundrente__entgeltpunkte = full(shape, rente__grundrente__entgeltpunkte)
+    rente__grundrente__bewertungszeiten_m = full(
+        shape, rente__grundrente__bewertungszeiten_m
+    )
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         rente__grundrente__durchschnittliche_entgeltpunkte(
-            grundr_entgeltp, grundr_bew_zeiten
+            rente__grundrente__entgeltpunkte, rente__grundrente__bewertungszeiten_m
         )
 
     # Call converted function on array input and test result
@@ -472,7 +474,9 @@ def test_transfers__grundrente__rente__grundrente__durchschnittliche_entgeltpunk
     converted = make_vectorizable(
         rente__grundrente__durchschnittliche_entgeltpunkte, backend=backend
     )
-    got = converted(grundr_entgeltp, grundr_bew_zeiten)
+    got = converted(
+        rente__grundrente__entgeltpunkte, rente__grundrente__bewertungszeiten_m
+    )
     assert_array_equal(got, full(shape, exp))
 
 
@@ -482,8 +486,8 @@ def test_transfers__elterngeld__grundsätzlich_anspruchsberechtigt(backend):
 
     # Test original gettsim function on scalar input
     # ==================================================================================
-    elterngeld_claimed = True
-    arbeitsstunden_w = 20.0
+    elterngeld__claimed = True
+    demographics__arbeitsstunden_w = 20.0
     elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg = True
     elterngeld__einkommen_vorjahr_unter_bezugsgrenze = True
     elterngeld__bezugsmonate_unter_grenze_fg = True
@@ -492,8 +496,8 @@ def test_transfers__elterngeld__grundsätzlich_anspruchsberechtigt(backend):
     }
 
     exp = elterngeld__grundsätzlich_anspruchsberechtigt(
-        elterngeld_claimed=elterngeld_claimed,
-        arbeitsstunden_w=arbeitsstunden_w,
+        elterngeld__claimed=elterngeld__claimed,
+        demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
         elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg=elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg,
         elterngeld__einkommen_vorjahr_unter_bezugsgrenze=elterngeld__einkommen_vorjahr_unter_bezugsgrenze,
         elterngeld__bezugsmonate_unter_grenze_fg=elterngeld__bezugsmonate_unter_grenze_fg,
@@ -505,12 +509,12 @@ def test_transfers__elterngeld__grundsätzlich_anspruchsberechtigt(backend):
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
     shape = (10, 1)
-    arbeitsstunden_w = full(shape, arbeitsstunden_w)
+    demographics__arbeitsstunden_w = full(shape, demographics__arbeitsstunden_w)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         exp = elterngeld__grundsätzlich_anspruchsberechtigt(
-            arbeitsstunden_w=arbeitsstunden_w,
-            elterngeld_claimed=elterngeld_claimed,
+            demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
+            elterngeld__claimed=elterngeld__claimed,
             elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg=elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg,
             elterngeld__einkommen_vorjahr_unter_bezugsgrenze=elterngeld__einkommen_vorjahr_unter_bezugsgrenze,
             elterngeld__bezugsmonate_unter_grenze_fg=elterngeld__bezugsmonate_unter_grenze_fg,
@@ -523,8 +527,8 @@ def test_transfers__elterngeld__grundsätzlich_anspruchsberechtigt(backend):
         elterngeld__grundsätzlich_anspruchsberechtigt, backend=backend
     )
     got = converted(
-        elterngeld_claimed=elterngeld_claimed,
-        arbeitsstunden_w=arbeitsstunden_w,
+        elterngeld__claimed=elterngeld__claimed,
+        demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
         elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg=elterngeld__kind_grundsätzlich_anspruchsberechtigt_fg,
         elterngeld__einkommen_vorjahr_unter_bezugsgrenze=elterngeld__einkommen_vorjahr_unter_bezugsgrenze,
         elterngeld__bezugsmonate_unter_grenze_fg=elterngeld__bezugsmonate_unter_grenze_fg,

@@ -44,37 +44,37 @@ def test_grundrente(
 INPUT_COLS_INCOME = [
     "p_id",
     "hh_id",
-    "alter",
-    "priv_rente_m",
-    "entgeltp_west",
-    "entgeltp_ost",
-    "geburtsjahr",
-    "geburtsmonat",
-    "rentner",
-    "jahr_renteneintr",
-    "monat_renteneintr",
-    "wohnort_ost",
-    "bruttolohn_m",
-    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
-    "weiblich",
-    "y_pflichtbeitr_ab_40",
-    "pflichtbeitr_8_in_10",
-    "arbeitsl_1y_past_585",
-    "vertra_arbeitsl_2006",
-    "vertra_arbeitsl_1997",
-    "m_pflichtbeitrag",
-    "m_freiw_beitrag",
-    "m_ersatzzeit",
-    "m_schul_ausbild",
-    "m_kind_berücks_zeit",
-    "m_pfleg_berücks_zeit",
-    "m_arbeitsunfähig",
-    "m_krank_ab_16_bis_24",
-    "m_mutterschutz",
-    "m_arbeitsl",
-    "m_ausbild_suche",
-    "m_alg1_übergang",
-    "m_geringf_beschäft",
+    "demographics__alter",
+    "rente__private_rente_m",
+    "rente__altersrente__entgeltpunkte_west",
+    "rente__altersrente__entgeltpunkte_ost",
+    "demographics__geburtsjahr",
+    "demographics__geburtsmonat",
+    "rente__altersrente__rentner",
+    "rente__jahr_renteneintritt",
+    "rente__monat_renteneintritt",
+    "demographics__wohnort_ost",
+    "einkommen__bruttolohn_m",
+    "rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
+    "demographics__weiblich",
+    "rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40",
+    "rente__altersrente__für_frauen__pflichtbeitrag_8_in_10",
+    "rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585",
+    "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006",
+    "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",
+    "rente__altersrente__pflichtbeitragszeiten_m",
+    "rente__altersrente__freiwillige_beitragszeiten_m",
+    "rente__altersrente__ersatzzeiten_m",
+    "rente__altersrente__schulausbildung_m",
+    "rente__altersrente__kinderberücksichtigungszeiten_m",
+    "rente__altersrente__pflegeberücksichtigungszeiten_m",
+    "rente__altersrente__arbeitsunfähigkeitszeiten_m",
+    "rente__altersrente__krankheitszeiten_ab_16_bis_24_m",
+    "rente__altersrente__mutterschutzzeiten_m",
+    "rente__altersrente__arbeitslosigkeitszeiten_m",
+    "rente__altersrente__ausbildungssuche_m",
+    "rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m",
+    "rente__altersrente__zeiten_geringfügiger_beschäftigung_m",
 ]
 
 data_proxy = load_policy_test_data("grundrente_proxy_rente")
@@ -125,7 +125,7 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
 
     # Calculate pension of last year
     environment = cached_set_up_policy_environment(date - timedelta(days=365))
-    df["alter"] -= 1
+    df["demographics__alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         environment=environment,
@@ -133,7 +133,8 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     )
     assert_series_equal(
         calc_result["rente__grundrente__proxy_rente_vorjahr_m"],
-        calc_result_last_year["rente__altersrente__bruttorente_m"] + df["priv_rente_m"],
+        calc_result_last_year["rente__altersrente__bruttorente_m"]
+        + df["rente__private_rente_m"],
         check_names=False,
         rtol=0,
     )

@@ -4,19 +4,19 @@ info:
   source: https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 1
-    hh_id:
+    demographics__hh_id:
       - 11
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 3000.0
-    kind:
+    demographics__kind:
       - false
-    priv_rentenv_beitr_m:
+    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
       - 150.0
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
       - 294.0

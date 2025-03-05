@@ -5,7 +5,7 @@ info:
 inputs:
   provided: {}
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -22,7 +22,7 @@ inputs:
       - 13
       - 14
       - 15
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -39,7 +39,7 @@ inputs:
       - 13
       - 14
       - 15
-    weiblich:
+    demographics__weiblich:
       - false
       - false
       - false
@@ -56,7 +56,7 @@ inputs:
       - true
       - true
       - false
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1951
       - 1951
       - 1951
@@ -73,7 +73,7 @@ inputs:
       - 1952
       - 1952
       - 1952
-    m_pflichtbeitrag:
+    rente__altersrente__pflichtbeitragszeiten_m:
       - 0.0
       - 60.0
       - 0.0
@@ -90,7 +90,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_freiw_beitrag:
+    rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
       - 0.0
       - 60.0
@@ -107,7 +107,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_ersatzzeit:
+    rente__altersrente__ersatzzeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -141,7 +141,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_kind_berücks_zeit:
+    rente__altersrente__kinderberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -158,7 +158,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_pfleg_berücks_zeit:
+    rente__altersrente__pflegeberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -175,7 +175,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    y_pflichtbeitr_ab_40:
+    rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 0.0
       - 0.0
       - 0.0
@@ -192,7 +192,7 @@ inputs:
       - 10.01
       - 10.01
       - 10.01
-    arbeitsl_1y_past_585:
+    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
       - true
       - false
       - true
@@ -209,7 +209,7 @@ inputs:
       - true
       - true
       - true
-    pflichtbeitr_8_in_10:
+    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10:
       - false
       - true
       - false

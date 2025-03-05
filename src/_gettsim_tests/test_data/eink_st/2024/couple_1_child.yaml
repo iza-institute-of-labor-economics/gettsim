@@ -4,27 +4,27 @@ info:
   source: https://www.smart-rechner.de/einkommensteuer/rechner.php
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 5
       - 6
       - 7
-    hh_id:
+    demographics__hh_id:
       - 4
       - 4
       - 4
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - 6
       - 5
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - 5
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - 6
-    kind:
+    demographics__kind:
       - false
       - false
       - true
@@ -44,7 +44,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - false

@@ -102,8 +102,8 @@ def beitragssatz_mit_kinder_abschlag(
 
 @policy_function(start_date="2005-01-01")
 def zusatzbetrag_kinderlos(
-    ges_pflegev_hat_kinder: bool,
-    alter: int,
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder: bool,
+    demographics__alter: int,
     sozialv_beitr_params: dict,
 ) -> bool:
     """Whether additional care insurance contribution for childless individuals applies.
@@ -113,10 +113,10 @@ def zusatzbetrag_kinderlos(
 
     Parameters
     ----------
-    ges_pflegev_hat_kinder
-        See basic input variable :ref:`ges_pflegev_hat_kinder <ges_pflegev_hat_kinder>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder
+        See basic input variable :ref:`sozialversicherungsbeitraege__pflegeversicherung__hat_kinder <sozialversicherungsbeitraege__pflegeversicherung__hat_kinder>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
     sozialv_beitr_params: dict,
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -125,7 +125,9 @@ def zusatzbetrag_kinderlos(
 
     """
     mindestalter = sozialv_beitr_params["ges_pflegev_zusatz_kinderlos_mindestalter"]
-    return (not ges_pflegev_hat_kinder) and alter >= mindestalter
+    return (
+        not sozialversicherungsbeitraege__pflegeversicherung__hat_kinder
+    ) and demographics__alter >= mindestalter
 
 
 @policy_function

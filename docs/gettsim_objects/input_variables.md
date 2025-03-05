@@ -6,202 +6,202 @@ The table below gives an overview of all variables needed to run GETTSIM complet
 Note that the variables with \_hh at the end, have to be constant over the whole
 household.
 
-(hh_id)=
+(demographics__hh_id)=
 
-## `hh_id`
+## `demographics__hh_id`
 
 Household identifier following §5 WoGG
 
 Type: int
 
-(kind)=
+(demographics__kind)=
 
-## `kind`
+## `demographics__kind`
 
 Dependent child living with parents
 
 Type: bool
 
-(bruttolohn_m)=
+(einkommen__bruttolohn_m)=
 
-## `bruttolohn_m`
+## `einkommen__bruttolohn_m`
 
 Monthly wage
 
 Type: float
 
-(alter)=
+(demographics__alter)=
 
-## `alter`
+## `demographics__alter`
 
 Individual's age.
 
 Type: int
 
-(weiblich)=
+(demographics__weiblich)=
 
-## `weiblich`
+## `demographics__weiblich`
 
 Female
 
 Type: bool
 
-(rentner)=
+(rente__altersrente__rentner)=
 
-## `rentner`
+## `rente__altersrente__rentner`
 
 Pensioner employment status
 
 Type: bool
 
-(alleinerz)=
+(demographics__alleinerziehend)=
 
-## `alleinerz`
+## `demographics__alleinerziehend`
 
 Single parent
 
 Type: bool
 
-(gemeinsam_veranlagt)=
+(einkommensteuer__gemeinsam_veranlagt)=
 
-## `gemeinsam_veranlagt`
+## `einkommensteuer__gemeinsam_veranlagt`
 
 Taxes are filed jointly
 
 Type: bool
 
-(p_id_elternteil_1)=
+(demographics__p_id_elternteil_1)=
 
-## `p_id_elternteil_1`
+## `demographics__p_id_elternteil_1`
 
 Identifier of the first parent
 
 Type: int
 
-(p_id_elternteil_2)=
+(demographics__p_id_elternteil_2)=
 
-## `p_id_elternteil_2`
+## `demographics__p_id_elternteil_2`
 
 Identifier of the second parent
 
 Type: int
 
-(p_id_ehepartner)=
+(demograpics__p_id_ehepartner)=
 
-## `p_id_ehepartner`
+## `demograpics__p_id_ehepartner`
 
 Identifier of married partner
 
 Type: int
 
-(p_id_einstandspartner)=
+(demograpics__p_id_einstandspartner)=
 
-## `p_id_einstandspartner`
+## `demograpics__p_id_einstandspartner`
 
 Identifier of Einstandspartner
 
 Type: int
 
-(p_id_einstandspartner)=
+(demograpics__p_id_einstandspartner)=
 
-## `p_id_kindergeld_empf`
+## `kindergeld__p_id_empfänger`
 
 Identifier of person that claims Kindergeld for the particular child
 
 Type: int
 
-(wohnort_ost)=
+(demographics__wohnort_ost)=
 
-## `wohnort_ost`
+## `demographics__wohnort_ost`
 
 Living in former East Germany
 
 Type: bool
 
-(in_priv_krankenv)=
+(sozialversicherungsbeitraege__krankenversicherung__privat_versichert)=
 
-## `in_priv_krankenv`
+## `sozialversicherungsbeitraege__krankenversicherung__privat_versichert`
 
 In private health insurance
 
 Type: bool
 
-(priv_rentenv_beitr_m)=
+(einkommensteuer__einkommen__beitrag_private_rentenversicherung_m)=
 
-## `priv_rentenv_beitr_m`
+## `einkommensteuer__einkommen__beitrag_private_rentenversicherung_m`
 
 Monthly private pension contribution
 
 Type: float
 
-(in_ausbildung)=
+(kindergeld__in_ausbildung)=
 
-## `in_ausbildung`
+## `kindergeld__in_ausbildung`
 
 Employment status “in education”
 
 Type: bool
 
-(selbstständig)=
+(einkommen__ist_selbstständig)=
 
-## `selbstständig`
+## `einkommen__ist_selbstständig`
 
 Self-employed (main profession)
 
 Type: bool
 
-(ges_pflegev_hat_kinder)=
+(sozialversicherungsbeitraege__pflegeversicherung__hat_kinder)=
 
-## `ges_pflegev_hat_kinder`
+## `sozialversicherungsbeitraege__pflegeversicherung__hat_kinder`
 
 Has kids (incl. not in hh)
 
 Type: bool
 
-(betreuungskosten_m)=
+(einkommensteuer__freibetraege__betreuungskosten_m)=
 
-## `betreuungskosten_m`
+## `einkommensteuer__freibetraege__betreuungskosten_m`
 
 Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 
-(p_id_betreuungsk_träger)=
+(einkommensteuer__freibetraege__p_id_betreuungskosten_träger)=
 
-## `p_id_betreuungsk_träger`
+## `einkommensteuer__freibetraege__p_id_betreuungskosten_träger`
 
 Identifier of the person who paid childcare expenses.
 
 Type: float
 
-(sonstig_eink_m)=
+(einkommen__sonstige_m)=
 
-## `sonstig_eink_m`
+## `einkommen__sonstige_m`
 
 Additional income: includes private and public transfers that are not yet implemented in
 GETTSIM (e.g., BAföG, Kriegsopferfürsorge)
 
 Type: float
 
-(eink_selbst_m)=
+(einkommen__aus_selbstständigkeit_m)=
 
-## `eink_selbst_m`
+## `einkommen__aus_selbstständigkeit_m`
 
 Monthly income from self-employment
 
 Type: float
 
-(eink_vermietung_m)=
+(einkommen__aus_vermietung_m)=
 
-## `eink_vermietung_m`
+## `einkommen__aus_vermietung_m`
 
 Monthly rental income net of deductions
 
 Type: float
 
-(kapitaleink_brutto_m)=
+(einkommen__bruttokapitaleinkommen_m)=
 
-## `kapitaleink_brutto_m`
+## `einkommen__bruttokapitaleinkommen_m`
 
 Monthly capital income
 
@@ -223,41 +223,41 @@ Monthly heating expenses for household
 
 Type: float
 
-(wohnfläche_hh)=
+(wohnen__wohnfläche_hh)=
 
-## `wohnfläche_hh`
+## `wohnen__wohnfläche_hh`
 
 Size of household dwelling in square meters
 
 Type: float
 
-(bewohnt_eigentum_hh)=
+(wohnen__bewohnt_eigentum_hh)=
 
-## `bewohnt_eigentum_hh`
+## `wohnen__bewohnt_eigentum_hh`
 
 Owner-occupied housing
 
 Type: bool
 
-(arbeitsstunden_w)=
+(demographics__arbeitsstunden_w)=
 
-## `arbeitsstunden_w`
+## `demographics__arbeitsstunden_w`
 
 Weekly working hours of individual
 
 Type: float
 
-(elterngeld_claimed)=
+(elterngeld__claimed)=
 
-## `elterngeld_claimed`
+## `elterngeld__claimed`
 
 Individual claims Elterngeld
 
 Type: bool
 
-(elterngeld_nettoeinkommen_vorjahr_m)=
+(elterngeld__nettoeinkommen_vorjahr_m)=
 
-## `elterngeld_nettoeinkommen_vorjahr_m`
+## `elterngeld__nettoeinkommen_vorjahr_m`
 
 Approximation of the net wage in the 12 months before birth of youngest child (according
 to simplified calculation rules). You may let GETTSIM compute this variable via the
@@ -266,9 +266,9 @@ would typically be for the previous calendar year.
 
 Type: float
 
-(elterngeld_zu_verst_eink_vorjahr_y_sn)=
+(elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn)=
 
-## `elterngeld_zu_verst_eink_vorjahr_y_sn`
+## `elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn`
 
 Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
 compute this variable via the
@@ -277,382 +277,382 @@ target in a separate run, which would typically be for the previous calendar yea
 
 Type: float
 
-(bruttolohn_vorj_m)=
+(einkommen__bruttolohn_vorjahr_m)=
 
-## `bruttolohn_vorj_m`
+## `einkommen__bruttolohn_vorjahr_m`
 
 Gross wage in the previous year
 
 Type: float
 
-(geburtstag)=
+(demographics__geburtstag)=
 
-## `geburtstag`
+## `demographics__geburtstag`
 
 Day of birth (within month)
 
 Type: int
 
-(geburtsmonat)=
+(demographics__geburtsmonat)=
 
-## `geburtsmonat`
+## `demographics__geburtsmonat`
 
 Month of birth
 
 Type: int
 
-(geburtsjahr)=
+(demographics__geburtsjahr)=
 
-## `geburtsjahr`
+## `demographics__geburtsjahr`
 
 Year of birth
 
 Type: int
 
-(jahr_renteneintr)=
+(rente__jahr_renteneintritt)=
 
-## `jahr_renteneintr`
+## `rente__jahr_renteneintritt`
 
 Year of retirement
 
 Type: int
 
-(monat_renteneintr)=
+(rente__monat_renteneintritt)=
 
-## `monat_renteneintr`
+## `rente__monat_renteneintritt`
 
 Month of retirement
 
 Type: int
 
-(monate_elterngeldbezug)=
+(elterngeld__bisheriger_bezug_m)=
 
-## `monate_elterngeldbezug`
+## `elterngeld__bisheriger_bezug_m`
 
 Number of months the individual received Elterngeld for the current youngest child.
 
 Type: int
 
-(behinderungsgrad)=
+(demographics__behinderungsgrad)=
 
-## `behinderungsgrad`
+## `demographics__behinderungsgrad`
 
 Handicap degree (between 0 and 100)
 
 Type: int
 
-(schwerbeh_g)=
+(rente__altersrente__schwerbehindert_grad_g)=
 
-## `schwerbeh_g`
+## `rente__altersrente__schwerbehindert_grad_g`
 
 Severerly handicapped, with flag "G"
 
 Type: bool
 
-(mietstufe)=
+(wohngeld__mietstufe)=
 
-## `mietstufe`
+## `wohngeld__mietstufe`
 
 Level of rents in city (1: low, 3: average)
 
 Type: int
 
-(immobilie_baujahr_hh)=
+(wohngeld__baujahr_immobilie_hh)=
 
-## `immobilie_baujahr_hh`
+## `wohngeld__baujahr_immobilie_hh`
 
 Construction year of dwelling
 
 Type: int
 
-(vermögen_bedürft)=
+(demographics__vermögen)=
 
-## `vermögen_bedürft`
+## `demographics__vermögen`
 
 Assets for means testing on individual
 level.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
-(entgeltp_west)=
+(rente__altersrente__entgeltpunkte_west)=
 
-## `entgeltp_west`
+## `rente__altersrente__entgeltpunkte_west`
 
 Earnings points for pension claim accumulated in western states
 
 Type: float
 
-(entgeltp_ost)=
+(rente__altersrente__entgeltpunkte_ost)=
 
-## `entgeltp_ost`
+## `rente__altersrente__entgeltpunkte_ost`
 
 Earnings points for pension claim accumulated in eastern states
 
 Type: float
 
-(grundr_zeiten)=
+(rente__grundrente__grundrentenzeiten_m)=
 
-## `grundr_zeiten`
+## `rente__grundrente__grundrentenzeiten_m`
 
 Number of months determining Grundrenteeligibility
 
 Type: int
 
-(grundr_bew_zeiten)=
+(rente__grundrente__bewertungszeiten_m)=
 
-## `grundr_bew_zeiten`
+## `rente__grundrente__bewertungszeiten_m`
 
 Number of months determining Grundrentepayments
 
 Type: int
 
-(grundr_entgeltp)=
+(rente__grundrente__entgeltpunkte)=
 
-## `grundr_entgeltp`
+## `rente__grundrente__entgeltpunkte`
 
-Average `entgeltp` during`grundr_bew_zeiten`
+Average `entgeltp` during`rente__grundrente__bewertungszeiten_m`
 
 Type: float
 
-(priv_rente_m)=
+(rente__private_rente_m)=
 
-## `priv_rente_m`
+## `rente__private_rente_m`
 
 Amount of monthly private pension
 
 Type: float
 
-(m_pflichtbeitrag)=
+(rente__altersrente__pflichtbeitragszeiten_m)=
 
-## `m_pflichtbeitrag`
+## `rente__altersrente__pflichtbeitragszeiten_m`
 
 Total months of mandatory pensioninsurance contributions
 
 Type: float
 
-(m_freiw_beitrag)=
+(rente__altersrente__freiwillige_beitragszeiten_m)=
 
-## `m_freiw_beitrag`
+## `rente__altersrente__freiwillige_beitragszeiten_m`
 
 Total months of voluntary pensioninsurance contributions
 
 Type: float
 
-(m_mutterschutz)=
+(rente__altersrente__mutterschutzzeiten_m)=
 
-## `m_mutterschutz`
+## `rente__altersrente__mutterschutzzeiten_m`
 
 Total months of maternal protections
 
 Type: float
 
-(m_arbeitsunfähig)=
+(rente__altersrente__arbeitsunfähigkeitszeiten_m)=
 
-## `m_arbeitsunfähig`
+## `rente__altersrente__arbeitsunfähigkeitszeiten_m`
 
 Total months of sickness, rehabilitation,measures for worklife participation(Teilhabe)
 
 Type: float
 
-(m_krank_ab_16_bis_24)=
+(rente__altersrente__krankheitszeiten_ab_16_bis_24_m)=
 
-## `m_krank_ab_16_bis_24`
+## `rente__altersrente__krankheitszeiten_ab_16_bis_24_m`
 
 Months of sickness between age 16 and 24
 
 Type: float
 
-(m_arbeitsl)=
+(rente__altersrente__arbeitslosigkeitszeiten_m)=
 
-## `m_arbeitsl`
+## `rente__altersrente__arbeitslosigkeitszeiten_m`
 
 Total months of unemployment (registered)
 
 Type: float
 
-(m_ausbild_suche)=
+(rente__altersrente__ausbildungssuche_m)=
 
-## `m_ausbild_suche`
+## `rente__altersrente__ausbildungssuche_m`
 
 Total months of apprenticeship search
 
 Type: float
 
-(m_schul_ausbild)=
+(rente__altersrente__schulausbildung_m)=
 
-## `m_schul_ausbild`
+## `rente__altersrente__schulausbildung_m`
 
 Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(m_alg1_übergang)=
+(rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m)=
 
-## `m_alg1_übergang`
+## `rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
 Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
 
 Type: float
 
-(m_geringf_beschäft)=
+(rente__altersrente__zeiten_geringfügiger_beschäftigung_m)=
 
-## `m_geringf_beschäft`
+## `rente__altersrente__zeiten_geringfügiger_beschäftigung_m`
 
 Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
-(m_ersatzzeit)=
+(rente__altersrente__ersatzzeiten_m)=
 
-## `m_ersatzzeit`
+## `rente__altersrente__ersatzzeiten_m`
 
 Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
-(m_kind_berücks_zeit)=
+(rente__altersrente__kinderberücksichtigungszeiten_m)=
 
-## `m_kind_berücks_zeit`
+## `rente__altersrente__kinderberücksichtigungszeiten_m`
 
 Total months of childcare till age 10
 
 Type: float
 
-(m_pfleg_berücks_zeit)=
+(rente__altersrente__pflegeberücksichtigungszeiten_m)=
 
-## `m_pfleg_berücks_zeit`
+## `rente__altersrente__pflegeberücksichtigungszeiten_m`
 
 Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
-(y_pflichtbeitr_ab_40)=
+(rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40)=
 
-## `y_pflichtbeitr_ab_40`
+## `rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40`
 
 Total years of mandatory contributions after age 40
 
 Type: float
 
-(pflichtbeitr_8_in_10)=
+(rente__altersrente__für_frauen__pflichtbeitrag_8_in_10)=
 
-## `pflichtbeitr_8_in_10`
+## `rente__altersrente__für_frauen__pflichtbeitrag_8_in_10`
 
 Has at least 8 contribution years in past 10 years
 
 Type: bool
 
-(arbeitsl_1y_past_585)=
+(rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585)=
 
-## `arbeitsl_1y_past_585`
+## `rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585`
 
 Has been unemployed at least 1 year after age 58.5
 
 Type: bool
 
-(vertra_arbeitsl_1997)=
+(rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997)=
 
-## `vertra_arbeitsl_1997`
+## `rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997`
 
 Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
 implemented in 1997 (§ 237 SGB VI Abs. 4).
 
 Type: bool
 
-(vertra_arbeitsl_2006)=
+(rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006)=
 
-## `vertra_arbeitsl_2006`
+## `rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006`
 
 Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
 implemented in 2006 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 
-(höchster_bruttolohn_letzte_15_jahre_vor_rente_y)=
+(rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y)=
 
-## `höchster_bruttolohn_letzte_15_jahre_vor_rente_y`
+## `rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y`
 
 Highest gross income from regular employment in the last 15 years before pension benefit
 claiming. Relevant to determine pension benefit deductions for retirees in early
 retirement.
 
-(bürgerg_bezug_vorj)=
+(arbeitslosengeld_2__in_vorjahr_bezogen)=
 
-## `bürgerg_bezug_vorj`
+## `arbeitslosengeld_2__in_vorjahr_bezogen`
 
 Received Bürgergeld in previous year
 
 Type: bool
 
-(anwartschaftszeit)=
+(arbeitslosengeld__anwartschaftszeit)=
 
-## `anwartschaftszeit`
+## `arbeitslosengeld__anwartschaftszeit`
 
 At least 12 months of unemployment contributions in the 30 months before claiming
 unemployment insurance
 
 Type: bool
 
-(arbeitssuchend)=
+(arbeitslosengeld__arbeitssuchend)=
 
-## `arbeitssuchend`
+## `arbeitslosengeld__arbeitssuchend`
 
 Looking for employment
 
 Type: bool
 
-(m_durchg_alg1_bezug)=
+(arbeitslosengeld__monate_durchgängiger_alg1_bezug)=
 
-## `m_durchg_alg1_bezug`
+## `arbeitslosengeld__monate_durchgängiger_alg1_bezug`
 
 Months the individual already uninterruptedly receives Arbeitslosengeld
 
 Type: float
 
-(sozialv_pflicht_5j)=
+(arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig)=
 
-## `sozialv_pflicht_5j`
+## `arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance
 
 Type: float
 
-## `kind_unterh_anspr_m`
+## `unterhalt__kind_anspruch_m`
 
 Monthly gross child alimony payments to be received as determined by the court on child
 level
 
 Type: float
 
-## `kind_unterh_erhalt_m`
+## `unterhalt__kind_betrag_m`
 
 Monthly actual child alimony payments received on child level
 
 Type: float
 
-(steuerklasse)=
+(lohnsteuer__steuerklasse)=
 
-## `steuerklasse`
+## `lohnsteuer__steuerklasse`
 
 Tax Bracket (1 to 5) for withholding tax
 
 Type: int
 
-## `budgetsatz_erzieh`
+## `erziehungsgeld__budgetsatz`
 
 Applied for "Budgetsatz" of parental leave benefit
 
 Type: bool
 
-## `voll_erwerbsgemind`
+## `rente__erwerbsminderung__voll_erwerbsgemindert`
 
 Unable to provide more than 3 hours of market labor per day.
 
 Type: bool
 
-## `teilw_erwerbsgemind`
+## `rente__erwerbsminderung__teilweise_erwerbsgemindert`
 
 Able to provide at least 3 but no more than 6 hours of market labor per day.
 

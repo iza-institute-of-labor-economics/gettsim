@@ -4,16 +4,16 @@ info:
   source: https://www.smart-rechner.de/einkommensteuer/rechner.php
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 3
       - 4
-    hh_id:
+    demographics__hh_id:
       - 3
       - 3
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - 4
       - 3
-    kind:
+    demographics__kind:
       - false
       - false
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
@@ -25,7 +25,7 @@ inputs:
     kapitaleink_brutto_y:
       - 0.0
       - 0.0
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
   assumed: {}

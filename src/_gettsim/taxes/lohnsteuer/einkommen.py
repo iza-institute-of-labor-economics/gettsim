@@ -5,8 +5,8 @@ from _gettsim.functions.policy_function import policy_function
 
 @policy_function(params_key_for_rounding="lohnst")
 def einkommen_y(
-    bruttolohn_y: float,
-    steuerklasse: int,
+    einkommen__bruttolohn_y: float,
+    lohnsteuer__steuerklasse: int,
     eink_st_abzuege_params: dict,
     vorsorgepauschale_y: float,
 ) -> float:
@@ -14,10 +14,10 @@ def einkommen_y(
 
     Parameters
     ----------
-    bruttolohn_y:
-      See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
-    steuerklasse:
-      See :func:`steuerklasse`
+    einkommen__bruttolohn_y:
+      See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
+    lohnsteuer__steuerklasse:
+      See :func:`lohnsteuer__steuerklasse`
     eink_st_abzuege_params:
       See :func:`eink_st_abzuege_params`
     vorsorgepauschale_y
@@ -27,23 +27,23 @@ def einkommen_y(
     -------
 
     """
-    entlastung_freibetrag_alleinerz = (steuerklasse == 2) * eink_st_abzuege_params[
-        "alleinerz_freibetrag"
-    ]
+    entlastung_freibetrag_alleinerz = (
+        lohnsteuer__steuerklasse == 2
+    ) * eink_st_abzuege_params["alleinerz_freibetrag"]
 
-    if steuerklasse == 6:
+    if lohnsteuer__steuerklasse == 6:
         werbungskosten = 0
     else:
         werbungskosten = eink_st_abzuege_params["werbungskostenpauschale"]
 
-    if steuerklasse == 6:
+    if lohnsteuer__steuerklasse == 6:
         sonderausgaben = 0
     else:
         sonderausgaben = eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
 
     # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
     out = max(
-        bruttolohn_y
+        einkommen__bruttolohn_y
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
@@ -147,7 +147,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 @policy_function
 def vorsorge_krankenv_option_a(
     sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,  # noqa: E501
-    steuerklasse: int,
+    lohnsteuer__steuerklasse: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """For health care deductions, there are two ways to calculate
@@ -159,8 +159,8 @@ def vorsorge_krankenv_option_a(
     ----------
     sozialversicherungsbeitraege__krankenversicherung__betrag_regulär_beschäftigt_m:
         See :func:`sozialversicherungsbeitraege__krankenversicherung__betrag_regulär_beschäftigt_m`
-    steuerklasse:
-        See basic input variable :ref:`steuerklasse <steuerklasse>`.
+    lohnsteuer__steuerklasse:
+        See basic input variable :ref:`lohnsteuer__steuerklasse <lohnsteuer__steuerklasse>`.
     eink_st_abzuege_params:
         See params documentation :ref:`eink_st_abzuege_params`
 
@@ -176,14 +176,14 @@ def vorsorge_krankenv_option_a(
         * sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y  # noqa: E501
     )
 
-    if steuerklasse == 3:
+    if lohnsteuer__steuerklasse == 3:
         vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
             "vorsorgepauschale_kv_max"
-        ]["steuerklasse_3"]
+        ]["lohnsteuer__steuerklasse_3"]
     else:
         vorsorge_krankenv_option_a_max = eink_st_abzuege_params[
             "vorsorgepauschale_kv_max"
-        ]["steuerklasse_nicht3"]
+        ]["lohnsteuer__steuerklasse_nicht3"]
 
     out = min(vorsorge_krankenv_option_a_max, vorsorge_krankenv_option_a_basis)
 
@@ -196,8 +196,8 @@ def vorsorge_krankenv_option_a(
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
-    bruttolohn_y: float,
-    wohnort_ost: bool,
+    einkommen__bruttolohn_y: float,
+    demographics__wohnort_ost: bool,
     sozialv_beitr_params: dict,
     vorsorge_krankenv_option_a: float,
     vorsorge_krankenv_option_b: float,
@@ -209,10 +209,10 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 
     Parameters
     ----------
-    bruttolohn_y:
-      See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
-    wohnort_ost:
-      See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    einkommen__bruttolohn_y:
+      See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
+    demographics__wohnort_ost:
+      See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
     vorsorge_krankenv_option_a:
@@ -230,14 +230,14 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
-    if wohnort_ost:
+    if demographics__wohnort_ost:
         bruttolohn_rente = min(
-            bruttolohn_y,
+            einkommen__bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
         )
     else:
         bruttolohn_rente = min(
-            bruttolohn_y,
+            einkommen__bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 

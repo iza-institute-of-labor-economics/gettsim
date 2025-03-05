@@ -5,9 +5,9 @@ from _gettsim.functions.policy_function import policy_function
 
 @policy_function
 def mindestwartezeit_erfüllt(
-    m_pflichtbeitrag: float,
-    m_freiw_beitrag: float,
-    m_ersatzzeit: float,
+    rente__altersrente__pflichtbeitragszeiten_m: float,
+    rente__altersrente__freiwillige_beitragszeiten_m: float,
+    rente__altersrente__ersatzzeiten_m: float,
     ges_rente_params: dict,
 ) -> bool:
     """Whether Allgemeine Wartezeit has been completed. Aggregates time
@@ -16,12 +16,12 @@ def mindestwartezeit_erfüllt(
 
     Parameters
     ----------
-    m_pflichtbeitrag
-        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
-    m_freiw_beitrag
-        See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-    m_ersatzzeit
-        See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    rente__altersrente__pflichtbeitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflichtbeitragszeiten_m <rente__altersrente__pflichtbeitragszeiten_m>`.
+    rente__altersrente__freiwillige_beitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__freiwillige_beitragszeiten_m <rente__altersrente__freiwillige_beitragszeiten_m>`.
+    rente__altersrente__ersatzzeiten_m
+        See basic input variable :ref:`rente__altersrente__ersatzzeiten_m <rente__altersrente__ersatzzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -30,7 +30,11 @@ def mindestwartezeit_erfüllt(
     Fulfilled Wartezeit von 5 Jahren.
 
     """
-    m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+    m_zeiten = (
+        rente__altersrente__pflichtbeitragszeiten_m
+        + rente__altersrente__freiwillige_beitragszeiten_m
+        + rente__altersrente__ersatzzeiten_m
+    ) / 12
 
     out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_5"]
 
@@ -39,9 +43,9 @@ def mindestwartezeit_erfüllt(
 
 @policy_function
 def wartezeit_15_jahre_erfüllt(
-    m_pflichtbeitrag: float,
-    m_freiw_beitrag: float,
-    m_ersatzzeit: float,
+    rente__altersrente__pflichtbeitragszeiten_m: float,
+    rente__altersrente__freiwillige_beitragszeiten_m: float,
+    rente__altersrente__ersatzzeiten_m: float,
     ges_rente_params: dict,
 ) -> bool:
     """Whether Wartezeit von 15 Jahren Wartezeit has been completed.
@@ -50,12 +54,12 @@ def wartezeit_15_jahre_erfüllt(
 
     Parameters
     ----------
-    m_pflichtbeitrag
-        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
-    m_freiw_beitrag
-        See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-    m_ersatzzeit
-        See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    rente__altersrente__pflichtbeitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflichtbeitragszeiten_m <rente__altersrente__pflichtbeitragszeiten_m>`.
+    rente__altersrente__freiwillige_beitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__freiwillige_beitragszeiten_m <rente__altersrente__freiwillige_beitragszeiten_m>`.
+    rente__altersrente__ersatzzeiten_m
+        See basic input variable :ref:`rente__altersrente__ersatzzeiten_m <rente__altersrente__ersatzzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -64,7 +68,11 @@ def wartezeit_15_jahre_erfüllt(
     Fulfilled Wartezeit von 15 Jahren
 
     """
-    m_zeiten = (m_pflichtbeitrag + m_freiw_beitrag + m_ersatzzeit) / 12
+    m_zeiten = (
+        rente__altersrente__pflichtbeitragszeiten_m
+        + rente__altersrente__freiwillige_beitragszeiten_m
+        + rente__altersrente__ersatzzeiten_m
+    ) / 12
 
     out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_15"]
 
@@ -73,12 +81,12 @@ def wartezeit_15_jahre_erfüllt(
 
 @policy_function
 def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
-    m_pflichtbeitrag: float,
-    m_freiw_beitrag: float,
+    rente__altersrente__pflichtbeitragszeiten_m: float,
+    rente__altersrente__freiwillige_beitragszeiten_m: float,
     anrechnungszeit: float,
-    m_ersatzzeit: float,
-    m_kind_berücks_zeit: float,
-    m_pfleg_berücks_zeit: float,
+    rente__altersrente__ersatzzeiten_m: float,
+    rente__altersrente__kinderberücksichtigungszeiten_m: float,
+    rente__altersrente__pflegeberücksichtigungszeiten_m: float,
     ges_rente_params: dict,
 ) -> bool:
     """Whether Wartezeit von 35 Jahren Wartezeit has been completed.
@@ -88,18 +96,18 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
 
     Parameters
     ----------
-    m_pflichtbeitrag
-        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
-    m_freiw_beitrag
-        See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
-    m_ersatzzeit
-        See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
+    rente__altersrente__pflichtbeitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflichtbeitragszeiten_m <rente__altersrente__pflichtbeitragszeiten_m>`.
+    rente__altersrente__freiwillige_beitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__freiwillige_beitragszeiten_m <rente__altersrente__freiwillige_beitragszeiten_m>`.
+    rente__altersrente__ersatzzeiten_m
+        See basic input variable :ref:`rente__altersrente__ersatzzeiten_m <rente__altersrente__ersatzzeiten_m>`.
     anrechnungszeit
         See :func:`anrechnungszeit`
-    m_kind_berücks_zeit
-        See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
-    m_pfleg_berücks_zeit
-        See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`
+    rente__altersrente__kinderberücksichtigungszeiten_m
+        See basic input variable :ref:`rente__altersrente__kinderberücksichtigungszeiten_m <rente__altersrente__kinderberücksichtigungszeiten_m>`.
+    rente__altersrente__pflegeberücksichtigungszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflegeberücksichtigungszeiten_m <rente__altersrente__pflegeberücksichtigungszeiten_m>`
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -109,12 +117,12 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
 
     """
     m_zeiten = (
-        m_pflichtbeitrag
-        + m_freiw_beitrag
+        rente__altersrente__pflichtbeitragszeiten_m
+        + rente__altersrente__freiwillige_beitragszeiten_m
         + anrechnungszeit
-        + m_ersatzzeit
-        + m_pfleg_berücks_zeit
-        + m_kind_berücks_zeit
+        + rente__altersrente__ersatzzeiten_m
+        + rente__altersrente__pflegeberücksichtigungszeiten_m
+        + rente__altersrente__kinderberücksichtigungszeiten_m
     ) / 12
     out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_35"]
 
@@ -123,12 +131,12 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
 
 @policy_function(start_date="2012-01-01")
 def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
-    m_pflichtbeitrag: float,
-    m_freiw_beitrag: float,
+    rente__altersrente__pflichtbeitragszeiten_m: float,
+    rente__altersrente__freiwillige_beitragszeiten_m: float,
     anrechnungszeit_45: float,
-    m_ersatzzeit: float,
-    m_kind_berücks_zeit: float,
-    m_pfleg_berücks_zeit: float,
+    rente__altersrente__ersatzzeiten_m: float,
+    rente__altersrente__kinderberücksichtigungszeiten_m: float,
+    rente__altersrente__pflegeberücksichtigungszeiten_m: float,
     ges_rente_params: dict,
 ) -> bool:
     """Whether Wartezeit von 45 Jahren Wartezeit has been completed.
@@ -136,23 +144,23 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     besonders langjährig Versicherte (pension for very long-term insured). Wartezeit von
     45 Jahren. Not all "rentenrechtliche Zeiten" are considered. Years with voluntary
     contributions are only considered if at least 18 years of mandatory contributions
-    (m_pflichtbeitrag). Not all anrechnungszeiten are considered, but only
+    (rente__altersrente__pflichtbeitragszeiten_m). Not all anrechnungszeiten are considered, but only
     specific ones (e.g. ALG I, Kurzarbeit but not ALG II).
 
     Parameters
     ----------
-    m_pflichtbeitrag
-        See basic input variable :ref:`m_pflichtbeitrag <m_pflichtbeitrag>`.
-    m_freiw_beitrag
-        See basic input variable :ref:`m_freiw_beitrag <m_freiw_beitrag>`.
+    rente__altersrente__pflichtbeitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflichtbeitragszeiten_m <rente__altersrente__pflichtbeitragszeiten_m>`.
+    rente__altersrente__freiwillige_beitragszeiten_m
+        See basic input variable :ref:`rente__altersrente__freiwillige_beitragszeiten_m <rente__altersrente__freiwillige_beitragszeiten_m>`.
     anrechnungszeit_45
         See :func:`anrechnungszeit_45`.
-    m_ersatzzeit
-        See basic input variable :ref:`m_ersatzzeit <m_ersatzzeit>`.
-    m_kind_berücks_zeit
-        See basic input variable :ref:`m_kind_berücks_zeit <m_kind_berücks_zeit>`.
-    m_pfleg_berücks_zeit
-        See basic input variable :ref:`m_pfleg_berücks_zeit <m_pfleg_berücks_zeit>`.
+    rente__altersrente__ersatzzeiten_m
+        See basic input variable :ref:`rente__altersrente__ersatzzeiten_m <rente__altersrente__ersatzzeiten_m>`.
+    rente__altersrente__kinderberücksichtigungszeiten_m
+        See basic input variable :ref:`rente__altersrente__kinderberücksichtigungszeiten_m <rente__altersrente__kinderberücksichtigungszeiten_m>`.
+    rente__altersrente__pflegeberücksichtigungszeiten_m
+        See basic input variable :ref:`rente__altersrente__pflegeberücksichtigungszeiten_m <rente__altersrente__pflegeberücksichtigungszeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -161,18 +169,21 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     Fulfilled Wartezeit von 45 Jahren
 
     """
-    if m_pflichtbeitrag >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]:
-        freiwilligbeitr = m_freiw_beitrag
+    if (
+        rente__altersrente__pflichtbeitragszeiten_m
+        >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]
+    ):
+        freiwilligbeitr = rente__altersrente__freiwillige_beitragszeiten_m
     else:
         freiwilligbeitr = 0
 
     m_zeiten = (
-        m_pflichtbeitrag
+        rente__altersrente__pflichtbeitragszeiten_m
         + freiwilligbeitr
         + anrechnungszeit_45
-        + m_ersatzzeit
-        + m_pfleg_berücks_zeit
-        + m_kind_berücks_zeit
+        + rente__altersrente__ersatzzeiten_m
+        + rente__altersrente__pflegeberücksichtigungszeiten_m
+        + rente__altersrente__kinderberücksichtigungszeiten_m
     ) / 12
     out = m_zeiten >= ges_rente_params["thresholds_wartezeiten"]["wartezeit_45"]
 
@@ -181,12 +192,12 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
 
 @policy_function
 def anrechnungszeit(  # noqa: PLR0913
-    m_arbeitsunfähig: float,
-    m_krank_ab_16_bis_24: float,
-    m_mutterschutz: float,
-    m_arbeitsl: float,
-    m_ausbild_suche: float,
-    m_schul_ausbild: float,
+    rente__altersrente__arbeitsunfähigkeitszeiten_m: float,
+    rente__altersrente__krankheitszeiten_ab_16_bis_24_m: float,
+    rente__altersrente__mutterschutzzeiten_m: float,
+    rente__altersrente__arbeitslosigkeitszeiten_m: float,
+    rente__altersrente__ausbildungssuche_m: float,
+    rente__altersrente__schulausbildung_m: float,
 ) -> float:
     """Adds up all times that are accounted for in "Anrechnungszeiten"
     relevant for "Wartezeit von 35 Jahren" i.e. for Altersrente für
@@ -197,39 +208,39 @@ def anrechnungszeit(  # noqa: PLR0913
 
     Parameters
     ----------
-    m_arbeitsunfähig
-        See basic input variable :ref:`m_arbeitsunfähig <m_arbeitsunfähig>`.
-    m_krank_ab_16_bis_24
-        See basic input variable :ref:`m_krank_ab_16_bis_24 <m_krank_ab_16_bis_24>`.
-    m_mutterschutz
-        See basic input variable :ref:`m_mutterschutz <m_mutterschutz>`.
-    m_arbeitsl
-        See basic input variable :ref:`m_arbeitsl <m_arbeitsl>`.
-    m_ausbild_suche
-        See basic input variable :ref:`m_ausbild_suche <m_ausbild_suche>`.
-    m_schul_ausbild
-        See basic input variable :ref:`m_schul_ausbild <m_schul_ausbild>`.
+    rente__altersrente__arbeitsunfähigkeitszeiten_m
+        See basic input variable :ref:`rente__altersrente__arbeitsunfähigkeitszeiten_m <rente__altersrente__arbeitsunfähigkeitszeiten_m>`.
+    rente__altersrente__krankheitszeiten_ab_16_bis_24_m
+        See basic input variable :ref:`rente__altersrente__krankheitszeiten_ab_16_bis_24_m <rente__altersrente__krankheitszeiten_ab_16_bis_24_m>`.
+    rente__altersrente__mutterschutzzeiten_m
+        See basic input variable :ref:`rente__altersrente__mutterschutzzeiten_m <rente__altersrente__mutterschutzzeiten_m>`.
+    rente__altersrente__arbeitslosigkeitszeiten_m
+        See basic input variable :ref:`rente__altersrente__arbeitslosigkeitszeiten_m <rente__altersrente__arbeitslosigkeitszeiten_m>`.
+    rente__altersrente__ausbildungssuche_m
+        See basic input variable :ref:`rente__altersrente__ausbildungssuche_m <rente__altersrente__ausbildungssuche_m>`.
+    rente__altersrente__schulausbildung_m
+        See basic input variable :ref:`rente__altersrente__schulausbildung_m <rente__altersrente__schulausbildung_m>`.
 
     Returns
     -------
     Anrechnungszeit in months
     """
     out = (
-        m_arbeitsunfähig
-        + m_krank_ab_16_bis_24
-        + m_mutterschutz
-        + m_arbeitsl
-        + m_ausbild_suche
-        + m_schul_ausbild
+        rente__altersrente__arbeitsunfähigkeitszeiten_m
+        + rente__altersrente__krankheitszeiten_ab_16_bis_24_m
+        + rente__altersrente__mutterschutzzeiten_m
+        + rente__altersrente__arbeitslosigkeitszeiten_m
+        + rente__altersrente__ausbildungssuche_m
+        + rente__altersrente__schulausbildung_m
     )
     return out
 
 
 @policy_function(start_date="2012-01-01")
 def anrechnungszeit_45(
-    m_arbeitsunfähig: float,
-    m_alg1_übergang: float,
-    m_geringf_beschäft: float,
+    rente__altersrente__arbeitsunfähigkeitszeiten_m: float,
+    rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m: float,
+    rente__altersrente__zeiten_geringfügiger_beschäftigung_m: float,
 ) -> float:
     """Adds up all times NOT included in Beitragszeiten, Berücksichtigungszeiten,
     Ersatzzeiten (a variant of Anrechnungszeiten) that are accounted for in "Wartezeit
@@ -241,17 +252,21 @@ def anrechnungszeit_45(
 
     Parameters
     ----------
-    m_arbeitsunfähig
-        See basic input variable :ref:`m_arbeitsunfähig <m_arbeitsunfähig>`.
-    m_alg1_übergang
-        See basic input variable :ref:`m_alg1_übergang <m_alg1_übergang>`.
-    m_geringf_beschäft
-        See basic input variable :ref:`m_geringf_beschäft <m_geringf_beschäft>`.
+    rente__altersrente__arbeitsunfähigkeitszeiten_m
+        See basic input variable :ref:`rente__altersrente__arbeitsunfähigkeitszeiten_m <rente__altersrente__arbeitsunfähigkeitszeiten_m>`.
+    rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m
+        See basic input variable :ref:`rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m <rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m>`.
+    rente__altersrente__zeiten_geringfügiger_beschäftigung_m
+        See basic input variable :ref:`rente__altersrente__zeiten_geringfügiger_beschäftigung_m <rente__altersrente__zeiten_geringfügiger_beschäftigung_m>`.
     Returns
     -------
     Anrechnungszeit in months.
 
     """
-    out = m_arbeitsunfähig + m_alg1_übergang + m_geringf_beschäft
+    out = (
+        rente__altersrente__arbeitsunfähigkeitszeiten_m
+        + rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m
+        + rente__altersrente__zeiten_geringfügiger_beschäftigung_m
+    )
 
     return out

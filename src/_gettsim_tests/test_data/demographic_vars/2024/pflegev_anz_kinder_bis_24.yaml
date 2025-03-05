@@ -7,27 +7,27 @@ info:
 inputs:
   provided: {}
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
       - 3
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
       - 0
       - 0
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - 0
       - 0
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - 1
       - -1
-    alter:
+    demographics__alter:
       - 50
       - 50
       - 24

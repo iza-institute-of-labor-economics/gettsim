@@ -4,32 +4,32 @@ info:
   source: ''
 inputs:
   assumed:
-    p_id_elternteil_1: -1
-    p_id_elternteil_2: -1
+    demographics__p_id_elternteil_1: -1
+    demographics__p_id_elternteil_2: -1
   provided:
-    alter:
+    demographics__alter:
       - 25
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 40.0
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 194.45416666666665
     sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
       - 0.0087
     sozialversicherungsbeitraege__pflegeversicherung__zusatzbetrag_kinderlos:
       - false
-    ges_pflegev_hat_kinder:
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
       - false
-    hh_id:
+    demographics__hh_id:
       - 867
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
-    p_id:
+    demographics__p_id:
       - 867
     einkommensgrenzen__regulär_beschäftigt:
       - true
-    steuerklasse:
+    lohnsteuer__steuerklasse:
       - 6
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
 outputs:
   lohnsteuer__betrag_m:

@@ -4,24 +4,24 @@ info:
   source: ''
 inputs:
   - id: 0
-    geburtstag: 1984-07-14
-    p_id_einstandspartner: 1
-    gemeinsam_veranlagt: false
-    hh_id: 0
+    demographics__geburtstag: 1984-07-14
+    demograpics__p_id_einstandspartner: 1
+    einkommensteuer__gemeinsam_veranlagt: false
+    demographics__hh_id: 0
   - id: 1
-    geburtstag: 1981-07-14
-    gemeinsam_veranlagt: false
-    hh_id: 0
+    demographics__geburtstag: 1981-07-14
+    einkommensteuer__gemeinsam_veranlagt: false
+    demographics__hh_id: 0
   - id: 2
-    geburtstag: 2010-03-01
-    p_id_einstandspartner: 0
-    hh_id: 0
+    demographics__geburtstag: 2010-03-01
+    demograpics__p_id_einstandspartner: 0
+    demographics__hh_id: 0
     id_eltern:
       - 0
       - 1
   - id: 3
-    geburtstag: 2013-10-21
-    hh_id: 0
+    demographics__geburtstag: 2013-10-21
+    demographics__hh_id: 0
     id_eltern:
       - 0
       - 1

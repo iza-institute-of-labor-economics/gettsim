@@ -86,7 +86,7 @@ def betrag_arbeitgeber_m_vor_midijob(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     einkommen_m: float,
     sozialv_beitr_params: dict,
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
 ) -> float:
     """Employer's public pension insurance contribution.
 
@@ -100,8 +100,8 @@ def betrag_arbeitgeber_m_vor_midijob(
         See :func:`einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
 
     Returns
     -------
@@ -112,7 +112,10 @@ def betrag_arbeitgeber_m_vor_midijob(
     )
 
     if einkommensgrenzen__geringfügig_beschäftigt:
-        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        out = (
+            einkommen__bruttolohn_m
+            * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        )
     else:
         out = ges_rentenv_beitr_regular_job_m
 
@@ -126,7 +129,7 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     einkommen_m: float,
     sozialv_beitr_params: dict,
     einkommensgrenzen__in_gleitzone: bool,
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
 ) -> float:
     """Employer's public pension insurance contribution.
 
@@ -144,8 +147,8 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     einkommensgrenzen__in_gleitzone
         See :func:`einkommensgrenzen__in_gleitzone`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
 
     Returns
     -------
@@ -156,7 +159,10 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     )
 
     if einkommensgrenzen__geringfügig_beschäftigt:
-        out = bruttolohn_m * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        out = (
+            einkommen__bruttolohn_m
+            * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
+        )
     elif einkommensgrenzen__in_gleitzone:
         out = betrag_midijob_arbeitgeber_m
     else:
@@ -167,14 +173,14 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
 
 @policy_function
 def einkommen_m(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Wage subject to pension and unemployment insurance contributions.
 
     Parameters
     ----------
-    bruttolohn_m
+    einkommen__bruttolohn_m
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
@@ -184,17 +190,19 @@ def einkommen_m(
     -------
 
     """
-    return min(bruttolohn_m, beitragsbemessungsgrenze_m)
+    return min(einkommen__bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
 @policy_function
-def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) -> float:
+def beitragsbemessungsgrenze_m(
+    demographics__wohnort_ost: bool, sozialv_beitr_params: dict
+) -> float:
     """Income threshold up to which pension insurance payments apply.
 
     Parameters
     ----------
-    wohnort_ost
-        See :func:`wohnort_ost`.
+    demographics__wohnort_ost
+        See :func:`demographics__wohnort_ost`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -203,7 +211,7 @@ def beitragsbemessungsgrenze_m(wohnort_ost: bool, sozialv_beitr_params: dict) ->
 
     """
     params = sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]
-    out = params["ost"] if wohnort_ost else params["west"]
+    out = params["ost"] if demographics__wohnort_ost else params["west"]
 
     return float(out)
 
@@ -239,15 +247,15 @@ def betrag_midijob_gesamt_m(
     name_in_dag="betrag_midijob_arbeitgeber_m",
 )
 def betrag_midijob_arbeitgeber_m_anteil_bruttolohn(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's unemployment insurance contribution until September 2022.
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -255,7 +263,7 @@ def betrag_midijob_arbeitgeber_m_anteil_bruttolohn(
     -------
 
     """
-    return bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
+    return einkommen__bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
 
 
 @policy_function(start_date="2022-10-01", name_in_dag="betrag_midijob_arbeitgeber_m")

@@ -4,27 +4,27 @@ info:
   source: Made up from the law
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
       - 3
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
       - 3
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1943
       - 1943
       - 1943
       - 1943
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
       - 1
-    weiblich:
+    demographics__weiblich:
       - false
       - false
       - false
@@ -44,7 +44,7 @@ inputs:
       - false
       - false
       - false
-    vertra_arbeitsl_1997:
+    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false
       - false
       - false

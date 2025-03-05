@@ -4,52 +4,52 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 4
       - 5
-    hh_id:
+    demographics__hh_id:
       - 2
       - 2
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    p_id_einstandspartner:
+    demograpics__p_id_einstandspartner:
       - -1
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
-    kind:
+    demographics__kind:
       - false
       - false
-    alter:
+    demographics__alter:
       - 40
       - 40
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 2000.0
       - 2000.0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - false
-    arbeitslosengeld_2__bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
-    arbeitslosengeld_2__heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 80.0
       - 80.0
-    alleinerz:
+    demographics__alleinerziehend:
       - false
       - false
     kindergeld__grundsätzlich_anspruchsberechtigt:
@@ -67,7 +67,7 @@ inputs:
     kindergeld__betrag_m_hh:
       - 0.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 0.0
     unterhaltsvorschuss__betrag_m:
@@ -76,13 +76,13 @@ inputs:
     jahr:
       - 2013
       - 2013
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1973
       - 1973
-    vermögen_bedürft:
+    demographics__vermögen:
       - 0.0
       - 0.0
-    bürgerg_bezug_vorj:
+    arbeitslosengeld_2__in_vorjahr_bezogen:
       - false
       - false
   assumed: {}

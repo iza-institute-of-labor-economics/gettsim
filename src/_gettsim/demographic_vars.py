@@ -39,8 +39,12 @@ def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dic
 aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
     {
         "anzahl_erwachsene": AggregateByGroupSpec(source_col="erwachsen", aggr="sum"),
-        "anzahl_rentner": AggregateByGroupSpec(source_col="rentner", aggr="sum"),
-        "anzahl_kinder": AggregateByGroupSpec(source_col="kind", aggr="sum"),
+        "anzahl_rentner": AggregateByGroupSpec(
+            source_col="rente__altersrente__rentner", aggr="sum"
+        ),
+        "anzahl_kinder": AggregateByGroupSpec(
+            source_col="demographics__kind", aggr="sum"
+        ),
         "anzahl_personen": AggregateByGroupSpec(aggr="count"),
         "anzahl_kinder_bis_2": AggregateByGroupSpec(
             source_col="kind_bis_2", aggr="sum"
@@ -57,7 +61,9 @@ aggregate_by_group_demographic_vars = _add_grouping_suffixes_to_keys(
         "anzahl_kinder_bis_17": AggregateByGroupSpec(
             source_col="kind_bis_17", aggr="sum"
         ),
-        "alleinerziehend": AggregateByGroupSpec(source_col="alleinerz", aggr="any"),
+        "alleinerziehend": AggregateByGroupSpec(
+            source_col="demographics__alleinerziehend", aggr="any"
+        ),
         "alter_monate_jüngstes_mitglied": AggregateByGroupSpec(
             source_col="alter_monate", aggr="min"
         ),
@@ -89,102 +95,102 @@ aggregation_specs = {
 
 
 @policy_function
-def kind_bis_2(alter: int, kind: bool) -> bool:
+def kind_bis_2(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 3.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = kind and (alter <= 2)
+    out = demographics__kind and (demographics__alter <= 2)
     return out
 
 
 @policy_function
-def kind_bis_5(alter: int, kind: bool) -> bool:
+def kind_bis_5(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 6.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = kind and (alter <= 5)
+    out = demographics__kind and (demographics__alter <= 5)
     return out
 
 
 @policy_function
-def kind_bis_6(alter: int, kind: bool) -> bool:
+def kind_bis_6(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 7.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = kind and (alter <= 6)
+    out = demographics__kind and (demographics__alter <= 6)
     return out
 
 
 @policy_function
-def kind_bis_15(alter: int, kind: bool) -> bool:
+def kind_bis_15(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 16.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = kind and (alter <= 15)
+    out = demographics__kind and (demographics__alter <= 15)
     return out
 
 
 @policy_function
-def kind_bis_17(alter: int, kind: bool) -> bool:
+def kind_bis_17(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if underage person.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = kind and (alter <= 17)
+    out = demographics__kind and (demographics__alter <= 17)
     return out
 
 
 @policy_function
-def kind_bis_24(alter: int) -> bool:
+def kind_bis_24(demographics__alter: int) -> bool:
     """Child below the age of 25.
 
     Relevant for the calculation of the long-term care insurance contribution. It does
@@ -192,31 +198,31 @@ def kind_bis_24(alter: int) -> bool:
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
 
     Returns
     -------
     """
-    return alter <= 24
+    return demographics__alter <= 24
 
 
 @policy_function
-def erwachsen(kind: bool) -> bool:
+def erwachsen(demographics__kind: bool) -> bool:
     """Calculate if adult.
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = not kind
+    out = not demographics__kind
     return out
 
 
@@ -242,25 +248,31 @@ def erwachsene_alle_rentner_hh(
 
 @policy_function
 def geburtsdatum(
-    geburtsjahr: int, geburtsmonat: int, geburtstag: int
+    demographics__geburtsjahr: int,
+    demographics__geburtsmonat: int,
+    demographics__geburtstag: int,
 ) -> numpy.datetime64:
     """Create date of birth datetime variable.
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-    geburtstag
-        See basic input variable :ref:`geburtstag <geburtstag>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__geburtsmonat
+        See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
+    demographics__geburtstag
+        See basic input variable :ref:`demographics__geburtstag <demographics__geburtstag>`.
 
     Returns
     -------
 
     """
     out = numpy.datetime64(
-        datetime.datetime(geburtsjahr, geburtsmonat, geburtstag)
+        datetime.datetime(
+            demographics__geburtsjahr,
+            demographics__geburtsmonat,
+            demographics__geburtstag,
+        )
     ).astype("datetime64[D]")
     return out
 
@@ -271,8 +283,8 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    demographics__hh_id
+        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
     geburtsdatum
         See :func:`geburtsdatum`.
     elterngeld_params
@@ -294,12 +306,12 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_fg: float,
-    kind: bool,
+    demographics__kind: bool,
 ) -> bool:
     """Check if person is the youngest child in the household or a twin, triplet, etc.
     of the youngest child.
 
-    # ToDo: replace kind by some age restriction
+    # ToDo: replace demographics__kind by some age restriction
     # ToDo: Check definition as relevant for Elterngeld. Currently, it is calculated as
     # ToDo: age not being larger than 0.1 of a month
 
@@ -309,21 +321,23 @@ def jüngstes_kind_oder_mehrling(
         See :func:`alter_monate`.
     alter_monate_jüngstes_mitglied_fg
         See :func:`alter_monate_jüngstes_mitglied_fg`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
 
     Returns
     -------
 
     """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_fg < 0.1) and kind
+    out = (
+        alter_monate - alter_monate_jüngstes_mitglied_fg < 0.1
+    ) and demographics__kind
     return out
 
 
 @policy_function
 def birthdate_decimal(
-    geburtsjahr: int,
-    geburtsmonat: int,
+    demographics__geburtsjahr: int,
+    demographics__geburtsmonat: int,
 ) -> float:
     """Combines birthyear and birth month to decimal number of
     birthdate with monthly precision, as required for pension
@@ -331,26 +345,26 @@ def birthdate_decimal(
 
     Parameters
     ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
+    demographics__geburtsjahr
+        See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
+    demographics__geburtsmonat
+        See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
 
     Returns
     -------
     Birthdate with monthly precision as float.
 
     """
-    out = geburtsjahr + (geburtsmonat - 1) / 12
+    out = demographics__geburtsjahr + (demographics__geburtsmonat - 1) / 12
 
     return out
 
 
 @policy_function(skip_vectorization=True)
 def elternteil_alleinerziehend(
-    p_id_kindergeld_empf: numpy.ndarray[int],
-    p_id: numpy.ndarray[int],
-    alleinerz: numpy.ndarray[bool],
+    kindergeld__p_id_empfänger: numpy.ndarray[int],
+    demographics__p_id: numpy.ndarray[int],
+    demographics__alleinerziehend: numpy.ndarray[bool],
 ) -> numpy.ndarray[bool]:
     """Check if parent that receives Unterhaltsvorschuss is a single parent.
 
@@ -358,31 +372,34 @@ def elternteil_alleinerziehend(
 
     Parameters
     ----------
-    p_id_kindergeld_empf
-        See basic input variable :ref:`p_id_kindergeld_empf`.
-    p_id
-        See basic input variable :ref:`p_id`.
-    alleinerz
-        See basic input variable :ref:`alleinerz`.
+    kindergeld__p_id_empfänger
+        See basic input variable :ref:`kindergeld__p_id_empfänger`.
+    demographics__p_id
+        See basic input variable :ref:`demographics__p_id`.
+    demographics__alleinerziehend
+        See basic input variable :ref:`demographics__alleinerziehend`.
 
     Returns
     -------
 
     """
     return join_numpy(
-        p_id_kindergeld_empf, p_id, alleinerz, value_if_foreign_key_is_missing=False
+        kindergeld__p_id_empfänger,
+        demographics__p_id,
+        demographics__alleinerziehend,
+        value_if_foreign_key_is_missing=False,
     )
 
 
 def ist_kind_mit_erwerbseinkommen(
-    bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
+    einkommen__bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
 ) -> bool:
     """Check if children are working.
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
 
@@ -390,5 +407,7 @@ def ist_kind_mit_erwerbseinkommen(
     -------
 
     """
-    out = (bruttolohn_m > 0) and kindergeld__grundsätzlich_anspruchsberechtigt
+    out = (
+        einkommen__bruttolohn_m > 0
+    ) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out

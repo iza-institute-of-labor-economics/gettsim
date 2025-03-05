@@ -4,8 +4,8 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function(end_date="2020-12-31")
-def betrag_m(bruttorente_m: float, rentner: bool) -> float:
-    return bruttorente_m if rentner else 0.0
+def betrag_m(bruttorente_m: float, rente__altersrente__rentner: bool) -> float:
+    return bruttorente_m if rente__altersrente__rentner else 0.0
 
 
 @policy_function(
@@ -16,7 +16,7 @@ def betrag_m(bruttorente_m: float, rentner: bool) -> float:
 def betrag_mit_grundrente_m(
     bruttorente_m: float,
     rente__grundrente__betrag_m: float,
-    rentner: bool,
+    rente__altersrente__rentner: bool,
 ) -> float:
     """Calculate total individual public pension including Grundrentenzuschlag.
 
@@ -26,25 +26,31 @@ def betrag_mit_grundrente_m(
         See :func:`bruttorente_m`.
     rente__grundrente__betrag_m
         See :func:`rente__grundrente__betrag_m`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
+    rente__altersrente__rentner
+        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
 
     Returns
     -------
 
     """
-    out = bruttorente_m + rente__grundrente__betrag_m if rentner else 0.0
+    out = (
+        bruttorente_m + rente__grundrente__betrag_m
+        if rente__altersrente__rentner
+        else 0.0
+    )
     return out
 
 
 @policy_function
-def sum_private_gesetzl_rente_m(priv_rente_m: float, betrag_m: float) -> float:
+def sum_private_gesetzl_rente_m(
+    rente__private_rente_m: float, betrag_m: float
+) -> float:
     """Calculate total individual pension as sum of private and public pension.
 
     Parameters
     ----------
-    priv_rente_m
-        See basic input variable :ref:`priv_rente_m <priv_rente_m>`.
+    rente__private_rente_m
+        See basic input variable :ref:`rente__private_rente_m <rente__private_rente_m>`.
     betrag_m
         See :func:`betrag_m`.
 
@@ -52,7 +58,7 @@ def sum_private_gesetzl_rente_m(priv_rente_m: float, betrag_m: float) -> float:
     -------
 
     """
-    out = priv_rente_m + betrag_m
+    out = rente__private_rente_m + betrag_m
     return out
 
 
@@ -62,9 +68,9 @@ def sum_private_gesetzl_rente_m(priv_rente_m: float, betrag_m: float) -> float:
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_mit_harter_hinzuverdienstgrenze_m(
-    alter: int,
+    demographics__alter: int,
     rente__altersrente__regelaltersrente__altersgrenze: float,
-    bruttolohn_y: float,
+    einkommen__bruttolohn_y: float,
     bruttorente_basisbetrag_m: float,
     ges_rente_params: dict,
 ) -> float:
@@ -74,12 +80,12 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
     rente__altersrente__regelaltersrente__altersgrenze
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
     ges_rente_params
@@ -91,8 +97,8 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     """
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
-    if (alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
-        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
+    if (demographics__alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
+        einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
     ):
         out = bruttorente_basisbetrag_m
     else:
@@ -108,9 +114,9 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_mit_hinzuverdienstdeckel_m(
-    alter: int,
+    demographics__alter: int,
     rente__altersrente__regelaltersrente__altersgrenze: float,
-    bruttolohn_y: float,
+    einkommen__bruttolohn_y: float,
     differenz_bruttolohn_hinzuverdienstdeckel_m: float,
     zahlbetrag_ohne_deckel_m: float,
 ) -> float:
@@ -121,12 +127,12 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
 
     Parameters
     ----------
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
     rente__altersrente__regelaltersrente__altersgrenze
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     differenz_bruttolohn_hinzuverdienstdeckel_m
         See :func:`differenz_bruttolohn_hinzuverdienstdeckel_m`.
     zahlbetrag_ohne_deckel_m
@@ -140,8 +146,8 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (
         differenz_bruttolohn_hinzuverdienstdeckel_m > 0
-        and alter <= rente__altersrente__regelaltersrente__altersgrenze
-        and bruttolohn_y > 0
+        and demographics__alter <= rente__altersrente__regelaltersrente__altersgrenze
+        and einkommen__bruttolohn_y > 0
     ):
         out = max(
             zahlbetrag_ohne_deckel_m - differenz_bruttolohn_hinzuverdienstdeckel_m,
@@ -158,8 +164,8 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     end_date="2022-12-31",
 )
 def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
-    bruttolohn_y: float,
-    alter: int,
+    einkommen__bruttolohn_y: float,
+    demographics__alter: int,
     rente__altersrente__regelaltersrente__altersgrenze: float,
     bruttorente_basisbetrag_m: float,
     differenz_bruttolohn_hinzuverdienstgrenze_m: float,
@@ -170,10 +176,10 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
-    alter
-        See basic input variable :ref:`alter <alter>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
+    demographics__alter
+        See basic input variable :ref:`demographics__alter <demographics__alter>`.
     rente__altersrente__regelaltersrente__altersgrenze
         See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
     bruttorente_basisbetrag_m
@@ -190,8 +196,8 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     # No deduction because of age or low earnings
-    if (alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
-        bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
+    if (demographics__alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
+        einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
     ):
         out = bruttorente_basisbetrag_m
     # Basis deduction of 40%
@@ -211,15 +217,15 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     end_date="2022-12-31",
 )
 def differenz_bruttolohn_hinzuverdienstgrenze_y(
-    bruttolohn_y: float,
+    einkommen__bruttolohn_y: float,
     ges_rente_params: dict,
 ) -> float:
     """Earnings that are subject to pension deductions.
 
     Parameters
     ----------
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -227,7 +233,7 @@ def differenz_bruttolohn_hinzuverdienstgrenze_y(
     -------
 
     """
-    return max(bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
+    return max(einkommen__bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
 
 
 @policy_function(
@@ -235,21 +241,21 @@ def differenz_bruttolohn_hinzuverdienstgrenze_y(
     end_date="2022-12-31",
 )
 def differenz_bruttolohn_hinzuverdienstdeckel_y(
-    bruttolohn_y: float,
+    einkommen__bruttolohn_y: float,
     zahlbetrag_ohne_deckel_y: float,
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
+    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
 ) -> float:
     """Income above the earnings cap (Hinzuverdienstdeckel).
 
     Parameters
     ----------
-    bruttolohn_y
-        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
+    einkommen__bruttolohn_y
+        See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     zahlbetrag_ohne_deckel_y
         See :func:`zahlbetrag_ohne_deckel_y`.
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_y
-        See basic input variable :ref:`höchster_bruttolohn_letzte_15_jahre_vor_rente_y
-        <höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
+    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        See basic input variable :ref:`rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        <rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
 
     Returns
     -------
@@ -257,8 +263,8 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
     """
     return max(
         zahlbetrag_ohne_deckel_y
-        + bruttolohn_y
-        - höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
+        + einkommen__bruttolohn_y
+        - rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
         0.0,
     )
 
@@ -288,9 +294,9 @@ def bruttorente_ohne_einkommensanrechnung_m(
 @policy_function(start_date="1992-01-01")
 def bruttorente_basisbetrag_m(
     zugangsfaktor: float,
-    entgeltp_ost: float,
-    entgeltp_west: float,
-    rentner: bool,
+    rente__altersrente__entgeltpunkte_ost: float,
+    rente__altersrente__entgeltpunkte_west: float,
+    rente__altersrente__rentner: bool,
     ges_rente_params: dict,
 ) -> float:
     """Old-Age Pensions claim. The function follows the following equation:
@@ -308,12 +314,12 @@ def bruttorente_basisbetrag_m(
     ----------
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    entgeltp_ost
-        See :func:`entgeltp_ost`.
-    entgeltp_west
-        See :func:`entgeltp_west`.
-    rentner
-        See basic input variable :ref:`rentner <rentner>`.
+    rente__altersrente__entgeltpunkte_ost
+        See :func:`rente__altersrente__entgeltpunkte_ost`.
+    rente__altersrente__entgeltpunkte_west
+        See :func:`rente__altersrente__entgeltpunkte_west`.
+    rente__altersrente__rentner
+        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -322,10 +328,12 @@ def bruttorente_basisbetrag_m(
 
     """
 
-    if rentner:
+    if rente__altersrente__rentner:
         out = (
-            entgeltp_west * ges_rente_params["rentenwert"]["west"]
-            + entgeltp_ost * ges_rente_params["rentenwert"]["ost"]
+            rente__altersrente__entgeltpunkte_west
+            * ges_rente_params["rentenwert"]["west"]
+            + rente__altersrente__entgeltpunkte_ost
+            * ges_rente_params["rentenwert"]["ost"]
         ) * zugangsfaktor
     else:
         out = 0.0
@@ -334,13 +342,13 @@ def bruttorente_basisbetrag_m(
 
 
 @policy_function
-def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
+def rentenwert(demographics__wohnort_ost: bool, ges_rente_params: dict) -> float:
     """Select the rentenwert depending on place of living.
 
     Parameters
     ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    demographics__wohnort_ost
+        See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -350,7 +358,7 @@ def rentenwert(wohnort_ost: bool, ges_rente_params: dict) -> float:
     """
     params = ges_rente_params["rentenwert"]
 
-    out = params["ost"] if wohnort_ost else params["west"]
+    out = params["ost"] if demographics__wohnort_ost else params["west"]
 
     return float(out)
 
@@ -469,7 +477,9 @@ def zugangsfaktor(  # noqa: PLR0913
 
 @policy_function
 def entgeltp_west_updated(
-    wohnort_ost: bool, entgeltp_west: float, entgeltp_update: float
+    demographics__wohnort_ost: bool,
+    rente__altersrente__entgeltpunkte_west: float,
+    entgeltp_update: float,
 ) -> float:
     """Update western earning points.
 
@@ -480,10 +490,10 @@ def entgeltp_west_updated(
 
     Parameters
     ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    entgeltp_west
-        See basic input variable :ref:`ententgeltp_westgeltp <entgeltp_west>`.
+    demographics__wohnort_ost
+        See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
+    rente__altersrente__entgeltpunkte_west
+        See basic input variable :ref:`ententgeltp_westgeltp <rente__altersrente__entgeltpunkte_west>`.
     entgeltp_update
         See :func:`entgeltp_update`.
 
@@ -491,16 +501,18 @@ def entgeltp_west_updated(
     -------
 
     """
-    if wohnort_ost:
-        out = entgeltp_west
+    if demographics__wohnort_ost:
+        out = rente__altersrente__entgeltpunkte_west
     else:
-        out = entgeltp_west + entgeltp_update
+        out = rente__altersrente__entgeltpunkte_west + entgeltp_update
     return out
 
 
 @policy_function
 def entgeltp_ost_updated(
-    wohnort_ost: bool, entgeltp_ost: float, entgeltp_update: float
+    demographics__wohnort_ost: bool,
+    rente__altersrente__entgeltpunkte_ost: float,
+    entgeltp_update: float,
 ) -> float:
     """Update eastern earning points.
 
@@ -511,10 +523,10 @@ def entgeltp_ost_updated(
 
     Parameters
     ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
-    entgeltp_ost
-        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>`.
+    demographics__wohnort_ost
+        See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
+    rente__altersrente__entgeltpunkte_ost
+        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>`.
     entgeltp_update
         See :func:`entgeltp_update`.
 
@@ -522,17 +534,17 @@ def entgeltp_ost_updated(
     -------
 
     """
-    if wohnort_ost:
-        out = entgeltp_ost + entgeltp_update
+    if demographics__wohnort_ost:
+        out = rente__altersrente__entgeltpunkte_ost + entgeltp_update
     else:
-        out = entgeltp_ost
+        out = rente__altersrente__entgeltpunkte_ost
     return out
 
 
 @policy_function
 def entgeltp_update(
-    bruttolohn_m: float,
-    wohnort_ost: bool,
+    einkommen__bruttolohn_m: float,
+    demographics__wohnort_ost: bool,
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
     ges_rente_params: dict,
 ) -> float:
@@ -540,10 +552,10 @@ def entgeltp_update(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    wohnort_ost
-        See :func:`wohnort_ost`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    demographics__wohnort_ost
+        See :func:`demographics__wohnort_ost`.
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m
         See :func:
         `sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m`.
@@ -555,12 +567,13 @@ def entgeltp_update(
     """
 
     # Scale bruttolohn up if earned in eastern Germany
-    if wohnort_ost:
+    if demographics__wohnort_ost:
         bruttolohn_scaled_east = (
-            bruttolohn_m * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
+            einkommen__bruttolohn_m
+            * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
         )
     else:
-        bruttolohn_scaled_east = bruttolohn_m
+        bruttolohn_scaled_east = einkommen__bruttolohn_m
 
     # Calculate the (scaled) wage, which is subject to pension contributions.
     if (
@@ -584,26 +597,33 @@ def entgeltp_update(
 
 @policy_function
 def anteil_entgeltp_ost(
-    entgeltp_west: float,
-    entgeltp_ost: float,
+    rente__altersrente__entgeltpunkte_west: float,
+    rente__altersrente__entgeltpunkte_ost: float,
 ) -> float:
     """Proportion of Entgeltpunkte accumulated in East Germany
 
     Parameters
     ----------
-    entgeltp_west
-        See basic input variable :ref:`entgeltp_west <entgeltp_west>
-    entgeltp_ost
-        See basic input variable :ref:`entgeltp_ost <entgeltp_ost>
+    rente__altersrente__entgeltpunkte_west
+        See basic input variable :ref:`rente__altersrente__entgeltpunkte_west <rente__altersrente__entgeltpunkte_west>
+    rente__altersrente__entgeltpunkte_ost
+        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>
 
     Returns
     -------
     Proportion of Entgeltpunkte accumulated in East Germany
 
     """
-    if entgeltp_west == entgeltp_ost == 0.0:
+    if (
+        rente__altersrente__entgeltpunkte_west
+        == rente__altersrente__entgeltpunkte_ost
+        == 0.0
+    ):
         out = 0.0
     else:
-        out = entgeltp_ost / (entgeltp_west + entgeltp_ost)
+        out = rente__altersrente__entgeltpunkte_ost / (
+            rente__altersrente__entgeltpunkte_west
+            + rente__altersrente__entgeltpunkte_ost
+        )
 
     return out

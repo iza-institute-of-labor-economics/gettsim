@@ -4,23 +4,23 @@ info:
   source: Made up from the law
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1959
       - 1959
       - 1959
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
-    weiblich:
+    demographics__weiblich:
       - false
       - false
       - false

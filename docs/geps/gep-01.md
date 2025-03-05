@@ -126,26 +126,27 @@ indicate the level of aggregation.
 
 GETTSIM knows about the following units:
 
-- `p_id`: person identifier
+- `demographics__p_id`: person identifier
 - `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
   (§5 WoGG).
-- `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
-  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This unit is
-  based on the priority check via `vorrangpruefungen__wohngeld_vorrang_bg` and
+- `wohngeld__wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for
+  whom the priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This
+  unit is based on the priority check via `vorrangpruefungen__wohngeld_vorrang_bg` and
   `vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg`.
-- `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
-  Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
-  Bedarfsgemeinschaft before making checks for whether children have enough income fend
-  for themselves. Subset of `hh`.
-- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding children who have
-  enough income to fend for themselves (they will form separate `bg`s). Subset of
-  `fg_id`.
-- `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
-  for each other. This includes couples that live together and may or may not be married
-  or in a civil union.
-- `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
-- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
-  Germany-wide Steuer-ID)
+- `demographics__fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant
+  unit for Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the
+  potential Bedarfsgemeinschaft before making checks for whether children have enough
+  income fend for themselves. Subset of `hh`.
+- `arbeitslosengeld_2__bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding
+  children who have enough income to fend for themselves (they will form separate
+  `bg`s). Subset of `demographics__fg_id`.
+- `arbeitslosengeld_2__eg_id`: Einstandsgemeinschaft, a couple whose members are deemed
+  to be responsible for each other. This includes couples that live together and may or
+  may not be married or in a civil union.
+- `demographics__ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil
+  union.
+- `einkommensteuer__sn_id`: Steuernummer (same for spouses filing taxes jointly, not the
+  same as the Germany-wide Steuer-ID)
 
 Note that households do not include flat shares etc.. Such broader definition are
 currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
@@ -153,8 +154,8 @@ for costs of dwelling in SGB II depend on this).
 
 Open questions:
 
-- Can we use bg_id for both SGB II and SGB XII at the same time or do we need to
-  differentiate once we add serious support for SGB XII?
+- Can we use arbeitslosengeld_2\_\_bg_id for both SGB II and SGB XII at the same time or
+  do we need to differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
 `arbeitslosengeld_2__betrag_m_bg`).

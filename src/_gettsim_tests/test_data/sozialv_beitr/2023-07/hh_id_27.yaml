@@ -8,27 +8,27 @@ info:
   source: https://www.smart-rechner.de/midijob/rechner.php
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 27
-    hh_id:
+    demographics__hh_id:
       - 27
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 1000.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    alter:
+    demographics__alter:
       - 50
-    selbstständig:
+    einkommen__ist_selbstständig:
       - false
-    ges_pflegev_hat_kinder:
+    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
       - false
     sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24:
       - 0
-    eink_selbst_m:
+    einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    in_priv_krankenv:
+    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
       - false
     jahr:
       - 2023-07

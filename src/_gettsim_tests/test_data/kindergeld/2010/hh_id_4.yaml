@@ -4,21 +4,21 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 4
-    p_id:
+    demographics__p_id:
       - 19
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
-    alter:
+    demographics__alter:
       - 21
-    kind:
+    demographics__kind:
       - false
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 10.0
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - true
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 700.0
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
       - 0.0

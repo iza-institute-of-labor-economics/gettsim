@@ -64,7 +64,7 @@ def anspruchshöhe_m(
 @policy_function
 def anspruchshöhe_m_bg(
     basisbetrag_m_bg: float,
-    vermögen_bedürft_bg: float,
+    demographics__vermögen_bg: float,
     vermögen_freibetrag_bg: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
@@ -73,8 +73,8 @@ def anspruchshöhe_m_bg(
     ----------
     basisbetrag_m_bg
         See :func:`basisbetrag_m_bg`.
-    vermögen_bedürft_bg
-        See basic input variable :ref:`vermögen_bedürft_bg <vermögen_bedürft_bg>`.
+    demographics__vermögen_bg
+        See basic input variable :ref:`demographics__vermögen_bg <demographics__vermögen_bg>`.
     vermögen_freibetrag_bg
         See :func:`vermögen_freibetrag_bg`.
 
@@ -83,9 +83,9 @@ def anspruchshöhe_m_bg(
 
     """
 
-    if vermögen_bedürft_bg > vermögen_freibetrag_bg:
+    if demographics__vermögen_bg > vermögen_freibetrag_bg:
         out = max(
-            basisbetrag_m_bg - (vermögen_bedürft_bg - vermögen_freibetrag_bg),
+            basisbetrag_m_bg - (demographics__vermögen_bg - vermögen_freibetrag_bg),
             0.0,
         )
     else:
@@ -209,8 +209,8 @@ def basisbetrag_m_bg(
 
     Parameters
     ----------
-    hh_id
-        See basic input variable :ref:`hh_id <hh_id>`.
+    demographics__hh_id
+        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
     bruttoeinkommen_eltern_m_bg
         See :func:`bruttoeinkommen_eltern_m_bg`.
     mindestbruttoeinkommen_m_bg
@@ -239,8 +239,8 @@ def basisbetrag_m_bg(
 @policy_function
 def basisbetrag_kind_m(  # noqa: PLR0913
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
-    bruttolohn_m: float,
-    kind_unterh_erhalt_m: float,
+    einkommen__bruttolohn_m: float,
+    unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     arbeitslosengeld_2__anrechnungsfreies_einkommen_m: float,
     kinderzuschl_params: dict,
@@ -253,10 +253,10 @@ def basisbetrag_kind_m(  # noqa: PLR0913
     ----------
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
-    kind_unterh_erhalt_m
-        See basic input variable :ref:`kind_unterh_erhalt_m <kind_unterh_erhalt_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    unterhalt__kind_betrag_m
+        See basic input variable :ref:`unterhalt__kind_betrag_m <unterhalt__kind_betrag_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     arbeitslosengeld_2__anrechnungsfreies_einkommen_m
@@ -272,8 +272,8 @@ def basisbetrag_kind_m(  # noqa: PLR0913
         kinderzuschl_params["maximum"]
         - kinderzuschl_params["entzugsrate_kind"]
         * (
-            bruttolohn_m
-            + kind_unterh_erhalt_m
+            einkommen__bruttolohn_m
+            + unterhalt__kind_betrag_m
             + unterhaltsvorschuss__betrag_m
             - arbeitslosengeld_2__anrechnungsfreies_einkommen_m
         )

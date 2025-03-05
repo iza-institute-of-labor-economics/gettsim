@@ -37,7 +37,7 @@ def synthetic_data_spec_variables():
         n_children=1,
         specs_constant_over_households={
             "basic_inputs__alter": [50, 30, 5],
-            "basic_inputs__bruttolohn_m": [1000, 2000, 0],
+            "basic_inputs__einkommen__bruttolohn_m": [1000, 2000, 0],
         },
     )
     return df
@@ -51,7 +51,7 @@ def synthetic_data_spec_heterogeneous_married():
         adults_married=True,
         specs_constant_over_households={"basic_inputs__alter": [50, 30, 5]},
         specs_heterogeneous={
-            "basic_inputs__bruttolohn_m": [
+            "basic_inputs__einkommen__bruttolohn_m": [
                 [i / 2, i / 2, 0] for i in range(0, 1001, 100)
             ]
         },
@@ -67,7 +67,7 @@ def synthetic_data_spec_heterogeneous_not_married():
         adults_married=False,
         specs_constant_over_households={"basic_inputs__alter": [50, 30, 5]},
         specs_heterogeneous={
-            "basic_inputs__bruttolohn_m": [
+            "basic_inputs__einkommen__bruttolohn_m": [
                 [i / 2, i / 2, 0] for i in range(0, 1001, 100)
             ]
         },
@@ -95,7 +95,7 @@ synthetic_data_fixtures = [
 )
 def test_positive_rent(df, request):
     df = request.getfixturevalue(df)
-    assert df["basic_inputs__arbeitslosengeld_2__bruttokaltmiete_m_hh"].min() > 0
+    assert df["basic_inputs__wohnen__bruttokaltmiete_m_hh"].min() > 0
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")
@@ -105,9 +105,7 @@ def test_positive_rent(df, request):
 )
 def test_no_nans(df, request):
     df = request.getfixturevalue(df)
-    assert (
-        df["basic_inputs__arbeitslosengeld_2__bruttokaltmiete_m_hh"].notna().all().all()
-    )
+    assert df["basic_inputs__wohnen__bruttokaltmiete_m_hh"].notna().all().all()
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")
@@ -117,7 +115,7 @@ def test_no_nans(df, request):
 )
 def test_unique_p_id(df, request):
     df = request.getfixturevalue(df)
-    assert df["groupings__p_id"].is_unique
+    assert df["p_id"].is_unique
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")
@@ -127,7 +125,7 @@ def test_unique_p_id(df, request):
 )
 def test_constant_hh_id(df, request):
     df = request.getfixturevalue(df)
-    assert (df["groupings__hh_id"].max() == df["groupings__hh_id"]).all()
+    assert (df["hh_id"].max() == df["hh_id"]).all()
 
 
 @pytest.mark.xfail(reason="Synthetic module was not updated to the new interface.")
@@ -152,8 +150,12 @@ def test_alleinerziehend(synthetic_data_alleinerziehend):
         pd.Series([True, False], name="basic_inputs__alleinerz"),
     )
     pd.testing.assert_series_equal(
-        synthetic_data_alleinerziehend["basic_inputs__gemeinsam_veranlagt"],
-        pd.Series([False, False], name="basic_inputs__gemeinsam_veranlagt"),
+        synthetic_data_alleinerziehend[
+            "basic_inputs__einkommensteuer__gemeinsam_veranlagt"
+        ],
+        pd.Series(
+            [False, False], name="basic_inputs__einkommensteuer__gemeinsam_veranlagt"
+        ),
     )
 
 
@@ -162,7 +164,7 @@ def test_alleinerziehend(synthetic_data_alleinerziehend):
     "col, expected",
     [
         ("basic_inputs__alter", [50, 30, 5]),
-        ("basic_inputs__bruttolohn_m", [1000, 2000, 0]),
+        ("basic_inputs__einkommen__bruttolohn_m", [1000, 2000, 0]),
     ],
 )
 def test_specs_constant_over_households(col, expected, synthetic_data_spec_variables):
@@ -177,10 +179,13 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
     [
         ("basic_inputs__alter", [50, 30, 5] * 11),
         (
-            "basic_inputs__bruttolohn_m",
+            "basic_inputs__einkommen__bruttolohn_m",
             numpy.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
         ),
-        ("basic_inputs__gemeinsam_veranlagt", [True, True, False] * 11),
+        (
+            "basic_inputs__einkommensteuer__gemeinsam_veranlagt",
+            [True, True, False] * 11,
+        ),
     ],
 )
 def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous_married):
@@ -197,14 +202,20 @@ def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous_ma
         (0, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
         (3, 2, None, None, pytest.raises(ValueError, match="'n_adults' must be")),
         (2, 11, None, None, pytest.raises(ValueError, match="'n_children' must be")),
-        (2, 0, {"alter": [30]}, None, pytest.raises(ValueError, match="Length of")),
+        (
+            2,
+            0,
+            {"demographics__alter": [30]},
+            None,
+            pytest.raises(ValueError, match="Length of"),
+        ),
         (
             2,
             0,
             None,
             {
                 "basic_inputs__alter": [[30, 20], [40, 30]],
-                "basic_inputs__bruttolohn_m": [[300, 200]],
+                "basic_inputs__einkommen__bruttolohn_m": [[300, 200]],
             },
             pytest.raises(ValueError, match="Length of"),
         ),
@@ -233,25 +244,25 @@ def test_fail_if_functions_and_columns_overlap(
         (
             "synthetic_data_spec_heterogeneous_not_married",
             {
-                "groupings__p_id": list(range(33)),
-                "groupings__p_id_elternteil_1": [
+                "p_id": list(range(33)),
+                "demographics__p_id_elternteil_1": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_elternteil_2": [
+                "demographics__p_id_elternteil_2": [
                     -1 if i % 3 != 2 else i - 1 for i in range(33)
                 ],
-                "groupings__p_id_kindergeld_empf": [
+                "kindergeld__p_id_empfänger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_erziehgeld_empf": [
+                "erziehungsgeld__p_id_empfänger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_ehepartner": [-1 for i in range(33)],
-                "groupings__p_id_einstandspartner": [
+                "demograpics__p_id_ehepartner": [-1 for i in range(33)],
+                "demograpics__p_id_einstandspartner": [
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
-                "groupings__p_id_betreuungsk_träger": [
+                "einkommensteuer__freibetraege__p_id_betreuungskosten_träger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
             },
@@ -259,28 +270,28 @@ def test_fail_if_functions_and_columns_overlap(
         (
             "synthetic_data_spec_heterogeneous_married",
             {
-                "groupings__p_id": list(range(33)),
-                "groupings__p_id_elternteil_1": [
+                "p_id": list(range(33)),
+                "demographics__p_id_elternteil_1": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_elternteil_2": [
+                "demographics__p_id_elternteil_2": [
                     -1 if i % 3 != 2 else i - 1 for i in range(33)
                 ],
-                "groupings__p_id_kindergeld_empf": [
+                "kindergeld__p_id_empfänger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_erziehgeld_empf": [
+                "erziehungsgeld__p_id_empfänger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
-                "groupings__p_id_ehepartner": [
+                "demograpics__p_id_ehepartner": [
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
-                "groupings__p_id_einstandspartner": [
+                "demograpics__p_id_einstandspartner": [
                     i + 1 if i % 3 == 0 else i - 1 if i % 3 == 1 else -1
                     for i in range(33)
                 ],
-                "groupings__p_id_betreuungsk_träger": [
+                "einkommensteuer__freibetraege__p_id_betreuungskosten_träger": [
                     -1 if i % 3 != 2 else i - 2 for i in range(33)
                 ],
             },
@@ -288,27 +299,33 @@ def test_fail_if_functions_and_columns_overlap(
         (
             "synthetic_data_alleinerziehend",
             {
-                "groupings__p_id": [0, 1],
-                "groupings__p_id_elternteil_1": [-1, 0],
-                "groupings__p_id_elternteil_2": [-1, -1],
-                "groupings__p_id_kindergeld_empf": [-1, 0],
-                "groupings__p_id_erziehgeld_empf": [-1, 0],
-                "groupings__p_id_ehepartner": [-1, -1],
-                "groupings__p_id_einstandspartner": [-1, -1],
-                "groupings__p_id_betreuungsk_träger": [-1, 0],
+                "p_id": [0, 1],
+                "demographics__p_id_elternteil_1": [-1, 0],
+                "demographics__p_id_elternteil_2": [-1, -1],
+                "kindergeld__p_id_empfänger": [-1, 0],
+                "erziehungsgeld__p_id_empfänger": [-1, 0],
+                "demograpics__p_id_ehepartner": [-1, -1],
+                "demograpics__p_id_einstandspartner": [-1, -1],
+                "einkommensteuer__freibetraege__p_id_betreuungskosten_träger": [
+                    -1,
+                    0,
+                ],
             },
         ),
         (
             "synthetic_data_no_children",
             {
-                "groupings__p_id": [0, 1],
-                "groupings__p_id_elternteil_1": [-1, -1],
-                "groupings__p_id_elternteil_2": [-1, -1],
-                "groupings__p_id_kindergeld_empf": [-1, -1],
-                "groupings__p_id_erziehgeld_empf": [-1, -1],
-                "groupings__p_id_ehepartner": [1, 0],
-                "groupings__p_id_einstandspartner": [1, 0],
-                "groupings__p_id_betreuungsk_träger": [-1, -1],
+                "p_id": [0, 1],
+                "demographics__p_id_elternteil_1": [-1, -1],
+                "demographics__p_id_elternteil_2": [-1, -1],
+                "kindergeld__p_id_empfänger": [-1, -1],
+                "erziehungsgeld__p_id_empfänger": [-1, -1],
+                "demograpics__p_id_ehepartner": [1, 0],
+                "demograpics__p_id_einstandspartner": [1, 0],
+                "einkommensteuer__freibetraege__p_id_betreuungskosten_träger": [
+                    -1,
+                    -1,
+                ],
             },
         ),
     ],

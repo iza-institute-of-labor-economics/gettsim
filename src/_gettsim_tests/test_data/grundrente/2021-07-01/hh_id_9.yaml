@@ -8,49 +8,49 @@ info:
     https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 9
-    hh_id:
+    demographics__hh_id:
       - 9
-    p_id_ehepartner:
+    demograpics__p_id_ehepartner:
       - -1
-    grundr_zeiten:
+    rente__grundrente__grundrentenzeiten_m:
       - 552
-    grundr_bew_zeiten:
+    rente__grundrente__bewertungszeiten_m:
       - 552
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
     rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
-    bruttolohn_vorj_m:
+    einkommen__bruttolohn_vorjahr_m:
       - 1380.0
-    eink_selbst_y:
+    einkommen__aus_selbstständigkeit_y:
       - 0.0
     eink_vermietung_y:
       - 0.0
     einkommensteuer__einkommen__kapitaleinkommen_y:
       - 0.0
-    alter:
+    demographics__alter:
       - 70
     alleinstehend:
       - true
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1951
-    bruttolohn_m:
+    einkommen__bruttolohn_m:
       - 0.0
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    entgeltp_west:
+    rente__altersrente__entgeltpunkte_west:
       - 34.5
-    entgeltp_ost:
+    rente__altersrente__entgeltpunkte_ost:
       - 0.0
     rente__altersrente__zugangsfaktor:
       - 1.0
-    rentner:
+    rente__altersrente__rentner:
       - true
-    grundr_entgeltp:
+    rente__grundrente__entgeltpunkte:
       - 34.5
-    kind:
+    demographics__kind:
       - false
   assumed: {}
 outputs:

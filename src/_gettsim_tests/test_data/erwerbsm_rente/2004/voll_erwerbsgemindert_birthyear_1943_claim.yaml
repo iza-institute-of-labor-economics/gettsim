@@ -14,9 +14,9 @@ inputs:
       - true
     rente__erwerbsminderung__rentenartfaktor:
       - 1.0
-    p_id:
+    demographics__p_id:
       - 6
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
 outputs:
   rente__erwerbsminderung__betrag_m:

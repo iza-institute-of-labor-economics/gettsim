@@ -4,28 +4,28 @@ info:
   source: https://www.berit-sander.de/2016/unterhaltsvorschuss-zum-01-01-2016/
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - 0
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 0
-    alter:
+    demographics__alter:
       - 45
       - 4
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
-    kind_unterh_erhalt_m:
+    unterhalt__kind_betrag_m:
       - 0.0
       - 0.0
   assumed: {}

@@ -4,7 +4,9 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function
-def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> bool:
+def geringfügig_beschäftigt(
+    einkommen__bruttolohn_m: float, minijob_grenze: float
+) -> bool:
     """Individual earns less than marginal employment threshold.
 
     Marginal employed pay no social insurance contributions.
@@ -13,8 +15,8 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
@@ -24,11 +26,13 @@ def geringfügig_beschäftigt(bruttolohn_m: float, minijob_grenze: float) -> boo
     Whether person earns less than marginal employment threshold.
 
     """
-    return bruttolohn_m <= minijob_grenze
+    return einkommen__bruttolohn_m <= minijob_grenze
 
 
 @policy_function(end_date="2003-03-31", name_in_dag="regulär_beschäftigt")
-def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float) -> bool:
+def regulär_beschäftigt_vor_midijob(
+    einkommen__bruttolohn_m: float, minijob_grenze: float
+) -> bool:
     """Regular employment check until March 2003.
 
     Employees earning more than the minijob threshold, are subject to all ordinary
@@ -37,8 +41,8 @@ def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -47,13 +51,13 @@ def regulär_beschäftigt_vor_midijob(bruttolohn_m: float, minijob_grenze: float
     Whether regular employed persons.
 
     """
-    out = bruttolohn_m >= minijob_grenze
+    out = einkommen__bruttolohn_m >= minijob_grenze
     return out
 
 
 @policy_function(start_date="2003-04-01", name_in_dag="regulär_beschäftigt")
 def regulär_beschäftigt_mit_midijob(
-    bruttolohn_m: float, sozialv_beitr_params: dict
+    einkommen__bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:
     """Regular employment check since April 2003.
 
@@ -63,8 +67,8 @@ def regulär_beschäftigt_mit_midijob(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -73,7 +77,10 @@ def regulär_beschäftigt_mit_midijob(
     Whether regular employed persons.
 
     """
-    out = bruttolohn_m >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    out = (
+        einkommen__bruttolohn_m
+        >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+    )
     return out
 
 
@@ -83,7 +90,7 @@ def regulär_beschäftigt_mit_midijob(
     params_key_for_rounding="sozialv_beitr",
 )
 def minijob_grenze_unterscheidung_ost_west(
-    wohnort_ost: bool, sozialv_beitr_params: dict
+    demographics__wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
     """Minijob income threshold depending on place of living (East or West Germany).
 
@@ -91,8 +98,8 @@ def minijob_grenze_unterscheidung_ost_west(
 
     Parameters
     ----------
-    wohnort_ost
-        See basic input variable :ref:`wohnort_ost <wohnort_ost>`.
+    demographics__wohnort_ost
+        See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     Returns
@@ -101,7 +108,7 @@ def minijob_grenze_unterscheidung_ost_west(
     """
     west = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["west"]
     ost = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["minijob"]["ost"]
-    out = ost if wohnort_ost else west
+    out = ost if demographics__wohnort_ost else west
     return float(out)
 
 
@@ -156,7 +163,7 @@ def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
 
 @policy_function
 def beitragspflichtige_einnahmen_arbeitnehmer_m(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
     minijob_grenze: float,
 ) -> float:
@@ -171,8 +178,8 @@ def beitragspflichtige_einnahmen_arbeitnehmer_m(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     minijob_grenze
@@ -187,7 +194,7 @@ def beitragspflichtige_einnahmen_arbeitnehmer_m(
     midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
-    einkommen_diff = bruttolohn_m - minijob_grenze
+    einkommen_diff = einkommen__bruttolohn_m - minijob_grenze
 
     out = quotient * einkommen_diff
 
@@ -390,7 +397,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     leaf_name="midijob_bemessungsentgelt_m",
 )
 def midijob_bemessungsentgelt_m_bis_09_2022(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     midijob_faktor_f: float,
     minijob_grenze: float,
     sozialv_beitr_params: dict,
@@ -406,8 +413,8 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     minijob_grenze
@@ -423,7 +430,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     """
     # Now use the factor to calculate the overall bemessungsentgelt
     minijob_anteil = midijob_faktor_f * minijob_grenze
-    lohn_über_mini = bruttolohn_m - minijob_grenze
+    lohn_über_mini = einkommen__bruttolohn_m - minijob_grenze
     gewichtete_midijob_rate = (
         sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
         / (
@@ -444,7 +451,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
 @policy_function(start_date="2022-10-01", leaf_name="midijob_bemessungsentgelt_m")
 def midijob_bemessungsentgelt_m_ab_10_2022(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     midijob_faktor_f: float,
     minijob_grenze: float,
     sozialv_beitr_params: dict,
@@ -462,8 +469,8 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     minijob_grenze
@@ -481,7 +488,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
     quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze)
     quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze)
-    einkommen_diff = bruttolohn_m - minijob_grenze
+    einkommen_diff = einkommen__bruttolohn_m - minijob_grenze
 
     faktor1 = midijob_faktor_f * minijob_grenze
     faktor2 = (quotient1 - quotient2 * midijob_faktor_f) * einkommen_diff
@@ -492,7 +499,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
 @policy_function(start_date="2003-04-01")
 def in_gleitzone(
-    bruttolohn_m: float,
+    einkommen__bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     sozialv_beitr_params: dict,
 ) -> bool:
@@ -505,8 +512,8 @@ def in_gleitzone(
 
     Parameters
     ----------
-    bruttolohn_m
-        See basic input variable :ref:`bruttolohn_m <bruttolohn_m>`.
+    einkommen__bruttolohn_m
+        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     sozialv_beitr_params
@@ -518,6 +525,7 @@ def in_gleitzone(
 
     """
     out = (
-        bruttolohn_m <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
+        einkommen__bruttolohn_m
+        <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     ) and (not geringfügig_beschäftigt)
     return out
