@@ -134,12 +134,13 @@ The proposed changes will affect all areas of GETTSIM
      as an argument to `betrag_m_bg` and it is clear that the namespace-local version is
      meant. In case this is needed within the `kinderzuschlag` namespace, we need a
      "qualified name", which uses the entire path where elements are separated by double
-     underscores. In this case, it would be `arbeitslosengeld_2__einkommen_m_bg`. _(Note
-     that the most readable separator would be a dot, but that does not work. In order
-     to use the identifier as a function argument, it must be a valid Python
+     underscores. In this case, it would be `arbeitslosengeld_2__einkommen_m_bg`.
+
+     _(Note that the most readable separator would be a dot, but that does not work. In
+     order to use the identifier as a function argument, it must be a valid Python
      identifier)_
 
-     For functions defined in GETTSIM itself, the function loader will work by creating
+   - For functions defined in GETTSIM itself, the function loader will work by creating
      namespaces at the directory level . E.g., the above examples for `kinderzuschlag`
      and `arbeitslosengeld_2` may be generated from the following package structure:
 
@@ -156,8 +157,12 @@ The proposed changes will affect all areas of GETTSIM
      ```
 
      where the innermost level are functions defined in the module. This balances the
-     size of the namespace (reasonably large to avoid having lots of qualified names)
-     with distributing code across multiple files.
+     size of the namespace (should be reasonably large to avoid having to use lots of
+     qualified names) with distributing code across multiple files (size of a file
+     should often be much smaller than a namespace). E.g., at the time of this writing,
+     there are about 1000 lines of code within the directory `transfers/arbeitsl_geld_2`
+     — most of these should live in one namespace. However, to keep an overview of the
+     code, they need to be distributed across multiple files.
 
    - Interacting with the policy environment in GETTSIM works with nested dictionaries.
      Paths are as defined above, leafs could be functions (for overriding / expanding
@@ -270,8 +275,7 @@ this GEP:
 - Issues:
   - [#781](https://github.com/iza-institute-of-labor-economics/gettsim/issues/781):
     Summary of interface discussion from 2024 GETTSIM workshop
-- Zulip:
-  - TBD
+- [Zulip](https://gettsim.zulipchat.com/#narrow/channel/309998-GEPs/topic/GEP.2006)
 
 ## Copyright
 
