@@ -34,12 +34,13 @@ in at least three directions:
 
 1. GETTSIM follows a law-to-code approach, but function names often become artificially
    long to ensure uniqueness, thereby hitting self-imposed character limits. For
-   example, `erziehungsgeld_eink_relev_kind_y` and `kinderzuschl_eink_relev_m_bg`
-   represent similar concepts in a very different legal context. Excessive concatenation
-   and abbreviations make these names difficult to understand and disconnect them from
-   the legal framework. In most cases, such complexity is unnecessary, as the module in
-   which a function resides already provides sufficient context—such as Arbeitslosengeld
-   2 and Elterngeld in the examples above.
+   example, `arbeitsl_geld_2_eink_m`, `erziehungsgeld_eink_relev_kind_y` and
+   `kinderzuschl_eink_relev_m_bg` represent similar concepts in very different legal
+   contexts. Excessive concatenation and abbreviations make these names difficult to
+   understand and disconnect them from the legal framework. In most cases, such
+   complexity is unnecessary, as the module in which a function resides already provides
+   sufficient context — in the examples above, those would be Arbeitslosengeld 2,
+   Erziehungsgeld, and Kinderzuschlag.
 1. Handling functions that change over the years is not robust (examples in
    [Issue 449](https://github.com/iza-institute-of-labor-economics/gettsim/issues/449)).
 1. Parameters files do not handle cases well when functions expect parameters in a
@@ -54,8 +55,8 @@ awkward as there is no obvious way for pre-processing them.
 The proposed changes will affect all areas of GETTSIM
 
 1. The DAG will account for the namespace of GETTSIM's policy functions, which allows
-   for non-unqiue function names across GETTSIM's modules. Namespaces will affect how
-   GETTSIM expects and returns input and output data.
+   for non-unique function names across GETTSIM's subdirectories. Namespaces will affect
+   how GETTSIM expects and returns input and output data.
 1. Building the DAG will depend on the date for which the user wants to perform
    calculations. Instead of a long list of if-statements in the `policy_functions`
    module, picking functions by year will be done in a more natural and more robust way.
@@ -192,7 +193,7 @@ The proposed changes will affect all areas of GETTSIM
    ```
 
    Adding a function that changes over time always means making changes in two
-   completely unrelated places, it is very easy to get this wrong.
+   completely unrelated places. It is very easy to get this wrong.
 
    A future implementation may look something like:
 
