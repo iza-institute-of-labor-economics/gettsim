@@ -311,7 +311,7 @@ def eltern_grundsätzlich_anspruchsberechtigt(
     -------
     eligibility of parental leave benefit (Erziehungsgeld) as a bool
 
-    """  # noqa: E501
+    """
     out = kind_grundsätzlich_anspruchsberechtigt_fg and (
         demographics__arbeitsstunden_w
         <= erziehungsgeld_params["arbeitsstunden_w_grenze"]
