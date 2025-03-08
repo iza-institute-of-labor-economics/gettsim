@@ -57,6 +57,8 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
 
     Parameters
     ----------
+    betrag_arbeitnehmer_regulär_beschäftigt_m
+        See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     betrag_rentner_m
@@ -65,8 +67,6 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
         See :func:`betrag_selbständig_m`.
     betrag_arbeitnehmer_m
         See :func:`betrag_arbeitnehmer_m`.
-    ges_pflegev_beitr_regulär_besch_m
-        See :func:`ges_pflegev_beitr_regulär_besch_m`.
     einkommensgrenzen__in_gleitzone
         See :func:`einkommensgrenzen__in_gleitzone`.
     einkommen__ist_selbstständig

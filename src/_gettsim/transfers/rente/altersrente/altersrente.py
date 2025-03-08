@@ -4,8 +4,8 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function(end_date="2020-12-31")
-def betrag_m(bruttorente_m: float, rente__altersrente__rentner: bool) -> float:
-    return bruttorente_m if rente__altersrente__rentner else 0.0
+def betrag_m(bruttorente_m: float, rentner: bool) -> float:
+    return bruttorente_m if rentner else 0.0
 
 
 @policy_function(
@@ -16,7 +16,7 @@ def betrag_m(bruttorente_m: float, rente__altersrente__rentner: bool) -> float:
 def betrag_mit_grundrente_m(
     bruttorente_m: float,
     rente__grundrente__betrag_m: float,
-    rente__altersrente__rentner: bool,
+    rentner: bool,
 ) -> float:
     """Calculate total individual public pension including Grundrentenzuschlag.
 
@@ -26,18 +26,14 @@ def betrag_mit_grundrente_m(
         See :func:`bruttorente_m`.
     rente__grundrente__betrag_m
         See :func:`rente__grundrente__betrag_m`.
-    rente__altersrente__rentner
-        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
 
     Returns
     -------
 
     """
-    out = (
-        bruttorente_m + rente__grundrente__betrag_m
-        if rente__altersrente__rentner
-        else 0.0
-    )
+    out = bruttorente_m + rente__grundrente__betrag_m if rentner else 0.0
     return out
 
 
@@ -243,7 +239,7 @@ def differenz_bruttolohn_hinzuverdienstgrenze_y(
 def differenz_bruttolohn_hinzuverdienstdeckel_y(
     einkommen__bruttolohn_y: float,
     zahlbetrag_ohne_deckel_y: float,
-    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
 ) -> float:
     """Income above the earnings cap (Hinzuverdienstdeckel).
 
@@ -253,9 +249,9 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
         See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     zahlbetrag_ohne_deckel_y
         See :func:`zahlbetrag_ohne_deckel_y`.
-    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y
-        See basic input variable :ref:`rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y
-        <rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
+    höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        See basic input variable :ref:`höchster_bruttolohn_letzte_15_jahre_vor_rente_y
+        <höchster_bruttolohn_letzte_15_jahre_vor_rente_y>`.
 
     Returns
     -------
@@ -264,7 +260,7 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
     return max(
         zahlbetrag_ohne_deckel_y
         + einkommen__bruttolohn_y
-        - rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
+        - höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
         0.0,
     )
 
@@ -294,9 +290,9 @@ def bruttorente_ohne_einkommensanrechnung_m(
 @policy_function(start_date="1992-01-01")
 def bruttorente_basisbetrag_m(
     zugangsfaktor: float,
-    rente__altersrente__entgeltpunkte_ost: float,
-    rente__altersrente__entgeltpunkte_west: float,
-    rente__altersrente__rentner: bool,
+    entgeltpunkte_ost: float,
+    entgeltpunkte_west: float,
+    rentner: bool,
     ges_rente_params: dict,
 ) -> float:
     """Old-Age Pensions claim. The function follows the following equation:
@@ -314,12 +310,12 @@ def bruttorente_basisbetrag_m(
     ----------
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    rente__altersrente__entgeltpunkte_ost
-        See :func:`rente__altersrente__entgeltpunkte_ost`.
-    rente__altersrente__entgeltpunkte_west
-        See :func:`rente__altersrente__entgeltpunkte_west`.
-    rente__altersrente__rentner
-        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
+    entgeltpunkte_ost
+        See :func:`entgeltpunkte_ost`.
+    entgeltpunkte_west
+        See :func:`entgeltpunkte_west`.
+    rentner
+        See basic input variable :ref:`rentner <rentner>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -328,12 +324,10 @@ def bruttorente_basisbetrag_m(
 
     """
 
-    if rente__altersrente__rentner:
+    if rentner:
         out = (
-            rente__altersrente__entgeltpunkte_west
-            * ges_rente_params["rentenwert"]["west"]
-            + rente__altersrente__entgeltpunkte_ost
-            * ges_rente_params["rentenwert"]["ost"]
+            entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
+            + entgeltpunkte_ost * ges_rente_params["rentenwert"]["ost"]
         ) * zugangsfaktor
     else:
         out = 0.0
@@ -420,7 +414,7 @@ def zugangsfaktor(  # noqa: PLR0913
     -------
     Zugangsfaktor
 
-    """  # noqa: E501
+    """
 
     if rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
@@ -478,7 +472,7 @@ def zugangsfaktor(  # noqa: PLR0913
 @policy_function
 def entgeltp_west_updated(
     demographics__wohnort_ost: bool,
-    rente__altersrente__entgeltpunkte_west: float,
+    entgeltpunkte_west: float,
     entgeltp_update: float,
 ) -> float:
     """Update western earning points.
@@ -492,8 +486,8 @@ def entgeltp_west_updated(
     ----------
     demographics__wohnort_ost
         See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
-    rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`ententgeltp_westgeltp <rente__altersrente__entgeltpunkte_west>`.
+    entgeltpunkte_west
+        See basic input variable :ref:`ententgeltp_westgeltp <entgeltpunkte_west>`.
     entgeltp_update
         See :func:`entgeltp_update`.
 
@@ -502,16 +496,16 @@ def entgeltp_west_updated(
 
     """
     if demographics__wohnort_ost:
-        out = rente__altersrente__entgeltpunkte_west
+        out = entgeltpunkte_west
     else:
-        out = rente__altersrente__entgeltpunkte_west + entgeltp_update
+        out = entgeltpunkte_west + entgeltp_update
     return out
 
 
 @policy_function
 def entgeltp_ost_updated(
     demographics__wohnort_ost: bool,
-    rente__altersrente__entgeltpunkte_ost: float,
+    entgeltpunkte_ost: float,
     entgeltp_update: float,
 ) -> float:
     """Update eastern earning points.
@@ -525,8 +519,8 @@ def entgeltp_ost_updated(
     ----------
     demographics__wohnort_ost
         See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
-    rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>`.
+    entgeltpunkte_ost
+        See basic input variable :ref:`entgeltpunkte_ost <entgeltpunkte_ost>`.
     entgeltp_update
         See :func:`entgeltp_update`.
 
@@ -535,9 +529,9 @@ def entgeltp_ost_updated(
 
     """
     if demographics__wohnort_ost:
-        out = rente__altersrente__entgeltpunkte_ost + entgeltp_update
+        out = entgeltpunkte_ost + entgeltp_update
     else:
-        out = rente__altersrente__entgeltpunkte_ost
+        out = entgeltpunkte_ost
     return out
 
 
@@ -597,33 +591,26 @@ def entgeltp_update(
 
 @policy_function
 def anteil_entgeltp_ost(
-    rente__altersrente__entgeltpunkte_west: float,
-    rente__altersrente__entgeltpunkte_ost: float,
+    entgeltpunkte_west: float,
+    entgeltpunkte_ost: float,
 ) -> float:
     """Proportion of Entgeltpunkte accumulated in East Germany
 
     Parameters
     ----------
-    rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`rente__altersrente__entgeltpunkte_west <rente__altersrente__entgeltpunkte_west>
-    rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>
+    entgeltpunkte_west
+        See basic input variable :ref:`entgeltpunkte_west <entgeltpunkte_west>
+    entgeltpunkte_ost
+        See basic input variable :ref:`entgeltpunkte_ost <entgeltpunkte_ost>
 
     Returns
     -------
     Proportion of Entgeltpunkte accumulated in East Germany
 
     """
-    if (
-        rente__altersrente__entgeltpunkte_west
-        == rente__altersrente__entgeltpunkte_ost
-        == 0.0
-    ):
+    if entgeltpunkte_west == entgeltpunkte_ost == 0.0:
         out = 0.0
     else:
-        out = rente__altersrente__entgeltpunkte_ost / (
-            rente__altersrente__entgeltpunkte_west
-            + rente__altersrente__entgeltpunkte_ost
-        )
+        out = entgeltpunkte_ost / (entgeltpunkte_west + entgeltpunkte_ost)
 
     return out

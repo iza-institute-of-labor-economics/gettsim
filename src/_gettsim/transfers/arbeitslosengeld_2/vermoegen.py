@@ -31,7 +31,7 @@ def grundfreibetrag_vermögen(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
     if demographics__geburtsjahr <= threshold_years[0]:
         out = (
@@ -73,7 +73,7 @@ def maximaler_grundfreibetrag_vermögen(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     threshold_years = list(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
     )
@@ -112,8 +112,8 @@ def freibetrag_vermögen_in_karenzzeit_bg(
         <arbeitsl_geld_2_params>`.
     demographic_vars__anzahl_personen_bg
         See :func:`demographic_vars__anzahl_personen_bg`.
-    arbeitslosengeld_2__in_vorjahr_bezogen
-        See basic input variable :ref:`arbeitslosengeld_2__in_vorjahr_bezogen <arbeitslosengeld_2__in_vorjahr_bezogen>`.
+    in_vorjahr_bezogen
+        See basic input variable :ref:`in_vorjahr_bezogen <in_vorjahr_bezogen>`.
 
 
     Returns
@@ -171,7 +171,7 @@ def freibetrag_vermögen_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     demographic_vars__anzahl_personen_bg: int,
     freibetrag_vermögen_in_karenzzeit_bg: float,
-    arbeitslosengeld_2__in_vorjahr_bezogen: bool,
+    in_vorjahr_bezogen: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
 
@@ -187,8 +187,8 @@ def freibetrag_vermögen_bg_ab_2023(
         See :func:`demographic_vars__anzahl_personen_bg`.
     freibetrag_vermögen_in_karenzzeit_bg
         See :func:`freibetrag_vermögen_in_karenzzeit_bg`.
-    arbeitslosengeld_2__in_vorjahr_bezogen
-        See basic input variable :ref:`arbeitslosengeld_2__in_vorjahr_bezogen <arbeitslosengeld_2__in_vorjahr_bezogen>`.
+    in_vorjahr_bezogen
+        See basic input variable :ref:`in_vorjahr_bezogen <in_vorjahr_bezogen>`.
 
 
     Returns
@@ -196,7 +196,7 @@ def freibetrag_vermögen_bg_ab_2023(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    if arbeitslosengeld_2__in_vorjahr_bezogen:
+    if in_vorjahr_bezogen:
         out = demographic_vars__anzahl_personen_bg * params["normaler_satz"]
     else:
         out = freibetrag_vermögen_in_karenzzeit_bg

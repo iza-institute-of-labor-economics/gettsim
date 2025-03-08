@@ -167,7 +167,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
 def in_anderer_bg_als_kindergeldempfänger(
     demographics__p_id: numpy.ndarray[int],
     kindergeld__p_id_empfänger: numpy.ndarray[int],
-    arbeitslosengeld_2__bg_id: numpy.ndarray[int],
+    bg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
     """True if the person is in a different Bedarfsgemeinschaft than the
     Kindergeldempfänger of that person.
@@ -178,21 +178,21 @@ def in_anderer_bg_als_kindergeldempfänger(
         See basic input variable :ref:`demographics__p_id <demographics__p_id>`
     kindergeld__p_id_empfänger
         See basic input variable :ref:`kindergeld__p_id_empfänger <kindergeld__p_id_empfänger>`
-    arbeitslosengeld_2__bg_id
-        See :func:`arbeitslosengeld_2__bg_id`.
+    bg_id
+        See :func:`bg_id`.
 
     Returns
     -------
 
-    """
-    # Create a dictionary to map demographics__p_id to arbeitslosengeld_2__bg_id
-    p_id_to_bg_id = dict(zip(demographics__p_id, arbeitslosengeld_2__bg_id))
+    """  # noqa: E501
+    # Create a dictionary to map demographics__p_id to bg_id
+    p_id_to_bg_id = dict(zip(demographics__p_id, bg_id))
 
-    # Map each kindergeld__p_id_empfänger to its corresponding arbeitslosengeld_2__bg_id
+    # Map each kindergeld__p_id_empfänger to its corresponding bg_id
     empf_bg_id = [
         p_id_to_bg_id[empfänger_id] if empfänger_id >= 0 else -1
         for empfänger_id in kindergeld__p_id_empfänger
     ]
 
-    # Compare arbeitslosengeld_2__bg_id array with the mapped bg_ids of kindergeld__p_id_empfänger
-    return arbeitslosengeld_2__bg_id != empf_bg_id
+    # Compare bg_id array with the mapped bg_ids of kindergeld__p_id_empfänger
+    return bg_id != empf_bg_id

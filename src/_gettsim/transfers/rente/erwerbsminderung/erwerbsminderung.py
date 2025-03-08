@@ -53,8 +53,8 @@ def betrag_m(  # noqa: PLR0913
 
 @policy_function(start_date="2001-01-01")
 def grundsätzlich_anspruchsberechtigt(
-    rente__erwerbsminderung__voll_erwerbsgemindert: bool,
-    rente__erwerbsminderung__teilweise_erwerbsgemindert: bool,
+    voll_erwerbsgemindert: bool,
+    teilweise_erwerbsgemindert: bool,
     rente__altersrente__pflichtbeitragszeiten_m: float,
     rente__altersrente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
@@ -65,10 +65,10 @@ def grundsätzlich_anspruchsberechtigt(
 
     Parameters
     ----------
-    rente__erwerbsminderung__voll_erwerbsgemindert
-        See basic input variable :ref:`rente__erwerbsminderung__voll_erwerbsgemindert <rente__erwerbsminderung__voll_erwerbsgemindert>.
-    rente__erwerbsminderung__teilweise_erwerbsgemindert
-        See basic input variable :ref:`rente__erwerbsminderung__teilweise_erwerbsgemindert <rente__erwerbsminderung__teilweise_erwerbsgemindert>.
+    voll_erwerbsgemindert
+        See basic input variable :ref:`voll_erwerbsgemindert <voll_erwerbsgemindert>.
+    teilweise_erwerbsgemindert
+        See basic input variable :ref:`teilweise_erwerbsgemindert <teilweise_erwerbsgemindert>.
     rente__altersrente__pflichtbeitragszeiten_m
         See basic input variable :ref:`rente__altersrente__pflichtbeitragszeiten_m <rente__altersrente__pflichtbeitragszeiten_m>.
     rente__altersrente__mindestwartezeit_erfüllt
@@ -79,10 +79,7 @@ def grundsätzlich_anspruchsberechtigt(
     """
 
     anspruch_erwerbsm_rente = (
-        (
-            rente__erwerbsminderung__voll_erwerbsgemindert
-            or rente__erwerbsminderung__teilweise_erwerbsgemindert
-        )
+        (voll_erwerbsgemindert or teilweise_erwerbsgemindert)
         and rente__altersrente__mindestwartezeit_erfüllt
         and rente__altersrente__pflichtbeitragszeiten_m >= 36
     )
@@ -199,7 +196,7 @@ def zurechnungszeit(
 
 @policy_function(start_date="2001-01-01")
 def rentenartfaktor(
-    rente__erwerbsminderung__teilweise_erwerbsgemindert: bool,
+    teilweise_erwerbsgemindert: bool,
     erwerbsm_rente_params: dict,
 ) -> float:
     """rentenartfaktor for Erwerbsminderungsrente
@@ -209,8 +206,8 @@ def rentenartfaktor(
 
     Parameters
     ----------
-    rente__erwerbsminderung__teilweise_erwerbsgemindert
-        See basic input variable :ref:`rente__erwerbsminderung__teilweise_erwerbsgemindert <rente__erwerbsminderung__teilweise_erwerbsgemindert>.
+    teilweise_erwerbsgemindert
+        See basic input variable :ref:`teilweise_erwerbsgemindert <teilweise_erwerbsgemindert>.
     erwerbsm_rente_params
         See params documentation :ref:`erwerbsm_rente_params <erwerbsm_rente_params>.
 
@@ -220,7 +217,7 @@ def rentenartfaktor(
 
     """
 
-    if rente__erwerbsminderung__teilweise_erwerbsgemindert:
+    if teilweise_erwerbsgemindert:
         out = erwerbsm_rente_params["rentenartfaktor"]["teilw"]
 
     else:

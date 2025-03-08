@@ -204,7 +204,7 @@ def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
 )
 def altersvorsorge_phase_in_y_sn(
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m_sn: float,
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m_sn: float,
+    beitrag_private_rentenversicherung_m_sn: float,
     demographic_vars__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -217,8 +217,8 @@ def altersvorsorge_phase_in_y_sn(
     ----------
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m_sn
         See :func:`sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m_sn`.
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m_sn
-        See :func:`einkommensteuer__einkommen__beitrag_private_rentenversicherung_m_sn`.
+    beitrag_private_rentenversicherung_m_sn
+        See :func:`beitrag_private_rentenversicherung_m_sn`.
     demographic_vars__anzahl_personen_sn
         See :func:`demographic_vars__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -233,7 +233,7 @@ def altersvorsorge_phase_in_y_sn(
         * (
             2
             * sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m_sn
-            + einkommensteuer__einkommen__beitrag_private_rentenversicherung_m_sn
+            + beitrag_private_rentenversicherung_m_sn
         )
         - sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m_sn
     ) * 12
@@ -249,7 +249,7 @@ def altersvorsorge_phase_in_y_sn(
 @policy_function(start_date="2023-01-01", name_in_dag="altersvorsorge_y_sn")
 def altersvorsorge_volle_anrechnung_y_sn(
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_y_sn: float,
+    beitrag_private_rentenversicherung_y_sn: float,
     demographic_vars__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -259,8 +259,8 @@ def altersvorsorge_volle_anrechnung_y_sn(
     ----------
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn
         See :func:`sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn`.
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_y_sn
-        See :func:`einkommensteuer__einkommen__beitrag_private_rentenversicherung_y_sn`.
+    beitrag_private_rentenversicherung_y_sn
+        See :func:`beitrag_private_rentenversicherung_y_sn`.
     demographic_vars__anzahl_personen_sn
         See :func:`demographic_vars__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -272,7 +272,7 @@ def altersvorsorge_volle_anrechnung_y_sn(
     """  # noqa: E501
     out = (
         sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_y_sn
-        + einkommensteuer__einkommen__beitrag_private_rentenversicherung_y_sn
+        + beitrag_private_rentenversicherung_y_sn
     )
     max_value = (
         demographic_vars__anzahl_personen_sn

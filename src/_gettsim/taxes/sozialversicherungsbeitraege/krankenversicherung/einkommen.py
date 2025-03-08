@@ -64,7 +64,7 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     bezugsgröße_selbständig_m: float,
     einkommen__ist_selbstständig: bool,
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert: bool,
+    privat_versichert: bool,
     beitragsbemessungsgrenze_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -83,8 +83,8 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
         See :func:`bezugsgröße_selbständig_m`.
     einkommen__ist_selbstständig
         See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert
-        See basic input variable :ref:`sozialversicherungsbeitraege__krankenversicherung__privat_versichert <sozialversicherungsbeitraege__krankenversicherung__privat_versichert>`.
+    privat_versichert
+        See basic input variable :ref:`privat_versichert <privat_versichert>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     beitragsbemessungsgrenze_m
@@ -95,12 +95,9 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     Returns
     -------
 
-    """
+    """  # noqa: E501
     # Calculate if self employed insures via public health insurance.
-    if (
-        einkommen__ist_selbstständig
-        and not sozialversicherungsbeitraege__krankenversicherung__privat_versichert
-    ):
+    if einkommen__ist_selbstständig and not privat_versichert:
         out = min(
             beitragsbemessungsgrenze_m,
             max(
@@ -161,7 +158,7 @@ def bezugsgröße_selbständig_m(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = (
         sozialv_beitr_params["bezugsgröße_selbst_m"]["ost"]
         if demographics__wohnort_ost

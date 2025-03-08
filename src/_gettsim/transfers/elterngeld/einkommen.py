@@ -23,7 +23,7 @@ def anzurechnendes_nettoeinkommen_m(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     # TODO(@MImmesberger): In this case, lohnsteuer__betrag_m should be calculated
     # without taking into account adaptions to the standard care insurance rate.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/792
@@ -32,41 +32,40 @@ def anzurechnendes_nettoeinkommen_m(
 
 @policy_function(params_key_for_rounding="elterngeld")
 def lohnersatzanteil_einkommen_untere_grenze(
-    elterngeld__nettoeinkommen_vorjahr_m: float,
+    nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
 ) -> float:
     """Lower threshold for replacement rate adjustment minus net income.
 
     Parameters
     ----------
-    elterngeld__nettoeinkommen_vorjahr_m
-        See basic input variable
-        :ref:`elterngeld__nettoeinkommen_vorjahr_m<elterngeld__nettoeinkommen_vorjahr_m>`.
+    nettoeinkommen_vorjahr_m
+        See basic input variable :ref:`nettoeinkommen_vorjahr_m<nettoeinkommen_vorjahr_m>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return (
         elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-        - elterngeld__nettoeinkommen_vorjahr_m
+        - nettoeinkommen_vorjahr_m
     )
 
 
 @policy_function(params_key_for_rounding="elterngeld")
 def lohnersatzanteil_einkommen_obere_grenze(
-    elterngeld__nettoeinkommen_vorjahr_m: float,
+    nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
 ) -> float:
     """Net income minus upper threshold for replacement rate adjustment.
 
     Parameters
     ----------
-    elterngeld__nettoeinkommen_vorjahr_m
+    nettoeinkommen_vorjahr_m
         See basic input variable
-        :ref:`elterngeld__nettoeinkommen_vorjahr_m<elterngeld__nettoeinkommen_vorjahr_m>`.
+        :ref:`nettoeinkommen_vorjahr_m<nettoeinkommen_vorjahr_m>`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -75,7 +74,7 @@ def lohnersatzanteil_einkommen_obere_grenze(
 
     """
     return (
-        elterngeld__nettoeinkommen_vorjahr_m
+        nettoeinkommen_vorjahr_m
         - elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
     )
 
@@ -85,7 +84,7 @@ def lohnersatzanteil_einkommen_obere_grenze(
 )
 def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     demographics__alleinerziehend: bool,
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn: float,
+    zu_versteuerndes_einkommen_vorjahr_y_sn: float,
     elterngeld_params: dict,
 ) -> bool:
     """Income before birth is below income threshold for Elterngeld.
@@ -94,23 +93,23 @@ def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     ----------
     demographics__alleinerziehend
         See basic input variable :ref:`demographics__alleinerziehend <demographics__alleinerziehend>`.
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn
-        See :func:`elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn`.
+    zu_versteuerndes_einkommen_vorjahr_y_sn
+        See :func:`zu_versteuerndes_einkommen_vorjahr_y_sn`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
     Returns
     -------
 
-    """
+    """  # noqa: E501
     if demographics__alleinerziehend:
         out = (
-            elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn
+            zu_versteuerndes_einkommen_vorjahr_y_sn
             <= elterngeld_params["max_eink_vorj"]["single"]
         )
     else:
         out = (
-            elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn
+            zu_versteuerndes_einkommen_vorjahr_y_sn
             <= elterngeld_params["max_eink_vorj"]["paar"]
         )
     return out
@@ -120,15 +119,15 @@ def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     start_date="2024-04-01", name_in_dag="einkommen_vorjahr_unter_bezugsgrenze"
 )
 def einkommen_vorjahr_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn: float,
+    zu_versteuerndes_einkommen_vorjahr_y_sn: float,
     elterngeld_params: dict,
 ) -> bool:
     """Income before birth is below income threshold for Elterngeld.
 
     Parameters
     ----------
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn
-        See :func:`elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn`.
+    zu_versteuerndes_einkommen_vorjahr_y_sn
+        See :func:`zu_versteuerndes_einkommen_vorjahr_y_sn`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -136,10 +135,7 @@ def einkommen_vorjahr_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
     -------
 
     """
-    return (
-        elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn
-        <= elterngeld_params["max_eink_vorj"]
-    )
+    return zu_versteuerndes_einkommen_vorjahr_y_sn <= elterngeld_params["max_eink_vorj"]
 
 
 @policy_function(params_key_for_rounding="elterngeld")
@@ -167,7 +163,7 @@ def nettoerwerbseinkommen_approximation_m(
         See :func:`lohnsteuer__betrag_soli_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    """
+    """  # noqa: E501
     prox_ssc = elterngeld_params["sozialv_pausch"] * einkommen__bruttolohn_m
     return (
         einkommen__bruttolohn_m

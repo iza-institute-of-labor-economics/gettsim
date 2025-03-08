@@ -209,7 +209,7 @@ inputs:
       - true
       - true
       - true
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10:
+    rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
       - false
       - true
       - false

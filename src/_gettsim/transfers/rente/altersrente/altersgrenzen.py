@@ -40,7 +40,7 @@ def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
     -------
     Full retirement age.
 
-    """  # noqa: E501
+    """
 
     out = rente__altersrente__regelaltersrente__altersgrenze
     if rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
@@ -106,7 +106,7 @@ def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     -------
     Full retirement age.
 
-    """  # noqa: E501
+    """
 
     out = rente__altersrente__regelaltersrente__altersgrenze
     if rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
@@ -153,7 +153,7 @@ def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     -------
     Full retirement age.
 
-    """  # noqa: E501
+    """
 
     out = rente__altersrente__regelaltersrente__altersgrenze
     if rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
@@ -202,7 +202,7 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     -------
     Early retirement age (potentially with deductions).
 
-    """  # noqa: E501
+    """
     frauen_vorzeitig = rente__altersrente__für_frauen__altersgrenze_vorzeitig
 
     arbeitsl_vorzeitig = (
@@ -288,7 +288,7 @@ def vorzeitig_grundsätzlich_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
     -------
     Eligibility as bool.
 
-    """  # noqa: E501
+    """
 
     out = (
         rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
@@ -361,11 +361,11 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     -------
     Reference age for deduction calculation.
 
-    """  # noqa: E501
+    """
     if (
         rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
         and rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt
-        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt  # noqa: E501
+        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
     ):
         out = min(
             [
@@ -386,7 +386,7 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
         )
     elif (
         rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
-        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt  # noqa: E501
+        and rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt
     ):
         out = min(
             [

@@ -68,7 +68,7 @@ def altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
 def altersgrenze_mit_vertrauensschutzprüfung(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997: bool,
+    vertrauensschutz_1997: bool,
     altersgrenze_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
@@ -85,8 +85,8 @@ def altersgrenze_mit_vertrauensschutzprüfung(
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     demographics__geburtsmonat
         See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997
-        See basic input variable :ref:`rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997 <rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997>`.
+    vertrauensschutz_1997
+        See basic input variable :ref:`vertrauensschutz_1997 <vertrauensschutz_1997>`.
     altersgrenze_ohne_vertrauensschutzprüfung
         See :func:`altersgrenze_ohne_vertrauensschutzprüfung`.
     ges_rente_params
@@ -98,7 +98,7 @@ def altersgrenze_mit_vertrauensschutzprüfung(
 
     """
     if (
-        rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997
+        vertrauensschutz_1997
         and demographics__geburtsjahr
         <= ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"]["vertrauensschutz"][
             "max_birthyear_old_regime"
@@ -108,7 +108,7 @@ def altersgrenze_mit_vertrauensschutzprüfung(
             "vertrauensschutz"
         ]["entry_age_old_regime"]
 
-    elif rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
+    elif vertrauensschutz_1997:
         out = ges_rente_params["altersgrenze_arbeitsl_abschlagsfrei"][
             "vertrauensschutz"
         ][demographics__geburtsjahr][demographics__geburtsmonat]
@@ -206,7 +206,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     name_in_dag="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997: bool,
+    vertrauensschutz_1997: bool,
     altersgrenze_vorzeitig_ohne_vertrauenss: float,
     ges_rente_params: dict,
 ) -> float:
@@ -219,8 +219,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     Parameters
     ----------
 
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006
-        See basic input variable :ref:`rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006 <rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006>`.
+    vertrauensschutz_2006
+        See basic input variable :ref:`vertrauensschutz_2006 <vertrauensschutz_2006>`.
     altersgrenze_vorzeitig_ohne_vertrauenss
         See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
     ges_rente_params
@@ -231,7 +231,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     Early retirement age for unemployed.
     """
 
-    if rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
+    if vertrauensschutz_1997:
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
             "vertrauensschutz"
         ]
@@ -280,7 +280,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
     name_in_dag="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006: bool,
+    vertrauensschutz_2006: bool,
     altersgrenze_vorzeitig_ohne_vertrauenss: float,
     ges_rente_params: dict,
 ) -> float:
@@ -293,9 +293,9 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
 
     Parameters
     ----------
-    rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006
-        See basic input variable :ref:`rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006
-        <rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006>`.
+    vertrauensschutz_2006
+        See basic input variable :ref:`vertrauensschutz_2006
+        <vertrauensschutz_2006>`.
     altersgrenze_vorzeitig_ohne_vertrauenss
         See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
     ges_rente_params
@@ -306,7 +306,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     Early retirement age for unemployed.
     """
 
-    if rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006:
+    if vertrauensschutz_2006:
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
             "vertrauensschutz"
         ]
@@ -423,9 +423,9 @@ def altersgrenze_vorzeitig_ohne_vertrauenss(
 
 @policy_function(end_date="2007-04-29", name_in_dag="grundsätzlich_anspruchsberechtigt")
 def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
-    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585: bool,
+    arbeitslos_für_1_jahr_nach_585: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10: bool,
+    pflichtbeitrag_8_in_10: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
 
@@ -437,13 +437,13 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
 
     Parameters
     ----------
-    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585
+    arbeitslos_für_1_jahr_nach_585
         See basic input variable
-        :ref:`rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585 <rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585>`.
+        :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
     rente__altersrente__wartezeit_15_jahre_erfüllt
         See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10
-        See basic input variable :ref:`rente__altersrente__für_frauen__pflichtbeitrag_8_in_10 <rente__altersrente__für_frauen__pflichtbeitrag_8_in_10>`.
+    pflichtbeitrag_8_in_10
+        See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
 
     Returns
     -------
@@ -452,9 +452,9 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     """
 
     out = (
-        rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585
+        arbeitslos_für_1_jahr_nach_585
         and rente__altersrente__wartezeit_15_jahre_erfüllt
-        and rente__altersrente__für_frauen__pflichtbeitrag_8_in_10
+        and pflichtbeitrag_8_in_10
     )
 
     return out
@@ -466,9 +466,9 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     name_in_dag="grundsätzlich_anspruchsberechtigt",
 )
 def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
-    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585: bool,
+    arbeitslos_für_1_jahr_nach_585: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10: bool,
+    pflichtbeitrag_8_in_10: bool,
     demographics__geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
@@ -484,12 +484,12 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
 
     Parameters
     ----------
-    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585
-        See basic input variable :ref:`rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585 <rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585>`.
+    arbeitslos_für_1_jahr_nach_585
+        See basic input variable :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
     rente__altersrente__wartezeit_15_jahre_erfüllt
         See :func:`rente__altersrente__wartezeit_15_jahre_erfüllt`
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10
-        See basic input variable :ref:`rente__altersrente__für_frauen__pflichtbeitrag_8_in_10 <rente__altersrente__für_frauen__pflichtbeitrag_8_in_10>`.
+    pflichtbeitrag_8_in_10
+        See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
     demographics__geburtsjahr
         See :func:`demographics__geburtsjahr`
     ges_rente_params
@@ -502,9 +502,9 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     """
 
     out = (
-        rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585
+        arbeitslos_für_1_jahr_nach_585
         and rente__altersrente__wartezeit_15_jahre_erfüllt
-        and rente__altersrente__für_frauen__pflichtbeitrag_8_in_10
+        and pflichtbeitrag_8_in_10
         and demographics__geburtsjahr
         < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )

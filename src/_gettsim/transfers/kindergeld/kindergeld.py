@@ -12,7 +12,7 @@ aggregation_specs = {
         aggr="sum",
     ),
     "anzahl_ansprüche": AggregateByPIDSpec(
-        p_id_to_aggregate_by="kindergeld__p_id_empfänger",
+        p_id_to_aggregate_by="p_id_empfänger",
         source_col="grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
@@ -82,7 +82,7 @@ def betrag_gestaffelt_m(
 @policy_function(end_date="2011-12-31", leaf_name="grundsätzlich_anspruchsberechtigt")
 def grundsätzlich_anspruchsberechtigt_nach_lohn(
     demographics__alter: int,
-    kindergeld__in_ausbildung: bool,
+    in_ausbildung: bool,
     einkommen__bruttolohn_m: float,
     kindergeld_params: dict,
 ) -> bool:
@@ -98,20 +98,20 @@ def grundsätzlich_anspruchsberechtigt_nach_lohn(
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     kindergeld_params
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
-    kindergeld__in_ausbildung
-        See basic input variable :ref:`kindergeld__in_ausbildung <kindergeld__in_ausbildung>`.
+    in_ausbildung
+        See basic input variable :ref:`in_ausbildung <in_ausbildung>`.
     einkommen__bruttolohn_m
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
 
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = (
         demographics__alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]
     ) or (
         (demographics__alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
-        and kindergeld__in_ausbildung
+        and in_ausbildung
         and (einkommen__bruttolohn_m <= kindergeld_params["einkommensgrenze"] / 12)
     )
 
@@ -121,7 +121,7 @@ def grundsätzlich_anspruchsberechtigt_nach_lohn(
 @policy_function(start_date="2012-01-01", leaf_name="grundsätzlich_anspruchsberechtigt")
 def grundsätzlich_anspruchsberechtigt_nach_stunden(
     demographics__alter: int,
-    kindergeld__in_ausbildung: bool,
+    in_ausbildung: bool,
     demographics__arbeitsstunden_w: float,
     kindergeld_params: dict,
 ) -> bool:
@@ -135,8 +135,8 @@ def grundsätzlich_anspruchsberechtigt_nach_stunden(
     ----------
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    kindergeld__in_ausbildung
-        See :func:`kindergeld__in_ausbildung`.
+    in_ausbildung
+        See :func:`in_ausbildung`.
     demographics__arbeitsstunden_w
         See :func:`demographics__arbeitsstunden_w`.
     kindergeld_params
@@ -151,7 +151,7 @@ def grundsätzlich_anspruchsberechtigt_nach_stunden(
         demographics__alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]
     ) or (
         (demographics__alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
-        and kindergeld__in_ausbildung
+        and in_ausbildung
         and (demographics__arbeitsstunden_w <= kindergeld_params["stundengrenze"])
     )
 
@@ -183,7 +183,7 @@ def kind_bis_10_mit_kindergeld(
 @policy_function(skip_vectorization=True)
 def gleiche_fg_wie_empfänger(
     demographics__p_id: numpy.ndarray[int],
-    kindergeld__p_id_empfänger: numpy.ndarray[int],
+    p_id_empfänger: numpy.ndarray[int],
     demographics__fg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
     """The child's Kindergeldempfänger is in the same Familiengemeinschaft.
@@ -192,8 +192,8 @@ def gleiche_fg_wie_empfänger(
     ----------
     demographics__p_id
         See basic input variable :ref:`demographics__p_id <demographics__p_id>`.
-    kindergeld__p_id_empfänger
-        See basic input variable :ref:`kindergeld__p_id_empfänger <kindergeld__p_id_empfänger>`.
+    p_id_empfänger
+        See basic input variable :ref:`p_id_empfänger <p_id_empfänger>`.
     demographics__fg_id
         See basic input variable :ref:`demographics__fg_id <demographics__fg_id>`.
 
@@ -202,7 +202,7 @@ def gleiche_fg_wie_empfänger(
 
     """
     fg_id_kindergeldempfänger = join_numpy(
-        kindergeld__p_id_empfänger,
+        p_id_empfänger,
         demographics__p_id,
         demographics__fg_id,
         value_if_foreign_key_is_missing=-1,

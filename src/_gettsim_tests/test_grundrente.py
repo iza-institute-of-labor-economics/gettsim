@@ -58,7 +58,7 @@ INPUT_COLS_INCOME = [
     "rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "demographics__weiblich",
     "rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40",
-    "rente__altersrente__für_frauen__pflichtbeitrag_8_in_10",
+    "rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10",
     "rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585",
     "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006",
     "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",

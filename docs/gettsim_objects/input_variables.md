@@ -535,9 +535,9 @@ Total years of mandatory contributions after age 40
 
 Type: float
 
-(rente__altersrente__für_frauen__pflichtbeitrag_8_in_10)=
+(rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10)=
 
-## `rente__altersrente__für_frauen__pflichtbeitrag_8_in_10`
+## `rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10`
 
 Has at least 8 contribution years in past 10 years
 

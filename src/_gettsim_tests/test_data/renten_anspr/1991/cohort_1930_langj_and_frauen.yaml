@@ -14,7 +14,7 @@ inputs:
       - 1
     demographics__weiblich:
       - true
-    rente__altersrente__für_frauen__pflichtbeitrag_8_in_10:
+    rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
       - false
     rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
       - true

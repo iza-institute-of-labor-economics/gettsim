@@ -5,8 +5,8 @@ from _gettsim.functions.policy_function import policy_function
 
 @policy_function
 def alter_bei_renteneintritt(
-    rente__jahr_renteneintritt: int,
-    rente__monat_renteneintritt: int,
+    jahr_renteneintritt: int,
+    monat_renteneintritt: int,
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
 ) -> float:
@@ -25,10 +25,10 @@ def alter_bei_renteneintritt(
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     demographics__geburtsmonat
         See basic input variable :ref:`demographics__geburtsmonat <demographics__geburtsmonat>`.
-    rente__jahr_renteneintritt
-        See basic input variable :ref:`rente__jahr_renteneintritt <rente__jahr_renteneintritt>`.
-    rente__monat_renteneintritt
-        See basic input variable :ref:`rente__monat_renteneintritt <rente__monat_renteneintritt>`.
+    jahr_renteneintritt
+        See basic input variable :ref:`jahr_renteneintritt <jahr_renteneintritt>`.
+    monat_renteneintritt
+        See basic input variable :ref:`monat_renteneintritt <monat_renteneintritt>`.
 
     Returns
     -------
@@ -36,7 +36,7 @@ def alter_bei_renteneintritt(
 
     """
     return (
-        rente__jahr_renteneintritt
+        jahr_renteneintritt
         - demographics__geburtsjahr
-        + (rente__monat_renteneintritt - demographics__geburtsmonat - 1) / 12
+        + (monat_renteneintritt - demographics__geburtsmonat - 1) / 12
     )

@@ -215,7 +215,7 @@ TYPES_INPUT_VARIABLES = {
     "rente__altersrente__ersatzzeiten_m": float,
     "rente__altersrente__freiwillige_beitragszeiten_m": float,
     "rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40": float,
-    "rente__altersrente__für_frauen__pflichtbeitrag_8_in_10": bool,
+    "rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10": bool,
     "rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y": float,
     "rente__altersrente__kinderberücksichtigungszeiten_m": float,
     "rente__altersrente__krankheitszeiten_ab_16_bis_24_m": float,

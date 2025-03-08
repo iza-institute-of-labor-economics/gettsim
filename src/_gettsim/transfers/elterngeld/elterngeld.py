@@ -9,12 +9,12 @@ aggregation_specs = {
         aggr="any",
     ),
     "anzahl_anträge_fg": AggregateByGroupSpec(
-        source_col="elterngeld__claimed",
+        source_col="claimed",
         aggr="sum",
     ),
     "bezugsmonate": AggregateByPIDSpec(
         p_id_to_aggregate_by="demograpics__p_id_einstandspartner",
-        source_col="elterngeld__bisheriger_bezug_m",
+        source_col="bisheriger_bezug_m",
         aggr="sum",
     ),
 }
@@ -47,7 +47,7 @@ def betrag_m(
 
 @policy_function
 def basisbetrag_m(
-    elterngeld__nettoeinkommen_vorjahr_m: float,
+    nettoeinkommen_vorjahr_m: float,
     lohnersatzanteil: float,
     anzurechnendes_nettoeinkommen_m: float,
     elterngeld_params: dict,
@@ -56,9 +56,9 @@ def basisbetrag_m(
 
     Parameters
     ----------
-    elterngeld__nettoeinkommen_vorjahr_m
-        See basic input variable :ref:`elterngeld__nettoeinkommen_vorjahr_m
-        <elterngeld__nettoeinkommen_vorjahr_m>`.
+    nettoeinkommen_vorjahr_m
+        See basic input variable :ref:`nettoeinkommen_vorjahr_m
+        <nettoeinkommen_vorjahr_m>`.
     lohnersatzanteil
         See :func:`lohnersatzanteil`.
     anzurechnendes_nettoeinkommen_m
@@ -71,7 +71,7 @@ def basisbetrag_m(
 
     """
     berücksichtigtes_einkommen = min(
-        elterngeld__nettoeinkommen_vorjahr_m,
+        nettoeinkommen_vorjahr_m,
         elterngeld_params["max_zu_berücksichtigendes_einkommen"],
     )
     return (
@@ -127,7 +127,7 @@ def anspruchshöhe_m(
 
 @policy_function
 def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
-    elterngeld__claimed: bool,
+    claimed: bool,
     demographics__arbeitsstunden_w: float,
     kind_grundsätzlich_anspruchsberechtigt_fg: bool,
     einkommen_vorjahr_unter_bezugsgrenze: bool,
@@ -138,8 +138,8 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 
     Parameters
     ----------
-    elterngeld__claimed
-        See basic input variable :ref:`elterngeld__claimed <elterngeld__claimed>`.
+    claimed
+        See basic input variable :ref:`claimed <claimed>`.
     demographics__arbeitsstunden_w
         See basic input variable :ref:`demographics__arbeitsstunden_w <demographics__arbeitsstunden_w>`.
     kind_grundsätzlich_anspruchsberechtigt_fg
@@ -154,9 +154,9 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     Returns
     -------
 
-    """
+    """  # noqa: E501
     return (
-        elterngeld__claimed
+        claimed
         and demographics__arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
         and einkommen_vorjahr_unter_bezugsgrenze
         and kind_grundsätzlich_anspruchsberechtigt_fg
@@ -191,7 +191,7 @@ def bezugsmonate_unter_grenze_fg(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     if demographics__alleinerziehend or bezugsmonate >= 2:
         out = (
             monate_elterngeldbezug_fg
@@ -233,7 +233,7 @@ def kind_grundsätzlich_anspruchsberechtigt(
 
 @policy_function(start_date="2011-01-01")
 def lohnersatzanteil(
-    elterngeld__nettoeinkommen_vorjahr_m: float,
+    nettoeinkommen_vorjahr_m: float,
     lohnersatzanteil_einkommen_untere_grenze: float,
     lohnersatzanteil_einkommen_obere_grenze: float,
     elterngeld_params: dict,
@@ -245,9 +245,9 @@ def lohnersatzanteil(
 
     Parameters
     ----------
-    elterngeld__nettoeinkommen_vorjahr_m
+    nettoeinkommen_vorjahr_m
         See basic input variable
-        :ref:`elterngeld__nettoeinkommen_vorjahr_m<elterngeld__nettoeinkommen_vorjahr_m>`.
+        :ref:`nettoeinkommen_vorjahr_m<nettoeinkommen_vorjahr_m>`.
     lohnersatzanteil_einkommen_untere_grenze
         See :func:`lohnersatzanteil_einkommen_untere_grenze`.
     lohnersatzanteil_einkommen_obere_grenze
@@ -261,9 +261,9 @@ def lohnersatzanteil(
 
     # Higher replacement rate if considered income is below a threshold
     if (
-        elterngeld__nettoeinkommen_vorjahr_m
+        nettoeinkommen_vorjahr_m
         < elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
-        and elterngeld__nettoeinkommen_vorjahr_m > 0
+        and nettoeinkommen_vorjahr_m > 0
     ):
         out = elterngeld_params["faktor"] + (
             lohnersatzanteil_einkommen_untere_grenze
@@ -272,7 +272,7 @@ def lohnersatzanteil(
         )
     # Lower replacement rate if considered income is above a threshold
     elif (
-        elterngeld__nettoeinkommen_vorjahr_m
+        nettoeinkommen_vorjahr_m
         > elterngeld_params["nettoeinkommen_stufen"]["upper_threshold"]
     ):
         # Replacement rate is only lowered up to a specific value

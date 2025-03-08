@@ -5,8 +5,8 @@ from _gettsim.functions.policy_function import policy_function
 
 aggregation_specs = {
     "betreuungskosten_elternteil_m": AggregateByPIDSpec(
-        p_id_to_aggregate_by="einkommensteuer__freibetraege__p_id_betreuungskosten_träger",
-        source_col="einkommensteuer__freibetraege__betreuungskosten_m",
+        p_id_to_aggregate_by="p_id_betreuungskosten_träger",
+        source_col="betreuungskosten_m",
         aggr="sum",
     ),
 }
