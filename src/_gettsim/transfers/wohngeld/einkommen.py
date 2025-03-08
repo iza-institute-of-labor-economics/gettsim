@@ -14,7 +14,7 @@ aggregation_specs = {
 }
 
 
-@policy_function
+@policy_function()
 def einkommen_m_wthh(
     demographic_vars__anzahl_personen_wthh: int,
     freibetrag_m_wthh: float,
@@ -51,7 +51,7 @@ def einkommen_m_wthh(
     )
 
 
-@policy_function
+@policy_function()
 def einkommen_m_bg(
     demographic_vars__anzahl_personen_bg: int,
     freibetrag_m_bg: float,
@@ -88,7 +88,7 @@ def einkommen_m_bg(
     )
 
 
-@policy_function
+@policy_function()
 def abzüge_steuern_sozialversicherung_m(
     taxes__einkommensteuer__betrag_y_sn: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
@@ -133,7 +133,7 @@ def abzüge_steuern_sozialversicherung_m(
     return out
 
 
-@policy_function(end_date="2006-12-31", name_in_dag="einkommen_vor_freibetrag_m")
+@policy_function(end_date="2006-12-31", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     eink_abhängig_beschäftigt_m: float,
@@ -196,7 +196,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2007-01-01", name_in_dag="einkommen_vor_freibetrag_m")
+@policy_function(start_date="2007-01-01", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     eink_abhängig_beschäftigt_m: float,
@@ -266,7 +266,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     return out
 
 
-@policy_function(end_date="2015-12-31", name_in_dag="freibetrag_m")
+@policy_function(end_date="2015-12-31", leaf_name="freibetrag_m")
 def freibetrag_m_bis_2015(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     demographic_vars__ist_kind_mit_erwerbseinkommen: bool,
@@ -325,7 +325,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     return freib_behinderung_m + freib_kinder_m
 
 
-@policy_function(start_date="2016-01-01", name_in_dag="freibetrag_m")
+@policy_function(start_date="2016-01-01", leaf_name="freibetrag_m")
 def freibetrag_m_ab_2016(
     einkommen__bruttolohn_m: float,
     demographic_vars__ist_kind_mit_erwerbseinkommen: bool,

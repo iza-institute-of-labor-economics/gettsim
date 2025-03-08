@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="solidaritaetszuschlag_y_sn")
+@policy_function(end_date="2008-12-31", leaf_name="solidaritaetszuschlag_y_sn")
 def solidaritaetszuschlag_y_sn_ohne_abgelt_st(
     betrag_mit_kinderfreibetrag_y_sn: float,
     demographic_vars__anzahl_personen_sn: int,
@@ -46,7 +46,7 @@ def solidaritaetszuschlag_y_sn_ohne_abgelt_st(
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="solidaritaetszuschlag_y_sn")
+@policy_function(start_date="2009-01-01", leaf_name="solidaritaetszuschlag_y_sn")
 def solidaritaetszuschlag_y_sn_mit_abgelt_st(
     betrag_mit_kinderfreibetrag_y_sn: float,
     demographic_vars__anzahl_personen_sn: int,

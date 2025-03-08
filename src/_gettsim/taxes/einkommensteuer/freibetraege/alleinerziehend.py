@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2014-12-31", name_in_dag="alleinerziehend_y")
+@policy_function(end_date="2014-12-31", leaf_name="alleinerziehend_y")
 def alleinerziehend_y_pauschal(
     demographic_vars__alleinerziehend_sn: bool, eink_st_abzuege_params: dict
 ) -> float:
@@ -30,7 +30,7 @@ def alleinerziehend_y_pauschal(
     return out
 
 
-@policy_function(start_date="2015-01-01", name_in_dag="alleinerziehend_y")
+@policy_function(start_date="2015-01-01", leaf_name="alleinerziehend_y")
 def alleinerziehend_y_nach_kinderzahl(
     demographic_vars__alleinerziehend_sn: bool,
     kindergeld__anzahl_ansprüche_sn: int,

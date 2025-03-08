@@ -6,7 +6,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    name_in_dag="beitragssatz",
+    leaf_name="beitragssatz",
 )
 def beitragssatz_ohne_zusatz_für_kinderlose(
     sozialv_beitr_params: dict,
@@ -31,7 +31,7 @@ def beitragssatz_ohne_zusatz_für_kinderlose(
 @policy_function(
     start_date="2005-01-01",
     end_date="2023-06-30",
-    name_in_dag="beitragssatz",
+    leaf_name="beitragssatz",
 )
 def beitragssatz_zusatz_kinderlos_dummy(
     zusatzbetrag_kinderlos: bool,
@@ -61,7 +61,7 @@ def beitragssatz_zusatz_kinderlos_dummy(
     return out
 
 
-@policy_function(start_date="2023-07-01", name_in_dag="beitragssatz")
+@policy_function(start_date="2023-07-01", leaf_name="beitragssatz")
 def beitragssatz_mit_kinder_abschlag(
     anzahl_kinder_bis_24: int,
     zusatzbetrag_kinderlos: bool,
@@ -128,7 +128,7 @@ def zusatzbetrag_kinderlos(
     return (not hat_kinder) and demographics__alter >= mindestalter
 
 
-@policy_function
+@policy_function()
 def anzahl_kinder_bis_24(
     demographic_vars__anzahl_kinder_bis_24_elternteil_1: int,
     demographic_vars__anzahl_kinder_bis_24_elternteil_2: int,

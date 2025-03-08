@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def alter_bei_renteneintritt(
     jahr_renteneintritt: int,
     monat_renteneintritt: int,

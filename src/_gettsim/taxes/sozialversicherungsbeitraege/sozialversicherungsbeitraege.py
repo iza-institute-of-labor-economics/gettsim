@@ -3,12 +3,12 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def betrag_arbeitnehmer_m(
     sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
-    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m: float,  # noqa: E501
+    sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m: float,
 ) -> float:
     """Sum of employee's social insurance contributions.
 
@@ -27,7 +27,7 @@ def betrag_arbeitnehmer_m(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     return (
         sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m
         + sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m
@@ -36,7 +36,7 @@ def betrag_arbeitnehmer_m(
     )
 
 
-@policy_function
+@policy_function()
 def betrag_arbeitgeber_m(
     sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitgeber_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitgeber_m: float,
@@ -59,7 +59,7 @@ def betrag_arbeitgeber_m(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     return (
         sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitgeber_m
         + sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitgeber_m
@@ -68,7 +68,7 @@ def betrag_arbeitgeber_m(
     )
 
 
-@policy_function
+@policy_function()
 def betrag_gesamt_m(
     betrag_arbeitnehmer_m: float,
     betrag_arbeitgeber_m: float,

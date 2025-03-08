@@ -57,11 +57,11 @@ def einkommen_y(
 @policy_function(
     start_date="2015-01-01",
     end_date="2018-12-31",
-    name_in_dag="vorsorge_krankenv_option_b",
+    leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,  # noqa: E501
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz: float,
 ) -> float:
@@ -84,13 +84,13 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     -------
     Health care deductions for withholding taxes option b
 
-    """  # noqa: E501
+    """
 
     out = (
         sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz  # noqa: E501
+            + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
             + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz
         )
     )
@@ -100,11 +100,11 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
 @policy_function(
     start_date="2019-01-01",
-    name_in_dag="vorsorge_krankenv_option_b",
+    leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2019(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,  # noqa: E501
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
+    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
     sozialversicherungsbeitraege__pflegeversicherung__beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -129,13 +129,13 @@ def vorsorge_krankenv_option_b_ab_2019(
     -------
     Health care deductions for withholding taxes option b
 
-    """  # noqa: E501
+    """
 
     out = (
         sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y
         * (
             sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz  # noqa: E501
+            + sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz
             / 2
             + sozialversicherungsbeitraege__pflegeversicherung__beitragssatz
         )
@@ -144,9 +144,9 @@ def vorsorge_krankenv_option_b_ab_2019(
     return out
 
 
-@policy_function
+@policy_function()
 def vorsorge_krankenv_option_a(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,  # noqa: E501
+    sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -169,11 +169,11 @@ def vorsorge_krankenv_option_a(
     -------
     Health care deductions for withholding taxes option a
 
-    """  # noqa: E501
+    """
 
     vorsorge_krankenv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
-        * sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y  # noqa: E501
+        * sozialversicherungsbeitraege__krankenversicherung__einkommen_regulär_beschäftigt_y
     )
 
     if steuerklasse == 3:
@@ -192,7 +192,7 @@ def vorsorge_krankenv_option_a(
 
 @policy_function(
     start_date="2010-01-01",
-    name_in_dag="vorsorgepauschale_y",
+    leaf_name="vorsorgepauschale_y",
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
@@ -227,7 +227,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     -------
     Individual Vorsorgepauschale on annual basis
 
-    """  # noqa: E501
+    """
 
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     if demographics__wohnort_ost:
@@ -265,7 +265,7 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 @policy_function(
     start_date="2005-01-01",
     end_date="2009-12-31",
-    name_in_dag="vorsorgepauschale_y",
+    leaf_name="vorsorgepauschale_y",
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2005_bis_2009() -> float:

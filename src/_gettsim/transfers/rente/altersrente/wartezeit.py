@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def mindestwartezeit_erfüllt(
     pflichtbeitragszeiten_m: float,
     freiwillige_beitragszeiten_m: float,
@@ -39,7 +39,7 @@ def mindestwartezeit_erfüllt(
     return out
 
 
-@policy_function
+@policy_function()
 def wartezeit_15_jahre_erfüllt(
     pflichtbeitragszeiten_m: float,
     freiwillige_beitragszeiten_m: float,
@@ -75,7 +75,7 @@ def wartezeit_15_jahre_erfüllt(
     return out
 
 
-@policy_function
+@policy_function()
 def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
     pflichtbeitragszeiten_m: float,
     freiwillige_beitragszeiten_m: float,
@@ -186,7 +186,7 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     return out
 
 
-@policy_function
+@policy_function()
 def anrechnungszeit(  # noqa: PLR0913
     arbeitsunfähigkeitszeiten_m: float,
     krankheitszeiten_ab_16_bis_24_m: float,

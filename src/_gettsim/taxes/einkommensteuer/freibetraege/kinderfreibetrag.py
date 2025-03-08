@@ -17,7 +17,7 @@ aggregation_specs = {
 }
 
 
-@policy_function
+@policy_function()
 def kinderfreibetrag_y(
     anzahl_ansprüche: int,
     eink_st_abzuege_params: dict,
@@ -39,7 +39,7 @@ def kinderfreibetrag_y(
     return float(sum(eink_st_abzuege_params["kinderfreib"].values()) * anzahl_ansprüche)
 
 
-@policy_function
+@policy_function()
 def kinderfreibetrag_anzahl_ansprüche(
     anzahl_anspruch_1: int,
     anzahl_anspruch_2: int,
@@ -61,7 +61,7 @@ def kinderfreibetrag_anzahl_ansprüche(
     return anzahl_anspruch_1 + anzahl_anspruch_2
 
 
-@policy_function
+@policy_function()
 def p_id_kinderfreibetragempfänger_1(
     demographics__p_id_elternteil_1: int,
 ) -> int:
@@ -79,7 +79,7 @@ def p_id_kinderfreibetragempfänger_1(
     return demographics__p_id_elternteil_1
 
 
-@policy_function
+@policy_function()
 def p_id_kinderfreibetragempfänger_2(
     demographics__p_id_elternteil_2: int,
 ) -> int:

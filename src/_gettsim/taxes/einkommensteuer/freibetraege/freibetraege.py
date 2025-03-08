@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def betrag_y_sn(
     sonderausgaben_y_sn: float,
     einkommensteuer__einkommen__vorsorgeaufwand_y_sn: float,
@@ -34,7 +34,7 @@ def betrag_y_sn(
     return out
 
 
-@policy_function
+@policy_function()
 def betrag_ind_y(
     pauschbetrag_behinderung_y: float,
     altersfreibetrag__betrag_y: float,

@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function
+@policy_function()
 def einkommen_m(  # noqa: PLR0913
     erwerbseinkommen_m: float,
     private_rente_m: float,
@@ -72,7 +72,7 @@ def einkommen_m(  # noqa: PLR0913
     return max(out, 0.0)
 
 
-@policy_function
+@policy_function()
 def erwerbseinkommen_m(
     einkommen__bruttolohn_m: float,
     einkommen__aus_selbstständigkeit_m: float,
@@ -114,7 +114,7 @@ def erwerbseinkommen_m(
     return out
 
 
-@policy_function
+@policy_function()
 def kapitaleinkommen_brutto_m(
     kapitaleink_brutto_y: float,
     grunds_im_alter_params: dict,
@@ -148,7 +148,7 @@ def kapitaleinkommen_brutto_m(
     return out
 
 
-@policy_function
+@policy_function()
 def private_rente_m(
     rente__private_rente_m: float,
     arbeitsl_geld_2_params: dict,
@@ -188,7 +188,7 @@ def private_rente_m(
     return out
 
 
-@policy_function(end_date="2020-12-31", name_in_dag="gesetzliche_rente_m")
+@policy_function(end_date="2020-12-31", leaf_name="gesetzliche_rente_m")
 def gesetzliche_rente_m_bis_2020(
     rente__altersrente__betrag_m: float,
 ) -> float:
@@ -205,7 +205,7 @@ def gesetzliche_rente_m_bis_2020(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     return rente__altersrente__betrag_m
 
 
@@ -237,7 +237,7 @@ def gesetzliche_rente_m_ab_2021(
     Returns
     -------
 
-    """  # noqa: E501
+    """
 
     angerechnete_rente = piecewise_polynomial(
         x=rente__altersrente__betrag_m,

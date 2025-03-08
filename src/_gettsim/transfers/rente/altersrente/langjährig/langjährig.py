@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze")
 def altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -41,7 +41,7 @@ def altersgrenze_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="2007-04-19",
-    name_in_dag="altersgrenze",
+    leaf_name="altersgrenze",
 )
 def altersgrenze_mit_staffelung_nach_geburtsmonat(
     demographics__geburtsjahr: int,
@@ -99,7 +99,7 @@ def altersgrenze_mit_staffelung_nach_geburtsmonat(
     return out
 
 
-@policy_function(start_date="2007-04-20", name_in_dag="altersgrenze")
+@policy_function(start_date="2007-04-20", leaf_name="altersgrenze")
 def altersgrenze_mit_staffelung_nach_geburtsjahr(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
@@ -156,7 +156,7 @@ def altersgrenze_mit_staffelung_nach_geburtsjahr(
     return out
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -189,7 +189,7 @@ def altersgrenze_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def altersgrenze_vorzeitig_mit_staffelung(
     demographics__geburtsjahr: int,
@@ -230,7 +230,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_function(start_date="1996-09-27", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(start_date="1996-09-27", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -259,7 +259,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_langj_versicherte_vorzeitig"]
 
 
-@policy_function
+@policy_function()
 def grundsätzlich_anspruchsberechtigt(
     rente__altersrente__wartezeit_35_jahre_erfüllt: bool,
 ) -> bool:

@@ -6,7 +6,7 @@ Revoked for birth cohorts after 1951.
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze")
 def ges_rente_frauen_altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -35,7 +35,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_für_frauen_abschlagsfrei"]
 
 
-@policy_function(start_date="1989-12-18", name_in_dag="altersgrenze")
+@policy_function(start_date="1989-12-18", leaf_name="altersgrenze")
 def ges_rente_frauen_altersgrenze_mit_staffelung(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
@@ -87,7 +87,7 @@ def ges_rente_frauen_altersgrenze_mit_staffelung(
     return out
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -120,7 +120,7 @@ def altersgrenze_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-09-26",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def altersgrenze_vorzeitig_mit_staffelung(
     demographics__geburtsjahr: int,
@@ -173,7 +173,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
     return out
 
 
-@policy_function(start_date="1996-09-27", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(start_date="1996-09-27", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -203,7 +203,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
     return ges_rente_params["altersgrenze_für_frauen_vorzeitig"]
 
 
-@policy_function(end_date="1997-12-15", name_in_dag="grundsätzlich_anspruchsberechtigt")
+@policy_function(end_date="1997-12-15", leaf_name="grundsätzlich_anspruchsberechtigt")
 def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     demographics__weiblich: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
@@ -248,7 +248,7 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
 @policy_function(
     start_date="1997-12-16",
     end_date="2017-12-31",
-    name_in_dag="grundsätzlich_anspruchsberechtigt",
+    leaf_name="grundsätzlich_anspruchsberechtigt",
 )
 def grundsätzlich_anspruchsberechtigt_mit_geburtsjahr_prüfung(
     demographics__weiblich: bool,

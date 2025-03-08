@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2007-04-19", name_in_dag="altersgrenze")
+@policy_function(end_date="2007-04-19", leaf_name="altersgrenze")
 def altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -39,7 +39,7 @@ def altersgrenze_ohne_staffelung(
     return ges_rente_params["regelaltersgrenze"]
 
 
-@policy_function(start_date="2007-04-20", name_in_dag="altersgrenze")
+@policy_function(start_date="2007-04-20", leaf_name="altersgrenze")
 def altersgrenze_mit_staffelung(
     demographics__geburtsjahr: int, ges_rente_params: dict
 ) -> float:
@@ -82,7 +82,7 @@ def altersgrenze_mit_staffelung(
     return out
 
 
-@policy_function
+@policy_function()
 def grundsätzlich_anspruchsberechtigt(
     rente__altersrente__mindestwartezeit_erfüllt: bool,
 ) -> bool:

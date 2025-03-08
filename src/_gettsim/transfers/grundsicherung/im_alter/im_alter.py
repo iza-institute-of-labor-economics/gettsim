@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def betrag_m_eg(  # noqa: PLR0913
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     mehrbedarf_schwerbehinderung_g_m_eg: float,
@@ -88,7 +88,7 @@ def betrag_m_eg(  # noqa: PLR0913
     return max(out, 0.0)
 
 
-@policy_function
+@policy_function()
 def mehrbedarf_schwerbehinderung_g_m(
     rente__altersrente__schwerbehindert_grad_g: bool,
     demographic_vars__anzahl_erwachsene_eg: int,
@@ -135,7 +135,7 @@ def mehrbedarf_schwerbehinderung_g_m(
     return out
 
 
-@policy_function
+@policy_function()
 def vermögen_freibetrag_eg(
     demographic_vars__anzahl_erwachsene_fg: int,
     demographic_vars__anzahl_kinder_fg: int,

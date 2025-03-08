@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitnehmer_m")
+@policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitnehmer_m")
 def betrag_vor_midijob_m(
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
@@ -43,7 +43,7 @@ def betrag_vor_midijob_m(
     return out + betrag_rentner_m
 
 
-@policy_function(start_date="2003-04-01", name_in_dag="betrag_arbeitnehmer_m")
+@policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitnehmer_m")
 def betrag_mit_midijob_m(  # noqa: PLR0913
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
@@ -91,7 +91,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     return out + betrag_rentner_m
 
 
-@policy_function
+@policy_function()
 def betrag_arbeitnehmer_regulär_beschäftigt_m(
     sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
     beitragssatz: float,
@@ -114,7 +114,7 @@ def betrag_arbeitnehmer_regulär_beschäftigt_m(
     return sozialversicherungsbeitraege__krankenversicherung__einkommen_m * beitragssatz
 
 
-@policy_function(end_date="2003-03-31", name_in_dag="betrag_arbeitgeber_m")
+@policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_vor_midijob_m(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
@@ -155,7 +155,7 @@ def betrag_arbeitgeber_vor_midijob_m(
     return out
 
 
-@policy_function(start_date="2003-04-01", name_in_dag="betrag_arbeitgeber_m")
+@policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     betrag_arbeitgeber_midijob: float,
@@ -207,7 +207,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
 @policy_function(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    name_in_dag="betrag_selbständig_m",
+    leaf_name="betrag_selbständig_m",
 )
 def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
     sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
@@ -238,7 +238,7 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
     )
 
 
-@policy_function(start_date="2005-01-01", name_in_dag="betrag_selbständig_m")
+@policy_function(start_date="2005-01-01", leaf_name="betrag_selbständig_m")
 def betrag_selbständig_zusatz_kinderlos_dummy_m(
     sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
     beitragssatz: float,
@@ -275,7 +275,7 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
 @policy_function(
     start_date="1995-01-01",
     end_date="2004-03-31",
-    name_in_dag="betrag_rentner_m",
+    leaf_name="betrag_rentner_m",
 )
 def betrag_rentner_reduz_beitrag_m(
     sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
@@ -307,7 +307,7 @@ def betrag_rentner_reduz_beitrag_m(
 @policy_function(
     start_date="2004-04-01",
     end_date="2004-12-31",
-    name_in_dag="betrag_rentner_m",
+    leaf_name="betrag_rentner_m",
 )
 def betrag_rentner_ohne_zusatz_für_kinderlose_m(
     sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
@@ -335,7 +335,7 @@ def betrag_rentner_ohne_zusatz_für_kinderlose_m(
     )
 
 
-@policy_function(start_date="2005-01-01", name_in_dag="betrag_rentner_m")
+@policy_function(start_date="2005-01-01", leaf_name="betrag_rentner_m")
 def betrag_rentner_zusatz_kinderlos_dummy_m(
     sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
@@ -369,7 +369,7 @@ def betrag_rentner_zusatz_kinderlos_dummy_m(
 @policy_function(
     start_date="2003-04-01",
     end_date="2004-12-31",
-    name_in_dag="betrag_gesamt_m",
+    leaf_name="betrag_gesamt_m",
 )
 def betrag_gesamt_bis_2004_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
@@ -401,7 +401,7 @@ def betrag_gesamt_bis_2004_m(
 
 @policy_function(
     start_date="2005-01-01",
-    name_in_dag="betrag_gesamt_m",
+    leaf_name="betrag_gesamt_m",
 )
 def betrag_gesamty_ab_2005_m(
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
@@ -432,7 +432,7 @@ def betrag_gesamty_ab_2005_m(
 
 @policy_function(
     end_date="2004-12-31",
-    name_in_dag="betrag_arbeitgeber_midijob",
+    leaf_name="betrag_arbeitgeber_midijob",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004(
     einkommen__bruttolohn_m: float,
@@ -463,7 +463,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004(
 @policy_function(
     start_date="2005-01-01",
     end_date="2022-09-30",
-    name_in_dag="betrag_arbeitgeber_midijob",
+    leaf_name="betrag_arbeitgeber_midijob",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005(
     einkommen__bruttolohn_m: float,
@@ -492,7 +492,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005(
     return out
 
 
-@policy_function(start_date="2022-10-01", name_in_dag="betrag_arbeitgeber_midijob")
+@policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob")
 def betrag_arbeitgeber_midijob_residuum(
     betrag_gesamt_m: float,
     betrag_arbeitnehmer_m: float,
@@ -518,7 +518,7 @@ def betrag_arbeitgeber_midijob_residuum(
 
 @policy_function(
     end_date="2022-09-30",
-    name_in_dag="betrag_arbeitnehmer_m",
+    leaf_name="betrag_arbeitnehmer_m",
 )
 def betrag_arbeitnehmer_residuum_m(
     betrag_arbeitgeber_midijob: float,
@@ -547,7 +547,7 @@ def betrag_arbeitnehmer_residuum_m(
 @policy_function(
     start_date="2022-10-01",
     end_date="2023-06-30",
-    name_in_dag="betrag_arbeitnehmer_m",
+    leaf_name="betrag_arbeitnehmer_m",
 )
 def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     beitragssatz__zusatzbetrag_kinderlos: bool,
@@ -590,7 +590,7 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     return an_beitr_midijob_m
 
 
-@policy_function(start_date="2023-07-01", name_in_dag="betrag_arbeitnehmer_m")
+@policy_function(start_date="2023-07-01", leaf_name="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
     anzahl_kinder_bis_24: int,
     beitragssatz__zusatzbetrag_kinderlos: bool,

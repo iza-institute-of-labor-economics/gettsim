@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def regelbedarf_m(
     regelsatz_m: float,
     kosten_unterkunft_m: float,
@@ -29,7 +29,7 @@ def regelbedarf_m(
     return regelsatz_m + kosten_unterkunft_m
 
 
-@policy_function
+@policy_function()
 def mehrbedarf_alleinerziehend_m(
     demographics__alleinerziehend: bool,
     demographic_vars__anzahl_kinder_fg: int,
@@ -270,7 +270,7 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     return out * (1 + mehrbedarf_alleinerziehend_m)
 
 
-@policy_function
+@policy_function()
 def regelsatz_m(
     erwachsenensatz_m: float,
     kindersatz_m: float,
@@ -292,7 +292,7 @@ def regelsatz_m(
     return erwachsenensatz_m + kindersatz_m
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="kosten_unterkunft_m")
+@policy_function(end_date="2022-12-31", leaf_name="kosten_unterkunft_m")
 def kosten_unterkunft_m_bis_2022(
     berechtigte_wohnfläche: float,
     warmmiete_je_qm_m: float,
@@ -315,7 +315,7 @@ def kosten_unterkunft_m_bis_2022(
     return berechtigte_wohnfläche * warmmiete_je_qm_m
 
 
-@policy_function(start_date="2023-01-01", name_in_dag="kosten_unterkunft_m")
+@policy_function(start_date="2023-01-01", leaf_name="kosten_unterkunft_m")
 def kosten_unterkunft_m_ab_2023(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
@@ -355,7 +355,7 @@ def kosten_unterkunft_m_ab_2023(
     return out
 
 
-@policy_function
+@policy_function()
 def warmmiete_je_qm_m(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
@@ -388,7 +388,7 @@ def warmmiete_je_qm_m(
     return out
 
 
-@policy_function
+@policy_function()
 def berechtigte_wohnfläche(
     wohnfläche: float,
     wohnen__bewohnt_eigentum_hh: bool,
@@ -414,7 +414,7 @@ def berechtigte_wohnfläche(
     -------
     Integer with the number of squaremeters.
 
-    """  # noqa: E501
+    """
 
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
     max_anzahl_direkt = params["max_anzahl_direkt"]
@@ -438,7 +438,7 @@ def berechtigte_wohnfläche(
     return min(wohnfläche, maximum / demographic_vars__anzahl_personen_hh)
 
 
-@policy_function
+@policy_function()
 def bruttokaltmiete_m(
     bruttokaltmiete_m_hh: float,
     demographic_vars__anzahl_personen_hh: int,
@@ -463,7 +463,7 @@ def bruttokaltmiete_m(
     return bruttokaltmiete_m_hh / demographic_vars__anzahl_personen_hh
 
 
-@policy_function
+@policy_function()
 def heizkosten_m(
     heizkosten_m_hh: float,
     demographic_vars__anzahl_personen_hh: int,
@@ -488,7 +488,7 @@ def heizkosten_m(
     return heizkosten_m_hh / demographic_vars__anzahl_personen_hh
 
 
-@policy_function
+@policy_function()
 def wohnfläche(
     wohnen__wohnfläche_hh: float,
     demographic_vars__anzahl_personen_hh: int,

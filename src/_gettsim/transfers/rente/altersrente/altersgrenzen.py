@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2011-12-31", name_in_dag="altersgrenze_abschlagsfrei")
+@policy_function(end_date="2011-12-31", leaf_name="altersgrenze_abschlagsfrei")
 def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__für_frauen__altersgrenze: float,
@@ -56,7 +56,7 @@ def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
 @policy_function(
     start_date="2012-01-01",
     end_date="2017-12-31",
-    name_in_dag="altersgrenze_abschlagsfrei",
+    leaf_name="altersgrenze_abschlagsfrei",
 )
 def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     rente__altersrente__regelaltersrente__altersgrenze: float,
@@ -121,7 +121,7 @@ def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="altersgrenze_abschlagsfrei")
+@policy_function(start_date="2018-01-01", leaf_name="altersgrenze_abschlagsfrei")
 def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,
@@ -164,7 +164,7 @@ def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
     return out
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(end_date="2017-12-31", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
     rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
@@ -223,7 +223,7 @@ def altersgrenze_vorzeitig_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(start_date="2018-01-01", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
     rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
     rente__altersrente__regelaltersrente__altersgrenze: float,
@@ -260,7 +260,7 @@ def altersgrenze_vorzeitig_ohne_rente_arbeitsl_frauen(
 
 
 @policy_function(
-    end_date="2017-12-31", name_in_dag="vorzeitig_grundsätzlich_anspruchsberechtigt"
+    end_date="2017-12-31", leaf_name="vorzeitig_grundsätzlich_anspruchsberechtigt"
 )
 def vorzeitig_grundsätzlich_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
     rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt: bool,
@@ -300,7 +300,7 @@ def vorzeitig_grundsätzlich_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
 
 
 @policy_function(
-    start_date="2018-01-01", name_in_dag="vorzeitig_grundsätzlich_anspruchsberechtigt"
+    start_date="2018-01-01", leaf_name="vorzeitig_grundsätzlich_anspruchsberechtigt"
 )
 def vorzeitig_grundsätzlich_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_frauen(
     rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
@@ -323,7 +323,7 @@ def vorzeitig_grundsätzlich_anspruchsberechtigt_vorzeitig_ohne_rente_arbeitsl_f
     return rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt
 
 
-@policy_function(end_date="2017-12-31", name_in_dag="referenzalter_abschlag")
+@policy_function(end_date="2017-12-31", leaf_name="referenzalter_abschlag")
 def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__für_frauen__altersgrenze: float,
@@ -406,7 +406,7 @@ def referenzalter_abschlag_mit_rente_arbeitsl_frauen(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2018-01-01", name_in_dag="referenzalter_abschlag")
+@policy_function(start_date="2018-01-01", leaf_name="referenzalter_abschlag")
 def referenzalter_abschlag_ohne_rente_arbeitsl_frauen(
     rente__altersrente__regelaltersrente__altersgrenze: float,
     rente__altersrente__langjährig__altersgrenze: float,

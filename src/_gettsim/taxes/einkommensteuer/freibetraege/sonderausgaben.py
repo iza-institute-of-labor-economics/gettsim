@@ -12,7 +12,7 @@ aggregation_specs = {
 }
 
 
-@policy_function(end_date="2011-12-31", name_in_dag="sonderausgaben_y_sn")
+@policy_function(end_date="2011-12-31", leaf_name="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_nur_pauschale(
     demographic_vars__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -42,7 +42,7 @@ def sonderausgaben_y_sn_nur_pauschale(
     return float(out)
 
 
-@policy_function(start_date="2012-01-01", name_in_dag="sonderausgaben_y_sn")
+@policy_function(start_date="2012-01-01", leaf_name="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_mit_betreuung(
     absetzbare_betreuungskosten: float,
     demographic_vars__anzahl_personen_sn: int,
@@ -77,7 +77,7 @@ def sonderausgaben_y_sn_mit_betreuung(
     return float(out)
 
 
-@policy_function
+@policy_function()
 def ausgaben_für_betreuung_y(
     betreuungskosten_elternteil_y: float,
     eink_st_abzuege_params: dict,

@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def kosten_unterkunft_m_bg(
     wohnbedarf_anteil_eltern_bg: float,
     arbeitslosengeld_2__bruttokaltmiete_m_bg: float,
@@ -35,7 +35,7 @@ def kosten_unterkunft_m_bg(
     return out
 
 
-@policy_function
+@policy_function()
 def wohnbedarf_anteil_eltern_bg(
     anzahl_kinder_bg: int,
     demographic_vars__anzahl_erwachsene_bg: int,
@@ -86,7 +86,7 @@ def wohnbedarf_anteil_eltern_bg(
     return out
 
 
-@policy_function(end_date="2010-12-31", name_in_dag="regelsatz_m_bg")
+@policy_function(end_date="2010-12-31", leaf_name="regelsatz_m_bg")
 def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg: float,
     demographic_vars__alleinerziehend_bg: bool,
@@ -152,7 +152,7 @@ def regelsatz_m_bg(
     return float(out)
 
 
-@policy_function
+@policy_function()
 def bedarf_m_bg(regelsatz_m_bg: float, kosten_unterkunft_m_bg: float) -> float:
     """Aggregate relevant income and rental costs.
 

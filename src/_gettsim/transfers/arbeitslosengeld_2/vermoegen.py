@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def grundfreibetrag_vermögen(
     demographics__kind: bool,
     demographics__alter: int,
@@ -31,7 +31,7 @@ def grundfreibetrag_vermögen(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     threshold_years = list(arbeitsl_geld_2_params["vermögensgrundfreibetrag"].keys())
     if demographics__geburtsjahr <= threshold_years[0]:
         out = (
@@ -49,7 +49,7 @@ def grundfreibetrag_vermögen(
     return float(min(out, maximaler_grundfreibetrag_vermögen))
 
 
-@policy_function
+@policy_function()
 def maximaler_grundfreibetrag_vermögen(
     demographics__geburtsjahr: int,
     demographics__kind: bool,
@@ -73,7 +73,7 @@ def maximaler_grundfreibetrag_vermögen(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     threshold_years = list(
         arbeitsl_geld_2_params["vermögensgrundfreibetrag_obergrenze"].keys()
     )
@@ -129,7 +129,7 @@ def freibetrag_vermögen_in_karenzzeit_bg(
     return out
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="freibetrag_vermögen_bg")
+@policy_function(end_date="2022-12-31", leaf_name="freibetrag_vermögen_bg")
 def freibetrag_vermögen_bg_bis_2022(
     grundfreibetrag_vermögen_bg: float,
     demographic_vars__anzahl_kinder_bis_17_bg: int,

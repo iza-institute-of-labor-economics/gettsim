@@ -6,7 +6,7 @@ Revoked for birth cohorts after 1951.
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze")
 def altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -38,7 +38,7 @@ def altersgrenze_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="altersgrenze",
+    leaf_name="altersgrenze",
 )
 def altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
     altersgrenze_ohne_vertrauensschutzprüfung: float,
@@ -63,7 +63,7 @@ def altersgrenze_ohne_vertrauensschutzprüfung_bis_1996(
 @policy_function(
     start_date="1996-07-29",
     end_date="2009-12-31",
-    name_in_dag="altersgrenze",
+    leaf_name="altersgrenze",
 )
 def altersgrenze_mit_vertrauensschutzprüfung(
     demographics__geburtsjahr: int,
@@ -121,7 +121,7 @@ def altersgrenze_mit_vertrauensschutzprüfung(
 @policy_function(
     start_date="2010-01-01",
     end_date="2017-12-31",
-    name_in_dag="altersgrenze",
+    leaf_name="altersgrenze",
 )
 def altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     altersgrenze_ohne_vertrauensschutzprüfung: float,
@@ -146,7 +146,7 @@ def altersgrenze_ohne_vertrauensschutzprüfung_ab_2010(
     return altersgrenze_ohne_vertrauensschutzprüfung
 
 
-@policy_function(end_date="1989-12-17", name_in_dag="altersgrenze_vorzeitig")
+@policy_function(end_date="1989-12-17", leaf_name="altersgrenze_vorzeitig")
 def altersgrenze_vorzeitig_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
@@ -178,7 +178,7 @@ def altersgrenze_vorzeitig_ohne_staffelung(
 @policy_function(
     start_date="1989-12-18",
     end_date="1996-07-28",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     altersgrenze_vorzeitig_ohne_vertrauenss: float,
@@ -203,7 +203,7 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 @policy_function(
     start_date="1996-07-29",
     end_date="1996-09-26",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     vertrauensschutz_1997: bool,
@@ -244,7 +244,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 @policy_function(
     start_date="1996-09-27",
     end_date="2004-07-25",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
     demographics__geburtsjahr: int,  # noqa: ARG001
@@ -277,7 +277,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
 @policy_function(
     start_date="2004-07-26",
     end_date="2017-12-31",
-    name_in_dag="altersgrenze_vorzeitig",
+    leaf_name="altersgrenze_vorzeitig",
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertrauensschutz_2006: bool,
@@ -421,7 +421,7 @@ def altersgrenze_vorzeitig_ohne_vertrauenss(
     return arbeitsl_vorzeitig
 
 
-@policy_function(end_date="2007-04-29", name_in_dag="grundsätzlich_anspruchsberechtigt")
+@policy_function(end_date="2007-04-29", leaf_name="grundsätzlich_anspruchsberechtigt")
 def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     arbeitslos_für_1_jahr_nach_585: bool,
     rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
@@ -463,7 +463,7 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
 @policy_function(
     start_date="2007-04-30",
     end_date="2017-12-31",
-    name_in_dag="grundsätzlich_anspruchsberechtigt",
+    leaf_name="grundsätzlich_anspruchsberechtigt",
 )
 def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     arbeitslos_für_1_jahr_nach_585: bool,

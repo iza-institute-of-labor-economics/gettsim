@@ -6,7 +6,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 
 
-@policy_function
+@policy_function()
 def betrag_m(
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
     grundsätzlich_anspruchsberechtigt: bool,
@@ -45,7 +45,7 @@ def betrag_m(
     return out
 
 
-@policy_function
+@policy_function()
 def verbleibende_anspruchsdauer(
     demographics__alter: int,
     war_5_jahre_sozialversicherungspflichtig: float,
@@ -72,7 +72,7 @@ def verbleibende_anspruchsdauer(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     nach_alter = piecewise_polynomial(
         demographics__alter,
         thresholds=[
@@ -123,7 +123,7 @@ def verbleibende_anspruchsdauer(
     return out
 
 
-@policy_function
+@policy_function()
 def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     demographics__alter: int,
     arbeitssuchend: bool,
@@ -152,7 +152,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     Returns
     -------
 
-    """  # noqa: E501
+    """
     regelaltersgrenze = rente__altersrente__regelaltersrente__altersgrenze
 
     out = (
@@ -165,7 +165,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     return out
 
 
-@policy_function
+@policy_function()
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
     einkommen__bruttolohn_vorjahr_m: float,
@@ -195,7 +195,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     Returns
     -------
 
-    """  # noqa: E501
+    """
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(
         einkommen__bruttolohn_vorjahr_m,

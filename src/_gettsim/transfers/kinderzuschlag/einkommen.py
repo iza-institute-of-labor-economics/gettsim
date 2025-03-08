@@ -11,7 +11,7 @@ aggregation_specs = {
 }
 
 
-@policy_function
+@policy_function()
 def bruttoeinkommen_eltern_m(
     arbeitslosengeld_2__bruttoeinkommen_m: float,
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
@@ -116,7 +116,7 @@ def maximales_nettoeinkommen_m_bg(
     return out
 
 
-@policy_function
+@policy_function()
 def mindestbruttoeinkommen_m_bg(
     anzahl_kinder_bg: int,
     demographic_vars__alleinerziehend_bg: bool,
@@ -151,7 +151,7 @@ def mindestbruttoeinkommen_m_bg(
     return out
 
 
-@policy_function
+@policy_function()
 def anzurechnendes_einkommen_eltern_m_bg(
     nettoeinkommen_eltern_m_bg: float,
     bedarf_m_bg: float,

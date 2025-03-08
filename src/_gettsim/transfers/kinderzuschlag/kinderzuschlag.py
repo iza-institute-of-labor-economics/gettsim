@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def betrag_m_bg(
     anspruchshöhe_m_bg: float,
     vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
@@ -38,7 +38,7 @@ def betrag_m_bg(
     return out
 
 
-@policy_function
+@policy_function()
 def anspruchshöhe_m(
     anspruchshöhe_m_bg: float,
     demographic_vars__anzahl_personen_bg: int,
@@ -61,7 +61,7 @@ def anspruchshöhe_m(
     return anspruchshöhe_m_bg / demographic_vars__anzahl_personen_bg
 
 
-@policy_function
+@policy_function()
 def anspruchshöhe_m_bg(
     basisbetrag_m_bg: float,
     demographics__vermögen_bg: float,
@@ -93,7 +93,7 @@ def anspruchshöhe_m_bg(
     return out
 
 
-@policy_function(end_date="2022-12-31", name_in_dag="vermögen_freibetrag_bg")
+@policy_function(end_date="2022-12-31", leaf_name="vermögen_freibetrag_bg")
 def vermögen_freibetrag_bg_bis_2022(
     arbeitslosengeld_2__freibetrag_vermögen_bg: float,
 ) -> float:
@@ -112,7 +112,7 @@ def vermögen_freibetrag_bg_bis_2022(
     return arbeitslosengeld_2__freibetrag_vermögen_bg
 
 
-@policy_function(start_date="2023-01-01", name_in_dag="vermögen_freibetrag_bg")
+@policy_function(start_date="2023-01-01", leaf_name="vermögen_freibetrag_bg")
 def vermögen_freibetrag_bg_ab_2023(
     arbeitslosengeld_2__freibetrag_vermögen_in_karenzzeit_bg: float,
 ) -> float:
@@ -236,7 +236,7 @@ def basisbetrag_m_bg(
     return out
 
 
-@policy_function
+@policy_function()
 def basisbetrag_kind_m(  # noqa: PLR0913
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
     einkommen__bruttolohn_m: float,

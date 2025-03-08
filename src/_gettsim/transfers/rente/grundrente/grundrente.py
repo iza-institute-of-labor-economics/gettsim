@@ -22,7 +22,7 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
     return max(out, 0.0)
 
 
-@policy_function
+@policy_function()
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
     einkommen__bruttolohn_vorjahr_m: float,
@@ -187,7 +187,7 @@ def basisbetrag_m(
     return out
 
 
-@policy_function
+@policy_function()
 def durchschnittliche_entgeltpunkte(
     entgeltpunkte: float, bewertungszeiten_m: int
 ) -> float:
@@ -366,7 +366,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     return out
 
 
-@policy_function
+@policy_function()
 def grundsätzlich_anspruchsberechtigt(
     grundrentenzeiten_m: int, ges_rente_params: dict
 ) -> bool:

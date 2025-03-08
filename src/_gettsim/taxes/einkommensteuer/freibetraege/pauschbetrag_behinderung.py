@@ -4,7 +4,7 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def pauschbetrag_behinderung_y(
     demographics__behinderungsgrad: int, eink_st_abzuege_params: dict
 ) -> float:

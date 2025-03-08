@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def kind_zahlbetrag_m(
     kind_anspruch_m: float,
     kindergeld__betrag_m: float,

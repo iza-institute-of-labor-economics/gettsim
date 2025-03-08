@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def einkommen_m(
     einkommen_regulär_beschäftigt_m: float,
     einkommensgrenzen__regulär_beschäftigt: bool,
@@ -34,7 +34,7 @@ def einkommen_m(
     return out
 
 
-@policy_function
+@policy_function()
 def einkommen_regulär_beschäftigt_m(
     einkommen__bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
@@ -59,7 +59,7 @@ def einkommen_regulär_beschäftigt_m(
     return min(einkommen__bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
-@policy_function
+@policy_function()
 def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     bezugsgröße_selbständig_m: float,
@@ -95,7 +95,7 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     Returns
     -------
 
-    """  # noqa: E501
+    """
     # Calculate if self employed insures via public health insurance.
     if einkommen__ist_selbstständig and not privat_versichert:
         out = min(
@@ -114,7 +114,7 @@ def bemessungsgrundlage_selbständig_m(  # noqa: PLR0913
     return out
 
 
-@policy_function
+@policy_function()
 def beitragsbemessungsgrenze_m(
     demographics__wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
@@ -139,7 +139,7 @@ def beitragsbemessungsgrenze_m(
     return float(out)
 
 
-@policy_function
+@policy_function()
 def bezugsgröße_selbständig_m(
     demographics__wohnort_ost: bool, sozialv_beitr_params: dict
 ) -> float:
@@ -158,7 +158,7 @@ def bezugsgröße_selbständig_m(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     out = (
         sozialv_beitr_params["bezugsgröße_selbst_m"]["ost"]
         if demographics__wohnort_ost
@@ -168,7 +168,7 @@ def bezugsgröße_selbständig_m(
     return float(out)
 
 
-@policy_function
+@policy_function()
 def bemessungsgrundlage_rente_m(
     rente__altersrente__sum_private_gesetzl_rente_m: float,
     beitragsbemessungsgrenze_m: float,

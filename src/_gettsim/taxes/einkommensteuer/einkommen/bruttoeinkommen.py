@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="bruttoeinkommen_y")
+@policy_function(end_date="2008-12-31", leaf_name="bruttoeinkommen_y")
 def bruttoeinkommen_mit_kapitaleinkommen_y(
     einkommen__aus_selbstständigkeit_y: float,
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
@@ -41,7 +41,7 @@ def bruttoeinkommen_mit_kapitaleinkommen_y(
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="bruttoeinkommen_y")
+@policy_function(start_date="2009-01-01", leaf_name="bruttoeinkommen_y")
 def bruttoeinkommen_ohne_kapitaleinkommen_y(
     einkommen__aus_selbstständigkeit_y: float,
     bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
@@ -75,7 +75,7 @@ def bruttoeinkommen_ohne_kapitaleinkommen_y(
     return out
 
 
-@policy_function
+@policy_function()
 def kapitaleinkommen_y(
     kapitaleink_brutto_y: float,
     eink_st_abzuege_params: dict,
@@ -102,7 +102,7 @@ def kapitaleinkommen_y(
     return max(out, 0.0)
 
 
-@policy_function
+@policy_function()
 def rente_ertragsanteil(rente__jahr_renteneintritt: int, eink_st_params: dict) -> float:
     """Share of pensions subject to income taxation.
 
@@ -127,7 +127,7 @@ def rente_ertragsanteil(rente__jahr_renteneintritt: int, eink_st_params: dict) -
     return out
 
 
-@policy_function
+@policy_function()
 def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
     bruttoeinkommen_aus_abhängiger_beschäftigung_y: float,
     einkommensgrenzen__geringfügig_beschäftigt: bool,
@@ -154,7 +154,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_ohne_minijob_y(
     return out
 
 
-@policy_function
+@policy_function()
 def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     einkommen__bruttolohn_y: float,
     eink_st_abzuege_params: dict,
@@ -182,7 +182,7 @@ def bruttoeinkommen_aus_abhängiger_beschäftigung_y(
     return max(out, 0.0)
 
 
-@policy_function
+@policy_function()
 def bruttoeinkommen_renteneinkommen_m(
     rente__altersrente__sum_private_gesetzl_rente_m: float, rente_ertragsanteil: float
 ) -> float:

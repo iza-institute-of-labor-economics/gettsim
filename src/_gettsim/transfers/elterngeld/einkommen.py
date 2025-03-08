@@ -3,7 +3,7 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def anzurechnendes_nettoeinkommen_m(
     einkommen__bruttolohn_m: float,
     lohnsteuer__betrag_m: float,
@@ -23,7 +23,7 @@ def anzurechnendes_nettoeinkommen_m(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     # TODO(@MImmesberger): In this case, lohnsteuer__betrag_m should be calculated
     # without taking into account adaptions to the standard care insurance rate.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/792
@@ -47,7 +47,7 @@ def lohnersatzanteil_einkommen_untere_grenze(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     return (
         elterngeld_params["nettoeinkommen_stufen"]["lower_threshold"]
         - nettoeinkommen_vorjahr_m
@@ -80,7 +80,7 @@ def lohnersatzanteil_einkommen_obere_grenze(
 
 
 @policy_function(
-    end_date="2024-03-31", name_in_dag="einkommen_vorjahr_unter_bezugsgrenze"
+    end_date="2024-03-31", leaf_name="einkommen_vorjahr_unter_bezugsgrenze"
 )
 def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     demographics__alleinerziehend: bool,
@@ -101,7 +101,7 @@ def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     if demographics__alleinerziehend:
         out = (
             zu_versteuerndes_einkommen_vorjahr_y_sn
@@ -116,7 +116,7 @@ def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
 
 
 @policy_function(
-    start_date="2024-04-01", name_in_dag="einkommen_vorjahr_unter_bezugsgrenze"
+    start_date="2024-04-01", leaf_name="einkommen_vorjahr_unter_bezugsgrenze"
 )
 def einkommen_vorjahr_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
     zu_versteuerndes_einkommen_vorjahr_y_sn: float,
@@ -163,7 +163,7 @@ def nettoerwerbseinkommen_approximation_m(
         See :func:`lohnsteuer__betrag_soli_m`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
-    """  # noqa: E501
+    """
     prox_ssc = elterngeld_params["sozialv_pausch"] * einkommen__bruttolohn_m
     return (
         einkommen__bruttolohn_m

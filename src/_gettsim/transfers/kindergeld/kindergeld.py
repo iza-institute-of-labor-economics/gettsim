@@ -106,7 +106,7 @@ def grundsätzlich_anspruchsberechtigt_nach_lohn(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     out = (
         demographics__alter < kindergeld_params["altersgrenze"]["ohne_bedingungen"]
     ) or (
@@ -158,7 +158,7 @@ def grundsätzlich_anspruchsberechtigt_nach_stunden(
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_10_mit_kindergeld(
     demographics__alter: int,
     grundsätzlich_anspruchsberechtigt: bool,

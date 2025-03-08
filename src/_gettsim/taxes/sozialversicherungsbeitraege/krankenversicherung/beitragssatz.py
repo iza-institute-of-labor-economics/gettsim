@@ -59,7 +59,7 @@ def beitragssatz_arbeitnehmer_jahresanfang(
 @policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="beitragssatz_arbeitnehmer",
+    leaf_name="beitragssatz_arbeitnehmer",
 )
 def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     zusatzbeitrag_satz: float,
@@ -94,7 +94,7 @@ def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
 @policy_function(
     start_date="2005-07-01",
     end_date="2008-12-31",
-    name_in_dag="beitragssatz_arbeitnehmer_jahresanfang",
+    leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
 def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     zusatzbeitrag_satz: float,
@@ -129,7 +129,7 @@ def satz_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
 @policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="beitragssatz_arbeitnehmer",
+    leaf_name="beitragssatz_arbeitnehmer",
 )
 def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     zusatzbeitrag_satz: float,
@@ -162,7 +162,7 @@ def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
 @policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="beitragssatz_arbeitnehmer_jahresanfang",
+    leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
 def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     zusatzbeitrag_satz: float,
@@ -196,7 +196,7 @@ def satz_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
 
 @policy_function(
     start_date="2019-01-01",
-    name_in_dag="beitragssatz_arbeitnehmer",
+    leaf_name="beitragssatz_arbeitnehmer",
 )
 def satz_zusatzbeitrag_arbeitnehmer_paritätisch(
     zusatzbeitrag_satz: float,
@@ -223,7 +223,7 @@ def satz_zusatzbeitrag_arbeitnehmer_paritätisch(
 
 @policy_function(
     start_date="2019-01-01",
-    name_in_dag="beitragssatz_arbeitnehmer_jahresanfang",
+    leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
 def satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
     zusatzbeitrag_satz: float,
@@ -250,7 +250,7 @@ def satz_zusatzbeitrag_arbeitnehmer_paritätisch_jahresanfang(
 
 @policy_function(
     end_date="2008-12-31",
-    name_in_dag="beitragssatz_arbeitgeber",
+    leaf_name="beitragssatz_arbeitgeber",
 )
 def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
@@ -274,7 +274,7 @@ def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer(
 
 @policy_function(
     end_date="2008-12-31",
-    name_in_dag="beitragssatz_arbeitgeber_jahresanfang",
+    leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
 def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
@@ -304,7 +304,7 @@ def satz_arbeitgeber_mean_kassenspezifisch_zusatzbeitrag_nur_arbeitnehmer_jahres
 @policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="beitragssatz_arbeitgeber",
+    leaf_name="beitragssatz_arbeitgeber",
 )
 def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
     sozialv_beitr_params: dict,
@@ -330,7 +330,7 @@ def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer(
 @policy_function(
     start_date="2009-01-01",
     end_date="2018-12-31",
-    name_in_dag="beitragssatz_arbeitgeber_jahresanfang",
+    leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
 def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
     sozialv_beitr_params: dict,
@@ -357,7 +357,7 @@ def satz_arbeitgeber_einheitlich_zusatzbeitrag_nur_arbeitnehmer_jahresanfang(
 
 @policy_function(
     start_date="2019-01-01",
-    name_in_dag="beitragssatz_arbeitgeber",
+    leaf_name="beitragssatz_arbeitgeber",
 )
 def satz_arbeitgeber_zusatzbeitrag_paritätisch(
     beitragssatz_arbeitnehmer: float,
@@ -381,7 +381,7 @@ def satz_arbeitgeber_zusatzbeitrag_paritätisch(
 
 @policy_function(
     start_date="2019-01-01",
-    name_in_dag="beitragssatz_arbeitgeber_jahresanfang",
+    leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
 def satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
     beitragssatz_arbeitnehmer_jahresanfang: float,
@@ -406,7 +406,7 @@ def satz_arbeitgeber_zusatzbeitrag_paritätisch_jahresanfang(
 @policy_function(
     start_date="2005-07-01",
     end_date="2014-12-31",
-    name_in_dag="zusatzbeitrag_satz",
+    leaf_name="zusatzbeitrag_satz",
 )
 def satz_from_sonderbeitr_satz(
     sozialv_beitr_params: dict,
@@ -429,7 +429,7 @@ def satz_from_sonderbeitr_satz(
 
 @policy_function(
     start_date="2015-01-01",
-    name_in_dag="zusatzbeitrag_satz",
+    leaf_name="zusatzbeitrag_satz",
 )
 def zusatzbeitrag_satz_from_mean_zusatzbeitrag(
     sozialv_beitr_params: dict,

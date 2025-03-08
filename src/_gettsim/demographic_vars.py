@@ -94,7 +94,7 @@ aggregation_specs = {
 }
 
 
-@policy_function
+@policy_function()
 def kind_bis_2(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 3.
 
@@ -113,7 +113,7 @@ def kind_bis_2(demographics__alter: int, demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_5(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 6.
 
@@ -132,7 +132,7 @@ def kind_bis_5(demographics__alter: int, demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_6(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 7.
 
@@ -151,7 +151,7 @@ def kind_bis_6(demographics__alter: int, demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_15(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if child under the age of 16.
 
@@ -170,7 +170,7 @@ def kind_bis_15(demographics__alter: int, demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_17(demographics__alter: int, demographics__kind: bool) -> bool:
     """Calculate if underage person.
 
@@ -189,7 +189,7 @@ def kind_bis_17(demographics__alter: int, demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def kind_bis_24(demographics__alter: int) -> bool:
     """Child below the age of 25.
 
@@ -207,7 +207,7 @@ def kind_bis_24(demographics__alter: int) -> bool:
     return demographics__alter <= 24
 
 
-@policy_function
+@policy_function()
 def erwachsen(demographics__kind: bool) -> bool:
     """Calculate if adult.
 
@@ -226,7 +226,7 @@ def erwachsen(demographics__kind: bool) -> bool:
     return out
 
 
-@policy_function
+@policy_function()
 def erwachsene_alle_rentner_hh(
     anzahl_erwachsene_hh: int, anzahl_rentner_hh: int
 ) -> bool:
@@ -246,7 +246,7 @@ def erwachsene_alle_rentner_hh(
     return anzahl_erwachsene_hh == anzahl_rentner_hh
 
 
-@policy_function
+@policy_function()
 def geburtsdatum(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
@@ -277,7 +277,7 @@ def geburtsdatum(
     return out
 
 
-@policy_function
+@policy_function()
 def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> float:
     """Calculate age of youngest child in months.
 
@@ -302,7 +302,7 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     return out.astype(float)
 
 
-@policy_function
+@policy_function()
 def jüngstes_kind_oder_mehrling(
     alter_monate: float,
     alter_monate_jüngstes_mitglied_fg: float,
@@ -334,7 +334,7 @@ def jüngstes_kind_oder_mehrling(
     return out
 
 
-@policy_function
+@policy_function()
 def birthdate_decimal(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,

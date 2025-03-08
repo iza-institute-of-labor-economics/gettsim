@@ -6,7 +6,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function(
     start_date="2012-01-01",
     end_date="2014-06-22",
-    name_in_dag="altersgrenze",
+    leaf_name="altersgrenze",
 )
 def altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
@@ -40,7 +40,7 @@ def altersgrenze_ohne_staffelung(
     return ges_rente_params["altersgrenze_besond_langj_versicherte"]
 
 
-@policy_function(start_date="2014-06-23", name_in_dag="altersgrenze")
+@policy_function(start_date="2014-06-23", leaf_name="altersgrenze")
 def altersgrenze_mit_staffelung(
     demographics__geburtsjahr: int,
     ges_rente_params: dict,

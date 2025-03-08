@@ -23,7 +23,7 @@ def betrag_y_sn(
     return abgelt_st_params["satz"] * zu_versteuerndes_kapitaleinkommen_y_sn
 
 
-@policy_function
+@policy_function()
 def zu_versteuerndes_kapitaleinkommen_y_sn(
     kapitaleink_brutto_y_sn: float,
     demographic_vars__anzahl_personen_sn: int,

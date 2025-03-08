@@ -11,7 +11,7 @@ def betrag_m(bruttorente_m: float, rentner: bool) -> float:
 @policy_function(
     start_date="2021-01-01",
     params_key_for_rounding="ges_rente",
-    name_in_dag="betrag_m",
+    leaf_name="betrag_m",
 )
 def betrag_mit_grundrente_m(
     bruttorente_m: float,
@@ -37,7 +37,7 @@ def betrag_mit_grundrente_m(
     return out
 
 
-@policy_function
+@policy_function()
 def sum_private_gesetzl_rente_m(
     rente__private_rente_m: float, betrag_m: float
 ) -> float:
@@ -60,7 +60,7 @@ def sum_private_gesetzl_rente_m(
 
 @policy_function(
     end_date="2016-12-31",
-    name_in_dag="bruttorente_m",
+    leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_mit_harter_hinzuverdienstgrenze_m(
@@ -106,7 +106,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
 @policy_function(
     start_date="2017-01-01",
     end_date="2022-12-31",
-    name_in_dag="bruttorente_m",
+    leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_mit_hinzuverdienstdeckel_m(
@@ -267,7 +267,7 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
 
 @policy_function(
     start_date="2023-01-01",
-    name_in_dag="bruttorente_m",
+    leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
 def bruttorente_ohne_einkommensanrechnung_m(
@@ -335,7 +335,7 @@ def bruttorente_basisbetrag_m(
     return out
 
 
-@policy_function
+@policy_function()
 def rentenwert(demographics__wohnort_ost: bool, ges_rente_params: dict) -> float:
     """Select the rentenwert depending on place of living.
 
@@ -357,7 +357,7 @@ def rentenwert(demographics__wohnort_ost: bool, ges_rente_params: dict) -> float
     return float(out)
 
 
-@policy_function
+@policy_function()
 def zugangsfaktor(  # noqa: PLR0913
     rente__alter_bei_renteneintritt: float,
     rente__altersrente__regelaltersrente__altersgrenze: float,
@@ -469,7 +469,7 @@ def zugangsfaktor(  # noqa: PLR0913
     return out
 
 
-@policy_function
+@policy_function()
 def entgeltp_west_updated(
     demographics__wohnort_ost: bool,
     entgeltpunkte_west: float,
@@ -502,7 +502,7 @@ def entgeltp_west_updated(
     return out
 
 
-@policy_function
+@policy_function()
 def entgeltp_ost_updated(
     demographics__wohnort_ost: bool,
     entgeltpunkte_ost: float,
@@ -535,7 +535,7 @@ def entgeltp_ost_updated(
     return out
 
 
-@policy_function
+@policy_function()
 def entgeltp_update(
     einkommen__bruttolohn_m: float,
     demographics__wohnort_ost: bool,
@@ -589,7 +589,7 @@ def entgeltp_update(
     return out
 
 
-@policy_function
+@policy_function()
 def anteil_entgeltp_ost(
     entgeltpunkte_west: float,
     entgeltpunkte_ost: float,

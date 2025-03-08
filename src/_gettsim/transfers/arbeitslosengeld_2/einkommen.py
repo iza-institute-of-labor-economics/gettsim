@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 
-@policy_function
+@policy_function()
 def anzurechnendes_einkommen_m(
     nettoeinkommen_nach_abzug_freibetrag_m: float,
     unterhalt__kind_betrag_m: float,
@@ -49,7 +49,7 @@ def anzurechnendes_einkommen_m(
     )
 
 
-@policy_function
+@policy_function()
 def nettoeinkommen_nach_abzug_freibetrag_m(
     nettoeinkommen_vor_abzug_freibetrag_m: float,
     anrechnungsfreies_einkommen_m: float,
@@ -74,7 +74,7 @@ def nettoeinkommen_nach_abzug_freibetrag_m(
     return nettoeinkommen_vor_abzug_freibetrag_m - anrechnungsfreies_einkommen_m
 
 
-@policy_function
+@policy_function()
 def nettoeinkommen_vor_abzug_freibetrag_m(
     bruttoeinkommen_m: float,
     eink_st_m_sn: float,
@@ -113,7 +113,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     )
 
 
-@policy_function
+@policy_function()
 def bruttoeinkommen_m(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     einkommen__sonstige_m: float,

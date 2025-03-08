@@ -4,7 +4,7 @@ from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def miete_m_wthh(
     miete_m_hh: float,
     demographic_vars__anzahl_personen_wthh: int,
@@ -34,7 +34,7 @@ def miete_m_wthh(
     )
 
 
-@policy_function
+@policy_function()
 def miete_m_bg(
     miete_m_hh: float,
     demographic_vars__anzahl_personen_bg: int,
@@ -63,7 +63,7 @@ def miete_m_bg(
     )
 
 
-@policy_function
+@policy_function()
 def min_miete_m_hh(
     demographic_vars__anzahl_personen_hh: int, wohngeld_params: dict
 ) -> float:
@@ -85,7 +85,7 @@ def min_miete_m_hh(
     return float(out)
 
 
-@policy_function(end_date="2008-12-31", name_in_dag="miete_m_hh")
+@policy_function(end_date="2008-12-31", leaf_name="miete_m_hh")
 def miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
     baujahr_immobilie_hh: int,
@@ -151,7 +151,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     return out
 
 
-@policy_function(start_date="2009-01-01", name_in_dag="miete_m_hh")
+@policy_function(start_date="2009-01-01", leaf_name="miete_m_hh")
 def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     demographic_vars__anzahl_personen_hh: int,

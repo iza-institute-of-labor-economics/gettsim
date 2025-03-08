@@ -19,7 +19,7 @@ priority check, but cannot cover their needs with the Wohngeld calculated in poi
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function
+@policy_function()
 def betrag_m_wthh(
     anspruchshöhe_m_wthh: float,
     demographic_vars__erwachsene_alle_rentner_hh: bool,
@@ -42,7 +42,7 @@ def betrag_m_wthh(
     Returns
     -------
 
-    """  # noqa: E501
+    """
     # TODO (@MImmesberger): This implementation may be only an approximation of the
     # actual rules for individuals that are on the margin of the priority check.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/752

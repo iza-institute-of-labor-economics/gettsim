@@ -15,7 +15,7 @@ aggregation_specs = {
 }
 
 
-@policy_function
+@policy_function()
 def wohngeld_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
@@ -45,7 +45,7 @@ def wohngeld_vorrang_bg(
     )
 
 
-@policy_function
+@policy_function()
 def kinderzuschlag_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
@@ -72,7 +72,7 @@ def kinderzuschlag_vorrang_bg(
     )
 
 
-@policy_function
+@policy_function()
 def wohngeld_kinderzuschlag_vorrang_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
