@@ -158,7 +158,7 @@ def betrag_arbeitgeber_vor_midijob_m(
 @policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    betrag_arbeitgeber_midijob: float,
+    betrag_arbeitgeber_midijob_m: float,
     sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
     sozialv_beitr_params: dict,
     einkommensgrenzen__in_gleitzone: bool,
@@ -172,8 +172,8 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    betrag_arbeitgeber_midijob
-        See :func:`betrag_arbeitgeber_midijob`.
+    betrag_arbeitgeber_midijob_m
+        See :func:`betrag_arbeitgeber_midijob_m`.
     sozialversicherungsbeitraege__krankenversicherung__einkommen_m
         See         :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen_m`.
     sozialv_beitr_params
@@ -197,7 +197,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     if einkommen__ist_selbstständig or einkommensgrenzen__geringfügig_beschäftigt:
         out = 0.0
     elif einkommensgrenzen__in_gleitzone:
-        out = betrag_arbeitgeber_midijob
+        out = betrag_arbeitgeber_midijob_m
     else:
         out = beitr_regulär_beschäftigt_m
 
@@ -432,9 +432,9 @@ def betrag_gesamty_ab_2005_m(
 
 @policy_function(
     end_date="2004-12-31",
-    leaf_name="betrag_arbeitgeber_midijob",
+    leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004(
+def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
     einkommen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -463,9 +463,9 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004(
 @policy_function(
     start_date="2005-01-01",
     end_date="2022-09-30",
-    leaf_name="betrag_arbeitgeber_midijob",
+    leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005(
+def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
     einkommen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -492,8 +492,8 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005(
     return out
 
 
-@policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob")
-def betrag_arbeitgeber_midijob_residuum(
+@policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
+def betrag_arbeitgeber_midijob_residuum_m(
     betrag_gesamt_m: float,
     betrag_arbeitnehmer_m: float,
 ) -> float:
@@ -518,10 +518,10 @@ def betrag_arbeitgeber_midijob_residuum(
 
 @policy_function(
     end_date="2022-09-30",
-    leaf_name="betrag_arbeitnehmer_m",
+    leaf_name="betrag_arbeitnehmer_midijob_m",
 )
-def betrag_arbeitnehmer_residuum_m(
-    betrag_arbeitgeber_midijob: float,
+def betrag_arbeitnehmer_midijob_residuum_m(
+    betrag_arbeitgeber_midijob_m: float,
     betrag_gesamt_m: float,
 ) -> float:
     """Employee's long-term care insurance contribution for Midijobs
@@ -529,8 +529,8 @@ def betrag_arbeitnehmer_residuum_m(
 
     Parameters
     ----------
-    betrag_arbeitgeber_midijob
-        See :func:`betrag_arbeitgeber_midijob`.
+    betrag_arbeitgeber_midijob_m
+        See :func:`betrag_arbeitgeber_midijob_m`.
     betrag_gesamt_m
         See :func:`betrag_gesamt_m`.
 
@@ -539,7 +539,7 @@ def betrag_arbeitnehmer_residuum_m(
     Employee's long-term care insurance contributions.
 
     """
-    out = betrag_gesamt_m - betrag_arbeitgeber_midijob
+    out = betrag_gesamt_m - betrag_arbeitgeber_midijob_m
 
     return out
 
@@ -547,15 +547,15 @@ def betrag_arbeitnehmer_residuum_m(
 @policy_function(
     start_date="2022-10-01",
     end_date="2023-06-30",
-    leaf_name="betrag_arbeitnehmer_m",
+    leaf_name="betrag_arbeitnehmer_midijob_m",
 )
-def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
+def betrag_arbeitnehmer_midijob_anteil_beitragspfl_einnahme_m(
     beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
     einkommensgrenzen__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's long-term care insurance contribution since between October 2022 and
+    """Employee's long-term care insurance contribution between October 2022 and
     June 2023.
 
     Parameters
@@ -590,8 +590,8 @@ def betrag_arbeitnehmer_anteil_beitragspfl_einnahme_m(
     return an_beitr_midijob_m
 
 
-@policy_function(start_date="2023-07-01", leaf_name="betrag_arbeitnehmer_m")
-def betrag_arbeitnehmer_m_anteil_mit_kinder_abschlag(
+@policy_function(start_date="2023-07-01", leaf_name="betrag_arbeitnehmer_midijob_m")
+def betrag_arbeitnehmer_midijob_anteil_mit_kinder_abschlag_m(
     anzahl_kinder_bis_24: int,
     beitragssatz__zusatzbetrag_kinderlos: bool,
     einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
