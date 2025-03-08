@@ -336,7 +336,7 @@ The snippet is taken from `ges_rente.yaml`, which contains the following code:
 
 ```yaml
 rounding:
-  rente__grundrente__höchstbetrag_m:
+  höchstbetrag_m:
     2020-01-01:
       base: 0.0001
       direction: nearest

@@ -127,8 +127,8 @@ indicate the level of aggregation.
 GETTSIM knows about the following units:
 
 - `demographics__p_id`: person identifier
-- `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
-  (§5 WoGG).
+- `demographics__hh_id`: Haushalt, individuals living together in a household in the
+  Wohngeld sense (§5 WoGG).
 - `wohngeld__wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for
   whom the priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This
   unit is based on the priority check via `vorrangpruefungen__wohngeld_vorrang_bg` and
@@ -154,7 +154,7 @@ for costs of dwelling in SGB II depend on this).
 
 Open questions:
 
-- Can we use arbeitslosengeld_2\_\_bg_id for both SGB II and SGB XII at the same time or
+- Can we use `arbeitslosengeld_2__bg_id` for both SGB II and SGB XII at the same time or
   do we need to differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
@@ -166,7 +166,7 @@ The structure of these parameters are laid out in \<GEP-3 `gep-3`>; we just note
 general naming considerations here.
 
 - There is a hierarchical structure to these parameters in that each of them is
-  associated with a group (e.g., `arbeitsl_geld`, `kinderzuschlag`). These groups or
+  associated with a group (e.g., `arbeitslosengeld`, `kinderzuschlag`). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to

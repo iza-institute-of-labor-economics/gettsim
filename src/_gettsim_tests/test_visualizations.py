@@ -161,7 +161,10 @@ def test_horizontal_plot_dag():
     plot_dag(
         environment=environment,
         selectors=[
-            {"node": "abgeltungssteuer__kapitaleinkommen_y_sn", "type": "neighbors"}
+            {
+                "node": "abgeltungssteuer__zu_versteuerndes_kapitaleinkommen_y_sn",
+                "type": "neighbors",
+            }
         ],
         orientation="h",
     )
@@ -174,7 +177,10 @@ def test_hover_source_code_plot_dag():
     plot_dag(
         environment=environment,
         selectors=[
-            {"node": "abgeltungssteuer__kapitaleinkommen_y_sn", "type": "neighbors"}
+            {
+                "node": "abgeltungssteuer__zu_versteuerndes_kapitaleinkommen_y_sn",
+                "type": "neighbors",
+            }
         ],
         orientation="h",
         hover_source_code=True,

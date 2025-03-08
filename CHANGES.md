@@ -219,7 +219,7 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 - {gh}`275` Implement Grundrente. Implement Grundsicherung im Alter. Remove
   <span
-  class="title-ref">rente\_\_altersrente\_\_betrag_m</span> as input. Rename
+  class="title-ref">ges_rente_m</span> as input. Rename
   <span
   class="title-ref">gettsim.renten_anspr</span> to
   <span
