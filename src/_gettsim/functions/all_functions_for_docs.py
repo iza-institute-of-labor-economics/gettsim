@@ -4,7 +4,7 @@ in the documentation."""
 from _gettsim.demographic_vars import *
 from _gettsim.taxes.abgeltungssteuer.abgeltungssteuer import *
 from _gettsim.taxes.einkommensgrenzen.einkommensgrenzen import *
-from _gettsim.taxes.einkommensteuer.einkommen.bruttoeinkommen import *
+from _gettsim.taxes.einkommensteuer.einkommen.einkünfte import *
 from _gettsim.taxes.einkommensteuer.einkommen.vorsorgeaufwand import *
 from _gettsim.taxes.einkommensteuer.einkommen.zu_versteuerndes_einkommen import *
 from _gettsim.taxes.einkommensteuer.einkommensteuer import *

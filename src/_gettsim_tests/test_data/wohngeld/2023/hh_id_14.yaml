@@ -221,7 +221,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__bruttoeinkommen_aus_abhängiger_beschäftigung_y:
+    einkommensteuer__einkommen__einkünfte_aus_abhängiger_beschäftigung_y:
       - 15600.0
       - 14400.0
       - 0.0

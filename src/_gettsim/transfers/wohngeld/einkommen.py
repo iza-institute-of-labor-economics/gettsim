@@ -141,7 +141,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommen__aus_vermietung_m: float,
     arbeitslosengeld__betrag_m: float,
     einkommen__sonstige_m: float,
-    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
+    einkommensteuer__einkommen__renteneinkünfte_m: float,
     unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     abzüge_steuern_sozialversicherung_m: float,
@@ -164,8 +164,8 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
         See :func:`arbeitslosengeld__betrag_m`.
     einkommen__sonstige_m
         See :func:`einkommen__sonstige_m`.
-    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
-        See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
+    einkommensteuer__einkommen__renteneinkünfte_m
+        See :func:`einkommensteuer__einkommen__renteneinkünfte_m`.
     unterhalt__kind_betrag_m
         See basic input variable :ref:`unterhalt__kind_betrag_m <unterhalt__kind_betrag_m>`.
     unterhaltsvorschuss__betrag_m
@@ -186,7 +186,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 
     transfers = (
         arbeitslosengeld__betrag_m
-        + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
+        + einkommensteuer__einkommen__renteneinkünfte_m
         + unterhalt__kind_betrag_m
         + unterhaltsvorschuss__betrag_m
     )
@@ -204,7 +204,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommen__aus_vermietung_m: float,
     arbeitslosengeld__betrag_m: float,
     einkommen__sonstige_m: float,
-    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m: float,
+    einkommensteuer__einkommen__renteneinkünfte_m: float,
     unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
@@ -228,8 +228,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`arbeitslosengeld__betrag_m`.
     einkommen__sonstige_m
         See :func:`einkommen__sonstige_m`.
-    einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
-        See :func:`einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m`.
+    einkommensteuer__einkommen__renteneinkünfte_m
+        See :func:`einkommensteuer__einkommen__renteneinkünfte_m`.
     unterhalt__kind_betrag_m
         See basic input variable :ref:`unterhalt__kind_betrag_m <unterhalt__kind_betrag_m>`.
     unterhaltsvorschuss__betrag_m
@@ -255,7 +255,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
 
     transfers = (
         arbeitslosengeld__betrag_m
-        + einkommensteuer__einkommen__bruttoeinkommen_renteneinkommen_m
+        + einkommensteuer__einkommen__renteneinkünfte_m
         + unterhalt__kind_betrag_m
         + unterhaltsvorschuss__betrag_m
         + elterngeld__anrechenbarer_betrag_m

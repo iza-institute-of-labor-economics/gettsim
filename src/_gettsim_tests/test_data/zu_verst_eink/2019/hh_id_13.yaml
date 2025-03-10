@@ -108,7 +108,7 @@ outputs:
   einkommensteuer__freibetraege__alleinerziehend_y:
     - 1908
     - 0
-  einkommensteuer__einkommen__bruttoeinkommen_y:
+  einkommensteuer__einkommen__gesamteinkünfte_y:
     - 17000
     - 0
   einkommensteuer__freibetraege__pauschbetrag_behinderung_y:

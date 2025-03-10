@@ -176,7 +176,7 @@ outputs:
     - 0
     - 0
     - 0
-  einkommensteuer__einkommen__bruttoeinkommen_y:
+  einkommensteuer__einkommen__gesamteinkünfte_y:
     - 41000
     - 23000
     - 0
