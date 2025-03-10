@@ -2,7 +2,7 @@
 
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
-from _gettsim.taxes.einkommensteuer.solidaritaetszuschlag import (
+from _gettsim.taxes.solidaritaetszuschlag.solidaritaetszuschlag import (
     solidaritaetszuschlag_tarif,
 )
 

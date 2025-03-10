@@ -471,7 +471,7 @@ def test_durchschnittliche_entgeltpunkte(
 
 
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__grundsätzlich_anspruchsberechtigt(backend):
+def test_transfers_grundsätzlich_anspruchsberechtigt(backend):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
