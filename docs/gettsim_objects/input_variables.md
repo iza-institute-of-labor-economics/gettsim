@@ -577,9 +577,9 @@ Highest gross income from regular employment in the last 15 years before pension
 claiming. Relevant to determine pension benefit deductions for retirees in early
 retirement.
 
-(arbeitslosengeld_2__in_vorjahr_bezogen)=
+(arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr)=
 
-## `arbeitslosengeld_2__in_vorjahr_bezogen`
+## `arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr`
 
 Received Bürgergeld in previous year
 

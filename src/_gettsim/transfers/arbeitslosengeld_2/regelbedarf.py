@@ -319,7 +319,7 @@ def kosten_der_unterkunft_m_bis_2022(
 def kosten_der_unterkunft_m_ab_2023(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
-    in_vorjahr_bezogen: bool,
+    arbeitslosengeld_2_bezug_im_vorjahr: bool,
     berechtigte_wohnfläche: float,
     warmmiete_je_qm_m: float,
 ) -> float:
@@ -335,8 +335,8 @@ def kosten_der_unterkunft_m_ab_2023(
         See :func:`bruttokaltmiete_m`.
     heizkosten_m
         See :func:`heizkosten_m`.
-    in_vorjahr_bezogen
-        See basic input variable :ref:`in_vorjahr_bezogen <in_vorjahr_bezogen>`.
+    arbeitslosengeld_2_bezug_im_vorjahr
+        See basic input variable :ref:`arbeitslosengeld_2_bezug_im_vorjahr <arbeitslosengeld_2_bezug_im_vorjahr>`.
     berechtigte_wohnfläche
         See :func:`berechtigte_wohnfläche`.
     warmmiete_je_qm_m
@@ -347,7 +347,7 @@ def kosten_der_unterkunft_m_ab_2023(
     float with total monthly cost of rent.
 
     """
-    if in_vorjahr_bezogen:
+    if arbeitslosengeld_2_bezug_im_vorjahr:
         out = berechtigte_wohnfläche * warmmiete_je_qm_m
     else:
         out = bruttokaltmiete_m + heizkosten_m

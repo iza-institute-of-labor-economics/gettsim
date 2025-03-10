@@ -154,7 +154,7 @@ def create_basic_households(
         {
             "hh_id": [i] * (n_adults + n_children),
             "basic_inputs__hh_typ": [hh_typ_string] * (n_adults + n_children),
-            "basic_inputs__sozialversicherungsbeitraege__pflegeversicherung__hat_kinder": sozialversicherungsbeitraege__pflegeversicherung__hat_kinder,
+            "basic_inputs__sozialversicherungsbeitraege__pflegeversicherung__hat_kinder": sozialversicherungsbeitraege__pflegeversicherung__hat_kinder,  # noqa: E501
             "basic_inputs__alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
@@ -306,12 +306,15 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
     n_children_lookup = min(n_children, 2)
     hh_typ_string_lookup = create_hh_typ_string(n_adults, n_children_lookup)
 
-    # Take care of arbeitslosengeld_2__in_vorjahr_bezogen
+    # Take care of arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr
     if (
         policy_year >= 2023
-        and "basic_inputs__arbeitslosengeld_2__in_vorjahr_bezogen" not in df
+        and "basic_inputs__arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr"
+        not in df
     ):
-        df["basic_inputs__arbeitslosengeld_2__in_vorjahr_bezogen"] = True
+        df["basic_inputs__arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr"] = (
+            True
+        )
 
     default_values = {
         "basic_inputs__einkommensteuer__gemeinsam_veranlagt": (

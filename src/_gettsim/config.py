@@ -168,7 +168,7 @@ TYPES_INPUT_VARIABLES = {
     # Bedarfsgemeinschaften are fully endogenous
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     "arbeitslosengeld_2__eigenbedarf_gedeckt": bool,
-    "arbeitslosengeld_2__in_vorjahr_bezogen": bool,
+    "arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr": bool,
     "demographics__alleinerziehend": bool,
     "demographics__alter": int,
     "demographics__arbeitsstunden_w": float,  # Temporary namespace

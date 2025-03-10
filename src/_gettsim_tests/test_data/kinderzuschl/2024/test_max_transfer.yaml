@@ -85,7 +85,7 @@ inputs:
     wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    arbeitslosengeld_2__in_vorjahr_bezogen:
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
       - false
   assumed: {}

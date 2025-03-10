@@ -112,8 +112,8 @@ def freibetrag_vermögen_in_karenzzeit_bg(
         <arbeitsl_geld_2_params>`.
     demographic_vars__anzahl_personen_bg
         See :func:`demographic_vars__anzahl_personen_bg`.
-    in_vorjahr_bezogen
-        See basic input variable :ref:`in_vorjahr_bezogen <in_vorjahr_bezogen>`.
+    arbeitslosengeld_2_bezug_im_vorjahr
+        See basic input variable :ref:`arbeitslosengeld_2_bezug_im_vorjahr <arbeitslosengeld_2_bezug_im_vorjahr>`.
 
 
     Returns
@@ -171,7 +171,7 @@ def freibetrag_vermögen_bg_ab_2023(
     arbeitsl_geld_2_params: dict,
     demographic_vars__anzahl_personen_bg: int,
     freibetrag_vermögen_in_karenzzeit_bg: float,
-    in_vorjahr_bezogen: bool,
+    arbeitslosengeld_2_bezug_im_vorjahr: bool,
 ) -> float:
     """Calculate actual wealth exemptions since 2023.
 
@@ -187,8 +187,8 @@ def freibetrag_vermögen_bg_ab_2023(
         See :func:`demographic_vars__anzahl_personen_bg`.
     freibetrag_vermögen_in_karenzzeit_bg
         See :func:`freibetrag_vermögen_in_karenzzeit_bg`.
-    in_vorjahr_bezogen
-        See basic input variable :ref:`in_vorjahr_bezogen <in_vorjahr_bezogen>`.
+    arbeitslosengeld_2_bezug_im_vorjahr
+        See basic input variable :ref:`arbeitslosengeld_2_bezug_im_vorjahr <arbeitslosengeld_2_bezug_im_vorjahr>`.
 
 
     Returns
@@ -196,7 +196,7 @@ def freibetrag_vermögen_bg_ab_2023(
 
     """
     params = arbeitsl_geld_2_params["schonvermögen_bürgergeld"]
-    if in_vorjahr_bezogen:
+    if arbeitslosengeld_2_bezug_im_vorjahr:
         out = demographic_vars__anzahl_personen_bg * params["normaler_satz"]
     else:
         out = freibetrag_vermögen_in_karenzzeit_bg

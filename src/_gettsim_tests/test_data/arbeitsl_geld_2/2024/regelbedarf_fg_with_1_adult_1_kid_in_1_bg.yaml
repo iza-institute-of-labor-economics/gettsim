@@ -27,7 +27,7 @@ inputs:
     arbeitslosengeld_2__bg_id:
       - 0
       - 0
-    arbeitslosengeld_2__in_vorjahr_bezogen:
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
       - false
     wohnen__bewohnt_eigentum_hh:
