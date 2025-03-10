@@ -121,7 +121,7 @@ def test_plot_dag():
     """Make sure that minimal example doesn't produce an error."""
     plot_dag(
         environment=environment,
-        targets=["demographic_vars__erwachsene_alle_rentner_hh"],
+        targets=["demographics__erwachsene_alle_rentner_hh"],
     )
 
 
@@ -132,7 +132,7 @@ def test_should_fail_if_target_is_missing():
     ):
         plot_dag(
             environment=PolicyEnvironment({}),
-            targets=["demographic_vars__erwachsene_alle_rentner_hh"],
+            targets=["demographics__erwachsene_alle_rentner_hh"],
         )
 
 

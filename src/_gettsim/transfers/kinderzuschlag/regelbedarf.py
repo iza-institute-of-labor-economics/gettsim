@@ -38,7 +38,7 @@ def kosten_der_unterkunft_m_bg(
 @policy_function()
 def wohnbedarf_anteil_eltern_bg(
     anzahl_kinder_bg: int,
-    demographic_vars__anzahl_erwachsene_bg: int,
+    demographics__anzahl_erwachsene_bg: int,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate living needs broken down to the parents. Defined as parents'
@@ -51,8 +51,8 @@ def wohnbedarf_anteil_eltern_bg(
     ----------
     anzahl_kinder_bg
         See :func:`anzahl_kinder_bg`.
-    demographic_vars__anzahl_erwachsene_bg
-        See :func:`demographic_vars__anzahl_erwachsene_bg`.
+    demographics__anzahl_erwachsene_bg
+        See :func:`demographics__anzahl_erwachsene_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -64,9 +64,7 @@ def wohnbedarf_anteil_eltern_bg(
 
     # Up to 10 children are considered
     considered_children = min(anzahl_kinder_bg, 10)
-    single_oder_paar = (
-        "single" if demographic_vars__anzahl_erwachsene_bg == 1 else "paare"
-    )
+    single_oder_paar = "single" if demographics__anzahl_erwachsene_bg == 1 else "paare"
 
     out = (
         ex_min["kosten_der_unterkunft"][single_oder_paar]
@@ -89,7 +87,7 @@ def wohnbedarf_anteil_eltern_bg(
 @policy_function(end_date="2010-12-31", leaf_name="regelsatz_m_bg")
 def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg: float,
-    demographic_vars__alleinerziehend_bg: bool,
+    demographics__alleinerziehend_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit until 2010.
@@ -98,8 +96,8 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     ----------
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         See :func:`arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg`.
-    demographic_vars__alleinerziehend_bg
-        See :func:`demographic_vars__alleinerziehend_bg`.
+    demographics__alleinerziehend_bg
+        See :func:`demographics__alleinerziehend_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -107,7 +105,7 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
     -------
 
     """
-    if demographic_vars__alleinerziehend_bg:
+    if demographics__alleinerziehend_bg:
         out = arbeitsl_geld_2_params["regelsatz"] * (
             1 + arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         )
@@ -124,7 +122,7 @@ def regelsatz_m_bg_arbeitsl_geld_2_params_old(
 @policy_function(start_date="2011-01-01")
 def regelsatz_m_bg(
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg: float,
-    demographic_vars__alleinerziehend_bg: bool,
+    demographics__alleinerziehend_bg: bool,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate income relevant for calculation of child benefit since 2011.
@@ -133,8 +131,8 @@ def regelsatz_m_bg(
     ----------
     arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         See :func:`arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg`.
-    demographic_vars__alleinerziehend_bg
-        See :func:`demographic_vars__alleinerziehend_bg`.
+    demographics__alleinerziehend_bg
+        See :func:`demographics__alleinerziehend_bg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -142,7 +140,7 @@ def regelsatz_m_bg(
     -------
 
     """
-    if demographic_vars__alleinerziehend_bg:
+    if demographics__alleinerziehend_bg:
         out = arbeitsl_geld_2_params["regelsatz"][1] * (
             1 + arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg
         )

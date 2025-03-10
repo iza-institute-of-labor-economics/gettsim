@@ -32,9 +32,9 @@ def regelbedarf_m(
 @policy_function()
 def mehrbedarf_alleinerziehend_m(
     demographics__alleinerziehend: bool,
-    demographic_vars__anzahl_kinder_fg: int,
-    demographic_vars__anzahl_kinder_bis_6_fg: int,
-    demographic_vars__anzahl_kinder_bis_15_fg: int,
+    demographics__anzahl_kinder_fg: int,
+    demographics__anzahl_kinder_bis_6_fg: int,
+    demographics__anzahl_kinder_bis_15_fg: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Compute additional SGB II need for single parents.
@@ -49,12 +49,12 @@ def mehrbedarf_alleinerziehend_m(
     ----------
     demographics__alleinerziehend
         See :func:`demographics__alleinerziehend`.
-    demographic_vars__anzahl_kinder_fg
-        See :func:`demographic_vars__anzahl_kinder_fg`.
-    demographic_vars__anzahl_kinder_bis_6_fg
-        See :func:`demographic_vars__anzahl_kinder_bis_6_fg`.
-    demographic_vars__anzahl_kinder_bis_15_fg
-        See :func:`demographic_vars__anzahl_kinder_bis_15_fg`.
+    demographics__anzahl_kinder_fg
+        See :func:`demographics__anzahl_kinder_fg`.
+    demographics__anzahl_kinder_bis_6_fg
+        See :func:`demographics__anzahl_kinder_bis_6_fg`.
+    demographics__anzahl_kinder_bis_15_fg
+        See :func:`demographics__anzahl_kinder_bis_15_fg`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -72,14 +72,14 @@ def mehrbedarf_alleinerziehend_m(
             max(
                 # Minimal Mehrbedarf share. Minimal rate times number of children
                 arbeitsl_geld_2_params["mehrbedarf_anteil"]["min_1_kind"]
-                * demographic_vars__anzahl_kinder_fg,
+                * demographics__anzahl_kinder_fg,
                 # Increased rated if children up to 6 and/or 2-3 up to 15 are present.
                 (
                     arbeitsl_geld_2_params["mehrbedarf_anteil"][
                         "kind_bis_6_oder_mehrere_bis_15"
                     ]
-                    if (demographic_vars__anzahl_kinder_bis_6_fg >= 1)
-                    or (2 <= demographic_vars__anzahl_kinder_bis_15_fg <= 3)
+                    if (demographics__anzahl_kinder_bis_6_fg >= 1)
+                    or (2 <= demographics__anzahl_kinder_bis_15_fg <= 3)
                     else 0.0
                 ),
             ),
@@ -392,7 +392,7 @@ def warmmiete_je_qm_m(
 def berechtigte_wohnfläche(
     wohnfläche: float,
     wohnen__bewohnt_eigentum_hh: bool,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate size of dwelling eligible to claim.
@@ -405,8 +405,8 @@ def berechtigte_wohnfläche(
         See function :func:`wohnfläche`.
     wohnen__bewohnt_eigentum_hh
         See basic input variable :ref:`wohnen__bewohnt_eigentum_hh <wohnen__bewohnt_eigentum_hh>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -419,29 +419,29 @@ def berechtigte_wohnfläche(
     params = arbeitsl_geld_2_params["berechtigte_wohnfläche_eigentum"]
     max_anzahl_direkt = params["max_anzahl_direkt"]
     if wohnen__bewohnt_eigentum_hh:
-        if demographic_vars__anzahl_personen_hh <= max_anzahl_direkt:
-            maximum = params[demographic_vars__anzahl_personen_hh]
+        if demographics__anzahl_personen_hh <= max_anzahl_direkt:
+            maximum = params[demographics__anzahl_personen_hh]
         else:
             maximum = (
                 params[max_anzahl_direkt]
-                + (demographic_vars__anzahl_personen_hh - max_anzahl_direkt)
+                + (demographics__anzahl_personen_hh - max_anzahl_direkt)
                 * params["je_weitere_person"]
             )
     else:
         maximum = (
             arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"]["single"]
-            + max(demographic_vars__anzahl_personen_hh - 1, 0)
+            + max(demographics__anzahl_personen_hh - 1, 0)
             * arbeitsl_geld_2_params["berechtigte_wohnfläche_miete"][
                 "je_weitere_person"
             ]
         )
-    return min(wohnfläche, maximum / demographic_vars__anzahl_personen_hh)
+    return min(wohnfläche, maximum / demographics__anzahl_personen_hh)
 
 
 @policy_function()
 def bruttokaltmiete_m(
     bruttokaltmiete_m_hh: float,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
 ) -> float:
     """Monthly rent attributed to a single person.
 
@@ -453,20 +453,20 @@ def bruttokaltmiete_m(
     ----------
     bruttokaltmiete_m_hh
         See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
 
     Returns
     -------
 
     """
-    return bruttokaltmiete_m_hh / demographic_vars__anzahl_personen_hh
+    return bruttokaltmiete_m_hh / demographics__anzahl_personen_hh
 
 
 @policy_function()
 def heizkosten_m(
     heizkosten_m_hh: float,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
 ) -> float:
     """Monthly heating expenses attributed to a single person.
 
@@ -478,20 +478,20 @@ def heizkosten_m(
     ----------
     heizkosten_m_hh
         See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
 
     Returns
     -------
 
     """
-    return heizkosten_m_hh / demographic_vars__anzahl_personen_hh
+    return heizkosten_m_hh / demographics__anzahl_personen_hh
 
 
 @policy_function()
 def wohnfläche(
     wohnen__wohnfläche_hh: float,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
 ) -> float:
     """Share of household's dwelling size attributed to a single person.
 
@@ -499,11 +499,11 @@ def wohnfläche(
     ----------
     wohnen__wohnfläche_hh
         See basic input variable :ref:`wohnen__wohnfläche_hh <wohnen__wohnfläche_hh>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
 
     Returns
     -------
 
     """
-    return wohnen__wohnfläche_hh / demographic_vars__anzahl_personen_hh
+    return wohnen__wohnfläche_hh / demographics__anzahl_personen_hh

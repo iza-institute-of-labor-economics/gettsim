@@ -7,8 +7,8 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function()
 def miete_m_wthh(
     miete_m_hh: float,
-    demographic_vars__anzahl_personen_wthh: int,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_wthh: int,
+    demographics__anzahl_personen_hh: int,
 ) -> float:
     """Rent considered in housing benefit calculation on wohngeldrechtlicher
     Teilhaushalt level.
@@ -20,25 +20,25 @@ def miete_m_wthh(
     ----------
     miete_m_hh
         See :func:`miete_m_hh`.
-    demographic_vars__anzahl_personen_wthh
-        See :func:`demographic_vars__anzahl_personen_wthh`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_wthh
+        See :func:`demographics__anzahl_personen_wthh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
 
     Returns
     -------
 
     """
     return miete_m_hh * (
-        demographic_vars__anzahl_personen_wthh / demographic_vars__anzahl_personen_hh
+        demographics__anzahl_personen_wthh / demographics__anzahl_personen_hh
     )
 
 
 @policy_function()
 def miete_m_bg(
     miete_m_hh: float,
-    demographic_vars__anzahl_personen_bg: int,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_bg: int,
+    demographics__anzahl_personen_hh: int,
 ) -> float:
     """Rent considered in housing benefit calculation on BG level.
 
@@ -49,30 +49,30 @@ def miete_m_bg(
     ----------
     miete_m_hh
         See :func:`miete_m_hh`.
-    demographic_vars__anzahl_personen_bg
-        See :func:`demographic_vars__anzahl_personen_bg`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_bg
+        See :func:`demographics__anzahl_personen_bg`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
 
     Returns
     -------
 
     """
     return miete_m_hh * (
-        demographic_vars__anzahl_personen_bg / demographic_vars__anzahl_personen_hh
+        demographics__anzahl_personen_bg / demographics__anzahl_personen_hh
     )
 
 
 @policy_function()
 def min_miete_m_hh(
-    demographic_vars__anzahl_personen_hh: int, wohngeld_params: dict
+    demographics__anzahl_personen_hh: int, wohngeld_params: dict
 ) -> float:
     """Minimum rent considered in Wohngeld calculation.
 
     Parameters
     ----------
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
     Returns
@@ -80,7 +80,7 @@ def min_miete_m_hh(
 
     """
     out = wohngeld_params["min_miete"][
-        min(demographic_vars__anzahl_personen_hh, max(wohngeld_params["min_miete"]))
+        min(demographics__anzahl_personen_hh, max(wohngeld_params["min_miete"]))
     ]
     return float(out)
 
@@ -89,7 +89,7 @@ def min_miete_m_hh(
 def miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
     baujahr_immobilie_hh: int,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
     wohnen__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
@@ -102,8 +102,8 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
         See basic input variable :ref:`mietstufe <mietstufe>`.
     baujahr_immobilie_hh
         See basic input variable :ref:`baujahr_immobilie_hh <baujahr_immobilie_hh>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
     wohnen__bruttokaltmiete_m_hh
         See :func:`wohnen__bruttokaltmiete_m_hh`.
     min_miete_m_hh
@@ -118,7 +118,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    berücks_personen = min(demographic_vars__anzahl_personen_hh, max_berücks_personen)
+    berücks_personen = min(demographics__anzahl_personen_hh, max_berücks_personen)
 
     # Get yearly cutoff in params which is closest and above the construction year
     # of the property. We assume that the same cutoffs exist for each household
@@ -134,10 +134,10 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if demographic_vars__anzahl_personen_hh <= max_definierte_hh_größe:
-        max_miete_m = params_max_miete[demographic_vars__anzahl_personen_hh][
-            constr_year
-        ][mietstufe]
+    if demographics__anzahl_personen_hh <= max_definierte_hh_größe:
+        max_miete_m = params_max_miete[demographics__anzahl_personen_hh][constr_year][
+            mietstufe
+        ]
     else:
         max_miete_m = params_max_miete[max_definierte_hh_größe][constr_year][
             mietstufe
@@ -154,7 +154,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 @policy_function(start_date="2009-01-01", leaf_name="miete_m_hh")
 def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     mietstufe: int,
-    demographic_vars__anzahl_personen_hh: int,
+    demographics__anzahl_personen_hh: int,
     wohnen__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
     wohngeld_params: dict,
@@ -165,8 +165,8 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    demographic_vars__anzahl_personen_hh
-        See :func:`demographic_vars__anzahl_personen_hh`.
+    demographics__anzahl_personen_hh
+        See :func:`demographics__anzahl_personen_hh`.
     wohnen__bruttokaltmiete_m_hh
         See :func:`wohnen__bruttokaltmiete_m_hh`.
     min_miete_m_hh
@@ -183,12 +183,12 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
     max_berücks_personen = wohngeld_params["bonus_sehr_große_haushalte"][
         "max_anz_personen_normale_berechnung"
     ]
-    berücks_personen = min(demographic_vars__anzahl_personen_hh, max_berücks_personen)
+    berücks_personen = min(demographics__anzahl_personen_hh, max_berücks_personen)
 
     # Calc maximal considered rent
     max_definierte_hh_größe = max(i for i in params_max_miete if isinstance(i, int))
-    if demographic_vars__anzahl_personen_hh <= max_definierte_hh_größe:
-        max_miete_m = params_max_miete[demographic_vars__anzahl_personen_hh][mietstufe]
+    if demographics__anzahl_personen_hh <= max_definierte_hh_größe:
+        max_miete_m = params_max_miete[demographics__anzahl_personen_hh][mietstufe]
     else:
         max_miete_m = (
             params_max_miete[max_definierte_hh_größe][mietstufe]
@@ -206,9 +206,9 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
             i for i in wohngeld_params["heizkostenentlastung_m"] if isinstance(i, int)
         )
     if "heizkostenentlastung_m" in wohngeld_params:
-        if demographic_vars__anzahl_personen_hh <= max_def_hh_größe_heating:
+        if demographics__anzahl_personen_hh <= max_def_hh_größe_heating:
             heating_allowance_m = wohngeld_params["heizkostenentlastung_m"][
-                demographic_vars__anzahl_personen_hh
+                demographics__anzahl_personen_hh
             ]
         else:
             heating_allowance_m = (
@@ -229,9 +229,9 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
             if isinstance(i, int)
         )
     if "dauerhafte_heizkostenkomponente_m" in wohngeld_params:
-        if demographic_vars__anzahl_personen_hh <= max_def_hh_größe_heating:
+        if demographics__anzahl_personen_hh <= max_def_hh_größe_heating:
             heating_component_m = wohngeld_params["dauerhafte_heizkostenkomponente_m"][
-                demographic_vars__anzahl_personen_hh
+                demographics__anzahl_personen_hh
             ]
         else:
             heating_component_m = (
@@ -256,9 +256,9 @@ def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
             i for i in wohngeld_params["klimakomponente_m"] if isinstance(i, int)
         )
     if "klimakomponente_m" in wohngeld_params:
-        if demographic_vars__anzahl_personen_hh <= max_def_hh_größe_heating:
+        if demographics__anzahl_personen_hh <= max_def_hh_größe_heating:
             climate_component_m = wohngeld_params["klimakomponente_m"][
-                demographic_vars__anzahl_personen_hh
+                demographics__anzahl_personen_hh
             ]
         else:
             climate_component_m = (

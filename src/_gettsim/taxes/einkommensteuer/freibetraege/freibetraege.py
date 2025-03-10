@@ -47,11 +47,9 @@ def betrag_ind_y(
     ----------
 
     pauschbetrag_behinderung_y
-        See :func:
-        `pauschbetrag_behinderung_y`.
+        See :func:`pauschbetrag_behinderung_y`.
     altersfreibetrag__betrag_y
-        See :func:
-        `altersfreibetrag__betrag_y`.
+        See :func:`altersfreibetrag__betrag_y`.
     alleinerziehend__betrag_y
         See :func:`alleinerziehend__betrag_y`.
 

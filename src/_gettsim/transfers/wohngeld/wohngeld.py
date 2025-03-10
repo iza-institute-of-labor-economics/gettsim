@@ -22,7 +22,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function()
 def betrag_m_wthh(
     anspruchshöhe_m_wthh: float,
-    demographic_vars__erwachsene_alle_rentner_hh: bool,
+    demographics__erwachsene_alle_rentner_hh: bool,
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh: bool,
     vorrangpruefungen__wohngeld_vorrang_wthh: bool,
 ) -> float:
@@ -32,8 +32,8 @@ def betrag_m_wthh(
     ----------
     anspruchshöhe_m_wthh
         See :func:`anspruchshöhe_m_wthh`.
-    demographic_vars__erwachsene_alle_rentner_hh
-        See :func:`demographic_vars__erwachsene_alle_rentner_hh <demographic_vars__erwachsene_alle_rentner_hh>`.
+    demographics__erwachsene_alle_rentner_hh
+        See :func:`demographics__erwachsene_alle_rentner_hh <demographics__erwachsene_alle_rentner_hh>`.
     vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
         See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh`.
     vorrangpruefungen__wohngeld_vorrang_wthh
@@ -51,10 +51,10 @@ def betrag_m_wthh(
     # Alter (SGB XII) is implemented yet. We assume for now that households with only
     # retirees are eligible for Grundsicherung im Alter but not for ALG2/Wohngeld. All
     # other households are not eligible for SGB XII, but SGB II / Wohngeld. Once this is
-    # resolved, remove the `demographic_vars__erwachsene_alle_rentner_hh` condition.
+    # resolved, remove the `demographics__erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
-    if not demographic_vars__erwachsene_alle_rentner_hh and (
+    if not demographics__erwachsene_alle_rentner_hh and (
         vorrangpruefungen__wohngeld_vorrang_wthh
         or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
     ):
@@ -67,7 +67,7 @@ def betrag_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_wthh(
-    demographic_vars__anzahl_personen_wthh: int,
+    demographics__anzahl_personen_wthh: int,
     einkommen_m_wthh: float,
     miete_m_wthh: float,
     grundsätzlich_anspruchsberechtigt_wthh: bool,
@@ -81,8 +81,8 @@ def anspruchshöhe_m_wthh(
 
     Parameters
     ----------
-    demographic_vars__anzahl_personen_wthh
-        See :func:`demographic_vars__anzahl_personen_wthh`.
+    demographics__anzahl_personen_wthh
+        See :func:`demographics__anzahl_personen_wthh`.
     einkommen_m_wthh
         See :func:`einkommen_m_wthh`.
     miete_m_wthh
@@ -98,7 +98,7 @@ def anspruchshöhe_m_wthh(
     """
     if grundsätzlich_anspruchsberechtigt_wthh:
         out = basisformel(
-            anzahl_personen=demographic_vars__anzahl_personen_wthh,
+            anzahl_personen=demographics__anzahl_personen_wthh,
             einkommen_m=einkommen_m_wthh,
             miete_m=miete_m_wthh,
             params=wohngeld_params,
@@ -111,7 +111,7 @@ def anspruchshöhe_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_bg(
-    demographic_vars__anzahl_personen_bg: int,
+    demographics__anzahl_personen_bg: int,
     einkommen_m_bg: float,
     miete_m_bg: float,
     grundsätzlich_anspruchsberechtigt_bg: bool,
@@ -123,8 +123,8 @@ def anspruchshöhe_m_bg(
 
     Parameters
     ----------
-    demographic_vars__anzahl_personen_bg
-        See :func:`demographic_vars__anzahl_personen_bg`.
+    demographics__anzahl_personen_bg
+        See :func:`demographics__anzahl_personen_bg`.
     einkommen_m_bg
         See :func:`einkommen_m_bg`.
     miete_m_bg
@@ -140,7 +140,7 @@ def anspruchshöhe_m_bg(
     """
     if grundsätzlich_anspruchsberechtigt_bg:
         out = basisformel(
-            anzahl_personen=demographic_vars__anzahl_personen_bg,
+            anzahl_personen=demographics__anzahl_personen_bg,
             einkommen_m=einkommen_m_bg,
             miete_m=miete_m_bg,
             params=wohngeld_params,

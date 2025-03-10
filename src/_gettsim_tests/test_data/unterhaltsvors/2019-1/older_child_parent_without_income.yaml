@@ -78,7 +78,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  demographic_vars__elternteil_alleinerziehend:
+  demographics__elternteil_alleinerziehend:
     - false
     - true
     - true

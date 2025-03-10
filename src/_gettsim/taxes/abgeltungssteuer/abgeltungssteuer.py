@@ -26,7 +26,7 @@ def betrag_y_sn(
 @policy_function()
 def zu_versteuerndes_kapitaleinkommen_y_sn(
     kapitaleink_brutto_y_sn: float,
-    demographic_vars__anzahl_personen_sn: int,
+    demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate taxable capital income on Steuernummer level.
@@ -35,8 +35,8 @@ def zu_versteuerndes_kapitaleinkommen_y_sn(
     ----------
     kapitaleink_brutto_y_sn
         See :func:`kapitaleink_brutto_y_sn`.
-    demographic_vars__anzahl_personen_sn
-        See :func:`demographic_vars__anzahl_personen_sn`.
+    demographics__anzahl_personen_sn
+        See :func:`demographics__anzahl_personen_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -44,7 +44,7 @@ def zu_versteuerndes_kapitaleinkommen_y_sn(
     -------
 
     """
-    out = kapitaleink_brutto_y_sn - demographic_vars__anzahl_personen_sn * (
+    out = kapitaleink_brutto_y_sn - demographics__anzahl_personen_sn * (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )

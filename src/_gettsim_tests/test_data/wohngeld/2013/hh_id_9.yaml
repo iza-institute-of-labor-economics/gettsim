@@ -118,7 +118,7 @@ inputs:
     demographics__vermögen:
       - 90000.0
       - 0.0
-    demographic_vars__anzahl_personen_hh:
+    demographics__anzahl_personen_hh:
       - 2
       - 2
     demographics__geburtstag:

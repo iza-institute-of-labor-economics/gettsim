@@ -79,7 +79,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     bruttoeinkommen_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
-    demographic_vars__anzahl_personen_sn: int,
+    demographics__anzahl_personen_sn: int,
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m: float,
 ) -> float:
     """Net income for calculation of basic subsistence (Arbeitslosengeld II /
@@ -95,8 +95,8 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
         See :func:`eink_st_m_sn`.
     soli_st_m_sn
         See :func:`soli_st_m_sn`.
-    demographic_vars__anzahl_personen_sn
-        See :func:`demographic_vars__anzahl_personen_sn`.
+    demographics__anzahl_personen_sn
+        See :func:`demographics__anzahl_personen_sn`.
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m
         See :func:`sozialversicherungsbeitraege__betrag_arbeitnehmer_m`.
 
@@ -107,8 +107,8 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     """
     return (
         bruttoeinkommen_m
-        - (eink_st_m_sn / demographic_vars__anzahl_personen_sn)
-        - (soli_st_m_sn / demographic_vars__anzahl_personen_sn)
+        - (eink_st_m_sn / demographics__anzahl_personen_sn)
+        - (soli_st_m_sn / demographics__anzahl_personen_sn)
         - sozialversicherungsbeitraege__betrag_arbeitnehmer_m
     )
 
@@ -172,7 +172,7 @@ def nettoquote_m(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
-    demographic_vars__anzahl_personen_sn: int,
+    demographics__anzahl_personen_sn: int,
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -188,8 +188,8 @@ def nettoquote_m(  # noqa: PLR0913
         See :func:`eink_st_m_sn`.
     soli_st_m_sn
         See :func:`soli_st_m_sn`.
-    demographic_vars__anzahl_personen_sn
-        See :func:`demographic_vars__anzahl_personen_sn`.
+    demographics__anzahl_personen_sn
+        See :func:`demographics__anzahl_personen_sn`.
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m
         See :func:`sozialversicherungsbeitraege__betrag_arbeitnehmer_m`.
     arbeitsl_geld_2_params
@@ -203,8 +203,8 @@ def nettoquote_m(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             einkommen__bruttolohn_m
-            - (eink_st_m_sn / demographic_vars__anzahl_personen_sn)
-            - (soli_st_m_sn / demographic_vars__anzahl_personen_sn)
+            - (eink_st_m_sn / demographics__anzahl_personen_sn)
+            - (soli_st_m_sn / demographics__anzahl_personen_sn)
             - sozialversicherungsbeitraege__betrag_arbeitnehmer_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
@@ -255,7 +255,7 @@ def anrechnungsfreies_einkommen_m_basierend_auf_nettoquote(
 def anrechnungsfreies_einkommen_m(
     einkommen__bruttolohn_m: float,
     einkommen__aus_selbstständigkeit_m: float,
-    demographic_vars__anzahl_kinder_bis_17_bg: int,
+    demographics__anzahl_kinder_bis_17_bg: int,
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -272,8 +272,8 @@ def anrechnungsfreies_einkommen_m(
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     einkommen__aus_selbstständigkeit_m
         See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
-    demographic_vars__anzahl_kinder_bis_17_bg
-        See :func:`demographic_vars__anzahl_kinder_bis_17_bg`.
+    demographics__anzahl_kinder_bis_17_bg
+        See :func:`demographics__anzahl_kinder_bis_17_bg`.
     einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche
         See :func:
         `einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche`.
@@ -290,7 +290,7 @@ def anrechnungsfreies_einkommen_m(
     eink_erwerbstätigkeit = einkommen__bruttolohn_m + einkommen__aus_selbstständigkeit_m
 
     if (
-        demographic_vars__anzahl_kinder_bis_17_bg > 0
+        demographics__anzahl_kinder_bis_17_bg > 0
         or einkommensteuer__freibetraege__kinderfreibetrag_anzahl_ansprüche > 0
     ):
         out = piecewise_polynomial(

@@ -56,8 +56,8 @@ def mehrlingsbonus_m(anzahl_mehrlinge_fg: int, elterngeld_params: dict) -> float
 
 @policy_function()
 def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
-    demographic_vars__anzahl_kinder_bis_2_fg: int,
-    demographic_vars__anzahl_kinder_bis_5_fg: int,
+    demographics__anzahl_kinder_bis_2_fg: int,
+    demographics__anzahl_kinder_bis_5_fg: int,
     elterngeld_params: dict,
 ) -> bool:
     """Siblings that give rise to Elterngeld siblings bonus.
@@ -74,11 +74,11 @@ def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
 
     """
     geschwister_unter_3 = (
-        demographic_vars__anzahl_kinder_bis_2_fg
+        demographics__anzahl_kinder_bis_2_fg
         >= elterngeld_params["geschwisterbonus_altersgrenzen"][3]
     )
     geschwister_unter_6 = (
-        demographic_vars__anzahl_kinder_bis_5_fg
+        demographics__anzahl_kinder_bis_5_fg
         >= elterngeld_params["geschwisterbonus_altersgrenzen"][6]
     )
 
@@ -87,18 +87,18 @@ def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
 
 @policy_function()
 def anzahl_mehrlinge_fg(
-    demographic_vars__anzahl_mehrlinge_jüngstes_kind_fg: int,
+    demographics__anzahl_mehrlinge_jüngstes_kind_fg: int,
 ) -> int:
     """Number of multiples of the youngest child.
 
     Parameters
     ----------
-    demographic_vars__anzahl_mehrlinge_jüngstes_kind_fg
-        See :func:`demographic_vars__anzahl_mehrlinge_jüngstes_kind_fg`.
+    demographics__anzahl_mehrlinge_jüngstes_kind_fg
+        See :func:`demographics__anzahl_mehrlinge_jüngstes_kind_fg`.
 
     Returns
     -------
 
     """
-    out = demographic_vars__anzahl_mehrlinge_jüngstes_kind_fg - 1
+    out = demographics__anzahl_mehrlinge_jüngstes_kind_fg - 1
     return max(out, 0)

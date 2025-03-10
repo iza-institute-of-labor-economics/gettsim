@@ -86,7 +86,7 @@ inputs:
       - false
     demographics__wohnort_ost:
       - false
-    demographic_vars__anzahl_kinder_bis_24:
+    demographics__anzahl_kinder_bis_24:
       - 0
   assumed: {}
 outputs:

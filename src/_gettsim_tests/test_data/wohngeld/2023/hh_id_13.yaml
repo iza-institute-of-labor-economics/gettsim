@@ -164,7 +164,7 @@ inputs:
       - 45000.0
       - 0.0
       - 0.0
-    demographic_vars__anzahl_personen_hh:
+    demographics__anzahl_personen_hh:
       - 3
       - 3
       - 3

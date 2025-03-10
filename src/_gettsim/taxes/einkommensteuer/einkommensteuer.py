@@ -111,7 +111,7 @@ def betrag_mit_kinderfreibetrag_y_sn_bis_2001() -> float:
 @policy_function(start_date="2002-01-01", leaf_name="betrag_mit_kinderfreibetrag_y_sn")
 def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn: float,
-    demographic_vars__anzahl_personen_sn: int,
+    demographics__anzahl_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes with child allowance on Steuernummer level. Also referred to as "tarifliche
@@ -121,8 +121,8 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     ----------
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn`.
-    demographic_vars__anzahl_personen_sn
-        See :func:`demographic_vars__anzahl_personen_sn`.
+    demographics__anzahl_personen_sn
+        See :func:`demographics__anzahl_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -132,9 +132,9 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     """
     zu_verst_eink_per_indiv = (
         einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
-        / demographic_vars__anzahl_personen_sn
+        / demographics__anzahl_personen_sn
     )
-    out = demographic_vars__anzahl_personen_sn * einkommensteuer_tarif(
+    out = demographics__anzahl_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -144,7 +144,7 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
 @policy_function()
 def betrag_ohne_kinderfreibetrag_y_sn(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,
-    demographic_vars__anzahl_personen_sn: int,
+    demographics__anzahl_personen_sn: int,
     eink_st_params: dict,
 ) -> float:
     """Taxes without child allowance on Steuernummer level. Also referred to as
@@ -154,8 +154,8 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     ----------
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn`.
-    demographic_vars__anzahl_personen_sn
-        See :func:`demographic_vars__anzahl_personen_sn`.
+    demographics__anzahl_personen_sn
+        See :func:`demographics__anzahl_personen_sn`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
 
@@ -165,9 +165,9 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     """
     zu_verst_eink_per_indiv = (
         einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
-        / demographic_vars__anzahl_personen_sn
+        / demographics__anzahl_personen_sn
     )
-    out = demographic_vars__anzahl_personen_sn * einkommensteuer_tarif(
+    out = demographics__anzahl_personen_sn * einkommensteuer_tarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 

@@ -266,7 +266,7 @@ def geburtsdatum(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = numpy.datetime64(
         datetime.datetime(
             demographics__geburtsjahr,
@@ -354,7 +354,7 @@ def birthdate_decimal(
     -------
     Birthdate with monthly precision as float.
 
-    """
+    """  # noqa: E501
     out = demographics__geburtsjahr + (demographics__geburtsmonat - 1) / 12
 
     return out
@@ -406,7 +406,7 @@ def ist_kind_mit_erwerbseinkommen(
     Returns
     -------
 
-    """
+    """  # noqa: E501
     out = (
         einkommen__bruttolohn_m > 0
     ) and kindergeld__grundsätzlich_anspruchsberechtigt

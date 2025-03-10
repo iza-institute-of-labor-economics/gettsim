@@ -15,7 +15,7 @@ aggregation_specs = {
 def bruttoeinkommen_eltern_m(
     arbeitslosengeld_2__bruttoeinkommen_m: float,
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
-    demographic_vars__erwachsen: bool,
+    demographics__erwachsen: bool,
 ) -> float:
     """Calculate parental gross income for calculation of child benefit.
 
@@ -28,8 +28,8 @@ def bruttoeinkommen_eltern_m(
         See :func:`arbeitslosengeld_2__bruttoeinkommen_m`.
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
-    demographic_vars__erwachsen
-        See :func:`demographic_vars__erwachsen`.
+    demographics__erwachsen
+        See :func:`demographics__erwachsen`.
 
 
     Returns
@@ -39,9 +39,7 @@ def bruttoeinkommen_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if demographic_vars__erwachsen and (
-        not kindergeld__grundsätzlich_anspruchsberechtigt
-    ):
+    if demographics__erwachsen and (not kindergeld__grundsätzlich_anspruchsberechtigt):
         out = arbeitslosengeld_2__bruttoeinkommen_m
     else:
         out = 0.0
@@ -53,7 +51,7 @@ def bruttoeinkommen_eltern_m(
 def nettoeinkommen_eltern_m(
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m: float,
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
-    demographic_vars__erwachsen: bool,
+    demographics__erwachsen: bool,
 ) -> float:
     """Parental income (after deduction of taxes, social insurance contributions, and
     other deductions) for calculation of child benefit.
@@ -64,8 +62,8 @@ def nettoeinkommen_eltern_m(
         See :func:`arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m`.
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
-    demographic_vars__erwachsen
-        See :func:`demographic_vars__erwachsen`.
+    demographics__erwachsen
+        See :func:`demographics__erwachsen`.
 
     Returns
     -------
@@ -74,9 +72,7 @@ def nettoeinkommen_eltern_m(
     # TODO(@MImmesberger): Redesign the conditions in this function: False for adults
     # who do not have Kindergeld claims.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/704
-    if demographic_vars__erwachsen and (
-        not kindergeld__grundsätzlich_anspruchsberechtigt
-    ):
+    if demographics__erwachsen and (not kindergeld__grundsätzlich_anspruchsberechtigt):
         out = arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m
     else:
         out = 0.0
@@ -119,7 +115,7 @@ def maximales_nettoeinkommen_m_bg(
 @policy_function()
 def mindestbruttoeinkommen_m_bg(
     anzahl_kinder_bg: int,
-    demographic_vars__alleinerziehend_bg: bool,
+    demographics__alleinerziehend_bg: bool,
     kinderzuschl_params: dict,
 ) -> float:
     """Calculate minimal claim of child benefit (kinderzuschlag).
@@ -132,8 +128,8 @@ def mindestbruttoeinkommen_m_bg(
     anzahl_kinder_bg
         See :func:`anzahl_kinder_bg
         <anzahl_kinder_bg>`.
-    demographic_vars__alleinerziehend_bg
-        See :func:`demographic_vars__alleinerziehend_bg`.
+    demographics__alleinerziehend_bg
+        See :func:`demographics__alleinerziehend_bg`.
     kinderzuschl_params
         See params documentation :ref:`kinderzuschl_params <kinderzuschl_params>`.
 
@@ -143,7 +139,7 @@ def mindestbruttoeinkommen_m_bg(
     """
     if anzahl_kinder_bg == 0:
         out = 0.0
-    elif demographic_vars__alleinerziehend_bg:
+    elif demographics__alleinerziehend_bg:
         out = kinderzuschl_params["min_eink_alleinerz"]
     else:
         out = kinderzuschl_params["min_eink_paare"]
