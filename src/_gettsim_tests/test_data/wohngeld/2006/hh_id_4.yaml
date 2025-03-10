@@ -220,7 +220,7 @@ inputs:
       - 2006
       - 2006
       - 2006
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0

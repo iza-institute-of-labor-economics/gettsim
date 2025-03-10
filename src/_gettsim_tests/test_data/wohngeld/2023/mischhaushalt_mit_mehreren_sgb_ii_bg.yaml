@@ -324,7 +324,7 @@ inputs:
       - false
       - false
       - false
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 20.0
       - 20.0
       - 20.0

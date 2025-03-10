@@ -78,7 +78,7 @@ inputs:
       - 0
     jahr:
       - 2021
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 300.0
     demographics__vermögen:
       - 31000.0

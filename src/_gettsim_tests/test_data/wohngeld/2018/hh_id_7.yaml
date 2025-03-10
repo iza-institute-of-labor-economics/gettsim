@@ -508,7 +508,7 @@ inputs:
       - 2018
       - 2018
       - 2018
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 1000.0
       - 1000.0
       - 1000.0

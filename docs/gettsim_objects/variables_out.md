@@ -26,7 +26,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Solidarity surcharge on Steuernummer level
 * - {func}`kindergeld__betrag_m <_gettsim.functions.all_functions_for_docs.kindergeld__betrag_m>`
   - Monthly child benefit
-* - {func}`taxes__einkommensteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.taxes__einkommensteuer__betrag_y_sn>`
+* - {func}`einkommensteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.einkommensteuer__betrag_y_sn>`
   - Income Tax on Steuernummer level
 * - {func}`lohnsteuer__betrag_m` <_gettsim.functions.all_functions_for_docs.lohnsteuer__betrag_m>`
   - Withholding tax

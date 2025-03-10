@@ -64,7 +64,7 @@ Function arguments can be of three kinds:
 
 - User-provided input variables (e.g., `einkommen__bruttolohn_m`).
 - Outputs of other functions in the taxes and transfers system (e.g.,
-  `taxes__einkommensteuer__betrag_y_sn`).
+  `einkommensteuer__betrag_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in
   `_params` (e.g., `ges_rentenv_params`).
 
@@ -118,7 +118,7 @@ Another function, say
 
 ```python
 def solidaritaetszuschlag__betrag_y_sn(
-    taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
+    einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
     demographic_vars__anzahl_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,

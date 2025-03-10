@@ -152,7 +152,7 @@ inputs:
       - 2016
       - 2016
       - 2016
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 1000.0
       - 1000.0
       - 1000.0

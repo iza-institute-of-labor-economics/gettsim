@@ -272,7 +272,7 @@ inputs:
       - 1983
       - 1983
       - 1983
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 200.0
       - 200.0
       - 50.0

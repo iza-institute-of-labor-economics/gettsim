@@ -51,7 +51,7 @@ inputs:
       - 0.0
     einkommen__aus_vermietung_m:
       - 0.0
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 0.0
     solidaritaetszuschlag__betrag_y_sn:
       - 0.0

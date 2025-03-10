@@ -80,7 +80,7 @@ inputs:
       - 0
     jahr:
       - 2023
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 300.0
     demographics__vermögen:
       - 61000.0

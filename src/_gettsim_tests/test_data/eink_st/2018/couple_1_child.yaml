@@ -50,15 +50,15 @@ inputs:
       - false
   assumed: {}
 outputs:
-  taxes__einkommensteuer__anzahl_kindergeld_ansprüche_1:
+  einkommensteuer__anzahl_kindergeld_ansprüche_1:
     - 1
     - 0
     - 0
-  taxes__einkommensteuer__anzahl_kindergeld_ansprüche_2:
+  einkommensteuer__anzahl_kindergeld_ansprüche_2:
     - 0
     - 1
     - 0
-  taxes__einkommensteuer__relevantes_kindergeld_m:
+  einkommensteuer__relevantes_kindergeld_m:
     - 97
     - 97
     - 0

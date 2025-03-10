@@ -265,7 +265,7 @@ einkommensteuer__einkommen__rente_ertragsanteil:
       rate_linear: 0.0
       intercept_at_lower_threshold: 1
 rounding:
-  taxes__einkommensteuer__betrag_y_sn:
+  einkommensteuer__betrag_y_sn:
     note:
       en: Starting date unclear
     1984-01-01:

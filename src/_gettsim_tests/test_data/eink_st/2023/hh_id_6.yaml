@@ -22,9 +22,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  taxes__einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
+  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
     - 6531
-  taxes__einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
     - 6531
   abgeltungssteuer__betrag_y_sn:
     - 0.0

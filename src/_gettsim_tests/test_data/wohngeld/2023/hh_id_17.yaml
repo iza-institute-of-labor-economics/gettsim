@@ -232,7 +232,7 @@ inputs:
       - 2023
       - 2023
       - 2023
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 714.0
       - 714.0
       - 714.0

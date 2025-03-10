@@ -8,7 +8,7 @@ from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
-    "taxes__einkommensteuer__betrag_y_sn",
+    "einkommensteuer__betrag_y_sn",
     "solidaritaetszuschlag__betrag_y_sn",
     "abgeltungssteuer__betrag_y_sn",
     "sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m",

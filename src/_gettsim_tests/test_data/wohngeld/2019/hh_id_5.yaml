@@ -76,7 +76,7 @@ inputs:
       - 0
     jahr:
       - 2019
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 0.0
     demographics__vermögen:
       - 55000.0

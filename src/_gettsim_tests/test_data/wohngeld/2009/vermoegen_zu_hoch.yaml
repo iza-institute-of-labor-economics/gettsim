@@ -115,7 +115,7 @@ inputs:
     jahr:
       - 2009
       - 2009
-    taxes__einkommensteuer__betrag_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 1000.0
       - 1000.0
     demographics__vermögen:

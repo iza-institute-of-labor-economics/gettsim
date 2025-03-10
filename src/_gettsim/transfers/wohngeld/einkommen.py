@@ -90,7 +90,7 @@ def einkommen_m_bg(
 
 @policy_function()
 def abzüge_steuern_sozialversicherung_m(
-    taxes__einkommensteuer__betrag_y_sn: float,
+    einkommensteuer__betrag_y_sn: float,
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m: float,
     sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m: float,
     demographics__kind: bool,
@@ -98,14 +98,14 @@ def abzüge_steuern_sozialversicherung_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that taxes__einkommensteuer__betrag_y_sn is used as an approximation for taxes
+    Note that einkommensteuer__betrag_y_sn is used as an approximation for taxes
     on income (as mentioned in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    taxes__einkommensteuer__betrag_y_sn
+    einkommensteuer__betrag_y_sn
         See :func:
-        `taxes__einkommensteuer__betrag_y_sn`.
+        `einkommensteuer__betrag_y_sn`.
     sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m
         See :func:
         `sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m`.
@@ -122,7 +122,7 @@ def abzüge_steuern_sozialversicherung_m(
 
     """
     abzug_stufen = (
-        (taxes__einkommensteuer__betrag_y_sn > 0)
+        (einkommensteuer__betrag_y_sn > 0)
         + (sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m > 0)
         + (sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m > 0)
     )
