@@ -34,8 +34,8 @@ def bg_id_numpy(
     """
     Compute the ID of the Bedarfsgemeinschaft for each person.
     """
-    # TODO(@MImmesberger): Remove input variable arbeitslosengeld_2__eigenbedarf_gedeckt once
-    # Bedarfsgemeinschaften are fully endogenous
+    # TODO(@MImmesberger): Remove input variable arbeitslosengeld_2__eigenbedarf_gedeckt
+    # once Bedarfsgemeinschaften are fully endogenous
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
     counter = Counter()
     result = []
@@ -158,7 +158,8 @@ def fg_id_numpy(  # noqa: PLR0913
     next_fg_id = 0
 
     for index, current_p_id in enumerate(demographics__p_id):
-        # Already assigned a fg_id to this demographics__p_id via einstandspartner / parent
+        # Already assigned a fg_id to this demographics__p_id via einstandspartner /
+        # parent
         if current_p_id in p_id_to_fg_id:
             continue
 
@@ -214,41 +215,34 @@ def sn_id_numpy(
     result = []
 
     for index, current_p_id in enumerate(demographics__p_id):
-        current_demograpics__p_id_ehepartner = demograpics__p_id_ehepartner[index]
-        current_einkommensteuer__gemeinsam_veranlagt = (
-            einkommensteuer__gemeinsam_veranlagt[index]
-        )
+        current_p_id_ehepartner = demograpics__p_id_ehepartner[index]
+        current_gemeinsam_veranlagt = einkommensteuer__gemeinsam_veranlagt[index]
 
-        if (
-            current_demograpics__p_id_ehepartner >= 0
-            and current_demograpics__p_id_ehepartner in p_id_to_sn_id
-        ):
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_sn_id:
             einkommensteuer__gemeinsam_veranlagt_ehepartner = (
-                p_id_to_einkommensteuer__gemeinsam_veranlagt[
-                    current_demograpics__p_id_ehepartner
-                ]
+                p_id_to_einkommensteuer__gemeinsam_veranlagt[current_p_id_ehepartner]
             )
 
             if (
-                current_einkommensteuer__gemeinsam_veranlagt
+                current_gemeinsam_veranlagt
                 != einkommensteuer__gemeinsam_veranlagt_ehepartner
             ):
                 message = (
-                    f"{current_demograpics__p_id_ehepartner} and {current_p_id} are "
+                    f"{current_p_id_ehepartner} and {current_p_id} are "
                     "married, but have different values for "
                     "einkommensteuer__gemeinsam_veranlagt."
                 )
                 raise ValueError(message)
 
-            if current_einkommensteuer__gemeinsam_veranlagt:
-                result.append(p_id_to_sn_id[current_demograpics__p_id_ehepartner])
+            if current_gemeinsam_veranlagt:
+                result.append(p_id_to_sn_id[current_p_id_ehepartner])
                 continue
 
         # New Steuersubjekt
         result.append(next_sn_id)
         p_id_to_sn_id[current_p_id] = next_sn_id
         p_id_to_einkommensteuer__gemeinsam_veranlagt[current_p_id] = (
-            current_einkommensteuer__gemeinsam_veranlagt
+            current_gemeinsam_veranlagt
         )
         next_sn_id += 1
 
