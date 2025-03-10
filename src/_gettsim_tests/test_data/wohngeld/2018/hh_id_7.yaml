@@ -186,7 +186,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
+    solidaritaetszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
       - 0.0

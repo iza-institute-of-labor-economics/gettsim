@@ -53,7 +53,7 @@ inputs:
       - 0.0
     taxes__einkommensteuer__betrag_y_sn:
       - 0.0
-    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
+    solidaritaetszuschlag__betrag_y_sn:
       - 0.0
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 204.0

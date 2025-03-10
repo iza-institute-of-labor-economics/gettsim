@@ -30,7 +30,7 @@ inputs:
       - 50.0
     wohnen__wohnfläche_hh:
       - 40.0
-    taxes__einkommensteuer__solidaritaetszuschlag_y_sn:
+    solidaritaetszuschlag__betrag_y_sn:
       - 0.0
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
       - 0.0
