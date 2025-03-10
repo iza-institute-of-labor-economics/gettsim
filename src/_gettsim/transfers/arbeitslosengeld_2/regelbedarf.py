@@ -6,7 +6,7 @@ from _gettsim.functions.policy_function import policy_function
 @policy_function()
 def regelbedarf_m(
     regelsatz_m: float,
-    kosten_unterkunft_m: float,
+    kosten_der_unterkunft_m: float,
 ) -> float:
     """Basic monthly subsistence level on individual level.
 
@@ -18,15 +18,15 @@ def regelbedarf_m(
     ----------
     regelsatz_m
         See :func:`regelsatz_m`.
-    kosten_unterkunft_m
-        See :func:`kosten_unterkunft_m`.
+    kosten_der_unterkunft_m
+        See :func:`kosten_der_unterkunft_m`.
 
     Returns
     -------
     float checks the minimum monthly needs of an household.
 
     """
-    return regelsatz_m + kosten_unterkunft_m
+    return regelsatz_m + kosten_der_unterkunft_m
 
 
 @policy_function()
@@ -292,8 +292,8 @@ def regelsatz_m(
     return erwachsenensatz_m + kindersatz_m
 
 
-@policy_function(end_date="2022-12-31", leaf_name="kosten_unterkunft_m")
-def kosten_unterkunft_m_bis_2022(
+@policy_function(end_date="2022-12-31", leaf_name="kosten_der_unterkunft_m")
+def kosten_der_unterkunft_m_bis_2022(
     berechtigte_wohnfläche: float,
     warmmiete_je_qm_m: float,
 ) -> float:
@@ -315,8 +315,8 @@ def kosten_unterkunft_m_bis_2022(
     return berechtigte_wohnfläche * warmmiete_je_qm_m
 
 
-@policy_function(start_date="2023-01-01", leaf_name="kosten_unterkunft_m")
-def kosten_unterkunft_m_ab_2023(
+@policy_function(start_date="2023-01-01", leaf_name="kosten_der_unterkunft_m")
+def kosten_der_unterkunft_m_ab_2023(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
     in_vorjahr_bezogen: bool,

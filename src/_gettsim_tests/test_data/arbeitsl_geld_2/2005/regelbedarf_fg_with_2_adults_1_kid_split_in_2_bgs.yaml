@@ -92,7 +92,7 @@ outputs:
     - 10.0
     - 10.0
     - 10.0
-  arbeitslosengeld_2__kosten_unterkunft_m:
+  arbeitslosengeld_2__kosten_der_unterkunft_m:
     - 200.0
     - 200.0
     - 200.0

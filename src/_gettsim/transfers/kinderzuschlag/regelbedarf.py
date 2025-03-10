@@ -4,7 +4,7 @@ from _gettsim.functions.policy_function import policy_function
 
 
 @policy_function()
-def kosten_unterkunft_m_bg(
+def kosten_der_unterkunft_m_bg(
     wohnbedarf_anteil_eltern_bg: float,
     arbeitslosengeld_2__bruttokaltmiete_m_bg: float,
     arbeitslosengeld_2__heizkosten_m_bg: float,
@@ -153,18 +153,18 @@ def regelsatz_m_bg(
 
 
 @policy_function()
-def bedarf_m_bg(regelsatz_m_bg: float, kosten_unterkunft_m_bg: float) -> float:
+def bedarf_m_bg(regelsatz_m_bg: float, kosten_der_unterkunft_m_bg: float) -> float:
     """Aggregate relevant income and rental costs.
 
     Parameters
     ----------
     regelsatz_m_bg
         See :func:`regelsatz_m_bg`.
-    kosten_unterkunft_m_bg
-        See :func:`kosten_unterkunft_m_bg`.
+    kosten_der_unterkunft_m_bg
+        See :func:`kosten_der_unterkunft_m_bg`.
 
     Returns
     -------
 
     """
-    return regelsatz_m_bg + kosten_unterkunft_m_bg
+    return regelsatz_m_bg + kosten_der_unterkunft_m_bg

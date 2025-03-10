@@ -77,7 +77,7 @@ outputs:
   arbeitslosengeld_2__warmmiete_je_qm_m:
     - 8.75
     - 8.75
-  arbeitslosengeld_2__kosten_unterkunft_m:
+  arbeitslosengeld_2__kosten_der_unterkunft_m:
     - 175.0
     - 175.0
   arbeitslosengeld_2__regelbedarf_m:

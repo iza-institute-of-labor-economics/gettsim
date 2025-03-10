@@ -89,7 +89,7 @@ outputs:
     - 648.0
   arbeitslosengeld_2__regelsatz_m_bg:
     - 502.0
-  arbeitslosengeld_2__kosten_unterkunft_m_bg:
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
     - 450.0
   arbeitslosengeld_2__betrag_m_bg:
     - 304.0
