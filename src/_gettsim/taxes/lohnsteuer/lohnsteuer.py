@@ -29,7 +29,7 @@ def betrag_m(
         See params documentation :ref:`lohnst_params`.
 
     """
-    return lohnsteuer_formel(einkommen_y, eink_st_params, lohnst_params, steuerklasse)
+    return lohnsteuerformel(einkommen_y, eink_st_params, lohnst_params, steuerklasse)
 
 
 @policy_function()
@@ -62,7 +62,7 @@ def betrag_mit_kinderfreibetrag_m(
 
     eink = max(einkommen_y - kinderfreibetrag_soli_y, 0)
 
-    return lohnsteuer_formel(eink, eink_st_params, lohnst_params, steuerklasse)
+    return lohnsteuerformel(eink, eink_st_params, lohnst_params, steuerklasse)
 
 
 @policy_function()
@@ -132,7 +132,7 @@ def kinderfreibetrag_soli_y(
     return out
 
 
-def lohnsteuer_formel(
+def lohnsteuerformel(
     einkommen_y: float,
     eink_st_params: dict,
     lohnst_params: dict,
@@ -171,18 +171,24 @@ def lohnsteuer_formel(
     lohnsteuer_splittingtarif = 2 * einkommensteuer_tarif(
         einkommen_y / 2, eink_st_params
     )
-    lohnsteuer_5_6_basis = _lohnsteuer_klasse5_6_basis_y(einkommen_y, eink_st_params)
+    lohnsteuer_5_6_basis = basis_für_klassen_5_6(
+        einkommen_y=einkommen_y, eink_st_params=eink_st_params
+    )
 
     grenze_1 = lohnst_params["lohnst_einkommensgrenzen"][0]
     grenze_2 = lohnst_params["lohnst_einkommensgrenzen"][1]
     grenze_3 = lohnst_params["lohnst_einkommensgrenzen"][2]
 
-    lohnsteuer_grenze_1 = _lohnsteuer_klasse5_6_basis_y(grenze_1, eink_st_params)
+    lohnsteuer_grenze_1 = basis_für_klassen_5_6(
+        einkommen_y=grenze_1, eink_st_params=eink_st_params
+    )
     max_lohnsteuer = (
         lohnsteuer_grenze_1
         + (einkommen_y - grenze_1) * eink_st_params["eink_st_tarif"]["rates"][0][3]
     )
-    lohnsteuer_grenze_2 = _lohnsteuer_klasse5_6_basis_y(grenze_2, eink_st_params)
+    lohnsteuer_grenze_2 = basis_für_klassen_5_6(
+        einkommen_y=grenze_2, eink_st_params=eink_st_params
+    )
     lohnsteuer_zw_grenze_2_3 = (grenze_3 - grenze_2) * eink_st_params["eink_st_tarif"][
         "rates"
     ][0][3]
@@ -193,7 +199,9 @@ def lohnsteuer_formel(
     elif grenze_1 <= einkommen_y < grenze_2:
         lohnsteuer_klasse5_6 = min(
             max_lohnsteuer,
-            _lohnsteuer_klasse5_6_basis_y(einkommen_y, eink_st_params),
+            basis_für_klassen_5_6(
+                einkommen_y=einkommen_y, eink_st_params=eink_st_params
+            ),
         )
     elif grenze_2 <= einkommen_y < grenze_3:
         lohnsteuer_klasse5_6 = (
@@ -218,8 +226,7 @@ def lohnsteuer_formel(
     return max(out, 0.0)
 
 
-@policy_function()
-def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> float:
+def basis_für_klassen_5_6(einkommen_y: float, eink_st_params: dict) -> float:
     """Calculate base for Lohnsteuer for steuerklasse 5 and 6, by applying
     obtaining twice the difference between applying the factors 1.25 and 0.75
     to the lohnsteuer payment. There is a also a minimum amount, which is checked
@@ -236,7 +243,7 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     Parameters
     ----------
 
-    taxable_inc:
+    einkommen_y:
         Taxable Income.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`
@@ -250,10 +257,10 @@ def _lohnsteuer_klasse5_6_basis_y(taxable_inc: float, eink_st_params: dict) -> f
     out = max(
         2
         * (
-            einkommensteuer_tarif(taxable_inc * 1.25, eink_st_params)
-            - einkommensteuer_tarif(taxable_inc * 0.75, eink_st_params)
+            einkommensteuer_tarif(einkommen_y * 1.25, eink_st_params)
+            - einkommensteuer_tarif(einkommen_y * 0.75, eink_st_params)
         ),
-        taxable_inc * eink_st_params["eink_st_tarif"]["rates"][0][1],
+        einkommen_y * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )
 
     return out
