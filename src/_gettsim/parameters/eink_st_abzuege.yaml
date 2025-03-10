@@ -754,7 +754,7 @@ rounding:
     1984-01-01:
       base: 1
       direction: up
-  einkommensteuer__freibetraege__absetzbare_betreuungskosten_y_sn:
+  einkommensteuer__freibeträge__absetzbare_betreuungskosten_y_sn:
     note:
       en: Starting date unclear
     1984-01-01:

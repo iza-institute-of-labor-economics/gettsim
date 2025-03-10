@@ -158,17 +158,17 @@ Has kids (incl. not in hh)
 
 Type: bool
 
-(einkommensteuer__freibetraege__betreuungskosten_m)=
+(einkommensteuer__freibeträge__betreuungskosten_m)=
 
-## `einkommensteuer__freibetraege__betreuungskosten_m`
+## `einkommensteuer__freibeträge__betreuungskosten_m`
 
 Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 
-(einkommensteuer__freibetraege__p_id_betreuungskosten_träger)=
+(einkommensteuer__freibeträge__p_id_betreuungskosten_träger)=
 
-## `einkommensteuer__freibetraege__p_id_betreuungskosten_träger`
+## `einkommensteuer__freibeträge__p_id_betreuungskosten_träger`
 
 Identifier of the person who paid childcare expenses.
 

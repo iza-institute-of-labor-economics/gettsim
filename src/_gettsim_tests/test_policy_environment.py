@@ -110,16 +110,16 @@ def test_access_different_date_jahresanfang():
     "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            {"zu_verst_eink": {"freibetraege": {"eink_st_altersfreib_y": None}}},
+            {"zu_verst_eink": {"freibeträge": {"eink_st_altersfreib_y": None}}},
             date(2004, 12, 31),
-            "einkommensteuer__freibetraege__altersfreibetrag_y_bis_2004",
-            "einkommensteuer__freibetraege__altersfreibetrag_y_ab_2005",
+            "einkommensteuer__freibeträge__altersfreibetrag_y_bis_2004",
+            "einkommensteuer__freibeträge__altersfreibetrag_y_ab_2005",
         ),
         (
-            {"zu_verst_eink": {"freibetraege": {"alleinerz_freib_y_sn": None}}},
+            {"zu_verst_eink": {"freibeträge": {"alleinerz_freib_y_sn": None}}},
             date(2014, 12, 31),
-            "eink_st_einkommensteuer__freibetraege__alleinerziehend_y_pauschal",
-            "eink_st_einkommensteuer__freibetraege__alleinerziehend_y_nach_kinderzahl",
+            "eink_st_einkommensteuer__freibeträge__alleinerziehend_y_pauschal",
+            "eink_st_einkommensteuer__freibeträge__alleinerziehend_y_nach_kinderzahl",
         ),
         (
             {"zu_verst_eink": {"eink": {"sum_eink_y": None}}},

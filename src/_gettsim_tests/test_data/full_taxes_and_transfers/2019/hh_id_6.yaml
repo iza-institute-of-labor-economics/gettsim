@@ -68,9 +68,9 @@ inputs:
       - false
     rente__altersrente__rentner:
       - false
-    einkommensteuer__freibetraege__betreuungskosten_m:
+    einkommensteuer__freibeträge__betreuungskosten_m:
       - 0.0
-    einkommensteuer__freibetraege__p_id_betreuungskosten_träger:
+    einkommensteuer__freibeträge__p_id_betreuungskosten_träger:
       - -1
     einkommen__bruttokapitaleinkommen_m:
       - 207.0

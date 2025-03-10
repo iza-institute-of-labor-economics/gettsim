@@ -35,7 +35,7 @@ def zu_versteuerndes_einkommen_y_sn(
 @policy_function()
 def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
     zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,
-    einkommensteuer__freibetraege__kinderfreibetrag_y_sn: float,
+    einkommensteuer__freibeträge__kinderfreibetrag_y_sn: float,
 ) -> float:
     """Calculate taxable income with child allowance on Steuernummer level.
 
@@ -43,8 +43,8 @@ def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
     ----------
     zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
         See :func:`zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn`.
-    einkommensteuer__freibetraege__kinderfreibetrag_y_sn
-        See :func:`einkommensteuer__freibetraege__kinderfreibetrag_y_sn`.
+    einkommensteuer__freibeträge__kinderfreibetrag_y_sn
+        See :func:`einkommensteuer__freibeträge__kinderfreibetrag_y_sn`.
 
     Returns
     -------
@@ -53,7 +53,7 @@ def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
 
     out = (
         zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn
-        - einkommensteuer__freibetraege__kinderfreibetrag_y_sn
+        - einkommensteuer__freibeträge__kinderfreibetrag_y_sn
     )
     return max(out, 0.0)
 
@@ -61,7 +61,7 @@ def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
 @policy_function()
 def zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn(
     gesamteinkünfte_y_sn: float,
-    einkommensteuer_freibetraege_betrag_y_sn: float,
+    einkommensteuer_freibeträge_betrag_y_sn: float,
 ) -> float:
     """Calculate taxable income without child allowance on Steuernummer level.
 
@@ -69,14 +69,14 @@ def zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn(
     ----------
     gesamteinkünfte_y_sn
         See :func:`gesamteinkünfte_y_sn`.
-    einkommensteuer_freibetraege_betrag_y_sn
-        See :func:`einkommensteuer_freibetraege_betrag_y_sn`.
+    einkommensteuer_freibeträge_betrag_y_sn
+        See :func:`einkommensteuer_freibeträge_betrag_y_sn`.
 
 
     Returns
     -------
 
     """
-    out = gesamteinkünfte_y_sn - einkommensteuer_freibetraege_betrag_y_sn
+    out = gesamteinkünfte_y_sn - einkommensteuer_freibeträge_betrag_y_sn
 
     return max(out, 0.0)
