@@ -130,21 +130,21 @@ def zusatzbetrag_kinderlos(
 
 @policy_function()
 def anzahl_kinder_bis_24(
-    demographics__anzahl_kinder_bis_24_elternteil_1: int,
-    demographics__anzahl_kinder_bis_24_elternteil_2: int,
+    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1: int,
+    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2: int,
 ) -> int:
     """Number of children under 25 years of age.
     Parameters
     ----------
-    demographics__anzahl_kinder_bis_24_elternteil_1
-        See :func:`demographics__anzahl_kinder_bis_24_elternteil_1`.
-    demographics__anzahl_kinder_bis_24_elternteil_2
-        See :func:`demographics__anzahl_kinder_bis_24_elternteil_2`.
+    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1
+        See :func:`einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1`.
+    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2
+        See :func:`einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2`.
 
     Returns
     -------
     """
     return (
-        demographics__anzahl_kinder_bis_24_elternteil_1
-        + demographics__anzahl_kinder_bis_24_elternteil_2
+        einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1
+        + einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2
     )

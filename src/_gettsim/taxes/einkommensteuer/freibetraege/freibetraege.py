@@ -1,6 +1,20 @@
 """Tax allowances."""
 
 from _gettsim.functions.policy_function import policy_function
+from _gettsim.groupings import AggregateByPIDSpec
+
+aggregation_specs = {
+    "anzahl_kinder_bis_24_elternteil_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by=("p_id_kinderfreibetragempfänger_1"),
+        source_col="kind_bis_24",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_24_elternteil_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by=("p_id_kinderfreibetragempfänger_2"),
+        source_col="kind_bis_24",
+        aggr="sum",
+    ),
+}
 
 
 @policy_function()
