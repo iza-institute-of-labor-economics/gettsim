@@ -10,6 +10,7 @@ import numpy
 
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.functions.grouping_function import grouping_function
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.shared import join_numpy
 
@@ -390,8 +391,8 @@ def ist_kind_mit_erwerbseinkommen(
     return out
 
 
-@policy_function(skip_vectorization=True, leaf_name="ehe_id")
-def ehe_id_numpy(
+@grouping_function()
+def ehe_id(
     demographics__p_id: numpy.ndarray[int],
     demograpics__p_id_ehepartner: numpy.ndarray[int],
 ) -> numpy.ndarray[int]:
@@ -420,8 +421,8 @@ def ehe_id_numpy(
     return numpy.asarray(result)
 
 
-@policy_function(skip_vectorization=True, leaf_name="fg_id")
-def fg_id_numpy(  # noqa: PLR0913
+@grouping_function()
+def fg_id(  # noqa: PLR0913
     demographics__p_id: numpy.ndarray[int],
     demographics__hh_id: numpy.ndarray[int],
     demographics__alter: numpy.ndarray[int],
@@ -506,8 +507,8 @@ def fg_id_numpy(  # noqa: PLR0913
 
 # TODO(@MImmesberger): Temporary namespace.
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/827
-@policy_function(skip_vectorization=True, leaf_name="eg_id")
-def eg_id_numpy(
+@grouping_function()
+def eg_id(
     demographics__p_id: numpy.ndarray[int],
     demograpics__p_id_einstandspartner: numpy.ndarray[int],
 ) -> numpy.ndarray[int]:

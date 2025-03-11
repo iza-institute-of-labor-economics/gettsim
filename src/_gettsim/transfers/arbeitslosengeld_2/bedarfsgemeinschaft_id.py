@@ -2,11 +2,11 @@ from collections import Counter
 
 import numpy
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.functions.grouping_function import grouping_function
 
 
-@policy_function(skip_vectorization=True, leaf_name="bg_id")
-def bg_id_numpy(
+@grouping_function()
+def bg_id(
     fg_id: numpy.ndarray[int],
     demographics__alter: numpy.ndarray[int],
     arbeitslosengeld_2__eigenbedarf_gedeckt: numpy.ndarray[bool],

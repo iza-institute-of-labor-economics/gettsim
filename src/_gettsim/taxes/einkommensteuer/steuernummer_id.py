@@ -2,11 +2,11 @@
 
 import numpy
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.functions.grouping_function import grouping_function
 
 
-@policy_function(skip_vectorization=True, leaf_name="sn_id")
-def sn_id_numpy(
+@grouping_function()
+def sn_id(
     demographics__p_id: numpy.ndarray[int],
     demograpics__p_id_ehepartner: numpy.ndarray[int],
     einkommensteuer__gemeinsam_veranlagt: numpy.ndarray[bool],
