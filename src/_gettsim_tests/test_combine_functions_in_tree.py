@@ -9,8 +9,11 @@ from _gettsim.combine_functions_in_tree import (
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
 )
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
+from _gettsim.function_types import (
+    DerivedFunction,
+    PolicyFunction,
+    policy_function,
+)
 
 
 @pytest.fixture

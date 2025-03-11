@@ -4,14 +4,14 @@ import inspect
 from collections.abc import Callable
 
 
-class GroupingFunction(Callable):
+class GroupbyFunction(Callable):
     """
-    A function that computes endogenous grouping IDs.
+    A function that computes endogenous groupby IDs.
 
     Parameters
     ----------
     function:
-        The grouping function.
+        The groupby function.
     """
 
     def __init__(
@@ -35,18 +35,13 @@ class GroupingFunction(Callable):
         """The names of input variables that the function depends on."""
         return set(inspect.signature(self).parameters)
 
-    @property
-    def original_function_name(self) -> str:
-        """The name of the wrapped function."""
-        return self.function.__name__
 
-
-def grouping_function() -> GroupingFunction:
+def groupby_function() -> GroupbyFunction:
     """
-    Decorator that creates a grouping function from a function.
+    Decorator that creates a groupby function from a function.
     """
 
-    def decorator(func: Callable) -> GroupingFunction:
-        return GroupingFunction(func)
+    def decorator(func: Callable) -> GroupbyFunction:
+        return GroupbyFunction(func)
 
     return decorator

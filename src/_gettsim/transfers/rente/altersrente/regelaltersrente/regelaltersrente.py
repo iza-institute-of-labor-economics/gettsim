@@ -1,6 +1,6 @@
 """Regular pathway."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2007-04-19", leaf_name="altersgrenze")

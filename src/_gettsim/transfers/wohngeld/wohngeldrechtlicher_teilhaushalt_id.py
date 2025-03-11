@@ -2,10 +2,10 @@
 
 import numpy
 
-from _gettsim.functions.grouping_function import grouping_function
+from _gettsim.function_types import groupby_function
 
 
-@grouping_function()
+@groupby_function()
 def wthh_id(
     demographics__hh_id: numpy.ndarray[int],
     vorrangpruefungen__wohngeld_vorrang_bg: numpy.ndarray[bool],

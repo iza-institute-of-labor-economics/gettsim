@@ -1,6 +1,6 @@
 """Income relevant for calculation of Arbeitslosengeld II / Bürgergeld."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 

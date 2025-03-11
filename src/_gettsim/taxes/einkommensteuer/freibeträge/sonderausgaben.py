@@ -1,7 +1,7 @@
 """Tax allowances for special expenses."""
 
 from _gettsim.aggregation import AggregateByPIDSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "betreuungskosten_elternteil_m": AggregateByPIDSpec(

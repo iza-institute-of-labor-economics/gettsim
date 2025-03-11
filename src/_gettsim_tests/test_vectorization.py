@@ -12,7 +12,7 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
-from _gettsim.functions.loader import load_functions_tree_for_date
+from _gettsim.loader import load_functions_tree_for_date
 from _gettsim.transfers.elterngeld.elterngeld import (
     grundsätzlich_anspruchsberechtigt,
 )

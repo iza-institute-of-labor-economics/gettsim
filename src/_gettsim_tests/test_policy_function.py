@@ -1,6 +1,6 @@
 import pytest
 
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
+from _gettsim.function_types import PolicyFunction, policy_function
 
 
 @policy_function()

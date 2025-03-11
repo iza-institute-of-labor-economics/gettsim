@@ -1,7 +1,7 @@
 """Income relevant for calculation of Kinderzuschlag."""
 
 from _gettsim.aggregation import AggregateByGroupSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "anzahl_kinder_bg": AggregateByGroupSpec(

@@ -11,7 +11,7 @@ from flatten_dict.reducers import make_reducer
 from flatten_dict.splitters import make_splitter
 
 from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
 

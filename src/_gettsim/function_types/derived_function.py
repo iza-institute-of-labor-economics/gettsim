@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 
 if TYPE_CHECKING:
     from collections.abc import Callable

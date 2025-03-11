@@ -11,7 +11,7 @@ from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 from _gettsim.shared import (
     create_tree_from_path_and_value,

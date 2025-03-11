@@ -2,10 +2,10 @@ from collections import Counter
 
 import numpy
 
-from _gettsim.functions.grouping_function import grouping_function
+from _gettsim.function_types import groupby_function
 
 
-@grouping_function()
+@groupby_function()
 def bg_id(
     fg_id: numpy.ndarray[int],
     demographics__alter: numpy.ndarray[int],

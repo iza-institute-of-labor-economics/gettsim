@@ -10,13 +10,13 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import load_functions_tree_for_date
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.interface import (
     _add_rounding_to_function,
     _apply_rounding_spec,
     compute_taxes_and_transfers,
 )
+from _gettsim.loader import load_functions_tree_for_date
 from _gettsim.policy_environment import PolicyEnvironment
 
 rounding_specs_and_exp_results = [

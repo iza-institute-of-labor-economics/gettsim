@@ -20,7 +20,7 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 from _gettsim.gettsim_typing import (
     NestedArrayDict,
     NestedDataDict,

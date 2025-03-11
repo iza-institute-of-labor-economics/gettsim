@@ -9,7 +9,7 @@ import pytest
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
 from _gettsim.interface import (
     _convert_data_to_correct_types,
@@ -21,9 +21,9 @@ from _gettsim.interface import (
 )
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import assert_valid_gettsim_pytree
-from _gettsim.transfers.arbeitslosengeld_2.bedarfsgemeinschaft_id import bg_id_numpy
+from _gettsim.transfers.arbeitslosengeld_2.bedarfsgemeinschaft_id import bg_id
 from _gettsim.transfers.wohngeld.wohngeldrechtlicher_teilhaushalt_id import (
-    wthh_id_numpy,
+    wthh_id,
 )
 from gettsim import FunctionsAndColumnsOverlapWarning
 
@@ -639,11 +639,11 @@ def test_fail_if_cannot_be_converted_to_internal_type(
     [
         (
             {"bg_id": pd.Series([1, 2, 3])},
-            {"bg_id": bg_id_numpy},
+            {"bg_id": bg_id},
         ),
         (
             {"wthh_id": pd.Series([1, 2, 3])},
-            {"wthh_id": wthh_id_numpy},
+            {"wthh_id": wthh_id},
         ),
     ],
 )
@@ -668,9 +668,9 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             {"basic_inputs": {"demographics__wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type float64 to bool"
-            "\nfailed. This conversion is only supported if input data exclusively "
-            "contains\nthe values 1.0 and 0.0.",
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
+            "float64 to bool\nfailed. This conversion is only supported if input data "
+            "exclusively contains\nthe values 1.0 and 0.0.",
         ),
         (
             {
@@ -679,9 +679,9 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type int64 to bool "
-            "failed.\nThis conversion is only supported if input data exclusively "
-            "contains the values\n1 and 0.",
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
+            "int64 to bool failed.\nThis conversion is only supported if input data "
+            "exclusively contains the values\n1 and 0.",
         ),
         (
             {
@@ -691,8 +691,8 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type object to bool "
-            "failed.\nObject type is not supported as input.",
+            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
+            "object to bool failed.\nObject type is not supported as input.",
         ),
         (
             {
@@ -705,8 +705,8 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             "The data types of the following columns are invalid:\n"
             "\n - groupings__hh_id: Conversion from input type object to int failed. "
             "Object\ntype is not supported as input."
-            "\n\n- basic_inputs__einkommen__bruttolohn_m: Conversion from input type object to"
-            " float\nfailed."
+            "\n\n- basic_inputs__einkommen__bruttolohn_m: Conversion from input type "
+            "object to float\nfailed."
             " Object type is not supported as input.",
         ),
     ],

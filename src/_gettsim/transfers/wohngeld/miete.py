@@ -1,7 +1,7 @@
 """Renting costs relevant for housing benefit calculation."""
 
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function()

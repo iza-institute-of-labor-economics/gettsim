@@ -28,7 +28,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions.derived_function import DerivedFunction
+from _gettsim.function_types import DerivedFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,

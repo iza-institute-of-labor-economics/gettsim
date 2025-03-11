@@ -13,11 +13,11 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import (
+from _gettsim.function_types import PolicyFunction, policy_function
+from _gettsim.loader import (
     load_aggregation_specs_tree,
     load_functions_tree_for_date,
 )
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,

@@ -3,7 +3,7 @@
 import numpy
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.shared import join_numpy
 
 aggregation_specs = {

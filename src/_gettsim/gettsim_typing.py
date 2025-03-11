@@ -12,8 +12,7 @@ from pandas.api.types import (
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import DerivedFunction, PolicyFunction
 
 NestedFunctionDict = dict[
     str, Union[PolicyFunction, DerivedFunction, "NestedFunctionDict"]
