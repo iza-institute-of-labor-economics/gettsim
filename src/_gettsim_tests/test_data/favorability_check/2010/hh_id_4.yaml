@@ -71,7 +71,7 @@ outputs:
     - 20000.0
     - 0.0
     - 0.0
-  zu_verst_eink_y_sn:
+  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
     - 150000.0
     - 150000.0
     - 10.0

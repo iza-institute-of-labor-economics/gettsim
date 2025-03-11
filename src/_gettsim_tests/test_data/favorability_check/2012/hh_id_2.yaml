@@ -32,5 +32,5 @@ inputs:
 outputs:
   einkommensteuer__betrag_y_sn:
     - 5000
-  zu_verst_eink_y_sn:
+  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
     - 5000

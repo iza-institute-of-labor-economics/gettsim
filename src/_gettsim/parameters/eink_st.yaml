@@ -226,7 +226,7 @@ eink_st_tarif:
       upper_threshold: 66761
     3:
       upper_threshold: 277826
-einkommensteuer__einkommen__rente_ertragsanteil:
+rente_ertragsanteil:
   name:
     de: >-
       Ertragsanteil-Funktion für den Anteil an sozialversicherungspflichtigen
@@ -276,7 +276,7 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
-  zu_verst_eink_y_sn:
+  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
     note:
       en: before 2002 base and to_add_after_rounding were converted from DM to EUR
     1981-01-01:
