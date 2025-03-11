@@ -18,8 +18,10 @@ class GroupbyFunction(Callable):
         self,
         *,
         function: Callable,
+        leaf_name: str | None = None,
     ):
         self.function = function
+        self.leaf_name = leaf_name if leaf_name else function.__name__
 
         # Expose the signature of the wrapped function for dependency resolution
         self.__annotations__ = function.__annotations__
