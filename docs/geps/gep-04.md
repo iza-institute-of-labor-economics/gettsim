@@ -230,7 +230,7 @@ columns as keys and the AggregateByGroupSpec data class as values. The data clas
 specifies the `source_col` (i.e. the column which is being aggregated) and the
 aggregation method `aggr`.
 
-For example, in `demographic_vars.py`, we could have:
+For example, in `demographics.py`, we could have:
 
 ```
 from _gettsim.aggregation import AggregateByGroupSpec

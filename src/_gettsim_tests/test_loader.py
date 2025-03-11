@@ -23,7 +23,11 @@ if TYPE_CHECKING:
 
 def test_load_path():
     assert _load_module(
-        RESOURCE_DIR / "social_insurance_contributions" / "ges_krankenv.py",
+        RESOURCE_DIR
+        / "taxes"
+        / "sozialversicherungsbeiträge"
+        / "krankenversicherung"
+        / "beitragssatz.py",
         RESOURCE_DIR,
     )
 

@@ -1,7 +1,7 @@
 """Tax allowances."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.functions.policy_function import policy_function
-from _gettsim.groupings import AggregateByPIDSpec
 
 aggregation_specs = {
     "anzahl_kinder_bis_24_elternteil_1": AggregateByPIDSpec(
