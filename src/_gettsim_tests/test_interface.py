@@ -21,8 +21,8 @@ from _gettsim.interface import (
 )
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import assert_valid_gettsim_pytree
-from _gettsim.transfers.arbeitslosengeld_2.bedarfsgemeinschaft_id import bg_id
-from _gettsim.transfers.wohngeld.wohngeldrechtlicher_teilhaushalt_id import (
+from _gettsim.transfers.arbeitslosengeld_2.id import bg_id
+from _gettsim.transfers.wohngeld.id import (
     wthh_id,
 )
 from gettsim import FunctionsAndColumnsOverlapWarning
