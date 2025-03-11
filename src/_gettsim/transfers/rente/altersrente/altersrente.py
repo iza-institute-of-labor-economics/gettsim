@@ -539,7 +539,7 @@ def entgeltp_ost_updated(
 def entgeltp_update(
     einkommen__bruttolohn_m: float,
     demographics__wohnort_ost: bool,
-    sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m: float,
+    sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m: float,
     ges_rente_params: dict,
 ) -> float:
     """Return earning points for the wages earned in the last year.
@@ -550,9 +550,9 @@ def entgeltp_update(
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     demographics__wohnort_ost
         See :func:`demographics__wohnort_ost`.
-    sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m
+    sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m
         See :func:
-        `sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m`.
+        `sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     Returns
@@ -572,10 +572,10 @@ def entgeltp_update(
     # Calculate the (scaled) wage, which is subject to pension contributions.
     if (
         bruttolohn_scaled_east
-        > sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m
+        > sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m
     ):
         bruttolohn_scaled_rentenv = (
-            sozialversicherungsbeitraege__rentenversicherung__beitragsbemessungsgrenze_m
+            sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m
         )
     else:
         bruttolohn_scaled_rentenv = bruttolohn_scaled_east

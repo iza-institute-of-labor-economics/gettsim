@@ -93,15 +93,15 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
 
 @policy_function()
 def betrag_arbeitnehmer_regulär_beschäftigt_m(
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m: float,
     beitragssatz: float,
 ) -> float:
     """Employee's long-term care insurance contribution if regularly employed.
 
     Parameters
     ----------
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m:
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen_m`.
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m:
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__einkommen_m`.
     beitragssatz:
         See :func:`beitragssatz`.
 
@@ -111,13 +111,13 @@ def betrag_arbeitnehmer_regulär_beschäftigt_m(
 
     """
 
-    return sozialversicherungsbeitraege__krankenversicherung__einkommen_m * beitragssatz
+    return sozialversicherungsbeiträge__krankenversicherung__einkommen_m * beitragssatz
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_vor_midijob_m(
     einkommensgrenzen__geringfügig_beschäftigt: bool,
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m: float,
     sozialv_beitr_params: dict,
     einkommen__ist_selbstständig: bool,
 ) -> float:
@@ -129,8 +129,8 @@ def betrag_arbeitgeber_vor_midijob_m(
     ----------
     einkommensgrenzen__geringfügig_beschäftigt
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen_m`.
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     einkommen__ist_selbstständig
@@ -143,7 +143,7 @@ def betrag_arbeitgeber_vor_midijob_m(
     """
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        sozialversicherungsbeitraege__krankenversicherung__einkommen_m
+        sozialversicherungsbeiträge__krankenversicherung__einkommen_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
@@ -159,7 +159,7 @@ def betrag_arbeitgeber_vor_midijob_m(
 def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     einkommensgrenzen__geringfügig_beschäftigt: bool,
     betrag_arbeitgeber_midijob_m: float,
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m: float,
     sozialv_beitr_params: dict,
     einkommensgrenzen__in_gleitzone: bool,
     einkommen__ist_selbstständig: bool,
@@ -174,8 +174,8 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
         See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
     betrag_arbeitgeber_midijob_m
         See :func:`betrag_arbeitgeber_midijob_m`.
-    sozialversicherungsbeitraege__krankenversicherung__einkommen_m
-        See         :func:`sozialversicherungsbeitraege__krankenversicherung__einkommen_m`.
+    sozialversicherungsbeiträge__krankenversicherung__einkommen_m
+        See         :func:`sozialversicherungsbeiträge__krankenversicherung__einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     einkommensgrenzen__in_gleitzone
@@ -190,7 +190,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     """
     # Calculate care insurance contributions for regular jobs.
     beitr_regulär_beschäftigt_m = (
-        sozialversicherungsbeitraege__krankenversicherung__einkommen_m
+        sozialversicherungsbeiträge__krankenversicherung__einkommen_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
@@ -210,7 +210,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     leaf_name="betrag_selbständig_m",
 )
 def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
     beitragssatz: float,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution until 2004.
@@ -221,8 +221,8 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
     Parameters
     ----------
 
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m
-        See         :func:`sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m`.
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m
+        See         :func:`sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m`.
 
     beitragssatz
         See         :func:`beitragssatz`.
@@ -233,14 +233,14 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
 
     """
     return (
-        sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m
+        sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m
         * (beitragssatz * 2)
     )
 
 
 @policy_function(start_date="2005-01-01", leaf_name="betrag_selbständig_m")
 def betrag_selbständig_zusatz_kinderlos_dummy_m(
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -252,8 +252,8 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
     Parameters
     ----------
 
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m
-        See         :func:`sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m`.
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m
+        See         :func:`sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m`.
 
     beitragssatz
         See :func:`beitragssatz`.
@@ -267,7 +267,7 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
 
     """
     return (
-        sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_selbständig_m
+        sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_selbständig_m
         * (beitragssatz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"])
     )
 
@@ -278,7 +278,7 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
     leaf_name="betrag_rentner_m",
 )
 def betrag_rentner_reduz_beitrag_m(
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
 ) -> float:
     """Long-term care insurance contribution from pension income from 1995 until March
@@ -288,8 +288,8 @@ def betrag_rentner_reduz_beitrag_m(
 
     Parameters
     ----------
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m`.
     beitragssatz
         See :func:`beitragssatz`.
 
@@ -299,7 +299,7 @@ def betrag_rentner_reduz_beitrag_m(
 
     """
     return (
-        sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
+        sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
         * beitragssatz
     )
 
@@ -310,7 +310,7 @@ def betrag_rentner_reduz_beitrag_m(
     leaf_name="betrag_rentner_m",
 )
 def betrag_rentner_ohne_zusatz_für_kinderlose_m(
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
 ) -> float:
     """Health insurance contribution from pension income from April until December 2004.
@@ -319,8 +319,8 @@ def betrag_rentner_ohne_zusatz_für_kinderlose_m(
 
     Parameters
     ----------
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m`.
     beitragssatz
         See :func:`beitragssatz`.
 
@@ -330,14 +330,14 @@ def betrag_rentner_ohne_zusatz_für_kinderlose_m(
 
     """
     return (
-        sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
+        sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
         * (beitragssatz * 2)
     )
 
 
 @policy_function(start_date="2005-01-01", leaf_name="betrag_rentner_m")
 def betrag_rentner_zusatz_kinderlos_dummy_m(
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m: float,
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -348,8 +348,8 @@ def betrag_rentner_zusatz_kinderlos_dummy_m(
 
     Parameters
     ----------
-    sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m`.
+    sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m`.
     beitragssatz
         See :func:`beitragssatz`.
     sozialv_beitr_params
@@ -361,7 +361,7 @@ def betrag_rentner_zusatz_kinderlos_dummy_m(
 
     """
     return (
-        sozialversicherungsbeitraege__krankenversicherung__bemessungsgrundlage_rente_m
+        sozialversicherungsbeiträge__krankenversicherung__bemessungsgrundlage_rente_m
         * (beitragssatz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"])
     )
 

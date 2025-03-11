@@ -17,27 +17,27 @@ inputs:
       - 45
     einkommen__ist_selbstständig:
       - false
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - true
-    sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24:
+    sozialversicherungsbeiträge__pflegeversicherung__anzahl_kinder_bis_24:
       - 2
     einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
+    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
       - false
   assumed: {}
 outputs:
-  sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
     - 1132.81
-  sozialversicherungsbeitraege__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__betrag_arbeitgeber_m:
     - 1145.75
-  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
     - 558.0
-  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
     - 78.0
-  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
     - 421.77
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
     - 75.04

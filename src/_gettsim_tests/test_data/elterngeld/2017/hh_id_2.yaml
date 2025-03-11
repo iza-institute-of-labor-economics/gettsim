@@ -18,7 +18,7 @@ inputs:
       - -1
     lohnsteuer__steuerklasse:
       - 1
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
     demographics__alter:
       - 43
@@ -46,7 +46,7 @@ inputs:
       - 218.96
     solidaritätszuschlag__betrag_y_sn:
       - 12.04
-    sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
+    sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
       - 378.0
     demographics__geburtsjahr:
       - 1974

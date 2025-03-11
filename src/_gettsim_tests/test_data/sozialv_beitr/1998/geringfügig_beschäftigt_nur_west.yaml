@@ -22,7 +22,7 @@ inputs:
     einkommen__ist_selbstständig:
       - false
       - false
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
       - false
     einkommen__aus_selbstständigkeit_m:
@@ -31,7 +31,7 @@ inputs:
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
+    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
       - false
       - false
     jahr:
@@ -42,36 +42,36 @@ outputs:
   einkommensgrenzen__geringfügig_beschäftigt:
     - true
     - false
-  sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
     - 0.0
     - 63.15
-  sozialversicherungsbeitraege__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__betrag_arbeitgeber_m:
     - 0.0
     - 63.15
-  sozialversicherungsbeitraege__betrag_gesamt_m:
+  sozialversicherungsbeiträge__betrag_gesamt_m:
     - 0.0
     - 126.30
-  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 30.45
-  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 9.75
-  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 20.40
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
     - 0.0
     - 2.55
-  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitgeber_m:
     - 0.0
     - 30.45
-  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitgeber_m:
     - 0.0
     - 9.75
-  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitgeber_m:
     - 0.0
     - 20.40
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitgeber_m:
     - 0.0
     - 2.55

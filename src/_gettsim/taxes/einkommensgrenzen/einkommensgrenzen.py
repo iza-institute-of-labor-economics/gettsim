@@ -209,8 +209,8 @@ def beitragspflichtige_einnahmen_arbeitnehmer_m(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F until December 2004.
 
@@ -221,10 +221,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -243,11 +243,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -271,8 +271,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
 )
 def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F between 2005 and September 2025.
 
@@ -283,10 +283,10 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -307,11 +307,11 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.
@@ -334,8 +334,8 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
 )
 def midijob_faktor_f_ohne_minijob_steuerpauschale(
     sozialv_beitr_params: dict,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang: float,
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang: float,
 ) -> float:
     """Midijob Faktor F since October 2022.
 
@@ -346,10 +346,10 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
-        See :func:`sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang`.
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang`.
 
     Returns
     -------
@@ -370,11 +370,11 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     # Then calculate specific shares
     an_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitnehmer_jahresanfang
     )
     ag_anteil = (
         allg_sozialv_beitr
-        + sozialversicherungsbeitraege__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
+        + sozialversicherungsbeiträge__krankenversicherung__beitragssatz_arbeitgeber_jahresanfang
     )
 
     # Sum over the shares which are specific for midijobs.

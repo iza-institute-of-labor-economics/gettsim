@@ -16,29 +16,29 @@ inputs:
       - 20
     einkommen__ist_selbstständig:
       - false
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - true
     einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
+    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
       - false
     jahr:
       - '2010'
   assumed: {}
 outputs:
-  sozialversicherungsbeitraege__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
     - 303.375
-  sozialversicherungsbeitraege__betrag_arbeitgeber_m:
+  sozialversicherungsbeiträge__betrag_arbeitgeber_m:
     - 289.88
-  sozialversicherungsbeitraege__betrag_gesamt_m:
+  sozialversicherungsbeiträge__betrag_gesamt_m:
     - 593.26
-  sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
     - 149.25
-  sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
     - 21.0
-  sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
     - 118.5
-  sozialversicherungsbeitraege__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
     - 14.625

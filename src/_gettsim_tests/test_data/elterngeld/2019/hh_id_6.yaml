@@ -32,7 +32,7 @@ inputs:
       - 1
       - 1
       - 1
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
       - false
       - true

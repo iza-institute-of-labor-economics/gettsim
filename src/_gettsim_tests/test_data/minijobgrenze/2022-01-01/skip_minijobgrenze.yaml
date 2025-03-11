@@ -8,7 +8,7 @@ inputs:
       - 0
     demographics__p_id:
       - 0
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
 outputs:
   einkommensgrenzen__minijob_grenze:

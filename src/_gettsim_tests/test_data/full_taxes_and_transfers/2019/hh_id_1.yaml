@@ -79,7 +79,7 @@ inputs:
       - false
       - false
       - true
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
       - false
       - false
@@ -89,7 +89,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherungsbeitraege__krankenversicherung__privat_versichert:
+    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
       - false
       - false
       - false

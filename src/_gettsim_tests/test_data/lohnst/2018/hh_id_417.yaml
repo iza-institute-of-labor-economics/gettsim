@@ -13,11 +13,11 @@ inputs:
       - 40.0
     einkommen__bruttolohn_m:
       - 1521.3100000000002
-    sozialversicherungsbeitraege__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
+    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
       - 0.0139
-    sozialversicherungsbeitraege__pflegeversicherung__zusatzbetrag_kinderlos:
+    sozialversicherungsbeiträge__pflegeversicherung__zusatzbetrag_kinderlos:
       - false
-    sozialversicherungsbeitraege__pflegeversicherung__hat_kinder:
+    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
       - false
     demographics__hh_id:
       - 417

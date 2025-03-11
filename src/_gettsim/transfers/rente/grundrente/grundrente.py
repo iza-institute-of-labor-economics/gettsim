@@ -46,7 +46,7 @@ def einkommen_m(
       avoid the need for several new input variables.
     - Warning: Freibeträge for income are currently not considered as `freibeträge_y`
       depends on pension income through
-      `sozialversicherungsbeitraege__krankenversicherung__betrag_arbeitnehmer_m` ->
+      `sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m` ->
       `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI

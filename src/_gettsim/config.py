@@ -148,7 +148,7 @@ DEFAULT_TARGETS = {
             "erwerbsminderung": {"betrag_m": None},
         },
     },
-    "sozialversicherungsbeitraege": {
+    "sozialversicherungsbeiträge": {
         "arbeitslosenversicherung": {
             "betrag_arbeitnehmer_m": None,
         },
@@ -237,8 +237,8 @@ TYPES_INPUT_VARIABLES = {
     "rente__jahr_renteneintritt": int,
     "rente__monat_renteneintritt": int,
     "rente__private_rente_m": float,
-    "sozialversicherungsbeitraege__krankenversicherung__privat_versichert": bool,
-    "sozialversicherungsbeitraege__pflegeversicherung__hat_kinder": bool,
+    "sozialversicherungsbeiträge__krankenversicherung__privat_versichert": bool,
+    "sozialversicherungsbeiträge__pflegeversicherung__hat_kinder": bool,
     "unterhalt__kind_anspruch_m": float,
     "unterhalt__kind_betrag_m": float,
     "wohnen__bewohnt_eigentum_hh": bool,

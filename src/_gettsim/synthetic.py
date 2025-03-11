@@ -142,11 +142,11 @@ def create_basic_households(
     else:
         alleinerziehend = [False] * (n_children + n_adults)
     if n_children > 0:
-        sozialversicherungsbeitraege__pflegeversicherung__hat_kinder = [
+        sozialversicherungsbeiträge__pflegeversicherung__hat_kinder = [
             True
         ] * n_adults + [False] * n_children
     else:
-        sozialversicherungsbeitraege__pflegeversicherung__hat_kinder = [False] * (
+        sozialversicherungsbeiträge__pflegeversicherung__hat_kinder = [False] * (
             n_adults
         )
     # Add specifications and create DataFrame
@@ -154,11 +154,11 @@ def create_basic_households(
         {
             "hh_id": [i] * (n_adults + n_children),
             "basic_inputs__hh_typ": [hh_typ_string] * (n_adults + n_children),
-            "basic_inputs__sozialversicherungsbeitraege__pflegeversicherung__hat_kinder": sozialversicherungsbeitraege__pflegeversicherung__hat_kinder,  # noqa: E501
+            "basic_inputs__sozialversicherungsbeiträge__pflegeversicherung__hat_kinder": sozialversicherungsbeiträge__pflegeversicherung__hat_kinder,  # noqa: E501
             "basic_inputs__alleinerz": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
-            "basic_inputs__sozialversicherungsbeitraege__pflegeversicherung__anzahl_kinder_bis_24": [  # noqa: E501
+            "basic_inputs__sozialversicherungsbeiträge__pflegeversicherung__anzahl_kinder_bis_24": [  # noqa: E501
                 n_children
             ]
             * n_adults
