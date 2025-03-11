@@ -171,7 +171,7 @@ outputs:
     - 0
     - 0
     - 0
-  einkommensteuer__freibeträge__alleinerziehend_y:
+  einkommensteuer__freibeträge__alleinerziehend_betrag_y:
     - 0
     - 0
     - 0

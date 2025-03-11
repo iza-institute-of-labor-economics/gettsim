@@ -72,7 +72,7 @@ outputs:
     - 0
   einkommensteuer__freibeträge__altersfreibetrag_y:
     - 0
-  einkommensteuer__freibeträge__alleinerziehend_y:
+  einkommensteuer__freibeträge__alleinerziehend_betrag_y:
     - 0
   einkommensteuer__einkommen__gesamteinkünfte_y:
     - 0

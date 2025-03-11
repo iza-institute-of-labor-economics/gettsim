@@ -51,29 +51,24 @@ def betrag_y_sn(
 @policy_function()
 def betrag_ind_y(
     pauschbetrag_behinderung_y: float,
-    altersfreibetrag__betrag_y: float,
-    alleinerziehend__betrag_y: float,
+    alleinerziehend_betrag_y: float,
+    altersfreibetrag_y: float,
 ) -> float:
     """Sum up all tax-deductible allowances applicable at the individual level.
 
-    #ToDo: Check whether these columns are really calculated at the individual level.
     Parameters
     ----------
 
     pauschbetrag_behinderung_y
         See :func:`pauschbetrag_behinderung_y`.
-    altersfreibetrag__betrag_y
-        See :func:`altersfreibetrag__betrag_y`.
-    alleinerziehend__betrag_y
-        See :func:`alleinerziehend__betrag_y`.
+    alleinerziehend_betrag_y
+        See :func:`alleinerziehend_betrag_y`.
+    altersfreibetrag_y
+        See :func:`altersfreibetrag_y`.
 
     Returns
     -------
 
     """
-    out = (
-        pauschbetrag_behinderung_y
-        + altersfreibetrag__betrag_y
-        + alleinerziehend__betrag_y
-    )
+    out = pauschbetrag_behinderung_y + alleinerziehend_betrag_y + altersfreibetrag_y
     return out

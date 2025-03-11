@@ -3,8 +3,8 @@
 from _gettsim.functions.policy_function import policy_function
 
 
-@policy_function(end_date="2014-12-31", leaf_name="alleinerziehend_y")
-def alleinerziehend_y_pauschal(
+@policy_function(end_date="2014-12-31", leaf_name="alleinerziehend_betrag_y")
+def alleinerziehend_betrag_y_pauschal(
     demographics__alleinerziehend_sn: bool, eink_st_abzuege_params: dict
 ) -> float:
     """Calculate tax deduction allowance for single parents until 2014.
@@ -30,8 +30,8 @@ def alleinerziehend_y_pauschal(
     return out
 
 
-@policy_function(start_date="2015-01-01", leaf_name="alleinerziehend_y")
-def alleinerziehend_y_nach_kinderzahl(
+@policy_function(start_date="2015-01-01", leaf_name="alleinerziehend_betrag_y")
+def alleinerziehend_betrag_y_nach_kinderzahl(
     demographics__alleinerziehend_sn: bool,
     kindergeld__anzahl_ansprüche_sn: int,
     eink_st_abzuege_params: dict,
