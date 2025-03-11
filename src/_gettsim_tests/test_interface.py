@@ -11,7 +11,6 @@ from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
     _fail_if_foreign_keys_are_invalid,
@@ -22,6 +21,10 @@ from _gettsim.interface import (
 )
 from _gettsim.policy_environment import PolicyEnvironment
 from _gettsim.shared import assert_valid_gettsim_pytree
+from _gettsim.transfers.arbeitslosengeld_2.bedarfsgemeinschaft_id import bg_id_numpy
+from _gettsim.transfers.wohngeld.wohngeldrechtlicher_teilhaushalt_id import (
+    wthh_id_numpy,
+)
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 

@@ -29,7 +29,6 @@ from _gettsim.config import (
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.groupings import create_groupings
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -110,13 +109,6 @@ def combine_policy_functions_and_derived_functions(
     )
     current_functions_tree = upsert_tree(
         base=aggregate_by_group_functions,
-        to_upsert=current_functions_tree,
-    )
-
-    # Create groupings
-    groupings = create_groupings()
-    current_functions_tree = upsert_tree(
-        base=groupings,
         to_upsert=current_functions_tree,
     )
 
