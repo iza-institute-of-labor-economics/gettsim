@@ -11,8 +11,7 @@ class GroupingFunction(Callable):
     Parameters
     ----------
     function:
-        The function to wrap. Argument values of the `@policy_function` are reused
-        unless explicitly overwritten.
+        The grouping function.
     """
 
     def __init__(
@@ -44,7 +43,7 @@ class GroupingFunction(Callable):
 
 def grouping_function() -> GroupingFunction:
     """
-    Decorator to wrap a function as a grouping function.
+    Decorator that creates a grouping function from a function.
     """
 
     def decorator(func: Callable) -> GroupingFunction:
