@@ -388,3 +388,151 @@ def ist_kind_mit_erwerbseinkommen(
         einkommen__bruttolohn_m > 0
     ) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out
+
+
+@policy_function(skip_vectorization=True, leaf_name="ehe_id")
+def ehe_id_numpy(
+    demographics__p_id: numpy.ndarray[int],
+    demograpics__p_id_ehepartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Ehe for each person.
+    """
+    p_id_to_ehe_id = {}
+    next_ehe_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(demographics__p_id):
+        current_demograpics__p_id_ehepartner = demograpics__p_id_ehepartner[index]
+
+        if (
+            current_demograpics__p_id_ehepartner >= 0
+            and current_demograpics__p_id_ehepartner in p_id_to_ehe_id
+        ):
+            result.append(p_id_to_ehe_id[current_demograpics__p_id_ehepartner])
+            continue
+
+        # New Steuersubjekt
+        result.append(next_ehe_id)
+        p_id_to_ehe_id[current_p_id] = next_ehe_id
+        next_ehe_id += 1
+
+    return numpy.asarray(result)
+
+
+@policy_function(skip_vectorization=True, leaf_name="fg_id")
+def fg_id_numpy(  # noqa: PLR0913
+    demographics__p_id: numpy.ndarray[int],
+    demographics__hh_id: numpy.ndarray[int],
+    demographics__alter: numpy.ndarray[int],
+    demograpics__p_id_einstandspartner: numpy.ndarray[int],
+    demographics__p_id_elternteil_1: numpy.ndarray[int],
+    demographics__p_id_elternteil_2: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Familiengemeinschaft for each person.
+    """
+    # Build indexes
+    p_id_to_index = {}
+    p_id_to_p_ids_children = {}
+
+    for index, current_p_id in enumerate(demographics__p_id):
+        # Fast access from demographics__p_id to index
+        p_id_to_index[current_p_id] = index
+
+        # Fast access from demographics__p_id to p_ids of children
+        current_demographics__p_id_elternteil_1 = demographics__p_id_elternteil_1[index]
+        current_demographics__p_id_elternteil_2 = demographics__p_id_elternteil_2[index]
+
+        if current_demographics__p_id_elternteil_1 >= 0:
+            if current_demographics__p_id_elternteil_1 not in p_id_to_p_ids_children:
+                p_id_to_p_ids_children[current_demographics__p_id_elternteil_1] = []
+            p_id_to_p_ids_children[current_demographics__p_id_elternteil_1].append(
+                current_p_id
+            )
+
+        if current_demographics__p_id_elternteil_2 >= 0:
+            if current_demographics__p_id_elternteil_2 not in p_id_to_p_ids_children:
+                p_id_to_p_ids_children[current_demographics__p_id_elternteil_2] = []
+            p_id_to_p_ids_children[current_demographics__p_id_elternteil_2].append(
+                current_p_id
+            )
+
+    p_id_to_fg_id = {}
+    next_fg_id = 0
+
+    for index, current_p_id in enumerate(demographics__p_id):
+        # Already assigned a fg_id to this demographics__p_id via einstandspartner /
+        # parent
+        if current_p_id in p_id_to_fg_id:
+            continue
+
+        p_id_to_fg_id[current_p_id] = next_fg_id
+
+        current_hh_id = demographics__hh_id[index]
+        current_demograpics__p_id_einstandspartner = demograpics__p_id_einstandspartner[
+            index
+        ]
+        current_p_id_children = p_id_to_p_ids_children.get(current_p_id, [])
+
+        # Assign fg to einstandspartner
+        if current_demograpics__p_id_einstandspartner >= 0:
+            p_id_to_fg_id[current_demograpics__p_id_einstandspartner] = next_fg_id
+
+        # Assign fg to children
+        for current_p_id_child in current_p_id_children:
+            child_index = p_id_to_index[current_p_id_child]
+            child_hh_id = demographics__hh_id[child_index]
+            child_alter = demographics__alter[child_index]
+            child_p_id_children = p_id_to_p_ids_children.get(current_p_id_child, [])
+
+            if (
+                child_hh_id == current_hh_id
+                # TODO (@MImmesberger): Check correct conditions for grown up children
+                # https://github.com/iza-institute-of-labor-economics/gettsim/pull/509
+                # TODO(@MImmesberger): Remove hard-coded number
+                # https://github.com/iza-institute-of-labor-economics/gettsim/issues/668
+                and child_alter < 25
+                and len(child_p_id_children) == 0
+            ):
+                p_id_to_fg_id[current_p_id_child] = next_fg_id
+
+        next_fg_id += 1
+
+    # Compute result vector
+    result = [p_id_to_fg_id[current_p_id] for current_p_id in demographics__p_id]
+    return numpy.asarray(result)
+
+
+# TODO(@MImmesberger): Temporary namespace.
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/827
+@policy_function(skip_vectorization=True, leaf_name="eg_id")
+def eg_id_numpy(
+    demographics__p_id: numpy.ndarray[int],
+    demograpics__p_id_einstandspartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Einstandsgemeinschaft for each person.
+    """
+    p_id_to_eg_id = {}
+    next_eg_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(demographics__p_id):
+        current_demograpics__p_id_einstandspartner = demograpics__p_id_einstandspartner[
+            index
+        ]
+
+        if (
+            current_demograpics__p_id_einstandspartner >= 0
+            and current_demograpics__p_id_einstandspartner in p_id_to_eg_id
+        ):
+            result.append(p_id_to_eg_id[current_demograpics__p_id_einstandspartner])
+            continue
+
+        # New Einstandsgemeinschaft
+        result.append(next_eg_id)
+        p_id_to_eg_id[current_p_id] = next_eg_id
+        next_eg_id += 1
+
+    return numpy.asarray(result)
