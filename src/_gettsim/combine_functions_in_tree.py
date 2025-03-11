@@ -522,7 +522,7 @@ def _create_one_aggregate_by_p_id_func(
         @rename_arguments_and_add_annotations(
             mapper={
                 "p_id_to_aggregate_by": p_id_to_aggregate_by,
-                "p_id_to_store_by": "groupings__p_id",
+                "p_id_to_store_by": "demographics__p_id",
             },
             annotations=annotations,
         )
@@ -532,7 +532,7 @@ def _create_one_aggregate_by_p_id_func(
     else:
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "groupings__p_id",
+            "p_id_to_store_by": "demographics__p_id",
             "column": source_col,
         }
 

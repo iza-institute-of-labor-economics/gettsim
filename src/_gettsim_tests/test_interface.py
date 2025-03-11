@@ -69,7 +69,7 @@ def test_output_as_tree(minimal_input_data):
         {
             "module": {
                 "test_func": policy_function(leaf_name="test_func")(
-                    lambda groupings__p_id: groupings__p_id
+                    lambda demographics__p_id: demographics__p_id
                 )
             }
         }
@@ -132,14 +132,16 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
 
 
 def test_fail_if_pid_does_not_exist():
-    data = {"groupings__hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
+    data = {"demographics__hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = {"groupings__p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")}
+    data = {
+        "demographics__p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")
+    }
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
@@ -461,7 +463,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func",
                         aggr="sum",
                     )
@@ -475,7 +477,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func_m": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func_m",
                         aggr="sum",
                     )
@@ -489,7 +491,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func_m": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func_m",
                         aggr="sum",
                     )
@@ -511,7 +513,7 @@ def test_user_provided_aggregate_by_p_id_specs(
     # TODO(@MImmesberger): Remove fake dependency.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     @policy_function(leaf_name=leaf_name)
-    def source_func(groupings__p_id: int) -> int:  # noqa: ARG001
+    def source_func(demographics__p_id: int) -> int:  # noqa: ARG001
         return 100
 
     functions_tree = {"module": {leaf_name: source_func}}
@@ -657,11 +659,11 @@ def test_provide_endogenous_groupings(data, functions_overridden):
     "data, functions_overridden, error_match",
     [
         (
-            {"groupings": {"hh_id": pd.Series([1, 1.1, 2])}},
+            {"demographics": {"hh_id": pd.Series([1, 1.1, 2])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - groupings__hh_id: Conversion from input type float64 to int failed."
-            " This\nconversion is only supported if all decimal places of input"
+            "\n - demographics__hh_id: Conversion from input type float64 to int "
+            "failed. This\nconversion is only supported if all decimal places of input"
             " data are equal to\n0.",
         ),
         (
@@ -675,7 +677,7 @@ def test_provide_endogenous_groupings(data, functions_overridden):
         (
             {
                 "basic_inputs": {"demographics__wohnort_ost": pd.Series([2, 0, 1])},
-                "groupings": {"hh_id": pd.Series([1.0, 2.0, 3.0])},
+                "demographics": {"hh_id": pd.Series([1.0, 2.0, 3.0])},
             },
             {},
             "The data types of the following columns are invalid:\n"
@@ -696,15 +698,15 @@ def test_provide_endogenous_groupings(data, functions_overridden):
         ),
         (
             {
-                "groupings": {"hh_id": pd.Series([1, "1", 2])},
+                "demographics": {"hh_id": pd.Series([1, "1", 2])},
                 "basic_inputs": {
                     "einkommen__bruttolohn_m": pd.Series(["2000", 3000, 4000])
                 },
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - groupings__hh_id: Conversion from input type object to int failed. "
-            "Object\ntype is not supported as input."
+            "\n - demographics__hh_id: Conversion from input type object to int failed."
+            " Object\ntype is not supported as input."
             "\n\n- basic_inputs__einkommen__bruttolohn_m: Conversion from input type "
             "object to float\nfailed."
             " Object type is not supported as input.",
