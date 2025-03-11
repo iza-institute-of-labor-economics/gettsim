@@ -73,15 +73,23 @@ def test_compute_taxes_and_transfers_with_tree(
         },
     }
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([0, 1, 2]),
             "hh_id": pd.Series([0, 0, 1]),
+            "ehe_id": pd.Series([0, 1, 2]),
+        },
+        "arbeitslosengeld_2": {
             "bg_id": pd.Series([0, 1, 2]),
             "eg_id": pd.Series([0, 1, 2]),
-            "ehe_id": pd.Series([0, 1, 2]),
-            "wthh_id": pd.Series([0, 1, 2]),
-            "sn_id": pd.Series([0, 1, 2]),
             "fg_id": pd.Series([0, 1, 2]),
+        },
+        "wohngeld": {
+            "wthh_id": pd.Series([0, 1, 2]),
+        },
+        "einkommensteuer": {
+            "sn_id": pd.Series([0, 1, 2]),
+        },
+        "groupings": {
             "some_foreign_keys": pd.Series([2, 0, 1]),
         },
         "module1": {
