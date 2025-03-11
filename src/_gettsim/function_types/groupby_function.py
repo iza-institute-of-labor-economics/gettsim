@@ -42,6 +42,6 @@ def groupby_function() -> GroupbyFunction:
     """
 
     def decorator(func: Callable) -> GroupbyFunction:
-        return GroupbyFunction(func)
+        return GroupbyFunction(function=func)
 
     return decorator
