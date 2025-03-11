@@ -43,7 +43,7 @@ inputs:
     wohnen__wohnfläche_hh:
       - 50.0
       - 50.0
-    solidaritaetszuschlag__betrag_y_sn:
+    solidaritätszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
     sozialversicherungsbeitraege__betrag_arbeitnehmer_m:

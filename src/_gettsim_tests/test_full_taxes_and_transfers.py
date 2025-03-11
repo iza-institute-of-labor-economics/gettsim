@@ -9,7 +9,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 
 OUT_COLS = [
     "einkommensteuer__betrag_y_sn",
-    "solidaritaetszuschlag__betrag_y_sn",
+    "solidaritätszuschlag__betrag_y_sn",
     "abgeltungssteuer__betrag_y_sn",
     "sozialversicherungsbeitraege__rentenversicherung__betrag_arbeitnehmer_m",
     "sozialversicherungsbeitraege__arbeitslosenversicherung__betrag_arbeitnehmer_m",

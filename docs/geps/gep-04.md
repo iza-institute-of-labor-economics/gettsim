@@ -117,7 +117,7 @@ input data or it has to be the name of another function. It is also possible to 
 Another function, say
 
 ```python
-def solidaritaetszuschlag__betrag_y_sn(
+def solidaritätszuschlag__betrag_y_sn(
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
     demographics__anzahl_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,

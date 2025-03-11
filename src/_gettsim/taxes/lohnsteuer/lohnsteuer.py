@@ -2,8 +2,8 @@
 
 from _gettsim.functions.policy_function import policy_function
 from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
-from _gettsim.taxes.solidaritaetszuschlag.solidaritaetszuschlag import (
-    solidaritaetszuschlag_tarif,
+from _gettsim.taxes.solidaritätszuschlag.solidaritätszuschlag import (
+    solidaritätszuschlag_tarif,
 )
 
 
@@ -82,7 +82,7 @@ def betrag_soli_y(betrag_mit_kinderfreibetrag_y: float, soli_st_params: dict) ->
 
     """
 
-    return solidaritaetszuschlag_tarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
+    return solidaritätszuschlag_tarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
 
 
 @policy_function()

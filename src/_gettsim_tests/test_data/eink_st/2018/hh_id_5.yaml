@@ -28,5 +28,5 @@ outputs:
     - 66978
   abgeltungssteuer__betrag_y_sn:
     - 0.0
-  solidaritaetszuschlag__betrag_y_sn:
+  solidaritätszuschlag__betrag_y_sn:
     - 3683.79

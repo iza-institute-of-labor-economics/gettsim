@@ -30,6 +30,6 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  solidaritaetszuschlag__betrag_y_sn:
+  solidaritätszuschlag__betrag_y_sn:
     - 0.0
     - 0.0
