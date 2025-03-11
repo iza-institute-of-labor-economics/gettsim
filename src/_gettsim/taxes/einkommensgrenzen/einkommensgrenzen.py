@@ -1,4 +1,4 @@
-"""Income tresholds for taxes and deductions."""
+"""Income thresholds for taxes and deductions."""
 
 from _gettsim.function_types import policy_function
 
