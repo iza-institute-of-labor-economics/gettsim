@@ -16,7 +16,7 @@ inputs:
       - 1
       - 0
       - -1
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1

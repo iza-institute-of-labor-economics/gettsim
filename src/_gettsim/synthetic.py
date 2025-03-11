@@ -199,7 +199,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     - demographics__p_id_elternteil_2
     - kindergeld__p_id_empfänger
     - erziehungsgeld__p_id_empfänger
-    - demograpics__p_id_einstandspartner
+    - arbeitslosengeld_2__p_id_einstandspartner
     - demograpics__p_id_ehepartner
     - einkommensteuer__freibeträge__p_id_betreuungskosten_träger
 
@@ -234,28 +234,28 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     # Create other IDs
     if n_adults == 1:
         data["demograpics__p_id_ehepartner"] = -1
-        data["demograpics__p_id_einstandspartner"] = data[
+        data["arbeitslosengeld_2__p_id_einstandspartner"] = data[
             "demograpics__p_id_ehepartner"
         ]
     else:
         data_adults = data.query("basic_inputs__kind == False").copy()
         for demographics__hh_id, group in data_adults.groupby("hh_id"):
             relevant_rows = (data_adults["hh_id"] == demographics__hh_id).values
-            data_adults.loc[relevant_rows, "demograpics__p_id_einstandspartner"] = (
-                group["p_id"].tolist()[::-1]
-            )
+            data_adults.loc[
+                relevant_rows, "arbeitslosengeld_2__p_id_einstandspartner"
+            ] = group["p_id"].tolist()[::-1]
         data = pd.merge(
             data,
-            data_adults[["p_id", "demograpics__p_id_einstandspartner"]],
+            data_adults[["p_id", "arbeitslosengeld_2__p_id_einstandspartner"]],
             on="p_id",
             how="left",
         ).fillna(-1)
-        data["demograpics__p_id_einstandspartner"] = data[
-            "demograpics__p_id_einstandspartner"
+        data["arbeitslosengeld_2__p_id_einstandspartner"] = data[
+            "arbeitslosengeld_2__p_id_einstandspartner"
         ].astype(numpy.int64)
         if adults_married:
             data["demograpics__p_id_ehepartner"] = data[
-                "demograpics__p_id_einstandspartner"
+                "arbeitslosengeld_2__p_id_einstandspartner"
             ]
         else:
             data["demograpics__p_id_ehepartner"] = -1

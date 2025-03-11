@@ -1,9 +1,8 @@
 ---
 info:
   note: >-
-    CZ: In case the other parent does not pay child support, the parent with demographics__p_id==0
-    can
-    request full kinderfreibetrag (Add this as input?)
+    CZ: In case the other parent does not pay child support, the parent with
+    demographics__p_id==0 can request full kinderfreibetrag (Add this as input?)
   source: ''
 inputs:
   provided:
@@ -33,7 +32,7 @@ inputs:
       - 0
       - 0
       - 1
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
       - -1
@@ -58,7 +57,7 @@ inputs:
       - false
       - false
 outputs:
-  demographics__fg_id:
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
     - 1

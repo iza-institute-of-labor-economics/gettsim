@@ -94,15 +94,15 @@ Identifier of married partner
 
 Type: int
 
-(demograpics__p_id_einstandspartner)=
+(arbeitslosengeld_2__p_id_einstandspartner)=
 
-## `demograpics__p_id_einstandspartner`
+## `arbeitslosengeld_2__p_id_einstandspartner`
 
 Identifier of Einstandspartner
 
 Type: int
 
-(demograpics__p_id_einstandspartner)=
+(arbeitslosengeld_2__p_id_einstandspartner)=
 
 ## `kindergeld__p_id_empfänger`
 

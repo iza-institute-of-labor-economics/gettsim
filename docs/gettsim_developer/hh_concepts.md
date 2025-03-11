@@ -82,7 +82,7 @@ The units are:
 
 #### Pointers
 
-- `demograpics__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
+- `arbeitslosengeld_2__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
   `demographics__p_id_elternteil_2` (exogenous)
 
 ## Elterngeld
@@ -174,7 +174,7 @@ The units are:
 
 #### Pointers
 
-- `demograpics__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
+- `arbeitslosengeld_2__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
   `demographics__p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Hilfe zum Lebensunterhalt)
@@ -211,7 +211,7 @@ Regarding the household definition:
 
 #### Pointers
 
-- `demographics__hh_id`, `demograpics__p_id_einstandspartner`,
+- `demographics__hh_id`, `arbeitslosengeld_2__p_id_einstandspartner`,
   `demographics__p_id_elternteil_1`, `demographics__p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Grundsicherung im Alter / bei Erwerbsminderung)
@@ -237,7 +237,7 @@ Government expenditures: 7 Mrd €
 
 #### Pointers
 
-- `demograpics__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
+- `arbeitslosengeld_2__p_id_einstandspartner`, `demographics__p_id_elternteil_1`,
   `demographics__p_id_elternteil_2` (exogenous)
 
 ### SGB XII (Eingliederungshilfe für Menschen mit Behinderung)
@@ -301,7 +301,7 @@ Government expenditures: 4 Mrd €
 
 #### Pointers
 
-- `demographics__hh_id`, `demograpics__p_id_einstandspartner`,
+- `demographics__hh_id`, `arbeitslosengeld_2__p_id_einstandspartner`,
   `demographics__p_id_elternteil_1`, `demographics__p_id_elternteil_2` (exogenous)
 
 ### Kinderwohngeld

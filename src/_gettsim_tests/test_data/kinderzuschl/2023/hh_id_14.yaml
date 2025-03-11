@@ -16,7 +16,7 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - 39
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
     kindergeld__p_id_empfänger:

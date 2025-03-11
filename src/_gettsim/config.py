@@ -86,7 +86,7 @@ SUPPORTED_GROUPINGS = {
     },
     "fg": {
         "name": "Familiengemeinschaft",
-        "namespace": "demographics",
+        "namespace": "arbeitslosengeld_2",
         "description": "Maximum of two generations, the relevant base unit for"
         " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
         " income fend for themselves.",
@@ -101,7 +101,7 @@ SUPPORTED_GROUPINGS = {
     },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
-        "namespace": "demographics",
+        "namespace": "arbeitslosengeld_2",
         "description": "A couple whose members are deemed to be responsible for each"
         " other.",
         "potentially_endogenous": True,
@@ -192,7 +192,7 @@ TYPES_INPUT_VARIABLES = {
     "demographics__weiblich": bool,
     "demographics__wohnort_ost": bool,
     "demograpics__p_id_ehepartner": int,
-    "demograpics__p_id_einstandspartner": int,
+    "arbeitslosengeld_2__p_id_einstandspartner": int,
     "einkommen__aus_selbstständigkeit_m": float,
     "einkommen__aus_vermietung_m": float,
     "einkommen__bruttokapitaleinkommen_m": float,
@@ -258,7 +258,7 @@ TYPES_INPUT_VARIABLES = {
 
 FOREIGN_KEYS = [
     "demograpics__p_id_ehepartner",
-    "demograpics__p_id_einstandspartner",
+    "arbeitslosengeld_2__p_id_einstandspartner",
     "demographics__p_id_elternteil_1",
     "demographics__p_id_elternteil_2",
 ]

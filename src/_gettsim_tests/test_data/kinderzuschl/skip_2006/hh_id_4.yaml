@@ -28,7 +28,7 @@ inputs:
       - 9
       - 9
       - 9
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 9
       - 8
     kindergeld__p_id_empfänger:

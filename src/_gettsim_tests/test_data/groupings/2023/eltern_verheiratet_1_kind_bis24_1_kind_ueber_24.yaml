@@ -31,7 +31,7 @@ inputs:
       - 52
       - 27
       - 23
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1
@@ -67,7 +67,7 @@ inputs:
       - false
       - false
 outputs:
-  demographics__fg_id:
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
     - 1

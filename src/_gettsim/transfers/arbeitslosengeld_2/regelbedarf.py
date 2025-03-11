@@ -196,7 +196,7 @@ def kindersatz_m_ab_2011(
 def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     mehrbedarf_alleinerziehend_m: float,
     kindersatz_m: float,
-    demograpics__p_id_einstandspartner: int,
+    arbeitslosengeld_2__p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs for adults without dwelling.
@@ -207,8 +207,8 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
         See :func:`mehrbedarf_alleinerziehend_m`.
     kindersatz_m
         See :func:`kindersatz_m`.
-    demograpics__p_id_einstandspartner
-        See basic input variable :ref:`demograpics__p_id_einstandspartner`.
+    arbeitslosengeld_2__p_id_einstandspartner
+        See basic input variable :ref:`arbeitslosengeld_2__p_id_einstandspartner`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -217,7 +217,7 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
 
     """
     # BG has 2 adults
-    if demograpics__p_id_einstandspartner >= 0:
+    if arbeitslosengeld_2__p_id_einstandspartner >= 0:
         out = (
             arbeitsl_geld_2_params["regelsatz"]
             * (arbeitsl_geld_2_params["anteil_regelsatz_erwachsene"]["zwei_erwachsene"])
@@ -235,7 +235,7 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
 def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     mehrbedarf_alleinerziehend_m: float,
     kindersatz_m: float,
-    demograpics__p_id_einstandspartner: int,
+    arbeitslosengeld_2__p_id_einstandspartner: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Basic monthly subsistence / SGB II needs for adults without dwelling since 2011.
@@ -248,8 +248,8 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
         See :func:`mehrbedarf_alleinerziehend_m`.
     kindersatz_m
         See :func:`kindersatz_m`.
-    demograpics__p_id_einstandspartner
-        See basic input variable :ref:`demograpics__p_id_einstandspartner`.
+    arbeitslosengeld_2__p_id_einstandspartner
+        See basic input variable :ref:`arbeitslosengeld_2__p_id_einstandspartner`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -259,7 +259,7 @@ def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
 
     """
     # BG has 2 adults
-    if demograpics__p_id_einstandspartner >= 0:
+    if arbeitslosengeld_2__p_id_einstandspartner >= 0:
         out = arbeitsl_geld_2_params["regelsatz"][2]
     # This observation is not a child, so BG has 1 adult
     elif kindersatz_m == 0.0:
