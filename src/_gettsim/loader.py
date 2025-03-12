@@ -11,7 +11,7 @@ from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.function_types import GroupbyFunction, PolicyFunction
+from _gettsim.function_types import GroupByFunction, PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 from _gettsim.shared import (
     create_tree_from_path_and_value,
@@ -60,8 +60,8 @@ def get_active_functions_tree_from_module(
     path: Path,
     package_root: Path,
     date: datetime.date,
-) -> dict[str, PolicyFunction | GroupbyFunction]:
-    """Extract all GroupbyFunctions and active PolicyFunctions from a module.
+) -> dict[str, PolicyFunction | GroupByFunction]:
+    """Extract all GroupByFunctions and active PolicyFunctions from a module.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def get_active_functions_tree_from_module(
 
     Returns
     -------
-    A nested dictionary of GroupbyFunctions and active PolicyFunctions with their
+    A nested dictionary of GroupByFunctions and active PolicyFunctions with their
     leaf names as keys.
     """
     module = _load_module(path, package_root)
@@ -96,15 +96,15 @@ def get_active_functions_tree_from_module(
         if isinstance(func, PolicyFunction) and func.is_active(date)
     }
 
-    groupby_functions = {
+    group_by_functions = {
         func.leaf_name: func
         for _, func in all_functions_in_module
-        if isinstance(func, GroupbyFunction)
+        if isinstance(func, GroupByFunction)
     }
 
     return create_tree_from_path_and_value(
         path=_convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR),
-        value={**active_policy_functions, **groupby_functions},
+        value={**active_policy_functions, **group_by_functions},
     )
 
 

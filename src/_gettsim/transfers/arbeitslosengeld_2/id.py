@@ -2,10 +2,10 @@ from collections import Counter
 
 import numpy
 
-from _gettsim.function_types import groupby_function
+from _gettsim.function_types import group_by_function
 
 
-@groupby_function()
+@group_by_function()
 def bg_id(
     fg_id: numpy.ndarray[int],
     eigenbedarf_gedeckt: numpy.ndarray[bool],
@@ -34,7 +34,7 @@ def bg_id(
     return numpy.asarray(result)
 
 
-@groupby_function()
+@group_by_function()
 def fg_id(  # noqa: PLR0913
     p_id_einstandspartner: numpy.ndarray[int],
     demographics__p_id: numpy.ndarray[int],
@@ -116,7 +116,7 @@ def fg_id(  # noqa: PLR0913
     return numpy.asarray(result)
 
 
-@groupby_function()
+@group_by_function()
 def eg_id(
     p_id_einstandspartner: numpy.ndarray[int],
     demographics__p_id: numpy.ndarray[int],

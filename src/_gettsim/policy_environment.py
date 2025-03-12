@@ -13,7 +13,7 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.function_types import GroupbyFunction, PolicyFunction, policy_function
+from _gettsim.function_types import GroupByFunction, PolicyFunction, policy_function
 from _gettsim.loader import (
     load_aggregation_specs_tree,
     load_functions_tree_for_date,
@@ -63,7 +63,7 @@ class PolicyEnvironment:
         # Check functions tree and convert functions to PolicyFunction if necessary
         assert_valid_gettsim_pytree(
             functions_tree,
-            lambda leaf: isinstance(leaf, PolicyFunction | GroupbyFunction),
+            lambda leaf: isinstance(leaf, PolicyFunction | GroupByFunction),
             "functions_tree",
         )
         self._functions_tree = optree.tree_map(
@@ -119,7 +119,7 @@ class PolicyEnvironment:
 
         functions_tree_to_upsert = optree.tree_map(
             lambda leaf: leaf
-            if isinstance(leaf, GroupbyFunction)
+            if isinstance(leaf, GroupByFunction)
             else _convert_function_to_policy_function(leaf),
             tree=functions_tree_to_upsert,
         )

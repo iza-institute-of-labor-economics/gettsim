@@ -28,7 +28,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.function_types import DerivedFunction, GroupbyFunction
+from _gettsim.function_types import DerivedFunction, GroupByFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -158,11 +158,11 @@ def _create_aggregation_functions(
         aggregations_tree
     )[:2]
 
-    groupby_functions_tree = flatten_dict.unflatten(
+    group_by_functions_tree = flatten_dict.unflatten(
         {
             path: func
             for path, func in flatten_dict.flatten(functions_tree).items()
-            if isinstance(func, GroupbyFunction)
+            if isinstance(func, GroupByFunction)
         }
     )
 
@@ -186,7 +186,7 @@ def _create_aggregation_functions(
         if aggregation_type == "group":
             groupby_id = get_groupby_id(
                 target_path=tree_path,
-                groupby_functions_tree=groupby_functions_tree,
+                group_by_functions_tree=group_by_functions_tree,
             )
             derived_func = _create_one_aggregate_by_group_func(
                 aggregation_target=tree_path[-1],
@@ -494,7 +494,7 @@ def _create_one_aggregate_by_group_func(
 
 def get_groupby_id(
     target_path: tuple[str],
-    groupby_functions_tree: NestedFunctionDict,
+    group_by_functions_tree: NestedFunctionDict,
 ) -> str:
     """Get the groupby id for an aggregation target.
 
@@ -512,7 +512,7 @@ def get_groupby_id(
     ----------
     target_path
         The aggregation target.
-    groupby_functions_tree
+    group_by_functions_tree
         The groupby functions tree.
 
     Returns
@@ -522,12 +522,12 @@ def get_groupby_id(
     groupby_id = None
     nice_target_name = ".".join(target_path)
 
-    flat_groupby_functions_tree = flatten_dict.flatten(groupby_functions_tree)
+    flat_group_by_functions_tree = flatten_dict.flatten(group_by_functions_tree)
     for g in SUPPORTED_GROUPINGS:
         if target_path[-1].endswith(f"_{g}"):
             candidates = {
                 path: func
-                for path, func in flat_groupby_functions_tree.items()
+                for path, func in flat_group_by_functions_tree.items()
                 if path[-1] == f"{g}_id"
             }
             groupby_id = _select_groupby_id_from_candidates(

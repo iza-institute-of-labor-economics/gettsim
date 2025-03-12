@@ -2,10 +2,10 @@
 
 import numpy
 
-from _gettsim.function_types import groupby_function
+from _gettsim.function_types import group_by_function
 
 
-@groupby_function()
+@group_by_function()
 def sn_id(
     demographics__p_id: numpy.ndarray[int],
     demograpics__p_id_ehepartner: numpy.ndarray[int],

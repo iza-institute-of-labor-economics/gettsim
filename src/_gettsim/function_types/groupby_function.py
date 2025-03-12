@@ -4,7 +4,7 @@ import inspect
 from collections.abc import Callable
 
 
-class GroupbyFunction(Callable):
+class GroupByFunction(Callable):
     """
     A function that computes endogenous groupby IDs.
 
@@ -38,12 +38,12 @@ class GroupbyFunction(Callable):
         return set(inspect.signature(self).parameters)
 
 
-def groupby_function() -> GroupbyFunction:
+def group_by_function() -> GroupByFunction:
     """
     Decorator that creates a groupby function from a function.
     """
 
-    def decorator(func: Callable) -> GroupbyFunction:
-        return GroupbyFunction(function=func)
+    def decorator(func: Callable) -> GroupByFunction:
+        return GroupByFunction(function=func)
 
     return decorator
