@@ -4,6 +4,7 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
+    get_group_by_id_path,
     insert_path_and_value,
     merge_trees,
     partition_tree_by_reference_tree,
@@ -174,3 +175,58 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
 
     assert in_reference_tree == expected[0]
     assert not_in_reference_tree == expected[1]
+
+
+@pytest.mark.parametrize(
+    "target_path, group_by_functions_tree, expected",
+    [
+        (("namespace1", "foo_hh"), {}, ("demographics", "hh_id")),
+        (
+            ("namespace1", "foo_hh"),
+            {"namespace1": {"hh_id": None}},
+            ("demographics", "hh_id"),
+        ),
+        (
+            ("namespace1", "foo_bg"),
+            {"arbeitslosengeld_2": {"bg_id": None}},
+            ("arbeitslosengeld_2", "bg_id"),
+        ),
+        (
+            ("namespace1", "foo_eg"),
+            {"grundsicherung": {"eg_id": None}},
+            ("grundsicherung", "eg_id"),
+        ),
+        (
+            ("namespace1", "foo_eg"),
+            {"arbeitslosengeld_2": {"eg_id": None}},
+            ("arbeitslosengeld_2", "eg_id"),
+        ),
+    ],
+)
+def test_get_group_by_id_path(target_path, group_by_functions_tree, expected):
+    assert get_group_by_id_path(target_path, group_by_functions_tree) == expected
+
+
+@pytest.mark.parametrize(
+    "target_path, group_by_functions_tree, expected_error_match",
+    [
+        (
+            ("namespace1", "foo_bg"),
+            {
+                "namespace1": {
+                    "bg_id": None,
+                    "namespace2": {
+                        "bg_id": None,
+                    },
+                },
+            },
+            "Grouping ID for target namespace1.foo_bg is ambiguous.",
+        ),
+    ],
+)
+def test_get_group_by_id_path_fails(
+    target_path, group_by_functions_tree, expected_error_match
+):
+    with pytest.raises(ValueError) as e:
+        get_group_by_id_path(target_path, group_by_functions_tree)
+    assert expected_error_match in str(e.value)

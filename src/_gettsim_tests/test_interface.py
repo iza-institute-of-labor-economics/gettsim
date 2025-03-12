@@ -20,7 +20,11 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.shared import assert_valid_gettsim_pytree
+from _gettsim.shared import (
+    assert_valid_gettsim_pytree,
+    create_tree_from_path_and_value,
+    upsert_path_and_value,
+)
 from _gettsim.transfers.arbeitslosengeld_2.group_by_ids import bg_id
 from _gettsim.transfers.wohngeld.group_by_ids import (
     wthh_id,
@@ -152,14 +156,17 @@ def test_fail_if_pid_is_non_unique():
         _fail_if_pid_is_non_unique(data)
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
-    data = {
-        "demographics": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([0, 1, 4], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([0, 1, 4]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
     with pytest.raises(ValueError, match="not a valid p_id"):
         _fail_if_foreign_keys_are_invalid(
@@ -168,14 +175,17 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
         )
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_allow_minus_one_as_foreign_key(foreign_key):
-    data = {
-        "demographics": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([-1, 1, 2], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_allow_minus_one_as_foreign_key(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([-1, 1, 2]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
     _fail_if_foreign_keys_are_invalid(
         data_tree=data,
@@ -183,16 +193,19 @@ def test_allow_minus_one_as_foreign_key(foreign_key):
     )
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
-    data = {
-        "demographics": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([1, 3, 3], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([1, 3, 3]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
-    with pytest.raises(ValueError, match="are equal to the p_id in the same"):
+    with pytest.raises(ValueError, match="are equal to the p_id"):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
             p_ids=data["demographics"]["p_id"],
@@ -212,7 +225,10 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
 )
 def test_fail_if_group_variables_not_constant_within_groups(data):
     with pytest.raises(ValueError):
-        _fail_if_group_variables_not_constant_within_groups(data)
+        _fail_if_group_variables_not_constant_within_groups(
+            data_tree=data,
+            functions_tree={},
+        )
 
 
 def test_missing_root_nodes_raises_error(minimal_input_data):
@@ -672,49 +688,45 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             " data are equal to\n0.",
         ),
         (
-            {"basic_inputs": {"demographics__wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
+            {"demographics": {"wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
+            "\n - demographics__wohnort_ost: Conversion from input type "
             "float64 to bool\nfailed. This conversion is only supported if input data "
             "exclusively contains\nthe values 1.0 and 0.0.",
         ),
         (
             {
-                "basic_inputs": {"demographics__wohnort_ost": pd.Series([2, 0, 1])},
-                "demographics": {"hh_id": pd.Series([1.0, 2.0, 3.0])},
-            },
-            {},
-            "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
-            "int64 to bool failed.\nThis conversion is only supported if input data "
-            "exclusively contains the values\n1 and 0.",
-        ),
-        (
-            {
-                "basic_inputs": {
-                    "demographics__wohnort_ost": pd.Series(["True", "False"])
+                "demographics": {
+                    "wohnort_ost": pd.Series([2, 0, 1]),
+                    "hh_id": pd.Series([1.0, 2.0, 3.0]),
                 }
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__demographics__wohnort_ost: Conversion from input type "
+            "\n - demographics__wohnort_ost: Conversion from input type "
+            "int64 to bool failed.\nThis conversion is only supported if input data "
+            "exclusively contains the values\n1 and 0.",
+        ),
+        (
+            {"demographics": {"wohnort_ost": pd.Series(["True", "False"])}},
+            {},
+            "The data types of the following columns are invalid:\n"
+            "\n - demographics__wohnort_ost: Conversion from input type "
             "object to bool failed.\nObject type is not supported as input.",
         ),
         (
             {
                 "demographics": {"hh_id": pd.Series([1, "1", 2])},
-                "basic_inputs": {
-                    "einkommen__bruttolohn_m": pd.Series(["2000", 3000, 4000])
-                },
+                "einkommen": {"bruttolohn_m": pd.Series(["2000", 3000, 4000])},
             },
             {},
             "The data types of the following columns are invalid:\n"
             "\n - demographics__hh_id: Conversion from input type object to int failed."
             " Object\ntype is not supported as input."
-            "\n\n- basic_inputs__einkommen__bruttolohn_m: Conversion from input type "
-            "object to float\nfailed."
-            " Object type is not supported as input.",
+            "\n\n- einkommen__bruttolohn_m: Conversion from input type "
+            "object to float failed."
+            "\nObject type is not supported as input.",
         ),
     ],
 )

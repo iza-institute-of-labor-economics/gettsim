@@ -38,7 +38,7 @@ def parameters():
 def aggregation_tree():
     return {
         "module1": {
-            "group_mean_bg": AggregateByGroupSpec(
+            "group_mean_hh": AggregateByGroupSpec(
                 source_col="f",
                 aggr="sum",
             ),
@@ -65,7 +65,7 @@ def test_compute_taxes_and_transfers_with_tree(
     targets = {
         "module1": {
             "g_hh": None,
-            "group_mean_bg": None,
+            "group_mean_hh": None,
         },
         "module2": {
             "g_hh": None,

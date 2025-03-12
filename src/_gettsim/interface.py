@@ -16,11 +16,10 @@ from _gettsim.combine_functions_in_tree import (
 from _gettsim.config import (
     DEFAULT_TARGETS,
     FOREIGN_KEYS,
-    SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.function_types import PolicyFunction
+from _gettsim.function_types import GroupByFunction, PolicyFunction
 from _gettsim.gettsim_typing import (
     NestedArrayDict,
     NestedDataDict,
@@ -37,6 +36,7 @@ from _gettsim.shared import (
     assert_valid_gettsim_pytree,
     format_errors_and_warnings,
     format_list_linewise,
+    get_group_by_id_path,
     get_names_of_arguments_without_defaults,
     merge_trees,
     partition_tree_by_reference_tree,
@@ -130,7 +130,10 @@ def compute_taxes_and_transfers(
         input_structure=input_structure,
     )
 
-    _fail_if_group_variables_not_constant_within_groups(input_data_tree)
+    _fail_if_group_variables_not_constant_within_groups(
+        data_tree=input_data_tree,
+        functions_tree=functions_tree,
+    )
     _fail_if_foreign_keys_are_invalid(
         data_tree=input_data_tree,
         p_ids=data_tree_with_correct_types.get("demographics", {}).get("p_id", {}),
@@ -201,7 +204,10 @@ def _convert_data_to_correct_types(
         # Look for column in functions_tree_overridden
         elif qualified_name in flat_functions:
             func = flat_functions[qualified_name]
-            if hasattr(func, "__annotations__") and func.skip_vectorization:
+            skip_vectorization = (
+                func.skip_vectorization if isinstance(func, PolicyFunction) else True
+            )
+            if hasattr(func, "__annotations__") and skip_vectorization:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
@@ -515,6 +521,7 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
 
 def _fail_if_group_variables_not_constant_within_groups(
     data_tree: NestedDataDict,
+    functions_tree: NestedFunctionDict,
 ) -> None:
     """
     Check that group variables are constant within each group.
@@ -526,24 +533,33 @@ def _fail_if_group_variables_not_constant_within_groups(
     ----------
     data_tree
         Nested dictionary with pandas.Series as leaf nodes.
+    functions_tree
+        Nested dictionary with PolicyFunction as leaf nodes.
     """
-    # Extract group IDs from the 'groupings' branch.
-    grouping_ids_in_data_tree = data_tree.get("groupings", {})
+    group_by_functions_tree = flatten_dict.unflatten(
+        {
+            path: func
+            for path, func in flatten_dict.flatten(functions_tree).items()
+            if isinstance(func, GroupByFunction)
+        }
+    )
+    flat_data_tree = flatten_dict.flatten(data_tree)
 
     def faulty_leaf(path, leaf):
-        leaf_name = path[-1]
-        for grouping in SUPPORTED_GROUPINGS:
-            id_name = f"{grouping}_id"
-            if leaf_name.endswith(grouping) and id_name in grouping_ids_in_data_tree:
-                # Retrieve the corresponding group ID series from the data tree.
-                group_id_series = grouping_ids_in_data_tree.get(id_name)
+        group_by_id = get_group_by_id_path(
+            target_path=path,
+            group_by_functions_tree=group_by_functions_tree,
+        )
+        out = False
+        if group_by_id:
+            # Retrieve the corresponding group ID series from the data tree.
+            group_id_series = flat_data_tree.get(group_by_id, None)
+            if group_id_series:
                 # Group the leaf's series by the group ID and count unique values.
                 unique_counts = leaf.groupby(group_id_series).nunique(dropna=False)
                 if not (unique_counts == 1).all():
-                    return True
-                # No further check is needed for this leaf.
-                break
-        return False
+                    out = True
+        return out
 
     faulty_leaves_tree = optree.tree_map_with_path(faulty_leaf, data_tree)
     if optree.tree_any(faulty_leaves_tree):
@@ -595,12 +611,10 @@ def _fail_if_foreign_keys_are_invalid(
     Foreign keys must point to an existing `p_id` in the input data and must not refer
     to the `p_id` of the same row.
     """
-    grouping_ids = data_tree.get("groupings", {})
     valid_ids = set(p_ids) | {-1}
 
     def faulty_leaf(path, leaf):
-        leaf_name = path[-1]
-        foreign_key_col = leaf_name in FOREIGN_KEYS
+        foreign_key_col = path in FOREIGN_KEYS
         if not foreign_key_col:
             return leaf
 
@@ -625,7 +639,7 @@ def _fail_if_foreign_keys_are_invalid(
             )
             raise ValueError(message)
 
-    optree.tree_map_with_path(faulty_leaf, grouping_ids)
+    optree.tree_map_with_path(faulty_leaf, data_tree)
 
 
 def _warn_if_functions_overridden_by_data(

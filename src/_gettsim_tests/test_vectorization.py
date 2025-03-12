@@ -12,6 +12,7 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
+from _gettsim.function_types import GroupByFunction
 from _gettsim.loader import load_functions_tree_for_date
 from _gettsim.transfers.elterngeld.elterngeld import (
     grundsätzlich_anspruchsberechtigt,
@@ -373,6 +374,8 @@ def test_unallowed_operation_wrapper(func):
 # ======================================================================================
 
 
+# TODO(@MImmesberger): Remove isinstance check once GroupByFunctions are JAX-compatible.
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/515
 for year in range(1990, 2023):
 
     @pytest.mark.parametrize(
@@ -382,6 +385,7 @@ for year in range(1990, 2023):
             for pf in tree_flatten(
                 load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
             )[0]
+            if not isinstance(pf, GroupByFunction)
         ],
     )
     @pytest.mark.parametrize("backend", backends)

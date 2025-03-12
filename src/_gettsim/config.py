@@ -257,8 +257,8 @@ TYPES_INPUT_VARIABLES = {
 }
 
 FOREIGN_KEYS = [
-    "demograpics__p_id_ehepartner",
-    "arbeitslosengeld_2__p_id_einstandspartner",
-    "demographics__p_id_elternteil_1",
-    "demographics__p_id_elternteil_2",
+    ("demographics", "p_id_ehepartner"),
+    ("arbeitslosengeld_2", "p_id_einstandspartner"),
+    ("demographics", "p_id_elternteil_1"),
+    ("demographics", "p_id_elternteil_2"),
 ]

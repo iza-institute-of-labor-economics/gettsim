@@ -385,3 +385,100 @@ def assert_valid_gettsim_pytree(
                     raise TypeError(msg)
 
     _assert_valid_gettsim_pytree(tree, current_key=())
+
+
+def get_group_by_id_path(
+    target_path: tuple[str],
+    group_by_functions_tree: NestedFunctionDict,
+) -> tuple[str] | None:
+    """Get the group_by_id for an aggregation target.
+
+    The group_by_id is the id of the group over which the aggregation is performed. If
+    there are multiple group_by ids with the same suffix, the function takes the id
+    that shares the first part of the path (uppermost level of namespace) with the
+    aggregation target.
+
+    Raises
+    ------
+    ValueError
+        Raised if no group_by_id is found.
+
+    Parameters
+    ----------
+    target_path
+        The aggregation target.
+    group_by_functions_tree
+        The group_by functions tree.
+
+    Returns
+    -------
+    The groupby id.
+    """
+    group_by_id = None
+    nice_target_name = ".".join(target_path)
+
+    flat_group_by_functions_tree = flatten_dict.flatten(group_by_functions_tree)
+    for g in SUPPORTED_GROUPINGS:
+        if target_path[-1].endswith(f"_{g}") and g == "hh":
+            # Hardcode because hh_id is not part of the functions tree
+            group_by_id = ("demographics", "hh_id")
+        elif target_path[-1].endswith(f"_{g}"):
+            candidates = {
+                path: func
+                for path, func in flat_group_by_functions_tree.items()
+                if path[-1] == f"{g}_id"
+            }
+            group_by_id = _select_group_by_id_from_candidates(
+                candidates=candidates,
+                target_path=target_path,
+                nice_target_name=nice_target_name,
+            )
+            break
+
+    return group_by_id
+
+
+def _select_group_by_id_from_candidates(
+    candidates: dict[str, Any],
+    target_path: tuple[str],
+    nice_target_name: str,
+) -> tuple[str]:
+    """Select the groupby id from the candidates.
+
+    If there are multiple candidates, the function takes the one that shares the
+    first part of the path (uppermost level of namespace) with the aggregation target.
+
+    Raises
+    ------
+    ValueError
+        Raised if the groupby id is ambiguous.
+
+    Parameters
+    ----------
+    candidates
+        The candidates.
+    target_path
+        The target path.
+    nice_target_name
+        The nice target name.
+
+    Returns
+    -------
+    The groupby id.
+    """
+    if len(candidates) > 1:
+        # Take candidate with same parent namespace
+        candidates_after_parent_namespace_lookup = {
+            path: func for path, func in candidates.items() if path[0] == target_path[0]
+        }
+        if len(candidates_after_parent_namespace_lookup) > 1:
+            msg = format_errors_and_warnings(
+                f"""
+                Grouping ID for target {nice_target_name} is ambiguous. Grouping
+                IDs must be unique at the uppermost level of the functions tree.
+                """
+            )
+            raise ValueError(msg)
+        return list(candidates_after_parent_namespace_lookup.keys())[0]  # noqa: RUF015
+    else:
+        return list(candidates.keys())[0]  # noqa: RUF015

@@ -32,6 +32,7 @@ from _gettsim.function_types import DerivedFunction, GroupByFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
+    get_group_by_id_path,
     get_names_of_arguments_without_defaults,
     insert_path_and_value,
     partition_tree_by_reference_tree,
@@ -184,16 +185,25 @@ def _create_aggregation_functions(
         )
 
         if aggregation_type == "group":
-            group_by_id = get_group_by_id(
+            group_by_id_path = get_group_by_id_path(
                 target_path=tree_path,
                 group_by_functions_tree=group_by_functions_tree,
             )
+
+            if not group_by_id_path:
+                msg = format_errors_and_warnings(
+                    "Name of aggregated column needs to have a suffix "
+                    "indicating the group over which it is aggregated. "
+                    f"The name {".".join(tree_path)} does not do so."
+                )
+                raise ValueError(msg)
+
             derived_func = _create_one_aggregate_by_group_func(
                 aggregation_target=tree_path[-1],
                 aggregation_method=aggregation_spec.aggr,
                 source_col=aggregation_spec.source_col,
                 annotations=annotations,
-                group_by_id=group_by_id,
+                group_by_id=QUALIFIED_NAME_SEPARATOR.join(group_by_id_path),
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -489,111 +499,6 @@ def _create_one_aggregate_by_group_func(
         function=aggregate_by_group_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
-    )
-
-
-def get_group_by_id(
-    target_path: tuple[str],
-    group_by_functions_tree: NestedFunctionDict,
-) -> str:
-    """Get the group_by_id for an aggregation target.
-
-    The group_by_id is the id of the group over which the aggregation is performed. If
-    there are multiple group_by ids with the same suffix, the function takes the id
-    that shares the first part of the path (uppermost level of namespace) with the
-    aggregation target.
-
-    Raises
-    ------
-    ValueError
-        Raised if no group_by_id is found.
-
-    Parameters
-    ----------
-    target_path
-        The aggregation target.
-    group_by_functions_tree
-        The group_by functions tree.
-
-    Returns
-    -------
-    The groupby id.
-    """
-    group_by_id = None
-    nice_target_name = ".".join(target_path)
-
-    flat_group_by_functions_tree = flatten_dict.flatten(group_by_functions_tree)
-    for g in SUPPORTED_GROUPINGS:
-        if target_path[-1].endswith(f"_{g}") and g == "hh":
-            # Hardcode because hh_id is not part of the functions tree
-            group_by_id = "demographics__hh_id"
-        elif target_path[-1].endswith(f"_{g}"):
-            candidates = {
-                path: func
-                for path, func in flat_group_by_functions_tree.items()
-                if path[-1] == f"{g}_id"
-            }
-            group_by_id = _select_group_by_id_from_candidates(
-                candidates=candidates,
-                target_path=target_path,
-                nice_target_name=nice_target_name,
-            )
-            break
-
-    if not group_by_id:
-        msg = format_errors_and_warnings(
-            "Name of aggregated column needs to have a suffix "
-            "indicating the group over which it is aggregated. "
-            f"The name {nice_target_name} does not do so."
-        )
-        raise ValueError(msg)
-
-    return group_by_id
-
-
-def _select_group_by_id_from_candidates(
-    candidates: dict[str, Any],
-    target_path: tuple[str],
-    nice_target_name: str,
-) -> str:
-    """Select the groupby id from the candidates.
-
-    If there are multiple candidates, the function takes the one that shares the
-    first part of the path (uppermost level of namespace) with the aggregation target.
-
-    Raises
-    ------
-    ValueError
-        Raised if the groupby id is ambiguous.
-
-    Parameters
-    ----------
-    candidates
-        The candidates.
-    target_path
-        The target path.
-    nice_target_name
-        The nice target name.
-
-    Returns
-    -------
-    The groupby id.
-    """
-    if len(candidates) > 1:
-        # Take candidate with same parent namespace
-        candidates_after_parent_namespace_lookup = {
-            path: func for path, func in candidates.items() if path[0] == target_path[0]
-        }
-        if len(candidates_after_parent_namespace_lookup) > 1:
-            msg = format_errors_and_warnings(
-                f"""
-                Grouping ID for target {nice_target_name} is ambiguous. Grouping
-                IDs must be unique at the uppermost level of the functions tree.
-                """
-            )
-            raise ValueError(msg)
-    return QUALIFIED_NAME_SEPARATOR.join(
-        list(candidates_after_parent_namespace_lookup.keys())[0]  # noqa: RUF015
     )
 
 
