@@ -8,7 +8,7 @@ inputs:
       - 7
     demographics__hh_id:
       - 7
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
     einkommensteuer__gemeinsam_veranlagt:
       - false

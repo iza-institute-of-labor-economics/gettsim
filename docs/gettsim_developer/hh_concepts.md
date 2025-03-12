@@ -38,7 +38,7 @@ The units are:
 
 #### Pointers
 
-- `demograpics__p_id_ehepartner`
+- `demographics__p_id_ehepartner`
 
 ### Kinderfreibeträge
 
@@ -135,7 +135,7 @@ The units are:
 
 #### Pointers
 
-- `demograpics__p_id_ehepartner` (exogenous)
+- `demographics__p_id_ehepartner` (exogenous)
 
 ### Verwitwetenrente
 
@@ -150,7 +150,7 @@ The units are:
 
 #### Pointers
 
-- `demograpics__p_id_ehepartner` (exogenous)
+- `demographics__p_id_ehepartner` (exogenous)
 
 ## Bürgergeld und Sozialhilfe
 

@@ -200,7 +200,7 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
     - kindergeld__p_id_empfänger
     - erziehungsgeld__p_id_empfänger
     - arbeitslosengeld_2__p_id_einstandspartner
-    - demograpics__p_id_ehepartner
+    - demographics__p_id_ehepartner
     - einkommensteuer__freibeträge__p_id_betreuungskosten_träger
 
     Parameters
@@ -233,9 +233,9 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
 
     # Create other IDs
     if n_adults == 1:
-        data["demograpics__p_id_ehepartner"] = -1
+        data["demographics__p_id_ehepartner"] = -1
         data["arbeitslosengeld_2__p_id_einstandspartner"] = data[
-            "demograpics__p_id_ehepartner"
+            "demographics__p_id_ehepartner"
         ]
     else:
         data_adults = data.query("basic_inputs__kind == False").copy()
@@ -254,11 +254,11 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
             "arbeitslosengeld_2__p_id_einstandspartner"
         ].astype(numpy.int64)
         if adults_married:
-            data["demograpics__p_id_ehepartner"] = data[
+            data["demographics__p_id_ehepartner"] = data[
                 "arbeitslosengeld_2__p_id_einstandspartner"
             ]
         else:
-            data["demograpics__p_id_ehepartner"] = -1
+            data["demographics__p_id_ehepartner"] = -1
 
     return data
 

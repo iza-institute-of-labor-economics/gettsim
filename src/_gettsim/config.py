@@ -191,7 +191,7 @@ TYPES_INPUT_VARIABLES = {
     "demographics__vermögen": float,
     "demographics__weiblich": bool,
     "demographics__wohnort_ost": bool,
-    "demograpics__p_id_ehepartner": int,
+    "demographics__p_id_ehepartner": int,
     "arbeitslosengeld_2__p_id_einstandspartner": int,
     "einkommen__aus_selbstständigkeit_m": float,
     "einkommen__aus_vermietung_m": float,

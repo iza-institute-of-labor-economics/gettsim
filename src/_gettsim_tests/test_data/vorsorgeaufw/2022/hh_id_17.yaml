@@ -10,7 +10,7 @@ inputs:
     demographics__hh_id:
       - 17
       - 17
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 19
       - 18
     einkommensteuer__gemeinsam_veranlagt:

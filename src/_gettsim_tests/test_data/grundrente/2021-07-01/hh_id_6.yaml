@@ -9,7 +9,7 @@ inputs:
       - 6
     demographics__hh_id:
       - 6
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
     rente__grundrente__grundrentenzeiten_m:
       - 480

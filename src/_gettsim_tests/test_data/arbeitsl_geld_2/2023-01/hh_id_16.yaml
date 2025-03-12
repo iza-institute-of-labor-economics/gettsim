@@ -8,7 +8,7 @@ inputs:
       - 39
     demographics__hh_id:
       - 16
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
     demographics__p_id_elternteil_1:
       - -1

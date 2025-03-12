@@ -16,7 +16,7 @@ inputs:
       - true
       - true
       - false
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 10
       - 9
       - -1

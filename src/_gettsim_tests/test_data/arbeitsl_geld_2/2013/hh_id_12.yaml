@@ -13,7 +13,7 @@ inputs:
     demographics__kind:
       - false
       - false
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 26
       - 25
     demographics__p_id_elternteil_1:

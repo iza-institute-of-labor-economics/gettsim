@@ -8,7 +8,7 @@ inputs:
       - 5
     demographics__hh_id:
       - 5
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
     kindergeld__p_id_empfänger:
       - -1

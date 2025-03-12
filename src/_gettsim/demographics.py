@@ -409,7 +409,7 @@ def ehe_id(
             result.append(p_id_to_ehe_id[current_p_id_ehepartner])
             continue
 
-        # New Steuersubjekt
+        # New married couple
         result.append(next_ehe_id)
         p_id_to_ehe_id[current_p_id] = next_ehe_id
         next_ehe_id += 1

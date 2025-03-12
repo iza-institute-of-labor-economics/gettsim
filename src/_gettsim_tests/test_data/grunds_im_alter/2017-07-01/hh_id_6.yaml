@@ -13,7 +13,7 @@ inputs:
     arbeitslosengeld_2__p_id_einstandspartner:
       - 9
       - 8
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 9
       - 8
     demographics__p_id_elternteil_1:

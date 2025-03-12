@@ -40,11 +40,11 @@ def test_groupings(
 
 
 @pytest.mark.xfail(reason="Needs renamings PR.")
-def test_fail_to_compute_sn_id_if_married_but_einkommensteuer__gemeinsam_veranlagt_differs():
+def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
     data = pd.DataFrame(
         {
             "p_id": [0, 1],
-            "demograpics__p_id_ehepartner": [1, 0],
+            "demographics__p_id_ehepartner": [1, 0],
             "einkommensteuer__gemeinsam_veranlagt": [False, True],
         }
     )

@@ -86,9 +86,9 @@ Identifier of the second parent
 
 Type: int
 
-(demograpics__p_id_ehepartner)=
+(demographics__p_id_ehepartner)=
 
-## `demograpics__p_id_ehepartner`
+## `demographics__p_id_ehepartner`
 
 Identifier of married partner
 

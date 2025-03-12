@@ -61,7 +61,7 @@ def get_active_functions_tree_from_module(
     package_root: Path,
     date: datetime.date,
 ) -> dict[str, PolicyFunction | GroupByFunction]:
-    """Extract all GroupByFunctions and active PolicyFunctions from a module.
+    """Extract all active PolicyFunctions and GroupByFunctions from a module.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def get_active_functions_tree_from_module(
 
     Returns
     -------
-    A nested dictionary of GroupByFunctions and active PolicyFunctions with their
+    A nested dictionary of active PolicyFunctions and GroupByFunctions with their
     leaf names as keys.
     """
     module = _load_module(path, package_root)

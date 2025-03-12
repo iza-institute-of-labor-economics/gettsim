@@ -41,7 +41,7 @@ inputs:
       - 0
       - 3
       - 2
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 1
       - 0
       - 3

@@ -410,7 +410,7 @@ def _create_one_aggregate_by_group_func(
     annotations
         The annotations for the derived function.
     group_by_id
-        The groupby id.
+        The group-by-identifier.
 
     Returns
     -------

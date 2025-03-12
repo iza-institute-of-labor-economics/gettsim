@@ -391,28 +391,28 @@ def get_group_by_id_path(
     target_path: tuple[str],
     group_by_functions_tree: NestedFunctionDict,
 ) -> tuple[str] | None:
-    """Get the group_by_id for an aggregation target.
+    """Get the group-by-identifier for an aggregation target.
 
-    The group_by_id is the id of the group over which the aggregation is performed. If
-    there are multiple group_by ids with the same suffix, the function takes the id
-    that shares the first part of the path (uppermost level of namespace) with the
-    aggregation target.
+    The group-by-identifier is the id of the group over which the aggregation is
+    performed. If there are multiple group-by-identifiers with the same suffix, the
+    function takes the id that shares the first part of the path (uppermost level of
+    namespace) with the aggregation target.
 
     Raises
     ------
     ValueError
-        Raised if no group_by_id is found.
+        Raised if no group-by-identifier is found.
 
     Parameters
     ----------
     target_path
         The aggregation target.
     group_by_functions_tree
-        The group_by functions tree.
+        The group-by functions tree.
 
     Returns
     -------
-    The group_by id.
+    The group-by-identifier.
     """
     group_by_id = None
     nice_target_name = ".".join(target_path)
@@ -443,7 +443,7 @@ def _select_group_by_id_from_candidates(
     target_path: tuple[str],
     nice_target_name: str,
 ) -> tuple[str]:
-    """Select the group_by id from the candidates.
+    """Select the group-by-identifier from the candidates.
 
     If there are multiple candidates, the function takes the one that shares the
     first part of the path (uppermost level of namespace) with the aggregation target.
@@ -451,7 +451,7 @@ def _select_group_by_id_from_candidates(
     Raises
     ------
     ValueError
-        Raised if the group_by id is ambiguous.
+        Raised if the group-by-identifier is ambiguous.
 
     Parameters
     ----------
@@ -464,7 +464,7 @@ def _select_group_by_id_from_candidates(
 
     Returns
     -------
-    The group_by id.
+    The group-by-identifier.
     """
     if len(candidates) > 1:
         # Take candidate with same parent namespace
@@ -474,8 +474,8 @@ def _select_group_by_id_from_candidates(
         if len(candidates_after_parent_namespace_lookup) > 1:
             msg = format_errors_and_warnings(
                 f"""
-                Grouping ID for target {nice_target_name} is ambiguous. Grouping
-                IDs must be unique at the uppermost level of the functions tree.
+                Grouping identifier for target {nice_target_name} is ambiguous. Grouping
+                identifiers must be unique at the uppermost level of the functions tree.
                 """
             )
             raise ValueError(msg)

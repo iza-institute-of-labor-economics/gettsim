@@ -10,7 +10,7 @@ inputs:
     demographics__hh_id:
       - 2
       - 2
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 16
       - 15
     demographics__p_id_elternteil_1:

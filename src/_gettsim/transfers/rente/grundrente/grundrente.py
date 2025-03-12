@@ -84,7 +84,7 @@ def einkommen_m(
 @policy_function(params_key_for_rounding="ges_rente")
 def anzurechnendes_einkommen_m(
     einkommen_m_ehe: float,
-    demograpics__p_id_ehepartner: int,
+    demographics__p_id_ehepartner: int,
     rente__altersrente__rentenwert: float,
     ges_rente_params: dict,
 ) -> float:
@@ -101,8 +101,8 @@ def anzurechnendes_einkommen_m(
     ----------
     einkommen_m_ehe
         See :func:`einkommen_m_ehe`.
-    demograpics__p_id_ehepartner
-        See :func:`demograpics__p_id_ehepartner`.
+    demographics__p_id_ehepartner
+        See :func:`demographics__p_id_ehepartner`.
     rente__altersrente__rentenwert
         See :func:`rente__altersrente__rentenwert`.
     ges_rente_params
@@ -116,7 +116,7 @@ def anzurechnendes_einkommen_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    if demograpics__p_id_ehepartner >= 0:
+    if demographics__p_id_ehepartner >= 0:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_single"]

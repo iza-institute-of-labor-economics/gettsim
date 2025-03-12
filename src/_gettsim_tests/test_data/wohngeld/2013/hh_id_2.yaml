@@ -13,7 +13,7 @@ inputs:
     kindergeld__p_id_empfänger:
       - -1
       - -1
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 19
       - 18
     demographics__p_id_elternteil_1:

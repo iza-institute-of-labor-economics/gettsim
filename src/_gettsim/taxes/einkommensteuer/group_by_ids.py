@@ -8,7 +8,7 @@ from _gettsim.function_types import group_by_function
 @group_by_function()
 def sn_id(
     demographics__p_id: numpy.ndarray[int],
-    demograpics__p_id_ehepartner: numpy.ndarray[int],
+    demographics__p_id_ehepartner: numpy.ndarray[int],
     gemeinsam_veranlagt: numpy.ndarray[bool],
 ) -> numpy.ndarray[int]:
     """
@@ -20,7 +20,7 @@ def sn_id(
     result = []
 
     for index, current_p_id in enumerate(demographics__p_id):
-        current_p_id_ehepartner = demograpics__p_id_ehepartner[index]
+        current_p_id_ehepartner = demographics__p_id_ehepartner[index]
         current_gemeinsam_veranlagt = gemeinsam_veranlagt[index]
 
         if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_sn_id:
