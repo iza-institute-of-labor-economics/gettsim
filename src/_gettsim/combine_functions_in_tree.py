@@ -184,7 +184,7 @@ def _create_aggregation_functions(
         )
 
         if aggregation_type == "group":
-            groupby_id = get_groupby_id(
+            groupby_id = get_group_by_id(
                 target_path=tree_path,
                 group_by_functions_tree=group_by_functions_tree,
             )
@@ -492,7 +492,7 @@ def _create_one_aggregate_by_group_func(
     )
 
 
-def get_groupby_id(
+def get_group_by_id(
     target_path: tuple[str],
     group_by_functions_tree: NestedFunctionDict,
 ) -> str:
