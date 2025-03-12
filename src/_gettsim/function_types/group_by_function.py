@@ -6,12 +6,12 @@ from collections.abc import Callable
 
 class GroupByFunction(Callable):
     """
-    A function that computes endogenous groupby IDs.
+    A function that computes endogenous group_by IDs.
 
     Parameters
     ----------
     function:
-        The groupby function.
+        The group_by function.
     """
 
     def __init__(
@@ -40,7 +40,7 @@ class GroupByFunction(Callable):
 
 def group_by_function() -> GroupByFunction:
     """
-    Decorator that creates a groupby function from a function.
+    Decorator that creates a group_by function from a function.
     """
 
     def decorator(func: Callable) -> GroupByFunction:

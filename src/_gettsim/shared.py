@@ -412,7 +412,7 @@ def get_group_by_id_path(
 
     Returns
     -------
-    The groupby id.
+    The group_by id.
     """
     group_by_id = None
     nice_target_name = ".".join(target_path)
@@ -443,7 +443,7 @@ def _select_group_by_id_from_candidates(
     target_path: tuple[str],
     nice_target_name: str,
 ) -> tuple[str]:
-    """Select the groupby id from the candidates.
+    """Select the group_by id from the candidates.
 
     If there are multiple candidates, the function takes the one that shares the
     first part of the path (uppermost level of namespace) with the aggregation target.
@@ -451,7 +451,7 @@ def _select_group_by_id_from_candidates(
     Raises
     ------
     ValueError
-        Raised if the groupby id is ambiguous.
+        Raised if the group_by id is ambiguous.
 
     Parameters
     ----------
@@ -464,7 +464,7 @@ def _select_group_by_id_from_candidates(
 
     Returns
     -------
-    The groupby id.
+    The group_by id.
     """
     if len(candidates) > 1:
         # Take candidate with same parent namespace
