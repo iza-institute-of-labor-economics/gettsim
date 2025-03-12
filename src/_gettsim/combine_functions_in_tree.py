@@ -524,7 +524,10 @@ def get_groupby_id(
 
     flat_group_by_functions_tree = flatten_dict.flatten(group_by_functions_tree)
     for g in SUPPORTED_GROUPINGS:
-        if target_path[-1].endswith(f"_{g}"):
+        if target_path[-1].endswith(f"_{g}") and g == "hh":
+            # Hardcode because hh_id is not part of the functions tree
+            groupby_id = "demographics__hh_id"
+        elif target_path[-1].endswith(f"_{g}"):
             candidates = {
                 path: func
                 for path, func in flat_group_by_functions_tree.items()
