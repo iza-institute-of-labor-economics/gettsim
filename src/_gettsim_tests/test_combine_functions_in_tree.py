@@ -49,7 +49,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -70,7 +70,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -85,7 +85,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f_hh": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -100,7 +100,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {
                 "namespace1": {
@@ -122,7 +122,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {
                 "namespace1": {

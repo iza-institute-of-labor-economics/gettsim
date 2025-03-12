@@ -32,7 +32,7 @@ from gettsim import FunctionsAndColumnsOverlapWarning
 def minimal_input_data():
     n_individuals = 5
     out = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
             "hh_id": pd.Series(numpy.arange(n_individuals), name="hh_id"),
         }
@@ -44,7 +44,7 @@ def minimal_input_data():
 def minimal_input_data_shared_hh():
     n_individuals = 3
     out = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
             "hh_id": pd.Series([0, 0, 1], name="hh_id"),
         }
@@ -93,7 +93,10 @@ def test_warn_if_functions_and_columns_overlap():
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0])}, "dupl": pd.Series([1])},
+            data_tree={
+                "demographics": {"p_id": pd.Series([0])},
+                "dupl": pd.Series([1]),
+            },
             environment=environment,
             targets_tree={},
         )
@@ -107,7 +110,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0])}},
+            data_tree={"demographics": {"p_id": pd.Series([0])}},
             environment=environment,
             targets_tree={},
         )
@@ -123,7 +126,9 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     ) as warning_list:
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0]), "dupl": pd.Series([1])}},
+            data_tree={
+                "demographics": {"p_id": pd.Series([0]), "dupl": pd.Series([1])}
+            },
             environment=environment,
             targets_tree={},
         )
@@ -150,7 +155,7 @@ def test_fail_if_pid_is_non_unique():
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             foreign_key: pd.Series([0, 1, 4], name=foreign_key),
         },
@@ -159,14 +164,14 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
     with pytest.raises(ValueError, match="not a valid p_id"):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
-            p_ids=data["groupings"]["p_id"],
+            p_ids=data["demographics"]["p_id"],
         )
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_allow_minus_one_as_foreign_key(foreign_key):
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             foreign_key: pd.Series([-1, 1, 2], name=foreign_key),
         },
@@ -174,14 +179,14 @@ def test_allow_minus_one_as_foreign_key(foreign_key):
 
     _fail_if_foreign_keys_are_invalid(
         data_tree=data,
-        p_ids=data["groupings"]["p_id"],
+        p_ids=data["demographics"]["p_id"],
     )
 
 
 @pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
 def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             foreign_key: pd.Series([1, 3, 3], name=foreign_key),
         },
@@ -190,7 +195,7 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
     with pytest.raises(ValueError, match="are equal to the p_id in the same"):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
-            p_ids=data["groupings"]["p_id"],
+            p_ids=data["demographics"]["p_id"],
         )
 
 
@@ -199,7 +204,7 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
     [
         {
             "foo_hh": pd.Series([1, 2, 2], name="foo_hh"),
-            "groupings": {
+            "demographics": {
                 "hh_id": pd.Series([1, 1, 2], name="hh_id"),
             },
         },
@@ -236,7 +241,7 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     @policy_function(leaf_name="a")
     def a():
-        return pd.Series(range(minimal_input_data["groupings"]["p_id"].size))
+        return pd.Series(range(minimal_input_data["demographics"]["p_id"].size))
 
     @policy_function(leaf_name="b")
     def b(a):
@@ -263,7 +268,7 @@ def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions
 
 
 def test_fail_if_missing_pid():
-    data = {"groupings": {"hh_id": pd.Series([1, 2, 3], name="hh_id")}}
+    data = {"demographics": {"hh_id": pd.Series([1, 2, 3], name="hh_id")}}
     with pytest.raises(
         ValueError,
         match="The input data must contain the p_id",
@@ -273,7 +278,7 @@ def test_fail_if_missing_pid():
 
 def test_fail_if_non_unique_pid(minimal_input_data):
     data = copy.deepcopy(minimal_input_data)
-    data["groupings"]["p_id"][:] = 1
+    data["demographics"]["p_id"][:] = 1
 
     with pytest.raises(
         ValueError,
@@ -310,7 +315,7 @@ def test_partial_parameters_to_functions_removes_argument():
 
 def test_user_provided_aggregate_by_group_specs():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -363,7 +368,7 @@ def test_user_provided_aggregate_by_group_specs():
 )
 def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree):
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -400,7 +405,7 @@ def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree)
 
 def test_aggregate_by_group_specs_missing_group_sufix():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -429,7 +434,7 @@ def test_aggregate_by_group_specs_missing_group_sufix():
 
 def test_aggregate_by_group_specs_agg_not_impl():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
