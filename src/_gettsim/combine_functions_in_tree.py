@@ -28,7 +28,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.function_types import DerivedFunction
+from _gettsim.function_types import DerivedFunction, GroupbyFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
@@ -158,6 +158,14 @@ def _create_aggregation_functions(
         aggregations_tree
     )[:2]
 
+    groupby_functions_tree = flatten_dict.unflatten(
+        {
+            path: func
+            for path, func in flatten_dict.flatten(functions_tree).items()
+            if isinstance(func, GroupbyFunction)
+        }
+    )
+
     expected_aggregation_spec_type = (
         AggregateByGroupSpec if aggregation_type == "group" else AggregateByPIDSpec
     )
@@ -176,11 +184,16 @@ def _create_aggregation_functions(
         )
 
         if aggregation_type == "group":
+            groupby_id = get_groupby_id(
+                target_path=tree_path,
+                groupby_functions_tree=groupby_functions_tree,
+            )
             derived_func = _create_one_aggregate_by_group_func(
                 aggregation_target=tree_path[-1],
                 aggregation_method=aggregation_spec.aggr,
                 source_col=aggregation_spec.source_col,
                 annotations=annotations,
+                groupby_id=groupby_id,
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -367,55 +380,45 @@ def _select_return_type(aggregation_method: str, source_col_type: type) -> type:
     return return_type
 
 
-def _create_one_aggregate_by_group_func(  # noqa: PLR0912
+def _create_one_aggregate_by_group_func(
     aggregation_target: str,
     aggregation_method: str,
     source_col: str,
     annotations: dict[str, Any],
+    groupby_id: str,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
     ----------
     aggregation_target
-        Name of the aggregation target.
+        Leaf name of the aggregation target.
     aggregation_method
         The aggregation method.
     source_col
-        The source column.
+        The qualified source column name.
     annotations
         The annotations for the derived function.
+    groupby_id
+        The groupby id.
 
     Returns
     -------
     The derived function.
 
     """
-    # Identify grouping level
-    group_id = None
-    for g in SUPPORTED_GROUPINGS:
-        if aggregation_target.endswith(f"_{g}"):
-            group_id = f"groupings__{g}_id"
-    if not group_id:
-        msg = format_errors_and_warnings(
-            "Name of aggregated column needs to have a suffix "
-            "indicating the group over which it is aggregated. "
-            f"The name {aggregation_target} does not do so."
-        )
-        raise ValueError(msg)
-
     if aggregation_method == "count":
 
         @rename_arguments_and_add_annotations(
-            mapper={"group_id": group_id}, annotations=annotations
+            mapper={"groupby_id": groupby_id}, annotations=annotations
         )
-        def aggregate_by_group_func(group_id):
-            return grouped_count(group_id)
+        def aggregate_by_group_func(groupby_id):
+            return grouped_count(groupby_id)
 
     else:
         mapper = {
             "source_col": source_col,
-            "group_id": group_id,
+            "groupby_id": groupby_id,
         }
         if aggregation_method == "sum":
 
@@ -423,8 +426,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_sum(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_sum(source_col, groupby_id)
 
         elif aggregation_method == "mean":
 
@@ -432,8 +435,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_mean(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_mean(source_col, groupby_id)
 
         elif aggregation_method == "max":
 
@@ -441,8 +444,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_max(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_max(source_col, groupby_id)
 
         elif aggregation_method == "min":
 
@@ -450,8 +453,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_min(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_min(source_col, groupby_id)
 
         elif aggregation_method == "any":
 
@@ -459,8 +462,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_any(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_any(source_col, groupby_id)
 
         elif aggregation_method == "all":
 
@@ -468,8 +471,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_all(source_col, group_id)
+            def aggregate_by_group_func(source_col, groupby_id):
+                return grouped_all(source_col, groupby_id)
 
         else:
             msg = format_errors_and_warnings(
@@ -478,15 +481,115 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             raise ValueError(msg)
 
     if aggregation_method == "count":
-        derived_from = group_id
+        derived_from = groupby_id
     else:
-        derived_from = (source_col, group_id)
+        derived_from = (source_col, groupby_id)
 
     return DerivedFunction(
         function=aggregate_by_group_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
+
+
+def get_groupby_id(
+    target_path: tuple[str],
+    groupby_functions_tree: NestedFunctionDict,
+) -> str:
+    """Get the groupby id for an aggregation target.
+
+    The groupby id is the id of the group over which the aggregation is performed. If
+    there are multiple groupby ids with the same suffix, the function takes the id
+    that shares the first part of the path (uppermost level of namespace) with the
+    aggregation target.
+
+    Raises
+    ------
+    ValueError
+        Raised if no groupby id is found.
+
+    Parameters
+    ----------
+    target_path
+        The aggregation target.
+    groupby_functions_tree
+        The groupby functions tree.
+
+    Returns
+    -------
+    The groupby id.
+    """
+    groupby_id = None
+    nice_target_name = ".".join(target_path)
+
+    flat_groupby_functions_tree = flatten_dict.flatten(groupby_functions_tree)
+    for g in SUPPORTED_GROUPINGS:
+        if target_path[-1].endswith(f"_{g}"):
+            candidates = {
+                path: func
+                for path, func in flat_groupby_functions_tree.items()
+                if path[-1] == f"{g}_id"
+            }
+            groupby_id = _select_groupby_id_from_candidates(
+                candidates=candidates,
+                target_path=target_path,
+                nice_target_name=nice_target_name,
+            )
+            break
+
+    if not groupby_id:
+        msg = format_errors_and_warnings(
+            "Name of aggregated column needs to have a suffix "
+            "indicating the group over which it is aggregated. "
+            f"The name {nice_target_name} does not do so."
+        )
+        raise ValueError(msg)
+
+    return groupby_id
+
+
+def _select_groupby_id_from_candidates(
+    candidates: dict[str, Any],
+    target_path: tuple[str],
+    nice_target_name: str,
+) -> str:
+    """Select the groupby id from the candidates.
+
+    If there are multiple candidates, the function takes the one that shares the
+    first part of the path (uppermost level of namespace) with the aggregation target.
+
+    Raises
+    ------
+    ValueError
+        Raised if the groupby id is ambiguous.
+
+    Parameters
+    ----------
+    candidates
+        The candidates.
+    target_path
+        The target path.
+    nice_target_name
+        The nice target name.
+
+    Returns
+    -------
+    The groupby id.
+    """
+    if len(candidates) > 1:
+        # Take candidate with same parent namespace
+        candidates = {
+            path: func for path, func in candidates.items() if path[0] == target_path[0]
+        }
+        if len(candidates) > 1:
+            msg = format_errors_and_warnings(
+                f"""
+                Grouping ID for target {nice_target_name} is ambiguous. Grouping
+                IDs must be unique at the uppermost level of the functions tree.
+                """
+            )
+            raise ValueError(msg)
+    return QUALIFIED_NAME_SEPARATOR.join(candidates.keys()[0])
 
 
 def _create_one_aggregate_by_p_id_func(
