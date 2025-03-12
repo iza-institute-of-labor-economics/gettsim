@@ -8,6 +8,7 @@ from _gettsim.combine_functions_in_tree import (
     _create_aggregate_by_group_functions,
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
+    get_group_by_id,
 )
 from _gettsim.function_types import (
     DerivedFunction,
@@ -259,4 +260,59 @@ def test_fail_if_targets_are_not_among_functions(
 ):
     with pytest.raises(ValueError) as e:
         _fail_if_targets_not_in_functions_tree(functions, targets)
+    assert expected_error_match in str(e.value)
+
+
+@pytest.mark.parametrize(
+    "target_path, group_by_functions_tree, expected",
+    [
+        (("namespace1", "foo_hh"), {}, "demographics__hh_id"),
+        (
+            ("namespace1", "foo_hh"),
+            {"namespace1": {"hh_id": None}},
+            "demographics__hh_id",
+        ),
+        (
+            ("namespace1", "foo_bg"),
+            {"arbeitslosengeld_2": {"bg_id": None}},
+            "arbeitslosengeld_2__bg_id",
+        ),
+        (
+            ("namespace1", "foo_eg"),
+            {"grundsicherung": {"eg_id": None}},
+            "grundsicherung__eg_id",
+        ),
+        (
+            ("namespace1", "foo_eg"),
+            {"arbeitslosengeld_2": {"eg_id": None}},
+            "arbeitslosengeld_2__eg_id",
+        ),
+    ],
+)
+def test_get_group_by_id(target_path, group_by_functions_tree, expected):
+    assert get_group_by_id(target_path, group_by_functions_tree) == expected
+
+
+@pytest.mark.parametrize(
+    "target_path, group_by_functions_tree, expected_error_match",
+    [
+        (
+            ("namespace1", "foo_bg"),
+            {
+                "namespace1": {
+                    "bg_id": None,
+                    "namespace2": {
+                        "bg_id": None,
+                    },
+                },
+            },
+            "Grouping ID for target namespace1.foo_bg is ambiguous.",
+        ),
+    ],
+)
+def test_get_group_by_id_fails(
+    target_path, group_by_functions_tree, expected_error_match
+):
+    with pytest.raises(ValueError) as e:
+        get_group_by_id(target_path, group_by_functions_tree)
     assert expected_error_match in str(e.value)
