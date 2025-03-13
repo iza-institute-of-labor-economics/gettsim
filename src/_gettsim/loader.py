@@ -74,8 +74,7 @@ def get_active_functions_tree_from_module(
 
     Returns
     -------
-    A nested dictionary of active PolicyFunctions and GroupByFunctions with their
-    leaf names as keys.
+    The tree of active PolicyFunctions and GroupByFunctions.
     """
     module = _load_module(path, package_root)
     module_name = _convert_path_to_importable_module_name(path, package_root)
@@ -91,9 +90,7 @@ def get_active_functions_tree_from_module(
     )
 
     active_policy_functions = {
-        func.leaf_name: func
-        for _, func in all_functions_in_module
-        if isinstance(func, PolicyFunction) and func.is_active(date)
+        func.leaf_name: func for func in policy_functions if func.is_active(date)
     }
 
     group_by_functions = {
