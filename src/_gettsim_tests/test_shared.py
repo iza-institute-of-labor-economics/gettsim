@@ -4,7 +4,7 @@ import pytest
 
 from _gettsim.shared import (
     create_tree_from_path_and_value,
-    get_group_by_id_path,
+    get_path_for_group_by_id,
     insert_path_and_value,
     merge_trees,
     partition_tree_by_reference_tree,
@@ -215,8 +215,8 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
         ),
     ],
 )
-def test_get_group_by_id_path(target_path, group_by_functions_tree, expected):
-    assert get_group_by_id_path(target_path, group_by_functions_tree) == expected
+def test_get_path_for_group_by_id(target_path, group_by_functions_tree, expected):
+    assert get_path_for_group_by_id(target_path, group_by_functions_tree) == expected
 
 
 @pytest.mark.parametrize(
@@ -276,8 +276,8 @@ def test_get_group_by_id_path(target_path, group_by_functions_tree, expected):
         ),
     ],
 )
-def test_get_group_by_id_path_fails(
+def test_get_path_for_group_by_id_fails(
     target_path, group_by_functions_tree, expected_error_match
 ):
     with pytest.raises(ValueError, match=expected_error_match):
-        get_group_by_id_path(target_path, group_by_functions_tree)
+        get_path_for_group_by_id(target_path, group_by_functions_tree)

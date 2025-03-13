@@ -387,21 +387,20 @@ def assert_valid_gettsim_pytree(
     _assert_valid_gettsim_pytree(tree, current_key=())
 
 
-def get_group_by_id_path(
+def get_path_for_group_by_id(
     target_path: tuple[str],
     group_by_functions_tree: NestedFunctionDict,
-) -> tuple[str] | None:
-    """Get the group-by-identifier for an aggregation target.
+) -> tuple[str]:
+    """Get the group-by-identifier for some target path.
 
-    The group-by-identifier is the id of the group over which the aggregation is
-    performed. If there are multiple group-by-identifiers with the same suffix, the
-    function takes the id that shares the first part of the path (uppermost level of
-    namespace) with the aggregation target.
+    The group-by-identifier is the path to the group identifier that is embedded in the
+    name. E.g., "einkommen_hh" has ("demographics", "hh_id") as its group-by-identifier.
+    In this sense, the group-by-identifiers live in a global namespace. We generally
+    expect them to be unique.
 
-    Raises
-    ------
-    ValueError
-        Raised if no group-by-identifier is found.
+    There is an exception, though: It is enough for them to be unique within the
+    uppermost namespace. In that case, however, they cannot be used outside of that
+    namespace.
 
     Parameters
     ----------
@@ -412,7 +411,7 @@ def get_group_by_id_path(
 
     Returns
     -------
-    The group-by-identifier.
+    The group-by-identifier, or an empty tuple if it is an individual-level variable.
     """
     group_by_paths = optree.tree_paths(group_by_functions_tree, none_is_leaf=True)
     for g in SUPPORTED_GROUPINGS:
@@ -424,7 +423,7 @@ def get_group_by_id_path(
                 candidate_paths=[p for p in group_by_paths if p[-1] == f"{g}_id"],
                 target_path=target_path,
             )
-    raise ValueError(f"No group-by-identifier found for target {target_path}.")
+    return ()
 
 
 def _select_group_by_id_from_candidates(

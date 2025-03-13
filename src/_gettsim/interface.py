@@ -36,8 +36,8 @@ from _gettsim.shared import (
     assert_valid_gettsim_pytree,
     format_errors_and_warnings,
     format_list_linewise,
-    get_group_by_id_path,
     get_names_of_arguments_without_defaults,
+    get_path_for_group_by_id,
     merge_trees,
     partition_tree_by_reference_tree,
     qualified_name_reducer,
@@ -546,7 +546,7 @@ def _fail_if_group_variables_not_constant_within_groups(
     flat_data_tree = flatten_dict.flatten(data_tree)
 
     def faulty_leaf(path, leaf):
-        group_by_id = get_group_by_id_path(
+        group_by_id = get_path_for_group_by_id(
             target_path=path,
             group_by_functions_tree=group_by_functions_tree,
         )

@@ -32,8 +32,8 @@ from _gettsim.function_types import DerivedFunction, GroupByFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
-    get_group_by_id_path,
     get_names_of_arguments_without_defaults,
+    get_path_for_group_by_id,
     insert_path_and_value,
     partition_tree_by_reference_tree,
     remove_group_suffix,
@@ -185,7 +185,7 @@ def _create_aggregation_functions(
         )
 
         if aggregation_type == "group":
-            group_by_id_path = get_group_by_id_path(
+            group_by_id_path = get_path_for_group_by_id(
                 target_path=tree_path,
                 group_by_functions_tree=group_by_functions_tree,
             )
