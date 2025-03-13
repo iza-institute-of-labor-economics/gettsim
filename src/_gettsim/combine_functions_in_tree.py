@@ -194,7 +194,7 @@ def _create_aggregation_functions(
                 msg = format_errors_and_warnings(
                     "Name of aggregated column needs to have a suffix "
                     "indicating the group over which it is aggregated. "
-                    f"The name {".".join(tree_path)} does not do so."
+                    f"The name {'.'.join(tree_path)} does not do so."
                 )
                 raise ValueError(msg)
 
