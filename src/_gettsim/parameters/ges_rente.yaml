@@ -271,7 +271,7 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 45358
     reference: §3 V. v. 24.11.2023 BGBl. 2023 I Nr. 322
     note: Vorläufiges Durchschnittsentgelt
-umrechnung_entgeltp_beitrittsgebiet:
+umrechnung_entgeltpunkte_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
     en: Conversion of the Beitragsbemessungsgrundlage in former GDR
@@ -2415,7 +2415,7 @@ thresholds_wartezeiten:
     wartezeit_15: 15
     wartezeit_35: 35
     wartezeit_45: 45
-wartezeit_45_pflichtbeitragsmonate:
+wartezeit_45_pflichtbeitragsjahre:
   name:
     de: Mindestpflichtbeitragsmonate für Wartezeit 45
     en: Minimum statutory contribution months for wartezeit 45
@@ -2429,7 +2429,7 @@ wartezeit_45_pflichtbeitragsmonate:
   reference: § 51 Abs. 3a SGB VI
   note: https://www.gesetze-im-internet.de/sgb_6/__51.html
   1980-01-01:
-    scalar: 216
+    scalar: 18
 abzugsrate_hinzuverdienst:
   name:
     de: Abzugsrate für Hinzuverdienst vor der Regelaltersgrenze

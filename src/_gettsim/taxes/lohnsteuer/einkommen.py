@@ -61,7 +61,7 @@ def einkommen_y(
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y: float,
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz: float,
     sozialv_beitr_params: dict,
     sozialversicherung__pflege__beitrag__beitragssatz: float,
 ) -> float:
@@ -74,8 +74,8 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     ----------
     sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y:
         See :func:`sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y`.
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
-        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz`.
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz
+        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz`.
     sozialversicherung__pflege__beitrag__beitragssatz:
         See :func:`sozialversicherung__pflege__beitrag__beitragssatz`.
 
@@ -88,7 +88,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
     out = sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
+        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz
         + sozialversicherung__pflege__beitrag__beitragssatz
     )
 
@@ -101,7 +101,7 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 )
 def vorsorge_krankenv_option_b_ab_2019(
     sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y: float,
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz: float,
     sozialversicherung__pflege__beitrag__beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -114,8 +114,8 @@ def vorsorge_krankenv_option_b_ab_2019(
     ----------
     sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y:
         See :func:`sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y`.
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
-        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz`.
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz
+        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz`.
     sozialversicherung__pflege__beitrag__beitragssatz:
         See :func:`sozialversicherung__pflege__beitrag__beitragssatz`.
     sozialv_beitr_params:
@@ -130,7 +130,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     out = sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y * (
         sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz / 2
+        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz / 2
         + sozialversicherung__pflege__beitrag__beitragssatz
     )
 

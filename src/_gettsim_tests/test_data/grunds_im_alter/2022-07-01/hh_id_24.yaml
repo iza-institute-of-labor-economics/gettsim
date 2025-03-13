@@ -61,7 +61,7 @@ inputs:
     sozialversicherung__rente__rentner:
       - true
       - false
-    grundsicherung__im_alter__schwerbehindert_grad_g:
+    demographics__schwerbehindert_grad_g:
       - true
       - false
     demographics__vermögen_eg:

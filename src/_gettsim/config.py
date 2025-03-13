@@ -165,8 +165,8 @@ DEFAULT_TARGETS = {
 TYPES_INPUT_VARIABLES = {
     "sozialversicherung__arbeitslosen__anwartschaftszeit": bool,
     "sozialversicherung__arbeitslosen__arbeitssuchend": bool,
-    "sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug": float,
-    "sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig": float,
+    "sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld": float,
+    "sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren": float,
     # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
     # Bedarfsgemeinschaften are fully endogenous
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
@@ -218,7 +218,7 @@ TYPES_INPUT_VARIABLES = {
     "sozialversicherung__rente__ersatzzeiten_m": float,
     "sozialversicherung__rente__freiwillige_beitragszeiten_m": float,
     "sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40": float,
-    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10": bool,
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren": bool,
     "sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y": float,
     "sozialversicherung__rente__kinderberücksichtigungszeiten_m": float,
     "sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m": float,
@@ -227,8 +227,8 @@ TYPES_INPUT_VARIABLES = {
     "sozialversicherung__rente__pflichtbeitragszeiten_m": float,
     "sozialversicherung__rente__rentner": bool,
     "sozialversicherung__rente__schulausbildung_m": float,
-    "grundsicherung__im_alter__schwerbehindert_grad_g": bool,
-    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585": bool,
+    "demographics__schwerbehindert_grad_g": bool,
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006": bool,
     "sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m": float,

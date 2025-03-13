@@ -16,8 +16,10 @@ beitr_satz:
         Beitragssatz für Arbeitnehmer zusatz_kinderlos - Beitragszuschlag für kinderlose
         Versicherte, die das 23. Lebensjahr vollendet haben. Wird vom Arbeitnehmer
         alleine getragen. Eingeführt 2005.
-      arbeitsl_v: Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
-      ges_rentenv: Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
+      arbeitslosenversicherung: >-
+        Beitragssätze zur Arbeitslosenversicherung für Arbeitnehmer.
+      ges_rentenv: >-
+        Beitragssätze zur allgemeinen Rentenversicherung für Arbeitnehmer.
     en:
       ges_krankenv: >-
         Statury Contribution Rates for mandatory health insurance. mean_allgemein -
@@ -28,29 +30,29 @@ beitr_satz:
         Statury Contribution Rates for mandatory care insurance (since 1995). standard -
         employees contribution rate zusatz_kinderlos - contribution rate for insured
         people without children and at least 23 years old. paid by employees. est. 2005
-      arbeitsl_v: employees contribution rate for unemployment insurance.
+      arbeitslosenversicherung: employees contribution rate for unemployment insurance.
       ges_rentenv: employees contribution rate for pension insurance.
   unit: Share
   access_different_date: jahresanfang
   1984-01-01:
     ges_krankenv:
       mean_allgemein: 0.1144
-    arbeitsl_v: 0.023
+    arbeitslosenversicherung: 0.023
     ges_rentenv: 0.0925
   1985-01-01:
     ges_krankenv:
       mean_allgemein: 0.118
-    arbeitsl_v: 0.022
+    arbeitslosenversicherung: 0.022
     ges_rentenv: 0.0935
   1986-01-01:
     ges_krankenv:
       mean_allgemein: 0.122
-    arbeitsl_v: 0.0205
+    arbeitslosenversicherung: 0.0205
     ges_rentenv: 0.096
   1987-01-01:
     ges_krankenv:
       mean_allgemein: 0.1248
-    arbeitsl_v: 0.0215
+    arbeitslosenversicherung: 0.0215
     ges_rentenv: 0.0935
   1988-01-01:
     deviation_from: previous
@@ -70,18 +72,18 @@ beitr_satz:
       mean_allgemein: .128
   1992-01-01:
     deviation_from: previous
-    arbeitsl_v: 0.0315
+    arbeitslosenversicherung: 0.0315
     ges_rentenv: 0.0885
   1993-01-01:
     ges_krankenv:
       mean_allgemein: 0.134
-    arbeitsl_v: 0.0325
+    arbeitslosenversicherung: 0.0325
     ges_rentenv: 0.0875
   1994-01-01:
     deviation_from: previous
     ges_rentenv: 0.096
   1995-01-01:
-    arbeitsl_v: 0.0325
+    arbeitslosenversicherung: 0.0325
     ges_krankenv:
       mean_allgemein: 0.132
     ges_pflegev: 0.005
@@ -93,7 +95,7 @@ beitr_satz:
     ges_krankenv:
       mean_allgemein: 0.134
     ges_pflegev: 0.0085
-    arbeitsl_v: 0.0325
+    arbeitslosenversicherung: 0.0325
     ges_rentenv: 0.1015
   1998-01-01:
     deviation_from: previous
@@ -128,7 +130,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0.0085
       zusatz_kinderlos: 0.0025
-    arbeitsl_v: 0.0325
+    arbeitslosenversicherung: 0.0325
     ges_rentenv: 0.0975
   2005-07-01:
     deviation_from: previous
@@ -143,7 +145,7 @@ beitr_satz:
     deviation_from: previous
     ges_krankenv:
       mean_allgemein: 0.139
-    arbeitsl_v: 0.021
+    arbeitslosenversicherung: 0.021
     ges_rentenv: 0.0995
   2008-01-01:
     ges_krankenv:
@@ -152,7 +154,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0.00975
       zusatz_kinderlos: 0.0025
-    arbeitsl_v: 0.016
+    arbeitslosenversicherung: 0.016
     ges_rentenv: 0.0995
   2009-01-01:
     deviation_from: previous
@@ -160,7 +162,7 @@ beitr_satz:
       allgemein: 0.146
       sonderbeitrag: 0.009
       ermäßigt: 0.140
-    arbeitsl_v: 0.014
+    arbeitslosenversicherung: 0.014
   2009-07-01:
     deviation_from: previous
     ges_krankenv:
@@ -173,7 +175,7 @@ beitr_satz:
       allgemein: 0.146
       ermäßigt: 0.14
     reference: Art. 1 G. v. 22.12.2010 BGBl. I S. 2309
-    arbeitsl_v: 0.015
+    arbeitslosenversicherung: 0.015
   2012-01-01:
     deviation_from: previous
     ges_rentenv: 0.098
@@ -193,7 +195,7 @@ beitr_satz:
     ges_pflegev:
       standard: 0.01175
       zusatz_kinderlos: 0.0025
-    arbeitsl_v: 0.015
+    arbeitslosenversicherung: 0.015
     ges_rentenv: 0.0935
     note: Abschaffung Sonderbeitrag, Einführung kassenabhängiger Zusatzbeitrag
   2016-01-01:
@@ -218,23 +220,23 @@ beitr_satz:
     ges_pflegev:
       standard: 0.01525
       zusatz_kinderlos: 0.0025
-    arbeitsl_v: 0.0125
+    arbeitslosenversicherung: 0.0125
     ges_rentenv: 0.093
     note: >-
       Wieder-Einführung der Parität. Art. 2 G. v. 11.12.2018, BGBl. I S. 2387
-      (arbeitsl_v:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651.
-      Temporarily reduced to 0.025 in BeiSaV 2019.
+      (arbeitslosenversicherung:) Set to 0.026 in Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I
+      S. 2651. Temporarily reduced to 0.025 in BeiSaV 2019.
     reference: >-
-      (arbeitsl_v:) V. v. 21.12.2018 BGBl. I S. 2663
+      (arbeitslosenversicherung:) V. v. 21.12.2018 BGBl. I S. 2663
   2020-01-01:
     deviation_from: previous
     ges_krankenv:
       mean_zusatzbeitrag: 0.011
-    arbeitsl_v: 0.012
-    note: (arbeitsl_v:) Temporarily reduced to 0.024 in BeiSaV 2019.
+    arbeitslosenversicherung: 0.012
+    note: (arbeitslosenversicherung:) Temporarily reduced to 0.024 in BeiSaV 2019.
     reference: >-
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 28.10.2019 B3
-      (arbeitsl_v:) V. v. 02.12.2019 BGBl. I S. 1998
+      (arbeitslosenversicherung:) V. v. 02.12.2019 BGBl. I S. 1998
   2021-01-01:
     deviation_from: previous
     ges_krankenv:
@@ -248,14 +250,14 @@ beitr_satz:
     reference: Art. 2 Nr. 14 G. v. 11.07.2021, BGBl. I S. 2754.
   2023-01-01:
     deviation_from: previous
-    arbeitsl_v: 0.013
+    arbeitslosenversicherung: 0.013
     ges_krankenv:
       mean_zusatzbeitrag: 0.016
     note: >-
-      Contribution rate for arbeitsl_v was temporarily reduced from 2019 to 2022 in
-      BeiSaV 2019. Now back to level specified in § 341 Abs. 2 SGB III.
+      Contribution rate for arbeitslosenversicherung was temporarily reduced from 2019
+      to 2022 in BeiSaV 2019. Now back to level specified in § 341 Abs. 2 SGB III.
     reference: >-
-      (arbeitsl_v:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
+      (arbeitslosenversicherung:) Art. 2 Nr. 15 G. v. 18.12.2018 BGBl. I S. 2651
       (ges_krankenv mean_zusatzbeitrag:) BAnz AT 31.10.2022 B5
   2023-07-01:
     deviation_from: previous

@@ -385,7 +385,7 @@ def betrag_arbeitnehmer_midijob_residuum_m(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitnehmer_midijob_m")
-def betrag_arbeitnehmer_midijob_anteil_beitragspfl_einnahme_m(
+def betrag_arbeitnehmer_midijob_anteil_beitragspflichtiger_einnahmen_m(
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     beitragssatz_arbeitnehmer: float,
 ) -> float:

@@ -24,16 +24,16 @@ def betrag_arbeitnehmer_vor_midijob_m(
     -------
 
     """
-    arbeitsl_v_regulär_beschäftigt_m = (
+    betrag_arbeitgeber_regulär_beschäftigt_m = (
         sozialversicherung__rente__beitrag__einkommen_m
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
     # Set to 0 for minijobs
     if sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = arbeitsl_v_regulär_beschäftigt_m
+        out = betrag_arbeitgeber_regulär_beschäftigt_m
 
     return out
 
@@ -65,9 +65,9 @@ def betrag_arbeitnehmer_mit_midijob_m(
     -------
 
     """
-    arbeitsl_v_regulär_beschäftigt_m = (
+    betrag_arbeitgeber_regulär_beschäftigt_m = (
         sozialversicherung__rente__beitrag__einkommen_m
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
     # Set to 0 for minijobs
@@ -76,7 +76,7 @@ def betrag_arbeitnehmer_mit_midijob_m(
     elif sozialversicherung__in_gleitzone:
         out = betrag_arbeitnehmer_midijob_m
     else:
-        out = arbeitsl_v_regulär_beschäftigt_m
+        out = betrag_arbeitgeber_regulär_beschäftigt_m
 
     return out
 
@@ -102,16 +102,16 @@ def betrag_arbeitgeber_vor_midijob_m(
     -------
 
     """
-    arbeitsl_v_regulär_beschäftigt_m = (
+    betrag_arbeitgeber_regulär_beschäftigt_m = (
         sozialversicherung__rente__beitrag__einkommen_m
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
     # Set to 0 for minijobs
     if sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     else:
-        out = arbeitsl_v_regulär_beschäftigt_m
+        out = betrag_arbeitgeber_regulär_beschäftigt_m
 
     return out
 
@@ -143,9 +143,9 @@ def betrag_arbeitgeber_m_mit_midijob(
     -------
 
     """
-    arbeitsl_v_regulär_beschäftigt_m = (
+    betrag_arbeitgeber_regulär_beschäftigt_m = (
         sozialversicherung__rente__beitrag__einkommen_m
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
     # Set to 0 for minijobs
@@ -154,7 +154,7 @@ def betrag_arbeitgeber_m_mit_midijob(
     elif sozialversicherung__in_gleitzone:
         out = betrag_arbeitgeber_midijob_m
     else:
-        out = arbeitsl_v_regulär_beschäftigt_m
+        out = betrag_arbeitgeber_regulär_beschäftigt_m
 
     return out
 
@@ -181,7 +181,7 @@ def betrag_gesamt_midijob_m(
     return (
         sozialversicherung__midijob_bemessungsentgelt_m
         * 2
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
 
@@ -208,7 +208,10 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
     -------
 
     """
-    return einkommen__bruttolohn_m * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+    return (
+        einkommen__bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
+    )
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
@@ -259,7 +262,7 @@ def betrag_arbeitnehmer_midijob_m_residuum(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitnehmer_midijob_m")
-def betrag_arbeitnehmer_midijob_m_anteil_beitragspfl_einnahme(
+def betrag_arbeitnehmer_midijob_m_anteil_beitragspflichtiger_einnahmen(
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -278,5 +281,5 @@ def betrag_arbeitnehmer_midijob_m_anteil_beitragspfl_einnahme(
     """
     return (
         sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m
-        * sozialv_beitr_params["beitr_satz"]["arbeitsl_v"]
+        * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )

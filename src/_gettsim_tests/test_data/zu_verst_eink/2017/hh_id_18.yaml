@@ -88,7 +88,7 @@ inputs:
     demographics__geburtsjahr:
       - 1980
       - 1982
-    einkommensteuer__einkommen__vorsorgeaufwand_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn:
       - 10359.0
       - 10359.0
   assumed: {}

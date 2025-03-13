@@ -3,10 +3,10 @@ from _gettsim.function_types import policy_function
 
 @policy_function(
     end_date="2004-12-31",
-    leaf_name="vorsorgeaufwand_y_sn",
+    leaf_name="vorsorgeaufwendungen_y_sn",
     params_key_for_rounding="eink_st_abzuege",
 )
-def vorsorgeaufwand_y_sn_bis_2004(
+def vorsorgeaufwendungen_y_sn_bis_2004(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
@@ -44,12 +44,12 @@ def vorsorgeaufwand_y_sn_bis_2004(
 @policy_function(
     start_date="2005-01-01",
     end_date="2019-12-31",
-    leaf_name="vorsorgeaufwand_y_sn",
+    leaf_name="vorsorgeaufwendungen_y_sn",
     params_key_for_rounding="eink_st_abzuege",
 )
-def vorsorgeaufwand_mit_günstigerprüfung_y_sn(
-    vorsorgeaufwand_regime_bis_2004_y_sn: float,
-    vorsorgeaufwand_vor_günstigerprüfung_y_sn: float,
+def vorsorgeaufwendungen_mit_günstigerprüfung_y_sn(
+    vorsorgeaufwendungen_regime_bis_2004_y_sn: float,
+    vorsorgeaufwendungen_vor_günstigerprüfung_y_sn: float,
 ) -> float:
     """Vorsorgeaufwendungen from 2005 to 2019.
 
@@ -66,10 +66,10 @@ def vorsorgeaufwand_mit_günstigerprüfung_y_sn(
 
     Parameters
     ----------
-    vorsorgeaufwand_y_sn
-        See :func:`vorsorgeaufwand_y_sn`.
-    vorsorgeaufwand_regime_bis_2004_y_sn
-        See :func:`vorsorgeaufwand_regime_bis_2004_y_sn`.
+    vorsorgeaufwendungen_y_sn
+        See :func:`vorsorgeaufwendungen_y_sn`.
+    vorsorgeaufwendungen_regime_bis_2004_y_sn
+        See :func:`vorsorgeaufwendungen_regime_bis_2004_y_sn`.
 
     Returns
     -------
@@ -77,16 +77,17 @@ def vorsorgeaufwand_mit_günstigerprüfung_y_sn(
     """
 
     return max(
-        vorsorgeaufwand_regime_bis_2004_y_sn, vorsorgeaufwand_vor_günstigerprüfung_y_sn
+        vorsorgeaufwendungen_regime_bis_2004_y_sn,
+        vorsorgeaufwendungen_vor_günstigerprüfung_y_sn,
     )
 
 
 @policy_function(
     start_date="2020-01-01",
-    leaf_name="vorsorgeaufwand_y_sn",
+    leaf_name="vorsorgeaufwendungen_y_sn",
     params_key_for_rounding="eink_st_abzuege",
 )
-def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
+def vorsorgeaufwendungen_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
     sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m_sn: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m_sn: float,
@@ -110,9 +111,9 @@ def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
 @policy_function(
     start_date="2005-01-01",
     end_date="2009-12-31",
-    leaf_name="vorsorgeaufwand_vor_günstigerprüfung_y_sn",
+    leaf_name="vorsorgeaufwendungen_vor_günstigerprüfung_y_sn",
 )
-def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
+def vorsorgeaufwendungen_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
     sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_y_sn: float,
@@ -160,9 +161,9 @@ def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
 @policy_function(
     start_date="2010-01-01",
     end_date="2019-12-31",
-    leaf_name="vorsorgeaufwand_vor_günstigerprüfung_y_sn",
+    leaf_name="vorsorgeaufwendungen_vor_günstigerprüfung_y_sn",
 )
-def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
+def vorsorgeaufwendungen_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
@@ -229,7 +230,7 @@ def altersvorsorge_phase_in_y_sn(
 
     """
     out = (
-        eink_st_abzuege_params["einführungsfaktor_vorsorgeaufwand_alter_ab_2005"]
+        eink_st_abzuege_params["einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005"]
         * (
             2 * sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn
             + beitrag_private_rentenversicherung_m_sn
@@ -285,7 +286,7 @@ def altersvorsorge_volle_anrechnung_y_sn(
     start_date="2005-01-01",
     end_date="2019-12-31",
 )
-def vorsorgeaufwand_regime_bis_2004_y_sn(
+def vorsorgeaufwendungen_regime_bis_2004_y_sn(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
@@ -387,10 +388,10 @@ def formel_2004er_regime(
 
     item_2 = (1 / anzahl_personen_sn) * multiplikator2
 
-    hoechstgrenze_item3 = anzahl_personen_sn * grundhöchstbetrag
+    höchstgrenze_item3 = anzahl_personen_sn * grundhöchstbetrag
 
-    if (item_1 - item_2) > hoechstgrenze_item3:
-        item_3 = 0.5 * hoechstgrenze_item3
+    if (item_1 - item_2) > höchstgrenze_item3:
+        item_3 = 0.5 * höchstgrenze_item3
     else:
         item_3 = 0.5 * (item_1 - item_2)
 

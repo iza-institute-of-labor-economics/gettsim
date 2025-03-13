@@ -544,7 +544,7 @@ def betrag_arbeitnehmer_midijob_residuum_m(
     end_date="2023-06-30",
     leaf_name="betrag_arbeitnehmer_midijob_m",
 )
-def betrag_arbeitnehmer_midijob_anteil_beitragspfl_einnahme_m(
+def betrag_arbeitnehmer_midijob_anteil_beitragspflichtiger_einnahmen_m(
     beitragssatz__zusatzbetrag_kinderlos: bool,
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialversicherung__midijob_bemessungsentgelt_m: float,

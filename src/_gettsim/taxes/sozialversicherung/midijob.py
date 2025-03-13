@@ -76,7 +76,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_bis_2004(
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
         sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_rentenv"]
-        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
+        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitslosenversicherung"]
     )
 
     allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"]
@@ -138,7 +138,7 @@ def midijob_faktor_f_mit_minijob_steuerpauschale_ab_2005(
     # Therefore sum the contributions which are the same for employee and employer
     allg_sozialv_beitr = (
         sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_rentenv"]
-        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
+        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitslosenversicherung"]
     )
 
     allg_sozialv_beitr += sozialv_beitr_params["beitr_satz_jahresanfang"][
@@ -205,7 +205,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     allg_sozialv_beitr = (
         sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_rentenv"]
         + sozialv_beitr_params["beitr_satz_jahresanfang"]["ges_pflegev"]["standard"]
-        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitsl_v"]
+        + sozialv_beitr_params["beitr_satz_jahresanfang"]["arbeitslosenversicherung"]
     )
 
     # Then calculate specific shares

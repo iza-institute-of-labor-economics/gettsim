@@ -388,7 +388,7 @@ necessary inside the functions. The important changes include:
 - Parameters for piecewise polynomials are parsed.
 - Parameters that are derived from other parameters are calculated (examples include
   `kinderzuschlag_max` starting in 2021 or calculating the phasing in of
-  `vorsorgeaufwand_alter` over the 2005-2025 period).
+  `vorsorgeaufwendungen_alter` over the 2005-2025 period).
 
 These functions will be avaiable to users en bloque or one-by-one so they can specify
 parameters as in the YAML file for their own policy parameters.

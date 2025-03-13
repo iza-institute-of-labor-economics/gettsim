@@ -106,7 +106,7 @@ inputs:
       - 42
     sozialversicherung__rente__private_rente_m:
       - 0.0
-    grundsicherung__im_alter__schwerbehindert_grad_g:
+    demographics__schwerbehindert_grad_g:
       - false
     sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 444.0
@@ -140,9 +140,9 @@ inputs:
       - true
     sozialversicherung__arbeitslosen__arbeitssuchend:
       - false
-    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug:
+    sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld:
       - 0.0
-    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig:
+    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:
       - 60.0
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false

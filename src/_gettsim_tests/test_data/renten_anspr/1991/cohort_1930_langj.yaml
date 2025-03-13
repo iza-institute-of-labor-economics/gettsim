@@ -14,9 +14,9 @@ inputs:
       - 1
     demographics__weiblich:
       - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
       - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - true
     sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 420.0

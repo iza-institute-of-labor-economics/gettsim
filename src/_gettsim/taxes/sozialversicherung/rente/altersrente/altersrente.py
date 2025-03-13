@@ -93,7 +93,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
-def bruttorente_mit_hinzuverdienstdeckel_m(
+def bruttorente_mit_hinzuverdienstdeckel(
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     einkommen__bruttolohn_y: float,
@@ -465,10 +465,10 @@ def zugangsfaktor(  # noqa: PLR0913
 
 
 @policy_function()
-def entgeltp_west_updated(
+def entgeltpunkte_west_updated(
     demographics__wohnort_ost: bool,
     sozialversicherung__rente__entgeltpunkte_west: float,
-    entgeltp_update: float,
+    neue_entgeltpunkte: float,
 ) -> float:
     """Update western earning points.
 
@@ -482,9 +482,9 @@ def entgeltp_west_updated(
     demographics__wohnort_ost
         See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialversicherung__rente__entgeltpunkte_west
-        See basic input variable :ref:`ententgeltp_westgeltp <sozialversicherung__rente__entgeltpunkte_west>`.
-    entgeltp_update
-        See :func:`entgeltp_update`.
+        See basic input variable :ref:`ententgeltpunkte_westgeltp <sozialversicherung__rente__entgeltpunkte_west>`.
+    neue_entgeltpunkte
+        See :func:`neue_entgeltpunkte`.
 
     Returns
     -------
@@ -493,15 +493,15 @@ def entgeltp_west_updated(
     if demographics__wohnort_ost:
         out = sozialversicherung__rente__entgeltpunkte_west
     else:
-        out = sozialversicherung__rente__entgeltpunkte_west + entgeltp_update
+        out = sozialversicherung__rente__entgeltpunkte_west + neue_entgeltpunkte
     return out
 
 
 @policy_function()
-def entgeltp_ost_updated(
+def entgeltpunkte_ost_updated(
     demographics__wohnort_ost: bool,
     sozialversicherung__rente__entgeltpunkte_ost: float,
-    entgeltp_update: float,
+    neue_entgeltpunkte: float,
 ) -> float:
     """Update eastern earning points.
 
@@ -516,22 +516,22 @@ def entgeltp_ost_updated(
         See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialversicherung__rente__entgeltpunkte_ost
         See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_ost <sozialversicherung__rente__entgeltpunkte_ost>`.
-    entgeltp_update
-        See :func:`entgeltp_update`.
+    neue_entgeltpunkte
+        See :func:`neue_entgeltpunkte`.
 
     Returns
     -------
 
     """
     if demographics__wohnort_ost:
-        out = sozialversicherung__rente__entgeltpunkte_ost + entgeltp_update
+        out = sozialversicherung__rente__entgeltpunkte_ost + neue_entgeltpunkte
     else:
         out = sozialversicherung__rente__entgeltpunkte_ost
     return out
 
 
 @policy_function()
-def entgeltp_update(
+def neue_entgeltpunkte(
     einkommen__bruttolohn_m: float,
     demographics__wohnort_ost: bool,
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m: float,
@@ -559,7 +559,7 @@ def entgeltp_update(
     if demographics__wohnort_ost:
         bruttolohn_scaled_east = (
             einkommen__bruttolohn_m
-            * ges_rente_params["umrechnung_entgeltp_beitrittsgebiet"]
+            * ges_rente_params["umrechnung_entgeltpunkte_beitrittsgebiet"]
         )
     else:
         bruttolohn_scaled_east = einkommen__bruttolohn_m
@@ -585,7 +585,7 @@ def entgeltp_update(
 
 
 @policy_function()
-def anteil_entgeltp_ost(
+def anteil_entgeltpunkte_ost(
     sozialversicherung__rente__entgeltpunkte_west: float,
     sozialversicherung__rente__entgeltpunkte_ost: float,
 ) -> float:

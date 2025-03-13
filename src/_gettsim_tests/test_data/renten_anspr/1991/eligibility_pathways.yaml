@@ -124,7 +124,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__anrechnungszeit:
+    sozialversicherung__rente__anrechnungszeit_35_y:
       - 0.0
       - 0.0
       - 0.0
@@ -192,7 +192,7 @@ inputs:
       - 10.01
       - 10.01
       - 10.01
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - true
       - false
       - true
@@ -209,7 +209,7 @@ inputs:
       - true
       - true
       - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
       - false
       - true
       - false

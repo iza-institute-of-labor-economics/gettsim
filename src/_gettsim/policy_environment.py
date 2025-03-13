@@ -189,7 +189,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
         params[group] = _parse_piecewise_parameters(params_one_group)
     # Extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
-    params = _parse_einführungsfaktor_vorsorgeaufwand_alter_ab_2005(date, params)
+    params = _parse_einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
     aggregation_specs_tree = load_aggregation_specs_tree()
@@ -314,7 +314,7 @@ def _parse_kinderzuschl_max(date, params):
     return params
 
 
-def _parse_einführungsfaktor_vorsorgeaufwand_alter_ab_2005(date, params):
+def _parse_einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005(date, params):
     """Calculate introductory factor for pension expense deductions which depends on the
     current year as follows:
 
@@ -345,9 +345,9 @@ def _parse_einführungsfaktor_vorsorgeaufwand_alter_ab_2005(date, params):
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"]["einführungsfaktor_vorsorgeaufwand_alter_ab_2005"] = (
-            out.loc[0]
-        )
+        params["eink_st_abzuege"][
+            "einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005"
+        ] = out.loc[0]
     return params
 
 

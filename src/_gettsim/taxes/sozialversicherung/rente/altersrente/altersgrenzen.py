@@ -299,7 +299,7 @@ def vorzeitig_grundsätzlich_anspruchsberechtigt_mit_rente_arbeitsl_frauen(
     sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt: bool,
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
-    """Eligibility for early retirement.
+    """Eligibility for some form ofearly retirement.
 
     Can only be claimed if eligible for "Rente für langjährig Versicherte" or "Rente für
     Frauen" or "Rente für Arbeitslose" (or -not yet implemented - for disabled). Policy

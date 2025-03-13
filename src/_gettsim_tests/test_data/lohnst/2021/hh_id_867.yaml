@@ -13,7 +13,7 @@ inputs:
       - 40.0
     einkommen__bruttolohn_m:
       - 194.45416666666665
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz:
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
       - 0.0087
     sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
       - false

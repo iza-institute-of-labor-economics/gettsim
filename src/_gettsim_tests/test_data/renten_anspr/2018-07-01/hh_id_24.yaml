@@ -42,9 +42,9 @@ inputs:
       - false
     sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 0.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
       - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - true
@@ -62,9 +62,9 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  sozialversicherung__rente__altersrente__entgeltp_west_updated:
+  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
     - 31.0625
-  sozialversicherung__rente__altersrente__entgeltp_update:
+  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
     - 0.0
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
     - 65.0

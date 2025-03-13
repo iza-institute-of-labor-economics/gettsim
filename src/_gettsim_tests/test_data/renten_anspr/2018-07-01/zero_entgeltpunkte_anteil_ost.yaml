@@ -13,5 +13,5 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  sozialversicherung__rente__altersrente__anteil_entgeltp_ost:
+  sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost:
     - 0.0

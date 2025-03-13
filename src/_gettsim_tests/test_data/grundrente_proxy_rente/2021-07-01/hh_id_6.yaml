@@ -36,9 +36,9 @@ inputs:
       - false
     sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 240.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
       - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false

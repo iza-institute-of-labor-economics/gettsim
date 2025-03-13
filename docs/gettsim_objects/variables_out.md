@@ -18,7 +18,7 @@ You can find their individual calculation in the documentation of all {ref}`func
   - Monthly amount of long term care insurance
 * - {func}`sozialversicherung__arbeitslosen__betrag_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__arbeitslosen__betrag_m>`
   - Monthly amount of unemployment assistance
-* - {func}`entgeltp_update <_gettsim.functions.all_functions_for_docs.entgeltp_update>`
+* - {func}`neue_entgeltpunkte <_gettsim.functions.all_functions_for_docs.neue_entgeltpunkte>`
   - Updated earning points for pension claim
 * - {func}`abgeltungssteuer__betrag_y_sn <_gettsim.functions.all_functions_for_docs.abgeltungssteuer__betrag_y_sn>`
   - Capital income tax on Steuernummer level

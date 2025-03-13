@@ -20,7 +20,7 @@ aggregation_specs = {
 @policy_function()
 def betrag_y_sn(
     sonderausgaben_y_sn: float,
-    einkommensteuer__einkommen__vorsorgeaufwand_y_sn: float,
+    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn: float,
     betrag_ind_y_sn: float,
 ) -> float:
     """Calculate total allowances on Steuernummer level.
@@ -30,8 +30,8 @@ def betrag_y_sn(
 
     sonderausgaben_y_sn
         See :func:`sonderausgaben_y_sn`.
-    einkommensteuer__einkommen__vorsorgeaufwand_y_sn
-        See :func:`einkommensteuer__einkommen__vorsorgeaufwand_y_sn`.
+    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn
+        See :func:`einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn`.
     betrag_ind_y_sn
         See :func:`betrag_ind_y_sn`.
 
@@ -41,7 +41,7 @@ def betrag_y_sn(
     """
     out = (
         sonderausgaben_y_sn
-        + einkommensteuer__einkommen__vorsorgeaufwand_y_sn
+        + einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn
         + betrag_ind_y_sn
     )
 

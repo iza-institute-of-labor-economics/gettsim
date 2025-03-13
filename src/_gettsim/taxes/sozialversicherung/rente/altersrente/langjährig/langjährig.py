@@ -231,7 +231,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
 
 
 @policy_function(start_date="1996-09-27", leaf_name="altersgrenze_vorzeitig")
-def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+def altersgrenze_vorzeitig_ohne_staffelung_nach_1996(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:

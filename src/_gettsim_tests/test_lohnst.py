@@ -16,7 +16,7 @@ INPUT_COLS = [
     "sozialversicherung__pflege__beitrag__hat_kinder",
     "demographics__arbeitsstunden_w",
     "kindergeld__in_ausbildung",
-    "sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz",
+    "sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz",
     "sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos",
 ]
 

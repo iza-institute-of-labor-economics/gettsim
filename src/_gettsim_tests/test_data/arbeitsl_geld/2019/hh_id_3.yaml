@@ -1,10 +1,5 @@
 ---
 info:
-  note: >-
-    old test data - sozialversicherung__arbeitslosen__anwartschaftszeit, sozialversicherung__arbeitslosen__arbeitssuchend,
-    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug and
-    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig were added
-    manually
   source: none
 inputs:
   provided:
@@ -51,10 +46,10 @@ inputs:
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - true
       - false
-    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug:
+    sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld:
       - 0.0
       - 12.0
-    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig:
+    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:
       - 0.0
       - 0.0
 outputs:

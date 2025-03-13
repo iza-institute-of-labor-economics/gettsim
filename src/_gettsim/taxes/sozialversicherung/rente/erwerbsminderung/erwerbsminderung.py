@@ -93,7 +93,7 @@ def grundsätzlich_anspruchsberechtigt(
 def sozialversicherung__rente__entgeltpunkte_west(
     sozialversicherung__rente__entgeltpunkte_west: float,
     zurechnungszeit: float,
-    sozialversicherung__rente__altersrente__anteil_entgeltp_ost: float,
+    sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
 ) -> float:
     """Entgeltpunkte accumulated in Western Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
@@ -108,8 +108,8 @@ def sozialversicherung__rente__entgeltpunkte_west(
         See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_west <sozialversicherung__rente__entgeltpunkte_west>
     zurechnungszeit
         See :func:`zurechnungszeit`.
-    sozialversicherung__rente__altersrente__anteil_entgeltp_ost
-        See :func:`sozialversicherung__rente__altersrente__anteil_entgeltp_ost`.
+    sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost
+        See :func:`sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost`.
 
     Returns
     -------
@@ -119,7 +119,7 @@ def sozialversicherung__rente__entgeltpunkte_west(
 
     out = sozialversicherung__rente__entgeltpunkte_west + (
         zurechnungszeit
-        * (1 - sozialversicherung__rente__altersrente__anteil_entgeltp_ost)
+        * (1 - sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost)
     )
 
     return out
@@ -129,7 +129,7 @@ def sozialversicherung__rente__entgeltpunkte_west(
 def sozialversicherung__rente__entgeltpunkte_ost(
     sozialversicherung__rente__entgeltpunkte_ost: float,
     zurechnungszeit: float,
-    sozialversicherung__rente__altersrente__anteil_entgeltp_ost: float,
+    sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
 ) -> float:
     """Entgeltpunkte accumulated in Eastern Germany which Erwerbsminderungsrente
     is based on (public disability insurance)
@@ -144,8 +144,8 @@ def sozialversicherung__rente__entgeltpunkte_ost(
         See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_ost <sozialversicherung__rente__entgeltpunkte_ost>
     zurechnungszeit
         See :func:`zurechnungszeit`.
-    sozialversicherung__rente__altersrente__anteil_entgeltp_ost
-        See :func:`sozialversicherung__rente__altersrente__anteil_entgeltp_ost`.
+    sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost
+        See :func:`sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost`.
 
     Returns
     -------
@@ -154,7 +154,8 @@ def sozialversicherung__rente__entgeltpunkte_ost(
     """
 
     out = sozialversicherung__rente__entgeltpunkte_ost + (
-        zurechnungszeit * sozialversicherung__rente__altersrente__anteil_entgeltp_ost
+        zurechnungszeit
+        * sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost
     )
 
     return out
@@ -295,7 +296,7 @@ def zugangsfaktor(
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     sozialversicherung__rente__pflichtbeitragszeiten_m: float,
     sozialversicherung__rente__freiwillige_beitragszeiten_m: float,
-    sozialversicherung__rente__anrechnungszeit_45: float,
+    sozialversicherung__rente__anrechnungszeit_45_y: float,
     sozialversicherung__rente__ersatzzeiten_m: float,
     sozialversicherung__rente__kinderberücksichtigungszeiten_m: float,
     sozialversicherung__rente__pflegeberücksichtigungszeiten_m: float,
@@ -310,8 +311,8 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
         See basic input variable :ref:<sozialversicherung__rente__pflichtbeitragszeiten_m>`.
     sozialversicherung__rente__freiwillige_beitragszeiten_m
         See basic input variable :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_m>`.
-    sozialversicherung__rente__anrechnungszeit_45
-        See :func:`sozialversicherung__rente__anrechnungszeit_45`.
+    sozialversicherung__rente__anrechnungszeit_45_y
+        See :func:`sozialversicherung__rente__anrechnungszeit_45_y`.
     sozialversicherung__rente__ersatzzeiten_m
         See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_m>`.
     sozialversicherung__rente__kinderberücksichtigungszeiten_m
@@ -330,7 +331,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     """
     if (
         sozialversicherung__rente__pflichtbeitragszeiten_m
-        >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]
+        >= ges_rente_params["wartezeit_45_pflichtbeitragsjahre"]
     ):
         freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_m
     else:
@@ -339,7 +340,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     m_zeiten = (
         sozialversicherung__rente__pflichtbeitragszeiten_m
         + freiwilligbeitr
-        + sozialversicherung__rente__anrechnungszeit_45
+        + sozialversicherung__rente__anrechnungszeit_45_y
         + sozialversicherung__rente__ersatzzeiten_m
         + sozialversicherung__rente__pflegeberücksichtigungszeiten_m
         + sozialversicherung__rente__kinderberücksichtigungszeiten_m

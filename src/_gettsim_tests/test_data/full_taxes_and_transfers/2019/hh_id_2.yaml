@@ -259,7 +259,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    grundsicherung__im_alter__schwerbehindert_grad_g:
+    demographics__schwerbehindert_grad_g:
       - false
       - false
       - false
@@ -344,12 +344,12 @@ inputs:
       - false
       - false
       - false
-    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug:
+    sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig:
+    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:
       - 60.0
       - 60.0
       - 60.0

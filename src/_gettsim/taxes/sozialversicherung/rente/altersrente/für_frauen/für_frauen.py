@@ -174,7 +174,7 @@ def altersgrenze_vorzeitig_mit_staffelung(
 
 
 @policy_function(start_date="1996-09-27", leaf_name="altersgrenze_vorzeitig")
-def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
+def altersgrenze_vorzeitig_ohne_staffelung_nach_1996(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -214,9 +214,8 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
 
     Eligibility does not depend on birth year.
 
-    Wartezeit 15 years, contributions for 10 years after age 40, being a woman. Policy
-    becomes inactive in 2018 because then all potential beneficiaries have reached the
-    normal retirement age.
+    Policy becomes inactive in 2018 because then all potential beneficiaries have
+    reached the normal retirement age.
 
     Parameters
     ----------
@@ -225,7 +224,8 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
     jahre_pflichtbeiträge_ab_40
-        See basic input variable :ref:`jahre_pflichtbeiträge_ab_40 <jahre_pflichtbeiträge_ab_40>`.
+        See basic input variable :ref:`jahre_pflichtbeiträge_ab_40
+        <jahre_pflichtbeiträge_ab_40>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 

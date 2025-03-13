@@ -180,8 +180,8 @@ def altersgrenze_vorzeitig_ohne_staffelung(
     end_date="1996-07-28",
     leaf_name="altersgrenze_vorzeitig",
 )
-def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
-    altersgrenze_vorzeitig_ohne_vertrauenss: float,
+def altersgrenze_vorzeitig_ohne_vertrauensschutz_bis_1996_07(
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung: float,
 ) -> float:
     """Early retirement age of pension for unemployed.
 
@@ -189,15 +189,15 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
 
     Parameters
     ----------
-    altersgrenze_vorzeitig_ohne_vertrauenss
-        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung`.
 
     Returns
     -------
     Early retirement age for unemployed.
     """
 
-    return altersgrenze_vorzeitig_ohne_vertrauenss
+    return altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
 
 
 @policy_function(
@@ -205,9 +205,9 @@ def ges_rente_arbeitsl_vorzeitig_ohne_vertrauenss_vor_1996(
     end_date="1996-09-26",
     leaf_name="altersgrenze_vorzeitig",
 )
-def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
+def altersgrenze_vorzeitig_mit_vertrauensschutz_ab_1996_07_bis_1996_09(
     vertrauensschutz_1997: bool,
-    altersgrenze_vorzeitig_ohne_vertrauenss: float,
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age of pension for unemployed.
@@ -221,8 +221,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
 
     vertrauensschutz_2006
         See basic input variable :ref:`vertrauensschutz_2006 <vertrauensschutz_2006>`.
-    altersgrenze_vorzeitig_ohne_vertrauenss
-        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -236,7 +236,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
             "vertrauensschutz"
         ]
     else:
-        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauenss
+        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
 
     return arbeitsl_vorzeitig
 
@@ -246,7 +246,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_1996(
     end_date="2004-07-25",
     leaf_name="altersgrenze_vorzeitig",
 )
-def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
+def altersgrenze_vorzeitig_ohne_staffelung_ab_1996_09(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -281,7 +281,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_1997(
 )
 def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertrauensschutz_2006: bool,
-    altersgrenze_vorzeitig_ohne_vertrauenss: float,
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age of pension for unemployed.
@@ -296,8 +296,8 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     vertrauensschutz_2006
         See basic input variable :ref:`vertrauensschutz_2006
         <vertrauensschutz_2006>`.
-    altersgrenze_vorzeitig_ohne_vertrauenss
-        See :func:`altersgrenze_vorzeitig_ohne_vertrauenss`.
+    altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
+        See :func:`altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -311,7 +311,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
             "vertrauensschutz"
         ]
     else:
-        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauenss
+        arbeitsl_vorzeitig = altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
 
     return arbeitsl_vorzeitig
 
@@ -370,7 +370,7 @@ def altersgrenze_ohne_vertrauensschutzprüfung(
 
 
 @policy_function(end_date="2017-12-31")
-def altersgrenze_vorzeitig_ohne_vertrauenss(
+def altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
     ges_rente_params: dict,
@@ -422,10 +422,10 @@ def altersgrenze_vorzeitig_ohne_vertrauenss(
 
 
 @policy_function(end_date="2007-04-29", leaf_name="grundsätzlich_anspruchsberechtigt")
-def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
-    arbeitslos_für_1_jahr_nach_585: bool,
+def grundsätzlich_anspruchsberechtigt_bis_2007(
+    arbeitslos_für_1_jahr_nach_alter_58_ein_halb: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtbeitrag_8_in_10: bool,
+    pflichtbeitrag_in_8_von_10_jahren: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
 
@@ -437,13 +437,13 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
 
     Parameters
     ----------
-    arbeitslos_für_1_jahr_nach_585
+    arbeitslos_für_1_jahr_nach_alter_58_ein_halb
         See basic input variable
-        :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
+        :ref:`arbeitslos_für_1_jahr_nach_alter_58_ein_halb <arbeitslos_für_1_jahr_nach_alter_58_ein_halb>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtbeitrag_8_in_10
-        See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
+    pflichtbeitrag_in_8_von_10_jahren
+        See basic input variable :ref:`pflichtbeitrag_in_8_von_10_jahren <pflichtbeitrag_in_8_von_10_jahren>`.
 
     Returns
     -------
@@ -452,9 +452,9 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     """
 
     out = (
-        arbeitslos_für_1_jahr_nach_585
+        arbeitslos_für_1_jahr_nach_alter_58_ein_halb
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtbeitrag_8_in_10
+        and pflichtbeitrag_in_8_von_10_jahren
     )
 
     return out
@@ -465,10 +465,10 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     end_date="2017-12-31",
     leaf_name="grundsätzlich_anspruchsberechtigt",
 )
-def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
-    arbeitslos_für_1_jahr_nach_585: bool,
+def grundsätzlich_anspruchsberechtigt_ab_2007(
+    arbeitslos_für_1_jahr_nach_alter_58_ein_halb: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtbeitrag_8_in_10: bool,
+    pflichtbeitrag_in_8_von_10_jahren: bool,
     demographics__geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
@@ -484,12 +484,12 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
 
     Parameters
     ----------
-    arbeitslos_für_1_jahr_nach_585
-        See basic input variable :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
+    arbeitslos_für_1_jahr_nach_alter_58_ein_halb
+        See basic input variable :ref:`arbeitslos_für_1_jahr_nach_alter_58_ein_halb <arbeitslos_für_1_jahr_nach_alter_58_ein_halb>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtbeitrag_8_in_10
-        See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
+    pflichtbeitrag_in_8_von_10_jahren
+        See basic input variable :ref:`pflichtbeitrag_in_8_von_10_jahren <pflichtbeitrag_in_8_von_10_jahren>`.
     demographics__geburtsjahr
         See :func:`demographics__geburtsjahr`
     ges_rente_params
@@ -502,9 +502,9 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     """
 
     out = (
-        arbeitslos_für_1_jahr_nach_585
+        arbeitslos_für_1_jahr_nach_alter_58_ein_halb
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtbeitrag_8_in_10
+        and pflichtbeitrag_in_8_von_10_jahren
         and demographics__geburtsjahr
         < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )

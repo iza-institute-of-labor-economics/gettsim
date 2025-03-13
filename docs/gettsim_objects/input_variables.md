@@ -341,9 +341,9 @@ Handicap degree (between 0 and 100)
 
 Type: int
 
-(grundsicherung__im_alter__schwerbehindert_grad_g)=
+(demographics__schwerbehindert_grad_g)=
 
-## `grundsicherung__im_alter__schwerbehindert_grad_g`
+## `demographics__schwerbehindert_grad_g`
 
 Severerly handicapped, with flag "G"
 
@@ -535,17 +535,17 @@ Total years of mandatory contributions after age 40
 
 Type: float
 
-(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10)=
+(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren)=
 
-## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10`
+## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren`
 
 Has at least 8 contribution years in past 10 years
 
 Type: bool
 
-(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585)=
+(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb)=
 
-## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585`
+## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb`
 
 Has been unemployed at least 1 year after age 58.5
 
@@ -602,17 +602,17 @@ Looking for employment
 
 Type: bool
 
-(sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug)=
+(sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld)=
 
-## `sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug`
+## `sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld`
 
 Months the individual already uninterruptedly receives Arbeitslosengeld
 
 Type: float
 
-(sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig)=
+(sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren)=
 
-## `sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig`
+## `sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance

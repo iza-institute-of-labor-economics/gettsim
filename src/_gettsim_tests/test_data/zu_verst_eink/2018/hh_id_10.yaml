@@ -60,7 +60,7 @@ inputs:
       - false
     demographics__geburtsjahr:
       - 1978
-    einkommensteuer__einkommen__vorsorgeaufwand_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn:
       - 2547.22
   assumed: {}
 outputs:

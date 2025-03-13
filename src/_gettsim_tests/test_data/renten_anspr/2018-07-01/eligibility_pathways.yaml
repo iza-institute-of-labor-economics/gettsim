@@ -50,7 +50,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    sozialversicherung__rente__anrechnungszeit:
+    sozialversicherung__rente__anrechnungszeit_35_y:
       - 0.0
       - 0.0
       - 0.0
@@ -59,7 +59,7 @@ inputs:
       - 540.0
       - 400.0
       - 120.0
-    sozialversicherung__rente__anrechnungszeit_45:
+    sozialversicherung__rente__anrechnungszeit_45_y:
       - 0.0
       - 0.0
       - 0.0

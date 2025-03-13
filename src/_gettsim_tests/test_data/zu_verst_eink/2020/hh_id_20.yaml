@@ -144,7 +144,7 @@ inputs:
       - 1976
       - 2007
       - 2005
-    einkommensteuer__einkommen__vorsorgeaufwand_y_sn:
+    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn:
       - 10901.0
       - 10901.0
       - 0.0

@@ -44,7 +44,7 @@ def betrag_y_sn_kindergeld_kinderfreibetrag_parallel(
     leaf_name="betrag_y_sn",
     params_key_for_rounding="eink_st",
 )
-def betrag_y_sn_kindergeld_oder_kinderfreib(
+def betrag_y_sn_kindergeld_oder_kinderfreibetrag(
     betrag_ohne_kinderfreibetrag_y_sn: float,
     betrag_mit_kinderfreibetrag_y_sn: float,
     kinderfreibetrag_günstiger_sn: bool,

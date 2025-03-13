@@ -90,7 +90,7 @@ def betrag_m_eg(  # noqa: PLR0913
 
 @policy_function()
 def mehrbedarf_schwerbehinderung_g_m(
-    schwerbehindert_grad_g: bool,
+    demographics__schwerbehindert_grad_g: bool,
     demographics__anzahl_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -99,8 +99,8 @@ def mehrbedarf_schwerbehinderung_g_m(
 
     Parameters
     ----------
-    schwerbehindert_grad_g
-        See basic input variable :ref:`demographics__behinderungsgrad <schwerbehindert_grad_g>`.
+    demographics__schwerbehindert_grad_g
+        See basic input variable :ref:`demographics__behinderungsgrad <demographics__schwerbehindert_grad_g>`.
     demographics__anzahl_erwachsene_eg
         See :func:`demographics__anzahl_erwachsene_eg`.
     ges_rente_params
@@ -121,9 +121,13 @@ def mehrbedarf_schwerbehinderung_g_m(
         * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
     )
 
-    if (schwerbehindert_grad_g) and (demographics__anzahl_erwachsene_eg == 1):
+    if (demographics__schwerbehindert_grad_g) and (
+        demographics__anzahl_erwachsene_eg == 1
+    ):
         out = mehrbedarf_single
-    elif (schwerbehindert_grad_g) and (demographics__anzahl_erwachsene_eg > 1):
+    elif (demographics__schwerbehindert_grad_g) and (
+        demographics__anzahl_erwachsene_eg > 1
+    ):
         out = mehrbedarf_in_couple
     else:
         out = 0.0
