@@ -480,8 +480,8 @@ def _fail_with_ambiguous_group_by_identifier(
         paths = "\n    ".join([str(p) for p in candidate_paths_in_matching_namespace])
     msg = format_errors_and_warnings(
         f"""
-        Group by identifier for target:\n\n    {target_path}\n
-        is ambiguous. Group by identifiers must be
+        Group-by-identifier for target:\n\n    {target_path}\n
+        is ambiguous. Group-by-identifiers must be
 
         1. unique at the uppermost level of the functions tree.
         2. inside the uppermost namespace if there are namespaced identifiers

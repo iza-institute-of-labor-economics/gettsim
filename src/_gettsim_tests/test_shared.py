@@ -234,7 +234,7 @@ def test_get_path_for_group_by_id(target_path, group_by_functions_tree, expected
                 },
             },
             (
-                r"Group by identifier for target:[\s\S]+"
+                r"Group-by-identifier for target:[\s\S]+"
                 r"\('outermost', 'foo_bg'\)[\s\S]+is ambiguous[\s\S]+"
                 r"Found candidates[\s\S]+"
                 r"\('outermost', 'bg_id'\)[\s\S]+"
@@ -253,7 +253,7 @@ def test_get_path_for_group_by_id(target_path, group_by_functions_tree, expected
                     },
                 },
             },
-            r"Group by identifier for target:[\s\S]+"
+            r"Group-by-identifier for target:[\s\S]+"
             r"\('outermost', 'foo_bg'\)[\s\S]+is ambiguous[\s\S]+"
             r"Found candidates[\s\S]+"
             r"\('outermost', 'inner1', 'bg_id'\)[\s\S]+"
@@ -269,7 +269,7 @@ def test_get_path_for_group_by_id(target_path, group_by_functions_tree, expected
                     "eg_id": None,
                 },
             },
-            r"Group by identifier for target:[\s\S]+"
+            r"Group-by-identifier for target:[\s\S]+"
             r"\('new_transfer', 'einkommen_eg'\)[\s\S]+is ambiguous[\s\S]+"
             r"Found candidates[\s\S]+"
             r"\('arbeitslosengeld_2', 'eg_id'\)[\s\S]+"
