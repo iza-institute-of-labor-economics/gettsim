@@ -392,7 +392,7 @@ def einkommen_m(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     einkommen__aus_vermietung_m: float,
     einkommen__bruttokapitaleinkommen_m: float,
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m: float,
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment.
@@ -409,8 +409,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`einkommen__aus_vermietung_m`.
     einkommen__bruttokapitaleinkommen_m
         See :func:`einkommen__bruttokapitaleinkommen_m`.
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
-        See :func:`sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m`.
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m
+        See :func:`sozialversicherung__rente__summe_private_gesetzliche_rente_m`.
     sozialversicherung__arbeitslosen__betrag_m
         See :func:`sozialversicherung__arbeitslosen__betrag_m`.
 
@@ -424,7 +424,7 @@ def einkommen_m(  # noqa: PLR0913
         + einkommen__aus_selbstständigkeit_m
         + einkommen__aus_vermietung_m
         + einkommen__bruttokapitaleinkommen_m
-        + sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
+        + sozialversicherung__rente__summe_private_gesetzliche_rente_m
         + sozialversicherung__arbeitslosen__betrag_m
     )
 

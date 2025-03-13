@@ -186,15 +186,15 @@ def einkünfte_aus_abhängiger_beschäftigung_y(
 
 @policy_function()
 def renteneinkünfte_m(
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m: float,
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
     rente_ertragsanteil: float,
 ) -> float:
     """Calculate monthly pension payment subject to taxation.
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
-        See :func:`sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m`.
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m
+        See :func:`sozialversicherung__rente__summe_private_gesetzliche_rente_m`.
     rente_ertragsanteil
         See :func:`rente_ertragsanteil`.
 
@@ -204,5 +204,5 @@ def renteneinkünfte_m(
     """
     return (
         rente_ertragsanteil
-        * sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
+        * sozialversicherung__rente__summe_private_gesetzliche_rente_m
     )

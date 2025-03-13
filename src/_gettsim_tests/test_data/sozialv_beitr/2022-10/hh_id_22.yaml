@@ -22,7 +22,7 @@ inputs:
       - false
     einkommen__aus_selbstständigkeit_m:
       - 0.0
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false

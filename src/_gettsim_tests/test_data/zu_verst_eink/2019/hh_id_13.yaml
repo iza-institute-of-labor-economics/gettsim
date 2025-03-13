@@ -46,7 +46,7 @@ inputs:
     sozialversicherung__rente__jahr_renteneintritt:
       - 2050
       - 2070
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
       - 0.0
       - 0.0
     demographics__arbeitsstunden_w:

@@ -92,7 +92,7 @@ inputs:
       - 2000.0
       - 0.0
       - 200.0
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
       - 0.0
       - 0.0
       - 0.0

@@ -12,10 +12,7 @@ def anzurechnendes_einkommen_m(
     kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
 ) -> float:
-    """SGB II income.
-
-    Relevant income according to SGB II. Includes child benefit transfer
-    (Kindergeldübertrag).
+    """Relevant income according to SGB II.
 
     Note: When aggregating this target to the household level, deduct
     `differenz_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
@@ -120,7 +117,7 @@ def bruttoeinkommen_m(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     einkommen__aus_vermietung_m: float,
     einkommen__bruttokapitaleinkommen_m: float,
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m: float,
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
     elterngeld__betrag_m: float,
 ) -> float:
@@ -140,9 +137,9 @@ def bruttoeinkommen_m(  # noqa: PLR0913
         See basic input variable :ref:`einkommen__aus_vermietung_m <einkommen__aus_vermietung_m>`.
     einkommen__bruttokapitaleinkommen_m
         See basic input variable :ref:`einkommen__bruttokapitaleinkommen_m <einkommen__bruttokapitaleinkommen_m>`.
-    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
-        <sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m>`.
+    sozialversicherung__rente__summe_private_gesetzliche_rente_m
+        See basic input variable :ref:`sozialversicherung__rente__summe_private_gesetzliche_rente_m
+        <sozialversicherung__rente__summe_private_gesetzliche_rente_m>`.
     sozialversicherung__arbeitslosen__betrag_m
         See :func:`sozialversicherung__arbeitslosen__betrag_m`.
     elterngeld__betrag_m
@@ -159,7 +156,7 @@ def bruttoeinkommen_m(  # noqa: PLR0913
         + einkommen__aus_selbstständigkeit_m
         + einkommen__aus_vermietung_m
         + einkommen__bruttokapitaleinkommen_m
-        + sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
+        + sozialversicherung__rente__summe_private_gesetzliche_rente_m
         + sozialversicherung__arbeitslosen__betrag_m
         + elterngeld__betrag_m
     )

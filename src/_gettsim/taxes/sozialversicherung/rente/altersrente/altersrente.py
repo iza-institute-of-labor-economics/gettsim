@@ -41,27 +41,6 @@ def betrag_mit_grundrente_m(
     return out
 
 
-@policy_function()
-def sum_private_gesetzl_rente_m(
-    sozialversicherung__rente__private_rente_m: float, betrag_m: float
-) -> float:
-    """Calculate total individual pension as sum of private and public pension.
-
-    Parameters
-    ----------
-    sozialversicherung__rente__private_rente_m
-        See basic input variable :ref:`sozialversicherung__rente__private_rente_m <sozialversicherung__rente__private_rente_m>`.
-    betrag_m
-        See :func:`betrag_m`.
-
-    Returns
-    -------
-
-    """
-    out = sozialversicherung__rente__private_rente_m + betrag_m
-    return out
-
-
 @policy_function(
     end_date="2016-12-31",
     leaf_name="bruttorente_m",
