@@ -56,7 +56,7 @@ def grundsätzlich_anspruchsberechtigt(
     voll_erwerbsgemindert: bool,
     teilweise_erwerbsgemindert: bool,
     sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m: float,
-    sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt: bool,
+    sozialversicherung__rente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
     """
     Eligibility for Erwerbsminderungsrente (public disability insurance claim).
@@ -71,8 +71,8 @@ def grundsätzlich_anspruchsberechtigt(
         See basic input variable :ref:`teilweise_erwerbsgemindert <teilweise_erwerbsgemindert>.
     sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
         See basic input variable :ref:`sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m <sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m>.
-    sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt
-        See :func:`sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt`.
+    sozialversicherung__rente__mindestwartezeit_erfüllt
+        See :func:`sozialversicherung__rente__mindestwartezeit_erfüllt`.
     Returns
     -------
     Eligibility for Erwerbsminderungsrente (public disability insurance claim) as a bool
@@ -80,7 +80,7 @@ def grundsätzlich_anspruchsberechtigt(
 
     anspruch_erwerbsm_rente = (
         (voll_erwerbsgemindert or teilweise_erwerbsgemindert)
-        and sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt
+        and sozialversicherung__rente__mindestwartezeit_erfüllt
         and sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m >= 36
     )
 
@@ -293,7 +293,7 @@ def zugangsfaktor(
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m: float,
     sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m: float,
-    sozialversicherung__rente__altersrente__anrechnungszeit_45: float,
+    sozialversicherung__rente__anrechnungszeit_45: float,
     sozialversicherung__rente__altersrente__ersatzzeiten_m: float,
     sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m: float,
     sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m: float,
@@ -305,17 +305,17 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     Parameters
     ----------
     sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m <sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m>`.
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m>`.
     sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m <sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m>`.
-    sozialversicherung__rente__altersrente__anrechnungszeit_45
-        See :func:`sozialversicherung__rente__altersrente__anrechnungszeit_45`.
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m>`.
+    sozialversicherung__rente__anrechnungszeit_45
+        See :func:`sozialversicherung__rente__anrechnungszeit_45`.
     sozialversicherung__rente__altersrente__ersatzzeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__ersatzzeiten_m <sozialversicherung__rente__altersrente__ersatzzeiten_m>`.
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__ersatzzeiten_m>`.
     sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m <sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m>`.
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m>`.
     sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m <sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m>`.
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     erwerbsm_rente_params
@@ -339,7 +339,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     m_zeiten = (
         sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
         + freiwilligbeitr
-        + sozialversicherung__rente__altersrente__anrechnungszeit_45
+        + sozialversicherung__rente__anrechnungszeit_45
         + sozialversicherung__rente__altersrente__ersatzzeiten_m
         + sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m
         + sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m
@@ -369,9 +369,9 @@ def durchschnittliche_entgeltpunkte(
     Parameters
     ----------
     sozialversicherung__rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_west <sozialversicherung__rente__altersrente__entgeltpunkte_west>
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__entgeltpunkte_west>
     sozialversicherung__rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_ost <sozialversicherung__rente__altersrente__entgeltpunkte_ost>
+        See basic input variable :ref:<sozialversicherung__rente__altersrente__entgeltpunkte_ost>
     sozialversicherung__rente__alter_bei_renteneintritt
         See :func:`sozialversicherung__rente__alter_bei_renteneintritt`.
     erwerbsm_rente_params

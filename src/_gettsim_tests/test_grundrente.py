@@ -68,7 +68,7 @@ INPUT_COLS_INCOME = [
     "sozialversicherung__rente__altersrente__schulausbildung_m",
     "sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m",
     "sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m",
-    "sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m",
+    "sozialversicherung__rente__arbeitsunfähigkeitszeiten_m",
     "sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m",
     "sozialversicherung__rente__altersrente__mutterschutzzeiten_m",
     "sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m",

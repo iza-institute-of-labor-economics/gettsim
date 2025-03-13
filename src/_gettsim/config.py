@@ -210,7 +210,7 @@ TYPES_INPUT_VARIABLES = {
     "kindergeld__p_id_empfänger": int,
     "lohnsteuer__steuerklasse": int,
     "sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m": float,
-    "sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m": float,
+    "sozialversicherung__rente__arbeitsunfähigkeitszeiten_m": float,
     "sozialversicherung__rente__altersrente__ausbildungssuche_m": float,
     "sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m": float,
     "sozialversicherung__rente__altersrente__entgeltpunkte_ost": float,

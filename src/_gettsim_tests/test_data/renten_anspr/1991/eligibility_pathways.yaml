@@ -124,7 +124,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__altersrente__anrechnungszeit:
+    sozialversicherung__rente__anrechnungszeit:
       - 0.0
       - 0.0
       - 0.0

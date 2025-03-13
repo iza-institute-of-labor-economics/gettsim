@@ -261,7 +261,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_96(
 
 @policy_function()
 def grundsätzlich_anspruchsberechtigt(
-    sozialversicherung__rente__altersrente__wartezeit_35_jahre_erfüllt: bool,
+    sozialversicherung__rente__wartezeit_35_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für langjährig
     Versicherte (pension for long-term insured). Wartezeit 35 years and
@@ -269,8 +269,8 @@ def grundsätzlich_anspruchsberechtigt(
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__wartezeit_35_jahre_erfüllt
-        See :func:`sozialversicherung__rente__altersrente__wartezeit_35_jahre_erfüllt`.
+    sozialversicherung__rente__wartezeit_35_jahre_erfüllt
+        See :func:`sozialversicherung__rente__wartezeit_35_jahre_erfüllt`.
 
     Returns
     -------
@@ -278,4 +278,4 @@ def grundsätzlich_anspruchsberechtigt(
 
     """
 
-    return sozialversicherung__rente__altersrente__wartezeit_35_jahre_erfüllt
+    return sozialversicherung__rente__wartezeit_35_jahre_erfüllt

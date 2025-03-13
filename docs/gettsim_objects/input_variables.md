@@ -446,9 +446,9 @@ Total months of maternal protections
 
 Type: float
 
-(sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m)=
+(sozialversicherung__rente__arbeitsunfähigkeitszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m`
+## `sozialversicherung__rente__arbeitsunfähigkeitszeiten_m`
 
 Total months of sickness, rehabilitation,measures for worklife participation(Teilhabe)
 

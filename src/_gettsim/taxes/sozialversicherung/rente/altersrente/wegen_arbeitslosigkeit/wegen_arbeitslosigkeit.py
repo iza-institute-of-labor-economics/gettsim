@@ -424,7 +424,7 @@ def altersgrenze_vorzeitig_ohne_vertrauenss(
 @policy_function(end_date="2007-04-29", leaf_name="grundsätzlich_anspruchsberechtigt")
 def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     arbeitslos_für_1_jahr_nach_585: bool,
-    sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
+    sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitrag_8_in_10: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
@@ -440,8 +440,8 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
     arbeitslos_für_1_jahr_nach_585
         See basic input variable
         :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
-    sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt
-        See :func:`sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt`
+    sozialversicherung__rente__wartezeit_15_jahre_erfüllt
+        See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
     pflichtbeitrag_8_in_10
         See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
 
@@ -453,7 +453,7 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
 
     out = (
         arbeitslos_für_1_jahr_nach_585
-        and sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt
+        and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         and pflichtbeitrag_8_in_10
     )
 
@@ -467,7 +467,7 @@ def _grundsätzlich_anspruchsberechtigt_ohne_2007_reform(
 )
 def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     arbeitslos_für_1_jahr_nach_585: bool,
-    sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt: bool,
+    sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
     pflichtbeitrag_8_in_10: bool,
     demographics__geburtsjahr: int,
     ges_rente_params: dict,
@@ -486,8 +486,8 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
     ----------
     arbeitslos_für_1_jahr_nach_585
         See basic input variable :ref:`arbeitslos_für_1_jahr_nach_585 <arbeitslos_für_1_jahr_nach_585>`.
-    sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt
-        See :func:`sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt`
+    sozialversicherung__rente__wartezeit_15_jahre_erfüllt
+        See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
     pflichtbeitrag_8_in_10
         See basic input variable :ref:`pflichtbeitrag_8_in_10 <pflichtbeitrag_8_in_10>`.
     demographics__geburtsjahr
@@ -503,7 +503,7 @@ def _grundsätzlich_anspruchsberechtigt_mit_2007_reform(
 
     out = (
         arbeitslos_für_1_jahr_nach_585
-        and sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt
+        and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         and pflichtbeitrag_8_in_10
         and demographics__geburtsjahr
         < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]

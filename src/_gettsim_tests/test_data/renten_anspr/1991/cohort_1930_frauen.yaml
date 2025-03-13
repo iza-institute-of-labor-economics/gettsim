@@ -30,7 +30,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m:
       - 0.0
-    sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m:
+    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0
     sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m:
       - 0.0
@@ -60,5 +60,5 @@ outputs:
     - false
   sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
     - true
-  sozialversicherung__rente__altersrente__wartezeit_15_jahre_erfüllt:
+  sozialversicherung__rente__wartezeit_15_jahre_erfüllt:
     - true

@@ -114,7 +114,7 @@ inputs:
       - 5.0
     sozialversicherung__rente__altersrente__mutterschutzzeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m:
+    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0
     sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m:
       - 0.0
