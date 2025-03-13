@@ -467,7 +467,7 @@ def _select_group_by_id_from_candidates(
                 target_path=target_path,
             )
     else:
-        return next(iter(candidate_paths))
+        return candidate_paths[0]
 
 
 def _fail_with_ambiguous_group_by_identifier(
