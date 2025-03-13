@@ -8,13 +8,13 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m>`
   - Monthly amount employee old-age pensions contributions
-* - {func}`sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m>`
   - Monthly amount employee unempl. insurance contributions
-* - {func}`sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m>`
   - Monthly amount employee health insurance contributions
-* - {func}`sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m>`
   - Monthly amount of long term care insurance
 * - {func}`arbeitslosengeld__betrag_m <_gettsim.functions.all_functions_for_docs.arbeitslosengeld__betrag_m>`
   - Monthly amount of unemployment assistance

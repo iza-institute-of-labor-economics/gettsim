@@ -16,17 +16,17 @@ inputs:
       - 70
     einkommen__ist_selbstständig:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
     einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 1000.0
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     jahr:
       - '2004-04-01'
   assumed: {}
 outputs:
-  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
     - 17.0

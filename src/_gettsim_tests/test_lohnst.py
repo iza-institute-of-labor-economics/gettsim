@@ -13,11 +13,11 @@ INPUT_COLS = [
     "lohnsteuer__steuerklasse",
     "einkommen__bruttolohn_m",
     "demographics__alter",
-    "sozialversicherungsbeiträge__pflegeversicherung__hat_kinder",
+    "sozialversicherung__pflege__beitrag__hat_kinder",
     "demographics__arbeitsstunden_w",
     "kindergeld__in_ausbildung",
-    "sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz",
-    "sozialversicherungsbeiträge__pflegeversicherung__zusatzbetrag_kinderlos",
+    "sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz",
+    "sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos",
 ]
 
 OUT_COLS = ["lohnsteuer__betrag_m", "lohnsteuer__betrag_soli_m"]

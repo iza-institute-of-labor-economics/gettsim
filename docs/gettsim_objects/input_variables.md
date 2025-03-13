@@ -118,9 +118,9 @@ Living in former East Germany
 
 Type: bool
 
-(sozialversicherungsbeiträge__krankenversicherung__privat_versichert)=
+(sozialversicherung__kranken__beitrag__privat_versichert)=
 
-## `sozialversicherungsbeiträge__krankenversicherung__privat_versichert`
+## `sozialversicherung__kranken__beitrag__privat_versichert`
 
 In private health insurance
 
@@ -150,9 +150,9 @@ Self-employed (main profession)
 
 Type: bool
 
-(sozialversicherungsbeiträge__pflegeversicherung__hat_kinder)=
+(sozialversicherung__pflege__beitrag__hat_kinder)=
 
-## `sozialversicherungsbeiträge__pflegeversicherung__hat_kinder`
+## `sozialversicherung__pflege__beitrag__hat_kinder`
 
 Has kids (incl. not in hh)
 

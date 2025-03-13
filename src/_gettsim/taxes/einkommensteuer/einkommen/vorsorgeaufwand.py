@@ -8,8 +8,8 @@ from _gettsim.function_types import policy_function
 )
 def vorsorgeaufwand_y_sn_bis_2004(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -19,10 +19,10 @@ def vorsorgeaufwand_y_sn_bis_2004(
     ----------
     vorwegabzug_lohnsteuer_2004er_regime_y_sn
         See :func:`vorwegabzug_lohnsteuer_2004er_regime_y_sn`.
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn`.
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -34,8 +34,8 @@ def vorsorgeaufwand_y_sn_bis_2004(
     """
     return formel_2004er_regime(
         vorwegabzug_lohnsteuer=vorwegabzug_lohnsteuer_2004er_regime_y_sn,
-        krankenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn,
-        rentenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn,
+        krankenversicherung_beitrag_arbeitnehmer=sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn,
+        rentenversicherung_beitrag_arbeitnehmer=sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn,
         anzahl_personen_sn=demographics__anzahl_personen_sn,
         grundhöchstbetrag=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"],
     )
@@ -88,17 +88,17 @@ def vorsorgeaufwand_mit_günstigerprüfung_y_sn(
 )
 def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
-    sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m_sn: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m_sn: float,
-    sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn: float,
+    sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m_sn: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m_sn: float,
+    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     return formel_2020er_regime(
         alter_aufwendungen=altersvorsorge_y_sn,
-        pv_aufwendungen=sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m_sn,
-        kv_aufwendungen=sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m_sn,
-        av_aufwendungen=sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m_sn,
+        pv_aufwendungen=sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m_sn,
+        kv_aufwendungen=sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m_sn,
+        av_aufwendungen=sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m_sn,
         anzahl_personen_sn=demographics__anzahl_personen_sn,
         minderung_kv_beitrag=eink_st_abzuege_params["vorsorge_kranken_minderung"],
         maximalbetrag_sonstige_aufwendungen=eink_st_abzuege_params[
@@ -114,9 +114,9 @@ def vorsorgeaufwand_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
 )
 def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeiträge__pflegeversicherung__betrag_y_sn: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__pflege__beitrag__betrag_y_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -126,12 +126,12 @@ def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
     ----------
     altersvorsorge_y_sn
         See :func:`altersvorsorge_y_sn`.
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn`.
-    sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn`.
-    sozialversicherungsbeiträge__pflegeversicherung__betrag_y_sn
-        See :func:`sozialversicherungsbeiträge__pflegeversicherung__betrag_y_sn`.
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__pflege__beitrag__betrag_y_sn
+        See :func:`sozialversicherung__pflege__beitrag__betrag_y_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -142,9 +142,9 @@ def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
 
     """
     sum_vorsorge = (
-        sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn
-        + sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_y_sn
-        + sozialversicherungsbeiträge__pflegeversicherung__betrag_y_sn
+        sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn
+        + sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_y_sn
+        + sozialversicherung__pflege__beitrag__betrag_y_sn
     )
     max_value = (
         demographics__anzahl_personen_sn
@@ -164,8 +164,8 @@ def vorsorgeaufwand_vor_günstigerprüfung_bis_2009_y_sn(  # noqa: PLR0913
 )
 def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -175,10 +175,10 @@ def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     ----------
     vorwegabzug_lohnsteuer_2004er_regime_y_sn
         See :func:`vorwegabzug_lohnsteuer_2004er_regime_y_sn`.
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn`.
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -190,8 +190,8 @@ def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     """
     return formel_2004er_regime(
         vorwegabzug_lohnsteuer=vorwegabzug_lohnsteuer_2004er_regime_y_sn,
-        krankenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn,
-        rentenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn,
+        krankenversicherung_beitrag_arbeitnehmer=sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn,
+        rentenversicherung_beitrag_arbeitnehmer=sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn,
         anzahl_personen_sn=demographics__anzahl_personen_sn,
         grundhöchstbetrag=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"],
     )
@@ -203,7 +203,7 @@ def vorsorgeaufwand_vor_günstigerprüfung_ab_2010_bis_2019_y_sn(
     leaf_name="altersvorsorge_y_sn",
 )
 def altersvorsorge_phase_in_y_sn(
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m_sn: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn: float,
     beitrag_private_rentenversicherung_m_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -215,8 +215,8 @@ def altersvorsorge_phase_in_y_sn(
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m_sn
-        See :func:`sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m_sn`.
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn
+        See :func:`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn`.
     beitrag_private_rentenversicherung_m_sn
         See :func:`beitrag_private_rentenversicherung_m_sn`.
     demographics__anzahl_personen_sn
@@ -231,11 +231,10 @@ def altersvorsorge_phase_in_y_sn(
     out = (
         eink_st_abzuege_params["einführungsfaktor_vorsorgeaufwand_alter_ab_2005"]
         * (
-            2
-            * sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m_sn
+            2 * sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn
             + beitrag_private_rentenversicherung_m_sn
         )
-        - sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m_sn
+        - sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m_sn
     ) * 12
     max_value = (
         demographics__anzahl_personen_sn
@@ -248,7 +247,7 @@ def altersvorsorge_phase_in_y_sn(
 
 @policy_function(start_date="2023-01-01", leaf_name="altersvorsorge_y_sn")
 def altersvorsorge_volle_anrechnung_y_sn(
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
     beitrag_private_rentenversicherung_y_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
@@ -257,8 +256,8 @@ def altersvorsorge_volle_anrechnung_y_sn(
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn
-        See :func:`sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn`.
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn
+        See :func:`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn`.
     beitrag_private_rentenversicherung_y_sn
         See :func:`beitrag_private_rentenversicherung_y_sn`.
     demographics__anzahl_personen_sn
@@ -271,7 +270,7 @@ def altersvorsorge_volle_anrechnung_y_sn(
 
     """
     out = (
-        sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn
+        sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn
         + beitrag_private_rentenversicherung_y_sn
     )
     max_value = (
@@ -288,15 +287,15 @@ def altersvorsorge_volle_anrechnung_y_sn(
 )
 def vorsorgeaufwand_regime_bis_2004_y_sn(
     vorwegabzug_lohnsteuer_2004er_regime_y_sn: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn: float,
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn: float,
     demographics__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     return formel_2004er_regime(
         vorwegabzug_lohnsteuer=vorwegabzug_lohnsteuer_2004er_regime_y_sn,
-        krankenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_y_sn,
-        rentenversicherung_beitrag_arbeitnehmer=sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_y_sn,
+        krankenversicherung_beitrag_arbeitnehmer=sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_y_sn,
+        rentenversicherung_beitrag_arbeitnehmer=sozialversicherung__rente__beitrag__betrag_arbeitnehmer_y_sn,
         anzahl_personen_sn=demographics__anzahl_personen_sn,
         grundhöchstbetrag=eink_st_abzuege_params["vorsorge_2004_grundhöchstbetrag"],
     )

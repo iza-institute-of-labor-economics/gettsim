@@ -39,7 +39,7 @@ inputs:
       - 1
       - 1
       - 1
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
       - false
       - false

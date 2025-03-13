@@ -62,7 +62,7 @@ inputs:
       - 0.0
     solidaritätszuschlag__betrag_y_sn:
       - 0.0
-    sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
+    sozialversicherung__betrag_arbeitnehmer_m:
       - 0.0
     kindergeld__betrag_m_eg:
       - 0.0

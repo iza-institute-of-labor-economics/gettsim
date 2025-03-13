@@ -46,7 +46,7 @@ inputs:
     solidaritätszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
+    sozialversicherung__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     wohnen__bewohnt_eigentum_hh:
@@ -103,10 +103,10 @@ inputs:
     einkommen__aus_vermietung_m:
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
       - 100.0
       - 0.0
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
       - 80.0
       - 0.0
     demographics__behinderungsgrad:

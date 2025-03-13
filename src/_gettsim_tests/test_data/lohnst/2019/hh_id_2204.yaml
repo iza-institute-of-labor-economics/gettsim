@@ -13,11 +13,11 @@ inputs:
       - 40.0
     einkommen__bruttolohn_m:
       - 6060.8425
-    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz:
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz:
       - 0.006
-    sozialversicherungsbeiträge__pflegeversicherung__zusatzbetrag_kinderlos:
+    sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
     demographics__hh_id:
       - 2204
@@ -25,7 +25,7 @@ inputs:
       - false
     demographics__p_id:
       - 2204
-    einkommensgrenzen__regulär_beschäftigt:
+    sozialversicherung__regulär_beschäftigt:
       - true
     lohnsteuer__steuerklasse:
       - 5

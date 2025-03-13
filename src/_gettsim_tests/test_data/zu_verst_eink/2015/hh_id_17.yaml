@@ -79,10 +79,10 @@ inputs:
     einkommen__ist_selbstständig:
       - false
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
       - false
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
       - false
     demographics__geburtsjahr:

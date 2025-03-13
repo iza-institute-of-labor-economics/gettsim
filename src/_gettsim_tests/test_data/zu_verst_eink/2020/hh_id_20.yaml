@@ -129,12 +129,12 @@ inputs:
       - false
       - false
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - true
       - true
       - false
       - false
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
       - false
       - false

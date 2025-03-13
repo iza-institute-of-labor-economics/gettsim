@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_vor_midijob(
-    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    sozialversicherung__geringfügig_beschäftigt: bool,
     einkommen_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -15,8 +15,8 @@ def betrag_arbeitnehmer_m_vor_midijob(
 
     Parameters
     ----------
-    einkommensgrenzen__geringfügig_beschäftigt
-        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
+    sozialversicherung__geringfügig_beschäftigt
+        See :func:`sozialversicherung__geringfügig_beschäftigt`.
     einkommen_m
         See :func:`einkommen_m`.
     sozialv_beitr_params
@@ -30,7 +30,7 @@ def betrag_arbeitnehmer_m_vor_midijob(
         einkommen_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
 
-    if einkommensgrenzen__geringfügig_beschäftigt:
+    if sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     else:
         out = ges_rentenv_beitr_regular_job_m
@@ -40,11 +40,11 @@ def betrag_arbeitnehmer_m_vor_midijob(
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitnehmer_m")
 def betrag_arbeitnehmer_m_mit_midijob(
-    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_midijob_arbeitnehmer_m: float,
     einkommen_m: float,
     sozialv_beitr_params: dict,
-    einkommensgrenzen__in_gleitzone: bool,
+    sozialversicherung__in_gleitzone: bool,
 ) -> float:
     """Employee's public pension insurance contribution.
 
@@ -52,16 +52,16 @@ def betrag_arbeitnehmer_m_mit_midijob(
 
     Parameters
     ----------
-    einkommensgrenzen__geringfügig_beschäftigt
-        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
+    sozialversicherung__geringfügig_beschäftigt
+        See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_midijob_arbeitnehmer_m
         See :func:`betrag_midijob_arbeitnehmer_m`.
     einkommen_m
         See :func:`einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    einkommensgrenzen__in_gleitzone
-        See :func:`einkommensgrenzen__in_gleitzone`.
+    sozialversicherung__in_gleitzone
+        See :func:`sozialversicherung__in_gleitzone`.
 
     Returns
     -------
@@ -71,9 +71,9 @@ def betrag_arbeitnehmer_m_mit_midijob(
         einkommen_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
 
-    if einkommensgrenzen__geringfügig_beschäftigt:
+    if sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
-    elif einkommensgrenzen__in_gleitzone:
+    elif sozialversicherung__in_gleitzone:
         out = betrag_midijob_arbeitnehmer_m
     else:
         out = ges_rentenv_beitr_regular_job_m
@@ -83,7 +83,7 @@ def betrag_arbeitnehmer_m_mit_midijob(
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_m_vor_midijob(
-    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    sozialversicherung__geringfügig_beschäftigt: bool,
     einkommen_m: float,
     sozialv_beitr_params: dict,
     einkommen__bruttolohn_m: float,
@@ -94,8 +94,8 @@ def betrag_arbeitgeber_m_vor_midijob(
 
     Parameters
     ----------
-    einkommensgrenzen__geringfügig_beschäftigt
-        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
+    sozialversicherung__geringfügig_beschäftigt
+        See :func:`sozialversicherung__geringfügig_beschäftigt`.
     einkommen_m
         See :func:`einkommen_m`.
     sozialv_beitr_params
@@ -111,7 +111,7 @@ def betrag_arbeitgeber_m_vor_midijob(
         einkommen_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
 
-    if einkommensgrenzen__geringfügig_beschäftigt:
+    if sozialversicherung__geringfügig_beschäftigt:
         out = (
             einkommen__bruttolohn_m
             * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
@@ -124,11 +124,11 @@ def betrag_arbeitgeber_m_vor_midijob(
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
-    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_midijob_arbeitgeber_m: float,
     einkommen_m: float,
     sozialv_beitr_params: dict,
-    einkommensgrenzen__in_gleitzone: bool,
+    sozialversicherung__in_gleitzone: bool,
     einkommen__bruttolohn_m: float,
 ) -> float:
     """Employer's public pension insurance contribution.
@@ -137,16 +137,16 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkommensgrenzen__geringfügig_beschäftigt
-        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
+    sozialversicherung__geringfügig_beschäftigt
+        See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_midijob_arbeitgeber_m
         See :func:`betrag_midijob_arbeitgeber_m`.
     einkommen_m
         See :func:`einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    einkommensgrenzen__in_gleitzone
-        See :func:`einkommensgrenzen__in_gleitzone`.
+    sozialversicherung__in_gleitzone
+        See :func:`sozialversicherung__in_gleitzone`.
     einkommen__bruttolohn_m
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
 
@@ -158,12 +158,12 @@ def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
         einkommen_m * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
 
-    if einkommensgrenzen__geringfügig_beschäftigt:
+    if sozialversicherung__geringfügig_beschäftigt:
         out = (
             einkommen__bruttolohn_m
             * sozialv_beitr_params["ag_abgaben_geringf"]["ges_rentenv"]
         )
-    elif einkommensgrenzen__in_gleitzone:
+    elif sozialversicherung__in_gleitzone:
         out = betrag_midijob_arbeitgeber_m
     else:
         out = ges_rentenv_beitr_regular_job_m
@@ -218,7 +218,7 @@ def beitragsbemessungsgrenze_m(
 
 @policy_function(start_date="2003-04-01")
 def betrag_midijob_gesamt_m(
-    einkommensgrenzen__midijob_bemessungsentgelt_m: float,
+    sozialversicherung__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Sum of employer and employee pension insurance contribution for midijobs.
@@ -226,8 +226,8 @@ def betrag_midijob_gesamt_m(
 
     Parameters
     ----------
-    einkommensgrenzen__midijob_bemessungsentgelt_m
-        See :func:`einkommensgrenzen__midijob_bemessungsentgelt_m`.
+    sozialversicherung__midijob_bemessungsentgelt_m
+        See :func:`sozialversicherung__midijob_bemessungsentgelt_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -236,7 +236,7 @@ def betrag_midijob_gesamt_m(
 
     """
     return (
-        einkommensgrenzen__midijob_bemessungsentgelt_m
+        sozialversicherung__midijob_bemessungsentgelt_m
         * 2
         * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )
@@ -313,15 +313,15 @@ def betrag_midijob_arbeitnehmer_m_residuum(
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_midijob_arbeitnehmer_m")
 def betrag_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
-    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m: float,
+    sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employee's unemployment insurance contribution for midijobs since October 2022.
 
     Parameters
     ----------
-    einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
-        See :func:`einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m`.
+    sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m
+        See :func:`sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -330,6 +330,6 @@ def betrag_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
 
     """
     return (
-        einkommensgrenzen__beitragspflichtige_einnahmen_arbeitnehmer_m
+        sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m
         * sozialv_beitr_params["beitr_satz"]["ges_rentenv"]
     )

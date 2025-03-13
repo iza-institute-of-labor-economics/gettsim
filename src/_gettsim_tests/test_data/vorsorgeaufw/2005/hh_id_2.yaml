@@ -25,19 +25,19 @@ inputs:
     einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
       - 334.0
       - 0.0
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
       - 500.0
       - 0.0
-    sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     jahr:
       - 2005
       - 2005
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
   assumed: {}

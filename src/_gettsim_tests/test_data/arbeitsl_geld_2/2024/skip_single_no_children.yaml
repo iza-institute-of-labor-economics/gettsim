@@ -78,15 +78,15 @@ inputs:
       - 20.0
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     einkommen__ist_selbstständig:
       - false
     demographics__wohnort_ost:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__anzahl_kinder_bis_24:
+    sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
       - 0
   assumed: {}
 outputs:

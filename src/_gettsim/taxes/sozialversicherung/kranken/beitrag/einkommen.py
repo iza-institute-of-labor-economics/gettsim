@@ -6,7 +6,7 @@ from _gettsim.function_types import policy_function
 @policy_function()
 def einkommen_m(
     einkommen_regulär_beschäftigt_m: float,
-    einkommensgrenzen__regulär_beschäftigt: bool,
+    sozialversicherung__regulär_beschäftigt: bool,
 ) -> float:
     """Wage subject to public health insurance contributions.
 
@@ -17,8 +17,8 @@ def einkommen_m(
     ----------
     einkommen__bruttolohn_m
         See :func:`einkommen__bruttolohn_m`.
-    einkommensgrenzen__regulär_beschäftigt
-        See :func:`einkommensgrenzen__regulär_beschäftigt`.
+    sozialversicherung__regulär_beschäftigt
+        See :func:`sozialversicherung__regulär_beschäftigt`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -27,7 +27,7 @@ def einkommen_m(
     -------
 
     """
-    if einkommensgrenzen__regulär_beschäftigt:
+    if sozialversicherung__regulär_beschäftigt:
         out = einkommen_regulär_beschäftigt_m
     else:
         out = 0.0

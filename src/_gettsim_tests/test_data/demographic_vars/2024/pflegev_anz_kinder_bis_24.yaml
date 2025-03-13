@@ -38,7 +38,7 @@ inputs:
       - false
       - true
 outputs:
-  sozialversicherungsbeiträge__pflegeversicherung__anzahl_kinder_bis_24:
+  sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
     - 2
     - 1
     - 0

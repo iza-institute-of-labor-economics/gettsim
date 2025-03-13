@@ -49,7 +49,7 @@ inputs:
     elterngeld__nettoeinkommen_vorjahr_m:
       - 1500.0
       - 0.0
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - true
       - false
     demographics__kind:

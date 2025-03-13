@@ -34,11 +34,11 @@ inputs:
       - false
     demographics__wohnort_ost:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
     einkommen__aus_selbstständigkeit_m:
       - 0.0
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
       - 0.0

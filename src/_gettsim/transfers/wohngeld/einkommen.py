@@ -91,8 +91,8 @@ def einkommen_m_bg(
 @policy_function()
 def abzüge_steuern_sozialversicherung_m(
     einkommensteuer__betrag_y_sn: float,
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m: float,
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m: float,
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m: float,
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m: float,
     demographics__kind: bool,
     wohngeld_params: dict,
 ) -> float:
@@ -106,12 +106,12 @@ def abzüge_steuern_sozialversicherung_m(
     einkommensteuer__betrag_y_sn
         See :func:
         `einkommensteuer__betrag_y_sn`.
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m
         See :func:
-        `sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m`.
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m
+        `sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m`.
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m
         See :func:
-        `sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m`.
+        `sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m`.
     demographics__kind
         See basic input variable :ref:`demographics__kind <demographics__kind>`.
     wohngeld_params
@@ -123,8 +123,8 @@ def abzüge_steuern_sozialversicherung_m(
     """
     abzug_stufen = (
         (einkommensteuer__betrag_y_sn > 0)
-        + (sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m > 0)
-        + (sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m > 0)
+        + (sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m > 0)
+        + (sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m > 0)
     )
     if demographics__kind:
         out = 0.0

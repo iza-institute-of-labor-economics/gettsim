@@ -16,29 +16,29 @@ inputs:
       - 25
     einkommen__ist_selbstständig:
       - false
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - true
     einkommen__aus_selbstständigkeit_m:
       - 0.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     jahr:
       - '2018'
   assumed: {}
 outputs:
-  sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
+  sozialversicherung__betrag_arbeitnehmer_m:
     - 305.625
-  sozialversicherungsbeiträge__betrag_arbeitgeber_m:
+  sozialversicherung__betrag_arbeitgeber_m:
     - 290.63
-  sozialversicherungsbeiträge__betrag_gesamt_m:
+  sozialversicherung__beitrag_gesamt_m:
     - 596.26
-  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
     - 139.5
-  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
     - 22.5
-  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
     - 124.5
-  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
     - 19.125

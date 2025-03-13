@@ -74,7 +74,7 @@ inputs:
       - 1
       - 3
       - 9
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - true
       - true
       - false

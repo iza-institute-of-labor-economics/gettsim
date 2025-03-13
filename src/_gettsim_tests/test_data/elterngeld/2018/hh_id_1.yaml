@@ -18,7 +18,7 @@ inputs:
       - -1
     lohnsteuer__steuerklasse:
       - 1
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - true
     demographics__alter:
       - 43

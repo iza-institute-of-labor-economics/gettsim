@@ -116,7 +116,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
+    sozialversicherung__betrag_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -332,7 +332,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
       - 50.0
       - 50.0
       - 50.0
@@ -340,7 +340,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
       - 50.0
       - 50.0
       - 50.0

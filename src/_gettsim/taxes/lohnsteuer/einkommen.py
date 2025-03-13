@@ -60,10 +60,10 @@ def einkommen_y(
     leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2015_bis_2018(
-    sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
-    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y: float,
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz: float,
     sozialv_beitr_params: dict,
-    sozialversicherungsbeiträge__pflegeversicherung__beitragssatz: float,
+    sozialversicherung__pflege__beitrag__beitragssatz: float,
 ) -> float:
     """For health care deductions, there are two ways to calculate
     the deductions: "Option a" and "Option b".
@@ -72,12 +72,12 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y:
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y`.
-    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
-    sozialversicherungsbeiträge__pflegeversicherung__beitragssatz:
-        See :func:`sozialversicherungsbeiträge__pflegeversicherung__beitragssatz`.
+    sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y:
+        See :func:`sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y`.
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
+        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz`.
+    sozialversicherung__pflege__beitrag__beitragssatz:
+        See :func:`sozialversicherung__pflege__beitrag__beitragssatz`.
 
 
     Returns
@@ -86,13 +86,10 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
 
     """
 
-    out = (
-        sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y
-        * (
-            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz
-            + sozialversicherungsbeiträge__pflegeversicherung__beitragssatz
-        )
+    out = sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
+        + sozialversicherung__pflege__beitrag__beitragssatz
     )
 
     return out
@@ -103,9 +100,9 @@ def vorsorge_krankenv_option_b_ab_2015_bis_2018(
     leaf_name="vorsorge_krankenv_option_b",
 )
 def vorsorge_krankenv_option_b_ab_2019(
-    sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
-    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz: float,
-    sozialversicherungsbeiträge__pflegeversicherung__beitragssatz: float,
+    sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y: float,
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz: float,
+    sozialversicherung__pflege__beitrag__beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """For health care deductions, there are two ways to calculate
@@ -115,12 +112,12 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y:
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y`.
-    sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz`.
-    sozialversicherungsbeiträge__pflegeversicherung__beitragssatz:
-        See :func:`sozialversicherungsbeiträge__pflegeversicherung__beitragssatz`.
+    sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y:
+        See :func:`sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y`.
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz
+        See :func:`sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz`.
+    sozialversicherung__pflege__beitrag__beitragssatz:
+        See :func:`sozialversicherung__pflege__beitrag__beitragssatz`.
     sozialv_beitr_params:
         See params documentation :ref:`sozialv_beitr_params`
 
@@ -131,14 +128,10 @@ def vorsorge_krankenv_option_b_ab_2019(
 
     """
 
-    out = (
-        sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y
-        * (
-            sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
-            + sozialversicherungsbeiträge__krankenversicherung__beitragssatz__zusatzbeitrag_satz
-            / 2
-            + sozialversicherungsbeiträge__pflegeversicherung__beitragssatz
-        )
+    out = sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y * (
+        sozialv_beitr_params["beitr_satz"]["ges_krankenv"]["ermäßigt"] / 2
+        + sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitrag_satz / 2
+        + sozialversicherung__pflege__beitrag__beitragssatz
     )
 
     return out
@@ -146,7 +139,7 @@ def vorsorge_krankenv_option_b_ab_2019(
 
 @policy_function()
 def vorsorge_krankenv_option_a(
-    sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y: float,
+    sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -157,8 +150,8 @@ def vorsorge_krankenv_option_a(
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__krankenversicherung__betrag_regulär_beschäftigt_m:
-        See :func:`sozialversicherungsbeiträge__krankenversicherung__betrag_regulär_beschäftigt_m`
+    sozialversicherung__kranken__beitrag__betrag_regulär_beschäftigt_m:
+        See :func:`sozialversicherung__kranken__beitrag__betrag_regulär_beschäftigt_m`
     steuerklasse:
         See basic input variable :ref:`steuerklasse <steuerklasse>`.
     eink_st_abzuege_params:
@@ -173,7 +166,7 @@ def vorsorge_krankenv_option_a(
 
     vorsorge_krankenv_option_a_basis = (
         eink_st_abzuege_params["vorsorgepauschale_mindestanteil"]
-        * sozialversicherungsbeiträge__krankenversicherung__einkommen_regulär_beschäftigt_y
+        * sozialversicherung__kranken__beitrag__einkommen_regulär_beschäftigt_y
     )
 
     if steuerklasse == 3:

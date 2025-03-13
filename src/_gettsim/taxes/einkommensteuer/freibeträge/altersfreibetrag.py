@@ -57,7 +57,7 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
 @policy_function(start_date="2005-01-01", leaf_name="altersfreibetrag_y")
 def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
-    einkommensgrenzen__geringfügig_beschäftigt: bool,
+    sozialversicherung__geringfügig_beschäftigt: bool,
     demographics__alter: int,
     demographics__geburtsjahr: int,
     einkommen__bruttokapitaleinkommen_m: float,
@@ -83,8 +83,8 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
         See basic input variable :ref:`einkommen__aus_vermietung_m <einkommen__aus_vermietung_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    einkommensgrenzen__geringfügig_beschäftigt
-        See :func:`einkommensgrenzen__geringfügig_beschäftigt`.
+    sozialversicherung__geringfügig_beschäftigt
+        See :func:`sozialversicherung__geringfügig_beschäftigt`.
 
     Returns
     -------
@@ -107,7 +107,7 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     out_max = eink_st_abzuege_params["altersentlastungsbetrag_max"][selected_bin]
 
     einkommen_lohn = (
-        0 if einkommensgrenzen__geringfügig_beschäftigt else einkommen__bruttolohn_m
+        0 if sozialversicherung__geringfügig_beschäftigt else einkommen__bruttolohn_m
     )
     weiteres_einkommen = max(
         einkommen__bruttokapitaleinkommen_m

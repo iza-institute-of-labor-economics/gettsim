@@ -149,7 +149,7 @@ def test_10_dots_plot_dag():
     graph example doesn't produce an error and hover information works properly."""
     selector = {
         "type": "descendants",
-        "node": "einkommensgrenzen__geringfügig_beschäftigt",
+        "node": "sozialversicherung__geringfügig_beschäftigt",
     }
     plot_dag(environment=environment, selectors=selector, orientation="h")
 

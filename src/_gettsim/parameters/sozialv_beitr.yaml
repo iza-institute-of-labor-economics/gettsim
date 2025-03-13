@@ -910,7 +910,7 @@ rounding:
       base: 0.0001
       direction: nearest
       reference: null
-  einkommensgrenzen__minijob_grenze:
+  sozialversicherung__minijob_grenze:
     1990-01-01:
       base: 1
       direction: up

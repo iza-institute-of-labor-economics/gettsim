@@ -16,29 +16,29 @@ inputs:
       - 20
     einkommen__ist_selbstständig:
       - true
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
     einkommen__aus_selbstständigkeit_m:
       - 500.0
     rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
-    sozialversicherungsbeiträge__krankenversicherung__privat_versichert:
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     jahr:
       - '2002'
   assumed: {}
 outputs:
-  sozialversicherungsbeiträge__betrag_arbeitnehmer_m:
+  sozialversicherung__betrag_arbeitnehmer_m:
     - 122.72
-  sozialversicherungsbeiträge__betrag_arbeitgeber_m:
+  sozialversicherung__betrag_arbeitgeber_m:
     - 0.0
-  sozialversicherungsbeiträge__betrag_gesamt_m:
+  sozialversicherung__beitrag_gesamt_m:
     - 122.72
-  sozialversicherungsbeiträge__rentenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
     - 0.0
-  sozialversicherungsbeiträge__arbeitslosenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
     - 0.0
-  sozialversicherungsbeiträge__krankenversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
     - 109.43
-  sozialversicherungsbeiträge__pflegeversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
     - 13.29

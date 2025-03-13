@@ -8,10 +8,10 @@ inputs:
       - 0
     demographics__p_id:
       - 0
-    sozialversicherungsbeiträge__pflegeversicherung__hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
 outputs:
-  einkommensgrenzen__minijob_grenze:
+  sozialversicherung__minijob_grenze:
     - 450.0
 # TODO(@MImmesberger): Unskip test when issue is resolved
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666

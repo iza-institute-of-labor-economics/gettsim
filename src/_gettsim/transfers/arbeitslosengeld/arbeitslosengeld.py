@@ -167,7 +167,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 
 @policy_function()
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
-    sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m: float,
+    sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m: float,
     einkommen__bruttolohn_vorjahr_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
@@ -178,9 +178,9 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m
+    sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m
         See :func:
-        `sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m`.
+        `sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m`.
     einkommen__bruttolohn_vorjahr_m
         See basic input variable :ref:`einkommen__bruttolohn_vorjahr_m <einkommen__bruttolohn_vorjahr_m>`.
     arbeitsl_geld_params
@@ -199,7 +199,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(
         einkommen__bruttolohn_vorjahr_m,
-        sozialversicherungsbeiträge__rentenversicherung__beitragsbemessungsgrenze_m,
+        sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m,
     )
 
     # We need to deduct lump-sum amounts for contributions, taxes and soli
