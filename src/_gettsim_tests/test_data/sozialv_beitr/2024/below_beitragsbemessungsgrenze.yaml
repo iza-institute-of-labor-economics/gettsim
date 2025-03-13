@@ -23,15 +23,15 @@ inputs:
       - 2
     einkommen__aus_selbstständigkeit_m:
       - 0.0
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
   assumed: {}
 outputs:
-  sozialversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__beitrag_arbeitnehmer_m:
     - 606.0
-  sozialversicherung__betrag_arbeitgeber_m:
+  sozialversicherung__beitrag_arbeitgeber_m:
     - 613.5
   sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
     - 279.00

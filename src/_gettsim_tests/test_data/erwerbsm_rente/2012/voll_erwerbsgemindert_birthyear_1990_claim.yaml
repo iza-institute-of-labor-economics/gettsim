@@ -4,20 +4,20 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    rente__erwerbsminderung__entgeltpunkte_ost:
+    sozialversicherung__rente__erwerbsminderung__entgeltpunkte_ost:
       - 23.64179104
-    rente__erwerbsminderung__entgeltpunkte_west:
+    sozialversicherung__rente__erwerbsminderung__entgeltpunkte_west:
       - 0.0
-    rente__erwerbsminderung__zugangsfaktor:
+    sozialversicherung__rente__erwerbsminderung__zugangsfaktor:
       - 0.892
-    rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
+    sozialversicherung__rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
       - true
-    rente__erwerbsminderung__rentenartfaktor:
+    sozialversicherung__rente__erwerbsminderung__rentenartfaktor:
       - 1.0
     demographics__p_id:
       - 19
     demographics__wohnort_ost:
       - true
 outputs:
-  rente__erwerbsminderung__betrag_m:
+  sozialversicherung__rente__erwerbsminderung__betrag_m:
     - 513.9261994

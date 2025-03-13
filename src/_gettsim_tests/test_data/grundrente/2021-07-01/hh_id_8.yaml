@@ -11,13 +11,13 @@ inputs:
       - 8
     demographics__p_id_ehepartner:
       - -1
-    rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 480
-    rente__grundrente__bewertungszeiten_m:
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 300
     demographics__wohnort_ost:
       - false
-    rente__grundrente__proxy_rente_vorjahr_m:
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
     einkommen__bruttolohn_vorjahr_m:
       - 2400.0
@@ -35,27 +35,27 @@ inputs:
       - 1951
     einkommen__bruttolohn_m:
       - 0.0
-    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+    sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__altersrente__entgeltpunkte_west:
       - 19.2
-    rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
       - 0.0
-    rente__altersrente__zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - true
-    rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__entgeltpunkte:
       - 15.0
     demographics__kind:
       - false
   assumed: {}
 outputs:
-  rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
     - 0.014583333
-  rente__grundrente__basisbetrag_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     - 149.72
-  rente__grundrente__betrag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     - 0.0
-  rente__altersrente__betrag_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 656.0

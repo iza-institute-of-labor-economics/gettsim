@@ -20,7 +20,7 @@ inputs:
       - false
     einkommen__aus_selbstständigkeit_m:
       - 1000.0
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
@@ -28,9 +28,9 @@ inputs:
       - '2019'
   assumed: {}
 outputs:
-  sozialversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__beitrag_arbeitnehmer_m:
     - 186.3808333
-  sozialversicherung__betrag_arbeitgeber_m:
+  sozialversicherung__beitrag_arbeitgeber_m:
     - 0.0
   sozialversicherung__beitrag_gesamt_m:
     - 186.3808333

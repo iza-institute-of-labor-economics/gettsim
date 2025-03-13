@@ -55,13 +55,13 @@ inputs:
     einkommen__bruttokapitaleinkommen_m:
       - 0.0
       - 0.0
-    rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 240
       - 240
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - true
       - true
-    rente__altersrente__schwerbehindert_grad_g:
+    sozialversicherung__rente__altersrente__schwerbehindert_grad_g:
       - false
       - false
     demographics__vermögen_eg:
@@ -73,7 +73,7 @@ inputs:
     wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    arbeitslosengeld__betrag_m:
+    sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
       - 0.0
     einkommen__sonstige_m:
@@ -91,7 +91,7 @@ inputs:
     solidaritätszuschlag__betrag_y_sn:
       - 0.0
       - 0.0
-    sozialversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__beitrag_arbeitnehmer_m:
       - 0.0
       - 0.0
     kindergeld__betrag_m_eg:
@@ -106,10 +106,10 @@ inputs:
     elterngeld__betrag_m:
       - 0.0
       - 0.0
-    rente__private_rente_m:
+    sozialversicherung__rente__private_rente_m:
       - 0.0
       - 0.0
-    rente__altersrente__betrag_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 350.0
       - 590.0
     demographics__geburtstag:

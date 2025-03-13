@@ -34,7 +34,7 @@ inputs:
     kindergeld__in_ausbildung:
       - false
       - false
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - false
       - false
     demographics__alleinerziehend:
@@ -70,7 +70,7 @@ inputs:
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
       - 1000.0
       - 0.0
-    rente__altersrente__betrag_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
     arbeitslosengeld_2__anspruchshöhe_m_bg:

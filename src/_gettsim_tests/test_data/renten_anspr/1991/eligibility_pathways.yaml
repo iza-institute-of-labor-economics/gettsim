@@ -73,7 +73,7 @@ inputs:
       - 1952
       - 1952
       - 1952
-    rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
       - 0.0
       - 60.0
       - 0.0
@@ -90,7 +90,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
       - 0.0
       - 60.0
@@ -107,7 +107,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__altersrente__ersatzzeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -124,7 +124,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__anrechnungszeit:
+    sozialversicherung__rente__altersrente__anrechnungszeit:
       - 0.0
       - 0.0
       - 0.0
@@ -141,7 +141,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -158,7 +158,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -175,7 +175,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 0.0
       - 0.0
       - 0.0
@@ -192,7 +192,7 @@ inputs:
       - 10.01
       - 10.01
       - 10.01
-    rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585:
       - true
       - false
       - true
@@ -209,7 +209,7 @@ inputs:
       - true
       - true
       - true
-    rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10:
       - false
       - true
       - false
@@ -227,7 +227,7 @@ inputs:
       - true
       - true
 outputs:
-  rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
     - false
     - true
     - true
@@ -244,7 +244,7 @@ outputs:
     - true
     - true
     - true
-  rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -261,7 +261,7 @@ outputs:
     - true
     - true
     - true
-  rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -278,7 +278,7 @@ outputs:
     - true
     - true
     - true
-  rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false

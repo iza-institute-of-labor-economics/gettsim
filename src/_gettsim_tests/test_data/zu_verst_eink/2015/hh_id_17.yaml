@@ -43,10 +43,10 @@ inputs:
     einkommen__aus_vermietung_m:
       - 0.0
       - 0.0
-    rente__jahr_renteneintritt:
+    sozialversicherung__rente__jahr_renteneintritt:
       - 2040
       - 2040
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
     demographics__arbeitsstunden_w:

@@ -103,13 +103,15 @@ def kapitaleinkünfte_y(
 
 
 @policy_function()
-def rente_ertragsanteil(rente__jahr_renteneintritt: int, eink_st_params: dict) -> float:
+def rente_ertragsanteil(
+    sozialversicherung__rente__jahr_renteneintritt: int, eink_st_params: dict
+) -> float:
     """Share of pensions subject to income taxation.
 
     Parameters
     ----------
-    rente__jahr_renteneintritt
-            See basic input variable :ref:`rente__jahr_renteneintritt <rente__jahr_renteneintritt>`.
+    sozialversicherung__rente__jahr_renteneintritt
+            See basic input variable :ref:`sozialversicherung__rente__jahr_renteneintritt <sozialversicherung__rente__jahr_renteneintritt>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
     Returns
@@ -117,7 +119,7 @@ def rente_ertragsanteil(rente__jahr_renteneintritt: int, eink_st_params: dict) -
 
     """
     out = piecewise_polynomial(
-        x=rente__jahr_renteneintritt,
+        x=sozialversicherung__rente__jahr_renteneintritt,
         thresholds=eink_st_params["rente_ertragsanteil"]["thresholds"],
         rates=eink_st_params["rente_ertragsanteil"]["rates"],
         intercepts_at_lower_thresholds=eink_st_params["rente_ertragsanteil"][
@@ -184,14 +186,15 @@ def einkünfte_aus_abhängiger_beschäftigung_y(
 
 @policy_function()
 def renteneinkünfte_m(
-    rente__altersrente__sum_private_gesetzl_rente_m: float, rente_ertragsanteil: float
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m: float,
+    rente_ertragsanteil: float,
 ) -> float:
     """Calculate monthly pension payment subject to taxation.
 
     Parameters
     ----------
-    rente__altersrente__sum_private_gesetzl_rente_m
-        See :func:`rente__altersrente__sum_private_gesetzl_rente_m`.
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
+        See :func:`sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m`.
     rente_ertragsanteil
         See :func:`rente_ertragsanteil`.
 
@@ -199,4 +202,7 @@ def renteneinkünfte_m(
     -------
 
     """
-    return rente_ertragsanteil * rente__altersrente__sum_private_gesetzl_rente_m
+    return (
+        rente_ertragsanteil
+        * sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m
+    )

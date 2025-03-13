@@ -15,7 +15,7 @@ OUT_COLS = [
     "sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m",
     "sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m",
     "sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m",
-    "arbeitslosengeld__betrag_m",
+    "sozialversicherung__arbeitslosen__betrag_m",
     "kindergeld__betrag_m",
     "arbeitslosengeld_2__betrag_m_bg",
     "kinderzuschlag__betrag_m_bg",

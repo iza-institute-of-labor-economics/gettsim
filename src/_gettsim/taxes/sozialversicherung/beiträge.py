@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function()
-def betrag_arbeitnehmer_m(
+def beitrag_arbeitnehmer_m(
     sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m: float,
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m: float,
@@ -37,7 +37,7 @@ def betrag_arbeitnehmer_m(
 
 
 @policy_function()
-def betrag_arbeitgeber_m(
+def beitrag_arbeitgeber_m(
     sozialversicherung__pflege__beitrag__betrag_arbeitgeber_m: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitgeber_m: float,
     sozialversicherung__rente__beitrag__betrag_arbeitgeber_m: float,

@@ -15,7 +15,7 @@ def betrag_m(bruttorente_m: float, rentner: bool) -> float:
 )
 def betrag_mit_grundrente_m(
     bruttorente_m: float,
-    rente__grundrente__betrag_m: float,
+    sozialversicherung__rente__grundrente__betrag_m: float,
     rentner: bool,
 ) -> float:
     """Calculate total individual public pension including Grundrentenzuschlag.
@@ -24,8 +24,8 @@ def betrag_mit_grundrente_m(
     ----------
     bruttorente_m
         See :func:`bruttorente_m`.
-    rente__grundrente__betrag_m
-        See :func:`rente__grundrente__betrag_m`.
+    sozialversicherung__rente__grundrente__betrag_m
+        See :func:`sozialversicherung__rente__grundrente__betrag_m`.
     rentner
         See basic input variable :ref:`rentner <rentner>`.
 
@@ -33,20 +33,24 @@ def betrag_mit_grundrente_m(
     -------
 
     """
-    out = bruttorente_m + rente__grundrente__betrag_m if rentner else 0.0
+    out = (
+        bruttorente_m + sozialversicherung__rente__grundrente__betrag_m
+        if rentner
+        else 0.0
+    )
     return out
 
 
 @policy_function()
 def sum_private_gesetzl_rente_m(
-    rente__private_rente_m: float, betrag_m: float
+    sozialversicherung__rente__private_rente_m: float, betrag_m: float
 ) -> float:
     """Calculate total individual pension as sum of private and public pension.
 
     Parameters
     ----------
-    rente__private_rente_m
-        See basic input variable :ref:`rente__private_rente_m <rente__private_rente_m>`.
+    sozialversicherung__rente__private_rente_m
+        See basic input variable :ref:`sozialversicherung__rente__private_rente_m <sozialversicherung__rente__private_rente_m>`.
     betrag_m
         See :func:`betrag_m`.
 
@@ -54,7 +58,7 @@ def sum_private_gesetzl_rente_m(
     -------
 
     """
-    out = rente__private_rente_m + betrag_m
+    out = sozialversicherung__rente__private_rente_m + betrag_m
     return out
 
 
@@ -65,7 +69,7 @@ def sum_private_gesetzl_rente_m(
 )
 def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     demographics__alter: int,
-    rente__altersrente__regelaltersrente__altersgrenze: float,
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     einkommen__bruttolohn_y: float,
     bruttorente_basisbetrag_m: float,
     ges_rente_params: dict,
@@ -78,8 +82,8 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     ----------
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    rente__altersrente__regelaltersrente__altersgrenze
-        See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+        See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
     einkommen__bruttolohn_y
         See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     bruttorente_basisbetrag_m
@@ -93,9 +97,10 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     """
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
-    if (demographics__alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
-        einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
-    ):
+    if (
+        demographics__alter
+        >= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+    ) or (einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]):
         out = bruttorente_basisbetrag_m
     else:
         out = 0.0
@@ -111,7 +116,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
 )
 def bruttorente_mit_hinzuverdienstdeckel_m(
     demographics__alter: int,
-    rente__altersrente__regelaltersrente__altersgrenze: float,
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     einkommen__bruttolohn_y: float,
     differenz_bruttolohn_hinzuverdienstdeckel_m: float,
     zahlbetrag_ohne_deckel_m: float,
@@ -125,8 +130,8 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     ----------
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    rente__altersrente__regelaltersrente__altersgrenze
-        See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+        See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
     einkommen__bruttolohn_y
         See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     differenz_bruttolohn_hinzuverdienstdeckel_m
@@ -142,7 +147,8 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     if (
         differenz_bruttolohn_hinzuverdienstdeckel_m > 0
-        and demographics__alter <= rente__altersrente__regelaltersrente__altersgrenze
+        and demographics__alter
+        <= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
         and einkommen__bruttolohn_y > 0
     ):
         out = max(
@@ -162,7 +168,7 @@ def bruttorente_mit_hinzuverdienstdeckel_m(
 def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     einkommen__bruttolohn_y: float,
     demographics__alter: int,
-    rente__altersrente__regelaltersrente__altersgrenze: float,
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     bruttorente_basisbetrag_m: float,
     differenz_bruttolohn_hinzuverdienstgrenze_m: float,
     ges_rente_params: dict,
@@ -176,8 +182,8 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
         See basic input variable :ref:`einkommen__bruttolohn_y <einkommen__bruttolohn_y>`.
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    rente__altersrente__regelaltersrente__altersgrenze
-        See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+        See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
     differenz_bruttolohn_hinzuverdienstgrenze_m
@@ -192,9 +198,10 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     # TODO (@MImmesberger): Use age with monthly precision.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/781
     # No deduction because of age or low earnings
-    if (demographics__alter >= rente__altersrente__regelaltersrente__altersgrenze) or (
-        einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]
-    ):
+    if (
+        demographics__alter
+        >= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+    ) or (einkommen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]):
         out = bruttorente_basisbetrag_m
     # Basis deduction of 40%
     else:
@@ -359,13 +366,13 @@ def rentenwert(demographics__wohnort_ost: bool, ges_rente_params: dict) -> float
 
 @policy_function()
 def zugangsfaktor(  # noqa: PLR0913
-    rente__alter_bei_renteneintritt: float,
-    rente__altersrente__regelaltersrente__altersgrenze: float,
+    sozialversicherung__rente__alter_bei_renteneintritt: float,
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     referenzalter_abschlag: float,
     altersgrenze_abschlagsfrei: float,
     altersgrenze_vorzeitig: float,
     vorzeitig_grundsätzlich_anspruchsberechtigt: bool,
-    rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt: bool,
+    sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
 ) -> float:
     """Zugangsfaktor (pension adjustment factor).
@@ -389,14 +396,14 @@ def zugangsfaktor(  # noqa: PLR0913
     Returns 0 of the person is not eligible for receiving pension benefits because
     either i) the person is younger than the earliest possible retirement age or ii) the
     person is not eligible for pension benefits because
-    `rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt` is False.
+    `sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt` is False.
 
     Parameters
     ----------
-    rente__alter_bei_renteneintritt
-        See :func:`rente__alter_bei_renteneintritt`.
-    rente__altersrente__regelaltersrente__altersgrenze
-        See :func:`rente__altersrente__regelaltersrente__altersgrenze`.
+    sozialversicherung__rente__alter_bei_renteneintritt
+        See :func:`sozialversicherung__rente__alter_bei_renteneintritt`.
+    sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
+        See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
     referenzalter_abschlag
         See :func:`referenzalter_abschlag`.
     altersgrenze_abschlagsfrei
@@ -405,8 +412,8 @@ def zugangsfaktor(  # noqa: PLR0913
         See :func:`altersgrenze_vorzeitig`.
     vorzeitig_grundsätzlich_anspruchsberechtigt
         See :func:`vorzeitig_grundsätzlich_anspruchsberechtigt`.
-    rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt
-        See :func:`rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt`.
+    sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt
+        See :func:`sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -416,11 +423,15 @@ def zugangsfaktor(  # noqa: PLR0913
 
     """
 
-    if rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
+    if sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
         # Early retirement (before full retirement age): Zugangsfaktor < 1
-        if rente__alter_bei_renteneintritt < altersgrenze_abschlagsfrei:  # [ERA,FRA)
+        if (
+            sozialversicherung__rente__alter_bei_renteneintritt
+            < altersgrenze_abschlagsfrei
+        ):  # [ERA,FRA)
             if vorzeitig_grundsätzlich_anspruchsberechtigt and (
-                rente__alter_bei_renteneintritt >= altersgrenze_vorzeitig
+                sozialversicherung__rente__alter_bei_renteneintritt
+                >= altersgrenze_vorzeitig
             ):
                 # Calc difference to FRA of pensions with early retirement options
                 # (Altersgrenze langjährig Versicherte, Altersrente für Frauen
@@ -428,7 +439,10 @@ def zugangsfaktor(  # noqa: PLR0913
                 # checks whether older than possible era
                 out = (
                     1
-                    + (rente__alter_bei_renteneintritt - referenzalter_abschlag)
+                    + (
+                        sozialversicherung__rente__alter_bei_renteneintritt
+                        - referenzalter_abschlag
+                    )
                     * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                         "vorzeitiger_renteneintritt"
                     ]
@@ -440,14 +454,14 @@ def zugangsfaktor(  # noqa: PLR0913
         # Late retirement (after normal retirement age/Regelaltersgrenze):
         # Zugangsfaktor > 1
         elif (
-            rente__alter_bei_renteneintritt
-            > rente__altersrente__regelaltersrente__altersgrenze
+            sozialversicherung__rente__alter_bei_renteneintritt
+            > sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
         ):
             out = (
                 1
                 + (
-                    rente__alter_bei_renteneintritt
-                    - rente__altersrente__regelaltersrente__altersgrenze
+                    sozialversicherung__rente__alter_bei_renteneintritt
+                    - sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
                 )
                 * ges_rente_params["zugangsfaktor_veränderung_pro_jahr"][
                     "späterer_renteneintritt"
@@ -459,7 +473,7 @@ def zugangsfaktor(  # noqa: PLR0913
             out = 1.0
 
     # Claiming pension is not possible if
-    # rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt is
+    # sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt is
     # 'False'. Return 0 in this case. Then, the pension payment is 0 as well.
     else:
         out = 0.0

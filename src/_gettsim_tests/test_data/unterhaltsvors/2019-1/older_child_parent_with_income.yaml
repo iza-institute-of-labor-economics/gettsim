@@ -56,11 +56,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    arbeitslosengeld__betrag_m:
+    sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
       - 0.0
       - 0.0
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
       - 0.0

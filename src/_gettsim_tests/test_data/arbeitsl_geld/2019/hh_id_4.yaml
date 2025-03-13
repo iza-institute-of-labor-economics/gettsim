@@ -1,9 +1,10 @@
 ---
 info:
   note: >-
-    old test data - arbeitslosengeld__anwartschaftszeit, arbeitslosengeld__arbeitssuchend,
-    arbeitslosengeld__monate_durchgängiger_alg1_bezug and
-    arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig were added manually
+    old test data - sozialversicherung__arbeitslosen__anwartschaftszeit, sozialversicherung__arbeitslosen__arbeitssuchend,
+    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug and
+    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig were added
+    manually
   source: none
 inputs:
   provided:
@@ -41,22 +42,22 @@ inputs:
       - 2019
       - 2019
   assumed:
-    arbeitslosengeld__anwartschaftszeit:
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
       - true
       - false
-    arbeitslosengeld__arbeitssuchend:
+    sozialversicherung__arbeitslosen__arbeitssuchend:
       - true
       - false
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - true
-    arbeitslosengeld__monate_durchgängiger_alg1_bezug:
+    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug:
       - 0.0
       - 0.0
-    arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig:
+    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig:
       - 12.0
       - 0.0
 outputs:
-  arbeitslosengeld__betrag_m:
+  sozialversicherung__arbeitslosen__betrag_m:
     - 0.0
     - 0.0

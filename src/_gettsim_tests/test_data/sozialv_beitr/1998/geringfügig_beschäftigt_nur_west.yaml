@@ -28,7 +28,7 @@ inputs:
     einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
@@ -42,10 +42,10 @@ outputs:
   sozialversicherung__geringfügig_beschäftigt:
     - true
     - false
-  sozialversicherung__betrag_arbeitnehmer_m:
+  sozialversicherung__beitrag_arbeitnehmer_m:
     - 0.0
     - 63.15
-  sozialversicherung__betrag_arbeitgeber_m:
+  sozialversicherung__beitrag_arbeitgeber_m:
     - 0.0
     - 63.15
   sozialversicherung__beitrag_gesamt_m:

@@ -44,7 +44,7 @@ inputs:
       - false
       - false
       - false
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - false
       - false
       - false
@@ -104,7 +104,7 @@ inputs:
       - false
       - false
       - false
-    rente__altersrente__betrag_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
       - 0.0

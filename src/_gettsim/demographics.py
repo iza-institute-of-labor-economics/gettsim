@@ -40,7 +40,7 @@ aggregation_specs = _add_grouping_suffixes_to_keys(
     {
         "anzahl_erwachsene": AggregateByGroupSpec(source_col="erwachsen", aggr="sum"),
         "anzahl_rentner": AggregateByGroupSpec(
-            source_col="rente__altersrente__rentner", aggr="sum"
+            source_col="sozialversicherung__rente__altersrente__rentner", aggr="sum"
         ),
         "anzahl_kinder": AggregateByGroupSpec(source_col="kind", aggr="sum"),
         "anzahl_personen": AggregateByGroupSpec(aggr="count"),

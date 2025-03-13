@@ -18,21 +18,21 @@ inputs:
       - 1957
     demographics__alter:
       - 64
-    rente__altersrente__zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__altersrente__entgeltpunkte_west:
       - 40.0
-    rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
       - 0.0
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - true
-    rente__grundrente__betrag_m:
+    sozialversicherung__rente__grundrente__betrag_m:
       - 0.0
   assumed: {}
 outputs:
-  rente__altersrente__betrag_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 0.0
-  rente__altersrente__bruttorente_basisbetrag_m:
+  sozialversicherung__rente__altersrente__bruttorente_basisbetrag_m:
     - 1367.6
-  rente__altersrente__bruttorente_m:
+  sozialversicherung__rente__altersrente__bruttorente_m:
     - 0.0

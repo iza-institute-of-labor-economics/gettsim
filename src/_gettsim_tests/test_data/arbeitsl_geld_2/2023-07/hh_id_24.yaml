@@ -39,11 +39,11 @@ inputs:
       - false
     einkommen__bruttolohn_m:
       - 0.0
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
     einkommen__bruttokapitaleinkommen_m:
       - 0.0
-    arbeitslosengeld__betrag_m:
+    sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
     einkommen__sonstige_m:
       - 0.0
@@ -55,7 +55,7 @@ inputs:
       - 0.0
     solidaritätszuschlag__betrag_y_sn:
       - 0.0
-    sozialversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__beitrag_arbeitnehmer_m:
       - 204.0
     kindergeld__betrag_m_bg:
       - 0.0
@@ -73,7 +73,7 @@ inputs:
       - 40000.0
     demographics__geburtsjahr:
       - 1978
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - false
     kindergeld__in_ausbildung:
       - false

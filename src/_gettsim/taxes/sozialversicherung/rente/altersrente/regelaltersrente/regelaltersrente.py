@@ -84,14 +84,14 @@ def altersgrenze_mit_staffelung(
 
 @policy_function()
 def grundsätzlich_anspruchsberechtigt(
-    rente__altersrente__mindestwartezeit_erfüllt: bool,
+    sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for the Regelaltersrente.
 
     Parameters
     ----------
-    rente__altersrente__mindestwartezeit_erfüllt
-        See :func:`rente__altersrente__mindestwartezeit_erfüllt`.
+    sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt
+        See :func:`sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt`.
 
     Returns
     -------
@@ -99,4 +99,4 @@ def grundsätzlich_anspruchsberechtigt(
 
     """
 
-    return rente__altersrente__mindestwartezeit_erfüllt
+    return sozialversicherung__rente__altersrente__mindestwartezeit_erfüllt

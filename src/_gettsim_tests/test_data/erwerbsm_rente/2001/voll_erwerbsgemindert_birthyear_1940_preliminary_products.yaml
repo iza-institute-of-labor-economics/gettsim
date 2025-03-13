@@ -4,44 +4,44 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
+    sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
       - false
-    rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
       - 0.0
-    rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__altersrente__entgeltpunkte_west:
       - 15.0
     demographics__geburtsjahr:
       - 1940
     demographics__geburtsmonat:
       - 2
-    rente__jahr_renteneintritt:
+    sozialversicherung__rente__jahr_renteneintritt:
       - 2001
-    rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__altersrente__ersatzzeiten_m:
       - 0.0
-    rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
-    rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
       - 60.0
-    rente__monat_renteneintritt:
+    sozialversicherung__rente__monat_renteneintritt:
       - 10
     demographics__p_id:
       - 1
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - true
-    rente__erwerbsminderung__teilweise_erwerbsgemindert:
+    sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false
-    rente__erwerbsminderung__voll_erwerbsgemindert:
+    sozialversicherung__rente__erwerbsminderung__voll_erwerbsgemindert:
       - true
     demographics__wohnort_ost:
       - false
 outputs:
-  rente__erwerbsminderung__entgeltpunkte_ost:
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_ost:
     - 0.0
-  rente__erwerbsminderung__entgeltpunkte_west:
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_west:
     - 15.43875686
-  rente__erwerbsminderung__zugangsfaktor:
+  sozialversicherung__rente__erwerbsminderung__zugangsfaktor:
     - 0.949
-  rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
     - true
-  rente__erwerbsminderung__rentenartfaktor:
+  sozialversicherung__rente__erwerbsminderung__rentenartfaktor:
     - 1.0

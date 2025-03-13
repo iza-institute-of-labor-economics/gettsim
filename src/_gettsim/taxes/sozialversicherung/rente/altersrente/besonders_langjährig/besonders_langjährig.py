@@ -95,15 +95,15 @@ def altersgrenze_mit_staffelung(
 
 @policy_function(start_date="2012-01-01")
 def grundsätzlich_anspruchsberechtigt(
-    rente__altersrente__wartezeit_45_jahre_erfüllt: bool,
+    sozialversicherung__rente__altersrente__wartezeit_45_jahre_erfüllt: bool,
 ) -> bool:
     """Determining the eligibility for Altersrente für besonders langjährig Versicherte
     (pension for very long-term insured). Wartezeit 45 years. aka "Rente mit 63".
 
     Parameters
     ----------
-    rente__altersrente__wartezeit_45_jahre_erfüllt
-        See :func:`rente__altersrente__wartezeit_45_jahre_erfüllt`
+    sozialversicherung__rente__altersrente__wartezeit_45_jahre_erfüllt
+        See :func:`sozialversicherung__rente__altersrente__wartezeit_45_jahre_erfüllt`
 
 
     Returns
@@ -112,4 +112,4 @@ def grundsätzlich_anspruchsberechtigt(
 
     """
 
-    return rente__altersrente__wartezeit_45_jahre_erfüllt
+    return sozialversicherung__rente__altersrente__wartezeit_45_jahre_erfüllt

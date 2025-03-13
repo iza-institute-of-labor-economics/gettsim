@@ -60,13 +60,13 @@ inputs:
       - 1
     wohngeld__mietstufe:
       - 3
-    rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__altersrente__entgeltpunkte_west:
       - 1.7936
-    rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
       - 0.0
     demographics__kind:
       - false
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - false
     einkommensteuer__freibeträge__betreuungskosten_m:
       - 0.0
@@ -80,7 +80,7 @@ inputs:
       - 400.0
     wohnen__heizkosten_m_hh:
       - 80.0
-    rente__jahr_renteneintritt:
+    sozialversicherung__rente__jahr_renteneintritt:
       - 2071
     demographics__behinderungsgrad:
       - 0
@@ -98,51 +98,51 @@ inputs:
       - 3
     einkommen__sonstige_m:
       - 50.0
-    rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__entgeltpunkte:
       - 1.7936
-    rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 34
-    rente__grundrente__bewertungszeiten_m:
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 34
-    rente__private_rente_m:
+    sozialversicherung__rente__private_rente_m:
       - 0.0
-    rente__altersrente__schwerbehindert_grad_g:
+    sozialversicherung__rente__altersrente__schwerbehindert_grad_g:
       - false
-    rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
       - 348.0
-    rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
       - 5.0
-    rente__altersrente__mutterschutzzeiten_m:
+    sozialversicherung__rente__altersrente__mutterschutzzeiten_m:
       - 0.0
-    rente__altersrente__arbeitsunfähigkeitszeiten_m:
+    sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m:
       - 0.0
-    rente__altersrente__krankheitszeiten_ab_16_bis_24_m:
+    sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m:
       - 0.0
-    rente__altersrente__arbeitslosigkeitszeiten_m:
+    sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m:
       - 0.0
-    rente__altersrente__ausbildungssuche_m:
+    sozialversicherung__rente__altersrente__ausbildungssuche_m:
       - 0.0
-    rente__altersrente__schulausbildung_m:
+    sozialversicherung__rente__altersrente__schulausbildung_m:
       - 12.0
-    rente__altersrente__zeiten_geringfügiger_beschäftigung_m:
+    sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m:
       - 0.0
-    rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m:
+    sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m:
       - 0.0
-    rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__altersrente__ersatzzeiten_m:
       - 0.0
-    rente__altersrente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m:
       - 0.0
-    rente__altersrente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m:
       - 0.0
-    rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 0.0
-    arbeitslosengeld__anwartschaftszeit:
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
       - true
-    arbeitslosengeld__arbeitssuchend:
+    sozialversicherung__arbeitslosen__arbeitssuchend:
       - false
-    arbeitslosengeld__monate_durchgängiger_alg1_bezug:
+    sozialversicherung__arbeitslosen__monate_durchgängiger_alg1_bezug:
       - 0.0
-    arbeitslosengeld__war_5_jahre_sozialversicherungspflichtig:
+    sozialversicherung__arbeitslosen__war_5_jahre_sozialversicherungspflichtig:
       - 60.0
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
@@ -152,7 +152,7 @@ inputs:
       - 0.0
     lohnsteuer__steuerklasse:
       - 1
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
   assumed: {}
 outputs: {}

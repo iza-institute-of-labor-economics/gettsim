@@ -2354,42 +2354,42 @@ altersgrenze_besond_langj_versicherte:
     1962: 64.666667
     1963: 64.833333
 rounding:
-  rente__altersrente__betrag_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     1980-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__altersrente__bruttorente_m:
+  sozialversicherung__rente__altersrente__bruttorente_m:
     1980-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__betrag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__anzurechnendes_einkommen_m:
+  sozialversicherung__rente__grundrente__anzurechnendes_einkommen_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__basisbetrag_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__proxy_rente_vorjahr_m:
+  sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente__grundrente__höchstbetrag_m:
+  sozialversicherung__rente__grundrente__höchstbetrag_m:
     2021-01-01:
       base: 0.0001
       direction: nearest
       reference: §76g SGB VI Abs. 4 Nr. 4
-  rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
     2021-01-01:
       base: 0.0001
       direction: nearest

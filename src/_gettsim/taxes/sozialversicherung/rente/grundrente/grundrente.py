@@ -85,7 +85,7 @@ def einkommen_m(
 def anzurechnendes_einkommen_m(
     einkommen_m_ehe: float,
     demographics__p_id_ehepartner: int,
-    rente__altersrente__rentenwert: float,
+    sozialversicherung__rente__altersrente__rentenwert: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate income which is deducted from Grundrentenzuschlag.
@@ -103,8 +103,8 @@ def anzurechnendes_einkommen_m(
         See :func:`einkommen_m_ehe`.
     demographics__p_id_ehepartner
         See :func:`demographics__p_id_ehepartner`.
-    rente__altersrente__rentenwert
-        See :func:`rente__altersrente__rentenwert`.
+    sozialversicherung__rente__altersrente__rentenwert
+        See :func:`sozialversicherung__rente__altersrente__rentenwert`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     Returns
@@ -123,14 +123,14 @@ def anzurechnendes_einkommen_m(
 
     out = (
         piecewise_polynomial(
-            x=einkommen_m_ehe / rente__altersrente__rentenwert,
+            x=einkommen_m_ehe / sozialversicherung__rente__altersrente__rentenwert,
             thresholds=einkommensanr_params["thresholds"],
             rates=einkommensanr_params["rates"],
             intercepts_at_lower_thresholds=einkommensanr_params[
                 "intercepts_at_lower_thresholds"
             ],
         )
-        * rente__altersrente__rentenwert
+        * sozialversicherung__rente__altersrente__rentenwert
     )
 
     return out
@@ -140,8 +140,8 @@ def anzurechnendes_einkommen_m(
 def basisbetrag_m(
     entgeltpunkte_zuschlag: float,
     bewertungszeiten_m: int,
-    rente__altersrente__rentenwert: float,
-    rente__altersrente__zugangsfaktor: float,
+    sozialversicherung__rente__altersrente__rentenwert: float,
+    sozialversicherung__rente__altersrente__zugangsfaktor: float,
     ges_rente_params: dict,
 ) -> float:
     """Calculate additional monthly pensions payments resulting from Grundrente, without
@@ -157,10 +157,10 @@ def basisbetrag_m(
     bewertungszeiten_m
         See basic input variable
         :ref:`bewertungszeiten_m <bewertungszeiten_m>`.
-    rente__altersrente__rentenwert
-        See :func:`rente__altersrente__rentenwert`.
-    rente__altersrente__zugangsfaktor
-        See :func:`rente__altersrente__zugangsfaktor`.
+    sozialversicherung__rente__altersrente__rentenwert
+        See :func:`sozialversicherung__rente__altersrente__rentenwert`.
+    sozialversicherung__rente__altersrente__zugangsfaktor
+        See :func:`sozialversicherung__rente__altersrente__zugangsfaktor`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -175,13 +175,14 @@ def basisbetrag_m(
         ges_rente_params["grundrentenzeiten_m"]["max"],
     )
     ges_rente_zugangsfaktor_wins = min(
-        rente__altersrente__zugangsfaktor, ges_rente_params["grundr_zugangsfaktor_max"]
+        sozialversicherung__rente__altersrente__zugangsfaktor,
+        ges_rente_params["grundr_zugangsfaktor_max"],
     )
 
     out = (
         entgeltpunkte_zuschlag
         * bewertungszeiten_m_wins
-        * rente__altersrente__rentenwert
+        * sozialversicherung__rente__altersrente__rentenwert
         * ges_rente_zugangsfaktor_wins
     )
     return out
@@ -306,37 +307,37 @@ def entgeltpunkte_zuschlag(
 
 @policy_function(params_key_for_rounding="ges_rente")
 def proxy_rente_vorjahr_m(  # noqa: PLR0913
-    rente__altersrente__rentner: bool,
-    rente__private_rente_m: float,
-    rente__jahr_renteneintritt: int,
+    sozialversicherung__rente__altersrente__rentner: bool,
+    sozialversicherung__rente__private_rente_m: float,
+    sozialversicherung__rente__jahr_renteneintritt: int,
     demographics__geburtsjahr: int,
     demographics__alter: int,
-    rente__altersrente__entgeltpunkte_west: float,
-    rente__altersrente__entgeltpunkte_ost: float,
-    rente__altersrente__zugangsfaktor: float,
+    sozialversicherung__rente__altersrente__entgeltpunkte_west: float,
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost: float,
+    sozialversicherung__rente__altersrente__zugangsfaktor: float,
     ges_rente_params: dict,
 ) -> float:
     """Estimated amount of public pensions of last year excluding Grundrentenzuschlag.
 
     Parameters
     ----------
-    rente__altersrente__rentner
-        See basic input variable :ref:`rente__altersrente__rentner <rente__altersrente__rentner>`.
-    rente__private_rente_m
-        See basic input variable :ref:`rente__private_rente_m <rente__private_rente_m>`. Assume this did not
+    sozialversicherung__rente__altersrente__rentner
+        See basic input variable :ref:`sozialversicherung__rente__altersrente__rentner <sozialversicherung__rente__altersrente__rentner>`.
+    sozialversicherung__rente__private_rente_m
+        See basic input variable :ref:`sozialversicherung__rente__private_rente_m <sozialversicherung__rente__private_rente_m>`. Assume this did not
         change from last year.
-    rente__jahr_renteneintritt
-        See basic input variable :ref:`rente__jahr_renteneintritt <rente__jahr_renteneintritt>`.
+    sozialversicherung__rente__jahr_renteneintritt
+        See basic input variable :ref:`sozialversicherung__rente__jahr_renteneintritt <sozialversicherung__rente__jahr_renteneintritt>`.
     demographics__geburtsjahr
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`rente__altersrente__entgeltpunkte_west <rente__altersrente__entgeltpunkte_west>`.
-    rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`rente__altersrente__entgeltpunkte_ost <rente__altersrente__entgeltpunkte_ost>`.
-    rente__altersrente__zugangsfaktor
-        See :func:`rente__altersrente__zugangsfaktor`.
+    sozialversicherung__rente__altersrente__entgeltpunkte_west
+        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_west <sozialversicherung__rente__altersrente__entgeltpunkte_west>`.
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost
+        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_ost <sozialversicherung__rente__altersrente__entgeltpunkte_ost>`.
+    sozialversicherung__rente__altersrente__zugangsfaktor
+        See :func:`sozialversicherung__rente__altersrente__zugangsfaktor`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -346,20 +347,25 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     """
 
     # Calculate if subect was retired last year
-    if rente__altersrente__rentner:
+    if sozialversicherung__rente__altersrente__rentner:
         rentner_vorjahr = (
-            rente__jahr_renteneintritt < demographics__geburtsjahr + demographics__alter
+            sozialversicherung__rente__jahr_renteneintritt
+            < demographics__geburtsjahr + demographics__alter
         )
     else:
         rentner_vorjahr = False
 
     if rentner_vorjahr:
         out = (
-            rente__altersrente__entgeltpunkte_west
-            * ges_rente_params["rentenwert_vorjahr"]["west"]
-            + rente__altersrente__entgeltpunkte_ost
-            * ges_rente_params["rentenwert_vorjahr"]["ost"]
-        ) * rente__altersrente__zugangsfaktor + rente__private_rente_m
+            (
+                sozialversicherung__rente__altersrente__entgeltpunkte_west
+                * ges_rente_params["rentenwert_vorjahr"]["west"]
+                + sozialversicherung__rente__altersrente__entgeltpunkte_ost
+                * ges_rente_params["rentenwert_vorjahr"]["ost"]
+            )
+            * sozialversicherung__rente__altersrente__zugangsfaktor
+            + sozialversicherung__rente__private_rente_m
+        )
     else:
         out = 0.0
 

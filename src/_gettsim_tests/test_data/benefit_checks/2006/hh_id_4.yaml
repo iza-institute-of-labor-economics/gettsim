@@ -46,7 +46,7 @@ inputs:
       - true
       - true
       - true
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - false
       - false
       - false

@@ -1,7 +1,8 @@
 ---
 info:
   note: >-
-    Adjusted rente__grundrente__entgeltpunkte_zuschlag since test case uses 0.8 as
+    Adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test case
+    uses 0.8 as
     maximum instead of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
@@ -13,13 +14,13 @@ inputs:
       - 5
     demographics__p_id_ehepartner:
       - -1
-    rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 408
-    rente__grundrente__bewertungszeiten_m:
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 408
     demographics__wohnort_ost:
       - true
-    rente__grundrente__proxy_rente_vorjahr_m:
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
     einkommen__bruttolohn_vorjahr_m:
       - 0.0
@@ -37,27 +38,27 @@ inputs:
       - 1951
     einkommen__bruttolohn_m:
       - 0.0
-    rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+    sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__altersrente__entgeltpunkte_west:
       - 0.0
-    rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
       - 18.7
-    rente__altersrente__zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    rente__altersrente__rentner:
+    sozialversicherung__rente__altersrente__rentner:
       - true
-    rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__entgeltpunkte:
       - 18.7
     demographics__kind:
       - false
   assumed: {}
 outputs:
-  rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
     - 0.003698333
-  rente__grundrente__basisbetrag_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     - 50.98
-  rente__grundrente__betrag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     - 50.98
-  rente__altersrente__betrag_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 677.0

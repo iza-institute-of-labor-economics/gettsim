@@ -10,10 +10,10 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 YEARS = [2021]
 
 OUT_COLS_TOL = {
-    "rente__grundrente__entgeltpunkte_zuschlag": 0.0001,
-    "rente__grundrente__basisbetrag_m": 1,
-    "rente__grundrente__betrag_m": 1,
-    "rente__altersrente__betrag_m": 1,
+    "sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag": 0.0001,
+    "sozialversicherung__rente__grundrente__basisbetrag_m": 1,
+    "sozialversicherung__rente__grundrente__betrag_m": 1,
+    "sozialversicherung__rente__altersrente__betrag_m": 1,
 }
 data = load_policy_test_data("grundrente")
 
@@ -45,36 +45,36 @@ INPUT_COLS_INCOME = [
     "p_id",
     "hh_id",
     "demographics__alter",
-    "rente__private_rente_m",
-    "rente__altersrente__entgeltpunkte_west",
-    "rente__altersrente__entgeltpunkte_ost",
+    "sozialversicherung__rente__private_rente_m",
+    "sozialversicherung__rente__altersrente__entgeltpunkte_west",
+    "sozialversicherung__rente__altersrente__entgeltpunkte_ost",
     "demographics__geburtsjahr",
     "demographics__geburtsmonat",
-    "rente__altersrente__rentner",
-    "rente__jahr_renteneintritt",
-    "rente__monat_renteneintritt",
+    "sozialversicherung__rente__altersrente__rentner",
+    "sozialversicherung__rente__jahr_renteneintritt",
+    "sozialversicherung__rente__monat_renteneintritt",
     "demographics__wohnort_ost",
     "einkommen__bruttolohn_m",
-    "rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
+    "sozialversicherung__rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "demographics__weiblich",
-    "rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40",
-    "rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10",
-    "rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585",
-    "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006",
-    "rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",
-    "rente__altersrente__pflichtbeitragszeiten_m",
-    "rente__altersrente__freiwillige_beitragszeiten_m",
-    "rente__altersrente__ersatzzeiten_m",
-    "rente__altersrente__schulausbildung_m",
-    "rente__altersrente__kinderberücksichtigungszeiten_m",
-    "rente__altersrente__pflegeberücksichtigungszeiten_m",
-    "rente__altersrente__arbeitsunfähigkeitszeiten_m",
-    "rente__altersrente__krankheitszeiten_ab_16_bis_24_m",
-    "rente__altersrente__mutterschutzzeiten_m",
-    "rente__altersrente__arbeitslosigkeitszeiten_m",
-    "rente__altersrente__ausbildungssuche_m",
-    "rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m",
-    "rente__altersrente__zeiten_geringfügiger_beschäftigung_m",
+    "sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_8_in_10",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_585",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",
+    "sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m",
+    "sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m",
+    "sozialversicherung__rente__altersrente__ersatzzeiten_m",
+    "sozialversicherung__rente__altersrente__schulausbildung_m",
+    "sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m",
+    "sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m",
+    "sozialversicherung__rente__altersrente__arbeitsunfähigkeitszeiten_m",
+    "sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m",
+    "sozialversicherung__rente__altersrente__mutterschutzzeiten_m",
+    "sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m",
+    "sozialversicherung__rente__altersrente__ausbildungssuche_m",
+    "sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m",
+    "sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m",
 ]
 
 data_proxy = load_policy_test_data("grundrente_proxy_rente")
@@ -120,7 +120,7 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     calc_result = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets="rente__grundrente__proxy_rente_vorjahr_m",
+        targets="sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m",
     )
 
     # Calculate pension of last year
@@ -129,12 +129,12 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets=["rente__altersrente__bruttorente_m"],
+        targets=["sozialversicherung__rente__altersrente__bruttorente_m"],
     )
     assert_series_equal(
-        calc_result["rente__grundrente__proxy_rente_vorjahr_m"],
-        calc_result_last_year["rente__altersrente__bruttorente_m"]
-        + df["rente__private_rente_m"],
+        calc_result["sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m"],
+        calc_result_last_year["sozialversicherung__rente__altersrente__bruttorente_m"]
+        + df["sozialversicherung__rente__private_rente_m"],
         check_names=False,
         rtol=0,
     )

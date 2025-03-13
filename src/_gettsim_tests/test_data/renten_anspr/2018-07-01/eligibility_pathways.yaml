@@ -23,7 +23,7 @@ inputs:
       - 5
       - 6
       - 7
-    rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
       - 0.0
       - 60.0
       - 0.0
@@ -32,7 +32,7 @@ inputs:
       - 0.0
       - 120.0
       - 120.0
-    rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
       - 0.0
       - 0.0
       - 60.0
@@ -41,7 +41,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__altersrente__ersatzzeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -50,7 +50,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    rente__altersrente__anrechnungszeit:
+    sozialversicherung__rente__altersrente__anrechnungszeit:
       - 0.0
       - 0.0
       - 0.0
@@ -59,7 +59,7 @@ inputs:
       - 540.0
       - 400.0
       - 120.0
-    rente__altersrente__anrechnungszeit_45:
+    sozialversicherung__rente__altersrente__anrechnungszeit_45:
       - 0.0
       - 0.0
       - 0.0
@@ -68,7 +68,7 @@ inputs:
       - 0.0
       - 420.0
       - 120.0
-    rente__altersrente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -77,7 +77,7 @@ inputs:
       - 0.0
       - 0.0
       - 120.0
-    rente__altersrente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -87,7 +87,7 @@ inputs:
       - 0.0
       - 120.0
 outputs:
-  rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
     - false
     - true
     - true
@@ -96,7 +96,7 @@ outputs:
     - false
     - true
     - true
-  rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -105,7 +105,7 @@ outputs:
     - true
     - true
     - true
-  rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false

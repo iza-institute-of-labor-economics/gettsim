@@ -69,12 +69,12 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    rente__jahr_renteneintritt:
+    sozialversicherung__rente__jahr_renteneintritt:
       - 2037
       - 2038
       - 2074
       - 2072
-    rente__altersrente__sum_private_gesetzl_rente_m:
+    sozialversicherung__rente__altersrente__sum_private_gesetzl_rente_m:
       - 0.0
       - 0.0
       - 0.0

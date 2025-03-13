@@ -46,7 +46,7 @@ inputs:
       - 218.96
     solidaritätszuschlag__betrag_y_sn:
       - 12.04
-    sozialversicherung__betrag_arbeitnehmer_m:
+    sozialversicherung__beitrag_arbeitnehmer_m:
       - 378.0
     demographics__geburtsjahr:
       - 1974
