@@ -220,13 +220,12 @@ def test_get_group_by_id_path(target_path, group_by_functions_tree, expected):
                     },
                 },
             },
-            "Grouping ID for target namespace1.foo_bg is ambiguous.",
+            "Grouping identifier for target namespace1.foo_bg is ambiguous.",
         ),
     ],
 )
 def test_get_group_by_id_path_fails(
     target_path, group_by_functions_tree, expected_error_match
 ):
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ValueError, match=expected_error_match):
         get_group_by_id_path(target_path, group_by_functions_tree)
-    assert expected_error_match in str(e.value)
