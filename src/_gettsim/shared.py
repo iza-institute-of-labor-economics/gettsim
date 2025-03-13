@@ -414,34 +414,22 @@ def get_group_by_id_path(
     -------
     The group-by-identifier.
     """
-    group_by_id = None
-    nice_target_name = ".".join(target_path)
-
-    flat_group_by_functions_tree = flatten_dict.flatten(group_by_functions_tree)
+    group_by_paths = optree.tree_paths(group_by_functions_tree, none_is_leaf=True)
     for g in SUPPORTED_GROUPINGS:
         if target_path[-1].endswith(f"_{g}") and g == "hh":
             # Hardcode because hh_id is not part of the functions tree
-            group_by_id = ("demographics", "hh_id")
+            return ("demographics", "hh_id")
         elif target_path[-1].endswith(f"_{g}"):
-            candidates = {
-                path: func
-                for path, func in flat_group_by_functions_tree.items()
-                if path[-1] == f"{g}_id"
-            }
-            group_by_id = _select_group_by_id_from_candidates(
-                candidates=candidates,
+            return _select_group_by_id_from_candidates(
+                candidate_paths=[p for p in group_by_paths if p[-1] == f"{g}_id"],
                 target_path=target_path,
-                nice_target_name=nice_target_name,
             )
-            break
-
-    return group_by_id
+    raise ValueError(f"No group-by-identifier found for target {target_path}.")
 
 
 def _select_group_by_id_from_candidates(
-    candidates: dict[str, Any],
+    candidate_paths: list[tuple[str]],
     target_path: tuple[str],
-    nice_target_name: str,
 ) -> tuple[str]:
     """Select the group-by-identifier from the candidates.
 
@@ -466,19 +454,40 @@ def _select_group_by_id_from_candidates(
     -------
     The group-by-identifier.
     """
-    if len(candidates) > 1:
-        # Take candidate with same parent namespace
-        candidates_after_parent_namespace_lookup = {
-            path: func for path, func in candidates.items() if path[0] == target_path[0]
-        }
-        if len(candidates_after_parent_namespace_lookup) > 1:
-            msg = format_errors_and_warnings(
-                f"""
-                Grouping identifier for target {nice_target_name} is ambiguous. Grouping
-                identifiers must be unique at the uppermost level of the functions tree.
-                """
+    if len(candidate_paths) > 1:
+        candidate_paths_in_matching_namespace = [
+            p for p in candidate_paths if p[0] == target_path[0]
+        ]
+        if len(candidate_paths_in_matching_namespace) == 1:
+            return candidate_paths_in_matching_namespace[0]
+        else:
+            _fail_with_ambiguous_group_by_identifier(
+                all_candidate_paths=candidate_paths,
+                candidate_paths_in_matching_namespace=candidate_paths_in_matching_namespace,
+                target_path=target_path,
             )
-            raise ValueError(msg)
-        return list(candidates_after_parent_namespace_lookup.keys())[0]  # noqa: RUF015
     else:
-        return list(candidates.keys())[0]  # noqa: RUF015
+        return next(iter(candidate_paths))
+
+
+def _fail_with_ambiguous_group_by_identifier(
+    candidate_paths_in_matching_namespace: tuple[str],
+    all_candidate_paths: tuple[str],
+    target_path: tuple[str],
+):
+    if len(candidate_paths_in_matching_namespace) == 0:
+        paths = "\n    ".join([str(p) for p in all_candidate_paths])
+    else:
+        paths = "\n    ".join([str(p) for p in candidate_paths_in_matching_namespace])
+    msg = format_errors_and_warnings(
+        f"""
+        Group by identifier for target:\n\n    {target_path}\n
+        is ambiguous. Group by identifiers must be
+
+        1. unique at the uppermost level of the functions tree.
+        2. inside the uppermost namespace if there are namespaced identifiers
+
+        Found candidates:\n\n    {paths}
+        """
+    )
+    raise ValueError(msg)
