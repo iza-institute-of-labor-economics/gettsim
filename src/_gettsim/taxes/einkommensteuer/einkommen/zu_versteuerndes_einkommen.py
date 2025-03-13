@@ -61,7 +61,7 @@ def zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn(
 @policy_function()
 def zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn(
     gesamteinkünfte_y_sn: float,
-    einkommensteuer_freibeträge_betrag_y_sn: float,
+    einkommensteuer__freibeträge__betrag_y_sn: float,
 ) -> float:
     """Calculate taxable income without child allowance on Steuernummer level.
 
@@ -69,14 +69,14 @@ def zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn(
     ----------
     gesamteinkünfte_y_sn
         See :func:`gesamteinkünfte_y_sn`.
-    einkommensteuer_freibeträge_betrag_y_sn
-        See :func:`einkommensteuer_freibeträge_betrag_y_sn`.
+    einkommensteuer__freibeträge__betrag_y_sn
+        See :func:`einkommensteuer__freibeträge__betrag_y_sn`.
 
 
     Returns
     -------
 
     """
-    out = gesamteinkünfte_y_sn - einkommensteuer_freibeträge_betrag_y_sn
+    out = gesamteinkünfte_y_sn - einkommensteuer__freibeträge__betrag_y_sn
 
     return max(out, 0.0)

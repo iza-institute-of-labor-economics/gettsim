@@ -13,7 +13,7 @@ def betrag_m_eg(  # noqa: PLR0913
     einkommen_m_eg: float,
     demographics__erwachsene_alle_rentner_hh: bool,
     demographics__vermögen_eg: float,
-    vermögen_freibetrag_eg: float,
+    vermögensfreibetrag_eg: float,
     demographics__anzahl_kinder_eg: int,
     demographics__anzahl_personen_eg: int,
 ) -> float:
@@ -41,8 +41,8 @@ def betrag_m_eg(  # noqa: PLR0913
         See :func:`demographics__erwachsene_alle_rentner_hh`.
     demographics__vermögen_eg
         See basic input variable :ref:`demographics__vermögen_eg`.
-    vermögen_freibetrag_eg
-        See :func:`vermögen_freibetrag_eg`.
+    vermögensfreibetrag_eg
+        See :func:`vermögensfreibetrag_eg`.
     demographics__anzahl_kinder_eg
         See :func:`demographics__anzahl_kinder_eg`.
     demographics__anzahl_personen_eg
@@ -69,7 +69,7 @@ def betrag_m_eg(  # noqa: PLR0913
     # Wealth check
     # Only pay Grundsicherung im Alter if all adults are retired (see docstring)
     if (
-        (demographics__vermögen_eg >= vermögen_freibetrag_eg)
+        (demographics__vermögen_eg >= vermögensfreibetrag_eg)
         or (not demographics__erwachsene_alle_rentner_hh)
         or (demographics__anzahl_kinder_eg == demographics__anzahl_personen_eg)
     ):
@@ -90,7 +90,7 @@ def betrag_m_eg(  # noqa: PLR0913
 
 @policy_function()
 def mehrbedarf_schwerbehinderung_g_m(
-    sozialversicherung__rente__altersrente__schwerbehindert_grad_g: bool,
+    schwerbehindert_grad_g: bool,
     demographics__anzahl_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
@@ -99,8 +99,8 @@ def mehrbedarf_schwerbehinderung_g_m(
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__schwerbehindert_grad_g
-        See basic input variable :ref:`demographics__behinderungsgrad <sozialversicherung__rente__altersrente__schwerbehindert_grad_g>`.
+    schwerbehindert_grad_g
+        See basic input variable :ref:`demographics__behinderungsgrad <schwerbehindert_grad_g>`.
     demographics__anzahl_erwachsene_eg
         See :func:`demographics__anzahl_erwachsene_eg`.
     ges_rente_params
@@ -121,13 +121,9 @@ def mehrbedarf_schwerbehinderung_g_m(
         * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
     )
 
-    if (sozialversicherung__rente__altersrente__schwerbehindert_grad_g) and (
-        demographics__anzahl_erwachsene_eg == 1
-    ):
+    if (schwerbehindert_grad_g) and (demographics__anzahl_erwachsene_eg == 1):
         out = mehrbedarf_single
-    elif (sozialversicherung__rente__altersrente__schwerbehindert_grad_g) and (
-        demographics__anzahl_erwachsene_eg > 1
-    ):
+    elif (schwerbehindert_grad_g) and (demographics__anzahl_erwachsene_eg > 1):
         out = mehrbedarf_in_couple
     else:
         out = 0.0
@@ -136,7 +132,7 @@ def mehrbedarf_schwerbehinderung_g_m(
 
 
 @policy_function()
-def vermögen_freibetrag_eg(
+def vermögensfreibetrag_eg(
     demographics__anzahl_erwachsene_fg: int,
     demographics__anzahl_kinder_fg: int,
     grunds_im_alter_params: dict,

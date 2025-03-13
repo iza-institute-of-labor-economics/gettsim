@@ -60,7 +60,7 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  demographics__elternteil_alleinerziehend:
+  unterhaltsvorschuss__elternteil_alleinerziehend:
     - false
     - true
   unterhaltsvorschuss__betrag_m:

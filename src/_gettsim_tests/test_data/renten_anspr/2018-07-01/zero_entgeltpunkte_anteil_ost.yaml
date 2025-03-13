@@ -7,9 +7,9 @@ inputs:
       - 0
     demographics__hh_id:
       - 0
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
   assumed: {}
 outputs:

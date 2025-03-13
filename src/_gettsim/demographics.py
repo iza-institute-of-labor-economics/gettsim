@@ -11,7 +11,6 @@ import numpy
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.function_types import group_by_function, policy_function
-from _gettsim.shared import join_numpy
 
 
 def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
@@ -40,7 +39,7 @@ aggregation_specs = _add_grouping_suffixes_to_keys(
     {
         "anzahl_erwachsene": AggregateByGroupSpec(source_col="erwachsen", aggr="sum"),
         "anzahl_rentner": AggregateByGroupSpec(
-            source_col="sozialversicherung__rente__altersrente__rentner", aggr="sum"
+            source_col="sozialversicherung__rente__rentner", aggr="sum"
         ),
         "anzahl_kinder": AggregateByGroupSpec(source_col="kind", aggr="sum"),
         "anzahl_personen": AggregateByGroupSpec(aggr="count"),
@@ -169,8 +168,8 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
 
 
 @policy_function()
-def kind_bis_24(alter: int) -> bool:
-    """Child below the age of 25.
+def alter_bis_24(alter: int) -> bool:
+    """Age is 24 years at most.
 
     Relevant for the calculation of the long-term care insurance contribution. It does
     not matter whether children have a claim on Kindergeld.
@@ -335,37 +334,6 @@ def birthdate_decimal(
     out = geburtsjahr + (geburtsmonat - 1) / 12
 
     return out
-
-
-@policy_function(skip_vectorization=True)
-def elternteil_alleinerziehend(
-    kindergeld__p_id_empfänger: numpy.ndarray[int],
-    p_id: numpy.ndarray[int],
-    alleinerziehend: numpy.ndarray[bool],
-) -> numpy.ndarray[bool]:
-    """Check if parent that receives Unterhaltsvorschuss is a single parent.
-
-    Only single parents receive Unterhaltsvorschuss.
-
-    Parameters
-    ----------
-    kindergeld__p_id_empfänger
-        See basic input variable :ref:`kindergeld__p_id_empfänger`.
-    p_id
-        See basic input variable :ref:`p_id`.
-    alleinerziehend
-        See basic input variable :ref:`alleinerziehend`.
-
-    Returns
-    -------
-
-    """
-    return join_numpy(
-        kindergeld__p_id_empfänger,
-        p_id,
-        alleinerziehend,
-        value_if_foreign_key_is_missing=False,
-    )
 
 
 def ist_kind_mit_erwerbseinkommen(

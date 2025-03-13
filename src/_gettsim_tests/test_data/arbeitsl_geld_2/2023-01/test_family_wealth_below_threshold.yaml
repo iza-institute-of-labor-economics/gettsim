@@ -142,7 +142,7 @@ inputs:
       - 1983
       - 1985
       - 2020
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

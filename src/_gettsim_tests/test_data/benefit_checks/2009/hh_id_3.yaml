@@ -28,7 +28,7 @@ inputs:
     demographics__kind:
       - false
       - true
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
     demographics__alter:

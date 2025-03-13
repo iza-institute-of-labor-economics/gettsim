@@ -19,7 +19,7 @@ aggregation_specs = {
 def betrag_m(
     unterhalt__kind_betrag_m: float,
     anspruchshöhe_kind_m: float,
-    demographics__elternteil_alleinerziehend: bool,
+    elternteil_alleinerziehend: bool,
 ) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
     alimonies.
@@ -44,19 +44,50 @@ def betrag_m(
         See basic input variable `unterhalt__kind_betrag_m`.
     anspruchshöhe_kind_m
         See :func:`anspruchshöhe_kind_m`.
-    demographics__elternteil_alleinerziehend
-        See :func:`demographics__elternteil_alleinerziehend`.
+    elternteil_alleinerziehend
+        See :func:`elternteil_alleinerziehend`.
 
     Returns
     -------
 
     """
-    if demographics__elternteil_alleinerziehend:
+    if elternteil_alleinerziehend:
         out = max(anspruchshöhe_kind_m - unterhalt__kind_betrag_m, 0.0)
     else:
         out = 0.0
 
     return out
+
+
+@policy_function(skip_vectorization=True)
+def elternteil_alleinerziehend(
+    kindergeld__p_id_empfänger: numpy.ndarray[int],
+    demographics__p_id: numpy.ndarray[int],
+    demographics__alleinerziehend: numpy.ndarray[bool],
+) -> numpy.ndarray[bool]:
+    """Check if parent that receives Kindergeld is a single parent.
+
+    Only single parents receive Kindergeld.
+
+    Parameters
+    ----------
+    kindergeld__p_id_empfänger
+        See basic input variable :ref:`kindergeld__p_id_empfänger`.
+    demographics__p_id
+        See basic input variable :ref:`p_id`.
+    demographics__alleinerziehend
+        See basic input variable :ref:`alleinerziehend`.
+
+    Returns
+    -------
+
+    """
+    return join_numpy(
+        foreign_key=kindergeld__p_id_empfänger,
+        primary_key=demographics__p_id,
+        target=demographics__alleinerziehend,
+        value_if_foreign_key_is_missing=False,
+    )
 
 
 @policy_function(

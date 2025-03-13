@@ -20,11 +20,11 @@ inputs:
       - 64
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 40.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
     sozialversicherung__rente__grundrente__betrag_m:
       - 0.0

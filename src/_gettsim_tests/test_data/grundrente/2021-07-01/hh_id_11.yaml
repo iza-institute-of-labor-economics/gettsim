@@ -1,9 +1,8 @@
 ---
 info:
   note: >-
-    adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test case
-    uses 0.8 as
-    maximum instead of 0.8004.
+    adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test
+    case uses 0.8 as maximum instead of 0.8004.
   source: >-
     Beispiel Alexander Langkowski / Hatice Yilmaz aus:
     https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
@@ -41,13 +40,13 @@ inputs:
       - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 18.5
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
     sozialversicherung__rente__grundrente__entgeltpunkte:
       - 15.5

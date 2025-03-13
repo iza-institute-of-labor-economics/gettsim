@@ -58,7 +58,7 @@ inputs:
     demographics__alter:
       - 40
       - 55
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 1995
       - 1995
     kindergeld__grundsätzlich_anspruchsberechtigt:

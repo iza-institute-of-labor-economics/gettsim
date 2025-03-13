@@ -208,7 +208,7 @@ inputs:
       - 2015
       - 2010
       - 2015
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

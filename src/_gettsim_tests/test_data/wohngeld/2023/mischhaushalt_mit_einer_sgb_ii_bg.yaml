@@ -118,7 +118,7 @@ inputs:
       - 40
       - 40
       - 40
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 2010
       - 2010
       - 2010
@@ -262,7 +262,7 @@ inputs:
       - 50.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

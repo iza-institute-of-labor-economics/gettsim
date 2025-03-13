@@ -88,7 +88,7 @@ def min_miete_m_hh(
 @policy_function(end_date="2008-12-31", leaf_name="miete_m_hh")
 def miete_bis_2008_m_hh(  # noqa: PLR0913
     mietstufe: int,
-    baujahr_immobilie_hh: int,
+    wohnen__baujahr_immobilie_hh: int,
     demographics__anzahl_personen_hh: int,
     wohnen__bruttokaltmiete_m_hh: float,
     min_miete_m_hh: float,
@@ -100,8 +100,8 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     ----------
     mietstufe
         See basic input variable :ref:`mietstufe <mietstufe>`.
-    baujahr_immobilie_hh
-        See basic input variable :ref:`baujahr_immobilie_hh <baujahr_immobilie_hh>`.
+    wohnen__baujahr_immobilie_hh
+        See basic input variable :ref:`wohnen__baujahr_immobilie_hh <wohnen__baujahr_immobilie_hh>`.
     demographics__anzahl_personen_hh
         See :func:`demographics__anzahl_personen_hh`.
     wohnen__bruttokaltmiete_m_hh
@@ -126,7 +126,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
     params_max_miete = wohngeld_params["max_miete"]
     selected_bin_index = np.searchsorted(
         np.asarray(sorted(params_max_miete[1])),
-        baujahr_immobilie_hh,
+        wohnen__baujahr_immobilie_hh,
         side="left",
     )
 

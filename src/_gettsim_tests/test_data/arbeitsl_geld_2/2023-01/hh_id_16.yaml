@@ -72,7 +72,7 @@ inputs:
       - 40000.0
     demographics__geburtsjahr:
       - 1978
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
     kindergeld__in_ausbildung:
       - false

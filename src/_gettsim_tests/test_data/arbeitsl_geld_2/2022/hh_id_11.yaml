@@ -142,7 +142,7 @@ inputs:
       - 1992
       - 2014
       - 2019
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

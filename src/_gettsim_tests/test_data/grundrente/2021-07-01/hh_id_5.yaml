@@ -1,9 +1,8 @@
 ---
 info:
   note: >-
-    Adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test case
-    uses 0.8 as
-    maximum instead of 0.8004. Beispiel Martin S.
+    Adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test
+    case uses 0.8 as maximum instead of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
 inputs:
@@ -40,13 +39,13 @@ inputs:
       - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 18.7
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
     sozialversicherung__rente__grundrente__entgeltpunkte:
       - 18.7

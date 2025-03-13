@@ -65,7 +65,7 @@ def anspruchshöhe_m(
 def anspruchshöhe_m_bg(
     basisbetrag_m_bg: float,
     demographics__vermögen_bg: float,
-    vermögen_freibetrag_bg: float,
+    vermögensfreibetrag_bg: float,
 ) -> float:
     """Set preliminary child benefit to zero if it exceeds the wealth exemption.
 
@@ -75,17 +75,17 @@ def anspruchshöhe_m_bg(
         See :func:`basisbetrag_m_bg`.
     demographics__vermögen_bg
         See basic input variable :ref:`demographics__vermögen_bg <demographics__vermögen_bg>`.
-    vermögen_freibetrag_bg
-        See :func:`vermögen_freibetrag_bg`.
+    vermögensfreibetrag_bg
+        See :func:`vermögensfreibetrag_bg`.
 
     Returns
     -------
 
     """
 
-    if demographics__vermögen_bg > vermögen_freibetrag_bg:
+    if demographics__vermögen_bg > vermögensfreibetrag_bg:
         out = max(
-            basisbetrag_m_bg - (demographics__vermögen_bg - vermögen_freibetrag_bg),
+            basisbetrag_m_bg - (demographics__vermögen_bg - vermögensfreibetrag_bg),
             0.0,
         )
     else:
@@ -93,8 +93,8 @@ def anspruchshöhe_m_bg(
     return out
 
 
-@policy_function(end_date="2022-12-31", leaf_name="vermögen_freibetrag_bg")
-def vermögen_freibetrag_bg_bis_2022(
+@policy_function(end_date="2022-12-31", leaf_name="vermögensfreibetrag_bg")
+def vermögensfreibetrag_bg_bis_2022(
     arbeitslosengeld_2__freibetrag_vermögen_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag until 2022.
@@ -112,8 +112,8 @@ def vermögen_freibetrag_bg_bis_2022(
     return arbeitslosengeld_2__freibetrag_vermögen_bg
 
 
-@policy_function(start_date="2023-01-01", leaf_name="vermögen_freibetrag_bg")
-def vermögen_freibetrag_bg_ab_2023(
+@policy_function(start_date="2023-01-01", leaf_name="vermögensfreibetrag_bg")
+def vermögensfreibetrag_bg_ab_2023(
     arbeitslosengeld_2__freibetrag_vermögen_in_karenzzeit_bg: float,
 ) -> float:
     """Wealth exemptions for Kinderzuschlag since 2023.

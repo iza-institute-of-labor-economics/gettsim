@@ -8,9 +8,9 @@ inputs:
       - false
     sozialversicherung__rente__erwerbsminderung__durchschnittliche_entgeltpunkte_y:
       - 0.8
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 3.0
     demographics__geburtsjahr:
       - 1990
@@ -18,17 +18,17 @@ inputs:
       - 8
     sozialversicherung__rente__jahr_renteneintritt:
       - 2012
-    sozialversicherung__rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 60.0
     sozialversicherung__rente__monat_renteneintritt:
       - 4
     demographics__p_id:
       - 19
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
     sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false

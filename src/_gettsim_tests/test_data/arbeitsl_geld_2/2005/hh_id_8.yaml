@@ -72,7 +72,7 @@ inputs:
       - 0.0
     demographics__geburtsjahr:
       - 1960
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
     kindergeld__in_ausbildung:
       - false

@@ -106,7 +106,7 @@ inputs:
     demographics__geburtsjahr:
       - 1973
       - 1973
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
     kindergeld__in_ausbildung:

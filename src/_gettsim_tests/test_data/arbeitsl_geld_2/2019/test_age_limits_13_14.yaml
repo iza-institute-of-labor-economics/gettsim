@@ -140,7 +140,7 @@ inputs:
       - 1989
       - 2005
       - 2006
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

@@ -106,7 +106,7 @@ inputs:
     demographics__geburtsjahr:
       - 1943
       - 1943
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
       - true
     kindergeld__in_ausbildung:

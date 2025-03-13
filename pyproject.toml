@@ -251,6 +251,7 @@ exclude = []
 "src/_gettsim/taxes/*" = ["E501"]
 "src/_gettsim/demographics.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
+"src/_gettsim/config.py" = ["E501"]
 "docs/**/*.ipynb" = ["T201"]
 
 [tool.ruff.lint.pydocstyle]

@@ -146,7 +146,7 @@ inputs:
       - 1993
       - 2020
       - 1988
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

@@ -140,7 +140,7 @@ inputs:
       - 1989
       - 2013
       - 2014
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

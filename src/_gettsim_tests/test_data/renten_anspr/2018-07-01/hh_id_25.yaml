@@ -18,25 +18,25 @@ inputs:
       - 2018
     demographics__geburtsjahr:
       - 1944
-    sozialversicherung__rente__altersrente__entgeltpunkte_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 31.0625
     demographics__geburtsmonat:
       - 2
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m:
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
       - 0.0
-    sozialversicherung__rente__altersrente__mutterschutzzeiten_m:
+    sozialversicherung__rente__mutterschutzzeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m:
+    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__ausbildungssuche_m:
+    sozialversicherung__rente__ausbildungssuche_m:
       - 0.0
-    sozialversicherung__rente__altersrente__schulausbildung_m:
+    sozialversicherung__rente__schulausbildung_m:
       - 0.0
-    sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m:
+    sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m:
       - 0.0
-    sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m:
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
       - 0.0
     demographics__weiblich:
       - false
@@ -50,15 +50,15 @@ inputs:
       - true
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006:
       - false
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 60.0
-    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
       - 0.0
   assumed: {}
 outputs:

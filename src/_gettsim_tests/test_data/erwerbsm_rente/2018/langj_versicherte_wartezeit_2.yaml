@@ -1,24 +1,23 @@
 ---
 info:
-  note: test for sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt
   source: Own calculations
 inputs:
   assumed:
-    sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m:
+    sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m:
       - 0.0
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m:
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
       - 100.0
-    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
       - 120.0
-    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 200.0
     demographics__p_id:
       - 22

@@ -172,7 +172,9 @@ def basisbetrag_m(
     # Winsorize Bewertungszeiten and Zugangsfaktor at maximum values
     bewertungszeiten_m_wins = min(
         bewertungszeiten_m,
-        ges_rente_params["grundrentenzeiten_m"]["max"],
+        ges_rente_params["sozialversicherung__rente__grundrente__grundrentenzeiten_m"][
+            "max"
+        ],
     )
     ges_rente_zugangsfaktor_wins = min(
         sozialversicherung__rente__altersrente__zugangsfaktor,
@@ -219,14 +221,17 @@ def durchschnittliche_entgeltpunkte(
 
 
 @policy_function(params_key_for_rounding="ges_rente")
-def höchstbetrag_m(grundrentenzeiten_m: int, ges_rente_params: dict) -> float:
+def höchstbetrag_m(
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m: int,
+    ges_rente_params: dict,
+) -> float:
     """Calculate the maximum allowed number of average Entgeltpunkte (per month) after
     adding bonus of Entgeltpunkte for a given number of Grundrentenzeiten.
 
     Parameters
     ----------
-    grundrentenzeiten_m
-        See basic input variable :ref:`grundrentenzeiten_m <grundrentenzeiten_m>`.
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m
+        See basic input variable :ref:`sozialversicherung__rente__grundrente__grundrentenzeiten_m <sozialversicherung__rente__grundrente__grundrentenzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -237,10 +242,14 @@ def höchstbetrag_m(grundrentenzeiten_m: int, ges_rente_params: dict) -> float:
     # Calculate number of months above minimum threshold
     months_above_thresh = (
         min(
-            grundrentenzeiten_m,
-            ges_rente_params["grundrentenzeiten_m"]["max"],
+            sozialversicherung__rente__grundrente__grundrentenzeiten_m,
+            ges_rente_params[
+                "sozialversicherung__rente__grundrente__grundrentenzeiten_m"
+            ]["max"],
         )
-        - ges_rente_params["grundrentenzeiten_m"]["min"]
+        - ges_rente_params[
+            "sozialversicherung__rente__grundrente__grundrentenzeiten_m"
+        ]["min"]
     )
 
     # Calculate höchstwert
@@ -256,7 +265,7 @@ def höchstbetrag_m(grundrentenzeiten_m: int, ges_rente_params: dict) -> float:
 def entgeltpunkte_zuschlag(
     durchschnittliche_entgeltpunkte: float,
     höchstbetrag_m: float,
-    grundrentenzeiten_m: int,
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m: int,
     ges_rente_params: dict,
 ) -> float:
     """Calculate additional Entgeltpunkte for pensioner.
@@ -273,8 +282,8 @@ def entgeltpunkte_zuschlag(
         See :func:`durchschnittliche_entgeltpunkte`.
     höchstbetrag_m
         See :func:`höchstbetrag_m`.
-    grundrentenzeiten_m
-        See basic input variable :ref:`grundrentenzeiten_m <grundrentenzeiten_m>`.
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m
+        See basic input variable :ref:`sozialversicherung__rente__grundrente__grundrentenzeiten_m <sozialversicherung__rente__grundrente__grundrentenzeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -284,7 +293,12 @@ def entgeltpunkte_zuschlag(
     """
 
     # Return 0 if Grundrentenzeiten below minimum
-    if grundrentenzeiten_m < ges_rente_params["grundrentenzeiten_m"]["min"]:
+    if (
+        sozialversicherung__rente__grundrente__grundrentenzeiten_m
+        < ges_rente_params[
+            "sozialversicherung__rente__grundrente__grundrentenzeiten_m"
+        ]["min"]
+    ):
         out = 0.0
     else:
         # Case 1: Entgeltpunkte less than half of Höchstwert
@@ -307,13 +321,13 @@ def entgeltpunkte_zuschlag(
 
 @policy_function(params_key_for_rounding="ges_rente")
 def proxy_rente_vorjahr_m(  # noqa: PLR0913
-    sozialversicherung__rente__altersrente__rentner: bool,
+    sozialversicherung__rente__rentner: bool,
     sozialversicherung__rente__private_rente_m: float,
     sozialversicherung__rente__jahr_renteneintritt: int,
     demographics__geburtsjahr: int,
     demographics__alter: int,
-    sozialversicherung__rente__altersrente__entgeltpunkte_west: float,
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost: float,
+    sozialversicherung__rente__entgeltpunkte_west: float,
+    sozialversicherung__rente__entgeltpunkte_ost: float,
     sozialversicherung__rente__altersrente__zugangsfaktor: float,
     ges_rente_params: dict,
 ) -> float:
@@ -321,8 +335,8 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__rentner
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__rentner <sozialversicherung__rente__altersrente__rentner>`.
+    sozialversicherung__rente__rentner
+        See basic input variable :ref:`sozialversicherung__rente__rentner <sozialversicherung__rente__rentner>`.
     sozialversicherung__rente__private_rente_m
         See basic input variable :ref:`sozialversicherung__rente__private_rente_m <sozialversicherung__rente__private_rente_m>`. Assume this did not
         change from last year.
@@ -332,10 +346,10 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    sozialversicherung__rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_west <sozialversicherung__rente__altersrente__entgeltpunkte_west>`.
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_ost <sozialversicherung__rente__altersrente__entgeltpunkte_ost>`.
+    sozialversicherung__rente__entgeltpunkte_west
+        See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_west <sozialversicherung__rente__entgeltpunkte_west>`.
+    sozialversicherung__rente__entgeltpunkte_ost
+        See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_ost <sozialversicherung__rente__entgeltpunkte_ost>`.
     sozialversicherung__rente__altersrente__zugangsfaktor
         See :func:`sozialversicherung__rente__altersrente__zugangsfaktor`.
     ges_rente_params
@@ -347,7 +361,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     """
 
     # Calculate if subect was retired last year
-    if sozialversicherung__rente__altersrente__rentner:
+    if sozialversicherung__rente__rentner:
         rentner_vorjahr = (
             sozialversicherung__rente__jahr_renteneintritt
             < demographics__geburtsjahr + demographics__alter
@@ -358,9 +372,9 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     if rentner_vorjahr:
         out = (
             (
-                sozialversicherung__rente__altersrente__entgeltpunkte_west
+                sozialversicherung__rente__entgeltpunkte_west
                 * ges_rente_params["rentenwert_vorjahr"]["west"]
-                + sozialversicherung__rente__altersrente__entgeltpunkte_ost
+                + sozialversicherung__rente__entgeltpunkte_ost
                 * ges_rente_params["rentenwert_vorjahr"]["ost"]
             )
             * sozialversicherung__rente__altersrente__zugangsfaktor
@@ -374,14 +388,15 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
 @policy_function()
 def grundsätzlich_anspruchsberechtigt(
-    grundrentenzeiten_m: int, ges_rente_params: dict
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m: int,
+    ges_rente_params: dict,
 ) -> bool:
     """Whether person has accumulated enough insured years to be eligible.
 
     Parameters
     ----------
-    grundrentenzeiten_m
-        See :func:`grundrentenzeiten_m`.
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m
+        See :func:`sozialversicherung__rente__grundrente__grundrentenzeiten_m`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -389,5 +404,10 @@ def grundsätzlich_anspruchsberechtigt(
     -------
 
     """
-    out = grundrentenzeiten_m >= ges_rente_params["grundrentenzeiten_m"]["min"]
+    out = (
+        sozialversicherung__rente__grundrente__grundrentenzeiten_m
+        >= ges_rente_params[
+            "sozialversicherung__rente__grundrente__grundrentenzeiten_m"
+        ]["min"]
+    )
     return out

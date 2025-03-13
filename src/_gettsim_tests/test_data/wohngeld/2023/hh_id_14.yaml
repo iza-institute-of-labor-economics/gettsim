@@ -137,7 +137,7 @@ inputs:
       - 10
       - 8
       - 3
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 1993
       - 1993
       - 1993

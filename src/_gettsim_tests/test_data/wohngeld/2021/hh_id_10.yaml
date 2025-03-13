@@ -40,7 +40,7 @@ inputs:
       - false
     demographics__alter:
       - 57
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 1980
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - false

@@ -136,7 +136,7 @@ inputs:
       - 1983
       - 2014
       - 2016
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

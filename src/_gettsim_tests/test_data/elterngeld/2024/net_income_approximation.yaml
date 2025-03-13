@@ -48,6 +48,6 @@ inputs:
       - 10.0
   assumed: {}
 outputs:
-  elterngeld__nettoerwerbseinkommen_approximation_m:
+  elterngeld__nettoeinkommen_approximation_m:
     - 790.0
     - 158.0

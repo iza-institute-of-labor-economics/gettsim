@@ -43,7 +43,7 @@ a nutshell and without explanations, these conventions are:
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
    `arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
-   `grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
+   `grundsicherung__im_alter__vermögensfreibetrag_eg`), the group (i.e., the tax or
    transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
@@ -114,7 +114,7 @@ This makes searching for identifiers easier and less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
 `arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
-`grundsicherung__im_alter__vermögen_freibetrag_eg`), the group (i.e., the tax or
+`grundsicherung__im_alter__vermögensfreibetrag_eg`), the group (i.e., the tax or
 transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or

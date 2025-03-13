@@ -46,9 +46,9 @@ Female
 
 Type: bool
 
-(sozialversicherung__rente__altersrente__rentner)=
+(sozialversicherung__rente__rentner)=
 
-## `sozialversicherung__rente__altersrente__rentner`
+## `sozialversicherung__rente__rentner`
 
 Pensioner employment status
 
@@ -261,8 +261,8 @@ Type: bool
 
 Approximation of the net wage in the 12 months before birth of youngest child (according
 to simplified calculation rules). You may let GETTSIM compute this variable via the
-`elterngeld__nettoerwerbseinkommen_approximation_m` target in a separate run, which
-would typically be for the previous calendar year.
+`elterngeld__nettoeinkommen_approximation_m` target in a separate run, which would
+typically be for the previous calendar year.
 
 Type: float
 
@@ -270,10 +270,10 @@ Type: float
 
 ## `elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn`
 
-Taxable income in the 12 months before birth of youngest child. You may let GETTSIM
-compute this variable via the
-`einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn`
-target in a separate run, which would typically be for the previous calendar year.
+Taxable income in the calendar year prior to the youngest child's birth year. You may
+let GETTSIM compute this variable via the
+`einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn` target in a separate run,
+which would typically be for the previous calendar year.
 
 Type: float
 
@@ -341,9 +341,9 @@ Handicap degree (between 0 and 100)
 
 Type: int
 
-(sozialversicherung__rente__altersrente__schwerbehindert_grad_g)=
+(grundsicherung__im_alter__schwerbehindert_grad_g)=
 
-## `sozialversicherung__rente__altersrente__schwerbehindert_grad_g`
+## `grundsicherung__im_alter__schwerbehindert_grad_g`
 
 Severerly handicapped, with flag "G"
 
@@ -357,9 +357,9 @@ Level of rents in city (1: low, 3: average)
 
 Type: int
 
-(wohngeld__baujahr_immobilie_hh)=
+(wohnen__baujahr_immobilie_hh)=
 
-## `wohngeld__baujahr_immobilie_hh`
+## `wohnen__baujahr_immobilie_hh`
 
 Construction year of dwelling
 
@@ -374,17 +374,17 @@ level.{ref}`See this page for more details. <means_testing>`
 
 Type: float
 
-(sozialversicherung__rente__altersrente__entgeltpunkte_west)=
+(sozialversicherung__rente__entgeltpunkte_west)=
 
-## `sozialversicherung__rente__altersrente__entgeltpunkte_west`
+## `sozialversicherung__rente__entgeltpunkte_west`
 
 Earnings points for pension claim accumulated in western states
 
 Type: float
 
-(sozialversicherung__rente__altersrente__entgeltpunkte_ost)=
+(sozialversicherung__rente__entgeltpunkte_ost)=
 
-## `sozialversicherung__rente__altersrente__entgeltpunkte_ost`
+## `sozialversicherung__rente__entgeltpunkte_ost`
 
 Earnings points for pension claim accumulated in eastern states
 
@@ -422,25 +422,25 @@ Amount of monthly private pension
 
 Type: float
 
-(sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m)=
+(sozialversicherung__rente__pflichtbeitragszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m`
+## `sozialversicherung__rente__pflichtbeitragszeiten_m`
 
 Total months of mandatory pensioninsurance contributions
 
 Type: float
 
-(sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m)=
+(sozialversicherung__rente__freiwillige_beitragszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m`
+## `sozialversicherung__rente__freiwillige_beitragszeiten_m`
 
 Total months of voluntary pensioninsurance contributions
 
 Type: float
 
-(sozialversicherung__rente__altersrente__mutterschutzzeiten_m)=
+(sozialversicherung__rente__mutterschutzzeiten_m)=
 
-## `sozialversicherung__rente__altersrente__mutterschutzzeiten_m`
+## `sozialversicherung__rente__mutterschutzzeiten_m`
 
 Total months of maternal protections
 
@@ -454,74 +454,74 @@ Total months of sickness, rehabilitation,measures for worklife participation(Tei
 
 Type: float
 
-(sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m)=
+(sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m)=
 
-## `sozialversicherung__rente__altersrente__krankheitszeiten_ab_16_bis_24_m`
+## `sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m`
 
 Months of sickness between age 16 and 24
 
 Type: float
 
-(sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m)=
+(sozialversicherung__rente__arbeitslosigkeitszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__arbeitslosigkeitszeiten_m`
+## `sozialversicherung__rente__arbeitslosigkeitszeiten_m`
 
 Total months of unemployment (registered)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__ausbildungssuche_m)=
+(sozialversicherung__rente__ausbildungssuche_m)=
 
-## `sozialversicherung__rente__altersrente__ausbildungssuche_m`
+## `sozialversicherung__rente__ausbildungssuche_m`
 
 Total months of apprenticeship search
 
 Type: float
 
-(sozialversicherung__rente__altersrente__schulausbildung_m)=
+(sozialversicherung__rente__schulausbildung_m)=
 
-## `sozialversicherung__rente__altersrente__schulausbildung_m`
+## `sozialversicherung__rente__schulausbildung_m`
 
 Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m)=
+(sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m)=
 
-## `sozialversicherung__rente__altersrente__entgeltersatzleistungen_arbeitslosigkeit_m`
+## `sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
 Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
 
 Type: float
 
-(sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m)=
+(sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m)=
 
-## `sozialversicherung__rente__altersrente__zeiten_geringfügiger_beschäftigung_m`
+## `sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m`
 
 Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__ersatzzeiten_m)=
+(sozialversicherung__rente__ersatzzeiten_m)=
 
-## `sozialversicherung__rente__altersrente__ersatzzeiten_m`
+## `sozialversicherung__rente__ersatzzeiten_m`
 
 Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
-(sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m)=
+(sozialversicherung__rente__kinderberücksichtigungszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m`
+## `sozialversicherung__rente__kinderberücksichtigungszeiten_m`
 
 Total months of childcare till age 10
 
 Type: float
 
-(sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m)=
+(sozialversicherung__rente__pflegeberücksichtigungszeiten_m)=
 
-## `sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m`
+## `sozialversicherung__rente__pflegeberücksichtigungszeiten_m`
 
 Total months of home care provision (01.01.1992-31.03.1995)
 

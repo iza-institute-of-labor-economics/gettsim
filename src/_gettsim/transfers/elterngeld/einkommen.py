@@ -139,7 +139,7 @@ def einkommen_vorjahr_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
 
 
 @policy_function(params_key_for_rounding="elterngeld")
-def nettoerwerbseinkommen_approximation_m(
+def nettoeinkommen_approximation_m(
     einkommen__bruttolohn_m: float,
     lohnsteuer__betrag_m: float,
     lohnsteuer__betrag_soli_m: float,

@@ -40,9 +40,9 @@ inputs:
       - 0.0
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 300
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - true
-    sozialversicherung__rente__altersrente__schwerbehindert_grad_g:
+    grundsicherung__im_alter__schwerbehindert_grad_g:
       - false
     demographics__vermögen_eg:
       - 5600.0

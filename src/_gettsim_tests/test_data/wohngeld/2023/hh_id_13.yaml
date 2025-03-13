@@ -80,7 +80,7 @@ inputs:
       - 39
       - 35
       - 10
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 1970
       - 1970
       - 1970

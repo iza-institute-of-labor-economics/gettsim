@@ -6,8 +6,8 @@ from _gettsim.function_types import policy_function
 @policy_function(start_date="2001-01-01")
 def betrag_m(  # noqa: PLR0913
     zugangsfaktor: float,
-    entgeltpunkte_west: float,
-    entgeltpunkte_ost: float,
+    sozialversicherung__rente__entgeltpunkte_west: float,
+    sozialversicherung__rente__entgeltpunkte_ost: float,
     rentenartfaktor: float,
     grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
@@ -21,10 +21,10 @@ def betrag_m(  # noqa: PLR0913
     ----------
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    entgeltpunkte_west
-        See :func:`entgeltpunkte_west`.
-    entgeltpunkte_ost
-        See :func:`entgeltpunkte_ost`.
+    sozialversicherung__rente__entgeltpunkte_west
+        See :func:`sozialversicherung__rente__entgeltpunkte_west`.
+    sozialversicherung__rente__entgeltpunkte_ost
+        See :func:`sozialversicherung__rente__entgeltpunkte_ost`.
     rentenwert
         See :func:`rentenwert`.
     rentenartfaktor
@@ -40,8 +40,10 @@ def betrag_m(  # noqa: PLR0913
     if grundsätzlich_anspruchsberechtigt:
         out = (
             (
-                entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
-                + entgeltpunkte_ost * ges_rente_params["rentenwert"]["ost"]
+                sozialversicherung__rente__entgeltpunkte_west
+                * ges_rente_params["rentenwert"]["west"]
+                + sozialversicherung__rente__entgeltpunkte_ost
+                * ges_rente_params["rentenwert"]["ost"]
             )
             * zugangsfaktor
             * rentenartfaktor
@@ -55,7 +57,7 @@ def betrag_m(  # noqa: PLR0913
 def grundsätzlich_anspruchsberechtigt(
     voll_erwerbsgemindert: bool,
     teilweise_erwerbsgemindert: bool,
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m: float,
+    sozialversicherung__rente__pflichtbeitragszeiten_m: float,
     sozialversicherung__rente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
     """
@@ -69,8 +71,8 @@ def grundsätzlich_anspruchsberechtigt(
         See basic input variable :ref:`voll_erwerbsgemindert <voll_erwerbsgemindert>.
     teilweise_erwerbsgemindert
         See basic input variable :ref:`teilweise_erwerbsgemindert <teilweise_erwerbsgemindert>.
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m <sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m>.
+    sozialversicherung__rente__pflichtbeitragszeiten_m
+        See basic input variable :ref:`sozialversicherung__rente__pflichtbeitragszeiten_m <sozialversicherung__rente__pflichtbeitragszeiten_m>.
     sozialversicherung__rente__mindestwartezeit_erfüllt
         See :func:`sozialversicherung__rente__mindestwartezeit_erfüllt`.
     Returns
@@ -81,15 +83,15 @@ def grundsätzlich_anspruchsberechtigt(
     anspruch_erwerbsm_rente = (
         (voll_erwerbsgemindert or teilweise_erwerbsgemindert)
         and sozialversicherung__rente__mindestwartezeit_erfüllt
-        and sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m >= 36
+        and sozialversicherung__rente__pflichtbeitragszeiten_m >= 36
     )
 
     return anspruch_erwerbsm_rente
 
 
 @policy_function(start_date="2001-01-01")
-def entgeltpunkte_west(
-    sozialversicherung__rente__altersrente__entgeltpunkte_west: float,
+def sozialversicherung__rente__entgeltpunkte_west(
+    sozialversicherung__rente__entgeltpunkte_west: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltp_ost: float,
 ) -> float:
@@ -102,8 +104,8 @@ def entgeltpunkte_west(
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_west <sozialversicherung__rente__altersrente__entgeltpunkte_west>
+    sozialversicherung__rente__entgeltpunkte_west
+        See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_west <sozialversicherung__rente__entgeltpunkte_west>
     zurechnungszeit
         See :func:`zurechnungszeit`.
     sozialversicherung__rente__altersrente__anteil_entgeltp_ost
@@ -115,7 +117,7 @@ def entgeltpunkte_west(
 
     """
 
-    out = sozialversicherung__rente__altersrente__entgeltpunkte_west + (
+    out = sozialversicherung__rente__entgeltpunkte_west + (
         zurechnungszeit
         * (1 - sozialversicherung__rente__altersrente__anteil_entgeltp_ost)
     )
@@ -124,8 +126,8 @@ def entgeltpunkte_west(
 
 
 @policy_function(start_date="2001-01-01")
-def entgeltpunkte_ost(
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost: float,
+def sozialversicherung__rente__entgeltpunkte_ost(
+    sozialversicherung__rente__entgeltpunkte_ost: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltp_ost: float,
 ) -> float:
@@ -138,8 +140,8 @@ def entgeltpunkte_ost(
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:`sozialversicherung__rente__altersrente__entgeltpunkte_ost <sozialversicherung__rente__altersrente__entgeltpunkte_ost>
+    sozialversicherung__rente__entgeltpunkte_ost
+        See basic input variable :ref:`sozialversicherung__rente__entgeltpunkte_ost <sozialversicherung__rente__entgeltpunkte_ost>
     zurechnungszeit
         See :func:`zurechnungszeit`.
     sozialversicherung__rente__altersrente__anteil_entgeltp_ost
@@ -151,7 +153,7 @@ def entgeltpunkte_ost(
 
     """
 
-    out = sozialversicherung__rente__altersrente__entgeltpunkte_ost + (
+    out = sozialversicherung__rente__entgeltpunkte_ost + (
         zurechnungszeit * sozialversicherung__rente__altersrente__anteil_entgeltp_ost
     )
 
@@ -291,12 +293,12 @@ def zugangsfaktor(
 
 @policy_function(start_date="2001-01-01")
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m: float,
-    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m: float,
+    sozialversicherung__rente__pflichtbeitragszeiten_m: float,
+    sozialversicherung__rente__freiwillige_beitragszeiten_m: float,
     sozialversicherung__rente__anrechnungszeit_45: float,
-    sozialversicherung__rente__altersrente__ersatzzeiten_m: float,
-    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m: float,
-    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m: float,
+    sozialversicherung__rente__ersatzzeiten_m: float,
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m: float,
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m: float,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> bool:
@@ -304,18 +306,18 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m>`.
-    sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m>`.
+    sozialversicherung__rente__pflichtbeitragszeiten_m
+        See basic input variable :ref:<sozialversicherung__rente__pflichtbeitragszeiten_m>`.
+    sozialversicherung__rente__freiwillige_beitragszeiten_m
+        See basic input variable :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_m>`.
     sozialversicherung__rente__anrechnungszeit_45
         See :func:`sozialversicherung__rente__anrechnungszeit_45`.
-    sozialversicherung__rente__altersrente__ersatzzeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__ersatzzeiten_m>`.
-    sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m>`.
-    sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m>`.
+    sozialversicherung__rente__ersatzzeiten_m
+        See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_m>`.
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m
+        See basic input variable :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_m>`.
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m
+        See basic input variable :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_m>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     erwerbsm_rente_params
@@ -327,22 +329,20 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
     """
     if (
-        sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
+        sozialversicherung__rente__pflichtbeitragszeiten_m
         >= ges_rente_params["wartezeit_45_pflichtbeitragsmonate"]
     ):
-        freiwilligbeitr = (
-            sozialversicherung__rente__altersrente__freiwillige_beitragszeiten_m
-        )
+        freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_m
     else:
         freiwilligbeitr = 0
 
     m_zeiten = (
-        sozialversicherung__rente__altersrente__pflichtbeitragszeiten_m
+        sozialversicherung__rente__pflichtbeitragszeiten_m
         + freiwilligbeitr
         + sozialversicherung__rente__anrechnungszeit_45
-        + sozialversicherung__rente__altersrente__ersatzzeiten_m
-        + sozialversicherung__rente__altersrente__pflegeberücksichtigungszeiten_m
-        + sozialversicherung__rente__altersrente__kinderberücksichtigungszeiten_m
+        + sozialversicherung__rente__ersatzzeiten_m
+        + sozialversicherung__rente__pflegeberücksichtigungszeiten_m
+        + sozialversicherung__rente__kinderberücksichtigungszeiten_m
     ) / 12
 
     out = (
@@ -355,8 +355,8 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
 @policy_function()
 def durchschnittliche_entgeltpunkte(
-    sozialversicherung__rente__altersrente__entgeltpunkte_west: float,
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost: float,
+    sozialversicherung__rente__entgeltpunkte_west: float,
+    sozialversicherung__rente__entgeltpunkte_ost: float,
     sozialversicherung__rente__alter_bei_renteneintritt: float,
     erwerbsm_rente_params: dict,
 ) -> float:
@@ -368,10 +368,10 @@ def durchschnittliche_entgeltpunkte(
 
     Parameters
     ----------
-    sozialversicherung__rente__altersrente__entgeltpunkte_west
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__entgeltpunkte_west>
-    sozialversicherung__rente__altersrente__entgeltpunkte_ost
-        See basic input variable :ref:<sozialversicherung__rente__altersrente__entgeltpunkte_ost>
+    sozialversicherung__rente__entgeltpunkte_west
+        See basic input variable :ref:<sozialversicherung__rente__entgeltpunkte_west>
+    sozialversicherung__rente__entgeltpunkte_ost
+        See basic input variable :ref:<sozialversicherung__rente__entgeltpunkte_ost>
     sozialversicherung__rente__alter_bei_renteneintritt
         See :func:`sozialversicherung__rente__alter_bei_renteneintritt`.
     erwerbsm_rente_params
@@ -388,8 +388,8 @@ def durchschnittliche_entgeltpunkte(
     )
 
     durchschnittliche_entgeltpunkte = (
-        sozialversicherung__rente__altersrente__entgeltpunkte_west
-        + sozialversicherung__rente__altersrente__entgeltpunkte_ost
+        sozialversicherung__rente__entgeltpunkte_west
+        + sozialversicherung__rente__entgeltpunkte_ost
     ) / beleg_gesamtzeitr
 
     return durchschnittliche_entgeltpunkte

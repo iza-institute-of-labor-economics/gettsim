@@ -14,10 +14,12 @@ def anzurechnendes_einkommen_m(
 ) -> float:
     """Relevant income according to SGB II.
 
-    Note: When aggregating this target to the household level, deduct
-    `differenz_kindergeld_kindbedarf_m_hh`. This is necessary because the Kindergeld
-    received by the child may enter `anzurechnendes_einkommen_m_hh` twice: once as
-    Kindergeld and once as Kindergeldübertrag.
+    Note: If you are using GETTSIM and want to aggregate to BG/HH level (which is never
+    required by the rules of the taxes and transfers system), you need to deduct
+    `differenz_kindergeld_kindbedarf_m_hh` from the result of this function. This is
+    necessary because the Kindergeld received by the child may enter
+    `anzurechnendes_einkommen_m_hh` twice: once as Kindergeld and once as
+    Kindergeldübertrag.
 
     Parameters
     ----------

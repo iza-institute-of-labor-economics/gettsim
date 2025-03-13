@@ -130,7 +130,7 @@ inputs:
       - 15
       - 6
       - 5
-    wohngeld__baujahr_immobilie_hh:
+    wohnen__baujahr_immobilie_hh:
       - 1995
       - 1995
       - 1995

@@ -208,7 +208,7 @@ inputs:
       - 1994
       - 1996
       - 2004
-    sozialversicherung__rente__altersrente__rentner:
+    sozialversicherung__rente__rentner:
       - false
       - false
       - false

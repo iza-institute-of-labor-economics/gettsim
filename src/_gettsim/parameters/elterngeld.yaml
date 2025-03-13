@@ -252,7 +252,7 @@ rounding:
       base: 2
       direction: down
       reference: §2 (2) BEEG
-  elterngeld__nettoerwerbseinkommen_approximation_m:
+  elterngeld__nettoeinkommen_approximation_m:
     1980-01-01:
       base: 0.01
       direction: down
