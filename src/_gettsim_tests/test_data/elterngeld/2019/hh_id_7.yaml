@@ -12,11 +12,11 @@ inputs:
       - 71
       - 72
       - 73
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 72
       - 71
       - -1
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 72
       - 71
       - -1

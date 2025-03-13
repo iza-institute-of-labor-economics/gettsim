@@ -1,6 +1,6 @@
 """Income relevant for withholding tax on earnings (Lohnsteuer)."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function(params_key_for_rounding="lohnst")

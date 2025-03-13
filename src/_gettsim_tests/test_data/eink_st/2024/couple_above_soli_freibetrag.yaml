@@ -10,7 +10,7 @@ inputs:
     demographics__hh_id:
       - 3
       - 3
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 4
       - 3
     demographics__kind:

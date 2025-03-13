@@ -1,6 +1,6 @@
 """Age thresholds for public pension eligibility."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2011-12-31", leaf_name="altersgrenze_abschlagsfrei")

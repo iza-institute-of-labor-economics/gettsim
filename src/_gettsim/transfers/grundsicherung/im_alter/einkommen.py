@@ -1,6 +1,6 @@
 """Income considered in the calculation of Grundsicherung im Alter."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 

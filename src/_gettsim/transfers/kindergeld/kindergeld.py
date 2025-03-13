@@ -3,7 +3,7 @@
 import numpy
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.shared import join_numpy
 
 aggregation_specs = {
@@ -184,7 +184,7 @@ def kind_bis_10_mit_kindergeld(
 def gleiche_fg_wie_empfänger(
     demographics__p_id: numpy.ndarray[int],
     p_id_empfänger: numpy.ndarray[int],
-    demographics__fg_id: numpy.ndarray[int],
+    arbeitslosengeld_2__fg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
     """The child's Kindergeldempfänger is in the same Familiengemeinschaft.
 
@@ -194,8 +194,8 @@ def gleiche_fg_wie_empfänger(
         See basic input variable :ref:`demographics__p_id <demographics__p_id>`.
     p_id_empfänger
         See basic input variable :ref:`p_id_empfänger <p_id_empfänger>`.
-    demographics__fg_id
-        See basic input variable :ref:`demographics__fg_id <demographics__fg_id>`.
+    arbeitslosengeld_2__fg_id
+        See basic input variable :ref:`arbeitslosengeld_2__fg_id <arbeitslosengeld_2__fg_id>`.
 
     Returns
     -------
@@ -204,8 +204,8 @@ def gleiche_fg_wie_empfänger(
     fg_id_kindergeldempfänger = join_numpy(
         p_id_empfänger,
         demographics__p_id,
-        demographics__fg_id,
+        arbeitslosengeld_2__fg_id,
         value_if_foreign_key_is_missing=-1,
     )
 
-    return fg_id_kindergeldempfänger == demographics__fg_id
+    return fg_id_kindergeldempfänger == arbeitslosengeld_2__fg_id

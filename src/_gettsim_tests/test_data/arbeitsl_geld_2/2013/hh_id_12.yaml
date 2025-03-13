@@ -13,7 +13,7 @@ inputs:
     demographics__kind:
       - false
       - false
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 26
       - 25
     demographics__p_id_elternteil_1:
@@ -22,7 +22,7 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 26
       - 25
     kindergeld__p_id_empfänger:

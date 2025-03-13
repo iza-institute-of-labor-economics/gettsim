@@ -11,7 +11,7 @@ from _gettsim.config import (
     PATHS_TO_INTERNAL_FUNCTIONS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import GroupByFunction, PolicyFunction
 from _gettsim.gettsim_typing import NestedAggregationSpecDict, NestedFunctionDict
 from _gettsim.shared import (
     create_tree_from_path_and_value,
@@ -39,14 +39,12 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     -------
     A tree of active PolicyFunctions.
     """
-    paths_to_policy_functions = _find_python_files_recursively(
-        PATHS_TO_INTERNAL_FUNCTIONS
-    )
+    paths_to_functions = _find_python_files_recursively(PATHS_TO_INTERNAL_FUNCTIONS)
 
     functions_tree = {}
 
-    for path in paths_to_policy_functions:
-        new_functions_tree = get_active_policy_functions_tree_from_module(
+    for path in paths_to_functions:
+        new_functions_tree = get_active_functions_tree_from_module(
             path=path, date=date, package_root=RESOURCE_DIR
         )
 
@@ -58,12 +56,12 @@ def load_functions_tree_for_date(date: datetime.date) -> NestedFunctionDict:
     return functions_tree
 
 
-def get_active_policy_functions_tree_from_module(
+def get_active_functions_tree_from_module(
     path: Path,
     package_root: Path,
     date: datetime.date,
-) -> dict[str, PolicyFunction]:
-    """Extract all active PolicyFunctions from a module.
+) -> dict[str, PolicyFunction | GroupByFunction]:
+    """Extract all active PolicyFunctions and GroupByFunctions from a module.
 
     Parameters
     ----------
@@ -76,7 +74,7 @@ def get_active_policy_functions_tree_from_module(
 
     Returns
     -------
-    A nested dictionary of active PolicyFunctions with their leaf names as keys.
+    The tree of active PolicyFunctions and GroupByFunctions.
     """
     module = _load_module(path, package_root)
     module_name = _convert_path_to_importable_module_name(path, package_root)
@@ -94,9 +92,16 @@ def get_active_policy_functions_tree_from_module(
     active_policy_functions = {
         func.leaf_name: func for func in policy_functions if func.is_active(date)
     }
+
+    group_by_functions = {
+        func.leaf_name: func
+        for _, func in all_functions_in_module
+        if isinstance(func, GroupByFunction)
+    }
+
     return create_tree_from_path_and_value(
         path=_convert_path_to_tree_path(path=path, package_root=RESOURCE_DIR),
-        value=active_policy_functions,
+        value={**active_policy_functions, **group_by_functions},
     )
 
 

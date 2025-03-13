@@ -1,7 +1,7 @@
 """Parental leave benefits."""
 
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "kind_grundsätzlich_anspruchsberechtigt_fg": AggregateByGroupSpec(
@@ -13,7 +13,7 @@ aggregation_specs = {
         aggr="sum",
     ),
     "bezugsmonate": AggregateByPIDSpec(
-        p_id_to_aggregate_by="demograpics__p_id_einstandspartner",
+        p_id_to_aggregate_by="arbeitslosengeld_2__p_id_einstandspartner",
         source_col="bisheriger_bezug_m",
         aggr="sum",
     ),

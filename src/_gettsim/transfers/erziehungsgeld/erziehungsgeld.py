@@ -1,7 +1,7 @@
 """Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 
 from _gettsim.aggregation import AggregateByPIDSpec
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "anspruchshöhe_eltern_m": AggregateByPIDSpec(

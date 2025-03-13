@@ -10,7 +10,7 @@ import numpy
 
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.config import SUPPORTED_GROUPINGS
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import group_by_function, policy_function
 from _gettsim.shared import join_numpy
 
 
@@ -388,3 +388,30 @@ def ist_kind_mit_erwerbseinkommen(
         einkommen__bruttolohn_m > 0
     ) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out
+
+
+@group_by_function()
+def ehe_id(
+    demographics__p_id: numpy.ndarray[int],
+    demographics__p_id_ehepartner: numpy.ndarray[int],
+) -> numpy.ndarray[int]:
+    """
+    Compute the ID of the Ehe for each person.
+    """
+    p_id_to_ehe_id = {}
+    next_ehe_id = 0
+    result = []
+
+    for index, current_p_id in enumerate(demographics__p_id):
+        current_p_id_ehepartner = demographics__p_id_ehepartner[index]
+
+        if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_ehe_id:
+            result.append(p_id_to_ehe_id[current_p_id_ehepartner])
+            continue
+
+        # New married couple
+        result.append(next_ehe_id)
+        p_id_to_ehe_id[current_p_id] = next_ehe_id
+        next_ehe_id += 1
+
+    return numpy.asarray(result)

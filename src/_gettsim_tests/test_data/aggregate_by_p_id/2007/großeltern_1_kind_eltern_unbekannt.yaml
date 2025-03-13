@@ -30,11 +30,11 @@ inputs:
       - 0
       - 0
       - 0
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
       - -1
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
       - -1
       - -1

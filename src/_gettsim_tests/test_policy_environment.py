@@ -7,7 +7,7 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,

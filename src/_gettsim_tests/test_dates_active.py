@@ -2,11 +2,11 @@ import datetime
 
 import pytest
 
-from _gettsim.functions.loader import (
+from _gettsim.function_types import policy_function
+from _gettsim.loader import (
     ConflictingTimeDependentFunctionsError,
     _fail_if_multiple_policy_functions_are_active_at_the_same_time,
 )
-from _gettsim.functions.policy_function import policy_function
 
 # Start date -----------------------------------------------
 

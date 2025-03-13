@@ -133,13 +133,13 @@ GETTSIM knows about the following units:
   whom the priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This
   unit is based on the priority check via `vorrangpruefungen__wohngeld_vorrang_bg` and
   `vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg`.
-- `demographics__fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant
-  unit for Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the
-  potential Bedarfsgemeinschaft before making checks for whether children have enough
-  income fend for themselves. Subset of `hh`.
+- `arbeitslosengeld_2__fg_id`: Familiengemeinschaft. Maximum of two generations, the
+  relevant unit for Bürgergeld / Arbeitslosengeld 2. Another way to think about this is
+  the potential Bedarfsgemeinschaft before making checks for whether children have
+  enough income fend for themselves. Subset of `hh`.
 - `arbeitslosengeld_2__bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding
   children who have enough income to fend for themselves (they will form separate
-  `bg`s). Subset of `demographics__fg_id`.
+  `bg`s). Subset of `arbeitslosengeld_2__fg_id`.
 - `arbeitslosengeld_2__eg_id`: Einstandsgemeinschaft, a couple whose members are deemed
   to be responsible for each other. This includes couples that live together and may or
   may not be married or in a civil union.

@@ -71,12 +71,14 @@ INTERNAL_PARAMS_GROUPS = [
 SUPPORTED_GROUPINGS = {
     "hh": {
         "name": "Haushalt",
+        "namespace": "demographics",
         "description": "Individuals living together in a household in the Wohngeld"
         " sense (§5 WoGG).",
         "potentially_endogenous": False,
     },
     "wthh": {
         "name": "wohngeldrechtlicher Teilhaushalt",
+        "namespace": "wohngeld",
         "description": "The relevant unit for Wohngeld. Members of a household for whom"
         " the Wohngeld priority check compared to Bürgergeld yields the same result"
         " ∈ {True, False}.",
@@ -84,6 +86,7 @@ SUPPORTED_GROUPINGS = {
     },
     "fg": {
         "name": "Familiengemeinschaft",
+        "namespace": "arbeitslosengeld_2",
         "description": "Maximum of two generations, the relevant base unit for"
         " Bürgergeld / Arbeitslosengeld 2, before excluding children who have enough"
         " income fend for themselves.",
@@ -91,23 +94,27 @@ SUPPORTED_GROUPINGS = {
     },
     "bg": {
         "name": "Bedarfsgemeinschaft",
+        "namespace": "arbeitslosengeld_2",
         "description": "Familiengemeinschaft except for children who have enough income"
         " to fend for themselves. Relevant unit for Bürgergeld / Arbeitslosengeld 2",
         "potentially_endogenous": True,
     },
     "eg": {
         "name": "Einstandsgemeinschaft / Einstandspartner",
+        "namespace": "arbeitslosengeld_2",
         "description": "A couple whose members are deemed to be responsible for each"
         " other.",
         "potentially_endogenous": True,
     },
     "ehe": {
         "name": "Ehepartner",
+        "namespace": "demographics",
         "description": "Couples that are either married or in a civil union.",
         "potentially_endogenous": True,
     },
     "sn": {
         "name": "Steuernummer",
+        "namespace": "einkommensteuer",
         "description": "Spouses filing taxes jointly or individuals.",
         "potentially_endogenous": True,
     },
@@ -184,8 +191,8 @@ TYPES_INPUT_VARIABLES = {
     "demographics__vermögen": float,
     "demographics__weiblich": bool,
     "demographics__wohnort_ost": bool,
-    "demograpics__p_id_ehepartner": int,
-    "demograpics__p_id_einstandspartner": int,
+    "demographics__p_id_ehepartner": int,
+    "arbeitslosengeld_2__p_id_einstandspartner": int,
     "einkommen__aus_selbstständigkeit_m": float,
     "einkommen__aus_vermietung_m": float,
     "einkommen__bruttokapitaleinkommen_m": float,
@@ -250,8 +257,8 @@ TYPES_INPUT_VARIABLES = {
 }
 
 FOREIGN_KEYS = [
-    "demograpics__p_id_ehepartner",
-    "demograpics__p_id_einstandspartner",
-    "demographics__p_id_elternteil_1",
-    "demographics__p_id_elternteil_2",
+    ("demographics", "p_id_ehepartner"),
+    ("arbeitslosengeld_2", "p_id_einstandspartner"),
+    ("demographics", "p_id_elternteil_1"),
+    ("demographics", "p_id_elternteil_2"),
 ]

@@ -19,7 +19,7 @@ inputs:
     kindergeld__p_id_empfänger:
       - -1
       - 23
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
     demographics__alleinerziehend:

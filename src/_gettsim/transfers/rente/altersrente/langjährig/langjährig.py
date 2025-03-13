@@ -1,6 +1,6 @@
 """Pathway for the long-term insured."""
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="1989-12-17", leaf_name="altersgrenze")

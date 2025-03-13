@@ -5,14 +5,14 @@ info:
 inputs:
   - id: 0
     demographics__geburtstag: 1984-07-14
-    demograpics__p_id_einstandspartner: 1
-    demograpics__p_id_ehepartner: 1
+    arbeitslosengeld_2__p_id_einstandspartner: 1
+    demographics__p_id_ehepartner: 1
     einkommensteuer__gemeinsam_veranlagt: true
     demographics__hh_id: 0
   - id: 1
     demographics__geburtstag: 1981-07-14
-    demograpics__p_id_einstandspartner: 0
-    demograpics__p_id_ehepartner: 0
+    arbeitslosengeld_2__p_id_einstandspartner: 0
+    demographics__p_id_ehepartner: 0
     einkommensteuer__gemeinsam_veranlagt: false
     demographics__hh_id: 0
 outputs:

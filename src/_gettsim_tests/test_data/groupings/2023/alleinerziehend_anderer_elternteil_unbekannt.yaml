@@ -24,10 +24,10 @@ inputs:
     demographics__hh_id:
       - 0
       - 0
-    demograpics__p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
-    demograpics__p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
       - -1
     einkommensteuer__gemeinsam_veranlagt:
@@ -43,7 +43,7 @@ inputs:
       - false
       - false
 outputs:
-  demographics__fg_id:
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
   arbeitslosengeld_2__bg_id:

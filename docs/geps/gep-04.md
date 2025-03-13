@@ -241,7 +241,7 @@ aggregation_specs = {
 }
 ```
 
-The group identifier (`hh_id`, `wohngeld__wthh_id`, `demographics__fg_id`,
+The group identifier (`hh_id`, `wohngeld__wthh_id`, `arbeitslosengeld_2__fg_id`,
 `arbeitslosengeld_2__bg_id`, `arbeitslosengeld_2__eg_id`, `demographics__ehe_id`,
 `einkommensteuer__sn_id`) will be automatically included as an argument; for `count`
 nothing else is necessary.

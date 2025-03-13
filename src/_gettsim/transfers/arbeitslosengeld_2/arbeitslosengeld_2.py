@@ -3,7 +3,7 @@
 Note: Since 2023, Arbeitslosengeld II is referred to as Bürgergeld.
 """
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 
 
 @policy_function()
