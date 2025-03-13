@@ -180,6 +180,7 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
 @pytest.mark.parametrize(
     "target_path, group_by_functions_tree, expected",
     [
+        (("namespace1", "foo"), {}, ()),
         (("namespace1", "foo_hh"), {}, ("demographics", "hh_id")),
         (
             ("namespace1", "foo_hh"),
