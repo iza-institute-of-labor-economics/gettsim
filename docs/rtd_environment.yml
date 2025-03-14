@@ -17,6 +17,7 @@ dependencies:
   - numpy
   - numpy_groupies
   - pandas
+  - pip
   - plotly>=5.24,<6
   - pygments
   - pygraphviz

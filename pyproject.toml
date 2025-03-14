@@ -36,7 +36,7 @@ classifiers = [
 requires-python = ">=3.11"
 dependencies = [
     "astor",
-    #"dags",
+    "dags",
     "ipywidgets",
     "networkx",
     "numpy",
@@ -113,9 +113,6 @@ pygments = "*"
 pygraphviz = "*"
 pyyaml = "*"
 toml = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
 
 
 # Development Dependencies (pypi)
@@ -123,13 +120,8 @@ pytest-xdist = "*"
 
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
-pdbp = "*"
-dags = {git = "https://github.com/OpenSourceEconomics/dags"}
-flatten_dict = "*"
-
-
-[tool.pixi.target.unix.pypi-dependencies]
 kaleido = "*"
+pdbp = "*"
 
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = ">=0.1.0.post1,<=0.1.0.post1"
@@ -151,11 +143,10 @@ jaxlib = ">=0.4.20"
 jax = { version = ">=0.4.20", extras = ["cpu"] }
 jaxlib = ">=0.4.20"
 
-# Tasks
-# --------------------------------------------------------------------------------------
-
-[tool.pixi.feature.test.tasks]
-tests = "pytest"
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 
 # Environments
 # --------------------------------------------------------------------------------------

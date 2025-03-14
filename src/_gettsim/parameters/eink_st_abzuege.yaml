@@ -91,10 +91,15 @@ kinderfreib:
   2024-01-01:
     deviation_from: previous
     sächl_existenzmin: 3306
-    reference: >-
-      Not implemented in law yet, but announced.
-      https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/
-      spuerbare-verbesserungen-fuer-familien--234802
+    reference: Art. 1 G. v. 05.12.2024 BGBl. 2024 I Nr. 386.
+  2025-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3336
+    reference: Art. 1 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
+  2026-01-01:
+    deviation_from: previous
+    sächl_existenzmin: 3414
+    reference: Art. 2 G. v. 30.12.2024 BGBl. 2024 Nr. 449.
 vorsorge2004_vorwegabzug:
   name:
     de: Vorwegabzug der Vorsorgeaufwendungen der Rechtslage vor 2004.
