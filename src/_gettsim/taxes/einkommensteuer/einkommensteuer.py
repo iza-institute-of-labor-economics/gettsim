@@ -103,12 +103,20 @@ def kinderfreibetrag_günstiger_sn(
     return out
 
 
-@policy_function(end_date="2001-12-31", leaf_name="betrag_mit_kinderfreibetrag_y_sn")
+@policy_function(
+    end_date="2001-12-31",
+    leaf_name="betrag_mit_kinderfreibetrag_y_sn",
+    params_key_for_rounding="eink_st",
+)
 def betrag_mit_kinderfreibetrag_y_sn_bis_2001() -> float:
     raise NotImplementedError("Tax system before 2002 is not implemented yet.")
 
 
-@policy_function(start_date="2002-01-01", leaf_name="betrag_mit_kinderfreibetrag_y_sn")
+@policy_function(
+    start_date="2002-01-01",
+    leaf_name="betrag_mit_kinderfreibetrag_y_sn",
+    params_key_for_rounding="eink_st",
+)
 def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn: float,
     demographics__anzahl_personen_sn: int,
