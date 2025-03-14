@@ -7,7 +7,7 @@ from _gettsim.function_types import policy_function
 def betrag_arbeitnehmer_vor_midijob_m(
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
-    betrag_selbständig_m: float,
+    betrag_selbstständig_m: float,
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     einkommen__ist_selbstständig: bool,
 ) -> float:
@@ -21,8 +21,8 @@ def betrag_arbeitnehmer_vor_midijob_m(
         See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_rentner_m
         See :func:`betrag_rentner_m`.
-    betrag_selbständig_m
-        See :func:`betrag_selbständig_m`.
+    betrag_selbstständig_m
+        See :func:`betrag_selbstständig_m`.
     betrag_arbeitnehmer_regulär_beschäftigt_m
         See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
     einkommen__ist_selbstständig
@@ -34,7 +34,7 @@ def betrag_arbeitnehmer_vor_midijob_m(
 
     """
     if einkommen__ist_selbstständig:
-        out = betrag_selbständig_m
+        out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     else:
@@ -48,7 +48,7 @@ def betrag_arbeitnehmer_vor_midijob_m(
 def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
-    betrag_selbständig_m: float,
+    betrag_selbstständig_m: float,
     sozialversicherung__in_gleitzone: bool,
     betrag_arbeitnehmer_midijob_m: float,
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
@@ -64,8 +64,8 @@ def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
         See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_rentner_m
         See :func:`betrag_rentner_m`.
-    betrag_selbständig_m
-        See :func:`betrag_selbständig_m`.
+    betrag_selbstständig_m
+        See :func:`betrag_selbstständig_m`.
     betrag_arbeitnehmer_midijob_m
         See :func:`betrag_arbeitnehmer_midijob_m`.
     betrag_arbeitnehmer_regulär_beschäftigt_m
@@ -81,7 +81,7 @@ def betrag_arbeitnehmer_mit_midijob_m(  # noqa: PLR0913
 
     """
     if einkommen__ist_selbstständig:
-        out = betrag_selbständig_m
+        out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     elif sozialversicherung__in_gleitzone:
@@ -214,8 +214,8 @@ def betrag_arbeitnehmer_regulär_beschäftigt_m(
 
 
 @policy_function()
-def betrag_selbständig_m(
-    einkommen__bemessungsgrundlage_selbständig_m: float,
+def betrag_selbstständig_m(
+    einkommen__bemessungsgrundlage_selbstständig_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance contributions for self-employed's income. The self-employed
@@ -223,8 +223,8 @@ def betrag_selbständig_m(
 
     Parameters
     ----------
-    einkommen__bemessungsgrundlage_selbständig_m
-        See :func:`einkommen__bemessungsgrundlage_selbständig_m`.
+    einkommen__bemessungsgrundlage_selbstständig_m
+        See :func:`einkommen__bemessungsgrundlage_selbstständig_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -239,7 +239,9 @@ def betrag_selbständig_m(
     zusatzbeitrag = params.get("mean_zusatzbeitrag", 0.0)
     ges_krankenv_beitr_satz_selbst = ermäßigter_beitrag + zusatzbeitrag
 
-    return ges_krankenv_beitr_satz_selbst * einkommen__bemessungsgrundlage_selbständig_m
+    return (
+        ges_krankenv_beitr_satz_selbst * einkommen__bemessungsgrundlage_selbstständig_m
+    )
 
 
 @policy_function()

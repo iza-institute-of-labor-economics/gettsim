@@ -8,7 +8,7 @@ def betrag_vor_midijob_m(
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
-    betrag_selbständig_m: float,
+    betrag_selbstständig_m: float,
     einkommen__ist_selbstständig: bool,
 ) -> float:
     """Employee's long-term care insurance contribution until March 2003.
@@ -19,8 +19,8 @@ def betrag_vor_midijob_m(
         See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_rentner_m
         See :func:`betrag_rentner_m`.
-    betrag_selbständig_m
-        See :func:`betrag_selbständig_m`.
+    betrag_selbstständig_m
+        See :func:`betrag_selbstständig_m`.
     betrag_arbeitnehmer_regulär_beschäftigt_m
         See :func:`betrag_arbeitnehmer_regulär_beschäftigt_m`.
     einkommen__ist_selbstständig
@@ -33,7 +33,7 @@ def betrag_vor_midijob_m(
     """
 
     if einkommen__ist_selbstständig:
-        out = betrag_selbständig_m
+        out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     else:
@@ -48,7 +48,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     betrag_arbeitnehmer_regulär_beschäftigt_m: float,
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
-    betrag_selbständig_m: float,
+    betrag_selbstständig_m: float,
     betrag_arbeitnehmer_m: float,
     sozialversicherung__in_gleitzone: bool,
     einkommen__ist_selbstständig: bool,
@@ -63,8 +63,8 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
         See :func:`sozialversicherung__geringfügig_beschäftigt`.
     betrag_rentner_m
         See :func:`betrag_rentner_m`.
-    betrag_selbständig_m
-        See :func:`betrag_selbständig_m`.
+    betrag_selbstständig_m
+        See :func:`betrag_selbstständig_m`.
     betrag_arbeitnehmer_m
         See :func:`betrag_arbeitnehmer_m`.
     sozialversicherung__in_gleitzone
@@ -79,7 +79,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     """
 
     if einkommen__ist_selbstständig:
-        out = betrag_selbständig_m
+        out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     elif sozialversicherung__in_gleitzone:
@@ -207,10 +207,10 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
 @policy_function(
     start_date="1995-01-01",
     end_date="2004-12-31",
-    leaf_name="betrag_selbständig_m",
+    leaf_name="betrag_selbstständig_m",
 )
-def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
-    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m: float,
+def betrag_selbstständig_ohne_zusatz_fuer_kinderlose_m(
+    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m: float,
     beitragssatz: float,
 ) -> float:
     """Self-employed individuals' long-term care insurance contribution until 2004.
@@ -221,8 +221,8 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
     Parameters
     ----------
 
-    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m
-        See :func: `sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m`.
+    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m
+        See :func: `sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m`.
 
     beitragssatz
         See :func: `beitragssatz`.
@@ -232,14 +232,14 @@ def betrag_selbständig_ohne_zusatz_fuer_kinderlose_m(
     Self-employed long-term care insurance contributions.
 
     """
-    return sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m * (
+    return sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m * (
         beitragssatz * 2
     )
 
 
-@policy_function(start_date="2005-01-01", leaf_name="betrag_selbständig_m")
-def betrag_selbständig_zusatz_kinderlos_dummy_m(
-    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m: float,
+@policy_function(start_date="2005-01-01", leaf_name="betrag_selbstständig_m")
+def betrag_selbstständig_zusatz_kinderlos_dummy_m(
+    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -251,8 +251,8 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
     Parameters
     ----------
 
-    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m
-        See         :func:`sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m`.
+    sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m
+        See         :func:`sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m`.
 
     beitragssatz
         See :func:`beitragssatz`.
@@ -265,7 +265,7 @@ def betrag_selbständig_zusatz_kinderlos_dummy_m(
     Self-employed long-term care insurance contributions.
 
     """
-    return sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbständig_m * (
+    return sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m * (
         beitragssatz + sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
