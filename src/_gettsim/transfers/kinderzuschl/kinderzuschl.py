@@ -1,6 +1,6 @@
 """Kinderzuschlag / Additional Child Benefit."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def kinderzuschl_m_bg(
@@ -58,9 +58,9 @@ def _kinderzuschl_nach_vermög_check_m(
     return _kinderzuschl_nach_vermög_check_m_bg / anz_personen_bg
 
 
-@policy_info(
+@policy_function(
     end_date="2019-06-30",
-    name_in_dag="_kinderzuschl_vor_vermög_check_m_bg",
+    leaf_name="_kinderzuschl_vor_vermög_check_m_bg",
 )
 def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
     kinderzuschl_bruttoeink_eltern_m_bg: float,
@@ -117,7 +117,7 @@ def _kinderzuschl_vor_vermög_check_m_bg_check_eink_max(  # noqa: PLR0913
     return out
 
 
-@policy_info(start_date="2019-07-01")
+@policy_function(start_date="2019-07-01")
 def _kinderzuschl_vor_vermög_check_m_bg(
     kinderzuschl_bruttoeink_eltern_m_bg: float,
     kinderzuschl_eink_min_m_bg: float,

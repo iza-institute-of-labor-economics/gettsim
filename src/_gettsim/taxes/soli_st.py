@@ -1,8 +1,8 @@
+from _gettsim.functions.policy_function import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.shared import policy_info
 
 
-@policy_info(end_date="2008-12-31", name_in_dag="soli_st_y_sn")
+@policy_function(end_date="2008-12-31", leaf_name="soli_st_y_sn")
 def soli_st_y_sn_ohne_abgelt_st(
     eink_st_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
@@ -40,7 +40,7 @@ def soli_st_y_sn_ohne_abgelt_st(
     return out
 
 
-@policy_info(start_date="2009-01-01", name_in_dag="soli_st_y_sn")
+@policy_function(start_date="2009-01-01", leaf_name="soli_st_y_sn")
 def soli_st_y_sn_mit_abgelt_st(
     eink_st_mit_kinderfreib_y_sn: float,
     anz_personen_sn: int,
@@ -111,7 +111,7 @@ def _soli_st_tarif(st_per_individual: float, soli_st_params: dict) -> float:
     ----------
     st_per_individual:
         the tax amount to be topped up
-    soli_st_params :
+    soli_st_params
         See params documentation :ref:`soli_st_params <solo_st_params>`
     Returns
         solidarity surcharge

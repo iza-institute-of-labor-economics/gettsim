@@ -1,7 +1,7 @@
 """Functions to calculate basic needs according to SGB II
 (i.e., where Arbeitslosengeld 2 is defined)."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def arbeitsl_geld_2_regelbedarf_m(
@@ -88,7 +88,7 @@ def _arbeitsl_geld_2_alleinerz_mehrbedarf_m(
     return out
 
 
-@policy_info(end_date="2010-12-31", name_in_dag="arbeitsl_geld_2_kindersatz_m")
+@policy_function(end_date="2010-12-31", leaf_name="arbeitsl_geld_2_kindersatz_m")
 def arbeitsl_geld_2_kindersatz_m_bis_2010(
     alter: int,
     same_fg_as_kindergeldempfänger: bool,
@@ -137,7 +137,7 @@ def arbeitsl_geld_2_kindersatz_m_bis_2010(
     return float(out)
 
 
-@policy_info(start_date="2011-01-01", name_in_dag="arbeitsl_geld_2_kindersatz_m")
+@policy_function(start_date="2011-01-01", leaf_name="arbeitsl_geld_2_kindersatz_m")
 def arbeitsl_geld_2_kindersatz_m_ab_2011(
     alter: int,
     same_fg_as_kindergeldempfänger: bool,
@@ -190,7 +190,7 @@ def arbeitsl_geld_2_kindersatz_m_ab_2011(
     return float(out)
 
 
-@policy_info(end_date="2010-12-31", name_in_dag="arbeitsl_geld_2_erwachsenensatz_m")
+@policy_function(end_date="2010-12-31", leaf_name="arbeitsl_geld_2_erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
     arbeitsl_geld_2_kindersatz_m: float,
@@ -229,7 +229,7 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
     return out * (1 + _arbeitsl_geld_2_alleinerz_mehrbedarf_m)
 
 
-@policy_info(start_date="2011-01-01", name_in_dag="arbeitsl_geld_2_erwachsenensatz_m")
+@policy_function(start_date="2011-01-01", leaf_name="arbeitsl_geld_2_erwachsenensatz_m")
 def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
     _arbeitsl_geld_2_alleinerz_mehrbedarf_m: float,
     arbeitsl_geld_2_kindersatz_m: float,

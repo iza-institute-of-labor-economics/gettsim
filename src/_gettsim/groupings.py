@@ -3,18 +3,23 @@ from collections.abc import Callable
 
 import numpy
 
+from _gettsim.functions.policy_function import policy_function
+
 
 def create_groupings() -> dict[str, Callable]:
     return {
-        "wthh_id": wthh_id_numpy,
-        "fg_id": fg_id_numpy,
-        "bg_id": bg_id_numpy,
-        "eg_id": eg_id_numpy,
-        "ehe_id": ehe_id_numpy,
-        "sn_id": sn_id_numpy,
+        "groupings": {
+            "wthh_id": wthh_id_numpy,
+            "fg_id": fg_id_numpy,
+            "bg_id": bg_id_numpy,
+            "eg_id": eg_id_numpy,
+            "ehe_id": ehe_id_numpy,
+            "sn_id": sn_id_numpy,
+        },
     }
 
 
+@policy_function(skip_vectorization=True, leaf_name="bg_id")
 def bg_id_numpy(
     fg_id: numpy.ndarray[int],
     alter: numpy.ndarray[int],
@@ -43,6 +48,7 @@ def bg_id_numpy(
     return numpy.asarray(result)
 
 
+@policy_function(skip_vectorization=True, leaf_name="eg_id")
 def eg_id_numpy(
     p_id: numpy.ndarray[int],
     p_id_einstandspartner: numpy.ndarray[int],
@@ -72,6 +78,7 @@ def eg_id_numpy(
     return numpy.asarray(result)
 
 
+@policy_function(skip_vectorization=True, leaf_name="ehe_id")
 def ehe_id_numpy(
     p_id: numpy.ndarray[int],
     p_id_ehepartner: numpy.ndarray[int],
@@ -98,6 +105,7 @@ def ehe_id_numpy(
     return numpy.asarray(result)
 
 
+@policy_function(skip_vectorization=True, leaf_name="fg_id")
 def fg_id_numpy(  # noqa: PLR0913
     p_id: numpy.ndarray[int],
     hh_id: numpy.ndarray[int],
@@ -174,6 +182,7 @@ def fg_id_numpy(  # noqa: PLR0913
     return numpy.asarray(result)
 
 
+@policy_function(skip_vectorization=True, leaf_name="sn_id")
 def sn_id_numpy(
     p_id: numpy.ndarray[int],
     p_id_ehepartner: numpy.ndarray[int],
@@ -217,6 +226,7 @@ def sn_id_numpy(
     return numpy.asarray(result)
 
 
+@policy_function(skip_vectorization=True, leaf_name="wthh_id")
 def wthh_id_numpy(
     hh_id: numpy.ndarray[int],
     wohngeld_vorrang_bg: numpy.ndarray[bool],

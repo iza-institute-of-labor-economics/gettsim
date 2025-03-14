@@ -1,13 +1,18 @@
 import inspect
-import re
 import textwrap
 from collections.abc import Callable
-from datetime import date
-from typing import TypeVar
+from typing import Any, TypeVar
 
+import flatten_dict
 import numpy
+import optree
+from dags.signature import rename_arguments
+from flatten_dict.reducers import make_reducer
+from flatten_dict.splitters import make_splitter
 
-from _gettsim.config import SUPPORTED_GROUPINGS
+from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
+from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
 
 class KeyErrorMessage(str):
@@ -17,157 +22,6 @@ class KeyErrorMessage(str):
 
     def __repr__(self):
         return str(self)
-
-
-TIME_DEPENDENT_FUNCTIONS: dict[str, list[Callable]] = {}
-
-
-def policy_info(
-    *,
-    start_date: str = "0001-01-01",
-    end_date: str = "9999-12-31",
-    name_in_dag: str | None = None,
-    params_key_for_rounding: str | None = None,
-    skip_vectorization: bool = False,
-) -> Callable:
-    """
-    A decorator to attach additional information to a policy function.
-
-    **Dates active (start_date, end_date, name_in_dag):**
-
-    Specifies that a function is only active between two dates, `start` and `end`. By
-    using the `change_name` argument, you can specify a different name for the function
-    in the DAG.
-
-    Note that even if you use this decorator with the `change_name` argument, you must
-    ensure that the function name is unique in the file where it is defined. Otherwise,
-    the function would be overwritten by the last function with the same name.
-
-    **Rounding spec (params_key_for_rounding):**
-
-    Adds the location of the rounding specification to a function.
-
-    Parameters
-    ----------
-    start_date
-        The start date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    end_date
-        The end date (inclusive) in the format YYYY-MM-DD (part of ISO 8601).
-    name_in_dag
-        The name that should be used as the key for the function in the DAG.
-        If omitted, we use the name of the function as defined.
-    params_key_for_rounding
-        Key of the parameters dictionary where rounding specifications are found. For
-        functions that are not user-written this is just the name of the respective
-        .yaml file.
-    skip_vectorization
-        Whether the function is already vectorized and, thus, should not be vectorized
-        again.
-
-    Returns
-    -------
-        The function with attributes __info__["start_date"],
-        __info__["end_date"], __info__["name_in_dag"], and
-        __info__["params_key_for_rounding"].
-    """
-
-    _validate_dashed_iso_date(start_date)
-    _validate_dashed_iso_date(end_date)
-
-    start_date = date.fromisoformat(start_date)
-    end_date = date.fromisoformat(end_date)
-
-    _validate_date_range(start_date, end_date)
-
-    def inner(func: Callable) -> Callable:
-        dag_key = name_in_dag if name_in_dag else func.__name__
-
-        _check_for_conflicts_in_time_dependent_functions(
-            dag_key, func.__name__, start_date, end_date
-        )
-
-        # Remember data from decorator
-        if not hasattr(func, "__info__"):
-            func.__info__ = {}
-        func.__info__["start_date"] = start_date
-        func.__info__["end_date"] = end_date
-        func.__info__["name_in_dag"] = dag_key
-        if params_key_for_rounding is not None:
-            func.__info__["params_key_for_rounding"] = params_key_for_rounding
-        func.__info__["skip_vectorization"] = skip_vectorization
-
-        # Register time-dependent function
-        if dag_key not in TIME_DEPENDENT_FUNCTIONS:
-            TIME_DEPENDENT_FUNCTIONS[dag_key] = []
-        TIME_DEPENDENT_FUNCTIONS[dag_key].append(func)
-
-        return func
-
-    return inner
-
-
-_dashed_iso_date = re.compile(r"\d{4}-\d{2}-\d{2}")
-
-
-def _validate_dashed_iso_date(date_str: str):
-    if not _dashed_iso_date.match(date_str):
-        raise ValueError(f"Date {date_str} does not match the format YYYY-MM-DD.")
-
-
-def _validate_date_range(start: date, end: date):
-    if start > end:
-        raise ValueError(f"The start date {start} must be before the end date {end}.")
-
-
-def _check_for_conflicts_in_time_dependent_functions(
-    dag_key: str, function_name: str, start: date, end: date
-):
-    """
-    Raises an error if a different time-dependent function has already been registered
-    for the given dag_key and their date ranges overlap.
-    """
-
-    if dag_key not in TIME_DEPENDENT_FUNCTIONS:
-        return
-
-    for f in TIME_DEPENDENT_FUNCTIONS[dag_key]:
-        # A function is not conflicting with itself. We compare names instead of
-        # identities since functions might get wrapped, which would change their
-        # identity but not their name.
-        if f.__name__ != function_name and (
-            start <= f.__info__["start_date"] <= end
-            or f.__info__["start_date"] <= start <= f.__info__["end_date"]
-        ):
-            raise ConflictingTimeDependentFunctionsError(
-                dag_key,
-                function_name,
-                start,
-                end,
-                f.__name__,
-                f.__info__["start_date"],
-                f.__info__["end_date"],
-            )
-
-
-class ConflictingTimeDependentFunctionsError(Exception):
-    """Raised when two time-dependent functions have overlapping time ranges."""
-
-    def __init__(  # noqa: PLR0913
-        self,
-        dag_key: str,
-        function_name_1: str,
-        start_1: date,
-        end_1: date,
-        function_name_2: str,
-        start_2: date,
-        end_2: date,
-    ):
-        super().__init__(
-            f"Conflicting functions for key {dag_key!r}: "
-            f"{function_name_1!r} ({start_1} to {end_1}) vs. "
-            f"{function_name_2!r} ({start_2} to {end_2}).\n\n"
-            f"Overlapping from {max(start_1, start_2)} to {min(end_1, end_2)}."
-        )
 
 
 def format_list_linewise(list_):
@@ -181,27 +35,160 @@ def format_list_linewise(list_):
     ).format(formatted_list=formatted_list)
 
 
-def parse_to_list_of_strings(user_input, name):
-    """Parse None, str, and list of strings to list of strings.
+qualified_name_reducer = make_reducer(delimiter=QUALIFIED_NAME_SEPARATOR)
+qualified_name_splitter = make_splitter(delimiter=QUALIFIED_NAME_SEPARATOR)
 
-    Note that the function automatically removes duplicates.
 
+def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict:
+    """Create a nested dict with 'path' as keys and 'value' as leaf.
+
+    Example:
+        Input:
+            path = ("a", "b", "c")
+            value = None
+        Result:
+            {"a": {"b": {"c": None}}}
+
+    Parameters
+    ----------
+    path
+        The path to create the tree structure from.
+    value (Optional)
+        The value to insert into the tree structure.
+
+    Returns
+    -------
+    The tree structure.
     """
-    if user_input is None:
-        user_input = []
-    elif isinstance(user_input, str):
-        user_input = [user_input]
-    elif isinstance(user_input, list) and all(isinstance(i, str) for i in user_input):
-        pass
-    else:
-        raise NotImplementedError(
-            f"{name!r} needs to be None, a string or a list of strings."
-        )
-
-    return sorted(set(user_input))
+    nested_dict = value
+    for entry in reversed(path):
+        nested_dict = {entry: nested_dict}
+    return nested_dict
 
 
-def format_errors_and_warnings(text, width=79):
+def merge_trees(left: dict, right: dict) -> dict:
+    """
+    Merge two pytrees, raising an error if a path is present in both trees.
+
+    Parameters
+    ----------
+    left
+        The first tree to be merged.
+    right
+        The second tree to be merged.
+
+    Returns
+    -------
+    The merged pytree.
+    """
+
+    if set(optree.tree_paths(left)) & set(optree.tree_paths(right)):
+        raise ValueError("Conflicting paths in trees to merge.")
+
+    return upsert_tree(base=left, to_upsert=right)
+
+
+def upsert_tree(base: dict, to_upsert: dict) -> dict:
+    """
+    Upsert a tree into another tree for trees defined by dictionaries only.
+
+    Note: In case of conflicting trees, the to_upsert takes precedence.
+
+    Example:
+        Input:
+            base = {"a": {"b": {"c": None}}}
+            to_upsert = {"a": {"b": {"d": None}}}
+        Output:
+            {"a": {"b": {"c": None, "d": None}}}
+
+    Parameters
+    ----------
+    base
+        The base dictionary.
+    to_upsert
+        The dictionary to update the base dictionary.
+
+    Returns
+    -------
+    The merged dictionary.
+    """
+    result = base.copy()
+
+    for key, value in to_upsert.items():
+        base_value = result.get(key)
+        if key in result and isinstance(base_value, dict) and isinstance(value, dict):
+            result[key] = upsert_tree(base=base_value, to_upsert=value)
+        else:
+            result[key] = value
+
+    return result
+
+
+def upsert_path_and_value(
+    base: dict[str, Any], path_to_upsert: tuple[str], value_to_upsert: Any = None
+) -> dict[str, Any]:
+    """Update tree with a path and value.
+
+    The path is a list of strings that represent the keys in the nested dictionary. If
+    the path does not exist, it will be created. If the path already exists, the value
+    will be updated.
+    """
+    to_upsert = create_tree_from_path_and_value(
+        path=path_to_upsert, value=value_to_upsert
+    )
+    return upsert_tree(base=base, to_upsert=to_upsert)
+
+
+def insert_path_and_value(
+    base: dict[str, Any], path_to_insert: tuple[str], value_to_insert: Any = None
+) -> dict[str, Any]:
+    """Insert a path and value into a tree.
+
+    The path is a list of strings that represent the keys in the nested dictionary. The
+    path must not exist in base.
+    """
+    to_insert = create_tree_from_path_and_value(
+        path=path_to_insert, value=value_to_insert
+    )
+    return merge_trees(left=base, right=to_insert)
+
+
+def partition_tree_by_reference_tree(
+    tree_to_partition: NestedFunctionDict | NestedDataDict,
+    reference_tree: NestedFunctionDict | NestedDataDict,
+) -> tuple[
+    NestedFunctionDict | NestedDataDict,
+    NestedFunctionDict | NestedDataDict,
+]:
+    """
+    Partition a tree into two based on the presence of its paths in a reference tree.
+
+    Parameters
+    ----------
+    tree_to_partition
+        The tree to be partitioned.
+    reference_tree
+        The reference tree used to determine the partitioning.
+
+    Returns
+    -------
+    A tuple containing:
+    - The first tree with leaves present in both trees.
+    - The second tree with leaves absent in the reference tree.
+    """
+    ref_paths = set(flatten_dict.flatten(reference_tree).keys())
+    flat = flatten_dict.flatten(tree_to_partition)
+    intersection = flatten_dict.unflatten(
+        {path: leaf for path, leaf in flat.items() if path in ref_paths}
+    )
+    difference = flatten_dict.unflatten(
+        {path: leaf for path, leaf in flat.items() if path not in ref_paths}
+    )
+
+    return intersection, difference
+
+
+def format_errors_and_warnings(text: str, width: int = 79) -> str:
     """Format our own exception messages and warnings by dedenting paragraphs and
     wrapping at the specified width. Mainly required because of messages are written as
     part of indented blocks in our source code.
@@ -215,8 +202,7 @@ def format_errors_and_warnings(text, width=79):
 
     Returns
     -------
-    formatted_text : str
-        Correctly dedented, wrapped text.
+    Correctly dedented, wrapped text.
 
     """
     text = text.lstrip("\n")
@@ -232,7 +218,7 @@ def format_errors_and_warnings(text, width=79):
     return formatted_text
 
 
-def get_names_of_arguments_without_defaults(function):
+def get_names_of_arguments_without_defaults(function: PolicyFunction) -> list[str]:
     """Get argument names without defaults.
 
     The detection of argument names also works for partialed functions.
@@ -250,11 +236,7 @@ def get_names_of_arguments_without_defaults(function):
     """
     parameters = inspect.signature(function).parameters
 
-    argument_names_without_defaults = [
-        p for p in parameters if parameters[p].default == parameters[p].empty
-    ]
-
-    return argument_names_without_defaults
+    return [p for p in parameters if parameters[p].default == parameters[p].empty]
 
 
 def remove_group_suffix(col):
@@ -292,20 +274,25 @@ def join_numpy(
 
     Returns
     -------
-    numpy.ndarray[Out]
-        The joined array.
+    The joined array.
     """
     if len(numpy.unique(primary_key)) != len(primary_key):
         keys, counts = numpy.unique(primary_key, return_counts=True)
         duplicate_primary_keys = keys[counts > 1]
-        raise ValueError(f"Duplicate primary keys: {duplicate_primary_keys}")
+        msg = format_errors_and_warnings(
+            f"Duplicate primary keys: {duplicate_primary_keys}",
+        )
+        raise ValueError(msg)
 
     invalid_foreign_keys = foreign_key[
         (foreign_key >= 0) & (~numpy.isin(foreign_key, primary_key))
     ]
 
     if len(invalid_foreign_keys) > 0:
-        raise ValueError(f"Invalid foreign keys: {invalid_foreign_keys}")
+        msg = format_errors_and_warnings(
+            f"Invalid foreign keys: {invalid_foreign_keys}",
+        )
+        raise ValueError(msg)
 
     # For each foreign key and for each primary key, check if they match
     matches_foreign_key = foreign_key[:, None] == primary_key
@@ -326,3 +313,75 @@ def join_numpy(
 
     # Return the target at the index of the first matching primary key
     return padded_targets.take(indices)
+
+
+def rename_arguments_and_add_annotations(
+    function: Callable | None = None,
+    *,
+    mapper: dict | None = None,
+    annotations: dict | None = None,
+):
+    wrapper = rename_arguments(function, mapper=mapper)
+
+    if annotations:
+        wrapper.__annotations__ = annotations
+
+    return wrapper
+
+
+def assert_valid_gettsim_pytree(
+    tree: Any, leaf_checker: Callable, tree_name: str
+) -> None:
+    """
+    Recursively assert that a pytree meets the following conditions:
+      - The tree is a dictionary.
+      - All keys are strings.
+      - All leaves satisfy a provided condition (leaf_checker).
+
+    Parameters
+    ----------
+    tree : Any
+         The tree to validate.
+    leaf_checker : Callable
+         A function that takes a leaf and returns True if it is valid.
+    tree_name : str
+         The name of the tree (used for error messages).
+
+    Raises
+    ------
+    TypeError
+        If any branch or leaf does not meet the expected requirements.
+    """
+
+    def _assert_valid_gettsim_pytree(
+        subtree: Any, current_key: tuple[str, ...]
+    ) -> None:
+        def format_key_path(key_tuple: tuple[str, ...]) -> str:
+            return "".join(f"[{k}]" for k in key_tuple)
+
+        if not isinstance(subtree, dict):
+            path_str = format_key_path(current_key)
+            msg = format_errors_and_warnings(
+                f"{tree_name}{path_str} must be a dict, got {type(subtree)}."
+            )
+            raise TypeError(msg)
+
+        for key, value in subtree.items():
+            new_key_path = (*current_key, key)
+            if not isinstance(key, str):
+                msg = format_errors_and_warnings(
+                    f"Key {key} in {tree_name}{format_key_path(current_key)} must be a "
+                    f"string but got {type(key)}."
+                )
+                raise TypeError(msg)
+            if isinstance(value, dict):
+                _assert_valid_gettsim_pytree(value, new_key_path)
+            else:
+                if not leaf_checker(value):
+                    msg = format_errors_and_warnings(
+                        f"Leaf at {tree_name}{format_key_path(new_key_path)} is "
+                        f"invalid: got {value} of type {type(value)}."
+                    )
+                    raise TypeError(msg)
+
+    _assert_valid_gettsim_pytree(tree, current_key=())

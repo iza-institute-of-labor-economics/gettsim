@@ -1,60 +1,60 @@
 """Some tests for the policy_environment module."""
 
 from datetime import date, timedelta
+from typing import Any
 
+import optree
 import pandas as pd
 import pytest
 
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.functions.policy_function import policy_function
+from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
+    _fail_if_name_of_last_branch_element_not_leaf_name_of_function,
     _load_parameter_group_from_yaml,
-    load_functions_for_date,
+    load_functions_tree_for_date,
     set_up_policy_environment,
 )
 from _gettsim_tests import TEST_DIR
 
 
 class TestPolicyEnvironment:
-    def test_get_function_by_name_exists(self):
-        function = PolicyFunction(lambda: 1, function_name="foo")
-        environment = PolicyEnvironment([function])
+    def test_func_exists_in_tree(self):
+        function = policy_function(leaf_name="foo")(lambda: 1)
+        environment = PolicyEnvironment({"foo": function})
 
-        assert environment.get_function_by_name("foo") == function
+        assert environment.functions_tree["foo"] == function
 
-    def test_get_function_by_name_does_not_exist(self):
-        environment = PolicyEnvironment([], {})
+    def test_func_does_not_exist_in_tree(self):
+        environment = PolicyEnvironment({}, {})
 
-        assert environment.get_function_by_name("foo") is None
+        assert "foo" not in environment.functions_tree
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({"foo": policy_function(leaf_name="foo")(lambda: 1)}),
             PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                ]
-            ),
-            PolicyEnvironment(
-                [
-                    PolicyFunction(lambda: 1, function_name="foo"),
-                    PolicyFunction(lambda: 2, function_name="bar"),
-                ]
+                {
+                    "foo": policy_function(leaf_name="foo")(lambda: 1),
+                    "bar": policy_function(leaf_name="bar")(lambda: 2),
+                }
             ),
         ],
     )
     def test_upsert_functions(self, environment: PolicyEnvironment):
-        new_function = PolicyFunction(lambda: 3, function_name="foo")
-        new_environment = environment.upsert_functions(new_function)
+        new_function = policy_function(leaf_name="foo")(lambda: 3)
+        new_environment = environment.upsert_policy_functions({"foo": new_function})
 
-        assert new_environment.get_function_by_name("foo") == new_function
+        assert new_environment.functions_tree["foo"] == new_function
 
     @pytest.mark.parametrize(
         "environment",
         [
-            PolicyEnvironment([], {}),
-            PolicyEnvironment([], {"foo": {"bar": 1}}),
+            PolicyEnvironment({}, {}),
+            PolicyEnvironment({}, {"foo": {"bar": 1}}),
         ],
     )
     def test_replace_all_parameters(self, environment: PolicyEnvironment):
@@ -105,42 +105,53 @@ def test_access_different_date_jahresanfang():
     assert params["foo_jahresanfang"] == 2020
 
 
+@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
-    "dag_key, last_day, function_name_last_day, function_name_next_day",
+    "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            "eink_st_altersfreib_y",
+            {"zu_verst_eink": {"freibetraege": {"eink_st_altersfreib_y": None}}},
             date(2004, 12, 31),
             "eink_st_altersfreib_y_bis_2004",
             "eink_st_altersfreib_y_ab_2005",
         ),
         (
-            "alleinerz_freib_y_sn",
+            {"zu_verst_eink": {"freibetraege": {"alleinerz_freib_y_sn": None}}},
             date(2014, 12, 31),
             "eink_st_alleinerz_freib_y_sn_pauschal",
             "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
         ),
         (
-            "sum_eink_y",
+            {"zu_verst_eink": {"eink": {"sum_eink_y": None}}},
             date(2008, 12, 31),
             "sum_eink_mit_kapital_eink_y",
             "sum_eink_ohne_kapital_eink_y",
         ),
     ],
 )
-def test_load_functions_for_date(
-    dag_key: str,
+def test_load_functions_tree_for_date(
+    tree: dict[str, Any],
     last_day: date,
     function_name_last_day: str,
     function_name_next_day: str,
 ):
-    functions_last_day = {
-        f.name_in_dag: f.function for f in load_functions_for_date(date=last_day)
-    }
-    functions_next_day = {
-        f.name_in_dag: f.function
-        for f in load_functions_for_date(date=last_day + timedelta(days=1))
-    }
+    functions_last_day = load_functions_tree_for_date(date=last_day)
+    functions_next_day = load_functions_tree_for_date(date=last_day + timedelta(days=1))
 
-    assert functions_last_day[dag_key].__name__ == function_name_last_day
-    assert functions_next_day[dag_key].__name__ == function_name_next_day
+    accessor = optree.tree_accessors(tree, none_is_leaf=True)[0]
+
+    assert accessor(functions_last_day).__name__ == function_name_last_day
+    assert accessor(functions_next_day).__name__ == function_name_next_day
+
+
+@pytest.mark.parametrize(
+    "functions_tree",
+    [
+        {"foo": policy_function(leaf_name="bar")(lambda: 1)},
+    ],
+)
+def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
+    functions_tree: NestedFunctionDict,
+):
+    with pytest.raises(KeyError):
+        _fail_if_name_of_last_branch_element_not_leaf_name_of_function(functions_tree)

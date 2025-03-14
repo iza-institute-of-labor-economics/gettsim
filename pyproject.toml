@@ -44,6 +44,7 @@ dependencies = [
     "pandas",
     "openpyxl",
     "plotly",
+    "optree",
     "pygments",
     "pygraphviz",
     "pytest",
@@ -103,19 +104,15 @@ numpy_groupies = "*"
 numpydoc = "*"
 openpyxl = "*"
 astor = "*"
-dags = "*"
 ipywidgets = "*"
 jupyterlab = "*"
-networkx = "*"
+networkx = "*" # Remove once dags is a proper dependency
 plotly = ">=5.24,<6"
+optree = "*"
 pygments = "*"
 pygraphviz = "*"
 pyyaml = "*"
 toml = "*"
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
-pixi-pycharm = ">=0.0.8,<0.0.9"
 
 
 # Development Dependencies (pypi)
@@ -123,10 +120,8 @@ pixi-pycharm = ">=0.0.8,<0.0.9"
 
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
-pdbp = "*"
-
-[tool.pixi.target.unix.pypi-dependencies]
 kaleido = "*"
+pdbp = "*"
 
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = ">=0.1.0.post1,<=0.1.0.post1"
@@ -148,11 +143,10 @@ jaxlib = ">=0.4.20"
 jax = { version = ">=0.4.20", extras = ["cpu"] }
 jaxlib = ">=0.4.20"
 
-# Tasks
-# --------------------------------------------------------------------------------------
-
-[tool.pixi.feature.test.tasks]
-tests = "pytest"
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 
 # Environments
 # --------------------------------------------------------------------------------------
@@ -323,7 +317,6 @@ norecursedirs = ["docs"]
 testpaths = [
     "src/_gettsim_tests",
 ]
-
 
 # ======================================================================================
 # yamlfix configuration

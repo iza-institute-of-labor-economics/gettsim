@@ -1,6 +1,6 @@
 """Functions to compute parental leave benefits (Erziehungsgeld, -2007)."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 aggregate_by_p_id_erziehungsgeld = {
     "erziehungsgeld_eltern_m": {
@@ -11,7 +11,7 @@ aggregate_by_p_id_erziehungsgeld = {
 }
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_m(
     erziehungsgeld_eltern_m: int,
     erziehungsgeld_anspruch_eltern: bool,
@@ -42,9 +42,9 @@ def erziehungsgeld_m(
     return out
 
 
-@policy_info(
+@policy_function(
     end_date="2003-12-31",
-    name_in_dag="erziehungsgeld_kind_m",
+    leaf_name="erziehungsgeld_kind_m",
     params_key_for_rounding="erziehungsgeld",
 )
 def erziehungsgeld_kind_ohne_budgetsatz_m() -> float:
@@ -56,10 +56,10 @@ def erziehungsgeld_kind_ohne_budgetsatz_m() -> float:
     )
 
 
-@policy_info(
+@policy_function(
     start_date="2004-01-01",
     end_date="2008-12-31",
-    name_in_dag="erziehungsgeld_kind_m",
+    leaf_name="erziehungsgeld_kind_m",
     params_key_for_rounding="erziehungsgeld",
 )
 def erziehungsgeld_kind_mit_budgetsatz_m(
@@ -99,7 +99,7 @@ def erziehungsgeld_kind_mit_budgetsatz_m(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_ohne_abzug_m(
     budgetsatz_erzieh: bool,
     erziehungsgeld_eink_relev_kind_y: float,
@@ -142,7 +142,7 @@ def erziehungsgeld_ohne_abzug_m(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_abzug_transfer(
     erziehungsgeld_eink_relev_kind_m: float,
     _erziehungsgeld_einkommensgrenze_kind_m: float,
@@ -181,10 +181,10 @@ def erziehungsgeld_abzug_transfer(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2004-01-01",
     end_date="2006-12-10",
-    name_in_dag="erziehungsgeld_anspruch_kind",
+    leaf_name="erziehungsgeld_anspruch_kind",
 )
 def _erziehungsgeld_anspruch_kind_vor_abschaffung(
     kind: bool,
@@ -222,10 +222,10 @@ def _erziehungsgeld_anspruch_kind_vor_abschaffung(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2006-12-11",
     end_date="2008-12-31",
-    name_in_dag="erziehungsgeld_anspruch_kind",
+    leaf_name="erziehungsgeld_anspruch_kind",
 )
 def _erziehungsgeld_anspruch_kind_nach_abschaffung(
     kind: bool,
@@ -270,7 +270,7 @@ def _erziehungsgeld_anspruch_kind_nach_abschaffung(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_anspruch_eltern(
     arbeitsstunden_w: float,
     erziehungsgeld_anspruch_kind_fg: bool,
@@ -301,7 +301,7 @@ def erziehungsgeld_anspruch_eltern(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def erziehungsgeld_eink_relev_kind_y(
     bruttolohn_vorj_y_fg: float,
     anz_erwachsene_fg: int,
@@ -344,7 +344,7 @@ def erziehungsgeld_eink_relev_kind_y(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def _erziehungsgeld_einkommensgrenze_kind_y(
     _erziehungsgeld_einkommensgrenze_vor_aufschl: float,
     anz_kinder_mit_kindergeld_fg: float,
@@ -381,7 +381,7 @@ def _erziehungsgeld_einkommensgrenze_kind_y(
     return out
 
 
-@policy_info(start_date="2004-01-01", end_date="2008-12-31")
+@policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def _erziehungsgeld_einkommensgrenze_vor_aufschl(
     alleinerz_fg: bool,
     alter_monate: float,

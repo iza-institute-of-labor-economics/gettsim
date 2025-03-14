@@ -1,6 +1,6 @@
 """Functions for modeling unemployment and pension insurance."""
 
-from _gettsim.shared import policy_info
+from _gettsim.functions.policy_function import policy_function
 
 
 def sozialv_beitr_arbeitnehmer_m(
@@ -87,7 +87,7 @@ def _sozialv_beitr_summe_m(
     return out
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="arbeitsl_v_beitr_arbeitnehmer_m")
+@policy_function(end_date="2003-03-31", leaf_name="arbeitsl_v_beitr_arbeitnehmer_m")
 def arbeitsl_v_beitr_arbeitnehmer_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -122,7 +122,7 @@ def arbeitsl_v_beitr_arbeitnehmer_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="arbeitsl_v_beitr_arbeitnehmer_m")
+@policy_function(start_date="2003-04-01", leaf_name="arbeitsl_v_beitr_arbeitnehmer_m")
 def arbeitsl_v_beitr_arbeitnehmer_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
@@ -165,7 +165,7 @@ def arbeitsl_v_beitr_arbeitnehmer_m_mit_midijob(
     return out
 
 
-@policy_info(end_date="2003-03-31", name_in_dag="arbeitsl_v_beitr_arbeitgeber_m")
+@policy_function(end_date="2003-03-31", leaf_name="arbeitsl_v_beitr_arbeitgeber_m")
 def arbeitsl_v_beitr_arbeitgeber_m_vor_midijob(
     geringfügig_beschäftigt: bool,
     _ges_rentenv_beitr_bruttolohn_m: float,
@@ -200,7 +200,7 @@ def arbeitsl_v_beitr_arbeitgeber_m_vor_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01", name_in_dag="arbeitsl_v_beitr_arbeitgeber_m")
+@policy_function(start_date="2003-04-01", leaf_name="arbeitsl_v_beitr_arbeitgeber_m")
 def arbeitsl_v_beitr_arbeitgeber_m_mit_midijob(
     geringfügig_beschäftigt: bool,
     in_gleitzone: bool,
@@ -243,7 +243,7 @@ def arbeitsl_v_beitr_arbeitgeber_m_mit_midijob(
     return out
 
 
-@policy_info(start_date="2003-04-01")
+@policy_function(start_date="2003-04-01")
 def _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -270,10 +270,10 @@ def _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_arbeitsl_v_beitr_midijob_arbeitgeber_m",
+    leaf_name="_arbeitsl_v_beitr_midijob_arbeitgeber_m",
 )
 def _arbeitsl_v_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     bruttolohn_m: float,
@@ -297,8 +297,8 @@ def _arbeitsl_v_beitr_midijob_arbeitgeber_m_anteil_bruttolohn(
     return out
 
 
-@policy_info(
-    start_date="2022-10-01", name_in_dag="_arbeitsl_v_beitr_midijob_arbeitgeber_m"
+@policy_function(
+    start_date="2022-10-01", leaf_name="_arbeitsl_v_beitr_midijob_arbeitgeber_m"
 )
 def _arbeitsl_v_beitr_midijob_arbeitgeber_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
@@ -324,10 +324,10 @@ def _arbeitsl_v_beitr_midijob_arbeitgeber_m_residuum(
     return out
 
 
-@policy_info(
+@policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    name_in_dag="_arbeitsl_v_beitr_midijob_arbeitnehmer_m",
+    leaf_name="_arbeitsl_v_beitr_midijob_arbeitnehmer_m",
 )
 def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_residuum(
     _arbeitsl_v_beitr_midijob_sum_arbeitnehmer_arbeitgeber_m: float,
@@ -354,8 +354,8 @@ def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_residuum(
     return out
 
 
-@policy_info(
-    start_date="2022-10-01", name_in_dag="_arbeitsl_v_beitr_midijob_arbeitnehmer_m"
+@policy_function(
+    start_date="2022-10-01", leaf_name="_arbeitsl_v_beitr_midijob_arbeitnehmer_m"
 )
 def _arbeitsl_v_beitr_midijob_arbeitnehmer_m_anteil_beitragspfl_einnahme(
     _midijob_beitragspfl_einnahme_arbeitnehmer_m: float,
