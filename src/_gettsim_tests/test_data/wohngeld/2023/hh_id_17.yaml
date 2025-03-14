@@ -268,13 +268,13 @@ inputs:
       - 2008
       - 2013
       - 2015
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
       - true
       - true
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

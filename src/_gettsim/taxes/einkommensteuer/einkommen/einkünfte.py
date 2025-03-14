@@ -5,12 +5,12 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 
 @policy_function(end_date="2008-12-31", leaf_name="gesamteinkünfte_y")
-def gesamteinkünfte_mit_kapitaleinkünfte_y(
+def gesamteinkünfte_mit_kapitaleinkommen_y_sn(
     einkommen__aus_selbstständigkeit_y: float,
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
     renteneinkünfte_y: float,
-    kapitaleinkünfte_y: float,
+    zu_versteuerndes_kapitaleinkommen_y_sn: float,
 ) -> float:
     """Sum of gross incomes with capital income.
 
@@ -24,8 +24,8 @@ def gesamteinkünfte_mit_kapitaleinkünfte_y(
         See :func:`eink_vermietung_y`.
     renteneinkünfte_y
         See :func:`renteneinkünfte_y`.
-    kapitaleinkünfte_y
-        See :func:`kapitaleinkünfte_y`.
+    zu_versteuerndes_kapitaleinkommen_y_sn
+        See :func:`zu_versteuerndes_kapitaleinkommen_y_sn`.
 
     Returns
     -------
@@ -36,13 +36,13 @@ def gesamteinkünfte_mit_kapitaleinkünfte_y(
         + einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y
         + eink_vermietung_y
         + renteneinkünfte_y
-        + kapitaleinkünfte_y
+        + zu_versteuerndes_kapitaleinkommen_y_sn
     )
     return out
 
 
 @policy_function(start_date="2009-01-01", leaf_name="gesamteinkünfte_y")
-def gesamteinkünfte_ohne_kapitaleinkünfte_y(
+def gesamteinkünfte_ohne_kapitaleinkommen_y_sn(
     einkommen__aus_selbstständigkeit_y: float,
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
     eink_vermietung_y: float,
@@ -76,11 +76,11 @@ def gesamteinkünfte_ohne_kapitaleinkünfte_y(
 
 
 @policy_function()
-def kapitaleinkünfte_y(
+def zu_versteuerndes_kapitaleinkommen_y(
     kapitaleink_brutto_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Capital income minus Sparerpauschbetrag.
+    """Calculate taxable capital income on Steuernummer level.
 
     Parameters
     ----------
@@ -93,10 +93,9 @@ def kapitaleinkünfte_y(
     -------
 
     """
-    out = (
-        kapitaleink_brutto_y
-        - eink_st_abzuege_params["sparerpauschbetrag"]
-        - eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
+    out = kapitaleink_brutto_y - (
+        eink_st_abzuege_params["sparerpauschbetrag"]
+        + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )
 
     return max(out, 0.0)

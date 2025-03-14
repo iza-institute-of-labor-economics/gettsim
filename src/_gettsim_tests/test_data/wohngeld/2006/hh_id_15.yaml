@@ -384,7 +384,7 @@ inputs:
       - 2004
       - 2004
       - 2001
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
@@ -393,7 +393,7 @@ inputs:
       - true
       - true
       - true
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

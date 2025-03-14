@@ -112,7 +112,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

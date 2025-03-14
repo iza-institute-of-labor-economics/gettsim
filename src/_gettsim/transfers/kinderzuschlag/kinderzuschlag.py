@@ -6,8 +6,8 @@ from _gettsim.function_types import policy_function
 @policy_function()
 def betrag_m_bg(
     anspruchshöhe_m_bg: float,
-    vorrangpruefungen__kinderzuschlag_vorrang_bg: bool,
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
+    vorrangprüfungen__kinderzuschlag_vorrang_bg: bool,
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
     demographics__anzahl_rentner_hh: int,
 ) -> float:
     """Aggregate child benefit on household level.
@@ -16,10 +16,10 @@ def betrag_m_bg(
     ----------
     anspruchshöhe_m_bg
         See :func:`anspruchshöhe_m_bg`.
-    vorrangpruefungen__kinderzuschlag_vorrang_bg
-        See :func:`vorrangpruefungen__kinderzuschlag_vorrang_bg`.
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg
-        See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg`.
+    vorrangprüfungen__kinderzuschlag_vorrang_bg
+        See :func:`vorrangprüfungen__kinderzuschlag_vorrang_bg`.
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg
+        See :func:`vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg`.
     demographics__anzahl_rentner_hh
         See :func:`demographics__anzahl_rentner_hh`.
 
@@ -28,8 +28,8 @@ def betrag_m_bg(
 
     """
     if (
-        (not vorrangpruefungen__kinderzuschlag_vorrang_bg)
-        and (not vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg)
+        (not vorrangprüfungen__kinderzuschlag_vorrang_bg)
+        and (not vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg)
     ) or (demographics__anzahl_rentner_hh > 0):
         out = 0.0
     else:

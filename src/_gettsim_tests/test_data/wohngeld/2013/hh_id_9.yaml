@@ -130,10 +130,10 @@ inputs:
     demographics__geburtsjahr:
       - 1963
       - 1958
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - true
       - true
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
   assumed: {}

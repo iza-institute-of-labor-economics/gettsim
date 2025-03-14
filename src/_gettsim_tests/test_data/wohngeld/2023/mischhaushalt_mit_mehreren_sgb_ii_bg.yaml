@@ -308,7 +308,7 @@ inputs:
       - 1983
       - 1983
       - 1983
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - true
       - true
       - true
@@ -316,7 +316,7 @@ inputs:
       - false
       - false
       - false
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
       - true
       - true

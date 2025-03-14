@@ -88,9 +88,9 @@ inputs:
       - 1
     demographics__geburtsjahr:
       - 1967
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - true
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - true
   assumed: {}
 outputs:

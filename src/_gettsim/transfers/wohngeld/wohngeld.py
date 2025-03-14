@@ -23,8 +23,8 @@ from _gettsim.function_types import policy_function
 def betrag_m_wthh(
     anspruchshöhe_m_wthh: float,
     demographics__erwachsene_alle_rentner_hh: bool,
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh: bool,
-    vorrangpruefungen__wohngeld_vorrang_wthh: bool,
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_wthh: bool,
+    vorrangprüfungen__wohngeld_vorrang_wthh: bool,
 ) -> float:
     """Housing benefit after wealth and priority checks.
 
@@ -34,10 +34,10 @@ def betrag_m_wthh(
         See :func:`anspruchshöhe_m_wthh`.
     demographics__erwachsene_alle_rentner_hh
         See :func:`demographics__erwachsene_alle_rentner_hh <demographics__erwachsene_alle_rentner_hh>`.
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
-        See :func:`vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh`.
-    vorrangpruefungen__wohngeld_vorrang_wthh
-        See :func:`vorrangpruefungen__wohngeld_vorrang_wthh`.
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_wthh
+        See :func:`vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_wthh`.
+    vorrangprüfungen__wohngeld_vorrang_wthh
+        See :func:`vorrangprüfungen__wohngeld_vorrang_wthh`.
 
     Returns
     -------
@@ -55,8 +55,8 @@ def betrag_m_wthh(
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
 
     if not demographics__erwachsene_alle_rentner_hh and (
-        vorrangpruefungen__wohngeld_vorrang_wthh
-        or vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_wthh
+        vorrangprüfungen__wohngeld_vorrang_wthh
+        or vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_wthh
     ):
         out = anspruchshöhe_m_wthh
     else:

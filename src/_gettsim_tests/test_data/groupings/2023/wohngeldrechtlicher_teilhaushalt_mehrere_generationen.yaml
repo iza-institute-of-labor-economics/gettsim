@@ -102,7 +102,7 @@ inputs:
       - false
       - false
       - true
-    vorrangpruefungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_bg:
       - false
       - false
       - true
@@ -110,7 +110,7 @@ inputs:
       - false
       - false
       - true
-    vorrangpruefungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
       - false
       - false
       - true
