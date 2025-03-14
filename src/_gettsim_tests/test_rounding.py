@@ -115,7 +115,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
         return income
 
     data = {
-        "groupings": {"p_id": pd.Series([1, 2])},
+        "demographics": {"p_id": pd.Series([1, 2])},
         "namespace": {"income": pd.Series(input_values)},
     }
     rounding_specs = {
