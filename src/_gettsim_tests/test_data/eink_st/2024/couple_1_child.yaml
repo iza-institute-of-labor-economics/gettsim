@@ -32,11 +32,11 @@ inputs:
       - false
       - false
       - true
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__gesamteinkommen_y:
       - 200000.0
       - 200000.0
       - 0.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 200000.0
       - 200000.0
       - 0.0

@@ -20,9 +20,9 @@ inputs:
       - -1
     einkommen__bruttolohn_m:
       - 300.0
-    einkommensteuer__freibeträge__betreuungskosten_m:
+    einkommensteuer__abzüge__betreuungskosten_m:
       - 0.0
-    einkommensteuer__freibeträge__p_id_betreuungskosten_träger:
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
     einkommen__aus_selbstständigkeit_m:
       - 0.0
@@ -42,7 +42,7 @@ inputs:
       - false
     demographics__behinderungsgrad:
       - 0
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
+    einkommensteuer__beitrag_private_rentenversicherung_m:
       - 0.0
     demographics__alleinerziehend:
       - false
@@ -60,21 +60,21 @@ inputs:
       - false
     demographics__geburtsjahr:
       - 1978
-    einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn:
+    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
       - 0.0
   assumed: {}
 outputs:
-  einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
+  einkommensteuer__gesamteinkommen_y:
     - 0.0
-  einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
     - 0.0
-  einkommensteuer__freibeträge__kinderfreibetrag_y_sn:
+  einkommensteuer__kinderfreibetrag_y_sn:
     - 0
-  einkommensteuer__freibeträge__altersfreibetrag_y:
+  einkommensteuer__abzüge__altersfreibetrag_y:
     - 0
-  einkommensteuer__freibeträge__alleinerziehend_betrag_y:
+  einkommensteuer__abzüge__alleinerziehend_betrag_y:
     - 0
-  einkommensteuer__einkommen__gesamteinkünfte_y:
+  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
     - 0
-  einkommensteuer__freibeträge__pauschbetrag_behinderung_y:
+  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
     - 0

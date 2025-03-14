@@ -126,9 +126,9 @@ In private health insurance
 
 Type: bool
 
-(einkommensteuer__einkommen__beitrag_private_rentenversicherung_m)=
+(einkommensteuer__beitrag_private_rentenversicherung_m)=
 
-## `einkommensteuer__einkommen__beitrag_private_rentenversicherung_m`
+## `einkommensteuer__beitrag_private_rentenversicherung_m`
 
 Monthly private pension contribution
 
@@ -158,17 +158,17 @@ Has kids (incl. not in hh)
 
 Type: bool
 
-(einkommensteuer__freibeträge__betreuungskosten_m)=
+(einkommensteuer__abzüge__betreuungskosten_m)=
 
-## `einkommensteuer__freibeträge__betreuungskosten_m`
+## `einkommensteuer__abzüge__betreuungskosten_m`
 
 Monthly childcare expenses for a particular child under the age of 14
 
 Type: float
 
-(einkommensteuer__freibeträge__p_id_betreuungskosten_träger)=
+(einkommensteuer__abzüge__p_id_betreuungskosten_träger)=
 
-## `einkommensteuer__freibeträge__p_id_betreuungskosten_träger`
+## `einkommensteuer__abzüge__p_id_betreuungskosten_träger`
 
 Identifier of the person who paid childcare expenses.
 
@@ -272,8 +272,8 @@ Type: float
 
 Taxable income in the calendar year prior to the youngest child's birth year. You may
 let GETTSIM compute this variable via the
-`einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn` target in a separate run,
-which would typically be for the previous calendar year.
+`einkommensteuer__zu_versteuerndes_einkommen_y_sn` target in a separate run, which would
+typically be for the previous calendar year.
 
 Type: float
 

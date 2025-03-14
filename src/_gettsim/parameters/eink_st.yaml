@@ -297,7 +297,7 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
-  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
+  einkommensteuer__zu_versteuerndes_einkommen_y_sn:
     note:
       en: before 2002 base and to_add_after_rounding were converted from DM to EUR
     1981-01-01:

@@ -28,7 +28,7 @@ inputs:
       - 0.0
     einkommen__aus_vermietung_und_verpachtung_y:
       - 0.0
-    einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
       - 0.0
     demographics__alter:
       - 70

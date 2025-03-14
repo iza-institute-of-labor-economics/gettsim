@@ -255,7 +255,7 @@ def anrechnungsfreies_einkommen_m(
     einkommen__bruttolohn_m: float,
     einkommen__aus_selbstständigkeit_m: float,
     demographics__anzahl_kinder_bis_17_bg: int,
-    einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche: int,
+    einkommensteuer__kinderfreibetrag_anzahl_ansprüche: int,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of income, which remains to the individual since 10/2005.
@@ -273,9 +273,9 @@ def anrechnungsfreies_einkommen_m(
         See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
     demographics__anzahl_kinder_bis_17_bg
         See :func:`demographics__anzahl_kinder_bis_17_bg`.
-    einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche
+    einkommensteuer__kinderfreibetrag_anzahl_ansprüche
         See :func:
-        `einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche`.
+        `einkommensteuer__kinderfreibetrag_anzahl_ansprüche`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -290,7 +290,7 @@ def anrechnungsfreies_einkommen_m(
 
     if (
         demographics__anzahl_kinder_bis_17_bg > 0
-        or einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche > 0
+        or einkommensteuer__kinderfreibetrag_anzahl_ansprüche > 0
     ):
         out = piecewise_polynomial(
             x=eink_erwerbstätigkeit,

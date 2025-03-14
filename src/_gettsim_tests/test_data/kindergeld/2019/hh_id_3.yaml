@@ -20,7 +20,7 @@ inputs:
       - true
     einkommen__bruttolohn_m:
       - 700.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__gesamteinkommen_y:
       - 0.0
   assumed: {}
 outputs:

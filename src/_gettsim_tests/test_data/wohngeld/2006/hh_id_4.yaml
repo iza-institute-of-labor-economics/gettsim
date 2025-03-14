@@ -142,7 +142,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__rente_ertragsanteil:
+    einkommensteuer__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0

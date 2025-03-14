@@ -32,11 +32,11 @@ inputs:
       - 7000.0
       - 7000.0
       - 0.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 92752.0
       - 92752.0
       - 0.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__gesamteinkommen_y:
       - 10000.0
       - 10000.0
       - 0.0
@@ -58,7 +58,7 @@ outputs:
     - 9328
     - 9328
     - 0
-  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
+  einkommensteuer__zu_versteuerndes_einkommen_y_sn:
     - 92752
     - 92752
     - 0

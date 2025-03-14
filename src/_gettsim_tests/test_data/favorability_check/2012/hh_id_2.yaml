@@ -18,9 +18,9 @@ inputs:
       - 5000.0
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
       - 5000.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 5000.0
-    einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn:
+    einkommensteuer__gesamteinkommen_y:
       - 5000.0
     abgeltungssteuer__betrag_y_sn:
       - 3000.0
@@ -32,5 +32,5 @@ inputs:
 outputs:
   einkommensteuer__betrag_y_sn:
     - 5000
-  einkommensteuer__einkommen__zu_versteuerndes_einkommen_y_sn:
+  einkommensteuer__zu_versteuerndes_einkommen_y_sn:
     - 5000

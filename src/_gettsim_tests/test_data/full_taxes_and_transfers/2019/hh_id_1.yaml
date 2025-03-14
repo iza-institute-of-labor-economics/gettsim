@@ -94,7 +94,7 @@ inputs:
       - false
       - false
       - false
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
+    einkommensteuer__beitrag_private_rentenversicherung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -164,12 +164,12 @@ inputs:
       - false
       - false
       - false
-    einkommensteuer__freibeträge__betreuungskosten_m:
+    einkommensteuer__abzüge__betreuungskosten_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__freibeträge__p_id_betreuungskosten_träger:
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
       - -1
       - -1

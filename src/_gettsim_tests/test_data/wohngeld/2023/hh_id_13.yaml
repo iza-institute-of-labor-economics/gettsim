@@ -100,7 +100,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__rente_ertragsanteil:
+    einkommensteuer__rente_ertragsanteil:
       - 0.0
       - 0.0
       - 0.0
@@ -128,7 +128,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einkommen__einkünfte_aus_abhängiger_beschäftigung_y:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
       - 10800.0
       - 12600.0
       - 0.0

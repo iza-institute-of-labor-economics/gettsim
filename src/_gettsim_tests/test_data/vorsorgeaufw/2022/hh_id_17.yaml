@@ -22,7 +22,7 @@ inputs:
     demographics__kind:
       - false
       - false
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
+    einkommensteuer__beitrag_private_rentenversicherung_m:
       - 416.666667
       - 0.0
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
@@ -42,6 +42,6 @@ inputs:
       - 0.0
   assumed: {}
 outputs:
-  einkommensteuer__einkommen__vorsorgeaufwendungen_y_sn:
+  einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
     - 11674
     - 11674

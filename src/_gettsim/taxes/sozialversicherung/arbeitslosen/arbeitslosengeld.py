@@ -8,7 +8,7 @@ from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
 
 @policy_function()
 def betrag_m(
-    einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche: int,
+    einkommensteuer__kinderfreibetrag_anzahl_ansprüche: int,
     grundsätzlich_anspruchsberechtigt: bool,
     einkommen_vorjahr_proxy_m: float,
     arbeitsl_geld_params: dict,
@@ -17,9 +17,9 @@ def betrag_m(
 
     Parameters
     ----------
-    einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche
+    einkommensteuer__kinderfreibetrag_anzahl_ansprüche
         See :func:
-        `einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche`.
+        `einkommensteuer__kinderfreibetrag_anzahl_ansprüche`.
     grundsätzlich_anspruchsberechtigt
         See :func:`grundsätzlich_anspruchsberechtigt`.
     einkommen_vorjahr_proxy_m
@@ -32,9 +32,9 @@ def betrag_m(
 
     """
 
-    if einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche == 0:
+    if einkommensteuer__kinderfreibetrag_anzahl_ansprüche == 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_ohne_kinder"]
-    elif einkommensteuer__freibeträge__kinderfreibetrag_anzahl_ansprüche > 0:
+    elif einkommensteuer__kinderfreibetrag_anzahl_ansprüche > 0:
         arbeitsl_geld_satz = arbeitsl_geld_params["satz_mit_kindern"]
 
     if grundsätzlich_anspruchsberechtigt:

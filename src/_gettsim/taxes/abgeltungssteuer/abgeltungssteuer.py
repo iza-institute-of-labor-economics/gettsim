@@ -5,15 +5,15 @@ from _gettsim.function_types import policy_function
 
 @policy_function(start_date="2009-01-01")
 def betrag_y_sn(
-    einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn: float,
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn: float,
     abgelt_st_params: dict,
 ) -> float:
     """Abgeltungssteuer on Steuernummer level.
 
     Parameters
     ----------
-    einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn
-        See :func:`einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn`.
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn
+        See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -23,5 +23,5 @@ def betrag_y_sn(
     """
     return (
         abgelt_st_params["satz"]
-        * einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn
+        * einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn
     )

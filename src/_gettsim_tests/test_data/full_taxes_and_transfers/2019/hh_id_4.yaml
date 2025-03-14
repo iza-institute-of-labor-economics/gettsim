@@ -40,7 +40,7 @@ inputs:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
-    einkommensteuer__einkommen__beitrag_private_rentenversicherung_m:
+    einkommensteuer__beitrag_private_rentenversicherung_m:
       - 0.0
     einkommen__bruttolohn_vorjahr_m:
       - 3000.0
@@ -68,9 +68,9 @@ inputs:
       - false
     sozialversicherung__rente__rentner:
       - false
-    einkommensteuer__freibeträge__betreuungskosten_m:
+    einkommensteuer__abzüge__betreuungskosten_m:
       - 0.0
-    einkommensteuer__freibeträge__p_id_betreuungskosten_träger:
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
     einkommen__kapitaleinnahmen_m:
       - 205.0
