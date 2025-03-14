@@ -1,6 +1,20 @@
 """Contribution rate to public long-term care insurance."""
 
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.function_types import policy_function
+
+aggregation_specs = {
+    "anzahl_kinder_bis_24_elternteil_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by=("p_id_kinderfreibetragempfänger_1"),
+        source_col="demographics__alter_bis_24",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_24_elternteil_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by=("p_id_kinderfreibetragempfänger_2"),
+        source_col="demographics__alter_bis_24",
+        aggr="sum",
+    ),
+}
 
 
 @policy_function(
@@ -130,21 +144,18 @@ def zusatzbetrag_kinderlos(
 
 @policy_function()
 def anzahl_kinder_bis_24(
-    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1: int,
-    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2: int,
+    anzahl_kinder_bis_24_elternteil_1: int,
+    anzahl_kinder_bis_24_elternteil_2: int,
 ) -> int:
     """Number of children under 25 years of age.
     Parameters
     ----------
-    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1
-        See :func:`einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1`.
-    einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2
-        See :func:`einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2`.
+    anzahl_kinder_bis_24_elternteil_1
+        See :func:`anzahl_kinder_bis_24_elternteil_1`.
+    anzahl_kinder_bis_24_elternteil_2
+        See :func:`anzahl_kinder_bis_24_elternteil_2`.
 
     Returns
     -------
     """
-    return (
-        einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_1
-        + einkommensteuer__freibeträge__anzahl_kinder_bis_24_elternteil_2
-    )
+    return anzahl_kinder_bis_24_elternteil_1 + anzahl_kinder_bis_24_elternteil_2
