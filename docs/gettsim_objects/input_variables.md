@@ -191,17 +191,17 @@ Monthly income from self-employment
 
 Type: float
 
-(einkommen__aus_vermietung_m)=
+(einkommen__aus_vermietung_und_verpachtung_m)=
 
-## `einkommen__aus_vermietung_m`
+## `einkommen__aus_vermietung_und_verpachtung_m`
 
 Monthly rental income net of deductions
 
 Type: float
 
-(einkommen__bruttokapitaleinkommen_m)=
+(einkommen__kapitaleinnahmen_m)=
 
-## `einkommen__bruttokapitaleinkommen_m`
+## `einkommen__kapitaleinnahmen_m`
 
 Monthly capital income
 

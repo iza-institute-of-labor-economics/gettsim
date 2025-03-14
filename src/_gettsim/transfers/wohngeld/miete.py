@@ -86,7 +86,7 @@ def min_miete_m_hh(
 
 
 @policy_function(end_date="2008-12-31", leaf_name="miete_m_hh")
-def miete_bis_2008_m_hh(  # noqa: PLR0913
+def miete_m_hh_bis_2008(  # noqa: PLR0913
     mietstufe: int,
     wohnen__baujahr_immobilie_hh: int,
     demographics__anzahl_personen_hh: int,
@@ -152,7 +152,7 @@ def miete_bis_2008_m_hh(  # noqa: PLR0913
 
 
 @policy_function(start_date="2009-01-01", leaf_name="miete_m_hh")
-def miete_ab_2009_m_hh(  # noqa: PLR0912 (see #516)
+def miete_m_hh_ab_2009(  # noqa: PLR0912 (see #516)
     mietstufe: int,
     demographics__anzahl_personen_hh: int,
     wohnen__bruttokaltmiete_m_hh: float,

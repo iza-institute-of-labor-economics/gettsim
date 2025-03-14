@@ -8,9 +8,9 @@ from _gettsim.function_types import policy_function
 def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     demographics__alter: int,
-    einkommen__bruttokapitaleinkommen_m: float,
+    einkommen__kapitaleinnahmen_m: float,
     einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate tax deduction allowance for elderly until 2004.
@@ -21,12 +21,12 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    einkommen__bruttokapitaleinkommen_m
-        See basic input variable :ref:`einkommen__bruttokapitaleinkommen_m <einkommen__bruttokapitaleinkommen_m>`.
+    einkommen__kapitaleinnahmen_m
+        See basic input variable :ref:`einkommen__kapitaleinnahmen_m <einkommen__kapitaleinnahmen_m>`.
     einkommen__aus_selbstständigkeit_m
         See :func:`einkommen__aus_selbstständigkeit_m`.
-    einkommen__aus_vermietung_m
-        See basic input variable :ref:`einkommen__aus_vermietung_m <einkommen__aus_vermietung_m>`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See basic input variable :ref:`einkommen__aus_vermietung_und_verpachtung_m <einkommen__aus_vermietung_und_verpachtung_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -36,9 +36,9 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
     """
     altersgrenze = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
     weiteres_einkommen = max(
-        einkommen__bruttokapitaleinkommen_m
+        einkommen__kapitaleinnahmen_m
         + einkommen__aus_selbstständigkeit_m
-        + einkommen__aus_vermietung_m,
+        + einkommen__aus_vermietung_und_verpachtung_m,
         0.0,
     )
     if demographics__alter > altersgrenze:
@@ -60,9 +60,9 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     demographics__alter: int,
     demographics__geburtsjahr: int,
-    einkommen__bruttokapitaleinkommen_m: float,
+    einkommen__kapitaleinnahmen_m: float,
     einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate tax deduction allowance for elderly since 2005.
@@ -75,12 +75,12 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     demographics__geburtsjahr
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
-    einkommen__bruttokapitaleinkommen_m
-        See basic input variable :ref:`einkommen__bruttokapitaleinkommen_m <einkommen__bruttokapitaleinkommen_m>`.
+    einkommen__kapitaleinnahmen_m
+        See basic input variable :ref:`einkommen__kapitaleinnahmen_m <einkommen__kapitaleinnahmen_m>`.
     einkommen__aus_selbstständigkeit_m
         See :func:`einkommen__aus_selbstständigkeit_m`.
-    einkommen__aus_vermietung_m
-        See basic input variable :ref:`einkommen__aus_vermietung_m <einkommen__aus_vermietung_m>`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See basic input variable :ref:`einkommen__aus_vermietung_und_verpachtung_m <einkommen__aus_vermietung_und_verpachtung_m>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     sozialversicherung__geringfügig_beschäftigt
@@ -110,9 +110,9 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
         0 if sozialversicherung__geringfügig_beschäftigt else einkommen__bruttolohn_m
     )
     weiteres_einkommen = max(
-        einkommen__bruttokapitaleinkommen_m
+        einkommen__kapitaleinnahmen_m
         + einkommen__aus_selbstständigkeit_m
-        + einkommen__aus_vermietung_m,
+        + einkommen__aus_vermietung_und_verpachtung_m,
         0.0,
     )
     out_quote = (

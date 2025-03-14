@@ -214,14 +214,14 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kapitaleink_brutto_y:
+    einkommen__kapitaleinnahmen_y:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_m:
+    einkommen__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
       - 0.0

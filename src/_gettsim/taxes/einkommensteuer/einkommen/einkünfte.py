@@ -5,12 +5,12 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 
 
 @policy_function(end_date="2008-12-31", leaf_name="gesamteinkünfte_y")
-def gesamteinkünfte_mit_kapitaleinkommen_y_sn(
+def gesamteinkünfte_mit_kapitaleinkünften_y_sn(
     einkommen__aus_selbstständigkeit_y: float,
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
-    eink_vermietung_y: float,
+    einkommen__aus_vermietung_und_verpachtung_y: float,
     renteneinkünfte_y: float,
-    zu_versteuerndes_kapitaleinkommen_y_sn: float,
+    zu_versteuernde_kapitaleinkünfte_y_sn: float,
 ) -> float:
     """Sum of gross incomes with capital income.
 
@@ -20,12 +20,12 @@ def gesamteinkünfte_mit_kapitaleinkommen_y_sn(
         See :func:`einkommen__aus_selbstständigkeit_y`.
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y
         See :func:`einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y`.
-    eink_vermietung_y
-        See :func:`eink_vermietung_y`.
+    einkommen__aus_vermietung_und_verpachtung_y
+        See :func:`einkommen__aus_vermietung_und_verpachtung_y`.
     renteneinkünfte_y
         See :func:`renteneinkünfte_y`.
-    zu_versteuerndes_kapitaleinkommen_y_sn
-        See :func:`zu_versteuerndes_kapitaleinkommen_y_sn`.
+    zu_versteuernde_kapitaleinkünfte_y_sn
+        See :func:`zu_versteuernde_kapitaleinkünfte_y_sn`.
 
     Returns
     -------
@@ -34,18 +34,18 @@ def gesamteinkünfte_mit_kapitaleinkommen_y_sn(
     out = (
         einkommen__aus_selbstständigkeit_y
         + einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y
-        + eink_vermietung_y
+        + einkommen__aus_vermietung_und_verpachtung_y
         + renteneinkünfte_y
-        + zu_versteuerndes_kapitaleinkommen_y_sn
+        + zu_versteuernde_kapitaleinkünfte_y_sn
     )
     return out
 
 
 @policy_function(start_date="2009-01-01", leaf_name="gesamteinkünfte_y")
-def gesamteinkünfte_ohne_kapitaleinkommen_y_sn(
+def gesamteinkünfte_ohne_kapitaleinkünfte_y_sn(
     einkommen__aus_selbstständigkeit_y: float,
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y: float,
-    eink_vermietung_y: float,
+    einkommen__aus_vermietung_und_verpachtung_y: float,
     renteneinkünfte_y: float,
 ) -> float:
     """Sum of gross incomes without capital income.
@@ -57,8 +57,8 @@ def gesamteinkünfte_ohne_kapitaleinkommen_y_sn(
         See :func:`einkommen__aus_selbstständigkeit_y`.
     einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y
         See :func:`einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y`.
-    eink_vermietung_y
-        See :func:`eink_vermietung_y`.
+    einkommen__aus_vermietung_und_verpachtung_y
+        See :func:`einkommen__aus_vermietung_und_verpachtung_y`.
     renteneinkünfte_y
         See :func:`renteneinkünfte_y`.
 
@@ -69,23 +69,23 @@ def gesamteinkünfte_ohne_kapitaleinkommen_y_sn(
     out = (
         einkommen__aus_selbstständigkeit_y
         + einkünfte_aus_abhängiger_beschäftigung_ohne_minijob_y
-        + eink_vermietung_y
+        + einkommen__aus_vermietung_und_verpachtung_y
         + renteneinkünfte_y
     )
     return out
 
 
 @policy_function()
-def zu_versteuerndes_kapitaleinkommen_y(
-    kapitaleink_brutto_y: float,
+def zu_versteuernde_kapitaleinkünfte_y(
+    einkommen__kapitaleinnahmen_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate taxable capital income on Steuernummer level.
 
     Parameters
     ----------
-    kapitaleink_brutto_y
-        See :func:`kapitaleink_brutto_y`.
+    einkommen__kapitaleinnahmen_y
+        See :func:`einkommen__kapitaleinnahmen_y`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -93,7 +93,7 @@ def zu_versteuerndes_kapitaleinkommen_y(
     -------
 
     """
-    out = kapitaleink_brutto_y - (
+    out = einkommen__kapitaleinnahmen_y - (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )
@@ -110,7 +110,7 @@ def rente_ertragsanteil(
     Parameters
     ----------
     sozialversicherung__rente__jahr_renteneintritt
-            See basic input variable :ref:`sozialversicherung__rente__jahr_renteneintritt <sozialversicherung__rente__jahr_renteneintritt>`.
+        See basic input variable :ref:`sozialversicherung__rente__jahr_renteneintritt <sozialversicherung__rente__jahr_renteneintritt>`.
     eink_st_params
         See params documentation :ref:`eink_st_params <eink_st_params>`.
     Returns

@@ -701,7 +701,7 @@ min_eink:
     10: 2200
     11: 2400
     12: 2600
-freib_kinder_m:
+freibetrag_kinder_m:
   name:
     de: Monatlicher Freibetrag für Alleinerziehende und arbeitende Kinder
     en: null
@@ -726,7 +726,7 @@ freib_kinder_m:
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
     alleinerz: 110
     arbeitendes_kind: 100
-freib_behinderung:
+freibetrag_behinderung:
   name:
     de: Jährlicher Freibetrag pro behindertes Haushaltsmitglied
     en: null

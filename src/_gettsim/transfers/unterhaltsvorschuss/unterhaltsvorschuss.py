@@ -266,7 +266,7 @@ def anspruchshöhe_kind_m_anwendungsvors(
     end_date="2017-06-30",
     leaf_name="anspruchshöhe_kind_m",
 )
-def anspruchshöhe_kind_m_2016_bis_201706(
+def anspruchshöhe_kind_m_2016_bis_2017_06(
     demographics__alter: int,
     kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
@@ -315,7 +315,7 @@ def anspruchshöhe_kind_m_2016_bis_201706(
 @policy_function(start_date="2017-07-01", leaf_name="anspruchshöhe_kind_m")
 def anspruchshöhe_kind_m_ab_201707(
     demographics__alter: int,
-    elternteil_erfüllt_einkommensgrenze: bool,
+    elternteil_mindesteinkommen_erreicht: bool,
     kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
 ) -> float:
@@ -328,8 +328,8 @@ def anspruchshöhe_kind_m_ab_201707(
     ----------
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
-    elternteil_erfüllt_einkommensgrenze
-        See :func:`elternteil_erfüllt_einkommensgrenze`.
+    elternteil_mindesteinkommen_erreicht
+        See :func:`elternteil_mindesteinkommen_erreicht`.
     kindergeld_erstes_kind_m
         See :func:`kindergeld_erstes_kind_m`.
     unterhalt_params
@@ -357,7 +357,7 @@ def anspruchshöhe_kind_m_ab_201707(
         mindestunterhalt[3]["min_alter"]
         <= demographics__alter
         <= mindestunterhalt[3]["max_alter"]
-        and elternteil_erfüllt_einkommensgrenze
+        and elternteil_mindesteinkommen_erreicht
     ):
         out = mindestunterhalt[3]["betrag"] - kindergeld_erstes_kind_m
     else:
@@ -367,10 +367,10 @@ def anspruchshöhe_kind_m_ab_201707(
 
 
 @policy_function(start_date="2017-01-01", skip_vectorization=True)
-def elternteil_erfüllt_einkommensgrenze(
+def elternteil_mindesteinkommen_erreicht(
     kindergeld__p_id_empfänger: numpy.ndarray[int],
     demographics__p_id: numpy.ndarray[int],
-    einkommensgrenze_erfüllt: numpy.ndarray[bool],
+    mindesteinkommen_erreicht: numpy.ndarray[bool],
 ) -> numpy.ndarray[bool]:
     """Income of Unterhaltsvorschuss recipient above threshold (this variable is
     defined on child level).
@@ -381,8 +381,8 @@ def elternteil_erfüllt_einkommensgrenze(
         See basic input variable :ref:`kindergeld__p_id_empfänger`.
     demographics__p_id
         See basic input variable :ref:`demographics__p_id`.
-    einkommensgrenze_erfüllt
-        See :func:`einkommensgrenze_erfüllt`.
+    mindesteinkommen_erreicht
+        See :func:`mindesteinkommen_erreicht`.
 
     Returns
     -------
@@ -390,13 +390,13 @@ def elternteil_erfüllt_einkommensgrenze(
     return join_numpy(
         kindergeld__p_id_empfänger,
         demographics__p_id,
-        einkommensgrenze_erfüllt,
+        mindesteinkommen_erreicht,
         value_if_foreign_key_is_missing=False,
     )
 
 
 @policy_function(start_date="2017-01-01")
-def einkommensgrenze_erfüllt(
+def mindesteinkommen_erreicht(
     einkommen_m: float,
     unterhaltsvors_params: dict,
 ) -> bool:
@@ -421,8 +421,8 @@ def einkommen_m(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     einkommen__sonstige_m: float,
     einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_m: float,
-    einkommen__bruttokapitaleinkommen_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
+    einkommen__kapitaleinnahmen_m: float,
     sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
 ) -> float:
@@ -436,10 +436,10 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`einkommen__sonstige_m`.
     einkommen__aus_selbstständigkeit_m
         See :func:`einkommen__aus_selbstständigkeit_m`.
-    einkommen__aus_vermietung_m
-        See :func:`einkommen__aus_vermietung_m`.
-    einkommen__bruttokapitaleinkommen_m
-        See :func:`einkommen__bruttokapitaleinkommen_m`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
+    einkommen__kapitaleinnahmen_m
+        See :func:`einkommen__kapitaleinnahmen_m`.
     sozialversicherung__rente__summe_private_gesetzliche_rente_m
         See :func:`sozialversicherung__rente__summe_private_gesetzliche_rente_m`.
     sozialversicherung__arbeitslosen__betrag_m
@@ -453,8 +453,8 @@ def einkommen_m(  # noqa: PLR0913
         einkommen__bruttolohn_m
         + einkommen__sonstige_m
         + einkommen__aus_selbstständigkeit_m
-        + einkommen__aus_vermietung_m
-        + einkommen__bruttokapitaleinkommen_m
+        + einkommen__aus_vermietung_und_verpachtung_m
+        + einkommen__kapitaleinnahmen_m
         + sozialversicherung__rente__summe_private_gesetzliche_rente_m
         + sozialversicherung__arbeitslosen__betrag_m
     )

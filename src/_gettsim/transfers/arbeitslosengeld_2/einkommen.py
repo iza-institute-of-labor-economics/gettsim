@@ -117,8 +117,8 @@ def bruttoeinkommen_m(  # noqa: PLR0913
     einkommen__bruttolohn_m: float,
     einkommen__sonstige_m: float,
     einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_m: float,
-    einkommen__bruttokapitaleinkommen_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
+    einkommen__kapitaleinnahmen_m: float,
     sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
     elterngeld__betrag_m: float,
@@ -135,10 +135,10 @@ def bruttoeinkommen_m(  # noqa: PLR0913
         See basic input variable :ref:`einkommen__sonstige_m <einkommen__sonstige_m>`.
     einkommen__aus_selbstständigkeit_m
         See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
-    einkommen__aus_vermietung_m
-        See basic input variable :ref:`einkommen__aus_vermietung_m <einkommen__aus_vermietung_m>`.
-    einkommen__bruttokapitaleinkommen_m
-        See basic input variable :ref:`einkommen__bruttokapitaleinkommen_m <einkommen__bruttokapitaleinkommen_m>`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See basic input variable :ref:`einkommen__aus_vermietung_und_verpachtung_m <einkommen__aus_vermietung_und_verpachtung_m>`.
+    einkommen__kapitaleinnahmen_m
+        See basic input variable :ref:`einkommen__kapitaleinnahmen_m <einkommen__kapitaleinnahmen_m>`.
     sozialversicherung__rente__summe_private_gesetzliche_rente_m
         See basic input variable :ref:`sozialversicherung__rente__summe_private_gesetzliche_rente_m
         <sozialversicherung__rente__summe_private_gesetzliche_rente_m>`.
@@ -156,8 +156,8 @@ def bruttoeinkommen_m(  # noqa: PLR0913
         einkommen__bruttolohn_m
         + einkommen__sonstige_m
         + einkommen__aus_selbstständigkeit_m
-        + einkommen__aus_vermietung_m
-        + einkommen__bruttokapitaleinkommen_m
+        + einkommen__aus_vermietung_und_verpachtung_m
+        + einkommen__kapitaleinnahmen_m
         + sozialversicherung__rente__summe_private_gesetzliche_rente_m
         + sozialversicherung__arbeitslosen__betrag_m
         + elterngeld__betrag_m

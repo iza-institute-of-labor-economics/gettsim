@@ -72,9 +72,9 @@ inputs:
       - 0.0
     einkommensteuer__freibeträge__p_id_betreuungskosten_träger:
       - -1
-    einkommen__bruttokapitaleinkommen_m:
+    einkommen__kapitaleinnahmen_m:
       - 207.0
-    einkommen__aus_vermietung_m:
+    einkommen__aus_vermietung_und_verpachtung_m:
       - 11.0
     wohnen__bruttokaltmiete_m_hh:
       - 400.0

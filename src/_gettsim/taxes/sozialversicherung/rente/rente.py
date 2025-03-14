@@ -16,7 +16,7 @@ def alter_bei_renteneintritt(
     As retirement is only possible at first day of month and as
     persons eligible for pension at first of month after reaching the
     age threshold (§ 99 SGB VI) persons who retire in same month will
-    be considered a month too young: Substraction of 1/12.
+    be considered a month too young. Hence, subtract 1/12.
 
 
     Parameters

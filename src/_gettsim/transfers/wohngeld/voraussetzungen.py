@@ -24,7 +24,7 @@ def grundsätzlich_anspruchsberechtigt_wthh(
     -------
 
     """
-    return vermögensgrenze_unterschritten_wthh and mindesteinkommen_erreicht_wthh
+    return mindesteinkommen_erreicht_wthh and vermögensgrenze_unterschritten_wthh
 
 
 @policy_function()
@@ -73,7 +73,7 @@ def vermögensgrenze_unterschritten_wthh(
 
     """
 
-    return vermögensprüfung_formel(
+    return vermögensprüfung(
         vermögen=demographics__vermögen_wthh,
         anzahl_personen=demographics__anzahl_personen_wthh,
         params=wohngeld_params,
@@ -102,7 +102,7 @@ def vermögensgrenze_unterschritten_bg(
 
     """
 
-    return vermögensprüfung_formel(
+    return vermögensprüfung(
         vermögen=demographics__vermögen_bg,
         anzahl_personen=demographics__anzahl_personen_bg,
         params=wohngeld_params,
@@ -112,7 +112,7 @@ def vermögensgrenze_unterschritten_bg(
 @policy_function()
 def mindesteinkommen_erreicht_wthh(
     arbeitslosengeld_2__regelbedarf_m_wthh: float,
-    einkommen_für_mindesteinkommen_check_m_wthh: float,
+    einkommen_für_mindesteinkommen_m_wthh: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
 
@@ -129,23 +129,22 @@ def mindesteinkommen_erreicht_wthh(
     ----------
     arbeitslosengeld_2__regelbedarf_m_wthh
         See :func:`arbeitslosengeld_2__regelbedarf_m_wthh`.
-    einkommen_für_mindesteinkommen_check_m_wthh
-        See :func:`einkommen_für_mindesteinkommen_check_m_wthh`.
+    einkommen_für_mindesteinkommen_m_wthh
+        See :func:`einkommen_für_mindesteinkommen_m_wthh`.
 
     Returns
     -------
 
     """
     return (
-        einkommen_für_mindesteinkommen_check_m_wthh
-        >= arbeitslosengeld_2__regelbedarf_m_wthh
+        einkommen_für_mindesteinkommen_m_wthh >= arbeitslosengeld_2__regelbedarf_m_wthh
     )
 
 
 @policy_function()
 def mindesteinkommen_erreicht_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
-    einkommen_für_mindesteinkommen_check_m_bg: float,
+    einkommen_für_mindesteinkommen_m_bg: float,
 ) -> bool:
     """Minimum income requirement for housing benefits is met.
 
@@ -162,21 +161,18 @@ def mindesteinkommen_erreicht_bg(
     ----------
     arbeitslosengeld_2__regelbedarf_m_bg
         See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
-    einkommen_für_mindesteinkommen_check_m_bg
-        See :func:`einkommen_für_mindesteinkommen_check_m_bg`.
+    einkommen_für_mindesteinkommen_m_bg
+        See :func:`einkommen_für_mindesteinkommen_m_bg`.
 
     Returns
     -------
 
     """
-    return (
-        einkommen_für_mindesteinkommen_check_m_bg
-        >= arbeitslosengeld_2__regelbedarf_m_bg
-    )
+    return einkommen_für_mindesteinkommen_m_bg >= arbeitslosengeld_2__regelbedarf_m_bg
 
 
 @policy_function()
-def einkommen_für_mindesteinkommen_check_m(
+def einkommen_für_mindesteinkommen_m(
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m: float,
     unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
@@ -217,7 +213,7 @@ def einkommen_für_mindesteinkommen_check_m(
     )
 
 
-def vermögensprüfung_formel(
+def vermögensprüfung(
     vermögen: float,
     anzahl_personen: int,
     params: dict,

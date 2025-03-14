@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function()
-def kind_zahlbetrag_m(
+def kind_festgelegter_zahlbetrag_m(
     kind_anspruch_m: float,
     kindergeld__betrag_m: float,
     unterhalt_params: dict,

@@ -23,9 +23,9 @@ inputs:
       - 0.0
     einkommen__aus_selbstständigkeit_y:
       - 0.0
-    eink_vermietung_y:
+    einkommen__aus_vermietung_und_verpachtung_y:
       - 0.0
-    einkommensteuer__einkommen__zu_versteuerndes_kapitaleinkommen_y_sn:
+    einkommensteuer__einkommen__zu_versteuernde_kapitaleinkünfte_y_sn:
       - 0.0
     demographics__alter:
       - 70

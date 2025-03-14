@@ -6,7 +6,7 @@ from _gettsim.function_types import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
 
 aggregation_specs = {
-    "freibetrag_alleinerziehend_bonus": AggregateByPIDSpec(
+    "alleinerziehendenbonus": AggregateByPIDSpec(
         p_id_to_aggregate_by="kindergeld__p_id_empfänger",
         source_col="kindergeld__kind_bis_10_mit_kindergeld",
         aggr="sum",
@@ -43,7 +43,7 @@ def einkommen_m_wthh(
     -------
 
     """
-    return _wohngeld_einkommen_formel(
+    return einkommen(
         anzahl_personen=demographics__anzahl_personen_wthh,
         einkommen_freibetrag=freibetrag_m_wthh,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_wthh,
@@ -80,7 +80,7 @@ def einkommen_m_bg(
     -------
 
     """
-    return _wohngeld_einkommen_formel(
+    return einkommen(
         anzahl_personen=demographics__anzahl_personen_bg,
         einkommen_freibetrag=freibetrag_m_bg,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_bg,
@@ -89,7 +89,7 @@ def einkommen_m_bg(
 
 
 @policy_function()
-def abzüge_steuern_sozialversicherung_m(
+def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
     einkommensteuer__betrag_y_sn: float,
     sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m: float,
@@ -137,14 +137,14 @@ def abzüge_steuern_sozialversicherung_m(
 def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     eink_abhängig_beschäftigt_m: float,
-    einkommen__bruttokapitaleinkommen_m: float,
-    einkommen__aus_vermietung_m: float,
+    einkommen__kapitaleinnahmen_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
     einkommen__sonstige_m: float,
     einkommensteuer__einkommen__renteneinkünfte_m: float,
     unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
-    abzüge_steuern_sozialversicherung_m: float,
+    abzüge_vom_einkommen_für_steuern_sozialversicherung_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -156,10 +156,10 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt_m
         See :func:`eink_abhängig_beschäftigt_m`.
-    einkommen__bruttokapitaleinkommen_m
-        See :func:`einkommen__bruttokapitaleinkommen_m`.
-    einkommen__aus_vermietung_m
-        See :func:`einkommen__aus_vermietung_m`.
+    einkommen__kapitaleinnahmen_m
+        See :func:`einkommen__kapitaleinnahmen_m`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
     sozialversicherung__arbeitslosen__betrag_m
         See :func:`sozialversicherung__arbeitslosen__betrag_m`.
     einkommen__sonstige_m
@@ -170,8 +170,8 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`unterhalt__kind_betrag_m <unterhalt__kind_betrag_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
-    abzüge_steuern_sozialversicherung_m
-        See :func:`abzüge_steuern_sozialversicherung_m`.
+    abzüge_vom_einkommen_für_steuern_sozialversicherung_m
+        See :func:`abzüge_vom_einkommen_für_steuern_sozialversicherung_m`.
 
     Returns
     -------
@@ -180,8 +180,8 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommen = (
         einkommen__aus_selbstständigkeit_m
         + eink_abhängig_beschäftigt_m
-        + einkommen__bruttokapitaleinkommen_m
-        + einkommen__aus_vermietung_m
+        + einkommen__kapitaleinnahmen_m
+        + einkommen__aus_vermietung_und_verpachtung_m
     )
 
     transfers = (
@@ -192,7 +192,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + einkommen__sonstige_m
-    out = (1 - abzüge_steuern_sozialversicherung_m) * eink_ind
+    out = (1 - abzüge_vom_einkommen_für_steuern_sozialversicherung_m) * eink_ind
     return out
 
 
@@ -200,15 +200,15 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommen__aus_selbstständigkeit_m: float,
     eink_abhängig_beschäftigt_m: float,
-    einkommen__bruttokapitaleinkommen_m: float,
-    einkommen__aus_vermietung_m: float,
+    einkommen__kapitaleinnahmen_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
     einkommen__sonstige_m: float,
     einkommensteuer__einkommen__renteneinkünfte_m: float,
     unterhalt__kind_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
-    abzüge_steuern_sozialversicherung_m: float,
+    abzüge_vom_einkommen_für_steuern_sozialversicherung_m: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -220,10 +220,10 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt_m
         See :func:`eink_abhängig_beschäftigt_m`.
-    einkommen__bruttokapitaleinkommen_m
-        See :func:`einkommen__bruttokapitaleinkommen_m`.
-    einkommen__aus_vermietung_m
-        See :func:`einkommen__aus_vermietung_m`.
+    einkommen__kapitaleinnahmen_m
+        See :func:`einkommen__kapitaleinnahmen_m`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
     sozialversicherung__arbeitslosen__betrag_m
         See :func:`sozialversicherung__arbeitslosen__betrag_m`.
     einkommen__sonstige_m
@@ -236,8 +236,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`unterhaltsvorschuss__betrag_m`.
     elterngeld__anrechenbarer_betrag_m
         See :func:`elterngeld__anrechenbarer_betrag_m`.
-    abzüge_steuern_sozialversicherung_m
-        See :func:`abzüge_steuern_sozialversicherung_m`.
+    abzüge_vom_einkommen_für_steuern_sozialversicherung_m
+        See :func:`abzüge_vom_einkommen_für_steuern_sozialversicherung_m`.
 
     Returns
     -------
@@ -249,8 +249,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommen = (
         einkommen__aus_selbstständigkeit_m
         + eink_abhängig_beschäftigt_m
-        + einkommen__bruttokapitaleinkommen_m
-        + einkommen__aus_vermietung_m
+        + einkommen__kapitaleinnahmen_m
+        + einkommen__aus_vermietung_und_verpachtung_m
     )
 
     transfers = (
@@ -262,7 +262,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + einkommen__sonstige_m
-    out = (1 - abzüge_steuern_sozialversicherung_m) * eink_ind
+    out = (1 - abzüge_vom_einkommen_für_steuern_sozialversicherung_m) * eink_ind
     return out
 
 
@@ -273,7 +273,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     demographics__behinderungsgrad: int,
     demographics__alleinerziehend: bool,
     demographics__kind: bool,
-    freibetrag_alleinerziehend_bonus: int,
+    alleinerziehendenbonus: int,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions for one individual until 2015.
@@ -290,8 +290,8 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
         See basic input variable :ref:`demographics__alleinerziehend <demographics__alleinerziehend>`.
     demographics__kind
         See basic input variable :ref:`demographics__kind <demographics__kind>`.
-    freibetrag_alleinerziehend_bonus
-        See :func:`freibetrag_alleinerziehend_bonus`.
+    alleinerziehendenbonus
+        See :func:`alleinerziehendenbonus`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -299,30 +299,30 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     -------
 
     """
-    freib_behinderung_m = piecewise_polynomial(
+    freibetrag_behinderung_m = piecewise_polynomial(
         demographics__behinderungsgrad,
-        thresholds=[*list(wohngeld_params["freib_behinderung"]), np.inf],
-        rates=np.array([[0] * len(wohngeld_params["freib_behinderung"])]),
+        thresholds=[*list(wohngeld_params["freibetrag_behinderung"]), np.inf],
+        rates=np.array([[0] * len(wohngeld_params["freibetrag_behinderung"])]),
         intercepts_at_lower_thresholds=[
-            yearly_v / 12 for yearly_v in wohngeld_params["freib_behinderung"].values()
+            yearly_v / 12
+            for yearly_v in wohngeld_params["freibetrag_behinderung"].values()
         ],
     )
 
     # Subtraction for single parents and working children
     if demographics__ist_kind_mit_erwerbseinkommen:
-        freib_kinder_m = min(
+        freibetrag_kinder_m = min(
             einkommen__bruttolohn_m,
-            wohngeld_params["freib_kinder_m"]["arbeitendes_kind"],
+            wohngeld_params["freibetrag_kinder_m"]["arbeitendes_kind"],
         )
 
     elif demographics__alleinerziehend and (not demographics__kind):
-        freib_kinder_m = (
-            freibetrag_alleinerziehend_bonus
-            * wohngeld_params["freib_kinder_m"]["alleinerz"]
+        freibetrag_kinder_m = (
+            alleinerziehendenbonus * wohngeld_params["freibetrag_kinder_m"]["alleinerz"]
         )
     else:
-        freib_kinder_m = 0.0
-    return freib_behinderung_m + freib_kinder_m
+        freibetrag_kinder_m = 0.0
+    return freibetrag_behinderung_m + freibetrag_kinder_m
 
 
 @policy_function(start_date="2016-01-01", leaf_name="freibetrag_m")
@@ -353,26 +353,26 @@ def freibetrag_m_ab_2016(
     -------
 
     """
-    freib_behinderung_m = (
-        wohngeld_params["freib_behinderung"] / 12
+    freibetrag_behinderung_m = (
+        wohngeld_params["freibetrag_behinderung"] / 12
         if demographics__behinderungsgrad > 0
         else 0
     )
 
     if demographics__ist_kind_mit_erwerbseinkommen:
-        freib_kinder_m = min(
+        freibetrag_kinder_m = min(
             einkommen__bruttolohn_m,
-            wohngeld_params["freib_kinder_m"]["arbeitendes_kind"],
+            wohngeld_params["freibetrag_kinder_m"]["arbeitendes_kind"],
         )
     elif demographics__alleinerziehend:
-        freib_kinder_m = wohngeld_params["freib_kinder_m"]["alleinerz"]
+        freibetrag_kinder_m = wohngeld_params["freibetrag_kinder_m"]["alleinerz"]
     else:
-        freib_kinder_m = 0.0
+        freibetrag_kinder_m = 0.0
 
-    return freib_behinderung_m + freib_kinder_m
+    return freibetrag_behinderung_m + freibetrag_kinder_m
 
 
-def _wohngeld_einkommen_formel(
+def einkommen(
     anzahl_personen: int,
     einkommen_freibetrag: float,
     einkommen_vor_freibetrag: float,

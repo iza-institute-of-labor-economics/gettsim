@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2011-12-31", leaf_name="altersgrenze_abschlagsfrei")
-def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
+def altersgrenze_abschlagsfrei_mit_arbeitsl_frauen_ohne_besond_langj(  # noqa: PLR0913
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     sozialversicherung__rente__altersrente__für_frauen__altersgrenze: float,
     sozialversicherung__rente__altersrente__langjährig__altersgrenze: float,
@@ -67,7 +67,7 @@ def altersgrenze_abschlagsfrei_ohne_besond_langj(  # noqa: PLR0913
     end_date="2017-12-31",
     leaf_name="altersgrenze_abschlagsfrei",
 )
-def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
+def altersgrenze_abschlagsfrei_mit_frauen_arbeitsl_besond_langj(  # noqa: PLR0913
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     sozialversicherung__rente__altersrente__für_frauen__altersgrenze: float,
     sozialversicherung__rente__altersrente__langjährig__altersgrenze: float,
@@ -145,7 +145,7 @@ def altersgrenze_abschlagsfrei_mit_besond_langj(  # noqa: PLR0913
 
 
 @policy_function(start_date="2018-01-01", leaf_name="altersgrenze_abschlagsfrei")
-def altersgrenze_abschlagsfrei_ohne_arbeitsl_frauen(
+def altersgrenze_abschlagsfrei_mit_besond_langj_ohne_arbeitsl_frauen(
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     sozialversicherung__rente__altersrente__langjährig__altersgrenze: float,
     sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze: float,

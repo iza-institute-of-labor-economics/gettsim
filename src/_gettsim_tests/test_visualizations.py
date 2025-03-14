@@ -139,7 +139,7 @@ def test_should_fail_if_target_is_missing():
 @pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
-    selectors = "kapitaleink_brutto_y_sn"
+    selectors = "einkommen__kapitaleinnahmen_y_sn"
     plot_dag(environment=environment, selectors=selectors)
 
 
@@ -162,7 +162,7 @@ def test_horizontal_plot_dag():
         environment=environment,
         selectors=[
             {
-                "node": "abgeltungssteuer__zu_versteuerndes_kapitaleinkommen_y_sn",
+                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
                 "type": "neighbors",
             }
         ],
@@ -178,7 +178,7 @@ def test_hover_source_code_plot_dag():
         environment=environment,
         selectors=[
             {
-                "node": "abgeltungssteuer__zu_versteuerndes_kapitaleinkommen_y_sn",
+                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
                 "type": "neighbors",
             }
         ],

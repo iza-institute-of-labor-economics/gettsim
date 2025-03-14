@@ -174,12 +174,12 @@ inputs:
       - -1
       - -1
       - -1
-    einkommen__bruttokapitaleinkommen_m:
+    einkommen__kapitaleinnahmen_m:
       - 200.0
       - 201.0
       - 202.0
       - 203.0
-    einkommen__aus_vermietung_m:
+    einkommen__aus_vermietung_und_verpachtung_m:
       - 4.0
       - 5.0
       - 6.0

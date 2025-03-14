@@ -383,7 +383,7 @@ def durchschnittliche_entgeltpunkte(
     average entgeltp
     """
 
-    beleg_gesamtzeitr = (
+    belegungsfähiger_gesamtzeitraum = (
         sozialversicherung__rente__alter_bei_renteneintritt
         - erwerbsm_rente_params["altersgrenze_grundbewertung"]
     )
@@ -391,6 +391,6 @@ def durchschnittliche_entgeltpunkte(
     durchschnittliche_entgeltpunkte = (
         sozialversicherung__rente__entgeltpunkte_west
         + sozialversicherung__rente__entgeltpunkte_ost
-    ) / beleg_gesamtzeitr
+    ) / belegungsfähiger_gesamtzeitraum
 
     return durchschnittliche_entgeltpunkte

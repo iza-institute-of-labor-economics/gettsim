@@ -52,7 +52,7 @@ inputs:
     einkommen__bruttolohn_m:
       - 0.0
       - 0.0
-    einkommen__bruttokapitaleinkommen_m:
+    einkommen__kapitaleinnahmen_m:
       - 0.0
       - 0.0
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
@@ -82,7 +82,7 @@ inputs:
     einkommen__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_m:
+    einkommen__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
     einkommensteuer__betrag_y_sn:

@@ -18,5 +18,5 @@ inputs:
       - false
   assumed: {}
 outputs:
-  unterhalt__kind_zahlbetrag_m:
+  unterhalt__kind_festgelegter_zahlbetrag_m:
     - 655.0

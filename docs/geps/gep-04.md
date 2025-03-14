@@ -82,15 +82,15 @@ See the following example for capital income taxes (Abgeltungssteuer).
 
 ```python
 def abgeltungssteuer__betrag_y_sn(
-    abgeltungssteuer__zu_versteuerndes_kapitaleinkommen_y_sn: float,
+    abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn: float,
     abgelt_st_params: dict,
 ) -> float:
     """Calculate Abgeltungssteuer on Steuernummer-level.
 
     Parameters
     ----------
-    zu_versteuerndes_kapitaleinkommen_y_sn
-        See :func:`zu_versteuerndes_kapitaleinkommen_y_sn`.
+    zu_versteuernde_kapitaleinkünfte_y_sn
+        See :func:`zu_versteuernde_kapitaleinkünfte_y_sn`.
     abgelt_st_params
         See params documentation :ref:`abgelt_st_params <abgelt_st_params>`.
 
@@ -98,13 +98,13 @@ def abgeltungssteuer__betrag_y_sn(
     -------
 
     """
-    return abgelt_st_params["satz"] * zu_versteuerndes_kapitaleinkommen_y_sn
+    return abgelt_st_params["satz"] * zu_versteuernde_kapitaleinkünfte_y_sn
 ```
 
 The function `betrag_y_sn` requires the variable
-`zu_versteuerndes_kapitaleinkommen_y_sn`, which is the amount of taxable capital income
+`zu_versteuernde_kapitaleinkünfte_y_sn`, which is the amount of taxable capital income
 on the Steuernummer-level (the latter is implied by the `_sn` suffix, see {ref}`gep-1`).
-`zu_versteuerndes_kapitaleinkommen_y_sn` must be provided by the user as a column of the
+`zu_versteuernde_kapitaleinkünfte_y_sn` must be provided by the user as a column of the
 input data or it has to be the name of another function. It is also possible to specify
 `kapitaleinkommen_y` and aggregation to the `sn`-level will happen automatically.
 `abgelt_st_params` is a dictionary of parameters related to the calculation of

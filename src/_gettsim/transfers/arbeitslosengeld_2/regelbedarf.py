@@ -295,7 +295,7 @@ def regelsatz_m(
 @policy_function(end_date="2022-12-31", leaf_name="kosten_der_unterkunft_m")
 def kosten_der_unterkunft_m_bis_2022(
     berechtigte_wohnfläche: float,
-    warmmiete_je_qm_m: float,
+    anerkannte_warmmiete_je_qm_m: float,
 ) -> float:
     """Calculate costs of living eligible to claim until 2022.
 
@@ -304,15 +304,15 @@ def kosten_der_unterkunft_m_bis_2022(
     ----------
     berechtigte_wohnfläche
         See :func:`berechtigte_wohnfläche`.
-    warmmiete_je_qm_m
-        See :func:`warmmiete_je_qm_m`.
+    anerkannte_warmmiete_je_qm_m
+        See :func:`anerkannte_warmmiete_je_qm_m`.
 
     Returns
     -------
     float with total monthly cost of rent.
 
     """
-    return berechtigte_wohnfläche * warmmiete_je_qm_m
+    return berechtigte_wohnfläche * anerkannte_warmmiete_je_qm_m
 
 
 @policy_function(start_date="2023-01-01", leaf_name="kosten_der_unterkunft_m")
@@ -321,7 +321,7 @@ def kosten_der_unterkunft_m_ab_2023(
     heizkosten_m: float,
     arbeitslosengeld_2_bezug_im_vorjahr: bool,
     berechtigte_wohnfläche: float,
-    warmmiete_je_qm_m: float,
+    anerkannte_warmmiete_je_qm_m: float,
 ) -> float:
     """Calculate costs of living eligible to claim since 2023. During the first year,
     the waiting period (Karenzzeit), only the appropriateness of the heating costs is
@@ -339,8 +339,8 @@ def kosten_der_unterkunft_m_ab_2023(
         See basic input variable :ref:`arbeitslosengeld_2_bezug_im_vorjahr <arbeitslosengeld_2_bezug_im_vorjahr>`.
     berechtigte_wohnfläche
         See :func:`berechtigte_wohnfläche`.
-    warmmiete_je_qm_m
-        See :func:`warmmiete_je_qm_m`.
+    anerkannte_warmmiete_je_qm_m
+        See :func:`anerkannte_warmmiete_je_qm_m`.
 
     Returns
     -------
@@ -348,7 +348,7 @@ def kosten_der_unterkunft_m_ab_2023(
 
     """
     if arbeitslosengeld_2_bezug_im_vorjahr:
-        out = berechtigte_wohnfläche * warmmiete_je_qm_m
+        out = berechtigte_wohnfläche * anerkannte_warmmiete_je_qm_m
     else:
         out = bruttokaltmiete_m + heizkosten_m
 
@@ -356,7 +356,7 @@ def kosten_der_unterkunft_m_ab_2023(
 
 
 @policy_function()
-def warmmiete_je_qm_m(
+def anerkannte_warmmiete_je_qm_m(
     bruttokaltmiete_m: float,
     heizkosten_m: float,
     wohnfläche: float,

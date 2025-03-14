@@ -7,7 +7,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="1989-12-17", leaf_name="altersgrenze")
-def ges_rente_frauen_altersgrenze_ohne_staffelung(
+def altersgrenze_ohne_staffelung(
     demographics__geburtsjahr: int,  # noqa: ARG001
     ges_rente_params: dict,
 ) -> float:
@@ -36,7 +36,7 @@ def ges_rente_frauen_altersgrenze_ohne_staffelung(
 
 
 @policy_function(start_date="1989-12-18", leaf_name="altersgrenze")
-def ges_rente_frauen_altersgrenze_mit_staffelung(
+def altersgrenze_mit_staffelung(
     demographics__geburtsjahr: int,
     demographics__geburtsmonat: int,
     ges_rente_params: dict,

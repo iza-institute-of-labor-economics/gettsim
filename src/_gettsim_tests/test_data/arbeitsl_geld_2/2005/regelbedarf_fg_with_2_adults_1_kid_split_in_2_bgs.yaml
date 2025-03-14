@@ -88,7 +88,7 @@ outputs:
     - 20.0
     - 20.0
     - 20.0
-  arbeitslosengeld_2__warmmiete_je_qm_m:
+  arbeitslosengeld_2__anerkannte_warmmiete_je_qm_m:
     - 10.0
     - 10.0
     - 10.0

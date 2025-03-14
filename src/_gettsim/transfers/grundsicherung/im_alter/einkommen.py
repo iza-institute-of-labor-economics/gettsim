@@ -10,7 +10,7 @@ def einkommen_m(  # noqa: PLR0913
     private_rente_m: float,
     gesetzliche_rente_m: float,
     einkommen__sonstige_m: float,
-    einkommen__aus_vermietung_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
     kapitaleinkommen_brutto_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
@@ -31,8 +31,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`gesetzliche_rente_m`.
     einkommen__sonstige_m
         See :func:`einkommen__sonstige_m`.
-    einkommen__aus_vermietung_m
-        See :func:`einkommen__aus_vermietung_m`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
     kapitaleinkommen_brutto_m
         See :func:`kapitaleinkommen_brutto_m`.
     eink_st_m_sn
@@ -57,7 +57,7 @@ def einkommen_m(  # noqa: PLR0913
         + gesetzliche_rente_m
         + private_rente_m
         + einkommen__sonstige_m
-        + einkommen__aus_vermietung_m
+        + einkommen__aus_vermietung_und_verpachtung_m
         + kapitaleinkommen_brutto_m
         + elterngeld__anrechenbarer_betrag_m
     )
@@ -116,7 +116,7 @@ def erwerbseinkommen_m(
 
 @policy_function()
 def kapitaleinkommen_brutto_m(
-    kapitaleink_brutto_y: float,
+    einkommen__kapitaleinnahmen_y: float,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate individual capital income considered in the calculation of
@@ -127,8 +127,8 @@ def kapitaleinkommen_brutto_m(
 
     Parameters
     ----------
-    kapitaleink_brutto_y
-        See :func:`kapitaleink_brutto_y`.
+    einkommen__kapitaleinnahmen_y
+        See :func:`einkommen__kapitaleinnahmen_y`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params
         <grunds_im_alter_params>`.
@@ -139,7 +139,7 @@ def kapitaleinkommen_brutto_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        kapitaleink_brutto_y - grunds_im_alter_params["kapitaleink_anr_frei"]
+        einkommen__kapitaleinnahmen_y - grunds_im_alter_params["kapitaleink_anr_frei"]
     )
 
     # Calculate and return monthly capital income (after deduction)

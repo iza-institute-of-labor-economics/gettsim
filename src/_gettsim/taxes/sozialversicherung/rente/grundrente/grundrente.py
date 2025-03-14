@@ -26,9 +26,9 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
     einkommen__bruttolohn_vorjahr_m: float,
-    einkommen__aus_selbstständigkeit_y: float,
-    eink_vermietung_y: float,
-    einkommensteuer__einkommen__kapitaleinkommen_y: float,
+    einkommen__aus_selbstständigkeit_m: float,
+    einkommen__aus_vermietung_und_verpachtung_m: float,
+    einkommensteuer__einkommen__kapitaleinkommen_m: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
@@ -57,12 +57,12 @@ def einkommen_m(
         See :func:`proxy_rente_vorjahr_m`.
     einkommen__bruttolohn_vorjahr_m
         See :func:`einkommen__bruttolohn_vorjahr_m`.
-    einkommen__aus_selbstständigkeit_y
-        See :func:`einkommen__aus_selbstständigkeit_y`.
-    eink_vermietung_y
-        See :func:`eink_vermietung_y`.
-    einkommensteuer__einkommen__kapitaleinkommen_y
-        See :func:`einkommensteuer__einkommen__kapitaleinkommen_y`.
+    einkommen__aus_selbstständigkeit_m
+        See :func:`einkommen__aus_selbstständigkeit_m`.
+    einkommen__aus_vermietung_und_verpachtung_m
+        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
+    einkommensteuer__einkommen__kapitaleinkommen_m
+        See :func:`einkommensteuer__einkommen__kapitaleinkommen_m`.
 
     Returns
     -------
@@ -73,9 +73,9 @@ def einkommen_m(
     out = (
         proxy_rente_vorjahr_m
         + einkommen__bruttolohn_vorjahr_m
-        + einkommen__aus_selbstständigkeit_y / 12  # income from self-employment
-        + eink_vermietung_y / 12  # rental income
-        + einkommensteuer__einkommen__kapitaleinkommen_y / 12
+        + einkommen__aus_selbstständigkeit_m  # income from self-employment
+        + einkommen__aus_vermietung_und_verpachtung_m  # rental income
+        + einkommensteuer__einkommen__kapitaleinkommen_m
     )
 
     return out
@@ -84,7 +84,7 @@ def einkommen_m(
 @policy_function(params_key_for_rounding="ges_rente")
 def anzurechnendes_einkommen_m(
     einkommen_m_ehe: float,
-    demographics__p_id_ehepartner: int,
+    demographics__anzahl_personen_ehe: int,
     sozialversicherung__rente__altersrente__rentenwert: float,
     ges_rente_params: dict,
 ) -> float:
@@ -101,8 +101,8 @@ def anzurechnendes_einkommen_m(
     ----------
     einkommen_m_ehe
         See :func:`einkommen_m_ehe`.
-    demographics__p_id_ehepartner
-        See :func:`demographics__p_id_ehepartner`.
+    demographics__anzahl_personen_ehe
+        See :func:`demographics__anzahl_personen_ehe`.
     sozialversicherung__rente__altersrente__rentenwert
         See :func:`sozialversicherung__rente__altersrente__rentenwert`.
     ges_rente_params
@@ -116,7 +116,7 @@ def anzurechnendes_einkommen_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    if demographics__p_id_ehepartner >= 0:
+    if demographics__anzahl_personen_ehe == 1:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_single"]

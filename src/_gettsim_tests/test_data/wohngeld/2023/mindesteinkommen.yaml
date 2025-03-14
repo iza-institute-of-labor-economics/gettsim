@@ -223,14 +223,14 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    kapitaleink_brutto_y:
+    einkommen__kapitaleinnahmen_y:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_m:
+    einkommen__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -323,7 +323,7 @@ outputs:
     - 1452.0
     - 1452.0
     - 1452.0
-  wohngeld__einkommen_für_mindesteinkommen_check_m_wthh:
+  wohngeld__einkommen_für_mindesteinkommen_m_wthh:
     - 1983.33
     - 1983.33
     - 1295.83
