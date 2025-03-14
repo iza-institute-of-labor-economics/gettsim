@@ -84,7 +84,7 @@ content, warning the offender or expulsion from the community. The CoC team is m
 of GETTSIM contributors and users and will react promptly to reports. The current team
 includes
 
-- [Boryana Ilieva](https://github.com/boryana-ilieva)
+- [Annica Gehlen](https://github.com/amageh)
 - [Holger Stichnoth](https://github.com/stichnoth)
 - [Maximilian Blesch](https://github.com/MaxBlesch)
 

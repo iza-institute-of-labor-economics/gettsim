@@ -6,6 +6,11 @@ releases are available on [Anaconda.org](https://anaconda.org/conda-forge/gettsi
 
 ## Unpublished
 
+- {gh}`807` Implement changes from 2. Jahressteuergesetz 2024 ({ghuser}`Eric-Sommer`)
+- {gh}`809` implement 2025 changes to pensions and social security contributions
+  ({ghuser}`Eric-Sommer`).
+- {gh}`803` Apply correct rounding rules for Ehegattensplitting and update EStG
+  parameters ({ghuser}`MImmesberger`, `mjbloemer`).
 - {gh}`797` Update infrastructure to use pixi and modern pre-commit hooks
   ({ghuser}`timmens`).
 - {gh}`787` Model classes for policy functions and policy environments
