@@ -174,7 +174,7 @@ def mindesteinkommen_erreicht_bg(
 @policy_function()
 def einkommen_für_mindesteinkommen_m(
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m: float,
-    unterhalt__kind_betrag_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld__betrag_m: float,
     kinderzuschlag__anspruchshöhe_m: float,
@@ -190,8 +190,8 @@ def einkommen_für_mindesteinkommen_m(
     ----------
     arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
         See :func:`arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m`.
-    unterhalt__kind_betrag_m
-        See :func:`unterhalt__kind_betrag_m`.
+    unterhalt__tatsächlich_erhaltener_betrag_m
+        See :func:`unterhalt__tatsächlich_erhaltener_betrag_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     kindergeld__betrag_m
@@ -206,7 +206,7 @@ def einkommen_für_mindesteinkommen_m(
 
     return (
         arbeitslosengeld_2__nettoeinkommen_vor_abzug_freibetrag_m
-        + unterhalt__kind_betrag_m
+        + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld__betrag_m
         + kinderzuschlag__anspruchshöhe_m

@@ -619,16 +619,16 @@ insurance
 
 Type: float
 
-## `unterhalt__kind_anspruch_m`
+## `unterhalt__anspruch_m`
 
-Monthly gross child alimony payments to be received as determined by the court on child
-level
+Monthly gross child alimony payments to be received by the child as determined by the
+court.
 
 Type: float
 
-## `unterhalt__kind_betrag_m`
+## `unterhalt__tatsächlich_erhaltener_betrag_m`
 
-Monthly actual child alimony payments received on child level
+Child alimony payments the child actually receives.
 
 Type: float
 

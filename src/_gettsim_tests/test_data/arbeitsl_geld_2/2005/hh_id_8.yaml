@@ -58,7 +58,7 @@ inputs:
       - 92.0
     kindergeld__betrag_m_bg:
       - 0.0
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0

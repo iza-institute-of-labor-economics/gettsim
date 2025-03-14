@@ -55,7 +55,7 @@ inputs:
     monat:
       - 1
       - 1
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
   assumed: {}

@@ -8,7 +8,7 @@ inputs:
       - 2
     demographics__hh_id:
       - 2
-    unterhalt__kind_anspruch_m:
+    unterhalt__anspruch_m:
       - 905.0
     kindergeld__betrag_m:
       - 250.0

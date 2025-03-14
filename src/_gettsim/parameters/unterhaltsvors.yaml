@@ -47,7 +47,7 @@ faktor_jüngste_altersgruppe:
   2009-01-01:
     scalar: 0.87
     reference: § 1612a Abs. 1 BGB
-unterhaltsvors_anwendungsvors:
+anwendungsvorschrift:
   name:
     de: Unterhaltsvorschuss für Kinder entsprechend Anwendungsvorschriften
     en: Advance Child Alimony according to application regulations

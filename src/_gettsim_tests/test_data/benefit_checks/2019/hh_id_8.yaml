@@ -36,7 +36,7 @@ inputs:
       - 0.0
     arbeitslosengeld_2__kindergeldübertrag_m:
       - 0.0
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0

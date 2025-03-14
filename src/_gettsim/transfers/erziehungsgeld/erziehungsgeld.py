@@ -4,7 +4,7 @@ from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.function_types import policy_function
 
 aggregation_specs = {
-    "anspruchshöhe_eltern_m": AggregateByPIDSpec(
+    "anspruchshöhe_m": AggregateByPIDSpec(
         p_id_to_aggregate_by="erziehungsgeld__p_id_empfänger",
         source_col="anspruchshöhe_kind_m",
         aggr="sum",
@@ -14,29 +14,27 @@ aggregation_specs = {
 
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def betrag_m(
-    anspruchshöhe_eltern_m: int,
-    eltern_grundsätzlich_anspruchsberechtigt: bool,
+    anspruchshöhe_m: int,
+    grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
-    """Total parental leave benefits (Erziehungsgeld).
-
-    Parental leave benefits for the parent that claims the benefit.
+    """Total parental leave benefits (Erziehungsgeld) received by the parent.
 
     Legal reference: BErzGG (BGBl. I 1985 S. 2154; BGBl. I 2004 S. 206)
 
     Parameters
     ----------
-    anspruchshöhe_eltern_m
-        See :func:`anspruchshöhe_eltern_m`.
-    eltern_grundsätzlich_anspruchsberechtigt
-        See :func:`eltern_grundsätzlich_anspruchsberechtigt`.
+    anspruchshöhe_m
+        See :func:`anspruchshöhe_m`.
+    grundsätzlich_anspruchsberechtigt
+        See :func:`grundsätzlich_anspruchsberechtigt`.
 
     Returns
     -------
     Parental leave benefits (Erziehungsgeld).
 
     """
-    if eltern_grundsätzlich_anspruchsberechtigt:
-        out = anspruchshöhe_eltern_m
+    if grundsätzlich_anspruchsberechtigt:
+        out = anspruchshöhe_m
     else:
         out = 0.0
 
@@ -289,7 +287,7 @@ def _kind_grundsätzlich_anspruchsberechtigt_nach_abschaffung(
 
 
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
-def eltern_grundsätzlich_anspruchsberechtigt(
+def grundsätzlich_anspruchsberechtigt(
     demographics__arbeitsstunden_w: float,
     kind_grundsätzlich_anspruchsberechtigt_fg: bool,
     erziehungsgeld_params: dict,

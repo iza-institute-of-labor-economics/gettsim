@@ -49,7 +49,7 @@ def betrag_gestaffelt_m(
     anzahl_ansprüche: int,
     kindergeld_params: dict,
 ) -> float:
-    """Sum of Kindergeld for eligible children.
+    """Sum of Kindergeld that parents receive for their children.
 
     Kindergeld claim for each child depends on the number of children Kindergeld is
     being claimed for.

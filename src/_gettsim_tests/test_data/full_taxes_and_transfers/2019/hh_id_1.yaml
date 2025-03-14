@@ -359,12 +359,12 @@ inputs:
       - false
       - false
       - false
-    unterhalt__kind_anspruch_m:
+    unterhalt__anspruch_m:
       - 177.0
       - 177.0
       - 177.0
       - 177.0
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 177.0
       - 177.0
       - 177.0

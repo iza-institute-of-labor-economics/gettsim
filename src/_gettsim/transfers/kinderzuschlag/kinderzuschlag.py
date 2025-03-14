@@ -240,7 +240,7 @@ def basisbetrag_m_bg(
 def basisbetrag_kind_m(  # noqa: PLR0913
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
     einkommen__bruttolohn_m: float,
-    unterhalt__kind_betrag_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     arbeitslosengeld_2__anrechnungsfreies_einkommen_m: float,
     kinderzuschl_params: dict,
@@ -255,8 +255,8 @@ def basisbetrag_kind_m(  # noqa: PLR0913
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
     einkommen__bruttolohn_m
         See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
-    unterhalt__kind_betrag_m
-        See basic input variable :ref:`unterhalt__kind_betrag_m <unterhalt__kind_betrag_m>`.
+    unterhalt__tatsächlich_erhaltener_betrag_m
+        See basic input variable :ref:`unterhalt__tatsächlich_erhaltener_betrag_m <unterhalt__tatsächlich_erhaltener_betrag_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     arbeitslosengeld_2__anrechnungsfreies_einkommen_m
@@ -273,7 +273,7 @@ def basisbetrag_kind_m(  # noqa: PLR0913
         - kinderzuschl_params["entzugsrate_kind"]
         * (
             einkommen__bruttolohn_m
-            + unterhalt__kind_betrag_m
+            + unterhalt__tatsächlich_erhaltener_betrag_m
             + unterhaltsvorschuss__betrag_m
             - arbeitslosengeld_2__anrechnungsfreies_einkommen_m
         )

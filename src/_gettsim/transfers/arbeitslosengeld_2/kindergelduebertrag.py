@@ -109,7 +109,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
     nettoeinkommen_nach_abzug_freibetrag_m: float,
     wohngeld__anspruchshöhe_m_bg: float,
     kindergeld_zur_bedarfsdeckung_m: float,
-    unterhalt__kind_betrag_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     in_anderer_bg_als_kindergeldempfänger: bool,
 ) -> float:
@@ -132,8 +132,8 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
         See :func:`wohngeld__anspruchshöhe_m_bg`.
     kindergeld_zur_bedarfsdeckung_m
         See :func:`kindergeld_zur_bedarfsdeckung_m`.
-    unterhalt__kind_betrag_m
-        See :func:`unterhalt__kind_betrag_m`.
+    unterhalt__tatsächlich_erhaltener_betrag_m
+        See :func:`unterhalt__tatsächlich_erhaltener_betrag_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     in_anderer_bg_als_kindergeldempfänger
@@ -147,7 +147,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
         regelbedarf_m_bg
         - wohngeld__anspruchshöhe_m_bg
         - nettoeinkommen_nach_abzug_freibetrag_m
-        - unterhalt__kind_betrag_m
+        - unterhalt__tatsächlich_erhaltener_betrag_m
         - unterhaltsvorschuss__betrag_m,
         0.0,
     )

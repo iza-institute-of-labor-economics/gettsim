@@ -8,7 +8,7 @@ def betrag_m_eg(  # noqa: PLR0913
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     mehrbedarf_schwerbehinderung_g_m_eg: float,
     kindergeld__betrag_m_eg: float,
-    unterhalt__kind_betrag_m_eg: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m_eg: float,
     unterhaltsvorschuss__betrag_m_eg: float,
     einkommen_m_eg: float,
     demographics__erwachsene_alle_rentner_hh: bool,
@@ -30,9 +30,9 @@ def betrag_m_eg(  # noqa: PLR0913
         See :func:`mehrbedarf_schwerbehinderung_g_m_eg`.
     kindergeld__betrag_m_eg
         See :func:`kindergeld__betrag_m_eg`.
-    unterhalt__kind_betrag_m_eg
+    unterhalt__tatsächlich_erhaltener_betrag_m_eg
         See basic input variable
-        :ref:`unterhalt__kind_betrag_m_eg <unterhalt__kind_betrag_m_eg>`.
+        :ref:`unterhalt__tatsächlich_erhaltener_betrag_m_eg <unterhalt__tatsächlich_erhaltener_betrag_m_eg>`.
     unterhaltsvorschuss__betrag_m_eg
         See :func:`unterhaltsvorschuss__betrag_m_eg`.
     einkommen_m_eg
@@ -80,7 +80,7 @@ def betrag_m_eg(  # noqa: PLR0913
             arbeitslosengeld_2__regelbedarf_m_bg
             + mehrbedarf_schwerbehinderung_g_m_eg
             - einkommen_m_eg
-            - unterhalt__kind_betrag_m_eg
+            - unterhalt__tatsächlich_erhaltener_betrag_m_eg
             - unterhaltsvorschuss__betrag_m_eg
             - kindergeld__betrag_m_eg
         )

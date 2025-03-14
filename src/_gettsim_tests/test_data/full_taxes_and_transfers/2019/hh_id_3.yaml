@@ -146,9 +146,9 @@ inputs:
       - 60.0
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
-    unterhalt__kind_anspruch_m:
+    unterhalt__anspruch_m:
       - 0.0
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
     lohnsteuer__steuerklasse:
       - 1

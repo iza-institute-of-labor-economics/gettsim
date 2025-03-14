@@ -114,7 +114,7 @@ inputs:
       - 388.0
       - 388.0
       - 388.0
-    unterhalt__kind_betrag_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 212.0
       - 160.0

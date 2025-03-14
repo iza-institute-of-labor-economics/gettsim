@@ -10,7 +10,8 @@ def kind_festgelegter_zahlbetrag_m(
     unterhalt_params: dict,
     demographics__kind: bool,
 ) -> float:
-    """Monthly actual child alimony payments to be received after deductions.
+    """Monthly actual child alimony payments to be received by the child after
+    deductions.
 
     Parameters
     ----------

@@ -7,7 +7,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 @policy_function()
 def anzurechnendes_einkommen_m(
     nettoeinkommen_nach_abzug_freibetrag_m: float,
-    unterhalt__kind_betrag_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     kindergeld_zur_bedarfsdeckung_m: float,
     kindergeldübertrag_m: float,
@@ -25,8 +25,8 @@ def anzurechnendes_einkommen_m(
     ----------
     nettoeinkommen_nach_abzug_freibetrag_m
         See :func:`nettoeinkommen_nach_abzug_freibetrag_m`.
-    unterhalt__kind_betrag_m
-        See :func:`unterhalt__kind_betrag_m`.
+    unterhalt__tatsächlich_erhaltener_betrag_m
+        See :func:`unterhalt__tatsächlich_erhaltener_betrag_m`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
     kindergeld_zur_bedarfsdeckung_m
@@ -41,7 +41,7 @@ def anzurechnendes_einkommen_m(
     """
     return (
         nettoeinkommen_nach_abzug_freibetrag_m
-        + unterhalt__kind_betrag_m
+        + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
         + kindergeld_zur_bedarfsdeckung_m
         + kindergeldübertrag_m

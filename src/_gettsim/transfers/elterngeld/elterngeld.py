@@ -25,7 +25,7 @@ def betrag_m(
     grundsätzlich_anspruchsberechtigt: bool,
     anspruchshöhe_m: float,
 ) -> float:
-    """Parental leave benefit (Elterngeld).
+    """Parental leave benefit (Elterngeld) received by the parent.
 
     Parameters
     ----------
@@ -53,6 +53,8 @@ def basisbetrag_m(
     elterngeld_params: dict,
 ) -> float:
     """Base parental leave benefit without accounting for floor and ceiling.
+
+    Basisbetrag is calculated on the parental level.
 
     Parameters
     ----------
@@ -98,6 +100,8 @@ def anspruchshöhe_m(
 ) -> float:
     """Elterngeld before checking eligibility.
 
+    Anspruchshöhe is calculated on the parental level.
+
     Parameters
     ----------
     basisbetrag_m
@@ -135,7 +139,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     bezugsmonate_unter_grenze_fg: bool,
     elterngeld_params: dict,
 ) -> bool:
-    """Individual is eligible to receive Elterngeld.
+    """Parent is eligible to receive Elterngeld.
 
     Parameters
     ----------
@@ -173,8 +177,8 @@ def bezugsmonate_unter_grenze_fg(
     anzahl_anträge_fg: int,
     elterngeld_params: dict,
 ) -> bool:
-    """Elterngeld has been claimed for less than the maximum number of months in the
-    past.
+    """Elterngeld claimed for less than the maximum number of months in the past by the
+    parent.
 
     Parameters
     ----------
@@ -183,7 +187,7 @@ def bezugsmonate_unter_grenze_fg(
     bezugsmonate
         See function :func:`bezugsmonate`.
     demographics__alleinerziehend
-        See basic input variable :ref:`demographics__alleinerziehend <demographics__alleinerziehend>`.
+        See basic input variable :ref:`demographics__alleinerziehend<demographics__alleinerziehend>`.
     anzahl_anträge_fg
         See :func:`anzahl_anträge_fg`.
     elterngeld_params

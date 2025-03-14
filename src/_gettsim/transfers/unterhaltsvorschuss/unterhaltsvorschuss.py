@@ -7,7 +7,7 @@ from _gettsim.function_types import policy_function
 from _gettsim.shared import join_numpy
 
 aggregation_specs = {
-    "zahlbetrag_eltern_m": AggregateByPIDSpec(
+    "an_elternteil_auszuzahlender_betrag_m": AggregateByPIDSpec(
         p_id_to_aggregate_by="kindergeld__p_id_empfänger",
         source_col="betrag_m",
         aggr="sum",
@@ -17,8 +17,8 @@ aggregation_specs = {
 
 @policy_function(start_date="2009-01-01", params_key_for_rounding="unterhaltsvors")
 def betrag_m(
-    unterhalt__kind_betrag_m: float,
-    anspruchshöhe_kind_m: float,
+    unterhalt__tatsächlich_erhaltener_betrag_m: float,
+    anspruchshöhe_m: float,
     elternteil_alleinerziehend: bool,
 ) -> float:
     """Advance alimony payments (Unterhaltsvorschuss) on child level after deducting
@@ -40,10 +40,10 @@ def betrag_m(
 
     Parameters
     ----------
-    unterhalt__kind_betrag_m
-        See basic input variable `unterhalt__kind_betrag_m`.
-    anspruchshöhe_kind_m
-        See :func:`anspruchshöhe_kind_m`.
+    unterhalt__tatsächlich_erhaltener_betrag_m
+        See basic input variable `unterhalt__tatsächlich_erhaltener_betrag_m`.
+    anspruchshöhe_m
+        See :func:`anspruchshöhe_m`.
     elternteil_alleinerziehend
         See :func:`elternteil_alleinerziehend`.
 
@@ -52,7 +52,7 @@ def betrag_m(
 
     """
     if elternteil_alleinerziehend:
-        out = max(anspruchshöhe_kind_m - unterhalt__kind_betrag_m, 0.0)
+        out = max(anspruchshöhe_m - unterhalt__tatsächlich_erhaltener_betrag_m, 0.0)
     else:
         out = 0.0
 
@@ -150,9 +150,9 @@ def kindergeld_erstes_kind_gestaffelt_m(
 @policy_function(
     start_date="2009-01-01",
     end_date="2014-12-31",
-    leaf_name="anspruchshöhe_kind_m",
+    leaf_name="anspruchshöhe_m",
 )
-def unterhaltsvors_anspruch_kind_m_2009_bis_2014(
+def unterhaltsvorschuss_anspruch_m_2009_bis_2014(
     demographics__alter: int,
     kindergeld_erstes_kind_m: float,
     unterhaltsvors_params: dict,
@@ -216,15 +216,15 @@ def unterhaltsvors_anspruch_kind_m_2009_bis_2014(
 @policy_function(
     start_date="2015-01-01",
     end_date="2015-12-31",
-    leaf_name="anspruchshöhe_kind_m",
+    leaf_name="anspruchshöhe_m",
 )
-def anspruchshöhe_kind_m_anwendungsvors(
+def anspruchshöhe_m_anwendungsvors(
     demographics__alter: int,
     unterhaltsvors_params: dict,
 ) -> float:
     """Claim for advance on alimony payment (Unterhaltsvorschuss) on child level.
 
-    Rule anspruchshöhe_kind_m_2009_bis_2014 was in priciple also active for
+    Rule anspruchshöhe_m_2009_bis_2014 was in priciple also active for
     2015 but has been overwritten by an Anwendungsvorschrift as Kinderfreibetrag and
     Kindergeld changed in July 2015.
 
@@ -241,7 +241,7 @@ def anspruchshöhe_kind_m_anwendungsvors(
     """
     altersgrenzen = unterhaltsvors_params["altersgrenzen_bezug"]
 
-    unterhaltsvors = unterhaltsvors_params["unterhaltsvors_anwendungsvors"]
+    unterhaltsvors = unterhaltsvors_params["anwendungsvorschrift"]
 
     if (
         altersgrenzen[1]["min_alter"]
@@ -264,9 +264,9 @@ def anspruchshöhe_kind_m_anwendungsvors(
 @policy_function(
     start_date="2016-01-01",
     end_date="2017-06-30",
-    leaf_name="anspruchshöhe_kind_m",
+    leaf_name="anspruchshöhe_m",
 )
-def anspruchshöhe_kind_m_2016_bis_2017_06(
+def anspruchshöhe_m_2016_bis_2017_06(
     demographics__alter: int,
     kindergeld_erstes_kind_m: float,
     unterhalt_params: dict,
@@ -312,8 +312,8 @@ def anspruchshöhe_kind_m_2016_bis_2017_06(
     return out
 
 
-@policy_function(start_date="2017-07-01", leaf_name="anspruchshöhe_kind_m")
-def anspruchshöhe_kind_m_ab_201707(
+@policy_function(start_date="2017-07-01", leaf_name="anspruchshöhe_m")
+def anspruchshöhe_m_ab_201707(
     demographics__alter: int,
     elternteil_mindesteinkommen_erreicht: bool,
     kindergeld_erstes_kind_m: float,
