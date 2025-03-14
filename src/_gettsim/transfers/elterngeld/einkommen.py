@@ -3,7 +3,7 @@
 from _gettsim.function_types import policy_function
 
 
-@policy_function()
+@policy_function(start_date="2007-01-01")
 def anzurechnendes_nettoeinkommen_m(
     einkommen__bruttolohn_m: float,
     lohnsteuer__betrag_m: float,
@@ -30,7 +30,7 @@ def anzurechnendes_nettoeinkommen_m(
     return einkommen__bruttolohn_m - lohnsteuer__betrag_m - lohnsteuer__betrag_soli_m
 
 
-@policy_function(params_key_for_rounding="elterngeld")
+@policy_function(start_date="2007-01-01", params_key_for_rounding="elterngeld")
 def lohnersatzanteil_einkommen_untere_grenze(
     nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -54,7 +54,7 @@ def lohnersatzanteil_einkommen_untere_grenze(
     )
 
 
-@policy_function(params_key_for_rounding="elterngeld")
+@policy_function(start_date="2007-01-01", params_key_for_rounding="elterngeld")
 def lohnersatzanteil_einkommen_obere_grenze(
     nettoeinkommen_vorjahr_m: float,
     elterngeld_params: dict,
@@ -80,7 +80,9 @@ def lohnersatzanteil_einkommen_obere_grenze(
 
 
 @policy_function(
-    end_date="2024-03-31", leaf_name="einkommen_vorjahr_unter_bezugsgrenze"
+    start_date="2007-01-01",
+    end_date="2024-03-31",
+    leaf_name="einkommen_vorjahr_unter_bezugsgrenze",
 )
 def einkommen_vorjahr_unter_bezugsgrenze_mit_unterscheidung_single_paar(
     demographics__alleinerziehend: bool,
@@ -138,7 +140,7 @@ def einkommen_vorjahr_unter_bezugsgrenze_ohne_unterscheidung_single_paar(
     return zu_versteuerndes_einkommen_vorjahr_y_sn <= elterngeld_params["max_eink_vorj"]
 
 
-@policy_function(params_key_for_rounding="elterngeld")
+@policy_function(start_date="2006-01-01", params_key_for_rounding="elterngeld")
 def nettoeinkommen_approximation_m(
     einkommen__bruttolohn_m: float,
     lohnsteuer__betrag_m: float,
