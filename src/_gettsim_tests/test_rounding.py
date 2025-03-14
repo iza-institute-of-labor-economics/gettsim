@@ -114,12 +114,14 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     def test_func(income):
         return income
 
-    data = {"demographics": {"p_id": pd.Series([1, 2])}}
-    data["income"] = pd.Series(input_values)
+    data = {
+        "groupings": {"p_id": pd.Series([1, 2])},
+        "namespace": {"income": pd.Series(input_values)},
+    }
     rounding_specs = {
         "params_key_test": {
             "rounding": {
-                "test_func": {
+                "namespace__test_func": {
                     "base": base,
                     "direction": direction,
                 }
@@ -128,17 +130,23 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
     }
 
     if to_add_after_rounding:
-        rounding_specs["params_key_test"]["rounding"]["test_func"][
+        rounding_specs["params_key_test"]["rounding"]["namespace__test_func"][
             "to_add_after_rounding"
         ] = to_add_after_rounding
 
-    environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
+    environment = PolicyEnvironment(
+        {"namespace": {"test_func": test_func}}, rounding_specs
+    )
 
     calc_result = compute_taxes_and_transfers(
-        data_tree=data, environment=environment, targets_tree={"test_func": None}
+        data_tree=data,
+        environment=environment,
+        targets_tree={"namespace": {"test_func": None}},
     )
     assert_series_equal(
-        pd.Series(calc_result["test_func"]), pd.Series(exp_output), check_names=False
+        pd.Series(calc_result["namespace"]["test_func"]),
+        pd.Series(exp_output),
+        check_names=False,
     )
 
 

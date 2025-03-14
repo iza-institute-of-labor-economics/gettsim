@@ -379,7 +379,7 @@ def _add_rounding_to_function(
     """
     func = copy.deepcopy(input_function)
     nice_name = ".".join(path)
-    leaf_name = path[-1]
+    qualified_name = "__".join(path)
 
     if input_function.params_key_for_rounding:
         params_key = func.params_key_for_rounding
@@ -387,20 +387,20 @@ def _add_rounding_to_function(
         if not (
             params_key in params
             and "rounding" in params[params_key]
-            and leaf_name in params[params_key]["rounding"]
+            and qualified_name in params[params_key]["rounding"]
         ):
             raise KeyError(
                 KeyErrorMessage(
                     f"""
                     Rounding specifications for function {nice_name} are expected
                     in the parameter dictionary at:\n
-                    [{params_key!r}]['rounding'][{leaf_name!r}].\n
+                    [{params_key!r}]['rounding'][{qualified_name!r}].\n
                     These nested keys do not exist. If this function should not be
                     rounded, remove the respective decorator.
                     """
                 )
             )
-        rounding_spec = params[params_key]["rounding"][leaf_name]
+        rounding_spec = params[params_key]["rounding"][qualified_name]
         # Check if expected parameters are present in rounding specifications.
         if not ("base" in rounding_spec and "direction" in rounding_spec):
             raise KeyError(
@@ -408,7 +408,7 @@ def _add_rounding_to_function(
                     "Both 'base' and 'direction' are expected as rounding "
                     "parameters in the parameter dictionary. \n "
                     "At least one of them is missing at:\n"
-                    f"[{params_key!r}]['rounding'][{leaf_name!r}]."
+                    f"[{params_key!r}]['rounding'][{qualified_name!r}]."
                 )
             )
         # Add rounding.
