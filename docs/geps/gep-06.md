@@ -6,13 +6,13 @@
 - * Author
   * [Hans-Martin von Gaudecker](https://github.com/hmgaudecker)
 - * Status
-  * Draft
+  * Provisionally accepted
 - * Type
   * Standards Track
 - * Created
   * 2025-02-17
 - * Resolution
-  * <!-- One of [Accepted | Rejected | Withdrawn](<url>) once resolution has been found -->
+  * [Provisionally Accepted](https://gettsim.zulipchat.com/#narrow/channel/309998-GEPs/topic/GEP.2006/near/505695738)
 ```
 
 ## Abstract
