@@ -141,7 +141,7 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     return out
 
 
-@policy_function()
+@policy_function(params_key_for_rounding="eink_st")
 def betrag_ohne_kinderfreibetrag_y_sn(
     einkommensteuer__einkommen__zu_versteuerndes_einkommen_ohne_kinderfreibetrag_y_sn: float,
     demographics__anzahl_personen_sn: int,

@@ -1,7 +1,7 @@
 ---
 info:
   note: ''
-  source: https://www.smart-rechner.de/einkommensteuer/rechner.php
+  source: https://www.bmf-steuerrechner.de
 inputs:
   provided:
     demographics__p_id:
@@ -34,14 +34,14 @@ outputs:
     - 2
     - 2
   einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
-    - 62794.0
-    - 62794.0
+    - 62726.0
+    - 62726.0
   einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
-    - 62794.0
-    - 62794.0
+    - 62726.0
+    - 62726.0
   abgeltungssteuer__betrag_y_sn:
     - 0.0
     - 0.0
   solidaritätszuschlag__betrag_y_sn:
-    - 3157.55
-    - 3157.55
+    - 3149.45
+    - 3149.45
