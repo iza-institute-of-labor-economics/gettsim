@@ -50,7 +50,7 @@ inputs:
       - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
       - false
     sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 60.0

@@ -230,7 +230,7 @@ TYPES_INPUT_VARIABLES = {
     "demographics__schwerbehindert_grad_g": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997": bool,
-    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006": bool,
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004": bool,
     "sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m": float,
     "sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert": bool,
     "sozialversicherung__rente__erwerbsminderung__voll_erwerbsgemindert": bool,

@@ -60,7 +60,7 @@ INPUT_COLS_INCOME = [
     "sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40",
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren",
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb",
-    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004",
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",
     "sozialversicherung__rente__pflichtbeitragszeiten_m",
     "sozialversicherung__rente__freiwillige_beitragszeiten_m",

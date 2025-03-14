@@ -560,12 +560,12 @@ implemented in 1997 (§ 237 SGB VI Abs. 4).
 
 Type: bool
 
-(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006)=
+(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004)=
 
-## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006`
+## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004`
 
-Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit
-implemented in 2006 (§ 237 SGB VI Abs. 5).
+Is covered by Vertrauensschutz rules for the Altersrente wegen Arbeitslosigkeit enacted
+in July 2004 (§ 237 SGB VI Abs. 5).
 
 Type: bool
 

@@ -219,8 +219,8 @@ def altersgrenze_vorzeitig_mit_vertrauensschutz_ab_1996_07_bis_1996_09(
     Parameters
     ----------
 
-    vertrauensschutz_2006
-        See basic input variable :ref:`vertrauensschutz_2006 <vertrauensschutz_2006>`.
+    vertrauensschutz_2004
+        See basic input variable :ref:`vertrauensschutz_2004 <vertrauensschutz_2004>`.
     altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
         See :func:`altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung`.
     ges_rente_params
@@ -279,23 +279,23 @@ def altersgrenze_vorzeitig_ohne_staffelung_ab_1996_09(
     end_date="2017-12-31",
     leaf_name="altersgrenze_vorzeitig",
 )
-def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
-    vertrauensschutz_2006: bool,
+def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2004_07(
+    vertrauensschutz_2004: bool,
     altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung: float,
     ges_rente_params: dict,
 ) -> float:
     """Early retirement age of pension for unemployed.
 
-    Includes Vertrauensschutz rules implemented in 2006. Policy becomes inactive in 2018
-    because then all potential beneficiaries have reached the normal retirement age.
+    Includes Vertrauensschutz rules implemented in July 2004. Policy becomes inactive in
+    2018 because then all potential beneficiaries have reached the normal retirement
+    age.
 
     Does not check for eligibility for this pathway into retirement.
 
     Parameters
     ----------
-    vertrauensschutz_2006
-        See basic input variable :ref:`vertrauensschutz_2006
-        <vertrauensschutz_2006>`.
+    vertrauensschutz_2004
+        See basic input variable :ref:`vertrauensschutz_2004 <vertrauensschutz_2004>`.
     altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung
         See :func:`altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung`.
     ges_rente_params
@@ -306,7 +306,7 @@ def ges_rente_arbeitsl_vorzeitig_mit_vertrauenss_ab_2006(
     Early retirement age for unemployed.
     """
 
-    if vertrauensschutz_2006:
+    if vertrauensschutz_2004:
         arbeitsl_vorzeitig = ges_rente_params["altersgrenze_arbeitsl_vorzeitig"][
             "vertrauensschutz"
         ]

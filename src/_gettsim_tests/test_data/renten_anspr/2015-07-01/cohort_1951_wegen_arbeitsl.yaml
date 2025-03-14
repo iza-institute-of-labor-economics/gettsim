@@ -42,7 +42,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
       - 0.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2006:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
       - false
   assumed: {}
 outputs:
