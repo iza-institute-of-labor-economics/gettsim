@@ -25,8 +25,9 @@ def test_load_path():
     assert _load_module(
         RESOURCE_DIR
         / "taxes"
-        / "sozialversicherungsbeiträge"
-        / "krankenversicherung"
+        / "sozialversicherung"
+        / "kranken"
+        / "beitrag"
         / "beitragssatz.py",
         RESOURCE_DIR,
     )
