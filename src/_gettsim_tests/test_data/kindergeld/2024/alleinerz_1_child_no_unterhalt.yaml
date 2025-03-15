@@ -4,32 +4,32 @@ info:
   source: ''
 inputs:
   provided:
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
-    p_id:
+    demographics__p_id:
       - 0
       - 1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 0
-    alter:
+    demographics__alter:
       - 45
       - 15
-    kind:
+    demographics__kind:
       - false
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 40.0
       - 0.0
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - true
   assumed: {}
 outputs:
-  kindergeld_m:
+  kindergeld__betrag_m:
     - 250.0
     - 0.0
-  kindergeld_zur_bedarfsdeckung_m:
+  arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
     - 0.0
     - 250.0

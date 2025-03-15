@@ -6,33 +6,33 @@ info:
   source: Made up.
 inputs:
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
-    hh_id:
+    demographics__hh_id:
       - 0
-    p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
     jahr:
       - 2018
-    kind:
+    demographics__kind:
       - true
-    alleinerz:
+    demographics__alleinerziehend:
       - false
-    alter:
+    demographics__alter:
       - 17
   provided: {}
 outputs:
-  arbeitsl_geld_2_regelsatz_m:
+  arbeitslosengeld_2__regelsatz_m:
     - 338.0
-  arbeitsl_geld_2_kindersatz_m:
+  arbeitslosengeld_2__kindersatz_m:
     - 0.0
-  arbeitsl_geld_2_erwachsenensatz_m:
+  arbeitslosengeld_2__erwachsenensatz_m:
     - 338.0

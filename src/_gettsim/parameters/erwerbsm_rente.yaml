@@ -72,7 +72,7 @@ altersgrenze_langj_versicherte_abschlagsfrei:
   reference: § 77 Abs. 4 SGB VI Zugangsfaktor
   2001-01-01:
     scalar: 63
-wartezeitgrenze_langj_versicherte_abschlagsfrei:
+wartezeitgrenze_langjährig_versicherte_abschlagsfrei:
   name:
     de: Wartezeitgrenze für abschlagsfreie Erwerbsminderungsrente
     en: Waiting time limit for public disability pension without deductions
@@ -233,7 +233,7 @@ min_zugangsfaktor:
     scalar: 0.892
 rentenartfaktor:
   name:
-    de: Rentenartfaktor für teilweise Erwerbsminderungsrente
+    de: rentenartfaktor für teilweise Erwerbsminderungsrente
     en: Pension type factor for partial reduction in public disability insurance
   description:
     de: >-

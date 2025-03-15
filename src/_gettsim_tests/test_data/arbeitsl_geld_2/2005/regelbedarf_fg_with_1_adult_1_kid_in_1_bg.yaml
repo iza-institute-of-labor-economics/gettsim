@@ -6,77 +6,77 @@ info:
   source: Made up.
 inputs:
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
-    p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
-    p_id_elternteil_1:
-      - -1
-      - 0
-    p_id_elternteil_2:
-      - -1
-      - -1
-    p_id_kindergeld_empf:
+    demographics__p_id_elternteil_1:
       - -1
       - 0
-    bg_id:
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 0
+    arbeitslosengeld_2__bg_id:
       - 0
       - 0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
     jahr:
       - 2005
       - 2005
-    kind:
+    demographics__kind:
       - false
       - true
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
-    alter:
+    demographics__alter:
       - 40
       - 10
-    bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 300.0
       - 300.0
-    heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 50.0
       - 50.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 40.0
       - 40.0
   provided: {}
 outputs:
-  arbeitsl_geld_2_regelsatz_m:
+  arbeitslosengeld_2__regelsatz_m:
     - 378.56
     - 202.80
-  arbeitsl_geld_2_kindersatz_m:
+  arbeitslosengeld_2__kindersatz_m:
     - 0.0
     - 202.80
-  arbeitsl_geld_2_erwachsenensatz_m:
+  arbeitslosengeld_2__erwachsenensatz_m:
     - 378.56
     - 0.0
-  _arbeitsl_geld_2_berechtigte_wohnfläche:
+  arbeitslosengeld_2__berechtigte_wohnfläche:
     - 20.0
     - 20.0
-  _arbeitsl_geld_2_warmmiete_pro_qm_m:
+  arbeitslosengeld_2__anerkannte_warmmiete_je_qm_m:
     - 8.75
     - 8.75
-  arbeitsl_geld_2_kost_unterk_m:
+  arbeitslosengeld_2__kosten_der_unterkunft_m:
     - 175.0
     - 175.0
-  arbeitsl_geld_2_regelbedarf_m:
+  arbeitslosengeld_2__regelbedarf_m:
     - 553.56
     - 377.80

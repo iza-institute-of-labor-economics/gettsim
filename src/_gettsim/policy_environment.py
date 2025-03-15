@@ -13,11 +13,11 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import (
+from _gettsim.function_types import GroupByFunction, PolicyFunction, policy_function
+from _gettsim.loader import (
     load_aggregation_specs_tree,
     load_functions_tree_for_date,
 )
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
 from _gettsim.piecewise_functions import (
     check_thresholds,
     get_piecewise_parameters,
@@ -63,7 +63,7 @@ class PolicyEnvironment:
         # Check functions tree and convert functions to PolicyFunction if necessary
         assert_valid_gettsim_pytree(
             functions_tree,
-            lambda leaf: isinstance(leaf, PolicyFunction),
+            lambda leaf: isinstance(leaf, PolicyFunction | GroupByFunction),
             "functions_tree",
         )
         self._functions_tree = optree.tree_map(
@@ -118,7 +118,9 @@ class PolicyEnvironment:
         new_functions_tree = {**self._functions_tree}
 
         functions_tree_to_upsert = optree.tree_map(
-            func=_convert_function_to_policy_function,
+            lambda leaf: leaf
+            if isinstance(leaf, GroupByFunction)
+            else _convert_function_to_policy_function(leaf),
             tree=functions_tree_to_upsert,
         )
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
@@ -187,7 +189,7 @@ def set_up_policy_environment(date: datetime.date | str | int) -> PolicyEnvironm
         params[group] = _parse_piecewise_parameters(params_one_group)
     # Extend dictionary with date-specific values which do not need an own function
     params = _parse_kinderzuschl_max(date, params)
-    params = _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params)
+    params = _parse_einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005(date, params)
     params = _parse_vorsorgepauschale_rentenv_anteil(date, params)
 
     aggregation_specs_tree = load_aggregation_specs_tree()
@@ -312,7 +314,7 @@ def _parse_kinderzuschl_max(date, params):
     return params
 
 
-def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
+def _parse_einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005(date, params):
     """Calculate introductory factor for pension expense deductions which depends on the
     current year as follows:
 
@@ -343,9 +345,9 @@ def _parse_einführungsfaktor_vorsorgeaufw_alter_ab_2005(date, params):
                 "einführungsfaktor"
             ]["intercepts_at_lower_thresholds"],
         )
-        params["eink_st_abzuege"]["einführungsfaktor_vorsorgeaufw_alter_ab_2005"] = (
-            out.loc[0]
-        )
+        params["eink_st_abzuege"][
+            "einführungsfaktor_vorsorgeaufwendungen_alter_ab_2005"
+        ] = out.loc[0]
     return params
 
 

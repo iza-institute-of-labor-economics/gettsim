@@ -4,7 +4,7 @@ info:
   source: Made up from the law
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -13,7 +13,7 @@ inputs:
       - 5
       - 6
       - 7
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -22,7 +22,7 @@ inputs:
       - 5
       - 6
       - 7
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1943
       - 1943
       - 1943
@@ -31,7 +31,7 @@ inputs:
       - 1943
       - 1943
       - 1943
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
@@ -40,7 +40,7 @@ inputs:
       - 1
       - 1
       - 1
-    weiblich:
+    demographics__weiblich:
       - true
       - true
       - true
@@ -49,7 +49,7 @@ inputs:
       - true
       - true
       - true
-    ges_rente_vorauss_langj:
+    sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
       - false
       - true
       - false
@@ -58,7 +58,7 @@ inputs:
       - true
       - false
       - true
-    ges_rente_vorauss_arbeitsl:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true
@@ -67,7 +67,7 @@ inputs:
       - false
       - true
       - true
-    ges_rente_vorauss_frauen:
+    sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - false
@@ -76,7 +76,7 @@ inputs:
       - true
       - true
       - true
-    vertra_arbeitsl_1997:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false
       - false
       - false
@@ -87,7 +87,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  ges_rente_regelaltersgrenze:
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
     - 65.0
     - 65.0
     - 65.0
@@ -96,7 +96,7 @@ outputs:
     - 65.0
     - 65.0
     - 65.0
-  _ges_rente_altersgrenze_abschlagsfrei:
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.0
     - 64.583333
     - 60.583333
@@ -105,7 +105,7 @@ outputs:
     - 60.583333
     - 60.583333
     - 60.583333
-  _ges_rente_altersgrenze_vorzeitig:
+  sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
     - 65.0
     - 63.0
     - 60.0
@@ -114,7 +114,7 @@ outputs:
     - 60.0
     - 60.0
     - 60.0
-  _ges_rente_frauen_altersgrenze:
+  sozialversicherung__rente__altersrente__für_frauen__altersgrenze:
     - 60.583333
     - 60.583333
     - 60.583333
@@ -123,7 +123,7 @@ outputs:
     - 60.583333
     - 60.583333
     - 60.583333
-  _ges_rente_arbeitsl_altersgrenze:
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
     - 60.583333
     - 60.583333
     - 60.583333
@@ -132,7 +132,7 @@ outputs:
     - 60.583333
     - 60.583333
     - 60.583333
-  _ges_rente_arbeitsl_vorzeitig:
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
     - 60.0
     - 60.0
     - 60.0
@@ -141,7 +141,7 @@ outputs:
     - 60.0
     - 60.0
     - 60.0
-  _ges_rente_langj_altersgrenze:
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze:
     - 64.583333
     - 64.583333
     - 64.583333
@@ -150,7 +150,7 @@ outputs:
     - 64.583333
     - 64.583333
     - 64.583333
-  _ges_rente_langj_vorzeitig:
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze_vorzeitig:
     - 63.0
     - 63.0
     - 63.0
@@ -159,7 +159,7 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
-  referenzalter_abschlag:
+  sozialversicherung__rente__altersrente__referenzalter_abschlag:
     - 65.0
     - 64.583333
     - 60.583333

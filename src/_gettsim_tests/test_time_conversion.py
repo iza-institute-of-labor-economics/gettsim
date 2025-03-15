@@ -3,7 +3,7 @@ import inspect
 import pytest
 from optree import tree_paths
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.time_conversion import (
     _create_function_for_time_unit,
     create_time_conversion_functions,

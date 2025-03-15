@@ -26,7 +26,7 @@ from _gettsim import (
     transfers,
     visualization,
 )
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 from _gettsim.interface import (
     FunctionsAndColumnsOverlapWarning,
     compute_taxes_and_transfers,

@@ -4,7 +4,7 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -12,7 +12,7 @@ inputs:
       - 4
       - 5
       - 6
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 1
       - 0
       - -1
@@ -20,7 +20,7 @@ inputs:
       - -1
       - 6
       - 5
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - false
@@ -30,7 +30,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  sn_id:
+  einkommensteuer__sn_id:
     - 0
     - 0
     - 1

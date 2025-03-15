@@ -10,7 +10,7 @@ from _gettsim.config import (
     RESOURCE_DIR,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions.loader import (
+from _gettsim.loader import (
     load_aggregation_specs_tree,
     load_functions_tree_for_date,
 )

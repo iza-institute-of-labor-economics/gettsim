@@ -4,7 +4,7 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -12,7 +12,7 @@ inputs:
       - 4
       - 5
       - 6
-    geburtstag:
+    demographics__geburtstag:
       - 1
       - 1
       - 1
@@ -20,7 +20,7 @@ inputs:
       - 1
       - 1
       - 1
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
@@ -28,7 +28,7 @@ inputs:
       - 1
       - 1
       - 1
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1970
       - 1970
       - 1970
@@ -38,7 +38,7 @@ inputs:
       - 2010
     # TODO (@hmgaudecker): Remove again.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    alter:
+    demographics__alter:
       - 53
       - 53
       - 53
@@ -46,7 +46,7 @@ inputs:
       - 13
       - 13
       - 13
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
       - 0
@@ -54,7 +54,7 @@ inputs:
       - 0
       - 0
       - 0
-    p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - 3
@@ -62,7 +62,7 @@ inputs:
       - -1
       - -1
       - -1
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 1
       - 0
       - 3
@@ -70,7 +70,7 @@ inputs:
       - -1
       - -1
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - true
@@ -78,7 +78,7 @@ inputs:
       - false
       - false
       - false
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - -1
@@ -86,7 +86,7 @@ inputs:
       - 0
       - 0
       - 0
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - -1
@@ -94,7 +94,7 @@ inputs:
       - 1
       - 1
       - -1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -102,7 +102,7 @@ inputs:
       - false
       - false
       - true
-    wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
       - false
       - false
       - true
@@ -110,7 +110,7 @@ inputs:
       - false
       - false
       - true
-    wohngeld_kinderzuschl_vorrang_bg:
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
       - false
       - false
       - true
@@ -119,7 +119,7 @@ inputs:
       - false
       - true
 outputs:
-  fg_id:
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
     - 1
@@ -127,7 +127,7 @@ outputs:
     - 0
     - 0
     - 0
-  bg_id:
+  arbeitslosengeld_2__bg_id:
     - 0
     - 0
     - 100
@@ -135,7 +135,7 @@ outputs:
     - 0
     - 0
     - 1
-  wthh_id:
+  wohngeld__wthh_id:
     - 0
     - 0
     - 1

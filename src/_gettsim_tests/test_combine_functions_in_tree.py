@@ -9,8 +9,11 @@ from _gettsim.combine_functions_in_tree import (
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
 )
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction, policy_function
+from _gettsim.function_types import (
+    DerivedFunction,
+    PolicyFunction,
+    policy_function,
+)
 
 
 @pytest.fixture
@@ -46,7 +49,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -67,7 +70,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -82,7 +85,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f_hh": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {},
             {
@@ -97,7 +100,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {
                 "namespace1": {
@@ -119,7 +122,7 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "groupings": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {"hh_id": pd.Series([0, 0, 0])},
             },
             {
                 "namespace1": {
