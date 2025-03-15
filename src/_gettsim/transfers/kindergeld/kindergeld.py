@@ -2,15 +2,11 @@
 
 import numpy
 
-from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
+from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.function_types import policy_function
 from _gettsim.shared import join_numpy
 
 aggregation_specs = {
-    "anzahl_kinder_fg": AggregateByGroupSpec(
-        source_col="grundsätzlich_anspruchsberechtigt",
-        aggr="sum",
-    ),
     "anzahl_ansprüche": AggregateByPIDSpec(
         p_id_to_aggregate_by="p_id_empfänger",
         source_col="grundsätzlich_anspruchsberechtigt",

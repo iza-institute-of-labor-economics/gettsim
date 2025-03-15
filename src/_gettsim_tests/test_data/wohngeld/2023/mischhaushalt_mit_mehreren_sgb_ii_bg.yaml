@@ -390,7 +390,7 @@ outputs:
     - 685.71
     - 685.71
     - 685.71
-  demographics__anzahl_personen_wthh:
+  wohngeld__anzahl_personen_wthh:
     - 3
     - 3
     - 3

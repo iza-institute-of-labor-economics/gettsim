@@ -2,7 +2,18 @@
 
 import numpy
 
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.function_types import group_by_function
+
+aggregation_specs = {
+    "anzahl_personen_sn": AggregateByGroupSpec(
+        aggr="count",
+    ),
+    "alleinerziehend_sn": AggregateByGroupSpec(
+        source_col="demographics__alleinerziehend",
+        aggr="any",
+    ),
+}
 
 
 @group_by_function()

@@ -30,7 +30,7 @@ inputs:
       - true
   assumed: {}
 outputs:
-  demographics__anzahl_personen_sn:
+  einkommensteuer__anzahl_personen_sn:
     - 2
     - 2
   einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:

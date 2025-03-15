@@ -43,7 +43,7 @@ def betrag_m_bg(
 @policy_function()
 def anspruchshöhe_m(
     anspruchshöhe_m_bg: float,
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
 ) -> float:
     """Kinderzuschlag on individual level.
 
@@ -53,14 +53,14 @@ def anspruchshöhe_m(
     ----------
     anspruchshöhe_m_bg
         See :func:`anspruchshöhe_m_bg`.
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
 
     Returns
     -------
 
     """
-    return anspruchshöhe_m_bg / demographics__anzahl_personen_bg
+    return anspruchshöhe_m_bg / arbeitslosengeld_2__anzahl_personen_bg
 
 
 @policy_function()
@@ -144,7 +144,7 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     maximales_nettoeinkommen_m_bg: float,
     basisbetrag_kind_m_bg: float,
     anzurechnendes_einkommen_eltern_m_bg: float,
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 2005 until 06/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -154,7 +154,7 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     threshold.
 
     Kinderzuschlag is only paid out if parents are part of the BG
-    (demographics__anzahl_personen_bg > 1).
+    (arbeitslosengeld_2__anzahl_personen_bg > 1).
 
     Parameters
     ----------
@@ -170,8 +170,8 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
         See :func:`basisbetrag_kind_m_bg`.
     anzurechnendes_einkommen_eltern_m_bg
         See :func:`anzurechnendes_einkommen_eltern_m_bg`.
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
 
     Returns
     -------
@@ -182,7 +182,7 @@ def basisbetrag_m_bg_check_eink_max(  # noqa: PLR0913
     if (
         (bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg)
         and (nettoeinkommen_eltern_m_bg <= maximales_nettoeinkommen_m_bg)
-        and demographics__anzahl_personen_bg > 1
+        and arbeitslosengeld_2__anzahl_personen_bg > 1
     ):
         out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
@@ -197,7 +197,7 @@ def basisbetrag_m_bg(
     mindestbruttoeinkommen_m_bg: float,
     basisbetrag_kind_m_bg: float,
     anzurechnendes_einkommen_eltern_m_bg: float,
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
 ) -> float:
     """Calculate Kinderzuschlag since 07/2019. Whether Kinderzuschlag or
     Arbeitslosengeld 2 applies will be checked later.
@@ -206,7 +206,7 @@ def basisbetrag_m_bg(
     minimum income threshold.
 
     Kinderzuschlag is only paid out if parents are part of the BG
-    (demographics__anzahl_personen_bg > 1).
+    (arbeitslosengeld_2__anzahl_personen_bg > 1).
 
 
     Parameters
@@ -221,8 +221,8 @@ def basisbetrag_m_bg(
         See :func:`basisbetrag_kind_m_bg`.
     anzurechnendes_einkommen_eltern_m_bg
         See :func:`anzurechnendes_einkommen_eltern_m_bg`.
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
 
     Returns
     -------
@@ -230,7 +230,7 @@ def basisbetrag_m_bg(
     """
     if (
         bruttoeinkommen_eltern_m_bg >= mindestbruttoeinkommen_m_bg
-    ) and demographics__anzahl_personen_bg > 1:
+    ) and arbeitslosengeld_2__anzahl_personen_bg > 1:
         out = max(basisbetrag_kind_m_bg - anzurechnendes_einkommen_eltern_m_bg, 0.0)
     else:
         out = 0.0

@@ -54,7 +54,7 @@ def grundsätzlich_anspruchsberechtigt_bg(
 @policy_function()
 def vermögensgrenze_unterschritten_wthh(
     demographics__vermögen_wthh: float,
-    demographics__anzahl_personen_wthh: int,
+    anzahl_personen_wthh: int,
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the eligibility threshold for housing benefits.
@@ -63,8 +63,8 @@ def vermögensgrenze_unterschritten_wthh(
     ----------
     demographics__vermögen_wthh
         See :func:`demographics__vermögen_wthh <demographics__vermögen_wthh>`.
-    demographics__anzahl_personen_wthh
-        See :func:`demographics__anzahl_personen_wthh`.
+    anzahl_personen_wthh
+        See :func:`anzahl_personen_wthh`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -75,7 +75,7 @@ def vermögensgrenze_unterschritten_wthh(
 
     return vermögensprüfung(
         vermögen=demographics__vermögen_wthh,
-        anzahl_personen=demographics__anzahl_personen_wthh,
+        anzahl_personen=anzahl_personen_wthh,
         params=wohngeld_params,
     )
 
@@ -83,7 +83,7 @@ def vermögensgrenze_unterschritten_wthh(
 @policy_function()
 def vermögensgrenze_unterschritten_bg(
     demographics__vermögen_bg: float,
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
     wohngeld_params: dict,
 ) -> bool:
     """Wealth is below the eligibility threshold for housing benefits.
@@ -92,8 +92,8 @@ def vermögensgrenze_unterschritten_bg(
     ----------
     demographics__vermögen_bg
         See :func:`demographics__vermögen_bg <demographics__vermögen_bg>`.
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
     wohngeld_params
         See params documentation :ref:`wohngeld_params <wohngeld_params>`.
 
@@ -104,7 +104,7 @@ def vermögensgrenze_unterschritten_bg(
 
     return vermögensprüfung(
         vermögen=demographics__vermögen_bg,
-        anzahl_personen=demographics__anzahl_personen_bg,
+        anzahl_personen=arbeitslosengeld_2__anzahl_personen_bg,
         params=wohngeld_params,
     )
 

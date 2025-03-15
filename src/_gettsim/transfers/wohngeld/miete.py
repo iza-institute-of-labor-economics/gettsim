@@ -7,7 +7,7 @@ from _gettsim.function_types import policy_function
 @policy_function()
 def miete_m_wthh(
     miete_m_hh: float,
-    demographics__anzahl_personen_wthh: int,
+    anzahl_personen_wthh: int,
     demographics__anzahl_personen_hh: int,
 ) -> float:
     """Rent considered in housing benefit calculation on wohngeldrechtlicher
@@ -20,8 +20,8 @@ def miete_m_wthh(
     ----------
     miete_m_hh
         See :func:`miete_m_hh`.
-    demographics__anzahl_personen_wthh
-        See :func:`demographics__anzahl_personen_wthh`.
+    anzahl_personen_wthh
+        See :func:`anzahl_personen_wthh`.
     demographics__anzahl_personen_hh
         See :func:`demographics__anzahl_personen_hh`.
 
@@ -29,15 +29,13 @@ def miete_m_wthh(
     -------
 
     """
-    return miete_m_hh * (
-        demographics__anzahl_personen_wthh / demographics__anzahl_personen_hh
-    )
+    return miete_m_hh * (anzahl_personen_wthh / demographics__anzahl_personen_hh)
 
 
 @policy_function()
 def miete_m_bg(
     miete_m_hh: float,
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
     demographics__anzahl_personen_hh: int,
 ) -> float:
     """Rent considered in housing benefit calculation on BG level.
@@ -49,8 +47,8 @@ def miete_m_bg(
     ----------
     miete_m_hh
         See :func:`miete_m_hh`.
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
     demographics__anzahl_personen_hh
         See :func:`demographics__anzahl_personen_hh`.
 
@@ -59,7 +57,7 @@ def miete_m_bg(
 
     """
     return miete_m_hh * (
-        demographics__anzahl_personen_bg / demographics__anzahl_personen_hh
+        arbeitslosengeld_2__anzahl_personen_bg / demographics__anzahl_personen_hh
     )
 
 

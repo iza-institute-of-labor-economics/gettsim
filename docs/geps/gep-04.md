@@ -122,7 +122,7 @@ Another function, say
 ```python
 def solidaritätszuschlag__betrag_y_sn(
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
-    demographics__anzahl_personen_sn: int,
+    einkommensteuer__anzahl_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float: ...

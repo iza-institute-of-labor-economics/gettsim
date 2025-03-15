@@ -16,7 +16,7 @@ aggregation_specs = {
 
 @policy_function()
 def einkommen_m_wthh(
-    demographics__anzahl_personen_wthh: int,
+    anzahl_personen_wthh: int,
     freibetrag_m_wthh: float,
     einkommen_vor_freibetrag_m_wthh: float,
     wohngeld_params: dict,
@@ -30,8 +30,8 @@ def einkommen_m_wthh(
 
     Parameters
     ----------
-    demographics__anzahl_personen_wthh
-        See :func:`demographics__anzahl_personen_wthh`.
+    anzahl_personen_wthh
+        See :func:`anzahl_personen_wthh`.
     freibetrag_m_wthh
         See :func:`freibetrag_m_wthh`.
     einkommen_vor_freibetrag_m_wthh
@@ -44,7 +44,7 @@ def einkommen_m_wthh(
 
     """
     return einkommen(
-        anzahl_personen=demographics__anzahl_personen_wthh,
+        anzahl_personen=anzahl_personen_wthh,
         einkommen_freibetrag=freibetrag_m_wthh,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_wthh,
         params=wohngeld_params,
@@ -53,7 +53,7 @@ def einkommen_m_wthh(
 
 @policy_function()
 def einkommen_m_bg(
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
     freibetrag_m_bg: float,
     einkommen_vor_freibetrag_m_bg: float,
     wohngeld_params: dict,
@@ -67,8 +67,8 @@ def einkommen_m_bg(
 
     Parameters
     ----------
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
     freibetrag_m_bg
         See :func:`freibetrag_m_bg`.
     einkommen_vor_freibetrag_m_bg
@@ -81,7 +81,7 @@ def einkommen_m_bg(
 
     """
     return einkommen(
-        anzahl_personen=demographics__anzahl_personen_bg,
+        anzahl_personen=arbeitslosengeld_2__anzahl_personen_bg,
         einkommen_freibetrag=freibetrag_m_bg,
         einkommen_vor_freibetrag=einkommen_vor_freibetrag_m_bg,
         params=wohngeld_params,

@@ -14,7 +14,7 @@ aggregation_specs = {
 
 @policy_function(end_date="2011-12-31", leaf_name="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_nur_pauschale(
-    demographics__anzahl_personen_sn: int,
+    einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level until 2011.
@@ -23,8 +23,8 @@ def sonderausgaben_y_sn_nur_pauschale(
 
     Parameters
     ----------
-    demographics__anzahl_personen_sn
-        See :func:`demographics__anzahl_personen_sn`.
+    einkommensteuer__anzahl_personen_sn
+        See :func:`einkommensteuer__anzahl_personen_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -36,7 +36,7 @@ def sonderausgaben_y_sn_nur_pauschale(
 
     out = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * demographics__anzahl_personen_sn
+        * einkommensteuer__anzahl_personen_sn
     )
 
     return float(out)
@@ -45,7 +45,7 @@ def sonderausgaben_y_sn_nur_pauschale(
 @policy_function(start_date="2012-01-01", leaf_name="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_mit_betreuung(
     absetzbare_betreuungskosten: float,
-    demographics__anzahl_personen_sn: int,
+    einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Sonderausgaben on Steuernummer level since 2012.
@@ -59,8 +59,8 @@ def sonderausgaben_y_sn_mit_betreuung(
         See :func:`absetzbare_betreuungskosten`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
-    demographics__anzahl_personen_sn
-        See :func:`demographics__anzahl_personen_sn`.
+    einkommensteuer__anzahl_personen_sn
+        See :func:`einkommensteuer__anzahl_personen_sn`.
 
     Returns
     -------
@@ -69,7 +69,7 @@ def sonderausgaben_y_sn_mit_betreuung(
     sonderausgaben_gesamt = absetzbare_betreuungskosten
     pauschale = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
-        * demographics__anzahl_personen_sn
+        * einkommensteuer__anzahl_personen_sn
     )
 
     out = max(sonderausgaben_gesamt, pauschale)

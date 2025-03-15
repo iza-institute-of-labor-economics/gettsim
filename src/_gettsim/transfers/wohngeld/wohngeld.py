@@ -67,7 +67,7 @@ def betrag_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_wthh(
-    demographics__anzahl_personen_wthh: int,
+    anzahl_personen_wthh: int,
     einkommen_m_wthh: float,
     miete_m_wthh: float,
     grundsätzlich_anspruchsberechtigt_wthh: bool,
@@ -81,8 +81,8 @@ def anspruchshöhe_m_wthh(
 
     Parameters
     ----------
-    demographics__anzahl_personen_wthh
-        See :func:`demographics__anzahl_personen_wthh`.
+    anzahl_personen_wthh
+        See :func:`anzahl_personen_wthh`.
     einkommen_m_wthh
         See :func:`einkommen_m_wthh`.
     miete_m_wthh
@@ -98,7 +98,7 @@ def anspruchshöhe_m_wthh(
     """
     if grundsätzlich_anspruchsberechtigt_wthh:
         out = basisformel(
-            anzahl_personen=demographics__anzahl_personen_wthh,
+            anzahl_personen=anzahl_personen_wthh,
             einkommen_m=einkommen_m_wthh,
             miete_m=miete_m_wthh,
             params=wohngeld_params,
@@ -111,7 +111,7 @@ def anspruchshöhe_m_wthh(
 
 @policy_function(params_key_for_rounding="wohngeld")
 def anspruchshöhe_m_bg(
-    demographics__anzahl_personen_bg: int,
+    arbeitslosengeld_2__anzahl_personen_bg: int,
     einkommen_m_bg: float,
     miete_m_bg: float,
     grundsätzlich_anspruchsberechtigt_bg: bool,
@@ -123,8 +123,8 @@ def anspruchshöhe_m_bg(
 
     Parameters
     ----------
-    demographics__anzahl_personen_bg
-        See :func:`demographics__anzahl_personen_bg`.
+    arbeitslosengeld_2__anzahl_personen_bg
+        See :func:`arbeitslosengeld_2__anzahl_personen_bg`.
     einkommen_m_bg
         See :func:`einkommen_m_bg`.
     miete_m_bg
@@ -140,7 +140,7 @@ def anspruchshöhe_m_bg(
     """
     if grundsätzlich_anspruchsberechtigt_bg:
         out = basisformel(
-            anzahl_personen=demographics__anzahl_personen_bg,
+            anzahl_personen=arbeitslosengeld_2__anzahl_personen_bg,
             einkommen_m=einkommen_m_bg,
             miete_m=miete_m_bg,
             params=wohngeld_params,

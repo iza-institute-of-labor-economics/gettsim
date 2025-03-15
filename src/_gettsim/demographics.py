@@ -9,67 +9,24 @@ import datetime
 import numpy
 
 from _gettsim.aggregation import AggregateByGroupSpec
-from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.function_types import group_by_function, policy_function
 
-
-def _add_grouping_suffixes_to_keys(group_dict: dict[str, dict]) -> dict[str, dict]:
-    """Add grouping suffixes to keys of a dictionary.
-
-    Parameters
-    ----------
-    group_dict
-        Dictionary with keys to be suffixed.
-
-    Returns
-    -------
-    Dictionary with suffixed keys.
-    """
-    out = {}
-
-    for key, value in group_dict.items():
-        for suffix in SUPPORTED_GROUPINGS:
-            new_key = key + "_" + suffix
-            out[new_key] = value
-
-    return out
-
-
-aggregation_specs = _add_grouping_suffixes_to_keys(
-    {
-        "anzahl_erwachsene": AggregateByGroupSpec(source_col="erwachsen", aggr="sum"),
-        "anzahl_rentner": AggregateByGroupSpec(
-            source_col="sozialversicherung__rente__rentner", aggr="sum"
-        ),
-        "anzahl_kinder": AggregateByGroupSpec(source_col="kind", aggr="sum"),
-        "anzahl_personen": AggregateByGroupSpec(aggr="count"),
-        "anzahl_kinder_bis_2": AggregateByGroupSpec(
-            source_col="kind_bis_2", aggr="sum"
-        ),
-        "anzahl_kinder_bis_5": AggregateByGroupSpec(
-            source_col="kind_bis_5", aggr="sum"
-        ),
-        "anzahl_kinder_bis_6": AggregateByGroupSpec(
-            source_col="kind_bis_6", aggr="sum"
-        ),
-        "anzahl_kinder_bis_15": AggregateByGroupSpec(
-            source_col="kind_bis_15", aggr="sum"
-        ),
-        "anzahl_kinder_bis_17": AggregateByGroupSpec(
-            source_col="kind_bis_17", aggr="sum"
-        ),
-        "alleinerziehend": AggregateByGroupSpec(
-            source_col="alleinerziehend", aggr="any"
-        ),
-        "alter_monate_jüngstes_mitglied": AggregateByGroupSpec(
-            source_col="alter_monate", aggr="min"
-        ),
-        "anzahl_mehrlinge_jüngstes_kind": AggregateByGroupSpec(
-            source_col="jüngstes_kind_oder_mehrling",
-            aggr="sum",
-        ),
-    }
-)
+aggregation_specs = {
+    "anzahl_erwachsene_hh": AggregateByGroupSpec(
+        source_col="erwachsen",
+        aggr="sum",
+    ),
+    "anzahl_rentner_hh": AggregateByGroupSpec(
+        source_col="sozialversicherung__rente__rentner",
+        aggr="sum",
+    ),
+    "anzahl_personen_hh": AggregateByGroupSpec(
+        aggr="count",
+    ),
+    "anzahl_personen_ehe": AggregateByGroupSpec(
+        aggr="count",
+    ),
+}
 
 
 @policy_function()
@@ -277,62 +234,6 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
     out = age_in_days / 30.436875
     return out.astype(float)
-
-
-@policy_function()
-def jüngstes_kind_oder_mehrling(
-    alter_monate: float,
-    alter_monate_jüngstes_mitglied_fg: float,
-    kind: bool,
-) -> bool:
-    """Check if person is the youngest child in the household or a twin, triplet, etc.
-    of the youngest child.
-
-    # ToDo: replace kind by some age restriction
-    # ToDo: Check definition as relevant for Elterngeld. Currently, it is calculated as
-    # ToDo: age not being larger than 0.1 of a month
-
-    Parameters
-    ----------
-    alter_monate
-        See :func:`alter_monate`.
-    alter_monate_jüngstes_mitglied_fg
-        See :func:`alter_monate_jüngstes_mitglied_fg`.
-    kind
-        See basic input variable :ref:`kind <kind>`.
-
-    Returns
-    -------
-
-    """
-    out = (alter_monate - alter_monate_jüngstes_mitglied_fg < 0.1) and kind
-    return out
-
-
-@policy_function()
-def birthdate_decimal(
-    geburtsjahr: int,
-    geburtsmonat: int,
-) -> float:
-    """Combines birthyear and birth month to decimal number of
-    birthdate with monthly precision, as required for pension
-    benefit calculation
-
-    Parameters
-    ----------
-    geburtsjahr
-        See basic input variable :ref:`geburtsjahr <geburtsjahr>`.
-    geburtsmonat
-        See basic input variable :ref:`geburtsmonat <geburtsmonat>`.
-
-    Returns
-    -------
-    Birthdate with monthly precision as float.
-
-    """
-    out = geburtsjahr + (geburtsmonat - 1) / 12
-
-    return out
 
 
 def ist_kind_mit_erwerbseinkommen(

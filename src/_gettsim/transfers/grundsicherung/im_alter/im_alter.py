@@ -14,8 +14,8 @@ def betrag_m_eg(  # noqa: PLR0913
     demographics__erwachsene_alle_rentner_hh: bool,
     demographics__vermögen_eg: float,
     vermögensfreibetrag_eg: float,
-    demographics__anzahl_kinder_eg: int,
-    demographics__anzahl_personen_eg: int,
+    arbeitslosengeld_2__anzahl_kinder_eg: int,
+    arbeitslosengeld_2__anzahl_personen_eg: int,
 ) -> float:
     """Calculate Grundsicherung im Alter on household level.
 
@@ -43,10 +43,10 @@ def betrag_m_eg(  # noqa: PLR0913
         See basic input variable :ref:`demographics__vermögen_eg`.
     vermögensfreibetrag_eg
         See :func:`vermögensfreibetrag_eg`.
-    demographics__anzahl_kinder_eg
-        See :func:`demographics__anzahl_kinder_eg`.
-    demographics__anzahl_personen_eg
-        See :func:`demographics__anzahl_personen_eg`.
+    arbeitslosengeld_2__anzahl_kinder_eg
+        See :func:`arbeitslosengeld_2__anzahl_kinder_eg`.
+    arbeitslosengeld_2__anzahl_personen_eg
+        See :func:`arbeitslosengeld_2__anzahl_personen_eg`.
     Returns
     -------
 
@@ -60,8 +60,8 @@ def betrag_m_eg(  # noqa: PLR0913
     # `arbeitslosengeld_2__regelbedarf_m_bg`
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/702
 
-    # TODO (@MImmesberger): Remove `demographics__anzahl_kinder_eg ==
-    # demographics__anzahl_personen_eg` condition once
+    # TODO (@MImmesberger): Remove `arbeitslosengeld_2__anzahl_kinder_eg ==
+    # arbeitslosengeld_2__anzahl_personen_eg` condition once
     # `demographics__erwachsene_alle_rentner_hh`` is replaced by a more accurate
     # variable.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/696
@@ -71,7 +71,10 @@ def betrag_m_eg(  # noqa: PLR0913
     if (
         (demographics__vermögen_eg >= vermögensfreibetrag_eg)
         or (not demographics__erwachsene_alle_rentner_hh)
-        or (demographics__anzahl_kinder_eg == demographics__anzahl_personen_eg)
+        or (
+            arbeitslosengeld_2__anzahl_kinder_eg
+            == arbeitslosengeld_2__anzahl_personen_eg
+        )
     ):
         out = 0.0
     else:
@@ -91,7 +94,7 @@ def betrag_m_eg(  # noqa: PLR0913
 @policy_function()
 def mehrbedarf_schwerbehinderung_g_m(
     demographics__schwerbehindert_grad_g: bool,
-    demographics__anzahl_erwachsene_eg: int,
+    arbeitslosengeld_2__anzahl_erwachsene_eg: int,
     grunds_im_alter_params: dict,
     arbeitsl_geld_2_params: dict,
 ) -> float:
@@ -101,8 +104,8 @@ def mehrbedarf_schwerbehinderung_g_m(
     ----------
     demographics__schwerbehindert_grad_g
         See basic input variable :ref:`demographics__behinderungsgrad <demographics__schwerbehindert_grad_g>`.
-    demographics__anzahl_erwachsene_eg
-        See :func:`demographics__anzahl_erwachsene_eg`.
+    arbeitslosengeld_2__anzahl_erwachsene_eg
+        See :func:`arbeitslosengeld_2__anzahl_erwachsene_eg`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     arbeitsl_geld_2_params
@@ -122,11 +125,11 @@ def mehrbedarf_schwerbehinderung_g_m(
     )
 
     if (demographics__schwerbehindert_grad_g) and (
-        demographics__anzahl_erwachsene_eg == 1
+        arbeitslosengeld_2__anzahl_erwachsene_eg == 1
     ):
         out = mehrbedarf_single
     elif (demographics__schwerbehindert_grad_g) and (
-        demographics__anzahl_erwachsene_eg > 1
+        arbeitslosengeld_2__anzahl_erwachsene_eg > 1
     ):
         out = mehrbedarf_in_couple
     else:
@@ -137,18 +140,18 @@ def mehrbedarf_schwerbehinderung_g_m(
 
 @policy_function()
 def vermögensfreibetrag_eg(
-    demographics__anzahl_erwachsene_fg: int,
-    demographics__anzahl_kinder_fg: int,
+    arbeitslosengeld_2__anzahl_erwachsene_fg: int,
+    arbeitslosengeld_2__anzahl_kinder_fg: int,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate wealth not considered for Grundsicherung im Alter on household level.
 
     Parameters
     ----------
-    demographics__anzahl_erwachsene_fg
-        See :func:`demographics__anzahl_erwachsene_fg`.
-    demographics__anzahl_kinder_fg
-        See :func:`demographics__anzahl_kinder_fg`.
+    arbeitslosengeld_2__anzahl_erwachsene_fg
+        See :func:`arbeitslosengeld_2__anzahl_erwachsene_fg`.
+    arbeitslosengeld_2__anzahl_kinder_fg
+        See :func:`arbeitslosengeld_2__anzahl_kinder_fg`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params <grunds_im_alter_params>`.
 
@@ -158,8 +161,8 @@ def vermögensfreibetrag_eg(
     """
     out = (
         grunds_im_alter_params["vermögensfreibetrag"]["adult"]
-        * demographics__anzahl_erwachsene_fg
+        * arbeitslosengeld_2__anzahl_erwachsene_fg
         + grunds_im_alter_params["vermögensfreibetrag"]["child"]
-        * demographics__anzahl_kinder_fg
+        * arbeitslosengeld_2__anzahl_kinder_fg
     )
     return out

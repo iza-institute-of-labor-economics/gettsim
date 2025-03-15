@@ -19,7 +19,7 @@ inputs:
     demographics__kind:
       - false
       - false
-    demographics__anzahl_personen_sn:
+    einkommensteuer__anzahl_personen_sn:
       - 2
       - 2
     zusammen_veranlagt:

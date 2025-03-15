@@ -2,7 +2,14 @@
 
 import numpy
 
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.function_types import group_by_function
+
+aggregation_specs = {
+    "anzahl_personen_wthh": AggregateByGroupSpec(
+        aggr="count",
+    ),
+}
 
 
 @group_by_function()

@@ -2,7 +2,71 @@ from collections import Counter
 
 import numpy
 
+from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.function_types import group_by_function
+
+# TODO(@MImmesberger): Many of these keys can go once we have `_eg` for SGB XII.
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/738
+aggregation_specs = {
+    "anzahl_erwachsene_fg": AggregateByGroupSpec(
+        source_col="demographics__erwachsen",
+        aggr="sum",
+    ),
+    "anzahl_kinder_fg": AggregateByGroupSpec(
+        source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_2_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_2",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_5_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_5",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_6_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_6",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_15_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_15",
+        aggr="sum",
+    ),
+    "anzahl_mehrlinge_jüngstes_kind_fg": AggregateByGroupSpec(
+        source_col="demographics__anzahl_mehrlinge_jüngstes_kind",
+        aggr="sum",
+    ),
+    "anzahl_erwachsene_bg": AggregateByGroupSpec(
+        source_col="demographics__erwachsen",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bg": AggregateByGroupSpec(
+        source_col="demographics__kind",
+        aggr="sum",
+    ),
+    "anzahl_personen_bg": AggregateByGroupSpec(
+        aggr="count",
+    ),
+    "anzahl_kinder_bis_17_bg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_17",
+        aggr="sum",
+    ),
+    "alleinerziehend_bg": AggregateByGroupSpec(
+        source_col="demographics__alleinerziehend",
+        aggr="any",
+    ),
+    "anzahl_erwachsene_eg": AggregateByGroupSpec(
+        source_col="demographics__erwachsen",
+        aggr="sum",
+    ),
+    "anzahl_kinder_eg": AggregateByGroupSpec(
+        source_col="demographics__kind",
+        aggr="sum",
+    ),
+    "anzahl_personen_eg": AggregateByGroupSpec(
+        aggr="count",
+    ),
+}
 
 
 @group_by_function()

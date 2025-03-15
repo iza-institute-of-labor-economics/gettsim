@@ -7,7 +7,7 @@ from _gettsim.piecewise_functions import piecewise_polynomial
 @policy_function(end_date="2008-12-31", leaf_name="betrag_y_sn")
 def betrag_y_sn_ohne_abgelt_st(
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
-    demographics__anzahl_personen_sn: int,
+    einkommensteuer__anzahl_personen_sn: int,
     soli_st_params: dict,
 ) -> float:
     """Calculate the Solidarity Surcharge on Steuernummer level.
@@ -27,8 +27,8 @@ def betrag_y_sn_ohne_abgelt_st(
     ----------
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__betrag_mit_kinderfreibetrag_y_sn`.
-    demographics__anzahl_personen_sn
-        See :func:`demographics__anzahl_personen_sn`.
+    einkommensteuer__anzahl_personen_sn
+        See :func:`einkommensteuer__anzahl_personen_sn`.
     soli_st_params
         See params documentation :ref:`soli_st_params <soli_st_params>`.
 
@@ -38,9 +38,9 @@ def betrag_y_sn_ohne_abgelt_st(
     """
     eink_st_per_individual = (
         einkommensteuer__betrag_mit_kinderfreibetrag_y_sn
-        / demographics__anzahl_personen_sn
+        / einkommensteuer__anzahl_personen_sn
     )
-    out = demographics__anzahl_personen_sn * solidaritätszuschlag_tarif(
+    out = einkommensteuer__anzahl_personen_sn * solidaritätszuschlag_tarif(
         eink_st_per_individual, soli_st_params
     )
 
@@ -50,7 +50,7 @@ def betrag_y_sn_ohne_abgelt_st(
 @policy_function(start_date="2009-01-01", leaf_name="betrag_y_sn")
 def betrag_y_sn_mit_abgelt_st(
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn: float,
-    demographics__anzahl_personen_sn: int,
+    einkommensteuer__anzahl_personen_sn: int,
     abgeltungssteuer__betrag_y_sn: float,
     soli_st_params: dict,
 ) -> float:
@@ -71,8 +71,8 @@ def betrag_y_sn_mit_abgelt_st(
     ----------
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn
         See :func:`einkommensteuer__betrag_mit_kinderfreibetrag_y_sn`.
-    demographics__anzahl_personen_sn
-        See :func:`demographics__anzahl_personen_sn`.
+    einkommensteuer__anzahl_personen_sn
+        See :func:`einkommensteuer__anzahl_personen_sn`.
     abgeltungssteuer__betrag_y_sn
         See :func:`abgeltungssteuer__betrag_y_sn`.
     soli_st_params
@@ -84,10 +84,10 @@ def betrag_y_sn_mit_abgelt_st(
     """
     eink_st_per_individual = (
         einkommensteuer__betrag_mit_kinderfreibetrag_y_sn
-        / demographics__anzahl_personen_sn
+        / einkommensteuer__anzahl_personen_sn
     )
     out = (
-        demographics__anzahl_personen_sn
+        einkommensteuer__anzahl_personen_sn
         * solidaritätszuschlag_tarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgeltungssteuer__betrag_y_sn
     )
