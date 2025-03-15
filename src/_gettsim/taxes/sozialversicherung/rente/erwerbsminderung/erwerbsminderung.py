@@ -237,18 +237,17 @@ def zugangsfaktor(
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> float:
-    """Zugangsfaktor for Erwerbsminderungsrente
-    (public disability insurance)
-    For each month that a pensioner retires before the age limit, a fraction of
-    the pension is deducted. The maximum deduction is capped.
-    This max deduction is the norm for the public disability insurance.
+    """Zugangsfaktor for Erwerbsminderungsrente (public disability insurance)
+
+    For each month that a pensioner retires before the age limit, a fraction of the
+    pension is deducted. The maximum deduction is capped. This max deduction is the norm
+    for the public disability insurance.
 
     Legal reference: § 77 Abs. 2-4  SGB VI
 
-    Paragraph 4 regulates an exceptional case in which pensioners can already
-    retire at 63 without deductions if they can prove 40 years of
-    (Pflichtbeiträge, Berücksichtigungszeiten and
-    certain Anrechnungszeiten or Ersatzzeiten).
+    Paragraph 4 regulates an exceptional case in which pensioners can already retire at
+    63 without deductions if they can prove 40 years of (Pflichtbeiträge,
+    Berücksichtigungszeiten and certain Anrechnungszeiten or Ersatzzeiten).
 
     Parameters
     ----------
@@ -292,33 +291,42 @@ def zugangsfaktor(
     return out
 
 
+# TODO(@MImmesberger): Reuse Altersrente Wartezeiten for Erwerbsminderungsrente
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/838
 @policy_function(start_date="2001-01-01")
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
-    sozialversicherung__rente__pflichtbeitragszeiten_m: float,
-    sozialversicherung__rente__freiwillige_beitragszeiten_m: float,
+    sozialversicherung__rente__pflichtbeitragszeiten_y: float,
+    sozialversicherung__rente__freiwillige_beitragszeiten_y: float,
     sozialversicherung__rente__anrechnungszeit_45_y: float,
-    sozialversicherung__rente__ersatzzeiten_m: float,
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m: float,
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m: float,
+    sozialversicherung__rente__ersatzzeiten_y: float,
+    sozialversicherung__rente__kinderberücksichtigungszeiten_y: float,
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_y: float,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> bool:
-    """Whether Wartezeit of 35 or 40 years according to § 51 Abs. 3a SGB VI is fulfilled
+    """Wartezeit for Rente für langjährige Versicherte (Erwerbsminderung) is fulfilled.
+
+    Eligibility criteria differ in comparison to Altersrente für langjährige
+    Versicherte. In particular, freiwillige Beitragszeiten are not always considered
+    (§ 51 Abs. 3a SGB VI).
+
+    This pathway makes it possible to claim pension benefits without deductions at the
+    age of 63.
 
     Parameters
     ----------
-    sozialversicherung__rente__pflichtbeitragszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__pflichtbeitragszeiten_m>`.
-    sozialversicherung__rente__freiwillige_beitragszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_m>`.
+    sozialversicherung__rente__pflichtbeitragszeiten_y
+        See basic input variable :ref:<sozialversicherung__rente__pflichtbeitragszeiten_y>`.
+    sozialversicherung__rente__freiwillige_beitragszeiten_y
+        See basic input variable :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_y>`.
     sozialversicherung__rente__anrechnungszeit_45_y
         See :func:`sozialversicherung__rente__anrechnungszeit_45_y`.
-    sozialversicherung__rente__ersatzzeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_m>`.
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_m>`.
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m
-        See basic input variable :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_m>`.
+    sozialversicherung__rente__ersatzzeiten_y
+        See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_y>`.
+    sozialversicherung__rente__kinderberücksichtigungszeiten_y
+        See basic input variable :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_y>`.
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_y
+        See basic input variable :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_y>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     erwerbsm_rente_params
@@ -326,32 +334,25 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
     Returns
     -------
-    Wartezeit of 35 or 40 years according to § 51 Abs. 3a SGB VI is fulfilled
+    Wartezeit for Rente für langjährige Versicherte (Erwerbsminderung) is fulfilled
 
     """
     if (
-        sozialversicherung__rente__pflichtbeitragszeiten_m
+        sozialversicherung__rente__pflichtbeitragszeiten_y
         >= ges_rente_params["wartezeit_45_pflichtbeitragsjahre"]
     ):
-        freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_m
+        freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_y
     else:
         freiwilligbeitr = 0
 
-    m_zeiten = (
-        sozialversicherung__rente__pflichtbeitragszeiten_m
+    return (
+        sozialversicherung__rente__pflichtbeitragszeiten_y
         + freiwilligbeitr
         + sozialversicherung__rente__anrechnungszeit_45_y
-        + sozialversicherung__rente__ersatzzeiten_m
-        + sozialversicherung__rente__pflegeberücksichtigungszeiten_m
-        + sozialversicherung__rente__kinderberücksichtigungszeiten_m
-    ) / 12
-
-    out = (
-        m_zeiten
-        >= erwerbsm_rente_params["wartezeitgrenze_langj_versicherte_abschlagsfrei"]
-    )
-
-    return out
+        + sozialversicherung__rente__ersatzzeiten_y
+        + sozialversicherung__rente__pflegeberücksichtigungszeiten_y
+        + sozialversicherung__rente__kinderberücksichtigungszeiten_y
+    ) >= erwerbsm_rente_params["wartezeitgrenze_langjährig_versicherte_abschlagsfrei"]
 
 
 @policy_function()
