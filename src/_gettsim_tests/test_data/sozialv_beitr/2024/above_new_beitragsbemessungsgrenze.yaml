@@ -29,7 +29,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 1132.81
   sozialversicherung__beitrag_arbeitgeber_m:
     - 1145.75

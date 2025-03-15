@@ -15,7 +15,7 @@ def einkommen_m(  # noqa: PLR0913
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     demographics__anzahl_personen_sn: int,
-    sozialversicherung__beitrag_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_arbeitnehmer_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung im
@@ -41,8 +41,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`soli_st_m_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
-    sozialversicherung__beitrag_arbeitnehmer_m
-        See :func:`sozialversicherung__beitrag_arbeitnehmer_m`.
+    sozialversicherung__beiträge_arbeitnehmer_m
+        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
     elterngeld__anrechenbarer_betrag_m
         See :func:`elterngeld__anrechenbarer_betrag_m`.
 
@@ -66,7 +66,7 @@ def einkommen_m(  # noqa: PLR0913
         total_income
         - (eink_st_m_sn / demographics__anzahl_personen_sn)
         - (soli_st_m_sn / demographics__anzahl_personen_sn)
-        - sozialversicherung__beitrag_arbeitnehmer_m
+        - sozialversicherung__beiträge_arbeitnehmer_m
     )
 
     return max(out, 0.0)

@@ -72,13 +72,13 @@ inputs:
       - 2009
   assumed: {}
 outputs:
-  vorrangprüfungen__wohngeld_vorrang_bg:
+  vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
     - false
     - false
-  vorrangprüfungen__kinderzuschlag_vorrang_bg:
+  vorrangprüfungen__kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
     - false
     - false
-  vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
+  vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
     - true
     - true
   kinderzuschlag__betrag_m_bg:

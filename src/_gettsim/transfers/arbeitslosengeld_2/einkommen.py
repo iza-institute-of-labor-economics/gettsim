@@ -79,7 +79,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     demographics__anzahl_personen_sn: int,
-    sozialversicherung__beitrag_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_arbeitnehmer_m: float,
 ) -> float:
     """Net income for calculation of basic subsistence (Arbeitslosengeld II /
     Bürgergeld).
@@ -96,8 +96,8 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
         See :func:`soli_st_m_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
-    sozialversicherung__beitrag_arbeitnehmer_m
-        See :func:`sozialversicherung__beitrag_arbeitnehmer_m`.
+    sozialversicherung__beiträge_arbeitnehmer_m
+        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
 
     Returns
     -------
@@ -108,7 +108,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
         bruttoeinkommen_m
         - (eink_st_m_sn / demographics__anzahl_personen_sn)
         - (soli_st_m_sn / demographics__anzahl_personen_sn)
-        - sozialversicherung__beitrag_arbeitnehmer_m
+        - sozialversicherung__beiträge_arbeitnehmer_m
     )
 
 
@@ -172,7 +172,7 @@ def nettoquote_m(  # noqa: PLR0913
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     demographics__anzahl_personen_sn: int,
-    sozialversicherung__beitrag_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_arbeitnehmer_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
@@ -189,8 +189,8 @@ def nettoquote_m(  # noqa: PLR0913
         See :func:`soli_st_m_sn`.
     demographics__anzahl_personen_sn
         See :func:`demographics__anzahl_personen_sn`.
-    sozialversicherung__beitrag_arbeitnehmer_m
-        See :func:`sozialversicherung__beitrag_arbeitnehmer_m`.
+    sozialversicherung__beiträge_arbeitnehmer_m
+        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -204,7 +204,7 @@ def nettoquote_m(  # noqa: PLR0913
             einkommen__bruttolohn_m
             - (eink_st_m_sn / demographics__anzahl_personen_sn)
             - (soli_st_m_sn / demographics__anzahl_personen_sn)
-            - sozialversicherung__beitrag_arbeitnehmer_m
+            - sozialversicherung__beiträge_arbeitnehmer_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
         ),

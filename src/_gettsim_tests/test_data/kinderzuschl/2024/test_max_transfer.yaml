@@ -76,7 +76,7 @@ inputs:
     arbeitslosengeld_2__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
       - true
       - true
     wohnen__wohnfläche_hh:

@@ -171,8 +171,7 @@ def kind_bis_17(alter: int, kind: bool) -> bool:
 def alter_bis_24(alter: int) -> bool:
     """Age is 24 years at most.
 
-    Relevant for the calculation of the long-term care insurance contribution. It does
-    not matter whether children have a claim on Kindergeld.
+    Trivial, but necessary in order to use the target for aggregation.
 
     Parameters
     ----------

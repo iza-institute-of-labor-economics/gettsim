@@ -9,9 +9,9 @@ from _gettsim.function_types import policy_function
 @policy_function()
 def betrag_m_bg(
     anspruchshöhe_m_bg: float,
-    vorrangprüfungen__wohngeld_vorrang_bg: bool,
-    vorrangprüfungen__kinderzuschlag_vorrang_bg: bool,
-    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg: bool,
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg: bool,
+    vorrangprüfungen__kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg: bool,
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg: bool,
     demographics__erwachsene_alle_rentner_hh: bool,
 ) -> float:
     """Calculate final monthly subsistence payment on household level.
@@ -22,12 +22,12 @@ def betrag_m_bg(
     ----------
     anspruchshöhe_m_bg
         See :func:`anspruchshöhe_m_bg`.
-    vorrangprüfungen__wohngeld_vorrang_bg
-        See :func:`vorrangprüfungen__wohngeld_vorrang_bg`.
-    vorrangprüfungen__kinderzuschlag_vorrang_bg
-        See :func:`vorrangprüfungen__kinderzuschlag_vorrang_bg`.
-    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg
-        See :func:`vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg`.
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg
+        See :func:`vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg`.
+    vorrangprüfungen__kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg
+        See :func:`vorrangprüfungen__kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg`.
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg
+        See :func:`vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg`.
     demographics__erwachsene_alle_rentner_hh
         See :func:`demographics__erwachsene_alle_rentner_hh`.
 
@@ -43,9 +43,9 @@ def betrag_m_bg(
     # resolved, remove the `demographics__erwachsene_alle_rentner_hh` condition.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/703
     if (
-        vorrangprüfungen__wohngeld_vorrang_bg
-        or vorrangprüfungen__kinderzuschlag_vorrang_bg
-        or vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg
+        vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg
+        or vorrangprüfungen__kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg
+        or vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg
         or demographics__erwachsene_alle_rentner_hh
     ):
         out = 0.0

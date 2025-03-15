@@ -106,7 +106,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__beitrag_arbeitnehmer_m:
+    sozialversicherung__beiträge_arbeitnehmer_m:
       - 204.0
       - 0.0
       - 140.0

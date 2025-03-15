@@ -60,7 +60,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__beitrag_arbeitnehmer_m:
+    sozialversicherung__beiträge_arbeitnehmer_m:
       - 0.0
       - 0.0
       - 0.0
@@ -176,11 +176,11 @@ inputs:
       - 1971
       - 1970
       - 2007
-    vorrangprüfungen__wohngeld_vorrang_bg:
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
       - true
       - true
       - true
-    vorrangprüfungen__wohngeld_kinderzuschlag_vorrang_bg:
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
       - true
       - true
       - true

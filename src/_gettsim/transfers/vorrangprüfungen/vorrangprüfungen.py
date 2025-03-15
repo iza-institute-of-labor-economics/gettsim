@@ -5,18 +5,18 @@ from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "wohngeld_vorrang_wthh": AggregateByGroupSpec(
-        source_col="wohngeld_vorrang_bg",
+        source_col="wohngeld_vorrang_vor_arbeitslosengeld_2_bg",
         aggr="any",
     ),
     "wohngeld_kinderzuschlag_vorrang_wthh": AggregateByGroupSpec(
-        source_col="wohngeld_kinderzuschlag_vorrang_bg",
+        source_col="wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg",
         aggr="any",
     ),
 }
 
 
 @policy_function()
-def wohngeld_vorrang_bg(
+def wohngeld_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
     wohngeld__anspruchshöhe_m_bg: float,
@@ -46,7 +46,7 @@ def wohngeld_vorrang_bg(
 
 
 @policy_function()
-def kinderzuschlag_vorrang_bg(
+def kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
     kinderzuschlag__anspruchshöhe_m_bg: float,
@@ -73,7 +73,7 @@ def kinderzuschlag_vorrang_bg(
 
 
 @policy_function()
-def wohngeld_kinderzuschlag_vorrang_bg(
+def wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
     arbeitslosengeld_2__nettoeinkommen_m_bg: float,
     kinderzuschlag__anspruchshöhe_m_bg: float,

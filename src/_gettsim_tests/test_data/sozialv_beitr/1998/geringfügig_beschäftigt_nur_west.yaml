@@ -42,7 +42,7 @@ outputs:
   sozialversicherung__geringfügig_beschäftigt:
     - true
     - false
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 0.0
     - 63.15
   sozialversicherung__beitrag_arbeitgeber_m:

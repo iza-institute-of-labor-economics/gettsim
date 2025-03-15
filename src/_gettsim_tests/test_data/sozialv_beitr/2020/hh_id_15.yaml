@@ -28,7 +28,7 @@ inputs:
       - '2020'
   assumed: {}
 outputs:
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 603.75
   sozialversicherung__beitrag_arbeitgeber_m:
     - 596.25

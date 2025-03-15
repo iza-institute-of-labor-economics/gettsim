@@ -28,7 +28,7 @@ inputs:
       - 2022-10
   assumed: {}
 outputs:
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 175.24
   sozialversicherung__beitrag_arbeitgeber_m:
     - 239.04

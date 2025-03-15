@@ -34,7 +34,7 @@ inputs:
       - 2023-07
   assumed: {}
 outputs:
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 604.50
   sozialversicherung__beitrag_arbeitgeber_m:
     - 612.00

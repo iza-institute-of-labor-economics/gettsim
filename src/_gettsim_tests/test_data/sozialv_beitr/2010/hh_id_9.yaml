@@ -28,7 +28,7 @@ inputs:
       - '2010'
   assumed: {}
 outputs:
-  sozialversicherung__beitrag_arbeitnehmer_m:
+  sozialversicherung__beiträge_arbeitnehmer_m:
     - 182.025
   sozialversicherung__beitrag_arbeitgeber_m:
     - 173.93
