@@ -2422,17 +2422,13 @@ thresholds_wartezeiten:
     wartezeit_15: 15
     wartezeit_35: 35
     wartezeit_45: 45
-wartezeit_45_pflichtbeitragsjahre:
+mindestpflichtbeitragsjahre_um_freiwillige_beiträge_anzurechnen:
   name:
-    de: Mindestpflichtbeitragsmonate für Wartezeit 45
-    en: Minimum statutory contribution months for wartezeit 45
-  description:
     de: >-
-      Anzahl der Mindestpflichtbeitragsminate, die für die
-      Erfüllung der Wartezeit von 45 Jahren notwendig sind.
+      Anzahl der Mindestpflichtbeitragsjahre, die für die Anrechnung von freiwilligen
+      Beiträgen notwendig sind.
     en: >-
-      Number of statutory contribution months required to
-      fullfill the waiting time of 45 years
+      Minimum statutory contribution years for the inclusion of voluntary contributions
   reference: § 51 Abs. 3a SGB VI
   note: https://www.gesetze-im-internet.de/sgb_6/__51.html
   1980-01-01:

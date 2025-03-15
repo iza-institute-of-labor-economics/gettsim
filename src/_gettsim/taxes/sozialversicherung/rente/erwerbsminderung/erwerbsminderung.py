@@ -307,8 +307,8 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     """Wartezeit for Rente für langjährige Versicherte (Erwerbsminderung) is fulfilled.
 
     Eligibility criteria differ in comparison to Altersrente für langjährige
-    Versicherte. In particular, freiwillige Beitragszeiten are not always considered
-    (§ 51 Abs. 3a SGB VI).
+    Versicherte. In particular, freiwillige Beitragszeiten are not always considered (§
+    51 Abs. 3a SGB VI).
 
     This pathway makes it possible to claim pension benefits without deductions at the
     age of 63.
@@ -316,17 +316,21 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     Parameters
     ----------
     sozialversicherung__rente__pflichtbeitragszeiten_y
-        See basic input variable :ref:<sozialversicherung__rente__pflichtbeitragszeiten_y>`.
+        See basic input variable
+        :ref:<sozialversicherung__rente__pflichtbeitragszeiten_y>`.
     sozialversicherung__rente__freiwillige_beitragszeiten_y
-        See basic input variable :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_y>`.
+        See basic input variable
+        :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_y>`.
     sozialversicherung__rente__anrechnungszeit_45_y
         See :func:`sozialversicherung__rente__anrechnungszeit_45_y`.
     sozialversicherung__rente__ersatzzeiten_y
         See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_y>`.
     sozialversicherung__rente__kinderberücksichtigungszeiten_y
-        See basic input variable :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_y>`.
+        See basic input variable
+        :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_y>`.
     sozialversicherung__rente__pflegeberücksichtigungszeiten_y
-        See basic input variable :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_y>`.
+        See basic input variable
+        :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_y>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     erwerbsm_rente_params
@@ -339,7 +343,9 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     """
     if (
         sozialversicherung__rente__pflichtbeitragszeiten_y
-        >= ges_rente_params["wartezeit_45_pflichtbeitragsjahre"]
+        >= ges_rente_params[
+            "mindestpflichtbeitragsjahre_um_freiwillige_beiträge_anzurechnen"
+        ]
     ):
         freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_y
     else:

@@ -154,7 +154,12 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     Fulfilled Wartezeit von 45 Jahren
 
     """
-    if pflichtbeitragszeiten_y >= ges_rente_params["wartezeit_45_pflichtbeitragsjahre"]:
+    if (
+        pflichtbeitragszeiten_y
+        >= ges_rente_params[
+            "mindestpflichtbeitragsjahre_um_freiwillige_beiträge_anzurechnen"
+        ]
+    ):
         freiwilligbeitr = freiwillige_beitragszeiten_y
     else:
         freiwilligbeitr = 0
