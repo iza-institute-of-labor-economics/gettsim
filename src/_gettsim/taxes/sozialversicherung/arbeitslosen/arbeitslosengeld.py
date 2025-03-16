@@ -50,7 +50,7 @@ def monate_verbleibender_anspruchsdauer(
     demographics__alter: int,
     monate_sozialversicherungspflichtig_in_letzten_5_jahren: float,
     anwartschaftszeit: bool,
-    monate_durchgängiger_bezug_von_arbeitslosengeld: float,
+    bezug_von_arbeitslosengeld_zeitraum_m: float,
     arbeitsl_geld_params: dict,
 ) -> int:
     """Calculate the remaining amount of months a person can receive unemployment
@@ -64,8 +64,8 @@ def monate_verbleibender_anspruchsdauer(
         See basic input variable :ref:`monate_sozialversicherungspflichtig_in_letzten_5_jahren <monate_sozialversicherungspflichtig_in_letzten_5_jahren>`.
     anwartschaftszeit
         See basic input variable :ref:`anwartschaftszeit <anwartschaftszeit>`.
-    monate_durchgängiger_bezug_von_arbeitslosengeld
-        See basic input variable :ref:`monate_durchgängiger_bezug_von_arbeitslosengeld <monate_durchgängiger_bezug_von_arbeitslosengeld>`.
+    bezug_von_arbeitslosengeld_zeitraum_m
+        See basic input variable :ref:`bezug_von_arbeitslosengeld_zeitraum_m <bezug_von_arbeitslosengeld_zeitraum_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
 
@@ -116,9 +116,7 @@ def monate_verbleibender_anspruchsdauer(
         anspruchsdauer_gesamt = min(nach_alter, nach_versich_pfl)
 
     if anwartschaftszeit:
-        out = max(
-            anspruchsdauer_gesamt - monate_durchgängiger_bezug_von_arbeitslosengeld, 0
-        )
+        out = max(anspruchsdauer_gesamt - bezug_von_arbeitslosengeld_zeitraum_m, 0)
     else:
         out = 0
 

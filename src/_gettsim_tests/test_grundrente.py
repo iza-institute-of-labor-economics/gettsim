@@ -65,15 +65,15 @@ INPUT_COLS_INCOME = [
     "sozialversicherung__rente__pflichtbeitragszeiten_m",
     "sozialversicherung__rente__freiwillige_beitragszeiten_m",
     "sozialversicherung__rente__ersatzzeiten_m",
-    "sozialversicherung__rente__schulausbildung_m",
+    "sozialversicherung__rente__schulausbildungszeiten_m",
     "sozialversicherung__rente__kinderberücksichtigungszeiten_m",
     "sozialversicherung__rente__pflegeberücksichtigungszeiten_m",
     "sozialversicherung__rente__arbeitsunfähigkeitszeiten_m",
     "sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m",
     "sozialversicherung__rente__mutterschutzzeiten_m",
     "sozialversicherung__rente__arbeitslosigkeitszeiten_m",
-    "sozialversicherung__rente__ausbildungssuche_m",
-    "sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m",
+    "sozialversicherung__rente__zeiten_der_ausbildungssuche_m",
+    "sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m",
     "sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m",
 ]
 

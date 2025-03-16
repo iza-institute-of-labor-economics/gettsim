@@ -471,25 +471,25 @@ Total months of unemployment (registered)
 
 Type: float
 
-(sozialversicherung__rente__ausbildungssuche_m)=
+(sozialversicherung__rente__zeiten_der_ausbildungssuche_m)=
 
-## `sozialversicherung__rente__ausbildungssuche_m`
+## `sozialversicherung__rente__zeiten_der_ausbildungssuche_m`
 
 Total months of apprenticeship search
 
 Type: float
 
-(sozialversicherung__rente__schulausbildung_m)=
+(sozialversicherung__rente__schulausbildungszeiten_m)=
 
-## `sozialversicherung__rente__schulausbildung_m`
+## `sozialversicherung__rente__schulausbildungszeiten_m`
 
 Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m)=
+(sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m)=
 
-## `sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m`
+## `sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
 Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
@@ -603,9 +603,9 @@ Looking for employment
 
 Type: bool
 
-(sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld)=
+(sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m)=
 
-## `sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld`
+## `sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m`
 
 Number of months the individual already receives Arbeitslosengeld without interruption.
 

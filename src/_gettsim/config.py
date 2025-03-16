@@ -164,7 +164,7 @@ DEFAULT_TARGETS = {
 TYPES_INPUT_VARIABLES = {
     "sozialversicherung__arbeitslosen__anwartschaftszeit": bool,
     "sozialversicherung__arbeitslosen__arbeitssuchend": bool,
-    "sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld": float,
+    "sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m": float,
     "sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren": float,
     # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
     # Bedarfsgemeinschaften are fully endogenous
@@ -210,8 +210,8 @@ TYPES_INPUT_VARIABLES = {
     "lohnsteuer__steuerklasse": int,
     "sozialversicherung__rente__arbeitslosigkeitszeiten_m": float,
     "sozialversicherung__rente__arbeitsunfähigkeitszeiten_m": float,
-    "sozialversicherung__rente__ausbildungssuche_m": float,
-    "sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m": float,
+    "sozialversicherung__rente__zeiten_der_ausbildungssuche_m": float,
+    "sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m": float,
     "sozialversicherung__rente__entgeltpunkte_ost": float,
     "sozialversicherung__rente__entgeltpunkte_west": float,
     "sozialversicherung__rente__ersatzzeiten_m": float,
@@ -225,7 +225,7 @@ TYPES_INPUT_VARIABLES = {
     "sozialversicherung__rente__pflegeberücksichtigungszeiten_m": float,
     "sozialversicherung__rente__pflichtbeitragszeiten_m": float,
     "sozialversicherung__rente__bezieht_rente": bool,
-    "sozialversicherung__rente__schulausbildung_m": float,
+    "sozialversicherung__rente__schulausbildungszeiten_m": float,
     "demographics__schwerbehindert_grad_g": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997": bool,

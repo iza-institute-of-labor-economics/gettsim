@@ -294,12 +294,12 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__ausbildungssuche_m:
+    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__schulausbildung_m:
+    sozialversicherung__rente__schulausbildungszeiten_m:
       - 12.0
       - 12.0
       - 12.0
@@ -309,7 +309,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m:
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -344,7 +344,7 @@ inputs:
       - false
       - false
       - false
-    sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld:
+    sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m:
       - 0.0
       - 0.0
       - 0.0

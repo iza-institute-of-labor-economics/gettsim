@@ -3,7 +3,7 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    sozialversicherung__rente__entgeltersatzleistungen_arbeitslosigkeit_m:
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
       - 0.0
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0

@@ -46,7 +46,7 @@ inputs:
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - true
       - false
-    sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld:
+    sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m:
       - 0.0
       - 12.0
     sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:

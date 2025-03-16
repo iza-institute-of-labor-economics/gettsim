@@ -180,8 +180,8 @@ def anrechnungszeit_35_y(  # noqa: PLR0913
     krankheitszeiten_ab_16_bis_24_y: float,
     mutterschutzzeiten_y: float,
     arbeitslosigkeitszeiten_y: float,
-    ausbildungssuche_y: float,
-    schulausbildung_y: float,
+    zeiten_der_ausbildungssuche_y: float,
+    schulausbildungszeiten_y: float,
 ) -> float:
     """Adds up all times that are accounted for in "Anrechnungszeiten"
     relevant for "Wartezeit von 35 Jahren" i.e. for Altersrente für
@@ -200,10 +200,10 @@ def anrechnungszeit_35_y(  # noqa: PLR0913
         See :func:`mutterschutzzeiten_y`.
     arbeitslosigkeitszeiten_y
         See :func:`arbeitslosigkeitszeiten_y`.
-    ausbildungssuche_y
-        See :func:`ausbildungssuche_y`.
-    schulausbildung_y
-        See :func:`schulausbildung_y`.
+    zeiten_der_ausbildungssuche_y
+        See :func:`zeiten_der_ausbildungssuche_y`.
+    schulausbildungszeiten_y
+        See :func:`schulausbildungszeiten_y`.
 
     Returns
     -------
@@ -214,15 +214,15 @@ def anrechnungszeit_35_y(  # noqa: PLR0913
         + krankheitszeiten_ab_16_bis_24_y
         + mutterschutzzeiten_y
         + arbeitslosigkeitszeiten_y
-        + ausbildungssuche_y
-        + schulausbildung_y
+        + zeiten_der_ausbildungssuche_y
+        + schulausbildungszeiten_y
     )
 
 
 @policy_function(start_date="2012-01-01")
 def anrechnungszeit_45_y(
     arbeitsunfähigkeitszeiten_y: float,
-    entgeltersatzleistungen_arbeitslosigkeit_y: float,
+    zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_y: float,
     zeiten_geringfügiger_beschäftigung_y: float,
 ) -> float:
     """Adds up all times NOT included in Beitragszeiten, Berücksichtigungszeiten,
@@ -237,8 +237,8 @@ def anrechnungszeit_45_y(
     ----------
     arbeitsunfähigkeitszeiten_y
         See :func:`arbeitsunfähigkeitszeiten_y`.
-    entgeltersatzleistungen_arbeitslosigkeit_y
-        See :func:`entgeltersatzleistungen_arbeitslosigkeit_y`.
+    zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_y
+        See :func:`zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_y`.
     zeiten_geringfügiger_beschäftigung_y
         See :func:`zeiten_geringfügiger_beschäftigung_y`.
     Returns
@@ -248,6 +248,6 @@ def anrechnungszeit_45_y(
     """
     return (
         arbeitsunfähigkeitszeiten_y
-        + entgeltersatzleistungen_arbeitslosigkeit_y
+        + zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_y
         + zeiten_geringfügiger_beschäftigung_y
     )
