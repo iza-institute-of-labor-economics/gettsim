@@ -37,7 +37,7 @@ def synthetic_data_spec_variables():
         n_children=1,
         specs_constant_over_households={
             "basic_inputs__alter": [50, 30, 5],
-            "basic_inputs__einkommen__bruttolohn_m": [1000, 2000, 0],
+            "basic_inputs__einnahmen__bruttolohn_m": [1000, 2000, 0],
         },
     )
     return df
@@ -51,7 +51,7 @@ def synthetic_data_spec_heterogeneous_married():
         adults_married=True,
         specs_constant_over_households={"basic_inputs__alter": [50, 30, 5]},
         specs_heterogeneous={
-            "basic_inputs__einkommen__bruttolohn_m": [
+            "basic_inputs__einnahmen__bruttolohn_m": [
                 [i / 2, i / 2, 0] for i in range(0, 1001, 100)
             ]
         },
@@ -67,7 +67,7 @@ def synthetic_data_spec_heterogeneous_not_married():
         adults_married=False,
         specs_constant_over_households={"basic_inputs__alter": [50, 30, 5]},
         specs_heterogeneous={
-            "basic_inputs__einkommen__bruttolohn_m": [
+            "basic_inputs__einnahmen__bruttolohn_m": [
                 [i / 2, i / 2, 0] for i in range(0, 1001, 100)
             ]
         },
@@ -164,7 +164,7 @@ def test_alleinerziehend(synthetic_data_alleinerziehend):
     "col, expected",
     [
         ("basic_inputs__alter", [50, 30, 5]),
-        ("basic_inputs__einkommen__bruttolohn_m", [1000, 2000, 0]),
+        ("basic_inputs__einnahmen__bruttolohn_m", [1000, 2000, 0]),
     ],
 )
 def test_specs_constant_over_households(col, expected, synthetic_data_spec_variables):
@@ -179,7 +179,7 @@ def test_specs_constant_over_households(col, expected, synthetic_data_spec_varia
     [
         ("basic_inputs__alter", [50, 30, 5] * 11),
         (
-            "basic_inputs__einkommen__bruttolohn_m",
+            "basic_inputs__einnahmen__bruttolohn_m",
             numpy.concatenate([[i / 2, i / 2, 0] for i in range(0, 1001, 100)]),
         ),
         (
@@ -215,7 +215,7 @@ def test_specs_heterogeneous(col, expected, synthetic_data_spec_heterogeneous_ma
             None,
             {
                 "basic_inputs__alter": [[30, 20], [40, 30]],
-                "basic_inputs__einkommen__bruttolohn_m": [[300, 200]],
+                "basic_inputs__einnahmen__bruttolohn_m": [[300, 200]],
             },
             pytest.raises(ValueError, match="Length of"),
         ),

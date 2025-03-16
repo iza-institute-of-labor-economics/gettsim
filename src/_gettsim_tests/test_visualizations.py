@@ -139,7 +139,7 @@ def test_should_fail_if_target_is_missing():
 @pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
-    selectors = "einkommen__kapitaleinnahmen_y_sn"
+    selectors = "einnahmen__kapitalerträge_y_sn"
     plot_dag(environment=environment, selectors=selectors)
 
 

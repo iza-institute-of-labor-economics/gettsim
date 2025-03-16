@@ -28,7 +28,7 @@ inputs:
       - 8
     demographics__p_id:
       - 22
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
     sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false

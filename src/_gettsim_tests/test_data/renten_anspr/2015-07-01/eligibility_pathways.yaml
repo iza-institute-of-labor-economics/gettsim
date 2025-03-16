@@ -192,7 +192,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 0.0
       - 0.0
       - 0.0
@@ -226,7 +226,7 @@ inputs:
       - true
       - true
       - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
       - false
       - true
       - false

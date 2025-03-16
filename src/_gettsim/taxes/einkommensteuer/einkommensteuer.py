@@ -141,7 +141,7 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     zu_verst_eink_per_indiv = (
         zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn / anzahl_personen_sn
     )
-    out = anzahl_personen_sn * einkommensteuer_tarif(
+    out = anzahl_personen_sn * einkommensteuertarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -171,7 +171,7 @@ def betrag_ohne_kinderfreibetrag_y_sn(
 
     """
     zu_verst_eink_per_indiv = gesamteinkommen_y / anzahl_personen_sn
-    out = anzahl_personen_sn * einkommensteuer_tarif(
+    out = anzahl_personen_sn * einkommensteuertarif(
         zu_verst_eink_per_indiv, params=eink_st_params
     )
 
@@ -244,7 +244,7 @@ def relevantes_kindergeld_ohne_staffelung_m(
     return kindergeld_params["kindergeld"] * kindergeld_ansprüche / 2
 
 
-def einkommensteuer_tarif(x: float, params: dict) -> float:
+def einkommensteuertarif(x: float, params: dict) -> float:
     """The German income tax tariff.
 
     Parameters

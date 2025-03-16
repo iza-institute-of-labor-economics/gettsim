@@ -49,12 +49,12 @@ inputs:
       - false
       - false
       - false
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 400.0
       - 1300.0
       - 0.0
       - 0.0
-    einkommen__bruttolohn_vorjahr_m:
+    einnahmen__bruttolohn_vorjahr_m:
       - 400.0
       - 1300.0
       - 0.0

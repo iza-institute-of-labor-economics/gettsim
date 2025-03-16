@@ -17,7 +17,7 @@ aggregation_specs = {
         aggr="sum",
     ),
     "anzahl_rentner_hh": AggregateByGroupSpec(
-        source_col="sozialversicherung__rente__rentner",
+        source_col="sozialversicherung__rente__bezieht_rente",
         aggr="sum",
     ),
     "anzahl_personen_hh": AggregateByGroupSpec(
@@ -237,14 +237,14 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
 
 def ist_kind_mit_erwerbseinkommen(
-    einkommen__bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
+    einnahmen__bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
 ) -> bool:
     """Check if children are working.
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einnahmen__bruttolohn_m
+        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
 
@@ -253,7 +253,7 @@ def ist_kind_mit_erwerbseinkommen(
 
     """
     out = (
-        einkommen__bruttolohn_m > 0
+        einnahmen__bruttolohn_m > 0
     ) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out
 

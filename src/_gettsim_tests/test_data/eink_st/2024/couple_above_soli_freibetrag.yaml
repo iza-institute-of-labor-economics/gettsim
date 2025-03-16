@@ -22,7 +22,7 @@ inputs:
     einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 200000.0
       - 200000.0
-    einkommen__kapitaleinnahmen_y:
+    einnahmen__kapitalerträge_y:
       - 0.0
       - 0.0
     einkommensteuer__gemeinsam_veranlagt:

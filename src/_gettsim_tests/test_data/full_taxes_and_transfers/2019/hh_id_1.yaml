@@ -54,7 +54,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 300.0
       - 600.0
       - 900.0
@@ -69,7 +69,7 @@ inputs:
       - true
       - false
       - true
-    einkommen__ist_selbstständig:
+    einkünfte__ist_selbstständig:
       - false
       - false
       - false
@@ -84,7 +84,7 @@ inputs:
       - false
       - false
       - true
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -99,7 +99,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__bruttolohn_vorjahr_m:
+    einnahmen__bruttolohn_vorjahr_m:
       - 1000.0
       - 2000.0
       - 3000.0
@@ -159,7 +159,7 @@ inputs:
       - false
       - false
       - false
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
       - false
       - false
@@ -174,12 +174,12 @@ inputs:
       - -1
       - -1
       - -1
-    einkommen__kapitaleinnahmen_m:
+    einnahmen__kapitalerträge_m:
       - 200.0
       - 200.0
       - 200.0
       - 200.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 1.0
       - 2.0
@@ -234,7 +234,7 @@ inputs:
       - 3
       - 3
       - 3
-    einkommen__sonstige_m:
+    einnahmen__sonstige_m:
       - 50.0
       - 50.0
       - 50.0
@@ -254,11 +254,6 @@ inputs:
       - 44
       - 19
       - 31
-    sozialversicherung__rente__private_rente_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
     demographics__schwerbehindert_grad_g:
       - false
       - false
@@ -329,7 +324,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 3.0
       - 4.0
       - 0.0
@@ -374,7 +369,12 @@ inputs:
       - 4
       - 1
       - 1
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
       - 0.0

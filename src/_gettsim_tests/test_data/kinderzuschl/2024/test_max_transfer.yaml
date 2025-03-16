@@ -34,7 +34,7 @@ inputs:
     kindergeld__in_ausbildung:
       - false
       - false
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
       - false
     demographics__alleinerziehend:
@@ -46,7 +46,7 @@ inputs:
     demographics__vermögen:
       - 0.0
       - 0.0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1000.0
       - 0.0
     wohnen__bruttokaltmiete_m_hh:

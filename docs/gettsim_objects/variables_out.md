@@ -8,13 +8,13 @@ You can find their individual calculation in the documentation of all {ref}`func
 ```{list-table}
 * - Variables
   - Description
-* - {func}`sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__rente__beitrag__betrag_versicherter_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__rente__beitrag__betrag_versicherter_m>`
   - Monthly amount employee old-age pensions contributions
-* - {func}`sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m>`
   - Monthly amount employee unempl. insurance contributions
-* - {func}`sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__kranken__beitrag__betrag_versicherter_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__kranken__beitrag__betrag_versicherter_m>`
   - Monthly amount employee health insurance contributions
-* - {func}`sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m>`
+* - {func}`sozialversicherung__pflege__beitrag__betrag_versicherter_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__pflege__beitrag__betrag_versicherter_m>`
   - Monthly amount of long term care insurance
 * - {func}`sozialversicherung__arbeitslosen__betrag_m <_gettsim.functions.all_functions_for_docs.sozialversicherung__arbeitslosen__betrag_m>`
   - Monthly amount of unemployment assistance

@@ -344,7 +344,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     if (
         sozialversicherung__rente__pflichtbeitragszeiten_y
         >= ges_rente_params[
-            "mindestpflichtbeitragsjahre_um_freiwillige_beiträge_anzurechnen"
+            "mindestpflichtbeitragsjahre_für_anrechnbarkeit_freiwilliger_beiträge"
         ]
     ):
         freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_y

@@ -11,7 +11,7 @@ inputs:
       - -1
     demographics__p_id_elternteil_2:
       - -1
-    einkommen__bruttolohn_vorjahr_m:
+    einnahmen__bruttolohn_vorjahr_m:
       - 2300.0
     demographics__wohnort_ost:
       - false

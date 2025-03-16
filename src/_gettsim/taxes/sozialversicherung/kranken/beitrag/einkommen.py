@@ -15,8 +15,8 @@ def einkommen_m(
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See :func:`einkommen__bruttolohn_m`.
+    einnahmen__bruttolohn_m
+        See :func:`einnahmen__bruttolohn_m`.
     sozialversicherung__regulär_beschäftigt
         See :func:`sozialversicherung__regulär_beschäftigt`.
     beitragsbemessungsgrenze_m
@@ -36,7 +36,7 @@ def einkommen_m(
 
 @policy_function()
 def einkommen_regulär_beschäftigt_m(
-    einkommen__bruttolohn_m: float,
+    einnahmen__bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Income subject to public health insurance contributions.
@@ -46,8 +46,8 @@ def einkommen_regulär_beschäftigt_m(
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See :func:`einkommen__bruttolohn_m`.
+    einnahmen__bruttolohn_m
+        See :func:`einnahmen__bruttolohn_m`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -56,14 +56,14 @@ def einkommen_regulär_beschäftigt_m(
     Income subject to public health insurance contributions.
     """
 
-    return min(einkommen__bruttolohn_m, beitragsbemessungsgrenze_m)
+    return min(einnahmen__bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
 @policy_function()
 def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
-    einkommen__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständigkeit_m: float,
     bezugsgröße_selbstständig_m: float,
-    einkommen__ist_selbstständig: bool,
+    einkünfte__ist_selbstständig: bool,
     privat_versichert: bool,
     beitragsbemessungsgrenze_m: float,
     sozialv_beitr_params: dict,
@@ -77,12 +77,12 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkommen__aus_selbstständigkeit_m
-        See basic input variable :ref:`einkommen__aus_selbstständigkeit_m <einkommen__aus_selbstständigkeit_m>`.
+    einkünfte__aus_selbstständigkeit_m
+        See basic input variable :ref:`einkünfte__aus_selbstständigkeit_m <einkünfte__aus_selbstständigkeit_m>`.
     bezugsgröße_selbstständig_m
         See :func:`bezugsgröße_selbstständig_m`.
-    einkommen__ist_selbstständig
-        See basic input variable :ref:`einkommen__ist_selbstständig <einkommen__ist_selbstständig>`.
+    einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
     privat_versichert
         See basic input variable :ref:`privat_versichert <privat_versichert>`.
     sozialv_beitr_params
@@ -97,7 +97,7 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
 
     """
     # Calculate if self employed insures via public health insurance.
-    if einkommen__ist_selbstständig and not privat_versichert:
+    if einkünfte__ist_selbstständig and not privat_versichert:
         out = min(
             beitragsbemessungsgrenze_m,
             max(
@@ -105,7 +105,7 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
                 * sozialv_beitr_params[
                     "mindestanteil_bezugsgröße_beitragspf_einnahme_selbst"
                 ],
-                einkommen__aus_selbstständigkeit_m,
+                einkünfte__aus_selbstständigkeit_m,
             ),
         )
     else:
@@ -170,15 +170,18 @@ def bezugsgröße_selbstständig_m(
 
 @policy_function()
 def bemessungsgrundlage_rente_m(
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
+    sozialversicherung__rente__altersrente__betrag_m: float,
+    sozialversicherung__rente__private_rente_betrag_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Pension income which is subject to health insurance contribution.
 
     Parameters
     ----------
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m
-        See :func:`sozialversicherung__rente__summe_private_gesetzliche_rente_m`.
+    sozialversicherung__rente__altersrente__betrag_m: float,
+        See :func:`sozialversicherung__rente__altersrente__betrag_m`.
+    sozialversicherung__rente__private_rente_betrag_m: float,
+        See :func:`sozialversicherung__rente__private_rente_betrag_m`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -187,6 +190,7 @@ def bemessungsgrundlage_rente_m(
 
     """
     return min(
-        sozialversicherung__rente__summe_private_gesetzliche_rente_m,
+        sozialversicherung__rente__altersrente__betrag_m
+        + sozialversicherung__rente__private_rente_betrag_m,
         beitragsbemessungsgrenze_m,
     )

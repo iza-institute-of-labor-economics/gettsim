@@ -11,7 +11,7 @@ inputs:
       - 25
     demographics__arbeitsstunden_w:
       - 40.0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 152.99999999999997
     sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
       - 0.0070999999999999995

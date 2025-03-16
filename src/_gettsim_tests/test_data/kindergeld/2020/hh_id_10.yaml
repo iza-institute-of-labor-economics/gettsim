@@ -25,7 +25,7 @@ inputs:
     kindergeld__in_ausbildung:
       - false
       - true
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 0.0
       - 0.0
     einkommensteuer__gesamteinkommen_y:

@@ -3,7 +3,7 @@
 from _gettsim.config import numpy_or_jax as np
 from _gettsim.function_types import policy_function
 from _gettsim.piecewise_functions import piecewise_polynomial
-from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
+from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuertarif
 
 
 @policy_function()
@@ -172,7 +172,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 @policy_function()
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m: float,
-    einkommen__bruttolohn_vorjahr_m: float,
+    einnahmen__bruttolohn_vorjahr_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
@@ -185,8 +185,8 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m
         See :func:
         `sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m`.
-    einkommen__bruttolohn_vorjahr_m
-        See basic input variable :ref:`einkommen__bruttolohn_vorjahr_m <einkommen__bruttolohn_vorjahr_m>`.
+    einnahmen__bruttolohn_vorjahr_m
+        See basic input variable :ref:`einnahmen__bruttolohn_vorjahr_m <einnahmen__bruttolohn_vorjahr_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
@@ -202,7 +202,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     """
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(
-        einkommen__bruttolohn_vorjahr_m,
+        einnahmen__bruttolohn_vorjahr_m,
         sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m,
     )
 
@@ -214,7 +214,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     # 12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"] not being
     # the same as zu versteuerndes einkommen
     # waiting for PR Lohnsteuer #150 to be merged to correct this problem
-    prox_tax = einkommensteuer_tarif(
+    prox_tax = einkommensteuertarif(
         12 * max_wage - eink_st_abzuege_params["werbungskostenpauschale"],
         eink_st_params,
     )

@@ -425,7 +425,7 @@ def altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung(
 def grundsätzlich_anspruchsberechtigt_bis_2007(
     arbeitslos_für_1_jahr_nach_alter_58_ein_halb: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtbeitrag_in_8_von_10_jahren: bool,
+    pflichtbeitragsjahre_8_von_10: bool,
 ) -> bool:
     """Eligibility for Altersrente für Arbeitslose (pension for unemployed).
 
@@ -442,8 +442,8 @@ def grundsätzlich_anspruchsberechtigt_bis_2007(
         :ref:`arbeitslos_für_1_jahr_nach_alter_58_ein_halb <arbeitslos_für_1_jahr_nach_alter_58_ein_halb>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtbeitrag_in_8_von_10_jahren
-        See basic input variable :ref:`pflichtbeitrag_in_8_von_10_jahren <pflichtbeitrag_in_8_von_10_jahren>`.
+    pflichtbeitragsjahre_8_von_10
+        See basic input variable :ref:`pflichtbeitragsjahre_8_von_10 <pflichtbeitragsjahre_8_von_10>`.
 
     Returns
     -------
@@ -454,7 +454,7 @@ def grundsätzlich_anspruchsberechtigt_bis_2007(
     out = (
         arbeitslos_für_1_jahr_nach_alter_58_ein_halb
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtbeitrag_in_8_von_10_jahren
+        and pflichtbeitragsjahre_8_von_10
     )
 
     return out
@@ -468,7 +468,7 @@ def grundsätzlich_anspruchsberechtigt_bis_2007(
 def grundsätzlich_anspruchsberechtigt_ab_2007(
     arbeitslos_für_1_jahr_nach_alter_58_ein_halb: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtbeitrag_in_8_von_10_jahren: bool,
+    pflichtbeitragsjahre_8_von_10: bool,
     demographics__geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
@@ -488,8 +488,8 @@ def grundsätzlich_anspruchsberechtigt_ab_2007(
         See basic input variable :ref:`arbeitslos_für_1_jahr_nach_alter_58_ein_halb <arbeitslos_für_1_jahr_nach_alter_58_ein_halb>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtbeitrag_in_8_von_10_jahren
-        See basic input variable :ref:`pflichtbeitrag_in_8_von_10_jahren <pflichtbeitrag_in_8_von_10_jahren>`.
+    pflichtbeitragsjahre_8_von_10
+        See basic input variable :ref:`pflichtbeitragsjahre_8_von_10 <pflichtbeitragsjahre_8_von_10>`.
     demographics__geburtsjahr
         See :func:`demographics__geburtsjahr`
     ges_rente_params
@@ -504,7 +504,7 @@ def grundsätzlich_anspruchsberechtigt_ab_2007(
     out = (
         arbeitslos_für_1_jahr_nach_alter_58_ein_halb
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtbeitrag_in_8_von_10_jahren
+        and pflichtbeitragsjahre_8_von_10
         and demographics__geburtsjahr
         < ges_rente_params["first_birthyear_without_rente_für_arbeitsl"]
     )

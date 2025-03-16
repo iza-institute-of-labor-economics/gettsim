@@ -64,7 +64,7 @@ inputs:
       - 0.0
       - 0.0
       - 39.83
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 200.0
       - 0.0
       - 3600.0

@@ -34,7 +34,7 @@ inputs:
     einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1000.0
       - 200.0
     demographics__wohnort_ost:

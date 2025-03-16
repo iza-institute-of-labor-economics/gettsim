@@ -25,7 +25,7 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1500.0
       - 0.0
     einkommensteuer__abzüge__betreuungskosten_m:
@@ -34,19 +34,22 @@ inputs:
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
       - -1
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
-    einkommen__kapitaleinnahmen_m:
+    einnahmen__kapitalerträge_m:
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
     sozialversicherung__rente__jahr_renteneintritt:
       - 2050
       - 2070
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
     demographics__arbeitsstunden_w:
@@ -76,7 +79,7 @@ inputs:
     demographics__wohnort_ost:
       - false
       - false
-    einkommen__ist_selbstständig:
+    einkünfte__ist_selbstständig:
       - false
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:

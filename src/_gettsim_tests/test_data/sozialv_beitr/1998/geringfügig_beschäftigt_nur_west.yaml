@@ -10,7 +10,7 @@ inputs:
     demographics__hh_id:
       - 0
       - 1
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 300.0
       - 300.0
     demographics__wohnort_ost:
@@ -19,16 +19,19 @@ inputs:
     demographics__alter:
       - 40
       - 40
-    einkommen__ist_selbstständig:
+    einkünfte__ist_selbstständig:
       - false
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
       - false
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
@@ -51,16 +54,16 @@ outputs:
   sozialversicherung__beitrag_gesamt_m:
     - 0.0
     - 126.30
-  sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
     - 0.0
     - 30.45
-  sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
     - 0.0
     - 9.75
-  sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 0.0
     - 20.40
-  sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 0.0
     - 2.55
   sozialversicherung__rente__beitrag__betrag_arbeitgeber_m:

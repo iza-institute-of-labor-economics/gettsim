@@ -40,24 +40,3 @@ def alter_bei_renteneintritt(
         - demographics__geburtsjahr
         + (monat_renteneintritt - demographics__geburtsmonat - 1) / 12
     )
-
-
-@policy_function()
-def summe_private_gesetzliche_rente_m(
-    private_rente_m: float, sozialversicherung__rente__altersrente__betrag_m: float
-) -> float:
-    """Calculate total individual pension as sum of private and public pension.
-
-    Parameters
-    ----------
-    private_rente_m
-        See basic input variable :ref:`private_rente_m <private_rente_m>`.
-    sozialversicherung__rente__altersrente__betrag_m
-        See :func:`sozialversicherung__rente__altersrente__betrag_m`.
-
-    Returns
-    -------
-
-    """
-    out = private_rente_m + sozialversicherung__rente__altersrente__betrag_m
-    return out

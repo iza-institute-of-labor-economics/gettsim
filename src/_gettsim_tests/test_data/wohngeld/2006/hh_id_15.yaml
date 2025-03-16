@@ -195,7 +195,7 @@ inputs:
       - 3
       - 3
       - 3
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1450.0
       - 1450.0
       - 0.0
@@ -204,7 +204,16 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -240,7 +249,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__sonstige_m:
+    einnahmen__sonstige_m:
       - 0.0
       - 0.0
       - 0.0
@@ -267,7 +276,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -276,7 +285,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__kapitaleinnahmen_y:
+    einnahmen__kapitalerträge_y:
       - 0.0
       - 0.0
       - 0.0
@@ -285,7 +294,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -294,7 +303,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
       - 50.0
       - 0.0
       - 0.0
@@ -303,7 +312,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
       - 0.0

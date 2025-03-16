@@ -40,7 +40,7 @@ def betrag_y_sn_ohne_abgelt_st(
         einkommensteuer__betrag_mit_kinderfreibetrag_y_sn
         / einkommensteuer__anzahl_personen_sn
     )
-    out = einkommensteuer__anzahl_personen_sn * solidaritätszuschlag_tarif(
+    out = einkommensteuer__anzahl_personen_sn * solidaritätszuschlagstarif(
         eink_st_per_individual, soli_st_params
     )
 
@@ -88,14 +88,14 @@ def betrag_y_sn_mit_abgelt_st(
     )
     out = (
         einkommensteuer__anzahl_personen_sn
-        * solidaritätszuschlag_tarif(eink_st_per_individual, soli_st_params)
+        * solidaritätszuschlagstarif(eink_st_per_individual, soli_st_params)
         + soli_st_params["soli_st"]["rates"][0, -1] * abgeltungssteuer__betrag_y_sn
     )
 
     return out
 
 
-def solidaritätszuschlag_tarif(st_per_individual: float, soli_st_params: dict) -> float:
+def solidaritätszuschlagstarif(st_per_individual: float, soli_st_params: dict) -> float:
     """The isolated function for Solidaritätszuschlag.
 
     Parameters

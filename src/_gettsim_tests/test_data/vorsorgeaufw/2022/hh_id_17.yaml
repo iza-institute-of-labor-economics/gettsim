@@ -16,7 +16,7 @@ inputs:
     einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 8333.333333
       - 1250.0
     demographics__kind:
@@ -25,19 +25,19 @@ inputs:
     einkommensteuer__beitrag_private_rentenversicherung_m:
       - 416.666667
       - 0.0
-    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
       - 660.333333
       - 0.0
-    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
-    sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__pflege__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
     jahr:
       - 2022
       - 2022
-    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
   assumed: {}

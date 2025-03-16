@@ -1,9 +1,9 @@
 """Withholding tax on earnings (Lohnsteuer)."""
 
 from _gettsim.function_types import policy_function
-from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuer_tarif
+from _gettsim.taxes.einkommensteuer.einkommensteuer import einkommensteuertarif
 from _gettsim.taxes.solidaritätszuschlag.solidaritätszuschlag import (
-    solidaritätszuschlag_tarif,
+    solidaritätszuschlagstarif,
 )
 
 
@@ -82,7 +82,7 @@ def betrag_soli_y(betrag_mit_kinderfreibetrag_y: float, soli_st_params: dict) ->
 
     """
 
-    return solidaritätszuschlag_tarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
+    return solidaritätszuschlagstarif(betrag_mit_kinderfreibetrag_y, soli_st_params)
 
 
 @policy_function()
@@ -160,8 +160,8 @@ def lohnsteuerformel(
 
     """
 
-    lohnsteuer_basistarif = einkommensteuer_tarif(einkommen_y, eink_st_params)
-    lohnsteuer_splittingtarif = 2 * einkommensteuer_tarif(
+    lohnsteuer_basistarif = einkommensteuertarif(einkommen_y, eink_st_params)
+    lohnsteuer_splittingtarif = 2 * einkommensteuertarif(
         einkommen_y / 2, eink_st_params
     )
     lohnsteuer_5_6_basis = basis_für_klassen_5_6(
@@ -250,8 +250,8 @@ def basis_für_klassen_5_6(einkommen_y: float, eink_st_params: dict) -> float:
     out = max(
         2
         * (
-            einkommensteuer_tarif(einkommen_y * 1.25, eink_st_params)
-            - einkommensteuer_tarif(einkommen_y * 0.75, eink_st_params)
+            einkommensteuertarif(einkommen_y * 1.25, eink_st_params)
+            - einkommensteuertarif(einkommen_y * 0.75, eink_st_params)
         ),
         einkommen_y * eink_st_params["eink_st_tarif"]["rates"][0][1],
     )

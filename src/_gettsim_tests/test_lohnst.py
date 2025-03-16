@@ -11,7 +11,7 @@ INPUT_COLS = [
     "p_id",
     "demographics__wohnort_ost",
     "lohnsteuer__steuerklasse",
-    "einkommen__bruttolohn_m",
+    "einnahmen__bruttolohn_m",
     "demographics__alter",
     "sozialversicherung__pflege__beitrag__hat_kinder",
     "demographics__arbeitsstunden_w",

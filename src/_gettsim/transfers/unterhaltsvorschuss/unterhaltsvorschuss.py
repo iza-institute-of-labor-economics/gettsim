@@ -418,30 +418,33 @@ def mindesteinkommen_erreicht(
 
 @policy_function(start_date="2017-01-01")
 def einkommen_m(  # noqa: PLR0913
-    einkommen__bruttolohn_m: float,
-    einkommen__sonstige_m: float,
-    einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_und_verpachtung_m: float,
-    einkommen__kapitaleinnahmen_m: float,
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m: float,
+    einnahmen__bruttolohn_m: float,
+    einnahmen__sonstige_m: float,
+    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_vermietung_und_verpachtung_m: float,
+    einnahmen__kapitalerträge_m: float,
+    sozialversicherung__rente__altersrente__betrag_m: float,
+    sozialversicherung__rente__private_rente_betrag_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
 ) -> float:
     """Calculate relevant income for advance on alimony payment.
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See :func:`einkommen__bruttolohn_m`.
-    einkommen__sonstige_m
-        See :func:`einkommen__sonstige_m`.
-    einkommen__aus_selbstständigkeit_m
-        See :func:`einkommen__aus_selbstständigkeit_m`.
-    einkommen__aus_vermietung_und_verpachtung_m
-        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
-    einkommen__kapitaleinnahmen_m
-        See :func:`einkommen__kapitaleinnahmen_m`.
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m
-        See :func:`sozialversicherung__rente__summe_private_gesetzliche_rente_m`.
+    einnahmen__bruttolohn_m
+        See :func:`einnahmen__bruttolohn_m`.
+    einnahmen__sonstige_m
+        See :func:`einnahmen__sonstige_m`.
+    einkünfte__aus_selbstständigkeit_m
+        See :func:`einkünfte__aus_selbstständigkeit_m`.
+    einkünfte__aus_vermietung_und_verpachtung_m
+        See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
+    einnahmen__kapitalerträge_m
+        See :func:`einnahmen__kapitalerträge_m`.
+    sozialversicherung__rente__altersrente__betrag_m
+        See :func:`sozialversicherung__rente__altersrente__betrag_m`.
+    sozialversicherung__rente__private_rente_betrag_m
+        See :func:`sozialversicherung__rente__private_rente_betrag_m`.
     sozialversicherung__arbeitslosen__betrag_m
         See :func:`sozialversicherung__arbeitslosen__betrag_m`.
 
@@ -450,12 +453,13 @@ def einkommen_m(  # noqa: PLR0913
 
     """
     out = (
-        einkommen__bruttolohn_m
-        + einkommen__sonstige_m
-        + einkommen__aus_selbstständigkeit_m
-        + einkommen__aus_vermietung_und_verpachtung_m
-        + einkommen__kapitaleinnahmen_m
-        + sozialversicherung__rente__summe_private_gesetzliche_rente_m
+        einnahmen__bruttolohn_m
+        + einnahmen__sonstige_m
+        + einkünfte__aus_selbstständigkeit_m
+        + einkünfte__aus_vermietung_und_verpachtung_m
+        + einnahmen__kapitalerträge_m
+        + sozialversicherung__rente__altersrente__betrag_m
+        + sozialversicherung__rente__private_rente_betrag_m
         + sozialversicherung__arbeitslosen__betrag_m
     )
 

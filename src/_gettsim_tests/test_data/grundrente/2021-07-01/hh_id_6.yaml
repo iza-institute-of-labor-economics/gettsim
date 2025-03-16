@@ -19,11 +19,11 @@ inputs:
       - false
     sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
-    einkommen__bruttolohn_vorjahr_m:
+    einnahmen__bruttolohn_vorjahr_m:
       - 0.0
-    einkommen__aus_selbstständigkeit_y:
+    einnahmen__aus_selbstständigkeit_y:
       - 0.0
-    einkommen__aus_vermietung_und_verpachtung_y:
+    einnahmen__aus_vermietung_und_verpachtung_y:
       - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
       - 0.0
@@ -33,7 +33,7 @@ inputs:
       - true
     demographics__geburtsjahr:
       - 1951
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
@@ -43,7 +43,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
     sozialversicherung__rente__grundrente__entgeltpunkte:
       - 15.0

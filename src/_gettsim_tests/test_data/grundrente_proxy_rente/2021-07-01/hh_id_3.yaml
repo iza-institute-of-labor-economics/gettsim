@@ -10,7 +10,7 @@ inputs:
       - 3
     demographics__alter:
       - 70
-    sozialversicherung__rente__private_rente_m:
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
       - 0.0
@@ -20,7 +20,7 @@ inputs:
       - 1951
     demographics__geburtsmonat:
       - 1
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
     sozialversicherung__rente__jahr_renteneintritt:
       - 2016
@@ -28,15 +28,15 @@ inputs:
       - 2
     demographics__wohnort_ost:
       - true
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
     demographics__weiblich:
       - false
-    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 240.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
       - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - true

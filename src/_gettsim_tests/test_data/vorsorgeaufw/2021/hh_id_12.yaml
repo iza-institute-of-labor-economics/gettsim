@@ -12,21 +12,21 @@ inputs:
       - -1
     einkommensteuer__gemeinsam_veranlagt:
       - false
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 4305.56
     demographics__kind:
       - false
     einkommensteuer__beitrag_private_rentenversicherung_m:
       - 250.0
-    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
       - 387.5
-    sozialversicherung__arbeitslosen__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
       - 0.0
-    sozialversicherung__pflege__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__pflege__beitrag__betrag_versicherter_m:
       - 0.0
     jahr:
       - 2021
-    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 0.0
   assumed: {}
 outputs:

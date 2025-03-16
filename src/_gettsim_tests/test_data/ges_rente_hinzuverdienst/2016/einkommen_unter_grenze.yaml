@@ -8,7 +8,7 @@ inputs:
       - 0
     demographics__hh_id:
       - 0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 0.0
     demographics__wohnort_ost:
       - false
@@ -22,7 +22,7 @@ inputs:
       - 40.0
     sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
     sozialversicherung__rente__grundrente__betrag_m:
       - 0.0

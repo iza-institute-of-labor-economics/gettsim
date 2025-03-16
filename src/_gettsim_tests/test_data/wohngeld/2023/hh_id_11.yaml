@@ -48,9 +48,11 @@ inputs:
       - false
     wohngeld__mietstufe:
       - 5
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1050.0
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
     einkommensteuer__rente_ertragsanteil:
       - 0.0
@@ -58,23 +60,23 @@ inputs:
       - 0.0
     sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
-    einkommen__sonstige_m:
+    einnahmen__sonstige_m:
       - 0.0
     unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
     unterhaltsvorschuss__betrag_m:
       - 0.0
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
       - 12600.0
-    einkommen__kapitaleinnahmen_y:
+    einnahmen__kapitalerträge_y:
       - 0.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
-    sozialversicherung__rente__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
       - 100.0
-    sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m:
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 80.0
     demographics__behinderungsgrad:
       - 0

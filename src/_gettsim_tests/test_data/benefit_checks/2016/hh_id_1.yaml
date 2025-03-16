@@ -32,7 +32,7 @@ inputs:
       - false
       - false
       - true
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
       - false
       - false

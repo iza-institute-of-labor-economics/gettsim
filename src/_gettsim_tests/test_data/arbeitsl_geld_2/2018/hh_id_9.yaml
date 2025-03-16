@@ -100,19 +100,25 @@ inputs:
       - false
       - false
       - false
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 800.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommen__kapitaleinnahmen_m:
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einnahmen__kapitalerträge_m:
       - 0.0
       - 0.0
       - 0.0
@@ -124,19 +130,19 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommen__sonstige_m:
+    einnahmen__sonstige_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
       - 0.0
@@ -208,7 +214,7 @@ inputs:
       - 2015
       - 2010
       - 2015
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
       - false
       - false

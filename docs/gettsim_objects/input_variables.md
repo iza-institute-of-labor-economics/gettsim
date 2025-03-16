@@ -22,9 +22,9 @@ Dependent child living with parents
 
 Type: bool
 
-(einkommen__bruttolohn_m)=
+(einnahmen__bruttolohn_m)=
 
-## `einkommen__bruttolohn_m`
+## `einnahmen__bruttolohn_m`
 
 Monthly wage
 
@@ -46,11 +46,11 @@ Female
 
 Type: bool
 
-(sozialversicherung__rente__rentner)=
+(sozialversicherung__rente__bezieht_rente)=
 
-## `sozialversicherung__rente__rentner`
+## `sozialversicherung__rente__bezieht_rente`
 
-Pensioner employment status
+Draws public pension benefits.
 
 Type: bool
 
@@ -142,9 +142,9 @@ Employment status “in education”
 
 Type: bool
 
-(einkommen__ist_selbstständig)=
+(einkünfte__ist_selbstständig)=
 
-## `einkommen__ist_selbstständig`
+## `einkünfte__ist_selbstständig`
 
 Self-employed (main profession)
 
@@ -174,34 +174,34 @@ Identifier of the person who paid childcare expenses.
 
 Type: float
 
-(einkommen__sonstige_m)=
+(einnahmen__sonstige_m)=
 
-## `einkommen__sonstige_m`
+## `einnahmen__sonstige_m`
 
 Additional income: includes private and public transfers that are not yet implemented in
 GETTSIM (e.g., BAföG, Kriegsopferfürsorge)
 
 Type: float
 
-(einkommen__aus_selbstständigkeit_m)=
+(einkünfte__aus_selbstständigkeit_m)=
 
-## `einkommen__aus_selbstständigkeit_m`
+## `einkünfte__aus_selbstständigkeit_m`
 
 Monthly income from self-employment
 
 Type: float
 
-(einkommen__aus_vermietung_und_verpachtung_m)=
+(einkünfte__aus_vermietung_und_verpachtung_m)=
 
-## `einkommen__aus_vermietung_und_verpachtung_m`
+## `einkünfte__aus_vermietung_und_verpachtung_m`
 
 Monthly rental income net of deductions
 
 Type: float
 
-(einkommen__kapitaleinnahmen_m)=
+(einnahmen__kapitalerträge_m)=
 
-## `einkommen__kapitaleinnahmen_m`
+## `einnahmen__kapitalerträge_m`
 
 Monthly capital income
 
@@ -277,9 +277,9 @@ typically be for the previous calendar year.
 
 Type: float
 
-(einkommen__bruttolohn_vorjahr_m)=
+(einnahmen__bruttolohn_vorjahr_m)=
 
-## `einkommen__bruttolohn_vorjahr_m`
+## `einnahmen__bruttolohn_vorjahr_m`
 
 Gross wage in the previous year
 
@@ -394,7 +394,7 @@ Type: float
 
 ## `sozialversicherung__rente__grundrente__grundrentenzeiten_m`
 
-Number of months determining Grundrenteeligibility
+Number of months determining eligibility for Grundrente.
 
 Type: int
 
@@ -410,13 +410,14 @@ Type: int
 
 ## `sozialversicherung__rente__grundrente__entgeltpunkte`
 
-Average `entgeltp` during`sozialversicherung__rente__grundrente__bewertungszeiten_m`
+Average `entgeltpunkte` during
+`sozialversicherung__rente__grundrente__bewertungszeiten_m`
 
 Type: float
 
-(sozialversicherung__rente__private_rente_m)=
+(sozialversicherung__rente__private_rente_betrag_m)=
 
-## `sozialversicherung__rente__private_rente_m`
+## `sozialversicherung__rente__private_rente_betrag_m`
 
 Amount of monthly private pension
 
@@ -426,7 +427,7 @@ Type: float
 
 ## `sozialversicherung__rente__pflichtbeitragszeiten_m`
 
-Total months of mandatory pensioninsurance contributions
+Total months of mandatory pension insurance contributions
 
 Type: float
 
@@ -527,17 +528,17 @@ Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40)=
+(sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y)=
 
-## `sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40`
+## `sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y`
 
 Total years of mandatory contributions after age 40
 
 Type: float
 
-(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren)=
+(sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10)=
 
-## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitrag_in_8_von_10_jahren`
+## `sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10`
 
 Has at least 8 contribution years in past 10 years
 
@@ -606,7 +607,7 @@ Type: bool
 
 ## `sozialversicherung__arbeitslosen__monate_durchgängiger_bezug_von_arbeitslosengeld`
 
-Months the individual already uninterruptedly receives Arbeitslosengeld
+Number of months the individual already receives Arbeitslosengeld without interruption.
 
 Type: float
 

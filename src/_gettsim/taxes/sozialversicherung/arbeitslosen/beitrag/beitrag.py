@@ -3,8 +3,8 @@
 from _gettsim.function_types import policy_function
 
 
-@policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitnehmer_m")
-def betrag_arbeitnehmer_vor_midijob_m(
+@policy_function(end_date="2003-03-31", leaf_name="betrag_versicherter_m")
+def betrag_versicherter_vor_midijob_m(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
@@ -38,11 +38,11 @@ def betrag_arbeitnehmer_vor_midijob_m(
     return out
 
 
-@policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitnehmer_m")
-def betrag_arbeitnehmer_mit_midijob_m(
+@policy_function(start_date="2003-04-01", leaf_name="betrag_versicherter_m")
+def betrag_versicherter_mit_midijob_m(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__in_gleitzone: bool,
-    betrag_arbeitnehmer_midijob_m: float,
+    betrag_versicherter_midijob_m: float,
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -54,8 +54,8 @@ def betrag_arbeitnehmer_mit_midijob_m(
         See :func:`sozialversicherung__geringfügig_beschäftigt`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
-    betrag_arbeitnehmer_midijob_m
-        See :func:`betrag_arbeitnehmer_midijob_m`.
+    betrag_versicherter_midijob_m
+        See :func:`betrag_versicherter_midijob_m`.
     sozialversicherung__rente__beitrag__einkommen_m
         See :func:`sozialversicherung__rente__beitrag__einkommen_m`.
     sozialv_beitr_params
@@ -74,7 +74,7 @@ def betrag_arbeitnehmer_mit_midijob_m(
     if sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     elif sozialversicherung__in_gleitzone:
-        out = betrag_arbeitnehmer_midijob_m
+        out = betrag_versicherter_midijob_m
     else:
         out = betrag_arbeitgeber_regulär_beschäftigt_m
 
@@ -191,7 +191,7 @@ def betrag_gesamt_midijob_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
-    einkommen__bruttolohn_m: float,
+    einnahmen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employers' unemployment insurance contribution for Midijobs until September
@@ -201,15 +201,15 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    einkommen__bruttolohn_m
-        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einnahmen__bruttolohn_m
+        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
 
     Returns
     -------
 
     """
     return (
-        einkommen__bruttolohn_m
+        einnahmen__bruttolohn_m
         * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 
@@ -217,7 +217,7 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
 def betrag_arbeitgeber_midijob_m_residuum(
     betrag_gesamt_midijob_m: float,
-    betrag_arbeitnehmer_midijob_m: float,
+    betrag_versicherter_midijob_m: float,
 ) -> float:
     """Employer's unemployment insurance contribution since October 2022.
 
@@ -225,22 +225,22 @@ def betrag_arbeitgeber_midijob_m_residuum(
     ----------
     betrag_gesamt_midijob_m
         See :func:`betrag_gesamt_midijob_m`.
-    betrag_arbeitnehmer_midijob_m
-        See :func:`betrag_arbeitnehmer_midijob_m`.
+    betrag_versicherter_midijob_m
+        See :func:`betrag_versicherter_midijob_m`.
 
     Returns
     -------
 
     """
-    return betrag_gesamt_midijob_m - betrag_arbeitnehmer_midijob_m
+    return betrag_gesamt_midijob_m - betrag_versicherter_midijob_m
 
 
 @policy_function(
     start_date="2003-04-01",
     end_date="2022-09-30",
-    leaf_name="betrag_arbeitnehmer_midijob_m",
+    leaf_name="betrag_versicherter_midijob_m",
 )
-def betrag_arbeitnehmer_midijob_m_residuum(
+def betrag_versicherter_midijob_m_residuum(
     betrag_gesamt_midijob_m: float,
     betrag_arbeitgeber_midijob_m: float,
 ) -> float:
@@ -261,8 +261,8 @@ def betrag_arbeitnehmer_midijob_m_residuum(
     return betrag_gesamt_midijob_m - betrag_arbeitgeber_midijob_m
 
 
-@policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitnehmer_midijob_m")
-def betrag_arbeitnehmer_midijob_m_anteil_beitragspflichtiger_einnahmen(
+@policy_function(start_date="2022-10-01", leaf_name="betrag_versicherter_midijob_m")
+def betrag_versicherter_midijob_m_anteil_beitragspflichtiger_einnahmen(
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,
 ) -> float:

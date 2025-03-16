@@ -25,9 +25,9 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
 @policy_function()
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
-    einkommen__bruttolohn_vorjahr_m: float,
-    einkommen__aus_selbstständigkeit_m: float,
-    einkommen__aus_vermietung_und_verpachtung_m: float,
+    einnahmen__bruttolohn_vorjahr_m: float,
+    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_vermietung_und_verpachtung_m: float,
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
@@ -46,7 +46,7 @@ def einkommen_m(
       avoid the need for several new input variables.
     - Warning: Freibeträge for income are currently not considered as `freibeträge_y`
       depends on pension income through
-      `sozialversicherung__kranken__beitrag__betrag_arbeitnehmer_m` ->
+      `sozialversicherung__kranken__beitrag__betrag_versicherter_m` ->
       `vorsorgeaufw` -> `freibeträge`
 
     Reference: § 97a Abs. 2 S. 1 SGB VI
@@ -55,12 +55,12 @@ def einkommen_m(
     ----------
     proxy_rente_vorjahr_m
         See :func:`proxy_rente_vorjahr_m`.
-    einkommen__bruttolohn_vorjahr_m
-        See :func:`einkommen__bruttolohn_vorjahr_m`.
-    einkommen__aus_selbstständigkeit_m
-        See :func:`einkommen__aus_selbstständigkeit_m`.
-    einkommen__aus_vermietung_und_verpachtung_m
-        See :func:`einkommen__aus_vermietung_und_verpachtung_m`.
+    einnahmen__bruttolohn_vorjahr_m
+        See :func:`einnahmen__bruttolohn_vorjahr_m`.
+    einkünfte__aus_selbstständigkeit_m
+        See :func:`einkünfte__aus_selbstständigkeit_m`.
+    einkünfte__aus_vermietung_und_verpachtung_m
+        See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
         See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y`.
 
@@ -72,9 +72,9 @@ def einkommen_m(
     # Sum income over different income sources.
     out = (
         proxy_rente_vorjahr_m
-        + einkommen__bruttolohn_vorjahr_m
-        + einkommen__aus_selbstständigkeit_m  # income from self-employment
-        + einkommen__aus_vermietung_und_verpachtung_m  # rental income
+        + einnahmen__bruttolohn_vorjahr_m
+        + einkünfte__aus_selbstständigkeit_m  # income from self-employment
+        + einkünfte__aus_vermietung_und_verpachtung_m  # rental income
         + einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
     )
 
@@ -321,8 +321,8 @@ def entgeltpunkte_zuschlag(
 
 @policy_function(params_key_for_rounding="ges_rente")
 def proxy_rente_vorjahr_m(  # noqa: PLR0913
-    sozialversicherung__rente__rentner: bool,
-    sozialversicherung__rente__private_rente_m: float,
+    sozialversicherung__rente__bezieht_rente: bool,
+    sozialversicherung__rente__private_rente_betrag_m: float,
     sozialversicherung__rente__jahr_renteneintritt: int,
     demographics__geburtsjahr: int,
     demographics__alter: int,
@@ -335,10 +335,10 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    sozialversicherung__rente__rentner
-        See basic input variable :ref:`sozialversicherung__rente__rentner <sozialversicherung__rente__rentner>`.
-    sozialversicherung__rente__private_rente_m
-        See basic input variable :ref:`sozialversicherung__rente__private_rente_m <sozialversicherung__rente__private_rente_m>`. Assume this did not
+    sozialversicherung__rente__bezieht_rente
+        See basic input variable :ref:`sozialversicherung__rente__bezieht_rente <sozialversicherung__rente__bezieht_rente>`.
+    sozialversicherung__rente__private_rente_betrag_m
+        See basic input variable :ref:`sozialversicherung__rente__private_rente_betrag_m <sozialversicherung__rente__private_rente_betrag_m>`. Assume this did not
         change from last year.
     sozialversicherung__rente__jahr_renteneintritt
         See basic input variable :ref:`sozialversicherung__rente__jahr_renteneintritt <sozialversicherung__rente__jahr_renteneintritt>`.
@@ -361,7 +361,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
     """
 
     # Calculate if subect was retired last year
-    if sozialversicherung__rente__rentner:
+    if sozialversicherung__rente__bezieht_rente:
         rentner_vorjahr = (
             sozialversicherung__rente__jahr_renteneintritt
             < demographics__geburtsjahr + demographics__alter
@@ -378,7 +378,7 @@ def proxy_rente_vorjahr_m(  # noqa: PLR0913
                 * ges_rente_params["rentenwert_vorjahr"]["ost"]
             )
             * sozialversicherung__rente__altersrente__zugangsfaktor
-            + sozialversicherung__rente__private_rente_m
+            + sozialversicherung__rente__private_rente_betrag_m
         )
     else:
         out = 0.0

@@ -193,7 +193,7 @@ def kindersatz_m_ab_2011(
 
 
 @policy_function(end_date="2010-12-31", leaf_name="erwachsenensatz_m")
-def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
+def arbeitsl_geld_2_erwachsenensatz_m_bis_2010(
     mehrbedarf_alleinerziehend_m: float,
     kindersatz_m: float,
     p_id_einstandspartner: int,
@@ -232,7 +232,7 @@ def arbeitsl_geld_2_erwachsenensatz_bis_2010_m(
 
 
 @policy_function(start_date="2011-01-01", leaf_name="erwachsenensatz_m")
-def arbeitsl_geld_2_erwachsenensatz_ab_2011_m(
+def arbeitsl_geld_2_erwachsenensatz_m_ab_2011(
     mehrbedarf_alleinerziehend_m: float,
     kindersatz_m: float,
     p_id_einstandspartner: int,

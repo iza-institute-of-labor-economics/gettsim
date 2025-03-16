@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function(end_date="2003-03-31", leaf_name="regulär_beschäftigt")
 def regulär_beschäftigt_vor_midijob(
-    einkommen__bruttolohn_m: float, minijob_grenze: float
+    einnahmen__bruttolohn_m: float, minijob_grenze: float
 ) -> bool:
     """Regular employment check until March 2003.
 
@@ -15,8 +15,8 @@ def regulär_beschäftigt_vor_midijob(
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einnahmen__bruttolohn_m
+        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -25,13 +25,13 @@ def regulär_beschäftigt_vor_midijob(
     Whether regular employed persons.
 
     """
-    out = einkommen__bruttolohn_m >= minijob_grenze
+    out = einnahmen__bruttolohn_m >= minijob_grenze
     return out
 
 
 @policy_function(start_date="2003-04-01", leaf_name="regulär_beschäftigt")
 def regulär_beschäftigt_mit_midijob(
-    einkommen__bruttolohn_m: float, sozialv_beitr_params: dict
+    einnahmen__bruttolohn_m: float, sozialv_beitr_params: dict
 ) -> bool:
     """Regular employment check since April 2003.
 
@@ -41,8 +41,8 @@ def regulär_beschäftigt_mit_midijob(
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einnahmen__bruttolohn_m
+        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -52,7 +52,7 @@ def regulär_beschäftigt_mit_midijob(
 
     """
     out = (
-        einkommen__bruttolohn_m
+        einnahmen__bruttolohn_m
         >= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     )
     return out

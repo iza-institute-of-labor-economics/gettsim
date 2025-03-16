@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function()
 def geringfügig_beschäftigt(
-    einkommen__bruttolohn_m: float, minijob_grenze: float
+    einnahmen__bruttolohn_m: float, minijob_grenze: float
 ) -> bool:
     """Individual earns less than marginal employment threshold.
 
@@ -15,8 +15,8 @@ def geringfügig_beschäftigt(
 
     Parameters
     ----------
-    einkommen__bruttolohn_m
-        See basic input variable :ref:`einkommen__bruttolohn_m <einkommen__bruttolohn_m>`.
+    einnahmen__bruttolohn_m
+        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
     minijob_grenze
         See :func:`minijob_grenze`.
 
@@ -26,7 +26,7 @@ def geringfügig_beschäftigt(
     Whether person earns less than marginal employment threshold.
 
     """
-    return einkommen__bruttolohn_m <= minijob_grenze
+    return einnahmen__bruttolohn_m <= minijob_grenze
 
 
 @policy_function(

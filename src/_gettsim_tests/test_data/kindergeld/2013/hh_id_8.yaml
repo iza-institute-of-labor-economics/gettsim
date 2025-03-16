@@ -46,7 +46,7 @@ inputs:
       - false
       - true
       - true
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 20000.0
       - 20000.0
       - 0.0

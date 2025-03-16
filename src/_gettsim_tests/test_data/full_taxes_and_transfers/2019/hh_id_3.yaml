@@ -24,25 +24,25 @@ inputs:
       - -1
     demographics__vermögen:
       - 5500.0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 900.0
     demographics__alter:
       - 51
     demographics__weiblich:
       - true
-    einkommen__ist_selbstständig:
+    einkünfte__ist_selbstständig:
       - false
     demographics__wohnort_ost:
       - true
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     einkommensteuer__beitrag_private_rentenversicherung_m:
       - 0.0
-    einkommen__bruttolohn_vorjahr_m:
+    einnahmen__bruttolohn_vorjahr_m:
       - 2000.0
     elterngeld__nettoeinkommen_vorjahr_m:
       - 2000.0
@@ -66,15 +66,15 @@ inputs:
       - 1.7936
     demographics__kind:
       - false
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
     einkommensteuer__abzüge__betreuungskosten_m:
       - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
-    einkommen__kapitaleinnahmen_m:
+    einnahmen__kapitalerträge_m:
       - 204.0
-    einkommen__aus_vermietung_und_verpachtung_m:
+    einkünfte__aus_vermietung_und_verpachtung_m:
       - 8.0
     wohnen__bruttokaltmiete_m_hh:
       - 400.0
@@ -96,7 +96,7 @@ inputs:
       - false
     wohnen__baujahr_immobilie_hh:
       - 3
-    einkommen__sonstige_m:
+    einnahmen__sonstige_m:
       - 50.0
     sozialversicherung__rente__grundrente__entgeltpunkte:
       - 1.7936
@@ -104,8 +104,6 @@ inputs:
       - 33
     sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 33
-    sozialversicherung__rente__private_rente_m:
-      - 0.0
     demographics__schwerbehindert_grad_g:
       - false
     sozialversicherung__rente__pflichtbeitragszeiten_m:
@@ -134,7 +132,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
       - 0.0
-    sozialversicherung__rente__altersrente__für_frauen__jahre_pflichtbeiträge_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 0.0
     sozialversicherung__arbeitslosen__anwartschaftszeit:
       - true
@@ -152,7 +150,9 @@ inputs:
       - 0.0
     lohnsteuer__steuerklasse:
       - 1
-    sozialversicherung__rente__summe_private_gesetzliche_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
   assumed: {}
 outputs: {}

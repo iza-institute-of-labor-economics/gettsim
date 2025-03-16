@@ -18,7 +18,7 @@ inputs:
       - false
     demographics__kind:
       - false
-    sozialversicherung__rente__rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
     demographics__alter:
       - 80

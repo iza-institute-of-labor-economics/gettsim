@@ -34,10 +34,10 @@ inputs:
     demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
-    einkommen__bruttolohn_m:
+    einnahmen__bruttolohn_m:
       - 1500.0
       - 0.0
-    einkommen__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständigkeit_m:
       - 0.0
       - 0.0
     kindergeld__in_ausbildung:

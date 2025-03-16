@@ -2422,11 +2422,11 @@ thresholds_wartezeiten:
     wartezeit_15: 15
     wartezeit_35: 35
     wartezeit_45: 45
-mindestpflichtbeitragsjahre_um_freiwillige_beiträge_anzurechnen:
+mindestpflichtbeitragsjahre_für_anrechnbarkeit_freiwilliger_beiträge:
   name:
     de: >-
-      Anzahl der Mindestpflichtbeitragsjahre, die für die Anrechnung von freiwilligen
-      Beiträgen notwendig sind.
+      Anzahl der Mindestpflichtbeitragsjahre, von der an freiwillige Beiträge
+      angerechnet werden.
     en: >-
       Minimum statutory contribution years for the inclusion of voluntary contributions
   reference: § 51 Abs. 3a SGB VI
