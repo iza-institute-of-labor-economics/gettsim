@@ -452,7 +452,7 @@ def test_geschwisterbonus_m(backend):
 
 def mock__elterngeld__grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
     claimed: bool,
-    demographics__arbeitsstunden_w: float,
+    arbeitsstunden_w: float,
     kind_grundsätzlich_anspruchsberechtigt_fg: bool,
     einkommen_vorjahr_unter_bezugsgrenze: bool,
     bezugsmonate_unter_grenze_fg: bool,
@@ -460,7 +460,7 @@ def mock__elterngeld__grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 ) -> bool:
     return (
         claimed
-        and demographics__arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
+        and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
         and einkommen_vorjahr_unter_bezugsgrenze
         and kind_grundsätzlich_anspruchsberechtigt_fg
         and bezugsmonate_unter_grenze_fg
@@ -474,7 +474,7 @@ def test_grundsätzlich_anspruchsberechtigt(backend):
     # Test original gettsim function on scalar input
     # ==================================================================================
     claimed = True
-    demographics__arbeitsstunden_w = 20.0
+    arbeitsstunden_w = 20.0
     kind_grundsätzlich_anspruchsberechtigt_fg = True
     einkommen_vorjahr_unter_bezugsgrenze = True
     bezugsmonate_unter_grenze_fg = True
@@ -484,7 +484,7 @@ def test_grundsätzlich_anspruchsberechtigt(backend):
 
     exp = mock__elterngeld__grundsätzlich_anspruchsberechtigt(
         claimed=claimed,
-        demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
+        arbeitsstunden_w=arbeitsstunden_w,
         kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
         einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
         bezugsmonate_unter_grenze_fg=bezugsmonate_unter_grenze_fg,
@@ -496,11 +496,11 @@ def test_grundsätzlich_anspruchsberechtigt(backend):
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
     shape = (10, 1)
-    demographics__arbeitsstunden_w = full(shape, demographics__arbeitsstunden_w)
+    arbeitsstunden_w = full(shape, arbeitsstunden_w)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
         mock__elterngeld__grundsätzlich_anspruchsberechtigt(
-            demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
+            arbeitsstunden_w=arbeitsstunden_w,
             claimed=claimed,
             kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
             einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
@@ -515,7 +515,7 @@ def test_grundsätzlich_anspruchsberechtigt(backend):
     )
     got = converted(
         claimed=claimed,
-        demographics__arbeitsstunden_w=demographics__arbeitsstunden_w,
+        arbeitsstunden_w=arbeitsstunden_w,
         kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
         einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
         bezugsmonate_unter_grenze_fg=bezugsmonate_unter_grenze_fg,

@@ -43,7 +43,6 @@ QUALIFIED_NAME_SEPARATOR = "__"
 PATHS_TO_INTERNAL_FUNCTIONS = [
     RESOURCE_DIR / "transfers",
     RESOURCE_DIR / "taxes",
-    RESOURCE_DIR / "demographics.py",
 ]
 
 INTERNAL_PARAMS_GROUPS = [
