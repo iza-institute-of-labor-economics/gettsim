@@ -95,7 +95,7 @@ outputs:
     - 154.0
     - 0.0
     - 0.0
-  einkommensteuer__kinderfreibetrag_anzahl_ansprüche:
+  einkommensteuer__anzahl_kinderfreibeträge:
     - 1
     - 1
     - 0

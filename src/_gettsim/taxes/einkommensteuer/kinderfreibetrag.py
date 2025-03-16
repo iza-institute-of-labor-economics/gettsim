@@ -4,13 +4,13 @@ from _gettsim.aggregation import AggregateByPIDSpec
 from _gettsim.function_types import policy_function
 
 aggregation_specs = {
-    "anzahl_anspruch_1": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_empfänger_1",
+    "anzahl_kinderfreibeträge_1": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kinderfreibetragempfänger_1",
         source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
-    "anzahl_anspruch_2": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_empfänger_2",
+    "anzahl_kinderfreibeträge_2": AggregateByPIDSpec(
+        p_id_to_aggregate_by="p_id_kinderfreibetragempfänger_2",
         source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
@@ -40,9 +40,9 @@ def kinderfreibetrag_y(
 
 
 @policy_function()
-def kinderfreibetrag_anzahl_ansprüche(
-    anzahl_anspruch_1: int,
-    anzahl_anspruch_2: int,
+def anzahl_kinderfreibeträge(
+    anzahl_kinderfreibeträge_1: int,
+    anzahl_kinderfreibeträge_2: int,
 ) -> int:
     """Return the number of Kinderfreibeträge a person is entitled to.
 
@@ -50,15 +50,15 @@ def kinderfreibetrag_anzahl_ansprüche(
 
     Parameters
     ----------
-    anzahl_anspruch_1
+    anzahl_kinderfreibeträge_1
         Helper function based on aggregating
         :ref:`p_id_kinderfreibetr_empfänger_1 <p_id_kinderfreibetr_empfänger_1>`.
-    anzahl_anspruch_2
+    anzahl_kinderfreibeträge_2
         Helper function based on aggregating
         :ref:`p_id_kinderfreibetr_empfänger_2 <p_id_kinderfreibetr_empfänger_2>`.
 
     """
-    return anzahl_anspruch_1 + anzahl_anspruch_2
+    return anzahl_kinderfreibeträge_1 + anzahl_kinderfreibeträge_2
 
 
 @policy_function()
