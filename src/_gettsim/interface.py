@@ -109,7 +109,9 @@ def compute_taxes_and_transfers(
     functions_tree_with_partialled_parameters = _partial_parameters_to_functions(
         functions_tree=(
             optree.tree_map_with_path(
-                lambda path, x: _add_rounding_to_function(x, environment.params, path),
+                lambda path, x: _add_rounding_to_function(x, environment.params, path)
+                if isinstance(x, PolicyFunction)
+                else x,
                 functions_tree_not_overridden,
             )
             if rounding

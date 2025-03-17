@@ -342,10 +342,15 @@ def _annotations_for_aggregation(
     """Create annotations for derived aggregation functions."""
     annotations = {}
 
-    path_to_source_col = _get_tree_path_from_source_col_name(
-        name=source_col,
-        namespace=namespace,
+    path_to_source_col = (
+        _get_tree_path_from_source_col_name(
+            name=source_col,
+            namespace=namespace,
+        )
+        if aggregation_method != "count"
+        else None
     )
+
     flat_functions = flatten_dict.flatten(functions_tree)
     flat_types_input_variables = flatten_dict.flatten(types_input_variables)
 
