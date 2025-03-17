@@ -145,7 +145,7 @@ def compute_taxes_and_transfers(
         functions=functions_tree_with_partialled_parameters,
         targets=targets_tree,
         input_structure=input_structure,
-        name_clashes="raise",
+        name_clashes="ignore",
     )
 
     results = tax_transfer_function(input_data_tree)
@@ -296,7 +296,7 @@ def _create_input_data_for_concatenated_function(
         functions=functions_tree,
         targets=targets_tree,
         input_structure=input_structure,
-        name_clashes="raise",
+        name_clashes="ignore",
     )
 
     # Create root nodes tree
