@@ -56,6 +56,9 @@ def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
         with path_of_test_file.open("r", encoding="utf-8") as file:
             raw_test_data: NestedDataDict = yaml.safe_load(file)
 
+        # TODO(@MImmesberger): Remove this before merging this PR.
+        raw_test_data = get_test_data_as_tree(raw_test_data)
+
         out.extend(
             _get_policy_tests_from_raw_test_data(
                 raw_test_data=raw_test_data,
@@ -64,6 +67,35 @@ def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
         )
 
     return out
+
+
+# TODO(@MImmesberger): Remove this before merging this PR.
+from _gettsim.shared import qualified_name_splitter
+def get_test_data_as_tree(test_data: NestedDataDict) -> NestedDataDict:
+    provided_inputs = test_data["inputs"].get("provided", {})
+    assumed_inputs = test_data["inputs"].get("assumed", {})
+
+    unflattened_dict = {}
+    unflattened_dict["inputs"] = {}
+    unflattened_dict["outputs"] = {}
+    if provided_inputs:
+        unflattened_dict["inputs"]["provided"] = flatten_dict.unflatten(
+            provided_inputs, splitter=qualified_name_splitter
+        )
+    else:
+        unflattened_dict["inputs"]["provided"] = {}
+    if assumed_inputs:
+        unflattened_dict["inputs"]["assumed"] = flatten_dict.unflatten(
+            assumed_inputs, splitter=qualified_name_splitter
+        )
+    else:
+        unflattened_dict["inputs"]["assumed"] = {}
+
+    unflattened_dict["outputs"] = flatten_dict.unflatten(
+        test_data["outputs"], splitter=qualified_name_splitter
+    )
+
+    return unflattened_dict
 
 
 def _is_skipped(test_file: Path) -> bool:
