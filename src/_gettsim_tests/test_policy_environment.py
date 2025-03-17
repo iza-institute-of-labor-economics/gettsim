@@ -7,7 +7,7 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.function_types import policy_function
+from _gettsim.function_types import GroupByFunction, group_by_function, policy_function
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
@@ -155,3 +155,11 @@ def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
 ):
     with pytest.raises(KeyError):
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(functions_tree)
+
+
+def test_dont_destroy_group_by_functions():
+    functions_tree = {
+        "foo": group_by_function()(lambda: 1),
+    }
+    environment = PolicyEnvironment(functions_tree)
+    assert isinstance(environment.functions_tree["foo"], GroupByFunction)

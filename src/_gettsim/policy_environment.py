@@ -67,7 +67,9 @@ class PolicyEnvironment:
             "functions_tree",
         )
         self._functions_tree = optree.tree_map(
-            func=_convert_function_to_policy_function,
+            lambda leaf: leaf
+            if isinstance(leaf, GroupByFunction)
+            else _convert_function_to_policy_function(leaf),
             tree=functions_tree,
         )
 
@@ -223,7 +225,7 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
 
 def _convert_function_to_policy_function(
     function: callable,
-) -> PolicyFunction:
+) -> PolicyFunction | GroupByFunction:
     """Convert a function to a PolicyFunction.
 
     Parameters
@@ -237,7 +239,7 @@ def _convert_function_to_policy_function(
         The converted function.
 
     """
-    if isinstance(function, PolicyFunction):
+    if isinstance(function, PolicyFunction | GroupByFunction):
         converted_function = function
     else:
         converted_function = policy_function(leaf_name=function.__name__)(function)

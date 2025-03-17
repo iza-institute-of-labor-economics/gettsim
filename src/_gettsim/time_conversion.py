@@ -2,6 +2,7 @@ import inspect
 import re
 from collections.abc import Callable
 
+import flatten_dict
 import optree
 
 from _gettsim.config import (
@@ -270,7 +271,7 @@ def create_time_conversion_functions(
     """
 
     converted_functions = {}
-    data_tree_paths = optree.tree_paths(data_tree, none_is_leaf=True)
+    data_tree_paths = list(flatten_dict.flatten(data_tree).keys())
 
     # Create time-conversions for existing functions
     for path, function in zip(*optree.tree_flatten_with_path(functions_tree)[:2]):
