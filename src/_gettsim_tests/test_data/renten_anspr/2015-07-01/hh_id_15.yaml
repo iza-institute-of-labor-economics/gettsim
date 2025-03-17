@@ -1,74 +1,82 @@
 ---
-info:
-  note: 'From eastern Germany: earns more Entgeltpunkte for same wage.'
-  source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
 inputs:
   assumed: {}
   provided:
-    demographics__alter:
-      - 33
-    demographics__geburtsjahr:
-      - 1982
-    demographics__geburtsmonat:
-      - 1
-    demographics__hh_id:
-      - 15
-    demographics__p_id:
-      - 15
-    demographics__weiblich:
-      - false
-    demographics__wohnort_ost:
-      - true
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 900.0
+    demographics:
+      alter:
+        - 33
+      geburtsjahr:
+        - 1982
+      geburtsmonat:
+        - 1
+      hh_id:
+        - 15
+      p_id:
+        - 15
+      weiblich:
+        - false
+      wohnort_ost:
+        - true
+    einkommensteuer:
+      einnahmen:
+        bruttolohn_m:
+          - 900.0
     jahr:
       - 2015
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-      - 0.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
-      - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
-      - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
-      - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
-      - false
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__entgeltpunkte_ost:
-      - 10.6965
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 0.0
-    sozialversicherung__rente__ersatzzeiten_m:
-      - 0.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
-      - 0.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-      - 0.0
-    sozialversicherung__rente__mutterschutzzeiten_m:
-      - 0.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
-      - 60.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-      - 0.0
+    sozialversicherung:
+      rente:
+        altersrente:
+          für_frauen:
+            pflichtsbeitragszeiten_ab_40_y:
+              - 0.0
+          wegen_arbeitslosigkeit:
+            arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+              - false
+            pflichtbeitragsjahre_8_von_10:
+              - false
+            vertrauensschutz_1997:
+              - false
+            vertrauensschutz_2004:
+              - false
+        arbeitslosigkeitszeiten_m:
+          - 0.0
+        arbeitsunfähigkeitszeiten_m:
+          - 0.0
+        entgeltpunkte_ost:
+          - 10.6965
+        entgeltpunkte_west:
+          - 0.0
+        ersatzzeiten_m:
+          - 0.0
+        freiwillige_beitragszeiten_m:
+          - 0.0
+        kinderberücksichtigungszeiten_m:
+          - 0.0
+        krankheitszeiten_ab_16_bis_24_m:
+          - 0.0
+        mutterschutzzeiten_m:
+          - 0.0
+        pflegeberücksichtigungszeiten_m:
+          - 0.0
+        pflichtbeitragszeiten_m:
+          - 60.0
+        schulausbildungszeiten_m:
+          - 0.0
+        zeiten_der_ausbildungssuche_m:
+          - 0.0
+        zeiten_geringfügiger_beschäftigung_m:
+          - 0.0
+        zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+          - 0.0
 outputs:
-  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-    - 67.0
-  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
-    - 11.04777563
-  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
-    - 0.0
-  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
-    - 0.351275627
+  sozialversicherung:
+    rente:
+      altersrente:
+        altersgrenze_abschlagsfrei:
+          - 67.0
+        entgeltpunkte_ost_updated:
+          - 11.04777563
+        entgeltpunkte_west_updated:
+          - 0.0
+        neue_entgeltpunkte:
+          - 0.351275627

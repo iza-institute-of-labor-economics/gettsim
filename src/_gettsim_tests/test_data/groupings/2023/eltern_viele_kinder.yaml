@@ -1,47 +1,94 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - true
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
+    arbeitslosengeld_2:
+      eigenbedarf_gedeckt:
+        - false
+        - false
+        - false
+        - false
+        - false
+        - false
+        - true
+        - false
+      p_id_einstandspartner:
+        - 1
+        - 0
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+    demographics:
+      alter:
+        - 50
+        - 48
+        - 18
+        - 20
+        - 25
+        - 24
+        - 24
+        - 2
+      hh_id:
+        - 0
+        - 0
+        - 1
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+      p_id:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+      p_id_ehepartner:
+        - 1
+        - 0
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+        - -1
+      p_id_elternteil_1:
+        - -1
+        - -1
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 5
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - -1
+outputs:
+  arbeitslosengeld_2:
+    bg_id:
+      - 0
+      - 0
+      - 100
+      - 0
+      - 200
+      - 300
       - 1
+      - 300
+    eg_id:
       - 0
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-    demographics__alter:
-      - 50
-      - 48
-      - 18
-      - 20
-      - 25
-      - 24
-      - 24
-      - 2
-    demographics__hh_id:
-      - 0
-      - 0
-      - 1
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-    demographics__p_id:
       - 0
       - 1
       - 2
@@ -49,68 +96,22 @@ inputs:
       - 4
       - 5
       - 6
-      - 7
-    demographics__p_id_ehepartner:
+    fg_id:
+      - 0
+      - 0
       - 1
       - 0
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
+      - 2
+      - 3
+      - 0
+      - 3
+  demographics:
+    ehe_id:
       - 0
       - 0
-      - 0
-      - 0
-      - 0
+      - 1
+      - 2
+      - 3
+      - 4
       - 5
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - -1
-outputs:
-  arbeitslosengeld_2__bg_id:
-    - 0
-    - 0
-    - 100
-    - 0
-    - 200
-    - 300
-    - 1
-    - 300
-  arbeitslosengeld_2__eg_id:
-    - 0
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 1
-    - 0
-    - 2
-    - 3
-    - 0
-    - 3
-  demographics__ehe_id:
-    - 0
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
+      - 6

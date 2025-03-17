@@ -1,38 +1,48 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed:
-    demographics__p_id_elternteil_1: -1
-    demographics__p_id_elternteil_2: -1
+    demographics:
+      p_id_elternteil_1: -1
+      p_id_elternteil_2: -1
   provided:
-    demographics__alter:
-      - 25
-    demographics__arbeitsstunden_w:
-      - 40.0
-    demographics__hh_id:
-      - 810
-    demographics__p_id:
-      - 810
-    demographics__wohnort_ost:
-      - true
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 1509.5141666666666
-    kindergeld__in_ausbildung:
-      - false
-    lohnsteuer__steuerklasse:
-      - 6
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
-      - 0.009399999999999999
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - false
-    sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
-      - true
-    sozialversicherung__regulär_beschäftigt:
-      - true
+    demographics:
+      alter:
+        - 25
+      arbeitsstunden_w:
+        - 40.0
+      hh_id:
+        - 810
+      p_id:
+        - 810
+      wohnort_ost:
+        - true
+    einkommensteuer:
+      einnahmen:
+        bruttolohn_m:
+          - 1509.5141666666666
+    kindergeld:
+      in_ausbildung:
+        - false
+    lohnsteuer:
+      steuerklasse:
+        - 6
+    sozialversicherung:
+      kranken:
+        beitrag:
+          beitragssatz:
+            zusatzbeitragssatz:
+              - 0.009399999999999999
+      pflege:
+        beitrag:
+          hat_kinder:
+            - false
+          zusatzbetrag_kinderlos:
+            - true
+      regulär_beschäftigt:
+        - true
 outputs:
-  lohnsteuer__betrag_m:
-    - 255.0
-  lohnsteuer__betrag_soli_m:
-    - 0.0
+  lohnsteuer:
+    betrag_m:
+      - 255.0
+    betrag_soli_m:
+      - 0.0

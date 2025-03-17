@@ -1,82 +1,94 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - false
-    demographics__alter:
-      - 40
-    demographics__arbeitsstunden_w:
-      - 40.0
-    demographics__behinderungsgrad:
-      - 0
-    demographics__geburtsjahr:
-      - 1970
-    demographics__hh_id:
-      - 1
-    demographics__kind:
-      - false
-    demographics__p_id:
-      - 1
-    demographics__p_id_ehepartner:
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-    demographics__wohnort_ost:
-      - false
-    einkommensteuer__abzüge__betreuungskosten_m:
-      - 0.0
-    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
-      - -1
-    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-      - 0.0
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 300.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 100.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
+    demographics:
+      alleinerziehend:
+        - false
+      alter:
+        - 40
+      arbeitsstunden_w:
+        - 40.0
+      behinderungsgrad:
+        - 0
+      geburtsjahr:
+        - 1970
+      hh_id:
+        - 1
+      kind:
+        - false
+      p_id:
+        - 1
+      p_id_ehepartner:
+        - -1
+      p_id_elternteil_1:
+        - -1
+      p_id_elternteil_2:
+        - -1
+      wohnort_ost:
+        - false
+    einkommensteuer:
+      abzüge:
+        betreuungskosten_m:
+          - 0.0
+        p_id_betreuungskosten_träger:
+          - -1
+        vorsorgeaufwendungen_y_sn:
+          - 0.0
+      beitrag_private_rentenversicherung_m:
+        - 0.0
+      einkünfte:
+        aus_selbstständiger_arbeit_m:
+          - 0.0
+        aus_vermietung_und_verpachtung_m:
+          - 0.0
+        ist_selbstständig:
+          - false
+      einnahmen:
+        bruttolohn_m:
+          - 300.0
+        kapitalerträge_m:
+          - 100.0
+      gemeinsam_veranlagt:
+        - false
     jahr:
       - 2010
-    kindergeld__in_ausbildung:
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
-    sozialversicherung__kranken__beitrag__privat_versichert:
-      - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - false
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-    sozialversicherung__rente__jahr_renteneintritt:
-      - 2035
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
+    kindergeld:
+      in_ausbildung:
+        - false
+      p_id_empfänger:
+        - -1
+    sozialversicherung:
+      kranken:
+        beitrag:
+          privat_versichert:
+            - false
+      pflege:
+        beitrag:
+          hat_kinder:
+            - false
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+        jahr_renteneintritt:
+          - 2035
+        private_rente_betrag_m:
+          - 0.0
 outputs:
-  einkommensteuer__abzüge__alleinerziehend_betrag_y:
-    - 0
-  einkommensteuer__abzüge__altersfreibetrag_y:
-    - 0
-  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
-    - 0
-  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
-    - 0
-  einkommensteuer__gesamteinkommen_y:
-    - 0.0
-  einkommensteuer__kinderfreibetrag_y_sn:
-    - 0
-  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-    - 0.0
+  einkommensteuer:
+    abzüge:
+      alleinerziehend_betrag_y:
+        - 0
+      altersfreibetrag_y:
+        - 0
+      pauschbetrag_behinderung_y:
+        - 0
+    gesamteinkommen_ohne_abzüge_y:
+      - 0
+    gesamteinkommen_y:
+      - 0.0
+    kinderfreibetrag_y_sn:
+      - 0
+    zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 0.0

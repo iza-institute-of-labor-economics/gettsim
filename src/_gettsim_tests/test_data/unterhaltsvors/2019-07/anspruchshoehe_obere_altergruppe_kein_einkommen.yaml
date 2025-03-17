@@ -1,38 +1,40 @@
 ---
-info:
-  note: One child in the upper age group (12-17).
-  source: https://www.daten.bmfsfj.de/resource/blob/133150/3d1b9355628bdb262dc4856f11a98e48/unterhaltsvorschuss-einleger-aenderungen-data.pdf
 inputs:
   assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 45
-      - 15
-    demographics__hh_id:
-      - 0
-      - 0
-    demographics__p_id:
-      - 0
-      - 1
-    demographics__p_id_elternteil_1:
-      - -1
-      - 0
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-    kindergeld__p_id_empfänger:
-      - -1
-      - 0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__einkommen_m:
-      - 0.0
-      - 0.0
+    demographics:
+      alleinerziehend:
+        - true
+        - false
+      alter:
+        - 45
+        - 15
+      hh_id:
+        - 0
+        - 0
+      p_id:
+        - 0
+        - 1
+      p_id_elternteil_1:
+        - -1
+        - 0
+      p_id_elternteil_2:
+        - -1
+        - -1
+    kindergeld:
+      p_id_empfänger:
+        - -1
+        - 0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      einkommen_m:
+        - 0.0
+        - 0.0
 outputs:
-  unterhaltsvorschuss__betrag_m:
-    - 0.0
-    - 0.0
+  unterhaltsvorschuss:
+    betrag_m:
+      - 0.0
+      - 0.0

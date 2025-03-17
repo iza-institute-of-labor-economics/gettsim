@@ -1,119 +1,131 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 35
-      - 5
-    demographics__arbeitsstunden_w:
-      - 20.0
-      - 0.0
-    demographics__behinderungsgrad:
-      - 0
-      - 0
-    demographics__geburtsjahr:
-      - 1984
-      - 2014
-    demographics__hh_id:
-      - 13
-      - 13
-    demographics__kind:
-      - false
-      - true
-    demographics__p_id:
-      - 13
-      - 14
-    demographics__p_id_ehepartner:
-      - -1
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-      - 13
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-    demographics__wohnort_ost:
-      - false
-      - false
-    einkommensteuer__abzüge__betreuungskosten_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
-      - -1
-      - -1
-    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-      - 3119.94
-      - 3119.94
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-      - false
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 1500.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-      - false
+    demographics:
+      alleinerziehend:
+        - true
+        - false
+      alter:
+        - 35
+        - 5
+      arbeitsstunden_w:
+        - 20.0
+        - 0.0
+      behinderungsgrad:
+        - 0
+        - 0
+      geburtsjahr:
+        - 1984
+        - 2014
+      hh_id:
+        - 13
+        - 13
+      kind:
+        - false
+        - true
+      p_id:
+        - 13
+        - 14
+      p_id_ehepartner:
+        - -1
+        - -1
+      p_id_elternteil_1:
+        - -1
+        - 13
+      p_id_elternteil_2:
+        - -1
+        - -1
+      wohnort_ost:
+        - false
+        - false
+    einkommensteuer:
+      abzüge:
+        betreuungskosten_m:
+          - 0.0
+          - 0.0
+        p_id_betreuungskosten_träger:
+          - -1
+          - -1
+        vorsorgeaufwendungen_y_sn:
+          - 3119.94
+          - 3119.94
+      beitrag_private_rentenversicherung_m:
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_selbstständiger_arbeit_m:
+          - 0.0
+          - 0.0
+        aus_vermietung_und_verpachtung_m:
+          - 0.0
+          - 0.0
+        ist_selbstständig:
+          - false
+          - false
+      einnahmen:
+        bruttolohn_m:
+          - 1500.0
+          - 0.0
+        kapitalerträge_m:
+          - 0.0
+          - 0.0
+      gemeinsam_veranlagt:
+        - false
+        - false
     jahr:
       - 2019
       - 2019
-    kindergeld__in_ausbildung:
-      - false
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - 13
-    sozialversicherung__kranken__beitrag__privat_versichert:
-      - false
-      - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-      - true
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__jahr_renteneintritt:
-      - 2050
-      - 2070
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+      p_id_empfänger:
+        - -1
+        - 13
+    sozialversicherung:
+      kranken:
+        beitrag:
+          privat_versichert:
+            - false
+            - false
+      pflege:
+        beitrag:
+          hat_kinder:
+            - true
+            - true
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+        jahr_renteneintritt:
+          - 2050
+          - 2070
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
 outputs:
-  einkommensteuer__abzüge__alleinerziehend_betrag_y:
-    - 1908
-    - 0
-  einkommensteuer__abzüge__altersfreibetrag_y:
-    - 0
-    - 0
-  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
-    - 0
-    - 0
-  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
-    - 17000
-    - 0
-  einkommensteuer__gesamteinkommen_y:
-    - 11936.06
-    - 0.0
-  einkommensteuer__kinderfreibetrag_y_sn:
-    - 3810
-    - 0.0
-  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-    - 8126.06
-    - 0.0
+  einkommensteuer:
+    abzüge:
+      alleinerziehend_betrag_y:
+        - 1908
+        - 0
+      altersfreibetrag_y:
+        - 0
+        - 0
+      pauschbetrag_behinderung_y:
+        - 0
+        - 0
+    gesamteinkommen_ohne_abzüge_y:
+      - 17000
+      - 0
+    gesamteinkommen_y:
+      - 11936.06
+      - 0.0
+    kinderfreibetrag_y_sn:
+      - 3810
+      - 0.0
+    zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 8126.06
+      - 0.0

@@ -1,58 +1,64 @@
 ---
-info:
-  source: none
 inputs:
   assumed:
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - true
-    sozialversicherung__arbeitslosen__anwartschaftszeit:
-      - true
-      - false
-    sozialversicherung__arbeitslosen__arbeitssuchend:
-      - true
-      - false
-    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-      - 12.0
-      - 0.0
+    kindergeld:
+      grundsätzlich_anspruchsberechtigt:
+        - false
+        - true
+    sozialversicherung:
+      arbeitslosen:
+        anwartschaftszeit:
+          - true
+          - false
+        arbeitssuchend:
+          - true
+          - false
+        zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
+          - 0.0
+          - 0.0
+        zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
+          - 12.0
+          - 0.0
   provided:
-    demographics__alter:
-      - 30
-      - 5
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1985
-      - 1985
-    demographics__hh_id:
-      - 5
-      - 5
-    demographics__kind:
-      - false
-      - true
-    demographics__p_id:
-      - 7
-      - 8
-    demographics__p_id_elternteil_1:
-      - -1
-      - 7
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-    demographics__wohnort_ost:
-      - true
-      - true
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
-      - 7000.0
-      - 0.0
+    demographics:
+      alter:
+        - 30
+        - 5
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+      geburtsjahr:
+        - 1985
+        - 1985
+      hh_id:
+        - 5
+        - 5
+      kind:
+        - false
+        - true
+      p_id:
+        - 7
+        - 8
+      p_id_elternteil_1:
+        - -1
+        - 7
+      p_id_elternteil_2:
+        - -1
+        - -1
+      wohnort_ost:
+        - true
+        - true
+    einkommensteuer:
+      einnahmen:
+        bruttolohn_vorjahr_m:
+          - 7000.0
+          - 0.0
     jahr:
       - 2015
       - 2015
 outputs:
-  sozialversicherung__arbeitslosen__betrag_m:
-    - 1719.96
-    - 0.0
+  sozialversicherung:
+    arbeitslosen:
+      betrag_m:
+        - 1719.96
+        - 0.0

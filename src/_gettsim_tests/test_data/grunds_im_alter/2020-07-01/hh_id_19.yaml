@@ -1,128 +1,143 @@
 ---
-info:
-  note: 'Calculation error on the website: should be 210.13 instead of 209.13'
-  source: https://www.mags.nrw/grundsicherung-im-demographics__alter-und-bei-erwerbsminderung-viertes-kapitel-ssss-41-46a-sgb-xii
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 25
-      - 24
-    demographics__alleinerziehend:
-      - false
-      - false
-    demographics__alter:
-      - 67
-      - 70
-    demographics__geburtsjahr:
-      - 1953
-      - 1950
-    demographics__geburtsmonat:
-      - 1
-      - 1
-    demographics__geburtstag:
-      - 1
-      - 1
-    demographics__hh_id:
-      - 19
-      - 19
-    demographics__kind:
-      - false
-      - false
-    demographics__p_id:
-      - 24
-      - 25
-    demographics__p_id_ehepartner:
-      - 25
-      - 24
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-    demographics__schwerbehindert_grad_g:
-      - false
-      - true
-    demographics__vermögen_eg:
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
+    arbeitslosengeld_2:
+      eigenbedarf_gedeckt:
+        - false
+        - false
+      p_id_einstandspartner:
+        - 25
+        - 24
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+      alter:
+        - 67
+        - 70
+      geburtsjahr:
+        - 1953
+        - 1950
+      geburtsmonat:
+        - 1
+        - 1
+      geburtstag:
+        - 1
+        - 1
+      hh_id:
+        - 19
+        - 19
+      kind:
+        - false
+        - false
+      p_id:
+        - 24
+        - 25
+      p_id_ehepartner:
+        - 25
+        - 24
+      p_id_elternteil_1:
+        - -1
+        - -1
+      p_id_elternteil_2:
+        - -1
+        - -1
+      schwerbehindert_grad_g:
+        - false
+        - true
+      vermögen_eg:
+        - 0.0
+        - 0.0
+    einkommensteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_selbstständiger_arbeit_m:
+          - 0.0
+          - 0.0
+        aus_vermietung_und_verpachtung_m:
+          - 0.0
+          - 0.0
+      einnahmen:
+        bruttolohn_m:
+          - 0.0
+          - 0.0
+        kapitalerträge_m:
+          - 0.0
+          - 0.0
+        sonstige_m:
+          - 0.0
+          - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
+    elterngeld:
+      betrag_m:
+        - 0.0
+        - 0.0
     jahr:
       - 2020
       - 2020
-    kindergeld__betrag_m_eg:
-      - 0.0
-      - 0.0
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 300.0
-      - 700.0
-    sozialversicherung__rente__bezieht_rente:
-      - true
-      - true
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-      - 144
-      - 300
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m_eg:
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-      - false
-    wohnen__bruttokaltmiete_m_hh:
-      - 300.0
-      - 300.0
-    wohnen__heizkosten_m_hh:
-      - 66.0
-      - 66.0
-    wohnen__wohnfläche_hh:
-      - 40.0
-      - 40.0
+    kindergeld:
+      betrag_m_eg:
+        - 0.0
+        - 0.0
+      p_id_empfänger:
+        - -1
+        - -1
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 0.0
+        - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 300.0
+            - 700.0
+        bezieht_rente:
+          - true
+          - true
+        grundrente:
+          grundrentenzeiten_m:
+            - 144
+            - 300
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m_eg:
+        - 0.0
+        - 0.0
+    wohnen:
+      bewohnt_eigentum_hh:
+        - false
+        - false
+      bruttokaltmiete_m_hh:
+        - 300.0
+        - 300.0
+      heizkosten_m_hh:
+        - 66.0
+        - 66.0
+      wohnfläche_hh:
+        - 40.0
+        - 40.0
 outputs:
-  grundsicherung__im_alter__betrag_m_eg:
-    - 210.13
-    - 210.13
+  grundsicherung:
+    im_alter:
+      betrag_m_eg:
+        - 210.13
+        - 210.13

@@ -1,202 +1,214 @@
 ---
-info:
-  note: Household with 2 children, where child income of second child exceeds needs. Second
-    child drops out of Bedarfsgemeinschaft and all of Kindergeld is transfered to the parent
-    via Kindergeldübertrag.
-  source: Made up.
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__bg_id:
-      - 0
-      - 0
-      - 1
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-      - -1
-      - -1
-    demographics__alleinerziehend:
-      - true
-      - false
-      - false
-    demographics__alter:
-      - 40
-      - 10
-      - 8
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1983
-      - 2014
-      - 2016
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-    demographics__kind:
-      - false
-      - true
-      - true
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-    demographics__p_id_ehepartner:
-      - -1
-      - -1
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-      - 0
-      - 0
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - -1
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 450.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-      - false
-      - false
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
+    arbeitslosengeld_2:
+      arbeitslosengeld_2_bezug_im_vorjahr:
+        - false
+        - false
+        - false
+      bg_id:
+        - 0
+        - 0
+        - 1
+      p_id_einstandspartner:
+        - -1
+        - -1
+        - -1
+    demographics:
+      alleinerziehend:
+        - true
+        - false
+        - false
+      alter:
+        - 40
+        - 10
+        - 8
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+        - 0.0
+      geburtsjahr:
+        - 1983
+        - 2014
+        - 2016
+      hh_id:
+        - 0
+        - 0
+        - 0
+      kind:
+        - false
+        - true
+        - true
+      p_id:
+        - 0
+        - 1
+        - 2
+      p_id_ehepartner:
+        - -1
+        - -1
+        - -1
+      p_id_elternteil_1:
+        - -1
+        - 0
+        - 0
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - -1
+      vermögen:
+        - 0.0
+        - 0.0
+        - 0.0
+    einkommensteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_selbstständiger_arbeit_m:
+          - 0.0
+          - 0.0
+          - 0.0
+        aus_vermietung_und_verpachtung_m:
+          - 0.0
+          - 0.0
+          - 0.0
+      einnahmen:
+        bruttolohn_m:
+          - 450.0
+          - 0.0
+          - 0.0
+        kapitalerträge_m:
+          - 0.0
+          - 0.0
+          - 0.0
+        sonstige_m:
+          - 0.0
+          - 0.0
+          - 0.0
+      gemeinsam_veranlagt:
+        - false
+        - false
+        - false
+    elterngeld:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
     jahr:
       - 2024
       - 2024
       - 2024
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - 0
-      - 0
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__bezieht_rente:
-      - false
-      - false
-      - false
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 450.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-    wohnen__bruttokaltmiete_m_hh:
-      - 600.0
-      - 600.0
-      - 600.0
-    wohnen__heizkosten_m_hh:
-      - 50.0
-      - 50.0
-      - 50.0
-    wohnen__wohnfläche_hh:
-      - 60.0
-      - 60.0
-      - 60.0
-    wohngeld__anspruchshöhe_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+        - false
+      p_id_empfänger:
+        - -1
+        - 0
+        - 0
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+        bezieht_rente:
+          - false
+          - false
+          - false
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
+          - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+        - 450.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+    wohnen:
+      bewohnt_eigentum_hh:
+        - false
+        - false
+        - false
+      bruttokaltmiete_m_hh:
+        - 600.0
+        - 600.0
+        - 600.0
+      heizkosten_m_hh:
+        - 50.0
+        - 50.0
+        - 50.0
+      wohnfläche_hh:
+        - 60.0
+        - 60.0
+        - 60.0
+    wohngeld:
+      anspruchshöhe_m_bg:
+        - 0.0
+        - 0.0
+        - 0.0
 outputs:
-  arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
-    - 170.0
-    - 0.0
-    - 0.0
-  arbeitslosengeld_2__betrag_m_bg:
-    - 1005.68
-    - 1005.68
-    - 0.0
-  arbeitslosengeld_2__differenz_kindergeld_kindbedarf_m:
-    - 0.0
-    - 0.0
-    - 73.33
-  arbeitslosengeld_2__kindergeld_pro_kind_m:
-    - 250.0
-    - 0.0
-    - 0.0
-  arbeitslosengeld_2__kindergeldübertrag_m:
-    - 73.33
-    - 0.0
-    - 0.0
-  arbeitslosengeld_2__kindersatz_m_bg:
-    - 410.0
-    - 410.0
-    - 410.0
-  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-    - 433.33
-    - 433.33
-    - 216.67
-  arbeitslosengeld_2__nettoeinkommen_m:
-    - 353.33
-    - 250.0
-    - 700.0
-  arbeitslosengeld_2__regelbedarf_m_bg:
-    - 1609.01
-    - 1609.01
-    - 626.67
-  arbeitslosengeld_2__regelsatz_m_bg:
-    - 1175.68
-    - 1175.68
-    - 410.0
+  arbeitslosengeld_2:
+    anrechnungsfreies_einkommen_m:
+      - 170.0
+      - 0.0
+      - 0.0
+    betrag_m_bg:
+      - 1005.68
+      - 1005.68
+      - 0.0
+    differenz_kindergeld_kindbedarf_m:
+      - 0.0
+      - 0.0
+      - 73.33
+    kindergeld_pro_kind_m:
+      - 250.0
+      - 0.0
+      - 0.0
+    kindergeldübertrag_m:
+      - 73.33
+      - 0.0
+      - 0.0
+    kindersatz_m_bg:
+      - 410.0
+      - 410.0
+      - 410.0
+    kosten_der_unterkunft_m_bg:
+      - 433.33
+      - 433.33
+      - 216.67
+    nettoeinkommen_m:
+      - 353.33
+      - 250.0
+      - 700.0
+    regelbedarf_m_bg:
+      - 1609.01
+      - 1609.01
+      - 626.67
+    regelsatz_m_bg:
+      - 1175.68
+      - 1175.68
+      - 410.0

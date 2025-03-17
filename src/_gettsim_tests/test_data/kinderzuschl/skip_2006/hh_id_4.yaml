@@ -1,173 +1,180 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 9
-      - 8
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-      - false
-      - false
-    demographics__alter:
-      - 33
-      - 30
-      - 12
-      - 10
-      - 2
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1973
-      - 1976
-      - 1994
-      - 1996
-      - 2004
-    demographics__hh_id:
-      - 4
-      - 4
-      - 4
-      - 4
-      - 4
-    demographics__kind:
-      - false
-      - false
-      - true
-      - true
-      - true
-    demographics__p_id:
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-      - 8
-      - 8
-      - 8
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - 9
-      - 9
-      - 9
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 2000.0
-      - 2000.0
-      - 0.0
-      - 0.0
-      - 0.0
+    arbeitslosengeld_2:
+      arbeitslosengeld_2_bezug_im_vorjahr:
+        - false
+        - false
+        - false
+        - false
+        - false
+      eigenbedarf_gedeckt:
+        - false
+        - false
+        - false
+        - false
+        - false
+      mehrbedarf_alleinerziehend_m_bg:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      p_id_einstandspartner:
+        - 9
+        - 8
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+        - false
+        - false
+        - false
+      alter:
+        - 33
+        - 30
+        - 12
+        - 10
+        - 2
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      geburtsjahr:
+        - 1973
+        - 1976
+        - 1994
+        - 1996
+        - 2004
+      hh_id:
+        - 4
+        - 4
+        - 4
+        - 4
+        - 4
+      kind:
+        - false
+        - false
+        - true
+        - true
+        - true
+      p_id:
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+      p_id_elternteil_1:
+        - -1
+        - -1
+        - 8
+        - 8
+        - 8
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - 9
+        - 9
+        - 9
+      vermögen:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    einkommensteuer:
+      einnahmen:
+        bruttolohn_m:
+          - 2000.0
+          - 2000.0
+          - 0.0
+          - 0.0
+          - 0.0
     jahr:
       - 2006
       - 2006
       - 2006
       - 2006
       - 2006
-    kindergeld__betrag_m_hh:
-      - 462.0
-      - 462.0
-      - 462.0
-      - 462.0
-      - 462.0
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - true
-      - true
-      - true
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-      - false
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 8
-      - 8
-      - 8
-    kinderzuschlag__bruttoeinkommen_eltern_m:
-      - 2000.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    kinderzuschlag__nettoeinkommen_eltern_m:
-      - 1500.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    wohnen__bruttokaltmiete_m_hh:
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-      - 850.0
-    wohnen__heizkosten_m_hh:
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
+    kindergeld:
+      betrag_m_hh:
+        - 462.0
+        - 462.0
+        - 462.0
+        - 462.0
+        - 462.0
+      grundsätzlich_anspruchsberechtigt:
+        - false
+        - false
+        - true
+        - true
+        - true
+      in_ausbildung:
+        - false
+        - false
+        - false
+        - false
+        - false
+      p_id_empfänger:
+        - -1
+        - -1
+        - 8
+        - 8
+        - 8
+    kinderzuschlag:
+      bruttoeinkommen_eltern_m:
+        - 2000.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      nettoeinkommen_eltern_m:
+        - 1500.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    wohnen:
+      bruttokaltmiete_m_hh:
+        - 850.0
+        - 850.0
+        - 850.0
+        - 850.0
+        - 850.0
+      heizkosten_m_hh:
+        - 120.0
+        - 120.0
+        - 120.0
+        - 120.0
+        - 120.0
 outputs:
-  kinderzuschlag__anspruchshöhe_m_bg:
-    - 216.65
-    - 216.65
-    - 216.65
-    - 216.65
-    - 216.65
-  kinderzuschlag__basisbetrag_m_bg:
-    - 216.65
-    - 216.65
-    - 216.65
-    - 216.65
-    - 216.65
+  kinderzuschlag:
+    anspruchshöhe_m_bg:
+      - 216.65
+      - 216.65
+      - 216.65
+      - 216.65
+      - 216.65
+    basisbetrag_m_bg:
+      - 216.65
+      - 216.65
+      - 216.65
+      - 216.65
+      - 216.65

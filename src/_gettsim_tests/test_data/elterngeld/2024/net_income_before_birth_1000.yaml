@@ -1,120 +1,128 @@
 ---
-info:
-  note: ''
-  source: Regression test.
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 56
-      - -1
-      - 55
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-    demographics__alter:
-      - 43
-      - 0
-      - 43
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 39.83
-    demographics__geburtsjahr:
-      - 1976
-      - 2018
-      - 1976
-    demographics__geburtsmonat:
-      - 6
-      - 6
-      - 8
-    demographics__geburtstag:
-      - 6
-      - 12
-      - 8
-    demographics__hh_id:
-      - 3
-      - 3
-      - 3
-    demographics__kind:
-      - false
-      - true
-      - false
-    demographics__p_id:
-      - 55
-      - 50
-      - 56
-    demographics__p_id_ehepartner:
-      - 56
-      - -1
-      - 55
-    demographics__p_id_elternteil_1:
-      - -1
-      - 55
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-      - 56
-      - -1
-    demographics__wohnort_ost:
-      - false
-      - false
-      - false
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 0.0
-      - 3600.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-      - false
-      - false
-    elterngeld__bisheriger_bezug_m:
-      - 0
-      - 0
-      - 0
-    elterngeld__claimed:
-      - true
-      - false
-      - false
-    elterngeld__nettoeinkommen_vorjahr_m:
-      - 1000.0
-      - 0.0
-      - 3400.0
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
-      - 5760.0
-      - 0.0
-      - 35760.0
+    arbeitslosengeld_2:
+      p_id_einstandspartner:
+        - 56
+        - -1
+        - 55
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+        - false
+      alter:
+        - 43
+        - 0
+        - 43
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+        - 39.83
+      geburtsjahr:
+        - 1976
+        - 2018
+        - 1976
+      geburtsmonat:
+        - 6
+        - 6
+        - 8
+      geburtstag:
+        - 6
+        - 12
+        - 8
+      hh_id:
+        - 3
+        - 3
+        - 3
+      kind:
+        - false
+        - true
+        - false
+      p_id:
+        - 55
+        - 50
+        - 56
+      p_id_ehepartner:
+        - 56
+        - -1
+        - 55
+      p_id_elternteil_1:
+        - -1
+        - 55
+        - -1
+      p_id_elternteil_2:
+        - -1
+        - 56
+        - -1
+      wohnort_ost:
+        - false
+        - false
+        - false
+    einkommensteuer:
+      einnahmen:
+        bruttolohn_m:
+          - 0.0
+          - 0.0
+          - 3600.0
+      gemeinsam_veranlagt:
+        - false
+        - false
+        - false
+    elterngeld:
+      bisheriger_bezug_m:
+        - 0
+        - 0
+        - 0
+      claimed:
+        - true
+        - false
+        - false
+      nettoeinkommen_vorjahr_m:
+        - 1000.0
+        - 0.0
+        - 3400.0
+      zu_versteuerndes_einkommen_vorjahr_y_sn:
+        - 5760.0
+        - 0.0
+        - 35760.0
     jahr:
       - 2019
       - 2019
       - 2019
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-    lohnsteuer__steuerklasse:
-      - 1
-      - 1
-      - 1
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-      - false
-      - true
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+        - false
+    lohnsteuer:
+      steuerklasse:
+        - 1
+        - 1
+        - 1
+    sozialversicherung:
+      pflege:
+        beitrag:
+          hat_kinder:
+            - true
+            - false
+            - true
 outputs:
-  elterngeld__anzahl_mehrlinge_fg:
-    - 0
-    - 0
-    - 0
-  elterngeld__betrag_m:
-    - 670.0
-    - 0.0
-    - 0.0
-  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
-    - false
-    - false
-    - false
-  elterngeld__grundsätzlich_anspruchsberechtigt:
-    - true
-    - false
-    - false
+  elterngeld:
+    anzahl_mehrlinge_fg:
+      - 0
+      - 0
+      - 0
+    betrag_m:
+      - 670.0
+      - 0.0
+      - 0.0
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
+      - false
+      - false
+      - false
+    grundsätzlich_anspruchsberechtigt:
+      - true
+      - false
+      - false

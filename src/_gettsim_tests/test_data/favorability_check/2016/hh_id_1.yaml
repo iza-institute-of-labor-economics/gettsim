@@ -1,64 +1,65 @@
 ---
-info:
-  note: ''
-  source: ''
 inputs:
   assumed: {}
   provided:
-    abgeltungssteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__hh_id:
-      - 1
-      - 1
-      - 1
-    demographics__kind:
-      - false
-      - false
-      - true
-    demographics__p_id:
-      - 1
-      - 2
-      - 3
-    demographics__p_id_ehepartner:
-      - 2
-      - 1
-      - -1
-    einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
-      - 7000.0
-      - 7000.0
-      - 0.0
-    einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
-      - 10000.0
-      - 10000.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-      - false
-    einkommensteuer__gesamteinkommen_y:
-      - 10000.0
-      - 10000.0
-      - 0.0
-    einkommensteuer__relevantes_kindergeld_m:
-      - 97.0
-      - 97.0
-      - 0.0
-    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-      - 92752.0
-      - 92752.0
-      - 0.0
+    abgeltungssteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+    demographics:
+      hh_id:
+        - 1
+        - 1
+        - 1
+      kind:
+        - false
+        - false
+        - true
+      p_id:
+        - 1
+        - 2
+        - 3
+      p_id_ehepartner:
+        - 2
+        - 1
+        - -1
+    einkommensteuer:
+      betrag_mit_kinderfreibetrag_y_sn:
+        - 7000.0
+        - 7000.0
+        - 0.0
+      betrag_ohne_kinderfreibetrag_y_sn:
+        - 10000.0
+        - 10000.0
+        - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
+        - false
+      gesamteinkommen_y:
+        - 10000.0
+        - 10000.0
+        - 0.0
+      relevantes_kindergeld_m:
+        - 97.0
+        - 97.0
+        - 0.0
+      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+        - 92752.0
+        - 92752.0
+        - 0.0
     jahr:
       - 2016
       - 2016
       - 2016
 outputs:
-  einkommensteuer__betrag_y_sn:
-    - 9328
-    - 9328
-    - 0
-  einkommensteuer__zu_versteuerndes_einkommen_y_sn:
-    - 92752
-    - 92752
-    - 0
+  einkommensteuer:
+    betrag_y_sn:
+      - 9328
+      - 9328
+      - 0
+    zu_versteuerndes_einkommen_y_sn:
+      - 92752
+      - 92752
+      - 0
