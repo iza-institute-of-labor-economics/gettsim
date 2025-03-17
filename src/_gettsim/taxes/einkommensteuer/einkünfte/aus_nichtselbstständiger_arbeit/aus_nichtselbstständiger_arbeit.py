@@ -32,7 +32,7 @@ def betrag_y(
 
 @policy_function()
 def betrag_ohne_minijob_y(
-    einkommensteuer__einnahmen__bruttolohn_y: float,
+    bruttolohn_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Aggregate monthly gross wage to yearly income and deduct
@@ -42,8 +42,8 @@ def betrag_ohne_minijob_y(
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_y
-        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
+    bruttolohn_y
+        See basic input variable :ref:`bruttolohn_y <bruttolohn_y>`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -53,6 +53,6 @@ def betrag_ohne_minijob_y(
     """
     abzug = eink_st_abzuege_params["werbungskostenpauschale"]
 
-    out = einkommensteuer__einnahmen__bruttolohn_y - abzug
+    out = bruttolohn_y - abzug
 
     return max(out, 0.0)

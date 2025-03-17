@@ -24,7 +24,7 @@ inputs:
       - -1
     demographics__vermögen:
       - 5500.0
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 900.0
     demographics__alter:
       - 51
@@ -36,13 +36,13 @@ inputs:
       - true
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     einkommensteuer__beitrag_private_rentenversicherung_m:
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 2000.0
     elterngeld__nettoeinkommen_vorjahr_m:
       - 2000.0
@@ -72,9 +72,9 @@ inputs:
       - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
-    einkommensteuer__einnahmen__kapitalerträge_m:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
       - 204.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
       - 8.0
     wohnen__bruttokaltmiete_m_hh:
       - 400.0
@@ -96,7 +96,7 @@ inputs:
       - false
     wohnen__baujahr_immobilie_hh:
       - 3
-    einkommensteuer__einnahmen__sonstige_m:
+    einkommensteuer__einkünfte__sonstige__betrag_m:
       - 50.0
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 1.7936

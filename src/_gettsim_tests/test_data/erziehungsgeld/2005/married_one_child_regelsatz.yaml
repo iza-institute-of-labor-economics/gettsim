@@ -44,11 +44,11 @@ inputs:
       - false
       - false
       - false
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 2500.0
       - 2500.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 2500.0
       - 2500.0
       - 0.0

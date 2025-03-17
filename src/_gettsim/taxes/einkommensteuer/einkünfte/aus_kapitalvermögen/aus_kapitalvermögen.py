@@ -5,15 +5,15 @@ from _gettsim.function_types import policy_function
 
 @policy_function()
 def betrag_y(
-    einkommensteuer__einnahmen__kapitalerträge_y: float,
+    kapitalerträge_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Calculate taxable capital income on Steuernummer level.
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__kapitalerträge_y
-        See :func:`einkommensteuer__einnahmen__kapitalerträge_y`.
+    kapitalerträge_y
+        See :func:`kapitalerträge_y`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -21,7 +21,7 @@ def betrag_y(
     -------
 
     """
-    out = einkommensteuer__einnahmen__kapitalerträge_y - (
+    out = kapitalerträge_y - (
         eink_st_abzuege_params["sparerpauschbetrag"]
         + eink_st_abzuege_params["sparer_werbungskosten_pauschbetrag"]
     )

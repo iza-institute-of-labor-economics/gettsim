@@ -11,7 +11,7 @@ INPUT_COLS = [
     "p_id",
     "demographics__wohnort_ost",
     "lohnsteuer__steuerklasse",
-    "einkommensteuer__einnahmen__bruttolohn_m",
+    "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m",
     "demographics__alter",
     "sozialversicherung__pflege__beitrag__hat_kinder",
     "demographics__arbeitsstunden_w",

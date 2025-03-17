@@ -36,10 +36,10 @@ inputs:
     demographics__arbeitsstunden_w:
       - 20.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 1500.0
       - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
       - 0.0
     kindergeld__in_ausbildung:

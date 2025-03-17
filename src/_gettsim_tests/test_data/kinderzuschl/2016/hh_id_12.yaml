@@ -46,11 +46,11 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 2000.0
       - 2000.0
       - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
       - 0.0
       - 0.0

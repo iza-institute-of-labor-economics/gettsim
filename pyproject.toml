@@ -251,6 +251,7 @@ exclude = []
 "src/_gettsim/taxes/*" = ["E501"]
 "src/_gettsim/taxes/demographics/demographics.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
+"src/_gettsim_tests/test_synthetic.py" = ["E501"]
 "src/_gettsim/config.py" = ["E501"]
 "docs/**/*.ipynb" = ["T201"]
 

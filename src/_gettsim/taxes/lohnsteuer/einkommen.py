@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function(params_key_for_rounding="lohnst")
 def einkommen_y(
-    einkommensteuer__einnahmen__bruttolohn_y: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y: float,
     steuerklasse: int,
     eink_st_abzuege_params: dict,
     vorsorgepauschale_y: float,
@@ -14,8 +14,8 @@ def einkommen_y(
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_y:
-      See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y:
+      See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y>`.
     steuerklasse:
       See :func:`steuerklasse`
     eink_st_abzuege_params:
@@ -43,7 +43,7 @@ def einkommen_y(
 
     # Zu versteuerndes Einkommen / tax base for Lohnsteuer.
     out = max(
-        einkommensteuer__einnahmen__bruttolohn_y
+        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y
         - werbungskosten
         - sonderausgaben
         - entlastung_freibetrag_alleinerz
@@ -189,7 +189,7 @@ def vorsorge_krankenv_option_a(
     params_key_for_rounding="lohnst",
 )
 def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
-    einkommensteuer__einnahmen__bruttolohn_y: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y: float,
     demographics__wohnort_ost: bool,
     sozialv_beitr_params: dict,
     vorsorge_krankenv_option_a: float,
@@ -202,8 +202,8 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_y:
-      See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y:
+      See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y>`.
     demographics__wohnort_ost:
       See basic input variable :ref:`demographics__wohnort_ost <demographics__wohnort_ost>`.
     sozialv_beitr_params:
@@ -225,12 +225,12 @@ def vorsorgepauschale_y_ab_2010(  # noqa: PLR0913
     # 1. Rentenversicherungsbeiträge, §39b (2) Nr. 3a EStG.
     if demographics__wohnort_ost:
         bruttolohn_rente = min(
-            einkommensteuer__einnahmen__bruttolohn_y,
+            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["ost"],
         )
     else:
         bruttolohn_rente = min(
-            einkommensteuer__einnahmen__bruttolohn_y,
+            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y,
             12 * sozialv_beitr_params["beitr_bemess_grenze_m"]["ges_rentenv"]["west"],
         )
 

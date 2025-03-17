@@ -191,7 +191,7 @@ def betrag_gesamt_midijob_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
-    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employers' unemployment insurance contribution for Midijobs until September
@@ -201,15 +201,15 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
     ----------
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    einkommensteuer__einnahmen__bruttolohn_m
-        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
 
     Returns
     -------
 
     """
     return (
-        einkommensteuer__einnahmen__bruttolohn_m
+        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         * sozialv_beitr_params["beitr_satz"]["arbeitslosenversicherung"]
     )
 

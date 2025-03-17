@@ -320,7 +320,7 @@ def grundsätzlich_anspruchsberechtigt(
 
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def anzurechnendes_einkommen_y(
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_: float,
     arbeitslosengeld_2__anzahl_erwachsene_fg: int,
     kind_grundsätzlich_anspruchsberechtigt: bool,
     erziehungsgeld_params: dict,
@@ -335,8 +335,8 @@ def anzurechnendes_einkommen_y(
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_
-        See :func:`einkommensteuer__einnahmen__bruttolohn_vorjahr_`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_
+        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_`.
     arbeitslosengeld_2__anzahl_erwachsene_fg
         See :func:`arbeitslosengeld_2__anzahl_erwachsene_fg`.
     kind_grundsätzlich_anspruchsberechtigt
@@ -353,7 +353,7 @@ def anzurechnendes_einkommen_y(
 
     if kind_grundsätzlich_anspruchsberechtigt:
         out = (
-            einkommensteuer__einnahmen__bruttolohn_vorjahr_
+            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_
             - eink_st_abzuege_params["werbungskostenpauschale"]
             * arbeitslosengeld_2__anzahl_erwachsene_fg
         ) * erziehungsgeld_params["pauschal_abzug_auf_einkommen"]

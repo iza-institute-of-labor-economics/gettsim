@@ -724,8 +724,9 @@ def test_provide_endogenous_groupings(data, functions_overridden):
             "The data types of the following columns are invalid:\n"
             "\n - demographics__hh_id: Conversion from input type object to int failed."
             " Object\ntype is not supported as input."
-            "\n\n- einkommensteuer__einnahmen__bruttolohn_m: Conversion from input type"
-            " object to float failed."
+            "\n\n- "
+            "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:"
+            " Conversion from input type object to float failed."
             "\nObject type is not supported as input.",
         ),
     ],
