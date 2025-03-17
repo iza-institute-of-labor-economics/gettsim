@@ -4,6 +4,7 @@ import datetime
 from typing import TYPE_CHECKING
 
 import flatten_dict
+import numpy as np
 import yaml
 
 from _gettsim.shared import merge_trees
@@ -83,9 +84,17 @@ def _get_policy_tests_from_raw_test_data(
     out = []
 
     inputs: NestedDataDict = raw_test_data.get("inputs", {})
-    input_tree: NestedDataDict = merge_trees(
-        inputs.get("provided", {}), inputs.get("assumed", {})
+    input_tree: NestedDataDict = flatten_dict.unflatten(
+        {
+            k: np.array(v)
+            for k, v in flatten_dict.flatten(
+                merge_trees(inputs.get("provided", {}), inputs.get("assumed", {}))
+            ).items()
+        }
     )
+
+    merge_trees(inputs.get("provided", {}), inputs.get("assumed", {}))
+
     all_expected_outputs: NestedDataDict = raw_test_data.get("outputs", {})
 
     date: datetime.date = _parse_date(path_of_test_file.parent.name)
