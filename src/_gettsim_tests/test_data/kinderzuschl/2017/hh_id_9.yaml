@@ -1,153 +1,152 @@
----
 info:
   note: ''
   source: ''
 inputs:
-  provided:
-    demographics__p_id:
-      - 23
-      - 24
-      - 25
-      - 26
-    demographics__hh_id:
-      - 9
-      - 9
-      - 9
-      - 9
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-      - 23
-      - 23
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - 24
-      - 24
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 24
-      - 23
-      - -1
-      - -1
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 23
-      - 23
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-    demographics__kind:
-      - false
-      - false
-      - true
-      - true
-    demographics__alter:
-      - 40
-      - 38
-      - 15
-      - 13
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1300.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - true
-      - true
-    wohnen__bruttokaltmiete_m_hh:
-      - 800.0
-      - 800.0
-      - 800.0
-      - 800.0
-    wohnen__heizkosten_m_hh:
-      - 90.0
-      - 90.0
-      - 90.0
-      - 90.0
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-      - false
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - true
-      - true
-    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    kinderzuschlag__bruttoeinkommen_eltern_m:
-      - 1300.0
-      - 0.0
-      - 0.0
-      - 0.0
-    kinderzuschlag__nettoeinkommen_eltern_m:
-      - 900.0
-      - 0.0
-      - 0.0
-      - 0.0
-    kindergeld__betrag_m_hh:
-      - 384.0
-      - 384.0
-      - 384.0
-      - 384.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    jahr:
-      - 2017
-      - 2017
-      - 2017
-      - 2017
-    demographics__geburtsjahr:
-      - 1977
-      - 1979
-      - 2002
-      - 2004
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-      - false
   assumed: {}
+  provided:
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+    - false
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - 24
+    - 23
+    - -1
+    - -1
+    demographics__alleinerziehend:
+    - false
+    - false
+    - false
+    - false
+    demographics__alter:
+    - 40
+    - 38
+    - 15
+    - 13
+    demographics__arbeitsstunden_w:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    demographics__geburtsjahr:
+    - 1977
+    - 1979
+    - 2002
+    - 2004
+    demographics__hh_id:
+    - 9
+    - 9
+    - 9
+    - 9
+    demographics__kind:
+    - false
+    - false
+    - true
+    - true
+    demographics__p_id:
+    - 23
+    - 24
+    - 25
+    - 26
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    - 23
+    - 23
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - 24
+    - 24
+    demographics__vermögen:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1300.0
+    - 0.0
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    jahr:
+    - 2017
+    - 2017
+    - 2017
+    - 2017
+    kindergeld__betrag_m_hh:
+    - 384.0
+    - 384.0
+    - 384.0
+    - 384.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    - true
+    - true
+    kindergeld__in_ausbildung:
+    - false
+    - false
+    - true
+    - true
+    kindergeld__p_id_empfänger:
+    - -1
+    - -1
+    - 23
+    - 23
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+    - 1300.0
+    - 0.0
+    - 0.0
+    - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+    - 900.0
+    - 0.0
+    - 0.0
+    - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    unterhaltsvorschuss__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    wohnen__bruttokaltmiete_m_hh:
+    - 800.0
+    - 800.0
+    - 800.0
+    - 800.0
+    wohnen__heizkosten_m_hh:
+    - 90.0
+    - 90.0
+    - 90.0
+    - 90.0
 outputs:
-  kinderzuschlag__basisbetrag_m_bg:
-    - 340.0
-    - 340.0
-    - 340.0
-    - 340.0
   kinderzuschlag__anspruchshöhe_m_bg:
-    - 340.0
-    - 340.0
-    - 340.0
-    - 340.0
+  - 340.0
+  - 340.0
+  - 340.0
+  - 340.0
+  kinderzuschlag__basisbetrag_m_bg:
+  - 340.0
+  - 340.0
+  - 340.0
+  - 340.0

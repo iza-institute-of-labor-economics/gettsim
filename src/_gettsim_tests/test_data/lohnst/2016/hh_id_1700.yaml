@@ -1,4 +1,3 @@
----
 info:
   note: ''
   source: ''
@@ -8,31 +7,31 @@ inputs:
     demographics__p_id_elternteil_2: -1
   provided:
     demographics__alter:
-      - 25
+    - 25
     demographics__arbeitsstunden_w:
-      - 40.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1596.27
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
-      - 0.0109
-    sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
-      - true
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - false
+    - 40.0
     demographics__hh_id:
-      - 1700
-    kindergeld__in_ausbildung:
-      - false
+    - 1700
     demographics__p_id:
-      - 1700
-    sozialversicherung__regulär_beschäftigt:
-      - true
-    lohnsteuer__steuerklasse:
-      - 5
+    - 1700
     demographics__wohnort_ost:
-      - false
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1596.27
+    kindergeld__in_ausbildung:
+    - false
+    lohnsteuer__steuerklasse:
+    - 5
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
+    - 0.0109
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - false
+    sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
+    - true
+    sozialversicherung__regulär_beschäftigt:
+    - true
 outputs:
   lohnsteuer__betrag_m:
-    - 292.0
+  - 292.0
   lohnsteuer__betrag_soli_m:
-    - 16.08
+  - 16.08

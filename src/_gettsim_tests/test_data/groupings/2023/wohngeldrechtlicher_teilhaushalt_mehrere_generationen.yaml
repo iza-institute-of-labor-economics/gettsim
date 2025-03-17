@@ -1,145 +1,144 @@
----
 info:
-  note: Couple with three children and two grandparents. One child outside of parent BG.
+  note: Couple with three children and two grandparents. One child outside of parent
+    BG.
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-    demographics__geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsjahr:
-      - 1970
-      - 1970
-      - 1970
-      - 1970
-      - 2010
-      - 2010
-      - 2010
-    # TODO (@hmgaudecker): Remove again.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    demographics__alter:
-      - 53
-      - 53
-      - 53
-      - 53
-      - 13
-      - 13
-      - 13
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 1
-      - 0
-      - 3
-      - 2
-      - -1
-      - -1
-      - -1
-    demographics__p_id_ehepartner:
-      - 1
-      - 0
-      - 3
-      - 2
-      - -1
-      - -1
-      - -1
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-      - true
-      - true
-      - false
-      - false
-      - false
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-      - -1
-      - -1
-      - 0
-      - 0
-      - 0
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - -1
-      - -1
-      - 1
-      - 1
-      - -1
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - true
-    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
-      - false
-      - false
-      - true
-      - true
-      - false
-      - false
-      - true
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - true
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - 1
+    - 0
+    - 3
+    - 2
+    - -1
+    - -1
+    - -1
+    demographics__alter:
+    - 53
+    - 53
+    - 53
+    - 53
+    - 13
+    - 13
+    - 13
+    demographics__geburtsjahr:
+    - 1970
+    - 1970
+    - 1970
+    - 1970
+    - 2010
+    - 2010
+    - 2010
+    demographics__geburtsmonat:
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    demographics__geburtstag:
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    demographics__hh_id:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    demographics__p_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    demographics__p_id_ehepartner:
+    - 1
+    - 0
+    - 3
+    - 2
+    - -1
+    - -1
+    - -1
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    - -1
+    - -1
+    - 0
+    - 0
+    - 0
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - -1
+    - -1
+    - 1
+    - 1
+    - -1
+    einkommensteuer__gemeinsam_veranlagt:
+    - true
+    - true
+    - true
+    - true
+    - false
+    - false
+    - false
     vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-      - false
-      - false
-      - true
-      - true
-      - false
-      - false
-      - true
+    - false
+    - false
+    - true
+    - true
+    - false
+    - false
+    - true
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
+    - false
+    - false
+    - true
+    - true
+    - false
+    - false
+    - true
 outputs:
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 1
-    - 1
-    - 0
-    - 0
-    - 0
   arbeitslosengeld_2__bg_id:
-    - 0
-    - 0
-    - 100
-    - 100
-    - 0
-    - 0
-    - 1
+  - 0
+  - 0
+  - 100
+  - 100
+  - 0
+  - 0
+  - 1
+  arbeitslosengeld_2__fg_id:
+  - 0
+  - 0
+  - 1
+  - 1
+  - 0
+  - 0
+  - 0
   wohngeld__wthh_id:
-    - 0
-    - 0
-    - 1
-    - 1
-    - 0
-    - 0
-    - 1
+  - 0
+  - 0
+  - 1
+  - 1
+  - 0
+  - 0
+  - 1

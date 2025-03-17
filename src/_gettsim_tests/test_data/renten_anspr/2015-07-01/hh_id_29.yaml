@@ -1,86 +1,85 @@
----
 info:
   note: ''
   source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
 inputs:
-  provided:
-    demographics__p_id:
-      - 18
-    demographics__hh_id:
-      - 18
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1500.0
-    demographics__wohnort_ost:
-      - false
-    demographics__alter:
-      - 62
-    jahr:
-      - 2015
-    demographics__geburtsjahr:
-      - 1948
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 39.3795
-    sozialversicherung__rente__entgeltpunkte_ost:
-      - 0.0
-    demographics__geburtsmonat:
-      - 12
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-      - 0.0
-    sozialversicherung__rente__mutterschutzzeiten_m:
-      - 0.0
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-      - 0.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-      - 0.0
-    demographics__weiblich:
-      - true
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-      - 11.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
-      - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
-      - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
-      - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
-      - false
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
-      - 430.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
-      - 0.0
-    sozialversicherung__rente__ersatzzeiten_m:
-      - 0.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-      - 0.0
   assumed: {}
-outputs:
-  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
-    - 39.88850659
-  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+  provided:
+    demographics__alter:
+    - 62
+    demographics__geburtsjahr:
+    - 1948
+    demographics__geburtsmonat:
+    - 12
+    demographics__hh_id:
+    - 18
+    demographics__p_id:
+    - 18
+    demographics__weiblich:
+    - true
+    demographics__wohnort_ost:
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1500.0
+    jahr:
+    - 2015
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+    - 11.0
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+    - true
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
+    - true
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
+    - false
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
+    - false
+    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
     - 0.0
-  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
-    - 0.509006589
+    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
+    - 0.0
+    sozialversicherung__rente__entgeltpunkte_ost:
+    - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+    - 39.3795
+    sozialversicherung__rente__ersatzzeiten_m:
+    - 0.0
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    - 0.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+    - 0.0
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
+    - 0.0
+    sozialversicherung__rente__mutterschutzzeiten_m:
+    - 0.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+    - 0.0
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    - 430.0
+    sozialversicherung__rente__schulausbildungszeiten_m:
+    - 0.0
+    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
+    - 0.0
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
+    - 0.0
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+    - 0.0
+outputs:
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-    - 65.0
-  sozialversicherung__rente__altersrente__vorzeitig_grundsätzlich_anspruchsberechtigt:
-    - true
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
-    - true
+  - 65.0
   sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
-    - 60.0
-  sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
-    - true
+  - 60.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+  - 0.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
+  - 39.88850659
   sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
-    - true
+  - true
+  sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
+  - true
+  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
+  - 0.509006589
   sozialversicherung__rente__altersrente__referenzalter_abschlag:
-    - 65.0
+  - 65.0
+  sozialversicherung__rente__altersrente__vorzeitig_grundsätzlich_anspruchsberechtigt:
+  - true
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
+  - true

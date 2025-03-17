@@ -1,46 +1,45 @@
----
 info:
   note: 'Sozialversicherungs-Rechner auf www.tk.de '
   source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
 inputs:
-  provided:
-    demographics__p_id:
-      - 224
-    demographics__hh_id:
-      - 17
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1050.0
-    demographics__wohnort_ost:
-      - false
-    demographics__alter:
-      - 40
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-    sozialversicherung__kranken__beitrag__privat_versichert:
-      - false
-    jahr:
-      - '2022'
   assumed: {}
+  provided:
+    demographics__alter:
+    - 40
+    demographics__hh_id:
+    - 17
+    demographics__p_id:
+    - 224
+    demographics__wohnort_ost:
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1050.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+    - false
+    jahr:
+    - '2022'
+    sozialversicherung__kranken__beitrag__privat_versichert:
+    - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - true
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
 outputs:
-  sozialversicherung__beiträge_versicherter_m:
-    - 196.54
-  sozialversicherung__beitrag_arbeitgeber_m:
-    - 209.74
-  sozialversicherung__beitrag_gesamt_m:
-    - 406.28
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 91.51
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 11.8
+  - 11.8
+  sozialversicherung__beitrag_arbeitgeber_m:
+  - 209.74
+  sozialversicherung__beitrag_gesamt_m:
+  - 406.28
+  sozialversicherung__beiträge_versicherter_m:
+  - 196.54
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 78.22
+  - 78.22
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 15.01
+  - 15.01
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+  - 91.51

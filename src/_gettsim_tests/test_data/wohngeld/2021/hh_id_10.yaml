@@ -1,104 +1,103 @@
----
 info:
   note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen, Vermögen.
   source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
-  provided:
-    demographics__p_id:
-      - 55
-    demographics__hh_id:
-      - 10
-    kindergeld__p_id_empfänger:
-      - -1
-    demographics__p_id_ehepartner:
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-    demographics__kind:
-      - false
-    wohnen__bruttokaltmiete_m_hh:
-      - 600.0
-    wohnen__heizkosten_m_hh:
-      - 50.0
-    wohnen__wohnfläche_hh:
-      - 40.0
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-    demographics__alleinerziehend:
-      - false
-    demographics__alter:
-      - 57
-    wohnen__baujahr_immobilie_hh:
-      - 1980
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-    wohngeld__mietstufe:
-      - 5
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1050.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-    einkommensteuer__rente_ertragsanteil:
-      - 0.0
-    elterngeld__betrag_m:
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-    einkommensteuer__einkünfte__sonstige__betrag_m:
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-      - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
-      - 12600.0
-    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-      - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-      - 100.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-      - 80.0
-    demographics__behinderungsgrad:
-      - 0
-    jahr:
-      - 2021
-    einkommensteuer__betrag_y_sn:
-      - 300.0
-    demographics__vermögen:
-      - 31000.0
-    demographics__anzahl_personen_hh:
-      - 1
-    demographics__geburtstag:
-      - 1
-    demographics__geburtsmonat:
-      - 1
-    demographics__geburtsjahr:
-      - 1964
-    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
-      - true
-    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-      - true
   assumed: {}
+  provided:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - -1
+    demographics__alleinerziehend:
+    - false
+    demographics__alter:
+    - 57
+    demographics__anzahl_personen_hh:
+    - 1
+    demographics__behinderungsgrad:
+    - 0
+    demographics__geburtsjahr:
+    - 1964
+    demographics__geburtsmonat:
+    - 1
+    demographics__geburtstag:
+    - 1
+    demographics__hh_id:
+    - 10
+    demographics__kind:
+    - false
+    demographics__p_id:
+    - 55
+    demographics__p_id_ehepartner:
+    - -1
+    demographics__p_id_elternteil_1:
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    demographics__vermögen:
+    - 31000.0
+    einkommensteuer__betrag_y_sn:
+    - 300.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
+    - 12600.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1050.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
+    - 0.0
+    einkommensteuer__einkünfte__sonstige__betrag_m:
+    - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+    - false
+    einkommensteuer__rente_ertragsanteil:
+    - 0.0
+    elterngeld__betrag_m:
+    - 0.0
+    jahr:
+    - 2021
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+    - false
+    kindergeld__p_id_empfänger:
+    - -1
+    solidaritätszuschlag__betrag_y_sn:
+    - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+    - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+    - 0.0
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+    - 80.0
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 100.0
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    unterhaltsvorschuss__betrag_m:
+    - 0.0
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
+    - true
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
+    - true
+    wohnen__baujahr_immobilie_hh:
+    - 1980
+    wohnen__bewohnt_eigentum_hh:
+    - false
+    wohnen__bruttokaltmiete_m_hh:
+    - 600.0
+    wohnen__heizkosten_m_hh:
+    - 50.0
+    wohnen__wohnfläche_hh:
+    - 40.0
+    wohngeld__mietstufe:
+    - 5
 outputs:
   wohngeld__anspruchshöhe_m_bg:
-    - 249.0
+  - 249.0
   wohngeld__anspruchshöhe_m_wthh:
-    - 249.0
+  - 249.0

@@ -1,34 +1,33 @@
----
 info:
   note: ''
   source: ''
 inputs:
-  provided:
-    demographics__hh_id:
-      - 6
-    demographics__p_id:
-      - 21
-    kindergeld__p_id_empfänger:
-      - -1
-    demographics__alter:
-      - 21
-    demographics__kind:
-      - false
-    demographics__arbeitsstunden_w:
-      - 0.0
-    kindergeld__in_ausbildung:
-      - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 0.0
-    einkommensteuer__gesamteinkommen_y:
-      - 0.0
   assumed: {}
+  provided:
+    demographics__alter:
+    - 21
+    demographics__arbeitsstunden_w:
+    - 0.0
+    demographics__hh_id:
+    - 6
+    demographics__kind:
+    - false
+    demographics__p_id:
+    - 21
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 0.0
+    einkommensteuer__gesamteinkommen_y:
+    - 0.0
+    kindergeld__in_ausbildung:
+    - false
+    kindergeld__p_id_empfänger:
+    - -1
 outputs:
-  kindergeld__betrag_m:
-    - 0
   kinderbonus__betrag_m:
-    - 0.0
-  kindergeld__betrag_m_hh:
-    - 0
+  - 0.0
   kinderbonus__betrag_m_hh:
-    - 0.0
+  - 0.0
+  kindergeld__betrag_m:
+  - 0
+  kindergeld__betrag_m_hh:
+  - 0

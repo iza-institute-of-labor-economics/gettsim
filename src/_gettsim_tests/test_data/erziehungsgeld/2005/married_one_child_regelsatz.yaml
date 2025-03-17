@@ -1,99 +1,99 @@
----
 info:
   note: ''
   source: own calculations
 inputs:
   assumed:
-    demographics__hh_id:
-      - 2
-      - 2
-      - 2
-    demographics__p_id:
-      - 3
-      - 4
-      - 5
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-      - 3
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - 4
     arbeitslosengeld_2__p_id_einstandspartner:
-      - 4
-      - 3
-      - -1
-    erziehungsgeld__p_id_empfänger:
-      - -1
-      - -1
-      - 3
-    demographics__alter:
-      - 30
-      - 30
-      - 1
-    demographics__kind:
-      - false
-      - false
-      - true
-    demographics__arbeitsstunden_w:
-      - 20.0
-      - 40.0
-      - 0.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 2500.0
-      - 2500.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-      - 2500.0
-      - 2500.0
-      - 0.0
-    elterngeld__nettoeinkommen_vorjahr_m:
-      - 2500.0
-      - 2500.0
-      - 0.0
-    demographics__geburtstag:
-      - 1
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-      - 1
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-      - true
-      - false
+    - 4
+    - 3
+    - -1
     demographics__alleinerziehend:
-      - false
-      - false
-      - false
+    - false
+    - false
+    - false
+    demographics__alter:
+    - 30
+    - 30
+    - 1
+    demographics__arbeitsstunden_w:
+    - 20.0
+    - 40.0
+    - 0.0
     demographics__geburtsjahr:
-      - 1975
-      - 1975
-      - 2004
+    - 1975
+    - 1975
+    - 2004
+    demographics__geburtsmonat:
+    - 1
+    - 1
+    - 1
+    demographics__geburtstag:
+    - 1
+    - 1
+    - 1
+    demographics__hh_id:
+    - 2
+    - 2
+    - 2
+    demographics__kind:
+    - false
+    - false
+    - true
+    demographics__p_id:
+    - 3
+    - 4
+    - 5
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    - 3
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - 4
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 2500.0
+    - 2500.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
+    - 2500.0
+    - 2500.0
+    - 0.0
+    elterngeld__nettoeinkommen_vorjahr_m:
+    - 2500.0
+    - 2500.0
+    - 0.0
     erziehungsgeld__budgetsatz:
-      - false
-      - false
-      - false
+    - false
+    - false
+    - false
+    erziehungsgeld__p_id_empfänger:
+    - -1
+    - -1
+    - 3
+    kindergeld__in_ausbildung:
+    - false
+    - false
+    - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - true
+    - true
+    - false
+  provided: {}
 outputs:
-  erziehungsgeld__anzurechnendes_einkommen_y:
-    - 0
-    - 0
-    - 44201.6
-  erziehungsgeld__einkommensgrenze_y:
-    - 0
-    - 0
-    - 16500
   erziehungsgeld__anspruchshöhe_kind_m:
-    - 0.0
-    - 0.0
-    - 108.4597333
+  - 0.0
+  - 0.0
+  - 108.4597333
+  erziehungsgeld__anzurechnendes_einkommen_y:
+  - 0
+  - 0
+  - 44201.6
   erziehungsgeld__betrag_m:
-    - 108.4597333
-    - 0.0
-    - 0.0
+  - 108.4597333
+  - 0.0
+  - 0.0
+  erziehungsgeld__einkommensgrenze_y:
+  - 0
+  - 0
+  - 16500

@@ -1,70 +1,69 @@
----
 info:
   note: ''
   source: Regression test.
 inputs:
-  provided:
-    demographics__hh_id:
-      - 2
-    demographics__p_id:
-      - 42
-    demographics__p_id_ehepartner:
-      - -1
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-    demographics__p_id_elternteil_1:
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-    lohnsteuer__steuerklasse:
-      - 1
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - false
-    demographics__alter:
-      - 43
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-    demographics__alleinerziehend:
-      - false
-    demographics__kind:
-      - false
-    demographics__arbeitsstunden_w:
-      - 22.5
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1800.0
-    elterngeld__nettoeinkommen_vorjahr_m:
-      - 1800.0
-    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
-      - 18260.0
-    elterngeld__claimed:
-      - false
-    kindergeld__in_ausbildung:
-      - false
-    demographics__wohnort_ost:
-      - false
-    einkommensteuer__betrag_y_sn:
-      - 218.96
-    solidaritätszuschlag__betrag_y_sn:
-      - 12.04
-    sozialversicherung__beiträge_versicherter_m:
-      - 378.0
-    demographics__geburtsjahr:
-      - 1974
-    demographics__geburtsmonat:
-      - 3
-    demographics__geburtstag:
-      - 3
-    elterngeld__bisheriger_bezug_m:
-      - 0
-    jahr:
-      - 2017
   assumed: {}
-outputs:
-  elterngeld__betrag_m:
-    - 0.0
-  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
+  provided:
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - -1
+    demographics__alleinerziehend:
     - false
-  elterngeld__anzahl_mehrlinge_fg:
+    demographics__alter:
+    - 43
+    demographics__arbeitsstunden_w:
+    - 22.5
+    demographics__geburtsjahr:
+    - 1974
+    demographics__geburtsmonat:
+    - 3
+    demographics__geburtstag:
+    - 3
+    demographics__hh_id:
+    - 2
+    demographics__kind:
+    - false
+    demographics__p_id:
+    - 42
+    demographics__p_id_ehepartner:
+    - -1
+    demographics__p_id_elternteil_1:
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    demographics__wohnort_ost:
+    - false
+    einkommensteuer__betrag_y_sn:
+    - 218.96
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1800.0
+    einkommensteuer__gemeinsam_veranlagt:
+    - false
+    elterngeld__bisheriger_bezug_m:
     - 0
-  elterngeld__grundsätzlich_anspruchsberechtigt:
+    elterngeld__claimed:
     - false
+    elterngeld__nettoeinkommen_vorjahr_m:
+    - 1800.0
+    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
+    - 18260.0
+    jahr:
+    - 2017
+    kindergeld__in_ausbildung:
+    - false
+    lohnsteuer__steuerklasse:
+    - 1
+    solidaritätszuschlag__betrag_y_sn:
+    - 12.04
+    sozialversicherung__beiträge_versicherter_m:
+    - 378.0
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - false
+outputs:
+  elterngeld__anzahl_mehrlinge_fg:
+  - 0
+  elterngeld__betrag_m:
+  - 0.0
+  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
+  - false
+  elterngeld__grundsätzlich_anspruchsberechtigt:
+  - false

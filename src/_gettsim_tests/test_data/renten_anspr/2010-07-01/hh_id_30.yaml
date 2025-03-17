@@ -1,72 +1,70 @@
----
 info:
-  note: >-
-    'based on Beispiel: Erna Rüstig (Altersrente für Frauen) but added a
-    mixed(east/west) earning biography'
+  note: '''based on Beispiel: Erna Rüstig (Altersrente für Frauen) but added a mixed(east/west)
+    earning biography'''
   source: https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/
 inputs:
-  provided:
-    demographics__p_id:
-      - 30
-    demographics__hh_id:
-      - 30
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 1500.0
-    demographics__wohnort_ost:
-      - false
-    demographics__alter:
-      - 71
-    jahr:
-      - 2010
-    demographics__geburtsjahr:
-      - 1938
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 12.42
-    sozialversicherung__rente__entgeltpunkte_ost:
-      - 10.0
-    demographics__geburtsmonat:
-      - 12
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-      - 0.0
-    sozialversicherung__rente__mutterschutzzeiten_m:
-      - 9.0
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-      - 0.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-      - 60.0
-    demographics__weiblich:
-      - true
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-      - 15.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
-      - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
-      - false
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
-      - 420.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
-      - 0.0
-    sozialversicherung__rente__ersatzzeiten_m:
-      - 0.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-      - 108.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-      - 10.0
   assumed: {}
-outputs:
-  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
-    - 12.99796044
-  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+  provided:
+    demographics__alter:
+    - 71
+    demographics__geburtsjahr:
+    - 1938
+    demographics__geburtsmonat:
+    - 12
+    demographics__hh_id:
+    - 30
+    demographics__p_id:
+    - 30
+    demographics__weiblich:
+    - true
+    demographics__wohnort_ost:
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1500.0
+    jahr:
+    - 2010
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+    - 15.0
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+    - false
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
+    - false
+    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
+    - 0.0
+    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
+    - 0.0
+    sozialversicherung__rente__entgeltpunkte_ost:
     - 10.0
-  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
-    - 0.577960442
-  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
+    sozialversicherung__rente__entgeltpunkte_west:
+    - 12.42
+    sozialversicherung__rente__ersatzzeiten_m:
+    - 0.0
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    - 0.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+    - 108.0
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
+    - 0.0
+    sozialversicherung__rente__mutterschutzzeiten_m:
+    - 9.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+    - 10.0
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    - 420.0
+    sozialversicherung__rente__schulausbildungszeiten_m:
+    - 0.0
+    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
+    - 0.0
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
     - 60.0
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+    - 0.0
+outputs:
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
+  - 60.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+  - 10.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
+  - 12.99796044
+  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
+  - 0.577960442
