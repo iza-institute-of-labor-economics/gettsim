@@ -54,7 +54,7 @@ inputs:
       - 0.0
     einnahmen__sonstige_m:
       - 0.0
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
@@ -62,7 +62,7 @@ inputs:
       - 0.0
     solidaritätszuschlag__betrag_y_sn:
       - 0.0
-    sozialversicherung__beiträge_arbeitnehmer_m:
+    sozialversicherung__beiträge_versicherter_m:
       - 50.0
     kindergeld__betrag_m_eg:
       - 0.0

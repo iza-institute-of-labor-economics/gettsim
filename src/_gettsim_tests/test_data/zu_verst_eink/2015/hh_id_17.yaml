@@ -34,7 +34,7 @@ inputs:
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
       - -1
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
     einnahmen__kapitalerträge_m:

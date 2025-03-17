@@ -52,7 +52,7 @@ inputs:
       - 0.0
     einnahmen__sonstige_m:
       - 0.0
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0

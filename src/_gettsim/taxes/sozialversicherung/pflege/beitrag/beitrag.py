@@ -11,7 +11,7 @@ def betrag_vor_midijob_m(
     betrag_selbstständig_m: float,
     einkünfte__ist_selbstständig: bool,
 ) -> float:
-    """Employee's long-term care insurance contribution until March 2003.
+    """Long-term care insurance contributions paid by the insured person.
 
     Parameters
     ----------
@@ -28,7 +28,7 @@ def betrag_vor_midijob_m(
 
     Returns
     -------
-    Employee's long-term care insurance contributions.
+    Long-term care insurance contributions paid by the insured person.
 
     """
 
@@ -53,7 +53,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__in_gleitzone: bool,
     einkünfte__ist_selbstständig: bool,
 ) -> float:
-    """Employee's long-term care insurance contribution since April 2003.
+    """Long-term care insurance contributions paid by the insured person.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
 
     Returns
     -------
-    Employee's long-term care insurance contributions.
+    Long-term care insurance contributions paid by the insured person.
 
     """
 
@@ -96,7 +96,7 @@ def betrag_versicherter_regulär_beschäftigt_m(
     sozialversicherung__kranken__beitrag__einkommen_m: float,
     beitragssatz: float,
 ) -> float:
-    """Employee's long-term care insurance contribution if regularly employed.
+    """Long-term care insurance contributions paid by the insured person if regularly employed.
 
     Parameters
     ----------

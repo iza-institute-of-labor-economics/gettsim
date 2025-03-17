@@ -183,9 +183,9 @@ GETTSIM (e.g., BAföG, Kriegsopferfürsorge)
 
 Type: float
 
-(einkünfte__aus_selbstständigkeit_m)=
+(einkünfte__aus_selbstständiger_arbeit_m)=
 
-## `einkünfte__aus_selbstständigkeit_m`
+## `einkünfte__aus_selbstständiger_arbeit_m`
 
 Monthly income from self-employment
 
@@ -406,9 +406,9 @@ Number of months determining Grundrentepayments
 
 Type: int
 
-(sozialversicherung__rente__grundrente__entgeltpunkte)=
+(sozialversicherung__rente__grundrente__mean_entgeltpunkte)=
 
-## `sozialversicherung__rente__grundrente__entgeltpunkte`
+## `sozialversicherung__rente__grundrente__mean_entgeltpunkte`
 
 Average `entgeltpunkte` during
 `sozialversicherung__rente__grundrente__bewertungszeiten_m`
@@ -603,17 +603,17 @@ Looking for employment
 
 Type: bool
 
-(sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m)=
+(sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m)=
 
-## `sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m`
+## `sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m`
 
 Number of months the individual already receives Arbeitslosengeld without interruption.
 
 Type: float
 
-(sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren)=
+(sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m)=
 
-## `sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren`
+## `sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance

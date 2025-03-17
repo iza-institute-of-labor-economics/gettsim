@@ -18,7 +18,7 @@ inputs:
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 1000.0

@@ -15,7 +15,7 @@ def einkommen_m(  # noqa: PLR0913
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
-    sozialversicherung__beiträge_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_versicherter_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
 ) -> float:
     """Calculate individual income considered in the calculation of Grundsicherung im
@@ -41,8 +41,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`soli_st_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
-    sozialversicherung__beiträge_arbeitnehmer_m
-        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
+    sozialversicherung__beiträge_versicherter_m
+        See :func:`sozialversicherung__beiträge_versicherter_m`.
     elterngeld__anrechenbarer_betrag_m
         See :func:`elterngeld__anrechenbarer_betrag_m`.
 
@@ -66,7 +66,7 @@ def einkommen_m(  # noqa: PLR0913
         total_income
         - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
         - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
-        - sozialversicherung__beiträge_arbeitnehmer_m
+        - sozialversicherung__beiträge_versicherter_m
     )
 
     return max(out, 0.0)
@@ -75,7 +75,7 @@ def einkommen_m(  # noqa: PLR0913
 @policy_function()
 def erwerbseinkommen_m(
     einnahmen__bruttolohn_m: float,
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -92,8 +92,8 @@ def erwerbseinkommen_m(
     ----------
     einnahmen__bruttolohn_m
         See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
-    einkünfte__aus_selbstständigkeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständigkeit_m <einkünfte__aus_selbstständigkeit_m>`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     grunds_im_alter_params
@@ -103,7 +103,7 @@ def erwerbseinkommen_m(
     -------
 
     """
-    earnings = einnahmen__bruttolohn_m + einkünfte__aus_selbstständigkeit_m
+    earnings = einnahmen__bruttolohn_m + einkünfte__aus_selbstständiger_arbeit_m
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2

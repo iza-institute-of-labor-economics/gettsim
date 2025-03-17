@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test
-    case uses 0.8 as maximum instead of 0.8004.
+    adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+    test case uses 0.8 as maximum instead of 0.8004.
   source: >-
     Beispiel Alexander Langkowski / Hatice Yilmaz aus:
     https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
@@ -24,7 +24,7 @@ inputs:
       - 0.0
     einnahmen__bruttolohn_vorjahr_m:
       - 0.0
-    einnahmen__aus_selbstständigkeit_y:
+    einkünfte__aus_selbstständiger_arbeit_y:
       - 0.0
     einnahmen__aus_vermietung_und_verpachtung_y:
       - 0.0
@@ -48,13 +48,13 @@ inputs:
       - 1.0
     sozialversicherung__rente__bezieht_rente:
       - true
-    sozialversicherung__rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 15.5
     demographics__kind:
       - false
   assumed: {}
 outputs:
-  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     - 0.021875
   sozialversicherung__rente__grundrente__basisbetrag_m:
     - 279.0

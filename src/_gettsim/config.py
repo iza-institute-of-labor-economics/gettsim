@@ -164,8 +164,8 @@ DEFAULT_TARGETS = {
 TYPES_INPUT_VARIABLES = {
     "sozialversicherung__arbeitslosen__anwartschaftszeit": bool,
     "sozialversicherung__arbeitslosen__arbeitssuchend": bool,
-    "sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m": float,
-    "sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren": float,
+    "sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m": float,
+    "sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m": float,
     # TODO(@MImmesberger): Remove input variable eigenbedarf_gedeckt once
     # Bedarfsgemeinschaften are fully endogenous
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/763
@@ -188,7 +188,7 @@ TYPES_INPUT_VARIABLES = {
     "demographics__wohnort_ost": bool,
     "demographics__p_id_ehepartner": int,
     "arbeitslosengeld_2__p_id_einstandspartner": int,
-    "einkünfte__aus_selbstständigkeit_m": float,
+    "einkünfte__aus_selbstständiger_arbeit_m": float,
     "einkünfte__aus_vermietung_und_verpachtung_m": float,
     "einnahmen__kapitalerträge_m": float,
     "einnahmen__bruttolohn_m": float,
@@ -234,7 +234,7 @@ TYPES_INPUT_VARIABLES = {
     "sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert": bool,
     "sozialversicherung__rente__erwerbsminderung__voll_erwerbsgemindert": bool,
     "sozialversicherung__rente__grundrente__bewertungszeiten_m": int,
-    "sozialversicherung__rente__grundrente__entgeltpunkte": float,
+    "sozialversicherung__rente__grundrente__mean_entgeltpunkte": float,
     "sozialversicherung__rente__grundrente__grundrentenzeiten_m": int,
     "sozialversicherung__rente__jahr_renteneintritt": int,
     "sozialversicherung__rente__monat_renteneintritt": int,

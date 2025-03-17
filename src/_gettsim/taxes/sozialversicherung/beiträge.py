@@ -4,14 +4,13 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function()
-def beiträge_arbeitnehmer_m(
+def beiträge_versicherter_m(
     sozialversicherung__pflege__beitrag__betrag_versicherter_m: float,
     sozialversicherung__kranken__beitrag__betrag_versicherter_m: float,
     sozialversicherung__rente__beitrag__betrag_versicherter_m: float,
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m: float,
 ) -> float:
-    """Sum of employee's social insurance contributions.
-
+    """Sum of social insurance contributions paid by the insured person.
     Parameters
     ----------
     sozialversicherung__pflege__beitrag__betrag_versicherter_m
@@ -73,7 +72,7 @@ def beitrag_gesamt_m(
     betrag_versicherter_m: float,
     betrag_arbeitgeber_m: float,
 ) -> float:
-    """Sum of employer's and employee's social insurance contributions.
+    """Sum of employer's and insured person's social insurance contributions.
 
     Parameters
     ----------

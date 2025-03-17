@@ -33,7 +33,7 @@ def gesamteinkommen_y(
 
 @policy_function(end_date="2008-12-31", leaf_name="gesamteinkommen_ohne_abzüge_y")
 def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
-    einnahmen__aus_selbstständigkeit_y: float,
+    einkünfte__aus_selbstständiger_arbeit_y: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y: float,
     einnahmen__aus_vermietung_und_verpachtung_y: float,
     renteneinkommen_y: float,
@@ -43,8 +43,8 @@ def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
 
     Parameters
     ----------
-    einnahmen__aus_selbstständigkeit_y
-        See :func:`einnahmen__aus_selbstständigkeit_y`.
+    einkünfte__aus_selbstständiger_arbeit_y
+        See :func:`einkünfte__aus_selbstständiger_arbeit_y`.
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y
         See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y`.
     einnahmen__aus_vermietung_und_verpachtung_y
@@ -59,7 +59,7 @@ def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
 
     """
     out = (
-        einnahmen__aus_selbstständigkeit_y
+        einkünfte__aus_selbstständiger_arbeit_y
         + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y
         + einnahmen__aus_vermietung_und_verpachtung_y
         + renteneinkommen_y
@@ -70,7 +70,7 @@ def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
 
 @policy_function(start_date="2009-01-01", leaf_name="gesamteinkommen_ohne_abzüge_y")
 def gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y_sn(
-    einnahmen__aus_selbstständigkeit_y: float,
+    einkünfte__aus_selbstständiger_arbeit_y: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y: float,
     einnahmen__aus_vermietung_und_verpachtung_y: float,
     renteneinkommen_y: float,
@@ -80,8 +80,8 @@ def gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y_sn(
     Since 2009 capital income is not subject to normal taxation.
     Parameters
     ----------
-    einnahmen__aus_selbstständigkeit_y
-        See :func:`einnahmen__aus_selbstständigkeit_y`.
+    einkünfte__aus_selbstständiger_arbeit_y
+        See :func:`einkünfte__aus_selbstständiger_arbeit_y`.
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y
         See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y`.
     einnahmen__aus_vermietung_und_verpachtung_y
@@ -94,7 +94,7 @@ def gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y_sn(
 
     """
     out = (
-        einnahmen__aus_selbstständigkeit_y
+        einkünfte__aus_selbstständiger_arbeit_y
         + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y
         + einnahmen__aus_vermietung_und_verpachtung_y
         + renteneinkommen_y

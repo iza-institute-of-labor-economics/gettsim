@@ -50,7 +50,7 @@ inputs:
       - 2000.0
       - 2000.0
       - 0.0
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
       - 0.0

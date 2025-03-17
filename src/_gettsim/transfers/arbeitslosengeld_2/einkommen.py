@@ -79,7 +79,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
-    sozialversicherung__beiträge_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_versicherter_m: float,
 ) -> float:
     """Net income for calculation of basic subsistence (Arbeitslosengeld II /
     Bürgergeld).
@@ -96,8 +96,8 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
         See :func:`soli_st_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
-    sozialversicherung__beiträge_arbeitnehmer_m
-        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
+    sozialversicherung__beiträge_versicherter_m
+        See :func:`sozialversicherung__beiträge_versicherter_m`.
 
     Returns
     -------
@@ -108,7 +108,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
         bruttoeinkommen_m
         - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
         - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
-        - sozialversicherung__beiträge_arbeitnehmer_m
+        - sozialversicherung__beiträge_versicherter_m
     )
 
 
@@ -116,7 +116,7 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
 def bruttoeinkommen_m(  # noqa: PLR0913
     einnahmen__bruttolohn_m: float,
     einnahmen__sonstige_m: float,
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     einkünfte__aus_vermietung_und_verpachtung_m: float,
     einnahmen__kapitalerträge_m: float,
     sozialversicherung__rente__altersrente__betrag_m: float,
@@ -134,8 +134,8 @@ def bruttoeinkommen_m(  # noqa: PLR0913
         See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
     einnahmen__sonstige_m
         See basic input variable :ref:`einnahmen__sonstige_m <einnahmen__sonstige_m>`.
-    einkünfte__aus_selbstständigkeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständigkeit_m <einkünfte__aus_selbstständigkeit_m>`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
     einkünfte__aus_vermietung_und_verpachtung_m
         See basic input variable :ref:`einkünfte__aus_vermietung_und_verpachtung_m <einkünfte__aus_vermietung_und_verpachtung_m>`.
     einnahmen__kapitalerträge_m
@@ -157,7 +157,7 @@ def bruttoeinkommen_m(  # noqa: PLR0913
     out = (
         einnahmen__bruttolohn_m
         + einnahmen__sonstige_m
-        + einkünfte__aus_selbstständigkeit_m
+        + einkünfte__aus_selbstständiger_arbeit_m
         + einkünfte__aus_vermietung_und_verpachtung_m
         + einnahmen__kapitalerträge_m
         + sozialversicherung__rente__altersrente__betrag_m
@@ -175,7 +175,7 @@ def nettoquote_m(  # noqa: PLR0913
     eink_st_m_sn: float,
     soli_st_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
-    sozialversicherung__beiträge_arbeitnehmer_m: float,
+    sozialversicherung__beiträge_versicherter_m: float,
     arbeitsl_geld_2_params: dict,
 ) -> float:
     """Calculate share of net to gross wage.
@@ -192,8 +192,8 @@ def nettoquote_m(  # noqa: PLR0913
         See :func:`soli_st_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
-    sozialversicherung__beiträge_arbeitnehmer_m
-        See :func:`sozialversicherung__beiträge_arbeitnehmer_m`.
+    sozialversicherung__beiträge_versicherter_m
+        See :func:`sozialversicherung__beiträge_versicherter_m`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
 
@@ -207,7 +207,7 @@ def nettoquote_m(  # noqa: PLR0913
             einnahmen__bruttolohn_m
             - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
             - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
-            - sozialversicherung__beiträge_arbeitnehmer_m
+            - sozialversicherung__beiträge_versicherter_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]
         ),
@@ -256,7 +256,7 @@ def anrechnungsfreies_einkommen_m_basierend_auf_nettoquote(
 @policy_function(start_date="2005-10-01")
 def anrechnungsfreies_einkommen_m(
     einnahmen__bruttolohn_m: float,
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     anzahl_kinder_bis_17_bg: int,
     einkommensteuer__anzahl_kinderfreibeträge: int,
     arbeitsl_geld_2_params: dict,
@@ -272,8 +272,8 @@ def anrechnungsfreies_einkommen_m(
     ----------
     einnahmen__bruttolohn_m
         See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
-    einkünfte__aus_selbstständigkeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständigkeit_m <einkünfte__aus_selbstständigkeit_m>`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
     anzahl_kinder_bis_17_bg
         See :func:`anzahl_kinder_bis_17_bg`.
     einkommensteuer__anzahl_kinderfreibeträge
@@ -289,7 +289,9 @@ def anrechnungsfreies_einkommen_m(
     # Beneficiaries who live with a minor child in a group home or who have a minor
     # child have slightly different thresholds. We currently do not consider the second
     # condition.
-    eink_erwerbstätigkeit = einnahmen__bruttolohn_m + einkünfte__aus_selbstständigkeit_m
+    eink_erwerbstätigkeit = (
+        einnahmen__bruttolohn_m + einkünfte__aus_selbstständiger_arbeit_m
+    )
 
     if anzahl_kinder_bis_17_bg > 0 or einkommensteuer__anzahl_kinderfreibeträge > 0:
         out = piecewise_polynomial(

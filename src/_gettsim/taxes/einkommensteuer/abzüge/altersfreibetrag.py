@@ -9,7 +9,7 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
     einnahmen__bruttolohn_y: float,
     demographics__alter: int,
     einnahmen__kapitalerträge_y: float,
-    einnahmen__aus_selbstständigkeit_y: float,
+    einkünfte__aus_selbstständiger_arbeit_y: float,
     einnahmen__aus_vermietung_und_verpachtung_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -23,8 +23,8 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     einnahmen__kapitalerträge_y
         See basic input variable :ref:`einnahmen__kapitalerträge_y <einnahmen__kapitalerträge_y>`.
-    einnahmen__aus_selbstständigkeit_y
-        See :func:`einnahmen__aus_selbstständigkeit_y`.
+    einkünfte__aus_selbstständiger_arbeit_y
+        See :func:`einkünfte__aus_selbstständiger_arbeit_y`.
     einnahmen__aus_vermietung_und_verpachtung_y
         See basic input variable :ref:`einnahmen__aus_vermietung_und_verpachtung_y <einnahmen__aus_vermietung_und_verpachtung_y>`.
     eink_st_abzuege_params
@@ -37,7 +37,7 @@ def altersfreibetrag_y_bis_2004(  # noqa: PLR0913
     altersgrenze = eink_st_abzuege_params["altersentlastungsbetrag_altersgrenze"]
     weiteres_einkommen = max(
         einnahmen__kapitalerträge_y
-        + einnahmen__aus_selbstständigkeit_y
+        + einkünfte__aus_selbstständiger_arbeit_y
         + einnahmen__aus_vermietung_und_verpachtung_y,
         0.0,
     )
@@ -60,7 +60,7 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     demographics__alter: int,
     demographics__geburtsjahr: int,
     einnahmen__kapitalerträge_y: float,
-    einnahmen__aus_selbstständigkeit_y: float,
+    einkünfte__aus_selbstständiger_arbeit_y: float,
     einnahmen__aus_vermietung_und_verpachtung_y: float,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -76,8 +76,8 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     einnahmen__kapitalerträge_y
         See basic input variable :ref:`einnahmen__kapitalerträge_y <einnahmen__kapitalerträge_y>`.
-    einnahmen__aus_selbstständigkeit_y
-        See :func:`einnahmen__aus_selbstständigkeit_y`.
+    einkünfte__aus_selbstständiger_arbeit_y
+        See :func:`einkünfte__aus_selbstständiger_arbeit_y`.
     einnahmen__aus_vermietung_und_verpachtung_y
         See basic input variable :ref:`einnahmen__aus_vermietung_und_verpachtung_y <einnahmen__aus_vermietung_und_verpachtung_y>`.
     eink_st_abzuege_params
@@ -110,7 +110,7 @@ def altersfreibetrag_y_ab_2005(  # noqa: PLR0913
     )
     weiteres_einkommen = max(
         einnahmen__kapitalerträge_y
-        + einnahmen__aus_selbstständigkeit_y
+        + einkünfte__aus_selbstständiger_arbeit_y
         + einnahmen__aus_vermietung_und_verpachtung_y,
         0.0,
     )

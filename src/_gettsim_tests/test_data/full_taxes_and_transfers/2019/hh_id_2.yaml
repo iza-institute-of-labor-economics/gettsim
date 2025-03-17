@@ -84,7 +84,7 @@ inputs:
       - true
       - false
       - false
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -239,7 +239,7 @@ inputs:
       - 50.0
       - 50.0
       - 50.0
-    sozialversicherung__rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 6.2776
       - 6.2776
       - 1.7936
@@ -339,12 +339,12 @@ inputs:
       - false
       - false
       - false
-    sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m:
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
       - 0.0
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
       - 60.0
       - 60.0
       - 60.0

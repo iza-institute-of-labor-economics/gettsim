@@ -135,7 +135,7 @@ def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
 
 @policy_function(end_date="2006-12-31", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     eink_abhängig_beschäftigt_m: float,
     einnahmen__kapitalerträge_m: float,
     einkünfte__aus_vermietung_und_verpachtung_m: float,
@@ -152,7 +152,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkünfte__aus_selbstständigkeit_m
+    einkünfte__aus_selbstständiger_arbeit_m
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt_m
         See :func:`eink_abhängig_beschäftigt_m`.
@@ -178,7 +178,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 
     """
     einkommen = (
-        einkünfte__aus_selbstständigkeit_m
+        einkünfte__aus_selbstständiger_arbeit_m
         + eink_abhängig_beschäftigt_m
         + einnahmen__kapitalerträge_m
         + einkünfte__aus_vermietung_und_verpachtung_m
@@ -198,7 +198,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 
 @policy_function(start_date="2007-01-01", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     eink_abhängig_beschäftigt_m: float,
     einnahmen__kapitalerträge_m: float,
     einkünfte__aus_vermietung_und_verpachtung_m: float,
@@ -216,7 +216,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkünfte__aus_selbstständigkeit_m
+    einkünfte__aus_selbstständiger_arbeit_m
         See :func:`_eink_selbst`.
     eink_abhängig_beschäftigt_m
         See :func:`eink_abhängig_beschäftigt_m`.
@@ -247,7 +247,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     # unterhaltsvorschuss__betrag_m are counted as income for Wohngeld income check.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/357
     einkommen = (
-        einkünfte__aus_selbstständigkeit_m
+        einkünfte__aus_selbstständiger_arbeit_m
         + eink_abhängig_beschäftigt_m
         + einnahmen__kapitalerträge_m
         + einkünfte__aus_vermietung_und_verpachtung_m

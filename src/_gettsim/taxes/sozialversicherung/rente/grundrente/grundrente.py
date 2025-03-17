@@ -26,7 +26,7 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
     einnahmen__bruttolohn_vorjahr_m: float,
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     einkünfte__aus_vermietung_und_verpachtung_m: float,
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y: float,
 ) -> float:
@@ -57,8 +57,8 @@ def einkommen_m(
         See :func:`proxy_rente_vorjahr_m`.
     einnahmen__bruttolohn_vorjahr_m
         See :func:`einnahmen__bruttolohn_vorjahr_m`.
-    einkünfte__aus_selbstständigkeit_m
-        See :func:`einkünfte__aus_selbstständigkeit_m`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See :func:`einkünfte__aus_selbstständiger_arbeit_m`.
     einkünfte__aus_vermietung_und_verpachtung_m
         See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
@@ -73,7 +73,7 @@ def einkommen_m(
     out = (
         proxy_rente_vorjahr_m
         + einnahmen__bruttolohn_vorjahr_m
-        + einkünfte__aus_selbstständigkeit_m  # income from self-employment
+        + einkünfte__aus_selbstständiger_arbeit_m  # income from self-employment
         + einkünfte__aus_vermietung_und_verpachtung_m  # rental income
         + einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
     )
@@ -192,16 +192,16 @@ def basisbetrag_m(
 
 @policy_function()
 def durchschnittliche_entgeltpunkte(
-    entgeltpunkte: float, bewertungszeiten_m: int
+    mean_entgeltpunkte: float, bewertungszeiten_m: int
 ) -> float:
     """Compute average number of Entgeltpunkte earned per month of
     Grundrentenbewertungszeiten.
 
     Parameters
     ----------
-    entgeltpunkte
+    mean_entgeltpunkte
         See basic input variable
-        :ref:`entgeltpunkte <entgeltpunkte>`.
+        :ref:`mean_entgeltpunkte <mean_entgeltpunkte>`.
     bewertungszeiten_m
         See basic input variable
         :ref:`bewertungszeiten_m <bewertungszeiten_m>`.
@@ -211,9 +211,9 @@ def durchschnittliche_entgeltpunkte(
 
     """
     if bewertungszeiten_m > 0:
-        out = entgeltpunkte / bewertungszeiten_m
+        out = mean_entgeltpunkte / bewertungszeiten_m
 
-    # Return 0 if bewertungszeiten_m is 0. Then, entgeltpunkte should be 0, too.
+    # Return 0 if bewertungszeiten_m is 0. Then, mean_entgeltpunkte should be 0, too.
     else:
         out = 0
 

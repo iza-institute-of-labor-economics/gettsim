@@ -54,7 +54,7 @@ inputs:
       - -1
       - 31
       - -1
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
       - 0.0

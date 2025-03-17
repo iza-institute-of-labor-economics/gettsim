@@ -36,7 +36,7 @@ inputs:
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - true
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     sozialversicherung__kranken__beitrag__privat_versichert:
       - false
@@ -98,7 +98,7 @@ inputs:
       - 3
     einnahmen__sonstige_m:
       - 50.0
-    sozialversicherung__rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 1.7936
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 50
@@ -138,9 +138,9 @@ inputs:
       - true
     sozialversicherung__arbeitslosen__arbeitssuchend:
       - false
-    sozialversicherung__arbeitslosen__bezug_von_arbeitslosengeld_zeitraum_m:
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
       - 0.0
-    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtig_in_letzten_5_jahren:
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
       - 60.0
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false

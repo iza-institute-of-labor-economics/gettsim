@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    Adjusted sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag since test
-    case uses 0.8 as maximum instead of 0.8004. Beispiel Martin S.
+    Adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+    test case uses 0.8 as maximum instead of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
 inputs:
@@ -23,7 +23,7 @@ inputs:
       - 0.0
     einnahmen__bruttolohn_vorjahr_m:
       - 0.0
-    einnahmen__aus_selbstständigkeit_y:
+    einkünfte__aus_selbstständiger_arbeit_y:
       - 0.0
     einnahmen__aus_vermietung_und_verpachtung_y:
       - 0.0
@@ -47,13 +47,13 @@ inputs:
       - 1.0
     sozialversicherung__rente__bezieht_rente:
       - true
-    sozialversicherung__rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 18.7
     demographics__kind:
       - false
   assumed: {}
 outputs:
-  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     - 0.003698333
   sozialversicherung__rente__grundrente__basisbetrag_m:
     - 50.98

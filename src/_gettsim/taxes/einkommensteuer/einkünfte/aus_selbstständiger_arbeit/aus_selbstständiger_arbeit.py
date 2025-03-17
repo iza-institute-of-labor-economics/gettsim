@@ -5,6 +5,6 @@ from _gettsim.function_types import policy_function
 
 @policy_function()
 def betrag_y_sn(
-    einnahmen__aus_selbstständigkeit_y: float,
+    einkünfte__aus_selbstständiger_arbeit_y: float,
 ) -> float:
     raise NotImplementedError("Not implemented yet.")

@@ -18,7 +18,7 @@ inputs:
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - true
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
@@ -30,7 +30,7 @@ inputs:
       - '2018'
   assumed: {}
 outputs:
-  sozialversicherung__beiträge_arbeitnehmer_m:
+  sozialversicherung__beiträge_versicherter_m:
     - 305.625
   sozialversicherung__beitrag_arbeitgeber_m:
     - 290.63

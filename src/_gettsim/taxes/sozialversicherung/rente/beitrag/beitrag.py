@@ -9,7 +9,7 @@ def betrag_versicherter_m_vor_midijob(
     einkommen_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's public pension insurance contribution.
+    """Public pension insurance contributions paid by the insured person.
 
     Before Midijob introduction in April 2003.
 
@@ -46,7 +46,7 @@ def betrag_versicherter_m_mit_midijob(
     sozialv_beitr_params: dict,
     sozialversicherung__in_gleitzone: bool,
 ) -> float:
-    """Employee's public pension insurance contribution.
+    """Public pension insurance contributions paid by the insured person.
 
     After Midijob introduction in April 2003.
 

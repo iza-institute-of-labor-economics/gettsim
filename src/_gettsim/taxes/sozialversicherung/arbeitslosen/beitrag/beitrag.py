@@ -9,7 +9,7 @@ def betrag_versicherter_vor_midijob_m(
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's unemployment insurance contribution.
+    """Unemployment insurance contributions paid by the insured person.
 
     Parameters
     ----------
@@ -46,7 +46,7 @@ def betrag_versicherter_mit_midijob_m(
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
-    """Employee's unemployment insurance contribution.
+    """Unemployment insurance contributions paid by the insured person.
 
     Parameters
     ----------

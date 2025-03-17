@@ -24,7 +24,7 @@ inputs:
       - true
     sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
       - 0
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
@@ -36,7 +36,7 @@ inputs:
       - 2023-07
   assumed: {}
 outputs:
-  sozialversicherung__beiträge_arbeitnehmer_m:
+  sozialversicherung__beiträge_versicherter_m:
     - 132.32
   sozialversicherung__beitrag_arbeitgeber_m:
     - 231.55

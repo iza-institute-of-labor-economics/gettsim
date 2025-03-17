@@ -11,7 +11,7 @@ def betrag_versicherter_vor_midijob_m(
     betrag_versicherter_regulär_beschäftigt_m: float,
     einkünfte__ist_selbstständig: bool,
 ) -> float:
-    """Employee's public health insurance contribution.
+    """Public health insurance contributions paid by the insured person.
 
     Before Midijob introduction in April 2003.
 
@@ -54,7 +54,7 @@ def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
     betrag_versicherter_regulär_beschäftigt_m: float,
     einkünfte__ist_selbstständig: bool,
 ) -> float:
-    """Employee's public health insurance contribution.
+    """Public health insurance contributions paid by the insured person.
 
     After Midijob introduction in April 2003.
 

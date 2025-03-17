@@ -40,7 +40,7 @@ inputs:
     einnahmen__bruttolohn_m:
       - 2000.0
       - 150.0
-    einkünfte__aus_selbstständigkeit_m:
+    einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
     kindergeld__in_ausbildung:

@@ -420,7 +420,7 @@ def mindesteinkommen_erreicht(
 def einkommen_m(  # noqa: PLR0913
     einnahmen__bruttolohn_m: float,
     einnahmen__sonstige_m: float,
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     einkünfte__aus_vermietung_und_verpachtung_m: float,
     einnahmen__kapitalerträge_m: float,
     sozialversicherung__rente__altersrente__betrag_m: float,
@@ -435,8 +435,8 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`einnahmen__bruttolohn_m`.
     einnahmen__sonstige_m
         See :func:`einnahmen__sonstige_m`.
-    einkünfte__aus_selbstständigkeit_m
-        See :func:`einkünfte__aus_selbstständigkeit_m`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See :func:`einkünfte__aus_selbstständiger_arbeit_m`.
     einkünfte__aus_vermietung_und_verpachtung_m
         See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
     einnahmen__kapitalerträge_m
@@ -455,7 +455,7 @@ def einkommen_m(  # noqa: PLR0913
     out = (
         einnahmen__bruttolohn_m
         + einnahmen__sonstige_m
-        + einkünfte__aus_selbstständigkeit_m
+        + einkünfte__aus_selbstständiger_arbeit_m
         + einkünfte__aus_vermietung_und_verpachtung_m
         + einnahmen__kapitalerträge_m
         + sozialversicherung__rente__altersrente__betrag_m

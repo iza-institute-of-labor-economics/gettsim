@@ -23,7 +23,7 @@ inputs:
       - 0.0
     einnahmen__bruttolohn_vorjahr_m:
       - 0.0
-    einnahmen__aus_selbstständigkeit_y:
+    einkünfte__aus_selbstständiger_arbeit_y:
       - 0.0
     einnahmen__aus_vermietung_und_verpachtung_y:
       - 0.0
@@ -47,13 +47,13 @@ inputs:
       - 1.0
     sozialversicherung__rente__bezieht_rente:
       - true
-    sozialversicherung__rente__grundrente__entgeltpunkte:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 21.0
     demographics__kind:
       - false
   assumed: {}
 outputs:
-  sozialversicherung__rente__grundrente__entgeltpunkte_zuschlag:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     - 0.014616667
   sozialversicherung__rente__grundrente__basisbetrag_m:
     - 209.89

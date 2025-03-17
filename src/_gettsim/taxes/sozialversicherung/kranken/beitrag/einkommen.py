@@ -61,7 +61,7 @@ def einkommen_regulär_beschäftigt_m(
 
 @policy_function()
 def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
-    einkünfte__aus_selbstständigkeit_m: float,
+    einkünfte__aus_selbstständiger_arbeit_m: float,
     bezugsgröße_selbstständig_m: float,
     einkünfte__ist_selbstständig: bool,
     privat_versichert: bool,
@@ -77,8 +77,8 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkünfte__aus_selbstständigkeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständigkeit_m <einkünfte__aus_selbstständigkeit_m>`.
+    einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
     bezugsgröße_selbstständig_m
         See :func:`bezugsgröße_selbstständig_m`.
     einkünfte__ist_selbstständig
@@ -105,7 +105,7 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
                 * sozialv_beitr_params[
                     "mindestanteil_bezugsgröße_beitragspf_einnahme_selbst"
                 ],
-                einkünfte__aus_selbstständigkeit_m,
+                einkünfte__aus_selbstständiger_arbeit_m,
             ),
         )
     else:
