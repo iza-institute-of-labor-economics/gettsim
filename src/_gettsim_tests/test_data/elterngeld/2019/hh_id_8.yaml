@@ -1,156 +1,148 @@
 ---
+info:
+  note: ''
+  source: Regression test.
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      p_id_einstandspartner:
-        - -1
-        - -1
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - false
-        - false
-        - false
-        - true
-      alter:
-        - 1
-        - 0
-        - 0
-        - 43
-      arbeitsstunden_w:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-      geburtsjahr:
-        - 2017
-        - 2018
-        - 2018
-        - 1982
-      geburtsmonat:
-        - 2
-        - 10
-        - 10
-        - 2
-      geburtstag:
-        - 12
-        - 12
-        - 12
-        - 13
-      hh_id:
-        - 8
-        - 8
-        - 8
-        - 8
-      kind:
-        - true
-        - true
-        - true
-        - false
-      p_id:
-        - 25
-        - 26
-        - 27
-        - 28
-      p_id_ehepartner:
-        - -1
-        - -1
-        - -1
-        - -1
-      p_id_elternteil_1:
-        - 28
-        - 28
-        - 28
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - -1
-        - -1
-      wohnort_ost:
-        - false
-        - false
-        - false
-        - false
-    einkommensteuer:
-      einnahmen:
-        bruttolohn_m:
-          - 0.0
-          - 0.0
-          - 0.0
-          - 0.0
-      gemeinsam_veranlagt:
-        - false
-        - false
-        - false
-        - false
-    elterngeld:
-      bisheriger_bezug_m:
-        - 0
-        - 0
-        - 0
-        - 2
-      claimed:
-        - false
-        - false
-        - false
-        - true
-      nettoeinkommen_vorjahr_m:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 900.0
-      zu_versteuerndes_einkommen_vorjahr_y_sn:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 5760.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+      - true
+    demographics__alter:
+      - 1
+      - 0
+      - 0
+      - 43
+    demographics__arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 2017
+      - 2018
+      - 2018
+      - 1982
+    demographics__geburtsmonat:
+      - 2
+      - 10
+      - 10
+      - 2
+    demographics__geburtstag:
+      - 12
+      - 12
+      - 12
+      - 13
+    demographics__hh_id:
+      - 8
+      - 8
+      - 8
+      - 8
+    demographics__kind:
+      - true
+      - true
+      - true
+      - false
+    demographics__p_id:
+      - 25
+      - 26
+      - 27
+      - 28
+    demographics__p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__p_id_elternteil_1:
+      - 28
+      - 28
+      - 28
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__wohnort_ost:
+      - false
+      - false
+      - false
+      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
+    elterngeld__bisheriger_bezug_m:
+      - 0
+      - 0
+      - 0
+      - 2
+    elterngeld__claimed:
+      - false
+      - false
+      - false
+      - true
+    elterngeld__nettoeinkommen_vorjahr_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 900.0
+    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 5760.0
     jahr:
       - 2019
       - 2019
       - 2019
       - 2019
-    kindergeld:
-      in_ausbildung:
-        - false
-        - false
-        - false
-        - false
-    lohnsteuer:
-      steuerklasse:
-        - 1
-        - 1
-        - 1
-        - 1
-    sozialversicherung:
-      pflege:
-        beitrag:
-          hat_kinder:
-            - false
-            - false
-            - false
-            - true
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - false
+      - false
+    lohnsteuer__steuerklasse:
+      - 1
+      - 1
+      - 1
+      - 1
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
+      - false
+      - false
+      - true
 outputs:
-  elterngeld:
-    anzahl_mehrlinge_fg:
-      - 1
-      - 1
-      - 1
-      - 1
-    betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 1023.0
-    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
-      - true
-      - true
-      - true
-      - true
-    grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - false
-      - true
+  elterngeld__anzahl_mehrlinge_fg:
+    - 1
+    - 1
+    - 1
+    - 1
+  elterngeld__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1023.0
+  elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
+    - true
+    - true
+    - true
+    - true
+  elterngeld__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    - false
+    - true

@@ -1,177 +1,158 @@
 ---
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      arbeitslosengeld_2_bezug_im_vorjahr:
-        - false
-      eigenbedarf_gedeckt:
-        - false
-      p_id_einstandspartner:
-        - -1
-    demographics:
-      alleinerziehend:
-        - false
-      alter:
-        - 60
-      arbeitsstunden_w:
-        - 0.0
-      behinderungsgrad:
-        - 0
-      geburtsjahr:
-        - 1959
-      geburtsmonat:
-        - 1
-      geburtstag:
-        - 1
-      hh_id:
-        - 8
-      kind:
-        - false
-      p_id:
-        - 14
-      p_id_ehepartner:
-        - -1
-      p_id_elternteil_1:
-        - -1
-      p_id_elternteil_2:
-        - -1
-      schwerbehindert_grad_g:
-        - false
-      vermögen:
-        - 0.0
-      weiblich:
-        - false
-      wohnort_ost:
-        - false
-    einkommensteuer:
-      abzüge:
-        betreuungskosten_m:
-          - 0.0
-        p_id_betreuungskosten_träger:
-          - -1
-      beitrag_private_rentenversicherung_m:
-        - 0.0
-      einkünfte:
-        aus_selbstständiger_arbeit_m:
-          - 2500.0
-        aus_vermietung_und_verpachtung_m:
-          - 13.0
-        ist_selbstständig:
-          - true
-      einnahmen:
-        bruttolohn_m:
-          - 0.0
-        bruttolohn_vorjahr_m:
-          - 2300.0
-        kapitalerträge_m:
-          - 0.0
-        sonstige_m:
-          - 50.0
-      gemeinsam_veranlagt:
-        - false
-    elterngeld:
-      bisheriger_bezug_m:
-        - 0
-      claimed:
-        - true
-      nettoeinkommen_vorjahr_m:
-        - 2300.0
-      zu_versteuerndes_einkommen_vorjahr_y_sn:
-        - 25962.0
-    kindergeld:
-      in_ausbildung:
-        - false
-      p_id_empfänger:
-        - -1
-    lohnsteuer:
-      steuerklasse:
-        - 1
-    sozialversicherung:
-      arbeitslosen:
-        anwartschaftszeit:
-          - true
-        arbeitssuchend:
-          - false
-        zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-          - 0.0
-        zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-          - 60.0
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-      pflege:
-        beitrag:
-          hat_kinder:
-            - true
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-          für_frauen:
-            pflichtsbeitragszeiten_ab_40_y:
-              - 2.0
-        arbeitslosigkeitszeiten_m:
-          - 0.0
-        arbeitsunfähigkeitszeiten_m:
-          - 0.0
-        bezieht_rente:
-          - false
-        entgeltpunkte_ost:
-          - 0.0
-        entgeltpunkte_west:
-          - 19.7296
-        ersatzzeiten_m:
-          - 0.0
-        freiwillige_beitragszeiten_m:
-          - 5.0
-        grundrente:
-          bewertungszeiten_m:
-            - 42
-          grundrentenzeiten_m:
-            - 42
-          mean_entgeltpunkte:
-            - 19.7296
-        jahr_renteneintritt:
-          - 2074
-        kinderberücksichtigungszeiten_m:
-          - 0.0
-        krankheitszeiten_ab_16_bis_24_m:
-          - 0.0
-        mutterschutzzeiten_m:
-          - 0.0
-        pflegeberücksichtigungszeiten_m:
-          - 0.0
-        pflichtbeitragszeiten_m:
-          - 444.0
-        private_rente_betrag_m:
-          - 0.0
-        schulausbildungszeiten_m:
-          - 12.0
-        zeiten_der_ausbildungssuche_m:
-          - 0.0
-        zeiten_geringfügiger_beschäftigung_m:
-          - 0.0
-        zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-          - 0.0
-    unterhalt:
-      anspruch_m:
-        - 0.0
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-    wohnen:
-      baujahr_immobilie_hh:
-        - 3
-      bewohnt_eigentum_hh:
-        - false
-      bruttokaltmiete_m_hh:
-        - 400.0
-      heizkosten_m_hh:
-        - 80.0
-      wohnfläche_hh:
-        - 50.0
-    wohngeld:
-      mietstufe:
-        - 3
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+    demographics__alleinerziehend:
+      - false
+    demographics__alter:
+      - 60
+    demographics__arbeitsstunden_w:
+      - 0.0
+    demographics__behinderungsgrad:
+      - 0
+    demographics__geburtsjahr:
+      - 1959
+    demographics__geburtsmonat:
+      - 1
+    demographics__geburtstag:
+      - 1
+    demographics__hh_id:
+      - 8
+    demographics__kind:
+      - false
+    demographics__p_id:
+      - 14
+    demographics__p_id_ehepartner:
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    demographics__schwerbehindert_grad_g:
+      - false
+    demographics__vermögen:
+      - 0.0
+    demographics__weiblich:
+      - false
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__abzüge__betreuungskosten_m:
+      - 0.0
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
+      - -1
+    einkommensteuer__beitrag_private_rentenversicherung_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 2500.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 13.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - true
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+      - 2300.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 50.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    elterngeld__bisheriger_bezug_m:
+      - 0
+    elterngeld__claimed:
+      - true
+    elterngeld__nettoeinkommen_vorjahr_m:
+      - 2300.0
+    elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
+      - 25962.0
+    kindergeld__in_ausbildung:
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+    lohnsteuer__steuerklasse:
+      - 1
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
+      - true
+    sozialversicherung__arbeitslosen__arbeitssuchend:
+      - false
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
+      - 0.0
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
+      - 60.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - true
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+      - 2.0
+    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
+      - 0.0
+    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
+      - 0.0
+    sozialversicherung__rente__bezieht_rente:
+      - false
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 19.7296
+    sozialversicherung__rente__ersatzzeiten_m:
+      - 0.0
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+      - 5.0
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
+      - 42
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+      - 42
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
+      - 19.7296
+    sozialversicherung__rente__jahr_renteneintritt:
+      - 2074
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+      - 0.0
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
+      - 0.0
+    sozialversicherung__rente__mutterschutzzeiten_m:
+      - 0.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+      - 0.0
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
+      - 444.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+    sozialversicherung__rente__schulausbildungszeiten_m:
+      - 12.0
+    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
+      - 0.0
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
+      - 0.0
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+      - 0.0
+    unterhalt__anspruch_m:
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+    wohnen__baujahr_immobilie_hh:
+      - 3
+    wohnen__bewohnt_eigentum_hh:
+      - false
+    wohnen__bruttokaltmiete_m_hh:
+      - 400.0
+    wohnen__heizkosten_m_hh:
+      - 80.0
+    wohnen__wohnfläche_hh:
+      - 50.0
+    wohngeld__mietstufe:
+      - 3
 outputs: {}

@@ -1,73 +1,64 @@
 ---
+info:
+  note: ''
+  source: Made up from the law
 inputs:
   assumed: {}
   provided:
-    demographics:
-      geburtsjahr:
-        - 1959
-        - 1959
-        - 1959
-      geburtsmonat:
-        - 1
-        - 1
-        - 1
-      hh_id:
-        - 0
-        - 1
-        - 2
-      p_id:
-        - 0
-        - 1
-        - 2
-      weiblich:
-        - true
-        - true
-        - true
-    sozialversicherung:
-      rente:
-        altersrente:
-          besonders_langjährig:
-            grundsätzlich_anspruchsberechtigt:
-              - false
-              - true
-              - false
-          langjährig:
-            grundsätzlich_anspruchsberechtigt:
-              - true
-              - true
-              - false
+    demographics__geburtsjahr:
+      - 1959
+      - 1959
+      - 1959
+    demographics__geburtsmonat:
+      - 1
+      - 1
+      - 1
+    demographics__hh_id:
+      - 0
+      - 1
+      - 2
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+    demographics__weiblich:
+      - true
+      - true
+      - true
+    sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
+      - false
+      - true
+      - false
+    sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
+      - true
+      - true
+      - false
 outputs:
-  sozialversicherung:
-    rente:
-      altersrente:
-        altersgrenze_abschlagsfrei:
-          - 66.166667
-          - 64.166667
-          - 66.166667
-        altersgrenze_vorzeitig:
-          - 63.0
-          - 63.0
-          - 66.166667
-        besonders_langjährig:
-          altersgrenze:
-            - 64.166667
-            - 64.166667
-            - 64.166667
-        langjährig:
-          altersgrenze:
-            - 66.166667
-            - 66.166667
-            - 66.166667
-          altersgrenze_vorzeitig:
-            - 63.0
-            - 63.0
-            - 63.0
-        referenzalter_abschlag:
-          - 66.166667
-          - 66.166667
-          - 66.166667
-        regelaltersrente:
-          altersgrenze:
-            - 66.166667
-            - 66.166667
-            - 66.166667
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
+    - 66.166667
+    - 64.166667
+    - 66.166667
+  sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
+    - 63.0
+    - 63.0
+    - 66.166667
+  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
+    - 64.166667
+    - 64.166667
+    - 64.166667
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze:
+    - 66.166667
+    - 66.166667
+    - 66.166667
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze_vorzeitig:
+    - 63.0
+    - 63.0
+    - 63.0
+  sozialversicherung__rente__altersrente__referenzalter_abschlag:
+    - 66.166667
+    - 66.166667
+    - 66.166667
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
+    - 66.166667
+    - 66.166667
+    - 66.166667

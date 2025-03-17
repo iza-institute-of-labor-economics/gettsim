@@ -1,130 +1,127 @@
 ---
+info:
+  note: A later implementation may rely on the order of demographics__p_id or demographics__hh_id.
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      eigenbedarf_gedeckt:
-        - false
-        - false
-        - false
-        - false
-        - false
-        - false
-      p_id_einstandspartner:
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-    demographics:
-      alter:
-        - 39
-        - 39
-        - 13
-        - 39
-        - 13
-        - 13
-      geburtsjahr:
-        - 1984
-        - 1984
-        - 2010
-        - 1984
-        - 2010
-        - 2010
-      geburtsmonat:
-        - 7
-        - 7
-        - 3
-        - 7
-        - 3
-        - 3
-      geburtstag:
-        - 14
-        - 14
-        - 1
-        - 14
-        - 1
-        - 1
-      hh_id:
-        - 0
-        - 1
-        - 0
-        - 2
-        - 2
-        - 1
-      p_id:
-        - 0
-        - 1
-        - 4
-        - 2
-        - 3
-        - 5
-      p_id_ehepartner:
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-      p_id_elternteil_1:
-        - -1
-        - -1
-        - 0
-        - -1
-        - 2
-        - 1
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-        - -1
-    einkommensteuer:
-      gemeinsam_veranlagt:
-        - false
-        - false
-        - false
-        - false
-        - false
-        - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__alter:
+      - 39
+      - 39
+      - 13
+      - 39
+      - 13
+      - 13
+    demographics__geburtsjahr:
+      - 1984
+      - 1984
+      - 2010
+      - 1984
+      - 2010
+      - 2010
+    demographics__geburtsmonat:
+      - 7
+      - 7
+      - 3
+      - 7
+      - 3
+      - 3
+    demographics__geburtstag:
+      - 14
+      - 14
+      - 1
+      - 14
+      - 1
+      - 1
+    demographics__hh_id:
+      - 0
+      - 1
+      - 0
+      - 2
+      - 2
+      - 1
+    demographics__p_id:
+      - 0
+      - 1
+      - 4
+      - 2
+      - 3
+      - 5
+    demographics__p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+      - -1
+      - 2
+      - 1
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
 outputs:
-  arbeitslosengeld_2:
-    bg_id:
-      - 0
-      - 100
-      - 0
-      - 200
-      - 200
-      - 100
-    eg_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-    fg_id:
-      - 0
-      - 1
-      - 0
-      - 2
-      - 2
-      - 1
-  demographics:
-    ehe_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-  einkommensteuer:
-    sn_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
+  arbeitslosengeld_2__bg_id:
+    - 0
+    - 100
+    - 0
+    - 200
+    - 200
+    - 100
+  arbeitslosengeld_2__eg_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  arbeitslosengeld_2__fg_id:
+    - 0
+    - 1
+    - 0
+    - 2
+    - 2
+    - 1
+  demographics__ehe_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+  einkommensteuer__sn_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5

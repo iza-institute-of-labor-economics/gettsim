@@ -1,35 +1,32 @@
 ---
+info:
+  note: ''
+  source: https://www.bmf-steuerrechner.de
 inputs:
   assumed: {}
   provided:
-    demographics:
-      hh_id:
-        - 2
-      kind:
-        - false
-      p_id:
-        - 2
-      p_id_ehepartner:
-        - -1
-    einkommensteuer:
-      einnahmen:
-        kapitalerträge_y:
-          - 0.0
-      gemeinsam_veranlagt:
-        - false
-      gesamteinkommen_y:
-        - 100000.0
-      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-        - 100000.0
-outputs:
-  abgeltungssteuer:
-    betrag_y_sn:
+    demographics__hh_id:
+      - 2
+    demographics__kind:
+      - false
+    demographics__p_id:
+      - 2
+    demographics__p_id_ehepartner:
+      - -1
+    einkommensteuer__einnahmen__kapitalerträge_y:
       - 0.0
-  einkommensteuer:
-    betrag_mit_kinderfreibetrag_y_sn:
-      - 31363.0
-    betrag_ohne_kinderfreibetrag_y_sn:
-      - 31363.0
-  solidaritätszuschlag:
-    betrag_y_sn:
-      - 1574.72
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    einkommensteuer__gesamteinkommen_y:
+      - 100000.0
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 100000.0
+outputs:
+  abgeltungssteuer__betrag_y_sn:
+    - 0.0
+  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+    - 31363.0
+  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
+    - 31363.0
+  solidaritätszuschlag__betrag_y_sn:
+    - 1574.72

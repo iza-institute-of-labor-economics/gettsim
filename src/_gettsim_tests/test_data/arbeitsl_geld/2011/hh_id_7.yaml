@@ -1,47 +1,41 @@
 ---
+info:
+  source: none
 inputs:
   assumed:
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - false
-    sozialversicherung:
-      arbeitslosen:
-        anwartschaftszeit:
-          - true
-        arbeitssuchend:
-          - true
-        zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-          - 0.0
-        zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-          - 12.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
+      - true
+    sozialversicherung__arbeitslosen__arbeitssuchend:
+      - true
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
+      - 0.0
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
+      - 12.0
   provided:
-    demographics:
-      alter:
-        - 66
-      arbeitsstunden_w:
-        - 0.0
-      geburtsjahr:
-        - 1945
-      hh_id:
-        - 7
-      kind:
-        - false
-      p_id:
-        - 11
-      p_id_elternteil_1:
-        - -1
-      p_id_elternteil_2:
-        - -1
-      wohnort_ost:
-        - false
-    einkommensteuer:
-      einnahmen:
-        bruttolohn_vorjahr_m:
-          - 2300.0
+    demographics__alter:
+      - 66
+    demographics__arbeitsstunden_w:
+      - 0.0
+    demographics__geburtsjahr:
+      - 1945
+    demographics__hh_id:
+      - 7
+    demographics__kind:
+      - false
+    demographics__p_id:
+      - 11
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+      - 2300.0
     jahr:
       - 2011
 outputs:
-  sozialversicherung:
-    arbeitslosen:
-      betrag_m:
-        - 0.0
+  sozialversicherung__arbeitslosen__betrag_m:
+    - 0.0

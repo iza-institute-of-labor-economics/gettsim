@@ -1,79 +1,78 @@
 ---
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    abgeltungssteuer:
-      betrag_y_sn:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-    demographics:
-      hh_id:
-        - 4
-        - 4
-        - 4
-        - 4
-      kind:
-        - false
-        - false
-        - true
-        - true
-      p_id:
-        - 5
-        - 6
-        - 7
-        - 8
-      p_id_ehepartner:
-        - 6
-        - 5
-        - -1
-        - -1
-    einkommensteuer:
-      betrag_mit_kinderfreibetrag_y_sn:
-        - 18000.0
-        - 18000.0
-        - 0.0
-        - 0.0
-      betrag_ohne_kinderfreibetrag_y_sn:
-        - 20000.0
-        - 20000.0
-        - 0.0
-        - 0.0
-      gemeinsam_veranlagt:
-        - true
-        - true
-        - false
-        - false
-      gesamteinkommen_y:
-        - 150000.0
-        - 150000.0
-        - 10.0
-        - 10.0
-      relevantes_kindergeld_m:
-        - 194.0
-        - 194.0
-        - 0.0
-        - 0.0
-      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-        - 142992.0
-        - 142992.0
-        - 10.0
-        - 10.0
+    abgeltungssteuer__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    demographics__hh_id:
+      - 4
+      - 4
+      - 4
+      - 4
+    demographics__kind:
+      - false
+      - false
+      - true
+      - true
+    demographics__p_id:
+      - 5
+      - 6
+      - 7
+      - 8
+    demographics__p_id_ehepartner:
+      - 6
+      - 5
+      - -1
+      - -1
+    einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+      - 18000.0
+      - 18000.0
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
+      - 20000.0
+      - 20000.0
+      - 0.0
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+      - false
+    einkommensteuer__gesamteinkommen_y:
+      - 150000.0
+      - 150000.0
+      - 10.0
+      - 10.0
+    einkommensteuer__relevantes_kindergeld_m:
+      - 194.0
+      - 194.0
+      - 0.0
+      - 0.0
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 142992.0
+      - 142992.0
+      - 10.0
+      - 10.0
     jahr:
       - 2010
       - 2010
       - 2010
       - 2010
 outputs:
-  einkommensteuer:
-    betrag_y_sn:
-      - 20000.0
-      - 20000.0
-      - 0.0
-      - 0.0
-    zu_versteuerndes_einkommen_y_sn:
-      - 150000.0
-      - 150000.0
-      - 10.0
-      - 10.0
+  einkommensteuer__betrag_y_sn:
+    - 20000.0
+    - 20000.0
+    - 0.0
+    - 0.0
+  einkommensteuer__zu_versteuerndes_einkommen_y_sn:
+    - 150000.0
+    - 150000.0
+    - 10.0
+    - 10.0

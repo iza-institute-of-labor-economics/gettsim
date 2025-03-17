@@ -1,28 +1,24 @@
 ---
+info:
+  note: ''
+  source: Own calculations
 inputs:
   assumed:
-    demographics:
-      p_id:
-        - 19
-      wohnort_ost:
-        - true
-    sozialversicherung:
-      rente:
-        erwerbsminderung:
-          entgeltpunkte_ost:
-            - 23.64179104
-          entgeltpunkte_west:
-            - 0.0
-          grundsätzlich_anspruchsberechtigt:
-            - true
-          rentenartfaktor:
-            - 1.0
-          zugangsfaktor:
-            - 0.892
+    demographics__p_id:
+      - 19
+    demographics__wohnort_ost:
+      - true
+    sozialversicherung__rente__erwerbsminderung__entgeltpunkte_ost:
+      - 23.64179104
+    sozialversicherung__rente__erwerbsminderung__entgeltpunkte_west:
+      - 0.0
+    sozialversicherung__rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
+      - true
+    sozialversicherung__rente__erwerbsminderung__rentenartfaktor:
+      - 1.0
+    sozialversicherung__rente__erwerbsminderung__zugangsfaktor:
+      - 0.892
   provided: {}
 outputs:
-  sozialversicherung:
-    rente:
-      erwerbsminderung:
-        betrag_m:
-          - 513.9261994
+  sozialversicherung__rente__erwerbsminderung__betrag_m:
+    - 513.9261994

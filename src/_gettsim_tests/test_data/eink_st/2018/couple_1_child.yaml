@@ -1,66 +1,64 @@
 ---
+info:
+  note: ''
+  source: https://www.smart-rechner.de/einkommensteuer/rechner.php
 inputs:
   assumed: {}
   provided:
-    demographics:
-      hh_id:
-        - 4
-        - 4
-        - 4
-      kind:
-        - false
-        - false
-        - true
-      p_id:
-        - 5
-        - 6
-        - 7
-      p_id_ehepartner:
-        - 6
-        - 5
-        - -1
-      p_id_elternteil_1:
-        - -1
-        - -1
-        - 5
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - 6
-    einkommensteuer:
-      einnahmen:
-        kapitalerträge_y:
-          - 0.0
-          - 0.0
-          - 0.0
-      gemeinsam_veranlagt:
-        - true
-        - true
-        - false
-      gesamteinkommen_y:
-        - 200000.0
-        - 200000.0
-        - 0.0
-      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-        - 200000.0
-        - 200000.0
-        - 0.0
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - false
-        - false
-        - true
+    demographics__hh_id:
+      - 4
+      - 4
+      - 4
+    demographics__kind:
+      - false
+      - false
+      - true
+    demographics__p_id:
+      - 5
+      - 6
+      - 7
+    demographics__p_id_ehepartner:
+      - 6
+      - 5
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 5
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - 6
+    einkommensteuer__einnahmen__kapitalerträge_y:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
+      - false
+    einkommensteuer__gesamteinkommen_y:
+      - 200000.0
+      - 200000.0
+      - 0.0
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 200000.0
+      - 200000.0
+      - 0.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - true
 outputs:
-  einkommensteuer:
-    anzahl_kindergeld_ansprüche_1:
-      - 1
-      - 0
-      - 0
-    anzahl_kindergeld_ansprüche_2:
-      - 0
-      - 1
-      - 0
-    relevantes_kindergeld_m:
-      - 97
-      - 97
-      - 0
+  einkommensteuer__anzahl_kindergeld_ansprüche_1:
+    - 1
+    - 0
+    - 0
+  einkommensteuer__anzahl_kindergeld_ansprüche_2:
+    - 0
+    - 1
+    - 0
+  einkommensteuer__relevantes_kindergeld_m:
+    - 97
+    - 97
+    - 0

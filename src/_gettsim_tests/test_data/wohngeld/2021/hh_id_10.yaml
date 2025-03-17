@@ -1,123 +1,104 @@
 ---
+info:
+  note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen, Vermögen.
+  source: https://www.smart-rechner.de/wohngeld/rechner.php
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      eigenbedarf_gedeckt:
-        - false
-      p_id_einstandspartner:
-        - -1
-    demographics:
-      alleinerziehend:
-        - false
-      alter:
-        - 57
-      anzahl_personen_hh:
-        - 1
-      behinderungsgrad:
-        - 0
-      geburtsjahr:
-        - 1964
-      geburtsmonat:
-        - 1
-      geburtstag:
-        - 1
-      hh_id:
-        - 10
-      kind:
-        - false
-      p_id:
-        - 55
-      p_id_ehepartner:
-        - -1
-      p_id_elternteil_1:
-        - -1
-      p_id_elternteil_2:
-        - -1
-      vermögen:
-        - 31000.0
-    einkommensteuer:
-      betrag_y_sn:
-        - 300.0
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          betrag_ohne_minijob_y:
-            - 12600.0
-        aus_selbstständiger_arbeit_m:
-          - 0.0
-        aus_vermietung_und_verpachtung_m:
-          - 0.0
-      einnahmen:
-        bruttolohn_m:
-          - 1050.0
-        kapitalerträge_y:
-          - 0.0
-        sonstige_m:
-          - 0.0
-      gemeinsam_veranlagt:
-        - false
-      rente_ertragsanteil:
-        - 0.0
-    elterngeld:
-      betrag_m:
-        - 0.0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+    demographics__alleinerziehend:
+      - false
+    demographics__alter:
+      - 57
+    demographics__anzahl_personen_hh:
+      - 1
+    demographics__behinderungsgrad:
+      - 0
+    demographics__geburtsjahr:
+      - 1964
+    demographics__geburtsmonat:
+      - 1
+    demographics__geburtstag:
+      - 1
+    demographics__hh_id:
+      - 10
+    demographics__kind:
+      - false
+    demographics__p_id:
+      - 55
+    demographics__p_id_ehepartner:
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    demographics__vermögen:
+      - 31000.0
+    einkommensteuer__betrag_y_sn:
+      - 300.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
+      - 12600.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 1050.0
+    einkommensteuer__einnahmen__kapitalerträge_y:
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    einkommensteuer__rente_ertragsanteil:
+      - 0.0
+    elterngeld__betrag_m:
+      - 0.0
     jahr:
       - 2021
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - false
-      p_id_empfänger:
-        - -1
-    solidaritätszuschlag:
-      betrag_y_sn:
-        - 0.0
-    sozialversicherung:
-      arbeitslosen:
-        betrag_m:
-          - 0.0
-      beiträge_versicherter_m:
-        - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 80.0
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-        beitrag:
-          betrag_versicherter_m:
-            - 100.0
-        private_rente_betrag_m:
-          - 0.0
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-    vorrangprüfungen:
-      wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-        - true
-      wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
-        - true
-    wohnen:
-      baujahr_immobilie_hh:
-        - 1980
-      bewohnt_eigentum_hh:
-        - false
-      bruttokaltmiete_m_hh:
-        - 600.0
-      heizkosten_m_hh:
-        - 50.0
-      wohnfläche_hh:
-        - 40.0
-    wohngeld:
-      mietstufe:
-        - 5
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+      - 80.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
+      - 100.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
+      - true
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
+      - true
+    wohnen__baujahr_immobilie_hh:
+      - 1980
+    wohnen__bewohnt_eigentum_hh:
+      - false
+    wohnen__bruttokaltmiete_m_hh:
+      - 600.0
+    wohnen__heizkosten_m_hh:
+      - 50.0
+    wohnen__wohnfläche_hh:
+      - 40.0
+    wohngeld__mietstufe:
+      - 5
 outputs:
-  wohngeld:
-    anspruchshöhe_m_bg:
-      - 249.0
-    anspruchshöhe_m_wthh:
-      - 249.0
+  wohngeld__anspruchshöhe_m_bg:
+    - 249.0
+  wohngeld__anspruchshöhe_m_wthh:
+    - 249.0

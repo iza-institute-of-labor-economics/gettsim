@@ -1,35 +1,32 @@
 ---
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    demographics:
-      hh_id:
-        - 4
-      kind:
-        - false
-      p_id:
-        - 4
-      p_id_ehepartner:
-        - -1
-    einkommensteuer:
-      einnahmen:
-        kapitalerträge_y:
-          - 2500.0
-      gemeinsam_veranlagt:
-        - false
-      gesamteinkommen_y:
-        - 50000.0
-      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-        - 42000.0
+    demographics__hh_id:
+      - 4
+    demographics__kind:
+      - false
+    demographics__p_id:
+      - 4
+    demographics__p_id_ehepartner:
+      - -1
+    einkommensteuer__einnahmen__kapitalerträge_y:
+      - 2500.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    einkommensteuer__gesamteinkommen_y:
+      - 50000.0
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+      - 42000.0
 outputs:
-  abgeltungssteuer:
-    betrag_y_sn:
-      - 424.75
-  einkommensteuer:
-    betrag_mit_kinderfreibetrag_y_sn:
-      - 9830
-    betrag_ohne_kinderfreibetrag_y_sn:
-      - 12950
-  solidaritätszuschlag:
-    betrag_y_sn:
-      - 564.01
+  abgeltungssteuer__betrag_y_sn:
+    - 424.75
+  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+    - 9830
+  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
+    - 12950
+  solidaritätszuschlag__betrag_y_sn:
+    - 564.01

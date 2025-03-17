@@ -1,54 +1,50 @@
 ---
+info:
+  note: ''
+  source: Own calculations
 inputs:
   assumed:
-    demographics:
-      geburtsjahr:
-        - 1970
-      geburtsmonat:
-        - 6
-      p_id:
-        - 13
-      wohnort_ost:
-        - false
+    demographics__geburtsjahr:
+      - 1970
+    demographics__geburtsmonat:
+      - 6
+    demographics__p_id:
+      - 13
+    demographics__wohnort_ost:
+      - false
     jahr:
       - 2008
-    sozialversicherung:
-      rente:
-        bezieht_rente:
-          - true
-        entgeltpunkte_ost:
-          - 0.0
-        entgeltpunkte_west:
-          - 14.0
-        ersatzzeiten_m:
-          - 0.0
-        erwerbsminderung:
-          teilweise_erwerbsgemindert:
-            - false
-          voll_erwerbsgemindert:
-            - true
-          wartezeit_langjährig_versichert_erfüllt:
-            - false
-        freiwillige_beitragszeiten_m:
-          - 0.0
-        jahr_renteneintritt:
-          - 2008
-        monat_renteneintritt:
-          - 6
-        pflichtbeitragszeiten_m:
-          - 60.0
+    sozialversicherung__rente__bezieht_rente:
+      - true
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 14.0
+    sozialversicherung__rente__ersatzzeiten_m:
+      - 0.0
+    sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
+      - false
+    sozialversicherung__rente__erwerbsminderung__voll_erwerbsgemindert:
+      - true
+    sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
+      - false
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+      - 0.0
+    sozialversicherung__rente__jahr_renteneintritt:
+      - 2008
+    sozialversicherung__rente__monat_renteneintritt:
+      - 6
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
+      - 60.0
   provided: {}
 outputs:
-  sozialversicherung:
-    rente:
-      erwerbsminderung:
-        entgeltpunkte_ost:
-          - 0.0
-        entgeltpunkte_west:
-          - 28.10646388
-        grundsätzlich_anspruchsberechtigt:
-          - true
-        rentenartfaktor:
-          - 1.0
-        zugangsfaktor:
-          - 0.892
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_ost:
+    - 0.0
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_west:
+    - 28.10646388
+  sozialversicherung__rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
+    - true
+  sozialversicherung__rente__erwerbsminderung__rentenartfaktor:
+    - 1.0
+  sozialversicherung__rente__erwerbsminderung__zugangsfaktor:
+    - 0.892

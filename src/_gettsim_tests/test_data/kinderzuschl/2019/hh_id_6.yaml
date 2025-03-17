@@ -1,103 +1,95 @@
 ---
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      arbeitslosengeld_2_bezug_im_vorjahr:
-        - false
-        - false
-      eigenbedarf_gedeckt:
-        - false
-        - false
-      mehrbedarf_alleinerziehend_m_bg:
-        - 0.36
-        - 0.36
-      p_id_einstandspartner:
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - true
-        - false
-      alter:
-        - 28
-        - 1
-      arbeitsstunden_w:
-        - 0.0
-        - 0.0
-      geburtsjahr:
-        - 1991
-        - 2018
-      hh_id:
-        - 6
-        - 6
-      kind:
-        - false
-        - true
-      p_id:
-        - 16
-        - 17
-      p_id_elternteil_1:
-        - -1
-        - 16
-      p_id_elternteil_2:
-        - -1
-        - -1
-      vermögen:
-        - 0.0
-        - 0.0
-    einkommensteuer:
-      einkünfte:
-        aus_selbstständiger_arbeit_m:
-          - 0.0
-          - 0.0
-      einnahmen:
-        bruttolohn_m:
-          - 2000.0
-          - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+      - 0.36
+      - 0.36
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+    demographics__alleinerziehend:
+      - true
+      - false
+    demographics__alter:
+      - 28
+      - 1
+    demographics__arbeitsstunden_w:
+      - 0.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1991
+      - 2018
+    demographics__hh_id:
+      - 6
+      - 6
+    demographics__kind:
+      - false
+      - true
+    demographics__p_id:
+      - 16
+      - 17
+    demographics__p_id_elternteil_1:
+      - -1
+      - 16
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 2000.0
+      - 0.0
     jahr:
       - 2019
       - 2019
-    kindergeld:
-      betrag_m_hh:
-        - 194.0
-        - 194.0
-      grundsätzlich_anspruchsberechtigt:
-        - false
-        - true
-      in_ausbildung:
-        - false
-        - false
-      p_id_empfänger:
-        - -1
-        - 16
-    kinderzuschlag:
-      bruttoeinkommen_eltern_m:
-        - 1000.0
-        - 0.0
-      nettoeinkommen_eltern_m:
-        - 719.0
-        - 0.0
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 160.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-        - 0.0
-    wohnen:
-      bruttokaltmiete_m_hh:
-        - 400.0
-        - 400.0
-      heizkosten_m_hh:
-        - 80.0
-        - 80.0
+    kindergeld__betrag_m_hh:
+      - 194.0
+      - 194.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - true
+    kindergeld__in_ausbildung:
+      - false
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+      - 16
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+      - 1000.0
+      - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+      - 719.0
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 160.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+    wohnen__bruttokaltmiete_m_hh:
+      - 400.0
+      - 400.0
+    wohnen__heizkosten_m_hh:
+      - 80.0
+      - 80.0
 outputs:
-  kinderzuschlag:
-    anspruchshöhe_m_bg:
-      - 10.0
-      - 10.0
-    basisbetrag_m_bg:
-      - 10.0
-      - 10.0
+  kinderzuschlag__anspruchshöhe_m_bg:
+    - 10.0
+    - 10.0
+  kinderzuschlag__basisbetrag_m_bg:
+    - 10.0
+    - 10.0

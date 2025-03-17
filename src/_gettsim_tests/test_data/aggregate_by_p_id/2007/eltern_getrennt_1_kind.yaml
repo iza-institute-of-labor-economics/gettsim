@@ -1,113 +1,108 @@
 ---
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      eigenbedarf_gedeckt:
-        - false
-        - false
-        - false
-      p_id_einstandspartner:
-        - -1
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - true
-        - false
-        - false
-      alter:
-        - 37
-        - 37
-        - 3
-      geburtsjahr:
-        - 1970
-        - 1970
-        - 2004
-      geburtsmonat:
-        - 1
-        - 1
-        - 1
-      geburtstag:
-        - 1
-        - 1
-        - 1
-      hh_id:
-        - 0
-        - 0
-        - 0
-      p_id:
-        - 0
-        - 1
-        - 2
-      p_id_ehepartner:
-        - -1
-        - -1
-        - -1
-      p_id_elternteil_1:
-        - -1
-        - -1
-        - 0
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - 1
-    einkommensteuer:
-      gemeinsam_veranlagt:
-        - false
-        - false
-        - false
-    erziehungsgeld:
-      anspruchshöhe_kind_m:
-        - 0.0
-        - 0.0
-        - 150.0
-      eltern_grundsätzlich_anspruchsberechtigt:
-        - true
-        - true
-        - true
-      p_id_empfänger:
-        - -1
-        - -1
-        - 0
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - false
-        - false
-        - true
-      p_id_empfänger:
-        - -1
-        - -1
-        - 0
-outputs:
-  einkommensteuer:
-    anzahl_kinderfreibeträge:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+    demographics__alleinerziehend:
+      - true
+      - false
+      - false
+    demographics__alter:
+      - 37
+      - 37
+      - 3
+    demographics__geburtsjahr:
+      - 1970
+      - 1970
+      - 2004
+    demographics__geburtsmonat:
       - 1
       - 1
+      - 1
+    demographics__geburtstag:
+      - 1
+      - 1
+      - 1
+    demographics__hh_id:
       - 0
-    kinderfreibetrag_y:
-      - 2904.0
-      - 2904.0
+      - 0
+      - 0
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+    demographics__p_id_ehepartner:
+      - -1
+      - -1
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 0
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - 1
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+    erziehungsgeld__anspruchshöhe_kind_m:
       - 0.0
-    p_id_kinderfreibetragempfänger_1:
-      - -1
-      - -1
-      - 0
-    p_id_kinderfreibetragempfänger_2:
-      - -1
-      - -1
-      - 1
-  erziehungsgeld:
-    betrag_m:
+      - 0.0
       - 150.0
-      - 0.0
-      - 0.0
-  kindergeld:
-    anzahl_ansprüche:
-      - 1
+    erziehungsgeld__eltern_grundsätzlich_anspruchsberechtigt:
+      - true
+      - true
+      - true
+    erziehungsgeld__p_id_empfänger:
+      - -1
+      - -1
       - 0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - true
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
       - 0
-    betrag_m:
-      - 154.0
-      - 0.0
-      - 0.0
+outputs:
+  einkommensteuer__anzahl_kinderfreibeträge:
+    - 1
+    - 1
+    - 0
+  einkommensteuer__kinderfreibetrag_y:
+    - 2904.0
+    - 2904.0
+    - 0.0
+  einkommensteuer__p_id_kinderfreibetragempfänger_1:
+    - -1
+    - -1
+    - 0
+  einkommensteuer__p_id_kinderfreibetragempfänger_2:
+    - -1
+    - -1
+    - 1
+  erziehungsgeld__betrag_m:
+    - 150.0
+    - 0.0
+    - 0.0
+  kindergeld__anzahl_ansprüche:
+    - 1
+    - 0
+    - 0
+  kindergeld__betrag_m:
+    - 154.0
+    - 0.0
+    - 0.0

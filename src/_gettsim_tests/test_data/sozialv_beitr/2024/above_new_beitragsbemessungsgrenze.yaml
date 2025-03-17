@@ -1,61 +1,44 @@
 ---
+info:
+  note: Above new Beitragsbemessungsgrenze (of 2024).
+  source: https://www.steuertipps.de/service/rechner/brutto-netto-gehaltsrechner/
 inputs:
   assumed: {}
   provided:
-    demographics:
-      alter:
-        - 45
-      hh_id:
-        - 0
-      p_id:
-        - 0
-      wohnort_ost:
-        - false
-    einkommensteuer:
-      einkünfte:
-        aus_selbstständiger_arbeit_m:
-          - 0.0
-        ist_selbstständig:
-          - false
-      einnahmen:
-        bruttolohn_m:
-          - 6000.0
-    sozialversicherung:
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-      pflege:
-        beitrag:
-          anzahl_kinder_bis_24:
-            - 2
-          hat_kinder:
-            - true
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-        private_rente_betrag_m:
-          - 0.0
+    demographics__alter:
+      - 45
+    demographics__hh_id:
+      - 0
+    demographics__p_id:
+      - 0
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 6000.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
+      - 2
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - true
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
 outputs:
-  sozialversicherung:
-    arbeitslosen:
-      beitrag:
-        betrag_versicherter_m:
-          - 78.0
-    beitrag_arbeitgeber_m:
-      - 1145.75
-    beiträge_versicherter_m:
-      - 1132.81
-    kranken:
-      beitrag:
-        betrag_versicherter_m:
-          - 421.77
-    pflege:
-      beitrag:
-        betrag_versicherter_m:
-          - 75.04
-    rente:
-      beitrag:
-        betrag_versicherter_m:
-          - 558.0
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+    - 78.0
+  sozialversicherung__beitrag_arbeitgeber_m:
+    - 1145.75
+  sozialversicherung__beiträge_versicherter_m:
+    - 1132.81
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+    - 421.77
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
+    - 75.04
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 558.0
