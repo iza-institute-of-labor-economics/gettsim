@@ -513,7 +513,7 @@ def _fail_if_data_tree_not_valid(data_tree: NestedDataDict) -> None:
     """
     assert_valid_gettsim_pytree(
         tree=data_tree,
-        leaf_checker=lambda leaf: isinstance(leaf, pd.Series | np.ndarray),
+        leaf_checker=lambda leaf: isinstance(leaf, pd.Series | np.ndarray | list),
         tree_name="data_tree",
     )
     _fail_if_pid_is_non_unique(data_tree)

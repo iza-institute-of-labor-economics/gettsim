@@ -1,36 +1,51 @@
+from typing import TYPE_CHECKING
+
+import flatten_dict
 import pytest
 from pandas.testing import assert_series_equal
 
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
+from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
+
+if TYPE_CHECKING:
+    import datetime
+
+    from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 OVERRIDE_COLS = []
 
-data = load_policy_test_data("aggregate_by_p_id")
+test_data = load_policy_test_data("aggregate_by_p_id")
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
-    ("test_data", "column"),
-    data.parametrize_args,
-    ids=str,
+    "test",
+    test_data,
 )
 def test_aggregate_by_p_id(
-    test_data: PolicyTestData,
-    column: str,
+    test: PolicyTest,
 ):
-    df = test_data.input_df
-    environment = cached_set_up_policy_environment(date=test_data.date)
+    date: datetime.date = test.date
+    input_tree: NestedDataDict = test.input_tree
+    expected_output_tree: NestedDataDict = test.expected_output_tree
+    target_structure: NestedInputStructureDict = test.target_structure
+
+    environment = cached_set_up_policy_environment(date=date)
 
     result = compute_taxes_and_transfers(
-        data=df, environment=environment, targets=column
+        data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    assert_series_equal(
-        result[column],
-        test_data.output_df[column],
-        check_dtype=False,
-        atol=1e-1,
-        rtol=0,
-    )
+    flat_result = flatten_dict.flatten(result)
+    flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
+
+    for result_series, expected_series in zip(
+        flat_result.values(), flat_expected_output_tree.values()
+    ):
+        assert_series_equal(
+            result_series,
+            expected_series,
+            check_dtype=False,
+            atol=1e-1,
+            rtol=0,
+        )
