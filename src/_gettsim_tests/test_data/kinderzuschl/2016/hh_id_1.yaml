@@ -3,39 +3,28 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 1
-      - 2
-      - 3
-    demographics__hh_id:
-      - 1
-      - 1
-      - 1
-    demographics__p_id_elternteil_1:
-      - -1
-      - -1
-      - 1
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - 2
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 2
-      - 1
-      - -1
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 1
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
     arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
-    demographics__kind:
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 2
+      - 1
+      - -1
+    demographics__alleinerziehend:
       - false
       - false
-      - true
+      - false
     demographics__alter:
       - 30
       - 30
@@ -44,38 +33,62 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 2000.0
-      - 2000.0
+    demographics__geburtsjahr:
+      - 1986
+      - 1986
+      - 2014
+    demographics__hh_id:
+      - 1
+      - 1
+      - 1
+    demographics__kind:
+      - false
+      - false
+      - true
+    demographics__p_id:
+      - 1
+      - 2
+      - 3
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 1
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - 2
+    demographics__vermögen:
+      - 0.0
+      - 0.0
       - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
       - 0.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-    wohnen__bruttokaltmiete_m_hh:
-      - 700.0
-      - 700.0
-      - 700.0
-    wohnen__heizkosten_m_hh:
-      - 100.0
-      - 100.0
-      - 100.0
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 2000.0
+      - 2000.0
+      - 0.0
+    jahr:
+      - 2016
+      - 2016
+      - 2016
+    kindergeld__betrag_m_hh:
+      - 190.0
+      - 190.0
+      - 190.0
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true
-    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 1
     kinderzuschlag__bruttoeinkommen_eltern_m:
       - 600.0
       - 0.0
@@ -84,10 +97,6 @@ inputs:
       - 322.0
       - 0.0
       - 0.0
-    kindergeld__betrag_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
     unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
@@ -96,29 +105,20 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    jahr:
-      - 2016
-      - 2016
-      - 2016
-    demographics__geburtsjahr:
-      - 1986
-      - 1986
-      - 2014
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-  assumed: {}
+    wohnen__bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+      - 700.0
+    wohnen__heizkosten_m_hh:
+      - 100.0
+      - 100.0
+      - 100.0
 outputs:
-  kinderzuschlag__basisbetrag_m_bg:
-    - 0.0
-    - 0.0
-    - 0.0
   kinderzuschlag__anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+  kinderzuschlag__basisbetrag_m_bg:
     - 0.0
     - 0.0
     - 0.0

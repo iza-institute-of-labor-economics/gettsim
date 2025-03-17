@@ -3,49 +3,53 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-    demographics__geburtstag:
-      - 14
-      - 14
-      - 1
-      - 12
-    demographics__geburtsmonat:
-      - 7
-      - 7
-      - 3
-      - 5
-    demographics__geburtsjahr:
-      - 1984
-      - 1981
-      - 2010
-      - 2013
-    # TODO (@hmgaudecker): Remove again.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    demographics__alter:
-      - 39
-      - 42
-      - 13
-      - 10
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1
       - -1
-    demographics__p_id_ehepartner:
+    demographics__alter:
+      - 39
+      - 42
+      - 13
+      - 10
+    demographics__geburtsjahr:
+      - 1984
+      - 1981
+      - 2010
+      - 2013
+    demographics__geburtsmonat:
+      - 7
+      - 7
+      - 3
+      - 5
+    demographics__geburtstag:
+      - 14
+      - 14
       - 1
-      - 0
-      - -1
-      - -1
+      - 12
     demographics__hh_id:
       - 0
       - 0
       - 0
       - 0
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+    demographics__p_id_ehepartner:
+      - 1
+      - 0
+      - -1
+      - -1
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -61,17 +65,7 @@ inputs:
       - true
       - false
       - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
 outputs:
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 0
-    - 1
   arbeitslosengeld_2__bg_id:
     - 0
     - 0
@@ -82,6 +76,11 @@ outputs:
     - 0
     - 1
     - 2
+  arbeitslosengeld_2__fg_id:
+    - 0
+    - 0
+    - 0
+    - 1
   demographics__ehe_id:
     - 0
     - 0
@@ -92,8 +91,3 @@ outputs:
     - 0
     - 1
     - 2
-#  potentielle_kinderfreibeträge:
-#    - 1
-#    - 1
-#    - 0
-#    - 0

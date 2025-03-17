@@ -3,44 +3,44 @@ info:
   note: ''
   source: Regression test. Unclear whether numbers are correct by external standards.
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 111
-    demographics__hh_id:
-      - 13
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-    demographics__wohnort_ost:
-      - false
     demographics__alter:
       - 20
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - true
-    sozialversicherung__pflege__beitrag__hat_kinder:
+    demographics__hh_id:
+      - 13
+    demographics__p_id:
+      - 111
+    demographics__wohnort_ost:
       - false
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 500.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - true
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+    jahr:
+      - '2002'
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
-    sozialversicherung__kranken__beitrag__privat_versichert:
-      - false
-    jahr:
-      - '2002'
-  assumed: {}
 outputs:
-  sozialversicherung__beiträge_versicherter_m:
-    - 122.72
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+    - 0.0
   sozialversicherung__beitrag_arbeitgeber_m:
     - 0.0
   sozialversicherung__beitrag_gesamt_m:
     - 122.72
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 0.0
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
+  sozialversicherung__beiträge_versicherter_m:
+    - 122.72
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 109.43
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 13.29
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 0.0

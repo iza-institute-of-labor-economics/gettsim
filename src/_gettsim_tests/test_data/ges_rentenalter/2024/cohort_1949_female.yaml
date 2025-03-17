@@ -3,45 +3,8 @@ info:
   note: ''
   source: Made up from the law
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-    demographics__hh_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
     demographics__geburtsjahr:
       - 1949
       - 1949
@@ -80,6 +43,44 @@ inputs:
       - 6
       - 6
       - 6
+    demographics__hh_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
     demographics__weiblich:
       - true
       - true
@@ -99,25 +100,6 @@ inputs:
       - true
       - true
       - true
-    sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
-      - true
-      - true
-      - false
-      - true
-      - true
-      - false
-      - true
-      - true
-      - false
-      - true
-      - true
-      - false
-      - true
-      - true
-      - false
-      - true
-      - true
-      - false
     sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
       - false
       - true
@@ -137,27 +119,26 @@ inputs:
       - false
       - true
       - false
-  assumed: {}
+    sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
+      - true
+      - true
+      - false
+      - true
+      - true
+      - false
+      - true
+      - true
+      - false
+      - true
+      - true
+      - false
+      - true
+      - true
+      - false
+      - true
+      - true
+      - false
 outputs:
-  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
-    - 65.25
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.083333
     - 63.0
@@ -196,6 +177,25 @@ outputs:
     - 63.0
     - 63.0
     - 65.25
+  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
     - 65.083333
     - 65.083333
@@ -234,31 +234,31 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
-  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
   sozialversicherung__rente__altersrente__referenzalter_abschlag:
     - 65.083333
     - 65.083333
     - 65.25
     - 65.166667
     - 65.166667
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
+    - 65.25
     - 65.25
     - 65.25
     - 65.25

@@ -3,9 +3,25 @@ info:
   note: Made up using the text of the law
   source: ''
 inputs:
-  provided: {}
   assumed:
-    demographics__p_id:
+    demographics__geburtsjahr:
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1951
+      - 1952
+      - 1952
+      - 1952
+      - 1952
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -22,7 +38,7 @@ inputs:
       - 13
       - 14
       - 15
-    demographics__hh_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -56,142 +72,6 @@ inputs:
       - true
       - true
       - false
-    demographics__geburtsjahr:
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1951
-      - 1952
-      - 1952
-      - 1952
-      - 1952
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
-      - 0.0
-      - 60.0
-      - 0.0
-      - 408.0
-      - 408.0
-      - 0.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
-      - 0.0
-      - 0.0
-      - 60.0
-      - 0.0
-      - 12.0
-      - 0.0
-      - 0.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__ersatzzeiten_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__anrechnungszeit_35_y:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 540.0
-      - 400.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__anrechnungszeit_45_y:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 420.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
-      - 120.0
     sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 0.0
       - 0.0
@@ -243,24 +123,161 @@ inputs:
       - true
       - true
       - true
+    sozialversicherung__rente__anrechnungszeit_35_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 540.0
+      - 400.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__anrechnungszeit_45_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 420.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__ersatzzeiten_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+      - 0.0
+      - 0.0
+      - 60.0
+      - 0.0
+      - 12.0
+      - 0.0
+      - 0.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
+      - 0.0
+      - 60.0
+      - 0.0
+      - 408.0
+      - 408.0
+      - 0.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+      - 120.0
+  provided: {}
 outputs:
-  sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    - false
+    - false
+    - false
     - false
     - true
     - true
     - true
     - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+  sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
+    - false
     - false
     - true
     - true
     - true
-    - true
-    - true
-    - true
-    - true
-    - true
-    - true
-    - true
+    - false
+    - false
+    - false
+    - false
+    - false
   sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
@@ -278,12 +295,12 @@ outputs:
     - true
     - true
     - true
-  sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
+  sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
     - false
-    - false
-    - false
-    - false
-    - false
+    - true
+    - true
+    - true
+    - true
     - false
     - true
     - true
@@ -308,23 +325,6 @@ outputs:
     - true
     - true
     - true
-    - false
-    - false
-    - false
-    - false
-  sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
-    - false
-    - false
-    - false
-    - false
-    - false
-    - false
-    - false
-    - false
-    - true
-    - true
-    - true
-    - false
     - false
     - false
     - false

@@ -4,6 +4,33 @@ info:
   source: own calculations
 inputs:
   assumed:
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+    demographics__alleinerziehend:
+      - true
+      - false
+    demographics__alter:
+      - 30
+      - 1
+    demographics__arbeitsstunden_w:
+      - 20.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1975
+      - 2007
+    demographics__geburtsmonat:
+      - 1
+      - 1
+    demographics__geburtstag:
+      - 1
+      - 1
+    demographics__hh_id:
+      - 11
+      - 11
+    demographics__kind:
+      - false
+      - true
     demographics__p_id:
       - 30
       - 31
@@ -13,33 +40,6 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-      - -1
-    erziehungsgeld__p_id_empfänger:
-      - -1
-      - 30
-    demographics__hh_id:
-      - 11
-      - 11
-    demographics__alter:
-      - 30
-      - 1
-    demographics__geburtsjahr:
-      - 1975
-      - 2007
-    demographics__geburtstag:
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-    demographics__arbeitsstunden_w:
-      - 20.0
-      - 0.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
     einkommensteuer__einnahmen__bruttolohn_m:
       - 1500.0
       - 0.0
@@ -49,28 +49,29 @@ inputs:
     elterngeld__nettoeinkommen_vorjahr_m:
       - 1500.0
       - 0.0
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-      - false
-    demographics__kind:
-      - false
-      - true
-    demographics__alleinerziehend:
-      - true
-      - false
     erziehungsgeld__budgetsatz:
       - false
       - true
+    erziehungsgeld__p_id_empfänger:
+      - -1
+      - 30
+    kindergeld__in_ausbildung:
+      - false
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - true
+      - false
+  provided: {}
 outputs:
-  erziehungsgeld__anzurechnendes_einkommen_y:
-    - 0
-    - 0.0
-  erziehungsgeld__einkommensgrenze_y:
-    - 0
-    - 0.0
   erziehungsgeld__anspruchshöhe_kind_m:
     - 0.0
     - 0.0
+  erziehungsgeld__anzurechnendes_einkommen_y:
+    - 0
+    - 0.0
   erziehungsgeld__betrag_m:
     - 0.0
+    - 0.0
+  erziehungsgeld__einkommensgrenze_y:
+    - 0
     - 0.0

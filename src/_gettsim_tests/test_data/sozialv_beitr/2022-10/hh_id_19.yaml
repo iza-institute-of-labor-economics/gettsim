@@ -3,44 +3,44 @@ info:
   note: Änderungen MidiJob 2022 (kinderlos)
   source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 19
-    demographics__hh_id:
-      - 19
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 1100.0
-    demographics__wohnort_ost:
-      - false
     demographics__alter:
       - 35
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
+    demographics__hh_id:
+      - 19
+    demographics__p_id:
+      - 19
+    demographics__wohnort_ost:
       - false
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 1100.0
+    jahr:
+      - 2022-10
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
-    sozialversicherung__kranken__beitrag__privat_versichert:
-      - false
-    jahr:
-      - 2022-10
-  assumed: {}
 outputs:
-  sozialversicherung__beiträge_versicherter_m:
-    - 175.24
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+    - 10.31
   sozialversicherung__beitrag_arbeitgeber_m:
     - 239.04
   sozialversicherung__beitrag_gesamt_m:
     - 414.28
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 79.91
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 10.31
+  sozialversicherung__beiträge_versicherter_m:
+    - 175.24
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 68.32
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 16.7
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 79.91

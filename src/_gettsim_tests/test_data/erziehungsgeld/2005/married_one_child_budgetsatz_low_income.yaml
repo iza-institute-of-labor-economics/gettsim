@@ -4,10 +4,42 @@ info:
   source: own calculations
 inputs:
   assumed:
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 9
+      - 8
+      - -1
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+    demographics__alter:
+      - 40
+      - 40
+      - 0
+    demographics__arbeitsstunden_w:
+      - 29.0
+      - 40.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1965
+      - 1965
+      - 2004
+    demographics__geburtsmonat:
+      - 1
+      - 1
+      - 8
+    demographics__geburtstag:
+      - 1
+      - 1
+      - 1
     demographics__hh_id:
       - 4
       - 4
       - 4
+    demographics__kind:
+      - false
+      - false
+      - true
     demographics__p_id:
       - 8
       - 9
@@ -20,26 +52,6 @@ inputs:
       - -1
       - -1
       - 9
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 9
-      - 8
-      - -1
-    erziehungsgeld__p_id_empfänger:
-      - -1
-      - -1
-      - 8
-    demographics__alter:
-      - 40
-      - 40
-      - 0
-    demographics__arbeitsstunden_w:
-      - 29.0
-      - 40.0
-      - 0.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
     einkommensteuer__einnahmen__bruttolohn_m:
       - 1400.0
       - 3000.0
@@ -52,48 +64,37 @@ inputs:
       - 1400.0
       - 3000.0
       - 0.0
-    demographics__geburtstag:
-      - 1
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-      - 8
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - true
-      - true
-      - false
-    demographics__kind:
-      - false
-      - false
-      - true
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-    demographics__geburtsjahr:
-      - 1965
-      - 1965
-      - 2004
     erziehungsgeld__budgetsatz:
       - false
       - false
       - true
+    erziehungsgeld__p_id_empfänger:
+      - -1
+      - -1
+      - 8
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - true
+      - true
+      - false
+  provided: {}
 outputs:
-  erziehungsgeld__anzurechnendes_einkommen_y:
-    - 0
-    - 0
-    - 38729.6
-  erziehungsgeld__einkommensgrenze_y:
-    - 0
-    - 0
-    - 22086
   erziehungsgeld__anspruchshöhe_kind_m:
     - 0.0
     - 0.0
     - 0.0
+  erziehungsgeld__anzurechnendes_einkommen_y:
+    - 0
+    - 0
+    - 38729.6
   erziehungsgeld__betrag_m:
     - 0.0
     - 0.0
     - 0.0
+  erziehungsgeld__einkommensgrenze_y:
+    - 0
+    - 0
+    - 22086

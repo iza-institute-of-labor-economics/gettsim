@@ -3,17 +3,8 @@ info:
   note: ''
   source: Made up from the law
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-    demographics__hh_id:
-      - 0
-      - 1
-      - 2
-      - 3
     demographics__geburtsjahr:
       - 1946
       - 1946
@@ -24,7 +15,22 @@ inputs:
       - 1
       - 1
       - 1
+    demographics__hh_id:
+      - 0
+      - 1
+      - 2
+      - 3
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
     demographics__weiblich:
+      - false
+      - false
+      - false
+      - false
+    sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - false
@@ -39,23 +45,12 @@ inputs:
       - false
       - true
       - true
-    sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - false
-      - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false
       - false
       - false
       - false
-  assumed: {}
 outputs:
-  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
-    - 65.0
-    - 65.0
-    - 65.0
-    - 65.0
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.0
     - 65.0
@@ -64,16 +59,6 @@ outputs:
   sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
     - 65.0
     - 62.0
-    - 60.0
-    - 60.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
-    - 63.0
-    - 63.0
-    - 63.0
-    - 63.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
-    - 60.0
-    - 60.0
     - 60.0
     - 60.0
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
@@ -91,3 +76,18 @@ outputs:
     - 65.0
     - 63.0
     - 63.0
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
+    - 65.0
+    - 65.0
+    - 65.0
+    - 65.0
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
+    - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
+    - 60.0
+    - 60.0
+    - 60.0
+    - 60.0

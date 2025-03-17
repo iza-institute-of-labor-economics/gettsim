@@ -1,59 +1,25 @@
 ---
 info:
-  note: >-
-    Test Regelsatz when Familiengemeinschaft (2 adults, 1 kid) is the same as
-    Bedarfsgemeinschaft.
+  note: Test Regelsatz when Familiengemeinschaft (2 adults, 1 kid) is the same as Bedarfsgemeinschaft.
   source: Made up.
 inputs:
   assumed:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 2
-      - -1
-      - 0
-    demographics__p_id_elternteil_1:
-      - -1
-      - 0
-      - -1
-    demographics__p_id_elternteil_2:
-      - -1
-      - 2
-      - -1
-    kindergeld__p_id_empfänger:
-      - -1
-      - 0
-      - -1
-    arbeitslosengeld_2__bg_id:
-      - 0
-      - 0
-      - 0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
       - false
       - false
+    arbeitslosengeld_2__bg_id:
+      - 0
+      - 0
+      - 0
     arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
-    jahr:
-      - 2005
-      - 2005
-      - 2005
-    demographics__kind:
-      - false
-      - true
-      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 2
+      - -1
+      - 0
     demographics__alleinerziehend:
       - false
       - false
@@ -62,6 +28,38 @@ inputs:
       - 40
       - 10
       - 45
+    demographics__hh_id:
+      - 0
+      - 0
+      - 0
+    demographics__kind:
+      - false
+      - true
+      - false
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+    demographics__p_id_elternteil_1:
+      - -1
+      - 0
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+      - 2
+      - -1
+    jahr:
+      - 2005
+      - 2005
+      - 2005
+    kindergeld__p_id_empfänger:
+      - -1
+      - 0
+      - -1
+    wohnen__bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
     wohnen__bruttokaltmiete_m_hh:
       - 900.0
       - 900.0
@@ -76,26 +74,22 @@ inputs:
       - 60.0
   provided: {}
 outputs:
-  arbeitslosengeld_2__regelsatz_m:
+  arbeitslosengeld_2__anerkannte_warmmiete_je_qm_m:
+    - 10.0
+    - 10.0
+    - 10.0
+  arbeitslosengeld_2__berechtigte_wohnfläche:
+    - 20.0
+    - 20.0
+    - 20.0
+  arbeitslosengeld_2__erwachsenensatz_m:
     - 506.0
-    - 410.0
+    - 0.0
     - 506.0
   arbeitslosengeld_2__kindersatz_m:
     - 0.0
     - 410.0
     - 0.0
-  arbeitslosengeld_2__erwachsenensatz_m:
-    - 506.0
-    - 0.0
-    - 506.0
-  arbeitslosengeld_2__berechtigte_wohnfläche:
-    - 20.0
-    - 20.0
-    - 20.0
-  arbeitslosengeld_2__anerkannte_warmmiete_je_qm_m:
-    - 10.0
-    - 10.0
-    - 10.0
   arbeitslosengeld_2__kosten_der_unterkunft_m:
     - 350.0
     - 350.0
@@ -104,3 +98,7 @@ outputs:
     - 856.0
     - 760.0
     - 856.0
+  arbeitslosengeld_2__regelsatz_m:
+    - 506.0
+    - 410.0
+    - 506.0

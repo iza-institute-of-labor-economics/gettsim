@@ -1,19 +1,51 @@
 ---
 info:
-  note: >-
-    Test with old income thresholds and new Kindergeld, (adjusted for
-    Kindersofortzuschlag of 20€). Household with wealth.
+  note: Test with old income thresholds and new Kindergeld, (adjusted for Kindersofortzuschlag
+    of 20€). Household with wealth.
   source: https://www.hartziv.org/rechner/
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 40
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 41
-      - 42
+      - 40
+      - -1
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+    demographics__alter:
+      - 40
+      - 38
+      - 3
+    demographics__arbeitsstunden_w:
+      - 0.0
+      - 12.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1983
+      - 1985
+      - 2020
     demographics__hh_id:
       - 17
       - 17
       - 17
+    demographics__kind:
+      - false
+      - false
+      - true
+    demographics__p_id:
+      - 40
+      - 41
+      - 42
     demographics__p_id_ehepartner:
       - 41
       - 40
@@ -26,30 +58,94 @@ inputs:
       - -1
       - -1
       - 41
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 41
-      - 40
-      - -1
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 40
+    demographics__vermögen:
+      - 85000.0
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+      - 700.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
       - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    elterngeld__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2023-01
+      - 2023-01
+      - 2023-01
+    kindergeld__betrag_m_bg:
+      - 250.0
+      - 250.0
+      - 250.0
+    kindergeld__in_ausbildung:
       - false
       - false
       - false
-    demographics__kind:
-      - false
-      - false
-      - true
-    demographics__alter:
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
       - 40
-      - 38
-      - 3
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+      - 140.0
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__bezieht_rente:
+      - false
+      - false
+      - false
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    wohnen__bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
     wohnen__bruttokaltmiete_m_hh:
       - 650.0
       - 650.0
@@ -62,112 +158,23 @@ inputs:
       - 70.0
       - 70.0
       - 70.0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 700.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 140.0
-      - 0.0
-    kindergeld__betrag_m_bg:
-      - 250.0
-      - 250.0
-      - 250.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    jahr:
-      - 2023-01
-      - 2023-01
-      - 2023-01
     wohngeld__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
-    demographics__vermögen:
-      - 85000.0
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1983
-      - 1985
-      - 2020
-    sozialversicherung__rente__bezieht_rente:
-      - false
-      - false
-      - false
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 12.0
-      - 0.0
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-  assumed: {}
 outputs:
   arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
     - 0.0
     - 220.0
     - 0.0
+  arbeitslosengeld_2__betrag_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
+    - 750.0
+    - 750.0
+    - 750.0
   arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
     - 0.0
     - 340.0
@@ -176,11 +183,3 @@ outputs:
     - 1240.0
     - 1240.0
     - 1240.0
-  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-    - 750.0
-    - 750.0
-    - 750.0
-  arbeitslosengeld_2__betrag_m_bg:
-    - 0.0
-    - 0.0
-    - 0.0

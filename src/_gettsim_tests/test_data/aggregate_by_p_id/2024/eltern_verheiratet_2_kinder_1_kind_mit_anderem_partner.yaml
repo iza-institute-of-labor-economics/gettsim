@@ -3,54 +3,53 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-    demographics__geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsjahr:
-      - 1990
-      - 1990
-      - 2014
-      - 2014
-    # TODO (@hmgaudecker): Remove again.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    demographics__alter:
-      - 34
-      - 34
-      - 10
-      - 10
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1
       - -1
+    demographics__alter:
+      - 34
+      - 34
+      - 10
+      - 10
+    demographics__geburtsjahr:
+      - 1990
+      - 1990
+      - 2014
+      - 2014
+    demographics__geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+    demographics__geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+    demographics__hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
     demographics__p_id_ehepartner:
       - 1
       - 0
       - -1
       - -1
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-      - false
-      - false
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -61,22 +60,32 @@ inputs:
       - -1
       - 1
       - -1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
       - false
       - false
-      - false
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 0
-      - 1
     kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - false
       - true
       - true
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 0
+      - 1
 outputs:
+  einkommensteuer__anzahl_kinderfreibeträge:
+    - 2
+    - 1
+    - 0
+    - 0
+  einkommensteuer__kinderfreibetrag_y:
+    - 9540.0
+    - 4770.0
+    - 0.0
+    - 0.0
   einkommensteuer__p_id_kinderfreibetragempfänger_1:
     - -1
     - -1
@@ -95,15 +104,5 @@ outputs:
   kindergeld__betrag_m:
     - 250.0
     - 250.0
-    - 0.0
-    - 0.0
-  einkommensteuer__anzahl_kinderfreibeträge:
-    - 2
-    - 1
-    - 0
-    - 0
-  einkommensteuer__kinderfreibetrag_y:
-    - 9540.0
-    - 4770.0
     - 0.0
     - 0.0

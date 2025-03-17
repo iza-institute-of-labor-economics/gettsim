@@ -1,58 +1,56 @@
 ---
 info:
-  note: >-
-    not eligible for potentieller_unterhaltsvorschuss if parent in same household is
-    married to new partner (unterhalt__anspruch_m unaffected)
+  note: not eligible for potentieller_unterhaltsvorschuss if parent in same household is married
+    to new partner (unterhalt__anspruch_m unaffected)
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-    demographics__geburtstag:
-      - 14
-      - 14
-      - 1
-      - 24
-    demographics__geburtsmonat:
-      - 7
-      - 7
-      - 3
-      - 12
-    demographics__geburtsjahr:
-      - 1984
-      - 1981
-      - 2010
-      - 1971
-    # TODO (@hmgaudecker): Remove again.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    demographics__alter:
-      - 39
-      - 42
-      - 13
-      - 52
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 1
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1
       - -1
+    demographics__alter:
+      - 39
+      - 42
+      - 13
+      - 52
+    demographics__geburtsjahr:
+      - 1984
+      - 1981
+      - 2010
+      - 1971
+    demographics__geburtsmonat:
+      - 7
+      - 7
+      - 3
+      - 12
+    demographics__geburtstag:
+      - 14
+      - 14
+      - 1
+      - 24
+    demographics__hh_id:
+      - 0
+      - 0
+      - 0
+      - 1
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
     demographics__p_id_ehepartner:
       - 1
       - 0
       - -1
       - -1
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-      - false
-      - false
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -63,17 +61,12 @@ inputs:
       - -1
       - 1
       - -1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
       - false
       - false
 outputs:
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 0
-    - 1
   arbeitslosengeld_2__bg_id:
     - 0
     - 0
@@ -84,6 +77,11 @@ outputs:
     - 0
     - 1
     - 2
+  arbeitslosengeld_2__fg_id:
+    - 0
+    - 0
+    - 0
+    - 1
   demographics__ehe_id:
     - 0
     - 0
@@ -94,13 +92,3 @@ outputs:
     - 0
     - 1
     - 2
-# potentielle_kinderfreibeträge:
-#   - 1
-#   - 1  # CZ: I think so
-#   - 0
-#   - 1
-# potentieller_unterhaltsvors:
-#   - 0
-#   - 0
-#   - 0
-#   - 0

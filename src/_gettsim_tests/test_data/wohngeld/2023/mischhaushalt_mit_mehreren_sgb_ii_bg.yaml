@@ -3,31 +3,24 @@ info:
   note: Created with Wohngeldrechner that doesn't check for Mindesteinkommen.
   source: https://www.bmwsb.bund.de/Webs/BMWSB/DE/themen/wohnen/wohnraumfoerderung/wohngeld/wohngeldrechner-2023-artikel.html
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-    demographics__p_id_ehepartner:
-      - 1
-      - 0
-      - -1
-      - 4
-      - 3
-      - 6
-      - 5
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - true
+      - true
+      - false
+      - true
+      - true
+      - true
+      - true
     arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
@@ -36,14 +29,86 @@ inputs:
       - 3
       - 6
       - 5
-    kindergeld__p_id_empfänger:
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    demographics__alter:
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+      - 40
+    demographics__behinderungsgrad:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    demographics__geburtsjahr:
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+      - 1983
+    demographics__geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    demographics__geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    demographics__hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    demographics__kind:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+    demographics__p_id_ehepartner:
+      - 1
+      - 0
       - -1
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
+      - 4
+      - 3
+      - 6
+      - 5
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -60,14 +125,70 @@ inputs:
       - -1
       - -1
       - -1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - true
-      - true
-      - false
-      - true
-      - true
-      - true
-      - true
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_y_sn:
+      - 20.0
+      - 20.0
+      - 20.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
+      - 12000.0
+      - 12000.0
+      - 9600.0
+      - 0.0
+      - 0.0
+      - 7200.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 1000.0
+      - 1000.0
+      - 800.0
+      - 0.0
+      - 0.0
+      - 600.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_y:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
@@ -76,7 +197,143 @@ inputs:
       - false
       - false
       - false
-    demographics__kind:
+    einkommensteuer__rente_ertragsanteil:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
+      - 50.0
+      - 50.0
+      - 50.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__bezieht_rente:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
+      - true
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
+    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
+      - true
+      - true
+      - true
+      - false
+      - false
+      - false
+      - false
+    wohnen__baujahr_immobilie_hh:
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+      - 2010
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
       - false
@@ -108,70 +365,6 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-    demographics__alter:
-      - 40
-      - 40
-      - 40
-      - 40
-      - 40
-      - 40
-      - 40
-    wohnen__baujahr_immobilie_hh:
-      - 2010
-      - 2010
-      - 2010
-      - 2010
-      - 2010
-      - 2010
-      - 2010
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
     wohngeld__mietstufe:
       - 5
       - 5
@@ -180,199 +373,6 @@ inputs:
       - 5
       - 5
       - 5
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 1000.0
-      - 1000.0
-      - 800.0
-      - 0.0
-      - 0.0
-      - 600.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__rente_ertragsanteil:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_y:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__behinderungsgrad:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-      - 1
-    demographics__geburtsjahr:
-      - 1983
-      - 1983
-      - 1983
-      - 1983
-      - 1983
-      - 1983
-      - 1983
-    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
-      - true
-      - true
-      - true
-      - false
-      - false
-      - false
-      - false
-    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-      - true
-      - true
-      - true
-      - false
-      - false
-      - false
-      - false
-    einkommensteuer__betrag_y_sn:
-      - 20.0
-      - 20.0
-      - 20.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-      - 50.0
-      - 50.0
-      - 50.0
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__bezieht_rente:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_y:
-      - 12000.0
-      - 12000.0
-      - 9600.0
-      - 0.0
-      - 0.0
-      - 7200.0
-      - 0.0
-  assumed: {}
 outputs:
   arbeitslosengeld_2__bg_id:
     - 0
@@ -382,14 +382,6 @@ outputs:
     - 200
     - 300
     - 300
-  wohngeld__wthh_id:
-    - 1
-    - 1
-    - 1
-    - 0
-    - 0
-    - 0
-    - 0
   arbeitslosengeld_2__bruttokaltmiete_m_wthh:
     - 514.29
     - 514.29
@@ -422,3 +414,11 @@ outputs:
     - false
     - false
     - false
+  wohngeld__wthh_id:
+    - 1
+    - 1
+    - 1
+    - 0
+    - 0
+    - 0
+    - 0

@@ -3,20 +3,7 @@ info:
   note: null
   source: ''
 inputs:
-  provided: {}
   assumed:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-    demographics__hh_id:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
     demographics__geburtsjahr:
       - 1952
       - 1952
@@ -29,6 +16,18 @@ inputs:
       - 1
       - 3
       - 1
+    demographics__hh_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
     sozialversicherung__rente__jahr_renteneintritt:
       - 2018
       - 2018
@@ -41,6 +40,7 @@ inputs:
       - 1
       - 1
       - 1
+  provided: {}
 outputs:
   sozialversicherung__rente__alter_bei_renteneintritt:
     - 65.916667
