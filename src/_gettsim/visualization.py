@@ -323,8 +323,8 @@ def _add_url_to_dag(dag):
     for node in dag.nodes:
         # Retrieve the name from the function because some functions are defined for
         # time periods and the node name will point to a non-existent function, but the
-        # function name is a valid target. E.g., wohngeld_eink_freib_m and
-        # wohngeld_eink_freib_m_bis_2015.
+        # function name is a valid target. E.g., freibetrag_m and
+        # freibetrag_m_bis_2015.
         if "function" in dag.nodes[node]:
             # Fix for partialed functions.
             try:

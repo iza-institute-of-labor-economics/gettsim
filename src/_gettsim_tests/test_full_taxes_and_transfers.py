@@ -1,26 +1,26 @@
 import pytest
 
 from _gettsim.config import TYPES_INPUT_VARIABLES
-from _gettsim.functions.loader import load_functions_tree_for_date
 from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.loader import load_functions_tree_for_date
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
 OUT_COLS = [
-    "eink_st_y_sn",
-    "soli_st_y_sn",
-    "abgelt_st_y_sn",
-    "ges_rentenv_beitr_arbeitnehmer_m",
-    "arbeitsl_v_beitr_arbeitnehmer_m",
-    "ges_krankenv_beitr_arbeitnehmer_m",
-    "ges_pflegev_beitr_arbeitnehmer_m",
-    "arbeitsl_geld_m",
-    "kindergeld_m",
-    "arbeitsl_geld_2_m_bg",
-    "kinderzuschl_m_bg",
-    "wohngeld_m_wthh",
-    "unterhaltsvors_m_hh",
+    "einkommensteuer__betrag_y_sn",
+    "solidaritätszuschlag__betrag_y_sn",
+    "abgeltungssteuer__betrag_y_sn",
+    "sozialversicherung__rente__beitrag__betrag_versicherter_m",
+    "sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m",
+    "sozialversicherung__kranken__beitrag__betrag_versicherter_m",
+    "sozialversicherung__pflege__beitrag__betrag_versicherter_m",
+    "sozialversicherung__arbeitslosen__betrag_m",
+    "kindergeld__betrag_m",
+    "arbeitslosengeld_2__betrag_m_bg",
+    "kinderzuschlag__betrag_m_bg",
+    "wohngeld__betrag_m_wthh",
+    "unterhaltsvorschuss__betrag_m_hh",
 ]
 
 data = load_policy_test_data("full_taxes_and_transfers")
@@ -40,7 +40,7 @@ def test_full_taxes_and_transfers(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_sn")
+        out.remove("abgeltungssteuer__betrag_y_sn")
 
     compute_taxes_and_transfers(
         data=df,
@@ -64,7 +64,7 @@ def test_data_types(
 
     out = OUT_COLS.copy()
     if test_data.date.year <= 2008:
-        out.remove("abgelt_st_y_sn")
+        out.remove("abgeltungssteuer__betrag_y_sn")
 
     df = test_data.input_df
     environment = cached_set_up_policy_environment(date=test_data.date)

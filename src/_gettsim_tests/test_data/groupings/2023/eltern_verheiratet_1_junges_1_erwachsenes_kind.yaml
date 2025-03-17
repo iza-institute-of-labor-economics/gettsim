@@ -4,90 +4,90 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
       - 3
-    geburtstag:
+    demographics__geburtstag:
       - 14
       - 14
       - 1
       - 21
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 7
       - 7
       - 3
       - 10
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1974
       - 1971
       - 2000
       - 2013
     # TODO (@hmgaudecker): Remove again.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    alter:
+    demographics__alter:
       - 49
       - 52
       - 23
       - 10
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
       - 0
       - 0
-    p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - -1
       - -1
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - 1
       - 0
       - -1
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
       - false
       - false
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - 0
       - 0
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - 1
       - 1
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
       - false
 outputs:
-  fg_id:
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
     - 0
     - 0
-  bg_id:
+  arbeitslosengeld_2__bg_id:
     - 0
     - 0
     - 0
     - 0
-  eg_id:
-    - 0
-    - 0
-    - 1
-    - 2
-  ehe_id:
+  arbeitslosengeld_2__eg_id:
     - 0
     - 0
     - 1
     - 2
-  sn_id:
+  demographics__ehe_id:
+    - 0
+    - 0
+    - 1
+    - 2
+  einkommensteuer__sn_id:
     - 0
     - 0
     - 1

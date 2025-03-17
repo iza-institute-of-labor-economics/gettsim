@@ -7,7 +7,7 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
@@ -110,22 +110,22 @@ def test_access_different_date_jahresanfang():
     "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
-            {"zu_verst_eink": {"freibetraege": {"eink_st_altersfreib_y": None}}},
+            {"einkommensteuer": {"abzüge": {"altersfreibetrag_y": None}}},
             date(2004, 12, 31),
-            "eink_st_altersfreib_y_bis_2004",
-            "eink_st_altersfreib_y_ab_2005",
+            "einkommensteuer__abzüge__altersfreibetrag_y_bis_2004",
+            "einkommensteuer__abzüge__altersfreibetrag_y_ab_2005",
         ),
         (
-            {"zu_verst_eink": {"freibetraege": {"alleinerz_freib_y_sn": None}}},
+            {"einkommensteuer": {"abzüge": {"alleinerziehend_betrag_y": None}}},
             date(2014, 12, 31),
-            "eink_st_alleinerz_freib_y_sn_pauschal",
-            "eink_st_alleinerz_freib_y_sn_nach_kinderzahl",
+            "einkommensteuer__abzüge__alleinerziehend_betrag_y_pauschal",
+            "einkommensteuer__abzüge__alleinerziehend_betrag_y_nach_kinderzahl",
         ),
         (
-            {"zu_verst_eink": {"eink": {"sum_eink_y": None}}},
+            {"einkommensteuer": {"gesamteinkommen_ohne_abzüge_y": None}},
             date(2008, 12, 31),
-            "sum_eink_mit_kapital_eink_y",
-            "sum_eink_ohne_kapital_eink_y",
+            "einkommensteuer__gesamteinkommen_mit_kapitaleinkünften_y",
+            "einkommensteuer__gesamteinkommen_ohne_kapitaleinkünften_y",
         ),
     ],
 )

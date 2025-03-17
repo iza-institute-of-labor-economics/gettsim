@@ -752,14 +752,14 @@ vorsorgepauschale_kv_max:
     steuerklasse_nicht3: 1900
     reference: Art. 1 G. v. 16.07.2009 BGBl. I S. 1959
 rounding:
-  vorsorgeaufw_y_sn:
+  einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
     note:
       en: Starting date unclear
     reference: § 10 Abs. 3 EStG
     1984-01-01:
       base: 1
       direction: up
-  sonderausgaben_betreuung_y_sn:
+  einkommensteuer__abzüge__absetzbare_betreuungskosten_y_sn:
     note:
       en: Starting date unclear
     1984-01-01:

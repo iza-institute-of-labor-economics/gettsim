@@ -274,7 +274,7 @@ beitragspflichtiges_durchschnittsentgelt:
     scalar: 50493
     reference: §3 V. v. 25.11.2024 BGBl. 2024 I Nr. 365.
     note: Vorläufiges Durchschnittsentgelt
-umrechnung_entgeltp_beitrittsgebiet:
+umrechnung_entgeltpunkte_beitrittsgebiet:
   name:
     de: Umrechnung der Beitragsbemessungsgrundlagen des Beitrittgebietes
     en: Conversion of the Beitragsbemessungsgrundlage in former GDR
@@ -2361,42 +2361,42 @@ altersgrenze_besond_langj_versicherte:
     1962: 64.666667
     1963: 64.833333
 rounding:
-  ges_rente_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     1980-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  bruttorente_m:
+  sozialversicherung__rente__altersrente__bruttorente_m:
     1980-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  grundr_zuschlag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  grundr_zuschlag_eink_m:
+  sozialversicherung__rente__grundrente__anzurechnendes_einkommen_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  grundr_zuschlag_vor_eink_anr_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  rente_vorj_vor_grundr_proxy_m:
+  sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
     2021-01-01:
       base: 0.01
       direction: nearest
       reference: §123 SGB VI Abs. 1
-  grundr_zuschlag_höchstwert_m:
+  sozialversicherung__rente__grundrente__höchstbetrag_m:
     2021-01-01:
       base: 0.0001
       direction: nearest
       reference: §76g SGB VI Abs. 4 Nr. 4
-  grundr_zuschlag_bonus_entgeltp:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     2021-01-01:
       base: 0.0001
       direction: nearest
@@ -2422,21 +2422,17 @@ thresholds_wartezeiten:
     wartezeit_15: 15
     wartezeit_35: 35
     wartezeit_45: 45
-wartezeit_45_pflichtbeitragsmonate:
+mindestpflichtbeitragsjahre_für_anrechnbarkeit_freiwilliger_beiträge:
   name:
-    de: Mindestpflichtbeitragsmonate für Wartezeit 45
-    en: Minimum statutory contribution months for wartezeit 45
-  description:
     de: >-
-      Anzahl der Mindestpflichtbeitragsminate, die für die
-      Erfüllung der Wartezeit von 45 Jahren notwendig sind.
+      Anzahl der Mindestpflichtbeitragsjahre, von der an freiwillige Beiträge
+      angerechnet werden.
     en: >-
-      Number of statutory contribution months required to
-      fullfill the waiting time of 45 years
+      Minimum statutory contribution years for the inclusion of voluntary contributions
   reference: § 51 Abs. 3a SGB VI
   note: https://www.gesetze-im-internet.de/sgb_6/__51.html
   1980-01-01:
-    scalar: 216
+    scalar: 18
 abzugsrate_hinzuverdienst:
   name:
     de: Abzugsrate für Hinzuverdienst vor der Regelaltersgrenze

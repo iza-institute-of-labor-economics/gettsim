@@ -119,7 +119,10 @@ def test_select_nodes_in_dag(n_nodes, selectors, expected):
 @pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_plot_dag():
     """Make sure that minimal example doesn't produce an error."""
-    plot_dag(environment=environment, targets=["erwachsene_alle_rentner_hh"])
+    plot_dag(
+        environment=environment,
+        targets=["demographics__erwachsene_alle_rentner_hh"],
+    )
 
 
 @pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
@@ -128,14 +131,15 @@ def test_should_fail_if_target_is_missing():
         ValueError, match="The following targets have no corresponding function"
     ):
         plot_dag(
-            environment=PolicyEnvironment({}), targets=["erwachsene_alle_rentner_hh"]
+            environment=PolicyEnvironment({}),
+            targets=["demographics__erwachsene_alle_rentner_hh"],
         )
 
 
 @pytest.mark.xfail(reason="Visualization module was not updated to the new interface.")
 def test_one_dot_plot_dag():
     """Make sure that the one dot graph example doesn't produce an error."""
-    selectors = "kapitaleink_brutto_y_sn"
+    selectors = "einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y_sn"
     plot_dag(environment=environment, selectors=selectors)
 
 
@@ -143,7 +147,10 @@ def test_one_dot_plot_dag():
 def test_10_dots_plot_dag():
     """Make sure that when No.of nodes is larger than 10 or show_labels is false, the
     graph example doesn't produce an error and hover information works properly."""
-    selector = {"type": "descendants", "node": "geringfügig_beschäftigt"}
+    selector = {
+        "type": "descendants",
+        "node": "sozialversicherung__geringfügig_beschäftigt",
+    }
     plot_dag(environment=environment, selectors=selector, orientation="h")
 
 
@@ -153,7 +160,12 @@ def test_horizontal_plot_dag():
     produce an error."""
     plot_dag(
         environment=environment,
-        selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
+        selectors=[
+            {
+                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
+                "type": "neighbors",
+            }
+        ],
         orientation="h",
     )
 
@@ -164,7 +176,12 @@ def test_hover_source_code_plot_dag():
     produce an error and works properly."""
     plot_dag(
         environment=environment,
-        selectors=[{"node": "zu_verst_kapitaleink_y_sn", "type": "neighbors"}],
+        selectors=[
+            {
+                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
+                "type": "neighbors",
+            }
+        ],
         orientation="h",
         hover_source_code=True,
     )

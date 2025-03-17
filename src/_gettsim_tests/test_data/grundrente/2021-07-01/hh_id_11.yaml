@@ -1,64 +1,64 @@
 ---
 info:
   note: >-
-    adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-    of 0.8004
+    adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+    test case uses 0.8 as maximum instead of 0.8004.
   source: >-
     Beispiel Alexander Langkowski / Hatice Yilmaz aus:
     https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 11
-    hh_id:
+    demographics__hh_id:
       - 11
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
-    grundr_zeiten:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 516
-    grundr_bew_zeiten:
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 372
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    rente_vorj_vor_grundr_proxy_m:
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
-    bruttolohn_vorj_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 0.0
-    eink_selbst_y:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y:
       - 0.0
-    eink_vermietung_y:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y:
       - 0.0
-    kapitaleink_y:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
       - 0.0
-    alter:
+    demographics__alter:
       - 70
     alleinstehend:
       - true
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1951
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+    sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    entgeltp_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 18.5
-    entgeltp_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    ges_rente_zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
-    grundr_entgeltp:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 15.5
-    kind:
+    demographics__kind:
       - false
   assumed: {}
 outputs:
-  grundr_zuschlag_bonus_entgeltp:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     - 0.021875
-  grundr_zuschlag_vor_eink_anr_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     - 279.0
-  grundr_zuschlag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     - 279.0
-  ges_rente_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 911.0

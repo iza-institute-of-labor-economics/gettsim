@@ -4,41 +4,43 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 3657
-    hh_id:
+    demographics__hh_id:
       - 23
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    alter:
+    demographics__alter:
       - 20
-    selbstständig:
+    einkommensteuer__einkünfte__ist_selbstständig:
       - true
-    ges_pflegev_hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    eink_selbst_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 1000.0
-    sum_ges_rente_priv_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
-    in_priv_krankenv:
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     jahr:
       - '2019'
   assumed: {}
 outputs:
-  sozialv_beitr_arbeitnehmer_m:
+  sozialversicherung__beiträge_versicherter_m:
     - 186.3808333
-  sozialv_beitr_arbeitgeber_m:
+  sozialversicherung__beitrag_arbeitgeber_m:
     - 0.0
-  _sozialv_beitr_summe_m:
+  sozialversicherung__beitrag_gesamt_m:
     - 186.3808333
-  ges_rentenv_beitr_arbeitnehmer_m:
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
     - 0.0
-  arbeitsl_v_beitr_arbeitnehmer_m:
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
     - 0.0
-  ges_krankenv_beitr_arbeitnehmer_m:
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 154.7116667
-  ges_pflegev_beitr_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 31.66916667

@@ -10,10 +10,10 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 YEARS = [2021]
 
 OUT_COLS_TOL = {
-    "grundr_zuschlag_bonus_entgeltp": 0.0001,
-    "grundr_zuschlag_vor_eink_anr_m": 1,
-    "grundr_zuschlag_m": 1,
-    "ges_rente_m": 1,
+    "sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag": 0.0001,
+    "sozialversicherung__rente__grundrente__basisbetrag_m": 1,
+    "sozialversicherung__rente__grundrente__betrag_m": 1,
+    "sozialversicherung__rente__altersrente__betrag_m": 1,
 }
 data = load_policy_test_data("grundrente")
 
@@ -44,37 +44,37 @@ def test_grundrente(
 INPUT_COLS_INCOME = [
     "p_id",
     "hh_id",
-    "alter",
-    "priv_rente_m",
-    "entgeltp_west",
-    "entgeltp_ost",
-    "geburtsjahr",
-    "geburtsmonat",
-    "rentner",
-    "jahr_renteneintr",
-    "monat_renteneintr",
-    "wohnort_ost",
-    "bruttolohn_m",
-    "höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
-    "weiblich",
-    "y_pflichtbeitr_ab_40",
-    "pflichtbeitr_8_in_10",
-    "arbeitsl_1y_past_585",
-    "vertra_arbeitsl_2006",
-    "vertra_arbeitsl_1997",
-    "m_pflichtbeitrag",
-    "m_freiw_beitrag",
-    "m_ersatzzeit",
-    "m_schul_ausbild",
-    "m_kind_berücks_zeit",
-    "m_pfleg_berücks_zeit",
-    "m_arbeitsunfähig",
-    "m_krank_ab_16_bis_24",
-    "m_mutterschutz",
-    "m_arbeitsl",
-    "m_ausbild_suche",
-    "m_alg1_übergang",
-    "m_geringf_beschäft",
+    "demographics__alter",
+    "sozialversicherung__rente__private_rente_betrag_m",
+    "sozialversicherung__rente__entgeltpunkte_west",
+    "sozialversicherung__rente__entgeltpunkte_ost",
+    "demographics__geburtsjahr",
+    "demographics__geburtsmonat",
+    "sozialversicherung__rente__bezieht_rente",
+    "sozialversicherung__rente__jahr_renteneintritt",
+    "sozialversicherung__rente__monat_renteneintritt",
+    "demographics__wohnort_ost",
+    "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m",
+    "sozialversicherung__rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
+    "demographics__weiblich",
+    "sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004",
+    "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997",
+    "sozialversicherung__rente__pflichtbeitragszeiten_m",
+    "sozialversicherung__rente__freiwillige_beitragszeiten_m",
+    "sozialversicherung__rente__ersatzzeiten_m",
+    "sozialversicherung__rente__schulausbildungszeiten_m",
+    "sozialversicherung__rente__kinderberücksichtigungszeiten_m",
+    "sozialversicherung__rente__pflegeberücksichtigungszeiten_m",
+    "sozialversicherung__rente__arbeitsunfähigkeitszeiten_m",
+    "sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m",
+    "sozialversicherung__rente__mutterschutzzeiten_m",
+    "sozialversicherung__rente__arbeitslosigkeitszeiten_m",
+    "sozialversicherung__rente__zeiten_der_ausbildungssuche_m",
+    "sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m",
+    "sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m",
 ]
 
 data_proxy = load_policy_test_data("grundrente_proxy_rente")
@@ -120,20 +120,21 @@ def test_proxy_rente_vorj_comparison_last_year(test_data: PolicyTestData):
     calc_result = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets="rente_vorj_vor_grundr_proxy_m",
+        targets="sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m",
     )
 
     # Calculate pension of last year
     environment = cached_set_up_policy_environment(date - timedelta(days=365))
-    df["alter"] -= 1
+    df["demographics__alter"] -= 1
     calc_result_last_year = compute_taxes_and_transfers(
         data=df,
         environment=environment,
-        targets=["bruttorente_m"],
+        targets=["sozialversicherung__rente__altersrente__bruttorente_m"],
     )
     assert_series_equal(
-        calc_result["rente_vorj_vor_grundr_proxy_m"],
-        calc_result_last_year["bruttorente_m"] + df["priv_rente_m"],
+        calc_result["sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m"],
+        calc_result_last_year["sozialversicherung__rente__altersrente__bruttorente_m"]
+        + df["sozialversicherung__rente__private_rente_betrag_m"],
         check_names=False,
         rtol=0,
     )

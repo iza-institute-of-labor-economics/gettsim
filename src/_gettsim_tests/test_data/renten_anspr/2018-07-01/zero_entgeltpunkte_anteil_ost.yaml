@@ -3,15 +3,15 @@ info:
   note: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
-    hh_id:
+    demographics__hh_id:
       - 0
-    entgeltp_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 0.0
-    entgeltp_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
   assumed: {}
 outputs:
-  anteil_entgeltp_ost:
+  sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost:
     - 0.0

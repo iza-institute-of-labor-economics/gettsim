@@ -4,35 +4,35 @@ info:
   source: https://www.oeffentlichen-dienst.de/wirtschafts-news/129-familienrecht/1230-unterhaltsvorschuss.html#google_vignette
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - 0
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    p_id_kindergeld_empf:
+    kindergeld__p_id_empfänger:
       - -1
       - 0
-    alter:
+    demographics__alter:
       - 45
       - 15
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
-    unterhaltsvorschuss_eink_m:
+    unterhaltsvorschuss__einkommen_m:
       - 1000.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
   assumed: {}
 outputs:
-  unterhaltsvors_m:
+  unterhaltsvorschuss__betrag_m:
     - 0.0
     - 314.0

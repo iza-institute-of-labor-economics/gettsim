@@ -36,7 +36,7 @@ classifiers = [
 requires-python = ">=3.11"
 dependencies = [
     "astor",
-    "dags",
+    #"dags",
     "ipywidgets",
     "networkx",
     "numpy",
@@ -113,6 +113,9 @@ pygments = "*"
 pygraphviz = "*"
 pyyaml = "*"
 toml = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 
 
 # Development Dependencies (pypi)
@@ -120,8 +123,13 @@ toml = "*"
 
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
-kaleido = "*"
 pdbp = "*"
+dags = {git = "https://github.com/OpenSourceEconomics/dags"}
+flatten_dict = "*"
+
+
+[tool.pixi.target.unix.pypi-dependencies]
+kaleido = "*"
 
 [tool.pixi.target.win-64.pypi-dependencies]
 kaleido = ">=0.1.0.post1,<=0.1.0.post1"
@@ -143,10 +151,11 @@ jaxlib = ">=0.4.20"
 jax = { version = ">=0.4.20", extras = ["cpu"] }
 jaxlib = ">=0.4.20"
 
-[tool.pixi.feature.test.dependencies]
-pytest = "*"
-pytest-cov = "*"
-pytest-xdist = "*"
+# Tasks
+# --------------------------------------------------------------------------------------
+
+[tool.pixi.feature.test.tasks]
+tests = "pytest"
 
 # Environments
 # --------------------------------------------------------------------------------------
@@ -205,6 +214,8 @@ extend-ignore = [
     "TRY003", # Avoid specifying long messages outside the exception class
     "FIX002", # Line contains TODO -- Use stuff from TD area.
     "PLC2401", # Allow non-ASCII characters in variable names.
+    "PLC2403", # Allow non-ASCII function names for imports.
+    "N999", # Allow non-ASCII characters in file names.
 
     # Things we are not sure we want
     # ==============================
@@ -232,20 +243,16 @@ exclude = []
 
 [tool.ruff.lint.per-file-ignores]
 "src/_gettsim_tests/test_rounding.py" = ["PT019"]
-"src/_gettsim/benefits/elterngeld.py" = ["E501"]
-"src/_gettsim/benefits/kinderzuschl.py" = ["ARG001"]
-"src/_gettsim/benefits/unterhalt.py" = ["E501"]
-"src/_gettsim/benefits/wohngeld.py" = ["ARG001"]
-"src/_gettsim/functions/all_functions_for_docs.py" = ["F401"]
+"src/_gettsim/functions/all_functions_for_docs.py" = ["F401", "E501", "F403"]
 "src/_gettsim/gettsim_typing.py" = ["PGH", "PLR", "SIM114"]
 "src/_gettsim/piecewise_functions.py" = ["PLR"]
 "src/_gettsim/policy_environment.py" = ["S506", "PLR"]
-"src/_gettsim/rente.py" = ["N806", "ARG001"]
-"src/_gettsim/social_insurance_contributions/ges_krankenv.py" = ["SIM401"]
-"src/_gettsim/tax_transfer.py" = ["ARG001"]
-"src/_gettsim/taxes/zu_versteuerndes_eink.py" = ["E501", "ARG001"]
-"src/_gettsim/tests/test_tax_transfer.py" = ["E501"]
+"src/_gettsim/transfers/*" = ["E501"]
+"src/_gettsim/taxes/*" = ["E501"]
+"src/_gettsim/taxes/demographics/demographics.py" = ["E501"]
 "src/_gettsim/visualization.py" = ["PLR"]
+"src/_gettsim_tests/test_synthetic.py" = ["E501"]
+"src/_gettsim/config.py" = ["E501"]
 "docs/**/*.ipynb" = ["T201"]
 
 [tool.ruff.lint.pydocstyle]

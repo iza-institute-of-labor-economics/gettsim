@@ -11,7 +11,7 @@ from flatten_dict.reducers import make_reducer
 from flatten_dict.splitters import make_splitter
 
 from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
 
@@ -385,3 +385,108 @@ def assert_valid_gettsim_pytree(
                     raise TypeError(msg)
 
     _assert_valid_gettsim_pytree(tree, current_key=())
+
+
+def get_path_for_group_by_id(
+    target_path: tuple[str],
+    group_by_functions_tree: NestedFunctionDict,
+) -> tuple[str]:
+    """Get the group-by-identifier for some target path.
+
+    The group-by-identifier is the path to the group identifier that is embedded in the
+    name. E.g., "einkommen_hh" has ("demographics", "hh_id") as its group-by-identifier.
+    In this sense, the group-by-identifiers live in a global namespace. We generally
+    expect them to be unique.
+
+    There is an exception, though: It is enough for them to be unique within the
+    uppermost namespace. In that case, however, they cannot be used outside of that
+    namespace.
+
+    Parameters
+    ----------
+    target_path
+        The aggregation target.
+    group_by_functions_tree
+        The group-by functions tree.
+
+    Returns
+    -------
+    The group-by-identifier, or an empty tuple if it is an individual-level variable.
+    """
+    group_by_paths = optree.tree_paths(group_by_functions_tree, none_is_leaf=True)
+    for g in SUPPORTED_GROUPINGS:
+        if target_path[-1].endswith(f"_{g}") and g == "hh":
+            # Hardcode because hh_id is not part of the functions tree
+            return ("demographics", "hh_id")
+        elif target_path[-1].endswith(f"_{g}"):
+            return _select_group_by_id_from_candidates(
+                candidate_paths=[p for p in group_by_paths if p[-1] == f"{g}_id"],
+                target_path=target_path,
+            )
+    return ()
+
+
+def _select_group_by_id_from_candidates(
+    candidate_paths: list[tuple[str]],
+    target_path: tuple[str],
+) -> tuple[str]:
+    """Select the group-by-identifier from the candidates.
+
+    If there are multiple candidates, the function takes the one that shares the
+    first part of the path (uppermost level of namespace) with the aggregation target.
+
+    Raises
+    ------
+    ValueError
+        Raised if the group-by-identifier is ambiguous.
+
+    Parameters
+    ----------
+    candidates
+        The candidates.
+    target_path
+        The target path.
+    nice_target_name
+        The nice target name.
+
+    Returns
+    -------
+    The group-by-identifier.
+    """
+    if len(candidate_paths) > 1:
+        candidate_paths_in_matching_namespace = [
+            p for p in candidate_paths if p[0] == target_path[0]
+        ]
+        if len(candidate_paths_in_matching_namespace) == 1:
+            return candidate_paths_in_matching_namespace[0]
+        else:
+            _fail_with_ambiguous_group_by_identifier(
+                all_candidate_paths=candidate_paths,
+                candidate_paths_in_matching_namespace=candidate_paths_in_matching_namespace,
+                target_path=target_path,
+            )
+    else:
+        return candidate_paths[0]
+
+
+def _fail_with_ambiguous_group_by_identifier(
+    candidate_paths_in_matching_namespace: tuple[str],
+    all_candidate_paths: tuple[str],
+    target_path: tuple[str],
+):
+    if len(candidate_paths_in_matching_namespace) == 0:
+        paths = "\n    ".join([str(p) for p in all_candidate_paths])
+    else:
+        paths = "\n    ".join([str(p) for p in candidate_paths_in_matching_namespace])
+    msg = format_errors_and_warnings(
+        f"""
+        Group-by-identifier for target:\n\n    {target_path}\n
+        is ambiguous. Group-by-identifiers must be
+
+        1. unique at the uppermost level of the functions tree.
+        2. inside the uppermost namespace if there are namespaced identifiers
+
+        Found candidates:\n\n    {paths}
+        """
+    )
+    raise ValueError(msg)

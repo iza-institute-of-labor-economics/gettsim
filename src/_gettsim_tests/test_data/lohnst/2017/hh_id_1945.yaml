@@ -4,35 +4,35 @@ info:
   source: ''
 inputs:
   assumed:
-    p_id_elternteil_1: -1
-    p_id_elternteil_2: -1
+    demographics__p_id_elternteil_1: -1
+    demographics__p_id_elternteil_2: -1
   provided:
-    alter:
+    demographics__alter:
       - 25
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 40.0
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 5930.400000000001
-    ges_krankenv_zusatzbeitr_satz:
+    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
       - 0.0079
-    ges_pflegev_zusatz_kinderlos:
+    sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
       - false
-    ges_pflegev_hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    hh_id:
+    demographics__hh_id:
       - 1945
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
-    p_id:
+    demographics__p_id:
       - 1945
-    regulär_beschäftigt:
+    sozialversicherung__regulär_beschäftigt:
       - true
-    steuerklasse:
+    lohnsteuer__steuerklasse:
       - 6
-    wohnort_ost:
+    demographics__wohnort_ost:
       - true
 outputs:
-  lohnst_m:
+  lohnsteuer__betrag_m:
     - 1900.0
-  soli_st_lohnst_m:
+  lohnsteuer__betrag_soli_m:
     - 104.4

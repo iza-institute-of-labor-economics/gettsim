@@ -4,29 +4,29 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
-    hh_id:
+    demographics__hh_id:
       - 0
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 600.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    alter:
+    demographics__alter:
       - 64
-    ges_rente_zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    entgeltp_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 40.0
-    entgeltp_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
-    grundr_zuschlag_m:
+    sozialversicherung__rente__grundrente__betrag_m:
       - 0.0
   assumed: {}
 outputs:
-  ges_rente_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 1440.8
-  bruttorente_basisbetrag_m:
+  sozialversicherung__rente__altersrente__bruttorente_basisbetrag_m:
     - 1440.8

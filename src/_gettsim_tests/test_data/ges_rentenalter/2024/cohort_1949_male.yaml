@@ -4,7 +4,7 @@ info:
   source: Made up from the law
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -23,7 +23,7 @@ inputs:
       - 15
       - 16
       - 17
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -42,7 +42,7 @@ inputs:
       - 15
       - 16
       - 17
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1949
       - 1949
       - 1949
@@ -61,7 +61,7 @@ inputs:
       - 1949
       - 1949
       - 1949
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 1
       - 1
       - 1
@@ -80,7 +80,7 @@ inputs:
       - 6
       - 6
       - 6
-    weiblich:
+    demographics__weiblich:
       - false
       - false
       - false
@@ -99,7 +99,7 @@ inputs:
       - false
       - false
       - false
-    ges_rente_vorauss_langj:
+    sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
       - true
       - true
       - false
@@ -118,7 +118,7 @@ inputs:
       - true
       - true
       - false
-    ges_rente_vorauss_besond_langj:
+    sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
       - false
       - true
       - false
@@ -139,7 +139,7 @@ inputs:
       - false
   assumed: {}
 outputs:
-  ges_rente_regelaltersgrenze:
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
     - 65.25
     - 65.25
     - 65.25
@@ -158,7 +158,7 @@ outputs:
     - 65.25
     - 65.25
     - 65.25
-  _ges_rente_altersgrenze_abschlagsfrei:
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
     - 65.083333
     - 63.0
     - 65.25
@@ -177,7 +177,7 @@ outputs:
     - 65.25
     - 63.0
     - 65.25
-  _ges_rente_altersgrenze_vorzeitig:
+  sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
     - 63.0
     - 63.0
     - 65.25
@@ -196,7 +196,7 @@ outputs:
     - 63.0
     - 63.0
     - 65.25
-  _ges_rente_langj_altersgrenze:
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze:
     - 65.083333
     - 65.083333
     - 65.083333
@@ -215,7 +215,7 @@ outputs:
     - 65.25
     - 65.25
     - 65.25
-  _ges_rente_langj_vorzeitig:
+  sozialversicherung__rente__altersrente__langjährig__altersgrenze_vorzeitig:
     - 63.0
     - 63.0
     - 63.0
@@ -234,7 +234,7 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
-  _ges_rente_besond_langj_altersgrenze:
+  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
     - 63.0
     - 63.0
     - 63.0
@@ -253,7 +253,7 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
-  referenzalter_abschlag:
+  sozialversicherung__rente__altersrente__referenzalter_abschlag:
     - 65.083333
     - 65.083333
     - 65.25

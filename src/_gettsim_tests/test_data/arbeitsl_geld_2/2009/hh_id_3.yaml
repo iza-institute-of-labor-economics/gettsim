@@ -4,134 +4,137 @@ info:
   source: ''
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 10
       - 11
-    hh_id:
+    demographics__hh_id:
       - 3
       - 3
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
       - -1
-    p_id_elternteil_1:
-      - -1
-      - 10
-    p_id_elternteil_2:
-      - -1
-      - -1
-    p_id_einstandspartner:
-      - -1
-      - -1
-    p_id_kindergeld_empf:
+    demographics__p_id_elternteil_1:
       - -1
       - 10
-    gemeinsam_veranlagt:
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 10
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
-    kind:
+    demographics__kind:
       - false
       - true
-    alter:
+    demographics__alter:
       - 28
       - 1
-    bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
-    heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 80.0
       - 80.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 58.0
       - 58.0
-    bewohnt_eigentum_hh:
+    wohnen__bewohnt_eigentum_hh:
       - false
       - false
-    alleinerz:
+    demographics__alleinerziehend:
       - true
       - false
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 1000.0
       - 0.0
-    sum_ges_rente_priv_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
-    kapitaleink_brutto_m:
+    sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
-    arbeitsl_geld_m:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
       - 0.0
       - 0.0
-    sonstig_eink_m:
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__sonstige__betrag_m:
       - 250.0
       - 0.0
-    eink_selbst_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
       - 0.0
-    eink_vermietung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
       - 0.0
       - 0.0
-    eink_st_y_sn:
+    einkommensteuer__betrag_y_sn:
       - 1200.0
       - 0.0
-    soli_st_y_sn:
+    solidaritätszuschlag__betrag_y_sn:
       - 66.0
       - 0.0
-    sozialv_beitr_arbeitnehmer_m:
+    sozialversicherung__beiträge_versicherter_m:
       - 200.0
       - 0.0
-    kindergeld_m:
+    kindergeld__betrag_m:
       - 164.0
       - 0.0
-    kind_unterh_erhalt_m:
+    unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
-    unterhaltsvors_m:
+    unterhaltsvorschuss__betrag_m:
       - 0.0
       - 0.0
-    elterngeld_m:
+    elterngeld__betrag_m:
       - 0.0
       - 0.0
     jahr:
       - '2009'
       - '2009'
-    wohngeld_anspruchshöhe_m_bg:
+    wohngeld__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
-    vermögen_bedürft:
+    demographics__vermögen:
       - 0.0
       - 0.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1981
       - 2008
-    rentner:
+    sozialversicherung__rente__bezieht_rente:
       - false
       - false
-    in_ausbildung:
+    kindergeld__in_ausbildung:
       - false
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 40.0
       - 0.0
-    bürgerg_bezug_vorj:
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
       - false
       - false
   assumed: {}
 outputs:
-  arbeitsl_geld_2_eink_anr_frei_m:
+  arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
     - 260.0
     - 0.0
-  arbeitsl_geld_2_nettoeink_nach_abzug_freibetrag_m:
+  arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
     - 684.5
     - 0.0
-  arbeitsl_geld_2_regelsatz_m_bg:
+  arbeitslosengeld_2__regelsatz_m_bg:
     - 687.96
     - 687.96
-  arbeitsl_geld_2_kost_unterk_m_bg:
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
     - 480.0
     - 480.0
-  arbeitsl_geld_2_m_bg:
+  arbeitslosengeld_2__betrag_m_bg:
     - 319.46
     - 319.46

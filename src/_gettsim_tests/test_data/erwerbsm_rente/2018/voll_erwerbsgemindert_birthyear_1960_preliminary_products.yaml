@@ -4,46 +4,46 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    _erwerbsm_rente_langj_versicherte_wartezeit:
+    sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
       - false
-    entgeltp_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
-    entgeltp_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 15.0
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1960
-    geburtsmonat:
+    demographics__geburtsmonat:
       - 2
     jahr:
       - 2018
-    jahr_renteneintr:
+    sozialversicherung__rente__jahr_renteneintritt:
       - 2018
-    m_ersatzzeit:
+    sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
-    m_freiw_beitrag:
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 0.0
-    m_pflichtbeitrag:
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 60.0
-    monat_renteneintr:
+    sozialversicherung__rente__monat_renteneintritt:
       - 10
-    p_id:
+    demographics__p_id:
       - 21
-    rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
-    teilw_erwerbsgemind:
+    sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false
-    voll_erwerbsgemind:
+    sozialversicherung__rente__erwerbsminderung__voll_erwerbsgemindert:
       - true
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
 outputs:
-  entgeltp_ost_erwerbsm_rente:
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_ost:
     - 0.0
-  entgeltp_west_erwerbsm_rente:
+  sozialversicherung__rente__erwerbsminderung__entgeltpunkte_west:
     - 16.2035225
-  erwerbsm_rente_zugangsfaktor:
+  sozialversicherung__rente__erwerbsminderung__zugangsfaktor:
     - 0.892
-  ges_rente_vorauss_erwerbsm:
+  sozialversicherung__rente__erwerbsminderung__grundsätzlich_anspruchsberechtigt:
     - true
-  rentenartfaktor:
+  sozialversicherung__rente__erwerbsminderung__rentenartfaktor:
     - 1.0

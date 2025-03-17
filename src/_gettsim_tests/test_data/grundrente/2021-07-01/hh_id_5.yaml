@@ -1,63 +1,63 @@
 ---
 info:
   note: >-
-    Adjusted grundr_zuschlag_bonus_entgeltp since test case uses 0.8 as maximum instead
-    of 0.8004. Beispiel Martin S.
+    Adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+    test case uses 0.8 as maximum instead of 0.8004. Beispiel Martin S.
   source: >-
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 5
-    hh_id:
+    demographics__hh_id:
       - 5
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
-    grundr_zeiten:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 408
-    grundr_bew_zeiten:
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
       - 408
-    wohnort_ost:
+    demographics__wohnort_ost:
       - true
-    rente_vorj_vor_grundr_proxy_m:
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
-    bruttolohn_vorj_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 0.0
-    eink_selbst_y:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y:
       - 0.0
-    eink_vermietung_y:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y:
       - 0.0
-    kapitaleink_y:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
       - 0.0
-    alter:
+    demographics__alter:
       - 70
     alleinstehend:
       - true
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1951
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+    sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
-    entgeltp_west:
+    sozialversicherung__rente__entgeltpunkte_west:
       - 0.0
-    entgeltp_ost:
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 18.7
-    ges_rente_zugangsfaktor:
+    sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    rentner:
+    sozialversicherung__rente__bezieht_rente:
       - true
-    grundr_entgeltp:
+    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 18.7
-    kind:
+    demographics__kind:
       - false
   assumed: {}
 outputs:
-  grundr_zuschlag_bonus_entgeltp:
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
     - 0.003698333
-  grundr_zuschlag_vor_eink_anr_m:
+  sozialversicherung__rente__grundrente__basisbetrag_m:
     - 50.98
-  grundr_zuschlag_m:
+  sozialversicherung__rente__grundrente__betrag_m:
     - 50.98
-  ges_rente_m:
+  sozialversicherung__rente__altersrente__betrag_m:
     - 677.0

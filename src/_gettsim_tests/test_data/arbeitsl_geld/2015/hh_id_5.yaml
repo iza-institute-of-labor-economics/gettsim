@@ -1,61 +1,58 @@
 ---
 info:
-  note: >-
-    old test data - anwartschaftszeit, arbeitssuchend, m_durchg_alg1_bezug and
-    sozialv_pflicht_5j were added manually
   source: none
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 7
       - 8
-    hh_id:
+    demographics__hh_id:
       - 5
       - 5
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - 7
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
-    bruttolohn_vorj_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 7000.0
       - 0.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - true
       - true
-    kind:
+    demographics__kind:
       - false
       - true
-    arbeitsstunden_w:
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
-    alter:
+    demographics__alter:
       - 30
       - 5
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1985
       - 1985
     jahr:
       - 2015
       - 2015
   assumed:
-    anwartschaftszeit:
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
       - true
       - false
-    arbeitssuchend:
+    sozialversicherung__arbeitslosen__arbeitssuchend:
       - true
       - false
-    kindergeld_anspruch:
+    kindergeld__grundsätzlich_anspruchsberechtigt:
       - false
       - true
-    m_durchg_alg1_bezug:
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
       - 0.0
       - 0.0
-    sozialv_pflicht_5j:
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
       - 12.0
       - 0.0
 outputs:
-  arbeitsl_geld_m:
+  sozialversicherung__arbeitslosen__betrag_m:
     - 1719.96
     - 0.0

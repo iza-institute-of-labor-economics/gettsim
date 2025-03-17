@@ -4,29 +4,29 @@ info:
   source: https://www.bmf-steuerrechner.de
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 1
-    hh_id:
+    demographics__hh_id:
       - 1
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
-    kind:
+    demographics__kind:
       - false
-    _zu_verst_eink_ohne_kinderfreib_y_sn:
+    einkommensteuer__gesamteinkommen_y:
       - 50000.0
-    _zu_verst_eink_mit_kinderfreib_y_sn:
+    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 50000.0
-    kapitaleink_brutto_y:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
       - 0.0
   assumed: {}
 outputs:
-  eink_st_ohne_kinderfreib_y_sn:
+  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
     - 10872.0
-  eink_st_mit_kinderfreib_y_sn:
+  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
     - 10872.0
-  abgelt_st_y_sn:
+  abgeltungssteuer__betrag_y_sn:
     - 0.0
-  soli_st_y_sn:
+  solidaritätszuschlag__betrag_y_sn:
     - 0.0

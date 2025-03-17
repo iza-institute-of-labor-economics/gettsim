@@ -42,8 +42,9 @@ a nutshell and without explanations, these conventions are:
      Internal variables should be used sparingly.
 
 1. If names need to be concatenated for making clear what a column name refers to (e.g.,
-   `arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
-   (i.e., the tax or transfer) that a variable refers to appears first.
+   `arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
+   `grundsicherung__im_alter__vermögensfreibetrag_eg`), the group (i.e., the tax or
+   transfer) that a variable refers to appears first.
 
 1. Because of the necessity of concatenated column names, there will be conflicts
    between readability (1.) and variable length (2.). If such conflicts arise, they need
@@ -108,12 +109,13 @@ no restriction on the number of characters. Internal columns should be used spar
 
 Across variations that include the same identifier, this identifier should not be
 changed, even if it leads to long variable names (e.g., `kinderfreib`,
-`_zu_verst_eink_ohne_kinderfreib_y_sn`). This makes searching for identifiers easier and
+`einkommensteuer__gesamteinkommen_y`). This makes searching for identifiers easier and
 less error-prone.
 
 If names need to be concatenated for making clear what a column name refers to (e.g.,
-`arbeitsl_geld_2_vermög_freib_bg` vs. `grunds_im_alter_vermög_freib_eg`), the group
-(i.e., the tax or transfer) that a variable refers to appears first.
+`arbeitslosengeld_2__freibetrag_vermögen_bg` vs.
+`grundsicherung__im_alter__vermögensfreibetrag_eg`), the group (i.e., the tax or
+transfer) that a variable refers to appears first.
 
 If a column has a reference to a time unit (i.e., any flow variable like earnings or
 transfers), a column is indicated by an underscore plus one of {`y`, `m`, `w`, `d`}.
@@ -124,26 +126,28 @@ indicate the level of aggregation.
 
 GETTSIM knows about the following units:
 
-- `p_id`: person identifier
-- `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
-  (§5 WoGG).
-- `wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for whom the
-  priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This unit is
-  based on the priority check via `wohngeld_vorrang_bg` and
-  `wohngeld_kinderzuschl_vorrang_bg`.
-- `fg_id`: Familiengemeinschaft. Maximum of two generations, the relevant unit for
-  Bürgergeld / Arbeitslosengeld 2. Another way to think about this is the potential
-  Bedarfsgemeinschaft before making checks for whether children have enough income fend
-  for themselves. Subset of `hh`.
-- `bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding children who have
-  enough income to fend for themselves (they will form separate `bg`s). Subset of
-  `fg_id`.
-- `eg_id`: Einstandsgemeinschaft, a couple whose members are deemed to be responsible
-  for each other. This includes couples that live together and may or may not be married
-  or in a civil union.
-- `ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil union.
-- `sn_id`: Steuernummer (same for spouses filing taxes jointly, not the same as the
-  Germany-wide Steuer-ID)
+- `demographics__p_id`: person identifier
+- `demographics__hh_id`: Haushalt, individuals living together in a household in the
+  Wohngeld sense (§5 WoGG).
+- `wohngeld__wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for
+  whom the priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This
+  unit is based on the priority check via
+  `vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg` and
+  `vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg`.
+- `arbeitslosengeld_2__fg_id`: Familiengemeinschaft. Maximum of two generations, the
+  relevant unit for Bürgergeld / Arbeitslosengeld 2. Another way to think about this is
+  the potential Bedarfsgemeinschaft before making checks for whether children have
+  enough income fend for themselves. Subset of `hh`.
+- `arbeitslosengeld_2__bg_id`: Bedarfsgemeinschaft, i.e., Familiengemeinschaft excluding
+  children who have enough income to fend for themselves (they will form separate
+  `bg`s). Subset of `arbeitslosengeld_2__fg_id`.
+- `arbeitslosengeld_2__eg_id`: Einstandsgemeinschaft, a couple whose members are deemed
+  to be responsible for each other. This includes couples that live together and may or
+  may not be married or in a civil union.
+- `demographics__ehe_id`: Ehegemeinschaft, i.e. couples that are married or in a civil
+  union.
+- `einkommensteuer__sn_id`: Steuernummer (same for spouses filing taxes jointly, not the
+  same as the Germany-wide Steuer-ID)
 
 Note that households do not include flat shares etc.. Such broader definition are
 currently not relevant in GETTSIM but may be added in the future (e.g., capping rules
@@ -151,11 +155,11 @@ for costs of dwelling in SGB II depend on this).
 
 Open questions:
 
-- Can we use bg_id for both SGB II and SGB XII at the same time or do we need to
-  differentiate once we add serious support for SGB XII?
+- Can we use `arbeitslosengeld_2__bg_id` for both SGB II and SGB XII at the same time or
+  do we need to differentiate once we add serious support for SGB XII?
 
 Time unit identifiers always appear before unit identifiers (e.g.,
-`arbeitsl_geld_2_m_bg`).
+`arbeitslosengeld_2__betrag_m_bg`).
 
 ## Parameters of the taxes and transfers system
 
@@ -163,12 +167,12 @@ The structure of these parameters are laid out in \<GEP-3 `gep-3`>; we just note
 general naming considerations here.
 
 - There is a hierarchical structure to these parameters in that each of them is
-  associated with a group (e.g., `arbeitsl_geld`, `kinderzuschlag`). These groups or
+  associated with a group (e.g., `arbeitslosengeld`, `kinderzuschlag`). These groups or
   abbreviations thereof do not re-appear in the name of the parameter.
 - Parameter names should be generally be aligned with relevant column names. However,
   since the group is not repeated for the parameter, it is often better not to
   abbreviate them (e.g., `wohngeld_params["vermögensgrundfreibetrag"]` for the parameter
-  and `wohngeld_anspruchshöhe_m_wthh` for a column derived from it).
+  and `wohngeld__anspruchshöhe_m_wthh` for a column derived from it).
 
 ## Other Python identifiers (Functions, Variables)
 

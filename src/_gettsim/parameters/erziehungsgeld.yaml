@@ -134,7 +134,7 @@ end_age_m_budgetsatz:
   2004-01-01:
     scalar: 12
 rounding:
-  erziehungsgeld_kind_m:
+  erziehungsgeld__anspruchshöhe_kind_m:
     2004-01-01:
       base: 0.01
       direction: nearest

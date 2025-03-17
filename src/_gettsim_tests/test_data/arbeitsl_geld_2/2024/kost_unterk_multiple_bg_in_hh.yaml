@@ -4,7 +4,7 @@ info:
   source: Made up.
 inputs:
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -14,7 +14,7 @@ inputs:
       - 6
       - 7
       - 8
-    hh_id:
+    demographics__hh_id:
       - 0
       - 0
       - 0
@@ -24,7 +24,7 @@ inputs:
       - 0
       - 0
       - 0
-    p_id_einstandspartner:
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - 3
@@ -34,7 +34,7 @@ inputs:
       - -1
       - 8
       - 7
-    p_id_ehepartner:
+    demographics__p_id_ehepartner:
       - -1
       - -1
       - -1
@@ -44,7 +44,7 @@ inputs:
       - -1
       - -1
       - -1
-    p_id_elternteil_1:
+    demographics__p_id_elternteil_1:
       - -1
       - -1
       - -1
@@ -54,7 +54,7 @@ inputs:
       - 0
       - -1
       - -1
-    p_id_elternteil_2:
+    demographics__p_id_elternteil_2:
       - -1
       - -1
       - -1
@@ -64,7 +64,7 @@ inputs:
       - 1
       - -1
       - -1
-    gemeinsam_veranlagt:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
       - false
@@ -74,7 +74,7 @@ inputs:
       - false
       - false
       - false
-    eigenbedarf_gedeckt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
@@ -94,7 +94,7 @@ inputs:
       - 2018
       - 2018
       - 2018
-    kind:
+    demographics__kind:
       - false
       - false
       - false
@@ -104,7 +104,7 @@ inputs:
       - true
       - false
       - false
-    alter:
+    demographics__alter:
       - 30
       - 30
       - 30
@@ -114,7 +114,7 @@ inputs:
       - 10
       - 30
       - 30
-    bruttokaltmiete_m_hh:
+    wohnen__bruttokaltmiete_m_hh:
       - 1000.0
       - 1000.0
       - 1000.0
@@ -124,7 +124,7 @@ inputs:
       - 1000.0
       - 1000.0
       - 1000.0
-    heizkosten_m_hh:
+    wohnen__heizkosten_m_hh:
       - 100.0
       - 100.0
       - 100.0
@@ -134,7 +134,7 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
-    wohnfläche_hh:
+    wohnen__wohnfläche_hh:
       - 100.0
       - 100.0
       - 100.0
@@ -146,7 +146,7 @@ inputs:
       - 100.0
   provided: {}
 outputs:
-  bg_id:
+  arbeitslosengeld_2__bg_id:
     - 0
     - 0
     - 100
@@ -156,7 +156,7 @@ outputs:
     - 0
     - 200
     - 200
-  bruttokaltmiete_m_bg:
+  arbeitslosengeld_2__bruttokaltmiete_m_bg:
     - 555.56
     - 555.56
     - 222.22
@@ -166,7 +166,7 @@ outputs:
     - 555.56
     - 222.22
     - 222.22
-  heizkosten_m_bg:
+  arbeitslosengeld_2__heizkosten_m_bg:
     - 55.56
     - 55.56
     - 22.22

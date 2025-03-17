@@ -5,7 +5,7 @@ info:
 inputs:
   provided: {}
   assumed:
-    p_id:
+    demographics__p_id:
       - 0
       - 1
       - 2
@@ -22,7 +22,7 @@ inputs:
       - 13
       - 14
       - 15
-    hh_id:
+    demographics__hh_id:
       - 0
       - 1
       - 2
@@ -39,7 +39,7 @@ inputs:
       - 13
       - 14
       - 15
-    weiblich:
+    demographics__weiblich:
       - false
       - false
       - false
@@ -56,7 +56,7 @@ inputs:
       - true
       - true
       - false
-    geburtsjahr:
+    demographics__geburtsjahr:
       - 1951
       - 1951
       - 1951
@@ -73,7 +73,7 @@ inputs:
       - 1952
       - 1952
       - 1952
-    m_pflichtbeitrag:
+    sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 0.0
       - 60.0
       - 0.0
@@ -90,7 +90,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_freiw_beitrag:
+    sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 0.0
       - 0.0
       - 60.0
@@ -107,7 +107,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_ersatzzeit:
+    sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -124,7 +124,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    ges_rente_anrechnungszeit:
+    sozialversicherung__rente__anrechnungszeit_35_y:
       - 0.0
       - 0.0
       - 0.0
@@ -141,7 +141,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_kind_berücks_zeit:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -158,7 +158,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    m_pfleg_berücks_zeit:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
       - 0.0
       - 0.0
       - 0.0
@@ -175,7 +175,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    y_pflichtbeitr_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
       - 0.0
       - 0.0
       - 0.0
@@ -192,7 +192,7 @@ inputs:
       - 10.01
       - 10.01
       - 10.01
-    arbeitsl_1y_past_585:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - true
       - false
       - true
@@ -209,7 +209,7 @@ inputs:
       - true
       - true
       - true
-    pflichtbeitr_8_in_10:
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
       - false
       - true
       - false
@@ -227,7 +227,7 @@ inputs:
       - true
       - true
 outputs:
-  ges_rente_vorauss_regelrente:
+  sozialversicherung__rente__altersrente__regelaltersrente__grundsätzlich_anspruchsberechtigt:
     - false
     - true
     - true
@@ -244,7 +244,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_langj:
+  sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -261,7 +261,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_arbeitsl:
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false
@@ -278,7 +278,7 @@ outputs:
     - true
     - true
     - true
-  ges_rente_vorauss_frauen:
+  sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
     - false
     - false
     - false

@@ -10,13 +10,13 @@ from _gettsim.config import (
     INTERNAL_PARAMS_GROUPS,
     RESOURCE_DIR,
 )
-from _gettsim.functions.loader import load_functions_tree_for_date
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.interface import (
     _add_rounding_to_function,
     _apply_rounding_spec,
     compute_taxes_and_transfers,
 )
+from _gettsim.loader import load_functions_tree_for_date
 from _gettsim.policy_environment import PolicyEnvironment
 
 rounding_specs_and_exp_results = [
@@ -59,7 +59,7 @@ def test_no_rounding_specs(rounding_specs):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([1, 2])}},
+            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -96,7 +96,7 @@ def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([1, 2])}},
+            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -115,7 +115,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
         return income
 
     data = {
-        "groupings": {"p_id": pd.Series([1, 2])},
+        "demographics": {"p_id": pd.Series([1, 2])},
         "namespace": {"income": pd.Series(input_values)},
     }
     rounding_specs = {
@@ -158,7 +158,10 @@ def test_rounding_with_time_conversion():
     def test_func_m(income):
         return income
 
-    data = {"groupings": {"p_id": pd.Series([1, 2])}, "income": pd.Series([1.2, 1.5])}
+    data = {
+        "demographics": {"p_id": pd.Series([1, 2])},
+        "income": pd.Series([1.2, 1.5]),
+    }
     rounding_specs = {
         "params_key_test": {
             "rounding": {
@@ -195,7 +198,7 @@ def test_no_rounding(
     def test_func(income):
         return income
 
-    data = {"groupings": {"p_id": pd.Series([1, 2])}}
+    data = {"demographics": {"p_id": pd.Series([1, 2])}}
     data["income"] = pd.Series(input_values_exp_output)
     rounding_specs = {
         "params_key_test": {

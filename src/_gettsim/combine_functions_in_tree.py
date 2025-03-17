@@ -28,12 +28,12 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.groupings import create_groupings
+from _gettsim.function_types import DerivedFunction, GroupByFunction
 from _gettsim.shared import (
     format_errors_and_warnings,
     format_list_linewise,
     get_names_of_arguments_without_defaults,
+    get_path_for_group_by_id,
     insert_path_and_value,
     partition_tree_by_reference_tree,
     remove_group_suffix,
@@ -113,13 +113,6 @@ def combine_policy_functions_and_derived_functions(
         to_upsert=current_functions_tree,
     )
 
-    # Create groupings
-    groupings = create_groupings()
-    current_functions_tree = upsert_tree(
-        base=groupings,
-        to_upsert=current_functions_tree,
-    )
-
     _fail_if_targets_not_in_functions_tree(current_functions_tree, targets_tree)
 
     return current_functions_tree
@@ -166,6 +159,14 @@ def _create_aggregation_functions(
         aggregations_tree
     )[:2]
 
+    group_by_functions_tree = flatten_dict.unflatten(
+        {
+            path: func
+            for path, func in flatten_dict.flatten(functions_tree).items()
+            if isinstance(func, GroupByFunction)
+        }
+    )
+
     expected_aggregation_spec_type = (
         AggregateByGroupSpec if aggregation_type == "group" else AggregateByPIDSpec
     )
@@ -184,11 +185,25 @@ def _create_aggregation_functions(
         )
 
         if aggregation_type == "group":
+            group_by_id_path = get_path_for_group_by_id(
+                target_path=tree_path,
+                group_by_functions_tree=group_by_functions_tree,
+            )
+
+            if not group_by_id_path:
+                msg = format_errors_and_warnings(
+                    "Name of aggregated column needs to have a suffix "
+                    "indicating the group over which it is aggregated. "
+                    f"The name {'.'.join(tree_path)} does not do so."
+                )
+                raise ValueError(msg)
+
             derived_func = _create_one_aggregate_by_group_func(
                 aggregation_target=tree_path[-1],
                 aggregation_method=aggregation_spec.aggr,
                 source_col=aggregation_spec.source_col,
                 annotations=annotations,
+                group_by_id=QUALIFIED_NAME_SEPARATOR.join(group_by_id_path),
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -375,55 +390,45 @@ def _select_return_type(aggregation_method: str, source_col_type: type) -> type:
     return return_type
 
 
-def _create_one_aggregate_by_group_func(  # noqa: PLR0912
+def _create_one_aggregate_by_group_func(
     aggregation_target: str,
     aggregation_method: str,
     source_col: str,
     annotations: dict[str, Any],
+    group_by_id: str,
 ) -> DerivedFunction:
     """Create an aggregation function based on aggregation specification.
 
     Parameters
     ----------
     aggregation_target
-        Name of the aggregation target.
+        Leaf name of the aggregation target.
     aggregation_method
         The aggregation method.
     source_col
-        The source column.
+        The qualified source column name.
     annotations
         The annotations for the derived function.
+    group_by_id
+        The group-by-identifier.
 
     Returns
     -------
     The derived function.
 
     """
-    # Identify grouping level
-    group_id = None
-    for g in SUPPORTED_GROUPINGS:
-        if aggregation_target.endswith(f"_{g}"):
-            group_id = f"groupings__{g}_id"
-    if not group_id:
-        msg = format_errors_and_warnings(
-            "Name of aggregated column needs to have a suffix "
-            "indicating the group over which it is aggregated. "
-            f"The name {aggregation_target} does not do so."
-        )
-        raise ValueError(msg)
-
     if aggregation_method == "count":
 
         @rename_arguments_and_add_annotations(
-            mapper={"group_id": group_id}, annotations=annotations
+            mapper={"group_by_id": group_by_id}, annotations=annotations
         )
-        def aggregate_by_group_func(group_id):
-            return grouped_count(group_id)
+        def aggregate_by_group_func(group_by_id):
+            return grouped_count(group_by_id)
 
     else:
         mapper = {
             "source_col": source_col,
-            "group_id": group_id,
+            "group_by_id": group_by_id,
         }
         if aggregation_method == "sum":
 
@@ -431,8 +436,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_sum(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_sum(source_col, group_by_id)
 
         elif aggregation_method == "mean":
 
@@ -440,8 +445,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_mean(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_mean(source_col, group_by_id)
 
         elif aggregation_method == "max":
 
@@ -449,8 +454,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_max(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_max(source_col, group_by_id)
 
         elif aggregation_method == "min":
 
@@ -458,8 +463,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_min(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_min(source_col, group_by_id)
 
         elif aggregation_method == "any":
 
@@ -467,8 +472,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_any(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_any(source_col, group_by_id)
 
         elif aggregation_method == "all":
 
@@ -476,8 +481,8 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
                 mapper=mapper,
                 annotations=annotations,
             )
-            def aggregate_by_group_func(source_col, group_id):
-                return grouped_all(source_col, group_id)
+            def aggregate_by_group_func(source_col, group_by_id):
+                return grouped_all(source_col, group_by_id)
 
         else:
             msg = format_errors_and_warnings(
@@ -486,9 +491,9 @@ def _create_one_aggregate_by_group_func(  # noqa: PLR0912
             raise ValueError(msg)
 
     if aggregation_method == "count":
-        derived_from = group_id
+        derived_from = group_by_id
     else:
-        derived_from = (source_col, group_id)
+        derived_from = (source_col, group_by_id)
 
     return DerivedFunction(
         function=aggregate_by_group_func,
@@ -530,7 +535,7 @@ def _create_one_aggregate_by_p_id_func(
         @rename_arguments_and_add_annotations(
             mapper={
                 "p_id_to_aggregate_by": p_id_to_aggregate_by,
-                "p_id_to_store_by": "groupings__p_id",
+                "p_id_to_store_by": "demographics__p_id",
             },
             annotations=annotations,
         )
@@ -540,7 +545,7 @@ def _create_one_aggregate_by_p_id_func(
     else:
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "groupings__p_id",
+            "p_id_to_store_by": "demographics__p_id",
             "column": source_col,
         }
 

@@ -9,18 +9,18 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 INPUT_COLS = [
     "hh_id",
     "p_id",
-    "wohnort_ost",
-    "steuerklasse",
-    "bruttolohn_m",
-    "alter",
-    "ges_pflegev_hat_kinder",
-    "arbeitsstunden_w",
-    "in_ausbildung",
-    "ges_krankenv_zusatzbeitr_satz",
-    "ges_pflegev_zusatz_kinderlos",
+    "demographics__wohnort_ost",
+    "lohnsteuer__steuerklasse",
+    "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m",
+    "demographics__alter",
+    "sozialversicherung__pflege__beitrag__hat_kinder",
+    "demographics__arbeitsstunden_w",
+    "kindergeld__in_ausbildung",
+    "sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz",
+    "sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos",
 ]
 
-OUT_COLS = ["lohnst_m", "soli_st_lohnst_m"]
+OUT_COLS = ["lohnsteuer__betrag_m", "lohnsteuer__betrag_soli_m"]
 
 data = load_policy_test_data("lohnst")
 

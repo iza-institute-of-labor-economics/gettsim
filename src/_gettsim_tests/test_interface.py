@@ -9,9 +9,8 @@ import pytest
 from _gettsim.aggregation import AggregateByGroupSpec, AggregateByPIDSpec
 from _gettsim.config import FOREIGN_KEYS
 from _gettsim.config import numpy_or_jax as np
-from _gettsim.functions.policy_function import policy_function
+from _gettsim.function_types import policy_function
 from _gettsim.gettsim_typing import convert_series_to_internal_type
-from _gettsim.groupings import bg_id_numpy, wthh_id_numpy
 from _gettsim.interface import (
     _convert_data_to_correct_types,
     _fail_if_foreign_keys_are_invalid,
@@ -21,7 +20,15 @@ from _gettsim.interface import (
     compute_taxes_and_transfers,
 )
 from _gettsim.policy_environment import PolicyEnvironment
-from _gettsim.shared import assert_valid_gettsim_pytree
+from _gettsim.shared import (
+    assert_valid_gettsim_pytree,
+    create_tree_from_path_and_value,
+    upsert_path_and_value,
+)
+from _gettsim.transfers.arbeitslosengeld_2.group_by_ids import bg_id
+from _gettsim.transfers.wohngeld.group_by_ids import (
+    wthh_id,
+)
 from gettsim import FunctionsAndColumnsOverlapWarning
 
 
@@ -29,7 +36,7 @@ from gettsim import FunctionsAndColumnsOverlapWarning
 def minimal_input_data():
     n_individuals = 5
     out = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
             "hh_id": pd.Series(numpy.arange(n_individuals), name="hh_id"),
         }
@@ -41,7 +48,7 @@ def minimal_input_data():
 def minimal_input_data_shared_hh():
     n_individuals = 3
     out = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series(numpy.arange(n_individuals), name="p_id"),
             "hh_id": pd.Series([0, 0, 1], name="hh_id"),
         }
@@ -66,7 +73,7 @@ def test_output_as_tree(minimal_input_data):
         {
             "module": {
                 "test_func": policy_function(leaf_name="test_func")(
-                    lambda groupings__p_id: groupings__p_id
+                    lambda demographics__p_id: demographics__p_id
                 )
             }
         }
@@ -90,7 +97,10 @@ def test_warn_if_functions_and_columns_overlap():
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0])}, "dupl": pd.Series([1])},
+            data_tree={
+                "demographics": {"p_id": pd.Series([0])},
+                "dupl": pd.Series([1]),
+            },
             environment=environment,
             targets_tree={},
         )
@@ -104,7 +114,7 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0])}},
+            data_tree={"demographics": {"p_id": pd.Series([0])}},
             environment=environment,
             targets_tree={},
         )
@@ -120,7 +130,9 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     ) as warning_list:
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data_tree={"groupings": {"p_id": pd.Series([0]), "dupl": pd.Series([1])}},
+            data_tree={
+                "demographics": {"p_id": pd.Series([0]), "dupl": pd.Series([1])}
+            },
             environment=environment,
             targets_tree={},
         )
@@ -129,63 +141,74 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
 
 
 def test_fail_if_pid_does_not_exist():
-    data = {"groupings__hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
+    data = {"demographics__hh_id": pd.Series(data=numpy.arange(8), name="hh_id")}
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
 def test_fail_if_pid_is_non_unique():
-    data = {"groupings__p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")}
+    data = {
+        "demographics__p_id": pd.Series(data=numpy.arange(4).repeat(2), name="p_id")
+    }
 
     with pytest.raises(ValueError):
         _fail_if_pid_is_non_unique(data)
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key):
-    data = {
-        "groupings": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([0, 1, 4], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([0, 1, 4]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
     with pytest.raises(ValueError, match="not a valid p_id"):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
-            p_ids=data["groupings"]["p_id"],
+            p_ids=data["demographics"]["p_id"],
         )
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_allow_minus_one_as_foreign_key(foreign_key):
-    data = {
-        "groupings": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([-1, 1, 2], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_allow_minus_one_as_foreign_key(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([-1, 1, 2]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
     _fail_if_foreign_keys_are_invalid(
         data_tree=data,
-        p_ids=data["groupings"]["p_id"],
+        p_ids=data["demographics"]["p_id"],
     )
 
 
-@pytest.mark.parametrize("foreign_key", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
-    data = {
-        "groupings": {
-            "p_id": pd.Series([1, 2, 3], name="p_id"),
-            foreign_key: pd.Series([1, 3, 3], name=foreign_key),
-        },
-    }
+@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
+def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key_path):
+    data = create_tree_from_path_and_value(
+        path=foreign_key_path,
+        value=pd.Series([1, 3, 3]),
+    )
+    data = upsert_path_and_value(
+        base=data,
+        path_to_upsert=("demographics", "p_id"),
+        value_to_upsert=pd.Series([1, 2, 3]),
+    )
 
-    with pytest.raises(ValueError, match="are equal to the p_id in the same"):
+    with pytest.raises(ValueError, match="are equal to the p_id"):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
-            p_ids=data["groupings"]["p_id"],
+            p_ids=data["demographics"]["p_id"],
         )
 
 
@@ -194,7 +217,7 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
     [
         {
             "foo_hh": pd.Series([1, 2, 2], name="foo_hh"),
-            "groupings": {
+            "demographics": {
                 "hh_id": pd.Series([1, 1, 2], name="hh_id"),
             },
         },
@@ -202,7 +225,10 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key):
 )
 def test_fail_if_group_variables_not_constant_within_groups(data):
     with pytest.raises(ValueError):
-        _fail_if_group_variables_not_constant_within_groups(data)
+        _fail_if_group_variables_not_constant_within_groups(
+            data_tree=data,
+            functions_tree={},
+        )
 
 
 def test_missing_root_nodes_raises_error(minimal_input_data):
@@ -231,7 +257,7 @@ def test_missing_root_nodes_raises_error(minimal_input_data):
 def test_function_without_data_dependency_is_not_mistaken_for_data(minimal_input_data):
     @policy_function(leaf_name="a")
     def a():
-        return pd.Series(range(minimal_input_data["groupings"]["p_id"].size))
+        return pd.Series(range(minimal_input_data["demographics"]["p_id"].size))
 
     @policy_function(leaf_name="b")
     def b(a):
@@ -258,7 +284,7 @@ def test_fail_if_targets_are_not_in_functions_or_in_columns_overriding_functions
 
 
 def test_fail_if_missing_pid():
-    data = {"groupings": {"hh_id": pd.Series([1, 2, 3], name="hh_id")}}
+    data = {"demographics": {"hh_id": pd.Series([1, 2, 3], name="hh_id")}}
     with pytest.raises(
         ValueError,
         match="The input data must contain the p_id",
@@ -268,7 +294,7 @@ def test_fail_if_missing_pid():
 
 def test_fail_if_non_unique_pid(minimal_input_data):
     data = copy.deepcopy(minimal_input_data)
-    data["groupings"]["p_id"][:] = 1
+    data["demographics"]["p_id"][:] = 1
 
     with pytest.raises(
         ValueError,
@@ -305,7 +331,7 @@ def test_partial_parameters_to_functions_removes_argument():
 
 def test_user_provided_aggregate_by_group_specs():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -358,7 +384,7 @@ def test_user_provided_aggregate_by_group_specs():
 )
 def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree):
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -395,7 +421,7 @@ def test_user_provided_aggregate_by_group_specs_function(aggregation_specs_tree)
 
 def test_aggregate_by_group_specs_missing_group_sufix():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -424,7 +450,7 @@ def test_aggregate_by_group_specs_missing_group_sufix():
 
 def test_aggregate_by_group_specs_agg_not_impl():
     data = {
-        "groupings": {
+        "demographics": {
             "p_id": pd.Series([1, 2, 3], name="p_id"),
             "hh_id": pd.Series([1, 1, 2], name="hh_id"),
         },
@@ -458,7 +484,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func",
                         aggr="sum",
                     )
@@ -472,7 +498,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func_m": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func_m",
                         aggr="sum",
                     )
@@ -486,7 +512,7 @@ def test_aggregate_by_group_specs_agg_not_impl():
             {
                 "module": {
                     "target_func_m": AggregateByPIDSpec(
-                        p_id_to_aggregate_by="groupings__hh_id",
+                        p_id_to_aggregate_by="demographics__hh_id",
                         source_col="source_func_m",
                         aggr="sum",
                     )
@@ -508,7 +534,7 @@ def test_user_provided_aggregate_by_p_id_specs(
     # TODO(@MImmesberger): Remove fake dependency.
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/666
     @policy_function(leaf_name=leaf_name)
-    def source_func(groupings__p_id: int) -> int:  # noqa: ARG001
+    def source_func(demographics__p_id: int) -> int:  # noqa: ARG001
         return 100
 
     functions_tree = {"module": {leaf_name: source_func}}
@@ -636,11 +662,11 @@ def test_fail_if_cannot_be_converted_to_internal_type(
     [
         (
             {"bg_id": pd.Series([1, 2, 3])},
-            {"bg_id": bg_id_numpy},
+            {"bg_id": bg_id},
         ),
         (
             {"wthh_id": pd.Series([1, 2, 3])},
-            {"wthh_id": wthh_id_numpy},
+            {"wthh_id": wthh_id},
         ),
     ],
 )
@@ -654,51 +680,54 @@ def test_provide_endogenous_groupings(data, functions_overridden):
     "data, functions_overridden, error_match",
     [
         (
-            {"groupings": {"hh_id": pd.Series([1, 1.1, 2])}},
+            {"demographics": {"hh_id": pd.Series([1, 1.1, 2])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - groupings__hh_id: Conversion from input type float64 to int failed."
-            " This\nconversion is only supported if all decimal places of input"
+            "\n - demographics__hh_id: Conversion from input type float64 to int "
+            "failed. This\nconversion is only supported if all decimal places of input"
             " data are equal to\n0.",
         ),
         (
-            {"basic_inputs": {"wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
+            {"demographics": {"wohnort_ost": pd.Series([1.1, 0.0, 1.0])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type float64 to bool"
-            "\nfailed. This conversion is only supported if input data exclusively "
-            "contains\nthe values 1.0 and 0.0.",
+            "\n - demographics__wohnort_ost: Conversion from input type "
+            "float64 to bool\nfailed. This conversion is only supported if input data "
+            "exclusively contains\nthe values 1.0 and 0.0.",
         ),
         (
             {
-                "basic_inputs": {"wohnort_ost": pd.Series([2, 0, 1])},
-                "groupings": {"hh_id": pd.Series([1.0, 2.0, 3.0])},
+                "demographics": {
+                    "wohnort_ost": pd.Series([2, 0, 1]),
+                    "hh_id": pd.Series([1.0, 2.0, 3.0]),
+                }
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type int64 to bool "
-            "failed.\nThis conversion is only supported if input data exclusively "
-            "contains the values\n1 and 0.",
+            "\n - demographics__wohnort_ost: Conversion from input type "
+            "int64 to bool failed.\nThis conversion is only supported if input data "
+            "exclusively contains the values\n1 and 0.",
         ),
         (
-            {"basic_inputs": {"wohnort_ost": pd.Series(["True", "False"])}},
+            {"demographics": {"wohnort_ost": pd.Series(["True", "False"])}},
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - basic_inputs__wohnort_ost: Conversion from input type object to bool "
-            "failed.\nObject type is not supported as input.",
+            "\n - demographics__wohnort_ost: Conversion from input type "
+            "object to bool failed.\nObject type is not supported as input.",
         ),
         (
             {
-                "groupings": {"hh_id": pd.Series([1, "1", 2])},
-                "basic_inputs": {"bruttolohn_m": pd.Series(["2000", 3000, 4000])},
+                "demographics": {"hh_id": pd.Series([1, "1", 2])},
+                "einkommen": {"bruttolohn_m": pd.Series(["2000", 3000, 4000])},
             },
             {},
             "The data types of the following columns are invalid:\n"
-            "\n - groupings__hh_id: Conversion from input type object to int failed. "
-            "Object\ntype is not supported as input."
-            "\n\n- basic_inputs__bruttolohn_m: Conversion from input type object to"
-            " float\nfailed."
-            " Object type is not supported as input.",
+            "\n - demographics__hh_id: Conversion from input type object to int failed."
+            " Object\ntype is not supported as input."
+            "\n\n- "
+            "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:"
+            " Conversion from input type object to float failed."
+            "\nObject type is not supported as input.",
         ),
     ],
 )

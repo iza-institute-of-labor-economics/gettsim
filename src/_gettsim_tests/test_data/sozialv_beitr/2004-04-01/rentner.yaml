@@ -4,29 +4,31 @@ info:
   source: Regression test. Unclear whether numbers are correct by external standards.
 inputs:
   provided:
-    p_id:
+    demographics__p_id:
       - 111
-    hh_id:
+    demographics__hh_id:
       - 13
-    bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    wohnort_ost:
+    demographics__wohnort_ost:
       - false
-    alter:
+    demographics__alter:
       - 70
-    selbstständig:
+    einkommensteuer__einkünfte__ist_selbstständig:
       - false
-    ges_pflegev_hat_kinder:
+    sozialversicherung__pflege__beitrag__hat_kinder:
       - false
-    eink_selbst_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
-    sum_ges_rente_priv_rente_m:
+    sozialversicherung__rente__altersrente__betrag_m:
       - 1000.0
-    in_priv_krankenv:
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
       - false
     jahr:
       - '2004-04-01'
   assumed: {}
 outputs:
-  ges_pflegev_beitr_arbeitnehmer_m:
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 17.0

@@ -12,12 +12,8 @@ if USE_JAX:
     import jax.numpy
 from numpy.testing import assert_array_equal
 
-from _gettsim.functions.loader import load_functions_tree_for_date
-from _gettsim.transfers.elterngeld import (
-    elterngeld_anspruchsbedingungen_erfüllt,  # noqa: PLC2403
-    elterngeld_geschwisterbonus_m,
-)
-from _gettsim.transfers.grundrente import grundr_bew_zeiten_avg_entgeltp
+from _gettsim.function_types import GroupByFunction
+from _gettsim.loader import load_functions_tree_for_date
 from _gettsim.vectorization import (
     TranslateToVectorizableError,
     make_vectorizable,
@@ -369,6 +365,8 @@ def test_unallowed_operation_wrapper(func):
 # ======================================================================================
 
 
+# TODO(@MImmesberger): Remove isinstance check once GroupByFunctions are JAX-compatible.
+# https://github.com/iza-institute-of-labor-economics/gettsim/issues/515
 for year in range(1990, 2023):
 
     @pytest.mark.parametrize(
@@ -378,6 +376,7 @@ for year in range(1990, 2023):
             for pf in tree_flatten(
                 load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
             )[0]
+            if not isinstance(pf, GroupByFunction)
         ],
     )
     @pytest.mark.parametrize("backend", backends)
@@ -390,22 +389,37 @@ for year in range(1990, 2023):
 # ======================================================================================
 
 
+def mock__elterngeld__geschwisterbonus_m(
+    basisbetrag_m: float,
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg: bool,
+    elterngeld_params: dict,
+) -> float:
+    if geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
+        out = max(
+            elterngeld_params["geschwisterbonus_aufschlag"] * basisbetrag_m,
+            elterngeld_params["geschwisterbonus_minimum"],
+        )
+    else:
+        out = 0.0
+    return out
+
+
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
+def test_geschwisterbonus_m(backend):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
     # ==================================================================================
-    elterngeld_basisbetrag_m = 3.0
-    geschwisterbonus_anspruchsberechtigt_fg = True
+    basisbetrag_m = 3.0
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg = True
     elterngeld_params = {
         "geschwisterbonus_aufschlag": 1.0,
         "geschwisterbonus_minimum": 2.0,
     }
 
-    exp = elterngeld_geschwisterbonus_m(
-        elterngeld_basisbetrag_m=elterngeld_basisbetrag_m,
-        geschwisterbonus_anspruchsberechtigt_fg=geschwisterbonus_anspruchsberechtigt_fg,
+    exp = mock__elterngeld__geschwisterbonus_m(
+        basisbetrag_m=basisbetrag_m,
+        geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg=geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg,
         elterngeld_params=elterngeld_params,
     )
     assert exp == 3.0
@@ -413,78 +427,67 @@ def test_transfers__elterngeld__elterngeld_geschwisterbonus_m(backend):
     # Create array inputs and assert that gettsim functions raises error
     # ==================================================================================
     shape = (10, 2)
-    elterngeld_basisbetrag_m = full(shape, elterngeld_basisbetrag_m)
-    geschwisterbonus_anspruchsberechtigt_fg = full(
-        shape, geschwisterbonus_anspruchsberechtigt_fg
+    basisbetrag_m = full(shape, basisbetrag_m)
+    geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg = full(
+        shape, geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg
     )
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
-        elterngeld_geschwisterbonus_m(
-            elterngeld_basisbetrag_m=elterngeld_basisbetrag_m,
-            geschwisterbonus_anspruchsberechtigt_fg=geschwisterbonus_anspruchsberechtigt_fg,
+        mock__elterngeld__geschwisterbonus_m(
+            basisbetrag_m=basisbetrag_m,
+            geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg=geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg,
             elterngeld_params=elterngeld_params,
         )
 
     # Call converted function on array input and test result
     # ==================================================================================
-    converted = make_vectorizable(elterngeld_geschwisterbonus_m, backend=backend)
+    converted = make_vectorizable(mock__elterngeld__geschwisterbonus_m, backend=backend)
     got = converted(
-        elterngeld_basisbetrag_m=elterngeld_basisbetrag_m,
-        geschwisterbonus_anspruchsberechtigt_fg=geschwisterbonus_anspruchsberechtigt_fg,
+        basisbetrag_m=basisbetrag_m,
+        geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg=geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg,
         elterngeld_params=elterngeld_params,
     )
     assert_array_equal(got, full(shape, exp))
 
 
+def mock__elterngeld__grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
+    claimed: bool,
+    arbeitsstunden_w: float,
+    kind_grundsätzlich_anspruchsberechtigt_fg: bool,
+    einkommen_vorjahr_unter_bezugsgrenze: bool,
+    bezugsmonate_unter_grenze_fg: bool,
+    elterngeld_params: dict,
+) -> bool:
+    return (
+        claimed
+        and arbeitsstunden_w <= elterngeld_params["max_arbeitsstunden_w"]
+        and einkommen_vorjahr_unter_bezugsgrenze
+        and kind_grundsätzlich_anspruchsberechtigt_fg
+        and bezugsmonate_unter_grenze_fg
+    )
+
+
 @pytest.mark.parametrize("backend", backends)
-def test_transfers__grundrente__grundr_bew_zeiten_avg_entgeltp(backend):
+def test_grundsätzlich_anspruchsberechtigt(backend):
     full = modules.get(backend).full
 
     # Test original gettsim function on scalar input
     # ==================================================================================
-    grundr_entgeltp = 1.0
-    grundr_bew_zeiten = 2
-
-    exp = grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
-    assert exp == 0.5
-
-    # Create array inputs and assert that gettsim functions raises error
-    # ==================================================================================
-    shape = (10, 2)
-    grundr_entgeltp = full(shape, grundr_entgeltp)
-    grundr_bew_zeiten = full(shape, grundr_bew_zeiten)
-
-    with pytest.raises(ValueError, match="truth value of an array with more than"):
-        grundr_bew_zeiten_avg_entgeltp(grundr_entgeltp, grundr_bew_zeiten)
-
-    # Call converted function on array input and test result
-    # ==================================================================================
-    converted = make_vectorizable(grundr_bew_zeiten_avg_entgeltp, backend=backend)
-    got = converted(grundr_entgeltp, grundr_bew_zeiten)
-    assert_array_equal(got, full(shape, exp))
-
-
-@pytest.mark.parametrize("backend", backends)
-def test_transfers__elterngeld_anspruchsbedingungen_erfüllt(backend):
-    full = modules.get(backend).full
-
-    # Test original gettsim function on scalar input
-    # ==================================================================================
-    elterngeld_claimed = True
+    claimed = True
     arbeitsstunden_w = 20.0
-    kind_anspruchsberechtigt_fg = True
-    vorjahr_einkommen_unter_bezugsgrenze = True
-    monate_elterngeldbezug_unter_grenze_fg = True
+    kind_grundsätzlich_anspruchsberechtigt_fg = True
+    einkommen_vorjahr_unter_bezugsgrenze = True
+    bezugsmonate_unter_grenze_fg = True
     elterngeld_params = {
         "max_arbeitsstunden_w": 31.0,
     }
 
-    exp = elterngeld_anspruchsbedingungen_erfüllt(
-        elterngeld_claimed=elterngeld_claimed,
+    exp = mock__elterngeld__grundsätzlich_anspruchsberechtigt(
+        claimed=claimed,
         arbeitsstunden_w=arbeitsstunden_w,
-        kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
-        vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
-        monate_elterngeldbezug_unter_grenze_fg=monate_elterngeldbezug_unter_grenze_fg,
+        kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
+        einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
+        bezugsmonate_unter_grenze_fg=bezugsmonate_unter_grenze_fg,
         elterngeld_params=elterngeld_params,
     )
 
@@ -496,26 +499,26 @@ def test_transfers__elterngeld_anspruchsbedingungen_erfüllt(backend):
     arbeitsstunden_w = full(shape, arbeitsstunden_w)
 
     with pytest.raises(ValueError, match="truth value of an array with more than"):
-        exp = elterngeld_anspruchsbedingungen_erfüllt(
+        mock__elterngeld__grundsätzlich_anspruchsberechtigt(
             arbeitsstunden_w=arbeitsstunden_w,
-            elterngeld_claimed=elterngeld_claimed,
-            kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
-            vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
-            monate_elterngeldbezug_unter_grenze_fg=monate_elterngeldbezug_unter_grenze_fg,
+            claimed=claimed,
+            kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
+            einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
+            bezugsmonate_unter_grenze_fg=bezugsmonate_unter_grenze_fg,
             elterngeld_params=elterngeld_params,
         )
 
     # Call converted function on array input and test result
     # ==================================================================================
     converted = make_vectorizable(
-        elterngeld_anspruchsbedingungen_erfüllt, backend=backend
+        mock__elterngeld__grundsätzlich_anspruchsberechtigt, backend=backend
     )
     got = converted(
-        elterngeld_claimed=elterngeld_claimed,
+        claimed=claimed,
         arbeitsstunden_w=arbeitsstunden_w,
-        kind_anspruchsberechtigt_fg=kind_anspruchsberechtigt_fg,
-        vorjahr_einkommen_unter_bezugsgrenze=vorjahr_einkommen_unter_bezugsgrenze,
-        monate_elterngeldbezug_unter_grenze_fg=monate_elterngeldbezug_unter_grenze_fg,
+        kind_grundsätzlich_anspruchsberechtigt_fg=kind_grundsätzlich_anspruchsberechtigt_fg,
+        einkommen_vorjahr_unter_bezugsgrenze=einkommen_vorjahr_unter_bezugsgrenze,
+        bezugsmonate_unter_grenze_fg=bezugsmonate_unter_grenze_fg,
         elterngeld_params=elterngeld_params,
     )
     assert_array_equal(got, full(shape, exp))

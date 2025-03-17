@@ -5,7 +5,7 @@ from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
 
-data = load_policy_test_data("demographic_vars")
+data = load_policy_test_data("demographics")
 
 
 @pytest.mark.xfail(reason="Needs renamings PR.")
@@ -14,7 +14,7 @@ data = load_policy_test_data("demographic_vars")
     data.parametrize_args,
     ids=str,
 )
-def test_demographic_vars(
+def test_demographics(
     test_data: PolicyTestData,
     column: str,
 ):

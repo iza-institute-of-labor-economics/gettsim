@@ -8,8 +8,7 @@ from _gettsim.config import (
     SUPPORTED_GROUPINGS,
     SUPPORTED_TIME_UNITS,
 )
-from _gettsim.functions.derived_function import DerivedFunction
-from _gettsim.functions.policy_function import PolicyFunction
+from _gettsim.function_types import DerivedFunction, PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
     insert_path_and_value,

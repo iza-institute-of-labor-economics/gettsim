@@ -333,15 +333,15 @@ The following goes through the details using an example from the basic pension a
 (Grundrente).
 
 The law on the public pension insurance specifies that the maximum possible
-Grundrentenzuschlag `grundr_zuschlag_höchstwert_m` be rounded to the nearest fourth
-decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für langjährige Versicherung).
-The example below contains GETTSIM's encoding of this fact.
+Grundrentenzuschlag `sozialversicherung__rente__grundrente__höchstbetrag_m` be rounded
+to the nearest fourth decimal point (§76g SGB VI: Zuschlag an Entgeltpunkten für
+langjährige Versicherung). The example below contains GETTSIM's encoding of this fact.
 
 The snippet is taken from `ges_rente.yaml`, which contains the following code:
 
 ```yaml
 rounding:
-  grundr_zuschlag_höchstwert_m:
+  höchstbetrag_m:
     2020-01-01:
       base: 0.0001
       direction: nearest
@@ -393,7 +393,7 @@ necessary inside the functions. The important changes include:
 - Parameters for piecewise polynomials are parsed.
 - Parameters that are derived from other parameters are calculated (examples include
   `kinderzuschlag_max` starting in 2021 or calculating the phasing in of
-  `vorsorgeaufw_alter` over the 2005-2025 period).
+  `vorsorgeaufwendungen_alter` over the 2005-2025 period).
 
 These functions will be avaiable to users en bloque or one-by-one so they can specify
 parameters as in the YAML file for their own policy parameters.
