@@ -3,8 +3,27 @@ info:
   note: ''
   source: Regression test
 inputs:
-  assumed: {}
   provided:
+    demographics__p_id:
+      - 39
+      - 41
+      - 43
+    demographics__hh_id:
+      - 4
+      - 4
+      - 4
+    demographics__p_id_elternteil_1:
+      - -1
+      - 39
+      - 39
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 39
+      - 39
     arbeitslosengeld_2__p_id_einstandspartner:
       - -1
       - -1
@@ -17,35 +36,7 @@ inputs:
       - 45
       - 4
       - 11
-    demographics__hh_id:
-      - 4
-      - 4
-      - 4
-    demographics__p_id:
-      - 39
-      - 41
-      - 43
-    demographics__p_id_elternteil_1:
-      - -1
-      - 39
-      - 39
-    demographics__p_id_elternteil_2:
-      - -1
-      - -1
-      - -1
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
     einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
       - 0.0
       - 0.0
       - 0.0
@@ -53,18 +44,18 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    jahr:
-      - 2019
-      - 2019
-      - 2019
-    kindergeld__p_id_empfänger:
-      - -1
-      - 39
-      - 39
-    monat:
-      - 1
-      - 1
-      - 1
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
       - 0.0
@@ -77,16 +68,25 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
+    jahr:
+      - 2019
+      - 2019
+      - 2019
+    monat:
+      - 1
+      - 1
+      - 1
     unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
       - 0.0
+  assumed: {}
 outputs:
-  unterhaltsvorschuss__betrag_m:
-    - 0.0
-    - 160.0
-    - 212.0
   unterhaltsvorschuss__elternteil_alleinerziehend:
     - false
     - true
     - true
+  unterhaltsvorschuss__betrag_m:
+    - 0.0
+    - 160.0
+    - 212.0

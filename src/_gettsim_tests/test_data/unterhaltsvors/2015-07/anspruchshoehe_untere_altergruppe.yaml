@@ -3,20 +3,13 @@ info:
   note: One child in the lower age group (0-5).
   source: https://www.berit-sander.de/2015/aktueller-unterhaltsvorschuss-ab-01-08-2015/
 inputs:
-  assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 45
-      - 4
-    demographics__hh_id:
-      - 0
-      - 0
     demographics__p_id:
       - 0
       - 1
+    demographics__hh_id:
+      - 0
+      - 0
     demographics__p_id_elternteil_1:
       - -1
       - 0
@@ -26,9 +19,16 @@ inputs:
     kindergeld__p_id_empfänger:
       - -1
       - 0
+    demographics__alter:
+      - 45
+      - 4
+    demographics__alleinerziehend:
+      - true
+      - false
     unterhalt__tatsächlich_erhaltener_betrag_m:
       - 0.0
       - 0.0
+  assumed: {}
 outputs:
   unterhaltsvorschuss__betrag_m:
     - 0.0

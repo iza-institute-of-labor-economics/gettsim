@@ -3,25 +3,24 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    demographics__p_id:
-      - 23
+    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+      - 0.0
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
       - 0.0
     sozialversicherung__rente__ersatzzeiten_m:
       - 0.0
     sozialversicherung__rente__freiwillige_beitragszeiten_m:
       - 100.0
+    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
+      - 0.0
     sozialversicherung__rente__kinderberücksichtigungszeiten_m:
       - 0.0
     sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
       - 100.0
     sozialversicherung__rente__pflichtbeitragszeiten_m:
       - 250.0
-    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-      - 0.0
-    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-      - 0.0
-  provided: {}
+    demographics__p_id:
+      - 23
 outputs:
   sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
     - true

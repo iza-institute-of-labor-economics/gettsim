@@ -4,33 +4,9 @@ info:
   source: own calculations
 inputs:
   assumed:
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-      - -1
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 25
-      - 1
-    demographics__arbeitsstunden_w:
-      - 29.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1980
-      - 2004
-    demographics__geburtsmonat:
-      - 1
-      - 1
-    demographics__geburtstag:
-      - 1
-      - 1
     demographics__hh_id:
       - 3
       - 3
-    demographics__kind:
-      - false
-      - true
     demographics__p_id:
       - 6
       - 7
@@ -40,6 +16,21 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - -1
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+    erziehungsgeld__p_id_empfänger:
+      - -1
+      - 6
+    demographics__alter:
+      - 25
+      - 1
+    demographics__arbeitsstunden_w:
+      - 29.0
+      - 0.0
+    kindergeld__in_ausbildung:
+      - false
+      - false
     einkommensteuer__einnahmen__bruttolohn_m:
       - 1400.0
       - 0.0
@@ -49,29 +40,37 @@ inputs:
     elterngeld__nettoeinkommen_vorjahr_m:
       - 1700.0
       - 0.0
-    erziehungsgeld__budgetsatz:
-      - false
-      - false
-    erziehungsgeld__p_id_empfänger:
-      - -1
-      - 6
-    kindergeld__in_ausbildung:
-      - false
-      - false
+    demographics__geburtstag:
+      - 1
+      - 1
+    demographics__geburtsmonat:
+      - 1
+      - 1
     sozialversicherung__pflege__beitrag__hat_kinder:
       - true
       - false
-  provided: {}
+    demographics__kind:
+      - false
+      - true
+    demographics__alleinerziehend:
+      - true
+      - false
+    demographics__geburtsjahr:
+      - 1980
+      - 2004
+    erziehungsgeld__budgetsatz:
+      - false
+      - false
 outputs:
-  erziehungsgeld__anspruchshöhe_kind_m:
-    - 0.0
-    - 235.8
   erziehungsgeld__anzurechnendes_einkommen_y:
     - 0
     - 14804.8
-  erziehungsgeld__betrag_m:
-    - 235.8
-    - 0.0
   erziehungsgeld__einkommensgrenze_y:
     - 0
     - 13500
+  erziehungsgeld__anspruchshöhe_kind_m:
+    - 0.0
+    - 235.8
+  erziehungsgeld__betrag_m:
+    - 235.8
+    - 0.0

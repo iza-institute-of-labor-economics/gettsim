@@ -3,78 +3,78 @@ info:
   note: ''
   source: Regression test. Unclear whether numbers are correct by external standards.
 inputs:
-  assumed: {}
   provided:
-    demographics__alter:
-      - 40
-      - 40
-    demographics__hh_id:
-      - 0
-      - 1
     demographics__p_id:
       - 0
       - 1
-    demographics__wohnort_ost:
-      - false
-      - true
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-      - false
+    demographics__hh_id:
+      - 0
+      - 1
     einkommensteuer__einnahmen__bruttolohn_m:
       - 300.0
       - 300.0
-    jahr:
-      - '1998'
-      - '1998'
-    sozialversicherung__kranken__beitrag__privat_versichert:
+    demographics__wohnort_ost:
+      - false
+      - true
+    demographics__alter:
+      - 40
+      - 40
+    einkommensteuer__einkünfte__ist_selbstständig:
       - false
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
       - false
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+      - false
+    jahr:
+      - '1998'
+      - '1998'
+  assumed: {}
 outputs:
-  sozialversicherung__arbeitslosen__beitrag__betrag_arbeitgeber_m:
+  sozialversicherung__geringfügig_beschäftigt:
+    - true
+    - false
+  sozialversicherung__beiträge_versicherter_m:
     - 0.0
-    - 9.75
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
-    - 9.75
+    - 63.15
   sozialversicherung__beitrag_arbeitgeber_m:
     - 0.0
     - 63.15
   sozialversicherung__beitrag_gesamt_m:
     - 0.0
-    - 126.3
-  sozialversicherung__beiträge_versicherter_m:
+    - 126.30
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
     - 0.0
-    - 63.15
-  sozialversicherung__geringfügig_beschäftigt:
-    - true
-    - false
-  sozialversicherung__kranken__beitrag__betrag_arbeitgeber_m:
+    - 30.45
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
     - 0.0
-    - 20.4
+    - 9.75
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 0.0
-    - 20.4
-  sozialversicherung__pflege__beitrag__betrag_arbeitgeber_m:
-    - 0.0
-    - 2.55
+    - 20.40
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 0.0
     - 2.55
   sozialversicherung__rente__beitrag__betrag_arbeitgeber_m:
     - 0.0
     - 30.45
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+  sozialversicherung__arbeitslosen__beitrag__betrag_arbeitgeber_m:
     - 0.0
-    - 30.45
+    - 9.75
+  sozialversicherung__kranken__beitrag__betrag_arbeitgeber_m:
+    - 0.0
+    - 20.40
+  sozialversicherung__pflege__beitrag__betrag_arbeitgeber_m:
+    - 0.0
+    - 2.55

@@ -3,8 +3,15 @@ info:
   note: ''
   source: Made up from the law
 inputs:
-  assumed: {}
   provided:
+    demographics__p_id:
+      - 0
+      - 1
+      - 2
+    demographics__hh_id:
+      - 0
+      - 1
+      - 2
     demographics__geburtsjahr:
       - 1958
       - 1958
@@ -13,27 +20,24 @@ inputs:
       - 1
       - 1
       - 1
-    demographics__hh_id:
-      - 0
-      - 1
-      - 2
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
     demographics__weiblich:
       - true
       - true
       - true
-    sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
-      - false
-      - true
-      - false
     sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
       - true
       - true
       - false
+    sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
+      - false
+      - true
+      - false
+  assumed: {}
 outputs:
+  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
+    - 66.0
+    - 66.0
+    - 66.0
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
     - 66.0
     - 64.0
@@ -42,10 +46,6 @@ outputs:
     - 63.0
     - 63.0
     - 66.0
-  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
-    - 64.0
-    - 64.0
-    - 64.0
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
     - 66.0
     - 66.0
@@ -54,11 +54,11 @@ outputs:
     - 63.0
     - 63.0
     - 63.0
+  sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
+    - 64.0
+    - 64.0
+    - 64.0
   sozialversicherung__rente__altersrente__referenzalter_abschlag:
-    - 66.0
-    - 66.0
-    - 66.0
-  sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
     - 66.0
     - 66.0
     - 66.0

@@ -3,20 +3,13 @@ info:
   note: One child in the upper age group (12-17).
   source: https://www.lohnsteuer-kompakt.de/steuerwissen/unterhaltsvorschuss-wird-erhoeht/
 inputs:
-  assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 45
-      - 15
-    demographics__hh_id:
-      - 0
-      - 0
     demographics__p_id:
       - 0
       - 1
+    demographics__hh_id:
+      - 0
+      - 0
     demographics__p_id_elternteil_1:
       - -1
       - 0
@@ -26,12 +19,19 @@ inputs:
     kindergeld__p_id_empfänger:
       - -1
       - 0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
+    demographics__alter:
+      - 45
+      - 15
+    demographics__alleinerziehend:
+      - true
+      - false
     unterhaltsvorschuss__einkommen_m:
       - 0.0
       - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+  assumed: {}
 outputs:
   unterhaltsvorschuss__betrag_m:
     - 0.0

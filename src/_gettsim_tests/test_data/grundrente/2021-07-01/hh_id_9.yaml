@@ -1,61 +1,64 @@
 ---
 info:
-  note: adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+  note: >-
+    adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
     test case uses 0.8 as maximum instead of 0.8004
-  source: 'Beispiel Richard Frenzel aus: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html'
+  source: >-
+    Beispiel Richard Frenzel aus:
+    https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
 inputs:
-  assumed: {}
   provided:
-    alleinstehend:
-      - true
-    demographics__alter:
-      - 70
-    demographics__geburtsjahr:
-      - 1951
-    demographics__hh_id:
-      - 9
-    demographics__kind:
-      - false
     demographics__p_id:
+      - 9
+    demographics__hh_id:
       - 9
     demographics__p_id_ehepartner:
       - -1
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+      - 552
+    sozialversicherung__rente__grundrente__bewertungszeiten_m:
+      - 552
     demographics__wohnort_ost:
       - false
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
       - 0.0
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+      - 1380.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit_y:
       - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_y:
       - 0.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
+      - 0.0
+    demographics__alter:
+      - 70
+    alleinstehend:
+      - true
+    demographics__geburtsjahr:
+      - 1951
     einkommensteuer__einnahmen__bruttolohn_m:
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
-      - 1380.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 34.5
+    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
     sozialversicherung__rente__bezieht_rente:
       - true
-    sozialversicherung__rente__entgeltpunkte_ost:
-      - 0.0
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 34.5
-    sozialversicherung__rente__grundrente__bewertungszeiten_m:
-      - 552
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-      - 552
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 34.5
-    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
-      - 0.0
+    demographics__kind:
+      - false
+  assumed: {}
 outputs:
-  sozialversicherung__rente__altersrente__betrag_m:
-    - 1179.55
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
+    - 0.0037
   sozialversicherung__rente__grundrente__basisbetrag_m:
     - 53.0
   sozialversicherung__rente__grundrente__betrag_m:
     - 0.0
-  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
-    - 0.0037
+  sozialversicherung__rente__altersrente__betrag_m:
+    - 1179.55

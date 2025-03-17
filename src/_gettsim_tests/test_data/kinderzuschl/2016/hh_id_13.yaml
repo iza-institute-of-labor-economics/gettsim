@@ -3,52 +3,15 @@ info:
   note: Wealth significantly above wealth allowance leading to no claim
   source: Inspired by Page 12 of https://www.arbeitsagentur.de/datei/ba146349.pdf
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 37
-      - 36
-      - -1
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-    demographics__alter:
-      - 40
-      - 40
-      - 11
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1976
-      - 1976
-      - 2005
-    demographics__hh_id:
-      - 13
-      - 13
-      - 13
-    demographics__kind:
-      - false
-      - false
-      - true
     demographics__p_id:
       - 36
       - 37
       - 38
+    demographics__hh_id:
+      - 13
+      - 13
+      - 13
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -57,11 +20,27 @@ inputs:
       - -1
       - -1
       - 37
-    demographics__vermögen:
-      - 25000.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 37
+      - 36
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 36
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    demographics__kind:
+      - false
+      - false
+      - true
+    demographics__alter:
+      - 40
+      - 40
+      - 11
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
       - 0.0
@@ -69,42 +48,14 @@ inputs:
       - 2000.0
       - 2000.0
       - 0.0
-    jahr:
-      - 2016
-      - 2016
-      - 2016
-    kindergeld__betrag_m_hh:
-      - 190.0
-      - 190.0
-      - 190.0
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
-      - true
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
     kindergeld__in_ausbildung:
       - false
       - false
       - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 36
-    kinderzuschlag__bruttoeinkommen_eltern_m:
-      - 1200.0
-      - 0.0
-      - 0.0
-    kinderzuschlag__nettoeinkommen_eltern_m:
-      - 644.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
     wohnen__bruttokaltmiete_m_hh:
       - 700.0
       - 700.0
@@ -113,12 +64,61 @@ inputs:
       - 100.0
       - 100.0
       - 100.0
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - true
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+      - 0.0
+      - 0.0
+      - 0.0
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+      - 1200.0
+      - 0.0
+      - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+      - 644.0
+      - 0.0
+      - 0.0
+    kindergeld__betrag_m_hh:
+      - 190.0
+      - 190.0
+      - 190.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2016
+      - 2016
+      - 2016
+    demographics__geburtsjahr:
+      - 1976
+      - 1976
+      - 2005
+    demographics__vermögen:
+      - 25000.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+  assumed: {}
 outputs:
-  kinderzuschlag__anspruchshöhe_m_bg:
-    - 0.0
-    - 0.0
-    - 0.0
   kinderzuschlag__basisbetrag_m_bg:
     - 140.0
     - 140.0
     - 140.0
+  kinderzuschlag__anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0

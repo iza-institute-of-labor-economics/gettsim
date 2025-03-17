@@ -3,38 +3,16 @@ info:
   note: Beispielpersonen Max B. und Inge M.
   source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 2
-      - 1
-    demographics__alleinerziehend:
-      - false
-      - false
-    demographics__alter:
-      - 70
-      - 67
-    demographics__geburtsjahr:
-      - 1951
-      - 1954
-    demographics__geburtsmonat:
-      - 1
-      - 1
-    demographics__geburtstag:
-      - 1
-      - 1
-    demographics__hh_id:
-      - 1
-      - 1
-    demographics__kind:
-      - false
-      - false
     demographics__p_id:
       - 1
       - 2
+    demographics__hh_id:
+      - 1
+      - 1
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 2
+      - 1
     demographics__p_id_ehepartner:
       - 2
       - 1
@@ -44,75 +22,24 @@ inputs:
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    demographics__schwerbehindert_grad_g:
-      - false
-      - false
-    demographics__vermögen_eg:
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-    jahr:
-      - 2021
-      - 2021
-    kindergeld__betrag_m_eg:
-      - 0.0
-      - 0.0
     kindergeld__p_id_empfänger:
       - -1
       - -1
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 350.0
-      - 590.0
-    sozialversicherung__rente__bezieht_rente:
+    einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-      - 240
-      - 240
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m_eg:
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
+    jahr:
+      - 2021
+      - 2021
+    demographics__kind:
+      - false
+      - false
+    demographics__alter:
+      - 70
+      - 67
     wohnen__bruttokaltmiete_m_hh:
       - 300.0
       - 300.0
@@ -122,6 +49,79 @@ inputs:
     wohnen__wohnfläche_hh:
       - 50.0
       - 50.0
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+      - 240
+      - 240
+    sozialversicherung__rente__bezieht_rente:
+      - true
+      - true
+    demographics__schwerbehindert_grad_g:
+      - false
+      - false
+    demographics__vermögen_eg:
+      - 0.0
+      - 0.0
+    demographics__alleinerziehend:
+      - false
+      - false
+    wohnen__bewohnt_eigentum_hh:
+      - false
+      - false
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_y_sn:
+      - 0.0
+      - 0.0
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+      - 0.0
+    kindergeld__betrag_m_eg:
+      - 0.0
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m_eg:
+      - 0.0
+      - 0.0
+    elterngeld__betrag_m:
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 350.0
+      - 590.0
+    demographics__geburtstag:
+      - 1
+      - 1
+    demographics__geburtsmonat:
+      - 1
+      - 1
+    demographics__geburtsjahr:
+      - 1951
+      - 1954
+  assumed: {}
 outputs:
   grundsicherung__im_alter__betrag_m_eg:
     - 228.0

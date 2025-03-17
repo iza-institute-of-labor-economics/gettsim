@@ -11,26 +11,26 @@ inputs:
       - 25
     demographics__arbeitsstunden_w:
       - 40.0
-    demographics__hh_id:
-      - 307
-    demographics__p_id:
-      - 307
-    demographics__wohnort_ost:
-      - false
     einkommensteuer__einnahmen__bruttolohn_m:
       - 206.74285714285716
-    kindergeld__in_ausbildung:
-      - false
-    lohnsteuer__steuerklasse:
-      - 6
     sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
       - 0.0079
-    sozialversicherung__pflege__beitrag__hat_kinder:
-      - false
     sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos:
       - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
+    demographics__hh_id:
+      - 307
+    kindergeld__in_ausbildung:
+      - false
+    demographics__p_id:
+      - 307
     sozialversicherung__regulär_beschäftigt:
       - true
+    lohnsteuer__steuerklasse:
+      - 6
+    demographics__wohnort_ost:
+      - false
 outputs:
   lohnsteuer__betrag_m:
     - 23.0

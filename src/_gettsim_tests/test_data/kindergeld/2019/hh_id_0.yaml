@@ -3,38 +3,49 @@ info:
   note: check age cut-offs at 18 and 25.
   source: ''
 inputs:
-  assumed: {}
   provided:
-    demographics__alter:
-      - 45
-      - 40
-      - 25
-      - 18
-      - 18
-    demographics__arbeitsstunden_w:
-      - 40.0
-      - 0.0
-      - 10.0
-      - 10.0
-      - 30.0
     demographics__hh_id:
       - 0
       - 0
       - 0
       - 0
       - 0
-    demographics__kind:
-      - false
-      - false
-      - false
-      - false
-      - false
     demographics__p_id:
       - 1
       - 2
       - 3
       - 4
       - 5
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 1
+      - 1
+      - 1
+    demographics__alter:
+      - 45
+      - 40
+      - 25
+      - 18
+      - 18
+    demographics__kind:
+      - false
+      - false
+      - false
+      - false
+      - false
+    demographics__arbeitsstunden_w:
+      - 40.0
+      - 0.0
+      - 10.0
+      - 10.0
+      - 30.0
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - true
+      - true
+      - true
     einkommensteuer__einnahmen__bruttolohn_m:
       - 3000.0
       - 0.0
@@ -47,40 +58,29 @@ inputs:
       - 3000.0
       - 3000.0
       - 3000.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - true
-      - true
-      - true
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 1
-      - 1
-      - 1
+  assumed: {}
 outputs:
-  kinderbonus__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-  kinderbonus__betrag_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
   kindergeld__betrag_m:
     - 194
     - 0
     - 0
     - 0
     - 0
+  kinderbonus__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   kindergeld__betrag_m_hh:
     - 194
     - 194
     - 194
     - 194
     - 194
+  kinderbonus__betrag_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0

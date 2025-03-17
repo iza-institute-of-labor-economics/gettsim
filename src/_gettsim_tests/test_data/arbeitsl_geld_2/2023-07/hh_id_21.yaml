@@ -1,51 +1,19 @@
 ---
 info:
-  note: Test with new income thresholds and new Kindergeld, adjusted for Kindersofortzuschlag
-    of 20€. https://buergergeld-rechner.org/
+  note: >-
+    Test with new income thresholds and new Kindergeld, adjusted for
+    Kindersofortzuschlag of 20€. https://buergergeld-rechner.org/
   source: ''
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 51
-      - 50
-      - -1
-    demographics__alleinerziehend:
-      - false
-      - false
-      - false
-    demographics__alter:
-      - 40
-      - 38
-      - 3
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 12.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1983
-      - 1985
-      - 2020
-    demographics__hh_id:
-      - 21
-      - 21
-      - 21
-    demographics__kind:
-      - false
-      - false
-      - true
     demographics__p_id:
       - 50
       - 51
       - 52
+    demographics__hh_id:
+      - 21
+      - 21
+      - 21
     demographics__p_id_ehepartner:
       - 51
       - 50
@@ -58,94 +26,30 @@ inputs:
       - -1
       - -1
       - 51
-    demographics__vermögen:
-      - 85000.0
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 0.0
-      - 700.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-      - false
-      - false
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    jahr:
-      - 2023-07
-      - 2023-07
-      - 2023-07
-    kindergeld__betrag_m_bg:
-      - 250.0
-      - 250.0
-      - 250.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 51
+      - 50
+      - -1
     kindergeld__p_id_empfänger:
       - -1
       - -1
       - 50
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 0.0
-      - 140.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__bezieht_rente:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
       - false
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
+    demographics__kind:
+      - false
+      - false
+      - true
+    demographics__alter:
+      - 40
+      - 38
+      - 3
     wohnen__bruttokaltmiete_m_hh:
       - 650.0
       - 650.0
@@ -158,23 +62,112 @@ inputs:
       - 70.0
       - 70.0
       - 70.0
+    wohnen__bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 0.0
+      - 700.0
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+      - 140.0
+      - 0.0
+    kindergeld__betrag_m_bg:
+      - 250.0
+      - 250.0
+      - 250.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2023-07
+      - 2023-07
+      - 2023-07
     wohngeld__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
+    demographics__vermögen:
+      - 85000.0
+      - 0.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1983
+      - 1985
+      - 2020
+    sozialversicherung__rente__bezieht_rente:
+      - false
+      - false
+      - false
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - false
+    demographics__arbeitsstunden_w:
+      - 0.0
+      - 12.0
+      - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+  assumed: {}
 outputs:
   arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
     - 0.0
     - 238.0
     - 0.0
-  arbeitslosengeld_2__betrag_m_bg:
-    - 0.0
-    - 0.0
-    - 0.0
-  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-    - 750.0
-    - 750.0
-    - 750.0
   arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
     - 0.0
     - 322.0
@@ -183,3 +176,11 @@ outputs:
     - 1240.0
     - 1240.0
     - 1240.0
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
+    - 750.0
+    - 750.0
+    - 750.0
+  arbeitslosengeld_2__betrag_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0

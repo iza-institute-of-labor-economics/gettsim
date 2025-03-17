@@ -3,117 +3,117 @@ info:
   note: ''
   source: https://www.n-heydorn.de/steuer.html
 inputs:
-  assumed: {}
   provided:
-    demographics__alleinerziehend:
-      - false
-      - false
-    demographics__alter:
-      - 37
-      - 35
-    demographics__arbeitsstunden_w:
-      - 38.0
-      - 30.0
-    demographics__behinderungsgrad:
-      - 0
-      - 0
-    demographics__geburtsjahr:
-      - 1980
-      - 1982
-    demographics__hh_id:
-      - 18
-      - 18
-    demographics__kind:
-      - false
-      - false
     demographics__p_id:
       - 25
       - 26
+    demographics__hh_id:
+      - 18
+      - 18
     demographics__p_id_ehepartner:
       - 26
       - 25
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
     demographics__p_id_elternteil_1:
       - -1
       - -1
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    demographics__wohnort_ost:
-      - false
-      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 3000.0
+      - 2500.0
     einkommensteuer__abzüge__betreuungskosten_m:
       - 0.0
       - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
       - -1
       - -1
-    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-      - 10359.0
-      - 10359.0
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-      - 0.0
-      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
       - 0.0
       - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
-      - false
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 3000.0
-      - 2500.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
+    sozialversicherung__rente__jahr_renteneintritt:
+      - 2045
+      - 2047
+    sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
       - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-    jahr:
-      - 2017
-      - 2017
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+    demographics__arbeitsstunden_w:
+      - 38.0
+      - 30.0
     kindergeld__in_ausbildung:
       - false
       - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-    sozialversicherung__kranken__beitrag__privat_versichert:
+    demographics__kind:
+      - false
+      - false
+    demographics__behinderungsgrad:
+      - 0
+      - 0
+    einkommensteuer__beitrag_private_rentenversicherung_m:
+      - 0.0
+      - 0.0
+    demographics__alleinerziehend:
+      - false
+      - false
+    demographics__alter:
+      - 37
+      - 35
+    jahr:
+      - 2017
+      - 2017
+    demographics__wohnort_ost:
+      - false
+      - false
+    einkommensteuer__einkünfte__ist_selbstständig:
       - false
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - true
       - true
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__jahr_renteneintritt:
-      - 2045
-      - 2047
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+      - false
+    demographics__geburtsjahr:
+      - 1980
+      - 1982
+    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
+      - 10359.0
+      - 10359.0
+  assumed: {}
 outputs:
-  einkommensteuer__abzüge__alleinerziehend_betrag_y:
-    - 0
-    - 0
-  einkommensteuer__abzüge__altersfreibetrag_y:
-    - 0
-    - 0
-  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
-    - 0
-    - 0
-  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
-    - 35000
-    - 29000
   einkommensteuer__gesamteinkommen_y:
+    - 53569.0
+    - 53569.0
+  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
     - 53569.0
     - 53569.0
   einkommensteuer__kinderfreibetrag_y_sn:
     - 0
     - 0
-  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-    - 53569.0
-    - 53569.0
+  einkommensteuer__abzüge__altersfreibetrag_y:
+    - 0
+    - 0
+  einkommensteuer__abzüge__alleinerziehend_betrag_y:
+    - 0
+    - 0
+  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
+    - 35000
+    - 29000
+  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
+    - 0
+    - 0

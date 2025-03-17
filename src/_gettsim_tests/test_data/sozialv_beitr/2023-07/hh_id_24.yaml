@@ -1,50 +1,52 @@
 ---
 info:
-  note: Erhöhung der Pflegeversicherungsraten & Änderung der Berechnung für Menschen mit Kindern
-    unter 25 Jahren (ab Juli 2023), Pflegeunterstützungs- und -entlastungsgesetz 1 Kind über
-    25 Jahren und Midijob
+  note: >-
+    Erhöhung der Pflegeversicherungsraten &
+    Änderung der Berechnung für Menschen mit Kindern unter 25 Jahren (ab Juli 2023),
+    Pflegeunterstützungs- und -entlastungsgesetz
+    1 Kind über 25 Jahren und Midijob
   source: https://www.ihre-vorsorge.de/rechner/midijob-rechner
 inputs:
-  assumed: {}
   provided:
-    demographics__alter:
-      - 50
-    demographics__hh_id:
-      - 24
     demographics__p_id:
       - 24
-    demographics__wohnort_ost:
-      - false
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-      - false
+    demographics__hh_id:
+      - 24
     einkommensteuer__einnahmen__bruttolohn_m:
       - 1000.0
-    jahr:
-      - 2023-07
-    sozialversicherung__kranken__beitrag__privat_versichert:
+    demographics__wohnort_ost:
       - false
-    sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
-      - 0
+    demographics__alter:
+      - 50
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - true
+    sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
+      - 0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    jahr:
+      - 2023-07
+  assumed: {}
 outputs:
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 8.43
+  sozialversicherung__beiträge_versicherter_m:
+    - 132.32
   sozialversicherung__beitrag_arbeitgeber_m:
     - 231.55
   sozialversicherung__beitrag_gesamt_m:
     - 363.87
-  sozialversicherung__beiträge_versicherter_m:
-    - 132.32
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 60.32
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+    - 8.43
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
     - 52.54
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
     - 11.03
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 60.32

@@ -1,65 +1,67 @@
 ---
 info:
-  note: Child in separate Familiengemeinschaft if it has children (Bedarfsgemeinschaft never
+  note: >-
+    Child in separate Familiengemeinschaft if it has children (Bedarfsgemeinschaft never
     covers more than 2 generations)
   source: ''
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - 1
-      - 0
-      - -1
-      - 4
-      - 3
-    demographics__alter:
-      - 19
-      - 22
-      - 1
-      - 49
-      - 50
-    demographics__geburtsjahr:
-      - 2004
-      - 2001
-      - 2022
-      - 1974
-      - 1973
-    demographics__geburtsmonat:
-      - 7
-      - 7
-      - 3
-      - 2
-      - 1
-    demographics__geburtstag:
-      - 14
-      - 14
-      - 1
-      - 13
-      - 2
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 0
-      - 0
     demographics__p_id:
       - 0
       - 1
       - 2
       - 3
       - 4
+    demographics__geburtstag:
+      - 14
+      - 14
+      - 1
+      - 13
+      - 2
+    demographics__geburtsmonat:
+      - 7
+      - 7
+      - 3
+      - 2
+      - 1
+    demographics__geburtsjahr:
+      - 2004
+      - 2001
+      - 2022
+      - 1974
+      - 1973
+    # TODO (@hmgaudecker): Remove again.
+    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
+    demographics__alter:
+      - 19
+      - 22
+      - 1
+      - 49
+      - 50
+    demographics__hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 1
+      - 0
+      - -1
+      - 4
+      - 3
     demographics__p_id_ehepartner:
       - -1
       - -1
       - -1
       - 4
       - 3
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+      - false
+      - false
+      - true
+      - true
     demographics__p_id_elternteil_1:
       - 3
       - -1
@@ -72,13 +74,19 @@ inputs:
       - 1
       - -1
       - -1
-    einkommensteuer__gemeinsam_veranlagt:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
-      - true
-      - true
+      - false
+      - false
 outputs:
+  arbeitslosengeld_2__fg_id:
+    - 0
+    - 0
+    - 0
+    - 1
+    - 1
   arbeitslosengeld_2__bg_id:
     - 0
     - 0
@@ -91,12 +99,6 @@ outputs:
     - 1
     - 2
     - 2
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 0
-    - 1
-    - 1
   demographics__ehe_id:
     - 0
     - 1
@@ -109,3 +111,9 @@ outputs:
     - 2
     - 3
     - 3
+#  potentielle_kinderfreibeträge:
+#    - 1
+#    - 1
+#    - 0
+#    - 1
+#    - 1

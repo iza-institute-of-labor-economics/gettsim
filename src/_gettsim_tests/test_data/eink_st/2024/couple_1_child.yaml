@@ -3,20 +3,15 @@ info:
   note: ''
   source: Regression test.
 inputs:
-  assumed: {}
   provided:
-    demographics__hh_id:
-      - 4
-      - 4
-      - 4
-    demographics__kind:
-      - false
-      - false
-      - true
     demographics__p_id:
       - 5
       - 6
       - 7
+    demographics__hh_id:
+      - 4
+      - 4
+      - 4
     demographics__p_id_ehepartner:
       - 6
       - 5
@@ -29,14 +24,14 @@ inputs:
       - -1
       - -1
       - 6
-    einkommensteuer__einnahmen__kapitalerträge_y:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
+    demographics__kind:
       - false
+      - false
+      - true
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - true
     einkommensteuer__gesamteinkommen_y:
       - 200000.0
       - 200000.0
@@ -45,10 +40,15 @@ inputs:
       - 200000.0
       - 200000.0
       - 0.0
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - false
+    einkommensteuer__einnahmen__kapitalerträge_y:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
       - true
+      - true
+      - false
+  assumed: {}
 outputs:
   einkommensteuer__anzahl_kindergeld_ansprüche_1:
     - 1

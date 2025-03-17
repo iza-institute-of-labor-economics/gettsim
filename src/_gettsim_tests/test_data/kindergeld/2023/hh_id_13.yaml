@@ -3,38 +3,49 @@ info:
   note: https://www.kindergeld.org/kindergeldrechner/
   source: ''
 inputs:
-  assumed: {}
   provided:
-    demographics__alter:
-      - 45
-      - 40
-      - 18
-      - 17
-      - 15
-    demographics__arbeitsstunden_w:
-      - 40.0
-      - 0.0
-      - 0.0
-      - 2.0
-      - 0.0
     demographics__hh_id:
       - 13
       - 13
       - 13
       - 13
       - 13
-    demographics__kind:
-      - false
-      - false
-      - true
-      - true
-      - true
     demographics__p_id:
       - 40
       - 41
       - 43
       - 44
       - 45
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 40
+      - 40
+      - 40
+    demographics__alter:
+      - 45
+      - 40
+      - 18
+      - 17
+      - 15
+    demographics__kind:
+      - false
+      - false
+      - true
+      - true
+      - true
+    demographics__arbeitsstunden_w:
+      - 40.0
+      - 0.0
+      - 0.0
+      - 2.0
+      - 0.0
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - true
+      - true
+      - true
     einkommensteuer__einnahmen__bruttolohn_m:
       - 3000.0
       - 0.0
@@ -47,40 +58,29 @@ inputs:
       - 3000.0
       - 3000.0
       - 3000.0
-    kindergeld__in_ausbildung:
-      - false
-      - false
-      - true
-      - true
-      - true
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 40
-      - 40
-      - 40
+  assumed: {}
 outputs:
-  kinderbonus__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-  kinderbonus__betrag_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
   kindergeld__betrag_m:
     - 750
     - 0
     - 0
     - 0
     - 0
+  kinderbonus__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   kindergeld__betrag_m_hh:
     - 750
     - 750
     - 750
     - 750
     - 750
+  kinderbonus__betrag_m_hh:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0

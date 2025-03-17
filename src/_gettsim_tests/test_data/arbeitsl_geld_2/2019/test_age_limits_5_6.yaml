@@ -3,48 +3,15 @@ info:
   note: Test to check the age cutoff at the age of 6.
   source: ''
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-      - -1
-      - -1
-    demographics__alleinerziehend:
-      - true
-      - false
-      - false
-    demographics__alter:
-      - 30
-      - 6
-      - 5
-    demographics__arbeitsstunden_w:
-      - 20.0
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1989
-      - 2013
-      - 2014
-    demographics__hh_id:
-      - 7
-      - 7
-      - 7
-    demographics__kind:
-      - false
-      - true
-      - true
     demographics__p_id:
       - 0
       - 1
       - 2
+    demographics__hh_id:
+      - 7
+      - 7
+      - 7
     demographics__p_id_ehepartner:
       - -1
       - -1
@@ -57,94 +24,30 @@ inputs:
       - -1
       - -1
       - -1
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 800.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-      - false
-      - false
-      - false
-    elterngeld__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    jahr:
-      - '2019'
-      - '2019'
-      - '2019'
-    kindergeld__betrag_m_bg:
-      - 388.0
-      - 388.0
-      - 388.0
-    kindergeld__in_ausbildung:
-      - false
-      - true
-      - true
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
     kindergeld__p_id_empfänger:
       - -1
       - 0
       - 0
-    solidaritätszuschlag__betrag_y_sn:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-      - 136.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    sozialversicherung__rente__bezieht_rente:
+    einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
       - false
-    sozialversicherung__rente__private_rente_betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 212.0
-      - 160.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
-      - 0.0
-    wohnen__bewohnt_eigentum_hh:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
       - false
       - false
       - false
+    demographics__kind:
+      - false
+      - true
+      - true
+    demographics__alter:
+      - 30
+      - 6
+      - 5
     wohnen__bruttokaltmiete_m_hh:
       - 438.0
       - 438.0
@@ -157,23 +60,112 @@ inputs:
       - 60.0
       - 60.0
       - 60.0
+    wohnen__bewohnt_eigentum_hh:
+      - false
+      - false
+      - false
+    demographics__alleinerziehend:
+      - true
+      - false
+      - false
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 800.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__kapitalerträge_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einnahmen__sonstige_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+      - 0.0
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 136.0
+      - 0.0
+      - 0.0
+    kindergeld__betrag_m_bg:
+      - 388.0
+      - 388.0
+      - 388.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 212.0
+      - 160.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    elterngeld__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - '2019'
+      - '2019'
+      - '2019'
     wohngeld__anspruchshöhe_m_bg:
       - 0.0
       - 0.0
       - 0.0
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1989
+      - 2013
+      - 2014
+    sozialversicherung__rente__bezieht_rente:
+      - false
+      - false
+      - false
+    kindergeld__in_ausbildung:
+      - false
+      - true
+      - true
+    demographics__arbeitsstunden_w:
+      - 20.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+  assumed: {}
 outputs:
   arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
     - 240.0
     - 0.0
     - 0.0
-  arbeitslosengeld_2__betrag_m_bg:
-    - 457.64
-    - 457.64
-    - 457.64
-  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-    - 518.0
-    - 518.0
-    - 518.0
   arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
     - 424.0
     - 0.0
@@ -182,3 +174,11 @@ outputs:
     - 1123.64
     - 1123.64
     - 1123.64
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
+    - 518.0
+    - 518.0
+    - 518.0
+  arbeitslosengeld_2__betrag_m_bg:
+    - 457.64
+    - 457.64
+    - 457.64

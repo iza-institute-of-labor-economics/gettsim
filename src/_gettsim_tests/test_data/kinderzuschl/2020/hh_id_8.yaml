@@ -3,93 +3,93 @@ info:
   note: ''
   source: ''
 inputs:
-  assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-      - false
-      - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
-      - 0.36
-      - 0.36
-    arbeitslosengeld_2__p_id_einstandspartner:
-      - -1
-      - -1
-    demographics__alleinerziehend:
-      - true
-      - false
-    demographics__alter:
-      - 38
-      - 15
-    demographics__arbeitsstunden_w:
-      - 0.0
-      - 0.0
-    demographics__geburtsjahr:
-      - 1982
-      - 2005
-    demographics__hh_id:
-      - 8
-      - 8
-    demographics__kind:
-      - false
-      - true
     demographics__p_id:
       - 21
       - 22
+    demographics__hh_id:
+      - 8
+      - 8
     demographics__p_id_elternteil_1:
       - -1
       - 21
     demographics__p_id_elternteil_2:
       - -1
       - -1
-    demographics__vermögen:
-      - 0.0
-      - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+    kindergeld__p_id_empfänger:
+      - -1
+      - 21
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+    demographics__kind:
+      - false
+      - true
+    demographics__alter:
+      - 38
+      - 15
+    demographics__arbeitsstunden_w:
       - 0.0
       - 0.0
     einkommensteuer__einnahmen__bruttolohn_m:
       - 2000.0
       - 0.0
-    jahr:
-      - 2020
-      - 2020
-    kindergeld__betrag_m_hh:
-      - 204.0
-      - 204.0
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-      - false
-      - true
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+      - 0.0
+      - 0.0
     kindergeld__in_ausbildung:
       - false
       - false
-    kindergeld__p_id_empfänger:
-      - -1
-      - 21
-    kinderzuschlag__bruttoeinkommen_eltern_m:
-      - 1000.0
-      - 0.0
-    kinderzuschlag__nettoeinkommen_eltern_m:
-      - 719.0
-      - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-      - 0.0
-      - 0.0
-    unterhaltsvorschuss__betrag_m:
-      - 0.0
-      - 0.0
     wohnen__bruttokaltmiete_m_hh:
       - 400.0
       - 400.0
     wohnen__heizkosten_m_hh:
       - 80.0
       - 80.0
+    demographics__alleinerziehend:
+      - true
+      - false
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - true
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+      - 0.36
+      - 0.36
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+      - 1000.0
+      - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+      - 719.0
+      - 0.0
+    kindergeld__betrag_m_hh:
+      - 204.0
+      - 204.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+    jahr:
+      - 2020
+      - 2020
+    demographics__geburtsjahr:
+      - 1982
+      - 2005
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+  assumed: {}
 outputs:
-  kinderzuschlag__anspruchshöhe_m_bg:
-    - 185
-    - 185
   kinderzuschlag__basisbetrag_m_bg:
+    - 185
+    - 185
+  kinderzuschlag__anspruchshöhe_m_bg:
     - 185
     - 185

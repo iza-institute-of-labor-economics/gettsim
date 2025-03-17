@@ -3,32 +3,32 @@ info:
   note: ''
   source: ''
 inputs:
-  assumed: {}
   provided:
-    demographics__alter:
-      - 21
-    demographics__arbeitsstunden_w:
-      - 0.0
     demographics__hh_id:
       - 6
-    demographics__kind:
-      - false
     demographics__p_id:
       - 21
+    kindergeld__p_id_empfänger:
+      - -1
+    demographics__alter:
+      - 21
+    demographics__kind:
+      - false
+    demographics__arbeitsstunden_w:
+      - 0.0
+    kindergeld__in_ausbildung:
+      - false
     einkommensteuer__einnahmen__bruttolohn_m:
       - 0.0
     einkommensteuer__gesamteinkommen_y:
       - 0.0
-    kindergeld__in_ausbildung:
-      - false
-    kindergeld__p_id_empfänger:
-      - -1
+  assumed: {}
 outputs:
-  kinderbonus__betrag_m:
-    - 0.0
-  kinderbonus__betrag_m_hh:
-    - 0.0
   kindergeld__betrag_m:
     - 0
+  kinderbonus__betrag_m:
+    - 0.0
   kindergeld__betrag_m_hh:
     - 0
+  kinderbonus__betrag_m_hh:
+    - 0.0

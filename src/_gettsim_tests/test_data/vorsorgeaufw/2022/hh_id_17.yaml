@@ -3,44 +3,44 @@ info:
   note: corrected tax-exempt employer contribution in testcase
   source: https://www.haufe.de/finance/haufe-finance-office-premium/vorsorgeaufwendungen-225-behandlung-von-ehegattenlebenspartnern-im-falle-der-zusammenveranlagung_idesk_PI20354_HI2531457.html
 inputs:
-  assumed: {}
   provided:
-    demographics__hh_id:
-      - 17
-      - 17
-    demographics__kind:
-      - false
-      - false
     demographics__p_id:
       - 18
       - 19
+    demographics__hh_id:
+      - 17
+      - 17
     demographics__p_id_ehepartner:
       - 19
       - 18
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-      - 416.666667
-      - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
-      - 8333.333333
-      - 1250.0
     einkommensteuer__gemeinsam_veranlagt:
       - true
       - true
-    jahr:
-      - 2022
-      - 2022
+    einkommensteuer__einnahmen__bruttolohn_m:
+      - 8333.333333
+      - 1250.0
+    demographics__kind:
+      - false
+      - false
+    einkommensteuer__beitrag_private_rentenversicherung_m:
+      - 416.666667
+      - 0.0
+    sozialversicherung__rente__beitrag__betrag_versicherter_m:
+      - 660.333333
+      - 0.0
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-      - 0.0
-      - 0.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
     sozialversicherung__pflege__beitrag__betrag_versicherter_m:
       - 0.0
       - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-      - 660.333333
+    jahr:
+      - 2022
+      - 2022
+    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
       - 0.0
+      - 0.0
+  assumed: {}
 outputs:
   einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
     - 11674
