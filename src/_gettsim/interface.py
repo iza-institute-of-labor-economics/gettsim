@@ -380,7 +380,6 @@ def _add_rounding_to_function(
 
     """
     func = copy.deepcopy(input_function)
-    nice_name = ".".join(path)
     qualified_name = "__".join(path)
 
     if input_function.params_key_for_rounding:
@@ -394,8 +393,11 @@ def _add_rounding_to_function(
             raise KeyError(
                 KeyErrorMessage(
                     f"""
-                    Rounding specifications for function {nice_name} are expected
-                    in the parameter dictionary at:\n
+                    Rounding specifications for function
+
+                        {path}
+
+                    are expected in the parameter dictionary at:\n
                     [{params_key!r}]['rounding'][{qualified_name!r}].\n
                     These nested keys do not exist. If this function should not be
                     rounded, remove the respective decorator.
@@ -448,7 +450,6 @@ def _apply_rounding_spec(
     Series with (potentially) rounded numbers
 
     """
-    nice_name = ".".join(path)
 
     def inner(func):
         # Make sure that signature is preserved.
@@ -458,13 +459,11 @@ def _apply_rounding_spec(
 
             # Check inputs.
             if type(base) not in [int, float]:
-                raise ValueError(
-                    f"base needs to be a number, got {base!r} for " f"{nice_name}"
-                )
+                raise ValueError(f"base needs to be a number, got {base!r} for {path}")
             if type(to_add_after_rounding) not in [int, float]:
                 raise ValueError(
                     f"Additive part needs to be a number, got"
-                    f" {to_add_after_rounding!r} for {nice_name}"
+                    f" {to_add_after_rounding!r} for {path}"
                 )
 
             if direction == "up":
@@ -476,7 +475,7 @@ def _apply_rounding_spec(
             else:
                 raise ValueError(
                     "direction must be one of 'up', 'down', or 'nearest'"
-                    f", got {direction!r} for {nice_name}"
+                    f", got {direction!r} for {path}"
                 )
 
             rounded_out += to_add_after_rounding
@@ -624,7 +623,7 @@ def _fail_if_foreign_keys_are_invalid(
         if not all(i in valid_ids for i in leaf):
             message = format_errors_and_warnings(
                 f"""
-                The following {".".join(path)}s are not a valid p_id in the input
+                For {path}, the following are not a valid p_id in the input
                 data: {[i for i in leaf if i not in valid_ids]}.
                 """
             )
@@ -635,7 +634,7 @@ def _fail_if_foreign_keys_are_invalid(
         if any(equal_to_pid_in_same_row):
             message = format_errors_and_warnings(
                 f"""
-                The following {".".join(path)}s are equal to the p_id in the same
+                For {path}, the following are equal to the p_id in the same
                 row: {[i for i, j in zip(leaf, p_ids) if i == j]}.
                 """
             )
@@ -649,7 +648,7 @@ def _warn_if_functions_overridden_by_data(
 ) -> None:
     """Warn if functions are overridden by data."""
     tree_paths = optree.tree_paths(functions_tree_overridden)
-    formatted_list = format_list_linewise([".".join(path) for path in tree_paths])
+    formatted_list = format_list_linewise([str(p) for p in tree_paths])
     if len(formatted_list) > 0:
         warnings.warn(
             FunctionsAndColumnsOverlapWarning(formatted_list),
@@ -751,7 +750,7 @@ def _fail_if_root_nodes_are_missing(
             # Root node is present in the data tree.
             continue
         else:
-            missing_nodes.append(".".join(node))
+            missing_nodes.append(str(node))
 
     if missing_nodes:
         formatted = format_list_linewise(missing_nodes)

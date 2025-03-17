@@ -681,12 +681,12 @@ def _fail_if_targets_not_in_functions_tree(
         reference_tree=functions_tree,
     )[1]
     names_of_targets_not_in_functions = [
-        ".".join(path)
-        for path in optree.tree_paths(targets_not_in_functions_tree, none_is_leaf=True)
+        str(p)
+        for p in optree.tree_paths(targets_not_in_functions_tree, none_is_leaf=True)
     ]
     if names_of_targets_not_in_functions:
         formatted = format_list_linewise(names_of_targets_not_in_functions)
         msg = format_errors_and_warnings(
-            f"The following targets have no corresponding function:\n{formatted}"
+            f"The following targets have no corresponding function:\n\n{formatted}"
         )
         raise ValueError(msg)
