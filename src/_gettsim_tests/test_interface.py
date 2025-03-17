@@ -718,16 +718,21 @@ def test_provide_endogenous_groupings(data, functions_overridden):
         (
             {
                 "demographics": {"hh_id": pd.Series([1, "1", 2])},
-                "einkommen": {"bruttolohn_m": pd.Series(["2000", 3000, 4000])},
+                "einkommensteuer": {
+                    "einkünfte": {
+                        "aus_nichtselbstständiger_arbeit": {
+                            "bruttolohn_m": pd.Series(["2000", 3000, 4000])
+                        }
+                    }
+                },
             },
             {},
             "The data types of the following columns are invalid:\n"
             "\n - demographics__hh_id: Conversion from input type object to int failed."
-            " Object\ntype is not supported as input."
-            "\n\n- "
-            "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:"
-            " Conversion from input type object to float failed."
-            "\nObject type is not supported as input.",
+            " Object\ntype is not supported as input.\n"
+            "\n- einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:"  # noqa: E501
+            "\nConversion from input type object to float failed. "
+            "Object type is not supported\nas input.",
         ),
     ],
 )
