@@ -1,64 +1,45 @@
----
+info:
+  note: ''
+  source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
 inputs:
   assumed: {}
   provided:
-    demographics:
-      alter:
-        - 25
-      hh_id:
-        - 4
-      p_id:
-        - 55
-      wohnort_ost:
-        - true
-    einkommensteuer:
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 1200.0
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-        ist_selbstständig:
-          - false
+    demographics__alter:
+    - 25
+    demographics__hh_id:
+    - 4
+    demographics__p_id:
+    - 55
+    demographics__wohnort_ost:
+    - true
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1200.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+    - false
     jahr:
-      - '2018'
-    sozialversicherung:
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-      pflege:
-        beitrag:
-          hat_kinder:
-            - true
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-        private_rente_betrag_m:
-          - 0.0
+    - '2018'
+    sozialversicherung__kranken__beitrag__privat_versichert:
+    - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - true
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
 outputs:
-  sozialversicherung:
-    arbeitslosen:
-      beitrag:
-        betrag_versicherter_m:
-          - 18.0
-    beitrag_arbeitgeber_m:
-      - 232.5
-    beitrag_gesamt_m:
-      - 477.0
-    beiträge_versicherter_m:
-      - 244.5
-    kranken:
-      beitrag:
-        betrag_versicherter_m:
-          - 99.6
-    pflege:
-      beitrag:
-        betrag_versicherter_m:
-          - 15.3
-    rente:
-      beitrag:
-        betrag_versicherter_m:
-          - 111.6
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+  - 18.0
+  sozialversicherung__beitrag_arbeitgeber_m:
+  - 232.5
+  sozialversicherung__beitrag_gesamt_m:
+  - 477.0
+  sozialversicherung__beiträge_versicherter_m:
+  - 244.5
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+  - 99.6
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
+  - 15.3
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+  - 111.6

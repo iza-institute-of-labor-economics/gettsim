@@ -1,96 +1,92 @@
----
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      eigenbedarf_gedeckt:
-        - false
-        - false
-        - false
-        - false
-      p_id_einstandspartner:
-        - 1
-        - 0
-        - 3
-        - 2
-    demographics:
-      alter:
-        - 49
-        - 52
-        - 23
-        - 20
-      geburtsjahr:
-        - 1974
-        - 1971
-        - 2000
-        - 2003
-      geburtsmonat:
-        - 7
-        - 7
-        - 3
-        - 10
-      geburtstag:
-        - 14
-        - 14
-        - 1
-        - 21
-      hh_id:
-        - 0
-        - 0
-        - 0
-        - 0
-      p_id:
-        - 0
-        - 1
-        - 2
-        - 3
-      p_id_ehepartner:
-        - 1
-        - 0
-        - 3
-        - 2
-      p_id_elternteil_1:
-        - -1
-        - -1
-        - 0
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - 1
-        - -1
-    einkommensteuer:
-      gemeinsam_veranlagt:
-        - true
-        - true
-        - true
-        - true
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - 1
+    - 0
+    - 3
+    - 2
+    demographics__alter:
+    - 49
+    - 52
+    - 23
+    - 20
+    demographics__geburtsjahr:
+    - 1974
+    - 1971
+    - 2000
+    - 2003
+    demographics__geburtsmonat:
+    - 7
+    - 7
+    - 3
+    - 10
+    demographics__geburtstag:
+    - 14
+    - 14
+    - 1
+    - 21
+    demographics__hh_id:
+    - 0
+    - 0
+    - 0
+    - 0
+    demographics__p_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    demographics__p_id_ehepartner:
+    - 1
+    - 0
+    - 3
+    - 2
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    - 0
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - 1
+    - -1
+    einkommensteuer__gemeinsam_veranlagt:
+    - true
+    - true
+    - true
+    - true
 outputs:
-  arbeitslosengeld_2:
-    bg_id:
-      - 0
-      - 0
-      - 100
-      - 100
-    eg_id:
-      - 0
-      - 0
-      - 1
-      - 1
-    fg_id:
-      - 0
-      - 0
-      - 1
-      - 1
-  demographics:
-    ehe_id:
-      - 0
-      - 0
-      - 1
-      - 1
-  einkommensteuer:
-    sn_id:
-      - 0
-      - 0
-      - 1
-      - 1
+  arbeitslosengeld_2__bg_id:
+  - 0
+  - 0
+  - 100
+  - 100
+  arbeitslosengeld_2__eg_id:
+  - 0
+  - 0
+  - 1
+  - 1
+  arbeitslosengeld_2__fg_id:
+  - 0
+  - 0
+  - 1
+  - 1
+  demographics__ehe_id:
+  - 0
+  - 0
+  - 1
+  - 1
+  einkommensteuer__sn_id:
+  - 0
+  - 0
+  - 1
+  - 1

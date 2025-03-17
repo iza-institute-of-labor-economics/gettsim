@@ -1,134 +1,118 @@
----
+info:
+  note: ''
+  source: http://www.dr-wolters.de/content/inhalte/steuerberater_service/onlinerechner/einkommensteuer_berechnung/einkommensteuer_rechner/index.html
 inputs:
   assumed: {}
   provided:
-    demographics:
-      alleinerziehend:
-        - false
-        - false
-      alter:
-        - 40
-        - 40
-      arbeitsstunden_w:
-        - 40.0
-        - 30.0
-      behinderungsgrad:
-        - 0
-        - 0
-      geburtsjahr:
-        - 1975
-        - 1975
-      hh_id:
-        - 17
-        - 17
-      kind:
-        - false
-        - false
-      p_id:
-        - 23
-        - 24
-      p_id_ehepartner:
-        - 24
-        - 23
-      p_id_elternteil_1:
-        - -1
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-      wohnort_ost:
-        - false
-        - false
-    einkommensteuer:
-      abzüge:
-        betreuungskosten_m:
-          - 0.0
-          - 0.0
-        p_id_betreuungskosten_träger:
-          - -1
-          - -1
-        vorsorgeaufwendungen_y_sn:
-          - 7700.0
-          - 7700.0
-      beitrag_private_rentenversicherung_m:
-        - 0.0
-        - 0.0
-      einkünfte:
-        aus_kapitalvermögen:
-          kapitalerträge_m:
-            - 0.0
-            - 0.0
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 3000.0
-            - 2000.0
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-            - 0.0
-        aus_vermietung_und_verpachtung:
-          betrag_m:
-            - 0.0
-            - 0.0
-        ist_selbstständig:
-          - false
-          - false
-      gemeinsam_veranlagt:
-        - true
-        - true
+    demographics__alleinerziehend:
+    - false
+    - false
+    demographics__alter:
+    - 40
+    - 40
+    demographics__arbeitsstunden_w:
+    - 40.0
+    - 30.0
+    demographics__behinderungsgrad:
+    - 0
+    - 0
+    demographics__geburtsjahr:
+    - 1975
+    - 1975
+    demographics__hh_id:
+    - 17
+    - 17
+    demographics__kind:
+    - false
+    - false
+    demographics__p_id:
+    - 23
+    - 24
+    demographics__p_id_ehepartner:
+    - 24
+    - 23
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    demographics__wohnort_ost:
+    - false
+    - false
+    einkommensteuer__abzüge__betreuungskosten_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
+    - -1
+    - -1
+    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
+    - 7700.0
+    - 7700.0
+    einkommensteuer__beitrag_private_rentenversicherung_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 3000.0
+    - 2000.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+    - false
+    - false
+    einkommensteuer__gemeinsam_veranlagt:
+    - true
+    - true
     jahr:
-      - 2015
-      - 2015
-    kindergeld:
-      in_ausbildung:
-        - false
-        - false
-      p_id_empfänger:
-        - -1
-        - -1
-    sozialversicherung:
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-            - false
-      pflege:
-        beitrag:
-          hat_kinder:
-            - false
-            - false
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-            - 0.0
-        jahr_renteneintritt:
-          - 2040
-          - 2040
-        private_rente_betrag_m:
-          - 0.0
-          - 0.0
+    - 2015
+    - 2015
+    kindergeld__in_ausbildung:
+    - false
+    - false
+    kindergeld__p_id_empfänger:
+    - -1
+    - -1
+    sozialversicherung__kranken__beitrag__privat_versichert:
+    - false
+    - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - false
+    - false
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    - 0.0
+    sozialversicherung__rente__jahr_renteneintritt:
+    - 2040
+    - 2040
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
+    - 0.0
 outputs:
-  einkommensteuer:
-    abzüge:
-      alleinerziehend_betrag_y:
-        - 0
-        - 0
-      altersfreibetrag_y:
-        - 0
-        - 0
-      pauschbetrag_behinderung_y:
-        - 0
-        - 0
-    gesamteinkommen_ohne_abzüge_y:
-      - 35000
-      - 23000
-    gesamteinkommen_y:
-      - 50228.0
-      - 50228.0
-    kinderfreibetrag_y_sn:
-      - 0
-      - 0
-    zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-      - 50228.0
-      - 50228.0
+  einkommensteuer__abzüge__alleinerziehend_betrag_y:
+  - 0
+  - 0
+  einkommensteuer__abzüge__altersfreibetrag_y:
+  - 0
+  - 0
+  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
+  - 0
+  - 0
+  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
+  - 35000
+  - 23000
+  einkommensteuer__gesamteinkommen_y:
+  - 50228.0
+  - 50228.0
+  einkommensteuer__kinderfreibetrag_y_sn:
+  - 0
+  - 0
+  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+  - 50228.0
+  - 50228.0

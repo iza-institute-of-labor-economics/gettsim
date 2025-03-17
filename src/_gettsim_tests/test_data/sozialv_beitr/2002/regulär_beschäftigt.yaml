@@ -1,64 +1,45 @@
----
+info:
+  note: ''
+  source: Regression test. Unclear whether numbers are correct by external standards.
 inputs:
   assumed: {}
   provided:
-    demographics:
-      alter:
-        - 20
-      hh_id:
-        - 13
-      p_id:
-        - 111
-      wohnort_ost:
-        - false
-    einkommensteuer:
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 700.0
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-        ist_selbstständig:
-          - false
+    demographics__alter:
+    - 20
+    demographics__hh_id:
+    - 13
+    demographics__p_id:
+    - 111
+    demographics__wohnort_ost:
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 700.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+    - false
     jahr:
-      - '2002'
-    sozialversicherung:
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-      pflege:
-        beitrag:
-          hat_kinder:
-            - false
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-        private_rente_betrag_m:
-          - 0.0
+    - '2002'
+    sozialversicherung__kranken__beitrag__privat_versichert:
+    - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+    - false
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
 outputs:
-  sozialversicherung:
-    arbeitslosen:
-      beitrag:
-        betrag_versicherter_m:
-          - 22.75
-    beitrag_arbeitgeber_m:
-      - 144.55
-    beitrag_gesamt_m:
-      - 289.1
-    beiträge_versicherter_m:
-      - 144.55
-    kranken:
-      beitrag:
-        betrag_versicherter_m:
-          - 49.0
-    pflege:
-      beitrag:
-        betrag_versicherter_m:
-          - 5.95
-    rente:
-      beitrag:
-        betrag_versicherter_m:
-          - 66.85
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+  - 22.75
+  sozialversicherung__beitrag_arbeitgeber_m:
+  - 144.55
+  sozialversicherung__beitrag_gesamt_m:
+  - 289.1
+  sozialversicherung__beiträge_versicherter_m:
+  - 144.55
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+  - 49.0
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
+  - 5.95
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+  - 66.85

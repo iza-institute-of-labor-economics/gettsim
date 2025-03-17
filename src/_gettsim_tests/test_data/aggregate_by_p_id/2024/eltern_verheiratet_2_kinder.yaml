@@ -1,111 +1,107 @@
----
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      eigenbedarf_gedeckt:
-        - false
-        - false
-        - false
-        - false
-      p_id_einstandspartner:
-        - 1
-        - 0
-        - -1
-        - -1
-    demographics:
-      alter:
-        - 34
-        - 34
-        - 10
-        - 10
-      geburtsjahr:
-        - 1990
-        - 1990
-        - 2014
-        - 2014
-      geburtsmonat:
-        - 1
-        - 1
-        - 1
-        - 1
-      geburtstag:
-        - 1
-        - 1
-        - 1
-        - 1
-      hh_id:
-        - 0
-        - 0
-        - 0
-        - 0
-      p_id:
-        - 0
-        - 1
-        - 2
-        - 3
-      p_id_ehepartner:
-        - 1
-        - 0
-        - -1
-        - -1
-      p_id_elternteil_1:
-        - -1
-        - -1
-        - 0
-        - 0
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - 1
-        - 1
-    einkommensteuer:
-      gemeinsam_veranlagt:
-        - true
-        - true
-        - false
-        - false
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - false
-        - false
-        - true
-        - true
-      p_id_empfänger:
-        - -1
-        - -1
-        - 0
-        - 0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - 1
+    - 0
+    - -1
+    - -1
+    demographics__alter:
+    - 34
+    - 34
+    - 10
+    - 10
+    demographics__geburtsjahr:
+    - 1990
+    - 1990
+    - 2014
+    - 2014
+    demographics__geburtsmonat:
+    - 1
+    - 1
+    - 1
+    - 1
+    demographics__geburtstag:
+    - 1
+    - 1
+    - 1
+    - 1
+    demographics__hh_id:
+    - 0
+    - 0
+    - 0
+    - 0
+    demographics__p_id:
+    - 0
+    - 1
+    - 2
+    - 3
+    demographics__p_id_ehepartner:
+    - 1
+    - 0
+    - -1
+    - -1
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    - 0
+    - 0
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - 1
+    - 1
+    einkommensteuer__gemeinsam_veranlagt:
+    - true
+    - true
+    - false
+    - false
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    - true
+    - true
+    kindergeld__p_id_empfänger:
+    - -1
+    - -1
+    - 0
+    - 0
 outputs:
-  einkommensteuer:
-    anzahl_kinderfreibeträge:
-      - 2
-      - 2
-      - 0
-      - 0
-    kinderfreibetrag_y:
-      - 9540.0
-      - 9540.0
-      - 0.0
-      - 0.0
-    p_id_kinderfreibetragempfänger_1:
-      - -1
-      - -1
-      - 0
-      - 0
-    p_id_kinderfreibetragempfänger_2:
-      - -1
-      - -1
-      - 1
-      - 1
-  kindergeld:
-    anzahl_ansprüche:
-      - 2
-      - 0
-      - 0
-      - 0
-    betrag_m:
-      - 500.0
-      - 0.0
-      - 0.0
-      - 0.0
+  einkommensteuer__anzahl_kinderfreibeträge:
+  - 2
+  - 2
+  - 0
+  - 0
+  einkommensteuer__kinderfreibetrag_y:
+  - 9540.0
+  - 9540.0
+  - 0.0
+  - 0.0
+  einkommensteuer__p_id_kinderfreibetragempfänger_1:
+  - -1
+  - -1
+  - 0
+  - 0
+  einkommensteuer__p_id_kinderfreibetragempfänger_2:
+  - -1
+  - -1
+  - 1
+  - 1
+  kindergeld__anzahl_ansprüche:
+  - 2
+  - 0
+  - 0
+  - 0
+  kindergeld__betrag_m:
+  - 500.0
+  - 0.0
+  - 0.0
+  - 0.0

@@ -1,158 +1,139 @@
----
+info:
+  note: Regression test.
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      arbeitslosengeld_2_bezug_im_vorjahr:
-        - false
-        - false
-      eigenbedarf_gedeckt:
-        - false
-        - false
-      p_id_einstandspartner:
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - true
-        - false
-      alter:
-        - 38
-        - 20
-      arbeitsstunden_w:
-        - 40.0
-        - 0.0
-      geburtsjahr:
-        - 1981
-        - 2008
-      hh_id:
-        - 3
-        - 3
-      kind:
-        - false
-        - true
-      p_id:
-        - 10
-        - 11
-      p_id_ehepartner:
-        - -1
-        - -1
-      p_id_elternteil_1:
-        - -1
-        - 10
-      p_id_elternteil_2:
-        - -1
-        - -1
-      vermögen:
-        - 0.0
-        - 0.0
-    einkommensteuer:
-      betrag_y_sn:
-        - 1200.0
-        - 0.0
-      einkünfte:
-        aus_kapitalvermögen:
-          kapitalerträge_m:
-            - 0.0
-            - 0.0
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 1000.0
-            - 0.0
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-            - 0.0
-        aus_vermietung_und_verpachtung:
-          betrag_m:
-            - 0.0
-            - 0.0
-        sonstige:
-          betrag_m:
-            - 250.0
-            - 0.0
-      gemeinsam_veranlagt:
-        - false
-        - false
-    elterngeld:
-      betrag_m:
-        - 0.0
-        - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+    - false
+    - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - -1
+    - -1
+    demographics__alleinerziehend:
+    - true
+    - false
+    demographics__alter:
+    - 38
+    - 20
+    demographics__arbeitsstunden_w:
+    - 40.0
+    - 0.0
+    demographics__geburtsjahr:
+    - 1981
+    - 2008
+    demographics__hh_id:
+    - 3
+    - 3
+    demographics__kind:
+    - false
+    - true
+    demographics__p_id:
+    - 10
+    - 11
+    demographics__p_id_ehepartner:
+    - -1
+    - -1
+    demographics__p_id_elternteil_1:
+    - -1
+    - 10
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    demographics__vermögen:
+    - 0.0
+    - 0.0
+    einkommensteuer__betrag_y_sn:
+    - 1200.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1000.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__sonstige__betrag_m:
+    - 250.0
+    - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+    - false
+    - false
+    elterngeld__betrag_m:
+    - 0.0
+    - 0.0
     jahr:
-      - '2009'
-      - '2009'
-    kindergeld:
-      betrag_m:
-        - 164.0
-        - 0.0
-      in_ausbildung:
-        - false
-        - true
-      p_id_empfänger:
-        - -1
-        - 10
-    solidaritätszuschlag:
-      betrag_y_sn:
-        - 66.0
-        - 0.0
-    sozialversicherung:
-      arbeitslosen:
-        betrag_m:
-          - 0.0
-          - 0.0
-      beiträge_versicherter_m:
-        - 200.0
-        - 0.0
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-            - 0.0
-        bezieht_rente:
-          - false
-          - false
-        private_rente_betrag_m:
-          - 0.0
-          - 0.0
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-        - 0.0
-    wohnen:
-      bewohnt_eigentum_hh:
-        - false
-        - false
-      bruttokaltmiete_m_hh:
-        - 400.0
-        - 400.0
-      heizkosten_m_hh:
-        - 80.0
-        - 80.0
-      wohnfläche_hh:
-        - 58.0
-        - 58.0
-    wohngeld:
-      anspruchshöhe_m_bg:
-        - 0.0
-        - 0.0
+    - '2009'
+    - '2009'
+    kindergeld__betrag_m:
+    - 164.0
+    - 0.0
+    kindergeld__in_ausbildung:
+    - false
+    - true
+    kindergeld__p_id_empfänger:
+    - -1
+    - 10
+    solidaritätszuschlag__betrag_y_sn:
+    - 66.0
+    - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+    - 0.0
+    - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+    - 200.0
+    - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    - 0.0
+    sozialversicherung__rente__bezieht_rente:
+    - false
+    - false
+    sozialversicherung__rente__private_rente_betrag_m:
+    - 0.0
+    - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    - 0.0
+    unterhaltsvorschuss__betrag_m:
+    - 0.0
+    - 0.0
+    wohnen__bewohnt_eigentum_hh:
+    - false
+    - false
+    wohnen__bruttokaltmiete_m_hh:
+    - 400.0
+    - 400.0
+    wohnen__heizkosten_m_hh:
+    - 80.0
+    - 80.0
+    wohnen__wohnfläche_hh:
+    - 58.0
+    - 58.0
+    wohngeld__anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
 outputs:
-  arbeitslosengeld_2:
-    anrechnungsfreies_einkommen_m:
-      - 260.0
-      - 0.0
-    betrag_m_bg:
-      - 305.42
-      - 305.42
-    kosten_der_unterkunft_m_bg:
-      - 480.0
-      - 480.0
-    nettoeinkommen_nach_abzug_freibetrag_m:
-      - 684.5
-      - 0.0
-    regelsatz_m_bg:
-      - 673.92
-      - 673.92
+  arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
+  - 260.0
+  - 0.0
+  arbeitslosengeld_2__betrag_m_bg:
+  - 305.42
+  - 305.42
+  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
+  - 480.0
+  - 480.0
+  arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
+  - 684.5
+  - 0.0
+  arbeitslosengeld_2__regelsatz_m_bg:
+  - 673.92
+  - 673.92

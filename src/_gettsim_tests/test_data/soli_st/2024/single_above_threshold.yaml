@@ -1,25 +1,23 @@
----
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    abgeltungssteuer:
-      betrag_y_sn:
-        - 0.0
-    demographics:
-      hh_id:
-        - 2
-      kind:
-        - false
-      p_id:
-        - 4
-      p_id_ehepartner:
-        - -1
-    einkommensteuer:
-      betrag_mit_kinderfreibetrag_y_sn:
-        - 73397.0
-      gemeinsam_veranlagt:
-        - false
+    abgeltungssteuer__betrag_y_sn:
+    - 0.0
+    demographics__hh_id:
+    - 2
+    demographics__kind:
+    - false
+    demographics__p_id:
+    - 4
+    demographics__p_id_ehepartner:
+    - -1
+    einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+    - 73397.0
+    einkommensteuer__gemeinsam_veranlagt:
+    - false
 outputs:
-  solidaritätszuschlag:
-    betrag_y_sn:
-      - 4036.84
+  solidaritätszuschlag__betrag_y_sn:
+  - 4036.84

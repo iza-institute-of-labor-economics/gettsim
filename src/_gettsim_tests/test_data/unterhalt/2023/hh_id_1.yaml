@@ -1,23 +1,21 @@
----
+info:
+  note: ''
+  source: https://www.scheidung.org/anrechnung-kindergeld-auf-unterhalt/
 inputs:
   assumed: {}
   provided:
-    demographics:
-      hh_id:
-        - 1
-      kind:
-        - true
-      p_id:
-        - 1
+    demographics__hh_id:
+    - 1
+    demographics__kind:
+    - true
+    demographics__p_id:
+    - 1
     jahr:
-      - 2023
-    kindergeld:
-      betrag_m:
-        - 250.0
-    unterhalt:
-      anspruch_m:
-        - 528.0
+    - 2023
+    kindergeld__betrag_m:
+    - 250.0
+    unterhalt__anspruch_m:
+    - 528.0
 outputs:
-  unterhalt:
-    kind_festgelegter_zahlbetrag_m:
-      - 403.0
+  unterhalt__kind_festgelegter_zahlbetrag_m:
+  - 403.0

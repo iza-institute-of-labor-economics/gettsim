@@ -1,140 +1,127 @@
----
+info:
+  note: ''
+  source: Made up.
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      anrechnungsfreies_einkommen_m:
-        - 0.0
-        - 0.0
-        - 0.0
-      anspruchshöhe_m_bg:
-        - 0.0
-        - 0.0
-        - 0.0
-      arbeitslosengeld_2_bezug_im_vorjahr:
-        - false
-        - false
-        - false
-      bruttoeinkommen_m:
-        - 1000.0
-        - 0.0
-        - 1000.0
-      eigenbedarf_gedeckt:
-        - false
-        - false
-        - false
-      nettoeinkommen_nach_abzug_freibetrag_m:
-        - 1000.0
-        - 0.0
-        - 1000.0
-      p_id_einstandspartner:
-        - -1
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - true
-        - false
-        - false
-      alter:
-        - 40
-        - 10
-        - 40
-      arbeitsstunden_w:
-        - 40.0
-        - 0.0
-        - 40.0
-      hh_id:
-        - 18
-        - 18
-        - 18
-      kind:
-        - false
-        - true
-        - false
-      p_id:
-        - 49
-        - 50
-        - 51
-      p_id_elternteil_1:
-        - -1
-        - 49
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-        - -1
-      vermögen:
-        - 0.0
-        - 0.0
-        - 0.0
-    einkommensteuer:
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 1000.0
-            - 0.0
-            - 1000.0
-    kindergeld:
-      in_ausbildung:
-        - false
-        - false
-        - false
-      p_id_empfänger:
-        - -1
-        - 49
-        - -1
-    sozialversicherung:
-      rente:
-        altersrente:
-          betrag_m:
-            - 0.0
-            - 0.0
-            - 0.0
-        bezieht_rente:
-          - false
-          - false
-          - false
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-    vorrangprüfungen:
-      wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-        - true
-        - true
-        - true
-    wohnen:
-      bewohnt_eigentum_hh:
-        - false
-        - false
-        - false
-      bruttokaltmiete_m_hh:
-        - 700.0
-        - 700.0
-        - 700.0
-      heizkosten_m_hh:
-        - 100.0
-        - 100.0
-        - 100.0
-      wohnfläche_hh:
-        - 70.0
-        - 70.0
-        - 70.0
+    arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    arbeitslosengeld_2__anspruchshöhe_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__bruttoeinkommen_m:
+    - 1000.0
+    - 0.0
+    - 1000.0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    - false
+    arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
+    - 1000.0
+    - 0.0
+    - 1000.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - -1
+    - -1
+    - -1
+    demographics__alleinerziehend:
+    - true
+    - false
+    - false
+    demographics__alter:
+    - 40
+    - 10
+    - 40
+    demographics__arbeitsstunden_w:
+    - 40.0
+    - 0.0
+    - 40.0
+    demographics__hh_id:
+    - 18
+    - 18
+    - 18
+    demographics__kind:
+    - false
+    - true
+    - false
+    demographics__p_id:
+    - 49
+    - 50
+    - 51
+    demographics__p_id_elternteil_1:
+    - -1
+    - 49
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    - -1
+    demographics__vermögen:
+    - 0.0
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 1000.0
+    - 0.0
+    - 1000.0
+    kindergeld__in_ausbildung:
+    - false
+    - false
+    - false
+    kindergeld__p_id_empfänger:
+    - -1
+    - 49
+    - -1
+    sozialversicherung__rente__altersrente__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    sozialversicherung__rente__bezieht_rente:
+    - false
+    - false
+    - false
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    unterhaltsvorschuss__betrag_m:
+    - 0.0
+    - 0.0
+    - 0.0
+    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
+    - true
+    - true
+    - true
+    wohnen__bewohnt_eigentum_hh:
+    - false
+    - false
+    - false
+    wohnen__bruttokaltmiete_m_hh:
+    - 700.0
+    - 700.0
+    - 700.0
+    wohnen__heizkosten_m_hh:
+    - 100.0
+    - 100.0
+    - 100.0
+    wohnen__wohnfläche_hh:
+    - 70.0
+    - 70.0
+    - 70.0
 outputs:
-  arbeitslosengeld_2:
-    bruttokaltmiete_m_bg:
-      - 466.67
-      - 466.67
-      - 233.33
-  kinderzuschlag:
-    anspruchshöhe_m_bg:
-      - 292.0
-      - 292.0
-      - 0.0
+  arbeitslosengeld_2__bruttokaltmiete_m_bg:
+  - 466.67
+  - 466.67
+  - 233.33
+  kinderzuschlag__anspruchshöhe_m_bg:
+  - 292.0
+  - 292.0
+  - 0.0

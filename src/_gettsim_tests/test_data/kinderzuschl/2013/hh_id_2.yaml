@@ -1,104 +1,94 @@
----
+info:
+  note: ''
+  source: ''
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2:
-      arbeitslosengeld_2_bezug_im_vorjahr:
-        - false
-        - false
-      eigenbedarf_gedeckt:
-        - false
-        - false
-      mehrbedarf_alleinerziehend_m_bg:
-        - 0.0
-        - 0.0
-      p_id_einstandspartner:
-        - -1
-        - -1
-    demographics:
-      alleinerziehend:
-        - false
-        - false
-      alter:
-        - 40
-        - 40
-      arbeitsstunden_w:
-        - 0.0
-        - 0.0
-      geburtsjahr:
-        - 1973
-        - 1973
-      hh_id:
-        - 2
-        - 2
-      kind:
-        - false
-        - false
-      p_id:
-        - 4
-        - 5
-      p_id_elternteil_1:
-        - -1
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-      vermögen:
-        - 0.0
-        - 0.0
-    einkommensteuer:
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_m:
-            - 2000.0
-            - 2000.0
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-            - 0.0
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+    - false
+    - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+    - false
+    - false
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+    - 0.0
+    - 0.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+    - -1
+    - -1
+    demographics__alleinerziehend:
+    - false
+    - false
+    demographics__alter:
+    - 40
+    - 40
+    demographics__arbeitsstunden_w:
+    - 0.0
+    - 0.0
+    demographics__geburtsjahr:
+    - 1973
+    - 1973
+    demographics__hh_id:
+    - 2
+    - 2
+    demographics__kind:
+    - false
+    - false
+    demographics__p_id:
+    - 4
+    - 5
+    demographics__p_id_elternteil_1:
+    - -1
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    demographics__vermögen:
+    - 0.0
+    - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+    - 2000.0
+    - 2000.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+    - 0.0
+    - 0.0
     jahr:
-      - 2013
-      - 2013
-    kindergeld:
-      betrag_m_hh:
-        - 0.0
-        - 0.0
-      grundsätzlich_anspruchsberechtigt:
-        - false
-        - false
-      in_ausbildung:
-        - false
-        - false
-      p_id_empfänger:
-        - -1
-        - -1
-    kinderzuschlag:
-      bruttoeinkommen_eltern_m:
-        - 800.0
-        - 0.0
-      nettoeinkommen_eltern_m:
-        - 512.0
-        - 0.0
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-        - 0.0
-    wohnen:
-      bruttokaltmiete_m_hh:
-        - 400.0
-        - 400.0
-      heizkosten_m_hh:
-        - 80.0
-        - 80.0
+    - 2013
+    - 2013
+    kindergeld__betrag_m_hh:
+    - 0.0
+    - 0.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+    - false
+    - false
+    kindergeld__in_ausbildung:
+    - false
+    - false
+    kindergeld__p_id_empfänger:
+    - -1
+    - -1
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+    - 800.0
+    - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+    - 512.0
+    - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    - 0.0
+    unterhaltsvorschuss__betrag_m:
+    - 0.0
+    - 0.0
+    wohnen__bruttokaltmiete_m_hh:
+    - 400.0
+    - 400.0
+    wohnen__heizkosten_m_hh:
+    - 80.0
+    - 80.0
 outputs:
-  kinderzuschlag:
-    anspruchshöhe_m_bg:
-      - 0.0
-      - 0.0
-    basisbetrag_m_bg:
-      - 0.0
-      - 0.0
+  kinderzuschlag__anspruchshöhe_m_bg:
+  - 0.0
+  - 0.0
+  kinderzuschlag__basisbetrag_m_bg:
+  - 0.0
+  - 0.0

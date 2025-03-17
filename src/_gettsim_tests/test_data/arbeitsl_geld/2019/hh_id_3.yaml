@@ -1,65 +1,57 @@
----
+info:
+  source: none
 inputs:
   assumed:
-    kindergeld:
-      grundsätzlich_anspruchsberechtigt:
-        - true
-        - false
-    sozialversicherung:
-      arbeitslosen:
-        anwartschaftszeit:
-          - false
-          - true
-        arbeitssuchend:
-          - false
-          - true
-        zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-          - 0.0
-          - 12.0
-        zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-          - 0.0
-          - 0.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+    - true
+    - false
+    sozialversicherung__arbeitslosen__anwartschaftszeit:
+    - false
+    - true
+    sozialversicherung__arbeitslosen__arbeitssuchend:
+    - false
+    - true
+    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
+    - 0.0
+    - 12.0
+    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
+    - 0.0
+    - 0.0
   provided:
-    demographics:
-      alter:
-        - 5
-        - 30
-      arbeitsstunden_w:
-        - 0.0
-        - 0.0
-      geburtsjahr:
-        - 2014
-        - 1989
-      hh_id:
-        - 3
-        - 3
-      kind:
-        - true
-        - false
-      p_id:
-        - 3
-        - 4
-      p_id_elternteil_1:
-        - 4
-        - -1
-      p_id_elternteil_2:
-        - -1
-        - -1
-      wohnort_ost:
-        - false
-        - false
-    einkommensteuer:
-      einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          bruttolohn_vorjahr_m:
-            - 0.0
-            - 3000.0
+    demographics__alter:
+    - 5
+    - 30
+    demographics__arbeitsstunden_w:
+    - 0.0
+    - 0.0
+    demographics__geburtsjahr:
+    - 2014
+    - 1989
+    demographics__hh_id:
+    - 3
+    - 3
+    demographics__kind:
+    - true
+    - false
+    demographics__p_id:
+    - 3
+    - 4
+    demographics__p_id_elternteil_1:
+    - 4
+    - -1
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    demographics__wohnort_ost:
+    - false
+    - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
+    - 0.0
+    - 3000.0
     jahr:
-      - 2019
-      - 2019
+    - 2019
+    - 2019
 outputs:
-  sozialversicherung:
-    arbeitslosen:
-      betrag_m:
-        - 0.0
-        - 0.0
+  sozialversicherung__arbeitslosen__betrag_m:
+  - 0.0
+  - 0.0

@@ -1,36 +1,34 @@
----
+info:
+  note: One child in the middle age group (6-11).
+  source: https://www.berit-sander.de/2015/aktueller-unterhaltsvorschuss-ab-01-08-2015/
 inputs:
   assumed: {}
   provided:
-    demographics:
-      alleinerziehend:
-        - true
-        - false
-      alter:
-        - 45
-        - 8
-      hh_id:
-        - 0
-        - 0
-      p_id:
-        - 0
-        - 1
-      p_id_elternteil_1:
-        - -1
-        - 0
-      p_id_elternteil_2:
-        - -1
-        - -1
-    kindergeld:
-      p_id_empfänger:
-        - -1
-        - 0
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
+    demographics__alleinerziehend:
+    - true
+    - false
+    demographics__alter:
+    - 45
+    - 8
+    demographics__hh_id:
+    - 0
+    - 0
+    demographics__p_id:
+    - 0
+    - 1
+    demographics__p_id_elternteil_1:
+    - -1
+    - 0
+    demographics__p_id_elternteil_2:
+    - -1
+    - -1
+    kindergeld__p_id_empfänger:
+    - -1
+    - 0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+    - 0.0
+    - 0.0
 outputs:
-  unterhaltsvorschuss:
-    betrag_m:
-      - 0.0
-      - 192.0
+  unterhaltsvorschuss__betrag_m:
+  - 0.0
+  - 192.0
