@@ -928,7 +928,7 @@ mindestlohn:
     scalar: 12.82
     reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
 rounding:
-  sozialversicherung__midijob_faktor_f:
+  midijob_faktor_f:
     1990-01-01:
       base: 0.0001
       direction: nearest
