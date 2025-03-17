@@ -62,7 +62,8 @@ GETTSIM; this is irrelevant for the DAG.
 
 Function arguments can be of three kinds:
 
-- User-provided input variables (e.g., `einkommensteuer__einnahmen__bruttolohn_m`).
+- User-provided input variables (e.g.,
+  `einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m`).
 - Outputs of other functions in the taxes and transfers system (e.g.,
   `einkommensteuer__betrag_y_sn`).
 - Parameters of the taxes and transfers system, which are pre-defined and always end in

@@ -54,7 +54,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 300.0
       - 600.0
       - 900.0
@@ -84,7 +84,7 @@ inputs:
       - false
       - false
       - true
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
       - 0.0
       - 0.0
@@ -99,7 +99,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 1000.0
       - 2000.0
       - 3000.0
@@ -174,12 +174,12 @@ inputs:
       - -1
       - -1
       - -1
-    einkommensteuer__einnahmen__kapitalerträge_m:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
       - 200.0
       - 200.0
       - 200.0
       - 200.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
       - 0.0
       - 1.0
       - 2.0
@@ -234,7 +234,7 @@ inputs:
       - 3
       - 3
       - 3
-    einkommensteuer__einnahmen__sonstige_m:
+    einkommensteuer__einkünfte__sonstige__betrag_m:
       - 50.0
       - 50.0
       - 50.0

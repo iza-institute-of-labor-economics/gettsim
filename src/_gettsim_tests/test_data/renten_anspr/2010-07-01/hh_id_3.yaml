@@ -11,7 +11,7 @@ inputs:
       - 3
     demographics__hh_id:
       - 3
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 900.0
     demographics__wohnort_ost:
       - true

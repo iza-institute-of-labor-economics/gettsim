@@ -436,15 +436,15 @@ def betrag_gesamty_ab_2005_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
-    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's long-term care insurance contribution until December 2004.
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_m
-        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -457,7 +457,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
     """
 
     out = (
-        einkommensteuer__einnahmen__bruttolohn_m
+        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
@@ -470,7 +470,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
-    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employers' contribution to long-term care insurance between 2005 and September
@@ -478,8 +478,8 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
 
     Parameters
     ----------
-    einkommensteuer__einnahmen__bruttolohn_m
-        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -490,7 +490,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
 
     """
     out = (
-        einkommensteuer__einnahmen__bruttolohn_m
+        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
     return out

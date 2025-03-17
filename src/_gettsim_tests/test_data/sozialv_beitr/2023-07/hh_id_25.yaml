@@ -12,7 +12,7 @@ inputs:
       - 25
     demographics__hh_id:
       - 25
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 4000.0
     demographics__wohnort_ost:
       - false
@@ -24,7 +24,7 @@ inputs:
       - true
     sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24:
       - 5
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
       - 0.0

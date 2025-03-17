@@ -25,9 +25,9 @@ def betrag_m(basisbetrag_m: float, anzurechnendes_einkommen_m: float) -> float:
 @policy_function()
 def einkommen_m(
     proxy_rente_vorjahr_m: float,
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m: float,
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m: float,
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m: float,
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m: float,
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
@@ -55,12 +55,12 @@ def einkommen_m(
     ----------
     proxy_rente_vorjahr_m
         See :func:`proxy_rente_vorjahr_m`.
-    einkommensteuer__einnahmen__bruttolohn_vorjahr_m
-        See :func:`einkommensteuer__einnahmen__bruttolohn_vorjahr_m`.
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
-        See :func:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m`.
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m
-        See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m
+        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m`.
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
+        See :func:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m`.
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
+        See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m`.
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
         See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y`.
 
@@ -72,9 +72,9 @@ def einkommen_m(
     # Sum income over different income sources.
     out = (
         proxy_rente_vorjahr_m
-        + einkommensteuer__einnahmen__bruttolohn_vorjahr_m
-        + einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m  # income from self-employment
-        + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m  # rental income
+        + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m
+        + einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m  # income from self-employment
+        + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m  # rental income
         + einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
     )
 

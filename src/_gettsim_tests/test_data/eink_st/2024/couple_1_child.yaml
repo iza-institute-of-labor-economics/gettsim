@@ -40,7 +40,7 @@ inputs:
       - 200000.0
       - 200000.0
       - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_y:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
       - 0.0
       - 0.0
       - 0.0

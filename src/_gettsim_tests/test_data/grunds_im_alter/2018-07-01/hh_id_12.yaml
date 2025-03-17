@@ -38,9 +38,9 @@ inputs:
       - 92.0
     wohnen__wohnfläche_hh:
       - 45.0
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    einkommensteuer__einnahmen__kapitalerträge_m:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
       - 2.0
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
       - 300
@@ -56,11 +56,11 @@ inputs:
       - false
     sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
-    einkommensteuer__einnahmen__sonstige_m:
+    einkommensteuer__einkünfte__sonstige__betrag_m:
       - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
       - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
       - 0.0
     einkommensteuer__betrag_y_sn:
       - 0.0

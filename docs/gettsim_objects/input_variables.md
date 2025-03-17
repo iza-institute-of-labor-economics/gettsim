@@ -22,9 +22,9 @@ Dependent child living with parents
 
 Type: bool
 
-(einkommensteuer__einnahmen__bruttolohn_m)=
+(einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m)=
 
-## `einkommensteuer__einnahmen__bruttolohn_m`
+## `einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m`
 
 Monthly wage
 
@@ -174,34 +174,34 @@ Identifier of the person who paid childcare expenses.
 
 Type: float
 
-(einkommensteuer__einnahmen__sonstige_m)=
+(einkommensteuer__einkünfte__sonstige__betrag_m)=
 
-## `einkommensteuer__einnahmen__sonstige_m`
+## `einkommensteuer__einkünfte__sonstige__betrag_m`
 
 Additional income: includes private and public transfers that are not yet implemented in
 GETTSIM (e.g., BAföG, Kriegsopferfürsorge)
 
 Type: float
 
-(einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m)=
+(einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m)=
 
-## `einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m`
+## `einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m`
 
 Monthly income from self-employment
 
 Type: float
 
-(einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m)=
+(einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m)=
 
-## `einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m`
+## `einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m`
 
 Monthly rental income net of deductions
 
 Type: float
 
-(einkommensteuer__einnahmen__kapitalerträge_m)=
+(einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m)=
 
-## `einkommensteuer__einnahmen__kapitalerträge_m`
+## `einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m`
 
 Monthly capital income
 
@@ -277,9 +277,9 @@ typically be for the previous calendar year.
 
 Type: float
 
-(einkommensteuer__einnahmen__bruttolohn_vorjahr_m)=
+(einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m)=
 
-## `einkommensteuer__einnahmen__bruttolohn_vorjahr_m`
+## `einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m`
 
 Gross wage in the previous year
 

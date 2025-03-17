@@ -79,7 +79,7 @@ def betrag_gestaffelt_m(
 def grundsätzlich_anspruchsberechtigt_nach_lohn(
     demographics__alter: int,
     in_ausbildung: bool,
-    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     kindergeld_params: dict,
 ) -> bool:
     """Determine kindergeld eligibility for an individual child depending on kids wage.
@@ -96,8 +96,8 @@ def grundsätzlich_anspruchsberechtigt_nach_lohn(
         See params documentation :ref:`kindergeld_params <kindergeld_params>`.
     in_ausbildung
         See basic input variable :ref:`in_ausbildung <in_ausbildung>`.
-    einkommensteuer__einnahmen__bruttolohn_m
-        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
 
     Returns
     -------
@@ -109,7 +109,7 @@ def grundsätzlich_anspruchsberechtigt_nach_lohn(
         (demographics__alter < kindergeld_params["altersgrenze"]["mit_bedingungen"])
         and in_ausbildung
         and (
-            einkommensteuer__einnahmen__bruttolohn_m
+            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
             <= kindergeld_params["einkommensgrenze"] / 12
         )
     )

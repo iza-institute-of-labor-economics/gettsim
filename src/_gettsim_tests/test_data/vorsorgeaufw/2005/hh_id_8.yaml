@@ -12,7 +12,7 @@ inputs:
       - -1
     einkommensteuer__gemeinsam_veranlagt:
       - false
-    einkommensteuer__einnahmen__bruttolohn_m:
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 4166.666667
     demographics__kind:
       - false

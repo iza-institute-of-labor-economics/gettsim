@@ -54,7 +54,7 @@ INPUT_COLS_INCOME = [
     "sozialversicherung__rente__jahr_renteneintritt",
     "sozialversicherung__rente__monat_renteneintritt",
     "demographics__wohnort_ost",
-    "einkommensteuer__einnahmen__bruttolohn_m",
+    "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m",
     "sozialversicherung__rente__altersrente__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y",
     "demographics__weiblich",
     "sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y",
