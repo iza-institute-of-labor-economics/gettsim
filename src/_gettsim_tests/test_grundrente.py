@@ -10,7 +10,7 @@ from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_d
 YEARS = [2021]
 
 OUT_COLS_TOL = {
-    "sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag": 0.0001,
+    "sozialversicherung__rente__grundrente__durchschnittliche_entgeltpunkte_zuschlag": 0.0001,  # noqa: E501
     "sozialversicherung__rente__grundrente__basisbetrag_m": 1,
     "sozialversicherung__rente__grundrente__betrag_m": 1,
     "sozialversicherung__rente__altersrente__betrag_m": 1,

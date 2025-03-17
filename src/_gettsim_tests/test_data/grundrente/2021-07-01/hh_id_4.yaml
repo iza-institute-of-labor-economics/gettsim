@@ -68,5 +68,5 @@ outputs:
           - 83.77
         betrag_m:
           - 83.77
-        mean_entgeltpunkte_zuschlag:
+        sozialversicherung__rente__grundrente__durchschnittliche_entgeltpunkte_zuschlag:
           - 0.0058625

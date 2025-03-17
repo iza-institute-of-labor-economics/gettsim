@@ -317,12 +317,12 @@ rounding:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 1 EStG
-  eink_st_ohne_kinderfreib_y:
+  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
     2002-01-01:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
-  eink_st_mit_kinderfreib_y:
+  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
     2002-01-01:
       base: 1
       direction: down
