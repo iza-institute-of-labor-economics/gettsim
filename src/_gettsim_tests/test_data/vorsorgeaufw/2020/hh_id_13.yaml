@@ -1,33 +1,46 @@
-info:
-  note: ''
-  source: https://www.ruv.de/ratgeber/altersvorsorge/staatliche-foerderung/basisrente-sonderausgabenabzug
+---
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
-    - 13
-    demographics__kind:
-    - false
-    demographics__p_id:
-    - 14
-    demographics__p_id_ehepartner:
-    - -1
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 150.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 2583.33
-    einkommensteuer__gemeinsam_veranlagt:
-    - false
+    demographics:
+      hh_id:
+        - 13
+      kind:
+        - false
+      p_id:
+        - 14
+      p_id_ehepartner:
+        - -1
+    einkommensteuer:
+      beitrag_private_rentenversicherung_m:
+        - 150.0
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 2583.33
+      gemeinsam_veranlagt:
+        - false
     jahr:
-    - 2020
-    sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 0.0
-    sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 232.5
+      - 2020
+    sozialversicherung:
+      arbeitslosen:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+      pflege:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+      rente:
+        beitrag:
+          betrag_versicherter_m:
+            - 232.5
 outputs:
-  einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 3852
+  einkommensteuer:
+    abzüge:
+      vorsorgeaufwendungen_y_sn:
+        - 3852

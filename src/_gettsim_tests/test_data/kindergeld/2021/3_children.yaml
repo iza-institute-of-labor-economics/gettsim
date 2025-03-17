@@ -1,73 +1,78 @@
-info:
-  note: ''
-  source: ''
+---
 inputs:
   assumed: {}
   provided:
-    demographics__alter:
-    - 35
-    - 35
-    - 12
-    - 10
-    - 8
-    demographics__arbeitsstunden_w:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    demographics__hh_id:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    demographics__kind:
-    - false
-    - false
-    - true
-    - true
-    - true
-    demographics__p_id:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 20000.0
-    - 20000.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__gesamteinkommen_y:
-    - 200000.0
-    - 200000.0
-    - 0.0
-    - 0.0
-    - 0.0
-    kindergeld__in_ausbildung:
-    - false
-    - false
-    - true
-    - true
-    - true
-    kindergeld__p_id_empfänger:
-    - -1
-    - -1
-    - 0
-    - 0
-    - 0
+    demographics:
+      alter:
+        - 35
+        - 35
+        - 12
+        - 10
+        - 8
+      arbeitsstunden_w:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      hh_id:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+      kind:
+        - false
+        - false
+        - true
+        - true
+        - true
+      p_id:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 20000.0
+            - 20000.0
+            - 0.0
+            - 0.0
+            - 0.0
+      gesamteinkommen_y:
+        - 200000.0
+        - 200000.0
+        - 0.0
+        - 0.0
+        - 0.0
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+        - true
+        - true
+        - true
+      p_id_empfänger:
+        - -1
+        - -1
+        - 0
+        - 0
+        - 0
 outputs:
-  arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
-  - 0.0
-  - 0.0
-  - 221.0
-  - 221.0
-  - 221.0
-  kindergeld__betrag_m:
-  - 663.0
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
+  arbeitslosengeld_2:
+    kindergeld_zur_bedarfsdeckung_m:
+      - 0.0
+      - 0.0
+      - 221.0
+      - 221.0
+      - 221.0
+  kindergeld:
+    betrag_m:
+      - 663.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0

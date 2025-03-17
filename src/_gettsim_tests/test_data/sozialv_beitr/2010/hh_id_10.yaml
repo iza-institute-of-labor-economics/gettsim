@@ -1,45 +1,64 @@
-info:
-  note: ''
-  source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
+---
 inputs:
   assumed: {}
   provided:
-    demographics__alter:
-    - 20
-    demographics__hh_id:
-    - 10
-    demographics__p_id:
-    - 54684
-    demographics__wohnort_ost:
-    - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1200.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+    demographics:
+      alter:
+        - 20
+      hh_id:
+        - 10
+      p_id:
+        - 54684
+      wohnort_ost:
+        - false
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 1200.0
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+        ist_selbstständig:
+          - false
     jahr:
-    - '2010'
-    sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-    - true
-    sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - '2010'
+    sozialversicherung:
+      kranken:
+        beitrag:
+          privat_versichert:
+            - false
+      pflege:
+        beitrag:
+          hat_kinder:
+            - true
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+        private_rente_betrag_m:
+          - 0.0
 outputs:
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 16.8
-  sozialversicherung__beitrag_arbeitgeber_m:
-  - 231.9
-  sozialversicherung__beitrag_gesamt_m:
-  - 474.6
-  sozialversicherung__beiträge_versicherter_m:
-  - 242.7
-  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 94.8
-  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 11.7
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 119.4
+  sozialversicherung:
+    arbeitslosen:
+      beitrag:
+        betrag_versicherter_m:
+          - 16.8
+    beitrag_arbeitgeber_m:
+      - 231.9
+    beitrag_gesamt_m:
+      - 474.6
+    beiträge_versicherter_m:
+      - 242.7
+    kranken:
+      beitrag:
+        betrag_versicherter_m:
+          - 94.8
+    pflege:
+      beitrag:
+        betrag_versicherter_m:
+          - 11.7
+    rente:
+      beitrag:
+        betrag_versicherter_m:
+          - 119.4

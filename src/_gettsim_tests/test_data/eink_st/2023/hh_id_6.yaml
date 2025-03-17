@@ -1,31 +1,36 @@
-info:
-  note: ''
-  source: https://www.smart-rechner.de/einkommensteuer/rechner.php
+---
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
-    - 6
-    demographics__kind:
-    - false
-    demographics__p_id:
-    - 6
-    demographics__p_id_ehepartner:
-    - -1
-    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
-    - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-    - false
-    einkommensteuer__gesamteinkommen_y:
-    - 36000.0
-    einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-    - 36000.0
+    demographics:
+      hh_id:
+        - 6
+      kind:
+        - false
+      p_id:
+        - 6
+      p_id_ehepartner:
+        - -1
+    einkommensteuer:
+      einkünfte:
+        aus_kapitalvermögen:
+          kapitalerträge_y:
+            - 0.0
+      gemeinsam_veranlagt:
+        - false
+      gesamteinkommen_y:
+        - 36000.0
+      zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+        - 36000.0
 outputs:
-  abgeltungssteuer__betrag_y_sn:
-  - 0.0
-  einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
-  - 6531
-  einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
-  - 6531
-  solidaritätszuschlag__betrag_y_sn:
-  - 0.0
+  abgeltungssteuer:
+    betrag_y_sn:
+      - 0.0
+  einkommensteuer:
+    betrag_mit_kinderfreibetrag_y_sn:
+      - 6531
+    betrag_ohne_kinderfreibetrag_y_sn:
+      - 6531
+  solidaritätszuschlag:
+    betrag_y_sn:
+      - 0.0

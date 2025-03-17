@@ -1,46 +1,59 @@
-info:
-  note: Cannot access original source. Result adjusted by 5 to fit calculated result
-  source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
+---
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
-    - 2
-    - 2
-    demographics__kind:
-    - false
-    - true
-    demographics__p_id:
-    - 2
-    - 3
-    demographics__p_id_ehepartner:
-    - 3
-    - 2
-    einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 334.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3500.0
-    - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-    - true
-    - true
+    demographics:
+      hh_id:
+        - 2
+        - 2
+      kind:
+        - false
+        - true
+      p_id:
+        - 2
+        - 3
+      p_id_ehepartner:
+        - 3
+        - 2
+    einkommensteuer:
+      beitrag_private_rentenversicherung_m:
+        - 334.0
+        - 0.0
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 3500.0
+            - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
     jahr:
-    - 2005
-    - 2005
-    sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 500.0
-    - 0.0
+      - 2005
+      - 2005
+    sozialversicherung:
+      arbeitslosen:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+            - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+            - 0.0
+      pflege:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+            - 0.0
+      rente:
+        beitrag:
+          betrag_versicherter_m:
+            - 500.0
+            - 0.0
 outputs:
-  einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 3605
-  - 3605
+  einkommensteuer:
+    abzüge:
+      vorsorgeaufwendungen_y_sn:
+        - 3605
+        - 3605

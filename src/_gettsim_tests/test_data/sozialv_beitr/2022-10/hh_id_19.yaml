@@ -1,45 +1,64 @@
-info:
-  note: Änderungen MidiJob 2022 (kinderlos)
-  source: https://www.kbs.de/SiteGlobals/Forms/Rechner/Midijobrechner/seite1/node.html
+---
 inputs:
   assumed: {}
   provided:
-    demographics__alter:
-    - 35
-    demographics__hh_id:
-    - 19
-    demographics__p_id:
-    - 19
-    demographics__wohnort_ost:
-    - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1100.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+    demographics:
+      alter:
+        - 35
+      hh_id:
+        - 19
+      p_id:
+        - 19
+      wohnort_ost:
+        - false
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 1100.0
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+        ist_selbstständig:
+          - false
     jahr:
-    - 2022-10
-    sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
-    sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 2022-10
+    sozialversicherung:
+      kranken:
+        beitrag:
+          privat_versichert:
+            - false
+      pflege:
+        beitrag:
+          hat_kinder:
+            - false
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+        private_rente_betrag_m:
+          - 0.0
 outputs:
-  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 10.31
-  sozialversicherung__beitrag_arbeitgeber_m:
-  - 239.04
-  sozialversicherung__beitrag_gesamt_m:
-  - 414.28
-  sozialversicherung__beiträge_versicherter_m:
-  - 175.24
-  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 68.32
-  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 16.7
-  sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 79.91
+  sozialversicherung:
+    arbeitslosen:
+      beitrag:
+        betrag_versicherter_m:
+          - 10.31
+    beitrag_arbeitgeber_m:
+      - 239.04
+    beitrag_gesamt_m:
+      - 414.28
+    beiträge_versicherter_m:
+      - 175.24
+    kranken:
+      beitrag:
+        betrag_versicherter_m:
+          - 68.32
+    pflege:
+      beitrag:
+        betrag_versicherter_m:
+          - 16.7
+    rente:
+      beitrag:
+        betrag_versicherter_m:
+          - 79.91

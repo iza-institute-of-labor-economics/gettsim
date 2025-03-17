@@ -1,69 +1,78 @@
-info:
-  note: Made up using the text of the law
-  source: ''
+---
 inputs:
   assumed: {}
   provided:
-    demographics__geburtsjahr:
-    - 1949
-    demographics__geburtsmonat:
-    - 1
-    demographics__hh_id:
-    - 19
-    demographics__p_id:
-    - 19
-    demographics__weiblich:
-    - false
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-    - 0.0
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
-    - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
-    - true
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
-    - false
-    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
-    - false
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-    - 0.0
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-    - 0.0
-    sozialversicherung__rente__ersatzzeiten_m:
-    - 0.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
-    - 0.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-    - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-    - 0.0
-    sozialversicherung__rente__mutterschutzzeiten_m:
-    - 0.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-    - 0.0
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
-    - 300.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
-    - 0.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-    - 0.0
+    demographics:
+      geburtsjahr:
+        - 1949
+      geburtsmonat:
+        - 1
+      hh_id:
+        - 19
+      p_id:
+        - 19
+      weiblich:
+        - false
+    sozialversicherung:
+      rente:
+        altersrente:
+          für_frauen:
+            pflichtsbeitragszeiten_ab_40_y:
+              - 0.0
+          wegen_arbeitslosigkeit:
+            arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+              - true
+            pflichtbeitragsjahre_8_von_10:
+              - true
+            vertrauensschutz_1997:
+              - false
+            vertrauensschutz_2004:
+              - false
+        arbeitslosigkeitszeiten_m:
+          - 0.0
+        arbeitsunfähigkeitszeiten_m:
+          - 0.0
+        ersatzzeiten_m:
+          - 0.0
+        freiwillige_beitragszeiten_m:
+          - 0.0
+        kinderberücksichtigungszeiten_m:
+          - 0.0
+        krankheitszeiten_ab_16_bis_24_m:
+          - 0.0
+        mutterschutzzeiten_m:
+          - 0.0
+        pflegeberücksichtigungszeiten_m:
+          - 0.0
+        pflichtbeitragszeiten_m:
+          - 300.0
+        schulausbildungszeiten_m:
+          - 0.0
+        zeiten_der_ausbildungssuche_m:
+          - 0.0
 outputs:
-  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-  - 65.0
-  sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
-  - 63.0
-  sozialversicherung__rente__altersrente__für_frauen__grundsätzlich_anspruchsberechtigt:
-  - false
-  sozialversicherung__rente__altersrente__referenzalter_abschlag:
-  - 65.0
-  sozialversicherung__rente__altersrente__vorzeitig_grundsätzlich_anspruchsberechtigt:
-  - true
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze:
-  - 65.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_ohne_vertrauensschutzprüfung:
-  - 65.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
-  - 63.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig_ohne_vertrauenss:
-  - 63.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
-  - true
+  sozialversicherung:
+    rente:
+      altersrente:
+        altersgrenze_abschlagsfrei:
+          - 65.0
+        altersgrenze_vorzeitig:
+          - 63.0
+        für_frauen:
+          grundsätzlich_anspruchsberechtigt:
+            - false
+        referenzalter_abschlag:
+          - 65.0
+        vorzeitig_grundsätzlich_anspruchsberechtigt:
+          - true
+        wegen_arbeitslosigkeit:
+          altersgrenze:
+            - 65.0
+          altersgrenze_ohne_vertrauensschutzprüfung:
+            - 65.0
+          altersgrenze_vorzeitig:
+            - 63.0
+          altersgrenze_vorzeitig_ohne_vertrauenss:
+            - 63.0
+          grundsätzlich_anspruchsberechtigt:
+            - true

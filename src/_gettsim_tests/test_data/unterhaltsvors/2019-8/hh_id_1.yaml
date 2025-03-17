@@ -1,70 +1,84 @@
-info:
-  note: ''
-  source: ''
+---
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
-    - -1
-    demographics__alleinerziehend:
-    - true
-    - false
-    demographics__alter:
-    - 40
-    - 8
-    demographics__hh_id:
-    - 1
-    - 1
-    demographics__p_id:
-    - 23
-    - 25
-    demographics__p_id_elternteil_1:
-    - -1
-    - 23
-    demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 0.0
-    - 0.0
+    arbeitslosengeld_2:
+      p_id_einstandspartner:
+        - -1
+        - -1
+    demographics:
+      alleinerziehend:
+        - true
+        - false
+      alter:
+        - 40
+        - 8
+      hh_id:
+        - 1
+        - 1
+      p_id:
+        - 23
+        - 25
+      p_id_elternteil_1:
+        - -1
+        - 23
+      p_id_elternteil_2:
+        - -1
+        - -1
+    einkommensteuer:
+      einkünfte:
+        aus_kapitalvermögen:
+          kapitalerträge_m:
+            - 0.0
+            - 0.0
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 0.0
+            - 0.0
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        sonstige:
+          betrag_m:
+            - 0.0
+            - 0.0
     jahr:
-    - 2019
-    - 2019
-    kindergeld__p_id_empfänger:
-    - -1
-    - 23
+      - 2019
+      - 2019
+    kindergeld:
+      p_id_empfänger:
+        - -1
+        - 23
     monat:
-    - 8
-    - 8
-    sozialversicherung__arbeitslosen__betrag_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
-    - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
-    - 0.0
+      - 8
+      - 8
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
 outputs:
-  unterhaltsvorschuss__betrag_m:
-  - 0.0
-  - 202.0
-  unterhaltsvorschuss__elternteil_alleinerziehend:
-  - false
-  - true
+  unterhaltsvorschuss:
+    betrag_m:
+      - 0.0
+      - 202.0
+    elternteil_alleinerziehend:
+      - false
+      - true

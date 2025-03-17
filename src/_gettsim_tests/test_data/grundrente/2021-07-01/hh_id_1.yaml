@@ -1,60 +1,72 @@
-info:
-  note: ''
-  source: Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das Grundrentengesetz",
-    https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
+---
 inputs:
   assumed: {}
   provided:
     alleinstehend:
-    - true
-    demographics__alter:
-    - 70
-    demographics__geburtsjahr:
-    - 1951
-    demographics__hh_id:
-    - 1
-    demographics__kind:
-    - false
-    demographics__p_id:
-    - 1
-    demographics__p_id_ehepartner:
-    - -1
-    demographics__wohnort_ost:
-    - false
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-    - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y:
-    - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y:
-    - 0.0
-    sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
-    - 0.0
-    sozialversicherung__rente__altersrente__zugangsfaktor:
-    - 1.0
-    sozialversicherung__rente__bezieht_rente:
-    - true
-    sozialversicherung__rente__entgeltpunkte_ost:
-    - 0.0
-    sozialversicherung__rente__entgeltpunkte_west:
-    - 14.014
-    sozialversicherung__rente__grundrente__bewertungszeiten_m:
-    - 420
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-    - 420
-    sozialversicherung__rente__grundrente__mean_entgeltpunkte:
-    - 14.014
-    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
-    - 0.0
+      - true
+    demographics:
+      alter:
+        - 70
+      geburtsjahr:
+        - 1951
+      hh_id:
+        - 1
+      kind:
+        - false
+      p_id:
+        - 1
+      p_id_ehepartner:
+        - -1
+      wohnort_ost:
+        - false
+    einkommensteuer:
+      einkünfte:
+        aus_kapitalvermögen:
+          betrag_y_sn:
+            - 0.0
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 0.0
+          bruttolohn_vorjahr_m:
+            - 0.0
+        aus_selbstständiger_arbeit:
+          betrag_y:
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_y:
+            - 0.0
+    sozialversicherung:
+      rente:
+        altersrente:
+          höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
+            - 0.0
+          zugangsfaktor:
+            - 1.0
+        bezieht_rente:
+          - true
+        entgeltpunkte_ost:
+          - 0.0
+        entgeltpunkte_west:
+          - 14.014
+        grundrente:
+          bewertungszeiten_m:
+            - 420
+          grundrentenzeiten_m:
+            - 420
+          mean_entgeltpunkte:
+            - 14.014
+          proxy_rente_vorjahr_m:
+            - 0.0
 outputs:
-  sozialversicherung__rente__altersrente__betrag_m:
-  - 897.97
-  sozialversicherung__rente__grundrente__basisbetrag_m:
-  - 418.83
-  sozialversicherung__rente__grundrente__betrag_m:
-  - 418.83
-  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
-  - 0.029166667
+  sozialversicherung:
+    rente:
+      altersrente:
+        betrag_m:
+          - 897.97
+      grundrente:
+        basisbetrag_m:
+          - 418.83
+        betrag_m:
+          - 418.83
+        mean_entgeltpunkte_zuschlag:
+          - 0.029166667

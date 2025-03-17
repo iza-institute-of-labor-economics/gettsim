@@ -1,139 +1,158 @@
-info:
-  note: Test with wealth (calculated wealth allowance using https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
-  source: ''
+---
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-    - false
-    - false
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
-    - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-    - 38
-    - 37
-    demographics__alleinerziehend:
-    - false
-    - false
-    demographics__alter:
-    - 40
-    - 40
-    demographics__arbeitsstunden_w:
-    - 20.0
-    - 0.0
-    demographics__geburtsjahr:
-    - 1973
-    - 1973
-    demographics__hh_id:
-    - 15
-    - 15
-    demographics__kind:
-    - false
-    - false
-    demographics__p_id:
-    - 37
-    - 38
-    demographics__p_id_ehepartner:
-    - 38
-    - 37
-    demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    demographics__vermögen:
-    - 14000.0
-    - 0.0
-    einkommensteuer__betrag_y_sn:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 800.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 100.0
-    - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-    - true
-    - true
-    elterngeld__betrag_m:
-    - 0.0
-    - 0.0
+    arbeitslosengeld_2:
+      arbeitslosengeld_2_bezug_im_vorjahr:
+        - false
+        - false
+      eigenbedarf_gedeckt:
+        - false
+        - false
+      p_id_einstandspartner:
+        - 38
+        - 37
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+      alter:
+        - 40
+        - 40
+      arbeitsstunden_w:
+        - 20.0
+        - 0.0
+      geburtsjahr:
+        - 1973
+        - 1973
+      hh_id:
+        - 15
+        - 15
+      kind:
+        - false
+        - false
+      p_id:
+        - 37
+        - 38
+      p_id_ehepartner:
+        - 38
+        - 37
+      p_id_elternteil_1:
+        - -1
+        - -1
+      p_id_elternteil_2:
+        - -1
+        - -1
+      vermögen:
+        - 14000.0
+        - 0.0
+    einkommensteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_kapitalvermögen:
+          kapitalerträge_m:
+            - 0.0
+            - 0.0
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 800.0
+            - 0.0
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        sonstige:
+          betrag_m:
+            - 100.0
+            - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
+    elterngeld:
+      betrag_m:
+        - 0.0
+        - 0.0
     jahr:
-    - '2013'
-    - '2013'
-    kindergeld__betrag_m_bg:
-    - 0.0
-    - 0.0
-    kindergeld__in_ausbildung:
-    - false
-    - false
-    kindergeld__p_id_empfänger:
-    - -1
-    - -1
-    solidaritätszuschlag__betrag_y_sn:
-    - 0.0
-    - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-    - 160.0
-    - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__bezieht_rente:
-    - false
-    - false
-    sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
-    - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
-    - 0.0
-    unterhaltsvorschuss__betrag_m:
-    - 0.0
-    - 0.0
-    wohnen__bewohnt_eigentum_hh:
-    - true
-    - true
-    wohnen__bruttokaltmiete_m_hh:
-    - 400.0
-    - 400.0
-    wohnen__heizkosten_m_hh:
-    - 80.0
-    - 80.0
-    wohnen__wohnfläche_hh:
-    - 70.0
-    - 70.0
-    wohngeld__anspruchshöhe_m_bg:
-    - 0.0
-    - 0.0
+      - '2013'
+      - '2013'
+    kindergeld:
+      betrag_m_bg:
+        - 0.0
+        - 0.0
+      in_ausbildung:
+        - false
+        - false
+      p_id_empfänger:
+        - -1
+        - -1
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 160.0
+        - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+        bezieht_rente:
+          - false
+          - false
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
+    wohnen:
+      bewohnt_eigentum_hh:
+        - true
+        - true
+      bruttokaltmiete_m_hh:
+        - 400.0
+        - 400.0
+      heizkosten_m_hh:
+        - 80.0
+        - 80.0
+      wohnfläche_hh:
+        - 70.0
+        - 70.0
+    wohngeld:
+      anspruchshöhe_m_bg:
+        - 0.0
+        - 0.0
 outputs:
-  arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
-  - 240.0
-  - 0.0
-  arbeitslosengeld_2__betrag_m_bg:
-  - 0.0
-  - 0.0
-  arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-  - 480.0
-  - 480.0
-  arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
-  - 500.0
-  - 0.0
-  arbeitslosengeld_2__regelsatz_m_bg:
-  - 690.0
-  - 690.0
+  arbeitslosengeld_2:
+    anrechnungsfreies_einkommen_m:
+      - 240.0
+      - 0.0
+    betrag_m_bg:
+      - 0.0
+      - 0.0
+    kosten_der_unterkunft_m_bg:
+      - 480.0
+      - 480.0
+    nettoeinkommen_nach_abzug_freibetrag_m:
+      - 500.0
+      - 0.0
+    regelsatz_m_bg:
+      - 690.0
+      - 690.0

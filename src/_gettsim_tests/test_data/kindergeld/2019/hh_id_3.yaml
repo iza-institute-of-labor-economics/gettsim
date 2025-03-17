@@ -1,33 +1,38 @@
-info:
-  note: ''
-  source: ''
+---
 inputs:
   assumed: {}
   provided:
-    demographics__alter:
-    - 21
-    demographics__arbeitsstunden_w:
-    - 10.0
-    demographics__hh_id:
-    - 3
-    demographics__kind:
-    - false
-    demographics__p_id:
-    - 18
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 700.0
-    einkommensteuer__gesamteinkommen_y:
-    - 0.0
-    kindergeld__in_ausbildung:
-    - true
-    kindergeld__p_id_empfänger:
-    - 18
+    demographics:
+      alter:
+        - 21
+      arbeitsstunden_w:
+        - 10.0
+      hh_id:
+        - 3
+      kind:
+        - false
+      p_id:
+        - 18
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 700.0
+      gesamteinkommen_y:
+        - 0.0
+    kindergeld:
+      in_ausbildung:
+        - true
+      p_id_empfänger:
+        - 18
 outputs:
-  kinderbonus__betrag_m:
-  - 0.0
-  kinderbonus__betrag_m_hh:
-  - 0.0
-  kindergeld__betrag_m:
-  - 194
-  kindergeld__betrag_m_hh:
-  - 194
+  kinderbonus:
+    betrag_m:
+      - 0.0
+    betrag_m_hh:
+      - 0.0
+  kindergeld:
+    betrag_m:
+      - 194
+    betrag_m_hh:
+      - 194

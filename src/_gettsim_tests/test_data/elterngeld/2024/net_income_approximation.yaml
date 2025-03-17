@@ -1,52 +1,61 @@
-info:
-  note: ''
-  source: Regression test.
+---
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
-    - -1
-    demographics__alter:
-    - 43
-    - 43
-    demographics__arbeitsstunden_w:
-    - 40.0
-    - 10.0
-    demographics__hh_id:
-    - 0
-    - 0
-    demographics__p_id:
-    - 0
-    - 1
-    demographics__p_id_ehepartner:
-    - -1
-    - -1
-    demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    demographics__wohnort_ost:
-    - false
-    - false
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1000.0
-    - 200.0
-    einkommensteuer__gemeinsam_veranlagt:
-    - false
-    - false
-    kindergeld__in_ausbildung:
-    - false
-    - false
-    lohnsteuer__steuerklasse:
-    - 1
-    - 1
-    sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
-    - false
+    arbeitslosengeld_2:
+      p_id_einstandspartner:
+        - -1
+        - -1
+    demographics:
+      alter:
+        - 43
+        - 43
+      arbeitsstunden_w:
+        - 40.0
+        - 10.0
+      hh_id:
+        - 0
+        - 0
+      p_id:
+        - 0
+        - 1
+      p_id_ehepartner:
+        - -1
+        - -1
+      p_id_elternteil_1:
+        - -1
+        - -1
+      p_id_elternteil_2:
+        - -1
+        - -1
+      wohnort_ost:
+        - false
+        - false
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 1000.0
+            - 200.0
+      gemeinsam_veranlagt:
+        - false
+        - false
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+    lohnsteuer:
+      steuerklasse:
+        - 1
+        - 1
+    sozialversicherung:
+      pflege:
+        beitrag:
+          hat_kinder:
+            - false
+            - false
 outputs:
-  elterngeld__nettoeinkommen_approximation_m:
-  - 790.0
-  - 158.0
+  elterngeld:
+    nettoeinkommen_approximation_m:
+      - 790.0
+      - 158.0

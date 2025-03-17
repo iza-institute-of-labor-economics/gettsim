@@ -1,289 +1,312 @@
-info:
-  note: No wealth threshold in place before 2009
-  source: Regression test.
+---
 inputs:
   assumed: {}
   provided:
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
-    - false
-    - false
-    - false
-    - false
-    arbeitslosengeld_2__p_id_einstandspartner:
-    - 23
-    - 22
-    - -1
-    - -1
-    - -1
-    demographics__alleinerziehend:
-    - false
-    - false
-    - false
-    - false
-    - false
-    demographics__alter:
-    - 42
-    - 53
-    - 7
-    - 8
-    - 12
-    demographics__anzahl_personen_hh:
-    - 5
-    - 5
-    - 5
-    - 5
-    - 5
-    demographics__behinderungsgrad:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    demographics__geburtsjahr:
-    - 1964
-    - 1953
-    - 1999
-    - 1998
-    - 1994
-    demographics__geburtsmonat:
-    - 1
-    - 1
-    - 1
-    - 1
-    - 1
-    demographics__geburtstag:
-    - 1
-    - 1
-    - 1
-    - 1
-    - 1
-    demographics__hh_id:
-    - 4
-    - 4
-    - 4
-    - 4
-    - 4
-    demographics__kind:
-    - false
-    - false
-    - true
-    - true
-    - true
-    demographics__p_id:
-    - 22
-    - 23
-    - 24
-    - 25
-    - 26
-    demographics__p_id_ehepartner:
-    - 23
-    - 22
-    - -1
-    - -1
-    - -1
-    demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    - 22
-    - 22
-    - 22
-    demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    - 23
-    - 23
-    - 23
-    demographics__vermögen:
-    - 200000.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__betrag_y_sn:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1000.0
-    - 1000.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    einkommensteuer__gemeinsam_veranlagt:
-    - true
-    - true
-    - true
-    - true
-    - true
-    einkommensteuer__rente_ertragsanteil:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    elterngeld__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+    arbeitslosengeld_2:
+      eigenbedarf_gedeckt:
+        - false
+        - false
+        - false
+        - false
+        - false
+      p_id_einstandspartner:
+        - 23
+        - 22
+        - -1
+        - -1
+        - -1
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+        - false
+        - false
+        - false
+      alter:
+        - 42
+        - 53
+        - 7
+        - 8
+        - 12
+      anzahl_personen_hh:
+        - 5
+        - 5
+        - 5
+        - 5
+        - 5
+      behinderungsgrad:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+      geburtsjahr:
+        - 1964
+        - 1953
+        - 1999
+        - 1998
+        - 1994
+      geburtsmonat:
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+      geburtstag:
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+      hh_id:
+        - 4
+        - 4
+        - 4
+        - 4
+        - 4
+      kind:
+        - false
+        - false
+        - true
+        - true
+        - true
+      p_id:
+        - 22
+        - 23
+        - 24
+        - 25
+        - 26
+      p_id_ehepartner:
+        - 23
+        - 22
+        - -1
+        - -1
+        - -1
+      p_id_elternteil_1:
+        - -1
+        - -1
+        - 22
+        - 22
+        - 22
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - 23
+        - 23
+        - 23
+      vermögen:
+        - 200000.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    einkommensteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_kapitalvermögen:
+          kapitalerträge_y:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 1000.0
+            - 1000.0
+            - 0.0
+            - 0.0
+            - 0.0
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        sonstige:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
+        - true
+        - true
+        - true
+      rente_ertragsanteil:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    elterngeld:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     jahr:
-    - 2006
-    - 2006
-    - 2006
-    - 2006
-    - 2006
-    kindergeld__grundsätzlich_anspruchsberechtigt:
-    - false
-    - false
-    - false
-    - false
-    - false
-    kindergeld__p_id_empfänger:
-    - -1
-    - -1
-    - 22
-    - 22
-    - 22
-    solidaritätszuschlag__betrag_y_sn:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__arbeitslosen__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__beiträge_versicherter_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 50.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    unterhaltsvorschuss__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
-    - true
-    - true
-    - true
-    - true
-    - true
-    vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
-    - true
-    - true
-    - true
-    - true
-    - true
-    wohnen__baujahr_immobilie_hh:
-    - 1995
-    - 1995
-    - 1995
-    - 1995
-    - 1995
-    wohnen__bewohnt_eigentum_hh:
-    - false
-    - false
-    - false
-    - false
-    - false
-    wohnen__bruttokaltmiete_m_hh:
-    - 850.0
-    - 850.0
-    - 850.0
-    - 850.0
-    - 850.0
-    wohnen__heizkosten_m_hh:
-    - 50.0
-    - 50.0
-    - 50.0
-    - 50.0
-    - 50.0
-    wohnen__wohnfläche_hh:
-    - 70.0
-    - 70.0
-    - 70.0
-    - 70.0
-    - 70.0
-    wohngeld__mietstufe:
-    - 3
-    - 3
-    - 3
-    - 3
-    - 3
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+      - 2006
+    kindergeld:
+      grundsätzlich_anspruchsberechtigt:
+        - false
+        - false
+        - false
+        - false
+        - false
+      p_id_empfänger:
+        - -1
+        - -1
+        - 22
+        - 22
+        - 22
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        beitrag:
+          betrag_versicherter_m:
+            - 50.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        private_rente_betrag_m:
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    vorrangprüfungen:
+      wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg:
+        - true
+        - true
+        - true
+        - true
+        - true
+      wohngeld_vorrang_vor_arbeitslosengeld_2_bg:
+        - true
+        - true
+        - true
+        - true
+        - true
+    wohnen:
+      baujahr_immobilie_hh:
+        - 1995
+        - 1995
+        - 1995
+        - 1995
+        - 1995
+      bewohnt_eigentum_hh:
+        - false
+        - false
+        - false
+        - false
+        - false
+      bruttokaltmiete_m_hh:
+        - 850.0
+        - 850.0
+        - 850.0
+        - 850.0
+        - 850.0
+      heizkosten_m_hh:
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+      wohnfläche_hh:
+        - 70.0
+        - 70.0
+        - 70.0
+        - 70.0
+        - 70.0
+    wohngeld:
+      mietstufe:
+        - 3
+        - 3
+        - 3
+        - 3
+        - 3
 outputs:
-  wohngeld__anspruchshöhe_m_bg:
-  - 104.0
-  - 104.0
-  - 104.0
-  - 104.0
-  - 104.0
-  wohngeld__anspruchshöhe_m_wthh:
-  - 104.0
-  - 104.0
-  - 104.0
-  - 104.0
-  - 104.0
+  wohngeld:
+    anspruchshöhe_m_bg:
+      - 104.0
+      - 104.0
+      - 104.0
+      - 104.0
+      - 104.0
+    anspruchshöhe_m_wthh:
+      - 104.0
+      - 104.0
+      - 104.0
+      - 104.0
+      - 104.0

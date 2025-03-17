@@ -1,127 +1,138 @@
-info:
-  note: ''
-  source: own calculations
+---
 inputs:
   assumed:
-    arbeitslosengeld_2__p_id_einstandspartner:
-    - 15
-    - 14
-    - -1
-    - -1
-    demographics__alleinerziehend:
-    - false
-    - false
-    - false
-    - false
-    demographics__alter:
-    - 40
-    - 40
-    - 0
-    - 0
-    demographics__arbeitsstunden_w:
-    - 29.0
-    - 40.0
-    - 0.0
-    - 0.0
-    demographics__geburtsjahr:
-    - 1965
-    - 1965
-    - 2004
-    - 2004
-    demographics__geburtsmonat:
-    - 1
-    - 1
-    - 3
-    - 9
-    demographics__geburtstag:
-    - 1
-    - 1
-    - 1
-    - 1
-    demographics__hh_id:
-    - 6
-    - 6
-    - 6
-    - 6
-    demographics__kind:
-    - false
-    - false
-    - true
-    - true
-    demographics__p_id:
-    - 14
-    - 15
-    - 16
-    - 17
-    demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    - 14
-    - 14
-    demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    - 15
-    - 15
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 400.0
-    - 1300.0
-    - 0.0
-    - 0.0
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-    - 400.0
-    - 1300.0
-    - 0.0
-    - 0.0
-    elterngeld__nettoeinkommen_vorjahr_m:
-    - 400.0
-    - 1300.0
-    - 0.0
-    - 0.0
-    erziehungsgeld__budgetsatz:
-    - false
-    - false
-    - false
-    - true
-    erziehungsgeld__p_id_empfänger:
-    - -1
-    - -1
-    - 14
-    - 14
-    kindergeld__in_ausbildung:
-    - false
-    - false
-    - false
-    - false
-    sozialversicherung__pflege__beitrag__hat_kinder:
-    - true
-    - true
-    - false
-    - false
+    arbeitslosengeld_2:
+      p_id_einstandspartner:
+        - 15
+        - 14
+        - -1
+        - -1
+    demographics:
+      alleinerziehend:
+        - false
+        - false
+        - false
+        - false
+      alter:
+        - 40
+        - 40
+        - 0
+        - 0
+      arbeitsstunden_w:
+        - 29.0
+        - 40.0
+        - 0.0
+        - 0.0
+      geburtsjahr:
+        - 1965
+        - 1965
+        - 2004
+        - 2004
+      geburtsmonat:
+        - 1
+        - 1
+        - 3
+        - 9
+      geburtstag:
+        - 1
+        - 1
+        - 1
+        - 1
+      hh_id:
+        - 6
+        - 6
+        - 6
+        - 6
+      kind:
+        - false
+        - false
+        - true
+        - true
+      p_id:
+        - 14
+        - 15
+        - 16
+        - 17
+      p_id_elternteil_1:
+        - -1
+        - -1
+        - 14
+        - 14
+      p_id_elternteil_2:
+        - -1
+        - -1
+        - 15
+        - 15
+    einkommensteuer:
+      einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          bruttolohn_m:
+            - 400.0
+            - 1300.0
+            - 0.0
+            - 0.0
+          bruttolohn_vorjahr_m:
+            - 400.0
+            - 1300.0
+            - 0.0
+            - 0.0
+    elterngeld:
+      nettoeinkommen_vorjahr_m:
+        - 400.0
+        - 1300.0
+        - 0.0
+        - 0.0
+    erziehungsgeld:
+      budgetsatz:
+        - false
+        - false
+        - false
+        - true
+      p_id_empfänger:
+        - -1
+        - -1
+        - 14
+        - 14
+    kindergeld:
+      in_ausbildung:
+        - false
+        - false
+        - false
+        - false
+    sozialversicherung:
+      pflege:
+        beitrag:
+          hat_kinder:
+            - true
+            - true
+            - false
+            - false
   provided: {}
 outputs:
-  arbeitslosengeld_2__anzahl_kinder_fg:
-  - 2
-  - 2
-  - 2
-  - 2
-  erziehungsgeld__anspruchshöhe_kind_m:
-  - 0.0
-  - 0.0
-  - 300.0
-  - 450.0
-  erziehungsgeld__anzurechnendes_einkommen_y:
-  - 0
-  - 0
-  - 14105.6
-  - 14105.6
-  erziehungsgeld__betrag_m:
-  - 750.0
-  - 0.0
-  - 0.0
-  - 0.0
-  erziehungsgeld__einkommensgrenze_y:
-  - 0
-  - 0
-  - 19640
-  - 25226
+  arbeitslosengeld_2:
+    anzahl_kinder_fg:
+      - 2
+      - 2
+      - 2
+      - 2
+  erziehungsgeld:
+    anspruchshöhe_kind_m:
+      - 0.0
+      - 0.0
+      - 300.0
+      - 450.0
+    anzurechnendes_einkommen_y:
+      - 0
+      - 0
+      - 14105.6
+      - 14105.6
+    betrag_m:
+      - 750.0
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensgrenze_y:
+      - 0
+      - 0
+      - 19640
+      - 25226
