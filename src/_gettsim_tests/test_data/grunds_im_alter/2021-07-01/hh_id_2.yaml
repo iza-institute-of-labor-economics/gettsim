@@ -1,3 +1,4 @@
+---
 info:
   note: Beispielperson Harald F.
   source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
@@ -5,83 +6,83 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
+      - -1
     demographics__alleinerziehend:
-    - false
+      - false
     demographics__alter:
-    - 70
+      - 70
     demographics__geburtsjahr:
-    - 1951
+      - 1951
     demographics__geburtsmonat:
-    - 1
+      - 1
     demographics__geburtstag:
-    - 1
+      - 1
     demographics__hh_id:
-    - 2
+      - 2
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 3
+      - 3
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
+      - -1
     demographics__schwerbehindert_grad_g:
-    - false
+      - false
     demographics__vermögen_eg:
-    - 0.0
+      - 0.0
     einkommensteuer__betrag_y_sn:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     elterngeld__betrag_m:
-    - 0.0
+      - 0.0
     jahr:
-    - 2021
+      - 2021
     kindergeld__betrag_m_eg:
-    - 0.0
+      - 0.0
     kindergeld__p_id_empfänger:
-    - -1
+      - -1
     solidaritätszuschlag__betrag_y_sn:
-    - 0.0
+      - 0.0
     sozialversicherung__arbeitslosen__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__beiträge_versicherter_m:
-    - 94.0
+      - 94.0
     sozialversicherung__rente__altersrente__betrag_m:
-    - 850.0
+      - 850.0
     sozialversicherung__rente__bezieht_rente:
-    - true
+      - true
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-    - 420
+      - 420
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
     unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
+      - 0.0
     unterhaltsvorschuss__betrag_m_eg:
-    - 0.0
+      - 0.0
     wohnen__bewohnt_eigentum_hh:
-    - false
+      - false
     wohnen__bruttokaltmiete_m_hh:
-    - 405.0
+      - 405.0
     wohnen__heizkosten_m_hh:
-    - 40.0
+      - 40.0
     wohnen__wohnfläche_hh:
-    - 45.0
+      - 45.0
 outputs:
   grundsicherung__im_alter__betrag_m_eg:
-  - 358.0
+    - 358.0

@@ -1,57 +1,58 @@
+---
 info:
   source: none
 inputs:
   assumed:
     kindergeld__grundsätzlich_anspruchsberechtigt:
-    - false
-    - true
+      - false
+      - true
     sozialversicherung__arbeitslosen__anwartschaftszeit:
-    - true
-    - false
+      - true
+      - false
     sozialversicherung__arbeitslosen__arbeitssuchend:
-    - true
-    - false
+      - true
+      - false
     sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-    - 12.0
-    - 0.0
+      - 12.0
+      - 0.0
   provided:
     demographics__alter:
-    - 40
-    - 6
+      - 40
+      - 6
     demographics__arbeitsstunden_w:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     demographics__geburtsjahr:
-    - 1970
-    - 2004
+      - 1970
+      - 2004
     demographics__hh_id:
-    - 6
-    - 6
+      - 6
+      - 6
     demographics__kind:
-    - false
-    - true
+      - false
+      - true
     demographics__p_id:
-    - 9
-    - 10
+      - 9
+      - 10
     demographics__p_id_elternteil_1:
-    - -1
-    - 9
+      - -1
+      - 9
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__wohnort_ost:
-    - false
-    - false
+      - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-    - 2500.0
-    - 0.0
+      - 2500.0
+      - 0.0
     jahr:
-    - 2010
-    - 2010
+      - 2010
+      - 2010
 outputs:
   sozialversicherung__arbeitslosen__betrag_m:
-  - 1021.87
-  - 0.0
+    - 1021.87
+    - 0.0

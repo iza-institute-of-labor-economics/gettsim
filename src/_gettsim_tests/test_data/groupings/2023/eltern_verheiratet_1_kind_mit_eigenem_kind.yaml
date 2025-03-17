@@ -1,110 +1,111 @@
+---
 info:
-  note: Child in separate Familiengemeinschaft if it has children (Bedarfsgemeinschaft
-    never covers more than 2 generations)
+  note: Child in separate Familiengemeinschaft if it has children (Bedarfsgemeinschaft never
+    covers more than 2 generations)
   source: ''
 inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
-    - 1
-    - 0
-    - -1
-    - 4
-    - 3
+      - 1
+      - 0
+      - -1
+      - 4
+      - 3
     demographics__alter:
-    - 19
-    - 22
-    - 1
-    - 49
-    - 50
+      - 19
+      - 22
+      - 1
+      - 49
+      - 50
     demographics__geburtsjahr:
-    - 2004
-    - 2001
-    - 2022
-    - 1974
-    - 1973
+      - 2004
+      - 2001
+      - 2022
+      - 1974
+      - 1973
     demographics__geburtsmonat:
-    - 7
-    - 7
-    - 3
-    - 2
-    - 1
+      - 7
+      - 7
+      - 3
+      - 2
+      - 1
     demographics__geburtstag:
-    - 14
-    - 14
-    - 1
-    - 13
-    - 2
+      - 14
+      - 14
+      - 1
+      - 13
+      - 2
     demographics__hh_id:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
     demographics__p_id:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
     demographics__p_id_ehepartner:
-    - -1
-    - -1
-    - -1
-    - 4
-    - 3
+      - -1
+      - -1
+      - -1
+      - 4
+      - 3
     demographics__p_id_elternteil_1:
-    - 3
-    - -1
-    - 0
-    - -1
-    - -1
+      - 3
+      - -1
+      - 0
+      - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - 4
-    - -1
-    - 1
-    - -1
-    - -1
+      - 4
+      - -1
+      - 1
+      - -1
+      - -1
     einkommensteuer__gemeinsam_veranlagt:
-    - false
-    - false
-    - false
-    - true
-    - true
+      - false
+      - false
+      - false
+      - true
+      - true
 outputs:
   arbeitslosengeld_2__bg_id:
-  - 0
-  - 0
-  - 0
-  - 100
-  - 100
+    - 0
+    - 0
+    - 0
+    - 100
+    - 100
   arbeitslosengeld_2__eg_id:
-  - 0
-  - 0
-  - 1
-  - 2
-  - 2
+    - 0
+    - 0
+    - 1
+    - 2
+    - 2
   arbeitslosengeld_2__fg_id:
-  - 0
-  - 0
-  - 0
-  - 1
-  - 1
+    - 0
+    - 0
+    - 0
+    - 1
+    - 1
   demographics__ehe_id:
-  - 0
-  - 1
-  - 2
-  - 3
-  - 3
+    - 0
+    - 1
+    - 2
+    - 3
+    - 3
   einkommensteuer__sn_id:
-  - 0
-  - 1
-  - 2
-  - 3
-  - 3
+    - 0
+    - 1
+    - 2
+    - 3
+    - 3

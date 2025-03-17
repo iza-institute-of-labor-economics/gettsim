@@ -1,3 +1,4 @@
+---
 info:
   note: based on www.tk.de calculator with modifications to the kv-zusatzbeitrag
   source: ''
@@ -5,41 +6,41 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 20
+      - 20
     demographics__hh_id:
-    - 23
+      - 23
     demographics__p_id:
-    - 3657
+      - 3657
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 1000.0
+      - 1000.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - true
+      - true
     jahr:
-    - '2019'
+      - '2019'
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 0.0
+    - 0.0
   sozialversicherung__beitrag_arbeitgeber_m:
-  - 0.0
+    - 0.0
   sozialversicherung__beitrag_gesamt_m:
-  - 186.3808333
+    - 186.3808333
   sozialversicherung__beiträge_versicherter_m:
-  - 186.3808333
+    - 186.3808333
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 154.7116667
+    - 154.7116667
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 31.66916667
+    - 31.66916667
   sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 0.0
+    - 0.0

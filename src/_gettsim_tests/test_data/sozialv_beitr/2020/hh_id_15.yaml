@@ -1,3 +1,4 @@
+---
 info:
   note: 'Sozialversicherungs-Rechner auf www.barmer.de '
   source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
@@ -5,41 +6,41 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 40
+      - 40
     demographics__hh_id:
-    - 15
+      - 15
     demographics__p_id:
-    - 222
+      - 222
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3000.0
+      - 3000.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+      - false
     jahr:
-    - '2020'
+      - '2020'
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 36.0
+    - 36.0
   sozialversicherung__beitrag_arbeitgeber_m:
-  - 596.25
+    - 596.25
   sozialversicherung__beitrag_gesamt_m:
-  - 1200.0
+    - 1200.0
   sozialversicherung__beiträge_versicherter_m:
-  - 603.75
+    - 603.75
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 235.5
+    - 235.5
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 53.25
+    - 53.25
   sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 279.0
+    - 279.0

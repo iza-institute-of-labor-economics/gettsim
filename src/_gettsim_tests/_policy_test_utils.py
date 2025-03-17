@@ -71,6 +71,8 @@ def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
 
 # TODO(@MImmesberger): Remove this before merging this PR.
 from _gettsim.shared import qualified_name_splitter
+
+
 def get_test_data_as_tree(test_data: NestedDataDict) -> NestedDataDict:
     provided_inputs = test_data["inputs"].get("provided", {})
     assumed_inputs = test_data["inputs"].get("assumed", {})

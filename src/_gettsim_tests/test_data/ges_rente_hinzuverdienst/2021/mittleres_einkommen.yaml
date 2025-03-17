@@ -1,3 +1,4 @@
+---
 info:
   note: Middle income and high Hinzuverdienstdeckel.
   source: ''
@@ -5,33 +6,33 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 64
+      - 64
     demographics__geburtsjahr:
-    - 1957
+      - 1957
     demographics__hh_id:
-    - 0
+      - 0
     demographics__p_id:
-    - 0
+      - 0
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 4000.0
+      - 4000.0
     höchster_bruttolohn_letzte_15_jahre_vor_rente_m:
-    - 8000.0
+      - 8000.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
-    - 1.0
+      - 1.0
     sozialversicherung__rente__bezieht_rente:
-    - true
+      - true
     sozialversicherung__rente__entgeltpunkte_ost:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
-    - 40.0
+      - 40.0
     sozialversicherung__rente__grundrente__betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__rente__altersrente__betrag_m:
-  - 1302.93
+    - 1302.93
   sozialversicherung__rente__altersrente__bruttorente_basisbetrag_m:
-  - 1367.6
+    - 1367.6
   sozialversicherung__rente__altersrente__bruttorente_m:
-  - 1302.93
+    - 1302.93

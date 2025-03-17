@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: https://www.ikk-gesundplus.de/arbeitgeber/service/online-rechner/gehaltsrechner/
@@ -5,41 +6,41 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 20
+      - 20
     demographics__hh_id:
-    - 11
+      - 11
     demographics__p_id:
-    - 35
+      - 35
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1500.0
+      - 1500.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+      - false
     jahr:
-    - '2010'
+      - '2010'
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - true
+      - true
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 21.0
+    - 21.0
   sozialversicherung__beitrag_arbeitgeber_m:
-  - 289.88
+    - 289.88
   sozialversicherung__beitrag_gesamt_m:
-  - 593.26
+    - 593.26
   sozialversicherung__beiträge_versicherter_m:
-  - 303.375
+    - 303.375
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 118.5
+    - 118.5
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 14.625
+    - 14.625
   sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 149.25
+    - 149.25

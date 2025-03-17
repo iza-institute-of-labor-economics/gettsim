@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,19 +6,19 @@ inputs:
   assumed: {}
   provided:
     abgeltungssteuer__betrag_y_sn:
-    - 0.0
+      - 0.0
     demographics__hh_id:
-    - 1
+      - 1
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 1
+      - 1
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
-    - 2000.0
+      - 2000.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
 outputs:
   solidaritätszuschlag__betrag_y_sn:
-  - 0.0
+    - 0.0

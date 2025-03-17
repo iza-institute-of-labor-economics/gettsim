@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das Grundrentengesetz",
@@ -6,55 +7,55 @@ inputs:
   assumed: {}
   provided:
     alleinstehend:
-    - true
+      - true
     demographics__alter:
-    - 70
+      - 70
     demographics__geburtsjahr:
-    - 1951
+      - 1951
     demographics__hh_id:
-    - 1
+      - 1
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 1
+      - 1
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
-    - 1.0
+      - 1.0
     sozialversicherung__rente__bezieht_rente:
-    - true
+      - true
     sozialversicherung__rente__entgeltpunkte_ost:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
-    - 14.014
+      - 14.014
     sozialversicherung__rente__grundrente__bewertungszeiten_m:
-    - 420
+      - 420
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-    - 420
+      - 420
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
-    - 14.014
+      - 14.014
     sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__rente__altersrente__betrag_m:
-  - 897.97
+    - 897.97
   sozialversicherung__rente__grundrente__basisbetrag_m:
-  - 418.83
+    - 418.83
   sozialversicherung__rente__grundrente__betrag_m:
-  - 418.83
+    - 418.83
   sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
-  - 0.029166667
+    - 0.029166667

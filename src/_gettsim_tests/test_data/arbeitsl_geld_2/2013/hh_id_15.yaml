@@ -1,3 +1,4 @@
+---
 info:
   note: Test with wealth (calculated wealth allowance using https://www.steuerschroeder.de/Steuerrechner/Schonverm%C3%B6gen.html)
   source: ''
@@ -5,135 +6,135 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-    - false
-    - false
+      - false
+      - false
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
-    - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
-    - 38
-    - 37
+      - 38
+      - 37
     demographics__alleinerziehend:
-    - false
-    - false
+      - false
+      - false
     demographics__alter:
-    - 40
-    - 40
+      - 40
+      - 40
     demographics__arbeitsstunden_w:
-    - 20.0
-    - 0.0
+      - 20.0
+      - 0.0
     demographics__geburtsjahr:
-    - 1973
-    - 1973
+      - 1973
+      - 1973
     demographics__hh_id:
-    - 15
-    - 15
+      - 15
+      - 15
     demographics__kind:
-    - false
-    - false
+      - false
+      - false
     demographics__p_id:
-    - 37
-    - 38
+      - 37
+      - 38
     demographics__p_id_ehepartner:
-    - 38
-    - 37
+      - 38
+      - 37
     demographics__p_id_elternteil_1:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__vermögen:
-    - 14000.0
-    - 0.0
+      - 14000.0
+      - 0.0
     einkommensteuer__betrag_y_sn:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 800.0
-    - 0.0
+      - 800.0
+      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 100.0
-    - 0.0
+      - 100.0
+      - 0.0
     einkommensteuer__gemeinsam_veranlagt:
-    - true
-    - true
+      - true
+      - true
     elterngeld__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     jahr:
-    - '2013'
-    - '2013'
+      - '2013'
+      - '2013'
     kindergeld__betrag_m_bg:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     kindergeld__in_ausbildung:
-    - false
-    - false
+      - false
+      - false
     kindergeld__p_id_empfänger:
-    - -1
-    - -1
+      - -1
+      - -1
     solidaritätszuschlag__betrag_y_sn:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__arbeitslosen__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__beiträge_versicherter_m:
-    - 160.0
-    - 0.0
+      - 160.0
+      - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__rente__bezieht_rente:
-    - false
-    - false
+      - false
+      - false
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     unterhaltsvorschuss__betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     wohnen__bewohnt_eigentum_hh:
-    - true
-    - true
+      - true
+      - true
     wohnen__bruttokaltmiete_m_hh:
-    - 400.0
-    - 400.0
+      - 400.0
+      - 400.0
     wohnen__heizkosten_m_hh:
-    - 80.0
-    - 80.0
+      - 80.0
+      - 80.0
     wohnen__wohnfläche_hh:
-    - 70.0
-    - 70.0
+      - 70.0
+      - 70.0
     wohngeld__anspruchshöhe_m_bg:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
 outputs:
   arbeitslosengeld_2__anrechnungsfreies_einkommen_m:
-  - 240.0
-  - 0.0
+    - 240.0
+    - 0.0
   arbeitslosengeld_2__betrag_m_bg:
-  - 0.0
-  - 0.0
+    - 0.0
+    - 0.0
   arbeitslosengeld_2__kosten_der_unterkunft_m_bg:
-  - 480.0
-  - 480.0
+    - 480.0
+    - 480.0
   arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
-  - 500.0
-  - 0.0
+    - 500.0
+    - 0.0
   arbeitslosengeld_2__regelsatz_m_bg:
-  - 690.0
-  - 690.0
+    - 690.0
+    - 690.0

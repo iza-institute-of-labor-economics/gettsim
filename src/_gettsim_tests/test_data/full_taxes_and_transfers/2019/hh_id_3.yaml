@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,153 +6,153 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
-    - false
+      - false
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
+      - -1
     demographics__alleinerziehend:
-    - false
+      - false
     demographics__alter:
-    - 51
+      - 51
     demographics__arbeitsstunden_w:
-    - 0.0
+      - 0.0
     demographics__behinderungsgrad:
-    - 0
+      - 0
     demographics__geburtsjahr:
-    - 1968
+      - 1968
     demographics__geburtsmonat:
-    - 1
+      - 1
     demographics__geburtstag:
-    - 1
+      - 1
     demographics__hh_id:
-    - 3
+      - 3
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 9
+      - 9
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
+      - -1
     demographics__schwerbehindert_grad_g:
-    - false
+      - false
     demographics__vermögen:
-    - 5500.0
+      - 5500.0
     demographics__weiblich:
-    - true
+      - true
     demographics__wohnort_ost:
-    - true
+      - true
     einkommensteuer__abzüge__betreuungskosten_m:
-    - 0.0
+      - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
-    - -1
+      - -1
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 204.0
+      - 204.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 900.0
+      - 900.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
-    - 2000.0
+      - 2000.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 8.0
+      - 8.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+      - false
     einkommensteuer__einkünfte__sonstige__betrag_m:
-    - 50.0
+      - 50.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     elterngeld__bisheriger_bezug_m:
-    - 0
+      - 0
     elterngeld__claimed:
-    - true
+      - true
     elterngeld__nettoeinkommen_vorjahr_m:
-    - 2000.0
+      - 2000.0
     elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
-    - 24750.0
+      - 24750.0
     kindergeld__in_ausbildung:
-    - false
+      - false
     kindergeld__p_id_empfänger:
-    - -1
+      - -1
     lohnsteuer__steuerklasse:
-    - 1
+      - 1
     sozialversicherung__arbeitslosen__anwartschaftszeit:
-    - true
+      - true
     sozialversicherung__arbeitslosen__arbeitssuchend:
-    - false
+      - false
     sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
-    - 0.0
+      - 0.0
     sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
-    - 60.0
+      - 60.0
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__bezieht_rente:
-    - false
+      - false
     sozialversicherung__rente__entgeltpunkte_ost:
-    - 1.7936
+      - 1.7936
     sozialversicherung__rente__entgeltpunkte_west:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__ersatzzeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__freiwillige_beitragszeiten_m:
-    - 5.0
+      - 5.0
     sozialversicherung__rente__grundrente__bewertungszeiten_m:
-    - 33
+      - 33
     sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-    - 33
+      - 33
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
-    - 1.7936
+      - 1.7936
     sozialversicherung__rente__jahr_renteneintritt:
-    - 2069
+      - 2069
     sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__mutterschutzzeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__pflichtbeitragszeiten_m:
-    - 336.0
+      - 336.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__schulausbildungszeiten_m:
-    - 12.0
+      - 12.0
     sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-    - 0.0
+      - 0.0
     unterhalt__anspruch_m:
-    - 0.0
+      - 0.0
     unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
+      - 0.0
     wohnen__baujahr_immobilie_hh:
-    - 3
+      - 3
     wohnen__bewohnt_eigentum_hh:
-    - false
+      - false
     wohnen__bruttokaltmiete_m_hh:
-    - 400.0
+      - 400.0
     wohnen__heizkosten_m_hh:
-    - 80.0
+      - 80.0
     wohnen__wohnfläche_hh:
-    - 50.0
+      - 50.0
     wohngeld__mietstufe:
-    - 3
+      - 3
 outputs: {}

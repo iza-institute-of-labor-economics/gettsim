@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,77 +6,77 @@ inputs:
   assumed: {}
   provided:
     demographics__alleinerziehend:
-    - false
+      - false
     demographics__alter:
-    - 40
+      - 40
     demographics__arbeitsstunden_w:
-    - 40.0
+      - 40.0
     demographics__behinderungsgrad:
-    - 0
+      - 0
     demographics__geburtsjahr:
-    - 1978
+      - 1978
     demographics__hh_id:
-    - 9
+      - 9
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 9
+      - 9
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
+      - -1
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__abzüge__betreuungskosten_m:
-    - 0.0
+      - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
-    - -1
+      - -1
     einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-    - 1910.41
+      - 1910.41
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 100.0
+      - 100.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 900.0
+      - 900.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+      - false
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     jahr:
-    - 2018
+      - 2018
     kindergeld__in_ausbildung:
-    - false
+      - false
     kindergeld__p_id_empfänger:
-    - -1
+      - -1
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__jahr_renteneintritt:
-    - 2043
+      - 2043
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   einkommensteuer__abzüge__alleinerziehend_betrag_y:
-  - 0
+    - 0
   einkommensteuer__abzüge__altersfreibetrag_y:
-  - 0
+    - 0
   einkommensteuer__abzüge__pauschbetrag_behinderung_y:
-  - 0
+    - 0
   einkommensteuer__gesamteinkommen_ohne_abzüge_y:
-  - 9800
+    - 9800
   einkommensteuer__gesamteinkommen_y:
-  - 7853.59
+    - 7853.59
   einkommensteuer__kinderfreibetrag_y_sn:
-  - 0
+    - 0
   einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-  - 7853.59
+    - 7853.59

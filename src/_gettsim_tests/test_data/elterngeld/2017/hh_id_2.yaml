@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Regression test.
@@ -5,65 +6,65 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
+      - -1
     demographics__alleinerziehend:
-    - false
+      - false
     demographics__alter:
-    - 43
+      - 43
     demographics__arbeitsstunden_w:
-    - 22.5
+      - 22.5
     demographics__geburtsjahr:
-    - 1974
+      - 1974
     demographics__geburtsmonat:
-    - 3
+      - 3
     demographics__geburtstag:
-    - 3
+      - 3
     demographics__hh_id:
-    - 2
+      - 2
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 42
+      - 42
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
+      - -1
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__betrag_y_sn:
-    - 218.96
+      - 218.96
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1800.0
+      - 1800.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     elterngeld__bisheriger_bezug_m:
-    - 0
+      - 0
     elterngeld__claimed:
-    - false
+      - false
     elterngeld__nettoeinkommen_vorjahr_m:
-    - 1800.0
+      - 1800.0
     elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
-    - 18260.0
+      - 18260.0
     jahr:
-    - 2017
+      - 2017
     kindergeld__in_ausbildung:
-    - false
+      - false
     lohnsteuer__steuerklasse:
-    - 1
+      - 1
     solidaritätszuschlag__betrag_y_sn:
-    - 12.04
+      - 12.04
     sozialversicherung__beiträge_versicherter_m:
-    - 378.0
+      - 378.0
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
 outputs:
   elterngeld__anzahl_mehrlinge_fg:
-  - 0
+    - 0
   elterngeld__betrag_m:
-  - 0.0
+    - 0.0
   elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
-  - false
+    - false
   elterngeld__grundsätzlich_anspruchsberechtigt:
-  - false
+    - false

@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,51 +6,51 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
+      - false
     arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
-    - 0.0
+      - 0.0
     arbeitslosengeld_2__kindergeldübertrag_m:
-    - 0.0
+      - 0.0
     arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
-    - 0.0
+      - 0.0
     arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
+      - -1
     arbeitslosengeld_2__regelbedarf_m_bg:
-    - 1000.0
+      - 1000.0
     demographics__alter:
-    - 80
+      - 80
     demographics__geburtsjahr:
-    - 1939
+      - 1939
     demographics__hh_id:
-    - 8
+      - 8
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 20
+      - 20
     demographics__p_id_elternteil_1:
-    - -1
+      - -1
     demographics__p_id_elternteil_2:
-    - -1
+      - -1
     demographics__vermögen:
-    - 0.0
+      - 0.0
     jahr:
-    - 2019
+      - 2019
     kinderzuschlag__basisbetrag_m_bg:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__bezieht_rente:
-    - true
+      - true
     unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
+      - 0.0
     unterhaltsvorschuss__betrag_m:
-    - 0.0
+      - 0.0
     wohngeld__anspruchshöhe_m_bg:
-    - 0.0
+      - 0.0
     wohngeld__anspruchshöhe_m_wthh:
-    - 0.0
+      - 0.0
 outputs:
   arbeitslosengeld_2__betrag_m_bg:
-  - 0.0
+    - 0.0
   kinderzuschlag__betrag_m_bg:
-  - 0
+    - 0
   wohngeld__betrag_m_wthh:
-  - 0
+    - 0

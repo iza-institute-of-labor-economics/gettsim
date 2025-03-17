@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,29 +6,29 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 21
+      - 21
     demographics__arbeitsstunden_w:
-    - 0.0
+      - 0.0
     demographics__hh_id:
-    - 5
+      - 5
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 20
+      - 20
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
+      - 0.0
     einkommensteuer__gesamteinkommen_y:
-    - 0.0
+      - 0.0
     kindergeld__in_ausbildung:
-    - false
+      - false
     kindergeld__p_id_empfänger:
-    - 20
+      - 20
 outputs:
   kinderbonus__betrag_m:
-  - 0.0
+    - 0.0
   kinderbonus__betrag_m_hh:
-  - 0.0
+    - 0.0
   kindergeld__betrag_m:
-  - 0
+    - 0
   kindergeld__betrag_m_hh:
-  - 0
+    - 0

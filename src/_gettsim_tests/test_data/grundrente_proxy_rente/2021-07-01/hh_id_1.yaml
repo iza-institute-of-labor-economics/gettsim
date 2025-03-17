@@ -1,3 +1,4 @@
+---
 info:
   note: made up, regression test
   source: ''
@@ -5,77 +6,77 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 70
+      - 70
     demographics__geburtsjahr:
-    - 1951
+      - 1951
     demographics__geburtsmonat:
-    - 1
+      - 1
     demographics__hh_id:
-    - 1
+      - 1
     demographics__p_id:
-    - 1
+      - 1
     demographics__weiblich:
-    - false
+      - false
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
-    - 240.0
+      - 240.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
-    - false
+      - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
-    - false
+      - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
-    - false
+      - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
-    - false
+      - false
     sozialversicherung__rente__arbeitslosigkeitszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__bezieht_rente:
-    - true
+      - true
     sozialversicherung__rente__entgeltpunkte_ost:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
-    - 20.0
+      - 20.0
     sozialversicherung__rente__ersatzzeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__freiwillige_beitragszeiten_m:
-    - 6.0
+      - 6.0
     sozialversicherung__rente__jahr_renteneintritt:
-    - 2016
+      - 2016
     sozialversicherung__rente__kinderberücksichtigungszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__monat_renteneintritt:
-    - 2
+      - 2
     sozialversicherung__rente__mutterschutzzeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__pflichtbeitragszeiten_m:
-    - 480.0
+      - 480.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__schulausbildungszeiten_m:
-    - 36.0
+      - 36.0
     sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-  - 65.41666666
+    - 65.41666666
   sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
-  - 63.0
+    - 63.0
   sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
-  - true
+    - true
   sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
-  - 673.54
+    - 673.54

@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: https://www.finanztip.de/vorsorgeaufwendungen/
@@ -5,29 +6,29 @@ inputs:
   assumed: {}
   provided:
     demographics__hh_id:
-    - 12
+      - 12
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 13
+      - 13
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 250.0
+      - 250.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 4305.56
+      - 4305.56
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     jahr:
-    - 2021
+      - 2021
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 387.5
+      - 387.5
 outputs:
   einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 6666
+    - 6666

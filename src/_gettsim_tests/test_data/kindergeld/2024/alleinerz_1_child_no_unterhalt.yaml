@@ -1,3 +1,4 @@
+---
 info:
   note: https://www.kindergeld.org/kindergeldrechner/
   source: ''
@@ -5,30 +6,30 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 45
-    - 15
+      - 45
+      - 15
     demographics__arbeitsstunden_w:
-    - 40.0
-    - 0.0
+      - 40.0
+      - 0.0
     demographics__hh_id:
-    - 0
-    - 0
+      - 0
+      - 0
     demographics__kind:
-    - false
-    - true
+      - false
+      - true
     demographics__p_id:
-    - 0
-    - 1
+      - 0
+      - 1
     kindergeld__in_ausbildung:
-    - false
-    - true
+      - false
+      - true
     kindergeld__p_id_empfänger:
-    - -1
-    - 0
+      - -1
+      - 0
 outputs:
   arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
-  - 0.0
-  - 250.0
+    - 0.0
+    - 250.0
   kindergeld__betrag_m:
-  - 250.0
-  - 0.0
+    - 250.0
+    - 0.0

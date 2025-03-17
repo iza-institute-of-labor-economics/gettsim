@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: ''
@@ -5,94 +6,94 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 45
-    - 40
-    - 24
-    - 18
-    - 17
-    - 15
+      - 45
+      - 40
+      - 24
+      - 18
+      - 17
+      - 15
     demographics__arbeitsstunden_w:
-    - 40.0
-    - 0.0
-    - 30.0
-    - 0.0
-    - 2.0
-    - 0.0
+      - 40.0
+      - 0.0
+      - 30.0
+      - 0.0
+      - 2.0
+      - 0.0
     demographics__hh_id:
-    - 2
-    - 2
-    - 2
-    - 2
-    - 2
-    - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
     demographics__kind:
-    - false
-    - false
-    - false
-    - false
-    - true
-    - true
+      - false
+      - false
+      - false
+      - false
+      - true
+      - true
     demographics__p_id:
-    - 12
-    - 13
-    - 14
-    - 15
-    - 16
-    - 17
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3000.0
-    - 0.0
-    - 700.0
-    - 200.0
-    - 0.0
-    - 0.0
+      - 3000.0
+      - 0.0
+      - 700.0
+      - 200.0
+      - 0.0
+      - 0.0
     einkommensteuer__gesamteinkommen_y:
-    - 3000.0
-    - 3000.0
-    - 3000.0
-    - 3000.0
-    - 3000.0
-    - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
+      - 3000.0
     kindergeld__in_ausbildung:
-    - false
-    - false
-    - true
-    - true
-    - true
-    - true
+      - false
+      - false
+      - true
+      - true
+      - true
+      - true
     kindergeld__p_id_empfänger:
-    - -1
-    - -1
-    - 12
-    - 12
-    - 12
-    - 12
+      - -1
+      - -1
+      - 12
+      - 12
+      - 12
+      - 12
 outputs:
   kinderbonus__betrag_m:
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   kinderbonus__betrag_m_hh:
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
-  - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
   kindergeld__betrag_m:
-  - 462
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
+    - 462
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
   kindergeld__betrag_m_hh:
-  - 462
-  - 462
-  - 462
-  - 462
-  - 462
-  - 462
+    - 462
+    - 462
+    - 462
+    - 462
+    - 462
+    - 462

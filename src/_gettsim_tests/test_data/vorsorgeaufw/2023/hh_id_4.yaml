@@ -1,3 +1,4 @@
+---
 info:
   note: Cannot access original source. Result adjusted by 5 to fit calculated result
   source: https://www.iww.de/ssp/archiv/aenderungen-durch-das-alterseinkuenftegesetz-abzug-von-vorsorgeaufwendungen-ab-2005-f2980
@@ -5,29 +6,29 @@ inputs:
   assumed: {}
   provided:
     demographics__hh_id:
-    - 4
+      - 4
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 11
+      - 11
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 334.0
+      - 334.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3500.0
+      - 3500.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     jahr:
-    - 2023
+      - 2023
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 500.0
+      - 500.0
 outputs:
   einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 10008
+    - 10008

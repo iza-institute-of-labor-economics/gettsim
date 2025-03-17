@@ -1,3 +1,4 @@
+---
 info:
   note: Result from source including Betreuungskosten
   source: https://www.bmf-steuerrechner.de/bdj/eingabeformbdj.xhtml?jahr=l_k_bdj_2020
@@ -5,188 +6,188 @@ inputs:
   assumed: {}
   provided:
     demographics__alleinerziehend:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     demographics__alter:
-    - 45
-    - 44
-    - 13
-    - 15
+      - 45
+      - 44
+      - 13
+      - 15
     demographics__arbeitsstunden_w:
-    - 40.0
-    - 25.0
-    - 0.0
-    - 0.0
+      - 40.0
+      - 25.0
+      - 0.0
+      - 0.0
     demographics__behinderungsgrad:
-    - 0
-    - 0
-    - 0
-    - 0
+      - 0
+      - 0
+      - 0
+      - 0
     demographics__geburtsjahr:
-    - 1975
-    - 1976
-    - 2007
-    - 2005
+      - 1975
+      - 1976
+      - 2007
+      - 2005
     demographics__hh_id:
-    - 20
-    - 20
-    - 20
-    - 20
+      - 20
+      - 20
+      - 20
+      - 20
     demographics__kind:
-    - false
-    - false
-    - true
-    - true
+      - false
+      - false
+      - true
+      - true
     demographics__p_id:
-    - 31
-    - 32
-    - 33
-    - 34
+      - 31
+      - 32
+      - 33
+      - 34
     demographics__p_id_ehepartner:
-    - 32
-    - 31
-    - -1
-    - -1
+      - 32
+      - 31
+      - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    - 31
-    - 31
+      - -1
+      - -1
+      - 31
+      - 31
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    - 32
-    - 32
+      - -1
+      - -1
+      - 32
+      - 32
     demographics__wohnort_ost:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     einkommensteuer__abzüge__betreuungskosten_m:
-    - 0.0
-    - 0.0
-    - 62.5
-    - 0.0
+      - 0.0
+      - 0.0
+      - 62.5
+      - 0.0
     einkommensteuer__abzüge__p_id_betreuungskosten_träger:
-    - -1
-    - -1
-    - 31
-    - -1
+      - -1
+      - -1
+      - 31
+      - -1
     einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-    - 10901.0
-    - 10901.0
-    - 0.0
-    - 0.0
+      - 10901.0
+      - 10901.0
+      - 0.0
+      - 0.0
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3500.0
-    - 2000.0
-    - 0.0
-    - 0.0
+      - 3500.0
+      - 2000.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     einkommensteuer__gemeinsam_veranlagt:
-    - true
-    - true
-    - false
-    - false
+      - true
+      - true
+      - false
+      - false
     jahr:
-    - 2020
-    - 2020
-    - 2020
-    - 2020
+      - 2020
+      - 2020
+      - 2020
+      - 2020
     kindergeld__in_ausbildung:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     kindergeld__p_id_empfänger:
-    - -1
-    - -1
-    - 31
-    - 31
+      - -1
+      - -1
+      - 31
+      - 31
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - true
-    - true
-    - false
-    - false
+      - true
+      - true
+      - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung__rente__jahr_renteneintritt:
-    - 2037
-    - 2038
-    - 2074
-    - 2072
+      - 2037
+      - 2038
+      - 2074
+      - 2072
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
 outputs:
   einkommensteuer__abzüge__alleinerziehend_betrag_y:
-  - 0
-  - 0
-  - 0
-  - 0
+    - 0
+    - 0
+    - 0
+    - 0
   einkommensteuer__abzüge__altersfreibetrag_y:
-  - 0
-  - 0
-  - 0
-  - 0
+    - 0
+    - 0
+    - 0
+    - 0
   einkommensteuer__abzüge__pauschbetrag_behinderung_y:
-  - 0
-  - 0
-  - 0
-  - 0
+    - 0
+    - 0
+    - 0
+    - 0
   einkommensteuer__gesamteinkommen_ohne_abzüge_y:
-  - 41000
-  - 23000
-  - 0
-  - 0
+    - 41000
+    - 23000
+    - 0
+    - 0
   einkommensteuer__gesamteinkommen_y:
-  - 52599.0
-  - 52599.0
-  - 0.0
-  - 0.0
+    - 52599.0
+    - 52599.0
+    - 0.0
+    - 0.0
   einkommensteuer__kinderfreibetrag_y_sn:
-  - 15624
-  - 15624
-  - 0
-  - 0
+    - 15624
+    - 15624
+    - 0
+    - 0
   einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
-  - 36975.0
-  - 36975.0
-  - 0.0
-  - 0.0
+    - 36975.0
+    - 36975.0
+    - 0.0
+    - 0.0

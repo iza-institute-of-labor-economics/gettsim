@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Made up from the law
@@ -5,59 +6,59 @@ inputs:
   assumed: {}
   provided:
     demographics__geburtsjahr:
-    - 1957
-    - 1957
-    - 1957
+      - 1957
+      - 1957
+      - 1957
     demographics__geburtsmonat:
-    - 1
-    - 1
-    - 1
+      - 1
+      - 1
+      - 1
     demographics__hh_id:
-    - 0
-    - 1
-    - 2
+      - 0
+      - 1
+      - 2
     demographics__p_id:
-    - 0
-    - 1
-    - 2
+      - 0
+      - 1
+      - 2
     demographics__weiblich:
-    - true
-    - true
-    - true
+      - true
+      - true
+      - true
     sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
-    - false
-    - true
-    - false
+      - false
+      - true
+      - false
     sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
-    - true
-    - true
-    - false
+      - true
+      - true
+      - false
 outputs:
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-  - 65.916667
-  - 63.833333
-  - 65.916667
+    - 65.916667
+    - 63.833333
+    - 65.916667
   sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
-  - 63.0
-  - 63.0
-  - 65.916667
+    - 63.0
+    - 63.0
+    - 65.916667
   sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
-  - 63.833333
-  - 63.833333
-  - 63.833333
+    - 63.833333
+    - 63.833333
+    - 63.833333
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
-  - 65.916667
-  - 65.916667
-  - 65.916667
+    - 65.916667
+    - 65.916667
+    - 65.916667
   sozialversicherung__rente__altersrente__langjährig__altersgrenze_vorzeitig:
-  - 63.0
-  - 63.0
-  - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
   sozialversicherung__rente__altersrente__referenzalter_abschlag:
-  - 65.916667
-  - 65.916667
-  - 65.916667
+    - 65.916667
+    - 65.916667
+    - 65.916667
   sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
-  - 65.916667
-  - 65.916667
-  - 65.916667
+    - 65.916667
+    - 65.916667
+    - 65.916667

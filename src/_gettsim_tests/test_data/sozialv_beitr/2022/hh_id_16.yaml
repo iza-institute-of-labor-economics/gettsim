@@ -1,3 +1,4 @@
+---
 info:
   note: 'Sozialversicherungs-Rechner auf www.tk.de '
   source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
@@ -5,41 +6,41 @@ inputs:
   assumed: {}
   provided:
     demographics__alter:
-    - 40
+      - 40
     demographics__hh_id:
-    - 16
+      - 16
     demographics__p_id:
-    - 223
+      - 223
     demographics__wohnort_ost:
-    - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 750.0
+      - 750.0
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__ist_selbstständig:
-    - false
+      - false
     jahr:
-    - '2022'
+      - '2022'
     sozialversicherung__kranken__beitrag__privat_versichert:
-    - false
+      - false
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - false
+      - false
     sozialversicherung__rente__altersrente__betrag_m:
-    - 0.0
+      - 0.0
     sozialversicherung__rente__private_rente_betrag_m:
-    - 0.0
+      - 0.0
 outputs:
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-  - 7.26
+    - 7.26
   sozialversicherung__beitrag_arbeitgeber_m:
-  - 149.81
+    - 149.81
   sozialversicherung__beitrag_gesamt_m:
-  - 273.0
+    - 273.0
   sozialversicherung__beiträge_versicherter_m:
-  - 123.19
+    - 123.19
   sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-  - 48.09
+    - 48.09
   sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-  - 11.59
+    - 11.59
   sozialversicherung__rente__beitrag__betrag_versicherter_m:
-  - 56.25
+    - 56.25

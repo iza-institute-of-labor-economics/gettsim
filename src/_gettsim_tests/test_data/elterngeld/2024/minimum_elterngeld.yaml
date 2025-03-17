@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Regression test.
@@ -5,87 +6,87 @@ inputs:
   assumed: {}
   provided:
     arbeitslosengeld_2__p_id_einstandspartner:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__alleinerziehend:
-    - true
-    - false
+      - true
+      - false
     demographics__alter:
-    - 43
-    - 0
+      - 43
+      - 0
     demographics__arbeitsstunden_w:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     demographics__geburtsjahr:
-    - 1972
-    - 2018
+      - 1972
+      - 2018
     demographics__geburtsmonat:
-    - 2
-    - 10
+      - 2
+      - 10
     demographics__geburtstag:
-    - 2
-    - 12
+      - 2
+      - 12
     demographics__hh_id:
-    - 1
-    - 1
+      - 1
+      - 1
     demographics__kind:
-    - false
-    - true
+      - false
+      - true
     demographics__p_id:
-    - 23
-    - 18
+      - 23
+      - 18
     demographics__p_id_ehepartner:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
-    - 23
+      - -1
+      - 23
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
+      - -1
+      - -1
     demographics__wohnort_ost:
-    - false
-    - false
+      - false
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
-    - false
+      - false
+      - false
     elterngeld__bisheriger_bezug_m:
-    - 0
-    - 0
+      - 0
+      - 0
     elterngeld__claimed:
-    - true
-    - false
+      - true
+      - false
     elterngeld__nettoeinkommen_vorjahr_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
     jahr:
-    - 2019
-    - 2019
+      - 2019
+      - 2019
     kindergeld__in_ausbildung:
-    - false
-    - false
+      - false
+      - false
     lohnsteuer__steuerklasse:
-    - 1
-    - 1
+      - 1
+      - 1
     sozialversicherung__pflege__beitrag__hat_kinder:
-    - true
-    - false
+      - true
+      - false
 outputs:
   elterngeld__anzahl_mehrlinge_fg:
-  - 0
-  - 0
+    - 0
+    - 0
   elterngeld__betrag_m:
-  - 300.0
-  - 0.0
+    - 300.0
+    - 0.0
   elterngeld__geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg:
-  - false
-  - false
+    - false
+    - false
   elterngeld__grundsätzlich_anspruchsberechtigt:
-  - true
-  - false
+    - true
+    - false

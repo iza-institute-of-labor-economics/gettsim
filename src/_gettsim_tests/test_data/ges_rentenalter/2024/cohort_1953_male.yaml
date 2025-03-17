@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Made up from the law
@@ -5,59 +6,59 @@ inputs:
   assumed: {}
   provided:
     demographics__geburtsjahr:
-    - 1953
-    - 1953
-    - 1953
+      - 1953
+      - 1953
+      - 1953
     demographics__geburtsmonat:
-    - 1
-    - 1
-    - 1
+      - 1
+      - 1
+      - 1
     demographics__hh_id:
-    - 0
-    - 1
-    - 2
+      - 0
+      - 1
+      - 2
     demographics__p_id:
-    - 0
-    - 1
-    - 2
+      - 0
+      - 1
+      - 2
     demographics__weiblich:
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
     sozialversicherung__rente__altersrente__besonders_langjährig__grundsätzlich_anspruchsberechtigt:
-    - false
-    - true
-    - false
+      - false
+      - true
+      - false
     sozialversicherung__rente__altersrente__langjährig__grundsätzlich_anspruchsberechtigt:
-    - true
-    - true
-    - false
+      - true
+      - true
+      - false
 outputs:
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
-  - 65.583333
-  - 63.166667
-  - 65.583333
+    - 65.583333
+    - 63.166667
+    - 65.583333
   sozialversicherung__rente__altersrente__altersgrenze_vorzeitig:
-  - 63.0
-  - 63.0
-  - 65.583333
+    - 63.0
+    - 63.0
+    - 65.583333
   sozialversicherung__rente__altersrente__besonders_langjährig__altersgrenze:
-  - 63.166667
-  - 63.166667
-  - 63.166667
+    - 63.166667
+    - 63.166667
+    - 63.166667
   sozialversicherung__rente__altersrente__langjährig__altersgrenze:
-  - 65.583333
-  - 65.583333
-  - 65.583333
+    - 65.583333
+    - 65.583333
+    - 65.583333
   sozialversicherung__rente__altersrente__langjährig__altersgrenze_vorzeitig:
-  - 63.0
-  - 63.0
-  - 63.0
+    - 63.0
+    - 63.0
+    - 63.0
   sozialversicherung__rente__altersrente__referenzalter_abschlag:
-  - 65.583333
-  - 65.583333
-  - 65.583333
+    - 65.583333
+    - 65.583333
+    - 65.583333
   sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze:
-  - 65.583333
-  - 65.583333
-  - 65.583333
+    - 65.583333
+    - 65.583333
+    - 65.583333

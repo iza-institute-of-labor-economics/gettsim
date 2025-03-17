@@ -1,3 +1,4 @@
+---
 info:
   note: One child in the middle age group (6-11).
   source: https://www.bmfsfj.de/bmfsfj/aktuelles/alle-meldungen/familien-werden-ab-2010-staerker-entlastet-100030
@@ -5,30 +6,30 @@ inputs:
   assumed: {}
   provided:
     demographics__alleinerziehend:
-    - true
-    - false
+      - true
+      - false
     demographics__alter:
-    - 45
-    - 8
+      - 45
+      - 8
     demographics__hh_id:
-    - 0
-    - 0
+      - 0
+      - 0
     demographics__p_id:
-    - 0
-    - 1
+      - 0
+      - 1
     demographics__p_id_elternteil_1:
-    - -1
-    - 0
+      - -1
+      - 0
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
+      - -1
+      - -1
     kindergeld__p_id_empfänger:
-    - -1
-    - 0
+      - -1
+      - 0
     unterhalt__tatsächlich_erhaltener_betrag_m:
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
 outputs:
   unterhaltsvorschuss__betrag_m:
-  - 0.0
-  - 180.0
+    - 0.0
+    - 180.0

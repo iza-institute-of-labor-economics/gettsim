@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: https://www.steuerlex24.de/demoseite/information_steuerlexikon/index/xid/462984
@@ -5,29 +6,29 @@ inputs:
   assumed: {}
   provided:
     demographics__hh_id:
-    - 11
+      - 11
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 1
+      - 1
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 150.0
+      - 150.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 3000.0
+      - 3000.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     jahr:
-    - 2004
+      - 2004
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 0.0
+      - 0.0
     sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 237.0
+      - 237.0
     sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 36.75
+      - 36.75
     sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 294.0
+      - 294.0
 outputs:
   einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 2001
+    - 2001

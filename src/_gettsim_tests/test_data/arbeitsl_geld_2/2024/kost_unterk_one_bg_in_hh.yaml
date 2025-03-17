@@ -1,92 +1,93 @@
+---
 info:
   note: ''
   source: Made up.
 inputs:
   assumed:
     arbeitslosengeld_2__eigenbedarf_gedeckt:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
-    - 1
-    - 0
-    - -1
-    - -1
+      - 1
+      - 0
+      - -1
+      - -1
     demographics__alter:
-    - 30
-    - 30
-    - 10
-    - 10
+      - 30
+      - 30
+      - 10
+      - 10
     demographics__hh_id:
-    - 0
-    - 0
-    - 0
-    - 0
+      - 0
+      - 0
+      - 0
+      - 0
     demographics__kind:
-    - false
-    - false
-    - true
-    - true
+      - false
+      - false
+      - true
+      - true
     demographics__p_id:
-    - 0
-    - 1
-    - 2
-    - 3
+      - 0
+      - 1
+      - 2
+      - 3
     demographics__p_id_ehepartner:
-    - -1
-    - -1
-    - -1
-    - -1
+      - -1
+      - -1
+      - -1
+      - -1
     demographics__p_id_elternteil_1:
-    - -1
-    - -1
-    - 0
-    - 0
+      - -1
+      - -1
+      - 0
+      - 0
     demographics__p_id_elternteil_2:
-    - -1
-    - -1
-    - 1
-    - 1
+      - -1
+      - -1
+      - 1
+      - 1
     einkommensteuer__gemeinsam_veranlagt:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     jahr:
-    - 2018
-    - 2018
-    - 2018
-    - 2018
+      - 2018
+      - 2018
+      - 2018
+      - 2018
     wohnen__bruttokaltmiete_m_hh:
-    - 1000.0
-    - 1000.0
-    - 1000.0
-    - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
+      - 1000.0
     wohnen__heizkosten_m_hh:
-    - 100.0
-    - 100.0
-    - 100.0
-    - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
     wohnen__wohnfläche_hh:
-    - 100.0
-    - 100.0
-    - 100.0
-    - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
+      - 100.0
   provided: {}
 outputs:
   arbeitslosengeld_2__bg_id:
-  - 0
-  - 0
-  - 0
-  - 0
+    - 0
+    - 0
+    - 0
+    - 0
   arbeitslosengeld_2__bruttokaltmiete_m_bg:
-  - 1000.0
-  - 1000.0
-  - 1000.0
-  - 1000.0
+    - 1000.0
+    - 1000.0
+    - 1000.0
+    - 1000.0
   arbeitslosengeld_2__heizkosten_m_bg:
-  - 100.0
-  - 100.0
-  - 100.0
-  - 100.0
+    - 100.0
+    - 100.0
+    - 100.0
+    - 100.0

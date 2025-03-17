@@ -1,3 +1,4 @@
+---
 info:
   note: ''
   source: Testcase from zu_verst_eink
@@ -5,29 +6,29 @@ inputs:
   assumed: {}
   provided:
     demographics__hh_id:
-    - 16
+      - 16
     demographics__kind:
-    - false
+      - false
     demographics__p_id:
-    - 17
+      - 17
     demographics__p_id_ehepartner:
-    - -1
+      - -1
     einkommensteuer__beitrag_private_rentenversicherung_m:
-    - 0.0
+      - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-    - 1500.0
+      - 1500.0
     einkommensteuer__gemeinsam_veranlagt:
-    - false
+      - false
     jahr:
-    - 2010
+      - 2010
     sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
-    - 30.0
+      - 30.0
     sozialversicherung__kranken__beitrag__betrag_versicherter_m:
-    - 120.0
+      - 120.0
     sozialversicherung__pflege__beitrag__betrag_versicherter_m:
-    - 22.5
+      - 22.5
     sozialversicherung__rente__beitrag__betrag_versicherter_m:
-    - 150.0
+      - 150.0
 outputs:
   einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
-  - 2620
+    - 2620
