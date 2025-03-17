@@ -138,7 +138,7 @@ def anzurechnendes_einkommen_m(
 
 @policy_function(params_key_for_rounding="ges_rente")
 def basisbetrag_m(
-    entgeltpunkte_zuschlag: float,
+    mean_entgeltpunkte_zuschlag: float,
     bewertungszeiten_m: int,
     sozialversicherung__rente__altersrente__rentenwert: float,
     sozialversicherung__rente__altersrente__zugangsfaktor: float,
@@ -152,8 +152,8 @@ def basisbetrag_m(
 
     Parameters
     ----------
-    entgeltpunkte_zuschlag
-        See :func:`entgeltpunkte_zuschlag`.
+    mean_entgeltpunkte_zuschlag
+        See :func:`mean_entgeltpunkte_zuschlag`.
     bewertungszeiten_m
         See basic input variable
         :ref:`bewertungszeiten_m <bewertungszeiten_m>`.
@@ -182,7 +182,7 @@ def basisbetrag_m(
     )
 
     out = (
-        entgeltpunkte_zuschlag
+        mean_entgeltpunkte_zuschlag
         * bewertungszeiten_m_wins
         * sozialversicherung__rente__altersrente__rentenwert
         * ges_rente_zugangsfaktor_wins
@@ -262,7 +262,7 @@ def höchstbetrag_m(
 
 
 @policy_function(params_key_for_rounding="ges_rente")
-def entgeltpunkte_zuschlag(
+def mean_entgeltpunkte_zuschlag(
     durchschnittliche_entgeltpunkte: float,
     höchstbetrag_m: float,
     sozialversicherung__rente__grundrente__grundrentenzeiten_m: int,

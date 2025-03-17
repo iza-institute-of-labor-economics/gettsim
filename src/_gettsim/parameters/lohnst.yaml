@@ -79,7 +79,7 @@ rounding:
       base: 1
       direction: down
       reference: null
-  vorsorgepauschale_y:
+  lohnsteuer__vorsorgepauschale_y:
     1990-01-01:
       base: 1
       direction: up
