@@ -15,8 +15,8 @@ def einkommen_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See :func:`einnahmen__bruttolohn_m`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See :func:`einkommensteuer__einnahmen__bruttolohn_m`.
     sozialversicherung__regulär_beschäftigt
         See :func:`sozialversicherung__regulär_beschäftigt`.
     beitragsbemessungsgrenze_m
@@ -36,7 +36,7 @@ def einkommen_m(
 
 @policy_function()
 def einkommen_regulär_beschäftigt_m(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     beitragsbemessungsgrenze_m: float,
 ) -> float:
     """Income subject to public health insurance contributions.
@@ -46,8 +46,8 @@ def einkommen_regulär_beschäftigt_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See :func:`einnahmen__bruttolohn_m`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See :func:`einkommensteuer__einnahmen__bruttolohn_m`.
     beitragsbemessungsgrenze_m
         See :func:`beitragsbemessungsgrenze_m`.
 
@@ -56,14 +56,14 @@ def einkommen_regulär_beschäftigt_m(
     Income subject to public health insurance contributions.
     """
 
-    return min(einnahmen__bruttolohn_m, beitragsbemessungsgrenze_m)
+    return min(einkommensteuer__einnahmen__bruttolohn_m, beitragsbemessungsgrenze_m)
 
 
 @policy_function()
 def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
-    einkünfte__aus_selbstständiger_arbeit_m: float,
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m: float,
     bezugsgröße_selbstständig_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
     privat_versichert: bool,
     beitragsbemessungsgrenze_m: float,
     sozialv_beitr_params: dict,
@@ -77,12 +77,12 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    einkünfte__aus_selbstständiger_arbeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m <einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m>`.
     bezugsgröße_selbstständig_m
         See :func:`bezugsgröße_selbstständig_m`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
     privat_versichert
         See basic input variable :ref:`privat_versichert <privat_versichert>`.
     sozialv_beitr_params
@@ -97,7 +97,7 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
 
     """
     # Calculate if self employed insures via public health insurance.
-    if einkünfte__ist_selbstständig and not privat_versichert:
+    if einkommensteuer__einkünfte__ist_selbstständig and not privat_versichert:
         out = min(
             beitragsbemessungsgrenze_m,
             max(
@@ -105,7 +105,7 @@ def bemessungsgrundlage_selbstständig_m(  # noqa: PLR0913
                 * sozialv_beitr_params[
                     "mindestanteil_bezugsgröße_beitragspf_einnahme_selbst"
                 ],
-                einkünfte__aus_selbstständiger_arbeit_m,
+                einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m,
             ),
         )
     else:

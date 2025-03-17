@@ -18,7 +18,7 @@ inputs:
       - 50000.0
     einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
       - 50000.0
-    einnahmen__kapitalerträge_y:
+    einkommensteuer__einnahmen__kapitalerträge_y:
       - 0.0
   assumed: {}
 outputs:

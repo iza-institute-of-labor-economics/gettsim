@@ -51,7 +51,7 @@ def betrag_mit_grundrente_m(
 def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
-    einnahmen__bruttolohn_y: float,
+    einkommensteuer__einnahmen__bruttolohn_y: float,
     bruttorente_basisbetrag_m: float,
     ges_rente_params: dict,
 ) -> float:
@@ -65,8 +65,8 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
         See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
-    einnahmen__bruttolohn_y
-        See basic input variable :ref:`einnahmen__bruttolohn_y <einnahmen__bruttolohn_y>`.
+    einkommensteuer__einnahmen__bruttolohn_y
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
     bruttorente_basisbetrag_m
         See :func:`bruttorente_basisbetrag_m`.
     ges_rente_params
@@ -81,7 +81,10 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     if (
         demographics__alter
         >= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
-    ) or (einnahmen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]):
+    ) or (
+        einkommensteuer__einnahmen__bruttolohn_y
+        <= ges_rente_params["hinzuverdienstgrenze"]
+    ):
         out = bruttorente_basisbetrag_m
     else:
         out = 0.0
@@ -98,7 +101,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
 def bruttorente_mit_hinzuverdienstdeckel(
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
-    einnahmen__bruttolohn_y: float,
+    einkommensteuer__einnahmen__bruttolohn_y: float,
     differenz_bruttolohn_hinzuverdienstdeckel_m: float,
     zahlbetrag_ohne_deckel_m: float,
 ) -> float:
@@ -113,8 +116,8 @@ def bruttorente_mit_hinzuverdienstdeckel(
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
         See :func:`sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze`.
-    einnahmen__bruttolohn_y
-        See basic input variable :ref:`einnahmen__bruttolohn_y <einnahmen__bruttolohn_y>`.
+    einkommensteuer__einnahmen__bruttolohn_y
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
     differenz_bruttolohn_hinzuverdienstdeckel_m
         See :func:`differenz_bruttolohn_hinzuverdienstdeckel_m`.
     zahlbetrag_ohne_deckel_m
@@ -130,7 +133,7 @@ def bruttorente_mit_hinzuverdienstdeckel(
         differenz_bruttolohn_hinzuverdienstdeckel_m > 0
         and demographics__alter
         <= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
-        and einnahmen__bruttolohn_y > 0
+        and einkommensteuer__einnahmen__bruttolohn_y > 0
     ):
         out = max(
             zahlbetrag_ohne_deckel_m - differenz_bruttolohn_hinzuverdienstdeckel_m,
@@ -147,7 +150,7 @@ def bruttorente_mit_hinzuverdienstdeckel(
     end_date="2022-12-31",
 )
 def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
-    einnahmen__bruttolohn_y: float,
+    einkommensteuer__einnahmen__bruttolohn_y: float,
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     bruttorente_basisbetrag_m: float,
@@ -159,8 +162,8 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    einnahmen__bruttolohn_y
-        See basic input variable :ref:`einnahmen__bruttolohn_y <einnahmen__bruttolohn_y>`.
+    einkommensteuer__einnahmen__bruttolohn_y
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
     demographics__alter
         See basic input variable :ref:`demographics__alter <demographics__alter>`.
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
@@ -182,7 +185,10 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     if (
         demographics__alter
         >= sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze
-    ) or (einnahmen__bruttolohn_y <= ges_rente_params["hinzuverdienstgrenze"]):
+    ) or (
+        einkommensteuer__einnahmen__bruttolohn_y
+        <= ges_rente_params["hinzuverdienstgrenze"]
+    ):
         out = bruttorente_basisbetrag_m
     # Basis deduction of 40%
     else:
@@ -201,15 +207,15 @@ def zahlbetrag_ohne_deckel_m(  # noqa: PLR0913
     end_date="2022-12-31",
 )
 def differenz_bruttolohn_hinzuverdienstgrenze_y(
-    einnahmen__bruttolohn_y: float,
+    einkommensteuer__einnahmen__bruttolohn_y: float,
     ges_rente_params: dict,
 ) -> float:
     """Earnings that are subject to pension deductions.
 
     Parameters
     ----------
-    einnahmen__bruttolohn_y
-        See basic input variable :ref:`einnahmen__bruttolohn_y <einnahmen__bruttolohn_y>`.
+    einkommensteuer__einnahmen__bruttolohn_y
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -217,7 +223,11 @@ def differenz_bruttolohn_hinzuverdienstgrenze_y(
     -------
 
     """
-    return max(einnahmen__bruttolohn_y - ges_rente_params["hinzuverdienstgrenze"], 0.0)
+    return max(
+        einkommensteuer__einnahmen__bruttolohn_y
+        - ges_rente_params["hinzuverdienstgrenze"],
+        0.0,
+    )
 
 
 @policy_function(
@@ -225,7 +235,7 @@ def differenz_bruttolohn_hinzuverdienstgrenze_y(
     end_date="2022-12-31",
 )
 def differenz_bruttolohn_hinzuverdienstdeckel_y(
-    einnahmen__bruttolohn_y: float,
+    einkommensteuer__einnahmen__bruttolohn_y: float,
     zahlbetrag_ohne_deckel_y: float,
     höchster_bruttolohn_letzte_15_jahre_vor_rente_y: float,
 ) -> float:
@@ -233,8 +243,8 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_y
-        See basic input variable :ref:`einnahmen__bruttolohn_y <einnahmen__bruttolohn_y>`.
+    einkommensteuer__einnahmen__bruttolohn_y
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_y <einkommensteuer__einnahmen__bruttolohn_y>`.
     zahlbetrag_ohne_deckel_y
         See :func:`zahlbetrag_ohne_deckel_y`.
     höchster_bruttolohn_letzte_15_jahre_vor_rente_y
@@ -247,7 +257,7 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
     """
     return max(
         zahlbetrag_ohne_deckel_y
-        + einnahmen__bruttolohn_y
+        + einkommensteuer__einnahmen__bruttolohn_y
         - höchster_bruttolohn_letzte_15_jahre_vor_rente_y,
         0.0,
     )
@@ -534,7 +544,7 @@ def entgeltpunkte_ost_updated(
 
 @policy_function()
 def neue_entgeltpunkte(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     demographics__wohnort_ost: bool,
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m: float,
     ges_rente_params: dict,
@@ -543,8 +553,8 @@ def neue_entgeltpunkte(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     demographics__wohnort_ost
         See :func:`demographics__wohnort_ost`.
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m
@@ -560,11 +570,11 @@ def neue_entgeltpunkte(
     # Scale bruttolohn up if earned in eastern Germany
     if demographics__wohnort_ost:
         bruttolohn_scaled_east = (
-            einnahmen__bruttolohn_m
+            einkommensteuer__einnahmen__bruttolohn_m
             * ges_rente_params["umrechnung_entgeltpunkte_beitrittsgebiet"]
         )
     else:
-        bruttolohn_scaled_east = einnahmen__bruttolohn_m
+        bruttolohn_scaled_east = einkommensteuer__einnahmen__bruttolohn_m
 
     # Calculate the (scaled) wage, which is subject to pension contributions.
     if (

@@ -9,8 +9,8 @@ def einkommen_m(  # noqa: PLR0913
     erwerbseinkommen_m: float,
     private_rente_betrag_m: float,
     gesetzliche_rente_m: float,
-    einnahmen__sonstige_m: float,
-    einkünfte__aus_vermietung_und_verpachtung_m: float,
+    einkommensteuer__einnahmen__sonstige_m: float,
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m: float,
     kapitaleinkommen_brutto_m: float,
     eink_st_m_sn: float,
     soli_st_m_sn: float,
@@ -29,10 +29,10 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`private_rente_betrag_m`.
     gesetzliche_rente_m
         See :func:`gesetzliche_rente_m`.
-    einnahmen__sonstige_m
-        See :func:`einnahmen__sonstige_m`.
-    einkünfte__aus_vermietung_und_verpachtung_m
-        See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
+    einkommensteuer__einnahmen__sonstige_m
+        See :func:`einkommensteuer__einnahmen__sonstige_m`.
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m
+        See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m`.
     kapitaleinkommen_brutto_m
         See :func:`kapitaleinkommen_brutto_m`.
     eink_st_m_sn
@@ -56,8 +56,8 @@ def einkommen_m(  # noqa: PLR0913
         erwerbseinkommen_m
         + gesetzliche_rente_m
         + private_rente_betrag_m
-        + einnahmen__sonstige_m
-        + einkünfte__aus_vermietung_und_verpachtung_m
+        + einkommensteuer__einnahmen__sonstige_m
+        + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m
         + kapitaleinkommen_brutto_m
         + elterngeld__anrechenbarer_betrag_m
     )
@@ -74,8 +74,8 @@ def einkommen_m(  # noqa: PLR0913
 
 @policy_function()
 def erwerbseinkommen_m(
-    einnahmen__bruttolohn_m: float,
-    einkünfte__aus_selbstständiger_arbeit_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m: float,
     arbeitsl_geld_2_params: dict,
     grunds_im_alter_params: dict,
 ) -> float:
@@ -90,10 +90,10 @@ def erwerbseinkommen_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
-    einkünfte__aus_selbstständiger_arbeit_m
-        See basic input variable :ref:`einkünfte__aus_selbstständiger_arbeit_m <einkünfte__aus_selbstständiger_arbeit_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m <einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m>`.
     arbeitsl_geld_2_params
         See params documentation :ref:`arbeitsl_geld_2_params <arbeitsl_geld_2_params>`.
     grunds_im_alter_params
@@ -103,7 +103,10 @@ def erwerbseinkommen_m(
     -------
 
     """
-    earnings = einnahmen__bruttolohn_m + einkünfte__aus_selbstständiger_arbeit_m
+    earnings = (
+        einkommensteuer__einnahmen__bruttolohn_m
+        + einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
+    )
 
     # Can deduct 30% of earnings (but no more than 1/2 of regelbedarf)
     earnings_after_max_deduction = earnings - arbeitsl_geld_2_params["regelsatz"][1] / 2
@@ -116,7 +119,7 @@ def erwerbseinkommen_m(
 
 @policy_function()
 def kapitaleinkommen_brutto_m(
-    einnahmen__kapitalerträge_y: float,
+    einkommensteuer__einnahmen__kapitalerträge_y: float,
     grunds_im_alter_params: dict,
 ) -> float:
     """Calculate individual capital income considered in the calculation of
@@ -127,8 +130,8 @@ def kapitaleinkommen_brutto_m(
 
     Parameters
     ----------
-    einnahmen__kapitalerträge_y
-        See :func:`einnahmen__kapitalerträge_y`.
+    einkommensteuer__einnahmen__kapitalerträge_y
+        See :func:`einkommensteuer__einnahmen__kapitalerträge_y`.
     grunds_im_alter_params
         See params documentation :ref:`grunds_im_alter_params
         <grunds_im_alter_params>`.
@@ -139,7 +142,8 @@ def kapitaleinkommen_brutto_m(
     """
     # Can deduct allowance from yearly capital income
     capital_income_y = (
-        einnahmen__kapitalerträge_y - grunds_im_alter_params["kapitaleink_anr_frei"]
+        einkommensteuer__einnahmen__kapitalerträge_y
+        - grunds_im_alter_params["kapitaleink_anr_frei"]
     )
 
     # Calculate and return monthly capital income (after deduction)

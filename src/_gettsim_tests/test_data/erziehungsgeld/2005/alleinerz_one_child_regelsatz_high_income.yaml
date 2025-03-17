@@ -31,10 +31,10 @@ inputs:
     kindergeld__in_ausbildung:
       - false
       - false
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 1400.0
       - 0.0
-    einnahmen__bruttolohn_vorjahr_m:
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
       - 1700.0
       - 0.0
     elterngeld__nettoeinkommen_vorjahr_m:

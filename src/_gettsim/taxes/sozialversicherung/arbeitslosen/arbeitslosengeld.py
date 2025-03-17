@@ -173,7 +173,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 @policy_function()
 def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m: float,
-    einnahmen__bruttolohn_vorjahr_m: float,
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m: float,
     arbeitsl_geld_params: dict,
     eink_st_params: dict,
     eink_st_abzuege_params: dict,
@@ -186,8 +186,8 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m
         See :func:
         `sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m`.
-    einnahmen__bruttolohn_vorjahr_m
-        See basic input variable :ref:`einnahmen__bruttolohn_vorjahr_m <einnahmen__bruttolohn_vorjahr_m>`.
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_vorjahr_m <einkommensteuer__einnahmen__bruttolohn_vorjahr_m>`.
     arbeitsl_geld_params
         See params documentation :ref:`arbeitsl_geld_params <arbeitsl_geld_params>`.
     eink_st_params
@@ -203,7 +203,7 @@ def einkommen_vorjahr_proxy_m(  # noqa: PLR0913
     """
     # Relevant wage is capped at the contribution thresholds
     max_wage = min(
-        einnahmen__bruttolohn_vorjahr_m,
+        einkommensteuer__einnahmen__bruttolohn_vorjahr_m,
         sozialversicherung__rente__beitrag__beitragsbemessungsgrenze_m,
     )
 

@@ -8,7 +8,7 @@ inputs:
       - 20
     demographics__hh_id:
       - 20
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 0.0
     demographics__wohnort_ost:
       - false

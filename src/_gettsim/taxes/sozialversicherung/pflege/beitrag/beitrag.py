@@ -9,7 +9,7 @@ def betrag_vor_midijob_m(
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
     betrag_selbstständig_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Long-term care insurance contributions paid by the insured person.
 
@@ -23,8 +23,8 @@ def betrag_vor_midijob_m(
         See :func:`betrag_selbstständig_m`.
     betrag_versicherter_regulär_beschäftigt_m
         See :func:`betrag_versicherter_regulär_beschäftigt_m`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
     Returns
     -------
@@ -32,7 +32,7 @@ def betrag_vor_midijob_m(
 
     """
 
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
@@ -51,7 +51,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     betrag_selbstständig_m: float,
     betrag_versicherter_m: float,
     sozialversicherung__in_gleitzone: bool,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Long-term care insurance contributions paid by the insured person.
 
@@ -69,8 +69,8 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
         See :func:`betrag_versicherter_m`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
     Returns
     -------
@@ -78,7 +78,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
 
     """
 
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
@@ -119,7 +119,7 @@ def betrag_arbeitgeber_vor_midijob_m(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__kranken__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Employer's long-term care insurance contribution.
 
@@ -133,8 +133,8 @@ def betrag_arbeitgeber_vor_midijob_m(
         See :func:`sozialversicherung__kranken__beitrag__einkommen_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
     Returns
     -------
@@ -147,7 +147,10 @@ def betrag_arbeitgeber_vor_midijob_m(
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
     )
 
-    if einkünfte__ist_selbstständig or sozialversicherung__geringfügig_beschäftigt:
+    if (
+        einkommensteuer__einkünfte__ist_selbstständig
+        or sozialversicherung__geringfügig_beschäftigt
+    ):
         out = 0.0
     else:
         out = beitr_regulär_beschäftigt_m
@@ -162,7 +165,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__kranken__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
     sozialversicherung__in_gleitzone: bool,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Employer's long-term care insurance contribution.
 
@@ -180,8 +183,8 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
     Returns
     -------
@@ -194,7 +197,10 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
 
-    if einkünfte__ist_selbstständig or sozialversicherung__geringfügig_beschäftigt:
+    if (
+        einkommensteuer__einkünfte__ist_selbstständig
+        or sozialversicherung__geringfügig_beschäftigt
+    ):
         out = 0.0
     elif sozialversicherung__in_gleitzone:
         out = betrag_arbeitgeber_midijob_m
@@ -430,15 +436,15 @@ def betrag_gesamty_ab_2005_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's long-term care insurance contribution until December 2004.
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -450,7 +456,10 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
 
     """
 
-    out = einnahmen__bruttolohn_m * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+    out = (
+        einkommensteuer__einnahmen__bruttolohn_m
+        * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]
+    )
 
     return out
 
@@ -461,7 +470,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
 def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Employers' contribution to long-term care insurance between 2005 and September
@@ -469,8 +478,8 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -481,7 +490,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
 
     """
     out = (
-        einnahmen__bruttolohn_m
+        einkommensteuer__einnahmen__bruttolohn_m
         * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["standard"]
     )
     return out

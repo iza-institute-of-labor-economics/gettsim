@@ -46,7 +46,7 @@ inputs:
     demographics__vermögen:
       - 0.0
       - 0.0
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 1000.0
       - 0.0
     wohnen__bruttokaltmiete_m_hh:

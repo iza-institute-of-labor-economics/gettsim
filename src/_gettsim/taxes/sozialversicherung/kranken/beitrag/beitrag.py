@@ -9,7 +9,7 @@ def betrag_versicherter_vor_midijob_m(
     betrag_rentner_m: float,
     betrag_selbstständig_m: float,
     betrag_versicherter_regulär_beschäftigt_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Public health insurance contributions paid by the insured person.
 
@@ -25,15 +25,15 @@ def betrag_versicherter_vor_midijob_m(
         See :func:`betrag_selbstständig_m`.
     betrag_versicherter_regulär_beschäftigt_m
         See :func:`betrag_versicherter_regulär_beschäftigt_m`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
 
     Returns
     -------
 
     """
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
@@ -52,7 +52,7 @@ def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__in_gleitzone: bool,
     betrag_versicherter_midijob_m: float,
     betrag_versicherter_regulär_beschäftigt_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
     """Public health insurance contributions paid by the insured person.
 
@@ -72,15 +72,15 @@ def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
         See :func:`betrag_versicherter_regulär_beschäftigt_m`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
 
 
     Returns
     -------
 
     """
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = betrag_selbstständig_m
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
@@ -96,9 +96,9 @@ def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
 def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     einkommen_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
     sozialv_beitr_params: dict,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -114,10 +114,10 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
         See :func:`einkommen_m`.
     beitragssatz_arbeitgeber
         See :func:`beitragssatz_arbeitgeber`.
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -126,11 +126,11 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
     -------
 
     """
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = 0.0
     elif sozialversicherung__geringfügig_beschäftigt:
         out = (
-            einnahmen__bruttolohn_m
+            einkommensteuer__einnahmen__bruttolohn_m
             * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
         )
     else:
@@ -143,10 +143,10 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
 def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__in_gleitzone: bool,
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     betrag_arbeitgeber_midijob_m: float,
     einkommen_m: float,
-    einkünfte__ist_selbstständig: bool,
+    einkommensteuer__einkünfte__ist_selbstständig: bool,
     sozialv_beitr_params: dict,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -166,10 +166,10 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
         See :func:`beitragssatz_arbeitgeber`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
-    einkünfte__ist_selbstständig
-        See basic input variable :ref:`einkünfte__ist_selbstständig <einkünfte__ist_selbstständig>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
+    einkommensteuer__einkünfte__ist_selbstständig
+        See basic input variable :ref:`einkommensteuer__einkünfte__ist_selbstständig <einkommensteuer__einkünfte__ist_selbstständig>`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -178,11 +178,11 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     -------
 
     """
-    if einkünfte__ist_selbstständig:
+    if einkommensteuer__einkünfte__ist_selbstständig:
         out = 0.0
     elif sozialversicherung__geringfügig_beschäftigt:
         out = (
-            einnahmen__bruttolohn_m
+            einkommensteuer__einnahmen__bruttolohn_m
             * sozialv_beitr_params["ag_abgaben_geringf"]["ges_krankenv"]
         )
     elif sozialversicherung__in_gleitzone:
@@ -300,8 +300,8 @@ def betrag_gesamt_midijob_m(
     end_date="2022-09-30",
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_einnahmen__bruttolohn_m(
-    einnahmen__bruttolohn_m: float,
+def betrag_arbeitgeber_midijob_anteil_einkommensteuer__einnahmen__bruttolohn_m(
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     sozialversicherung__in_gleitzone: bool,
     beitragssatz_arbeitgeber: float,
 ) -> float:
@@ -311,8 +311,8 @@ def betrag_arbeitgeber_midijob_anteil_einnahmen__bruttolohn_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
     beitragssatz_arbeitgeber
@@ -323,7 +323,7 @@ def betrag_arbeitgeber_midijob_anteil_einnahmen__bruttolohn_m(
 
     """
     if sozialversicherung__in_gleitzone:
-        out = beitragssatz_arbeitgeber * einnahmen__bruttolohn_m
+        out = beitragssatz_arbeitgeber * einkommensteuer__einnahmen__bruttolohn_m
     else:
         out = 0.0
 

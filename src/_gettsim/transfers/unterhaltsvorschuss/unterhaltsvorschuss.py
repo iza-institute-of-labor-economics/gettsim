@@ -418,11 +418,11 @@ def mindesteinkommen_erreicht(
 
 @policy_function(start_date="2017-01-01")
 def einkommen_m(  # noqa: PLR0913
-    einnahmen__bruttolohn_m: float,
-    einnahmen__sonstige_m: float,
-    einkünfte__aus_selbstständiger_arbeit_m: float,
-    einkünfte__aus_vermietung_und_verpachtung_m: float,
-    einnahmen__kapitalerträge_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__sonstige_m: float,
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m: float,
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m: float,
+    einkommensteuer__einnahmen__kapitalerträge_m: float,
     sozialversicherung__rente__altersrente__betrag_m: float,
     sozialversicherung__rente__private_rente_betrag_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
@@ -431,16 +431,16 @@ def einkommen_m(  # noqa: PLR0913
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See :func:`einnahmen__bruttolohn_m`.
-    einnahmen__sonstige_m
-        See :func:`einnahmen__sonstige_m`.
-    einkünfte__aus_selbstständiger_arbeit_m
-        See :func:`einkünfte__aus_selbstständiger_arbeit_m`.
-    einkünfte__aus_vermietung_und_verpachtung_m
-        See :func:`einkünfte__aus_vermietung_und_verpachtung_m`.
-    einnahmen__kapitalerträge_m
-        See :func:`einnahmen__kapitalerträge_m`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See :func:`einkommensteuer__einnahmen__bruttolohn_m`.
+    einkommensteuer__einnahmen__sonstige_m
+        See :func:`einkommensteuer__einnahmen__sonstige_m`.
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
+        See :func:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m`.
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m
+        See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m`.
+    einkommensteuer__einnahmen__kapitalerträge_m
+        See :func:`einkommensteuer__einnahmen__kapitalerträge_m`.
     sozialversicherung__rente__altersrente__betrag_m
         See :func:`sozialversicherung__rente__altersrente__betrag_m`.
     sozialversicherung__rente__private_rente_betrag_m
@@ -453,11 +453,11 @@ def einkommen_m(  # noqa: PLR0913
 
     """
     out = (
-        einnahmen__bruttolohn_m
-        + einnahmen__sonstige_m
-        + einkünfte__aus_selbstständiger_arbeit_m
-        + einkünfte__aus_vermietung_und_verpachtung_m
-        + einnahmen__kapitalerträge_m
+        einkommensteuer__einnahmen__bruttolohn_m
+        + einkommensteuer__einnahmen__sonstige_m
+        + einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m
+        + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m
+        + einkommensteuer__einnahmen__kapitalerträge_m
         + sozialversicherung__rente__altersrente__betrag_m
         + sozialversicherung__rente__private_rente_betrag_m
         + sozialversicherung__arbeitslosen__betrag_m

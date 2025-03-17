@@ -237,14 +237,15 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
 
 
 def ist_kind_mit_erwerbseinkommen(
-    einnahmen__bruttolohn_m: float, kindergeld__grundsätzlich_anspruchsberechtigt: bool
+    einkommensteuer__einnahmen__bruttolohn_m: float,
+    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
 ) -> bool:
     """Check if children are working.
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     kindergeld__grundsätzlich_anspruchsberechtigt
         See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
 
@@ -253,7 +254,7 @@ def ist_kind_mit_erwerbseinkommen(
 
     """
     out = (
-        einnahmen__bruttolohn_m > 0
+        einkommensteuer__einnahmen__bruttolohn_m > 0
     ) and kindergeld__grundsätzlich_anspruchsberechtigt
     return out
 

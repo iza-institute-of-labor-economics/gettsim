@@ -12,7 +12,7 @@ inputs:
       - -1
     einkommensteuer__gemeinsam_veranlagt:
       - false
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 1500.0
     demographics__kind:
       - false

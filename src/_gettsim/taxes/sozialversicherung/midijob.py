@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function()
 def beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     minijob_grenze: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -20,8 +20,8 @@ def beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     minijob_grenze
         See :func:`minijob_grenze`.
     sozialv_beitr_params
@@ -36,7 +36,7 @@ def beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m(
     midijob_grenze = sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
 
     quotient = midijob_grenze / (midijob_grenze - minijob_grenze)
-    einkommen_diff = einnahmen__bruttolohn_m - minijob_grenze
+    einkommen_diff = einkommensteuer__einnahmen__bruttolohn_m - minijob_grenze
 
     out = quotient * einkommen_diff
 
@@ -238,7 +238,7 @@ def midijob_faktor_f_ohne_minijob_steuerpauschale(
     leaf_name="midijob_bemessungsentgelt_m",
 )
 def midijob_bemessungsentgelt_m_bis_09_2022(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     midijob_faktor_f: float,
     minijob_grenze: float,
     sozialv_beitr_params: dict,
@@ -254,8 +254,8 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     minijob_grenze
@@ -271,7 +271,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
     """
     # Now use the factor to calculate the overall bemessungsentgelt
     minijob_anteil = midijob_faktor_f * minijob_grenze
-    lohn_über_mini = einnahmen__bruttolohn_m - minijob_grenze
+    lohn_über_mini = einkommensteuer__einnahmen__bruttolohn_m - minijob_grenze
     gewichtete_midijob_rate = (
         sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
         / (
@@ -292,7 +292,7 @@ def midijob_bemessungsentgelt_m_bis_09_2022(
 
 @policy_function(start_date="2022-10-01", leaf_name="midijob_bemessungsentgelt_m")
 def midijob_bemessungsentgelt_m_ab_10_2022(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     midijob_faktor_f: float,
     minijob_grenze: float,
     sozialv_beitr_params: dict,
@@ -310,8 +310,8 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     midijob_faktor_f
         See :func:`midijob_faktor_f`.
     minijob_grenze
@@ -329,7 +329,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
     quotient1 = (midijob_grenze) / (midijob_grenze - minijob_grenze)
     quotient2 = (minijob_grenze) / (midijob_grenze - minijob_grenze)
-    einkommen_diff = einnahmen__bruttolohn_m - minijob_grenze
+    einkommen_diff = einkommensteuer__einnahmen__bruttolohn_m - minijob_grenze
 
     faktor1 = midijob_faktor_f * minijob_grenze
     faktor2 = (quotient1 - quotient2 * midijob_faktor_f) * einkommen_diff
@@ -340,7 +340,7 @@ def midijob_bemessungsentgelt_m_ab_10_2022(
 
 @policy_function(start_date="2003-04-01")
 def in_gleitzone(
-    einnahmen__bruttolohn_m: float,
+    einkommensteuer__einnahmen__bruttolohn_m: float,
     geringfügig_beschäftigt: bool,
     sozialv_beitr_params: dict,
 ) -> bool:
@@ -353,8 +353,8 @@ def in_gleitzone(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m
-        See basic input variable :ref:`einnahmen__bruttolohn_m <einnahmen__bruttolohn_m>`.
+    einkommensteuer__einnahmen__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einnahmen__bruttolohn_m <einkommensteuer__einnahmen__bruttolohn_m>`.
     geringfügig_beschäftigt
         See :func:`geringfügig_beschäftigt`.
     sozialv_beitr_params
@@ -366,7 +366,7 @@ def in_gleitzone(
 
     """
     out = (
-        einnahmen__bruttolohn_m
+        einkommensteuer__einnahmen__bruttolohn_m
         <= sozialv_beitr_params["geringfügige_eink_grenzen_m"]["midijob"]
     ) and (not geringfügig_beschäftigt)
     return out

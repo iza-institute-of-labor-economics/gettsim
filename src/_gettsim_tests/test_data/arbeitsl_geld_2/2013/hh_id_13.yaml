@@ -52,7 +52,7 @@ inputs:
     demographics__alleinerziehend:
       - false
       - false
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 300.0
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:
@@ -61,19 +61,19 @@ inputs:
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
       - 0.0
-    einnahmen__kapitalerträge_m:
+    einkommensteuer__einnahmen__kapitalerträge_m:
       - 0.0
       - 0.0
     sozialversicherung__arbeitslosen__betrag_m:
       - 0.0
       - 0.0
-    einnahmen__sonstige_m:
+    einkommensteuer__einnahmen__sonstige_m:
       - 100.0
       - 0.0
-    einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
-    einkünfte__aus_vermietung_und_verpachtung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
     einkommensteuer__betrag_y_sn:

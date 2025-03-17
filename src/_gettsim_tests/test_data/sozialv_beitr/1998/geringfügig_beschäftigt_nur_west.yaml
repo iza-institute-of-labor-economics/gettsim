@@ -10,7 +10,7 @@ inputs:
     demographics__hh_id:
       - 0
       - 1
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 300.0
       - 300.0
     demographics__wohnort_ost:
@@ -19,13 +19,13 @@ inputs:
     demographics__alter:
       - 40
       - 40
-    einkünfte__ist_selbstständig:
+    einkommensteuer__einkünfte__ist_selbstständig:
       - false
       - false
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false
       - false
-    einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
     sozialversicherung__rente__altersrente__betrag_m:

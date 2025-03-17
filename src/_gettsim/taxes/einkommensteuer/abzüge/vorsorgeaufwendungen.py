@@ -304,7 +304,7 @@ def vorsorgeaufwendungen_regime_bis_2004_y_sn(
 
 @policy_function(end_date="2019-12-31")
 def vorwegabzug_lohnsteuer_2004er_regime_y_sn(
-    einnahmen__bruttolohn_y_sn: float,
+    einkommensteuer__einnahmen__bruttolohn_y_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -312,8 +312,8 @@ def vorwegabzug_lohnsteuer_2004er_regime_y_sn(
 
     Parameters
     ----------
-    einnahmen__bruttolohn_m_sn
-        See :func:`einnahmen__bruttolohn_m_sn`.
+    einkommensteuer__einnahmen__bruttolohn_m_sn
+        See :func:`einkommensteuer__einnahmen__bruttolohn_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
     eink_st_abzuege_params
@@ -327,7 +327,7 @@ def vorwegabzug_lohnsteuer_2004er_regime_y_sn(
         einkommensteuer__anzahl_personen_sn
         * eink_st_abzuege_params["vorsorge2004_vorwegabzug"]
         - eink_st_abzuege_params["vorsorge2004_kürzung_vorwegabzug"]
-        * einnahmen__bruttolohn_y_sn
+        * einkommensteuer__einnahmen__bruttolohn_y_sn
     )
 
     return max(out, 0.0)

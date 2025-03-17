@@ -32,7 +32,7 @@ inputs:
       - false
       - false
       - true
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 20000.0
       - 20000.0
       - 0.0

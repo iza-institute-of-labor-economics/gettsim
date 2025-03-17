@@ -40,11 +40,11 @@ inputs:
       - false
       - false
       - false
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 1400.0
       - 3000.0
       - 0.0
-    einnahmen__bruttolohn_vorjahr_m:
+    einkommensteuer__einnahmen__bruttolohn_vorjahr_m:
       - 1400.0
       - 3000.0
       - 0.0

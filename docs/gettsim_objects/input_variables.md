@@ -22,9 +22,9 @@ Dependent child living with parents
 
 Type: bool
 
-(einnahmen__bruttolohn_m)=
+(einkommensteuer__einnahmen__bruttolohn_m)=
 
-## `einnahmen__bruttolohn_m`
+## `einkommensteuer__einnahmen__bruttolohn_m`
 
 Monthly wage
 
@@ -142,9 +142,9 @@ Employment status “in education”
 
 Type: bool
 
-(einkünfte__ist_selbstständig)=
+(einkommensteuer__einkünfte__ist_selbstständig)=
 
-## `einkünfte__ist_selbstständig`
+## `einkommensteuer__einkünfte__ist_selbstständig`
 
 Self-employed (main profession)
 
@@ -174,34 +174,34 @@ Identifier of the person who paid childcare expenses.
 
 Type: float
 
-(einnahmen__sonstige_m)=
+(einkommensteuer__einnahmen__sonstige_m)=
 
-## `einnahmen__sonstige_m`
+## `einkommensteuer__einnahmen__sonstige_m`
 
 Additional income: includes private and public transfers that are not yet implemented in
 GETTSIM (e.g., BAföG, Kriegsopferfürsorge)
 
 Type: float
 
-(einkünfte__aus_selbstständiger_arbeit_m)=
+(einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m)=
 
-## `einkünfte__aus_selbstständiger_arbeit_m`
+## `einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m`
 
 Monthly income from self-employment
 
 Type: float
 
-(einkünfte__aus_vermietung_und_verpachtung_m)=
+(einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m)=
 
-## `einkünfte__aus_vermietung_und_verpachtung_m`
+## `einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m`
 
 Monthly rental income net of deductions
 
 Type: float
 
-(einnahmen__kapitalerträge_m)=
+(einkommensteuer__einnahmen__kapitalerträge_m)=
 
-## `einnahmen__kapitalerträge_m`
+## `einkommensteuer__einnahmen__kapitalerträge_m`
 
 Monthly capital income
 
@@ -277,9 +277,9 @@ typically be for the previous calendar year.
 
 Type: float
 
-(einnahmen__bruttolohn_vorjahr_m)=
+(einkommensteuer__einnahmen__bruttolohn_vorjahr_m)=
 
-## `einnahmen__bruttolohn_vorjahr_m`
+## `einkommensteuer__einnahmen__bruttolohn_vorjahr_m`
 
 Gross wage in the previous year
 

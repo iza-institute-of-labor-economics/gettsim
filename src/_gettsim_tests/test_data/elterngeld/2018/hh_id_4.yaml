@@ -49,7 +49,7 @@ inputs:
     demographics__arbeitsstunden_w:
       - 0.0
       - 33.0
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 0.0
       - 3600.0
     elterngeld__nettoeinkommen_vorjahr_m:

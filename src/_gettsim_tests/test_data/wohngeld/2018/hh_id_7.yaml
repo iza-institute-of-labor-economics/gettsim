@@ -298,7 +298,7 @@ inputs:
       - 3
       - 3
       - 3
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 2400.0
       - 2400.0
       - 2400.0
@@ -382,7 +382,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einnahmen__sonstige_m:
+    einkommensteuer__einnahmen__sonstige_m:
       - 0.0
       - 0.0
       - 0.0
@@ -424,7 +424,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkünfte__aus_selbstständiger_arbeit_m:
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit_m:
       - 0.0
       - 0.0
       - 0.0
@@ -438,7 +438,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einnahmen__kapitalerträge_y:
+    einkommensteuer__einnahmen__kapitalerträge_y:
       - 0.0
       - 0.0
       - 0.0
@@ -452,7 +452,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einkünfte__aus_vermietung_und_verpachtung_m:
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung_m:
       - 0.0
       - 0.0
       - 0.0

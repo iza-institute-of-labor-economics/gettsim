@@ -64,7 +64,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    einnahmen__bruttolohn_m:
+    einkommensteuer__einnahmen__bruttolohn_m:
       - 0.0
       - 0.0
       - 0.0
