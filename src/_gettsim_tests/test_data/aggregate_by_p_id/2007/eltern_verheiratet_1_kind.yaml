@@ -57,7 +57,7 @@ inputs:
       - 0.0
       - 0.0
       - 150.0
-    erziehungsgeld__eltern_grundsätzlich_anspruchsberechtigt:
+    erziehungsgeld__grundsätzlich_anspruchsberechtigt:
       - true
       - true
       - true
