@@ -13,7 +13,6 @@ if TYPE_CHECKING:
 
     from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
-OVERRIDE_COLS = []
 
 test_data = load_policy_test_data("aggregate_by_p_id")
 

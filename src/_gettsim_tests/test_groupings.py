@@ -1,53 +1,59 @@
-import pandas as pd
+from typing import TYPE_CHECKING
+
+import flatten_dict
 import pytest
-from pandas.testing import assert_series_equal
+from numpy.testing import assert_array_almost_equal
 
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
+from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 
-OVERRIDE_COLS = []
+if TYPE_CHECKING:
+    import datetime
 
-data = load_policy_test_data("groupings")
+    from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
+test_data = load_policy_test_data("groupings")
+
+
 @pytest.mark.parametrize(
-    ("test_data", "column"),
-    data.parametrize_args,
-    ids=str,
+    "test",
+    test_data,
 )
 def test_groupings(
-    test_data: PolicyTestData,
-    column: str,
+    test: PolicyTest,
 ):
-    df = test_data.input_df
-    environment = cached_set_up_policy_environment(date=test_data.date)
+    date: datetime.date = test.date
+    input_tree: NestedDataDict = test.input_tree
+    expected_output_tree: NestedDataDict = test.expected_output_tree
+    target_structure: NestedInputStructureDict = test.target_structure
+
+    environment = cached_set_up_policy_environment(date=date)
 
     result = compute_taxes_and_transfers(
-        data=df,
-        environment=environment,
-        targets=column,
+        data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    assert_series_equal(
-        result[column],
-        test_data.output_df[column],
-        check_dtype=False,
-        atol=1e-1,
-        rtol=0,
-    )
+    flat_result = flatten_dict.flatten(result)
+    flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
+
+    for result, expected in zip(
+        flat_result.values(), flat_expected_output_tree.values()
+    ):
+        assert_array_almost_equal(result, expected, decimal=2)
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
-    data = pd.DataFrame(
-        {
+    data = {
+        "demographics": {
             "p_id": [0, 1],
-            "demographics__p_id_ehepartner": [1, 0],
-            "einkommensteuer__gemeinsam_veranlagt": [False, True],
-        }
-    )
+            "p_id_ehepartner": [1, 0],
+        },
+        "einkommensteuer": {
+            "gemeinsam_veranlagt": [False, True],
+        },
+    }
 
     environment = cached_set_up_policy_environment(date="2023")
 

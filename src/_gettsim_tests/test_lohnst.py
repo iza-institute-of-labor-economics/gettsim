@@ -1,50 +1,48 @@
+from typing import TYPE_CHECKING
+
+import flatten_dict
 import pytest
-from pandas.testing import assert_series_equal
+from numpy.testing import assert_array_almost_equal
 
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim.policy_environment import set_up_policy_environment
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
+from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 
-INPUT_COLS = [
-    "hh_id",
-    "p_id",
-    "demographics__wohnort_ost",
-    "lohnsteuer__steuerklasse",
-    "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m",
-    "demographics__alter",
-    "sozialversicherung__pflege__beitrag__hat_kinder",
-    "demographics__arbeitsstunden_w",
-    "kindergeld__in_ausbildung",
-    "sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz",
-    "sozialversicherung__pflege__beitrag__zusatzbetrag_kinderlos",
-]
+if TYPE_CHECKING:
+    import datetime
 
-OUT_COLS = ["lohnsteuer__betrag_m", "lohnsteuer__betrag_soli_m"]
-
-data = load_policy_test_data("lohnst")
+    from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
+test_data = load_policy_test_data("lohnsteuer")
+
+
 @pytest.mark.parametrize(
-    ("test_data", "column"),
-    data.parametrize_args,
-    ids=str,
+    "test",
+    test_data,
 )
 def test_lohnsteuer(
-    test_data: PolicyTestData,
-    column: str,
+    test: PolicyTest,
 ):
-    df = test_data.input_df
-    environment = cached_set_up_policy_environment(date=test_data.date)
+    date: datetime.date = test.date
+    input_tree: NestedDataDict = test.input_tree
+    expected_output_tree: NestedDataDict = test.expected_output_tree
+    target_structure: NestedInputStructureDict = test.target_structure
+
+    environment = cached_set_up_policy_environment(date=date)
 
     result = compute_taxes_and_transfers(
-        data=df, environment=environment, targets=column
+        data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    assert_series_equal(
-        result[column], test_data.output_df[column], check_dtype=False, atol=2
-    )
+    flat_result = flatten_dict.flatten(result)
+    flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
+
+    for result, expected in zip(
+        flat_result.values(), flat_expected_output_tree.values()
+    ):
+        assert_array_almost_equal(result, expected, decimal=2)
 
 
 @pytest.mark.xfail(reason="Needs renamings PR.")

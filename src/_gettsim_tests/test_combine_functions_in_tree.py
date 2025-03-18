@@ -241,12 +241,8 @@ def test_fail_if_targets_are_not_among_functions(
 
 
 def test_create_one_aggregate_by_p_id_func_applies_annotations():
-    @policy_function(leaf_name="foo")
-    def function_with_bool_return(x: bool) -> bool:
-        return x
-
+    """Test that the annotations are applied to the derived function."""
     annotations = {"bar": bool, "return": int}
-
     result_func = _create_one_aggregate_by_p_id_func(
         aggregation_target="bar",
         p_id_to_aggregate_by="p_id",

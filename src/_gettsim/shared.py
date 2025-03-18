@@ -321,7 +321,7 @@ def rename_arguments_and_add_annotations(
     mapper: dict | None = None,
     annotations: dict | None = None,
 ):
-    wrapper = rename_arguments(function, mapper=mapper)
+    wrapper = rename_arguments(func=function, mapper=mapper)
 
     if annotations:
         wrapper.__annotations__ = annotations

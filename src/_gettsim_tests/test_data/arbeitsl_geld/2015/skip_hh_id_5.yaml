@@ -1,6 +1,7 @@
 ---
 info:
   source: none
+  note: Calculation is not correct due to change in Grundfreibetrag in July 2015.
 inputs:
   assumed:
     kindergeld__grundsätzlich_anspruchsberechtigt:
