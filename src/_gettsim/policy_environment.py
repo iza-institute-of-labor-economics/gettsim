@@ -70,7 +70,7 @@ class PolicyEnvironment:
             lambda leaf: leaf
             if isinstance(leaf, GroupByFunction)
             else _convert_function_to_policy_function(leaf),
-            tree=functions_tree,
+            functions_tree,
         )
 
         # Read in parameters and aggregation specs
@@ -123,7 +123,7 @@ class PolicyEnvironment:
             lambda leaf: leaf
             if isinstance(leaf, GroupByFunction)
             else _convert_function_to_policy_function(leaf),
-            tree=functions_tree_to_upsert,
+            functions_tree_to_upsert,
         )
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
             functions_tree_to_upsert
