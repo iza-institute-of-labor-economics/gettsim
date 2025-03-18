@@ -313,10 +313,14 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Get only part of the data tree that is needed
-    return partition_tree_by_reference_tree(
+    input_data_tree = partition_tree_by_reference_tree(
         tree_to_partition=data_tree,
         reference_tree=root_nodes_tree,
     )[0]
+
+    return flatten_dict.unflatten(
+        {k: np.array(v) for k, v in flatten_dict.flatten(input_data_tree).items()},
+    )
 
 
 def _partial_parameters_to_functions(
@@ -550,8 +554,11 @@ def _fail_if_group_variables_not_constant_within_groups(
         )
         out = False
         if group_by_id in flat_data_tree:
-            group_by_id_series = flat_data_tree[group_by_id]
-            unique_counts = leaf.groupby(group_by_id_series).nunique(dropna=False)
+            group_by_id_series = pd.Series(flat_data_tree[group_by_id])
+            leaf_series = pd.Series(leaf)
+            unique_counts = leaf_series.groupby(group_by_id_series).nunique(
+                dropna=False
+            )
             if not (unique_counts == 1).all():
                 out = True
         return out
