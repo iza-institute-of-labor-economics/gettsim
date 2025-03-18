@@ -176,18 +176,10 @@ def _create_aggregation_functions(
         if not isinstance(aggregation_spec, expected_aggregation_spec_type):
             continue
 
-        path_to_source_col = (
-            _get_tree_path_from_source_col_name(
-                name=aggregation_spec.source_col,
-                namespace=tree_path[:-1],
-            )
-            if aggregation_spec.aggr != "count"
-            else None
-        )
-
         annotations = _annotations_for_aggregation(
             aggregation_method=aggregation_spec.aggr,
-            path_to_source_col=path_to_source_col,
+            source_col=aggregation_spec.source_col,
+            namespace=tree_path[:-1],
             functions_tree=functions_tree,
             types_input_variables=TYPES_INPUT_VARIABLES,
         )
@@ -209,7 +201,7 @@ def _create_aggregation_functions(
             derived_func = _create_one_aggregate_by_group_func(
                 aggregation_target=tree_path[-1],
                 aggregation_method=aggregation_spec.aggr,
-                path_to_source_col=path_to_source_col,
+                source_col=aggregation_spec.source_col,
                 annotations=annotations,
                 group_by_id=QUALIFIED_NAME_SEPARATOR.join(group_by_id_path),
             )
@@ -218,7 +210,7 @@ def _create_aggregation_functions(
             derived_func = _create_one_aggregate_by_p_id_func(
                 aggregation_target=tree_path[-1],
                 p_id_to_aggregate_by=p_id_to_aggregate_by,
-                path_to_source_col=path_to_source_col,
+                source_col=aggregation_spec.source_col,
                 aggregation_method=aggregation_spec.aggr,
                 annotations=annotations,
             )
@@ -342,12 +334,22 @@ def _get_potential_aggregation_function_names_from_function_arguments(
 
 def _annotations_for_aggregation(
     aggregation_method: str,
-    path_to_source_col: tuple[str],
+    source_col: str,
+    namespace: tuple[str],
     functions_tree: NestedFunctionDict,
     types_input_variables: dict[str, Any],
 ) -> dict[str, Any]:
     """Create annotations for derived aggregation functions."""
     annotations = {}
+
+    path_to_source_col = (
+        _get_tree_path_from_source_col_name(
+            name=source_col,
+            namespace=namespace,
+        )
+        if aggregation_method != "count"
+        else None
+    )
 
     flat_functions = flatten_dict.flatten(functions_tree)
     flat_types_input_variables = flatten_dict.flatten(types_input_variables)
@@ -358,9 +360,9 @@ def _annotations_for_aggregation(
         # Source col is a function in the functions tree
         source_function = flat_functions[path_to_source_col]
         if "return" in source_function.__annotations__:
-            annotations[path_to_source_col] = source_function.__annotations__["return"]
+            annotations[source_col] = source_function.__annotations__["return"]
             annotations["return"] = _select_return_type(
-                aggregation_method, annotations[path_to_source_col]
+                aggregation_method, annotations[source_col]
             )
         else:
             # TODO(@hmgaudecker): Think about how type annotations of aggregations
@@ -369,9 +371,9 @@ def _annotations_for_aggregation(
             pass
     elif path_to_source_col in flat_types_input_variables:
         # Source col is a basic input variable
-        annotations[path_to_source_col] = flat_types_input_variables[path_to_source_col]
+        annotations[source_col] = flat_types_input_variables[path_to_source_col]
         annotations["return"] = _select_return_type(
-            aggregation_method, annotations[path_to_source_col]
+            aggregation_method, annotations[source_col]
         )
     else:
         # TODO(@hmgaudecker): Think about how type annotations of aggregations of
@@ -396,7 +398,7 @@ def _select_return_type(aggregation_method: str, source_col_type: type) -> type:
 def _create_one_aggregate_by_group_func(
     aggregation_target: str,
     aggregation_method: str,
-    path_to_source_col: tuple[str],
+    source_col: str,
     annotations: dict[str, Any],
     group_by_id: str,
 ) -> DerivedFunction:
@@ -408,8 +410,8 @@ def _create_one_aggregate_by_group_func(
         Leaf name of the aggregation target.
     aggregation_method
         The aggregation method.
-    path_to_source_col
-        The tree path to the source column.
+    source_col
+        The qualified source column name.
     annotations
         The annotations for the derived function.
     group_by_id
@@ -430,7 +432,7 @@ def _create_one_aggregate_by_group_func(
 
     else:
         mapper = {
-            "source_col": QUALIFIED_NAME_SEPARATOR.join(path_to_source_col),
+            "source_col": source_col,
             "group_by_id": group_by_id,
         }
         if aggregation_method == "sum":
@@ -496,7 +498,7 @@ def _create_one_aggregate_by_group_func(
     if aggregation_method == "count":
         derived_from = group_by_id
     else:
-        derived_from = (QUALIFIED_NAME_SEPARATOR.join(path_to_source_col), group_by_id)
+        derived_from = (source_col, group_by_id)
 
     return DerivedFunction(
         function=aggregate_by_group_func,
@@ -508,7 +510,7 @@ def _create_one_aggregate_by_group_func(
 def _create_one_aggregate_by_p_id_func(
     aggregation_target: str,
     p_id_to_aggregate_by: str,
-    path_to_source_col: tuple[str],
+    source_col: str,
     aggregation_method: str,
     annotations: dict[str, Any],
 ) -> DerivedFunction:
@@ -520,8 +522,8 @@ def _create_one_aggregate_by_p_id_func(
         Name of the aggregation target.
     p_id_to_aggregate_by
         The column to aggregate by.
-    path_to_source_col
-        The tree path to the source column.
+    source_col
+        The source column.
     aggregation_method
         The aggregation method.
     annotations
@@ -549,7 +551,7 @@ def _create_one_aggregate_by_p_id_func(
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
             "p_id_to_store_by": "demographics__p_id",
-            "column": QUALIFIED_NAME_SEPARATOR.join(path_to_source_col),
+            "column": source_col,
         }
 
         if aggregation_method == "sum":
@@ -615,10 +617,7 @@ def _create_one_aggregate_by_p_id_func(
     if aggregation_method == "count":
         derived_from = p_id_to_aggregate_by
     else:
-        derived_from = (
-            QUALIFIED_NAME_SEPARATOR.join(path_to_source_col),
-            p_id_to_aggregate_by,
-        )
+        derived_from = (source_col, p_id_to_aggregate_by)
 
     return DerivedFunction(
         function=aggregate_by_p_id_func,
