@@ -49,7 +49,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
     betrag_selbstständig_m: float,
-    betrag_versicherter_m: float,
+    betrag_versicherter_midijob_m: float,
     sozialversicherung__in_gleitzone: bool,
     einkommensteuer__einkünfte__ist_selbstständig: bool,
 ) -> float:
@@ -65,8 +65,8 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
         See :func:`betrag_rentner_m`.
     betrag_selbstständig_m
         See :func:`betrag_selbstständig_m`.
-    betrag_versicherter_m
-        See :func:`betrag_versicherter_m`.
+    betrag_versicherter_midijob_m
+        See :func:`betrag_versicherter_midijob_m`.
     sozialversicherung__in_gleitzone
         See :func:`sozialversicherung__in_gleitzone`.
     einkommensteuer__einkünfte__ist_selbstständig
@@ -83,7 +83,7 @@ def betrag_mit_midijob_m(  # noqa: PLR0913
     elif sozialversicherung__geringfügig_beschäftigt:
         out = 0.0
     elif sozialversicherung__in_gleitzone:
-        out = betrag_versicherter_m
+        out = betrag_versicherter_midijob_m
     else:
         out = betrag_versicherter_regulär_beschäftigt_m
 
@@ -554,7 +554,7 @@ def betrag_versicherter_midijob_residuum_m(
     leaf_name="betrag_versicherter_midijob_m",
 )
 def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
-    beitragssatz__zusatzbetrag_kinderlos: bool,
+    zusatzbetrag_kinderlos: bool,
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialversicherung__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -564,8 +564,8 @@ def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
 
     Parameters
     ----------
-    beitragssatz__zusatzbetrag_kinderlos
-        See         :func:`beitragssatz__zusatzbetrag_kinderlos`.
+    zusatzbetrag_kinderlos
+        See :func:`zusatzbetrag_kinderlos`.
     sozialversicherung__midijob_bemessungsentgelt_m
         See :func:`sozialversicherung__midijob_bemessungsentgelt_m`.
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m
@@ -585,7 +585,7 @@ def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
     )
 
     # Add additional contribution for childless individuals
-    if beitragssatz__zusatzbetrag_kinderlos:
+    if zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             sozialversicherung__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]
@@ -597,7 +597,7 @@ def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
 @policy_function(start_date="2023-07-01", leaf_name="betrag_versicherter_midijob_m")
 def betrag_versicherter_midijob_anteil_mit_kinder_abschlag_m(
     anzahl_kinder_bis_24: int,
-    beitragssatz__zusatzbetrag_kinderlos: bool,
+    zusatzbetrag_kinderlos: bool,
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialversicherung__midijob_bemessungsentgelt_m: float,
     sozialv_beitr_params: dict,
@@ -608,8 +608,8 @@ def betrag_versicherter_midijob_anteil_mit_kinder_abschlag_m(
     ----------
     anzahl_kinder_bis_24
         See :func:`anzahl_kinder_bis_24`.
-    beitragssatz__zusatzbetrag_kinderlos
-        See :func:`beitragssatz__zusatzbetrag_kinderlos`.
+    zusatzbetrag_kinderlos
+        See :func:`zusatzbetrag_kinderlos`.
     sozialversicherung__midijob_bemessungsentgelt_m
         See :func:`sozialversicherung__midijob_bemessungsentgelt_m`.
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m
@@ -638,7 +638,7 @@ def betrag_versicherter_midijob_anteil_mit_kinder_abschlag_m(
     )
 
     # Add additional contribution for childless individuals
-    if beitragssatz__zusatzbetrag_kinderlos:
+    if zusatzbetrag_kinderlos:
         an_beitr_midijob_m += (
             sozialversicherung__midijob_bemessungsentgelt_m
             * sozialv_beitr_params["beitr_satz"]["ges_pflegev"]["zusatz_kinderlos"]

@@ -215,7 +215,7 @@ def betrag_versicherter_regulär_beschäftigt_m(
 
 @policy_function()
 def betrag_selbstständig_m(
-    einnahmen__bemessungsgrundlage_selbstständig_m: float,
+    bemessungsgrundlage_selbstständig_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance contributions for self-employed's income. The self-employed
@@ -223,8 +223,8 @@ def betrag_selbstständig_m(
 
     Parameters
     ----------
-    einnahmen__bemessungsgrundlage_selbstständig_m
-        See :func:`einnahmen__bemessungsgrundlage_selbstständig_m`.
+    bemessungsgrundlage_selbstständig_m
+        See :func:`bemessungsgrundlage_selbstständig_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -239,22 +239,20 @@ def betrag_selbstständig_m(
     zusatzbeitrag = params.get("mean_zusatzbeitrag", 0.0)
     ges_krankenv_beitr_satz_selbst = ermäßigter_beitrag + zusatzbeitrag
 
-    return (
-        ges_krankenv_beitr_satz_selbst * einnahmen__bemessungsgrundlage_selbstständig_m
-    )
+    return ges_krankenv_beitr_satz_selbst * bemessungsgrundlage_selbstständig_m
 
 
 @policy_function()
 def betrag_rentner_m(
-    einnahmen__bemessungsgrundlage_rente_m: float,
+    bemessungsgrundlage_rente_m: float,
     beitragssatz_arbeitnehmer: float,
 ) -> float:
     """Health insurance contributions for pension incomes.
 
     Parameters
     ----------
-    einnahmen__bemessungsgrundlage_rente_m
-        See :func:`einnahmen__bemessungsgrundlage_rente_m`.
+    bemessungsgrundlage_rente_m
+        See :func:`bemessungsgrundlage_rente_m`.
     beitragssatz_arbeitnehmer
         See :func:`beitragssatz_arbeitnehmer`.
     Returns
@@ -262,7 +260,7 @@ def betrag_rentner_m(
 
     """
 
-    return beitragssatz_arbeitnehmer * einnahmen__bemessungsgrundlage_rente_m
+    return beitragssatz_arbeitnehmer * bemessungsgrundlage_rente_m
 
 
 @policy_function(start_date="2003-04-01")
