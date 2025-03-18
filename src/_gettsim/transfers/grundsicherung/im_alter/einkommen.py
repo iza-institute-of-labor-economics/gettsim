@@ -12,8 +12,8 @@ def einkommen_m(  # noqa: PLR0913
     einkommensteuer__einkünfte__sonstige__betrag_m: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
     kapitaleinkommen_brutto_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    einkommensteuer__betrag_m_sn: float,
+    solidaritätszuschlag__betrag_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
@@ -35,10 +35,10 @@ def einkommen_m(  # noqa: PLR0913
         See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m`.
     kapitaleinkommen_brutto_m
         See :func:`kapitaleinkommen_brutto_m`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    einkommensteuer__betrag_m_sn
+        See :func:`einkommensteuer__betrag_m_sn`.
+    solidaritätszuschlag__betrag_m_sn
+        See :func:`solidaritätszuschlag__betrag_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
     sozialversicherung__beiträge_versicherter_m
@@ -64,8 +64,8 @@ def einkommen_m(  # noqa: PLR0913
 
     out = (
         total_income
-        - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
-        - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
+        - (einkommensteuer__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
+        - (solidaritätszuschlag__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
         - sozialversicherung__beiträge_versicherter_m
     )
 
