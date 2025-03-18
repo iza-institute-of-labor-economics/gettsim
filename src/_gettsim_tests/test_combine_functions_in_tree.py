@@ -4,6 +4,7 @@ import pytest
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
+    _create_one_aggregate_by_p_id_func,
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
 )
@@ -237,3 +238,20 @@ def test_fail_if_targets_are_not_among_functions(
     with pytest.raises(ValueError) as e:
         _fail_if_targets_not_in_functions_tree(functions, targets)
     assert expected_error_match in str(e.value)
+
+
+def test_create_one_aggregate_by_p_id_func_applies_annotations():
+    @policy_function(leaf_name="foo")
+    def function_with_bool_return(x: bool) -> bool:
+        return x
+
+    annotations = {"bar": bool, "return": int}
+
+    result_func = _create_one_aggregate_by_p_id_func(
+        aggregation_target="bar",
+        p_id_to_aggregate_by="p_id",
+        source_col="foo",
+        aggregation_method="sum",
+        annotations=annotations,
+    )
+    assert result_func.__annotations__ == annotations
