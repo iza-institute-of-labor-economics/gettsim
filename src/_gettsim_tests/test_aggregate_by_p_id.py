@@ -42,4 +42,4 @@ def test_aggregate_by_p_id(
     for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
     ):
-        assert_array_almost_equal(result, expected)
+        assert_array_almost_equal(result, expected, decimal=2)

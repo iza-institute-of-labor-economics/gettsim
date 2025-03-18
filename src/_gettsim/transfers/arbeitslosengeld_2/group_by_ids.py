@@ -13,7 +13,7 @@ aggregation_specs = {
         aggr="sum",
     ),
     "anzahl_kinder_fg": AggregateByGroupSpec(
-        source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
+        source_col="demographics__kind",
         aggr="sum",
     ),
     "anzahl_kinder_bis_2_fg": AggregateByGroupSpec(
