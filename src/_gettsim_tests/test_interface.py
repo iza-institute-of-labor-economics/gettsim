@@ -90,10 +90,12 @@ def test_output_as_tree(minimal_input_data):
     assert isinstance(out["module"]["test_func"], np.ndarray)
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_warn_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
-        {"dupl": policy_function(leaf_name="dupl")(lambda x: x)}
+        {
+            "dupl": policy_function(leaf_name="dupl")(lambda x: x),
+            "some_target": policy_function(leaf_name="some_target")(lambda x: x),
+        }
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
         compute_taxes_and_transfers(
@@ -102,7 +104,7 @@ def test_warn_if_functions_and_columns_overlap():
                 "dupl": pd.Series([1]),
             },
             environment=environment,
-            targets_tree={},
+            targets_tree={"some_target": None},
         )
 
 
@@ -156,8 +158,24 @@ def test_fail_if_pid_is_non_unique():
         _fail_if_pid_is_non_unique(data)
 
 
-@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key_path):
+@pytest.mark.parametrize(
+    (
+        "foreign_key_path",
+        "expected_error_message",
+    ),
+    [
+        (("demographics", "p_id_ehepartner"), "not a valid p_id in\nthe input data"),
+        (
+            ("arbeitslosengeld_2", "p_id_einstandspartner"),
+            "not a\nvalid p_id in the input data",
+        ),
+        (("demographics", "p_id_elternteil_1"), "not a valid p_id\nin the input data"),
+        (("demographics", "p_id_elternteil_2"), "not a valid p_id\nin the input data"),
+    ],
+)
+def test_fail_if_foreign_key_points_to_non_existing_pid(
+    foreign_key_path, expected_error_message
+):
     data = create_tree_from_path_and_value(
         path=foreign_key_path,
         value=pd.Series([0, 1, 4]),
@@ -168,7 +186,7 @@ def test_fail_if_foreign_key_points_to_non_existing_pid(foreign_key_path):
         value_to_upsert=pd.Series([1, 2, 3]),
     )
 
-    with pytest.raises(ValueError, match="not a valid p_id"):
+    with pytest.raises(ValueError, match=expected_error_message):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
             p_ids=data["demographics"]["p_id"],
@@ -193,8 +211,21 @@ def test_allow_minus_one_as_foreign_key(foreign_key_path):
     )
 
 
-@pytest.mark.parametrize("foreign_key_path", FOREIGN_KEYS)
-def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key_path):
+@pytest.mark.parametrize(
+    (
+        "foreign_key_path",
+        "expected_error_message",
+    ),
+    [
+        (("demographics", "p_id_ehepartner"), "are equal to the p_id"),
+        (("arbeitslosengeld_2", "p_id_einstandspartner"), "are equal to\nthe p_id"),
+        (("demographics", "p_id_elternteil_1"), "are equal to the p_id"),
+        (("demographics", "p_id_elternteil_2"), "are equal to the p_id"),
+    ],
+)
+def test_fail_if_foreign_key_points_to_pid_of_same_row(
+    foreign_key_path, expected_error_message
+):
     data = create_tree_from_path_and_value(
         path=foreign_key_path,
         value=pd.Series([1, 3, 3]),
@@ -205,7 +236,7 @@ def test_fail_if_foreign_key_points_to_pid_of_same_row(foreign_key_path):
         value_to_upsert=pd.Series([1, 2, 3]),
     )
 
-    with pytest.raises(ValueError, match="are equal to the p_id"):
+    with pytest.raises(ValueError, match=expected_error_message):
         _fail_if_foreign_keys_are_invalid(
             data_tree=data,
             p_ids=data["demographics"]["p_id"],
