@@ -228,7 +228,7 @@ def test_annotations_for_aggregation(  # noqa: PLR0913
     "functions, targets, expected_error_match",
     [
         ({"foo": lambda x: x}, {"bar": None}, "bar"),
-        ({"foo": {"baz": lambda x: x}}, {"foo": {"bar": None}}, "foo.bar"),
+        ({"foo": {"baz": lambda x: x}}, {"foo": {"bar": None}}, "('foo', 'bar')"),
     ],
 )
 def test_fail_if_targets_are_not_among_functions(
