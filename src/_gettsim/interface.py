@@ -313,13 +313,10 @@ def _create_input_data_for_concatenated_function(
     )
 
     # Get only part of the data tree that is needed
-    input_data_tree = partition_tree_by_reference_tree(
+    return partition_tree_by_reference_tree(
         tree_to_partition=data_tree,
         reference_tree=root_nodes_tree,
     )[0]
-
-    # Convert to numpy.ndarray
-    return optree.tree_map(lambda x: np.array(x), input_data_tree)
 
 
 def _partial_parameters_to_functions(
@@ -552,14 +549,11 @@ def _fail_if_group_variables_not_constant_within_groups(
             group_by_functions_tree=group_by_functions_tree,
         )
         out = False
-        if group_by_id:
-            # Retrieve the corresponding group ID series from the data tree.
-            group_id_series = flat_data_tree.get(group_by_id, None)
-            if group_id_series:
-                # Group the leaf's series by the group ID and count unique values.
-                unique_counts = leaf.groupby(group_id_series).nunique(dropna=False)
-                if not (unique_counts == 1).all():
-                    out = True
+        if group_by_id in flat_data_tree:
+            group_by_id_series = flat_data_tree[group_by_id]
+            unique_counts = leaf.groupby(group_by_id_series).nunique(dropna=False)
+            if not (unique_counts == 1).all():
+                out = True
         return out
 
     faulty_leaves_tree = optree.tree_map_with_path(faulty_leaf, data_tree)
