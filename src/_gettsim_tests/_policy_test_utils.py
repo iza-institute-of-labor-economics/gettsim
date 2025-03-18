@@ -127,17 +127,18 @@ def _get_policy_tests_from_raw_test_data(
         }
     )
 
-    merge_trees(inputs.get("provided", {}), inputs.get("assumed", {}))
-
-    all_expected_outputs: NestedDataDict = raw_test_data.get("outputs", {})
+    expected_output_tree: NestedDataDict = flatten_dict.unflatten(
+        {
+            k: np.array(v)
+            for k, v in flatten_dict.flatten(raw_test_data.get("outputs", {})).items()
+        }
+    )
 
     date: datetime.date = _parse_date(path_of_test_file.parent.name)
 
-    flat_expected_outputs = flatten_dict.flatten(all_expected_outputs)
-
-    for target_name, test_data in flat_expected_outputs.items():
+    for target_name, output_data in flatten_dict.flatten(expected_output_tree).items():
         one_expected_output: NestedDataDict = flatten_dict.unflatten(
-            {target_name: test_data}
+            {target_name: output_data}
         )
         out.append(
             PolicyTest(

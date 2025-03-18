@@ -319,7 +319,7 @@ def _create_input_data_for_concatenated_function(
     )[0]
 
     # Convert to numpy.ndarray
-    return optree.tree_map(lambda x: x.to_numpy(), input_data_tree)
+    return optree.tree_map(lambda x: np.array(x), input_data_tree)
 
 
 def _partial_parameters_to_functions(

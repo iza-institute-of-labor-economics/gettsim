@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 import flatten_dict
 import pytest
-from pandas.testing import assert_series_equal
+from numpy.testing import assert_array_almost_equal
 
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
@@ -39,13 +39,7 @@ def test_aggregate_by_p_id(
     flat_result = flatten_dict.flatten(result)
     flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
 
-    for result_series, expected_series in zip(
+    for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
     ):
-        assert_series_equal(
-            result_series,
-            expected_series,
-            check_dtype=False,
-            atol=1e-1,
-            rtol=0,
-        )
+        assert_array_almost_equal(result, expected)
