@@ -19,15 +19,15 @@ aggregation_specs = {
 
 @policy_function()
 def kinderfreibetrag_y(
-    anzahl_ansprüche: int,
+    anzahl_kinderfreibeträge: int,
     eink_st_abzuege_params: dict,
 ) -> float:
     """Individual child allowance.
 
     Parameters
     ----------
-    anzahl_ansprüche
-        See :func:`anzahl_ansprüche`.
+    anzahl_kinderfreibeträge
+        See :func:`anzahl_kinderfreibeträge`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
 
@@ -36,7 +36,9 @@ def kinderfreibetrag_y(
 
     """
 
-    return float(sum(eink_st_abzuege_params["kinderfreib"].values()) * anzahl_ansprüche)
+    return float(
+        sum(eink_st_abzuege_params["kinderfreib"].values()) * anzahl_kinderfreibeträge
+    )
 
 
 @policy_function()
