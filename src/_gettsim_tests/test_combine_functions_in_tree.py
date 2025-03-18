@@ -1,19 +1,15 @@
-import optree
 import pandas as pd
 import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
-    _create_aggregate_by_group_functions,
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
 )
-from _gettsim.function_types import (
-    DerivedFunction,
-    PolicyFunction,
-    policy_function,
-)
+from _gettsim.function_types import policy_function
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import PolicyEnvironment
 
 
 @pytest.fixture
@@ -40,7 +36,6 @@ def function_with_float_return(x: int) -> float:
         "targets_tree",
         "data_tree",
         "aggregations_specs_from_env",
-        "expected_tree_structure",
     ),
     [
         (
@@ -49,14 +44,12 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {"hh_id": pd.Series([0, 0, 0])},
-            },
-            {},
-            {
-                "namespace1": {
-                    "x_hh": None,
+                "demographics": {
+                    "hh_id": pd.Series([0, 0, 0]),
+                    "p_id": pd.Series([0, 1, 2]),
                 },
             },
+            {},
         ),
         (
             # Aggregations derived from namespaced function arguments
@@ -70,14 +63,12 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "demographics": {"hh_id": pd.Series([0, 0, 0])},
-            },
-            {},
-            {
-                "inputs": {
-                    "x_hh": None,
+                "demographics": {
+                    "hh_id": pd.Series([0, 0, 0]),
+                    "p_id": pd.Series([0, 1, 2]),
                 },
             },
+            {},
         ),
         (
             # Aggregations derived from target
@@ -85,14 +76,12 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f_hh": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {"hh_id": pd.Series([0, 0, 0])},
-            },
-            {},
-            {
-                "namespace1": {
-                    "f_hh": None,
+                "demographics": {
+                    "hh_id": pd.Series([0, 0, 0]),
+                    "p_id": pd.Series([0, 1, 2]),
                 },
             },
+            {},
         ),
         (
             # Aggregations derived from simple environment specification
@@ -100,7 +89,10 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {
+                    "hh_id": pd.Series([0, 0, 0]),
+                    "p_id": pd.Series([0, 1, 2]),
+                },
             },
             {
                 "namespace1": {
@@ -110,11 +102,6 @@ def function_with_float_return(x: int) -> float:
                     ),
                 },
             },
-            {
-                "namespace1": {
-                    "y_hh": None,
-                },
-            },
         ),
         (
             # Aggregations derived from namespaced environment specification
@@ -122,7 +109,10 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "demographics": {"hh_id": pd.Series([0, 0, 0])},
+                "demographics": {
+                    "hh_id": pd.Series([0, 0, 0]),
+                    "p_id": pd.Series([0, 1, 2]),
+                },
             },
             {
                 "namespace1": {
@@ -130,11 +120,6 @@ def function_with_float_return(x: int) -> float:
                         source_col="inputs__x",
                         aggr="sum",
                     ),
-                },
-            },
-            {
-                "namespace1": {
-                    "y_hh": None,
                 },
             },
         ),
@@ -145,23 +130,15 @@ def test_create_aggregate_by_group_functions(
     targets_tree,
     data_tree,
     aggregations_specs_from_env,
-    expected_tree_structure,
 ):
-    derived_functions = _create_aggregate_by_group_functions(
+    environment = PolicyEnvironment(
         functions_tree=functions_tree,
-        targets_tree=targets_tree,
-        data_tree=data_tree,
-        aggregations_tree_provided_by_env=aggregations_specs_from_env,
+        aggregation_specs_tree=aggregations_specs_from_env,
     )
-
-    # Verify structure
-    existing_paths = optree.tree_paths(derived_functions)
-    expected_paths = optree.tree_paths(expected_tree_structure, none_is_leaf=True)
-    assert set(existing_paths) == set(expected_paths)
-
-    assert all(
-        isinstance(func, PolicyFunction | DerivedFunction)
-        for func in optree.tree_leaves(derived_functions)
+    compute_taxes_and_transfers(
+        environment=environment,
+        data_tree=data_tree,
+        targets_tree=targets_tree,
     )
 
 
