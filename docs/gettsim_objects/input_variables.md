@@ -207,17 +207,17 @@ Monthly capital income
 
 Type: float
 
-(bruttokaltmiete_m_hh)=
+(wohnen__bruttokaltmiete_m_hh)=
 
-## `bruttokaltmiete_m_hh`
+## `wohnen__bruttokaltmiete_m_hh`
 
 Monthly rent expenses for household
 
 Type: float
 
-(heizkosten_m_hh)=
+(wohnen__heizkosten_m_hh)=
 
-## `heizkosten_m_hh`
+## `wohnen__heizkosten_m_hh`
 
 Monthly heating expenses for household
 
