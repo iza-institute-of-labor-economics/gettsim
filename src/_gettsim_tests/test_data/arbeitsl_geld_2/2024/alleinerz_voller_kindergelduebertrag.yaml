@@ -1,7 +1,9 @@
 ---
 info:
-  note: Household with 2 children, where child income of second child exceeds needs. Second
-    child drops out of Bedarfsgemeinschaft and all of Kindergeld is transfered to the parent
+  note: >-
+    Household with 2 children, where child income of second child exceeds needs. Second
+    child drops out of Bedarfsgemeinschaft and all of Kindergeld is transfered to the
+    parent via Kindergeldübertrag.
     via Kindergeldübertrag.
   source: Made up.
 inputs:
@@ -188,7 +190,7 @@ outputs:
     - 433.33
     - 433.33
     - 216.67
-  arbeitslosengeld_2__nettoeinkommen_m:
+  arbeitslosengeld_2__anzurechnendes_einkommen_m:
     - 530.0
     - 250.0
     - 1050.0
