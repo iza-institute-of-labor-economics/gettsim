@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 
-import flatten_dict
+import dags.tree as dt
 import pytest
 from numpy.testing import assert_array_almost_equal
 
@@ -35,8 +35,8 @@ def test_gesetzliche_rente_hinzuverdienst(
         data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    flat_result = flatten_dict.flatten(result)
-    flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
+    flat_result = dt.flatten_to_qual_names(result)
+    flat_expected_output_tree = dt.flatten_to_qual_names(expected_output_tree)
 
     for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
