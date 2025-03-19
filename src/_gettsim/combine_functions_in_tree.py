@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Literal
 
 import dags.tree as dt
-import optree
 
 from _gettsim.aggregation import (
     AggregateByGroupSpec,
@@ -24,7 +23,6 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
-    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -155,10 +153,6 @@ def _create_aggregation_functions(
 
     out_tree = {}
 
-    _all_paths, _all_aggregation_specs = optree.tree_flatten_with_path(
-        aggregations_tree
-    )[:2]
-
     group_by_functions_tree = dt.unflatten_from_tree_paths(
         {
             path: func
@@ -171,7 +165,9 @@ def _create_aggregation_functions(
         AggregateByGroupSpec if aggregation_type == "group" else AggregateByPIDSpec
     )
 
-    for tree_path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+    for tree_path, aggregation_spec in dt.flatten_to_tree_paths(
+        aggregations_tree
+    ).items():
         # Skip if aggregation spec is not the current aggregation type
         if not isinstance(aggregation_spec, expected_aggregation_spec_type):
             continue
@@ -193,7 +189,7 @@ def _create_aggregation_functions(
                 msg = format_errors_and_warnings(
                     "Name of aggregated column needs to have a suffix "
                     "indicating the group over which it is aggregated. "
-                    f"The name {'.'.join(tree_path)} does not do so."
+                    f"{tree_path} does not do so."
                 )
                 raise ValueError(msg)
 
@@ -202,7 +198,7 @@ def _create_aggregation_functions(
                 aggregation_method=aggregation_spec.aggr,
                 source_col=aggregation_spec.source_col,
                 annotations=annotations,
-                group_by_id=QUALIFIED_NAME_SEPARATOR.join(group_by_id_path),
+                group_by_id=dt.qual_name_from_tree_path(group_by_id_path),
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -316,10 +312,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
     Dictionary containing potential aggregation targets.
     """
     current_tree = {}
-    paths_of_functions_tree, flat_functions_tree = (
-        optree.tree_flatten_with_path(functions_tree)
-    )[:2]
-    for func, tree_path in zip(flat_functions_tree, paths_of_functions_tree):
+    for tree_path, func in dt.flatten_to_tree_paths(functions_tree).items():
         for name in get_names_of_arguments_without_defaults(func):
             path_of_function_argument = _get_tree_path_from_source_col_name(
                 name=name,
@@ -601,9 +594,9 @@ def _get_tree_path_from_source_col_name(
     -------
     The path of 'name' in the tree.
     """
-    if QUALIFIED_NAME_SEPARATOR in name:
+    if dt.QUAL_NAME_DELIMITER in name:
         # 'name' is already namespaced.
-        new_tree_path = name.split(QUALIFIED_NAME_SEPARATOR)
+        new_tree_path = name.split(dt.QUAL_NAME_DELIMITER)
     else:
         # 'name' is not namespaced.
         new_tree_path = [*namespace, name]
