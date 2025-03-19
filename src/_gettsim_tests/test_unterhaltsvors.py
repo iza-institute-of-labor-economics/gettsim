@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-test_data = load_policy_test_data("unterhaltsvorschuss")
+test_data = load_policy_test_data("unterhaltsvors")
 
 
 @pytest.mark.parametrize(
