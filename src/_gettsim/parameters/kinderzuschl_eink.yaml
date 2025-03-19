@@ -1,6 +1,10 @@
 ---
 rounding:
   kinderzuschlag__nettoeinkommen_eltern_m:
+    1900-01-01:
+      base: 10
+      direction: down
+      reference: None. Reference unknown.
     2005-01-01:
       base: 10
       direction: down

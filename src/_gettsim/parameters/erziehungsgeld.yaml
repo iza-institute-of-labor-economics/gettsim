@@ -135,6 +135,10 @@ end_age_m_budgetsatz:
     scalar: 12
 rounding:
   erziehungsgeld__anspruchshöhe_kind_m:
+    1900-01-01:
+      base: 0.01
+      direction: nearest
+      reference: None. Reference unknown.
     2004-01-01:
       base: 0.01
       direction: nearest

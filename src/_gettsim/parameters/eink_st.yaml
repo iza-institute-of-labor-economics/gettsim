@@ -287,8 +287,10 @@ rente_ertragsanteil:
       intercept_at_lower_threshold: 1
 rounding:
   einkommensteuer__betrag_y_sn:
-    note:
-      en: Starting date unclear
+    1900-01-01:
+      base: 1
+      direction: down
+      reference: None. Reference unknown.
     1984-01-01:
       base: 1
       direction: down
@@ -300,9 +302,11 @@ rounding:
   einkommensteuer__zu_versteuerndes_einkommen_y_sn:
     note:
       en: before 2002 base and to_add_after_rounding were converted from DM to EUR
-    1981-01-01:
+    1900-01-01:
       base: 27.609762
       direction: down
+      to_add_after_rounding: 13.804881
+      reference: None. Reference unknown.
     2001-01-01:
       base: 27.609762
       direction: down
@@ -318,11 +322,19 @@ rounding:
       direction: down
       reference: § 32a Abs. 1 S. 1 EStG
   einkommensteuer__betrag_ohne_kinderfreibetrag_y_sn:
+    1900-01-01:
+      base: 1
+      direction: down
+      reference: None. Reference unknown.
     2002-01-01:
       base: 1
       direction: down
       reference: § 32a Abs. 1 S. 6 EStG
   einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+    1900-01-01:
+      base: 1
+      direction: down
+      reference: None. Reference unknown.
     2002-01-01:
       base: 1
       direction: down
