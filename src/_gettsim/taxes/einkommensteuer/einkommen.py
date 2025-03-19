@@ -32,7 +32,7 @@ def gesamteinkommen_y(
 
 
 @policy_function(end_date="2008-12-31", leaf_name="gesamteinkommen_ohne_abzüge_y")
-def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
+def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y(
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y: float,
@@ -69,7 +69,7 @@ def gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y_sn(
 
 
 @policy_function(start_date="2009-01-01", leaf_name="gesamteinkommen_ohne_abzüge_y")
-def gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y_sn(
+def gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y(
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_y: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_y: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y: float,

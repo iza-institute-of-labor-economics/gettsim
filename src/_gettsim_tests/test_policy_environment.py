@@ -105,27 +105,26 @@ def test_access_different_date_jahresanfang():
     assert params["foo_jahresanfang"] == 2020
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
             {"einkommensteuer": {"abzüge": {"altersfreibetrag_y": None}}},
             date(2004, 12, 31),
-            "einkommensteuer__abzüge__altersfreibetrag_y_bis_2004",
-            "einkommensteuer__abzüge__altersfreibetrag_y_ab_2005",
+            "altersfreibetrag_y_bis_2004",
+            "altersfreibetrag_y_ab_2005",
         ),
         (
             {"einkommensteuer": {"abzüge": {"alleinerziehend_betrag_y": None}}},
             date(2014, 12, 31),
-            "einkommensteuer__abzüge__alleinerziehend_betrag_y_pauschal",
-            "einkommensteuer__abzüge__alleinerziehend_betrag_y_nach_kinderzahl",
+            "alleinerziehend_betrag_y_pauschal",
+            "alleinerziehend_betrag_y_nach_kinderzahl",
         ),
         (
             {"einkommensteuer": {"gesamteinkommen_ohne_abzüge_y": None}},
             date(2008, 12, 31),
-            "einkommensteuer__gesamteinkommen_mit_kapitaleinkünften_y",
-            "einkommensteuer__gesamteinkommen_ohne_kapitaleinkünften_y",
+            "gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y",
+            "gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y",
         ),
     ],
 )
