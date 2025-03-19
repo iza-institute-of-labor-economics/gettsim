@@ -312,26 +312,27 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "mietstufe": 3,
         "geburtsmonat": 1,
         "geburtstag": 1,
-        "rente__altersrente__freiwillige_beitragszeiten_m": 5.0,
+        "rente__altersrente__freiwillige_beitragsmonate": 5.0,
         "rente__altersrente__schulausbildung_m": 10.0,
-        "rente__altersrente__kinderberücksichtigungszeiten_m": 24.0,
-        "rente__altersrente__pflegeberücksichtigungszeiten_m": 1.0,
+        "rente__altersrente__kinderberücksichtigungszeiten_monate": 24.0,
+        "rente__altersrente__pflegeberücksichtigungszeiten_monate": 1.0,
         "elterngeld__nettoeinkommen_vorjahr_m": 20000.0,
         "geburtsjahr": policy_year - df["alter"],
         "jahr_renteneintr": policy_year - df["alter"] + 67,
-        "rente__grundrente__sozialversicherung__rente__grundrente__grundrentenzeiten_m": (  # noqa: E501
+        "rente__grundrente__sozialversicherung__rente__grundrente__grundrentenzeiten_monate": (  # noqa: E501
             df["alter"] - 20
         ).clip(lower=0)
         * 12,
-        "rente__grundrente__bewertungszeiten_m": (df["alter"] - 20).clip(lower=0) * 12,
+        "rente__grundrente__bewertungszeiten_monate": (df["alter"] - 20).clip(lower=0)
+        * 12,
         "entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
         "rente__grundrente__entgeltpunkte": (df["alter"] - 20)
         .clip(lower=0)
         .astype(float),
-        "rente__altersrente__pflichtbeitragszeiten_m": (
+        "rente__altersrente__pflichtbeitragsmonate": (
             (df["alter"] - 25).clip(lower=0) * 12
         ).astype(float),
-        "rente__altersrente__pflichtbeitragszeiten_m_alt": (
+        "rente__altersrente__pflichtbeitragsmonate_alt": (
             (df["alter"] - 40).clip(lower=0) * 12
         ).astype(float),
         "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),

@@ -20,7 +20,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
       - 14.0
-    sozialversicherung__rente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_monate:
       - 0.0
     sozialversicherung__rente__erwerbsminderung__teilweise_erwerbsgemindert:
       - false
@@ -28,13 +28,13 @@ inputs:
       - true
     sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
       - true
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragsmonate:
       - 0.0
     sozialversicherung__rente__jahr_renteneintritt:
       - 2020
     sozialversicherung__rente__monat_renteneintritt:
       - 6
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragsmonate:
       - 60.0
   provided: {}
 outputs:

@@ -21,7 +21,7 @@ inputs:
       - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
       - 240.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
@@ -33,9 +33,9 @@ inputs:
       - false
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
       - false
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
+    sozialversicherung__rente__monate_in_arbeitslosigkeit:
       - 0.0
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
+    sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
       - 0.0
     sozialversicherung__rente__bezieht_rente:
       - true
@@ -43,33 +43,33 @@ inputs:
       - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
       - 20.0
-    sozialversicherung__rente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_monate:
       - 0.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragsmonate:
       - 6.0
     sozialversicherung__rente__jahr_renteneintritt:
       - 2020
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
+    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
       - 0.0
     sozialversicherung__rente__monat_renteneintritt:
       - 2
-    sozialversicherung__rente__mutterschutzzeiten_m:
+    sozialversicherung__rente__monate_in_mutterschutz:
       - 0.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragsmonate:
       - 480.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
+    sozialversicherung__rente__monate_der_schulausbildung:
       - 36.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
+    sozialversicherung__rente__monate_in_ausbildungssuche:
       - 0.0
-    sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m:
+    sozialversicherung__rente__monate_geringfügiger_beschäftigung:
       - 0.0
-    sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m:
+    sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit:
       - 0.0
 outputs:
   sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:

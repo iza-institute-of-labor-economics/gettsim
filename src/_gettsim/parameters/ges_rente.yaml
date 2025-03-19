@@ -648,7 +648,7 @@ grundr_höchstwert:
     base: 0.0334
     increment: 0.001389
     reference: § 76g Abs. 4 S. 3, 4 SGB VI
-grundr_zugangsfaktor_max:
+grundrente_zugangsfaktor_max:
   name:
     de: Zugangsfaktor bei Grundrente
     en: Access factor for basic pension
@@ -658,7 +658,7 @@ grundr_zugangsfaktor_max:
   reference: § 77 Abs. 2 SGB VI
   2021-01-01:
     scalar: 1
-grundr_zeiten:
+grundrentenzeiten_monate:
   name:
     de: Grundrentenzeiten
     en: Months needed for basic pension
@@ -1150,7 +1150,7 @@ first_birthyear_without_rente_für_frauen:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
   1997-12-16:
     scalar: 1952
-rente_für_frauen_pflichtbeitr_y:
+rente_für_frauen_pflichtbeitragsjahre:
   name:
     de: Mindestpflichbeitragsjahre ab 40 für Rente für Frauen
     en: Minimum contribution since 40 pension for women.

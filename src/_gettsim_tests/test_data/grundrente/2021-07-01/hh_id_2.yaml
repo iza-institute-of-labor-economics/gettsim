@@ -1,7 +1,8 @@
 ---
 info:
-  note: ''
-  source: Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das Grundrentengesetz",
+  note: >-
+    Sylvia Dünn, Claudia Bilgen und Sophie-Charlotte Heckenberger, "Das
+    Grundrentengesetz",
     https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Zeitschriften/DRV_Hefte_deutsch/2020/ausgewaehlter_artikel_heft_3.pdf?__blob=publicationFile&v=4
 inputs:
   assumed: {}
@@ -42,9 +43,9 @@ inputs:
       - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
       - 17.5
-    sozialversicherung__rente__grundrente__bewertungszeiten_m:
+    sozialversicherung__rente__grundrente__bewertungszeiten_monate:
       - 420
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
       - 420
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 17.5

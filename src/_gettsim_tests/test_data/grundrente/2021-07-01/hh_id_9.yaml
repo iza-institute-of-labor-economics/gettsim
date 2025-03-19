@@ -1,8 +1,11 @@
 ---
 info:
-  note: adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
+  note: >-
+    adjusted sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag since
     test case uses 0.8 as maximum instead of 0.8004
-  source: 'Beispiel Richard Frenzel aus: https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html'
+  source: >-
+    Beispiel Richard Frenzel aus:
+    https://www.deutsche-rentenversicherung.de/DRV/DE/Rente/Grundrente/grundrente_fallbeispiele_neu.html
 inputs:
   assumed: {}
   provided:
@@ -42,9 +45,9 @@ inputs:
       - 0.0
     sozialversicherung__rente__entgeltpunkte_west:
       - 34.5
-    sozialversicherung__rente__grundrente__bewertungszeiten_m:
+    sozialversicherung__rente__grundrente__bewertungszeiten_monate:
       - 552
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
       - 552
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 34.5

@@ -1,7 +1,8 @@
 ---
 info:
-  note: Test with child and positive wealth below wealth allowance (website did not add general
-    amount for child)
+  note: >-
+    Test with child and positive wealth below wealth allowance (website did not add
+    general amount for child)
   source: https://www.smart-rechner.de/grundsicherung/rechner.php
 inputs:
   assumed: {}
@@ -99,7 +100,7 @@ inputs:
     sozialversicherung__rente__bezieht_rente:
       - true
       - false
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
       - 120
       - 0
     sozialversicherung__rente__private_rente_betrag_m:

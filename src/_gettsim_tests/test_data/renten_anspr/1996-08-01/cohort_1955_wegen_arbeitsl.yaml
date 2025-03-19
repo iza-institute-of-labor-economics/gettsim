@@ -15,7 +15,7 @@ inputs:
       - 20
     demographics__weiblich:
       - false
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
       - 0.0
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - true
@@ -23,27 +23,27 @@ inputs:
       - true
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
       - false
-    sozialversicherung__rente__arbeitslosigkeitszeiten_m:
+    sozialversicherung__rente__monate_in_arbeitslosigkeit:
       - 0.0
-    sozialversicherung__rente__arbeitsunfähigkeitszeiten_m:
+    sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
       - 0.0
-    sozialversicherung__rente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_monate:
       - 0.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragsmonate:
       - 0.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m:
+    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
       - 0.0
-    sozialversicherung__rente__mutterschutzzeiten_m:
+    sozialversicherung__rente__monate_in_mutterschutz:
       - 0.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragsmonate:
       - 300.0
-    sozialversicherung__rente__schulausbildungszeiten_m:
+    sozialversicherung__rente__monate_der_schulausbildung:
       - 0.0
-    sozialversicherung__rente__zeiten_der_ausbildungssuche_m:
+    sozialversicherung__rente__monate_in_ausbildungssuche:
       - 0.0
 outputs:
   sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:

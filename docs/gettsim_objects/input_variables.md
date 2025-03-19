@@ -325,9 +325,9 @@ Month of retirement
 
 Type: int
 
-(elterngeld__bisheriger_bezugszeitraum_m)=
+(elterngeld__anzahl_bisheriger_bezugsmonate)=
 
-## `elterngeld__bisheriger_bezugszeitraum_m`
+## `elterngeld__anzahl_bisheriger_bezugsmonate`
 
 Number of months the individual received Elterngeld for the current youngest child.
 
@@ -390,17 +390,17 @@ Earnings points for pension claim accumulated in eastern states
 
 Type: float
 
-(sozialversicherung__rente__grundrente__grundrentenzeiten_m)=
+(sozialversicherung__rente__grundrente__grundrentenzeiten_monate)=
 
-## `sozialversicherung__rente__grundrente__grundrentenzeiten_m`
+## `sozialversicherung__rente__grundrente__grundrentenzeiten_monate`
 
 Number of months determining eligibility for Grundrente.
 
 Type: int
 
-(sozialversicherung__rente__grundrente__bewertungszeiten_m)=
+(sozialversicherung__rente__grundrente__bewertungszeiten_monate)=
 
-## `sozialversicherung__rente__grundrente__bewertungszeiten_m`
+## `sozialversicherung__rente__grundrente__bewertungszeiten_monate`
 
 Number of months determining Grundrentepayments
 
@@ -411,7 +411,7 @@ Type: int
 ## `sozialversicherung__rente__grundrente__mean_entgeltpunkte`
 
 Average `entgeltpunkte` during
-`sozialversicherung__rente__grundrente__bewertungszeiten_m`
+`sozialversicherung__rente__grundrente__bewertungszeiten_monate`
 
 Type: float
 
@@ -423,114 +423,114 @@ Amount of monthly private pension
 
 Type: float
 
-(sozialversicherung__rente__pflichtbeitragszeiten_m)=
+(sozialversicherung__rente__pflichtbeitragsmonate)=
 
-## `sozialversicherung__rente__pflichtbeitragszeiten_m`
+## `sozialversicherung__rente__pflichtbeitragsmonate`
 
 Total months of mandatory pension insurance contributions
 
 Type: float
 
-(sozialversicherung__rente__freiwillige_beitragszeiten_m)=
+(sozialversicherung__rente__freiwillige_beitragsmonate)=
 
-## `sozialversicherung__rente__freiwillige_beitragszeiten_m`
+## `sozialversicherung__rente__freiwillige_beitragsmonate`
 
 Total months of voluntary pensioninsurance contributions
 
 Type: float
 
-(sozialversicherung__rente__mutterschutzzeiten_m)=
+(sozialversicherung__rente__monate_in_mutterschutz)=
 
-## `sozialversicherung__rente__mutterschutzzeiten_m`
+## `sozialversicherung__rente__monate_in_mutterschutz`
 
 Total months of maternal protections
 
 Type: float
 
-(sozialversicherung__rente__arbeitsunfähigkeitszeiten_m)=
+(sozialversicherung__rente__monate_in_arbeitsunfähigkeit)=
 
-## `sozialversicherung__rente__arbeitsunfähigkeitszeiten_m`
+## `sozialversicherung__rente__monate_in_arbeitsunfähigkeit`
 
 Total months of sickness, rehabilitation,measures for worklife participation(Teilhabe)
 
 Type: float
 
-(sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m)=
+(sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate)=
 
-## `sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_m`
+## `sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate`
 
 Months of sickness between age 16 and 24
 
 Type: float
 
-(sozialversicherung__rente__arbeitslosigkeitszeiten_m)=
+(sozialversicherung__rente__monate_in_arbeitslosigkeit)=
 
-## `sozialversicherung__rente__arbeitslosigkeitszeiten_m`
+## `sozialversicherung__rente__monate_in_arbeitslosigkeit`
 
 Total months of unemployment (registered)
 
 Type: float
 
-(sozialversicherung__rente__zeiten_der_ausbildungssuche_m)=
+(sozialversicherung__rente__monate_in_ausbildungssuche)=
 
-## `sozialversicherung__rente__zeiten_der_ausbildungssuche_m`
+## `sozialversicherung__rente__monate_in_ausbildungssuche`
 
 Total months of apprenticeship search
 
 Type: float
 
-(sozialversicherung__rente__schulausbildungszeiten_m)=
+(sozialversicherung__rente__monate_der_schulausbildung)=
 
-## `sozialversicherung__rente__schulausbildungszeiten_m`
+## `sozialversicherung__rente__monate_der_schulausbildung`
 
 Months of schooling (incl college, unifrom age 17, max. 8 years)
 
 Type: float
 
-(sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m)=
+(sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit)=
 
-## `sozialversicherung__rente__zeiten_mit_entgeltersatzleistungen_wegen_arbeitslosigkeit_m`
+## `sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit`
 
 Total months of unemployment (only timeof Entgeltersatzleistungen, not ALGII),i.e.
 Arbeitslosengeld, Unterhaltsgeld, Übergangsgeld
 
 Type: float
 
-(sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m)=
+(sozialversicherung__rente__monate_geringfügiger_beschäftigung)=
 
-## `sozialversicherung__rente__zeiten_geringfügiger_beschäftigung_m`
+## `sozialversicherung__rente__monate_geringfügiger_beschäftigung`
 
 Total months of marginal employment (w/o mandatory contributions)
 
 Type: float
 
-(sozialversicherung__rente__ersatzzeiten_m)=
+(sozialversicherung__rente__ersatzzeiten_monate)=
 
-## `sozialversicherung__rente__ersatzzeiten_m`
+## `sozialversicherung__rente__ersatzzeiten_monate`
 
 Total months during military, persecution/escape, internment, and consecutive sickness
 
 Type: float
 
-(sozialversicherung__rente__kinderberücksichtigungszeiten_m)=
+(sozialversicherung__rente__kinderberücksichtigungszeiten_monate)=
 
-## `sozialversicherung__rente__kinderberücksichtigungszeiten_m`
+## `sozialversicherung__rente__kinderberücksichtigungszeiten_monate`
 
 Total months of childcare till age 10
 
 Type: float
 
-(sozialversicherung__rente__pflegeberücksichtigungszeiten_m)=
+(sozialversicherung__rente__pflegeberücksichtigungszeiten_monate)=
 
-## `sozialversicherung__rente__pflegeberücksichtigungszeiten_m`
+## `sozialversicherung__rente__pflegeberücksichtigungszeiten_monate`
 
 Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y)=
+(sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40)=
 
-## `sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y`
+## `sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40`
 
 Total years of mandatory contributions after age 40
 
@@ -603,17 +603,17 @@ Looking for employment
 
 Type: bool
 
-(sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m)=
+(sozialversicherung__arbeitslosen__monate_durchgängigen_bezugs_von_arbeitslosengeld)=
 
-## `sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m`
+## `sozialversicherung__arbeitslosen__monate_durchgängigen_bezugs_von_arbeitslosengeld`
 
 Number of months the individual already receives Arbeitslosengeld without interruption.
 
 Type: float
 
-(sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m)=
+(sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtiger_beschäftigung_in_letzten_5_jahren)=
 
-## `sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m`
+## `sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtiger_beschäftigung_in_letzten_5_jahren`
 
 Months of subjection to compulsory insurance in the 5 years before claiming unemployment
 insurance

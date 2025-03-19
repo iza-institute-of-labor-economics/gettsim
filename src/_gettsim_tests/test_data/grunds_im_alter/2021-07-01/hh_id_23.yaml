@@ -1,6 +1,7 @@
 ---
 info:
-  note: Test with positive wealth below wealth allowance. Beispielpersonen Max B. und Inge
+  note: >-
+    Test with positive wealth below wealth allowance. Beispielpersonen Max B. und Inge
     M.
   source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundsicherung_hilfe_fuer_rentner.pdf?__blob=publicationFile&v=2
 inputs:
@@ -99,7 +100,7 @@ inputs:
     sozialversicherung__rente__bezieht_rente:
       - true
       - true
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
       - 240
       - 240
     sozialversicherung__rente__private_rente_betrag_m:

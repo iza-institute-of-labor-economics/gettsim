@@ -14,7 +14,7 @@ aggregation_specs = {
     ),
     "bezugsmonate_partner": AggregateByPIDSpec(
         p_id_to_aggregate_by="arbeitslosengeld_2__p_id_einstandspartner",
-        source_col="bisheriger_bezugszeitraum_m",
+        source_col="anzahl_bisheriger_bezugsmonate",
         aggr="sum",
     ),
     "alter_monate_jüngstes_mitglied_fg": AggregateByGroupSpec(
@@ -187,7 +187,7 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 
 @policy_function(start_date="2007-01-01")
 def bezugsmonate_unter_grenze_fg(
-    bisheriger_bezugszeitraum_m_fg: int,
+    anzahl_bisheriger_bezugsmonate_fg: int,
     bezugsmonate_partner: int,
     demographics__alleinerziehend: bool,
     anzahl_anträge_fg: int,
@@ -198,8 +198,8 @@ def bezugsmonate_unter_grenze_fg(
 
     Parameters
     ----------
-    bisheriger_bezugszeitraum_m_fg
-        See :func:`bisheriger_bezugszeitraum_m_fg`.
+    anzahl_bisheriger_bezugsmonate_fg
+        See :func:`anzahl_bisheriger_bezugsmonate_fg`.
     bezugsmonate_partner
         See function :func:`bezugsmonate_partner`.
     demographics__alleinerziehend
@@ -215,17 +215,17 @@ def bezugsmonate_unter_grenze_fg(
     """
     if demographics__alleinerziehend or bezugsmonate_partner >= 2:
         out = (
-            bisheriger_bezugszeitraum_m_fg
+            anzahl_bisheriger_bezugsmonate_fg
             < elterngeld_params["max_monate_mit_partnermonate"]
         )
     elif anzahl_anträge_fg > 1:
         out = (
-            bisheriger_bezugszeitraum_m_fg + 1
+            anzahl_bisheriger_bezugsmonate_fg + 1
             < elterngeld_params["max_monate_mit_partnermonate"]
         )
     else:
         out = (
-            bisheriger_bezugszeitraum_m_fg
+            anzahl_bisheriger_bezugsmonate_fg
             < elterngeld_params["max_monate_ohne_partnermonate"]
         )
     return out

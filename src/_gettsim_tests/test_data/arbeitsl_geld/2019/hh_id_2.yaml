@@ -9,9 +9,9 @@ inputs:
       - true
     sozialversicherung__arbeitslosen__arbeitssuchend:
       - true
-    sozialversicherung__arbeitslosen__zeitraum_durchgängiger_bezug_von_arbeitslosengeld_m:
+    sozialversicherung__arbeitslosen__monate_durchgängigen_bezugs_von_arbeitslosengeld:
       - 0.0
-    sozialversicherung__arbeitslosen__zeitraum_sozialversicherungspflichtig_in_letzten_5_jahren_m:
+    sozialversicherung__arbeitslosen__monate_sozialversicherungspflichtiger_beschäftigung_in_letzten_5_jahren:
       - 12.0
   provided:
     demographics__alter:

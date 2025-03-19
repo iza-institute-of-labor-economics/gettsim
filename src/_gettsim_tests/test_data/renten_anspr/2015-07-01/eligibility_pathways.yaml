@@ -72,7 +72,7 @@ inputs:
       - true
       - true
       - false
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragszeiten_ab_40_y:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
       - 0.0
       - 0.0
       - 0.0
@@ -123,7 +123,7 @@ inputs:
       - true
       - true
       - true
-    sozialversicherung__rente__anrechnungszeit_35_y:
+    sozialversicherung__rente__anrechnungszeit_35_jahre:
       - 0.0
       - 0.0
       - 0.0
@@ -140,7 +140,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__anrechnungszeit_45_y:
+    sozialversicherung__rente__anrechnungszeit_45_jahre:
       - 0.0
       - 0.0
       - 0.0
@@ -157,7 +157,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__ersatzzeiten_m:
+    sozialversicherung__rente__ersatzzeiten_monate:
       - 0.0
       - 0.0
       - 0.0
@@ -174,7 +174,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__freiwillige_beitragszeiten_m:
+    sozialversicherung__rente__freiwillige_beitragsmonate:
       - 0.0
       - 0.0
       - 60.0
@@ -191,7 +191,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__kinderberücksichtigungszeiten_m:
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
       - 0.0
       - 0.0
@@ -208,7 +208,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_m:
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
       - 0.0
       - 0.0
       - 0.0
@@ -225,7 +225,7 @@ inputs:
       - 120.0
       - 120.0
       - 120.0
-    sozialversicherung__rente__pflichtbeitragszeiten_m:
+    sozialversicherung__rente__pflichtbeitragsmonate:
       - 0.0
       - 60.0
       - 0.0
