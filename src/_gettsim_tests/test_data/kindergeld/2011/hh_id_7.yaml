@@ -78,22 +78,6 @@ inputs:
       - 22
       - 22
 outputs:
-  kinderbonus__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-  kinderbonus__betrag_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
   kindergeld__betrag_m:
     - 1203
     - 0

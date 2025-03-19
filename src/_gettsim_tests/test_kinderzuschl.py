@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-test_data = load_policy_test_data("kinderzuschlag")
+test_data = load_policy_test_data("kinderzuschl")
 
 
 @pytest.mark.parametrize(
