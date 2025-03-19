@@ -175,7 +175,6 @@ def _create_aggregation_functions(
         # Skip if aggregation spec is not the current aggregation type
         if not isinstance(aggregation_spec, expected_aggregation_spec_type):
             continue
-
         annotations = _annotations_for_aggregation(
             aggregation_method=aggregation_spec.aggr,
             source_col=aggregation_spec.source_col,

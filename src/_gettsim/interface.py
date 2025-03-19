@@ -206,10 +206,13 @@ def _convert_data_to_correct_types(
         # Look for column in functions_tree_overridden
         elif qualified_name in flat_functions:
             func = flat_functions[qualified_name]
-            skip_vectorization = (
+            return_annotation_is_array = type(func) in [
+                PolicyFunction,
+                GroupByFunction,
+            ] and (
                 func.skip_vectorization if isinstance(func, PolicyFunction) else True
             )
-            if hasattr(func, "__annotations__") and skip_vectorization:
+            if hasattr(func, "__annotations__") and return_annotation_is_array:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
