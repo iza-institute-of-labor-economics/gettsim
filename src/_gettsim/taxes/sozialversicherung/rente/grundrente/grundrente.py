@@ -28,7 +28,7 @@ def einkommen_m(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m: float,
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y: float,
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_m: float,
 ) -> float:
     """Calculate total income relevant for Grundrentenzuschlag before deductions are
     subtracted.
@@ -61,8 +61,8 @@ def einkommen_m(
         See :func:`einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m`.
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
         See :func:`einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m`.
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
-        See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y`.
+    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_m
+        See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_m`.
 
     Returns
     -------
@@ -75,7 +75,7 @@ def einkommen_m(
         + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m
         + einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m  # income from self-employment
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m  # rental income
-        + einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y
+        + einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_m
     )
 
     return out

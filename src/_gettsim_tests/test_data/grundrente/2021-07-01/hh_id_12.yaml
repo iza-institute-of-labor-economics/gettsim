@@ -21,7 +21,7 @@ inputs:
       - -1
     demographics__wohnort_ost:
       - false
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
       - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
