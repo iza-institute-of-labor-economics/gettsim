@@ -144,7 +144,7 @@ def _get_policy_tests_from_raw_test_data(
             PolicyTest(
                 input_tree=input_tree,
                 expected_output_tree=one_expected_output,
-                test_file=path_of_test_file.stem,
+                test_file=path_of_test_file,
                 date=date,
             )
         )
