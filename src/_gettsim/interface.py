@@ -4,7 +4,7 @@ import inspect
 import warnings
 from typing import Any, Literal, get_args
 
-import dags
+import dags.tree as dt
 import flatten_dict
 import networkx as nx
 import optree
@@ -120,7 +120,7 @@ def compute_taxes_and_transfers(
         params=environment.params,
     )
 
-    input_structure = dags.create_input_structure_tree(
+    input_structure = dt.create_input_structure_tree(
         functions_tree_not_overridden,
     )
 
@@ -141,7 +141,7 @@ def compute_taxes_and_transfers(
         p_ids=data_tree_with_correct_types.get("demographics", {}).get("p_id", {}),
     )
 
-    tax_transfer_function = dags.concatenate_functions_tree(
+    tax_transfer_function = dt.concatenate_functions_tree(
         functions=functions_tree_with_partialled_parameters,
         targets=targets_tree,
         input_structure=input_structure,
@@ -295,7 +295,7 @@ def _create_input_data_for_concatenated_function(
 
     """
     # Create dag using processed functions
-    dag = dags.dag_tree.create_dag_tree(
+    dag = dt.create_dag_tree(
         functions=functions_tree,
         targets=targets_tree,
         input_structure=input_structure,

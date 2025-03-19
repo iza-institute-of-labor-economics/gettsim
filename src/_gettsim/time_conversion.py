@@ -4,7 +4,7 @@ from collections.abc import Callable
 
 import flatten_dict
 import optree
-from dags.signature import rename_arguments
+from dags import rename_arguments
 
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,

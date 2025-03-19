@@ -6,7 +6,7 @@ from typing import Any, TypeVar
 import flatten_dict
 import numpy
 import optree
-from dags.signature import rename_arguments
+from dags import rename_arguments
 from flatten_dict.reducers import make_reducer
 from flatten_dict.splitters import make_splitter
 
