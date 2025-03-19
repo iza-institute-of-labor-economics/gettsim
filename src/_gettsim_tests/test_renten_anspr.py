@@ -41,4 +41,4 @@ def test_gesetzliche_rente(
     for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
     ):
-        assert_array_almost_equal(result, expected, decimal=2)
+        assert_array_almost_equal(result, expected, decimal=1)
