@@ -116,7 +116,7 @@ def anzurechnendes_einkommen_m(
     # singles and those for married subjects
     # Note: Thresholds are defined relativ to rentenwert which is implemented by
     # dividing the income by rentenwert and multiply rentenwert to the result.
-    if demographics__anzahl_personen_ehe == 1:
+    if demographics__anzahl_personen_ehe == 2:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_verheiratet"]
     else:
         einkommensanr_params = ges_rente_params["grundr_einkommensanr_single"]
