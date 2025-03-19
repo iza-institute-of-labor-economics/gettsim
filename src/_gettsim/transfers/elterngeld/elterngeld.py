@@ -12,9 +12,25 @@ aggregation_specs = {
         source_col="claimed",
         aggr="sum",
     ),
-    "bezugsmonate": AggregateByPIDSpec(
+    "bezugsmonate_partner": AggregateByPIDSpec(
         p_id_to_aggregate_by="arbeitslosengeld_2__p_id_einstandspartner",
-        source_col="bisheriger_bezug_m",
+        source_col="bisheriger_bezugszeitraum_m",
+        aggr="sum",
+    ),
+    "alter_monate_jüngstes_mitglied_fg": AggregateByGroupSpec(
+        source_col="demographics__alter_monate",
+        aggr="min",
+    ),
+    "anzahl_kinder_bis_2_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_2",
+        aggr="sum",
+    ),
+    "anzahl_kinder_bis_5_fg": AggregateByGroupSpec(
+        source_col="demographics__kind_bis_5",
+        aggr="sum",
+    ),
+    "anzahl_mehrlinge_jüngstes_kind_fg": AggregateByGroupSpec(
+        source_col="jüngstes_kind_oder_mehrling",
         aggr="sum",
     ),
 }
@@ -171,8 +187,8 @@ def grundsätzlich_anspruchsberechtigt(  # noqa: PLR0913
 
 @policy_function(start_date="2007-01-01")
 def bezugsmonate_unter_grenze_fg(
-    monate_elterngeldbezug_fg: int,
-    bezugsmonate: int,
+    bisheriger_bezugszeitraum_m_fg: int,
+    bezugsmonate_partner: int,
     demographics__alleinerziehend: bool,
     anzahl_anträge_fg: int,
     elterngeld_params: dict,
@@ -182,10 +198,10 @@ def bezugsmonate_unter_grenze_fg(
 
     Parameters
     ----------
-    monate_elterngeldbezug_fg
-        See :func:`monate_elterngeldbezug_fg`.
-    bezugsmonate
-        See function :func:`bezugsmonate`.
+    bisheriger_bezugszeitraum_m_fg
+        See :func:`bisheriger_bezugszeitraum_m_fg`.
+    bezugsmonate_partner
+        See function :func:`bezugsmonate_partner`.
     demographics__alleinerziehend
         See basic input variable :ref:`demographics__alleinerziehend<demographics__alleinerziehend>`.
     anzahl_anträge_fg
@@ -197,19 +213,19 @@ def bezugsmonate_unter_grenze_fg(
     -------
 
     """
-    if demographics__alleinerziehend or bezugsmonate >= 2:
+    if demographics__alleinerziehend or bezugsmonate_partner >= 2:
         out = (
-            monate_elterngeldbezug_fg
+            bisheriger_bezugszeitraum_m_fg
             < elterngeld_params["max_monate_mit_partnermonate"]
         )
     elif anzahl_anträge_fg > 1:
         out = (
-            monate_elterngeldbezug_fg + 1
+            bisheriger_bezugszeitraum_m_fg + 1
             < elterngeld_params["max_monate_mit_partnermonate"]
         )
     else:
         out = (
-            monate_elterngeldbezug_fg
+            bisheriger_bezugszeitraum_m_fg
             < elterngeld_params["max_monate_ohne_partnermonate"]
         )
     return out
@@ -328,4 +344,36 @@ def anrechenbarer_betrag_m(
         betrag_m - ((1 + anzahl_mehrlinge_fg) * elterngeld_params["mindestbetrag"]),
         0,
     )
+    return out
+
+
+@policy_function()
+def jüngstes_kind_oder_mehrling(
+    demographics__alter_monate: float,
+    alter_monate_jüngstes_mitglied_fg: float,
+    demographics__kind: bool,
+) -> bool:
+    """Check if person is the youngest child in the household or a twin, triplet, etc.
+    of the youngest child.
+
+    # ToDo: replace kind by some age restriction
+    # ToDo: Check definition as relevant for Elterngeld. Currently, it is calculated as
+    # ToDo: age not being larger than 0.1 of a month
+
+    Parameters
+    ----------
+    demographics__alter_monate
+        See :func:`demographics__alter_monate`.
+    alter_monate_jüngstes_mitglied_fg
+        See :func:`alter_monate_jüngstes_mitglied_fg`.
+    demographics__kind
+        See basic input variable :ref:`demographics__kind <demographics__kind>`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        (demographics__alter_monate - alter_monate_jüngstes_mitglied_fg) < 0.1
+    ) and demographics__kind
     return out

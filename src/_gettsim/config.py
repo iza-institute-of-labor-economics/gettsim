@@ -199,7 +199,7 @@ TYPES_INPUT_VARIABLES = {
     "einkommensteuer__abzüge__betreuungskosten_m": float,
     "einkommensteuer__abzüge__p_id_betreuungskosten_träger": int,
     "einkommensteuer__gemeinsam_veranlagt": bool,
-    "elterngeld__bisheriger_bezug_m": int,
+    "elterngeld__bisheriger_bezugszeitraum_m": int,
     "elterngeld__claimed": bool,
     "elterngeld__nettoeinkommen_vorjahr_m": float,
     "elterngeld__zu_versteuerndes_einkommen_vorjahr_y_sn": float,

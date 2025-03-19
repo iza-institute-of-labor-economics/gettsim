@@ -53,7 +53,7 @@ inputs:
     einkommensteuer__gemeinsam_veranlagt:
       - false
       - false
-    elterngeld__bisheriger_bezug_m:
+    elterngeld__bisheriger_bezugszeitraum_m:
       - 0
       - 0
     elterngeld__claimed:

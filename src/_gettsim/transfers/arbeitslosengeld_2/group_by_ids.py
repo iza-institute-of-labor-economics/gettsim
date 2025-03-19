@@ -16,24 +16,12 @@ aggregation_specs = {
         source_col="demographics__kind",
         aggr="sum",
     ),
-    "anzahl_kinder_bis_2_fg": AggregateByGroupSpec(
-        source_col="demographics__kind_bis_2",
-        aggr="sum",
-    ),
-    "anzahl_kinder_bis_5_fg": AggregateByGroupSpec(
-        source_col="demographics__kind_bis_5",
-        aggr="sum",
-    ),
     "anzahl_kinder_bis_6_fg": AggregateByGroupSpec(
         source_col="demographics__kind_bis_6",
         aggr="sum",
     ),
     "anzahl_kinder_bis_15_fg": AggregateByGroupSpec(
         source_col="demographics__kind_bis_15",
-        aggr="sum",
-    ),
-    "anzahl_mehrlinge_jüngstes_kind_fg": AggregateByGroupSpec(
-        source_col="demographics__anzahl_mehrlinge_jüngstes_kind",
         aggr="sum",
     ),
     "anzahl_erwachsene_bg": AggregateByGroupSpec(

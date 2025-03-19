@@ -23,7 +23,7 @@ inputs:
       - false
     lohnsteuer__steuerklasse:
       - 6
-    sozialversicherung__kranken__beitrag__beitragssatz__zusatzbeitragssatz:
+    sozialversicherung__kranken__beitrag__zusatzbeitragssatz:
       - 0.0126
     sozialversicherung__pflege__beitrag__hat_kinder:
       - false

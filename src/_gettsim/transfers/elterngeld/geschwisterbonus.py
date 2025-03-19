@@ -56,16 +56,18 @@ def mehrlingsbonus_m(anzahl_mehrlinge_fg: int, elterngeld_params: dict) -> float
 
 @policy_function(start_date="2007-01-01")
 def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
-    arbeitslosengeld_2__anzahl_kinder_bis_2_fg: int,
-    arbeitslosengeld_2__anzahl_kinder_bis_5_fg: int,
+    anzahl_kinder_bis_2_fg: int,
+    anzahl_kinder_bis_5_fg: int,
     elterngeld_params: dict,
 ) -> bool:
     """Siblings that give rise to Elterngeld siblings bonus.
 
     Parameters
     ----------
-    demographics__alter
-        See basic input variable :ref:`demographics__alter <demographics__alter>`.
+    anzahl_kinder_bis_2_fg
+        See :func:`anzahl_kinder_bis_2_fg`.
+    anzahl_kinder_bis_5_fg
+        See :func:`anzahl_kinder_bis_5_fg`.
     elterngeld_params
         See params documentation :ref:`elterngeld_params <elterngeld_params>`.
 
@@ -74,12 +76,10 @@ def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
 
     """
     geschwister_unter_3 = (
-        arbeitslosengeld_2__anzahl_kinder_bis_2_fg
-        >= elterngeld_params["geschwisterbonus_altersgrenzen"][3]
+        anzahl_kinder_bis_2_fg >= elterngeld_params["geschwisterbonus_altersgrenzen"][3]
     )
     geschwister_unter_6 = (
-        arbeitslosengeld_2__anzahl_kinder_bis_5_fg
-        >= elterngeld_params["geschwisterbonus_altersgrenzen"][6]
+        anzahl_kinder_bis_5_fg >= elterngeld_params["geschwisterbonus_altersgrenzen"][6]
     )
 
     return geschwister_unter_3 or geschwister_unter_6
@@ -87,18 +87,18 @@ def geschwisterbonus_grundsätzlich_anspruchsberechtigt_fg(
 
 @policy_function(start_date="2007-01-01")
 def anzahl_mehrlinge_fg(
-    arbeitslosengeld_2__anzahl_mehrlinge_jüngstes_kind_fg: int,
+    anzahl_mehrlinge_jüngstes_kind_fg: int,
 ) -> int:
     """Number of multiples of the youngest child.
 
     Parameters
     ----------
-    arbeitslosengeld_2__anzahl_mehrlinge_jüngstes_kind_fg
-        See :func:`arbeitslosengeld_2__anzahl_mehrlinge_jüngstes_kind_fg`.
+    anzahl_mehrlinge_jüngstes_kind_fg
+        See :func:`anzahl_mehrlinge_jüngstes_kind_fg`.
 
     Returns
     -------
 
     """
-    out = arbeitslosengeld_2__anzahl_mehrlinge_jüngstes_kind_fg - 1
+    out = anzahl_mehrlinge_jüngstes_kind_fg - 1
     return max(out, 0)
