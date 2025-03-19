@@ -4,6 +4,7 @@ from collections.abc import Callable
 
 import flatten_dict
 import optree
+from dags.signature import rename_arguments
 
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,
@@ -13,7 +14,6 @@ from _gettsim.function_types import DerivedFunction, PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
     insert_path_and_value,
-    rename_arguments_and_add_annotations,
     upsert_path_and_value,
 )
 
@@ -365,7 +365,7 @@ def _create_time_conversion_functions(
 def _create_function_for_time_unit(
     function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
-    @rename_arguments_and_add_annotations(mapper={"x": function_name})
+    @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:
         return converter(x)
 
