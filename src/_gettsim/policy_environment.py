@@ -4,6 +4,7 @@ import copy
 import datetime
 from typing import TYPE_CHECKING, Any
 
+import dags.tree as dt
 import numpy
 import optree
 import pandas as pd
@@ -414,22 +415,22 @@ def _load_parameter_group_from_yaml(
 
     """
 
-    def subtract_years_from_date(dt, years):
+    def subtract_years_from_date(date, years):
         """Subtract one or more years from a date object."""
         try:
-            dt = dt.replace(year=dt.year - years)
+            date = date.replace(year=date.year - years)
 
         # Take care of leap years
         except ValueError:
-            dt = dt.replace(year=dt.year - years, day=dt.day - 1)
-        return dt
+            date = date.replace(year=date.year - years, day=date.day - 1)
+        return date
 
-    def set_date_to_beginning_of_year(dt):
+    def set_date_to_beginning_of_year(date):
         """Set date to the beginning of the year."""
 
-        dt = dt.replace(month=1, day=1)
+        date = date.replace(month=1, day=1)
 
-        return dt
+        return date
 
     raw_group_data = yaml.load(
         (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"),
@@ -624,8 +625,8 @@ def _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
     """Raise error if a PolicyFunction does not have the same leaf name as the last
     branch element of the tree path.
     """
-    tree_paths, functions, _ = optree.tree_flatten_with_path(functions_tree)
-    for tree_path, function in zip(tree_paths, functions):
+
+    for tree_path, function in dt.flatten_to_tree_paths(functions_tree).items():
         if tree_path[-1] != function.leaf_name:
             raise KeyError(
                 f"""

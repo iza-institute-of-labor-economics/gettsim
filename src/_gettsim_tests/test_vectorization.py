@@ -2,9 +2,9 @@ import datetime
 import inspect
 import string
 
+import dags.tree as dt
 import numpy
 import pytest
-from optree import tree_flatten
 
 from _gettsim.config import USE_JAX
 
@@ -373,9 +373,9 @@ for year in range(1990, 2023):
         "func",
         [
             pf.function
-            for pf in tree_flatten(
+            for pf in dt.flatten_to_tree_paths(
                 load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
-            )[0]
+            ).values()
             if not isinstance(pf, GroupByFunction)
         ],
     )

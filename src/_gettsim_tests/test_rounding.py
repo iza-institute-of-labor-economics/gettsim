@@ -1,9 +1,9 @@
 import datetime
 
+import dags.tree as dt
 import pandas as pd
 import pytest
 import yaml
-from optree import tree_flatten
 from pandas._testing import assert_series_equal
 
 from _gettsim.config import (
@@ -277,9 +277,9 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = tree_flatten(
+        year_functions = dt.flatten_to_tree_paths(
             load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
-        )[0]
+        ).values()
         function_name_to_leaf_name_dict = {
             func.function.__name__: func.leaf_name for func in year_functions
         }

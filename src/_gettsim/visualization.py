@@ -3,7 +3,7 @@ import inspect
 import operator
 from functools import reduce
 
-import dags
+import dags.tree as dt
 import networkx as nx
 import numpy
 import pandas as pd
@@ -91,7 +91,7 @@ def plot_dag(
     )[1]
 
     # Create parameter input structure.
-    input_structure = dags.dag_tree.create_input_structure_tree(
+    input_structure = dt.create_input_structure_tree(
         functions=functions_not_overridden,
         targets=None,  # None because no functions should be filtered out
     )
@@ -111,7 +111,7 @@ def plot_dag(
         params=environment.params,
     )
 
-    input_structure = dags.dag_tree.create_input_structure_tree(
+    input_structure = dt.create_input_structure_tree(
         functions=processed_functions,
         targets=None,
     )

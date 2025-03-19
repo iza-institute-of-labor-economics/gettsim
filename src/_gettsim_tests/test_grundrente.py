@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-import flatten_dict
+import dags.tree as dt
 import pytest
 from numpy.testing import assert_array_almost_equal
 
@@ -37,8 +37,8 @@ def test_grundrente(
         data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    flat_result = flatten_dict.flatten(result)
-    flat_expected_output_tree = flatten_dict.flatten(expected_output_tree)
+    flat_result = dt.flatten_to_qual_names(result)
+    flat_expected_output_tree = dt.flatten_to_qual_names(expected_output_tree)
 
     for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
@@ -74,8 +74,8 @@ def test_grundrente_proxy_rente(
         },
     )
 
-    flat_result = flatten_dict.flatten(result)
-    flat_result_previous_year = flatten_dict.flatten(result_previous_year)
+    flat_result = dt.flatten_to_qual_names(result)
+    flat_result_previous_year = dt.flatten_to_qual_names(result_previous_year)
     assert_array_almost_equal(
         flat_result["sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m"],
         flat_result_previous_year[
