@@ -90,7 +90,7 @@ def einkommen_m_bg(
 
 @policy_function()
 def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
-    einkommensteuer__betrag_y_sn: float,
+    einkommensteuer__betrag_m_sn: float,
     sozialversicherung__rente__beitrag__betrag_versicherter_m: float,
     sozialversicherung__kranken__beitrag__betrag_versicherter_m: float,
     demographics__kind: bool,
@@ -98,14 +98,14 @@ def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that einkommensteuer__betrag_y_sn is used as an approximation for taxes
+    Note that einkommensteuer__betrag_m_sn is used as an approximation for taxes
     on income (as mentioned in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    einkommensteuer__betrag_y_sn
+    einkommensteuer__betrag_m_sn
         See :func:
-        `einkommensteuer__betrag_y_sn`.
+        `einkommensteuer__betrag_m_sn`.
     sozialversicherung__rente__beitrag__betrag_versicherter_m
         See :func:
         `sozialversicherung__rente__beitrag__betrag_versicherter_m`.
@@ -122,7 +122,7 @@ def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
 
     """
     abzug_stufen = (
-        (einkommensteuer__betrag_y_sn > 0)
+        (einkommensteuer__betrag_m_sn > 0)
         + (sozialversicherung__rente__beitrag__betrag_versicherter_m > 0)
         + (sozialversicherung__kranken__beitrag__betrag_versicherter_m > 0)
     )
@@ -136,7 +136,7 @@ def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
 @policy_function(end_date="2006-12-31", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m: float,
-    eink_abhängig_beschäftigt_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m: float,
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
@@ -154,8 +154,8 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     ----------
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
         See :func:`_eink_selbst`.
-    eink_abhängig_beschäftigt_m
-        See :func:`eink_abhängig_beschäftigt_m`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m
+        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m`.
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m
         See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m`.
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
@@ -179,7 +179,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     """
     einkommen = (
         einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
-        + eink_abhängig_beschäftigt_m
+        + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m
         + einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
     )
@@ -199,7 +199,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
 @policy_function(start_date="2007-01-01", leaf_name="einkommen_vor_freibetrag_m")
 def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m: float,
-    eink_abhängig_beschäftigt_m: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m: float,
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m: float,
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m: float,
     sozialversicherung__arbeitslosen__betrag_m: float,
@@ -218,8 +218,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     ----------
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
         See :func:`_eink_selbst`.
-    eink_abhängig_beschäftigt_m
-        See :func:`eink_abhängig_beschäftigt_m`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m
+        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m`.
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m
         See :func:`einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m`.
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
@@ -248,7 +248,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     # https://github.com/iza-institute-of-labor-economics/gettsim/issues/357
     einkommen = (
         einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
-        + eink_abhängig_beschäftigt_m
+        + einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__betrag_ohne_minijob_m
         + einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m
         + einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m
     )

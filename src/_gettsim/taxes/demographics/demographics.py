@@ -236,6 +236,7 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     return out.astype(float)
 
 
+@policy_function()
 def ist_kind_mit_erwerbseinkommen(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     kindergeld__grundsätzlich_anspruchsberechtigt: bool,
