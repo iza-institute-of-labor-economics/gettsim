@@ -22,12 +22,12 @@ class PolicyTest:
         self,
         input_tree: NestedDataDict,
         expected_output_tree: NestedDataDict,
-        test_file: Path,
+        path: Path,
         date: datetime.date,
     ) -> None:
         self.input_tree = input_tree
         self.expected_output_tree = expected_output_tree
-        self.test_file = test_file
+        self.path = path
         self.date = date
 
     @property
@@ -39,7 +39,7 @@ class PolicyTest:
 
     @property
     def test_name(self) -> str:
-        return self.test_file.stem
+        return self.path.stem
 
 
 def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
