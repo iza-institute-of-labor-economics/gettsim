@@ -71,7 +71,7 @@ def wartezeit_15_jahre_erfüllt(
 def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
     pflichtbeitragsmonate: float,
     freiwillige_beitragsmonate: float,
-    anrechnungszeit_35_monate: float,
+    anrechnungsmonate_35_jahre_wartezeit: float,
     ersatzzeiten_monate: float,
     kinderberücksichtigungszeiten_monate: float,
     pflegeberücksichtigungszeiten_monate: float,
@@ -90,8 +90,8 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
         See :func:`freiwillige_beitragsmonate`.
     ersatzzeiten_monate
         See :func:`ersatzzeiten_monate`.
-    anrechnungszeit_35_monate
-        See :func:`anrechnungszeit_35_monate`.
+    anrechnungsmonate_35_jahre_wartezeit
+        See :func:`anrechnungsmonate_35_jahre_wartezeit`.
     kinderberücksichtigungszeiten_monate
         See :func:`kinderberücksichtigungszeiten_monate`.
     pflegeberücksichtigungszeiten_monate
@@ -107,7 +107,7 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
     return (
         pflichtbeitragsmonate
         + freiwillige_beitragsmonate
-        + anrechnungszeit_35_monate
+        + anrechnungsmonate_35_jahre_wartezeit
         + ersatzzeiten_monate
         + kinderberücksichtigungszeiten_monate
         + pflegeberücksichtigungszeiten_monate
@@ -118,7 +118,7 @@ def wartezeit_35_jahre_erfüllt(  # noqa: PLR0913
 def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     pflichtbeitragsmonate: float,
     freiwillige_beitragsmonate: float,
-    anrechnungszeit_45_monate: float,
+    anrechnungsmonate_45_jahre_wartezeit: float,
     ersatzzeiten_monate: float,
     kinderberücksichtigungszeiten_monate: float,
     pflegeberücksichtigungszeiten_monate: float,
@@ -138,8 +138,8 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
         See basic input variable :ref:`pflichtbeitragsmonate <pflichtbeitragsmonate>`.
     freiwillige_beitragsmonate
         See basic input variable :ref:`freiwillige_beitragsmonate <freiwillige_beitragsmonate>`.
-    anrechnungszeit_45_monate
-        See :func:`anrechnungszeit_45_monate`.
+    anrechnungsmonate_45_jahre_wartezeit
+        See :func:`anrechnungsmonate_45_jahre_wartezeit`.
     ersatzzeiten_monate
         See basic input variable :ref:`ersatzzeiten_monate <ersatzzeiten_monate>`.
     kinderberücksichtigungszeiten_monate
@@ -167,7 +167,7 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
     return (
         pflichtbeitragsmonate
         + freiwillige_beitragszeiten
-        + anrechnungszeit_45_monate
+        + anrechnungsmonate_45_jahre_wartezeit
         + ersatzzeiten_monate
         + pflegeberücksichtigungszeiten_monate
         + kinderberücksichtigungszeiten_monate
@@ -175,7 +175,7 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
 
 
 @policy_function()
-def anrechnungszeit_35_jahre(  # noqa: PLR0913
+def anrechnungsmonate_35_jahre_wartezeit(  # noqa: PLR0913
     monate_in_arbeitsunfähigkeit: float,
     krankheitsmonate_ab_16_bis_24_monate: float,
     monate_in_mutterschutz: float,
@@ -216,11 +216,11 @@ def anrechnungszeit_35_jahre(  # noqa: PLR0913
         + monate_in_arbeitslosigkeit
         + monate_in_ausbildungssuche
         + monate_der_schulausbildung
-    ) / 12
+    )
 
 
 @policy_function(start_date="2012-01-01")
-def anrechnungszeit_45_jahre(
+def anrechnungsmonate_45_jahre_wartezeit(
     monate_in_arbeitsunfähigkeit: float,
     monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit: float,
     monate_geringfügiger_beschäftigung: float,
@@ -250,4 +250,4 @@ def anrechnungszeit_45_jahre(
         monate_in_arbeitsunfähigkeit
         + monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit
         + monate_geringfügiger_beschäftigung
-    ) / 12
+    )

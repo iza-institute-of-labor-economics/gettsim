@@ -22,7 +22,7 @@ inputs:
       - 5
       - 6
       - 7
-    sozialversicherung__rente__anrechnungszeit_35_jahre:
+    sozialversicherung__rente__anrechnungsmonate_35_jahre_wartezeit:
       - 0.0
       - 0.0
       - 0.0
@@ -31,7 +31,7 @@ inputs:
       - 540.0
       - 400.0
       - 120.0
-    sozialversicherung__rente__anrechnungszeit_45_jahre:
+    sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit:
       - 0.0
       - 0.0
       - 0.0

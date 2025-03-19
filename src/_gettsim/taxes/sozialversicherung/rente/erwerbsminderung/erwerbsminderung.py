@@ -295,7 +295,7 @@ def zugangsfaktor(
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     sozialversicherung__rente__pflichtbeitragsmonate: float,
     sozialversicherung__rente__freiwillige_beitragsmonate: float,
-    sozialversicherung__rente__anrechnungszeit_45_monate: float,
+    sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit: float,
     sozialversicherung__rente__ersatzzeiten_monate: float,
     sozialversicherung__rente__kinderberücksichtigungszeiten_monate: float,
     sozialversicherung__rente__pflegeberücksichtigungszeiten_monate: float,
@@ -319,8 +319,8 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     sozialversicherung__rente__freiwillige_beitragsmonate
         See basic input variable
         :ref:<sozialversicherung__rente__freiwillige_beitragsmonate>`.
-    sozialversicherung__rente__anrechnungszeit_45_monate
-        See :func:`sozialversicherung__rente__anrechnungszeit_45_monate`.
+    sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit
+        See :func:`sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit`.
     sozialversicherung__rente__ersatzzeiten_monate
         See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_monate>`.
     sozialversicherung__rente__kinderberücksichtigungszeiten_monate
@@ -354,7 +354,7 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
     return (
         sozialversicherung__rente__pflichtbeitragsmonate
         + freiwillige_beitragszeiten
-        + sozialversicherung__rente__anrechnungszeit_45_monate
+        + sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit
         + sozialversicherung__rente__ersatzzeiten_monate
         + sozialversicherung__rente__pflegeberücksichtigungszeiten_monate
         + sozialversicherung__rente__kinderberücksichtigungszeiten_monate
