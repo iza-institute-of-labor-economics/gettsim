@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Literal
 
-import flatten_dict
+import dags.tree as dt
 import optree
 
 from _gettsim.aggregation import (
@@ -159,10 +159,10 @@ def _create_aggregation_functions(
         aggregations_tree
     )[:2]
 
-    group_by_functions_tree = flatten_dict.unflatten(
+    group_by_functions_tree = dt.unflatten_from_tree_paths(
         {
             path: func
-            for path, func in flatten_dict.flatten(functions_tree).items()
+            for path, func in dt.flatten_to_tree_paths(functions_tree).items()
             if isinstance(func, GroupByFunction)
         }
     )
@@ -264,23 +264,24 @@ def _create_derived_aggregations_tree(
 
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
-    aggregation_source_tree = upsert_tree(
-        base=functions_tree,
-        to_upsert=data_tree,
+    aggregation_source_tree_paths = dt.tree_paths(
+        upsert_tree(
+            base=functions_tree,
+            to_upsert=data_tree,
+        )
     )
 
     # Create aggregation specs.
     derived_aggregations_tree = {}
-    for tree_path in optree.tree_paths(
-        potential_aggregation_function_names, none_is_leaf=True
-    ):
+    for tree_path in dt.tree_paths(potential_aggregation_function_names):
         leaf_name = tree_path[-1]
 
         # Don't create aggregation functions for unsupported groupings or functions that
         # already exist in the source tree.
-        aggregation_specs_needed = any(
-            leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS
-        ) and tree_path not in optree.tree_paths(aggregation_source_tree)
+        aggregation_specs_needed = (
+            any(leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+            and tree_path not in aggregation_source_tree_paths
+        )
 
         if aggregation_specs_needed:
             derived_aggregations_tree = insert_path_and_value(
@@ -350,8 +351,8 @@ def _annotations_for_aggregation(
         else None
     )
 
-    flat_functions = flatten_dict.flatten(functions_tree)
-    flat_types_input_variables = flatten_dict.flatten(types_input_variables)
+    flat_functions = dt.flatten_to_tree_paths(functions_tree)
+    flat_types_input_variables = dt.flatten_to_tree_paths(types_input_variables)
 
     if aggregation_method == "count":
         annotations["return"] = int
@@ -634,8 +635,7 @@ def _fail_if_targets_not_in_functions_tree(
         reference_tree=functions_tree,
     )[1]
     names_of_targets_not_in_functions = [
-        str(p)
-        for p in optree.tree_paths(targets_not_in_functions_tree, none_is_leaf=True)
+        str(p) for p in dt.tree_paths(targets_not_in_functions_tree)
     ]
     if names_of_targets_not_in_functions:
         formatted = format_list_linewise(names_of_targets_not_in_functions)
