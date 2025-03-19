@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-import flatten_dict
+import dags.tree as dt
 import pandas as pd
 import yaml
 
@@ -33,9 +33,9 @@ class PolicyTest:
     @property
     def target_structure(self) -> NestedInputStructureDict:
         flat_target_structure = {
-            k: None for k in flatten_dict.flatten(self.expected_output_tree)
+            k: None for k in dt.flatten_to_tree_paths(self.expected_output_tree)
         }
-        return flatten_dict.unflatten(flat_target_structure)
+        return dt.unflatten_from_tree_paths(flat_target_structure)
 
     @property
     def test_name(self) -> str:
@@ -69,10 +69,6 @@ def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
     return out
 
 
-# TODO(@MImmesberger): Remove this before merging this PR.
-from _gettsim.shared import qualified_name_splitter
-
-
 def get_test_data_as_tree(test_data: NestedDataDict) -> NestedDataDict:
     provided_inputs = test_data["inputs"].get("provided", {})
     assumed_inputs = test_data["inputs"].get("assumed", {})
@@ -81,21 +77,19 @@ def get_test_data_as_tree(test_data: NestedDataDict) -> NestedDataDict:
     unflattened_dict["inputs"] = {}
     unflattened_dict["outputs"] = {}
     if provided_inputs:
-        unflattened_dict["inputs"]["provided"] = flatten_dict.unflatten(
-            provided_inputs, splitter=qualified_name_splitter
+        unflattened_dict["inputs"]["provided"] = dt.unflatten_from_qual_names(
+            provided_inputs
         )
     else:
         unflattened_dict["inputs"]["provided"] = {}
     if assumed_inputs:
-        unflattened_dict["inputs"]["assumed"] = flatten_dict.unflatten(
-            assumed_inputs, splitter=qualified_name_splitter
+        unflattened_dict["inputs"]["assumed"] = dt.unflatten_from_qual_names(
+            assumed_inputs
         )
     else:
         unflattened_dict["inputs"]["assumed"] = {}
 
-    unflattened_dict["outputs"] = flatten_dict.unflatten(
-        test_data["outputs"], splitter=qualified_name_splitter
-    )
+    unflattened_dict["outputs"] = dt.unflatten_from_qual_names(test_data["outputs"])
 
     return unflattened_dict
 
@@ -118,26 +112,30 @@ def _get_policy_tests_from_raw_test_data(
     out = []
 
     inputs: NestedDataDict = raw_test_data.get("inputs", {})
-    input_tree: NestedDataDict = flatten_dict.unflatten(
+    input_tree: NestedDataDict = dt.unflatten_from_tree_paths(
         {
             k: pd.Series(v)
-            for k, v in flatten_dict.flatten(
+            for k, v in dt.flatten_to_tree_paths(
                 merge_trees(inputs.get("provided", {}), inputs.get("assumed", {}))
             ).items()
         }
     )
 
-    expected_output_tree: NestedDataDict = flatten_dict.unflatten(
+    expected_output_tree: NestedDataDict = dt.unflatten_from_tree_paths(
         {
             k: pd.Series(v)
-            for k, v in flatten_dict.flatten(raw_test_data.get("outputs", {})).items()
+            for k, v in dt.flatten_to_tree_paths(
+                raw_test_data.get("outputs", {})
+            ).items()
         }
     )
 
     date: datetime.date = _parse_date(path_of_test_file.parent.name)
 
-    for target_name, output_data in flatten_dict.flatten(expected_output_tree).items():
-        one_expected_output: NestedDataDict = flatten_dict.unflatten(
+    for target_name, output_data in dt.flatten_to_tree_paths(
+        expected_output_tree
+    ).items():
+        one_expected_output: NestedDataDict = dt.unflatten_from_tree_paths(
             {target_name: output_data}
         )
         out.append(
