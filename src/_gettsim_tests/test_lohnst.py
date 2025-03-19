@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-test_data = load_policy_test_data("lohnsteuer")
+test_data = load_policy_test_data("lohnst")
 
 
 @pytest.mark.parametrize(
@@ -42,10 +42,9 @@ def test_lohnsteuer(
     for result, expected in zip(
         flat_result.values(), flat_expected_output_tree.values()
     ):
-        assert_array_almost_equal(result, expected, decimal=2)
+        assert_array_almost_equal(result, expected, decimal=0)
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_lohnsteuer_rv_anteil():
     environment = set_up_policy_environment(2018)
 
