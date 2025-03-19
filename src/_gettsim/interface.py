@@ -5,7 +5,6 @@ import warnings
 from typing import Any, Literal, get_args
 
 import dags.tree as dt
-import flatten_dict
 import networkx as nx
 import optree
 import pandas as pd
@@ -40,8 +39,6 @@ from _gettsim.shared import (
     get_path_for_group_by_id,
     merge_trees,
     partition_tree_by_reference_tree,
-    qualified_name_reducer,
-    qualified_name_splitter,
 )
 
 
@@ -187,13 +184,9 @@ def _convert_data_to_correct_types(
         " types yourself."
     )
 
-    flat_data = flatten_dict.flatten(data_tree, reducer=qualified_name_reducer)
-    flat_internal_types = flatten_dict.flatten(
-        TYPES_INPUT_VARIABLES, reducer=qualified_name_reducer
-    )
-    flat_functions = flatten_dict.flatten(
-        functions_tree_overridden, reducer=qualified_name_reducer
-    )
+    flat_data = dt.flatten_to_qual_names(data_tree)
+    flat_internal_types = dt.flatten_to_qual_names(TYPES_INPUT_VARIABLES)
+    flat_functions = dt.flatten_to_qual_names(functions_tree_overridden)
 
     flat_data_with_correct_types = {}
 
@@ -260,10 +253,7 @@ def _convert_data_to_correct_types(
             stacklevel=2,
         )
 
-    return flatten_dict.unflatten(
-        flat_data_with_correct_types,
-        splitter=qualified_name_splitter,
-    )
+    return dt.unflatten_from_qual_names(flat_data_with_correct_types)
 
 
 def _create_input_data_for_concatenated_function(
@@ -304,9 +294,8 @@ def _create_input_data_for_concatenated_function(
 
     # Create root nodes tree
     root_nodes_view = nx.subgraph_view(dag, filter_node=lambda n: dag.in_degree(n) == 0)
-    root_nodes_tree = flatten_dict.unflatten(
-        {node: None for node in root_nodes_view.nodes},
-        splitter=qualified_name_splitter,
+    root_nodes_tree = dt.unflatten_from_qual_names(
+        {node: None for node in root_nodes_view.nodes}
     )
 
     _fail_if_root_nodes_are_missing(
@@ -321,8 +310,8 @@ def _create_input_data_for_concatenated_function(
         reference_tree=root_nodes_tree,
     )[0]
 
-    return flatten_dict.unflatten(
-        {k: np.array(v) for k, v in flatten_dict.flatten(input_data_tree).items()},
+    return dt.unflatten_from_tree_paths(
+        {k: np.array(v) for k, v in dt.flatten_to_tree_paths(input_data_tree).items()},
     )
 
 
@@ -541,14 +530,14 @@ def _fail_if_group_variables_not_constant_within_groups(
     functions_tree
         Nested dictionary with PolicyFunction as leaf nodes.
     """
-    group_by_functions_tree = flatten_dict.unflatten(
+    group_by_functions_tree = dt.unflatten_from_tree_paths(
         {
             path: func
-            for path, func in flatten_dict.flatten(functions_tree).items()
+            for path, func in dt.flatten_to_tree_paths(functions_tree).items()
             if isinstance(func, GroupByFunction)
         }
     )
-    flat_data_tree = flatten_dict.flatten(data_tree)
+    flat_data_tree = dt.flatten_to_tree_paths(data_tree)
 
     def faulty_leaf(path, leaf):
         group_by_id = get_path_for_group_by_id(
@@ -738,9 +727,9 @@ def _fail_if_root_nodes_are_missing(
     ValueError
         If root nodes are missing.
     """
-    flat_root_nodes = flatten_dict.flatten(root_nodes_tree)
-    flat_data = flatten_dict.flatten(data_tree)
-    flat_functions = flatten_dict.flatten(functions_tree)
+    flat_root_nodes = dt.flatten_to_tree_paths(root_nodes_tree)
+    flat_data = dt.flatten_to_tree_paths(data_tree)
+    flat_functions = dt.flatten_to_tree_paths(functions_tree)
     missing_nodes = []
 
     for node in flat_root_nodes:
