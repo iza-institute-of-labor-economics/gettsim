@@ -6,8 +6,8 @@ from _gettsim.function_types import policy_function
 @policy_function(start_date="2001-01-01")
 def betrag_m(  # noqa: PLR0913
     zugangsfaktor: float,
-    sozialversicherung__rente__entgeltpunkte_west: float,
-    sozialversicherung__rente__entgeltpunkte_ost: float,
+    entgeltpunkte_west: float,
+    entgeltpunkte_ost: float,
     rentenartfaktor: float,
     grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
@@ -21,10 +21,10 @@ def betrag_m(  # noqa: PLR0913
     ----------
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    sozialversicherung__rente__entgeltpunkte_west
-        See :func:`sozialversicherung__rente__entgeltpunkte_west`.
-    sozialversicherung__rente__entgeltpunkte_ost
-        See :func:`sozialversicherung__rente__entgeltpunkte_ost`.
+    entgeltpunkte_west
+        See :func:`entgeltpunkte_west`.
+    entgeltpunkte_ost
+        See :func:`entgeltpunkte_ost`.
     rentenwert
         See :func:`rentenwert`.
     rentenartfaktor
@@ -40,10 +40,8 @@ def betrag_m(  # noqa: PLR0913
     if grundsätzlich_anspruchsberechtigt:
         out = (
             (
-                sozialversicherung__rente__entgeltpunkte_west
-                * ges_rente_params["rentenwert"]["west"]
-                + sozialversicherung__rente__entgeltpunkte_ost
-                * ges_rente_params["rentenwert"]["ost"]
+                entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
+                + entgeltpunkte_ost * ges_rente_params["rentenwert"]["ost"]
             )
             * zugangsfaktor
             * rentenartfaktor
@@ -90,7 +88,7 @@ def grundsätzlich_anspruchsberechtigt(
 
 
 @policy_function(start_date="2001-01-01")
-def sozialversicherung__rente__entgeltpunkte_west(
+def entgeltpunkte_west(
     sozialversicherung__rente__entgeltpunkte_west: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
@@ -126,7 +124,7 @@ def sozialversicherung__rente__entgeltpunkte_west(
 
 
 @policy_function(start_date="2001-01-01")
-def sozialversicherung__rente__entgeltpunkte_ost(
+def entgeltpunkte_ost(
     sozialversicherung__rente__entgeltpunkte_ost: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
