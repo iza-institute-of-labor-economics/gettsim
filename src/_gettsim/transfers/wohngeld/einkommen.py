@@ -318,7 +318,8 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
 
     elif demographics__alleinerziehend and (not demographics__kind):
         freibetrag_kinder_m = (
-            alleinerziehendenbonus * wohngeld_params["freibetrag_kinder_m"]["alleinerz"]
+            alleinerziehendenbonus
+            * wohngeld_params["freibetrag_kinder_m"]["alleinerziehend"]
         )
     else:
         freibetrag_kinder_m = 0.0
@@ -365,7 +366,7 @@ def freibetrag_m_ab_2016(
             wohngeld_params["freibetrag_kinder_m"]["arbeitendes_kind"],
         )
     elif demographics__alleinerziehend:
-        freibetrag_kinder_m = wohngeld_params["freibetrag_kinder_m"]["alleinerz"]
+        freibetrag_kinder_m = wohngeld_params["freibetrag_kinder_m"]["alleinerziehend"]
     else:
         freibetrag_kinder_m = 0.0
 

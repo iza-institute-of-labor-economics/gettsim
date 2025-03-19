@@ -150,7 +150,7 @@ def create_basic_households(
             "hh_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
             "sozialversicherung__pflege__beitrag__hat_kinder": sozialversicherung__pflege__beitrag__hat_kinder,  # noqa: E501
-            "alleinerz": alleinerziehend,
+            "alleinerziehend": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
             "sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24": [n_children]

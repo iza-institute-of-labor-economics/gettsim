@@ -28,7 +28,7 @@ def einkommen_y(
 
     """
     entlastung_freibetrag_alleinerz = (steuerklasse == 2) * eink_st_abzuege_params[
-        "alleinerz_freibetrag"
+        "alleinerziehend_freibetrag"
     ]
 
     if steuerklasse == 6:

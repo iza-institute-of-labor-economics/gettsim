@@ -711,20 +711,20 @@ freibetrag_kinder_m:
   unit: Euro
   reference_period: Month
   1984-01-01:
-    alleinerz: 51
+    alleinerziehend: 51
     arbeitendes_kind: 0
   2001-01-01:
     deviation_from: previous
     arbeitendes_kind: 51
   2002-01-01:
-    alleinerz: 50
+    alleinerziehend: 50
     arbeitendes_kind: 50
   2016-01-01:
     note: >-
       neu §17 3. WoGG a) Alleinerziehend b) Kind unter 18 und neu §17 4. WoGG Kind noch
       nicht 25J.
     reference: Art. 1 G. v. 08.10.2015 BGBl Nr.38, S.1617
-    alleinerz: 110
+    alleinerziehend: 110
     arbeitendes_kind: 100
 freibetrag_behinderung:
   name:
