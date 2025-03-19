@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 import dags.tree as dt
+import numpy as np
 import pytest
 from numpy.testing import assert_array_almost_equal
 
@@ -47,11 +48,11 @@ def test_groupings(
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
     data = {
         "demographics": {
-            "p_id": [0, 1],
-            "p_id_ehepartner": [1, 0],
+            "p_id": np.array([0, 1]),
+            "p_id_ehepartner": np.array([1, 0]),
         },
         "einkommensteuer": {
-            "gemeinsam_veranlagt": [False, True],
+            "gemeinsam_veranlagt": np.array([False, True]),
         },
     }
 
@@ -59,10 +60,10 @@ def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
 
     with pytest.raises(
         ValueError,
-        match="have different values for einkommensteuer__gemeinsam_veranlagt",
+        match="have different values for gemeinsam_veranlagt",
     ):
         compute_taxes_and_transfers(
-            data=data,
+            data_tree=data,
             environment=environment,
-            targets=["sn_id"],
+            targets_tree={"einkommensteuer": {"sn_id": None}},
         )
