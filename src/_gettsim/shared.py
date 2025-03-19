@@ -316,7 +316,7 @@ def join_numpy(
 
 
 def rename_arguments_and_add_annotations(
-    function: Callable | None = None,
+    function: Callable,
     *,
     mapper: dict | None = None,
     annotations: dict | None = None,

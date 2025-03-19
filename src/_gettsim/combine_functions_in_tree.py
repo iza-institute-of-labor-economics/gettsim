@@ -423,70 +423,46 @@ def _create_one_aggregate_by_group_func(
 
     """
     if aggregation_method == "count":
+        derived_from = group_by_id
+        mapper = {"group_by_id": group_by_id}
 
-        @rename_arguments_and_add_annotations(
-            mapper={"group_by_id": group_by_id}, annotations=annotations
-        )
-        def aggregate_by_group_func(group_by_id):
+        def agg_func(group_by_id):
             return grouped_count(group_by_id)
 
     else:
+        derived_from = (source_col, group_by_id)
         mapper = {
             "source_col": source_col,
             "group_by_id": group_by_id,
         }
         if aggregation_method == "sum":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_sum(source_col, group_by_id)
 
         elif aggregation_method == "mean":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_mean(source_col, group_by_id)
 
         elif aggregation_method == "max":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_max(source_col, group_by_id)
 
         elif aggregation_method == "min":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_min(source_col, group_by_id)
 
         elif aggregation_method == "any":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_any(source_col, group_by_id)
 
         elif aggregation_method == "all":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_all(source_col, group_by_id)
 
         else:
@@ -495,13 +471,14 @@ def _create_one_aggregate_by_group_func(
             )
             raise ValueError(msg)
 
-    if aggregation_method == "count":
-        derived_from = group_by_id
-    else:
-        derived_from = (source_col, group_by_id)
+    wrapped_func = rename_arguments_and_add_annotations(
+        function=agg_func,
+        mapper=mapper,
+        annotations=annotations,
+    )
 
     return DerivedFunction(
-        function=aggregate_by_group_func,
+        function=wrapped_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
@@ -535,19 +512,19 @@ def _create_one_aggregate_by_p_id_func(
 
     """
     # Define aggregation func
-    if aggregation_method == "count":
 
-        @rename_arguments_and_add_annotations(
-            mapper={
-                "p_id_to_aggregate_by": p_id_to_aggregate_by,
-                "p_id_to_store_by": "demographics__p_id",
-            },
-            annotations=annotations,
-        )
-        def aggregate_by_p_id_func(p_id_to_aggregate_by, p_id_to_store_by):
+    if aggregation_method == "count":
+        derived_from = p_id_to_aggregate_by
+        mapper = {
+            "p_id_to_aggregate_by": p_id_to_aggregate_by,
+            "p_id_to_store_by": "demographics__p_id",
+        }
+
+        def agg_func(p_id_to_aggregate_by, p_id_to_store_by):
             return count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by)
 
     else:
+        derived_from = (source_col, p_id_to_aggregate_by)
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
             "p_id_to_store_by": "demographics__p_id",
@@ -556,56 +533,32 @@ def _create_one_aggregate_by_p_id_func(
 
         if aggregation_method == "sum":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "mean":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "max":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "min":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "any":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "all":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         else:
@@ -614,13 +567,14 @@ def _create_one_aggregate_by_p_id_func(
             )
             raise ValueError(msg)
 
-    if aggregation_method == "count":
-        derived_from = p_id_to_aggregate_by
-    else:
-        derived_from = (source_col, p_id_to_aggregate_by)
+    wrapped_func = rename_arguments_and_add_annotations(
+        function=agg_func,
+        mapper=mapper,
+        annotations=annotations,
+    )
 
     return DerivedFunction(
-        function=aggregate_by_p_id_func,
+        function=wrapped_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )

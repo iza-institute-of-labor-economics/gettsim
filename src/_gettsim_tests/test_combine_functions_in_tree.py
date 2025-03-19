@@ -4,6 +4,7 @@ import pytest
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
+    _create_one_aggregate_by_group_func,
     _create_one_aggregate_by_p_id_func,
     _fail_if_targets_not_in_functions_tree,
     _get_tree_path_from_source_col_name,
@@ -238,6 +239,19 @@ def test_fail_if_targets_are_not_among_functions(
     with pytest.raises(ValueError) as e:
         _fail_if_targets_not_in_functions_tree(functions, targets)
     assert expected_error_match in str(e.value)
+
+
+def test_create_one_aggregate_by_group_func_applies_annotations():
+    """Test that the annotations are applied to the derived function."""
+    annotations = {"bar": bool, "return": int}
+    result_func = _create_one_aggregate_by_group_func(
+        aggregation_target="bar",
+        aggregation_method="sum",
+        source_col="foo",
+        annotations=annotations,
+        group_by_id="hh_id",
+    )
+    assert result_func.__annotations__ == annotations
 
 
 def test_create_one_aggregate_by_p_id_func_applies_annotations():
