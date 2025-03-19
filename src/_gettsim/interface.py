@@ -205,13 +205,15 @@ def _convert_data_to_correct_types(
             ] and (
                 func.skip_vectorization if isinstance(func, PolicyFunction) else True
             )
-            if hasattr(func, "__annotations__") and return_annotation_is_array:
+            if return_annotation_is_array:
                 # Assumes that things are annotated with numpy.ndarray([dtype]), might
                 # require a change if using proper numpy.typing. Not changing for now
                 # as we will likely switch to JAX completely.
                 internal_type = get_args(func.__annotations__["return"])[0]
-            else:
+            elif "return" in func.__annotations__:
                 internal_type = func.__annotations__["return"]
+            else:
+                pass
         else:
             pass
 
@@ -641,7 +643,9 @@ def _warn_if_functions_overridden_by_data(
 ) -> None:
     """Warn if functions are overridden by data."""
     tree_paths = optree.tree_paths(functions_tree_overridden)
-    formatted_list = format_list_linewise([str(p) for p in tree_paths])
+    formatted_list = (
+        format_list_linewise([str(p) for p in tree_paths]) if tree_paths else []
+    )
     if len(formatted_list) > 0:
         warnings.warn(
             FunctionsAndColumnsOverlapWarning(formatted_list),

@@ -94,7 +94,7 @@ def test_warn_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
         {
             "dupl": policy_function(leaf_name="dupl")(lambda x: x),
-            "some_target": policy_function(leaf_name="some_target")(lambda x: x),
+            "some_target": policy_function(leaf_name="some_target")(lambda dupl: dupl),
         }
     )
     with pytest.warns(FunctionsAndColumnsOverlapWarning):
@@ -108,7 +108,6 @@ def test_warn_if_functions_and_columns_overlap():
         )
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_dont_warn_if_functions_and_columns_dont_overlap():
     environment = PolicyEnvironment(
         {"some_func": policy_function(leaf_name="some_func")(lambda x: x)}
@@ -116,13 +115,15 @@ def test_dont_warn_if_functions_and_columns_dont_overlap():
     with warnings.catch_warnings():
         warnings.filterwarnings("error", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
-            data_tree={"demographics": {"p_id": pd.Series([0])}},
+            data_tree={
+                "demographics": {"p_id": pd.Series([0])},
+                "x": pd.Series([1]),
+            },
             environment=environment,
-            targets_tree={},
+            targets_tree={"some_func": None},
         )
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
     environment = PolicyEnvironment(
         {"dupl": policy_function(leaf_name="dupl")(lambda x: x)}
@@ -133,10 +134,11 @@ def test_recipe_to_ignore_warning_if_functions_and_columns_overlap():
         warnings.filterwarnings("ignore", category=FunctionsAndColumnsOverlapWarning)
         compute_taxes_and_transfers(
             data_tree={
-                "demographics": {"p_id": pd.Series([0]), "dupl": pd.Series([1])}
+                "demographics": {"p_id": pd.Series([0]), "dupl": pd.Series([1])},
+                "x": pd.Series([1]),
             },
             environment=environment,
-            targets_tree={},
+            targets_tree={"dupl": None},
         )
 
     assert len(warning_list) == 0
