@@ -929,11 +929,15 @@ mindestlohn:
     reference: V. v. 24.11.2023 BGBl. 2023 I Nr. 321
 rounding:
   sozialversicherung__midijob_faktor_f:
-    1990-01-01:
+    1900-01-01:
       base: 0.0001
       direction: nearest
       reference: null
   sozialversicherung__minijob_grenze:
+    1900-01-01:
+      base: 1
+      direction: up
+      reference: None. Reference missing.
     1990-01-01:
       base: 1
       direction: up
