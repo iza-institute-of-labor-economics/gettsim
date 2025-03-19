@@ -60,7 +60,7 @@ outputs:
     - 60.083333
   sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig:
     - 60.0
-  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig_ohne_vertrauenss:
+  sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__altersgrenze_vorzeitig_ohne_vertrauensschutzprüfung:
     - 60.0
   sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__grundsätzlich_anspruchsberechtigt:
     - true
