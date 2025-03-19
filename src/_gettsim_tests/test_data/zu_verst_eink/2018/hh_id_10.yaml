@@ -35,7 +35,7 @@ inputs:
       - -1
     einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
       - 2547.22
-    einkommensteuer__beitrag_private_rentenversicherung_m:
+    einkommensteuer__abzüge__beitrag_private_rentenversicherung_m:
       - 0.0
     einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
       - 100.0

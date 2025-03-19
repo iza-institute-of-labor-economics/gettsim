@@ -126,9 +126,9 @@ In private health insurance
 
 Type: bool
 
-(einkommensteuer__beitrag_private_rentenversicherung_m)=
+(einkommensteuer__abzüge__beitrag_private_rentenversicherung_m)=
 
-## `einkommensteuer__beitrag_private_rentenversicherung_m`
+## `einkommensteuer__abzüge__beitrag_private_rentenversicherung_m`
 
 Monthly private pension contribution
 

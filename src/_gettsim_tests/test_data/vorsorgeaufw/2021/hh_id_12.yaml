@@ -13,7 +13,7 @@ inputs:
       - 13
     demographics__p_id_ehepartner:
       - -1
-    einkommensteuer__beitrag_private_rentenversicherung_m:
+    einkommensteuer__abzüge__beitrag_private_rentenversicherung_m:
       - 250.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 4305.56

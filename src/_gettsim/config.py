@@ -194,7 +194,7 @@ TYPES_INPUT_VARIABLES = {
     "einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m": float,
     "einkommensteuer__einkünfte__ist_selbstständig": bool,
     "einkommensteuer__einkünfte__sonstige__betrag_m": float,
-    "einkommensteuer__beitrag_private_rentenversicherung_m": float,
+    "einkommensteuer__abzüge__beitrag_private_rentenversicherung_m": float,
     "einkommensteuer__abzüge__betreuungskosten_m": float,
     "einkommensteuer__abzüge__p_id_betreuungskosten_träger": int,
     "einkommensteuer__gemeinsam_veranlagt": bool,

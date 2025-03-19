@@ -80,7 +80,7 @@ inputs:
       - 10901.0
       - 10901.0
       - 10901.0
-    einkommensteuer__beitrag_private_rentenversicherung_m:
+    einkommensteuer__abzüge__beitrag_private_rentenversicherung_m:
       - 0.0
       - 0.0
       - 0.0
