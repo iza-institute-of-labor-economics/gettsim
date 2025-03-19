@@ -32,7 +32,7 @@ inputs:
 outputs:
   sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
     - 64.87
-  sozialversicherung__beitrag_arbeitgeber_m:
+  sozialversicherung__beiträge_arbeitgeber_m:
     - 1020.46
   sozialversicherung__beiträge_versicherter_m:
     - 1007.99
