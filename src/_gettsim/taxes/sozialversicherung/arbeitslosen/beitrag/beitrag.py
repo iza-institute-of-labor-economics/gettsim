@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_versicherter_m")
-def betrag_versicherter_vor_midijob_m(
+def betrag_versicherter_m_ohne_midijob(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
@@ -39,7 +39,7 @@ def betrag_versicherter_vor_midijob_m(
 
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_versicherter_m")
-def betrag_versicherter_mit_midijob_m(
+def betrag_versicherter_m_mit_midijob(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__in_gleitzone: bool,
     betrag_versicherter_midijob_m: float,
@@ -82,7 +82,7 @@ def betrag_versicherter_mit_midijob_m(
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
-def betrag_arbeitgeber_vor_midijob_m(
+def betrag_arbeitgeber_m_ohne_midijob(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__rente__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
@@ -215,7 +215,7 @@ def betrag_arbeitgeber_midijob_m_anteil_bruttolohn(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
-def betrag_arbeitgeber_midijob_m_residuum(
+def betrag_arbeitgeber_midijob_m_als_differenz_von_gesamt_und_versichertenbeitrag(
     betrag_gesamt_midijob_m: float,
     betrag_versicherter_midijob_m: float,
 ) -> float:
@@ -240,7 +240,7 @@ def betrag_arbeitgeber_midijob_m_residuum(
     end_date="2022-09-30",
     leaf_name="betrag_versicherter_midijob_m",
 )
-def betrag_versicherter_midijob_m_residuum(
+def betrag_versicherter_midijob_m_als_differenz_von_gesamt_und_arbeitgeberbeitrag(
     betrag_gesamt_midijob_m: float,
     betrag_arbeitgeber_midijob_m: float,
 ) -> float:
@@ -262,7 +262,7 @@ def betrag_versicherter_midijob_m_residuum(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_versicherter_midijob_m")
-def betrag_versicherter_midijob_m_anteil_beitragspflichtiger_einnahmen(
+def betrag_versicherter_midijob_m_mit_festem_beitragssatz(
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialv_beitr_params: dict,
 ) -> float:

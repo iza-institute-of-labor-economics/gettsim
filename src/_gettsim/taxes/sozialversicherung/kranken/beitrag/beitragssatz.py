@@ -96,7 +96,7 @@ def beitragssatz_arbeitnehmer_mittlerer_kassenspezifischer_zusatzbeitrag(
     end_date="2008-12-31",
     leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
-def beitragssatz_arbeitnehmer_mittlerer_kassenspezifischer_zusatzbeitrag_jahresanfang(
+def beitragssatz_arbeitnehmer_jahresanfang_mittlerer_kassenspezifischer_zusatzbeitrag(
     zusatzbeitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -164,7 +164,7 @@ def beitragssatz_arbeitnehmer_einheitlicher_zusatzbeitrag(
     end_date="2018-12-31",
     leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
-def beitragssatz_arbeitnehmer_einheitlicher_zusatzbeitrag_jahresanfang(
+def beitragssatz_arbeitnehmer_jahresanfang_einheitlicher_zusatzbeitrag(
     zusatzbeitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -225,7 +225,7 @@ def beitragssatz_arbeitnehmer_paritätischer_zusatzbeitrag(
     start_date="2019-01-01",
     leaf_name="beitragssatz_arbeitnehmer_jahresanfang",
 )
-def beitragssatz_arbeitnehmer_paritätischer_zusatzbeitrag_jahresanfang(
+def beitragssatz_arbeitnehmer_jahresanfang_paritätischer_zusatzbeitrag(
     zusatzbeitragssatz: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -276,7 +276,7 @@ def beitragssatz_arbeitgeber_mittlerer_kassenspezifischer(
     end_date="2008-12-31",
     leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
-def beitragssatz_arbeitgeber_mittlerer_kassenspezifischer_jahresanfang(
+def beitragssatz_arbeitgeber_jahresanfang_mittlerer_kassenspezifischer(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate at the begging of the year.
@@ -332,7 +332,7 @@ def beitragssatz_arbeitgeber_einheitlicher_zusatzbeitrag(
     end_date="2018-12-31",
     leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
-def beitragssatz_arbeitgeber_einheitlicher_zusatzbeitrag_jahresanfang(
+def beitragssatz_arbeitgeber_jahresanfang_einheitlicher_zusatzbeitrag(
     sozialv_beitr_params: dict,
 ) -> float:
     """Employer's health insurance contribution rate at the beginning of the year.
@@ -383,7 +383,7 @@ def beitragssatz_arbeitgeber_paritätischer_zusatzbeitrag(
     start_date="2019-01-01",
     leaf_name="beitragssatz_arbeitgeber_jahresanfang",
 )
-def beitragssatz_arbeitgeber_paritätischer_zusatzbeitrag_jahresanfang(
+def beitragssatz_arbeitgeber_jahresanfang_paritätischer_zusatzbeitrag(
     beitragssatz_arbeitnehmer_jahresanfang: float,
 ) -> float:
     """Employer's health insurance contribution rate at the beginning of the year.

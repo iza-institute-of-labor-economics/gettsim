@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_versicherter_m")
-def betrag_vor_midijob_m(
+def betrag_versicherter_m_ohne_midijob(
     betrag_versicherter_regulär_beschäftigt_m: float,
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
@@ -44,7 +44,7 @@ def betrag_vor_midijob_m(
 
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_versicherter_m")
-def betrag_mit_midijob_m(  # noqa: PLR0913
+def betrag_versicherter_m_mit_midijob(  # noqa: PLR0913
     betrag_versicherter_regulär_beschäftigt_m: float,
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
@@ -115,7 +115,7 @@ def betrag_versicherter_regulär_beschäftigt_m(
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
-def betrag_arbeitgeber_vor_midijob_m(
+def betrag_arbeitgeber_m_ohne_midijob(
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__kranken__beitrag__einkommen_m: float,
     sozialv_beitr_params: dict,
@@ -159,7 +159,7 @@ def betrag_arbeitgeber_vor_midijob_m(
 
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitgeber_m")
-def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
+def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_arbeitgeber_midijob_m: float,
     sozialversicherung__kranken__beitrag__einkommen_m: float,
@@ -215,7 +215,7 @@ def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
     end_date="2004-12-31",
     leaf_name="betrag_selbstständig_m",
 )
-def betrag_selbstständig_ohne_zusatz_fuer_kinderlose_m(
+def betrag_selbstständig_m_ohne_zusatz_für_kinderlose(
     sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m: float,
     beitragssatz: float,
 ) -> float:
@@ -244,7 +244,7 @@ def betrag_selbstständig_ohne_zusatz_fuer_kinderlose_m(
 
 
 @policy_function(start_date="2005-01-01", leaf_name="betrag_selbstständig_m")
-def betrag_selbstständig_zusatz_kinderlos_dummy_m(
+def betrag_selbstständig_m_mit_zusatz_für_kinderlose(
     sozialversicherung__kranken__beitrag__bemessungsgrundlage_selbstständig_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
@@ -281,7 +281,7 @@ def betrag_selbstständig_zusatz_kinderlos_dummy_m(
     end_date="2004-03-31",
     leaf_name="betrag_rentner_m",
 )
-def betrag_rentner_reduz_beitrag_m(
+def betrag_rentner_m_reduzierter_beitrag(
     sozialversicherung__kranken__beitrag__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
 ) -> float:
@@ -312,7 +312,7 @@ def betrag_rentner_reduz_beitrag_m(
     end_date="2004-12-31",
     leaf_name="betrag_rentner_m",
 )
-def betrag_rentner_ohne_zusatz_für_kinderlose_m(
+def betrag_rentner_m_ohne_zusatz_für_kinderlose(
     sozialversicherung__kranken__beitrag__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
 ) -> float:
@@ -338,7 +338,7 @@ def betrag_rentner_ohne_zusatz_für_kinderlose_m(
 
 
 @policy_function(start_date="2005-01-01", leaf_name="betrag_rentner_m")
-def betrag_rentner_zusatz_kinderlos_dummy_m(
+def betrag_rentner_m_mit_zusatz_für_kinderlose(
     sozialversicherung__kranken__beitrag__bemessungsgrundlage_rente_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
@@ -372,7 +372,7 @@ def betrag_rentner_zusatz_kinderlos_dummy_m(
     end_date="2004-12-31",
     leaf_name="betrag_gesamt_m",
 )
-def betrag_gesamt_bis_2004_m(
+def betrag_gesamt_m_bis_2004(
     sozialversicherung__midijob_bemessungsentgelt_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
@@ -404,7 +404,7 @@ def betrag_gesamt_bis_2004_m(
     start_date="2005-01-01",
     leaf_name="betrag_gesamt_m",
 )
-def betrag_gesamty_ab_2005_m(
+def betrag_gesamt_m_ab_2005(
     sozialversicherung__midijob_bemessungsentgelt_m: float,
     beitragssatz: float,
     sozialv_beitr_params: dict,
@@ -435,7 +435,7 @@ def betrag_gesamty_ab_2005_m(
     end_date="2004-12-31",
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
+def betrag_arbeitgeber_midijob_m_mit_festem_beitragssatz_bis_2004(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -469,7 +469,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_bis_2004_m(
     end_date="2022-09-30",
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
+def betrag_arbeitgeber_midijob_m_mit_festem_beitragssatz_ab_2005(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
@@ -497,7 +497,7 @@ def betrag_arbeitgeber_midijob_anteil_bruttolohn_ab_2005_m(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
-def betrag_arbeitgeber_midijob_residuum_m(
+def betrag_arbeitgeber_midijob_m_als_differenz_von_gesamt_und_versichertenbeitrag(
     betrag_gesamt_m: float,
     betrag_versicherter_m: float,
 ) -> float:
@@ -524,7 +524,7 @@ def betrag_arbeitgeber_midijob_residuum_m(
     end_date="2022-09-30",
     leaf_name="betrag_versicherter_midijob_m",
 )
-def betrag_versicherter_midijob_residuum_m(
+def betrag_versicherter_midijob_m_als_differenz_von_gesamt_und_arbeitgeberbeitrag(
     betrag_arbeitgeber_midijob_m: float,
     betrag_gesamt_m: float,
 ) -> float:
@@ -553,7 +553,7 @@ def betrag_versicherter_midijob_residuum_m(
     end_date="2023-06-30",
     leaf_name="betrag_versicherter_midijob_m",
 )
-def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
+def betrag_versicherter_midijob_m_mit_zusatzbeitrag_für_kinderlos(
     zusatzbetrag_kinderlos: bool,
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     sozialversicherung__midijob_bemessungsentgelt_m: float,
@@ -595,7 +595,7 @@ def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
 
 
 @policy_function(start_date="2023-07-01", leaf_name="betrag_versicherter_midijob_m")
-def betrag_versicherter_midijob_anteil_mit_kinder_abschlag_m(
+def betrag_versicherter_midijob_m_mit_verringertem_beitrag_für_eltern_mit_mehreren_kindern(
     anzahl_kinder_bis_24: int,
     zusatzbetrag_kinderlos: bool,
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,

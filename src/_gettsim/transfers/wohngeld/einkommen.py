@@ -269,7 +269,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
 @policy_function(end_date="2015-12-31", leaf_name="freibetrag_m")
 def freibetrag_m_bis_2015(  # noqa: PLR0913
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
-    demographics__ist_kind_mit_erwerbseinkommen: bool,
+    ist_kind_mit_erwerbseinkommen: bool,
     demographics__behinderungsgrad: int,
     demographics__alleinerziehend: bool,
     demographics__kind: bool,
@@ -282,8 +282,8 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     ----------
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
-    demographics__ist_kind_mit_erwerbseinkommen
-        See :func:`demographics__ist_kind_mit_erwerbseinkommen`.
+    ist_kind_mit_erwerbseinkommen
+        See :func:`ist_kind_mit_erwerbseinkommen`.
     demographics__behinderungsgrad
         See basic input variable :ref:`demographics__behinderungsgrad <demographics__behinderungsgrad>`.
     demographics__alleinerziehend
@@ -310,7 +310,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
     )
 
     # Subtraction for single parents and working children
-    if demographics__ist_kind_mit_erwerbseinkommen:
+    if ist_kind_mit_erwerbseinkommen:
         freibetrag_kinder_m = min(
             einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m,
             wohngeld_params["freibetrag_kinder_m"]["arbeitendes_kind"],
@@ -329,7 +329,7 @@ def freibetrag_m_bis_2015(  # noqa: PLR0913
 @policy_function(start_date="2016-01-01", leaf_name="freibetrag_m")
 def freibetrag_m_ab_2016(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
-    demographics__ist_kind_mit_erwerbseinkommen: bool,
+    ist_kind_mit_erwerbseinkommen: bool,
     demographics__behinderungsgrad: int,
     demographics__alleinerziehend: bool,
     wohngeld_params: dict,
@@ -340,8 +340,8 @@ def freibetrag_m_ab_2016(
     ----------
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
-    demographics__ist_kind_mit_erwerbseinkommen
-        See :func:`demographics__ist_kind_mit_erwerbseinkommen`.
+    ist_kind_mit_erwerbseinkommen
+        See :func:`ist_kind_mit_erwerbseinkommen`.
     demographics__behinderungsgrad
         See basic input variable :ref:`demographics__behinderungsgrad <demographics__behinderungsgrad>`.
     demographics__alleinerziehend
@@ -360,7 +360,7 @@ def freibetrag_m_ab_2016(
         else 0
     )
 
-    if demographics__ist_kind_mit_erwerbseinkommen:
+    if ist_kind_mit_erwerbseinkommen:
         freibetrag_kinder_m = min(
             einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m,
             wohngeld_params["freibetrag_kinder_m"]["arbeitendes_kind"],
@@ -403,3 +403,27 @@ def einkommen(
 
     out = max(eink_nach_abzug_m_hh, unteres_eink)
     return float(out)
+
+
+@policy_function()
+def ist_kind_mit_erwerbseinkommen(
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
+    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
+) -> bool:
+    """Check if children are working.
+
+    Parameters
+    ----------
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
+        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
+    kindergeld__grundsätzlich_anspruchsberechtigt
+        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
+
+    Returns
+    -------
+
+    """
+    out = (
+        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m > 0
+    ) and kindergeld__grundsätzlich_anspruchsberechtigt
+    return out
