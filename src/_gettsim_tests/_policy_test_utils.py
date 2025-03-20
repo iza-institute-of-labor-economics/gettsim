@@ -132,20 +132,30 @@ def _get_policy_tests_from_raw_test_data(
 
     date: datetime.date = _parse_date(path_of_test_file.parent.name)
 
-    for target_name, output_data in dt.flatten_to_tree_paths(
-        expected_output_tree
-    ).items():
-        one_expected_output: NestedDataDict = dt.unflatten_from_tree_paths(
-            {target_name: output_data}
-        )
+    if expected_output_tree == {}:
         out.append(
             PolicyTest(
                 input_tree=input_tree,
-                expected_output_tree=one_expected_output,
+                expected_output_tree={},
                 path=path_of_test_file,
                 date=date,
             )
         )
+    else:
+        for target_name, output_data in dt.flatten_to_tree_paths(
+            expected_output_tree
+        ).items():
+            one_expected_output: NestedDataDict = dt.unflatten_from_tree_paths(
+                {target_name: output_data}
+            )
+            out.append(
+                PolicyTest(
+                    input_tree=input_tree,
+                    expected_output_tree=one_expected_output,
+                    path=path_of_test_file,
+                    date=date,
+                )
+            )
 
     return out
 

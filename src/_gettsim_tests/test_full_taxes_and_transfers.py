@@ -2,8 +2,9 @@ from typing import TYPE_CHECKING
 
 import dags.tree as dt
 import pytest
-from numpy.testing import assert_array_almost_equal
 
+from _gettsim.config import TYPES_INPUT_VARIABLES
+from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
@@ -21,24 +22,50 @@ test_data = load_policy_test_data("full_taxes_and_transfers")
     "test",
     test_data,
 )
-def test_full_taxes_and_transfers(
+def test_full_taxes_transfers(
     test: PolicyTest,
 ):
     date: datetime.date = test.date
     input_tree: NestedDataDict = test.input_tree
-    expected_output_tree: NestedDataDict = test.expected_output_tree
     target_structure: NestedInputStructureDict = test.target_structure
 
     environment = cached_set_up_policy_environment(date=date)
 
-    result = compute_taxes_and_transfers(
+    compute_taxes_and_transfers(
         data_tree=input_tree, environment=environment, targets_tree=target_structure
     )
 
-    flat_result = dt.flatten_to_qual_names(result)
-    flat_expected_output_tree = dt.flatten_to_qual_names(expected_output_tree)
 
-    for result, expected in zip(
-        flat_result.values(), flat_expected_output_tree.values()
-    ):
-        assert_array_almost_equal(result, expected, decimal=2)
+@pytest.mark.parametrize(
+    "test",
+    test_data,
+)
+def test_data_types(
+    test: PolicyTest,
+):
+    environment = cached_set_up_policy_environment(date=test.date)
+
+    result = compute_taxes_and_transfers(
+        data_tree=test.input_tree,
+        environment=environment,
+        targets_tree=test.target_structure,
+    )
+
+    flat_types_input_variables = dt.flatten_to_qual_names(TYPES_INPUT_VARIABLES)
+    flat_functions = dt.flatten_to_qual_names(environment.functions_tree)
+
+    for column_name, result_array in dt.flatten_to_qual_names(result).items():
+        if column_name in flat_types_input_variables:
+            internal_type = flat_types_input_variables[column_name]
+        elif column_name in flat_functions:
+            internal_type = flat_functions[column_name].__annotations__["return"]
+        else:
+            # TODO (@hmgaudecker): Implement easy way to find out expected type of
+            #     aggregated functions
+            # https://github.com/iza-institute-of-labor-economics/gettsim/issues/604
+            if column_name.endswith(("_sn", "_hh", "_fg", "_bg", "_eg", "_ehe")):
+                internal_type = None
+            else:
+                raise ValueError(f"Column name {column_name} unknown.")
+        if internal_type:
+            assert check_series_has_expected_type(result_array, internal_type)
