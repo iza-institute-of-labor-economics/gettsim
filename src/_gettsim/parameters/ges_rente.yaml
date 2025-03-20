@@ -1150,7 +1150,7 @@ first_birthyear_without_rente_für_frauen:
   note: https://www.sozialgesetzbuch-sgb.de/sgbvi/237a.html
   1997-12-16:
     scalar: 1952
-rente_für_frauen_pflichtbeitragsjahre:
+rente_für_frauen_mindestpflichtbeitragsjahre_ab_alter_40:
   name:
     de: Mindestpflichbeitragsjahre ab 40 für Rente für Frauen
     en: Minimum contribution since 40 pension for women.

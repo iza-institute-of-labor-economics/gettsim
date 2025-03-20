@@ -455,9 +455,9 @@ Total months of sickness, rehabilitation,measures for worklife participation(Tei
 
 Type: float
 
-(sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate)=
+(sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate)=
 
-## `sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate`
+## `sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate`
 
 Months of sickness between age 16 and 24
 
@@ -479,9 +479,9 @@ Total months of apprenticeship search
 
 Type: float
 
-(sozialversicherung__rente__monate_der_schulausbildung)=
+(sozialversicherung__rente__monate_in_schulausbildung)=
 
-## `sozialversicherung__rente__monate_der_schulausbildung`
+## `sozialversicherung__rente__monate_in_schulausbildung`
 
 Months of schooling (incl college, unifrom age 17, max. 8 years)
 
@@ -528,9 +528,9 @@ Total months of home care provision (01.01.1992-31.03.1995)
 
 Type: float
 
-(sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40)=
+(sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40)=
 
-## `sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40`
+## `sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40`
 
 Total years of mandatory contributions after age 40
 

@@ -86,11 +86,11 @@ outputs:
     - 2904.0
     - 2904.0
     - 0.0
-  einkommensteuer__p_id_kinderfreibetragempfänger_1:
+  einkommensteuer__p_id_kinderfreibetragsempfänger_1:
     - -1
     - -1
     - 0
-  einkommensteuer__p_id_kinderfreibetragempfänger_2:
+  einkommensteuer__p_id_kinderfreibetragsempfänger_2:
     - -1
     - -1
     - 1

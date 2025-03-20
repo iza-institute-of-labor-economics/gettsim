@@ -130,7 +130,7 @@ priv_rente_anr_frei:
     2:
       upper_threshold: inf
       rate: 0.3
-mehrbedarf_schwerbehindert_grad_g:
+mehrbedarf_bei_schwerbehinderungsgrad_g:
   name:
     de: Mehrbedarf bei Schwerbehinderung
     en: Additional requirement when severely disabled

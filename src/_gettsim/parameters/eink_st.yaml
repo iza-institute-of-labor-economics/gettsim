@@ -290,7 +290,7 @@ rounding:
     1900-01-01:
       base: 1
       direction: down
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     1984-01-01:
       base: 1
       direction: down
@@ -306,7 +306,7 @@ rounding:
       base: 27.609762
       direction: down
       to_add_after_rounding: 13.804881
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     2001-01-01:
       base: 27.609762
       direction: down
@@ -325,7 +325,7 @@ rounding:
     1900-01-01:
       base: 1
       direction: down
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     2002-01-01:
       base: 1
       direction: down
@@ -334,7 +334,7 @@ rounding:
     1900-01-01:
       base: 1
       direction: down
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     2002-01-01:
       base: 1
       direction: down

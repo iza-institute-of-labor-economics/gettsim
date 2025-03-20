@@ -138,7 +138,7 @@ rounding:
     1900-01-01:
       base: 0.01
       direction: nearest
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     2004-01-01:
       base: 0.01
       direction: nearest

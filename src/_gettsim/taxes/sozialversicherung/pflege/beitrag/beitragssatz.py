@@ -5,12 +5,12 @@ from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "anzahl_kinder_bis_24_elternteil_1": AggregateByPIDSpec(
-        p_id_to_aggregate_by=("einkommensteuer__p_id_kinderfreibetragempfänger_1"),
+        p_id_to_aggregate_by=("einkommensteuer__p_id_kinderfreibetragsempfänger_1"),
         source_col="demographics__alter_bis_24",
         aggr="sum",
     ),
     "anzahl_kinder_bis_24_elternteil_2": AggregateByPIDSpec(
-        p_id_to_aggregate_by=("einkommensteuer__p_id_kinderfreibetragempfänger_2"),
+        p_id_to_aggregate_by=("einkommensteuer__p_id_kinderfreibetragsempfänger_2"),
         source_col="demographics__alter_bis_24",
         aggr="sum",
     ),

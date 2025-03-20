@@ -72,7 +72,7 @@ inputs:
       - true
       - true
       - false
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
       - 0.0
       - 0.0
       - 0.0

@@ -109,8 +109,6 @@ def _get_policy_tests_from_raw_test_data(
     Returns:
         A list of PolicyTest objects.
     """
-    out = []
-
     inputs: NestedDataDict = raw_test_data.get("inputs", {})
     input_tree: NestedDataDict = dt.unflatten_from_tree_paths(
         {
@@ -132,6 +130,7 @@ def _get_policy_tests_from_raw_test_data(
 
     date: datetime.date = _parse_date(path_of_test_file.parent.name)
 
+    out = []
     if expected_output_tree == {}:
         out.append(
             PolicyTest(

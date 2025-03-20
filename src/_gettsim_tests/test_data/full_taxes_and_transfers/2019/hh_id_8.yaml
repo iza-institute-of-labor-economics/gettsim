@@ -101,7 +101,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__monat_renteneintritt:
       - 1
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
       - 2.0
     sozialversicherung__rente__monate_in_arbeitslosigkeit:
       - 0.0
@@ -127,7 +127,7 @@ inputs:
       - 2074
     sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
       - 0.0
     sozialversicherung__rente__monate_in_mutterschutz:
       - 0.0
@@ -137,7 +137,7 @@ inputs:
       - 444.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
-    sozialversicherung__rente__monate_der_schulausbildung:
+    sozialversicherung__rente__monate_in_schulausbildung:
       - 12.0
     sozialversicherung__rente__monate_in_ausbildungssuche:
       - 0.0

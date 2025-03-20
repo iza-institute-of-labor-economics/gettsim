@@ -134,9 +134,11 @@ SUPPORTED_TIME_UNITS = {
 }
 
 DEFAULT_TARGETS = {
-    "einkommensteuer": {"betrag_y_sn": None},
+    "einkommensteuer": {
+        "betrag_y_sn": None,
+        "abgeltungssteuer": {"betrag_y_sn": None},
+    },
     "solidaritätszuschlag": {"betrag_y_sn": None},
-    "abgeltungssteuer": {"betrag_y_sn": None},
     "sozialversicherung": {
         "arbeitslosen": {
             "beitrag": {"betrag_versicherter_m": None},
@@ -215,16 +217,16 @@ TYPES_INPUT_VARIABLES = {
     "sozialversicherung__rente__entgeltpunkte_west": float,
     "sozialversicherung__rente__ersatzzeiten_monate": float,
     "sozialversicherung__rente__freiwillige_beitragsmonate": float,
-    "sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40": float,
+    "sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40": float,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10": bool,
     "sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y": float,
     "sozialversicherung__rente__kinderberücksichtigungszeiten_monate": float,
-    "sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate": float,
+    "sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate": float,
     "sozialversicherung__rente__monate_in_mutterschutz": float,
     "sozialversicherung__rente__pflegeberücksichtigungszeiten_monate": float,
     "sozialversicherung__rente__pflichtbeitragsmonate": float,
     "sozialversicherung__rente__bezieht_rente": bool,
-    "sozialversicherung__rente__monate_der_schulausbildung": float,
+    "sozialversicherung__rente__monate_in_schulausbildung": float,
     "demographics__schwerbehindert_grad_g": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb": bool,
     "sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997": bool,

@@ -89,29 +89,29 @@ def einkommen_m_bg(
 
 
 @policy_function()
-def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
-    einkommensteuer__betrag_m_sn: float,
-    sozialversicherung__rente__beitrag__betrag_versicherter_m: float,
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m: float,
+def abzüge_vom_einkommen_für_steuern_sozialversicherung_y(
+    einkommensteuer__betrag_y_sn: float,
+    sozialversicherung__rente__beitrag__betrag_versicherter_y: float,
+    sozialversicherung__kranken__beitrag__betrag_versicherter_y: float,
     demographics__kind: bool,
     wohngeld_params: dict,
 ) -> float:
     """Calculate housing benefit subtractions on the individual level.
 
-    Note that einkommensteuer__betrag_m_sn is used as an approximation for taxes
+    Note that einkommensteuer__betrag_y_sn is used as an approximation for taxes
     on income (as mentioned in § 16 WoGG Satz 1 Nr. 1).
 
     Parameters
     ----------
-    einkommensteuer__betrag_m_sn
+    einkommensteuer__betrag_y_sn
         See :func:
-        `einkommensteuer__betrag_m_sn`.
-    sozialversicherung__rente__beitrag__betrag_versicherter_m
+        `einkommensteuer__betrag_y_sn`.
+    sozialversicherung__rente__beitrag__betrag_versicherter_y
         See :func:
-        `sozialversicherung__rente__beitrag__betrag_versicherter_m`.
-    sozialversicherung__kranken__beitrag__betrag_versicherter_m
+        `sozialversicherung__rente__beitrag__betrag_versicherter_y`.
+    sozialversicherung__kranken__beitrag__betrag_versicherter_y
         See :func:
-        `sozialversicherung__kranken__beitrag__betrag_versicherter_m`.
+        `sozialversicherung__kranken__beitrag__betrag_versicherter_y`.
     demographics__kind
         See basic input variable :ref:`demographics__kind <demographics__kind>`.
     wohngeld_params
@@ -122,9 +122,9 @@ def abzüge_vom_einkommen_für_steuern_sozialversicherung_m(
 
     """
     abzug_stufen = (
-        (einkommensteuer__betrag_m_sn > 0)
-        + (sozialversicherung__rente__beitrag__betrag_versicherter_m > 0)
-        + (sozialversicherung__kranken__beitrag__betrag_versicherter_m > 0)
+        (einkommensteuer__betrag_y_sn > 0)
+        + (sozialversicherung__rente__beitrag__betrag_versicherter_y > 0)
+        + (sozialversicherung__kranken__beitrag__betrag_versicherter_y > 0)
     )
     if demographics__kind:
         out = 0.0

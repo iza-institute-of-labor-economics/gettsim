@@ -4,7 +4,7 @@ rounding:
     1900-01-01:
       base: 10
       direction: down
-      reference: None. Reference unknown.
+      reference: Added temporarily, remove when fixing  # 823.
     2005-01-01:
       base: 10
       direction: down

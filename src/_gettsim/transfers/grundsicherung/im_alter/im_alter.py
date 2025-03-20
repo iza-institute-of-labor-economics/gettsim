@@ -117,11 +117,11 @@ def mehrbedarf_schwerbehinderung_g_m(
     # mehrbedarf for disabilities = % of regelsatz of the person getting the mehrbedarf
     mehrbedarf_single = (
         (arbeitsl_geld_2_params["regelsatz"][1])
-        * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
+        * (grunds_im_alter_params["mehrbedarf_bei_schwerbehinderungsgrad_g"])
     )
     mehrbedarf_in_couple = (
         (arbeitsl_geld_2_params["regelsatz"][2])
-        * (grunds_im_alter_params["mehrbedarf_schwerbehindert_grad_g"])
+        * (grunds_im_alter_params["mehrbedarf_bei_schwerbehinderungsgrad_g"])
     )
 
     if (demographics__schwerbehindert_grad_g) and (

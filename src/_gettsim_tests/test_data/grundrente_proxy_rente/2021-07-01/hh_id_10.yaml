@@ -21,7 +21,7 @@ inputs:
       - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
       - 24.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
       - 0.0
@@ -51,7 +51,7 @@ inputs:
       - 2016
     sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
       - 0.0
     sozialversicherung__rente__monat_renteneintritt:
       - 2
@@ -63,7 +63,7 @@ inputs:
       - 300.0
     sozialversicherung__rente__private_rente_betrag_m:
       - 0.0
-    sozialversicherung__rente__monate_der_schulausbildung:
+    sozialversicherung__rente__monate_in_schulausbildung:
       - 36.0
     sozialversicherung__rente__monate_in_ausbildungssuche:
       - 0.0

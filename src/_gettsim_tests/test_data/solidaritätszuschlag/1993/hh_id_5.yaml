@@ -5,7 +5,7 @@ info:
 inputs:
   assumed: {}
   provided:
-    abgeltungssteuer__betrag_y_sn:
+    einkommensteuer__abgeltungssteuer__betrag_y_sn:
       - 0.0
     demographics__hh_id:
       - 5

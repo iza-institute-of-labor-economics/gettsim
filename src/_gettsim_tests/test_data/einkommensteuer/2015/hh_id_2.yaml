@@ -38,7 +38,7 @@ inputs:
       - 5000.0
       - 0.0
 outputs:
-  abgeltungssteuer__betrag_y_sn:
+  einkommensteuer__abgeltungssteuer__betrag_y_sn:
     - 49.5
     - 49.5
     - 0.0

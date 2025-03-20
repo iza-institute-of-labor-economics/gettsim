@@ -30,7 +30,7 @@ inputs:
       - 200000.0
       - 200000.0
 outputs:
-  abgeltungssteuer__betrag_y_sn:
+  einkommensteuer__abgeltungssteuer__betrag_y_sn:
     - 0.0
     - 0.0
   einkommensteuer__anzahl_personen_sn:

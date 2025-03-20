@@ -47,7 +47,7 @@ def vorsorgeaufwendungen_y_sn_bis_2004(
     leaf_name="vorsorgeaufwendungen_y_sn",
     params_key_for_rounding="eink_st_abzuege",
 )
-def vorsorgeaufwendungen_mit_günstigerprüfung_y_sn(
+def vorsorgeaufwendungen_y_sn_ab_2005_bis_2019(
     vorsorgeaufwendungen_y_sn_regime_bis_2004: float,
     vorsorgeaufwendungen_vor_günstigerprüfung_y_sn: float,
 ) -> float:
@@ -87,7 +87,7 @@ def vorsorgeaufwendungen_mit_günstigerprüfung_y_sn(
     leaf_name="vorsorgeaufwendungen_y_sn",
     params_key_for_rounding="eink_st_abzuege",
 )
-def vorsorgeaufwendungen_ohne_günstigerprüfung_y_sn(  # noqa: PLR0913
+def vorsorgeaufwendungen_y_sn_ab_2020(  # noqa: PLR0913
     altersvorsorge_y_sn: float,
     sozialversicherung__pflege__beitrag__betrag_versicherter_y_sn: float,
     sozialversicherung__kranken__beitrag__betrag_versicherter_y_sn: float,

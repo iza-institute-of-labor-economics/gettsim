@@ -177,11 +177,11 @@ def wartezeit_45_jahre_erfüllt(  # noqa: PLR0913
 @policy_function()
 def anrechnungsmonate_35_jahre_wartezeit(  # noqa: PLR0913
     monate_in_arbeitsunfähigkeit: float,
-    krankheitsmonate_ab_16_bis_24_monate: float,
+    krankheitszeiten_ab_16_bis_24_monate: float,
     monate_in_mutterschutz: float,
     monate_in_arbeitslosigkeit: float,
     monate_in_ausbildungssuche: float,
-    monate_der_schulausbildung: float,
+    monate_in_schulausbildung: float,
 ) -> float:
     """Adds up all times that are accounted for in "Anrechnungszeiten"
     relevant for "Wartezeit von 35 Jahren" i.e. for Altersrente für
@@ -194,16 +194,16 @@ def anrechnungsmonate_35_jahre_wartezeit(  # noqa: PLR0913
     ----------
     monate_in_arbeitsunfähigkeit
         See :func:`monate_in_arbeitsunfähigkeit`.
-    krankheitsmonate_ab_16_bis_24_monate
-        See :func:`krankheitsmonate_ab_16_bis_24_monate`.
+    krankheitszeiten_ab_16_bis_24_monate
+        See :func:`krankheitszeiten_ab_16_bis_24_monate`.
     monate_in_mutterschutz
         See :func:`monate_in_mutterschutz`.
     monate_in_arbeitslosigkeit
         See :func:`monate_in_arbeitslosigkeit`.
     monate_in_ausbildungssuche
         See :func:`monate_in_ausbildungssuche`.
-    monate_der_schulausbildung
-        See :func:`monate_der_schulausbildung`.
+    monate_in_schulausbildung
+        See :func:`monate_in_schulausbildung`.
 
     Returns
     -------
@@ -211,11 +211,11 @@ def anrechnungsmonate_35_jahre_wartezeit(  # noqa: PLR0913
     """
     return (
         monate_in_arbeitsunfähigkeit
-        + krankheitsmonate_ab_16_bis_24_monate
+        + krankheitszeiten_ab_16_bis_24_monate
         + monate_in_mutterschutz
         + monate_in_arbeitslosigkeit
         + monate_in_ausbildungssuche
-        + monate_der_schulausbildung
+        + monate_in_schulausbildung
     )
 
 

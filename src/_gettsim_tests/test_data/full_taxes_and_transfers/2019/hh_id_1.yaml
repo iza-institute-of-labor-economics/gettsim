@@ -225,7 +225,7 @@ inputs:
       - false
       - false
       - true
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
       - 3.0
       - 4.0
       - 0.0
@@ -310,7 +310,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
       - 0.0
       - 0.0
       - 0.0
@@ -335,7 +335,7 @@ inputs:
       - 0.0
       - 0.0
       - 0.0
-    sozialversicherung__rente__monate_der_schulausbildung:
+    sozialversicherung__rente__monate_in_schulausbildung:
       - 12.0
       - 12.0
       - 12.0

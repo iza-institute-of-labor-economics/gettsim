@@ -5,12 +5,12 @@ from _gettsim.function_types import policy_function
 
 aggregation_specs = {
     "anzahl_kinderfreibeträge_1": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_kinderfreibetragempfänger_1",
+        p_id_to_aggregate_by="p_id_kinderfreibetragsempfänger_1",
         source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
     "anzahl_kinderfreibeträge_2": AggregateByPIDSpec(
-        p_id_to_aggregate_by="p_id_kinderfreibetragempfänger_2",
+        p_id_to_aggregate_by="p_id_kinderfreibetragsempfänger_2",
         source_col="kindergeld__grundsätzlich_anspruchsberechtigt",
         aggr="sum",
     ),
@@ -66,7 +66,7 @@ def anzahl_kinderfreibeträge(
 
 
 @policy_function()
-def p_id_kinderfreibetragempfänger_1(
+def p_id_kinderfreibetragsempfänger_1(
     demographics__p_id_elternteil_1: int,
 ) -> int:
     """Assigns child allowance to parent 1.
@@ -84,7 +84,7 @@ def p_id_kinderfreibetragempfänger_1(
 
 
 @policy_function()
-def p_id_kinderfreibetragempfänger_2(
+def p_id_kinderfreibetragsempfänger_2(
     demographics__p_id_elternteil_2: int,
 ) -> int:
     """Assigns child allowance to parent 2.

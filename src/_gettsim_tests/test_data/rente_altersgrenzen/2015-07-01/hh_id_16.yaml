@@ -23,7 +23,7 @@ inputs:
       - 1200.0
     jahr:
       - 2015
-    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_40:
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
       - 0.0
     sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
       - false
@@ -47,7 +47,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
       - 0.0
-    sozialversicherung__rente__krankheitsmonate_ab_16_bis_24_monate:
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
       - 0.0
     sozialversicherung__rente__monate_in_mutterschutz:
       - 0.0
@@ -55,7 +55,7 @@ inputs:
       - 0.0
     sozialversicherung__rente__pflichtbeitragsmonate:
       - 60.0
-    sozialversicherung__rente__monate_der_schulausbildung:
+    sozialversicherung__rente__monate_in_schulausbildung:
       - 0.0
     sozialversicherung__rente__monate_in_ausbildungssuche:
       - 0.0
