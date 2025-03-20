@@ -89,7 +89,7 @@ def einkommen_m_bg(
 
 
 @policy_function()
-def abzüge_vom_einkommen_für_steuern_sozialversicherung_y(
+def abzugsanteil_vom_einkommen_für_steuern_sozialversicherung(
     einkommensteuer__betrag_y_sn: float,
     sozialversicherung__rente__beitrag__betrag_versicherter_y: float,
     sozialversicherung__kranken__beitrag__betrag_versicherter_y: float,
@@ -144,7 +144,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     einkommensteuer__renteneinkommen_m: float,
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
-    abzüge_vom_einkommen_für_steuern_sozialversicherung_m: float,
+    abzugsanteil_vom_einkommen_für_steuern_sozialversicherung: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -170,8 +170,8 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
         See basic input variable :ref:`unterhalt__tatsächlich_erhaltener_betrag_m <unterhalt__tatsächlich_erhaltener_betrag_m>`.
     unterhaltsvorschuss__betrag_m
         See :func:`unterhaltsvorschuss__betrag_m`.
-    abzüge_vom_einkommen_für_steuern_sozialversicherung_m
-        See :func:`abzüge_vom_einkommen_für_steuern_sozialversicherung_m`.
+    abzugsanteil_vom_einkommen_für_steuern_sozialversicherung
+        See :func:`abzugsanteil_vom_einkommen_für_steuern_sozialversicherung`.
 
     Returns
     -------
@@ -192,7 +192,7 @@ def einkommen_vor_freibetrag_m_ohne_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + einkommensteuer__einkünfte__sonstige__betrag_m
-    out = (1 - abzüge_vom_einkommen_für_steuern_sozialversicherung_m) * eink_ind
+    out = (1 - abzugsanteil_vom_einkommen_für_steuern_sozialversicherung) * eink_ind
     return out
 
 
@@ -208,7 +208,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
-    abzüge_vom_einkommen_für_steuern_sozialversicherung_m: float,
+    abzugsanteil_vom_einkommen_für_steuern_sozialversicherung: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
     and deducting individual housing benefit subtractions.
@@ -236,8 +236,8 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
         See :func:`unterhaltsvorschuss__betrag_m`.
     elterngeld__anrechenbarer_betrag_m
         See :func:`elterngeld__anrechenbarer_betrag_m`.
-    abzüge_vom_einkommen_für_steuern_sozialversicherung_m
-        See :func:`abzüge_vom_einkommen_für_steuern_sozialversicherung_m`.
+    abzugsanteil_vom_einkommen_für_steuern_sozialversicherung
+        See :func:`abzugsanteil_vom_einkommen_für_steuern_sozialversicherung`.
 
     Returns
     -------
@@ -262,7 +262,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(  # noqa: PLR0913
     )
 
     eink_ind = einkommen + transfers + einkommensteuer__einkünfte__sonstige__betrag_m
-    out = (1 - abzüge_vom_einkommen_für_steuern_sozialversicherung_m) * eink_ind
+    out = (1 - abzugsanteil_vom_einkommen_für_steuern_sozialversicherung) * eink_ind
     return out
 
 
