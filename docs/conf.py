@@ -5,16 +5,16 @@
 # If extensions (or modules to document with autodoc) are in another directory, add
 # these directories to sys.path here. If the directory is relative to the documentation
 # root, use os.path.abspath to make it absolute, like shown here.
-import datetime as dt
 import pathlib
 import sys
+from datetime import datetime
 
 sys.path.insert(0, str(pathlib.Path("../src").resolve()))
 
 # -- Project information -----------------------------------------------------
 
 project = "GETTSIM"
-copyright = f"2019-{dt.datetime.today().year}, GETTSIM team"  # noqa: A001
+copyright = f"2019-{datetime.today().year}, GETTSIM team"  # noqa: A001
 author = "GETTSIM team"
 release = "0.7.0"
 version = ".".join(release.split(".")[:2])
