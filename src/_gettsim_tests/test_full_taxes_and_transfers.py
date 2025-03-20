@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 import dags.tree as dt
 import pytest
 
@@ -8,12 +6,6 @@ from _gettsim.gettsim_typing import check_series_has_expected_type
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
 from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
-
-if TYPE_CHECKING:
-    import datetime
-
-    from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
-
 
 test_data = load_policy_test_data("full_taxes_and_transfers")
 
@@ -25,14 +17,12 @@ test_data = load_policy_test_data("full_taxes_and_transfers")
 def test_full_taxes_transfers(
     test: PolicyTest,
 ):
-    date: datetime.date = test.date
-    input_tree: NestedDataDict = test.input_tree
-    target_structure: NestedInputStructureDict = test.target_structure
-
-    environment = cached_set_up_policy_environment(date=date)
+    environment = cached_set_up_policy_environment(date=test.date)
 
     compute_taxes_and_transfers(
-        data_tree=input_tree, environment=environment, targets_tree=target_structure
+        data_tree=test.input_tree,
+        environment=environment,
+        targets_tree=test.target_structure,
     )
 
 
