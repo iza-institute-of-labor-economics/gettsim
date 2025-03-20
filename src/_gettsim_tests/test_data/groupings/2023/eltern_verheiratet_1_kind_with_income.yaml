@@ -1,6 +1,8 @@
 ---
 info:
-  note: Child in separate Bedarfsgemeinschaft if he/she has enough income to fend for him/herself
+  note: >-
+    Child in separate Bedarfsgemeinschaft if he/she has enough income to fend for
+    him/herself
   source: ''
 inputs:
   assumed: {}

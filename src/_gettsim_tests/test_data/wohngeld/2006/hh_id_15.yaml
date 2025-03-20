@@ -1,6 +1,7 @@
 ---
 info:
-  note: Expanded test case to include additional household members so that more than seven
+  note: >-
+    Expanded test case to include additional household members so that more than seven
     people are eligible for housing subsidies
   source: Regression test.
 inputs:

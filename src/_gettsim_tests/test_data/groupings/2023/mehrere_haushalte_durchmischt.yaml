@@ -1,6 +1,8 @@
 ---
 info:
-  note: A later implementation may rely on the order of demographics__p_id or demographics__hh_id.
+  note: >-
+    A later implementation may rely on the order of demographics__p_id or
+    demographics__hh_id.
   source: ''
 inputs:
   assumed: {}

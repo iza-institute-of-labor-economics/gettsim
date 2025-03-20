@@ -1,7 +1,8 @@
 ---
 info:
-  note: not eligible for potentieller_unterhaltsvorschuss if parent in same household is married
-    to new partner (unterhalt__anspruch_m unaffected)
+  note: >-
+    not eligible for potentieller∞_unterhaltsvorschuss if parent in same household is
+    married to new partner (unterhalt__anspruch_m unaffected)
   source: ''
 inputs:
   assumed: {}
