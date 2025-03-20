@@ -118,7 +118,9 @@ def compute_taxes_and_transfers(
     )
 
     input_structure = dt.create_input_structure_tree(
-        functions_tree_not_overridden,
+        functions=functions_tree_not_overridden,
+        targets=targets_tree,
+        top_level_inputs=set(data_tree.keys()),
     )
 
     # Remove unnecessary elements from user-provided data.
@@ -142,7 +144,8 @@ def compute_taxes_and_transfers(
         functions=functions_tree_with_partialled_parameters,
         targets=targets_tree,
         input_structure=input_structure,
-        name_clashes="ignore",
+        perform_checks=False,
+        enforce_signature=True,
     )
 
     results = tax_transfer_function(input_data_tree)
@@ -291,7 +294,7 @@ def _create_input_data_for_concatenated_function(
         functions=functions_tree,
         targets=targets_tree,
         input_structure=input_structure,
-        name_clashes="ignore",
+        perform_checks=False,
     )
 
     # Create root nodes tree
