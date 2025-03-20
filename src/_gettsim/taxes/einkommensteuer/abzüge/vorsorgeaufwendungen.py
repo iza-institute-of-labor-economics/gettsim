@@ -35,16 +35,7 @@ def vorsorgeaufwendungen_y_sn_ab_2005_bis_2009(
 ) -> float:
     """Vorsorgeaufwendungen from 2005 to 2009.
 
-    With the 2005 reform, no taxpayer was supposed to be affected negatively.
-    Therefore, one needs to compute amounts under the 2004 and 2005 regimes
-    and take the more favourable one.
-
-    After a supreme court ruling, the 2005 rule had to be changed in 2010.
-    Therefore, one needs to compute amounts under the 2004 and 2010 regimes
-    and take the more favourable one. (§10 (3a) EStG).
-
-    Sidenote: The 2010 rules are by construction at least as beneficial as
-    the 2005 regime, so there is no need for a separate check.
+    Günstigerprüfung against the pre-2005 regime.
 
     Parameters
     ----------
@@ -76,16 +67,7 @@ def vorsorgeaufwendungen_y_sn_ab_2010_bis_2019(
 ) -> float:
     """Vorsorgeaufwendungen from 2010 to 2019.
 
-    With the 2005 reform, no taxpayer was supposed to be affected negatively.
-    Therefore, one needs to compute amounts under the 2004 and 2005 regimes
-    and take the more favourable one.
-
-    After a supreme court ruling, the 2005 rule had to be changed in 2010.
-    Therefore, one needs to compute amounts under the 2004 and 2010 regimes
-    and take the more favourable one. (§10 (3a) EStG).
-
-    Sidenote: The 2010 rules are by construction at least as beneficial as
-    the 2005 regime, so there is no need for a separate check.
+    Günstigerprüfung against the pre-2005 regime.
 
     Parameters
     ----------
@@ -113,7 +95,9 @@ def vorsorgeaufwendungen_y_sn_ab_2010_bis_2019(
 def vorsorgeaufwendungen_y_sn_ab_2020(
     vorsorgeaufwendungen_keine_kappung_krankenversicherung_y_sn: float,
 ) -> float:
-    """Vorsorgeaufwendungen without favorability checks.
+    """Vorsorgeaufwendungen since 2020.
+
+    Günstigerprüfung against the regime before 2005 revoked.
 
     Parameters
     ----------
@@ -137,7 +121,25 @@ def vorsorgeaufwendungen_regime_bis_2004_y_sn(
     einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Vorsorgeaufwendungen following the pre-2005 regime."""
+    """Vorsorgeaufwendungen calculated using the pre-2005 regime.
+
+    Parameters
+    ----------
+    vorwegabzug_lohnsteuer_y_sn
+        See :func:`vorwegabzug_lohnsteuer_y_sn`.
+    sozialversicherung__kranken__beitrag__betrag_versicherter_y_sn
+        See :func:`sozialversicherung__kranken__beitrag__betrag_versicherter_y_sn`.
+    sozialversicherung__rente__beitrag__betrag_versicherter_y_sn
+        See :func:`sozialversicherung__rente__beitrag__betrag_versicherter_y_sn`.
+    einkommensteuer__anzahl_personen_sn
+        See :func:`einkommensteuer__anzahl_personen_sn`.
+    eink_st_abzuege_params
+        See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
+
+    Returns
+    -------
+
+    """
     multiplikator1 = max(
         (
             (
@@ -186,6 +188,8 @@ def vorsorgeaufwendungen_globale_kappung_y_sn(  # noqa: PLR0913
 ) -> float:
     """Vorsorgeaufwendungen before favorability checks from 2005 to 2009.
 
+    All deductions for social insurance contributions are capped.
+
     Parameters
     ----------
     altersvorsorge_y_sn
@@ -232,7 +236,9 @@ def vorsorgeaufwendungen_keine_kappung_krankenversicherung_y_sn(  # noqa: PLR091
     einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
-    """Vorsorgeaufwendungen before favorability checks.
+    """Vorsorgeaufwendungen.
+
+    Expenses for health insurance contributions are not subject to any caps.
 
     Parameters
     ----------
