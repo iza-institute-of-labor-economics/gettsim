@@ -69,7 +69,7 @@ inputs:
       - false
       - false
       - false
-    elterngeld__anzahl_bisheriger_bezugsmonate:
+    elterngeld__bisherige_bezugsmonate:
       - 0
       - 0
       - 2

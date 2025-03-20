@@ -325,9 +325,9 @@ Month of retirement
 
 Type: int
 
-(elterngeld__anzahl_bisheriger_bezugsmonate)=
+(elterngeld__bisherige_bezugsmonate)=
 
-## `elterngeld__anzahl_bisheriger_bezugsmonate`
+## `elterngeld__bisherige_bezugsmonate`
 
 Number of months the individual received Elterngeld for the current youngest child.
 

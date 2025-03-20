@@ -67,7 +67,7 @@ inputs:
       - 50.0
     einkommensteuer__gemeinsam_veranlagt:
       - false
-    elterngeld__anzahl_bisheriger_bezugsmonate:
+    elterngeld__bisherige_bezugsmonate:
       - 0
     elterngeld__claimed:
       - true
