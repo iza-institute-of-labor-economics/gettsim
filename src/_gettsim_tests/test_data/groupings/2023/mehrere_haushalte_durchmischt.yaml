@@ -1,8 +1,8 @@
 ---
 info:
   note: >-
-    A later implementation may rely on the order of demographics__p_id or
-    demographics__hh_id.
+    A later implementation may rely on the order of p_id or
+    hh_id.
   source: ''
 inputs:
   assumed: {}
@@ -49,14 +49,14 @@ inputs:
       - 14
       - 1
       - 1
-    demographics__hh_id:
+    hh_id:
       - 0
       - 1
       - 0
       - 2
       - 2
       - 1
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 4

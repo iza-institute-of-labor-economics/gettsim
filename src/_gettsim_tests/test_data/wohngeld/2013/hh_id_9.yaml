@@ -32,13 +32,13 @@ inputs:
     demographics__geburtstag:
       - 1
       - 1
-    demographics__hh_id:
+    hh_id:
       - 9
       - 9
     demographics__kind:
       - false
       - false
-    demographics__p_id:
+    p_id:
       - 53
       - 54
     demographics__p_id_ehepartner:

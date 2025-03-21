@@ -46,10 +46,8 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {
-                    "hh_id": pd.Series([0, 0, 0]),
-                    "p_id": pd.Series([0, 1, 2]),
-                },
+                "hh_id": pd.Series([0, 0, 0]),
+                "p_id": pd.Series([0, 1, 2]),
             },
             {},
         ),
@@ -65,10 +63,8 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "demographics": {
-                    "hh_id": pd.Series([0, 0, 0]),
-                    "p_id": pd.Series([0, 1, 2]),
-                },
+                "hh_id": pd.Series([0, 0, 0]),
+                "p_id": pd.Series([0, 1, 2]),
             },
             {},
         ),
@@ -78,10 +74,8 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f_hh": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {
-                    "hh_id": pd.Series([0, 0, 0]),
-                    "p_id": pd.Series([0, 1, 2]),
-                },
+                "hh_id": pd.Series([0, 0, 0]),
+                "p_id": pd.Series([0, 1, 2]),
             },
             {},
         ),
@@ -91,10 +85,8 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "namespace1": {"x": pd.Series([1, 1, 1])},
-                "demographics": {
-                    "hh_id": pd.Series([0, 0, 0]),
-                    "p_id": pd.Series([0, 1, 2]),
-                },
+                "hh_id": pd.Series([0, 0, 0]),
+                "p_id": pd.Series([0, 1, 2]),
             },
             {
                 "namespace1": {
@@ -111,10 +103,8 @@ def function_with_float_return(x: int) -> float:
             {"namespace1": {"f": None}},
             {
                 "inputs": {"x": pd.Series([1, 1, 1])},
-                "demographics": {
-                    "hh_id": pd.Series([0, 0, 0]),
-                    "p_id": pd.Series([0, 1, 2]),
-                },
+                "hh_id": pd.Series([0, 0, 0]),
+                "p_id": pd.Series([0, 1, 2]),
             },
             {
                 "namespace1": {
@@ -259,7 +249,7 @@ def test_create_one_aggregate_by_p_id_func_applies_annotations():
     annotations = {"bar": bool, "return": int}
     result_func = _create_one_aggregate_by_p_id_func(
         aggregation_target="bar",
-        p_id_to_aggregate_by="p_id",
+        p_id_to_aggregate_by="p_id_spam",
         source_col="foo",
         aggregation_method="sum",
         annotations=annotations,

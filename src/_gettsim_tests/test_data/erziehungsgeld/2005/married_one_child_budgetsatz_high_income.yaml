@@ -32,7 +32,7 @@ inputs:
       - 1
       - 1
       - 1
-    demographics__hh_id:
+    hh_id:
       - 5
       - 5
       - 5
@@ -40,7 +40,7 @@ inputs:
       - false
       - false
       - true
-    demographics__p_id:
+    p_id:
       - 11
       - 12
       - 13

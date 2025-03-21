@@ -45,7 +45,7 @@ inputs:
       - 40.0
       - 0.0
       - 40.0
-    demographics__hh_id:
+    hh_id:
       - 18
       - 18
       - 18
@@ -53,7 +53,7 @@ inputs:
       - false
       - true
       - false
-    demographics__p_id:
+    p_id:
       - 49
       - 50
       - 51

@@ -21,11 +21,11 @@ inputs:
       - 80
     demographics__geburtsjahr:
       - 1939
-    demographics__hh_id:
+    hh_id:
       - 8
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 20
     demographics__p_id_elternteil_1:
       - -1

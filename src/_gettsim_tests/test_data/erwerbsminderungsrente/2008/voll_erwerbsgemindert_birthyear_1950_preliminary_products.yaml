@@ -8,7 +8,7 @@ inputs:
       - 1950
     demographics__geburtsmonat:
       - 2
-    demographics__p_id:
+    p_id:
       - 11
     demographics__wohnort_ost:
       - false

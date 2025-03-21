@@ -36,8 +36,8 @@ def test_groupings(
 
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
     data = {
+        "p_id": np.array([0, 1]),
         "demographics": {
-            "p_id": np.array([0, 1]),
             "p_id_ehepartner": np.array([1, 0]),
         },
         "einkommensteuer": {

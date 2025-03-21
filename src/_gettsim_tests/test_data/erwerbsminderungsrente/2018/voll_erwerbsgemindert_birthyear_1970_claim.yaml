@@ -4,7 +4,7 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    demographics__p_id:
+    p_id:
       - 22
     demographics__wohnort_ost:
       - false

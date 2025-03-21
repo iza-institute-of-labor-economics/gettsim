@@ -45,7 +45,7 @@ inputs:
       - 1979
       - 2002
       - 2004
-    demographics__hh_id:
+    hh_id:
       - 9
       - 9
       - 9
@@ -55,7 +55,7 @@ inputs:
       - false
       - true
       - true
-    demographics__p_id:
+    p_id:
       - 23
       - 24
       - 25

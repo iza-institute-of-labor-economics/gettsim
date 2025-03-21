@@ -7,11 +7,11 @@ inputs:
   provided:
     einkommensteuer__abgeltungssteuer__betrag_y_sn:
       - 0.0
-    demographics__hh_id:
+    hh_id:
       - 2
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 2
     demographics__p_id_ehepartner:
       - -1

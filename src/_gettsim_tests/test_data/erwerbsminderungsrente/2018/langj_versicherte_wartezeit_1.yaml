@@ -3,7 +3,7 @@ info:
   source: Own calculations
 inputs:
   assumed:
-    demographics__p_id:
+    p_id:
       - 21
     sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
       - 0.0

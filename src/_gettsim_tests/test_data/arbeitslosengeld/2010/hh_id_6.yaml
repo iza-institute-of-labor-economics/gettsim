@@ -28,13 +28,13 @@ inputs:
     demographics__geburtsjahr:
       - 1970
       - 2004
-    demographics__hh_id:
+    hh_id:
       - 6
       - 6
     demographics__kind:
       - false
       - true
-    demographics__p_id:
+    p_id:
       - 9
       - 10
     demographics__p_id_elternteil_1:

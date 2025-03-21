@@ -5,11 +5,11 @@ info:
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
+    hh_id:
       - 15
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 16
     demographics__p_id_ehepartner:
       - -1

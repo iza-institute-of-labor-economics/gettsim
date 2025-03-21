@@ -7,9 +7,9 @@ inputs:
   provided:
     demographics__alter:
       - 30
-    demographics__hh_id:
+    hh_id:
       - 24
-    demographics__p_id:
+    p_id:
       - 798
     demographics__wohnort_ost:
       - true

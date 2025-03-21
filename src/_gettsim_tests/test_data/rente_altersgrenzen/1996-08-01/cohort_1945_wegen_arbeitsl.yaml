@@ -9,9 +9,9 @@ inputs:
       - 1945
     demographics__geburtsmonat:
       - 1
-    demographics__hh_id:
+    hh_id:
       - 10
-    demographics__p_id:
+    p_id:
       - 10
     demographics__weiblich:
       - false

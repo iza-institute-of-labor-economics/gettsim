@@ -19,11 +19,11 @@ inputs:
       - 20.0
     demographics__geburtsjahr:
       - 1978
-    demographics__hh_id:
+    hh_id:
       - 20
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 49
     demographics__p_id_ehepartner:
       - -1

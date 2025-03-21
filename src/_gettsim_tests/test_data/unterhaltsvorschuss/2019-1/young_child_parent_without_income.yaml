@@ -17,11 +17,11 @@ inputs:
       - 45
       - 4
       - 11
-    demographics__hh_id:
+    hh_id:
       - 4
       - 4
       - 4
-    demographics__p_id:
+    p_id:
       - 39
       - 41
       - 43

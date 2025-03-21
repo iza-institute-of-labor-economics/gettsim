@@ -21,7 +21,7 @@ inputs:
       - 1952
       - 1952
       - 1952
-    demographics__hh_id:
+    hh_id:
       - 0
       - 1
       - 2
@@ -38,7 +38,7 @@ inputs:
       - 13
       - 14
       - 15
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2

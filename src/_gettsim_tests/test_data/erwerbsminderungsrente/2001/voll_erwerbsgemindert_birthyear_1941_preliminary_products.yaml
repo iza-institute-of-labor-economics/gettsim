@@ -8,7 +8,7 @@ inputs:
       - 1941
     demographics__geburtsmonat:
       - 4
-    demographics__p_id:
+    p_id:
       - 2
     demographics__wohnort_ost:
       - false

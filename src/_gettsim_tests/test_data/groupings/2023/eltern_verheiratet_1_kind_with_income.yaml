@@ -31,11 +31,11 @@ inputs:
       - 13
       - 2
       - 14
-    demographics__hh_id:
+    hh_id:
       - 0
       - 0
       - 0
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2

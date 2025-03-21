@@ -14,10 +14,10 @@ inputs:
     demographics__alter:
       - 45
       - 10
-    demographics__hh_id:
+    hh_id:
       - 5
       - 5
-    demographics__p_id:
+    p_id:
       - 6
       - 7
     demographics__p_id_elternteil_1:

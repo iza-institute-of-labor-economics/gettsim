@@ -9,11 +9,11 @@ inputs:
       - 21
     demographics__arbeitsstunden_w:
       - 10.0
-    demographics__hh_id:
+    hh_id:
       - 4
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 19
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 700.0

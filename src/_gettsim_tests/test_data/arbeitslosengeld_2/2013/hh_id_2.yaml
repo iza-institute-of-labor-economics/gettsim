@@ -26,13 +26,13 @@ inputs:
     demographics__geburtsjahr:
       - 1973
       - 1973
-    demographics__hh_id:
+    hh_id:
       - 2
       - 2
     demographics__kind:
       - false
       - false
-    demographics__p_id:
+    p_id:
       - 15
       - 16
     demographics__p_id_ehepartner:

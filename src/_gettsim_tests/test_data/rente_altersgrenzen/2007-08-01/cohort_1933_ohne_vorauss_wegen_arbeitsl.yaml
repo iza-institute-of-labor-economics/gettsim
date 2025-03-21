@@ -9,9 +9,9 @@ inputs:
       - 1933
     demographics__geburtsmonat:
       - 1
-    demographics__hh_id:
+    hh_id:
       - 14
-    demographics__p_id:
+    p_id:
       - 14
     demographics__weiblich:
       - false

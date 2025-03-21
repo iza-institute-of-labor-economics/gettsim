@@ -26,13 +26,13 @@ inputs:
     demographics__geburtsjahr:
       - 1943
       - 1943
-    demographics__hh_id:
+    hh_id:
       - 12
       - 12
     demographics__kind:
       - false
       - false
-    demographics__p_id:
+    p_id:
       - 25
       - 26
     demographics__p_id_ehepartner:

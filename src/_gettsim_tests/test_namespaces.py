@@ -73,9 +73,9 @@ def test_compute_taxes_and_transfers_with_tree(
         },
     }
     data = {
+        "p_id": pd.Series([0, 1, 2]),
+        "hh_id": pd.Series([0, 0, 1]),
         "demographics": {
-            "p_id": pd.Series([0, 1, 2]),
-            "hh_id": pd.Series([0, 0, 1]),
             "ehe_id": pd.Series([0, 1, 2]),
         },
         "arbeitslosengeld_2": {

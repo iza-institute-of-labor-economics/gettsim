@@ -131,7 +131,7 @@ def bruttoeinkommen_m(  # noqa: PLR0913
     Parameters
     ----------
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
-        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     einkommensteuer__einkünfte__sonstige__betrag_m
         See basic input variable :ref:`einkommensteuer__einkünfte__sonstige__betrag_m <einkommensteuer__einkünfte__sonstige__betrag_m>`.
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m

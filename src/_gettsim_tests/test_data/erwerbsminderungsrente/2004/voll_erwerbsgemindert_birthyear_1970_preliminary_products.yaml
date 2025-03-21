@@ -8,7 +8,7 @@ inputs:
       - 1970
     demographics__geburtsmonat:
       - 6
-    demographics__p_id:
+    p_id:
       - 8
     demographics__wohnort_ost:
       - false

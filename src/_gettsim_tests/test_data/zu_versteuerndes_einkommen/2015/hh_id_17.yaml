@@ -20,13 +20,13 @@ inputs:
     demographics__geburtsjahr:
       - 1975
       - 1975
-    demographics__hh_id:
+    hh_id:
       - 17
       - 17
     demographics__kind:
       - false
       - false
-    demographics__p_id:
+    p_id:
       - 23
       - 24
     demographics__p_id_ehepartner:

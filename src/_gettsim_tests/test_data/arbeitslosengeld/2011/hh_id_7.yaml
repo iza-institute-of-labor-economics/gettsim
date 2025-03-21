@@ -20,11 +20,11 @@ inputs:
       - 0.0
     demographics__geburtsjahr:
       - 1945
-    demographics__hh_id:
+    hh_id:
       - 7
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 11
     demographics__p_id_elternteil_1:
       - -1

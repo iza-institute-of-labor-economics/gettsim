@@ -8,7 +8,7 @@ inputs:
       - 1943
     demographics__geburtsmonat:
       - 4
-    demographics__p_id:
+    p_id:
       - 7
     demographics__wohnort_ost:
       - false

@@ -31,13 +31,13 @@ inputs:
     demographics__geburtsjahr:
       - 1980
       - 2012
-    demographics__hh_id:
+    hh_id:
       - 15
       - 15
     demographics__kind:
       - false
       - true
-    demographics__p_id:
+    p_id:
       - 41
       - 42
     demographics__p_id_elternteil_1:

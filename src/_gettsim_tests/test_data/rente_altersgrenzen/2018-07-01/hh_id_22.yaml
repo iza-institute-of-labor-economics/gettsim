@@ -13,9 +13,9 @@ inputs:
       - 1947
     demographics__geburtsmonat:
       - 1
-    demographics__hh_id:
+    hh_id:
       - 22
-    demographics__p_id:
+    p_id:
       - 22
     demographics__weiblich:
       - false

@@ -181,7 +181,7 @@ def kind_bis_10_mit_kindergeld(
 
 @policy_function(skip_vectorization=True)
 def gleiche_fg_wie_empfänger(
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
     p_id_empfänger: numpy.ndarray[int],
     arbeitslosengeld_2__fg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
@@ -189,8 +189,8 @@ def gleiche_fg_wie_empfänger(
 
     Parameters
     ----------
-    demographics__p_id
-        See basic input variable :ref:`demographics__p_id <demographics__p_id>`.
+    p_id
+        See basic input variable :ref:`p_id <p_id>`.
     p_id_empfänger
         See basic input variable :ref:`p_id_empfänger <p_id_empfänger>`.
     arbeitslosengeld_2__fg_id
@@ -202,7 +202,7 @@ def gleiche_fg_wie_empfänger(
     """
     fg_id_kindergeldempfänger = join_numpy(
         p_id_empfänger,
-        demographics__p_id,
+        p_id,
         arbeitslosengeld_2__fg_id,
         value_if_foreign_key_is_missing=-1,
     )

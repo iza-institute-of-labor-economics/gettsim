@@ -6,9 +6,9 @@ The table below gives an overview of all variables needed to run GETTSIM complet
 Note that the variables with \_hh at the end, have to be constant over the whole
 household.
 
-(demographics__hh_id)=
+(hh_id)=
 
-## `demographics__hh_id`
+## `hh_id`
 
 Household identifier following §5 WoGG
 

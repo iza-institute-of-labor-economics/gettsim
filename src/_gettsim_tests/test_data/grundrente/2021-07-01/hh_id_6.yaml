@@ -12,11 +12,11 @@ inputs:
       - 70
     demographics__geburtsjahr:
       - 1951
-    demographics__hh_id:
+    hh_id:
       - 6
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 6
     demographics__p_id_ehepartner:
       - -1

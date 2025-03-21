@@ -232,8 +232,8 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         ]
     else:
         data_adults = data.query("kind == False").copy()
-        for demographics__hh_id, group in data_adults.groupby("hh_id"):
-            relevant_rows = (data_adults["hh_id"] == demographics__hh_id).values
+        for hh_id, group in data_adults.groupby("hh_id"):
+            relevant_rows = (data_adults["hh_id"] == hh_id).values
             data_adults.loc[
                 relevant_rows, "arbeitslosengeld_2__p_id_einstandspartner"
             ] = group["p_id"].tolist()[::-1]
@@ -260,8 +260,7 @@ def return_p_id_elternteil(data, n_adults):
     """Find the demographics__p_id_elternteil_1 and demographics__p_id_elternteil_2."""
     # demographics__p_id_elternteil_1 is the first adult in the household
     elternteil_1_candidate = {
-        demographics__hh_id: group["p_id"].iloc[0]
-        for demographics__hh_id, group in data.groupby("hh_id")
+        hh_id: group["p_id"].iloc[0] for hh_id, group in data.groupby("hh_id")
     }
     # Apply candidate id if demographics__kind, else -1
     data["demographics__p_id_elternteil_1"] = data.apply(

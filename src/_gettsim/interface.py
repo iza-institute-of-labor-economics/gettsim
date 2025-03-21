@@ -137,7 +137,7 @@ def compute_taxes_and_transfers(
     )
     _fail_if_foreign_keys_are_invalid(
         data_tree=input_data_tree,
-        p_ids=data_tree_with_correct_types.get("demographics", {}).get("p_id", {}),
+        p_ids=data_tree_with_correct_types.get("p_id", {}),
     )
 
     tax_transfer_function = dt.concatenate_functions_tree(
@@ -578,7 +578,7 @@ def _fail_if_group_variables_not_constant_within_groups(
 
 def _fail_if_pid_is_non_unique(data_tree: NestedDataDict) -> None:
     """Check that pid is unique."""
-    p_id_col = data_tree.get("demographics", {}).get("p_id", None)
+    p_id_col = data_tree.get("p_id", None)
     if p_id_col is None:
         raise ValueError("The input data must contain the p_id.")
 

@@ -35,7 +35,7 @@ inputs:
       - 1983
       - 1985
       - 2020
-    demographics__hh_id:
+    hh_id:
       - 21
       - 21
       - 21
@@ -43,7 +43,7 @@ inputs:
       - false
       - false
       - true
-    demographics__p_id:
+    p_id:
       - 50
       - 51
       - 52

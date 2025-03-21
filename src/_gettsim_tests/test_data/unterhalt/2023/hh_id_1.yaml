@@ -5,11 +5,11 @@ info:
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
+    hh_id:
       - 1
     demographics__kind:
       - true
-    demographics__p_id:
+    p_id:
       - 1
     jahr:
       - 2023

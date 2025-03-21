@@ -47,7 +47,7 @@ inputs:
       - 2015
       - 2010
       - 2015
-    demographics__hh_id:
+    hh_id:
       - 9
       - 9
       - 9
@@ -59,7 +59,7 @@ inputs:
       - true
       - true
       - true
-    demographics__p_id:
+    p_id:
       - 17
       - 18
       - 19

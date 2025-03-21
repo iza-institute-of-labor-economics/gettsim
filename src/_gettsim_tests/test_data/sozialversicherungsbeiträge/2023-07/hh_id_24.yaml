@@ -10,9 +10,9 @@ inputs:
   provided:
     demographics__alter:
       - 50
-    demographics__hh_id:
+    hh_id:
       - 24
-    demographics__p_id:
+    p_id:
       - 24
     demographics__wohnort_ost:
       - false

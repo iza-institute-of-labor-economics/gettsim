@@ -126,9 +126,9 @@ indicate the level of aggregation.
 
 GETTSIM knows about the following units:
 
-- `demographics__p_id`: person identifier
-- `demographics__hh_id`: Haushalt, individuals living together in a household in the
-  Wohngeld sense (§5 WoGG).
+- `p_id`: person identifier
+- `hh_id`: Haushalt, individuals living together in a household in the Wohngeld sense
+  (§5 WoGG).
 - `wohngeld__wthh_id`: Wohngeldrechtlicher Teilhaushalt, i.e. members of a household for
   whom the priority check for Wohngeld/ALG2 yields the same result ∈ {True, False}. This
   unit is based on the priority check via

@@ -33,7 +33,7 @@ inputs:
       - 1989
       - 2005
       - 2006
-    demographics__hh_id:
+    hh_id:
       - 7
       - 7
       - 7
@@ -41,7 +41,7 @@ inputs:
       - false
       - true
       - true
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2

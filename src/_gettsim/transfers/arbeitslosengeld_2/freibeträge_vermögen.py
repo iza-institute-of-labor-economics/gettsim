@@ -61,8 +61,8 @@ def maximaler_grundfreibetrag_vermögen(
 
     Parameters
     ----------
-    demographics__hh_id
-        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
     demographics__geburtsjahr
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     demographics__kind

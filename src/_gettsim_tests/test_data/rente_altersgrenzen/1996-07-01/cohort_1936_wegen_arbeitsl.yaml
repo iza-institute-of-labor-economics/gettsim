@@ -11,9 +11,9 @@ inputs:
       - 1936
     demographics__geburtsmonat:
       - 2
-    demographics__hh_id:
+    hh_id:
       - 23
-    demographics__p_id:
+    p_id:
       - 23
     demographics__weiblich:
       - false

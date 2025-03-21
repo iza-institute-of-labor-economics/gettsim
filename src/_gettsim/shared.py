@@ -388,9 +388,9 @@ def get_path_for_group_by_id(
     """Get the group-by-identifier for some target path.
 
     The group-by-identifier is the path to the group identifier that is embedded in the
-    name. E.g., "einkommen_hh" has ("demographics", "hh_id") as its group-by-identifier.
-    In this sense, the group-by-identifiers live in a global namespace. We generally
-    expect them to be unique.
+    name. E.g., "einkommen_hh" has "hh_id" as its group-by-identifier. In this sense,
+    the group-by-identifiers live in a global namespace. We generally expect them to be
+    unique.
 
     There is an exception, though: It is enough for them to be unique within the
     uppermost namespace. In that case, however, they cannot be used outside of that
@@ -411,7 +411,7 @@ def get_path_for_group_by_id(
     for g in SUPPORTED_GROUPINGS:
         if target_path[-1].endswith(f"_{g}") and g == "hh":
             # Hardcode because hh_id is not part of the functions tree
-            return ("demographics", "hh_id")
+            return ("hh_id",)
         elif target_path[-1].endswith(f"_{g}"):
             return _select_group_by_id_from_candidates(
                 candidate_paths=[p for p in group_by_paths if p[-1] == f"{g}_id"],

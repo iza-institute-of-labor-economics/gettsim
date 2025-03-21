@@ -510,7 +510,7 @@ def _create_one_aggregate_by_p_id_func(
         derived_from = p_id_to_aggregate_by
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "demographics__p_id",
+            "p_id_to_store_by": "p_id",
         }
 
         def agg_func(p_id_to_aggregate_by, p_id_to_store_by):
@@ -520,7 +520,7 @@ def _create_one_aggregate_by_p_id_func(
         derived_from = (source_col, p_id_to_aggregate_by)
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "demographics__p_id",
+            "p_id_to_store_by": "p_id",
             "column": source_col,
         }
 

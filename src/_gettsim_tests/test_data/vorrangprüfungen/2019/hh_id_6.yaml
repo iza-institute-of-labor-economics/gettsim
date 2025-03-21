@@ -29,13 +29,13 @@ inputs:
     demographics__geburtsjahr:
       - 1991
       - 2018
-    demographics__hh_id:
+    hh_id:
       - 6
       - 6
     demographics__kind:
       - false
       - true
-    demographics__p_id:
+    p_id:
       - 16
       - 17
     demographics__p_id_elternteil_1:

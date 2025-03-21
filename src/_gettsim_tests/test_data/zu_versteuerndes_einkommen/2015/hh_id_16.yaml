@@ -15,11 +15,11 @@ inputs:
       - 0
     demographics__geburtsjahr:
       - 1975
-    demographics__hh_id:
+    hh_id:
       - 16
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 22
     demographics__p_id_ehepartner:
       - -1

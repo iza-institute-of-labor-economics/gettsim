@@ -71,7 +71,7 @@ def _mean_kindergeld_per_child_ohne_staffelung_m(
 def kindergeld_zur_bedarfsdeckung_m(
     kindergeld_pro_kind_m: float,
     kindergeld__p_id_empfänger: numpy.ndarray[int],
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
 ) -> numpy.ndarray[float]:
     """Kindergeld that is used to cover the SGB II Regelbedarf of the child.
 
@@ -88,8 +88,8 @@ def kindergeld_zur_bedarfsdeckung_m(
         See :func:`kindergeld__betrag_m`.
     kindergeld__p_id_empfänger
         See :func:`kindergeld__p_id_empfänger`.
-    demographics__p_id
-        See :func:`demographics__p_id`.
+    p_id
+        See :func:`p_id`.
 
     Returns
     -------
@@ -97,7 +97,7 @@ def kindergeld_zur_bedarfsdeckung_m(
     """
     return join_numpy(
         kindergeld__p_id_empfänger,
-        demographics__p_id,
+        p_id,
         kindergeld_pro_kind_m,
         value_if_foreign_key_is_missing=0.0,
     )
@@ -165,7 +165,7 @@ def differenz_kindergeld_kindbedarf_m(  # noqa: PLR0913
 
 @policy_function(skip_vectorization=True)
 def in_anderer_bg_als_kindergeldempfänger(
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
     kindergeld__p_id_empfänger: numpy.ndarray[int],
     bg_id: numpy.ndarray[int],
 ) -> numpy.ndarray[bool]:
@@ -174,8 +174,8 @@ def in_anderer_bg_als_kindergeldempfänger(
 
     Parameters
     ----------
-    demographics__p_id
-        See basic input variable :ref:`demographics__p_id <demographics__p_id>`
+    p_id
+        See basic input variable :ref:`p_id <p_id>`
     kindergeld__p_id_empfänger
         See basic input variable :ref:`kindergeld__p_id_empfänger <kindergeld__p_id_empfänger>`
     bg_id
@@ -185,8 +185,8 @@ def in_anderer_bg_als_kindergeldempfänger(
     -------
 
     """
-    # Create a dictionary to map demographics__p_id to bg_id
-    p_id_to_bg_id = dict(zip(demographics__p_id, bg_id))
+    # Create a dictionary to map p_id to bg_id
+    p_id_to_bg_id = dict(zip(p_id, bg_id))
 
     # Map each kindergeld__p_id_empfänger to its corresponding bg_id
     empf_bg_id = [

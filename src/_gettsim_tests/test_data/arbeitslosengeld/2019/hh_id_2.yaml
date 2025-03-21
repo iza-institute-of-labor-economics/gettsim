@@ -20,11 +20,11 @@ inputs:
       - 0.0
     demographics__geburtsjahr:
       - 1989
-    demographics__hh_id:
+    hh_id:
       - 2
     demographics__kind:
       - false
-    demographics__p_id:
+    p_id:
       - 2
     demographics__p_id_elternteil_1:
       - -1

@@ -11,9 +11,9 @@ inputs:
       - 1951
     demographics__geburtsmonat:
       - 1
-    demographics__hh_id:
+    hh_id:
       - 2
-    demographics__p_id:
+    p_id:
       - 2
     demographics__weiblich:
       - false

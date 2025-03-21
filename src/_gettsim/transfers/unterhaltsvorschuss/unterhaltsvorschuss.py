@@ -62,7 +62,7 @@ def betrag_m(
 @policy_function(skip_vectorization=True)
 def elternteil_alleinerziehend(
     kindergeld__p_id_empfänger: numpy.ndarray[int],
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
     demographics__alleinerziehend: numpy.ndarray[bool],
 ) -> numpy.ndarray[bool]:
     """Check if parent that receives Kindergeld is a single parent.
@@ -73,7 +73,7 @@ def elternteil_alleinerziehend(
     ----------
     kindergeld__p_id_empfänger
         See basic input variable :ref:`kindergeld__p_id_empfänger`.
-    demographics__p_id
+    p_id
         See basic input variable :ref:`p_id`.
     demographics__alleinerziehend
         See basic input variable :ref:`alleinerziehend`.
@@ -84,7 +84,7 @@ def elternteil_alleinerziehend(
     """
     return join_numpy(
         foreign_key=kindergeld__p_id_empfänger,
-        primary_key=demographics__p_id,
+        primary_key=p_id,
         target=demographics__alleinerziehend,
         value_if_foreign_key_is_missing=False,
     )
@@ -369,7 +369,7 @@ def anspruchshöhe_m_ab_201707(
 @policy_function(start_date="2017-01-01", skip_vectorization=True)
 def elternteil_mindesteinkommen_erreicht(
     kindergeld__p_id_empfänger: numpy.ndarray[int],
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
     mindesteinkommen_erreicht: numpy.ndarray[bool],
 ) -> numpy.ndarray[bool]:
     """Income of Unterhaltsvorschuss recipient above threshold (this variable is
@@ -379,8 +379,8 @@ def elternteil_mindesteinkommen_erreicht(
     ----------
     kindergeld__p_id_empfänger
         See basic input variable :ref:`kindergeld__p_id_empfänger`.
-    demographics__p_id
-        See basic input variable :ref:`demographics__p_id`.
+    p_id
+        See basic input variable :ref:`p_id`.
     mindesteinkommen_erreicht
         See :func:`mindesteinkommen_erreicht`.
 
@@ -389,7 +389,7 @@ def elternteil_mindesteinkommen_erreicht(
     """
     return join_numpy(
         kindergeld__p_id_empfänger,
-        demographics__p_id,
+        p_id,
         mindesteinkommen_erreicht,
         value_if_foreign_key_is_missing=False,
     )

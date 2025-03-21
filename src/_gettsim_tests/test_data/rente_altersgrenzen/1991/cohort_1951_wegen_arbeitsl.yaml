@@ -9,9 +9,9 @@ inputs:
       - 1951
     demographics__geburtsmonat:
       - 1
-    demographics__hh_id:
+    hh_id:
       - 16
-    demographics__p_id:
+    p_id:
       - 16
     demographics__weiblich:
       - false

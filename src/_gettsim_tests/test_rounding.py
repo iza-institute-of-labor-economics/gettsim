@@ -59,7 +59,7 @@ def test_no_rounding_specs(rounding_specs):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
+            data_tree={"p_id": pd.Series([1, 2])},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -96,7 +96,7 @@ def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
+            data_tree={"p_id": pd.Series([1, 2])},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -115,7 +115,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
         return income
 
     data = {
-        "demographics": {"p_id": pd.Series([1, 2])},
+        "p_id": pd.Series([1, 2]),
         "namespace": {"income": pd.Series(input_values)},
     }
     rounding_specs = {
@@ -159,7 +159,7 @@ def test_rounding_with_time_conversion():
         return income
 
     data = {
-        "demographics": {"p_id": pd.Series([1, 2])},
+        "p_id": pd.Series([1, 2]),
         "income": pd.Series([1.2, 1.5]),
     }
     rounding_specs = {
@@ -198,7 +198,7 @@ def test_no_rounding(
     def test_func(income):
         return income
 
-    data = {"demographics": {"p_id": pd.Series([1, 2])}}
+    data = {"p_id": pd.Series([1, 2])}
     data["income"] = pd.Series(input_values_exp_output)
     rounding_specs = {
         "params_key_test": {

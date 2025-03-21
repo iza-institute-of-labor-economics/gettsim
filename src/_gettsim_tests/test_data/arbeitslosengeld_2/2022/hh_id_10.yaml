@@ -35,7 +35,7 @@ inputs:
       - 1992
       - 2014
       - 2019
-    demographics__hh_id:
+    hh_id:
       - 10
       - 10
       - 10
@@ -43,7 +43,7 @@ inputs:
       - false
       - true
       - true
-    demographics__p_id:
+    p_id:
       - 29
       - 30
       - 31

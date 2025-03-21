@@ -8,7 +8,7 @@ inputs:
       - 1995
     demographics__geburtsmonat:
       - 10
-    demographics__p_id:
+    p_id:
       - 25
     demographics__wohnort_ost:
       - true

@@ -4,9 +4,9 @@ info:
 inputs:
   assumed: {}
   provided:
-    demographics__hh_id:
+    hh_id:
       - 0
-    demographics__p_id:
+    p_id:
       - 0
     sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0

@@ -5,7 +5,7 @@ info:
 inputs:
   assumed: {}
   provided:
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2

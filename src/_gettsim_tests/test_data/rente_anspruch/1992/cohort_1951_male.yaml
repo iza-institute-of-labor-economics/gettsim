@@ -15,12 +15,12 @@ inputs:
       - 1
       - 1
       - 1
-    demographics__hh_id:
+    hh_id:
       - 0
       - 1
       - 2
       - 3
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2

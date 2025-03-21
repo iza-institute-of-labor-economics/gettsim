@@ -11,9 +11,9 @@ inputs:
       - 25
     demographics__arbeitsstunden_w:
       - 40.0
-    demographics__hh_id:
+    hh_id:
       - 180
-    demographics__p_id:
+    p_id:
       - 180
     demographics__wohnort_ost:
       - true

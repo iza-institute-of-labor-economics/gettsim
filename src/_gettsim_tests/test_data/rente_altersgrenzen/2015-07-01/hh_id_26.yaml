@@ -11,9 +11,9 @@ inputs:
       - 1940
     demographics__geburtsmonat:
       - 12
-    demographics__hh_id:
+    hh_id:
       - 18
-    demographics__p_id:
+    p_id:
       - 18
     demographics__weiblich:
       - true
