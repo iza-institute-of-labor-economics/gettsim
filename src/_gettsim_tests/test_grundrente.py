@@ -16,9 +16,7 @@ proxy_rente_test_data = load_policy_test_data("grundrente_proxy_rente")
     "test",
     grundrente_test_data,
 )
-def test_grundrente(
-    test: PolicyTest,
-):
+def test_grundrente(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(
@@ -40,9 +38,7 @@ def test_grundrente(
     "test",
     proxy_rente_test_data,
 )
-def test_grundrente_proxy_rente(
-    test: PolicyTest,
-):
+def test_grundrente_proxy_rente(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(
@@ -64,9 +60,7 @@ def test_grundrente_proxy_rente(
     "test",
     proxy_rente_test_data,
 )
-def test_grundrente_proxy_rente_vorjahr_comparison(
-    test: PolicyTest,
-):
+def test_grundrente_proxy_rente_vorjahr_comparison(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(

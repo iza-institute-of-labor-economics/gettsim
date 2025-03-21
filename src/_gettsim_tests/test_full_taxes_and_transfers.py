@@ -10,13 +10,8 @@ from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 test_data = load_policy_test_data("full_taxes_and_transfers")
 
 
-@pytest.mark.parametrize(
-    "test",
-    test_data,
-)
-def test_full_taxes_transfers(
-    test: PolicyTest,
-):
+@pytest.mark.parametrize("test", test_data)
+def test_full_taxes_transfers(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     compute_taxes_and_transfers(
@@ -26,10 +21,7 @@ def test_full_taxes_transfers(
     )
 
 
-@pytest.mark.parametrize(
-    "test",
-    test_data,
-)
+@pytest.mark.parametrize("test", test_data)
 def test_data_types(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
@@ -59,10 +51,7 @@ def test_data_types(test: PolicyTest):
             assert check_series_has_expected_type(result_array, internal_type)
 
 
-@pytest.mark.parametrize(
-    "test",
-    test_data,
-)
+@pytest.mark.parametrize("test", test_data)
 def test_allow_none_as_target_tree(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 

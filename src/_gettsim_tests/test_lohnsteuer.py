@@ -10,13 +10,8 @@ from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 test_data = load_policy_test_data("lohnsteuer")
 
 
-@pytest.mark.parametrize(
-    "test",
-    test_data,
-)
-def test_lohnsteuer(
-    test: PolicyTest,
-):
+@pytest.mark.parametrize("test", test_data)
+def test_lohnsteuer(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(

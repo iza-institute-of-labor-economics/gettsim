@@ -9,13 +9,8 @@ from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 test_data = load_policy_test_data("aggregate_by_p_id")
 
 
-@pytest.mark.parametrize(
-    "test",
-    test_data,
-)
-def test_aggregate_by_p_id(
-    test: PolicyTest,
-):
+@pytest.mark.parametrize("test", test_data)
+def test_aggregate_by_p_id(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(
