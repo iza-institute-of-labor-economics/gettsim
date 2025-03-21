@@ -30,9 +30,7 @@ def test_full_taxes_transfers(
     "test",
     test_data,
 )
-def test_data_types(
-    test: PolicyTest,
-):
+def test_data_types(test: PolicyTest):
     environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(
@@ -59,3 +57,17 @@ def test_data_types(
                 raise ValueError(f"Column name {column_name} unknown.")
         if internal_type:
             assert check_series_has_expected_type(result_array, internal_type)
+
+
+@pytest.mark.parametrize(
+    "test",
+    test_data,
+)
+def test_allow_none_as_target_tree(test: PolicyTest):
+    environment = cached_set_up_policy_environment(date=test.date)
+
+    compute_taxes_and_transfers(
+        data_tree=test.input_tree,
+        environment=environment,
+        targets_tree=None,
+    )

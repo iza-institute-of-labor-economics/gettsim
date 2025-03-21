@@ -65,8 +65,9 @@ def compute_taxes_and_transfers(
     debug : bool
         The debug mode does the following:
             1. All necessary inputs and all computed variables are returned.
-            2. If an exception occurs while computing one variable, the exception is
-                skipped.
+            2. Exceptions that occur while computing one variable are ignored. This
+               means you can still look at the outputs of columns that were computed
+               successfully before the exception occurred, which can be helpful.
 
     Returns
     -------
@@ -74,13 +75,13 @@ def compute_taxes_and_transfers(
         The computed variables as a tree.
 
     """
+    # Use default targets if no targets are provided.
+    targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
+
     # Check user inputs
     _fail_if_targets_tree_not_valid(targets_tree)
     _fail_if_data_tree_not_valid(data_tree)
     _fail_if_environment_not_valid(environment)
-
-    # Use default targets if no targets are provided.
-    targets_tree = targets_tree if targets_tree else DEFAULT_TARGETS
 
     # Add derived functions to the functions tree.
     functions_tree = combine_policy_functions_and_derived_functions(

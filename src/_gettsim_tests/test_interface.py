@@ -330,7 +330,7 @@ def test_fail_if_non_unique_pid(minimal_input_data):
         compute_taxes_and_transfers(data, PolicyEnvironment({}), targets_tree={})
 
 
-def test_consecutive_internal_test_runs():
+def test_warn_when_internal_tests_are_executed_repeatedly():
     from gettsim import test
 
     test("--collect-only")
