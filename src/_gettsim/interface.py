@@ -63,11 +63,8 @@ def compute_taxes_and_transfers(
     rounding : bool, default True
         Indicator for whether rounding should be applied as specified in the law.
     debug : bool
-        The debug mode does the following:
-            1. All necessary inputs and all computed variables are returned.
-            2. Exceptions that occur while computing one variable are ignored. This
-               means you can still look at the outputs of columns that were computed
-               successfully before the exception occurred, which can be helpful.
+        If debug is 'True', `compute_taxes_and_transfers` returns the input data tree
+        along with the computed targets.
 
     Returns
     -------
