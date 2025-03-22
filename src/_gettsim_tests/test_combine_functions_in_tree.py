@@ -1,9 +1,11 @@
+import dags.tree as dt
 import pandas as pd
 import pytest
 
 from _gettsim.aggregation import AggregateByGroupSpec
 from _gettsim.combine_functions_in_tree import (
     _annotations_for_aggregation,
+    _create_aggregate_by_group_functions,
     _create_one_aggregate_by_group_func,
     _create_one_aggregate_by_p_id_func,
     _fail_if_targets_not_in_functions_tree,
@@ -255,3 +257,56 @@ def test_create_one_aggregate_by_p_id_func_applies_annotations():
         annotations=annotations,
     )
     assert result_func.__annotations__ == annotations
+
+
+@pytest.mark.parametrize(
+    (
+        "functions_tree",
+        "targets_tree",
+        "data_tree",
+        "aggregations_tree_provided_by_env",
+        "expected",
+    ),
+    [
+        (
+            {"n1": {"foo": policy_function(leaf_name="foo")(lambda x_hh: x_hh)}},
+            {},
+            {"n1": {"x": pd.Series([1])}},
+            {},
+            ("n1", "x_hh"),
+        ),
+        (
+            {"n1": {"foo": policy_function(leaf_name="foo")(lambda x_hh: x_hh)}},
+            {},
+            {"n2": {"x": pd.Series([1])}},
+            {},
+            ("n2", "x_hh"),
+        ),
+        (
+            {"n1": {"foo": policy_function(leaf_name="foo")(lambda x_hh: x_hh)}},
+            {},
+            {"x": pd.Series([1])},
+            {},
+            ("x_hh"),
+        ),
+    ],
+)
+def test_derived_aggregation_functions_are_in_correct_namespace(
+    functions_tree,
+    targets_tree,
+    data_tree,
+    aggregations_tree_provided_by_env,
+    expected,
+):
+    """Test that the derived aggregation functions are in the correct namespace.
+
+    The namespace of the derived aggregation functions should be the same as the
+    namespace of the function that is being aggregated.
+    """
+    result = _create_aggregate_by_group_functions(
+        functions_tree=functions_tree,
+        targets_tree=targets_tree,
+        data_tree=data_tree,
+        aggregations_tree_provided_by_env=aggregations_tree_provided_by_env,
+    )
+    assert expected in dt.tree_paths(result)
