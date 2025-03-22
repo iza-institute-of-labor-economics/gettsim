@@ -3,32 +3,32 @@ info:
   note: Low income and high Hinzuverdienstdeckel.
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
+    demographics__alter:
+      - 64
+    demographics__geburtsjahr:
+      - 1957
+    hh_id:
       - 0
-    demographics__hh_id:
+    p_id:
       - 0
+    demographics__wohnort_ost:
+      - false
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 500.0
     höchster_bruttolohn_letzte_15_jahre_vor_rente_m:
       - 3000.0
-    demographics__wohnort_ost:
-      - false
-    demographics__geburtsjahr:
-      - 1957
-    demographics__alter:
-      - 64
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 40.0
-    sozialversicherung__rente__entgeltpunkte_ost:
-      - 0.0
     sozialversicherung__rente__bezieht_rente:
       - true
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 40.0
     sozialversicherung__rente__grundrente__betrag_m:
       - 0.0
-  assumed: {}
 outputs:
   sozialversicherung__rente__altersrente__betrag_m:
     - 1367.6

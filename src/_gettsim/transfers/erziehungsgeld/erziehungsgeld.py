@@ -320,7 +320,7 @@ def grundsätzlich_anspruchsberechtigt(
 
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def anzurechnendes_einkommen_y(
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_: float,
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_y_fg: float,
     arbeitslosengeld_2__anzahl_erwachsene_fg: int,
     kind_grundsätzlich_anspruchsberechtigt: bool,
     erziehungsgeld_params: dict,
@@ -335,8 +335,8 @@ def anzurechnendes_einkommen_y(
 
     Parameters
     ----------
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_
-        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_`.
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_y_fg
+        See :func:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_y_fg`.
     arbeitslosengeld_2__anzahl_erwachsene_fg
         See :func:`arbeitslosengeld_2__anzahl_erwachsene_fg`.
     kind_grundsätzlich_anspruchsberechtigt
@@ -353,7 +353,7 @@ def anzurechnendes_einkommen_y(
 
     if kind_grundsätzlich_anspruchsberechtigt:
         out = (
-            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_
+            einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_y_fg
             - eink_st_abzuege_params["werbungskostenpauschale"]
             * arbeitslosengeld_2__anzahl_erwachsene_fg
         ) * erziehungsgeld_params["pauschal_abzug_auf_einkommen"]
@@ -401,7 +401,7 @@ def einkommensgrenze_y(
 
 @policy_function(start_date="2004-01-01", end_date="2008-12-31")
 def einkommensgrenze_ohne_geschwisterbonus(
-    alleinerz_fg: bool,
+    demographics__alleinerziehend_fg: bool,
     demographics__alter_monate: float,
     budgetsatz: bool,
     erziehungsgeld_params: dict,
@@ -415,8 +415,8 @@ def einkommensgrenze_ohne_geschwisterbonus(
     ----------
     erziehungsgeld_params
         See params documentation :ref:`erziehungsgeld_params <erziehungsgeld_params>`.
-    alleinerz_fg
-        See :func:`alleinerz_fg`.
+    demographics__alleinerziehend_fg
+        See :func:`demographics__alleinerziehend_fg`.
     demographics__alter_monate
         See :func:`demographics__alter_monate`.
     budgetsatz
@@ -438,8 +438,8 @@ def einkommensgrenze_ohne_geschwisterbonus(
     else:
         limit = "reduced_limit"
 
-    if alleinerz_fg:
-        status_eltern = "alleinerz"
+    if demographics__alleinerziehend_fg:
+        status_eltern = "alleinerziehend"
     else:
         status_eltern = "paar"
 

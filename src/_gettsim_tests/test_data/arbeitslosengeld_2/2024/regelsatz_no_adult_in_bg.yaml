@@ -1,0 +1,38 @@
+---
+info:
+  note: >-
+    Test Regelsatz when no adult is part of Bedarfsgemeinschaft. Child receives the
+    adult Regelsatz.
+  source: Made up.
+inputs:
+  assumed:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+    demographics__alleinerziehend:
+      - false
+    demographics__alter:
+      - 17
+    hh_id:
+      - 0
+    demographics__kind:
+      - true
+    p_id:
+      - 0
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    jahr:
+      - 2005
+    kindergeld__p_id_empfänger:
+      - -1
+  provided: {}
+outputs:
+  arbeitslosengeld_2__erwachsenensatz_m:
+    - 563.0
+  arbeitslosengeld_2__kindersatz_m:
+    - 0.0
+  arbeitslosengeld_2__regelsatz_m:
+    - 563.0

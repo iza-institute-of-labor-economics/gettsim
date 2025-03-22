@@ -23,7 +23,7 @@ def alleinerziehend_betrag_y_pauschal(
 
     """
     if einkommensteuer__alleinerziehend_sn:
-        out = eink_st_abzuege_params["alleinerz_freibetrag"]
+        out = eink_st_abzuege_params["alleinerziehendenfreibetrag"]
     else:
         out = 0.0
 
@@ -55,9 +55,9 @@ def alleinerziehend_betrag_y_nach_kinderzahl(
 
     """
     betrag_y = (
-        eink_st_abzuege_params["alleinerz_freibetrag"]
+        eink_st_abzuege_params["alleinerziehendenfreibetrag"]
         + (kindergeld__anzahl_ansprüche_sn - 1)
-        * eink_st_abzuege_params["alleinerz_freibetrag_zusatz"]
+        * eink_st_abzuege_params["alleinerziehendenfreibetrag_zusatz"]
     )
     if einkommensteuer__alleinerziehend_sn:
         out = betrag_y

@@ -162,7 +162,7 @@ def test_horizontal_plot_dag():
         environment=environment,
         selectors=[
             {
-                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
+                "node": "einkommensteuer__abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",  # noqa: E501
                 "type": "neighbors",
             }
         ],
@@ -178,7 +178,7 @@ def test_hover_source_code_plot_dag():
         environment=environment,
         selectors=[
             {
-                "node": "abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",
+                "node": "einkommensteuer__abgeltungssteuer__zu_versteuernde_kapitaleinkünfte_y_sn",  # noqa: E501
                 "type": "neighbors",
             }
         ],

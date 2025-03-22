@@ -115,7 +115,9 @@ pyyaml = "*"
 toml = "*"
 pytest = "*"
 pytest-cov = "*"
+pytest-profiling = "*"
 pytest-xdist = "*"
+snakeviz = ">=2.2.2,<3"
 
 
 # Development Dependencies (pypi)
@@ -124,8 +126,7 @@ pytest-xdist = "*"
 [tool.pixi.pypi-dependencies]
 gettsim = {path = ".", editable = true}
 pdbp = "*"
-dags = {git = "https://github.com/OpenSourceEconomics/dags"}
-flatten_dict = "*"
+dags = {git = "https://github.com/OpenSourceEconomics/dags", rev="55309e2a9dd6ae1ab2802ca89d791afc119078cf"}
 
 
 [tool.pixi.target.unix.pypi-dependencies]

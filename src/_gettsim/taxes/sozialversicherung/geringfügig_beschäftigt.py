@@ -67,7 +67,7 @@ def minijob_grenze_unterscheidung_ost_west(
     leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
 )
-def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
+def minijob_grenze_fixer_betrag(sozialv_beitr_params: dict) -> float:
     """Minijob income threshold depending on place of living.
 
     From 2000 onwards, the threshold is the same for all of Germany. Until September
@@ -89,7 +89,7 @@ def minijob_grenze_einheitlich(sozialv_beitr_params: dict) -> float:
     leaf_name="minijob_grenze",
     params_key_for_rounding="sozialv_beitr",
 )
-def minijob_grenze_from_minimum_wage(sozialv_beitr_params: dict) -> float:
+def minijob_grenze_abgeleitet_von_mindestlohn(sozialv_beitr_params: dict) -> float:
     """Minijob income threshold since 10/2022. Since then, it is calculated endogenously
     from the statutory minimum wage.
 

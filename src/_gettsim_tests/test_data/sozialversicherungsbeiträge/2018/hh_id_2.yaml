@@ -1,0 +1,46 @@
+---
+info:
+  note: ''
+  source: https://www.brutto-netto-rechner.info/gehalt/gehaltsrechner-arbeitgeber.php
+inputs:
+  assumed: {}
+  provided:
+    demographics__alter:
+      - 25
+    hh_id:
+      - 2
+    p_id:
+      - 9
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 600.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+      - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - false
+    jahr:
+      - '2018'
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+outputs:
+  sozialversicherung__arbeitslosen__beitrag__betrag_versicherter_m:
+    - 6.93028
+  sozialversicherung__beiträge_arbeitgeber_m:
+    - 116.25
+  sozialversicherung__beitrag_gesamt_m:
+    - 212.4
+  sozialversicherung__beiträge_versicherter_m:
+    - 96.15375
+  sozialversicherung__kranken__beitrag__betrag_versicherter_m:
+    - 39.03746
+  sozialversicherung__pflege__beitrag__betrag_versicherter_m:
+    - 7.21826
+  sozialversicherung__rente__beitrag__betrag_versicherter_m:
+    - 42.96774

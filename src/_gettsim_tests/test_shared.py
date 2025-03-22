@@ -181,11 +181,11 @@ def test_partition_tree_by_reference_tree(tree_to_partition, reference_tree, exp
     "target_path, group_by_functions_tree, expected",
     [
         (("namespace1", "foo"), {}, ()),
-        (("namespace1", "foo_hh"), {}, ("demographics", "hh_id")),
+        (("namespace1", "foo_hh"), {}, ("hh_id",)),
         (
             ("namespace1", "foo_hh"),
             {"namespace1": {"hh_id": None}},
-            ("demographics", "hh_id"),
+            ("hh_id",),
         ),
         (
             ("namespace1", "foo_bg"),

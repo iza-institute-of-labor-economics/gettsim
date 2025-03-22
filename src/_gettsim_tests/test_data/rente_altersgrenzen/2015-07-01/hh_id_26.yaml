@@ -1,0 +1,76 @@
+---
+info:
+  note: ''
+  source: https://www.deutsche-rentenversicherung.de/DRV/DE/Online-Dienste/Online-Rechner/RentenbeginnUndHoehenRechner/rentenbeginnrechner_node.html
+inputs:
+  assumed: {}
+  provided:
+    demographics__alter:
+      - 63
+    demographics__geburtsjahr:
+      - 1940
+    demographics__geburtsmonat:
+      - 12
+    hh_id:
+      - 18
+    p_id:
+      - 18
+    demographics__weiblich:
+      - true
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 1500.0
+    jahr:
+      - 2015
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
+      - 11.0
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+      - true
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
+      - true
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_1997:
+      - false
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__vertrauensschutz_2004:
+      - false
+    sozialversicherung__rente__monate_in_arbeitslosigkeit:
+      - 0.0
+    sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 39.3795
+    sozialversicherung__rente__ersatzzeiten_monate:
+      - 0.0
+    sozialversicherung__rente__freiwillige_beitragsmonate:
+      - 0.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
+      - 0.0
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
+      - 0.0
+    sozialversicherung__rente__monate_in_mutterschutz:
+      - 0.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
+      - 0.0
+    sozialversicherung__rente__pflichtbeitragsmonate:
+      - 182.0
+    sozialversicherung__rente__monate_in_schulausbildung:
+      - 0.0
+    sozialversicherung__rente__monate_in_ausbildungssuche:
+      - 0.0
+    sozialversicherung__rente__monate_geringfügiger_beschäftigung:
+      - 0.0
+    sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit:
+      - 0.0
+outputs:
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
+    - 61.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+    - 0.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
+    - 39.88850659
+  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
+    - 0.509006589
+  sozialversicherung__rente__altersrente__vorzeitig_grundsätzlich_anspruchsberechtigt:
+    - true

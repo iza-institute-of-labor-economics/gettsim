@@ -1,0 +1,24 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed: {}
+  provided:
+    einkommensteuer__abgeltungssteuer__betrag_y_sn:
+      - 0.0
+    hh_id:
+      - 2
+    demographics__kind:
+      - false
+    p_id:
+      - 2
+    demographics__p_id_ehepartner:
+      - -1
+    einkommensteuer__betrag_mit_kinderfreibetrag_y_sn:
+      - 6000.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+outputs:
+  solidaritätszuschlag__betrag_y_sn:
+    - 225.0

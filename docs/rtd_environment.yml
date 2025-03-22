@@ -11,7 +11,7 @@ dependencies:
 
   # gettsim dependencies
   - astor
-  - dags
+  - dags>=0.3.0
   - ipywidgets
   - networkx
   - numpy
@@ -33,5 +33,3 @@ dependencies:
   - sphinx-copybutton
   - pip:
       - -e ../
-      - git+https://github.com/OpenSourceEconomics/dags
-      - flatten_dict

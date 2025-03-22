@@ -150,7 +150,7 @@ def create_basic_households(
             "hh_id": [i] * (n_adults + n_children),
             "hh_typ": [hh_typ_string] * (n_adults + n_children),
             "sozialversicherung__pflege__beitrag__hat_kinder": sozialversicherung__pflege__beitrag__hat_kinder,  # noqa: E501
-            "alleinerz": alleinerziehend,
+            "alleinerziehend": alleinerziehend,
             # Assumption: All children are biological children of the adults, children
             # do not have children themselves
             "sozialversicherung__pflege__beitrag__anzahl_kinder_bis_24": [n_children]
@@ -232,8 +232,8 @@ def return_df_with_ids_for_aggregation(data, n_adults, n_children, adults_marrie
         ]
     else:
         data_adults = data.query("kind == False").copy()
-        for demographics__hh_id, group in data_adults.groupby("hh_id"):
-            relevant_rows = (data_adults["hh_id"] == demographics__hh_id).values
+        for hh_id, group in data_adults.groupby("hh_id"):
+            relevant_rows = (data_adults["hh_id"] == hh_id).values
             data_adults.loc[
                 relevant_rows, "arbeitslosengeld_2__p_id_einstandspartner"
             ] = group["p_id"].tolist()[::-1]
@@ -260,8 +260,7 @@ def return_p_id_elternteil(data, n_adults):
     """Find the demographics__p_id_elternteil_1 and demographics__p_id_elternteil_2."""
     # demographics__p_id_elternteil_1 is the first adult in the household
     elternteil_1_candidate = {
-        demographics__hh_id: group["p_id"].iloc[0]
-        for demographics__hh_id, group in data.groupby("hh_id")
+        hh_id: group["p_id"].iloc[0] for hh_id, group in data.groupby("hh_id")
     }
     # Apply candidate id if demographics__kind, else -1
     data["demographics__p_id_elternteil_1"] = data.apply(
@@ -312,26 +311,27 @@ def create_constant_across_households_variables(df, n_adults, n_children, policy
         "mietstufe": 3,
         "geburtsmonat": 1,
         "geburtstag": 1,
-        "rente__altersrente__freiwillige_beitragszeiten_m": 5.0,
+        "rente__altersrente__freiwillige_beitragsmonate": 5.0,
         "rente__altersrente__schulausbildung_m": 10.0,
-        "rente__altersrente__kinderberücksichtigungszeiten_m": 24.0,
-        "rente__altersrente__pflegeberücksichtigungszeiten_m": 1.0,
+        "rente__altersrente__kinderberücksichtigungszeiten_monate": 24.0,
+        "rente__altersrente__pflegeberücksichtigungszeiten_monate": 1.0,
         "elterngeld__nettoeinkommen_vorjahr_m": 20000.0,
         "geburtsjahr": policy_year - df["alter"],
         "jahr_renteneintr": policy_year - df["alter"] + 67,
-        "rente__grundrente__sozialversicherung__rente__grundrente__grundrentenzeiten_m": (  # noqa: E501
+        "rente__grundrente__sozialversicherung__rente__grundrente__grundrentenzeiten_monate": (  # noqa: E501
             df["alter"] - 20
         ).clip(lower=0)
         * 12,
-        "rente__grundrente__bewertungszeiten_m": (df["alter"] - 20).clip(lower=0) * 12,
+        "rente__grundrente__bewertungszeiten_monate": (df["alter"] - 20).clip(lower=0)
+        * 12,
         "entgeltp": (df["alter"] - 20).clip(lower=0).astype(float),
         "rente__grundrente__entgeltpunkte": (df["alter"] - 20)
         .clip(lower=0)
         .astype(float),
-        "rente__altersrente__pflichtbeitragszeiten_m": (
+        "rente__altersrente__pflichtbeitragsmonate": (
             (df["alter"] - 25).clip(lower=0) * 12
         ).astype(float),
-        "rente__altersrente__pflichtbeitragszeiten_m_alt": (
+        "rente__altersrente__pflichtbeitragsmonate_alt": (
             (df["alter"] - 40).clip(lower=0) * 12
         ).astype(float),
         "wohnfläche_hh": float(bg_daten["wohnfläche"][hh_typ_string_lookup]),

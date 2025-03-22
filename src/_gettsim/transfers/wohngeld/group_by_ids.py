@@ -14,7 +14,7 @@ aggregation_specs = {
 
 @group_by_function()
 def wthh_id(
-    demographics__hh_id: numpy.ndarray[int],
+    hh_id: numpy.ndarray[int],
     vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg: numpy.ndarray[bool],
     vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg: numpy.ndarray[
         bool
@@ -24,7 +24,7 @@ def wthh_id(
     Compute the ID of the wohngeldrechtlicher Teilhaushalt.
     """
     result = []
-    for index, current_hh_id in enumerate(demographics__hh_id):
+    for index, current_hh_id in enumerate(hh_id):
         if (
             vorrangprüfungen__wohngeld_vorrang_vor_arbeitslosengeld_2_bg[index]
             or vorrangprüfungen__wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg[

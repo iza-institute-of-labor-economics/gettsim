@@ -1,62 +1,53 @@
-import pandas as pd
+import dags.tree as dt
+import numpy as np
 import pytest
-from pandas.testing import assert_series_equal
+from numpy.testing import assert_array_almost_equal
 
 from _gettsim.interface import compute_taxes_and_transfers
 from _gettsim_tests._helpers import cached_set_up_policy_environment
-from _gettsim_tests._policy_test_utils import PolicyTestData, load_policy_test_data
+from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
 
-OVERRIDE_COLS = []
-
-data = load_policy_test_data("groupings")
+test_data = load_policy_test_data("groupings")
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
-@pytest.mark.parametrize(
-    ("test_data", "column"),
-    data.parametrize_args,
-    ids=str,
-)
-def test_groupings(
-    test_data: PolicyTestData,
-    column: str,
-):
-    df = test_data.input_df
-    environment = cached_set_up_policy_environment(date=test_data.date)
+@pytest.mark.parametrize("test", test_data)
+def test_groupings(test: PolicyTest):
+    environment = cached_set_up_policy_environment(date=test.date)
 
     result = compute_taxes_and_transfers(
-        data=df,
+        data_tree=test.input_tree,
         environment=environment,
-        targets=column,
+        targets_tree=test.target_structure,
     )
 
-    assert_series_equal(
-        result[column],
-        test_data.output_df[column],
-        check_dtype=False,
-        atol=1e-1,
-        rtol=0,
-    )
+    flat_result = dt.flatten_to_qual_names(result)
+    flat_expected_output_tree = dt.flatten_to_qual_names(test.expected_output_tree)
+
+    for result, expected in zip(
+        flat_result.values(), flat_expected_output_tree.values()
+    ):
+        assert_array_almost_equal(result, expected, decimal=2)
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 def test_fail_to_compute_sn_id_if_married_but_gemeinsam_veranlagt_differs():
-    data = pd.DataFrame(
-        {
-            "p_id": [0, 1],
-            "demographics__p_id_ehepartner": [1, 0],
-            "einkommensteuer__gemeinsam_veranlagt": [False, True],
-        }
-    )
+    data = {
+        "p_id": np.array([0, 1]),
+        "demographics": {
+            "p_id_ehepartner": np.array([1, 0]),
+        },
+        "einkommensteuer": {
+            "gemeinsam_veranlagt": np.array([False, True]),
+        },
+    }
 
     environment = cached_set_up_policy_environment(date="2023")
 
     with pytest.raises(
         ValueError,
-        match="have different values for einkommensteuer__gemeinsam_veranlagt",
+        match="have different values for gemeinsam_veranlagt",
     ):
         compute_taxes_and_transfers(
-            data=data,
+            data_tree=data,
             environment=environment,
-            targets=["sn_id"],
+            targets_tree={"einkommensteuer": {"sn_id": None}},
         )

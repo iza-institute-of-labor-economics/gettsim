@@ -3,8 +3,9 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
+    p_id:
       - 0
       - 1
       - 2
@@ -28,7 +29,6 @@ inputs:
       - false
       - false
       - false
-  assumed: {}
 outputs:
   einkommensteuer__sn_id:
     - 0

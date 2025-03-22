@@ -75,11 +75,19 @@ lohnst_einkommensgrenzen:
     2: 222260
 rounding:
   lohnsteuer__einkommen_y:
+    1900-01-01:
+      base: 1
+      direction: down
+      reference: None. Reference missing.
     1990-01-01:
       base: 1
       direction: down
       reference: null
-  vorsorgepauschale_y:
+  lohnsteuer__vorsorgepauschale_y:
+    1900-01-01:
+      base: 1
+      direction: up
+      reference: None. Reference missing.
     1990-01-01:
       base: 1
       direction: up

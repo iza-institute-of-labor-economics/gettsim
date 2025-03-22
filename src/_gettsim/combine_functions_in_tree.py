@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Literal
 
-import flatten_dict
-import optree
+import dags.tree as dt
 
 from _gettsim.aggregation import (
     AggregateByGroupSpec,
@@ -24,7 +23,6 @@ from _gettsim.aggregation import (
     sum_by_p_id,
 )
 from _gettsim.config import (
-    QUALIFIED_NAME_SEPARATOR,
     SUPPORTED_GROUPINGS,
     TYPES_INPUT_VARIABLES,
 )
@@ -155,14 +153,10 @@ def _create_aggregation_functions(
 
     out_tree = {}
 
-    _all_paths, _all_aggregation_specs = optree.tree_flatten_with_path(
-        aggregations_tree
-    )[:2]
-
-    group_by_functions_tree = flatten_dict.unflatten(
+    group_by_functions_tree = dt.unflatten_from_tree_paths(
         {
             path: func
-            for path, func in flatten_dict.flatten(functions_tree).items()
+            for path, func in dt.flatten_to_tree_paths(functions_tree).items()
             if isinstance(func, GroupByFunction)
         }
     )
@@ -171,11 +165,12 @@ def _create_aggregation_functions(
         AggregateByGroupSpec if aggregation_type == "group" else AggregateByPIDSpec
     )
 
-    for tree_path, aggregation_spec in zip(_all_paths, _all_aggregation_specs):
+    for tree_path, aggregation_spec in dt.flatten_to_tree_paths(
+        aggregations_tree
+    ).items():
         # Skip if aggregation spec is not the current aggregation type
         if not isinstance(aggregation_spec, expected_aggregation_spec_type):
             continue
-
         annotations = _annotations_for_aggregation(
             aggregation_method=aggregation_spec.aggr,
             source_col=aggregation_spec.source_col,
@@ -194,7 +189,7 @@ def _create_aggregation_functions(
                 msg = format_errors_and_warnings(
                     "Name of aggregated column needs to have a suffix "
                     "indicating the group over which it is aggregated. "
-                    f"The name {'.'.join(tree_path)} does not do so."
+                    f"{tree_path} does not do so."
                 )
                 raise ValueError(msg)
 
@@ -203,7 +198,7 @@ def _create_aggregation_functions(
                 aggregation_method=aggregation_spec.aggr,
                 source_col=aggregation_spec.source_col,
                 annotations=annotations,
-                group_by_id=QUALIFIED_NAME_SEPARATOR.join(group_by_id_path),
+                group_by_id=dt.qual_name_from_tree_path(group_by_id_path),
             )
         else:
             p_id_to_aggregate_by = aggregation_spec.p_id_to_aggregate_by
@@ -265,23 +260,24 @@ def _create_derived_aggregations_tree(
 
     # Create source tree for aggregations. Source can be any already existing function
     # or data column.
-    aggregation_source_tree = upsert_tree(
-        base=functions_tree,
-        to_upsert=data_tree,
+    aggregation_source_tree_paths = dt.tree_paths(
+        upsert_tree(
+            base=functions_tree,
+            to_upsert=data_tree,
+        )
     )
 
     # Create aggregation specs.
     derived_aggregations_tree = {}
-    for tree_path in optree.tree_paths(
-        potential_aggregation_function_names, none_is_leaf=True
-    ):
+    for tree_path in dt.tree_paths(potential_aggregation_function_names):
         leaf_name = tree_path[-1]
 
         # Don't create aggregation functions for unsupported groupings or functions that
         # already exist in the source tree.
-        aggregation_specs_needed = any(
-            leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS
-        ) and tree_path not in optree.tree_paths(aggregation_source_tree)
+        aggregation_specs_needed = (
+            any(leaf_name.endswith(f"_{g}") for g in SUPPORTED_GROUPINGS)
+            and tree_path not in aggregation_source_tree_paths
+        )
 
         if aggregation_specs_needed:
             derived_aggregations_tree = insert_path_and_value(
@@ -316,10 +312,7 @@ def _get_potential_aggregation_function_names_from_function_arguments(
     Dictionary containing potential aggregation targets.
     """
     current_tree = {}
-    paths_of_functions_tree, flat_functions_tree = (
-        optree.tree_flatten_with_path(functions_tree)
-    )[:2]
-    for func, tree_path in zip(flat_functions_tree, paths_of_functions_tree):
+    for tree_path, func in dt.flatten_to_tree_paths(functions_tree).items():
         for name in get_names_of_arguments_without_defaults(func):
             path_of_function_argument = _get_tree_path_from_source_col_name(
                 name=name,
@@ -342,12 +335,17 @@ def _annotations_for_aggregation(
     """Create annotations for derived aggregation functions."""
     annotations = {}
 
-    path_to_source_col = _get_tree_path_from_source_col_name(
-        name=source_col,
-        namespace=namespace,
+    path_to_source_col = (
+        _get_tree_path_from_source_col_name(
+            name=source_col,
+            namespace=namespace,
+        )
+        if aggregation_method != "count"
+        else None
     )
-    flat_functions = flatten_dict.flatten(functions_tree)
-    flat_types_input_variables = flatten_dict.flatten(types_input_variables)
+
+    flat_functions = dt.flatten_to_tree_paths(functions_tree)
+    flat_types_input_variables = dt.flatten_to_tree_paths(types_input_variables)
 
     if aggregation_method == "count":
         annotations["return"] = int
@@ -418,70 +416,46 @@ def _create_one_aggregate_by_group_func(
 
     """
     if aggregation_method == "count":
+        derived_from = group_by_id
+        mapper = {"group_by_id": group_by_id}
 
-        @rename_arguments_and_add_annotations(
-            mapper={"group_by_id": group_by_id}, annotations=annotations
-        )
-        def aggregate_by_group_func(group_by_id):
+        def agg_func(group_by_id):
             return grouped_count(group_by_id)
 
     else:
+        derived_from = (source_col, group_by_id)
         mapper = {
             "source_col": source_col,
             "group_by_id": group_by_id,
         }
         if aggregation_method == "sum":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_sum(source_col, group_by_id)
 
         elif aggregation_method == "mean":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_mean(source_col, group_by_id)
 
         elif aggregation_method == "max":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_max(source_col, group_by_id)
 
         elif aggregation_method == "min":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_min(source_col, group_by_id)
 
         elif aggregation_method == "any":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_any(source_col, group_by_id)
 
         elif aggregation_method == "all":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_group_func(source_col, group_by_id):
+            def agg_func(source_col, group_by_id):
                 return grouped_all(source_col, group_by_id)
 
         else:
@@ -490,13 +464,14 @@ def _create_one_aggregate_by_group_func(
             )
             raise ValueError(msg)
 
-    if aggregation_method == "count":
-        derived_from = group_by_id
-    else:
-        derived_from = (source_col, group_by_id)
+    wrapped_func = rename_arguments_and_add_annotations(
+        function=agg_func,
+        mapper=mapper,
+        annotations=annotations,
+    )
 
     return DerivedFunction(
-        function=aggregate_by_group_func,
+        function=wrapped_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
@@ -530,77 +505,53 @@ def _create_one_aggregate_by_p_id_func(
 
     """
     # Define aggregation func
-    if aggregation_method == "count":
 
-        @rename_arguments_and_add_annotations(
-            mapper={
-                "p_id_to_aggregate_by": p_id_to_aggregate_by,
-                "p_id_to_store_by": "demographics__p_id",
-            },
-            annotations=annotations,
-        )
-        def aggregate_by_p_id_func(p_id_to_aggregate_by, p_id_to_store_by):
+    if aggregation_method == "count":
+        derived_from = p_id_to_aggregate_by
+        mapper = {
+            "p_id_to_aggregate_by": p_id_to_aggregate_by,
+            "p_id_to_store_by": "p_id",
+        }
+
+        def agg_func(p_id_to_aggregate_by, p_id_to_store_by):
             return count_by_p_id(p_id_to_aggregate_by, p_id_to_store_by)
 
     else:
+        derived_from = (source_col, p_id_to_aggregate_by)
         mapper = {
             "p_id_to_aggregate_by": p_id_to_aggregate_by,
-            "p_id_to_store_by": "demographics__p_id",
+            "p_id_to_store_by": "p_id",
             "column": source_col,
         }
 
         if aggregation_method == "sum":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return sum_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "mean":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return mean_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "max":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return max_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "min":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return min_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "any":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return any_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         elif aggregation_method == "all":
 
-            @rename_arguments_and_add_annotations(
-                mapper=mapper,
-                annotations=annotations,
-            )
-            def aggregate_by_p_id_func(column, p_id_to_aggregate_by, p_id_to_store_by):
+            def agg_func(column, p_id_to_aggregate_by, p_id_to_store_by):
                 return all_by_p_id(column, p_id_to_aggregate_by, p_id_to_store_by)
 
         else:
@@ -609,13 +560,14 @@ def _create_one_aggregate_by_p_id_func(
             )
             raise ValueError(msg)
 
-    if aggregation_method == "count":
-        derived_from = p_id_to_aggregate_by
-    else:
-        derived_from = (source_col, p_id_to_aggregate_by)
+    wrapped_func = rename_arguments_and_add_annotations(
+        function=agg_func,
+        mapper=mapper,
+        annotations=annotations,
+    )
 
     return DerivedFunction(
-        function=aggregate_by_p_id_func,
+        function=wrapped_func,
         leaf_name=aggregation_target,
         derived_from=derived_from,
     )
@@ -642,9 +594,9 @@ def _get_tree_path_from_source_col_name(
     -------
     The path of 'name' in the tree.
     """
-    if QUALIFIED_NAME_SEPARATOR in name:
+    if dt.QUAL_NAME_DELIMITER in name:
         # 'name' is already namespaced.
-        new_tree_path = name.split(QUALIFIED_NAME_SEPARATOR)
+        new_tree_path = name.split(dt.QUAL_NAME_DELIMITER)
     else:
         # 'name' is not namespaced.
         new_tree_path = [*namespace, name]
@@ -676,12 +628,11 @@ def _fail_if_targets_not_in_functions_tree(
         reference_tree=functions_tree,
     )[1]
     names_of_targets_not_in_functions = [
-        ".".join(path)
-        for path in optree.tree_paths(targets_not_in_functions_tree, none_is_leaf=True)
+        str(p) for p in dt.tree_paths(targets_not_in_functions_tree)
     ]
     if names_of_targets_not_in_functions:
         formatted = format_list_linewise(names_of_targets_not_in_functions)
         msg = format_errors_and_warnings(
-            f"The following targets have no corresponding function:\n{formatted}"
+            f"The following targets have no corresponding function:\n\n{formatted}"
         )
         raise ValueError(msg)

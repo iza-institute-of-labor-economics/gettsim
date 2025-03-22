@@ -83,7 +83,7 @@ argument of `policy_function` has to be `"ges_rente"`:
 ```python
 @policy_function(params_key_for_rounding="ges_rente")
 def sozialversicherung__rente__grundrente__höchstbetrag_m(
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m: int,
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate: int,
 ) -> float:
     ...
     return out

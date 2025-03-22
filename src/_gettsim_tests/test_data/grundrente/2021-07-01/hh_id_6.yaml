@@ -4,20 +4,27 @@ info:
   source: https://www.deutsche-rentenversicherung.de/SharedDocs/Downloads/DE/Broschueren/national/grundrente_zuschlag_zur_rente.html
     (Ramona K.)
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
+    alleinstehend:
+      - true
+    demographics__alter:
+      - 70
+    demographics__geburtsjahr:
+      - 1951
+    hh_id:
       - 6
-    demographics__hh_id:
+    demographics__kind:
+      - false
+    p_id:
       - 6
     demographics__p_id_ehepartner:
       - -1
-    sozialversicherung__rente__grundrente__grundrentenzeiten_m:
-      - 480
-    sozialversicherung__rente__grundrente__bewertungszeiten_m:
-      - 300
     demographics__wohnort_ost:
       - false
-    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_y:
+      - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 0.0
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_vorjahr_m:
       - 0.0
@@ -25,37 +32,30 @@ inputs:
       - 0.0
     einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_y:
       - 0.0
-    einkommensteuer__einkünfte__aus_kapitalvermögen__betrag_y_sn:
-      - 0.0
-    demographics__alter:
-      - 70
-    alleinstehend:
-      - true
-    demographics__geburtsjahr:
-      - 1951
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
-      - 0.0
     sozialversicherung__rente__altersrente__höchster_bruttolohn_letzte_15_jahre_vor_rente_y:
-      - 0.0
-    sozialversicherung__rente__entgeltpunkte_west:
-      - 19.2
-    sozialversicherung__rente__entgeltpunkte_ost:
       - 0.0
     sozialversicherung__rente__altersrente__zugangsfaktor:
       - 1.0
     sozialversicherung__rente__bezieht_rente:
       - true
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 19.2
+    sozialversicherung__rente__grundrente__bewertungszeiten_monate:
+      - 300
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
+      - 480
     sozialversicherung__rente__grundrente__mean_entgeltpunkte:
       - 15.0
-    demographics__kind:
-      - false
-  assumed: {}
+    sozialversicherung__rente__grundrente__proxy_rente_vorjahr_m:
+      - 0.0
 outputs:
-  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
-    - 0.014583333
+  sozialversicherung__rente__altersrente__betrag_m:
+    - 806.0
   sozialversicherung__rente__grundrente__basisbetrag_m:
     - 149.72
   sozialversicherung__rente__grundrente__betrag_m:
     - 149.72
-  sozialversicherung__rente__altersrente__betrag_m:
-    - 806.0
+  sozialversicherung__rente__grundrente__mean_entgeltpunkte_zuschlag:
+    - 0.014583333

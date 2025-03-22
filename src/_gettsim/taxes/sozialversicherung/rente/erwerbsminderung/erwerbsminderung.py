@@ -6,8 +6,8 @@ from _gettsim.function_types import policy_function
 @policy_function(start_date="2001-01-01")
 def betrag_m(  # noqa: PLR0913
     zugangsfaktor: float,
-    sozialversicherung__rente__entgeltpunkte_west: float,
-    sozialversicherung__rente__entgeltpunkte_ost: float,
+    entgeltpunkte_west: float,
+    entgeltpunkte_ost: float,
     rentenartfaktor: float,
     grundsätzlich_anspruchsberechtigt: bool,
     ges_rente_params: dict,
@@ -21,10 +21,10 @@ def betrag_m(  # noqa: PLR0913
     ----------
     zugangsfaktor
         See :func:`zugangsfaktor`.
-    sozialversicherung__rente__entgeltpunkte_west
-        See :func:`sozialversicherung__rente__entgeltpunkte_west`.
-    sozialversicherung__rente__entgeltpunkte_ost
-        See :func:`sozialversicherung__rente__entgeltpunkte_ost`.
+    entgeltpunkte_west
+        See :func:`entgeltpunkte_west`.
+    entgeltpunkte_ost
+        See :func:`entgeltpunkte_ost`.
     rentenwert
         See :func:`rentenwert`.
     rentenartfaktor
@@ -40,10 +40,8 @@ def betrag_m(  # noqa: PLR0913
     if grundsätzlich_anspruchsberechtigt:
         out = (
             (
-                sozialversicherung__rente__entgeltpunkte_west
-                * ges_rente_params["rentenwert"]["west"]
-                + sozialversicherung__rente__entgeltpunkte_ost
-                * ges_rente_params["rentenwert"]["ost"]
+                entgeltpunkte_west * ges_rente_params["rentenwert"]["west"]
+                + entgeltpunkte_ost * ges_rente_params["rentenwert"]["ost"]
             )
             * zugangsfaktor
             * rentenartfaktor
@@ -57,7 +55,7 @@ def betrag_m(  # noqa: PLR0913
 def grundsätzlich_anspruchsberechtigt(
     voll_erwerbsgemindert: bool,
     teilweise_erwerbsgemindert: bool,
-    sozialversicherung__rente__pflichtbeitragszeiten_m: float,
+    sozialversicherung__rente__pflichtbeitragsmonate: float,
     sozialversicherung__rente__mindestwartezeit_erfüllt: bool,
 ) -> bool:
     """
@@ -71,8 +69,8 @@ def grundsätzlich_anspruchsberechtigt(
         See basic input variable :ref:`voll_erwerbsgemindert <voll_erwerbsgemindert>.
     teilweise_erwerbsgemindert
         See basic input variable :ref:`teilweise_erwerbsgemindert <teilweise_erwerbsgemindert>.
-    sozialversicherung__rente__pflichtbeitragszeiten_m
-        See basic input variable :ref:`sozialversicherung__rente__pflichtbeitragszeiten_m <sozialversicherung__rente__pflichtbeitragszeiten_m>.
+    sozialversicherung__rente__pflichtbeitragsmonate
+        See basic input variable :ref:`sozialversicherung__rente__pflichtbeitragsmonate <sozialversicherung__rente__pflichtbeitragsmonate>.
     sozialversicherung__rente__mindestwartezeit_erfüllt
         See :func:`sozialversicherung__rente__mindestwartezeit_erfüllt`.
     Returns
@@ -83,14 +81,14 @@ def grundsätzlich_anspruchsberechtigt(
     anspruch_erwerbsm_rente = (
         (voll_erwerbsgemindert or teilweise_erwerbsgemindert)
         and sozialversicherung__rente__mindestwartezeit_erfüllt
-        and sozialversicherung__rente__pflichtbeitragszeiten_m >= 36
+        and sozialversicherung__rente__pflichtbeitragsmonate >= 36
     )
 
     return anspruch_erwerbsm_rente
 
 
 @policy_function(start_date="2001-01-01")
-def sozialversicherung__rente__entgeltpunkte_west(
+def entgeltpunkte_west(
     sozialversicherung__rente__entgeltpunkte_west: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
@@ -126,7 +124,7 @@ def sozialversicherung__rente__entgeltpunkte_west(
 
 
 @policy_function(start_date="2001-01-01")
-def sozialversicherung__rente__entgeltpunkte_ost(
+def entgeltpunkte_ost(
     sozialversicherung__rente__entgeltpunkte_ost: float,
     zurechnungszeit: float,
     sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost: float,
@@ -295,12 +293,12 @@ def zugangsfaktor(
 # https://github.com/iza-institute-of-labor-economics/gettsim/issues/838
 @policy_function(start_date="2001-01-01")
 def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
-    sozialversicherung__rente__pflichtbeitragszeiten_y: float,
-    sozialversicherung__rente__freiwillige_beitragszeiten_y: float,
-    sozialversicherung__rente__anrechnungszeit_45_y: float,
-    sozialversicherung__rente__ersatzzeiten_y: float,
-    sozialversicherung__rente__kinderberücksichtigungszeiten_y: float,
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_y: float,
+    sozialversicherung__rente__pflichtbeitragsmonate: float,
+    sozialversicherung__rente__freiwillige_beitragsmonate: float,
+    sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit: float,
+    sozialversicherung__rente__ersatzzeiten_monate: float,
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate: float,
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate: float,
     ges_rente_params: dict,
     erwerbsm_rente_params: dict,
 ) -> bool:
@@ -315,22 +313,22 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
     Parameters
     ----------
-    sozialversicherung__rente__pflichtbeitragszeiten_y
+    sozialversicherung__rente__pflichtbeitragsmonate
         See basic input variable
-        :ref:<sozialversicherung__rente__pflichtbeitragszeiten_y>`.
-    sozialversicherung__rente__freiwillige_beitragszeiten_y
+        :ref:<sozialversicherung__rente__pflichtbeitragsmonate>`.
+    sozialversicherung__rente__freiwillige_beitragsmonate
         See basic input variable
-        :ref:<sozialversicherung__rente__freiwillige_beitragszeiten_y>`.
-    sozialversicherung__rente__anrechnungszeit_45_y
-        See :func:`sozialversicherung__rente__anrechnungszeit_45_y`.
-    sozialversicherung__rente__ersatzzeiten_y
-        See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_y>`.
-    sozialversicherung__rente__kinderberücksichtigungszeiten_y
+        :ref:<sozialversicherung__rente__freiwillige_beitragsmonate>`.
+    sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit
+        See :func:`sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit`.
+    sozialversicherung__rente__ersatzzeiten_monate
+        See basic input variable :ref:<sozialversicherung__rente__ersatzzeiten_monate>`.
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate
         See basic input variable
-        :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_y>`.
-    sozialversicherung__rente__pflegeberücksichtigungszeiten_y
+        :ref:<sozialversicherung__rente__kinderberücksichtigungszeiten_monate>`.
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate
         See basic input variable
-        :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_y>`.
+        :ref:<sozialversicherung__rente__pflegeberücksichtigungszeiten_monate>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
     erwerbsm_rente_params
@@ -342,23 +340,27 @@ def wartezeit_langjährig_versichert_erfüllt(  # noqa: PLR0913
 
     """
     if (
-        sozialversicherung__rente__pflichtbeitragszeiten_y
+        sozialversicherung__rente__pflichtbeitragsmonate / 12
         >= ges_rente_params[
             "mindestpflichtbeitragsjahre_für_anrechnbarkeit_freiwilliger_beiträge"
         ]
     ):
-        freiwilligbeitr = sozialversicherung__rente__freiwillige_beitragszeiten_y
+        freiwillige_beitragszeiten = (
+            sozialversicherung__rente__freiwillige_beitragsmonate
+        )
     else:
-        freiwilligbeitr = 0
+        freiwillige_beitragszeiten = 0
 
     return (
-        sozialversicherung__rente__pflichtbeitragszeiten_y
-        + freiwilligbeitr
-        + sozialversicherung__rente__anrechnungszeit_45_y
-        + sozialversicherung__rente__ersatzzeiten_y
-        + sozialversicherung__rente__pflegeberücksichtigungszeiten_y
-        + sozialversicherung__rente__kinderberücksichtigungszeiten_y
-    ) >= erwerbsm_rente_params["wartezeitgrenze_langjährig_versicherte_abschlagsfrei"]
+        sozialversicherung__rente__pflichtbeitragsmonate
+        + freiwillige_beitragszeiten
+        + sozialversicherung__rente__anrechnungsmonate_45_jahre_wartezeit
+        + sozialversicherung__rente__ersatzzeiten_monate
+        + sozialversicherung__rente__pflegeberücksichtigungszeiten_monate
+        + sozialversicherung__rente__kinderberücksichtigungszeiten_monate
+    ) / 12 >= erwerbsm_rente_params[
+        "wartezeitgrenze_langjährig_versicherte_abschlagsfrei"
+    ]
 
 
 @policy_function()

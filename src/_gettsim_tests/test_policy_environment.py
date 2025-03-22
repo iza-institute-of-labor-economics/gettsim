@@ -7,7 +7,7 @@ import optree
 import pandas as pd
 import pytest
 
-from _gettsim.function_types import policy_function
+from _gettsim.function_types import GroupByFunction, group_by_function, policy_function
 from _gettsim.gettsim_typing import NestedFunctionDict
 from _gettsim.policy_environment import (
     PolicyEnvironment,
@@ -105,27 +105,26 @@ def test_access_different_date_jahresanfang():
     assert params["foo_jahresanfang"] == 2020
 
 
-@pytest.mark.xfail(reason="Needs renamings PR.")
 @pytest.mark.parametrize(
     "tree, last_day, function_name_last_day, function_name_next_day",
     [
         (
             {"einkommensteuer": {"abzüge": {"altersfreibetrag_y": None}}},
             date(2004, 12, 31),
-            "einkommensteuer__abzüge__altersfreibetrag_y_bis_2004",
-            "einkommensteuer__abzüge__altersfreibetrag_y_ab_2005",
+            "altersfreibetrag_y_bis_2004",
+            "altersfreibetrag_y_ab_2005",
         ),
         (
             {"einkommensteuer": {"abzüge": {"alleinerziehend_betrag_y": None}}},
             date(2014, 12, 31),
-            "einkommensteuer__abzüge__alleinerziehend_betrag_y_pauschal",
-            "einkommensteuer__abzüge__alleinerziehend_betrag_y_nach_kinderzahl",
+            "alleinerziehend_betrag_y_pauschal",
+            "alleinerziehend_betrag_y_nach_kinderzahl",
         ),
         (
             {"einkommensteuer": {"gesamteinkommen_ohne_abzüge_y": None}},
             date(2008, 12, 31),
-            "einkommensteuer__gesamteinkommen_mit_kapitaleinkünften_y",
-            "einkommensteuer__gesamteinkommen_ohne_kapitaleinkünften_y",
+            "gesamteinkommen_ohne_abzüge_mit_kapitaleinkünften_y",
+            "gesamteinkommen_ohne_abzüge_ohne_kapitaleinkünfte_y",
         ),
     ],
 )
@@ -155,3 +154,11 @@ def test_fail_if_name_of_last_branch_element_not_leaf_name_of_function(
 ):
     with pytest.raises(KeyError):
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(functions_tree)
+
+
+def test_dont_destroy_group_by_functions():
+    functions_tree = {
+        "foo": group_by_function()(lambda: 1),
+    }
+    environment = PolicyEnvironment(functions_tree)
+    assert isinstance(environment.functions_tree["foo"], GroupByFunction)

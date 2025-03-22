@@ -1,7 +1,7 @@
 import inspect
 
+import dags.tree as dt
 import pytest
-from optree import tree_paths
 
 from _gettsim.function_types import policy_function
 from _gettsim.time_conversion import (
@@ -282,8 +282,8 @@ class TestCreateFunctionsForTimeUnits:
     def test_should_return_nested_dict(self, functions_tree, expected) -> None:
         time_conversion_functions = create_time_conversion_functions(functions_tree, {})
 
-        expected_path = tree_paths(expected)
-        result_path = tree_paths(time_conversion_functions)
+        expected_path = dt.tree_paths(expected)
+        result_path = dt.tree_paths(time_conversion_functions)
 
         assert expected_path == result_path
 

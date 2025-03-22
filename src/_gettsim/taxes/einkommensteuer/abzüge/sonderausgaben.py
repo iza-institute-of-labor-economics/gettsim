@@ -44,7 +44,7 @@ def sonderausgaben_y_sn_nur_pauschale(
 
 @policy_function(start_date="2012-01-01", leaf_name="sonderausgaben_y_sn")
 def sonderausgaben_y_sn_mit_betreuung(
-    absetzbare_betreuungskosten: float,
+    absetzbare_betreuungskosten_y_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
     eink_st_abzuege_params: dict,
 ) -> float:
@@ -55,8 +55,8 @@ def sonderausgaben_y_sn_mit_betreuung(
 
     Parameters
     ----------
-    absetzbare_betreuungskosten
-        See :func:`absetzbare_betreuungskosten`.
+    absetzbare_betreuungskosten_y_sn
+        See :func:`absetzbare_betreuungskosten_y_sn`.
     eink_st_abzuege_params
         See params documentation :ref:`eink_st_abzuege_params <eink_st_abzuege_params>`.
     einkommensteuer__anzahl_personen_sn
@@ -66,7 +66,7 @@ def sonderausgaben_y_sn_mit_betreuung(
     -------
 
     """
-    sonderausgaben_gesamt = absetzbare_betreuungskosten
+    sonderausgaben_gesamt = absetzbare_betreuungskosten_y_sn
     pauschale = (
         eink_st_abzuege_params["sonderausgabenpauschbetrag"]["single"]
         * einkommensteuer__anzahl_personen_sn

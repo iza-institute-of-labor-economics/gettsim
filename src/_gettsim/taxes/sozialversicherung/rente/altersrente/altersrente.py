@@ -15,7 +15,7 @@ def betrag_m(
     params_key_for_rounding="ges_rente",
     leaf_name="betrag_m",
 )
-def betrag_mit_grundrente_m(
+def betrag_m_mit_grundrente(
     bruttorente_m: float,
     sozialversicherung__rente__grundrente__betrag_m: float,
     sozialversicherung__rente__bezieht_rente: bool,
@@ -48,7 +48,7 @@ def betrag_mit_grundrente_m(
     leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
-def bruttorente_mit_harter_hinzuverdienstgrenze_m(
+def bruttorente_m_mit_harter_hinzuverdienstgrenze(
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y: float,
@@ -98,7 +98,7 @@ def bruttorente_mit_harter_hinzuverdienstgrenze_m(
     leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
-def bruttorente_mit_hinzuverdienstdeckel(
+def bruttorente_m_mit_hinzuverdienstdeckel(
     demographics__alter: int,
     sozialversicherung__rente__altersrente__regelaltersrente__altersgrenze: float,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_y: float,
@@ -269,7 +269,7 @@ def differenz_bruttolohn_hinzuverdienstdeckel_y(
     leaf_name="bruttorente_m",
     params_key_for_rounding="ges_rente",
 )
-def bruttorente_ohne_einkommensanrechnung_m(
+def bruttorente_m_ohne_einkommensanrechnung(
     bruttorente_basisbetrag_m: float,
 ) -> float:
     """Public pension claim before Grundrentenzuschlag.

@@ -1,0 +1,27 @@
+---
+info:
+  source: Own calculations
+inputs:
+  assumed:
+    p_id:
+      - 25
+    sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
+      - 0.0
+    sozialversicherung__rente__ersatzzeiten_monate:
+      - 0.0
+    sozialversicherung__rente__freiwillige_beitragsmonate:
+      - 0.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
+      - 0.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
+      - 0.0
+    sozialversicherung__rente__pflichtbeitragsmonate:
+      - 60.0
+    sozialversicherung__rente__monate_geringfügiger_beschäftigung:
+      - 0.0
+    sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit:
+      - 0.0
+  provided: {}
+outputs:
+  sozialversicherung__rente__erwerbsminderung__wartezeit_langjährig_versichert_erfüllt:
+    - false

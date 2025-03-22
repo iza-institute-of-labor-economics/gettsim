@@ -1,0 +1,17 @@
+---
+info:
+  note: ''
+inputs:
+  assumed: {}
+  provided:
+    hh_id:
+      - 0
+    p_id:
+      - 0
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 0.0
+outputs:
+  sozialversicherung__rente__altersrente__anteil_entgeltpunkte_ost:
+    - 0.0

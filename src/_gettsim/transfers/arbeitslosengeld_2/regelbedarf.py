@@ -440,7 +440,7 @@ def berechtigte_wohnfläche(
 
 @policy_function()
 def bruttokaltmiete_m(
-    bruttokaltmiete_m_hh: float,
+    wohnen__bruttokaltmiete_m_hh: float,
     demographics__anzahl_personen_hh: int,
 ) -> float:
     """Monthly rent attributed to a single person.
@@ -451,8 +451,8 @@ def bruttokaltmiete_m(
 
     Parameters
     ----------
-    bruttokaltmiete_m_hh
-        See basic input variable :ref:`bruttokaltmiete_m_hh <bruttokaltmiete_m_hh>`.
+    wohnen__bruttokaltmiete_m_hh
+        See basic input variable :ref:`wohnen__bruttokaltmiete_m_hh <wohnen__bruttokaltmiete_m_hh>`.
     demographics__anzahl_personen_hh
         See :func:`demographics__anzahl_personen_hh`.
 
@@ -460,12 +460,12 @@ def bruttokaltmiete_m(
     -------
 
     """
-    return bruttokaltmiete_m_hh / demographics__anzahl_personen_hh
+    return wohnen__bruttokaltmiete_m_hh / demographics__anzahl_personen_hh
 
 
 @policy_function()
 def heizkosten_m(
-    heizkosten_m_hh: float,
+    wohnen__heizkosten_m_hh: float,
     demographics__anzahl_personen_hh: int,
 ) -> float:
     """Monthly heating expenses attributed to a single person.
@@ -476,8 +476,8 @@ def heizkosten_m(
 
     Parameters
     ----------
-    heizkosten_m_hh
-        See basic input variable :ref:`heizkosten_m_hh <heizkosten_m_hh>`.
+    wohnen__heizkosten_m_hh
+        See basic input variable :ref:`wohnen__heizkosten_m_hh <wohnen__heizkosten_m_hh>`.
     demographics__anzahl_personen_hh
         See :func:`demographics__anzahl_personen_hh`.
 
@@ -485,7 +485,7 @@ def heizkosten_m(
     -------
 
     """
-    return heizkosten_m_hh / demographics__anzahl_personen_hh
+    return wohnen__heizkosten_m_hh / demographics__anzahl_personen_hh
 
 
 @policy_function()

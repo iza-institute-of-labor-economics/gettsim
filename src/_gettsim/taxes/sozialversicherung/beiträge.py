@@ -36,7 +36,7 @@ def beiträge_versicherter_m(
 
 
 @policy_function()
-def beitrag_arbeitgeber_m(
+def beiträge_arbeitgeber_m(
     sozialversicherung__pflege__beitrag__betrag_arbeitgeber_m: float,
     sozialversicherung__kranken__beitrag__betrag_arbeitgeber_m: float,
     sozialversicherung__rente__beitrag__betrag_arbeitgeber_m: float,
@@ -69,19 +69,19 @@ def beitrag_arbeitgeber_m(
 
 @policy_function()
 def beitrag_gesamt_m(
-    betrag_versicherter_m: float,
-    betrag_arbeitgeber_m: float,
+    beiträge_versicherter_m: float,
+    beiträge_arbeitgeber_m: float,
 ) -> float:
     """Sum of employer's and insured person's social insurance contributions.
 
     Parameters
     ----------
-    betrag_versicherter_m
-        See :func:`betrag_versicherter_m`.
-    betrag_arbeitgeber_m
-        See :func:`betrag_arbeitgeber_m`.
+    beiträge_versicherter_m
+        See :func:`beiträge_versicherter_m`.
+    beiträge_arbeitgeber_m
+        See :func:`beiträge_arbeitgeber_m`.
     Returns
     -------
 
     """
-    return betrag_versicherter_m + betrag_arbeitgeber_m
+    return beiträge_versicherter_m + beiträge_arbeitgeber_m

@@ -446,7 +446,7 @@ einführungsfaktor:
       upper_threshold: inf
       rate_linear: 0
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
-alleinerz_freibetrag:
+alleinerziehendenfreibetrag:
   name:
     de: Entlastungsbetrag für Alleinerziehende
     en: Income Tax Allowance for Single Parents
@@ -482,7 +482,7 @@ alleinerz_freibetrag:
   2023-01-01:
     scalar: 4260
     reference: G. v. 20.12.2022 BGBl. I S. 2294.
-alleinerz_freibetrag_zusatz:
+alleinerziehendenfreibetrag_zusatz:
   name:
     de: Entlastungsbetrag für Alleinerziehende, Zusatzbetrag
     en: Income Tax Allowance for Single Parents; additional amount

@@ -3,14 +3,12 @@ import textwrap
 from collections.abc import Callable
 from typing import Any, TypeVar
 
-import flatten_dict
+import dags.tree as dt
 import numpy
 import optree
-from dags.signature import rename_arguments
-from flatten_dict.reducers import make_reducer
-from flatten_dict.splitters import make_splitter
+from dags import rename_arguments
 
-from _gettsim.config import QUALIFIED_NAME_SEPARATOR, SUPPORTED_GROUPINGS
+from _gettsim.config import SUPPORTED_GROUPINGS
 from _gettsim.function_types import PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 
@@ -33,10 +31,6 @@ def format_list_linewise(list_):
         ]
         """
     ).format(formatted_list=formatted_list)
-
-
-qualified_name_reducer = make_reducer(delimiter=QUALIFIED_NAME_SEPARATOR)
-qualified_name_splitter = make_splitter(delimiter=QUALIFIED_NAME_SEPARATOR)
 
 
 def create_tree_from_path_and_value(path: tuple[str], value: Any = None) -> dict:
@@ -176,12 +170,12 @@ def partition_tree_by_reference_tree(
     - The first tree with leaves present in both trees.
     - The second tree with leaves absent in the reference tree.
     """
-    ref_paths = set(flatten_dict.flatten(reference_tree).keys())
-    flat = flatten_dict.flatten(tree_to_partition)
-    intersection = flatten_dict.unflatten(
+    ref_paths = set(dt.tree_paths(reference_tree))
+    flat = dt.flatten_to_tree_paths(tree_to_partition)
+    intersection = dt.unflatten_from_tree_paths(
         {path: leaf for path, leaf in flat.items() if path in ref_paths}
     )
-    difference = flatten_dict.unflatten(
+    difference = dt.unflatten_from_tree_paths(
         {path: leaf for path, leaf in flat.items() if path not in ref_paths}
     )
 
@@ -316,12 +310,12 @@ def join_numpy(
 
 
 def rename_arguments_and_add_annotations(
-    function: Callable | None = None,
+    function: Callable,
     *,
     mapper: dict | None = None,
     annotations: dict | None = None,
 ):
-    wrapper = rename_arguments(function, mapper=mapper)
+    wrapper = rename_arguments(func=function, mapper=mapper)
 
     if annotations:
         wrapper.__annotations__ = annotations
@@ -394,9 +388,9 @@ def get_path_for_group_by_id(
     """Get the group-by-identifier for some target path.
 
     The group-by-identifier is the path to the group identifier that is embedded in the
-    name. E.g., "einkommen_hh" has ("demographics", "hh_id") as its group-by-identifier.
-    In this sense, the group-by-identifiers live in a global namespace. We generally
-    expect them to be unique.
+    name. E.g., "einkommen_hh" has "hh_id" as its group-by-identifier. In this sense,
+    the group-by-identifiers live in a global namespace. We generally expect them to be
+    unique.
 
     There is an exception, though: It is enough for them to be unique within the
     uppermost namespace. In that case, however, they cannot be used outside of that
@@ -417,7 +411,7 @@ def get_path_for_group_by_id(
     for g in SUPPORTED_GROUPINGS:
         if target_path[-1].endswith(f"_{g}") and g == "hh":
             # Hardcode because hh_id is not part of the functions tree
-            return ("demographics", "hh_id")
+            return ("hh_id",)
         elif target_path[-1].endswith(f"_{g}"):
             return _select_group_by_id_from_candidates(
                 candidate_paths=[p for p in group_by_paths if p[-1] == f"{g}_id"],

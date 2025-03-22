@@ -1,0 +1,44 @@
+import dags.tree as dt
+import pytest
+from numpy.testing import assert_array_almost_equal
+
+from _gettsim.interface import compute_taxes_and_transfers
+from _gettsim.policy_environment import set_up_policy_environment
+from _gettsim_tests._helpers import cached_set_up_policy_environment
+from _gettsim_tests._policy_test_utils import PolicyTest, load_policy_test_data
+
+test_data = load_policy_test_data("lohnsteuer")
+
+
+@pytest.mark.parametrize("test", test_data)
+def test_lohnsteuer(test: PolicyTest):
+    environment = cached_set_up_policy_environment(date=test.date)
+
+    result = compute_taxes_and_transfers(
+        data_tree=test.input_tree,
+        environment=environment,
+        targets_tree=test.target_structure,
+    )
+
+    flat_result = dt.flatten_to_qual_names(result)
+    flat_expected_output_tree = dt.flatten_to_qual_names(test.expected_output_tree)
+
+    for result, expected in zip(
+        flat_result.values(), flat_expected_output_tree.values()
+    ):
+        assert_array_almost_equal(result, expected, decimal=0)
+
+
+def test_lohnsteuer_rv_anteil():
+    environment = set_up_policy_environment(2018)
+
+    assert (
+        environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"]
+        == 0.72
+    )
+
+    environment = set_up_policy_environment(2023)
+
+    assert (
+        environment.params["eink_st_abzuege"]["vorsorgepauschale_rentenv_anteil"] == 1
+    )

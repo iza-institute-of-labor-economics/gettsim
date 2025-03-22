@@ -236,32 +236,9 @@ def alter_monate(geburtsdatum: numpy.datetime64, elterngeld_params: dict) -> flo
     return out.astype(float)
 
 
-def ist_kind_mit_erwerbseinkommen(
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
-    kindergeld__grundsätzlich_anspruchsberechtigt: bool,
-) -> bool:
-    """Check if children are working.
-
-    Parameters
-    ----------
-    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
-        See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
-    kindergeld__grundsätzlich_anspruchsberechtigt
-        See :func:`kindergeld__grundsätzlich_anspruchsberechtigt`.
-
-    Returns
-    -------
-
-    """
-    out = (
-        einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m > 0
-    ) and kindergeld__grundsätzlich_anspruchsberechtigt
-    return out
-
-
 @group_by_function()
 def ehe_id(
-    demographics__p_id: numpy.ndarray[int],
+    p_id: numpy.ndarray[int],
     demographics__p_id_ehepartner: numpy.ndarray[int],
 ) -> numpy.ndarray[int]:
     """
@@ -271,7 +248,7 @@ def ehe_id(
     next_ehe_id = 0
     result = []
 
-    for index, current_p_id in enumerate(demographics__p_id):
+    for index, current_p_id in enumerate(p_id):
         current_p_id_ehepartner = demographics__p_id_ehepartner[index]
 
         if current_p_id_ehepartner >= 0 and current_p_id_ehepartner in p_id_to_ehe_id:

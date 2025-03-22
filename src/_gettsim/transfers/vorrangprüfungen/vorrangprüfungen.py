@@ -18,7 +18,7 @@ aggregation_specs = {
 @policy_function()
 def wohngeld_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
-    arbeitslosengeld_2__nettoeinkommen_m_bg: float,
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg: float,
     wohngeld__anspruchshöhe_m_bg: float,
 ) -> bool:
     """Check if housing benefit has priority.
@@ -30,8 +30,8 @@ def wohngeld_vorrang_vor_arbeitslosengeld_2_bg(
     ----------
     arbeitslosengeld_2__regelbedarf_m_bg
         See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
-    arbeitslosengeld_2__nettoeinkommen_m_bg
-        See :func:`arbeitslosengeld_2__nettoeinkommen_m_bg`.
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg
+        See :func:`arbeitslosengeld_2__anzurechnendes_einkommen_m_bg`.
     wohngeld__anspruchshöhe_m_bg
         See :func:`wohngeld__anspruchshöhe_m_bg`.
 
@@ -40,7 +40,7 @@ def wohngeld_vorrang_vor_arbeitslosengeld_2_bg(
 
     """
     return (
-        arbeitslosengeld_2__nettoeinkommen_m_bg + wohngeld__anspruchshöhe_m_bg
+        arbeitslosengeld_2__anzurechnendes_einkommen_m_bg + wohngeld__anspruchshöhe_m_bg
         >= arbeitslosengeld_2__regelbedarf_m_bg
     )
 
@@ -48,7 +48,7 @@ def wohngeld_vorrang_vor_arbeitslosengeld_2_bg(
 @policy_function()
 def kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
-    arbeitslosengeld_2__nettoeinkommen_m_bg: float,
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg: float,
     kinderzuschlag__anspruchshöhe_m_bg: float,
 ) -> bool:
     """Check if child benefit has priority.
@@ -57,8 +57,8 @@ def kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     ----------
     arbeitslosengeld_2__regelbedarf_m_bg
         See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
-    arbeitslosengeld_2__nettoeinkommen_m_bg
-        See :func:`arbeitslosengeld_2__nettoeinkommen_m_bg`.
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg
+        See :func:`arbeitslosengeld_2__anzurechnendes_einkommen_m_bg`.
     kinderzuschlag__anspruchshöhe_m_bg
         See :func:`kinderzuschlag__anspruchshöhe_m_bg`.
 
@@ -67,7 +67,8 @@ def kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
 
     """
     return (
-        arbeitslosengeld_2__nettoeinkommen_m_bg + kinderzuschlag__anspruchshöhe_m_bg
+        arbeitslosengeld_2__anzurechnendes_einkommen_m_bg
+        + kinderzuschlag__anspruchshöhe_m_bg
         >= arbeitslosengeld_2__regelbedarf_m_bg
     )
 
@@ -75,7 +76,7 @@ def kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
 @policy_function()
 def wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     arbeitslosengeld_2__regelbedarf_m_bg: float,
-    arbeitslosengeld_2__nettoeinkommen_m_bg: float,
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg: float,
     kinderzuschlag__anspruchshöhe_m_bg: float,
     wohngeld__anspruchshöhe_m_bg: float,
 ) -> bool:
@@ -85,8 +86,8 @@ def wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     ----------
     arbeitslosengeld_2__regelbedarf_m_bg
         See :func:`arbeitslosengeld_2__regelbedarf_m_bg`.
-    arbeitslosengeld_2__nettoeinkommen_m_bg
-        See :func:`arbeitslosengeld_2__nettoeinkommen_m_bg`.
+    arbeitslosengeld_2__anzurechnendes_einkommen_m_bg
+        See :func:`arbeitslosengeld_2__anzurechnendes_einkommen_m_bg`.
     kinderzuschlag__anspruchshöhe_m_bg
         See :func:`kinderzuschlag__anspruchshöhe_m_bg`.
     wohngeld__anspruchshöhe_m_bg
@@ -98,7 +99,7 @@ def wohngeld_und_kinderzuschlag_vorrang_vor_arbeitslosengeld_2_bg(
     """
 
     return (
-        arbeitslosengeld_2__nettoeinkommen_m_bg
+        arbeitslosengeld_2__anzurechnendes_einkommen_m_bg
         + wohngeld__anspruchshöhe_m_bg
         + kinderzuschlag__anspruchshöhe_m_bg
         >= arbeitslosengeld_2__regelbedarf_m_bg

@@ -1,0 +1,88 @@
+---
+info:
+  note: Test with positive wealth above wealth allowance
+  source: https://www.bmas.de/SharedDocs/Downloads/DE/Publikationen/a207-sozialhilfe-und-grundsicherung.pdf?__blob=publicationFile&v=1
+inputs:
+  assumed: {}
+  provided:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+    demographics__alleinerziehend:
+      - false
+    demographics__alter:
+      - 68
+    demographics__geburtsjahr:
+      - 1950
+    demographics__geburtsmonat:
+      - 1
+    demographics__geburtstag:
+      - 1
+    hh_id:
+      - 20
+    demographics__kind:
+      - false
+    p_id:
+      - 26
+    demographics__p_id_ehepartner:
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    demographics__schwerbehindert_grad_g:
+      - false
+    demographics__vermögen_eg:
+      - 5600.0
+    einkommensteuer__betrag_y_sn:
+      - 0.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
+      - 0.0
+    einkommensteuer__einkünfte__sonstige__betrag_m:
+      - 0.0
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    elterngeld__betrag_m:
+      - 0.0
+    jahr:
+      - 2018
+    kindergeld__betrag_m_eg:
+      - 0.0
+    kindergeld__p_id_empfänger:
+      - -1
+    solidaritätszuschlag__betrag_y_sn:
+      - 0.0
+    sozialversicherung__arbeitslosen__betrag_m:
+      - 0.0
+    sozialversicherung__beiträge_versicherter_m:
+      - 0.0
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 440.0
+    sozialversicherung__rente__bezieht_rente:
+      - true
+    sozialversicherung__rente__grundrente__grundrentenzeiten_monate:
+      - 300
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 400.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+    unterhaltsvorschuss__betrag_m_eg:
+      - 0.0
+    wohnen__bewohnt_eigentum_hh:
+      - false
+    wohnen__bruttokaltmiete_m_hh:
+      - 344.0
+    wohnen__heizkosten_m_hh:
+      - 92.0
+    wohnen__wohnfläche_hh:
+      - 45.0
+outputs:
+  grundsicherung__im_alter__betrag_m_eg:
+    - 0.0

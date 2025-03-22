@@ -4,6 +4,7 @@ import copy
 import datetime
 from typing import TYPE_CHECKING, Any
 
+import dags.tree as dt
 import numpy
 import optree
 import pandas as pd
@@ -67,8 +68,10 @@ class PolicyEnvironment:
             "functions_tree",
         )
         self._functions_tree = optree.tree_map(
-            func=_convert_function_to_policy_function,
-            tree=functions_tree,
+            lambda leaf: leaf
+            if isinstance(leaf, GroupByFunction)
+            else _convert_function_to_policy_function(leaf),
+            functions_tree,
         )
 
         # Read in parameters and aggregation specs
@@ -121,7 +124,7 @@ class PolicyEnvironment:
             lambda leaf: leaf
             if isinstance(leaf, GroupByFunction)
             else _convert_function_to_policy_function(leaf),
-            tree=functions_tree_to_upsert,
+            functions_tree_to_upsert,
         )
         _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
             functions_tree_to_upsert
@@ -223,7 +226,7 @@ def _parse_date(date: datetime.date | str | int) -> datetime.date:
 
 def _convert_function_to_policy_function(
     function: callable,
-) -> PolicyFunction:
+) -> PolicyFunction | GroupByFunction:
     """Convert a function to a PolicyFunction.
 
     Parameters
@@ -237,7 +240,7 @@ def _convert_function_to_policy_function(
         The converted function.
 
     """
-    if isinstance(function, PolicyFunction):
+    if isinstance(function, PolicyFunction | GroupByFunction):
         converted_function = function
     else:
         converted_function = policy_function(leaf_name=function.__name__)(function)
@@ -412,22 +415,22 @@ def _load_parameter_group_from_yaml(
 
     """
 
-    def subtract_years_from_date(dt, years):
+    def subtract_years_from_date(date, years):
         """Subtract one or more years from a date object."""
         try:
-            dt = dt.replace(year=dt.year - years)
+            date = date.replace(year=date.year - years)
 
         # Take care of leap years
         except ValueError:
-            dt = dt.replace(year=dt.year - years, day=dt.day - 1)
-        return dt
+            date = date.replace(year=date.year - years, day=date.day - 1)
+        return date
 
-    def set_date_to_beginning_of_year(dt):
+    def set_date_to_beginning_of_year(date):
         """Set date to the beginning of the year."""
 
-        dt = dt.replace(month=1, day=1)
+        date = date.replace(month=1, day=1)
 
-        return dt
+        return date
 
     raw_group_data = yaml.load(
         (yaml_path / f"{group}.yaml").read_text(encoding="utf-8"),
@@ -622,8 +625,8 @@ def _fail_if_name_of_last_branch_element_not_leaf_name_of_function(
     """Raise error if a PolicyFunction does not have the same leaf name as the last
     branch element of the tree path.
     """
-    tree_paths, functions, _ = optree.tree_flatten_with_path(functions_tree)
-    for tree_path, function in zip(tree_paths, functions):
+
+    for tree_path, function in dt.flatten_to_tree_paths(functions_tree).items():
         if tree_path[-1] != function.leaf_name:
             raise KeyError(
                 f"""

@@ -5,7 +5,7 @@ from _gettsim.function_types import policy_function
 
 @policy_function()
 def kind_festgelegter_zahlbetrag_m(
-    kind_anspruch_m: float,
+    anspruch_m: float,
     kindergeld__betrag_m: float,
     unterhalt_params: dict,
     demographics__kind: bool,
@@ -15,8 +15,8 @@ def kind_festgelegter_zahlbetrag_m(
 
     Parameters
     ----------
-    kind_anspruch_m
-        See basic input variable :ref:`kind_anspruch_m <kind_anspruch_m>`.
+    anspruch_m
+        See basic input variable :ref:`anspruch_m <anspruch_m>`.
     kindergeld__betrag_m
         See :func:`kindergeld__betrag_m`.
     unterhalt_params
@@ -32,4 +32,4 @@ def kind_festgelegter_zahlbetrag_m(
     else:
         abzugsrate = unterhalt_params["abzugsrate_kindergeld"]["erwachsener"]
 
-    return kind_anspruch_m - abzugsrate * kindergeld__betrag_m
+    return anspruch_m - abzugsrate * kindergeld__betrag_m

@@ -1,0 +1,100 @@
+---
+info:
+  note: >-
+    Test Regelsatz when Familiengemeinschaft (1 adult, 1 kid) is the same as
+    Bedarfsgemeinschaft.
+  source: Made up.
+inputs:
+  assumed:
+    arbeitslosengeld_2__bg_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    demographics__alleinerziehend:
+      - true
+      - false
+      - false
+      - false
+      - false
+    demographics__alter:
+      - 40
+      - 5
+      - 10
+      - 14
+      - 19
+    hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+    demographics__kind:
+      - false
+      - true
+      - true
+      - true
+      - true
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+    demographics__p_id_elternteil_1:
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+    jahr:
+      - 2024
+      - 2024
+      - 2024
+      - 2024
+      - 2024
+    kindergeld__p_id_empfänger:
+      - -1
+      - 0
+      - 0
+      - 0
+      - 0
+  provided: {}
+outputs:
+  arbeitslosengeld_2__erwachsenensatz_m:
+    - 833.24
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  arbeitslosengeld_2__kindersatz_m:
+    - 0.0
+    - 377.0
+    - 410.0
+    - 491.0
+    - 471.0
+  arbeitslosengeld_2__regelsatz_m:
+    - 833.24
+    - 377.0
+    - 410.0
+    - 491.0
+    - 471.0

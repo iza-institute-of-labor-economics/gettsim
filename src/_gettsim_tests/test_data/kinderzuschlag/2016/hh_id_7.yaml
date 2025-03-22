@@ -1,0 +1,124 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed: {}
+  provided:
+    arbeitslosengeld_2__arbeitslosengeld_2_bezug_im_vorjahr:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__mehrbedarf_alleinerziehend_m_bg:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 19
+      - 18
+      - -1
+    demographics__alleinerziehend:
+      - false
+      - false
+      - false
+    demographics__alter:
+      - 30
+      - 30
+      - 2
+    demographics__arbeitsstunden_w:
+      - 0.0
+      - 0.0
+      - 0.0
+    demographics__geburtsjahr:
+      - 1986
+      - 1986
+      - 2014
+    hh_id:
+      - 7
+      - 7
+      - 7
+    demographics__kind:
+      - false
+      - false
+      - true
+    p_id:
+      - 18
+      - 19
+      - 20
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 18
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - 19
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 2000.0
+      - 2000.0
+      - 0.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2016
+      - 2016
+      - 2016
+    kindergeld__betrag_m_hh:
+      - 190.0
+      - 190.0
+      - 190.0
+    kindergeld__grundsätzlich_anspruchsberechtigt:
+      - false
+      - false
+      - true
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 18
+    kinderzuschlag__bruttoeinkommen_eltern_m:
+      - 1200.0
+      - 0.0
+      - 0.0
+    kinderzuschlag__nettoeinkommen_eltern_m:
+      - 644.0
+      - 0.0
+      - 0.0
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    wohnen__bruttokaltmiete_m_hh:
+      - 700.0
+      - 700.0
+      - 700.0
+    wohnen__heizkosten_m_hh:
+      - 100.0
+      - 100.0
+      - 100.0
+outputs:
+  kinderzuschlag__anspruchshöhe_m_bg:
+    - 140.0
+    - 140.0
+    - 140.0
+  kinderzuschlag__basisbetrag_m_bg:
+    - 140.0
+    - 140.0
+    - 140.0

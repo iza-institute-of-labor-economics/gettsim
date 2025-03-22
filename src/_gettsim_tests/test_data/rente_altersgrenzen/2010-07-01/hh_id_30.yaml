@@ -1,0 +1,72 @@
+---
+info:
+  note: >-
+    based on Beispiel: Erna Rüstig (Altersrente für Frauen) but added a mixed(east/west)
+    earning biography
+  source: https://rentenbescheid24.de/die-altersrente-fuer-langjaehrig-versicherte/
+inputs:
+  assumed: {}
+  provided:
+    demographics__alter:
+      - 71
+    demographics__geburtsjahr:
+      - 1938
+    demographics__geburtsmonat:
+      - 12
+    hh_id:
+      - 30
+    p_id:
+      - 30
+    demographics__weiblich:
+      - true
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 1500.0
+    jahr:
+      - 2010
+    sozialversicherung__rente__altersrente__für_frauen__pflichtsbeitragsjahre_ab_alter_40:
+      - 15.0
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__arbeitslos_für_1_jahr_nach_alter_58_ein_halb:
+      - false
+    sozialversicherung__rente__altersrente__wegen_arbeitslosigkeit__pflichtbeitragsjahre_8_von_10:
+      - false
+    sozialversicherung__rente__monate_in_arbeitslosigkeit:
+      - 0.0
+    sozialversicherung__rente__monate_in_arbeitsunfähigkeit:
+      - 0.0
+    sozialversicherung__rente__entgeltpunkte_ost:
+      - 10.0
+    sozialversicherung__rente__entgeltpunkte_west:
+      - 12.42
+    sozialversicherung__rente__ersatzzeiten_monate:
+      - 0.0
+    sozialversicherung__rente__freiwillige_beitragsmonate:
+      - 0.0
+    sozialversicherung__rente__kinderberücksichtigungszeiten_monate:
+      - 108.0
+    sozialversicherung__rente__krankheitszeiten_ab_16_bis_24_monate:
+      - 0.0
+    sozialversicherung__rente__monate_in_mutterschutz:
+      - 9.0
+    sozialversicherung__rente__pflegeberücksichtigungszeiten_monate:
+      - 10.0
+    sozialversicherung__rente__pflichtbeitragsmonate:
+      - 420.0
+    sozialversicherung__rente__monate_in_schulausbildung:
+      - 0.0
+    sozialversicherung__rente__monate_in_ausbildungssuche:
+      - 0.0
+    sozialversicherung__rente__monate_geringfügiger_beschäftigung:
+      - 60.0
+    sozialversicherung__rente__monate_mit_bezug_entgeltersatzleistungen_wegen_arbeitslosigkeit:
+      - 0.0
+outputs:
+  sozialversicherung__rente__altersrente__altersgrenze_abschlagsfrei:
+    - 60.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_ost_updated:
+    - 10.0
+  sozialversicherung__rente__altersrente__entgeltpunkte_west_updated:
+    - 12.99796044
+  sozialversicherung__rente__altersrente__neue_entgeltpunkte:
+    - 0.577960442

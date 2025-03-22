@@ -4,7 +4,7 @@ info:
   source: ''
 inputs:
   provided:
-    demographics__p_id:
+    p_id:
       - 0
       - 1
     demographics__geburtstag:
@@ -19,7 +19,7 @@ inputs:
     demographics__alter:
       - 73
       - 59
-    demographics__hh_id:
+    hh_id:
       - 0
       - 0
 outputs:

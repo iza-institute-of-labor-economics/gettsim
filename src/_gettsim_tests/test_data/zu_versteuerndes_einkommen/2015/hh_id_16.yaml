@@ -1,0 +1,82 @@
+---
+info:
+  note: ''
+  source: http://www.dr-wolters.de/content/inhalte/steuerberater_service/onlinerechner/einkommensteuer_berechnung/einkommensteuer_rechner/index.html
+inputs:
+  assumed: {}
+  provided:
+    demographics__alleinerziehend:
+      - false
+    demographics__alter:
+      - 40
+    demographics__arbeitsstunden_w:
+      - 40.0
+    demographics__behinderungsgrad:
+      - 0
+    demographics__geburtsjahr:
+      - 1975
+    hh_id:
+      - 16
+    demographics__kind:
+      - false
+    p_id:
+      - 22
+    demographics__p_id_ehepartner:
+      - -1
+    demographics__p_id_elternteil_1:
+      - -1
+    demographics__p_id_elternteil_2:
+      - -1
+    demographics__wohnort_ost:
+      - false
+    einkommensteuer__abzüge__betreuungskosten_m:
+      - 0.0
+    einkommensteuer__abzüge__p_id_betreuungskosten_träger:
+      - -1
+    einkommensteuer__abzüge__vorsorgeaufwendungen_y_sn:
+      - 5000.0
+    einkommensteuer__abzüge__beitrag_private_rentenversicherung_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_kapitalvermögen__kapitalerträge_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
+      - 3000.0
+    einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m:
+      - 0.0
+    einkommensteuer__einkünfte__aus_vermietung_und_verpachtung__betrag_m:
+      - 0.0
+    einkommensteuer__einkünfte__ist_selbstständig:
+      - false
+    einkommensteuer__gemeinsam_veranlagt:
+      - false
+    jahr:
+      - 2015
+    kindergeld__in_ausbildung:
+      - false
+    kindergeld__p_id_empfänger:
+      - -1
+    sozialversicherung__kranken__beitrag__privat_versichert:
+      - false
+    sozialversicherung__pflege__beitrag__hat_kinder:
+      - false
+    sozialversicherung__rente__altersrente__betrag_m:
+      - 0.0
+    sozialversicherung__rente__jahr_renteneintritt:
+      - 2040
+    sozialversicherung__rente__private_rente_betrag_m:
+      - 0.0
+outputs:
+  einkommensteuer__abzüge__alleinerziehend_betrag_y:
+    - 0
+  einkommensteuer__abzüge__altersfreibetrag_y:
+    - 0
+  einkommensteuer__abzüge__pauschbetrag_behinderung_y:
+    - 0
+  einkommensteuer__gesamteinkommen_ohne_abzüge_y:
+    - 35000
+  einkommensteuer__gesamteinkommen_y:
+    - 29964.0
+  einkommensteuer__kinderfreibetrag_y_sn:
+    - 0
+  einkommensteuer__zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn:
+    - 29964.0

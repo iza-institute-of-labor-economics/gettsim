@@ -3,28 +3,8 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__hh_id:
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-      - 2
-    demographics__p_id:
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-    kindergeld__p_id_empfänger:
-      - -1
-      - -1
-      - 12
-      - 12
-      - 12
-      - 12
     demographics__alter:
       - 45
       - 40
@@ -32,13 +12,6 @@ inputs:
       - 18
       - 17
       - 15
-    demographics__kind:
-      - false
-      - false
-      - false
-      - false
-      - true
-      - true
     demographics__arbeitsstunden_w:
       - 40.0
       - 0.0
@@ -46,13 +19,27 @@ inputs:
       - 0.0
       - 2.0
       - 0.0
-    kindergeld__in_ausbildung:
+    hh_id:
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+      - 2
+    demographics__kind:
+      - false
+      - false
       - false
       - false
       - true
       - true
-      - true
-      - true
+    p_id:
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m:
       - 3000.0
       - 0.0
@@ -67,7 +54,20 @@ inputs:
       - 3000.0
       - 3000.0
       - 3000.0
-  assumed: {}
+    kindergeld__in_ausbildung:
+      - false
+      - false
+      - true
+      - true
+      - true
+      - true
+    kindergeld__p_id_empfänger:
+      - -1
+      - -1
+      - 12
+      - 12
+      - 12
+      - 12
 outputs:
   kindergeld__betrag_m:
     - 462
@@ -76,13 +76,6 @@ outputs:
     - 0
     - 0
     - 0
-  kinderbonus__betrag_m:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
   kindergeld__betrag_m_hh:
     - 462
     - 462
@@ -90,10 +83,3 @@ outputs:
     - 462
     - 462
     - 462
-  kinderbonus__betrag_m_hh:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0

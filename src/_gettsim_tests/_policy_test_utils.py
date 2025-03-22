@@ -1,158 +1,162 @@
 from __future__ import annotations
 
 import datetime
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
+import dags.tree as dt
 import pandas as pd
 import yaml
 
-from _gettsim_tests import TEST_DATA_DIR
-
-_ValueDict = dict[str, list[Any]]
+from _gettsim.shared import merge_trees
 
 if TYPE_CHECKING:
     from pathlib import Path
 
-
-class PolicyTestSet:
-    def __init__(self, policy_name: str, test_data: list[PolicyTestData]):
-        self.policy_name = policy_name
-        self.test_data = test_data
-
-    @property
-    def parametrize_args(self) -> list[tuple[PolicyTestData, str]]:
-        return [(test, column) for test in self.test_data for column in test.output_df]
-
-    def merged_input_df(self) -> pd.DataFrame:
-        return pd.concat([test.input_df for test in self.test_data], ignore_index=True)
-
-    def merged_output_df(self) -> pd.DataFrame:
-        return pd.concat([test.output_df for test in self.test_data], ignore_index=True)
-
-    def filter_test_data(
-        self, *, test_name: str | None = None, date: datetime.date | str | None = None
-    ) -> PolicyTestSet:
-        """
-        Filter the test data in this PolicyTestSet.
-
-        Note that you must pass all arguments of this function by name (and not by
-        position).
-
-        Parameters
-        ----------
-        test_name : str | None
-            If provided, only instances of `PolicyTestData` with this name are included
-            in the result. If None, no filtering is done on test name.
-        date : datetime.date | str | None
-            If provided, only instances of `PolicyTestData` with this date are
-            included in the result. If None, no filtering is done on date.
-
-        Returns
-        -------
-        PolicyTestSet
-            A new PolicyTestSet with the filtered test data.
-
-        Examples
-        --------
-        >>> data = load_policy_test_data("soli_st")
-        >>> filtered_by_name = data.filter_test_data(test_name="hh_id_2")
-
-        >>> filtered_by_date = data.filter_test_data(date="1991")
-        """
-
-        if isinstance(date, str):
-            date = _parse_date(date)
-
-        filtered_test_data = [
-            test
-            for test in self.test_data
-            if (test_name is None or test.test_name == test_name)
-            and (date is None or test.date == date)
-        ]
-
-        return PolicyTestSet(self.policy_name, filtered_test_data)
+    from _gettsim.gettsim_typing import NestedDataDict, NestedInputStructureDict
 
 
-class PolicyTestData:
-    def __init__(  # noqa: PLR0913
+class PolicyTest:
+    """A class for a single policy test."""
+
+    def __init__(
         self,
-        policy_name: str,
-        test_file: Path,
-        test_name: str,
-        date: str,
-        inputs_provided: _ValueDict,
-        inputs_assumed: _ValueDict,
-        outputs: _ValueDict,
-    ):
-        self.policy_name = policy_name
-        self.test_file = test_file
-        self.test_name = test_name
-        self.date = _parse_date(date)
-        self._inputs_provided = inputs_provided
-        self._inputs_assumed = inputs_assumed
-        self._outputs = outputs
+        input_tree: NestedDataDict,
+        expected_output_tree: NestedDataDict,
+        path: Path,
+        date: datetime.date,
+    ) -> None:
+        self.input_tree = input_tree
+        self.expected_output_tree = expected_output_tree
+        self.path = path
+        self.date = date
 
     @property
-    def input_df(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict(
-            {**self._inputs_provided, **self._inputs_assumed}
-        ).reset_index(drop=True)
+    def target_structure(self) -> NestedInputStructureDict:
+        flat_target_structure = {
+            k: None for k in dt.flatten_to_tree_paths(self.expected_output_tree)
+        }
+        return dt.unflatten_from_tree_paths(flat_target_structure)
 
     @property
-    def output_df(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict(self._outputs).reset_index(drop=True)
-
-    def __repr__(self) -> str:
-        return (
-            f"PolicyTestData({self.policy_name}, {self.test_file.name}, "
-            f"{self.test_name})"
-        )
-
-    def __str__(self) -> str:
-        relative_path = self.test_file.relative_to(TEST_DATA_DIR)
-        backslash = "\\"
-        return f"{str(relative_path).replace(backslash, '/')}"
+    def test_name(self) -> str:
+        return self.path.stem
 
 
-def load_policy_test_data(policy_name: str) -> PolicyTestSet:
+def load_policy_test_data(policy_name: str) -> list[PolicyTest]:
     from _gettsim_tests import TEST_DATA_DIR
 
     root = TEST_DATA_DIR / policy_name
 
     out = []
 
-    for test_file in root.glob("**/*.yaml"):
-        if _is_skipped(test_file):
+    for path_of_test_file in root.glob("**/*.yaml"):
+        if _is_skipped(path_of_test_file):
             continue
 
-        with test_file.open("r", encoding="utf-8") as file:
-            test_data: dict[str, dict] = yaml.safe_load(file)
+        with path_of_test_file.open("r", encoding="utf-8") as file:
+            raw_test_data: NestedDataDict = yaml.safe_load(file)
 
-        date = test_file.parent.name
-        test_name = test_file.stem
+        # TODO(@MImmesberger): Remove this before merging this PR.
+        raw_test_data = get_test_data_as_tree(raw_test_data)
 
-        inputs: dict[str, dict] = test_data["inputs"]
-        inputs_provided: _ValueDict = inputs.get("provided", {})
-        inputs_assumed: _ValueDict = inputs.get("assumed", {})
-        outputs: _ValueDict = test_data["outputs"]
-
-        out.append(
-            PolicyTestData(
-                policy_name=policy_name,
-                test_file=test_file,
-                test_name=test_name,
-                date=date,
-                inputs_provided=inputs_provided,
-                inputs_assumed=inputs_assumed,
-                outputs=outputs,
+        out.extend(
+            _get_policy_tests_from_raw_test_data(
+                raw_test_data=raw_test_data,
+                path_of_test_file=path_of_test_file,
             )
         )
 
-    return PolicyTestSet(policy_name, out)
+    return out
+
+
+def get_test_data_as_tree(test_data: NestedDataDict) -> NestedDataDict:
+    provided_inputs = test_data["inputs"].get("provided", {})
+    assumed_inputs = test_data["inputs"].get("assumed", {})
+
+    unflattened_dict = {}
+    unflattened_dict["inputs"] = {}
+    unflattened_dict["outputs"] = {}
+    if provided_inputs:
+        unflattened_dict["inputs"]["provided"] = dt.unflatten_from_qual_names(
+            provided_inputs
+        )
+    else:
+        unflattened_dict["inputs"]["provided"] = {}
+    if assumed_inputs:
+        unflattened_dict["inputs"]["assumed"] = dt.unflatten_from_qual_names(
+            assumed_inputs
+        )
+    else:
+        unflattened_dict["inputs"]["assumed"] = {}
+
+    unflattened_dict["outputs"] = dt.unflatten_from_qual_names(test_data["outputs"])
+
+    return unflattened_dict
 
 
 def _is_skipped(test_file: Path) -> bool:
     return "skip" in test_file.stem or "skip" in test_file.parent.name
+
+
+def _get_policy_tests_from_raw_test_data(
+    raw_test_data: NestedDataDict, path_of_test_file: Path
+) -> list[PolicyTest]:
+    """Get a list of PolicyTest objects from raw test data.
+
+    Args:
+        raw_test_data: The raw test data.
+
+    Returns:
+        A list of PolicyTest objects.
+    """
+    inputs: NestedDataDict = raw_test_data.get("inputs", {})
+    input_tree: NestedDataDict = dt.unflatten_from_tree_paths(
+        {
+            k: pd.Series(v)
+            for k, v in dt.flatten_to_tree_paths(
+                merge_trees(inputs.get("provided", {}), inputs.get("assumed", {}))
+            ).items()
+        }
+    )
+
+    expected_output_tree: NestedDataDict = dt.unflatten_from_tree_paths(
+        {
+            k: pd.Series(v)
+            for k, v in dt.flatten_to_tree_paths(
+                raw_test_data.get("outputs", {})
+            ).items()
+        }
+    )
+
+    date: datetime.date = _parse_date(path_of_test_file.parent.name)
+
+    out = []
+    if expected_output_tree == {}:
+        out.append(
+            PolicyTest(
+                input_tree=input_tree,
+                expected_output_tree={},
+                path=path_of_test_file,
+                date=date,
+            )
+        )
+    else:
+        for target_name, output_data in dt.flatten_to_tree_paths(
+            expected_output_tree
+        ).items():
+            one_expected_output: NestedDataDict = dt.unflatten_from_tree_paths(
+                {target_name: output_data}
+            )
+            out.append(
+                PolicyTest(
+                    input_tree=input_tree,
+                    expected_output_tree=one_expected_output,
+                    path=path_of_test_file,
+                    date=date,
+                )
+            )
+
+    return out
 
 
 def _parse_date(date: str) -> datetime.date:

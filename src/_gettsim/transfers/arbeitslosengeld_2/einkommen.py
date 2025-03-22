@@ -76,8 +76,8 @@ def nettoeinkommen_nach_abzug_freibetrag_m(
 @policy_function()
 def nettoeinkommen_vor_abzug_freibetrag_m(
     bruttoeinkommen_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    einkommensteuer__betrag_m_sn: float,
+    solidaritätszuschlag__betrag_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
 ) -> float:
@@ -90,10 +90,10 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     ----------
     bruttoeinkommen_m
         See :func:`bruttoeinkommen_m`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    einkommensteuer__betrag_m_sn
+        See :func:`einkommensteuer__betrag_m_sn`.
+    solidaritätszuschlag__betrag_m_sn
+        See :func:`solidaritätszuschlag__betrag_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
     sozialversicherung__beiträge_versicherter_m
@@ -106,8 +106,8 @@ def nettoeinkommen_vor_abzug_freibetrag_m(
     """
     return (
         bruttoeinkommen_m
-        - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
-        - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
+        - (einkommensteuer__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
+        - (solidaritätszuschlag__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
         - sozialversicherung__beiträge_versicherter_m
     )
 
@@ -131,7 +131,7 @@ def bruttoeinkommen_m(  # noqa: PLR0913
     Parameters
     ----------
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
-        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
+        See basic input variable :ref:`hh_id <hh_id>`.
     einkommensteuer__einkünfte__sonstige__betrag_m
         See basic input variable :ref:`einkommensteuer__einkünfte__sonstige__betrag_m <einkommensteuer__einkünfte__sonstige__betrag_m>`.
     einkommensteuer__einkünfte__aus_selbstständiger_arbeit__betrag_m
@@ -172,8 +172,8 @@ def bruttoeinkommen_m(  # noqa: PLR0913
 @policy_function(end_date="2005-09-30")
 def nettoquote_m(  # noqa: PLR0913
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
-    eink_st_m_sn: float,
-    soli_st_m_sn: float,
+    einkommensteuer__betrag_m_sn: float,
+    solidaritätszuschlag__betrag_m_sn: float,
     einkommensteuer__anzahl_personen_sn: int,
     sozialversicherung__beiträge_versicherter_m: float,
     arbeitsl_geld_2_params: dict,
@@ -186,10 +186,10 @@ def nettoquote_m(  # noqa: PLR0913
     ----------
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
         See basic input variable :ref:`einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m <einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m>`.
-    eink_st_m_sn
-        See :func:`eink_st_m_sn`.
-    soli_st_m_sn
-        See :func:`soli_st_m_sn`.
+    einkommensteuer__betrag_m_sn
+        See :func:`einkommensteuer__betrag_m_sn`.
+    solidaritätszuschlag__betrag_m_sn
+        See :func:`solidaritätszuschlag__betrag_m_sn`.
     einkommensteuer__anzahl_personen_sn
         See :func:`einkommensteuer__anzahl_personen_sn`.
     sozialversicherung__beiträge_versicherter_m
@@ -205,8 +205,8 @@ def nettoquote_m(  # noqa: PLR0913
     alg2_2005_bne = max(
         (
             einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m
-            - (eink_st_m_sn / einkommensteuer__anzahl_personen_sn)
-            - (soli_st_m_sn / einkommensteuer__anzahl_personen_sn)
+            - (einkommensteuer__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
+            - (solidaritätszuschlag__betrag_m_sn / einkommensteuer__anzahl_personen_sn)
             - sozialversicherung__beiträge_versicherter_m
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["werbung"]
             - arbeitsl_geld_2_params["abzugsfähige_pausch"]["versicherung"]

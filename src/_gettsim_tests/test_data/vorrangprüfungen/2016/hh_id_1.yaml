@@ -1,0 +1,104 @@
+---
+info:
+  note: ''
+  source: ''
+inputs:
+  assumed: {}
+  provided:
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+    arbeitslosengeld_2__kindergeld_zur_bedarfsdeckung_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__kindergeldübertrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    arbeitslosengeld_2__nettoeinkommen_nach_abzug_freibetrag_m:
+      - 1100.0
+      - 200.0
+      - 0.0
+    arbeitslosengeld_2__p_id_einstandspartner:
+      - 2
+      - 1
+      - -1
+    arbeitslosengeld_2__regelbedarf_m_bg:
+      - 1765.0
+      - 1765.0
+      - 1765.0
+    demographics__alter:
+      - 30
+      - 30
+      - 2
+    demographics__geburtsjahr:
+      - 1986
+      - 1986
+      - 2014
+    hh_id:
+      - 1
+      - 1
+      - 1
+    demographics__kind:
+      - false
+      - false
+      - true
+    p_id:
+      - 1
+      - 2
+      - 3
+    demographics__p_id_elternteil_1:
+      - -1
+      - -1
+      - 1
+    demographics__p_id_elternteil_2:
+      - -1
+      - -1
+      - 2
+    demographics__vermögen:
+      - 0.0
+      - 0.0
+      - 0.0
+    jahr:
+      - 2016
+      - 2016
+      - 2016
+    kinderzuschlag__basisbetrag_m_bg:
+      - 140.0
+      - 140.0
+      - 140.0
+    sozialversicherung__rente__bezieht_rente:
+      - false
+      - false
+      - false
+    unterhalt__tatsächlich_erhaltener_betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    unterhaltsvorschuss__betrag_m:
+      - 0.0
+      - 0.0
+      - 0.0
+    wohngeld__anspruchshöhe_m_bg:
+      - 350.0
+      - 350.0
+      - 350.0
+    wohngeld__anspruchshöhe_m_wthh:
+      - 350.0
+      - 350.0
+      - 350.0
+outputs:
+  arbeitslosengeld_2__betrag_m_bg:
+    - 0.0
+    - 0.0
+    - 0.0
+  kinderzuschlag__betrag_m_bg:
+    - 140
+    - 140
+    - 140
+  wohngeld__betrag_m_wthh:
+    - 350
+    - 350
+    - 350

@@ -3,54 +3,53 @@ info:
   note: Child in separate Familiengemeinschaft if he/she is married
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0
-      - 1
-      - 2
-      - 3
-    demographics__geburtstag:
-      - 13
-      - 2
-      - 14
-      - 14
-    demographics__geburtsmonat:
-      - 2
-      - 1
-      - 7
-      - 7
-    demographics__geburtsjahr:
-      - 1974
-      - 1973
-      - 2004
-      - 2001
-    # TODO (@hmgaudecker): Remove again.
-    # https://github.com/iza-institute-of-labor-economics/gettsim/issues/211
-    demographics__alter:
-      - 49
-      - 50
-      - 19
-      - 22
-    demographics__hh_id:
-      - 0
-      - 0
-      - 0
-      - 0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
     arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
       - 3
       - 2
+    demographics__alter:
+      - 49
+      - 50
+      - 19
+      - 22
+    demographics__geburtsjahr:
+      - 1974
+      - 1973
+      - 2004
+      - 2001
+    demographics__geburtsmonat:
+      - 2
+      - 1
+      - 7
+      - 7
+    demographics__geburtstag:
+      - 13
+      - 2
+      - 14
+      - 14
+    hh_id:
+      - 0
+      - 0
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
     demographics__p_id_ehepartner:
       - 1
       - 0
       - 3
       - 2
-    einkommensteuer__gemeinsam_veranlagt:
-      - true
-      - true
-      - true
-      - true
     demographics__p_id_elternteil_1:
       - -1
       - -1
@@ -61,23 +60,23 @@ inputs:
       - -1
       - -1
       - 1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
+    einkommensteuer__gemeinsam_veranlagt:
+      - true
+      - true
+      - true
+      - true
 outputs:
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 1
-    - 1
   arbeitslosengeld_2__bg_id:
     - 0
     - 0
     - 100
     - 100
   arbeitslosengeld_2__eg_id:
+    - 0
+    - 0
+    - 1
+    - 1
+  arbeitslosengeld_2__fg_id:
     - 0
     - 0
     - 1
@@ -92,8 +91,3 @@ outputs:
     - 0
     - 1
     - 1
-#   potentielle_kinderfreibeträge:
-#     - 1
-#     - 1
-#     - 0
-#     - 0

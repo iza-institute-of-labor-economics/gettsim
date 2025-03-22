@@ -7,11 +7,11 @@ inputs:
     demographics__geburtstag: 1984-07-14
     arbeitslosengeld_2__p_id_einstandspartner: 1
     einkommensteuer__gemeinsam_veranlagt: true
-    demographics__hh_id: 0
+    hh_id: 0
   - id: 1
     demographics__geburtstag: 1981-07-14
     arbeitslosengeld_2__p_id_einstandspartner: 0
     einkommensteuer__gemeinsam_veranlagt: true
-    demographics__hh_id: 0
+    hh_id: 0
 outputs:
   - error: Personen sind nicht verheiratet, aber gemeinsam veranlagt

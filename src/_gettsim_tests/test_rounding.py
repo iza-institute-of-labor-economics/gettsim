@@ -1,9 +1,9 @@
 import datetime
 
+import dags.tree as dt
 import pandas as pd
 import pytest
 import yaml
-from optree import tree_flatten
 from pandas._testing import assert_series_equal
 
 from _gettsim.config import (
@@ -59,7 +59,7 @@ def test_no_rounding_specs(rounding_specs):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
+            data_tree={"p_id": pd.Series([1, 2])},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -96,7 +96,7 @@ def test_rounding_specs_wrong_format(base, direction, to_add_after_rounding):
         environment = PolicyEnvironment({"test_func": test_func}, rounding_specs)
 
         compute_taxes_and_transfers(
-            data_tree={"demographics": {"p_id": pd.Series([1, 2])}},
+            data_tree={"p_id": pd.Series([1, 2])},
             environment=environment,
             targets_tree={"test_func": None},
         )
@@ -115,7 +115,7 @@ def test_rounding(base, direction, to_add_after_rounding, input_values, exp_outp
         return income
 
     data = {
-        "demographics": {"p_id": pd.Series([1, 2])},
+        "p_id": pd.Series([1, 2]),
         "namespace": {"income": pd.Series(input_values)},
     }
     rounding_specs = {
@@ -159,7 +159,7 @@ def test_rounding_with_time_conversion():
         return income
 
     data = {
-        "demographics": {"p_id": pd.Series([1, 2])},
+        "p_id": pd.Series([1, 2]),
         "income": pd.Series([1.2, 1.5]),
     }
     rounding_specs = {
@@ -198,7 +198,7 @@ def test_no_rounding(
     def test_func(income):
         return income
 
-    data = {"demographics": {"p_id": pd.Series([1, 2])}}
+    data = {"p_id": pd.Series([1, 2])}
     data["income"] = pd.Series(input_values_exp_output)
     rounding_specs = {
         "params_key_test": {
@@ -277,9 +277,9 @@ def test_decorator_for_all_functions_with_rounding_spec():
     # addressed.
     time_dependent_functions = {}
     for year in range(1990, 2023):
-        year_functions = tree_flatten(
+        year_functions = dt.flatten_to_tree_paths(
             load_functions_tree_for_date(datetime.date(year=year, month=1, day=1))
-        )[0]
+        ).values()
         function_name_to_leaf_name_dict = {
             func.function.__name__: func.leaf_name for func in year_functions
         }

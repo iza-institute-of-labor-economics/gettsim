@@ -207,7 +207,7 @@ def altersgrenze_vorzeitig_ohne_staffelung_nach_1996(
 def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     demographics__weiblich: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtsbeitragszeiten_ab_40_y: float,
+    pflichtsbeitragsjahre_ab_alter_40: float,
     ges_rente_params: dict,
 ) -> bool:
     """Eligibility for Altersrente für Frauen (pension for women).
@@ -223,9 +223,9 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
         See basic input variable :ref:`demographics__weiblich <demographics__weiblich>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtsbeitragszeiten_ab_40_y
-        See basic input variable :ref:`pflichtsbeitragszeiten_ab_40_y
-        <pflichtsbeitragszeiten_ab_40_y>`.
+    pflichtsbeitragsjahre_ab_alter_40
+        See basic input variable :ref:`pflichtsbeitragsjahre_ab_alter_40
+        <pflichtsbeitragsjahre_ab_alter_40>`.
     ges_rente_params
         See params documentation :ref:`ges_rente_params <ges_rente_params>`.
 
@@ -238,8 +238,8 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
     out = (
         demographics__weiblich
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtsbeitragszeiten_ab_40_y
-        > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
+        and pflichtsbeitragsjahre_ab_alter_40
+        > ges_rente_params["rente_für_frauen_mindestpflichtbeitragsjahre_ab_alter_40"]
     )
 
     return out
@@ -253,7 +253,7 @@ def grundsätzlich_anspruchsberechtigt_ohne_prüfung_geburtsjahr(
 def grundsätzlich_anspruchsberechtigt_mit_geburtsjahr_prüfung(
     demographics__weiblich: bool,
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt: bool,
-    pflichtsbeitragszeiten_ab_40_y: float,
+    pflichtsbeitragsjahre_ab_alter_40: float,
     demographics__geburtsjahr: int,
     ges_rente_params: dict,
 ) -> bool:
@@ -271,8 +271,8 @@ def grundsätzlich_anspruchsberechtigt_mit_geburtsjahr_prüfung(
         See basic input variable :ref:`demographics__weiblich <demographics__weiblich>`.
     sozialversicherung__rente__wartezeit_15_jahre_erfüllt
         See :func:`sozialversicherung__rente__wartezeit_15_jahre_erfüllt`
-    pflichtsbeitragszeiten_ab_40_y
-        See basic input variable :ref:`pflichtsbeitragszeiten_ab_40_y <pflichtsbeitragszeiten_ab_40_y>`.
+    pflichtsbeitragsjahre_ab_alter_40
+        See basic input variable :ref:`pflichtsbeitragsjahre_ab_alter_40 <pflichtsbeitragsjahre_ab_alter_40>`.
     demographics__geburtsjahr
         See basic input variable :ref:`demographics__geburtsjahr <demographics__geburtsjahr>`.
     ges_rente_params
@@ -287,8 +287,8 @@ def grundsätzlich_anspruchsberechtigt_mit_geburtsjahr_prüfung(
     out = (
         demographics__weiblich
         and sozialversicherung__rente__wartezeit_15_jahre_erfüllt
-        and pflichtsbeitragszeiten_ab_40_y
-        > ges_rente_params["rente_für_frauen_pflichtbeitr_y"]
+        and pflichtsbeitragsjahre_ab_alter_40
+        > ges_rente_params["rente_für_frauen_mindestpflichtbeitragsjahre_ab_alter_40"]
         and demographics__geburtsjahr
         < ges_rente_params["first_birthyear_without_rente_für_frauen"]
     )

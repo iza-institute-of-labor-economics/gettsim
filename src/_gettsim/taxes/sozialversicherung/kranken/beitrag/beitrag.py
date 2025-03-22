@@ -4,7 +4,7 @@ from _gettsim.function_types import policy_function
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_versicherter_m")
-def betrag_versicherter_vor_midijob_m(
+def betrag_versicherter_m_ohne_midijob(
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
     betrag_selbstständig_m: float,
@@ -45,7 +45,7 @@ def betrag_versicherter_vor_midijob_m(
 
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_versicherter_m")
-def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
+def betrag_versicherter_m_mit_midijob(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     betrag_rentner_m: float,
     betrag_selbstständig_m: float,
@@ -94,7 +94,7 @@ def betrag_versicherter_mit_midijob_m(  # noqa: PLR0913
 
 
 @policy_function(end_date="2003-03-31", leaf_name="betrag_arbeitgeber_m")
-def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
+def betrag_arbeitgeber_m_ohne_midijob(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     einkommen_m: float,
@@ -140,7 +140,7 @@ def betrag_arbeitgeber_vor_midijob_m(  # noqa: PLR0913
 
 
 @policy_function(start_date="2003-04-01", leaf_name="betrag_arbeitgeber_m")
-def betrag_arbeitgeber_mit_midijob_m(  # noqa: PLR0913
+def betrag_arbeitgeber_m_mit_midijob(  # noqa: PLR0913
     sozialversicherung__geringfügig_beschäftigt: bool,
     sozialversicherung__in_gleitzone: bool,
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
@@ -215,7 +215,7 @@ def betrag_versicherter_regulär_beschäftigt_m(
 
 @policy_function()
 def betrag_selbstständig_m(
-    einnahmen__bemessungsgrundlage_selbstständig_m: float,
+    bemessungsgrundlage_selbstständig_m: float,
     sozialv_beitr_params: dict,
 ) -> float:
     """Health insurance contributions for self-employed's income. The self-employed
@@ -223,8 +223,8 @@ def betrag_selbstständig_m(
 
     Parameters
     ----------
-    einnahmen__bemessungsgrundlage_selbstständig_m
-        See :func:`einnahmen__bemessungsgrundlage_selbstständig_m`.
+    bemessungsgrundlage_selbstständig_m
+        See :func:`bemessungsgrundlage_selbstständig_m`.
     sozialv_beitr_params
         See params documentation :ref:`sozialv_beitr_params <sozialv_beitr_params>`.
 
@@ -239,22 +239,20 @@ def betrag_selbstständig_m(
     zusatzbeitrag = params.get("mean_zusatzbeitrag", 0.0)
     ges_krankenv_beitr_satz_selbst = ermäßigter_beitrag + zusatzbeitrag
 
-    return (
-        ges_krankenv_beitr_satz_selbst * einnahmen__bemessungsgrundlage_selbstständig_m
-    )
+    return ges_krankenv_beitr_satz_selbst * bemessungsgrundlage_selbstständig_m
 
 
 @policy_function()
 def betrag_rentner_m(
-    einnahmen__bemessungsgrundlage_rente_m: float,
+    bemessungsgrundlage_rente_m: float,
     beitragssatz_arbeitnehmer: float,
 ) -> float:
     """Health insurance contributions for pension incomes.
 
     Parameters
     ----------
-    einnahmen__bemessungsgrundlage_rente_m
-        See :func:`einnahmen__bemessungsgrundlage_rente_m`.
+    bemessungsgrundlage_rente_m
+        See :func:`bemessungsgrundlage_rente_m`.
     beitragssatz_arbeitnehmer
         See :func:`beitragssatz_arbeitnehmer`.
     Returns
@@ -262,7 +260,7 @@ def betrag_rentner_m(
 
     """
 
-    return beitragssatz_arbeitnehmer * einnahmen__bemessungsgrundlage_rente_m
+    return beitragssatz_arbeitnehmer * bemessungsgrundlage_rente_m
 
 
 @policy_function(start_date="2003-04-01")
@@ -300,7 +298,7 @@ def betrag_gesamt_midijob_m(
     end_date="2022-09-30",
     leaf_name="betrag_arbeitgeber_midijob_m",
 )
-def betrag_arbeitgeber_midijob_anteil_einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m(
+def betrag_arbeitgeber_midijob_m_mit_festem_beitragssatz(
     einkommensteuer__einkünfte__aus_nichtselbstständiger_arbeit__bruttolohn_m: float,
     sozialversicherung__in_gleitzone: bool,
     beitragssatz_arbeitgeber: float,
@@ -334,7 +332,7 @@ def betrag_arbeitgeber_midijob_anteil_einkommensteuer__einkünfte__aus_nichtselb
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_arbeitgeber_midijob_m")
-def betrag_arbeitgeber_midijob_residuum_m(
+def betrag_arbeitgeber_midijob_m_als_differenz_von_gesamt_und_versichertenbeitrag(
     betrag_gesamt_midijob_m: float,
     betrag_versicherter_midijob_m: float,
     sozialversicherung__in_gleitzone: bool,
@@ -370,7 +368,7 @@ def betrag_arbeitgeber_midijob_residuum_m(
     end_date="2022-09-30",
     leaf_name="betrag_versicherter_midijob_m",
 )
-def betrag_versicherter_midijob_residuum_m(
+def betrag_versicherter_midijob_m_als_differenz_von_gesamt_und_arbeitgeberbeitrag(
     betrag_gesamt_midijob_m: float,
     betrag_arbeitgeber_midijob_m: float,
 ) -> float:
@@ -390,7 +388,7 @@ def betrag_versicherter_midijob_residuum_m(
 
 
 @policy_function(start_date="2022-10-01", leaf_name="betrag_versicherter_midijob_m")
-def betrag_versicherter_midijob_anteil_beitragspflichtiger_einnahmen_m(
+def betrag_versicherter_midijob_m_mit_festem_beitragssatz(
     sozialversicherung__beitragspflichtige_einnahmen_aus_midijob_arbeitnehmer_m: float,
     beitragssatz_arbeitnehmer: float,
 ) -> float:

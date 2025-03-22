@@ -211,8 +211,8 @@ def basisbetrag_m_bg(
 
     Parameters
     ----------
-    demographics__hh_id
-        See basic input variable :ref:`demographics__hh_id <demographics__hh_id>`.
+    hh_id
+        See basic input variable :ref:`hh_id <hh_id>`.
     bruttoeinkommen_eltern_m_bg
         See :func:`bruttoeinkommen_eltern_m_bg`.
     mindestbruttoeinkommen_m_bg

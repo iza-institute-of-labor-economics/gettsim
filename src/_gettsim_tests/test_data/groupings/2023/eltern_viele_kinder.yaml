@@ -3,25 +3,26 @@ info:
   note: ''
   source: ''
 inputs:
+  assumed: {}
   provided:
-    demographics__p_id:
-      - 0  # Parent 1
-      - 1  # Parent 2
-      - 2  # Child 1 (different household)
-      - 3  # Child 2
-      - 4  # Child 3 (too old)
-      - 5  # Child 4 (own child)
-      - 6  # Child 5 (too much income)
-      - 7  # Child of Child 4
-    demographics__hh_id:
-      - 0
-      - 0
+    arbeitslosengeld_2__eigenbedarf_gedeckt:
+      - false
+      - false
+      - false
+      - false
+      - false
+      - false
+      - true
+      - false
+    arbeitslosengeld_2__p_id_einstandspartner:
       - 1
       - 0
-      - 0
-      - 0
-      - 0
-      - 0
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
+      - -1
     demographics__alter:
       - 50
       - 48
@@ -31,16 +32,25 @@ inputs:
       - 24
       - 24
       - 2
-    demographics__p_id_ehepartner:
+    hh_id:
+      - 0
+      - 0
       - 1
       - 0
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-      - -1
-    arbeitslosengeld_2__p_id_einstandspartner:
+      - 0
+      - 0
+      - 0
+      - 0
+    p_id:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+    demographics__p_id_ehepartner:
       - 1
       - 0
       - -1
@@ -67,25 +77,7 @@ inputs:
       - 1
       - 1
       - -1
-    arbeitslosengeld_2__eigenbedarf_gedeckt:
-      - false
-      - false
-      - false
-      - false
-      - false
-      - false
-      - true
-      - false
 outputs:
-  arbeitslosengeld_2__fg_id:
-    - 0
-    - 0
-    - 1
-    - 0
-    - 2
-    - 3
-    - 0
-    - 3
   arbeitslosengeld_2__bg_id:
     - 0
     - 0
@@ -104,6 +96,15 @@ outputs:
     - 4
     - 5
     - 6
+  arbeitslosengeld_2__fg_id:
+    - 0
+    - 0
+    - 1
+    - 0
+    - 2
+    - 3
+    - 0
+    - 3
   demographics__ehe_id:
     - 0
     - 0

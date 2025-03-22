@@ -2,7 +2,8 @@ import inspect
 import re
 from collections.abc import Callable
 
-import optree
+import dags.tree as dt
+from dags import rename_arguments
 
 from _gettsim.config import (
     SUPPORTED_GROUPINGS,
@@ -12,7 +13,6 @@ from _gettsim.function_types import DerivedFunction, PolicyFunction
 from _gettsim.gettsim_typing import NestedDataDict, NestedFunctionDict
 from _gettsim.shared import (
     insert_path_and_value,
-    rename_arguments_and_add_annotations,
     upsert_path_and_value,
 )
 
@@ -270,10 +270,10 @@ def create_time_conversion_functions(
     """
 
     converted_functions = {}
-    data_tree_paths = optree.tree_paths(data_tree, none_is_leaf=True)
+    data_tree_paths = dt.tree_paths(data_tree)
 
     # Create time-conversions for existing functions
-    for path, function in zip(*optree.tree_flatten_with_path(functions_tree)[:2]):
+    for path, function in dt.flatten_to_tree_paths(functions_tree).items():
         leaf_name = path[-1]
         all_time_conversions_for_this_function = _create_time_conversion_functions(
             name=leaf_name, func=function
@@ -281,7 +281,7 @@ def create_time_conversion_functions(
         for der_name, der_func in all_time_conversions_for_this_function.items():
             new_path = [*path[:-1], der_name]
             # Skip if the function already exists or the data column exists
-            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
+            if new_path in dt.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
                 converted_functions = insert_path_and_value(
@@ -299,7 +299,7 @@ def create_time_conversion_functions(
         for der_name, der_func in all_time_conversions_for_this_data_column.items():
             new_path = [*path[:-1], der_name]
             # Skip if the function already exists or the data column exists
-            if new_path in optree.tree_paths(converted_functions) + data_tree_paths:
+            if new_path in dt.tree_paths(converted_functions) + data_tree_paths:
                 continue
             else:
                 # Upsert because derived functions based on data should overwrite
@@ -364,7 +364,7 @@ def _create_time_conversion_functions(
 def _create_function_for_time_unit(
     function_name: str, converter: Callable[[float], float]
 ) -> Callable[[float], float]:
-    @rename_arguments_and_add_annotations(mapper={"x": function_name})
+    @rename_arguments(mapper={"x": function_name})
     def func(x: float) -> float:
         return converter(x)
 
