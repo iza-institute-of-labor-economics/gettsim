@@ -10,53 +10,53 @@ inputs:
   assumed: {}
   provided:
     alter:
-    - 73
+      - 73
     alter_monate:
-    - 876
+      - 876
     bürgergeld:
       bezug_im_vorjahr:
-      - false
+        - false
       p_id_einstandspartner:
-      - -1
+        - -1
       überschusseinkommen_m_bg:
-      - 0.0
+        - 0.0
     familie:
       alleinerziehend:
-      - false
+        - false
       p_id_elternteil_1:
-      - -1
+        - -1
       p_id_elternteil_2:
-      - -1
+        - -1
     geburtsjahr:
-    - 1950
+      - 1950
     hh_id:
-    - 0
+      - 0
     kindergeld:
       p_id_empfänger:
-      - -1
+        - -1
     p_id:
-    - 0
+      - 0
     schwerbehindert_grad_g:
-    - false
+      - false
     vermögen_eg:
-    - 10001.0
+      - 10001.0
     wohnen:
       bewohnt_eigentum_hh:
-      - false
+        - false
       bruttokaltmiete_m_hh:
-      - 300.0
+        - 300.0
       heizkosten_m_hh:
-      - 50.0
+        - 50.0
       wohnfläche_hh:
-      - 45.0
+        - 45.0
     grundsicherung:
       im_alter:
         einkommen_m:
-        - 250.0
+          - 250.0
 outputs:
   grundsicherung:
     im_alter:
       anspruchshöhe_m:
-      - 0.0
+        - 0.0
       vermögensgrenze_unterschritten_eg:
-      - false
+        - false

@@ -13,111 +13,111 @@ inputs:
   assumed: {}
   provided:
     alter:
-    - 70
-    - 67
-    - 70
-    - 67
+      - 70
+      - 67
+      - 70
+      - 67
     alter_monate:
-    - 840
-    - 804
-    - 840
-    - 804
+      - 840
+      - 804
+      - 840
+      - 804
     bürgergeld:
       bezug_im_vorjahr:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       p_id_einstandspartner:
-      - 1
-      - 0
-      - 3
-      - 2
+        - 1
+        - 0
+        - 3
+        - 2
       überschusseinkommen_m_bg:
-      - 0.0
-      - 0.0
-      - 0.0
-      - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     familie:
       alleinerziehend:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       p_id_elternteil_1:
-      - -1
-      - -1
-      - -1
-      - -1
+        - -1
+        - -1
+        - -1
+        - -1
       p_id_elternteil_2:
-      - -1
-      - -1
-      - -1
-      - -1
+        - -1
+        - -1
+        - -1
+        - -1
     geburtsjahr:
-    - 1953
-    - 1956
-    - 1953
-    - 1956
+      - 1953
+      - 1956
+      - 1953
+      - 1956
     hh_id:
-    - 0
-    - 0
-    - 1
-    - 1
+      - 0
+      - 0
+      - 1
+      - 1
     kindergeld:
       p_id_empfänger:
-      - -1
-      - -1
-      - -1
-      - -1
+        - -1
+        - -1
+        - -1
+        - -1
     p_id:
-    - 0
-    - 1
-    - 2
-    - 3
+      - 0
+      - 1
+      - 2
+      - 3
     schwerbehindert_grad_g:
-    - false
-    - false
-    - false
-    - false
+      - false
+      - false
+      - false
+      - false
     vermögen_eg:
-    - 0.0
-    - 0.0
-    - 0.0
-    - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
+      - 0.0
     wohnen:
       bewohnt_eigentum_hh:
-      - false
-      - false
-      - false
-      - false
+        - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
-      - 400.0
-      - 400.0
-      - 400.0
-      - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
+        - 400.0
       heizkosten_m_hh:
-      - 80.0
-      - 80.0
-      - 80.0
-      - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
+        - 80.0
       wohnfläche_hh:
-      - 60.0
-      - 60.0
-      - 60.0
-      - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
+        - 60.0
     grundsicherung:
       im_alter:
         einkommen_m:
-        - 210.0
-        - 280.0
-        - 210.0
-        - 280.0
+          - 210.0
+          - 280.0
+          - 210.0
+          - 280.0
 outputs:
   grundsicherung:
     im_alter:
       anspruchshöhe_m:
-      - 481.0
-      - 411.0
-      - 481.0
-      - 411.0
+        - 481.0
+        - 411.0
+        - 481.0
+        - 411.0

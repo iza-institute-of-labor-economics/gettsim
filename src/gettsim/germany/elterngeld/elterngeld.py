@@ -374,8 +374,7 @@ def anrechenbarer_betrag_nach_sgb_ii_m(
     Relevant for Unterhaltsvorschuss.
     """
     return max(
-        betrag_m
-        - min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m),
+        betrag_m - min(mean_nettoeinkommen_in_12_monaten_vor_geburt_m, mindestbetrag_m),
         0.0,
     )
 
