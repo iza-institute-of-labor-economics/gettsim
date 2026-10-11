@@ -23,10 +23,6 @@ inputs:
       - 0.0
       - 0.0
       - 40.0
-    behinderungsgrad:
-      - 0
-      - 0
-      - 0
     arbeitslosengeld_2:
       p_id_einstandspartner:
         - 1
@@ -76,10 +72,6 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
-        ist_hauptberuflich_selbstständig:
-          - false
-          - false
-          - false
         sonstige:
           alle_weiteren_m:
             - 0.0
@@ -111,10 +103,6 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
-        - 0.0
       renten:
         betriebliche_altersvorsorge_m:
           - 0.0
@@ -136,15 +124,6 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -166,14 +145,6 @@ inputs:
       - 1948
       - 1950
       - 1978
-    geburtsmonat:
-      - 1
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
-      - 1
     hh_id:
       - 0
       - 0
@@ -210,40 +181,21 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
         - 0.0
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-            - false
-            - false
       rente:
         altersrente:
           betrag_m:
             - 0.0
             - 0.0
             - 0.0
-        bezieht_altersrente:
-          - true
-          - true
-          - false
         erwerbsminderung:
           betrag_m:
             - 0.0
             - 0.0
             - 0.0
-        grundrente:
-          grundrentenzeiten_monate:
-            - 0
-            - 0
-            - 0
         jahr_renteneintritt:
           - 2013
           - 2015
@@ -258,15 +210,7 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
-    vermögen_bg:
-      - 0.0
-      - 0.0
-      - 0.0
     vermögen_eg:
-      - 0.0
-      - 0.0
-      - 0.0
-    vermögen_wthh:
       - 0.0
       - 0.0
       - 0.0
@@ -297,10 +241,12 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
-      mietstufe_hh:
-        - 3
-        - 3
-        - 3
+    grundsicherung:
+      im_alter:
+        einkommen_m:
+          - 0.0
+          - 0.0
+          - 5792.0
 outputs:
   grundsicherung:
     im_alter:

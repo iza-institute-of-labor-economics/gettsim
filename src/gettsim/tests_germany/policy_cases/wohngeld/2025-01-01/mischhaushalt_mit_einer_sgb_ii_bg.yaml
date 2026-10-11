@@ -38,12 +38,6 @@ inputs:
         - 0.0
         - 0.0
       einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          einnahmen_nach_abzug_werbungskosten_y:
-            - 12000.0
-            - 12000.0
-            - 0.0
-            - 0.0
         aus_selbstständiger_arbeit:
           betrag_m:
             - 0.0
@@ -62,12 +56,6 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
-          rente:
-            steuerpflichtige_einnahmen_m:
-              - 0.0
-              - 0.0
-              - 0.0
-              - 0.0
       gemeinsam_veranlagt:
         - true
         - true
@@ -89,11 +77,6 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
       renten:
         gesetzliche_m:
           - 0.0
@@ -105,17 +88,6 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -137,21 +109,6 @@ inputs:
         - -1
         - -1
         - -1
-    geburtsjahr:
-      - 1983
-      - 1983
-      - 1983
-      - 1983
-    geburtsmonat:
-      - 1
-      - 1
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
-      - 1
-      - 1
     hh_id:
       - 0
       - 0
@@ -191,23 +148,11 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
         - 0.0
         - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 50.0
-            - 50.0
-            - 0.0
-            - 0.0
       rente:
         grundrente:
           grundrentenzeiten_monate:
@@ -215,12 +160,6 @@ inputs:
             - 0
             - 0
             - 0
-        beitrag:
-          betrag_versicherter_m:
-            - 50.0
-            - 50.0
-            - 0.0
-            - 0.0
         altersrente:
           betrag_m:
             - 0.0
@@ -251,11 +190,6 @@ inputs:
       - 0.0
       - 0.0
     wohnen:
-      baujahr_immobilie_hh:
-        - 2010
-        - 2010
-        - 2010
-        - 2010
       bewohnt_eigentum_hh:
         - false
         - false
@@ -282,6 +216,11 @@ inputs:
         - 5
         - 5
         - 5
+      einkommen_vor_freibetrag_m:
+        - 700.0
+        - 700.0
+        - 0.0
+        - 0.0
 outputs:
   bürgergeld:
     bruttokaltmiete_m_wthh:

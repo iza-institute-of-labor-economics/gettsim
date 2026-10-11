@@ -20,192 +20,166 @@ inputs:
   assumed: {}
   provided:
     alter:
-      - 55
-      - 67
+    - 55
+    - 67
     alter_monate:
-      - 660
-      - 804
+    - 660
+    - 804
     bürgergeld:
       bezug_im_vorjahr:
-        - false
-        - false
+      - false
+      - false
       p_id_einstandspartner:
-        - 1
-        - 0
+      - 1
+      - 0
     arbeitsstunden_w:
-      - 30.0
-      - 0.0
+    - 30.0
+    - 0.0
     einkommensteuer:
       betrag_y_sn:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       einkünfte:
         aus_selbstständiger_arbeit:
           betrag_m:
-            - 0.0
-            - 0.0
+          - 0.0
+          - 0.0
         aus_vermietung_und_verpachtung:
           betrag_m:
-            - 0.0
-            - 0.0
+          - 0.0
+          - 0.0
         sonstige:
           alle_weiteren_m:
-            - 0.0
-            - 0.0
+          - 0.0
+          - 0.0
       gemeinsam_veranlagt:
-        - true
-        - true
+      - true
+      - true
     einnahmen:
       bruttolohn_m:
-        - 1100.0
-        - 0.0
+      - 1100.0
+      - 0.0
       kapitalerträge_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       lohn_und_einkommensersatzleistungen_m:
-        - 0.0
-        - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       renten:
         betriebliche_altersvorsorge_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         geförderte_private_vorsorge_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         basisrente_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         sonstige_private_vorsorge_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         aus_berufsständischen_versicherungen_m:
-          - 0.0
-          - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
         - 0.0
         - 0.0
     familie:
       alleinerziehend:
-        - false
-        - false
+      - false
+      - false
       p_id_ehepartner:
-        - 1
-        - 0
+      - 1
+      - 0
       p_id_elternteil_1:
-        - -1
-        - -1
+      - -1
+      - -1
       p_id_elternteil_2:
-        - -1
-        - -1
+      - -1
+      - -1
     geburtsjahr:
-      - 1968
-      - 1956
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
+    - 1968
+    - 1956
     hh_id:
-      - 0
-      - 0
-    grundsicherung:
-      im_alter:
-        hat_kind_mit_einkommen_über_einkommensgrenze:
-          - false
-          - false
+    - 0
+    - 0
     kindergeld:
       in_ausbildung:
-        - false
-        - false
+      - false
+      - false
       p_id_empfänger:
-        - -1
-        - -1
+      - -1
+      - -1
     p_id:
-      - 0
-      - 1
+    - 0
+    - 1
     schwerbehindert_grad_g:
-      - false
-      - false
+    - false
+    - false
     solidaritätszuschlag:
       betrag_y_sn:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung:
       arbeitslosen:
         kurzarbeitergeld_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         insolvenzgeld_m:
-          - 0.0
-          - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
       beiträge_versicherter_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       rente:
         altersrente:
           betrag_m:
-            - 0.0
-            - 400.0
-        bezieht_altersrente:
-          - false
-          - true
+          - 0.0
+          - 400.0
         erwerbsminderung:
           betrag_m:
-            - 0.0
-            - 0.0
-        grundrente:
-          grundrentenzeiten_monate:
-            - 0
-            - 500
+          - 0.0
+          - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
     unterhaltsvorschuss:
       betrag_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
     vermögen:
-      - 0.0
-      - 0.0
+    - 0.0
+    - 0.0
     vermögen_eg:
-      - 0.0
-      - 0.0
+    - 0.0
+    - 0.0
     wohnen:
       bewohnt_eigentum_hh:
-        - false
-        - false
+      - false
+      - false
       bruttokaltmiete_m_hh:
-        - 500.0
-        - 500.0
+      - 500.0
+      - 500.0
       heizkosten_m_hh:
-        - 100.0
-        - 100.0
+      - 100.0
+      - 100.0
       wohnfläche_hh:
-        - 60.0
-        - 60.0
+      - 60.0
+      - 60.0
     wohngeld:
       anspruchshöhe_m_wthh:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
+    grundsicherung:
+      im_alter:
+        einkommen_m:
+        - 849.0
+        - 210.0
 outputs:
   bürgergeld:
     betrag_m:
-      - 0.0
-      - 0.0
+    - 0.0
+    - 0.0
   grundsicherung:
     im_alter:
       anspruchshöhe_m:
-        - 0.0
-        - 530.0
+      - 0.0
+      - 530.0

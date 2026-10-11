@@ -29,11 +29,6 @@ inputs:
         - 1000.0
         - 1000.0
       einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          einnahmen_nach_abzug_werbungskosten_y:
-            - 25000.0
-            - 0.0
-            - 0.0
         aus_selbstständiger_arbeit:
           betrag_m:
             - 0.0
@@ -49,11 +44,6 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
-          rente:
-            steuerpflichtige_einnahmen_m:
-              - 0.0
-              - 0.0
-              - 0.0
       gemeinsam_veranlagt:
         - true
         - true
@@ -71,24 +61,11 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
-        - 0.0
       renten:
         betrag_gesamt_m:
           - 0.0
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -110,14 +87,6 @@ inputs:
       - 1971
       - 1970
       - 2007
-    geburtsmonat:
-      - 1
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
-      - 1
     hh_id:
       - 1
       - 1
@@ -150,31 +119,10 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
         - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 80.0
-            - 0.0
-            - 0.0
-      rente:
-        beitrag:
-          betrag_versicherter_m:
-            - 100.0
-            - 0.0
-            - 0.0
-        erwerbsminderung:
-          betrag_m:
-            - 0.0
-            - 0.0
-            - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
         - 0.0
@@ -190,10 +138,6 @@ inputs:
       - 0.0
       - 0.0
     wohnen:
-      baujahr_immobilie_hh:
-        - 1995
-        - 1995
-        - 1995
       bewohnt_eigentum_hh:
         - false
         - false
@@ -215,6 +159,10 @@ inputs:
         - 3
         - 3
         - 3
+      einkommen_vor_freibetrag_m:
+        - 1516.6666666666667
+        - 0.0
+        - 0.0
 outputs:
   wohngeld:
     anspruchshöhe_m_wthh:

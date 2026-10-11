@@ -7,170 +7,129 @@ inputs:
   assumed: {}
   provided:
     alter:
-      - 37
-      - 8
+    - 37
+    - 8
     anzahl_personen_hh:
-      - 2
-      - 2
+    - 2
+    - 2
     arbeitslosengeld_2:
       p_id_einstandspartner:
-        - -1
-        - -1
+      - -1
+      - -1
     behinderungsgrad:
-      - 0
-      - 0
+    - 0
+    - 0
     einkommensteuer:
       betrag_y_sn:
-        - 1000.0
-        - 1000.0
+      - 1000.0
+      - 1000.0
       einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          einnahmen_nach_abzug_werbungskosten_y:
-            - 16000.0
-            - 0.0
         aus_selbstständiger_arbeit:
           betrag_m:
-            - 0.0
-            - 0.0
+          - 0.0
+          - 0.0
         aus_vermietung_und_verpachtung:
           betrag_m:
-            - 0.0
-            - 0.0
+          - 0.0
+          - 0.0
         sonstige:
           alle_weiteren_m:
-            - 250.0
-            - 0.0
-          rente:
-            steuerpflichtige_einnahmen_m:
-              - 0.0
-              - 0.0
+          - 250.0
+          - 0.0
       gemeinsam_veranlagt:
-        - false
-        - false
+      - false
+      - false
     einnahmen:
       bruttolohn_m:
-        - 1000.0
-        - 0.0
+      - 1000.0
+      - 0.0
       kapitalerträge_y:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       lohn_und_einkommensersatzleistungen_m:
-        - 0.0
-        - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
       renten:
         betrag_gesamt_m:
-          - 0.0
-          - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
         - 0.0
         - 0.0
     familie:
       alleinerziehend:
-        - true
-        - false
+      - true
+      - false
       p_id_ehepartner:
-        - -1
-        - -1
+      - -1
+      - -1
       p_id_elternteil_1:
-        - -1
-        - 20
+      - -1
+      - 20
       p_id_elternteil_2:
-        - -1
-        - -1
+      - -1
+      - -1
     geburtsjahr:
-      - 1972
-      - 2001
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
+    - 1972
+    - 2001
     hh_id:
-      - 3
-      - 3
+    - 3
+    - 3
     kindergeld:
       ist_leistungsbegründendes_kind:
-        - false
-        - true
+      - false
+      - true
       p_id_empfänger:
-        - -1
-        - 20
-    p_id:
+      - -1
       - 20
-      - 21
+    p_id:
+    - 20
+    - 21
     solidaritätszuschlag:
       betrag_y_sn:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
     sozialversicherung:
       arbeitslosen:
         kurzarbeitergeld_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
         insolvenzgeld_m:
-          - 0.0
-          - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
+        - 0.0
+        - 0.0
       beiträge_versicherter_m:
-        - 0.0
-        - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 80.0
-            - 0.0
-      rente:
-        beitrag:
-          betrag_versicherter_m:
-            - 100.0
-            - 0.0
-        erwerbsminderung:
-          betrag_m:
-            - 0.0
-            - 0.0
+      - 0.0
+      - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
+      - 0.0
+      - 0.0
     unterhaltsvorschuss:
       betrag_m:
-        - 0.0
-        - 0.0
-    vermögen:
-      - 95000.0
       - 0.0
+      - 0.0
+    vermögen:
+    - 95000.0
+    - 0.0
     wohnen:
-      baujahr_immobilie_hh:
-        - 1995
-        - 1995
       bewohnt_eigentum_hh:
-        - false
-        - false
+      - false
+      - false
       bruttokaltmiete_m_hh:
-        - 400.0
-        - 400.0
+      - 400.0
+      - 400.0
       heizkosten_m_hh:
-        - 50.0
-        - 50.0
+      - 50.0
+      - 50.0
       wohnfläche_hh:
-        - 50.0
-        - 50.0
+      - 50.0
+      - 50.0
     wohngeld:
       mietstufe_hh:
-        - 3
-        - 3
+      - 3
+      - 3
+      einkommen_vor_freibetrag_m:
+      - 1108.3333333333333
+      - 0.0
 outputs:
   wohngeld:
     anspruchshöhe_m_wthh:
-      - 0.0
-      - 0.0
+    - 0.0
+    - 0.0

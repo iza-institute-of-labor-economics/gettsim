@@ -19,9 +19,6 @@ inputs:
       betrag_y_sn:
         - 300.0
       einkünfte:
-        aus_nichtselbstständiger_arbeit:
-          einnahmen_nach_abzug_werbungskosten_y:
-            - 12600.0
         aus_selbstständiger_arbeit:
           betrag_m:
             - 0.0
@@ -31,9 +28,6 @@ inputs:
         sonstige:
           alle_weiteren_m:
             - 0.0
-          rente:
-            steuerpflichtige_einnahmen_m:
-              - 0.0
       gemeinsam_veranlagt:
         - false
     einnahmen:
@@ -43,18 +37,11 @@ inputs:
         - 0.0
       lohn_und_einkommensersatzleistungen_m:
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
       renten:
         gesetzliche_m:
           - 0.0
         betrag_gesamt_m:
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-      betrag_m:
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -66,10 +53,6 @@ inputs:
         - -1
     geburtsjahr:
       - 1964
-    geburtsmonat:
-      - 1
-    geburtstag:
-      - 1
     hh_id:
       - 10
     kindergeld:
@@ -88,14 +71,8 @@ inputs:
           - 0.0
         insolvenzgeld_m:
           - 0.0
-        betrag_m:
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 80.0
       rente:
         altersrente:
           betrag_m:
@@ -103,9 +80,6 @@ inputs:
         grundrente:
           grundrentenzeiten_monate:
             - 0
-        beitrag:
-          betrag_versicherter_m:
-            - 100.0
         erwerbsminderung:
           betrag_m:
             - 0.0
@@ -118,8 +92,6 @@ inputs:
     vermögen:
       - 31000.0
     wohnen:
-      baujahr_immobilie_hh:
-        - 1980
       bewohnt_eigentum_hh:
         - false
       bruttokaltmiete_m_hh:
@@ -131,6 +103,8 @@ inputs:
     wohngeld:
       mietstufe_hh:
         - 5
+      einkommen_vor_freibetrag_m:
+        - 735.0
 outputs:
   wohngeld:
     anspruchshöhe_m_wthh:

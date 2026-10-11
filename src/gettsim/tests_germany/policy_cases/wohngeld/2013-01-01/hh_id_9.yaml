@@ -36,14 +36,6 @@ inputs:
           alle_weiteren_m:
             - 100.0
             - 0.0
-          rente:
-            steuerpflichtige_einnahmen_m:
-              - 0.0
-              - 0.0
-        aus_nichtselbstständiger_arbeit:
-          tatsächliche_werbungskosten_y:
-            - 0.0
-            - 0.0
       gemeinsam_veranlagt:
         - true
         - true
@@ -57,20 +49,10 @@ inputs:
       lohn_und_einkommensersatzleistungen_m:
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
       renten:
         betrag_gesamt_m:
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -87,12 +69,6 @@ inputs:
     geburtsjahr:
       - 1963
       - 1958
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
     hh_id:
       - 9
       - 9
@@ -118,26 +94,9 @@ inputs:
         insolvenzgeld_m:
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
-      kranken:
-        beitrag:
-          betrag_versicherter_m:
-            - 80.0
-            - 0.0
-      rente:
-        beitrag:
-          betrag_versicherter_m:
-            - 100.0
-            - 0.0
-        erwerbsminderung:
-          betrag_m:
-            - 0.0
-            - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
         - 0.0
@@ -150,9 +109,6 @@ inputs:
       - 90000.0
       - 0.0
     wohnen:
-      baujahr_immobilie_hh:
-        - 2005
-        - 2005
       bewohnt_eigentum_hh:
         - false
         - false
@@ -169,6 +125,9 @@ inputs:
       mietstufe_hh:
         - 3
         - 3
+      einkommen_vor_freibetrag_m:
+        - 973.3333333333335
+        - 0.0
 outputs:
   wohngeld:
     anspruchshöhe_m_wthh:

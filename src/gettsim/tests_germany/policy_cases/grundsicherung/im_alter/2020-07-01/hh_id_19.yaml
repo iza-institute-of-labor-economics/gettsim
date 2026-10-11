@@ -20,66 +20,10 @@ inputs:
       überschusseinkommen_m_bg:
         - 0.0
         - 0.0
-    einkommensteuer:
-      betrag_y_sn:
-        - 0.0
-        - 0.0
-      einkünfte:
-        aus_selbstständiger_arbeit:
-          betrag_m:
-            - 0.0
-            - 0.0
-        aus_vermietung_und_verpachtung:
-          betrag_m:
-            - 0.0
-            - 0.0
-        sonstige:
-          alle_weiteren_m:
-            - 0.0
-            - 0.0
-      gemeinsam_veranlagt:
-        - true
-        - true
-    einnahmen:
-      bruttolohn_m:
-        - 0.0
-        - 0.0
-      kapitalerträge_m:
-        - 0.0
-        - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
-      renten:
-        betriebliche_altersvorsorge_m:
-          - 0.0
-          - 0.0
-        geförderte_private_vorsorge_m:
-          - 0.0
-          - 0.0
-        basisrente_m:
-          - 0.0
-          - 0.0
-        sonstige_private_vorsorge_m:
-          - 0.0
-          - 0.0
-        aus_berufsständischen_versicherungen_m:
-          - 0.0
-          - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
         - false
-      p_id_ehepartner:
-        - 25
-        - 24
       p_id_elternteil_1:
         - -1
         - -1
@@ -89,20 +33,9 @@ inputs:
     geburtsjahr:
       - 1953
       - 1950
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
     hh_id:
       - 19
       - 19
-    grundsicherung:
-      im_alter:
-        hat_kind_mit_einkommen_über_einkommensgrenze:
-          - false
-          - false
     kindergeld:
       p_id_empfänger:
         - -1
@@ -113,42 +46,6 @@ inputs:
     schwerbehindert_grad_g:
       - false
       - true
-    solidaritätszuschlag:
-      betrag_y_sn:
-        - 0.0
-        - 0.0
-    sozialversicherung:
-      arbeitslosen:
-        betrag_m:
-          - 0.0
-          - 0.0
-      beiträge_versicherter_m:
-        - 0.0
-        - 0.0
-      rente:
-        altersrente:
-          betrag_m:
-            - 300.0
-            - 700.0
-        bezieht_altersrente:
-          - true
-          - true
-        erwerbsminderung:
-          betrag_m:
-            - 0.0
-            - 0.0
-        grundrente:
-          grundrentenzeiten_monate:
-            - 144
-            - 300
-    unterhalt:
-      tatsächlich_erhaltener_betrag_m:
-        - 0.0
-        - 0.0
-    unterhaltsvorschuss:
-      betrag_m:
-        - 0.0
-        - 0.0
     vermögen_eg:
       - 0.0
       - 0.0
@@ -165,6 +62,11 @@ inputs:
       wohnfläche_hh:
         - 40.0
         - 40.0
+    grundsicherung:
+      im_alter:
+        einkommen_m:
+          - 300.0
+          - 700.0
 outputs:
   grundsicherung:
     im_alter:

@@ -63,9 +63,6 @@ inputs:
       lohn_und_einkommensersatzleistungen_m:
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
-        - 0.0
-        - 0.0
       renten:
         betriebliche_altersvorsorge_m:
           - 0.0
@@ -82,13 +79,6 @@ inputs:
         aus_berufsständischen_versicherungen_m:
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -105,20 +95,9 @@ inputs:
     geburtsjahr:
       - 1967
       - 1955
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
     hh_id:
       - 0
       - 0
-    grundsicherung:
-      im_alter:
-        hat_kind_mit_einkommen_über_einkommensgrenze:
-          - false
-          - false
     kindergeld:
       in_ausbildung:
         - false
@@ -144,9 +123,6 @@ inputs:
         insolvenzgeld_m:
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
@@ -155,17 +131,10 @@ inputs:
           betrag_m:
             - 0.0
             - 400.0
-        bezieht_altersrente:
-          - false
-          - true
         erwerbsminderung:
           betrag_m:
             - 0.0
             - 0.0
-        grundrente:
-          grundrentenzeiten_monate:
-            - 0
-            - 500
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
         - 0.0
@@ -197,6 +166,11 @@ inputs:
       anspruchshöhe_m_wthh:
         - 0.0
         - 0.0
+    grundsicherung:
+      im_alter:
+        einkommen_m:
+          - 0.0
+          - 210.0
 outputs:
   arbeitslosengeld_2:
     betrag_m:

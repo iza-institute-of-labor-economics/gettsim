@@ -18,9 +18,6 @@ inputs:
     arbeitsstunden_w:
       - 0.0
       - 0.0
-    behinderungsgrad:
-      - 0
-      - 0
     bürgergeld:
       bezug_im_vorjahr:
         - false
@@ -37,30 +34,14 @@ inputs:
           betrag_m:
             - 0.0
             - 0.0
-          betrag_y:
-            - 0.0
-            - 0.0
         aus_vermietung_und_verpachtung:
           betrag_m:
             - 0.0
             - 0.0
-          betrag_y:
-            - 0.0
-            - 0.0
-        ist_hauptberuflich_selbstständig:
-          - false
-          - false
         sonstige:
           alle_weiteren_m:
             - 0.0
             - 0.0
-          alle_weiteren_y:
-            - 0.0
-            - 0.0
-          rente:
-            alter_beginn_leistungsbezug_sonstige_private_vorsorge:
-              - 65
-              - 65
       gemeinsam_veranlagt:
         - true
         - true
@@ -72,9 +53,6 @@ inputs:
         - 0.0
         - 0.0
       lohn_und_einkommensersatzleistungen_m:
-        - 0.0
-        - 0.0
-      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
         - 0.0
         - 0.0
       renten:
@@ -93,13 +71,6 @@ inputs:
         aus_berufsständischen_versicherungen_m:
           - 0.0
           - 0.0
-    elterngeld:
-      anrechenbarer_betrag_m:
-        - 0.0
-        - 0.0
-      betrag_m:
-        - 0.0
-        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -116,12 +87,6 @@ inputs:
     geburtsjahr:
       - 1956
       - 1958
-    geburtsmonat:
-      - 1
-      - 1
-    geburtstag:
-      - 1
-      - 1
     hh_id:
       - 0
       - 0
@@ -130,6 +95,9 @@ inputs:
         hat_kind_mit_einkommen_über_einkommensgrenze:
           - false
           - false
+        einkommen_m:
+          - 500.0
+          - 200.0
     kindergeld:
       in_ausbildung:
         - false
@@ -155,36 +123,18 @@ inputs:
         insolvenzgeld_m:
           - 0.0
           - 0.0
-        betrag_m:
-          - 0.0
-          - 0.0
       beiträge_versicherter_m:
         - 0.0
         - 0.0
-      kranken:
-        beitrag:
-          privat_versichert:
-            - false
-            - false
       rente:
         altersrente:
           betrag_m:
             - 500.0
             - 200.0
-        bezieht_altersrente:
-          - true
-          - true
         erwerbsminderung:
           betrag_m:
             - 0.0
             - 0.0
-        grundrente:
-          grundrentenzeiten_monate:
-            - 0
-            - 0
-        jahr_renteneintritt:
-          - 2021
-          - 2024
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
         - 0.0
@@ -193,13 +143,7 @@ inputs:
       betrag_m:
         - 0.0
         - 0.0
-    vermögen_bg:
-      - 0.0
-      - 0.0
     vermögen_eg:
-      - 0.0
-      - 0.0
-    vermögen_wthh:
       - 0.0
       - 0.0
     vorrangprüfungen:
@@ -223,9 +167,6 @@ inputs:
       anspruchshöhe_m_wthh:
         - 0.0
         - 0.0
-      mietstufe_hh:
-        - 3
-        - 3
 outputs:
   grundsicherung:
     im_alter:
