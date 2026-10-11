@@ -12,4 +12,8 @@ def krankengeld_m() -> float:
 
 @policy_input(unit=TTSIMUnit.CURRENCY.PER_MONTH)
 def mutterschaftsgeld_m() -> float:
-    """Mutterschaftsgeld including the Zuschuss zum Mutterschaftsgeld."""
+    """Mutterschaftsgeld paid by the health insurance (§ 24i SGB V).
+
+    Excludes the employer's Zuschuss zum Mutterschaftsgeld (§ 20 MuSchG), which is not
+    implemented.
+    """
