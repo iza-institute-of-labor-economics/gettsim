@@ -183,14 +183,14 @@ def altersentlastungsbetrag_bemessungsgrundlage_y_ab_2009(
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
 def altersfreibetrag_y_bis_2001(
-    policy_year: int,
+    evaluation_year: int,
     altersentlastungsbetrag_erstes_anspruchsjahr: int,
     altersentlastungsbetrag_bemessungsgrundlage_y: float,
     maximaler_altersentlastungsbetrag_y: float,
     altersentlastungsquote: float,
 ) -> float:
     """Altersentlastungsbetrag, § 24a EStG: a share of the base up to a maximum."""
-    if policy_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
+    if evaluation_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
         out = min(
             altersentlastungsquote * altersentlastungsbetrag_bemessungsgrundlage_y,
             maximaler_altersentlastungsbetrag_y,
@@ -214,14 +214,14 @@ def altersfreibetrag_y_bis_2001(
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
 def altersfreibetrag_y_2002_bis_2004(
-    policy_year: int,
+    evaluation_year: int,
     altersentlastungsbetrag_erstes_anspruchsjahr: int,
     altersentlastungsbetrag_bemessungsgrundlage_y: float,
     maximaler_altersentlastungsbetrag_y: float,
     altersentlastungsquote: float,
 ) -> float:
     """Altersentlastungsbetrag, § 24a EStG: a share of the base up to a maximum."""
-    if policy_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
+    if evaluation_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
         out = min(
             altersentlastungsquote * altersentlastungsbetrag_bemessungsgrundlage_y,
             maximaler_altersentlastungsbetrag_y,
@@ -244,7 +244,7 @@ def altersfreibetrag_y_2002_bis_2004(
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
 def altersfreibetrag_y_ab_2005(
-    policy_year: int,
+    evaluation_year: int,
     altersentlastungsbetrag_erstes_anspruchsjahr: int,
     altersentlastungsbetrag_bemessungsgrundlage_y: float,
     maximaler_altersentlastungsbetrag_y_gestaffelt_nach_geburtsjahr: ConsecutiveIntLookupTableParamValue,
@@ -255,7 +255,7 @@ def altersfreibetrag_y_ab_2005(
     Share and maximum are those of the calendar year following the completion of the
     64th year of life (§ 24a Satz 5 EStG) and stay fixed for life.
     """
-    if policy_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
+    if evaluation_year >= altersentlastungsbetrag_erstes_anspruchsjahr:
         out = min(
             altersentlastungsquote_gestaffelt_nach_geburtsjahr.look_up(
                 altersentlastungsbetrag_erstes_anspruchsjahr
