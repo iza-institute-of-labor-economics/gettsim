@@ -14,6 +14,7 @@ from gettsim.tt import (
     RoundingSpec,
     TTSIMUnit,
     agg_by_p_id_function,
+    cast_ttsim_unit,
     get_piecewise_parameters,
     intervals_to_thresholds,
     param_function,
@@ -178,8 +179,12 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     # If there are no benefits under § 32b, § 32a gives the tax amount directly (FG
     # Düsseldorf v. 17.04.2019, 15 K 1127/18 E). If not, a rounded 'besonderer
     # Steuersatz' is applied to the taxable income. Because of the rounding, we cannot
-    # use the 'besondere Steuersatz' for both logic branches.
-    if dem_progressionsvorbehalt_unterliegende_leistungen_y_sn == 0.0:
+    # use the 'besondere Steuersatz' for both logic branches. Amounts below half a cent
+    # are zero; the tolerance absorbs floating-point residue from time conversions of
+    # benefits and repayments that cancel out.
+    if abs(dem_progressionsvorbehalt_unterliegende_leistungen_y_sn) < cast_ttsim_unit(
+        0.005, unit=TTSIMUnit.CURRENCY.PER_YEAR.PER_SN
+    ):
         return familie__anzahl_personen_sn * piecewise_polynomial(
             x=zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
             / familie__anzahl_personen_sn,
@@ -221,8 +226,12 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     # If there are no benefits under § 32b, § 32a gives the tax amount directly (FG
     # Düsseldorf v. 17.04.2019, 15 K 1127/18 E). If not, a rounded 'besonderer
     # Steuersatz' is applied to the taxable income. Because of the rounding, we cannot
-    # use the 'besondere Steuersatz' for both logic branches.
-    if dem_progressionsvorbehalt_unterliegende_leistungen_y_sn == 0.0:
+    # use the 'besondere Steuersatz' for both logic branches. Amounts below half a cent
+    # are zero; the tolerance absorbs floating-point residue from time conversions of
+    # benefits and repayments that cancel out.
+    if abs(dem_progressionsvorbehalt_unterliegende_leistungen_y_sn) < cast_ttsim_unit(
+        0.005, unit=TTSIMUnit.CURRENCY.PER_YEAR.PER_SN
+    ):
         return familie__anzahl_personen_sn * piecewise_polynomial(
             x=gesamteinkommen_y_sn / familie__anzahl_personen_sn,
             parameters=parameter_einkommensteuertarif,
