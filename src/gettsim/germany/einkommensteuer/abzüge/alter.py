@@ -65,13 +65,6 @@ def altersentlastungsbetrag_bemessungsgrundlage_y_bis_2004(
     """Arbeitslohn plus the positive sum of all other Einkünfte.
 
     § 24a Sätze 1 und 2 EStG. Leibrenten (§ 22 Nr. 1 Satz 3 Buchst. a EStG) stay out.
-
-    Not modelled:
-
-    - Versorgungsbezüge (§ 19 Abs. 2 EStG) are not separated from the Arbeitslohn.
-    - Each person deducts their own Sparer-Freibetrag only; spouses cannot use the
-      part their partner leaves unused.
-    - The Werbungskosten-Pauschbetrag for sonstige Einkünfte is not deducted.
     """
     einkünfte_aus_kapitalvermögen = max(
         einnahmen__kapitalerträge_y
@@ -117,13 +110,6 @@ def altersentlastungsbetrag_bemessungsgrundlage_y_2005_bis_2008(
     payouts of the betriebliche Altersvorsorge are fully taxed under § 22 Nr. 5 EStG
     since the Alterseinkünftegesetz and count. Wage from marginal employment is taxed
     at a flat rate outside the assessment and stays out.
-
-    Not modelled:
-
-    - Versorgungsbezüge (§ 19 Abs. 2 EStG) are not separated from the Arbeitslohn.
-    - Each person deducts their own Sparer-Freibetrag only; spouses cannot use the
-      part their partner leaves unused.
-    - The Werbungskosten-Pauschbetrag for sonstige Einkünfte is not deducted.
     """
     arbeitslohn = (
         0.0 if sozialversicherung__geringfügig_beschäftigt else einnahmen__bruttolohn_y
@@ -169,13 +155,6 @@ def altersentlastungsbetrag_bemessungsgrundlage_y_ab_2009(
     Abs. 5b EStG, Unternehmensteuerreformgesetz 2008), as do Leibrenten (§ 22 Nr. 1
     Satz 3 Buchst. a EStG). Wage from marginal employment is taxed at a flat rate
     outside the assessment and stays out.
-
-    Not modelled:
-
-    - Versorgungsbezüge (§ 19 Abs. 2 EStG) are not separated from the Arbeitslohn.
-    - Capital income taxed at the ordinary tariff (Günstigerprüfung, § 32d Abs. 6
-      EStG) belongs to the base.
-    - The Werbungskosten-Pauschbetrag for sonstige Einkünfte is not deducted.
     """
     arbeitslohn = (
         0.0 if sozialversicherung__geringfügig_beschäftigt else einnahmen__bruttolohn_y

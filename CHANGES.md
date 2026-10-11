@@ -17,12 +17,7 @@ All releases are available on [Anaconda.org](https://anaconda.org/conda-forge/ge
 
 - {gh}`1238` Fix the Altersentlastungsbetrag (§ 24a EStG): rate and maximum follow the
   calendar year after completing the 64th year of life, and the base covers all
-  Einkünfte except Leibrenten. New inputs: `geburtsmonat`, `geburtstag`,
-  `einkommensteuer__einkünfte__aus_forst_und_landwirtschaft__betrag_y`,
-  `einkommensteuer__einkünfte__aus_gewerbebetrieb__betrag_y`,
-  `einkommensteuer__einkünfte__sonstige__alle_weiteren_y`,
-  `einnahmen__renten__geförderte_private_vorsorge_m`,
-  `einnahmen__renten__betriebliche_altersvorsorge_m`. ({ghuser}`MImmesberger`)
+  Einkünfte except Leibrenten. ({ghuser}`MImmesberger`)
 
 - {gh}`1233` Model Versicherungsfreiheit in der Renten- und Arbeitslosenversicherung for
   Rentner, Minijobber, people older than the Regelaltersgrenze. Changes affect social
