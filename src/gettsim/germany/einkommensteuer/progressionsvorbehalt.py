@@ -116,6 +116,33 @@ def steuersatzeinkommen_mit_kinderfreibetrag_y_sn(
 
 @policy_function(
     start_date="2002-01-01",
+    end_date="2003-12-31",
+    leaf_name="steuersatzeinkommen_je_person_mit_kinderfreibetrag_y",
+    rounding_spec=RoundingSpec(
+        unit=TTSIMUnit.EUR.PER_YEAR,
+        base=36,
+        direction="down",
+        to_add_after_rounding=18,
+        reference="§ 32a Abs. 2 und Abs. 5 EStG",
+    ),
+    unit=TTSIMUnit.CURRENCY.PER_YEAR,
+)
+def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_36er_rundungsregel(
+    steuersatzeinkommen_mit_kinderfreibetrag_y_sn: float,
+    familie__anzahl_personen_sn: int,
+) -> float:
+    """Steuersatzeinkommen per person of the Steuernummer, with Kinderfreibetrag.
+
+    The amount the tariff is applied to under the splitting procedure, rounded down to
+    the next multiple of 36 Euro and increased by 18 Euro. Under the splitting
+    procedure, the rounding applies to half of the joint amount (§ 32a Abs. 5 EStG).
+    """
+    return steuersatzeinkommen_mit_kinderfreibetrag_y_sn / familie__anzahl_personen_sn
+
+
+@policy_function(
+    start_date="2004-01-01",
+    leaf_name="steuersatzeinkommen_je_person_mit_kinderfreibetrag_y",
     rounding_spec=RoundingSpec(
         unit=TTSIMUnit.EUR.PER_YEAR,
         base=1,
@@ -124,7 +151,7 @@ def steuersatzeinkommen_mit_kinderfreibetrag_y_sn(
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y(
+def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y_mit_abrundungsregel(
     steuersatzeinkommen_mit_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
@@ -138,6 +165,33 @@ def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y(
 
 @policy_function(
     start_date="2002-01-01",
+    end_date="2003-12-31",
+    leaf_name="steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y",
+    rounding_spec=RoundingSpec(
+        unit=TTSIMUnit.EUR.PER_YEAR,
+        base=36,
+        direction="down",
+        to_add_after_rounding=18,
+        reference="§ 32a Abs. 2 und Abs. 5 EStG",
+    ),
+    unit=TTSIMUnit.CURRENCY.PER_YEAR,
+)
+def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_mit_36er_rundungsregel(
+    steuersatzeinkommen_ohne_kinderfreibetrag_y_sn: float,
+    familie__anzahl_personen_sn: int,
+) -> float:
+    """Steuersatzeinkommen per person of the Steuernummer, without Kinderfreibetrag.
+
+    The amount the tariff is applied to under the splitting procedure, rounded down to
+    the next multiple of 36 Euro and increased by 18 Euro. Under the splitting
+    procedure, the rounding applies to half of the joint amount (§ 32a Abs. 5 EStG).
+    """
+    return steuersatzeinkommen_ohne_kinderfreibetrag_y_sn / familie__anzahl_personen_sn
+
+
+@policy_function(
+    start_date="2004-01-01",
+    leaf_name="steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y",
     rounding_spec=RoundingSpec(
         unit=TTSIMUnit.EUR.PER_YEAR,
         base=1,
@@ -146,7 +200,7 @@ def steuersatzeinkommen_je_person_mit_kinderfreibetrag_y(
     ),
     unit=TTSIMUnit.CURRENCY.PER_YEAR,
 )
-def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y(
+def steuersatzeinkommen_je_person_ohne_kinderfreibetrag_y_mit_abrundungsregel(
     steuersatzeinkommen_ohne_kinderfreibetrag_y_sn: float,
     familie__anzahl_personen_sn: int,
 ) -> float:
