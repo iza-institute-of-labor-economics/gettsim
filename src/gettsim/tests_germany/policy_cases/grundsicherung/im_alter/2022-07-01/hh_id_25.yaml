@@ -10,9 +10,6 @@ inputs:
     alter:
       - 67
       - 16
-    alter_monate:
-      - 804
-      - 192
     arbeitslosengeld_2:
       p_id_einstandspartner:
         - -1
@@ -20,53 +17,140 @@ inputs:
       überschusseinkommen_m_bg:
         - 0.0
         - 0.0
+      regelbedarf_m:
+        - 654.1300000000001
+        - 547.25
+    einkommensteuer:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+      einkünfte:
+        aus_selbstständiger_arbeit:
+          betrag_m:
+            - 0.0
+            - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        sonstige:
+          alle_weiteren_m:
+            - 0.0
+            - 0.0
+    einnahmen:
+      bruttolohn_m:
+        - 0.0
+        - 0.0
+      kapitalerträge_m:
+        - 0.0
+        - 0.0
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
+        - 0.0
+        - 0.0
+      renten:
+        betriebliche_altersvorsorge_m:
+          - 0.0
+          - 0.0
+        geförderte_private_vorsorge_m:
+          - 0.0
+          - 0.0
+        basisrente_m:
+          - 0.0
+          - 0.0
+        sonstige_private_vorsorge_m:
+          - 0.0
+          - 0.0
+        aus_berufsständischen_versicherungen_m:
+          - 0.0
+          - 0.0
+    elterngeld:
+      anrechenbarer_betrag_m:
+        - 0.0
+        - 0.0
+      betrag_m:
+        - 0.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
     familie:
-      alleinerziehend:
-        - true
-        - false
       p_id_elternteil_1:
         - -1
         - 34
       p_id_elternteil_2:
         - -1
         - -1
-    geburtsjahr:
-      - 1972
-      - 2006
+      anzahl_erwachsene_eg:
+        - 1
+        - 1
+      anzahl_kinder_eg:
+        - 1
+        - 1
+      anzahl_personen_sn:
+        - 1
+        - 1
+    geburtsmonat:
+      - 1
+      - 1
+    geburtstag:
+      - 1
+      - 1
     hh_id:
       - 25
       - 25
-    kindergeld:
-      p_id_empfänger:
-        - -1
-        - 34
+    grundsicherung:
+      im_alter:
+        hat_kind_mit_einkommen_über_einkommensgrenze:
+          - false
+          - false
     p_id:
       - 34
       - 35
     schwerbehindert_grad_g:
       - true
       - false
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+    sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 0.0
+        - 0.0
+      rente:
+        altersrente:
+          betrag_m:
+            - 425.0
+            - 0.0
+          hat_regelaltersgrenze_erreicht:
+            - true
+            - false
+        bezieht_altersrente:
+          - true
+          - false
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+            - 0.0
+        grundrente:
+          grundrentenzeiten_monate:
+            - 120
+            - 0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
     vermögen_eg:
       - 5400.0
       - 0.0
-    wohnen:
-      bewohnt_eigentum_hh:
-        - false
-        - false
-      bruttokaltmiete_m_hh:
-        - 252.5
-        - 252.5
-      heizkosten_m_hh:
-        - 50.0
-        - 50.0
-      wohnfläche_hh:
-        - 35.0
-        - 35.0
-    grundsicherung:
-      im_alter:
-        einkommen_m:
-          - 425.0
-          - 0.0
 outputs:
   grundsicherung:
     im_alter:

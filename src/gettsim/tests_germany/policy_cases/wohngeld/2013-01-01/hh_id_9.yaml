@@ -16,6 +16,12 @@ inputs:
       p_id_einstandspartner:
         - 54
         - 53
+      nettoeinkommen_vor_abzug_freibetrag_m_wthh:
+        - 1300.0
+        - 1300.0
+      regelbedarf_m_wthh:
+        - 1140.0
+        - 1140.0
     behinderungsgrad:
       - 50
       - 0
@@ -36,9 +42,14 @@ inputs:
           alle_weiteren_m:
             - 100.0
             - 0.0
-      gemeinsam_veranlagt:
-        - true
-        - true
+          rente:
+            steuerpflichtige_einnahmen_m:
+              - 0.0
+              - 0.0
+        aus_nichtselbstständiger_arbeit:
+          einnahmen_nach_abzug_werbungskosten_m:
+            - 1116.6666666666667
+            - 0.0
     einnahmen:
       bruttolohn_m:
         - 1200.0
@@ -46,29 +57,35 @@ inputs:
       kapitalerträge_y:
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_m:
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
         - 0.0
         - 0.0
-      renten:
-        betrag_gesamt_m:
-          - 0.0
-          - 0.0
+    elterngeld:
+      anrechenbarer_betrag_m:
+        - 0.0
+        - 0.0
+      betrag_m:
+        - 0.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
     familie:
       alleinerziehend:
         - false
         - false
-      p_id_ehepartner:
-        - 54
-        - 53
       p_id_elternteil_1:
         - -1
         - -1
       p_id_elternteil_2:
         - -1
         - -1
-    geburtsjahr:
-      - 1963
-      - 1958
+    geburtsmonat:
+      - 1
+      - 1
+    geburtstag:
+      - 1
+      - 1
     hh_id:
       - 9
       - 9
@@ -79,54 +96,62 @@ inputs:
       p_id_empfänger:
         - -1
         - -1
+      betrag_m_wthh:
+        - 0.0
+        - 0.0
     p_id:
       - 53
       - 54
-    solidaritätszuschlag:
-      betrag_y_sn:
-        - 0.0
-        - 0.0
     sozialversicherung:
       arbeitslosen:
-        kurzarbeitergeld_m:
+        betrag_m:
           - 0.0
           - 0.0
-        insolvenzgeld_m:
-          - 0.0
-          - 0.0
-      beiträge_versicherter_m:
-        - 0.0
-        - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 80.0
+            - 0.0
+      rente:
+        beitrag:
+          betrag_versicherter_m:
+            - 100.0
+            - 0.0
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+            - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+      tatsächlich_erhaltener_betrag_m_wthh:
         - 0.0
         - 0.0
     unterhaltsvorschuss:
       betrag_m:
         - 0.0
         - 0.0
+      betrag_m_wthh:
+        - 0.0
+        - 0.0
     vermögen:
       - 90000.0
       - 0.0
     wohnen:
-      bewohnt_eigentum_hh:
-        - false
-        - false
+      baujahr_immobilie_hh:
+        - 2005
+        - 2005
       bruttokaltmiete_m_hh:
         - 400.0
         - 400.0
-      heizkosten_m_hh:
-        - 50.0
-        - 50.0
-      wohnfläche_hh:
-        - 50.0
-        - 50.0
     wohngeld:
       mietstufe_hh:
         - 3
         - 3
-      einkommen_vor_freibetrag_m:
-        - 973.3333333333335
+    kinderzuschlag:
+      anspruchshöhe_m_wthh:
+        - 0.0
         - 0.0
 outputs:
   wohngeld:

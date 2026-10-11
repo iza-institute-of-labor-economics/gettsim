@@ -19,6 +19,14 @@ inputs:
         - 16
         - 15
         - -1
+      nettoeinkommen_vor_abzug_freibetrag_m_wthh:
+        - 2116.6666666666665
+        - 2116.6666666666665
+        - 2116.6666666666665
+      regelbedarf_m_wthh:
+        - 1498.0000000000002
+        - 1498.0000000000002
+        - 1498.0000000000002
     behinderungsgrad:
       - 0
       - 0
@@ -29,6 +37,11 @@ inputs:
         - 1000.0
         - 1000.0
       einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          einnahmen_nach_abzug_werbungskosten_y:
+            - 25000.0
+            - 0.0
+            - 0.0
         aus_selbstständiger_arbeit:
           betrag_m:
             - 0.0
@@ -44,10 +57,11 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
-      gemeinsam_veranlagt:
-        - true
-        - true
-        - false
+          rente:
+            steuerpflichtige_einnahmen_m:
+              - 0.0
+              - 0.0
+              - 0.0
     einnahmen:
       bruttolohn_m:
         - 2000.0
@@ -57,24 +71,28 @@ inputs:
         - 1000.0
         - 0.0
         - 0.0
-      lohn_und_einkommensersatzleistungen_m:
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
         - 0.0
         - 0.0
         - 0.0
-      renten:
-        betrag_gesamt_m:
-          - 0.0
-          - 0.0
-          - 0.0
+    elterngeld:
+      anrechenbarer_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
+        - 0.0
     familie:
       alleinerziehend:
         - false
         - false
         - false
-      p_id_ehepartner:
-        - 16
-        - 15
-        - -1
       p_id_elternteil_1:
         - -1
         - -1
@@ -83,10 +101,14 @@ inputs:
         - -1
         - -1
         - 16
-    geburtsjahr:
-      - 1971
-      - 1970
-      - 2007
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+    geburtstag:
+      - 1
+      - 1
+      - 1
     hh_id:
       - 1
       - 1
@@ -96,35 +118,43 @@ inputs:
         - false
         - false
         - true
-      p_id_empfänger:
-        - -1
-        - -1
-        - 15
+      betrag_m_wthh:
+        - 190.0
+        - 190.0
+        - 190.0
     p_id:
       - 15
       - 16
       - 17
-    solidaritätszuschlag:
-      betrag_y_sn:
-        - 0.0
-        - 0.0
-        - 0.0
     sozialversicherung:
       arbeitslosen:
-        kurzarbeitergeld_m:
+        betrag_m:
           - 0.0
           - 0.0
           - 0.0
-        insolvenzgeld_m:
-          - 0.0
-          - 0.0
-          - 0.0
-      beiträge_versicherter_m:
-        - 0.0
-        - 0.0
-        - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 80.0
+            - 0.0
+            - 0.0
+      rente:
+        beitrag:
+          betrag_versicherter_m:
+            - 100.0
+            - 0.0
+            - 0.0
+        erwerbsminderung:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
     unterhalt:
       tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+      tatsächlich_erhaltener_betrag_m_wthh:
         - 0.0
         - 0.0
         - 0.0
@@ -133,34 +163,31 @@ inputs:
         - 0.0
         - 0.0
         - 0.0
+      betrag_m_wthh:
+        - 0.0
+        - 0.0
+        - 0.0
     vermögen:
       - 120000.0
       - 0.0
       - 0.0
     wohnen:
-      bewohnt_eigentum_hh:
-        - false
-        - false
-        - false
+      baujahr_immobilie_hh:
+        - 1995
+        - 1995
+        - 1995
       bruttokaltmiete_m_hh:
         - 700.0
         - 700.0
         - 700.0
-      heizkosten_m_hh:
-        - 50.0
-        - 50.0
-        - 50.0
-      wohnfläche_hh:
-        - 50.0
-        - 50.0
-        - 50.0
     wohngeld:
       mietstufe_hh:
         - 3
         - 3
         - 3
-      einkommen_vor_freibetrag_m:
-        - 1516.6666666666667
+    kinderzuschlag:
+      anspruchshöhe_m_wthh:
+        - 0.0
         - 0.0
         - 0.0
 outputs:

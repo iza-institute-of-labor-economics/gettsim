@@ -20,6 +20,12 @@ inputs:
       - 5
       - 5
     bürgergeld:
+      bezug_im_vorjahr:
+        - false
+        - false
+        - false
+        - false
+        - false
       p_id_einstandspartner:
         - 79
         - 78
@@ -33,7 +39,20 @@ inputs:
       - 0
       - 0
     einkommensteuer:
+      betrag_y_sn:
+        - 714.0
+        - 714.0
+        - 714.0
+        - 714.0
+        - 714.0
       einkünfte:
+        aus_nichtselbstständiger_arbeit:
+          einnahmen_nach_abzug_werbungskosten_y:
+            - 15600.0
+            - 14400.0
+            - 0.0
+            - 0.0
+            - 0.0
         aus_selbstständiger_arbeit:
           betrag_m:
             - 0.0
@@ -41,10 +60,49 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
+        aus_vermietung_und_verpachtung:
+          betrag_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+        sonstige:
+          alle_weiteren_m:
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+            - 0.0
+          rente:
+            steuerpflichtige_einnahmen_m:
+              - 0.0
+              - 0.0
+              - 0.0
+              - 0.0
+              - 0.0
+      gemeinsam_veranlagt:
+        - true
+        - true
+        - false
+        - false
+        - false
     einnahmen:
       bruttolohn_m:
         - 1300.0
         - 1200.0
+        - 0.0
+        - 0.0
+        - 0.0
+      kapitalerträge_y:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      lohn_und_einkommensersatzleistungen_ohne_elterngeld_m:
+        - 0.0
+        - 0.0
         - 0.0
         - 0.0
         - 0.0
@@ -55,6 +113,31 @@ inputs:
           - 0.0
           - 0.0
           - 0.0
+        gesamt_m:
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+    elterngeld:
+      anrechenbarer_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     familie:
       alleinerziehend:
         - false
@@ -62,6 +145,12 @@ inputs:
         - false
         - false
         - false
+      p_id_ehepartner:
+        - 79
+        - 78
+        - -1
+        - -1
+        - -1
       p_id_elternteil_1:
         - -1
         - -1
@@ -74,6 +163,24 @@ inputs:
         - 79
         - 79
         - 79
+    geburtsjahr:
+      - 1978
+      - 1983
+      - 2008
+      - 2013
+      - 2015
+    geburtsmonat:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+    geburtstag:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
     hh_id:
       - 17
       - 17
@@ -87,13 +194,47 @@ inputs:
         - true
         - true
         - true
+      p_id_empfänger:
+        - -1
+        - -1
+        - 78
+        - 78
+        - 78
     p_id:
       - 78
       - 79
       - 80
       - 81
       - 82
+    solidaritätszuschlag:
+      betrag_y_sn:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     sozialversicherung:
+      arbeitslosen:
+        betrag_m:
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+          - 0.0
+      beiträge_versicherter_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      kranken:
+        beitrag:
+          betrag_versicherter_m:
+            - 99.0
+            - 91.4
+            - 0.0
+            - 0.0
+            - 0.0
       rente:
         altersrente:
           betrag_m:
@@ -109,6 +250,13 @@ inputs:
             - 0
             - 0
             - 0
+        beitrag:
+          betrag_versicherter_m:
+            - 123.8
+            - 114.3
+            - 0.0
+            - 0.0
+            - 0.0
         erwerbsminderung:
           betrag_m:
             - 0.0
@@ -116,6 +264,20 @@ inputs:
             - 0.0
             - 0.0
             - 0.0
+    unterhalt:
+      tatsächlich_erhaltener_betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+    unterhaltsvorschuss:
+      betrag_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
     vermögen:
       - 85000.0
       - 0.0
@@ -123,12 +285,36 @@ inputs:
       - 0.0
       - 0.0
     wohnen:
+      baujahr_immobilie_hh:
+        - 1993
+        - 1993
+        - 1993
+        - 1993
+        - 1993
+      bewohnt_eigentum_hh:
+        - false
+        - false
+        - false
+        - false
+        - false
       bruttokaltmiete_m_hh:
         - 1300.0
         - 1300.0
         - 1300.0
         - 1300.0
         - 1300.0
+      heizkosten_m_hh:
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+        - 50.0
+      wohnfläche_hh:
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
+        - 100.0
     wohngeld:
       mietstufe_hh:
         - 1
@@ -142,12 +328,6 @@ inputs:
         - true
         - true
         - true
-      einkommen_vor_freibetrag_m:
-        - 909.9999999999999
-        - 840.0
-        - 0.0
-        - 0.0
-        - 0.0
 outputs:
   wohngeld:
     anspruchshöhe_m_wthh:
