@@ -1,11 +1,14 @@
 ---
 info:
   note: >-
-    Only person 0 is from the source; persons 1 and 2 are a regression test. Assumed:
-    `elterngeld__anrechenbarer_betrag_m` of 70 € (paid Elterngeld of 370 € less 300 €),
-    which gives the 460 € of the source together with the Mutterschaftsgeld of 390 €.
-    Assumed: single birth, Basiselterngeld, month entirely after the birth, no Zuschuss
-    of the employer.
+    Only person 0 is from the source; persons 1 and 2 are a regression test. The
+    Mutterschaftsgeld of 390 € is credited against the Elterngeld (§ 3 Abs. 1 S. 1 Nr. 1
+    BEEG); the paid Elterngeld of 370 € and the credited Mutterschaftsgeld remain
+    exempt up to 300 € together (§ 10 Abs. 1 BEEG). Assumed:
+    `elterngeld__angerechnete_mutterschaftsleistungen_m` of 390 € and
+    `elterngeld__anrechenbarer_betrag_m` of 460 € (370 € + 390 € − 300 €), which gives
+    the 460 € of the source. Assumed: single birth, Basiselterngeld, month entirely
+    after the birth, no Zuschuss of the employer.
   precision_atol: 0.01
   source: >-
     WoGVwV Nr. 14.21.6 Abs. 4, Beispiel (BR-Drs. 284/17, S. 42):
@@ -14,7 +17,11 @@ inputs:
   assumed:
     elterngeld:
       anrechenbarer_betrag_m:
-        - 70.0
+        - 460.0
+        - 0.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 390.0
         - 0.0
         - 0.0
   provided:

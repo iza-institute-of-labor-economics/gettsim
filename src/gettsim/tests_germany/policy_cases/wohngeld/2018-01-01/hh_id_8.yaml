@@ -136,6 +136,13 @@ inputs:
           - 0.0
           - 0.0
     elterngeld:
+      angerechnete_mutterschaftsleistungen_m:
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
       betrag_m:
         - 500.0
         - 0.0

@@ -99,9 +99,34 @@ def bezugsmonate_partner_ab_2023(
 def betrag_m(
     grundsätzlich_anspruchsberechtigt: bool,
     anspruchshöhe_m: float,
+    angerechnete_mutterschaftsleistungen_m: float,
 ) -> float:
-    """Parental leave benefit (Elterngeld) received by the parent."""
-    return anspruchshöhe_m if grundsätzlich_anspruchsberechtigt else 0.0
+    """Parental leave benefit (Elterngeld) received by the parent.
+
+    Mutterschaftsgeld is credited against the Elterngeld (§ 3 Abs. 1 S. 1 Nr. 1 BEEG).
+    """
+    if grundsätzlich_anspruchsberechtigt:
+        return anspruchshöhe_m - angerechnete_mutterschaftsleistungen_m
+    else:
+        return 0.0
+
+
+@policy_function(start_date="2007-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
+def angerechnete_mutterschaftsleistungen_m(
+    grundsätzlich_anspruchsberechtigt: bool,
+    anspruchshöhe_m: float,
+    sozialversicherung__kranken__mutterschaftsgeld_m: float,
+) -> float:
+    """Mutterschaftsgeld credited against the Elterngeld (§ 3 Abs. 1 S. 1 Nr. 1 BEEG).
+
+    Only Mutterschaftsgeld for the time after the birth is credited. GETTSIM assumes
+    that Mutterschaftsgeld received in a month with an Elterngeld claim relates to the
+    same birth.
+    """
+    if grundsätzlich_anspruchsberechtigt:
+        return min(sozialversicherung__kranken__mutterschaftsgeld_m, anspruchshöhe_m)
+    else:
+        return 0.0
 
 
 @policy_function(start_date="2007-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
@@ -304,12 +329,16 @@ def lohnersatzanteil(
 @policy_function(start_date="2007-01-01", unit=TTSIMUnit.CURRENCY.PER_MONTH)
 def anrechenbarer_betrag_m(
     betrag_m: float,
+    angerechnete_mutterschaftsleistungen_m: float,
     anzahl_mehrlinge_fg: int,
     mindestbetrag_m: float,
 ) -> float:
     """Elterngeld that can be considered as income for other transfers.
 
-    Relevant for Wohngeld and Grundsicherung im Alter.
+    Relevant for Wohngeld and Grundsicherung im Alter. The Elterngeld together with the
+    Mutterschaftsgeld credited against it remains exempt up to the Mindestbetrag per
+    child (§ 10 Abs. 1 and 4 BEEG). The result includes the credited Mutterschaftsgeld,
+    so transfers that use it must not count that part again.
 
     For Arbeitslosengeld II / Bürgergeld as well as Kinderzuschlag the whole amount of
     Elterngeld is considered as income, except for the case in which the parents still
@@ -320,6 +349,7 @@ def anrechenbarer_betrag_m(
     """
     return max(
         betrag_m
+        + angerechnete_mutterschaftsleistungen_m
         - (
             (1 + cast_ttsim_unit(anzahl_mehrlinge_fg, unit=TTSIMUnit.DIMENSIONLESS))
             * mindestbetrag_m

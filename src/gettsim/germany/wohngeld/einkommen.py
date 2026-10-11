@@ -179,6 +179,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(
     unterhalt__tatsächlich_erhaltener_betrag_m: float,
     unterhaltsvorschuss__betrag_m: float,
     elterngeld__anrechenbarer_betrag_m: float,
+    elterngeld__angerechnete_mutterschaftsleistungen_m: float,
     abzugsanteil_vom_einkommen_für_steuern_sozialversicherung: float,
 ) -> float:
     """Sum gross incomes relevant for housing benefit calculation on individual level
@@ -203,6 +204,7 @@ def einkommen_vor_freibetrag_m_mit_elterngeld(
         + unterhalt__tatsächlich_erhaltener_betrag_m
         + unterhaltsvorschuss__betrag_m
         + elterngeld__anrechenbarer_betrag_m
+        - elterngeld__angerechnete_mutterschaftsleistungen_m
     )
 
     eink_ind = (

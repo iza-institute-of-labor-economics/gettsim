@@ -3,7 +3,8 @@ info:
   note: >-
     Lohn- und Einkommensersatzleistungen count in full as income (§ 82 Abs. 1 SGB XII).
     The exemption of Mutterschaftsgeld under § 82 Abs. 1 S. 2 Nr. 5 SGB XII from
-    01.01.2023 is not modelled.
+    01.01.2023 is not modelled. The Mutterschaftsgeld of 200 € is credited against the
+    Elterngeld; Elterngeld (460 €) and credited Mutterschaftsgeld count above 300 €.
   precision_atol: 0.01
   source: Regression test.
 inputs:
@@ -55,7 +56,10 @@ inputs:
           - 0.0
     elterngeld:
       anrechenbarer_betrag_m:
-        - 160.0
+        - 360.0
+        - 0.0
+      angerechnete_mutterschaftsleistungen_m:
+        - 200.0
         - 0.0
     sozialversicherung:
       arbeitslosen:
