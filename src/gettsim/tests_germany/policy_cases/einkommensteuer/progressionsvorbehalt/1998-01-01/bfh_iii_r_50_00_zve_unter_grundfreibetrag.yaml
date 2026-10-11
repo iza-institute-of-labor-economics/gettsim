@@ -4,8 +4,7 @@ info:
   note: >-
     Assumed: the Arbeitslosen- und Übergangsgeld is entered as Arbeitslosengeld because
     the decision gives no split. Assumed: gross wage of 10.252 DM (Einkünfte of 8.252 DM
-    plus the Arbeitnehmer-Pauschbetrag of 2.000 DM) and no Kinderfreibetrag. The
-    assessed tax of 1.882 DM is not a target because GETTSIM has no tariff before 2002.
+    plus the Arbeitnehmer-Pauschbetrag of 2.000 DM) and no Kinderfreibetrag.
   precision_atol: 0.01
   source: >-
     BFH v. 09.08.2001, III R 50/00, Tatbestand I:

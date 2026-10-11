@@ -21,6 +21,5 @@ def zurückgezahlte_lohn_und_einkommensersatzleistungen_m() -> float:
 
     Repayments of wage-replacement benefits, for example of Arbeitslosengeld or
     Krankengeld granted for a period in which the entitlement later turned out not to
-    exist. Only the income tax uses them: they lower the Steuersatzeinkommen
-    (§ 32b Abs. 2 EStG).
+    exist (§ 32b Abs. 2 EStG).
     """

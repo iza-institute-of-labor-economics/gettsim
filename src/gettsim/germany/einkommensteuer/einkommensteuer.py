@@ -175,22 +175,22 @@ def betrag_mit_kinderfreibetrag_y_sn_ab_2002(
     income. With such benefits, the besonderer Steuersatz applies to it instead (§ 32b
     Abs. 2 EStG); the rate is zero when the Steuersatzeinkommen is not positive.
     """
-    # Without benefits under § 32b, § 32a gives the tax amount directly (FG Düsseldorf
-    # v. 17.04.2019, 15 K 1127/18 E). Applying the truncated besonderer Steuersatz in
-    # this case too would lower the tax by up to 1 € for most incomes.
+    # If there are no benefits under § 32b, § 32a gives the tax amount directly (FG
+    # Düsseldorf v. 17.04.2019, 15 K 1127/18 E). If not, a rounded 'besonderer
+    # Steuersatz' is applied to the taxable income. Because of the rounding, we cannot
+    # use the 'besondere Steuersatz' for both logic branches.
     if dem_progressionsvorbehalt_unterliegende_leistungen_y_sn == 0.0:
-        out = familie__anzahl_personen_sn * piecewise_polynomial(
+        return familie__anzahl_personen_sn * piecewise_polynomial(
             x=zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
             / familie__anzahl_personen_sn,
             parameters=parameter_einkommensteuertarif,
             xnp=xnp,
         )
     else:
-        out = (
+        return (
             besonderer_steuersatz_mit_kinderfreibetrag
             * zu_versteuerndes_einkommen_mit_kinderfreibetrag_y_sn
         )
-    return out
 
 
 @policy_function(
@@ -218,18 +218,18 @@ def betrag_ohne_kinderfreibetrag_y_sn(
     income. With such benefits, the besonderer Steuersatz applies to it instead (§ 32b
     Abs. 2 EStG); the rate is zero when the Steuersatzeinkommen is not positive.
     """
-    # Without benefits under § 32b, § 32a gives the tax amount directly (FG Düsseldorf
-    # v. 17.04.2019, 15 K 1127/18 E). Applying the truncated besonderer Steuersatz in
-    # this case too would lower the tax by up to 1 € for most incomes.
+    # If there are no benefits under § 32b, § 32a gives the tax amount directly (FG
+    # Düsseldorf v. 17.04.2019, 15 K 1127/18 E). If not, a rounded 'besonderer
+    # Steuersatz' is applied to the taxable income. Because of the rounding, we cannot
+    # use the 'besondere Steuersatz' for both logic branches.
     if dem_progressionsvorbehalt_unterliegende_leistungen_y_sn == 0.0:
-        out = familie__anzahl_personen_sn * piecewise_polynomial(
+        return familie__anzahl_personen_sn * piecewise_polynomial(
             x=gesamteinkommen_y_sn / familie__anzahl_personen_sn,
             parameters=parameter_einkommensteuertarif,
             xnp=xnp,
         )
     else:
-        out = besonderer_steuersatz_ohne_kinderfreibetrag * gesamteinkommen_y_sn
-    return out
+        return besonderer_steuersatz_ohne_kinderfreibetrag * gesamteinkommen_y_sn
 
 
 @policy_function(

@@ -3,8 +3,7 @@ info:
   data_currency: DM
   note: >-
     The besonderer Steuersatz is the tariff tax on the Steuersatzeinkommen divided by
-    the Steuersatzeinkommen, and zero for a negative Steuersatzeinkommen. The tariff tax
-    is supplied because GETTSIM has no tariff before 2002.
+    the Steuersatzeinkommen, and zero for a negative Steuersatzeinkommen.
   precision_atol: 1.0e-06
   source: Regression test.
 inputs:
